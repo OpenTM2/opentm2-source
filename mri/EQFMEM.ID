@@ -1,0 +1,174 @@
+// Copyright (c) 1996-2014, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+
+#define  ID_MEMWIN_LISTBOX     7001   // ID of Memory Database List Box
+
+// Dialog: Create a translation memory
+#define DID_CD_TARGET          ID_MEMCREATE_DLG+1
+#define DID_CD_SOURCE          ID_MEMCREATE_DLG+2
+#define DID_CD_FORMAT          ID_MEMCREATE_DLG+3
+#define DID_CD_NAME            ID_MEMCREATE_DLG+4
+#define DID_CD_DESCRIPTION     ID_MEMCREATE_DLG+5
+#define DID_CD_DUMMY_GROUP     ID_MEMCREATE_DLG+6
+#define DID_CD_DUMMY           ID_MEMCREATE_DLG+7
+#define DID_CD_TXT_DESCRIPTION ID_MEMCREATE_DLG+8
+#define DID_CD_TXT_NAME        ID_MEMCREATE_DLG+9
+#define DID_CD_TXT_DRIVES      ID_MEMCREATE_DLG+10
+#define DID_CD_TXT_FORMAT      ID_MEMCREATE_DLG+11
+#define DID_CD_TXT_SOURCE      ID_MEMCREATE_DLG+12
+#define DID_CD_TXT_TARGET      ID_MEMCREATE_DLG+13
+#define DID_CD_TXT_SERVER      ID_MEMCREATE_DLG+14
+#define DID_CD_TYPE_TEXT       ID_MEMCREATE_DLG+15
+#define DID_CD_TYPE_CB         ID_MEMCREATE_DLG+16
+#define DID_CD_SERVER_LB       ID_MEMCREATE_DLG+17
+#define DID_CD_TMLOCATION_GB   ID_MEMCREATE_DLG+18
+#define DID_CD_INVISIBLE_LB    ID_MEMCREATE_DLG+19
+#define DID_CD_SHARED_RB       ID_MEMCREATE_DLG+20
+
+// Dialog: Load/Import a file into a translation memory
+#define DID_LD_FORMATGROUP     ID_MEMLOAD_DLG+1
+#define DID_LD_ASCIIFORMAT     ID_MEMLOAD_DLG+2
+#define DID_LD_INTERNALFORMAT  ID_MEMLOAD_DLG+3
+#define DID_LD_IMPORTGROUP     ID_MEMLOAD_DLG+4
+#define DID_LD_DUMMY           ID_MEMLOAD_DLG+5
+#define DID_LD_FILENAME_TEXT   ID_MEMLOAD_DLG+6
+#define DID_LD_PATH            ID_MEMLOAD_DLG+7
+#define DID_LD_DIR_TEXT        ID_MEMLOAD_DLG+8
+#define DID_LD_FILES_TEXT      ID_MEMLOAD_DLG+9
+#define DID_LD_DIR             ID_MEMLOAD_DLG+10
+#define DID_LD_FILES           ID_MEMLOAD_DLG+11
+#define DID_LD_TO_TEXT         ID_MEMLOAD_DLG+12
+#define DID_LD_TO              ID_MEMLOAD_DLG+13
+#define DID_LD_CURDIR_TEXT     ID_MEMLOAD_DLG+14
+#define DID_LD_CURDIR_EF       ID_MEMLOAD_DLG+15
+#define DID_LD_CURDIR_DISPLAY  ID_MEMLOAD_DLG+16
+#define DID_LD_FORMAT_CB       ID_MEMLOAD_DLG+17
+
+
+// Dialog: Export translation memory
+#define DID_MEMEX_FORMATGROUP     ID_MEMEXPORT_DLG+1
+#define DID_MEMEX_ASCIIFORMAT     ID_MEMEXPORT_DLG+2
+#define DID_MEMEX_INTERNALFORMAT  ID_MEMEXPORT_DLG+3
+#define DID_MEMEX_EXPORTGROUP     ID_MEMEXPORT_DLG+4
+#define DID_MEMEX_DUMMY           ID_MEMEXPORT_DLG+5
+#define DID_MEMEX_FILENAME_TEXT   ID_MEMEXPORT_DLG+6
+#define DID_MEMEX_PATH            ID_MEMEXPORT_DLG+7
+#define DID_MEMEX_DIR_TEXT        ID_MEMEXPORT_DLG+8
+#define DID_MEMEX_DIR             ID_MEMEXPORT_DLG+9
+#define DID_MEMEX_FROM_TEXT       ID_MEMEXPORT_DLG+11
+#define DID_MEMEX_FROM            ID_MEMEXPORT_DLG+12
+#define DID_MEMEX_CURDIR_TEXT     ID_MEMEXPORT_DLG+13
+#define DID_MEMEX_CURDIR_EF       ID_MEMEXPORT_DLG+14
+#define DID_MEMEX_DESCR           ID_MEMEXPORT_DLG+15
+
+// Dialog: Merge a translation memory
+#define DID_MEMMERGE_FROM_TEXT    ID_MEMMERGE_DLG+1
+#define DID_MEMMERGE_FROM         ID_MEMMERGE_DLG+2
+#define DID_MEMMERGE_TOGROUP      ID_MEMMERGE_DLG+3
+#define DID_MEMMERGE_TO_TEXT      ID_MEMMERGE_DLG+4
+#define DID_MEMMERGE_TO           ID_MEMMERGE_DLG+5
+
+// Dialog: Include Remote Translation Memory
+#define ID_INCLRMTM_SERVER_LB       ID_REMOTETM_DLG+1
+#define ID_INCLRMTM_TM_LB           ID_REMOTETM_DLG+2
+#define ID_INCLRMTM_INCLUDE_PB      ID_REMOTETM_DLG+3
+#define ID_INCLRMTM_CANCEL_PB       ID_REMOTETM_DLG+4
+#define ID_INCLRMTM_HELP_PB         ID_REMOTETM_DLG+5
+#define ID_INCLRMTM_SERVER_TEXT     ID_REMOTETM_DLG+6
+#define ID_INCLRMTM_TM_TEXT         ID_REMOTETM_DLG+7
+
+#define INCLUDE_TM_DLG_WIDTH        224         // Width of dialog box
+#define INCLUDE_TM_DLG_HEIGTH       98          // Height of dialog box
+
+// Dialog: Maintain Server List
+#define ID_SERVLIST_SERVER_TEXT     ID_SERVLIST_DLG+1
+#define ID_SERVLIST_SERVER_LB       ID_SERVLIST_DLG+2
+#define ID_SERVLIST_OK_PB           ID_SERVLIST_DLG+3
+#define ID_SERVLIST_ADD_PB          ID_SERVLIST_DLG+4
+#define ID_SERVLIST_DELETE_PB       ID_SERVLIST_DLG+5
+#define ID_SERVLIST_CANCEL_PB       ID_SERVLIST_DLG+6
+#define ID_SERVLIST_HELP_PB         ID_SERVLIST_DLG+7
+
+// Dialog: Maintain Server List Name
+#define ID_SERVLIST_NAME_TEXT       ID_SERVLIST_NAME_DLG+1
+#define ID_SERVLIST_NAME_EF         ID_SERVLIST_NAME_DLG+2
+#define ID_SERVLIST_NAME_OK_PB      ID_SERVLIST_NAME_DLG+3
+#define ID_SERVLIST_NAME_CANCEL_PB  ID_SERVLIST_NAME_DLG+4
+#define ID_SERVLIST_NAME_HELP_PB    ID_SERVLIST_NAME_DLG+5
+
+//Dialog: Please wait for a server
+#define ID_SERVWAIT_WAIT_TEXT       ID_SERVWAIT_DLG+1
+#define ID_SERVWAIT_SERVER_TEXT     ID_SERVWAIT_DLG+2
+
+// String table ID's
+#define  MEM_TITLE                  ID_MEM_STRINGS+1    // ~Translation Memory List
+#define  MEM_EPTITLE                ID_MEM_STRINGS+2    // ~Export TM: ~
+#define  MEM_EPLINE1                ID_MEM_STRINGS+3    // ~Export Translation Memory:~
+#define  MEM_EPLINE2                ID_MEM_STRINGS+4    // ~To (external file):~
+#define  MEM_IPTITLE                ID_MEM_STRINGS+5    // ~Import TM: ~
+#define  MEM_IPLINE1                ID_MEM_STRINGS+6    // ~Import Translation Memory:~
+#define  MEM_IPLINE2                ID_MEM_STRINGS+7    // ~From (external file):~
+#define  MEM_ORTITLE                ID_MEM_STRINGS+8    // ~Organize TM: ~
+#define  MEM_METITLE                ID_MEM_STRINGS+9    // ~Merge TM: ~
+#define  MEM_MELINE1                ID_MEM_STRINGS+11   // ~Merge Translation Memory:~
+#define  MEM_MELINE2                ID_MEM_STRINGS+12   // ~Into Translation Memory:~
+#define  MEM_NAME_H                 ID_MEM_STRINGS+13   // ~Name~
+#define  MEM_DESCRIPTION_H          ID_MEM_STRINGS+14   // ~Description~
+#define  MEM_SIZE_H                 ID_MEM_STRINGS+15   // ~Size~
+#define  MEM_DRIVE_H                ID_MEM_STRINGS+16   // ~Drive~
+#define  MEM_SERVER_H               ID_MEM_STRINGS+17   // ~Server~
+#define  MEM_SOURCE_H               ID_MEM_STRINGS+18   // ~Source~
+#define  MEM_TARGET_H               ID_MEM_STRINGS+19   // ~Target~
+#define  MEM_MARKUP_H               ID_MEM_STRINGS+20   // ~Markup~
+#define  MEM_FILESIZE_NA_TEXT       ID_MEM_STRINGS+21   // ~N/A~
+#define  MEM_OWNER_H                ID_MEM_STRINGS+22   // ~Owner~
+
+// IDs for progress windows
+#define  ID_MEMORG_SLIDER           ID_MEMORG_WINDOW + 1
+#define  ID_MEMEXP_SLIDER           ID_MEMEXP_WINDOW + 1
+#define  ID_MEMEXP_TEXT             ID_MEMEXP_WINDOW + 2
+#define  ID_MEMIMP_SLIDER           ID_MEMIMP_WINDOW + 1
+#define  ID_MEMIMP_TEXT             ID_MEMIMP_WINDOW + 2
+#define  ID_MEMMERGE_SLIDER         ID_MEMMERGE_WINDOW + 1
+#define  ID_MEMMERGE_TEXT           ID_MEMMERGE_WINDOW + 2
+
+// Dialog: Get target lang and tag table when an old TM is imported
+#define DID_TAGLANG_TXT_TARGET ID_NTM_TAGLANG_DLG+1
+#define DID_TAGLANG_TARGET_LB  ID_NTM_TAGLANG_DLG+2
+#define DID_TAGLANG_TXT_TAGTAB ID_NTM_TAGLANG_DLG+3
+#define DID_TAGLANG_TAGTAB_LB  ID_NTM_TAGLANG_DLG+4
+#define DID_TAGLANG_TXT_INFO1  ID_NTM_TAGLANG_DLG+5
+#define DID_TAGLANG_TXT_INFO2  ID_NTM_TAGLANG_DLG+6
+
+#ifdef TOP97_A57G_TMPROP
+#define ID_TM_PROP_NAME_TEXT         ID_TM_PROP_DLG +  1
+#define ID_TM_PROP_NAME_EF           ID_TM_PROP_DLG +  2
+#define ID_TM_PROP_DESCR_TEXT        ID_TM_PROP_DLG +  3
+#define ID_TM_PROP_DESCR_EF          ID_TM_PROP_DLG +  4
+#define ID_TM_PROP_LOC_TEXT          ID_TM_PROP_DLG +  5
+#define ID_TM_PROP_LOC_EF            ID_TM_PROP_DLG +  6
+#define ID_TM_PROP_DRIVE_TEXT        ID_TM_PROP_DLG +  7
+#define ID_TM_PROP_DRIVE_EF          ID_TM_PROP_DLG +  8
+#define ID_TM_PROP_SOURCELANG_TEXT   ID_TM_PROP_DLG +  9
+#define ID_TM_PROP_SOURCELANG_EF     ID_TM_PROP_DLG + 10
+#define ID_TM_PROP_SEGS_TEXT         ID_TM_PROP_DLG + 11
+#define ID_TM_PROP_SEGS_EF           ID_TM_PROP_DLG + 12
+#define ID_TM_PROP_SIZE_TEXT         ID_TM_PROP_DLG + 13
+#define ID_TM_PROP_SIZE_EF           ID_TM_PROP_DLG + 14
+#define ID_TM_PROP_UPD_TEXT          ID_TM_PROP_DLG + 15
+#define ID_TM_PROP_UPD_EF            ID_TM_PROP_DLG + 16
+#define ID_TM_PROP_CHANGE_PB         ID_TM_PROP_DLG + 17
+#define ID_TM_PROP_CANCEL_PB         ID_TM_PROP_DLG + 18
+#define ID_TM_PROP_HELP_PB           ID_TM_PROP_DLG + 19
+#define ID_TM_PROP_DOCS_TEXT         ID_TM_PROP_DLG + 20
+#define ID_TM_PROP_DOCS_LB           ID_TM_PROP_DLG + 21
+#define ID_TM_PROP_MARKUP_TEXT       ID_TM_PROP_DLG + 22
+#define ID_TM_PROP_MARKUP_LB         ID_TM_PROP_DLG + 23
+
+#define SID_TM_PROP_LOCAL            ID_TM_PROP_DLG + 20
+#define SID_TM_PROP_SHARED           ID_TM_PROP_DLG + 21
+
+#define ID_TM_PROP_SHORTNAME_EF      ID_TM_PROP_DLG + 24
+
+#endif

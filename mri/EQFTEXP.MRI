@@ -1,0 +1,126 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   J:\DATA\EQFTEXP.MVI   1.0   09 Jan 1996 10:11:50   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFTEXP.MVI  $
+ * 
+ *    Rev 1.0   09 Jan 1996 10:11:50   BUILD
+ * Initial revision.
+*/
+
+// tagtable export dialog strings
+#define STR_TEX_DLG             "Export Markup Table"
+#define STR_TAGEXPORT_TITLEBAR  "Exporting Markup Table: "
+#define STR_TAGEXPORT_TAGTXT    "to external file: "
+#define STR_TEX_FORMAT_GB       "Format"
+#define STR_TEX_TROJA_RB        "OpenTM2"
+#define STR_TEX_EXTERNAL_RB     "External"
+#define STR_TEX_EXPORT_TEXT     "Export:"
+#define STR_TEX_NAME_TEXT       "Name:"
+#define STR_TEX_DIR_TEXT        "Directories"
+#define STR_TEX_TO_GB           "To"
+#define STR_TEX_CURDIR_TEXT     "Current directory:"
+#define STR_TEX_EXPORT_PB       "&Export"
+#define STR_TEX_HELP_PB         "Help"
+#define STR_TEX_CANCEL_PB       "Cancel"
+

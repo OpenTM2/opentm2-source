@@ -1,0 +1,220 @@
+**************************************************************
+*  Copyright (C) 1998-2013, International Business Machines 
+*        Corporation and others. All rights reserved         
+**************************************************************
+*
+* Settings file for OTMRTF markup
+*
+* Target language specific settings are started with the language name in
+* square brackets "[]" and are ended either by the start of another
+* language name or by the end of the file
+*
+* The [all] section is active for all target languages
+*
+* Within the language specific settings part the following keywords
+* can be used:
+*
+*   BIDI=     this value must be set to YES in order to activate any
+*             bi-directional processing
+*
+*   ADDHEADER= for tags to be added to the RTF document header (e.g. adeflang)
+*             The tags have to be enclosed in double-qotes.
+*
+*   ADDFONT=  for the definition of one additional font to be added to the
+*             font table. The variable %1 defines the location there the
+*             font number will be inserted into the font definition. The
+*             font definition has to be enclosed in double-qotes.
+*
+*   RTLCHARS= character code range for right-to-left characters. The code
+*             range is specified in hexadecimal values using the "C"
+*             syntax (e.g. 0x5F). A range is specified by two hexadecimal
+*             values connected with a dash (e.g. 0x5f-0x70). If more than one
+*             value is specified, the values are seperated by comma.
+*             The following sample defines the character codes from
+*             0x5F up to 0x7F and the value 0xFF as right-to-left characters
+*                RTLCHARS=0x5F-0x7F,0xFF
+*
+*   RTLTAGS=  tags to be inserted before the start of right-to-left characters
+*             the tags can use the %1 variable which will be replaced by the
+*             number of the font added with the ADDFONT= keyword. The
+*             tags have to be enclosed in double-qotes.
+*
+*   LTRTAGS=  tags to be inserted before the start of left-to-right characters.
+*             The tags have to be enclosed in double-qotes.
+*
+*   PARTAGS=  Tags to be inserted at the beginning of a paragraph.
+*             The tags have to be enclosed in double-qotes.
+*
+*   DBCSBLANKFORLF=  set this value to YES if linefeeds between DBCS characters
+*             have to be replaced by a blank. If set to NO or not specified
+*             linefeeds between DBCS characters are removed.
+*
+*   CODEPAGE=  use thsis keyword to specify the code page to be used during
+*             export for ASCII->ANSI conversion. If not specified the currently
+*             active system code page is used.
+*
+*   CHANGEFONT= use this tag to define font conversions.
+*             They have the format
+*             "[<font name>]=<RTF font spec>"
+*             The string can be extended by a '\' on the right
+*             The fonttable is scanned for <font name>, if it is found it will be
+*             replaced by <RTF font spec>
+*
+*  REMOVE= use this statement to remove a specific tag or a group of
+*          tags from the document during analysis
+*          e.g. REMOVE="\ltrch"
+*          repeat the statement for each tag to be removed
+*          the question mark can be used as placeholder for one or more
+*          digits; e.g. REMOVE="\insrsid?" will remove all \insrsid tags
+*          regardless of the numeric ID being used
+*          Do not add a blank to the tags being removed, Tmgr will hande
+*          blanks following a tag on its own
+*
+*
+*  CHANGETO= use this statement to change tags during document export
+*          e.g. CHANGETAG="\fs16=\fs20" will change the tag "\fs16" to
+*          "\fs20"
+*          repeat the statement for each tag to be changed.
+*          You can also remove tags using this statement by leaving the
+*          value for the new value empty (e.g. CHANGETAG="\af1="
+*
+*
+[all]
+*
+REMOVE="\rtlch\fcs1 \af?\afs? \ltrch\fcs0 \f?\fs?"
+REMOVE="\rtlch\fcs1 \ai\af?\afs?\alang? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ab\ai\af?\afs? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ab\af?\afs? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ab\af?\afs? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ai\af?\afs? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ab\ai\af? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ai\af? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \af?\afs? \ltrch\fcs0 \fs?"
+REMOVE="\rtlch\fcs1 \af?\afs? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \ab\af? \ltrch\fcs0"
+REMOVE="\rtlch\fcs1 \af? \ltrch\fcs0"
+REMOVE="\rtlch \ai\af?\afs?\alang? \ltrch"
+REMOVE="\rtlch \ab\ai\af?\afs? \ltrch"
+REMOVE="\rtlch \ab\af?\afs? \ltrch"
+REMOVE="\rtlch \ab\af?\afs? \ltrch"
+REMOVE="\rtlch \ai\af?\afs? \ltrch"
+REMOVE="\rtlch \ab\ai\af? \ltrch"
+REMOVE="\rtlch \ai\af? \ltrch"
+REMOVE="\rtlch \af?\afs? \ltrch"
+REMOVE="\rtlch \ab\af? \ltrch"
+REMOVE="\rtlch \af? \ltrch"
+REMOVE="\f1\cf1\insrsid?" 
+REMOVE="\loch\af?\dbch\af?"
+REMOVE="\hich\af?\dbch\af?"
+REMOVE="\loch\f?"
+REMOVE="\hich\f?"
+REMOVE="\f0\cf1\insrsid?"
+REMOVE="\f0\fs22\insrsid?"
+REMOVE="\insrsid?"
+REMOVE="\charrsid?"
+REMOVE="\langfe?"
+REMOVE="\langnp?"
+REMOVE="\lang?"
+
+*
+[Hebrew]
+*
+BIDI=YES
+*
+ADDHEADER="\adeflang1037"
+*
+ADDFONT="{\f%1\fbidi \fcharset177\fprq2 Miriam;}"
+*
+RTLCHARS=0x28-0x29,0x80-0x9A,0xE0-0xFA
+*
+RTLTAGS="\rtlch\f%1\fs20"
+*
+*   >>> THIS IS THE SETTING FOR 'NORMAL' RTF'S AND HELP RTF 4.01.0950 <<<
+*LTRTAGS="\ltrch\af4\afs20"
+*
+*   >>> THIS IS THE SETTING FOR HELP RTF WITH HCW 4.03.0002           <<<
+*LTRTAGS="\rtlch\f%1\fs20"
+LTRTAGS="\rtlch\f%1\fs20"
+*
+PARTAGS="\rtlpar\qr"
+*
+CODEPAGE=862
+*
+BIDIOFF="\ltrch"
+*
+BIDION="\rtlch"
+
+*
+*******************************************************************************
+[Arabic]
+*
+BIDI=YES
+*
+ADDHEADER="\adeflang1033"
+*
+ADDFONT="{\f%1\fbidi \fcharset178\fprq2 Traditional Arabic;}"
+*
+RTLCHARS=0x99-0x9A,0x9D-0x9F,0xA1-0xA5,0xA8-0xFD
+*
+RTLTAGS="\rtlch\f%1\fs20"
+*
+*   >>> THIS IS THE SETTING FOR 'NORMAL' RTF'S AND HELP RTF 4.01.0950 <<<
+*LTRTAGS="\ltrch\af4\afs20"
+*
+*   >>> THIS IS THE SETTING FOR HELP RTF WITH HCW 4.03.0002           <<<
+*LTRTAGS="\rtlch\f%1\fs20"
+LTRTAGS="\rtlch\f%1\fs20"
+*
+PARTAGS="\rtlpar\qr"
+*
+CODEPAGE=864
+*
+*******************************************************************************
+
+[Korean]
+
+DBCSBLANKFORLF=YES
+
+DEFCHGFONT="[roman]={\f%1\froman\fprq2\fcharset129 \'b1\'bc\'b8\'b2;}" \
+           "[swiss]={\f%1\fswiss\fprq2\fcharset129 \'b1\'bc\'b8\'b2;}" \
+           "[modern]={\f%1\fmodern\fprq2\fcharset129 \'b1\'bc\'b8\'b2\'c3\'bc;}"
+
+CHANGEFONT="[Symbol]={\f%1\froman\fprq2\fcharset2\fprq2 Symbol;}"
+
+*******************************************************************************
+
+[Chinese(simpl.)]
+
+DEFCHGFONT="[roman]={\f%1\froman\fprq2\fcharset134 \'cb\'ce\'cc\'e5\'b3\'a3\'b9\'e6;}" \
+           "[swiss]={\f%1\fswiss\fprq2\fcharset134 \'cb\'ce\'cc\'e5\'b3\'a3\'b9\'e6;}" \
+           "[modern]={\f%1\fmodern\fprq2\fcharset134 \'cb\'ce\'cc\'e5\'b3\'a3\'b9\'e6;}"
+
+CHANGEFONT="[Symbol]={\f%1\froman\fprq2\fcharset2\fprq2 Symbol;}"
+
+CHANGETAG="\u228\'3f=\'84"
+
+*******************************************************************************
+
+[Chinese(trad.)]
+
+DEFCHGFONT="[roman]={\f%1\froman\fprq2\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}" \
+           "[swiss]={\f%1\fswiss\fprq2\fcharset136 \'b7\'73\'b2\'d3\'a9\'fa\'c5\'e9;}" \
+           "[modern]={\f%1\fmodern\fprq2\fcharset136 \'b2\'d3\'a9\'fa\'c5\'e9;}"
+
+CHANGEFONT="[Symbol]={\f%1\froman\fprq2\fcharset2\fprq2 Symbol;}"
+
+CHANGETAG="\u228\'3f=\'84"
+
+*******************************************************************************
+[Japanese]
+
+DEFCHGFONT="[roman]={\f%1\froman\fprq2\fcharset128 \'82\'6c\'82\'72 \'82\'6f\'96\'be\'92\'a9;}" \
+           "[swiss]={\f%1\fswiss\fprq2\fcharset128 \'82\'6c\'82\'72 \'82\'6f\'83\'53\'83\'56\'83\'62\'83\'4e;}" \
+           "[modern]={\f%1\fmodern\fprq2\fcharset128 \'82\'6c\'82\'72 \'96\'be\'92\'a9;}"
+
+CHANGEFONT="[Symbol]={\f%1\froman\fprq2\fcharset2\fprq2 Symbol;}"
+
+* CHANGETAG="\fs18=\fs20"
+* CHANGETAG="\fs16=\fs20"
+* CHANGETAG="\u192\'41=\'b7"
+* CHANGETAG="\u192a=\'b7"

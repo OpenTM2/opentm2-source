@@ -1,0 +1,461 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFFOL.MRI - MRI material of folder handler and folder dialogs            |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2013, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+*/  
+////////////////////////////////////////////////////////////////////////////////
+//                 Strings of folder export dialog panel                      //
+////////////////////////////////////////////////////////////////////////////////
+// title bar text
+   #define STR_FOLEXP_TITLE      "Export Folder"
+
+// title of export groupbox
+   #define STR_FOLEXP_EXPORTGB   "Export"
+
+// title of folder name field
+   #define STR_FOLEXP_FOLNAME    "Name:"
+
+// title of folder description field
+   #define STR_FOLEXP_FOLDESCR   "Description:"
+
+// title of drive icon groupbox
+   #define STR_FOLEXP_TODRIVE    "To"
+
+// title of options groupbox
+   #define STR_FOLEXP_OPTIONS    "Options"
+
+// name of 'Wordcount data only' checkbox
+   #define STR_FOLEXP_HISTLOG    "Wordcount data only"
+
+// name of 'With dictionary' checkbox
+   #define STR_FOLEXP_WITHDICT   "With dictionaries"
+
+// name of 'With memory' checkbox
+   #define STR_FOLEXP_WITHMEM    "With Translation Memory"
+
+// name of 'With search memory' checkbox
+   #define STR_FOLEXP_WITHROMEM  "With search Translation Memory databases"
+
+#ifdef TOP97_A57C
+// name of 'With document Translation Memory databases' checkbox
+   #define STR_FOLEXP_WITHDOCMEM  "With document Translation Memory databases"
+#endif
+
+// name of 'Add note' checkbox
+   #define STR_FOLEXP_ADDNOTE    "Add note"
+
+// name of 'Delete folder after export' checkbox
+   #define STR_FOLEXP_DELETE     "Delete the folder after export"
+
+// name of 'Export in TranslationManager V1.0 format' checkbox
+//old   #define STR_FOLEXP_OLDVERS    "Export in TranslationManager/2 Version 1.0 format"
+   #define STR_FOLEXP_OLDVERS    "Export in non-Unicode format"
+
+// name of 'Select subfolders and documents to be exported' checkbox
+   #define STR_FOLEXP_SELDOCS    "Select subfolders and documents to be exported"
+
+// name of 'Select All' pushbutton
+   #define STR_FOLEXP_SELALL     "&Select all"
+
+// name of 'Deselect All' pushbutton
+   #define STR_FOLEXP_DESELALL   "Dese&lect all"
+
+// name of 'Export' pushbutton
+   #define STR_FOLEXP_EXPORT     "&Export"
+
+// name of 'Cancel' pushbutton
+   #define STR_FOLEXP_CANCEL     "Cancel"
+
+// name of 'Help' pushbutton
+   #define STR_FOLEXP_HELP       "Help"
+
+// folder export property sheet
+   #define STR_FOLEXPPROP_TAB_GENERAL  "General"
+   #define STR_FOLEXPPROP_TAB_OPTIONS  "Options"
+
+// name of 'Export as master folder' checkbox
+   #define STR_FOLEXP_MASTER     "Export as master folder"
+
+
+// folder import property sheet
+   #define STR_FOLIMPPROP_TAB_GENERAL  "General"
+   #define STR_FOLIMPPROP_TAB_DETAILS  "Details"
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                 Strings of folder import dialog panel                      //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text
+   #define STR_FOLIMP_TITLE      "Import Folder"
+
+// title of import drive groupbox
+   #define STR_FOLIMP_FROMDRIVE  "From"
+
+// title of exported folders listbox
+   #define STR_FOLIMP_FOLDER     "Folder"
+
+// title of details pushbutton
+   #define STR_FOLIMP_INFO       "D&etails..."
+
+// title of options groupbox
+   #define STR_FOLIMP_OPTIONS    "Options"
+
+// name of 'With dictionary' checkbox
+   #define STR_FOLIMP_WITHDICT   "With dictionaries"
+
+// name of 'With memory' checkbox
+   #define STR_FOLIMP_WITHMEM    "With Translation Memory databases"
+
+// name of 'Rename folder' checkbox
+   #define STR_FOLIMP_RENAME     "Import folder as"
+
+// title of to drive icon groupbox
+   #define STR_FOLIMP_TODRIVE    "To"
+
+// name of 'Import' pushbutton
+   #define STR_FOLIMP_IMPORT     "&Import"
+
+// name of 'Cancel' pushbutton
+   #define STR_FOLIMP_CANCEL     "Cancel"
+
+// name of 'Help' pushbutton
+   #define STR_FOLIMP_HELP       "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//               Strings of imported folder information panel                 //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text
+   #define STR_FOLINFO_TITLE      "Folder Details"
+
+// title for folder name
+   #define STR_FOLINFO_NAME        "Name:"
+
+// title for folder description
+   #define STR_FOLINFO_DESCRIPTION "Description:"
+
+// title for export date
+   #define STR_FOLINFO_EXPORTDATE  "Date of export:"
+
+// title for exported memory
+   #define STR_FOLINFO_EXPORTMEM   "Translation Memory:"
+
+// title for exported markup (format) table
+   #define STR_FOLINFO_EXPORTMARKUP "Markup:"
+
+// title for export option
+   #define STR_FOLINFO_EXPORTOPTION  "Export options:"
+
+// title for exported dictionaries listbox
+   #define STR_FOLINFO_EXPORTDICT  "Dictionaries"
+
+// title for exported documents listbox
+   #define STR_FOLINFO_EXPORTDOCS  "Documents"
+
+// title for exported search-only translation memory databases listbox
+   #define STR_FOLINFO_EXPORTSEARCHTMEM  "Translation Memory databases"
+
+// title for note MLE
+   #define STR_FOLINFO_NOTE       "Note"
+
+// name of 'Ok' pushbutton
+   #define STR_FOLINFO_OK         "&OK"
+
+// name of 'Print' pushbutton
+   #define STR_FOLINFO_PRINT      "&Print..."
+
+// name of 'Help' pushbutton
+   #define STR_FOLINFO_HELP       "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//               Strings of export folder note entry dialog                   //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text
+   #define STR_FOLNOTE_TITLE      "Add Note to Folder"
+
+// title for note MLE
+   #define STR_FOLNOTE_FOLDER     "Folder: "
+
+// name of 'OK' pushbutton
+   #define STR_FOLNOTE_OK         "&Add"
+
+// name of 'Cancel' pushbutton
+   #define STR_FOLNOTE_CANCEL     "Cancel"
+
+// name of 'Help' pushbutton
+   #define STR_FOLNOTE_HELP       "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//         Strings of new folder / folder properties dialog                   //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text
+#define STR_NEWFOLDER_DLG        "New Folder"
+
+// name of folder name entryfield
+#define STR_NFOL_NAME            "Name: "
+
+// name of folder description entryfield
+#define STR_NFOL_DESCR           "Description:"
+
+// name of drive groupbox
+#define STR_NFOL_DRIVE           "Disk drive"
+
+// description of model folder pushbutton
+#define STR_NFOL_DETAILS         "Use existing folder as model:"
+
+// name of model folder pushbutton
+#define STR_NFOL_BASEON          "Yes..."
+
+// label of original folder name entryfield
+#define STR_NFOL_ORGNAME         "Original name: "
+
+// name of markup combobox
+#define STR_NFOL_FORMAT          "Markup:"
+
+// name of translation memory combobox
+#define STR_NFOL_MEMORY          "Translation Memory to be used:"
+
+// title of dictionary listboxes
+#define STR_NFOL_DICTIONARIES    ""
+
+// subtitle of available dictionary listbox
+#define STR_NFOL_AVAILABLE       "Available"
+
+// subtitle of selected dictionary listbox
+#define STR_NFOL_SELECTED        "Selected"
+
+// name of editor combobox
+#define STR_NFOL_EDITOR          "Editor:"
+
+// name of source language combobox
+#define STR_NFOL_SOURCELANG      "Source language:"
+
+// name of target language combobox
+#define STR_NFOL_TARGETLANG      "Target language:"
+
+// label of conversion combobox
+#define STR_NFOL_CONV            "Conversion:"
+
+// name of what is to be selected from the available listbox
+#define STR_NFOL_MEMSELECT       "Translation Memory databases to be searched:"
+// name of what is to be selected from the available listbox
+#define STR_NFOL_DICTSELECT      "Dictionaries to be searched:"
+
+// name of first pushbutton on folder properties panel for a new folder
+#define STR_NFOL_CREATE          "&Create"
+
+// name of first pushbutton on folder properties panel for an existing folder
+#define STR_NFOL_CHANGE          "&Change"
+
+#define STR_FOLDERPROPS_CHANGE   "&Change"
+#define STR_FOLDERPROPS_CREATE   "&Create"
+
+// text in titlebar of folder properties panel for a new folder
+#define STR_PROPFOL_TITLE1       "Folder Properties"
+
+// text in titlebar of folder properties panel for an existing folder
+#define STR_PROPFOL_TITLE2       "Folder Properties"
+
+////////////////////////////////////////////////////////////////////////////////
+//         Strings of model folder selection panel                            //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text
+#define STR_FOLMODEL_TITLE       "Use Existing Folder as Model"
+
+// name of 'Select' pushbutton
+#define STR_FOLMODEL_SELECT      "&Select"
+
+// name of 'Cancel' pushbutton
+#define STR_FOLMODEL_CANCEL      "Cancel"
+
+// name of 'Help' pushbutton
+#define STR_FOLMODEL_HELP        "Help"
+
+/**************** strings for folder Import/Export      ***********************/
+
+#define STR_FEXP_EXTERNAL "External"
+
+// title bar text of folder export window
+// (the folder name is appended to this string)
+#define STR_FOLEXPW_TITLE   "Exporting Folder: "
+
+// text displayed in folder export window above the progress indicator
+#define STR_FOLEXPW_ACTION  ""
+
+// title bar text of folder import window
+// (the folder name is appended to this string)
+#define STR_FOLIMPW_TITLE   "Importing Folder: "
+
+// text displayed in folder import window while files are imported
+#define STR_FOLIMPW_FILES   "Importing files ..."
+
+// text displayed in folder import window while specific task is done
+#define STR_FOLIMPW_FOLDER  "Processing folder ..."
+#define STR_FOLIMPW_DOCS    "Processing documents ..."
+#define STR_FOLIMPW_TABLES  "Processing markup tables ..."
+#define STR_FOLIMPW_DICT    "Processing dictionaries ..."
+#define STR_FOLIMPW_MEM     "Processing Translation Memory databases ..."
+#define STR_FOLIMPW_CLEANUP "Cleaning up ..."
+
+/**************** strings for folder import info dialog ***********************/
+
+// text displayed on folder import info/details dialog in
+// folder export options field, when folder contains selected
+// documents only
+#define STR_FOLINFO_DOCSELECTED "selected documents only"
+
+
+// title bar text of folder export window
+// (the folder name is appended to this string)
+
+/**************** strings for delete exported folder dialog ***********************/
+
+// Note: This is the same dialog as the folder import dialog.
+//       Only some text constants are changed dynamically to the
+//       values below.
+
+// title bar text
+   #define STR_FOLDELEXP_TITLE      "Delete Exported Folder"
+
+// title of drive groupbox
+   #define STR_FOLDELEXP_FROMDRIVE  "Delete"
+
+
+// name of 'Import'/'Delete' pushbutton
+   #define STR_FOLDELEXP_IMPORT     "&Delete"
+
+/************ strings for print folder details function ***********************/
+
+// name of print job; %1 is replaced with folder name
+#define STR_FOLDETAILS_PRINT_PRTJOB    "Folder Details: %1"
+
+// Note: In order to align the data in the printout of the folder
+//       details, shorter strings should be padded with blanks
+
+#define STR_FOLDETAILS_PRINT_TITLE     "Details of exported folder"
+
+#define STR_FOLDETAILS_PRINT_NAME      "Folder             : "
+#define STR_FOLDETAILS_PRINT_DESCR     "Description        : "
+#define STR_FOLDETAILS_PRINT_DATE      "Date of export     : "
+#define STR_FOLDETAILS_PRINT_TRANSLMEM "Translation Memory : "
+#define STR_FOLDETAILS_PRINT_MARKUP    "Markup             : "
+#define STR_FOLDETAILS_PRINT_DOCS      "Documents          : "
+#define STR_FOLDETAILS_PRINT_DICTS     "Dictionaries       : "
+#define STR_FOLDETAILS_PRINT_NOTE      "Note               : "
+
+/************ strings for folder language dialog        ***********************/
+
+// dialog title string
+#define STR_FOLLANG_DLG           "Set Folder Language"
+
+// label for folder name field
+#define STR_FOLLANG_NAME          "Name:"
+
+// label for folder description field
+#define STR_FOLLANG_DESCR         "Description:"
+
+// label for folder source language combobox
+#define STR_FOLLANG_SOURCELANG    "Source language:"
+
+// label for folder target language combobox
+#define STR_FOLLANG_TARGETLANG    "Target language:"
+
+// label for set/OK pushbutton
+#define STR_FOLLANG_OK_PB         "&Set"
+
+/////////////////////////////////////////////////////////////
+//  Global Find/change dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_FOLFIND_TITLE          "Global Find and Replace"
+///   text preceding the entry field for entering the search term
+#define  STR_FOLFIND_FIND           "Find:"
+///   text preceding the entry field for entering the change into term
+#define  STR_FOLFIND_CHANGE         "Change to:"
+
+///   mode of search (Case sensitive or not)   -- title text
+#define  STR_FOLFIND_CASE           "Case"
+#define  STR_FOLFIND_RESPECT        "Respect"
+///   mode of search (Case insensitive )       -- radio button
+#define  STR_FOLFIND_IGNORE         "Ignore"
+
+///   documents being searched
+#define  STR_FOLFIND_DOCS_GB        "Documents"
+
+///   update TM                                -- check box
+#define  STR_FOLFIND_MEMUPD_CHK     "Update Translation Memory"
+
+///   confirm on change                        -- check box
+#define  STR_FOLFIND_CONFIRM        "Confirm on change"
+
+//// pushbuttons
+#define  STR_FOLFIND_CHANGE_PB      "&Change"
+#define  STR_FOLFIND_CANCEL_PB      "Cancel"
+#define  STR_FOLFIND_HELP_PB        "Help"
+#define  STR_FOLFIND_FIND_PB        "&Find"
+#define  STR_FOLFIND_FINDNEXT_PB    "Find &next"
+#define  STR_FOLFIND_APPLY_PB       "&Apply change"
+#define  STR_FOLFIND_OPEN_PB        "&Open document"
+
+
+/////////////////////////////////////////////////////////////
+// Strings for Document Processing Options dialog          //
+////////////////////////////////////////////////////////////
+#define  STR_FOLIMPDOC_TITLE          "Set Document Processing Options"
+
+#define  STR_FOLIMPDOC_SET_PB          "&Set"
+#define  STR_FOLIMPDOC_CANCEL_PB       "Cancel"
+#define  STR_FOLIMPDOC_HELP_PB         "Help"
+#define  STR_FOLIMPDOC_REPLACE_PB      "Import"
+#define  STR_FOLIMPDOC_IGNORE_PB       "Ignore"
+#define  STR_FOLIMPDOC_OPT_GB          "Change Action"
+
+// column headings
+#define  STR_FOLIMPDOC_DOCUMENT_HD     "Document"
+#define  STR_FOLIMPDOC_SOURCE_HD       "Source"
+#define  STR_FOLIMPDOC_TRANSL_HD       "Transl."
+#define  STR_FOLIMPDOC_ACTION_HD       "Action"
+
+// document states
+#define  STR_FOLIMPDOC_NEWER_STATE     "Newer"
+#define  STR_FOLIMPDOC_NEW_STATE       "New"
+#define  STR_FOLIMPDOC_EQUAL_STATE     "Equal"
+#define  STR_FOLIMPDOC_OLDER_STATE     "Older"
+#define  STR_FOLIMPDOC_NONE_STATE      "None"
+#define  STR_FOLIMPDOC_NONEW_STATE     "No New"
+
+// document processing activities
+#define  STR_FOLIMPDOC_COPY_SRCTGT     "Copy source and transl."
+#define  STR_FOLIMPDOC_COPY_SRC        "Copy source"
+#define  STR_FOLIMPDOC_COPY_SRC_DEL_TGT "Copy source, delete transl."
+#define  STR_FOLIMPDOC_COPY_TGT        "Copy translation"
+#define  STR_FOLIMPDOC_COPY_NONE       "Ignore document"
+
+
+// strings for folder property dialog
+#ifdef _WINDOWS
+  #define STR_FOLDERPROPS_TAB_GENERAL      "Properties"
+  #define STR_FOLDERPROPS_TTIP_GENERAL     "General Folder Properties"
+  #define STR_FOLDERPROPS_TAB_AFC          "Admin"
+  #define STR_FOLDERPROPS_TTIP_AFC         "Admin for AFC Folders"
+  #define STR_FOLDERPROPS_TAB_SHOWPROPS    "Show Properties"
+  #define STR_FOLDERPROPS_TTIP_SHOWPROPS   "Show general Properties"
+  #define STR_FOLDERPROPS_TAB_PROJECTINFO  "Project Info"
+  #define STR_FOLDERPROPS_TTIP_PROJECTINFO "Show Project Infos"
+  #define STR_FOLDERPROPS_TAB_GLOBALMEMOPT "Global Memory"
+  #define STR_FOLDERPROPS_TTIP_GLOBALMEMOPT "Global Memory Options"
+#endif
+
+// strings for subfolder property dialog
+
+// text in titlebar of subfolder properties panel
+#define STR_SUBFOL_PROP_TITLE              "Subfolder Properties"

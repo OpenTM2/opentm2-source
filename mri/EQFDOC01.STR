@@ -1,0 +1,56 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFDOC01.STR - string table of document export and import dialogs         |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+*/
+STRINGTABLE
+BEGIN
+   SID_DOCIMP_EXTIMPORT     STR_DOCIMP_EXTIMPORT
+   SID_DOCIMP_INTIMPORT     STR_DOCIMP_INTIMPORT
+   SID_DOCIMP_EXTDIRECTORY  STR_DOCIMP_EXTDIRECTORY
+   SID_DOCIMP_INTDIRECTORY  STR_DOCIMP_INTDIRECTORY
+   SID_DOCIMP_EXTFILE       STR_DOCIMP_EXTFILE
+   SID_DOCIMP_INTFILE       STR_DOCIMP_INTFILE
+   SID_DOCIMP_STARTPATH     STR_DOCIMP_STARTPATH_TEXT
+   SID_DOCEXP_EXTEXPORT     STR_DOCEXP_EXTEXPORT
+   SID_DOCEXP_INTEXPORT     STR_DOCEXP_INTEXPORT
+   SID_DOCPROP_NEWDOC_TITLE STR_DOCPROP_NEWDOC_TITLE
+   SID_DOCPROP_SET_PB       STR_DOCPROP_SET_PB
+   SID_DOCIMP_CURDIR        STR_DOCIMP_CURDIR_TEXT
+   SID_DOCEXP_PATH_TEXT       STR_DOCEXP_PATH
+   SID_DOCEXP_STARTPATH_TEXT  STR_DOCEXP_STARTPATH
+   SID_DOCIMP_EXTFORMAT       STR_DOCIMP_EXTFORMAT
+   SID_DOCIMP_INTFORMAT       STR_DOCIMP_INTFORMAT
+   SID_DOCIMP_IMPPATHFORMAT   STR_DOCIMP_IMPPATHFORMAT
+
+   SID_DOCIMP_TTIP_EXTFORMAT     STR_DOCIMP_TTIP_EXTFORMAT
+   SID_DOCIMP_TTIP_INTFORMAT     STR_DOCIMP_TTIP_INTFORMAT
+   SID_DOCIMP_TTIP_IMPPATHFORMAT STR_DOCIMP_TTIP_IMPPATHFORMAT
+
+   SID_DOCEXP_EXTFORMAT       STR_DOCEXP_EXTFORMAT
+   SID_DOCEXP_INTFORMAT       STR_DOCEXP_INTFORMAT
+   SID_DOCEXP_IMPPATHFORMAT   STR_DOCEXP_IMPPATHFORMAT
+   SID_DOCEXP_USEDOCCONV      STR_DOCEXP_USEDOCCONV
+   SID_DOCEXP_TTIP_EXTFORMAT     STR_DOCEXP_TTIP_EXTFORMAT
+   SID_DOCEXP_TTIP_INTFORMAT     STR_DOCEXP_TTIP_INTFORMAT
+   SID_DOCEXP_TTIP_IMPPATHFORMAT STR_DOCEXP_TTIP_IMPPATHFORMAT
+
+   SID_NGDIMP_NOTESDB_FILTER     STR_NGDIMP_FILTER
+   SID_NGDIMP_NOTESDB_SELTITLE   STR_NGDIMP_SELTITLE
+
+//Property sheets for documents
+   SID_DOC_PROP_TAB_SETTINGS    STR_DOC_PROP_TAB_SETTINGS
+   SID_DOC_PROP_TAB_ADMIN       STR_DOC_PROP_TAB_ADMIN
+   SID_DOC_PROP_TAB_STATISTICS  STR_DOC_PROP_TAB_STATISTICS
+
+
+
+
+END

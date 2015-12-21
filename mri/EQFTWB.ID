@@ -1,0 +1,283 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFTWB.ID - Presentation Manager IDs for TWB related dialogs              |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2014, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 1 Apr 2009
+// GQ: - added ID ID_SYSPROP_ENTITY_CHK
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 13 Mar 2007
+// GQ: - added IDs ID_SYSPROP_XSLT4C_RB and ID_SYSPROP_MSXML_RB
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 11 Apr 2006
+// GQ: - added ID for SGML/DITA checkbox of system properties (ID_SYSPROP_SGMLDITA_CHK)
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 1 Apr 2004
+// --RJ: ENH Fuzzyoverlap ratio: add ID_SYSPROP_LKUP_* id's to ID_SYSPROP_DLG
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 2 Sep 2002
+// --RJ: R07197: add ID_SYSPROP_DEFTGTLANG_CB
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 19 Oct 2001
+// GQ: - Added IDs for fuzzy match fields of the general page of the
+//       system preferences dialog
+// 
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.7 $ ----------- 9 Oct 2000
+// - added IDs for new system properties dialog controls
+//
+//
+// $Revision: 1.6 $ ----------- 18 Jul 2000
+// - added IDs for filter dialog controls
+//
+//
+// $Revision: 1.5 $ ----------- 22 May 2000
+// - added IDs for sort dialog
+//
+//
+// $Revision: 1.4 $ ----------- 21 Feb 2000
+// - added ID for system properties browse push button
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - added control IDs of system property dialog
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   J:\DATA\EQFTWB.IV_   1.0   09 Jan 1996 10:12:26   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFTWB.IV_  $
+ *
+ *    Rev 1.0   09 Jan 1996 10:12:26   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+
+#define ID_TWBDRIVES_SET_PB       ID_TWBDRIVES_DLG + 1
+#define ID_TWBDRIVES_CANCEL_PB    ID_TWBDRIVES_DLG + 2
+#define ID_TWBDRIVES_HELP_PB      ID_TWBDRIVES_DLG + 3
+#define ID_TWBDRIVES_PRIMDUMMY_PB ID_TWBDRIVES_DLG + 4
+#define ID_TWBDRIVES_PRIMDRIVE_GB ID_TWBDRIVES_DLG + 5
+#define ID_TWBDRIVES_ADDDUMMY_PB  ID_TWBDRIVES_DLG + 6
+#define ID_TWBDRIVES_ADDDRIVE_GB  ID_TWBDRIVES_DLG + 7
+
+#define IDC_PLUGM_TAB             ID_PLUGIN_MANAGER_DLG + 1
+#define IDC_BTN_HELP              ID_PLUGIN_MANAGER_DLG + 2
+
+#define IDC_REMOVE_BTN            ID_PLUGM_INSTALLED_DLG + 1
+#define IDC_PLG_DES_STATIC        ID_PLUGM_INSTALLED_DLG + 2
+#define IDC_PLUGINMGR_LIST        ID_PLUGM_INSTALLED_DLG + 3
+#define IDC_STC_LONG_DESC         ID_PLUGM_INSTALLED_DLG + 4
+
+#define IDC_INSTALL_BTN           ID_PLUGM_AVAILABLE_DLG + 1
+#define IDC_UPDATE_BTN            ID_PLUGM_UPDATES_DLG + 1
+
+#define IDC_EDT_URL               ID_PLUGM_SETTINGS_DLG + 1
+#define IDC_EDT_PROXY_ADDRESS     ID_PLUGM_SETTINGS_DLG + 2
+#define IDC_EDT_PROXY_PORT        ID_PLUGM_SETTINGS_DLG + 3
+#define IDC_BTN_SAVE              ID_PLUGM_SETTINGS_DLG + 4
+#define IDC_RADIO_START           ID_PLUGM_SETTINGS_DLG + 5
+#define IDC_RADIO_DAY             ID_PLUGM_SETTINGS_DLG + 6
+#define IDC_RADIO_WEEK            ID_PLUGM_SETTINGS_DLG + 7
+#define IDC_RADIO_MANUAL          ID_PLUGM_SETTINGS_DLG + 8
+#define IDC_BTN_CHECK_NOW         ID_PLUGM_SETTINGS_DLG + 9
+#define IDC_CHK_KEEP_PKG          ID_PLUGM_SETTINGS_DLG + 10
+#define IDC_BTN_TEST_CONNECT      ID_PLUGM_SETTINGS_DLG + 11
+#define IDC_EDT_TIMEOUT           ID_PLUGM_SETTINGS_DLG + 12
+
+#define IDC_PROGRESS_BAR          IDD_PROGRESS_CTRL_DLG + 1
+#define IDC_STATIC_CURRENT        IDD_PROGRESS_CTRL_DLG + 2
+#define IDC_STATIC_TOTAL          IDD_PROGRESS_CTRL_DLG + 3
+#define IDC_PROGRESS_BAR_TOTAL    IDD_PROGRESS_CTRL_DLG + 4
+#define ID_LOGO_BMP               ID_LOGO_DLG + 1
+#define ID_LOGO_NAME1             ID_LOGO_DLG + 2
+#define ID_LOGO_NAME2             ID_LOGO_DLG + 3
+
+#define ID_CONNECT_RES_AVAILABLE_LB  ID_CONNECT_DIC_DLG + 1
+#define ID_CONNECT_RES_ADD_PB        ID_CONNECT_DIC_DLG + 2
+#define ID_CONNECT_RES_REMOVE_PB     ID_CONNECT_DIC_DLG + 3
+#define ID_CONNECT_RES_SELECTED_LB   ID_CONNECT_DIC_DLG + 4
+#define ID_CONNECT_RES_OK_PB         ID_CONNECT_DIC_DLG + 5
+#define ID_CONNECT_RES_CANCEL_PB     ID_CONNECT_DIC_DLG + 6
+#define ID_CONNECT_RES_HELP_PB       ID_CONNECT_DIC_DLG + 7
+
+#define SID_CONNECT_TM_DLG           ID_CONNECT_DIC_DLG + 8
+
+#define ID_SYSPROP_TABCTRL           ID_SYSPROP_DLG + 2
+#define ID_SYSPROP_BROWSER_EF        ID_SYSPROP_DLG + 3
+#define ID_SYSPROP_LOGOTIME_EF       ID_SYSPROP_DLG + 4
+#define ID_SYSPROP_GENTAGGING_CHK    ID_SYSPROP_DLG + 5
+#define ID_SYSPROP_BROWSE_PB         ID_SYSPROP_DLG + 6
+#define ID_SYSPROP_USEIELIKELIST_CHK ID_SYSPROP_DLG + 7
+#define ID_SYSPROP_FUZZYSMALL_EF     ID_SYSPROP_DLG + 8
+#define ID_SYSPROP_FUZZYSMALL_SB     ID_SYSPROP_DLG + 9
+#define ID_SYSPROP_FUZZYMEDIUM_EF    ID_SYSPROP_DLG + 10
+#define ID_SYSPROP_FUZZYMEDIUM_SB    ID_SYSPROP_DLG + 11
+#define ID_SYSPROP_FUZZYLARGE_EF     ID_SYSPROP_DLG + 12
+#define ID_SYSPROP_FUZZYLARGE_SB     ID_SYSPROP_DLG + 13
+#define ID_SYSPROP_DEFTGTLANG_CB     ID_SYSPROP_DLG + 14
+#define ID_SYSPROP_LKUP_FUZZYSMALL_EF     ID_SYSPROP_DLG + 15
+#define ID_SYSPROP_LKUP_FUZZYSMALL_SB     ID_SYSPROP_DLG + 16
+#define ID_SYSPROP_LKUP_FUZZYMEDIUM_EF    ID_SYSPROP_DLG + 17
+#define ID_SYSPROP_LKUP_FUZZYMEDIUM_SB    ID_SYSPROP_DLG + 18
+#define ID_SYSPROP_LKUP_FUZZYLARGE_EF     ID_SYSPROP_DLG + 19
+#define ID_SYSPROP_LKUP_FUZZYLARGE_SB     ID_SYSPROP_DLG + 20
+#define ID_SYSPROP_SGMLDITA_CHK      ID_SYSPROP_DLG + 21
+
+#define ID_SYSPROP_XSLT4C_RB         ID_SYSPROP_DLG + 22
+#define ID_SYSPROP_MSXML_RB          ID_SYSPROP_DLG + 23
+#define ID_SYSPROP_ENTITY_CHK        ID_SYSPROP_DLG + 24
+
+#define ID_SYSPROP_MEMIMP_MRKUP_CANCEL  ID_SYSPROP_DLG + 25
+#define ID_SYSPROP_MEMIMP_MRKUP_SKIP    ID_SYSPROP_DLG + 26
+#define ID_SYSPROP_MEMIMP_MRKUP_RESET   ID_SYSPROP_DLG + 27 
+
+#define ID_SORT_KEY1_CB              ID_SORT_DLG + 1
+#define ID_SORT_ASCENDING1_RB        ID_SORT_DLG + 2
+#define ID_SORT_DESCENDING1_RB       ID_SORT_DLG + 3
+#define ID_SORT_KEY2_CB              ID_SORT_DLG + 4
+#define ID_SORT_ASCENDING2_RB        ID_SORT_DLG + 5
+#define ID_SORT_DESCENDING2_RB       ID_SORT_DLG + 6
+#define ID_SORT_KEY3_CB              ID_SORT_DLG + 7
+#define ID_SORT_ASCENDING3_RB        ID_SORT_DLG + 8
+#define ID_SORT_DESCENDING3_RB       ID_SORT_DLG + 9
+#define ID_SORT_SORT_PB              ID_SORT_DLG + 10
+#define ID_SORT_CANCEL_PB            ID_SORT_DLG + 11
+
+
+#define ID_FILT2_KEY1_CB             ID_FILT2_DLG + 1
+#define ID_FILT2_KEY2_CB             ID_FILT2_DLG + 2
+#define ID_FILT2_KEY3_CB             ID_FILT2_DLG + 3
+#define ID_FILT2_OP1_CB              ID_FILT2_DLG + 4
+#define ID_FILT2_OP2_CB              ID_FILT2_DLG + 5
+#define ID_FILT2_OP3_CB              ID_FILT2_DLG + 6
+#define ID_FILT2_VALUE1_EF           ID_FILT2_DLG + 7
+#define ID_FILT2_VALUE2_EF           ID_FILT2_DLG + 8
+#define ID_FILT2_VALUE3_EF           ID_FILT2_DLG + 9
+#define ID_FILT2_AND1_RB             ID_FILT2_DLG + 10
+#define ID_FILT2_AND2_RB             ID_FILT2_DLG + 11
+#define ID_FILT2_OR1_RB              ID_FILT2_DLG + 12
+#define ID_FILT2_OR2_RB              ID_FILT2_DLG + 13
+#define ID_FILT2_FILTER_PB           ID_FILT2_DLG + 14
+#define ID_FILT2_CANCEL_PB           ID_FILT2_DLG + 15
+
+// string IDs for filter operators
+#define  SID_EQUALOP                 ID_FILT2_DLG + 21
+#define  SID_NOTEQUALOP              ID_FILT2_DLG + 22
+#define  SID_LESSOP                  ID_FILT2_DLG + 23
+#define  SID_LESSEQOP                ID_FILT2_DLG + 24
+#define  SID_GREATEROP               ID_FILT2_DLG + 25
+#define  SID_GREATEREQOP             ID_FILT2_DLG + 26
+#define  SID_LIKEOP                  ID_FILT2_DLG + 27
+

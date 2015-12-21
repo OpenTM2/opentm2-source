@@ -1,0 +1,164 @@
+// Copyright (c) 2000-2015, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+//   System Preferences.
+//
+
+ID_SYSPROP_DLG DIALOG  0, 0, 293, 310
+STYLE DS_MODALFRAME | DS_CONTEXTHELP |
+      WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION "System Preferences"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL "Set", PID_PB_OK,
+      BUTTON, BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+      25, 290, 56, 15
+    CONTROL "Cancel", PID_PB_CANCEL,
+      BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+      134, 290, 38, 15
+    CONTROL "Help", PID_PB_HELP,
+      EQFHELPBUTTON,
+      WS_TABSTOP | WS_VISIBLE,
+      225, 290, 38, 15
+
+    CONTROL "", ID_SYSPROP_TABCTRL, "SysTabControl32",
+      TCS_TOOLTIPS | WS_GROUP | WS_TABSTOP,
+      5,5, 280,280,
+      WS_EX_TRANSPARENT
+END
+
+ID_SYSPROP_GENERAL_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 305, 190
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+  CONTROL "Replace generic inline tagging during automatic substitution",
+    ID_SYSPROP_GENTAGGING_CHK,
+    BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    6, 4, 250, 12
+  CONTROL "Logo display time in ms:", -1, STATIC, SS_LEFT | WS_VISIBLE,
+    6, 22, 80, 9
+  CONTROL "", ID_SYSPROP_LOGOTIME_EF,
+    EDIT, ES_LEFT | WS_BORDER | WS_VISIBLE | WS_TABSTOP,
+    90, 20, 40, 12
+  CONTROL "(-1 = indefinite wait, 0 = no logo)", -1, STATIC, SS_LEFT | WS_VISIBLE,
+    134, 22, 120, 9
+  CONTROL "Standard Web Browser:", -1, STATIC, SS_LEFT | WS_VISIBLE,
+    6, 40, 80, 9
+  CONTROL "", ID_SYSPROP_BROWSER_EF,
+    EDIT, ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP,
+    90, 38, 120, 12
+  CONTROL "Browse" ID_SYSPROP_BROWSE_PB,
+    BUTTON, WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    214, 36, 56, 15
+  CONTROL "Use Explorer-like tree view",
+    ID_SYSPROP_USEIELIKELIST_CHK,
+    BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    6, 54, 250, 12
+  GROUPBOX "Fuzzy match overlap ratio - for Translation Memory Lookup",-1,
+    6,72,252,67
+  LTEXT  "Small segments (1 - 4 words):",-1,
+    11,87,124,8
+  EDITTEXT ID_SYSPROP_LKUP_FUZZYSMALL_EF,
+    137,84,22,14,ES_AUTOHSCROLL
+  SCROLLBAR ID_SYSPROP_LKUP_FUZZYSMALL_SB,
+    162,84,10,14,SBS_TOPALIGN | SBS_VERT
+  LTEXT           " (5% - 50%) ",-1,
+    174,87,40,8
+  LTEXT           "Medium segments (5 - 14 words):",-1,
+    11,104,124,8
+  EDITTEXT ID_SYSPROP_LKUP_FUZZYMEDIUM_EF,
+    137,101,22,14,ES_AUTOHSCROLL
+  SCROLLBAR ID_SYSPROP_LKUP_FUZZYMEDIUM_SB,
+    162,101,10,14,SBS_TOPALIGN | SBS_VERT
+  LTEXT           " (5% - 50%) ",-1,
+    174,104,40,8
+  LTEXT           "Large segments (15 or more words):",-1,
+    11,121,124,8
+  EDITTEXT ID_SYSPROP_LKUP_FUZZYLARGE_EF,
+    137,118,22,14,ES_AUTOHSCROLL
+  SCROLLBAR ID_SYSPROP_LKUP_FUZZYLARGE_SB,
+    162,118,10,14,SBS_TOPALIGN | SBS_VERT
+  LTEXT           " (5% - 50%) ",-1,
+    174,121,40,8
+
+  GROUPBOX "Fuzzy match overlap ratio - for display",-1,
+    6,148,252,77
+  LTEXT  "Small segments (1 - 4 words):",-1,
+    11,161,124,8
+  EDITTEXT ID_SYSPROP_FUZZYSMALL_EF,
+    137,158,22,14,ES_AUTOHSCROLL
+  SCROLLBAR ID_SYSPROP_FUZZYSMALL_SB,
+    162,158,10,14,SBS_TOPALIGN | SBS_VERT
+  LTEXT           " * ",-1,
+    174,161,20,8
+  LTEXT           "Medium segments (5 - 14 words):",-1,
+    11,178,124,8
+  EDITTEXT ID_SYSPROP_FUZZYMEDIUM_EF,
+    137,175,22,14,ES_AUTOHSCROLL
+  SCROLLBAR ID_SYSPROP_FUZZYMEDIUM_SB,
+    162,175,10,14,SBS_TOPALIGN | SBS_VERT
+  LTEXT           " * ",-1,
+    174,178,20,8
+  LTEXT           "Large segments (15 or more words):",-1,
+    11,195,124,8
+  EDITTEXT ID_SYSPROP_FUZZYLARGE_EF,
+    137,192,22,14,ES_AUTOHSCROLL
+  SCROLLBAR ID_SYSPROP_FUZZYLARGE_SB,
+    162,192,10,14,SBS_TOPALIGN | SBS_VERT
+  LTEXT           " * ",-1,
+    174,195,20,8
+  LTEXT " * Matches with a smaller fuzzy match overlap ratio will not be displayed",
+    -1,11,211,232,8
+
+
+  CONTROL "Default Target Language:",  -1, STATIC,
+          SS_LEFT | WS_GROUP | WS_VISIBLE,
+          6, 238, 98, 8
+
+  CONTROL "", ID_SYSPROP_DEFTGTLANG_CB, COMBOBOX,
+          CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+           122, 236, 148, 80
+
+
+END
+
+ID_SYSPROP_ADVANCED_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 305, 190
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+  GROUPBOX "XSLT engine to use for counting report and validation document export",-1,
+    6,4,252,44
+  CONTROL "IBM XSLT4C", ID_SYSPROP_XSLT4C_RB, BUTTON, BS_AUTORADIOBUTTON | WS_VISIBLE, 11, 18, 197, 12
+  CONTROL "MSXML", ID_SYSPROP_MSXML_RB, BUTTON, BS_AUTORADIOBUTTON | WS_VISIBLE, 11, 32, 197, 12
+END
+
+ID_SYSPROP_MARKUP_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 305, 190
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+  CONTROL "Enable preprocessing of IDDOC memory proposals for DITA documents",
+    ID_SYSPROP_SGMLDITA_CHK,
+    BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    6, 4, 250, 12
+  CONTROL "Display values of IDDOC and DITA entities",
+    ID_SYSPROP_ENTITY_CHK,
+    BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    6, 22, 250, 12
+  LTEXT "Action to take when an unknown markup table is found during memory import:", -1,
+    6, 40, 250, 8
+  CONTROL "Cancel the import", 
+    ID_SYSPROP_MEMIMP_MRKUP_CANCEL, 
+    BUTTON, BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    17, 50, 68, 8
+  CONTROL "Skip these segments and do not import them",
+    ID_SYSPROP_MEMIMP_MRKUP_SKIP,
+    BUTTON, BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    17, 60, 153, 8
+  CONTROL "Import these segments using a default markup table (OTMUTF8)", 
+    ID_SYSPROP_MEMIMP_MRKUP_RESET, 
+    BUTTON, BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    17, 70, 235, 8
+END

@@ -1,0 +1,132 @@
+<!-- ............................................................... -->
+<!--  Copyright (C) 1998-2013, International Business Machines       -->
+<!--        Corporation and others. All rights reserved              -->
+<!-- ............................................................... -->
+<TAGTABLE>
+<SEGMENTEXIT>OTMRTF</SEGMENTEXIT>
+  <DESCRIPTION>RTF - Rich Text Format</DESCRIPTION>
+  <DESCRNAME>OTMRTF</DESCRNAME>
+  <MULTSUBST>%</MULTSUBST>
+  <SINGLESUBST>?</SINGLESUBST>
+  <CHARSET>ASCII</CHARSET>
+<TAG>
+  <STRING>{</STRING>
+  <LENGTH>1</LENGTH>
+</TAG>
+<TAG>
+  <STRING>}</STRING>
+  <LENGTH>1</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\A%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\B%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\C%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\D%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\E%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\F%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\G%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\H%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\I%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\J%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\K%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\L%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\M%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\N%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\O%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\P%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\Q%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\R%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\S%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\T%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\U%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\V%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\W%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\X%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\Y%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>\\Z%</STRING>
+  <ENDDELIM>'\r\n '</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>{\\*\\BKMKEND%</STRING>
+  <ENDDELIM>}</ENDDELIM>
+</TAG>
+<TAG>
+  <STRING>{\\*\\BKMKSTART%</STRING>
+  <ENDDELIM>}</ENDDELIM>
+</TAG>
+</TAGTABLE>

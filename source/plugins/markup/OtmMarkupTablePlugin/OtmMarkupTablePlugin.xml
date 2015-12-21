@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8">
+ <!-- 
+	Copyright Notice:
+
+	Copyright (C) 1990-2013, International Business Machines
+	Corporation and others. All rights reserved
+ -->
+<markups>
+  <plugin>
+    <name>OtmMarkupTablePlugin</name>
+    <shortName>OTM</shortName>
+	<shortDescription>OTM Markup Table Plugin</shortDescription>
+	<longDescription>This is the markup table plugin for the OpenTM2 markup tables</longDescription>
+	<version>1.0</version>
+	<supplier>OpenTM2</supplier>
+    <tableDirectory>TABLE</tableDirectory>
+    <userExitDirectory>BIN</userExitDirectory>
+    <deletable>no</deletable>
+    <exportable>yes</exportable>
+    <importable>no</importable>
+    <protected>yes</protected>
+  </plugin>
+
+  <!--  Plain text markups  -->
+
+  <markup>
+    <name>OTMANSI</name>
+    <shortDescription>Plain text - ANSI encoding</shortDescription>
+    <longDescription>Markup for plain text documents which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMANSI.TBL</table>
+    <userExit>none</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMASCII</name>
+    <shortDescription>Plain text - ASCII encoding</shortDescription>
+    <longDescription>Markup for plain text documents which are encoded in ASCII</longDescription>
+    <version>1.0</version>
+    <table>OTMASCII.TBL</table>
+    <userExit>none</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMUTF8</name>
+    <shortDescription>Plain text - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for plain text documents which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMUTF8.TBL</table>
+    <userExit>none</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMUTF16</name>
+    <shortDescription>Plain text - UTF-16 encoding</shortDescription>
+    <longDescription>Markup for plain text documents which are encoded in UTF-16</longDescription>
+    <version>1.0</version>
+    <table>OTMUTF16.TBL</table>
+    <userExit>none</userExit>
+    <files>none</files>
+  </markup>
+
+  <!--  Double quoted text markups  -->
+
+  <markup>
+    <name>OTMDQUOT</name>
+    <shortDescription>Double quoted text - ASCII encoding</shortDescription>
+    <longDescription>Markup for documents where the translatable text is enclosed within double quotes which are encoded in ASCII</longDescription>
+    <version>1.0</version>
+    <table>OTMDQUOT.TBL</table>
+    <userExit>OTMBMRI.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMADQUO</name>
+    <shortDescription>Double quoted text - ANSI encoding</shortDescription>
+    <longDescription>Markup for documents where the translatable text is enclosed within double quotes which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMADQUO.TBL</table>
+    <userExit>OTMBMRI.DLL</userExit>
+    <files>TABLE\OTMADQUO.CHR</files>
+  </markup>
+
+  <markup>
+    <name>OTMUDQUO</name>
+    <shortDescription>Double quoted text - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for documents where the translatable text is enclosed within double quotes which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMUDQUO.TBL</table>
+    <userExit>OTMQUOTE.DLL</userExit>
+    <files>TABLE\OTMUDQUO.CHR</files>
+  </markup>
+
+  <!--  Single quoted text markups  -->
+
+  <markup>
+    <name>OTMQUOTE</name>
+    <shortDescription>Single quoted text - ASCII encoding</shortDescription>
+    <longDescription>Markup for documents where the translatable text is enclosed within single quotes which are encoded in ASCII</longDescription>
+    <version>1.0</version>
+    <table>OTMQUOTE.TBL</table>
+    <userExit>OTMBMRI.DLL</userExit>
+    <files>TABLE\OTMQUOTE.CHR</files>
+  </markup>
+
+  <markup>
+    <name>OTMAQUOT</name>
+    <shortDescription>Single quoted text - ANSI encoding</shortDescription>
+    <longDescription>Markup for documents where the translatable text is enclosed within single quotes which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMAQUOT.TBL</table>
+    <userExit>OTMBMRI.DLL</userExit>
+    <files>TABLE\OTMAQUOT.CHR</files>
+  </markup>
+
+  <markup>
+    <name>OTMUQUOT</name>
+    <shortDescription>Single quoted text - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for documents where the translatable text is enclosed within single quotes which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMUQUOT.TBL</table>
+    <userExit>OTMQUOTE.DLL</userExit>
+    <files>TABLE\OTMUDQUO.CHR</files>
+  </markup>
+
+  <!--  Java ResourceBundle markups  -->
+
+  <markup>
+    <name>OTMJDK21</name>
+    <shortDescription>Java List/Property ResourceBundle files - ASCII encoding</shortDescription>
+    <longDescription>Markup for Java ListResourceBundle and PropertyResourceBundle files which are encoded in ASCII</longDescription>
+    <version>1.0</version>
+    <table>OTMJDK21.TBL</table>
+    <userExit>OTMJDK11.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMAJDK2</name>
+    <shortDescription>Java List/Property ResourceBundle files - ANSI encoding</shortDescription>
+    <longDescription>Markup for Java ListResourceBundle and PropertyResourceBundle files which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMAJDK2.TBL</table>
+    <userExit>OTMJDK11.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMNJDK2</name>
+    <shortDescription>Java List/Property ResourceBundle files - Escaped Unicode encoding</shortDescription>
+    <longDescription>Markup for Java ListResourceBundle and PropertyResourceBundle files which are encoded in escaped Unicode</longDescription>
+    <version>1.0</version>
+    <table>OTMNJDK2.TBL</table>
+    <userExit>OTMJDK11.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMUJDK2</name>
+    <shortDescription>Java List/Property ResourceBundle files - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for Java ListResourceBundle and PropertyResourceBundle files which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMUJDK2.TBL</table>
+    <userExit>OTMJDK11.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <!--  HTML markups  -->
+
+  <markup>
+    <name>OTMHTM32</name>
+    <shortDescription>HTML 3.2, 4.0, 5.0 files - ANSI encoding</shortDescription>
+    <longDescription>Markup for HTML 3.2, 4.0, and 5.0 files which are encoded in the standard ANSI code pages commonly used for HTML files</longDescription>
+    <version>1.0</version>
+    <table>OTMHTM32.TBL</table>
+    <userExit>OTMHTM32.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <markup>
+    <name>OTMUHTM3</name>
+    <shortDescription>HTML 3.2, 4.0, 5.0 files - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for HTML 3.2, 4.0, and 5.0 files which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMUHTM3.TBL</table>
+    <userExit>OTMHTM32.DLL</userExit>
+    <files>none</files>
+  </markup>
+
+  <!--  Windows resource markup  -->
+
+  <markup>
+    <name>OTMAMRI</name>
+    <shortDescription>Windows resource files - ANSI encoding</shortDescription>
+    <longDescription>Markup for Windows resource files which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMAMRI.TBL</table>
+    <userExit>OTMBMRI.DLL</userExit>
+    <files>TABLE\OTMAMRI.CHR</files>
+  </markup>
+
+  <!--  RTF markup -->
+
+  <markup>
+    <name>OTMRTF</name>
+    <shortDescription>RTF (Rich Text Format) files</shortDescription>
+    <longDescription>Markup for documents in Rich Text Format (RTF) files</longDescription>
+    <version>1.0</version>
+    <table>OTMRTF.TBL</table>
+    <userExit>OTMRTF.DLL</userExit>
+    <files>TABLE\OTMRTF.CHR</files>
+  </markup>
+
+  <!--  XHTML markups -->
+
+  <markup>
+    <name>OTMXAHTM</name>
+    <shortDescription>XHTML - ANSI encoding</shortDescription>
+    <longDescription>Markup for XHTML files which are encoded in the standard ANSI code pages commonly used for XHTML files</longDescription>
+    <version>1.0</version>
+    <table>OTMXAHTM.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXAHTM.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMXUHTM</name>
+    <shortDescription>XHTML - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for XHTML files which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMXUHTM.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXUHTM.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <!--  Generic XML markups -->
+
+  <markup>
+    <name>OTMXML</name>
+    <shortDescription>Generic XML files - ASCII encoding</shortDescription>
+    <longDescription>Markup for generic XML files which are encoded in ASCII</longDescription>
+    <version>1.0</version>
+    <table>OTMXML.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMXAXML</name>
+    <shortDescription>Generic XML files - ANSI encoding</shortDescription>
+    <longDescription>Markup for generic XML files which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMXAXML.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMXUXML</name>
+    <shortDescription>Generic XML files - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for generic XML files which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMXUXML.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <!--  OpenDocument XML markup -->
+
+  <markup>
+    <name>OTMXMODC</name>
+    <shortDescription>OpenDocument XML files</shortDescription>
+    <longDescription>Markup for Open Document for Office Applications (OpenDocument) files</longDescription>
+    <version>1.0</version>
+    <table>OTMXMODC.TBL</table>
+    <userExit>OTMXMODC.DLL</userExit>
+    <files>TABLE\OTMOPNDC.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL,BIN\OTMXML.DLL</files>
+  </markup>
+
+  <!--  XLIFF markup -->
+
+  <markup>
+    <name>OTMXMXLF</name>
+    <shortDescription>XLIFF 1.2 FILES - ASCII encoding</shortDescription>
+    <longDescription>Markup for XML Localization Interchange File Format (XLIFF) 1.2 files which are encoded in ASCII</longDescription>
+    <version>1.0</version>
+    <table>OTMXMXLF.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXLIFF.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMXAXLF</name>
+    <shortDescription>XLIFF 1.2 FILES - ANSI encoding</shortDescription>
+    <longDescription>Markup for XML Localization Interchange File Format (XLIFF) 1.2 files which are encoded in ANSI</longDescription>
+    <version>1.0</version>
+    <table>OTMXAXLF.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXLIFF.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMXUXLF</name>
+    <shortDescription>XLIFF 1.2 FILES - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for XML Localization Interchange File Format (XLIFF) 1.2 files which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMXUXLF.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMXLIFF.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMXUSDL</name>
+    <shortDescription>SDLXLIFF FILES - UTF-8 encoding</shortDescription>
+    <longDescription>Markup for SDLXLIFF files which are encoded in UTF-8</longDescription>
+    <version>1.0</version>
+    <table>OTMXUSDL.TBL</table>
+    <userExit>OTMXML.DLL</userExit>
+    <files>TABLE\OTMSDLXLF.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+</markups>

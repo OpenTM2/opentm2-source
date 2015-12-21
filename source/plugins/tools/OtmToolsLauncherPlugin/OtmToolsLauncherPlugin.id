@@ -1,0 +1,12 @@
+/*+----------------------------------------------------------------------------+
+  |  OtmToolsLauncherPlugin.ID - IDs used by clean up tool                           |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+*/
+
+#define ID_TOOLSLAUNCHER_COMMAND      1020
+

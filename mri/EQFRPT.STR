@@ -1,0 +1,382 @@
+//+----------------------------------------------------------------------------+
+//|EQFRPT.STR                                                                  |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Michael Sekinger                                                    |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description: String table for Counting Report                               |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 6 Feb 2002
+// RJ: kbt969: add SID_RPT_OUT_FOLDERFORMAT, SID_RPT_OUT_NEWSOURCENOTIMPORTED 
+//     assign STR_RPT_OUT_TGTDOCREPL to SID_RPT_OUT_TGTDOCREPL (instead of STR_RPT_OUT_SRCDOCREPL)
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 3 Dec 2001
+//  -- No comment!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.4 $ ----------- 24 Aug 2000
+// added action_17
+// 
+// 
+// $Revision: 1.3 $ ----------- 19 May 2000
+// property sheet for conting report
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFRPT.SVR   1.9   10 Jun 1999 13:01:24   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFRPT.SVR  $
+ * 
+ *    Rev 1.9   10 Jun 1999 13:01:24   BUILD
+ * Added str_rpt_action_16
+ *
+ *    Rev 1.8   22 Feb 1999 17:44:58   BUILD
+ * added column3_chk
+ *
+ *    Rev 1.7   12 Feb 1999 09:49:24   BUILD
+ * added more dialog
+ *
+ *    Rev 1.6   19 Jan 1999 16:46:10   BUILD
+ * Inconsistent logtask added
+ *
+ *    Rev 1.5   11 Jan 1999 16:06:08   BUILD
+ * Added RPT_ACTION_14
+ *
+ *    Rev 1.4   18 Dec 1998 11:51:50   BUILD
+ * added invalid histlog string
+ *
+ *    Rev 1.3   09 Nov 1998 18:44:14   BUILD
+ * Pre-Analysis Report added
+ * added sort order
+ *
+ *    Rev 1.2   14 Sep 1998 15:31:00   BUILD
+ * html file output format
+ *
+ *    Rev 1.1   06 Mar 1998 15:42:20   BUILD
+ * new counting report
+ *
+ *    Rev 1.0   02 Dec 1996 10:44:00   BUILD
+ * - initial put
+ *
+*/
+//+----------------------------------------------------------------------------+
+
+
+STRINGTABLE
+BEGIN
+// dialog Counting Report
+// reports
+  SID_RPT_REPORT_1           STR_RPT_REPORT_1
+  SID_RPT_REPORT_2           STR_RPT_REPORT_2
+  SID_RPT_REPORT_3           STR_RPT_REPORT_3
+  SID_RPT_REPORT_4           STR_RPT_REPORT_4
+  SID_RPT_REPORT_5           STR_RPT_REPORT_5
+  SID_RPT_REPORT_6           STR_RPT_REPORT_6
+
+// options
+  SID_RPT_OPTION_1           STR_RPT_OPTION_1
+  SID_RPT_OPTION_2           STR_RPT_OPTION_2
+  SID_RPT_OPTION_3           STR_RPT_OPTION_3
+  SID_RPT_OPTION_4           STR_RPT_OPTION_4
+  SID_RPT_OPTION_5           STR_RPT_OPTION_5
+  SID_RPT_OPTION_6           STR_RPT_OPTION_6
+  SID_RPT_OPTION_7           STR_RPT_OPTION_7
+  SID_RPT_OPTION_8           STR_RPT_OPTION_8
+  SID_RPT_OPTION_9           STR_RPT_OPTION_9
+  SID_RPT_OPTION_10          STR_RPT_OPTION_10
+  SID_RPT_OPTION_11          STR_RPT_OPTION_11
+  SID_RPT_OPTION_12          STR_RPT_OPTION_12
+
+  SID_RPT1_OPTION1_1         STR_RPT1_OPTION1_1
+  SID_RPT1_OPTION1_2         STR_RPT1_OPTION1_2
+  SID_RPT1_OPTION1_3         STR_RPT1_OPTION1_3
+  SID_RPT1_OPTION1_4         STR_RPT1_OPTION1_4
+
+  SID_RPT1_OPTION2_1         STR_RPT1_OPTION2_1
+  SID_RPT1_OPTION2_2         STR_RPT1_OPTION2_2
+
+
+  SID_RPT2_OPTION1_1         STR_RPT2_OPTION1_1
+  SID_RPT2_OPTION1_2         STR_RPT2_OPTION1_2
+  SID_RPT2_OPTION1_3         STR_RPT2_OPTION1_3
+  SID_RPT2_OPTION1_4         STR_RPT2_OPTION1_4
+  SID_RPT2_OPTION1_5         STR_RPT2_OPTION1_5
+  SID_RPT2_OPTION1_6         STR_RPT2_OPTION1_6
+  SID_RPT2_OPTION1_7         STR_RPT2_OPTION1_7
+  SID_RPT2_OPTION1_8         STR_RPT2_OPTION1_8
+  SID_RPT2_OPTION1_9         STR_RPT2_OPTION1_9
+  SID_RPT2_OPTION1_10        STR_RPT2_OPTION1_10
+
+
+  SID_RPT2_OPTION2_1         STR_RPT2_OPTION2_1
+  SID_RPT2_OPTION2_2         STR_RPT2_OPTION2_2
+  SID_RPT2_OPTION2_3         STR_RPT2_OPTION2_3
+
+  SID_RPT2_OPTION3_1         STR_RPT2_OPTION3_1
+  SID_RPT2_OPTION3_2         STR_RPT2_OPTION3_2
+  SID_RPT2_OPTION3_3         STR_RPT2_OPTION3_3
+
+  SID_RPT1_OPTION3_1         STR_RPT1_OPTION3_1
+  SID_RPT1_OPTION3_2         STR_RPT1_OPTION3_2
+  SID_RPT1_OPTION3_3         STR_RPT1_OPTION3_3
+
+  SID_RPT1_OPTION4_1         STR_RPT1_OPTION4_1
+  SID_RPT1_OPTION4_2         STR_RPT1_OPTION4_2
+
+  SID_RPT1_OPTION5_1         STR_RPT1_OPTION5_1
+  SID_RPT1_OPTION5_2         STR_RPT1_OPTION5_2
+
+  SID_RPT_FORMAT_1           STR_RPT_FORMAT_1
+  SID_RPT_FORMAT_2           STR_RPT_FORMAT_2
+  SID_RPT_FORMAT_3           STR_RPT_FORMAT_3
+
+
+// listwindow Counting Report
+  SID_RPT_LW_TITLE           STR_RPT_LW_TITLE
+
+// strings for output
+  SID_RPT_OUT_FORMAT         STR_RPT_OUT_FORMAT
+  SID_RPT_OUT_EXT_FORMAT     STR_RPT_OUT_EXT_FORMAT
+  SID_RPT_OUT_INT_FORMAT     STR_RPT_OUT_INT_FORMAT
+
+  SID_RPT_OUT_FOLDER         STR_RPT_OUT_FOLDER
+  SID_RPT_OUT_DOCUMENT       STR_RPT_OUT_DOCUMENT
+
+  SID_RPT_OUT_MARKUP         STR_RPT_OUT_MARKUP
+  SID_RPT_OUT_MEMORY         STR_RPT_OUT_MEMORY
+  SID_RPT_OUT_DESCRIPTION    STR_RPT_OUT_DESCRIPTION
+  SID_RPT_OUT_EDITOR         STR_RPT_OUT_EDITOR
+  SID_RPT_OUT_DICTIONARY     STR_RPT_OUT_DICTIONARY
+
+  SID_RPT_OUT_SRC_LNG        STR_RPT_OUT_SRC_LNG
+  SID_RPT_OUT_TGT_LNG        STR_RPT_OUT_TGT_LNG
+  SID_RPT_OUT_SRCDOCREPL     STR_RPT_OUT_SRCDOCREPL
+  SID_RPT_OUT_TGTDOCREPL     STR_RPT_OUT_TGTDOCREPL
+
+  SID_RPT_OUT_IMPORT_PATH    STR_RPT_OUT_IMPORT_PATH
+  SID_RPT_OUT_SRC_PATH       STR_RPT_OUT_SRC_PATH
+  SID_RPT_OUT_TGT_PATH       STR_RPT_OUT_TGT_PATH
+
+  SID_RPT_OUT_ADDTOTM        STR_RPT_OUT_ADDTOTM
+  SID_RPT_OUT_AUTOREPLACE    STR_RPT_OUT_AUTOREPLACE
+  SID_RPT_OUT_LATESTMATCH    STR_RPT_OUT_LATESTMATCH
+  SID_RPT_OUT_AUTOJOIN       STR_RPT_OUT_AUTOJOIN
+
+  SID_RPT_OUT_ORIGINAL       STR_RPT_OUT_ORIGINAL
+  SID_RPT_OUT_TRANSLATION    STR_RPT_OUT_TRANSLATION
+  SID_RPT_OUT_SNOMATCH       STR_RPT_OUT_SNOMATCH
+  SID_RPT_OUT_SNOMATCH_PATH  STR_RPT_OUT_SNOMATCH_PATH
+  SID_RPT_OUT_WITHREVMARK    STR_RPT_OUT_WITHREVMARK
+
+  SID_RPT_OUT_SEGMENTS       STR_RPT_OUT_SEGMENTS
+  SID_RPT_OUT_SOURCE         STR_RPT_OUT_SOURCE
+  SID_RPT_OUT_MODIFIED       STR_RPT_OUT_MODIFIED
+  SID_RPT_OUT_TARGET         STR_RPT_OUT_TARGET
+  SID_RPT_OUT_WORDS          STR_RPT_OUT_WORDS
+
+  SID_RPT_OUT_ANALYSIS       STR_RPT_OUT_ANALYSIS
+  SID_RPT_OUT_AUTOSUBST      STR_RPT_OUT_AUTOSUBST
+  SID_RPT_OUT_EDIT           STR_RPT_OUT_EDIT
+  SID_RPT_OUT_EXACT          STR_RPT_OUT_EXACT
+  SID_RPT_OUT_REPLACE        STR_RPT_OUT_REPLACE
+  SID_RPT_OUT_FUZZY          STR_RPT_OUT_FUZZY
+  SID_RPT_OUT_MACHINE        STR_RPT_OUT_MACHINE
+  SID_RPT_OUT_NONE           STR_RPT_OUT_NONE
+  SID_RPT_OUT_MATCHES        STR_RPT_OUT_MATCHES
+  SID_RPT_OUT_NOT            STR_RPT_OUT_NOT
+  SID_RPT_OUT_TRANSLATED     STR_RPT_OUT_TRANSLATED
+  SID_RPT_OUT_SUMMARY        STR_RPT_OUT_SUMMARY
+  SID_RPT_OUT_KL5            STR_RPT_OUT_KL5
+  SID_RPT_OUT_KL15           STR_RPT_OUT_KL15
+  SID_RPT_OUT_GRGL15         STR_RPT_OUT_GRGL15
+
+  SID_RPT_OUT_NUMBER         STR_RPT_OUT_NUMBER
+  SID_RPT_OUT_DATE           STR_RPT_OUT_DATE
+  SID_RPT_OUT_TIME           STR_RPT_OUT_TIME
+  SID_RPT_OUT_PROCESSTASK    STR_RPT_OUT_PROCESSTASK
+  SID_RPT_OUT_NULLSTRING     STR_RPT_OUT_NULLSTRING
+  SID_RPT_OUT_DOCOFFOLDER    STR_RPT_OUT_DOCOFFOLDER
+  SID_RPT_OUT_SUMGENERATED   STR_RPT_OUT_SUMGENERATED
+
+  SID_RPT_OUT_TRUE           STR_RPT_OUT_TRUE
+  SID_RPT_OUT_FALSE          STR_RPT_OUT_FALSE
+
+  SID_RPT_OUT_LASTPROCESS    STR_RPT_OUT_LASTPROCESS
+  SID_RPT_OUT_STATE          STR_RPT_OUT_STATE
+  SID_RPT_OUT_DOCSSELECTED   STR_RPT_OUT_DOCSSELECTED
+  SID_RPT_OUT_OF             STR_RPT_OUT_OF
+
+  SID_RPT_OUT_RPTGENERATED   STR_RPT_OUT_RPTGENERATED
+
+// actions
+  SID_RPT_ACTION_1           STR_RPT_ACTION_1
+  SID_RPT_ACTION_2           STR_RPT_ACTION_2
+  SID_RPT_ACTION_3           STR_RPT_ACTION_3
+  SID_RPT_ACTION_4           STR_RPT_ACTION_4
+  SID_RPT_ACTION_5           STR_RPT_ACTION_5
+  SID_RPT_ACTION_6           STR_RPT_ACTION_6
+  SID_RPT_ACTION_7           STR_RPT_ACTION_7
+  SID_RPT_ACTION_8           STR_RPT_ACTION_8
+  SID_RPT_ACTION_9           STR_RPT_ACTION_9
+  SID_RPT_ACTION_10          STR_RPT_ACTION_10
+  SID_RPT_ACTION_11          STR_RPT_ACTION_11
+  SID_RPT_ACTION_12          STR_RPT_ACTION_12
+  SID_RPT_ACTION_13          STR_RPT_ACTION_13
+  SID_RPT_ACTION_14          STR_RPT_ACTION_14
+  SID_RPT_ACTION_15          STR_RPT_ACTION_15
+  SID_RPT_ACTION_16          STR_RPT_ACTION_16
+  SID_RPT_ACTION_17          STR_RPT_ACTION_17
+  SID_RPT_ACTION_18          STR_RPT_ACTION_18
+  SID_RPT_FUZZY_LEVEL        STR_RPT_FUZZY_LEVEL
+  SID_RPT_OUT_FOLDERFORMAT   STR_RPT_OUT_FOLDERFORMAT
+  SID_RPT_OUT_NEWSOURCENOTIMPORTED  STR_RPT_OUT_NEWSOURCENOTIMPORTED
+
+// more dialog
+// -----------
+
+  SID_CNT_REPORT4_DLG        STR_CNT_REPORT4_DLG
+  SID_RPT4_OPTIONS_GB        STR_RPT4_OPTIONS_GB
+  SID_RPT4_COLUMN1_CHK       STR_RPT4_COLUMN1_CHK
+  SID_RPT4_COLUMN2_CHK       STR_RPT4_COLUMN2_CHK
+  SID_RPT4_COLUMN3_CHK       STR_RPT4_COLUMN3_CHK
+  SID_RPT4_SET_PB            STR_RPT4_SET_PB
+  SID_RPT4_CANCEL_PB         STR_RPT4_CANCEL_PB
+  SID_RPT4_HELP_PB           STR_RPT4_HELP_PB
+  SID_RPT1_MORE_PB           STR_RPT1_MORE_PB
+
+
+
+// property dialog
+// ---------------
+
+
+  IDS_RPTPROP_TAB_GENERAL      STR_RPTPROP_TAB_GENERAL  
+  IDS_RPTPROP_TAB_PROFILE      STR_RPTPROP_TAB_PROFILE  
+  IDS_RPTPROP_TAB_SETTINGS     STR_RPTPROP_TAB_SETTINGS 
+  IDS_RPTPROP_TAB_FACTSHEET    STR_RPTPROP_TAB_FACTSHEET
+  IDS_RPTPROP_TAB_MORE         STR_RPTPROP_TAB_MORE     
+  IDS_RPTPROP_TAB_SHIPM        STR_RPTPROP_TAB_SHIPM     
+  
+
+  IDS_RPTPROP_TTIP_GENERAL     STR_RPTPROP_TTIP_GENERAL  
+  IDS_RPTPROP_TTIP_PROFILE     STR_RPTPROP_TTIP_PROFILE  
+  IDS_RPTPROP_TTIP_SETTINGS    STR_RPTPROP_TTIP_SETTINGS 
+  IDS_RPTPROP_TTIP_FACTSHEET   STR_RPTPROP_TTIP_FACTSHEET
+  IDS_RPTPROP_TTIP_MORE        STR_RPTPROP_TTIP_MORE     
+
+
+
+
+END
+

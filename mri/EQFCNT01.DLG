@@ -1,0 +1,290 @@
+//+----------------------------------------------------------------------------+
+//|EQFCNT01.DLG                                                                |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:       Stefan Doersam                                                |
+//+----------------------------------------------------------------------------+
+//|Description:  templates for word count dialog                               |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.2 $ ----------- 29 Mar 2010
+// GQ: - added DID_CNT_FUZZYMATCH_RB checkbox
+// 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 20 Jul 2009
+// GQ: - added format combobox to count dialog
+// 
+//
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+//
+//
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+//
+//
+// $Revision: 1.2 $ ----------- 31 Jul 2008
+// GQ: - added new duplicate word count checkbox
+//
+//
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+//
+//
+// $Revision: 1.2 $ ----------- 9 Mar 2007
+// GQ: - fixed P031011: Some text fields are too small within count words window
+//
+//
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+//
+//
+// $Revision: 1.2 $ ----------- 7 Nov 2006
+// GQ: - added duplicates radio button
+//
+//
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+//
+//
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+//
+//
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+//
+//
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+//
+//
+// $Revision: 1.2 $ ----------- 28 Sep 2004
+// GQ: - removed obsolete dialog template
+//     - accessibility: added tabstop style to file name field
+//
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ *
+ * $Header:   K:\DATA\EQFCNT01.DVG   1.5   07 Dec 1998 10:28:00   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFCNT01.DVG  $
+ *
+ *    Rev 1.5   07 Dec 1998 10:28:00   BUILD
+ * - added horizontal scrollbar to files listbox of count dialog
+ *
+ *    Rev 1.4   30 Nov 1998 09:53:26   BUILD
+ * Re-aranged pushbuttons
+ *
+ *    Rev 1.3   04 Nov 1997 11:14:22   BUILD
+ * - added replace match checkbox
+ *
+ *    Rev 1.2   11 Jun 1997 17:16:26   BUILD
+ * - added new radiobutton for workitem TOP97_MATCHCOUNT
+ *
+ *    Rev 1.1   24 Feb 1997 11:36:20   BUILD
+ * - enlarged document listbox width
+ *
+ *    Rev 1.0   09 Jan 1996 10:04:44   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+
+ID_WORDCNT_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  0, 0, 401, 286
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_CNT_WORD_COUNT
+FONT 8 "MS Sans Serif"
+BEGIN
+/* text of listbox with file to be counted */
+
+  CONTROL STR_CNT_DOCUMENTS, DID_CNT_LB_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 3, 95, 9
+/* listbox with file to be counted */
+
+  CONTROL "", DID_CNT_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_HSCROLL,
+    6, 15, 311, 57
+/* group box for count options  */
+/********************************/
+
+
+  CONTROL STR_CNT_COUNT_OPTIONS, DID_CNT_OPTIONS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 73, 391, 118
+/* original radio button */
+
+  CONTROL STR_CNT_ORIGINAL, DID_CNT_ORIGINAL_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    12, 84, 197, 12
+/* translation radio button */
+
+  CONTROL STR_CNT_TRANSLATION, DID_CNT_TRANSLATION_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 98, 197, 12
+/* TM match info radio button */
+
+  CONTROL STR_CNT_TMMATCHES, DID_CNT_TMMATCHES_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 113, 197, 12
+/* replace match checkbox */
+
+  CONTROL STR_CNT_TMREPLMATCH, DID_CNT_TMREPLMATCH_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE,
+    27, 128, 188, 12
+
+  CONTROL "Duplicate words", DID_CNT_DUPLICATES_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 143, 197, 12
+
+
+  CONTROL "Include memory match information", DID_CNT_MEMMATCH_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE,
+    27, 158, 188, 12
+
+  CONTROL "Fuzzy matches by class", DID_CNT_FUZZYMATCH_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 174, 280, 12
+
+
+/* screen check box */
+  CONTROL STR_CNT_OUTPUT_TO, DID_CNT_OUTPUT_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 196, 391, 82
+
+  CONTROL STR_CNT_SCREEN, DID_CNT_SCREEN_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    12, 208, 128, 12
+/* file check box */
+
+  CONTROL STR_CNT_FILE, DID_CNT_FILE_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    12, 224, 128, 12
+/* select PB for file dialog */
+
+  CONTROL STR_CNT_FILE_SET_PB, DID_CNT_FILE_SET_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_TABSTOP,
+    330, 221, 56, 15
+/* text for file entry field */
+
+  CONTROL STR_CNT_FILENAME_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 242, 44, 9
+/* output file entry field */
+
+  CONTROL "", DID_CNT_FILE_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_TABSTOP | WS_BORDER | WS_VISIBLE,
+    66, 241, 322, 12
+
+  CONTROL "Format:", -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 258, 44, 9
+
+  CONTROL "", DID_CNT_FORMAT_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    66, 257, 122, 45
+
+
+  CONTROL STR_CNT_COUNT, PID_PB_COUNT,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    333, 17, 56, 15
+  CONTROL STR_CNT_CANCEL, PID_PB_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    333, 35, 56, 15
+  CONTROL STR_CNT_HELP, PID_PB_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    333, 53, 56, 15
+END
+

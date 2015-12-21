@@ -1,0 +1,192 @@
+//+----------------------------------------------------------------------------+
+//|EQFCNT01.STR                                                                |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:       Stefan Doersam                                                |
+//+----------------------------------------------------------------------------+
+//|Description:  string tagel for word count                                   |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 21 Feb 2000
+// - added entry for machine match column
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFCNT01.SVR   1.2   04 Nov 1997 11:14:08   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFCNT01.SVR  $
+ *
+ *    Rev 1.2   04 Nov 1997 11:14:08   BUILD
+ * - added string table entries for replace match counting
+ *
+ *    Rev 1.1   11 Jun 1997 17:19:12   BUILD
+ * - added string table entries for TM match word counting
+ *
+ *    Rev 1.0   09 Jan 1996 10:04:54   BUILD
+ * Initial revision.
+*/
+/* Change Activity:                                                           */
+/*                                                                            */
+/* Code   Reason   Release  Date   Origin   Comments                          */
+/* ----   -------- -------- ------ ------ : --------------------------------- */
+/* $00    INITIAL  110      930806 DOE    :                                   */
+/* $1204  KIT1204  110      930806 DOE    :added defines for file inuse string*/
+//+----------------------------------------------------------------------------+
+
+
+STRINGTABLE
+BEGIN
+//--- word count dialog strings for error messages
+ SID_CNT01_MSG_TRANSLATION         STR_CNT01_MSG_TRANSLATION
+
+//--- word count dialog strings for document types
+ SID_CNT01_GML                     STR_CNT_GML
+
+//--- word count instance(=result) window, general
+ SID_CNT00_TITLE_ORIGINAL          STR_CNT00_TITLE_ORIGINAL
+ SID_CNT00_TITLE_TRANSLATION       STR_CNT00_TITLE_TRANSLATION
+ SID_CNT00_FOLDER_TEXT             STR_CNT00_FOLDER_TEXT
+ SID_CNT00_COUNTING_TEXT           STR_CNT00_COUNTING_TEXT
+ SID_CNT00_ERROR_TEXT              STR_CNT00_ERROR_TEXT
+ SID_CNT00_LOCKED_TEXT             STR_CNT00_LOCKED_TEXT             /*@1204A*/
+
+//--- word count instance(=result) window, column headers for count listbox
+ SID_CNT00_DOCUMENTS               STR_CNT00_DOCUMENTS
+ SID_CNT00_TOBE_TRANSLATED         STR_CNT00_TOBE_TRANSLATED
+ SID_CNT00_TRANSLATED              STR_CNT00_TRANSLATED
+ SID_CNT00_NL                      STR_CNT00_NL
+ SID_CNT00_MARKUP                  STR_CNT00_MARKUP
+ SID_CNT00_TOTAL                   STR_CNT00_TOTAL  //also used for summary line
+
+//--- strings for output file of word count
+ SID_CNT00_FILE_ERROR_LINE         STR_CNT00_FILE_ERROR_LINE
+ SID_CNT00_FILE_LOCKED_LINE        STR_CNT00_FILE_LOCKED_LINE        /*@1204A*/
+ SID_CNT00_FILE_SUM_TEXT           STR_CNT00_FILE_SUM_TEXT
+
+//--- colum headers for output file of word count /
+ SID_CNT00_FILE_ORIGINAL_GML       STR_CNT00_FILE_ORIGINAL_GML
+ SID_CNT00_FILE_TRANSLATION_GML    STR_CNT00_FILE_TRANSLATION_GML
+
+ SID_CNT_FILENAME_TEXT             STR_CNT_FILENAME_TEXT
+
+// strings for TM match word count
+#ifdef TOP97_MATCHCOUNT
+ SID_CNT00_FILE_TMMATCH_GML        STR_CNT00_FILE_TMMATCH_GML
+ SID_CNT00_TITLE_TMMATCHES         STR_CNT00_TITLE_TMMATCHES
+ SID_CNT00_FILE_TMREPLMATCH_GML    STR_CNT00_FILE_TMREPLMATCH_GML
+ SID_CNT00_EXACTEXACT              STR_CNT00_EXACTEXACT
+ SID_CNT00_EXACTONE                STR_CNT00_EXACTONE
+ SID_CNT00_EXACTMORE               STR_CNT00_EXACTMORE
+ SID_CNT00_FUZZY                   STR_CNT00_FUZZY
+ SID_CNT00_NOMATCH                 STR_CNT00_NOMATCH
+ SID_CNT00_NOINFO_TEXT             STR_CNT00_NOINFO_TEXT
+ SID_CNT00_FILE_NOINFO_LINE        STR_CNT00_FILE_NOINFO_LINE
+ SID_CNT00_REPL                    STR_CNT00_REPL
+ SID_CNT00_FUZZYREPL               STR_CNT00_FUZZYREPL
+ SID_CNT00_MACHMATCH               STR_CNT00_MACHMATCH
+#endif
+
+END

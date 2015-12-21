@@ -1,0 +1,273 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFMT.ID  Presentation Manager IDs for the EQF folder list window         |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 3 Nov 2004
+// GQ: - added IDs for additional FTP fields 
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 16 Jul 2004
+// GQ: - added IDs for ftp server fields of MT Job dialog
+// 
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.2 $ ----------- 10 Apr 2003
+// GQ: - Added IDs for subject order buttons
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.6 $ ----------- 6 Nov 2002
+// GQ: - added IDs for statistic tab page of MT job properties
+//
+//
+// $Revision: 1.5 $ ----------- 16 Oct 2002
+// GQ: - added IDs for controls of subject area preselect dialog
+//
+//
+// $Revision: 1.4 $ ----------- 9 Oct 2002
+// GQ: - Added ID for selected subject areas listbox and new checkboxes
+//
+//
+// $Revision: 1.3 $ ----------- 20 Sep 2002
+// GQ: - added additional MTProp IDs
+//
+//
+// $Revision: 1.2 $ ----------- 16 Sep 2002
+// GQ: - added IDs for new MT properties dialog
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFMT.IV_   1.1   14 Sep 1998 15:29:32   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFMT.IV_  $
+ *
+ *    Rev 1.1   14 Sep 1998 15:29:32   BUILD
+ * added LOGIN PB
+ *
+ *    Rev 1.0   25 Aug 1998 19:08:06   BUILD
+ * Initial revision.
+ *
+ *
+ *
+  +----------------------------------------------------------------------------+
+*/
+
+#define PID_MTLIST_LB            ID_MTLIST_WINDOW + 1
+
+
+#define SID_MT_DOC_COLTITLE      ID_MTLIST_WINDOW + 2
+#define SID_MT_STATUS_COLTITLE   ID_MTLIST_WINDOW + 3
+#define SID_MT_DATE_COLTITLE     ID_MTLIST_WINDOW + 4
+#define SID_MT_ENGINE_COLTITLE   ID_MTLIST_WINDOW + 5
+#define SID_MT_TITLE             ID_MTLIST_WINDOW + 6
+#define SID_MT_SOURCELANG_COLTITLE   ID_MTLIST_WINDOW + 7
+#define SID_MT_TARGETLANG_COLTITLE   ID_MTLIST_WINDOW + 8
+
+
+
+#define DID_MT_PROPERTY_DLG      ID_MT_PROPERTY_DLG
+#define SID_MT_PROPERTY_DLG      ID_MT_PROPERTY_DLG + 1
+#define SID_MT_ENGINE_GB         ID_MT_PROPERTY_DLG + 2
+#define DID_MT_ENGINE_GB         ID_MT_PROPERTY_DLG + 3
+#define SID_MT_ENGINE_CB         ID_MT_PROPERTY_DLG + 4
+#define DID_MT_ENGINE_TEXT       ID_MT_PROPERTY_DLG + 5
+#define DID_MT_ENGINE_CB         ID_MT_PROPERTY_DLG + 6
+#define SID_MT_MEMORY_GB         ID_MT_PROPERTY_DLG + 7
+#define DID_MT_MEMORY_GB         ID_MT_PROPERTY_DLG + 8
+#define SID_MT_MEMORY_CB         ID_MT_PROPERTY_DLG + 9
+#define DID_MT_MEMORY_TEXT       ID_MT_PROPERTY_DLG + 10
+#define DID_MT_MEMORY_CB         ID_MT_PROPERTY_DLG + 11
+#define SID_MT_SET_PB            ID_MT_PROPERTY_DLG + 12
+#define DID_MT_SET_PB            ID_MT_PROPERTY_DLG + 13
+#define SID_MT_CANCEL_PB         ID_MT_PROPERTY_DLG + 14
+#define DID_MT_CANCEL_PB         ID_MT_PROPERTY_DLG + 15
+#define SID_MT_HELP_PB           ID_MT_PROPERTY_DLG + 16
+#define DID_MT_HELP_PB           ID_MT_PROPERTY_DLG + 17
+#define SID_MT_SETTINGS_PB       ID_MT_PROPERTY_DLG + 18
+#define DID_MT_SETTINGS_PB       ID_MT_PROPERTY_DLG + 19
+// new elements for engine specific parameters
+#define SID_MT_MACHINE_CB        ID_MT_PROPERTY_DLG + 20
+#define DID_MT_MACHINE_TEXT      ID_MT_PROPERTY_DLG + 21
+#define DID_MT_MACHINE_CB        ID_MT_PROPERTY_DLG + 22
+#define SID_MT_PROFILE_CB        ID_MT_PROPERTY_DLG + 23
+#define DID_MT_PROFILE_TEXT      ID_MT_PROPERTY_DLG + 24
+#define DID_MT_PROFILE_CB        ID_MT_PROPERTY_DLG + 25
+#define DID_MT_USER_EF           ID_MT_PROPERTY_DLG + 26
+#define SID_MT_USER_EF           ID_MT_PROPERTY_DLG + 27
+#define DID_MT_PASS_EF           ID_MT_PROPERTY_DLG + 28
+#define SID_MT_PASS_EF           ID_MT_PROPERTY_DLG + 29
+#define DID_MT_USER_TEXT         ID_MT_PROPERTY_DLG + 30
+#define DID_MT_PASS_TEXT         ID_MT_PROPERTY_DLG + 31
+// LOGIN Push Button
+#define SID_MT_LOGIN_PB          ID_MT_PROPERTY_DLG + 32
+#define DID_MT_LOGIN_PB          ID_MT_PROPERTY_DLG + 33
+
+
+
+// new IDs for MT property dialog pages
+#define ID_MTPROP_TABCTRL       ID_MTPROP_DLG + 10
+#define ID_MTPROP_SUBJAREA_LB   ID_MTPROP_DLG + 20
+#define ID_MTPROP_WORDLIMIT_EF  ID_MTPROP_DLG + 22
+#define ID_MTPROP_SMALLFUZZY_EF ID_MTPROP_DLG + 24
+#define ID_MTPROP_MEDIUMFUZZY_EF ID_MTPROP_DLG + 26
+#define ID_MTPROP_LARGEFUZZY_EF ID_MTPROP_DLG + 28
+#define ID_MTPROP_MQSERVER_EF   ID_MTPROP_DLG + 30
+#define ID_MTPROP_QUEUEMGR_EF   ID_MTPROP_DLG + 32
+#define ID_MTPROP_INPQUEUE_EF   ID_MTPROP_DLG + 34
+#define ID_MTPROP_OUTQUEUE_EF   ID_MTPROP_DLG + 36
+#define ID_MTPROP_FOLDER_EF     ID_MTPROP_DLG + 38
+#define ID_MTPROP_SOURCELANG_EF ID_MTPROP_DLG + 40
+#define ID_MTPROP_TARGETLANG_EF ID_MTPROP_DLG + 42
+#define ID_MTPROP_EMAIL_EF      ID_MTPROP_DLG + 44
+#define ID_MTPROP_STATUS_EF     ID_MTPROP_DLG + 50
+#define ID_MTPROP_CREATED_EF    ID_MTPROP_DLG + 52
+#define ID_MTPROP_SEND_EF       ID_MTPROP_DLG + 54
+#define ID_MTPROP_TRANSLATED_EF ID_MTPROP_DLG + 56
+#define ID_MTPROP_RECEIVED_EF   ID_MTPROP_DLG + 58
+#define ID_MTPROP_MERGED_EF     ID_MTPROP_DLG + 60
+#define ID_MTPROP_SELSUBJAREA_LB ID_MTPROP_DLG + 62
+#define ID_MTPROP_WORDLIMIT_CHK   ID_MTPROP_DLG + 64
+#define ID_MTPROP_SMALLFUZZY_CHK  ID_MTPROP_DLG + 66
+#define ID_MTPROP_MEDIUMFUZZY_CHK ID_MTPROP_DLG + 68
+#define ID_MTPROP_LARGEFUZZY_CHK  ID_MTPROP_DLG + 70
+#define ID_MTPROP_WORDLIMIT_TEXT   ID_MTPROP_DLG + 71
+#define ID_MTPROP_SMALLFUZZY_TEXT  ID_MTPROP_DLG + 72
+#define ID_MTPROP_MEDIUMFUZZY_TEXT ID_MTPROP_DLG + 73
+#define ID_MTPROP_LARGEFUZZY_TEXT  ID_MTPROP_DLG + 74
+#define ID_MTPROP_WORDLIMIT2_TEXT   ID_MTPROP_DLG + 75
+#define ID_MTPROP_SMALLFUZZY2_TEXT  ID_MTPROP_DLG + 76
+#define ID_MTPROP_MEDIUMFUZZY2_TEXT ID_MTPROP_DLG + 77
+#define ID_MTPROP_LARGEFUZZY2_TEXT  ID_MTPROP_DLG + 78
+#define ID_MTPROP_CHANGESUBJECT_PB  ID_MTPROP_DLG + 79
+#define ID_MTPROP_AVAILSUBJECT_TREE ID_MTPROP_DLG + 80
+#define ID_MTPROP_SELECTSUBJECT_LB  ID_MTPROP_DLG + 81
+#define ID_MTPROP_COPYSUBJECT_PB    ID_MTPROP_DLG + 82
+#define ID_MTPROP_REMOVESUBJECT_PB  ID_MTPROP_DLG + 83
+#define ID_MTPROP_NOSUBJECT_TEXT    ID_MTPROP_DLG + 84
+#define ID_MTPROP_NUMOFWORDS_EF     ID_MTPROP_DLG + 85
+
+#define ID_MTPROP_SUBJECTTOP_PB     ID_MTPROP_DLG + 86
+#define ID_MTPROP_SUBJECTUP_PB      ID_MTPROP_DLG + 87
+#define ID_MTPROP_SUBJECTDN_PB      ID_MTPROP_DLG + 88
+#define ID_MTPROP_SUBJECTBOT_PB     ID_MTPROP_DLG + 89
+
+#define ID_MTPROP_MQS_RB            ID_MTPROP_DLG + 90
+#define ID_MTPROP_FTP_RB            ID_MTPROP_DLG + 91
+#define ID_MTPROP_FTPSERVER_EF      ID_MTPROP_DLG + 92
+#define ID_MTPROP_FTPUSER_EF        ID_MTPROP_DLG + 93
+#define ID_MTPROP_FTPPASSWORD_EF    ID_MTPROP_DLG + 94
+
+#define ID_MTPROP_FTPPORT_EF         ID_MTPROP_DLG + 95
+#define ID_MTPROP_FTPDIRECTACCESS_RB ID_MTPROP_DLG + 96
+#define ID_MTPROP_FTPSOCKSPROXY_RB   ID_MTPROP_DLG + 97
+#define ID_MTPROP_FTPPROXY_RB        ID_MTPROP_DLG + 98 
+#define ID_MTPROP_FTPPASSIVEMODE_CHK ID_MTPROP_DLG + 99
+#define ID_MTPROP_FTPPROXYADDRESS    ID_MTPROP_DLG + 100
+#define ID_MTPROP_FTPPROXYPORT       ID_MTPROP_DLG + 101 
+
+

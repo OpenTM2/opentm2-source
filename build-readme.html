@@ -1,0 +1,844 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.1  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Gerhard Queck">
+	<META NAME="CHANGED" CONTENT="20130424;13510600">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin: 2cm }
+		TD P { margin-bottom: 0cm }
+		H1 { margin-bottom: 0.21cm }
+		H1.western { font-family: "Arial", sans-serif; font-size: 16pt }
+		H1.cjk { font-family: "Lucida Sans Unicode"; font-size: 16pt }
+		H1.ctl { font-family: "Tahoma"; font-size: 16pt }
+		P { margin-bottom: 0.21cm }
+		H2 { margin-bottom: 0.21cm }
+		H2.western { font-family: "Arial", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-family: "SimSun"; font-size: 14pt; font-style: italic }
+		H2.ctl { font-family: "Mangal"; font-size: 14pt; font-style: italic }
+		PRE.cjk { font-family: "NSimSun", monospace }
+		A:link { so-language: zxx }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1 CLASS="western"><FONT FACE="Arial, sans-serif">Build instructions
+for OpenTM2</FONT></H1>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">
+Copyright (C) 1990-2014, International Business Machines Corporation and
+others. All rights reserved</FONT></P>
+<H2 CLASS="western"><FONT FACE="Arial, sans-serif">Prerequisites</FONT></H2>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Operating
+system:</B></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Windows
+Win7 (32bit or 64bit) or Windows XP.</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Compiler:</B></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Microsoft
+Visual Studio 2010 Professional (or Visual Studio 2003 or higher)</FONT></P>
+<P STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Note</B>:
+The Express Versions of Visual Studio can't be used as OpenTM2 uses
+the Microsoft Foundation Classes which are not contained in the
+Express versions</FONT></P>
+<P STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Windows
+SDK:</B> </FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Windows
+SDK 7 (32bit) or Windows SDK 6 (32bit)</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Installer</B></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Nullsoft
+Installer with the FindProcDll plugin (download site:
+http://nsis.sourceforge.net/Download)</FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Ensure
+that the <B>BIN</B> directories of the compiler, the SDK, and
+Nullsoft installer are contained in your PATH environment variable </FONT>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif"><B>Other
+Packages</B></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Download
+and unpack the following packages:</FONT></P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Axis2/C
+	(download URL http://ws.apache.org/axis2/c/download.cgi)</FONT></P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">ICU
+	(download URL
+	http://site.icu-project.org/download/50#TOC-ICU4C-Download)</FONT></P>
+	<LI><P STYLE="margin-bottom: 0cm"><FONT FACE="Arial, sans-serif">Hunspell
+	(download URL
+	http://downloads.sourceforge.net/hunspell/hunspell-1.3.2.tar.gz)</FONT></P>
+</UL>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><BR>
+</P>
+<H2 CLASS="western">Preparation:</H2>
+<PRE CLASS="western" STYLE="margin-bottom: 0.5cm"><FONT FACE="Arial, sans-serif">Adjust <B>MYCONFIG.BAT</B> to your environment and directory layout. At least the following settings have to be adjusted to your environment:</FONT></PRE>
+<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=64*>
+	<COL WIDTH=107*>
+	<COL WIDTH=85*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Name</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Description </B></FONT></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>initial Value</B></FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_DRIVE</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The drive on your
+			OpenTM2 source files are located</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>E:</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_DEVDIR</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The name of root
+			directory of the OpenTM2 source files </FONT></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFDOTM</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_COMP</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The drive your
+			compiler and SDK has installed to</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>C:</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_NSISMAKE_EXE</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The fully qualified
+			name of the executable of the NULLSOFT software installer</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>C:</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_ICU_INCL</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the ICU include files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>C:\OpenTM2Dev\icu\include</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_HUNSPELL_INCL</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the Hunspell include files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>E:\OpenTM2Dev\hunspell\hunspell-1.3.2\src</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>HUNSPELLLIBDIR</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the hunspell libraries libhunspell.lib and
+			libhunspelld.lib</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>%_DRIVE%\%_DEVDIR%\packages\lib</FONT></FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<PRE CLASS="western" STYLE="margin-bottom: 0.5cm"><FONT FACE="Arial, sans-serif">When you did not install VisualStudio using the default installation directories or when you use a different version of Visual Studio you have to adjust these settings as well:</FONT></PRE>
+<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=64*>
+	<COL WIDTH=192*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Name</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Description </B></FONT></FONT>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_windowssdk</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Root directory of
+			installed Windows SDK</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>vclib</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Visual Studio and
+			WIndows SDL lib directories</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>vcinclude</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Visual Studio and
+			Windows SDK include directories</FONT></FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<PRE CLASS="western"> 
+<FONT FACE="Arial, sans-serif">The directory structure of OpenTM2 inside the root directory is also controlled using entries in the SETVAR file</FONT></PRE>
+<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=64*>
+	<COL WIDTH=107*>
+	<COL WIDTH=85*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Name</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Description </B></FONT></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>initial Value</B></FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>RELEASE_DIR</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory which
+			receives the release files during build</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>RELEASE</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>SCRIPTERGUI_DIR</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the source for the OpenTM2 Scripter GUI.</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>OPENTM2_TESTSUITE</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>SAMPLEDATADIR</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the sample data files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>SAMPLEDATA</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFTABLES</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the markup tables and other control tables </FONT></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFTABLES</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>IBMTABLES</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the markup tables of the IBM package</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>IBMTABLES</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>IBMTABLESBIN</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The directory
+			containing the binaries of the IBM package markup tables</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>IBMTABLESBIN</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>PACKAGESBIN</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Binaries of
+			packages used by OpenTM2 (e.g. Xalan-C, Xerces-C)</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>PACKAGES\BIN</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>PACKAGESLIB</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Link libraries of
+			packages used by OpenTM2</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>PACKAGES\LIB</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>PACKAGESINCLUDE</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Include files of
+			packages used by OpenTM2</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>PACKAGES\INCLUDE</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_BINWIN</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Directory for
+			created executables</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BIN</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_BINWINCV</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Directory for the
+			debug version of created executables</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BIN-Debug</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_DLLWIN</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Directory for
+			created DLLs</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BIN</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_DLLWINCV</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Directory for debug
+			version of created DLLS</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BIN-Debug</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_OBJWIN</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Created object
+			modules</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>OBJ</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_OBJWINCV</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Debug version of
+			created object modules</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>OBJ-Debug</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_BLD</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Makefiles and
+			module definition files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BUILD</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_MRI</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Translatable
+			material, e.g. dialog templates, string resources</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>MRI</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_MSG</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Receives the
+			created MSG file</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>MSG</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_SRC</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Directory for
+			source files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>SOURCE</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_INC</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Directory for
+			include files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>INLCUDE</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_TEMP</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>For temporary files
+			</FONT></FONT>
+			</P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>TEMP</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>_MAP</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=42%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>For link map files</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=33%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>MAPWIN</FONT></FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<H1 CLASS="western">Building OpenTM2</H1>
+<P>Note that the new OpenTM2 Scripter GUI is not built automatically
+by the following 2 scenarios. Since the GUI was created as an Eclipse
+project, you currently have to set up your Eclipse environment and
+build the jar-file for the GUI from that environment. Refer to
+<A HREF="#Building the OpenTM2 Scripter GUI|outline">Building the
+OpenTM2 Scripter GUI</A> for further instructions.</P>
+<H2 CLASS="western">Build from the command line</H2>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">Run SETVAR.BAT</P>
+	<LI><P STYLE="margin-bottom: 0cm">Run VSVARS32.BAT</P>
+	<LI><P STYLE="margin-bottom: 0cm">Run M.BAT.with MASTER as parameter
+	to do a complete build</P>
+</UL>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Per default M.BAT builds the non-debug
+version, specify DEB as second parameter to build a debug version of
+OpenTM2.You are free to run the makefile using any script language or
+build tool.</P>
+<P>The build compiles all source files and copies the created
+binaries, the sample files and the tables into the OTM directory
+inside the RELEASE directory and runs the Nullsoft installer to
+create the install package OpenTM2-v.r.m-Setup.EXE (v.r.m = current
+version, release and modification as defined in the install script;
+e.g. 0.0.5).</P>
+<H2 CLASS="western">Build from Visual Studio</H2>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">Run SETVAR.BAT</P>
+	<LI><P STYLE="margin-bottom: 0cm">Run VSVARS32.BAT</P>
+</UL>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">Start Visual Studio Workbench
+	(DEVENV.EXE) 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Create a new workspace
+	project,Type = MAKEFILE</P>
+	<LI><P STYLE="margin-bottom: 0cm">as Build command use &quot;m.bat
+	master&quot;</P>
+	<LI><P STYLE="margin-bottom: 0cm">Build the project in the workspace</P>
+</UL>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<H2 CLASS="western">Makefiles used in OpenTM2 build (Note: this
+section is no up-to-date and requires rework)</H2>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=64*>
+	<COL WIDTH=192*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Name</B></FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Description </B></FONT></FONT>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>MASTER.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Includes all other
+			makefiles</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFLIB.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the link
+			libraries EQF_API.LIB, EQFRPXML.LIB, and EQFTAML.LIB</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFDLL.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			EQFDLL.DLL and the EQFDLL.LIB</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQF_API.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			EQF_API.DLL and the EQF_API.LIB, deletes the EQFDLL.LIB</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFDLL-RELINK.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Re-links
+			EQFDLL.DLL, required to correctly link to EQF_API:LIB</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>OPENTM2.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			OpenTM2.EXE executable</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFRES.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the
+			EQFRES.DLL containing the string tables and the dialog templates</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFFUNC.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			EQFFUNC.DLL forming the API for OpenTM2 functionality</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFMSG.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			EQFMSG.EXE tool which extracts the messages texts from the file
+			EQFMSG.H</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFMONUL.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			EQFMONUL.DLL, the dummy morphological exit of openTM2</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFRPXML.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the
+			EQFRPXML.DLL containing the report creation code</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFTAML.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the
+			EQFTAML.DLL containing ananlysis functions requiring CPP code</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFHTML</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the user exit
+			for the EQFHTML markup</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFBMRI.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the user exit
+			for the EQFMRI markups</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQF_RTF.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the user exit
+			for the EQFRTF markup</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFQUOT,MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the user
+			exit for the quote related markups</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFTMXIE.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the
+			EQFTMXIE.DLL containing the TMX import an export code</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFITM.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Build the ITM tool
+			and the related DLL</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>STANDARD.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the
+			interface of the STANDARD editor</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>EQFMKMSG.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the resource
+			DLL containing the text for the messages</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>OpenTM2Cmd.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the
+			OpenTM2Cmd tool.</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>OpenTM2Scripter.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Builds the
+			OpenTM2Scripter tool.</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=25%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>BUILDRELEASE.MAK</FONT></FONT></P>
+		</TD>
+		<TD WIDTH=75%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Collects the build
+			binaries, the sample files and the tables and creates OpenTM2
+			install package</FONT></FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><BR>
+</P>
+<H2 CLASS="western"><A NAME="__RefHeading__1_161463046"></A><A NAME="Building the OpenTM2 Scripter GUI|outline"></A>
+Building the OpenTM2 Scripter GUI</H2>
+<P><B>Prerequisites:</B> 
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">you are familiar with the usage of
+	the Eclipse IDE 
+	</P>
+	<LI><P>a Java runtime environment (JRE) must be installed, e.g.
+	JavaSE-1.6. 
+	</P>
+</UL>
+<P><BR><B>Step 1:</B> <BR>Check-out the sources from SVN into your
+Eclipse workspace. This creates the directory <I><B>OpenTM2_TestSuite</B></I>
+directly under the trunk directory. <BR><BR><B>Step 2:</B> <BR>Switch
+to the Java perspective, select the directory <I><B>OpenTM2_TestSuite</B></I>
+and use the context-menu to create a new Java project. In the
+following wizard settings: 
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">leave the field &ldquo;Project
+	name&rdquo; empty (will be filled in automatically) 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">uncheck the checkbox &ldquo;Use
+	default location&rdquo; and select the directory <I><B>OpenTM2_TestSuite</B></I>
+	in your workspace (e.g.
+	&ldquo;d:\workspace\opentm2\trunk\OpenTM2_TestSuite&rdquo;) 
+	</P>
+	<LI><P>use the button &ldquo;Finish&rdquo; to save 
+	</P>
+</UL>
+<P><BR><B>Step 3:</B> <BR>Open the Run configurations dialog from the
+&ldquo;Run as&rdquo; item in the context-menu. Double-click on &ldquo;Java
+application&rdquo;and select the main type &ldquo;Main &ndash;
+de.ibm.com.opentm2testsuite.gui&rdquo; (should be selected already).
+<BR><BR><B>Step 4:</B> <BR>Export the project as a &ldquo;Runnable
+JAR file&rdquo;: 
+</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm">Launch configuration: &ldquo;Main
+	&ndash; OpenTM2_TestSuite&rdquo; 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Export destination: navigate to
+	the <I><B>OpenTM2_TestSuite</B></I> directory (see above), for the
+	file name use &ldquo;OpenTM2ScripterGUI.jar&rdquo; 
+	</P>
+	<LI><P STYLE="margin-bottom: 0cm">Library handling: select the
+	second choice &ldquo;Package required libraries into generated JAR&rdquo;
+	(this will add the JDOM JAR-file to our JAR) 
+	</P>
+	<LI><P>use the button &ldquo;Finish&rdquo; to save 
+	</P>
+</UL>
+</BODY>
+</HTML>

@@ -1,0 +1,169 @@
+****************************************************************************************************
+** Script name...: BASEAPITEST.script                                                             **
+** Purpose.......: Script doing a base test for all availabale API calls                          **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: December 1, 2014                                                               **
+** Update........: February 26, 2015                                                               **
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+TESTCASE BASEAPITEST001,Create a local memory using EqfCreateMem
+  EqfDeleteMem BASEAPITEST001
+  EqfCreateMem BASEAPITEST001, , , English(U.S.), 
+  TESTRESULT 0, EqfCreateMem for Local Memory failed
+  EqfDeleteMem BASEAPITEST001
+  TESTRESULT 0, Did not find the created memory
+End
+
+TESTCASE BASEAPITEST002,Create a shared memory using EqfCreateMem
+  EqfDeleteMem BASEAPITEST002
+  EqfCreateMem BASEAPITEST002, , , English(U.S.), SHARED_OPT
+  TESTRESULT 0, EqfCreateMem for Shared Memory failed
+  EqfDeleteMem BASEAPITEST002
+  TESTRESULT 0, Did not find the created memory
+End
+
+TESTCASE BASEAPITEST003,Import/export of a memory using EXP format (EqfImportMem/EqfExportMem)
+  EqfDeleteMem BASEAPITEST003
+  DeleteFile %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST003-OUT.EXP
+  EqfCreateMem BASEAPITEST003, , , English(U.S.)
+  TESTRESULT 0, EqfCreateMem for Local Memory failed
+  EqfImportMem BASEAPITEST003, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST003.EXP,UTF16_OPT
+  TESTRESULT 0, EqfImportMem (EXP) failed
+  EqfExportMem BASEAPITEST003, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST003-OUT.EXP,UTF16_OPT
+  TESTRESULT 0, EqfExportMem (EXP) failed
+  COMPAREBINARY %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST003-OUT.EXP,%TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST003.EXP
+  TESTRESULT 0, Exported memory is different from import memory
+  EqfDeleteMem BASEAPITEST003
+  DeleteFile %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST003-OUT.EXP
+End
+
+TESTCASE BASEAPITEST004,Import/export of a memory using TMX format (EqfImportMem/EqfExportMem)
+  EqfDeleteMem BASEAPITEST004
+  DeleteFile %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST004-OUT.TMX
+  EqfCreateMem BASEAPITEST004, , , English(U.S.)
+  TESTRESULT 0, EqfCreateMem for Local Memory failed
+  EqfImportMem BASEAPITEST004, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST004.TMX, TMX_OPT
+  TESTRESULT 0, EqfImportMem (TMX) failed
+  EqfExportMem BASEAPITEST004, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST004-OUT.TMX, TMX_UTF16_OPT
+  TESTRESULT 0, EqfExportMem (TMX) failed
+  COMPAREBINARY %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST004-OUT.TMX,%TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST004.TMX
+  TESTRESULT 0, Exported memory is different from import memory
+  DeleteFile %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST004-OUT.EXP
+  EqfDeleteMem BASEAPITEST004
+End
+
+TESTCASE BASEAPITEST005,Organize a memory using EqfOrganizeMem
+  EqfDeleteMem BASEAPITEST005
+  EqfCreateMem BASEAPITEST005, , , English(U.S.)
+  TESTRESULT 0, EqfCreateMem for Local Memory failed
+  EqfImportMem BASEAPITEST005, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST005.EXP,UTF16_OPT
+  TESTRESULT 0, EqfImportMem (EXP) failed
+  EqfOrganizeMem BASEAPITEST005
+  TESTRESULT 0, EqfOrganizeMem failed
+  EqfDeleteMem BASEAPITEST005
+End
+
+TESTCASE BASEAPITEST006,Check if a memory exists using EqfMemoryExists
+  EqfDeleteMem BASEAPITEST006
+  EqfMemoryExists BASEAPITEST006
+  TESTRESULT 133, wrong return code for not existing memory
+  EqfCreateMem BASEAPITEST006, , , English(U.S.)
+  TESTRESULT 0, EqfCreateMem for Local Memory failed
+  EqfMemoryExists BASEAPITEST006
+  TESTRESULT 0, wrong return code for existing memory
+  EqfDeleteMem BASEAPITEST006
+End
+
+TESTCASE BASEAPITEST007, Change the machine translation flag using EqfChangeMFlag
+  EqfDeleteMem BASEAPITEST007
+  EqfCreateMem BASEAPITEST007, , , English(U.S.)
+  TESTRESULT 0, EqfCreateMem of test memory failed
+  EqfImportMem BASEAPITEST007, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007.EXP, UTF16_OPT
+  TESTRESULT 0, EqfImportMem failed
+  EqfChangeMFlag BASEAPITEST007, CLEAR_MMOPT
+  TESTRESULT 0, EqfChangeMFlag with CLEAR option failed
+  EqfExportMem BASEAPITEST007, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-OUT.EXP, (UTF16_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfExportMem after change M-FLag failed
+  COMPAREBINARY %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-OUT.EXP,%TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-CL-REF.EXP
+  TESTRESULT 0, Exported memory with cleared MT flag is different from reference memory
+  DeleteFile %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-OUT.EXP
+  EqfImportMem BASEAPITEST007, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007.EXP, UTF16_OPT
+  TESTRESULT 0, EqfImportMem failed
+  EqfChangeMFlag BASEAPITEST007, SET_MMOPT
+  TESTRESULT 0, EqfChangeMFlag with SET option failed
+  EqfExportMem BASEAPITEST007, %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-OUT.EXP,(UTF16_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfExportMem failed
+  COMPAREBINARY %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-OUT.EXP,%TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-SET-REF.EXP
+  TESTRESULT 0, Exported memory with set MT flag is different from reference memory
+  DeleteFile %TESTDATALOCATION%\GENERAL\BASEAPITEST\BASEAPITEST007-OUT.EXP
+  EqfDeleteMem BASEAPITEST007
+End
+
+* To Be Done: Add test cases for the following API calls
+* EqfCleanMemory
+* EqfCreateITM
+* EqfArchiveTM
+* EqfClearMTFlag
+* EqfCreateFolder
+* EqfCreateControlledFolder
+* EqfChangeFolProps
+* EqfChangeFolPropsEx
+* EqfCreateSubFolder
+* EqfExportFolder
+* EqfExportFolderFP
+* EqfExportFolderFPas
+* EqfCountWords
+* EqfImportDict
+* EqfExportDict
+* EqfImportDoc
+* EqfAnalyzeDoc
+* EqfAnalyzeDocEx
+* EqfImportFolder
+* EqfImportFolderFP
+* EqfDeleteFolder
+* EqfGetFolderProp
+* EqfDeleteDoc
+* EqfCreateCountReport
+* EqfCreateMarkup
+* EqfGetLastError
+* EqfCreateCntReport
+* EqfLoadSegFile
+* EqfGetSegNum
+* EqfFreeSegFile
+* EqfWriteSegFile
+* EqfGetSegW
+* EqfUpdateSegW
+* EqfBuildSegDocName
+* EqfSetSysLanguage
+* EqfGetSysLanguage
+* EqfGetProgress
+* EqfBuildSegDocName
+* EqfGetSourceLine
+* EqfGetSegmentNumber
+* EqfGetMatchLevel
+* EqfSimpleGetMatchLevel
+* EqfRename
+* EqfProcessNomatch
+* EqfProcessNomatchEx
+* EqfOpenDoc
+* EqfOpenDocEx
+* EqfDeleteMTLog
+* EqfGetShortName
+* EqfRemoveDocs
+* EqfRestoreDocs
+* EqfAddCTIDList
+* EqfExportSegs
+* EqfFolderExists
+* EqfDictionaryExists
+* EqfDocumentExists2EqfCountWordsInString
+* EqfCheckSpelling
+* EqfReduceToStemForm
+* EqfFilterNoMatchFile
+

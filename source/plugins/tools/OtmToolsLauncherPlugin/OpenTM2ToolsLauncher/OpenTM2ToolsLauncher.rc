@@ -1,0 +1,766 @@
+/*! \file
+	Copyright Notice:
+
+	Copyright (C) 1990-2015, International Business Machines
+	Corporation and others. All rights reserved
+*/
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+#include "verrsrc.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "#include ""verrsrc.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#include ""res\\OpenTM2ToolsLauncher.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""      // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\OpenTM2ToolsLauncher.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About OpenTM2ToolsLauncher"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "OpenTM2ToolsLauncher, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2015",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_OPENTM2TOOLSLAUNCHER_DIALOG DIALOGEX 0, 0, 568, 369
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "OpenTM2ToolsLauncher"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Exit",IDEXIT,17,354,50,14
+    PUSHBUTTON      "Help",IDHELP,75,354,50,14
+    CONTROL         "",IDC_TAB_TOOLLAUNCHER,"SysTabControl32",0x0,17,24,531,315
+    GROUPBOX        "Tool Info Management",IDC_STATIC,4,7,556,338
+END
+
+IDD_DLG_TOOLLAUNCHER DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Frequently used tools to display in tabs",IDC_STATIC,14,7,500,199
+    LISTBOX         IDC_LIST_TOTAL,29,34,215,153,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_SELECTED,286,36,209,148,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Available Tools",IDC_STATIC,81,20,67,8
+    LTEXT           "Selected tools",IDC_STATIC,361,23,68,8
+    GROUPBOX        "Run GUI Apps",IDC_STATIC,15,211,494,63
+    PUSHBUTTON      "OpenTM2ScripterGUI",IDC_BUTTON_OPENTM2SCRIPTERGUI,34,226,104,14
+    PUSHBUTTON      "OtmItm",IDC_BUTTONOTMITM,33,244,104,14,NOT WS_VISIBLE
+    PUSHBUTTON      "<--",IDC_BUTTON_UNSELECT,255,78,23,14
+    PUSHBUTTON      "-->",IDC_BUTTON_SELECT,255,95,23,14
+    PUSHBUTTON      "Select All",IDC_BUTTON_SELECALL,35,190,46,13
+    PUSHBUTTON      "Select All",IDC_BUTTON_REMOVEALL,443,189,49,12
+END
+
+IDD_DLG_ADL DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmAdl - OpenTM2 drive letter adjuster",IDC_STATIC,25,17,484,150
+    GROUPBOX        "Log Window",IDC_STATIC,26,180,481,113
+    LTEXT           "/MEM",IDC_STATIC,37,38,81,8
+    LTEXT           "/FOL",IDC_STATIC,37,71,81,8
+    LTEXT           "/DIC",IDC_STATIC,39,106,81,8
+    LTEXT           "the short or long memory name",IDC_STATIC,37,49,126,8
+    LTEXT           "the short or long folder name",IDC_STATIC,37,81,105,8
+    LTEXT           "the short or long dictionary name",IDC_STATIC,39,115,116,8
+    CONTROL         "",IDC_CHECK_ADL_FOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,72,16,10
+    CONTROL         "",IDC_ADL_CHECK_DIC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,108,16,10
+    CONTROL         "",IDC_CHECK_ADL_MEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,39,16,10
+    EDITTEXT        IDC_ADL_EDIT_FOL,239,69,220,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ADL_EDIT_MEM,239,36,220,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ADL_EDIT_DICT,239,102,219,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Run",IDC_BUTTON_ADL_RUN,37,144,50,14
+    LISTBOX         IDC_LIST_LOG,32,190,471,100,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_DLG_CHANGEFXP DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmChangeFxp - Folder type changer",IDC_STATIC,25,17,484,173
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "folderfile",IDC_STATIC,37,32,81,8
+    LTEXT           "/TYPE",IDC_STATIC,36,66,81,8
+    LTEXT           "/PW",IDC_STATIC,35,94,81,8
+    LTEXT           "the fully qualified name of an exported folder",IDC_STATIC,35,43,195,11
+    LTEXT           "the new type of the folder",IDC_STATIC,34,76,150,11
+    LTEXT           "the shipment number for the documents in the folder. is associated with all document in the folder,in the range from 1 to 999 ",IDC_STATIC,31,147,190,23
+    CONTROL         "",IDC_CHANGEFXP_CHECK_TYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,240,65,16,10
+    CONTROL         "",IDC_CHANGEFXP_CHECK_PW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,239,93,16,10
+    EDITTEXT        IDC_CHANGEFXP_EDIT_FOLDERFILE,269,31,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_FOLDERFILE,456,32,50,14
+    PUSHBUTTON      "Run",IDC_CHANGEFXP_BUTTON_RUN,34,175,50,14
+    LTEXT           "/SHIP ",IDC_STATIC,33,138,81,8
+    LTEXT           "the (new) password for the folder. This option has to be specified when the type of the folder is changed to MASTER or CHILD  ",IDC_STATIC,33,105,193,27
+    CONTROL         "",IDC_CHANGEFXP_CHECK_SHIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,239,138,16,10
+    COMBOBOX        IDC_CHANGEFXPCOMBO_TYPE,269,64,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_CHANGEFXP_EDIT_PW,269,91,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHANgeFXP_EDIT_SHIP,268,134,174,14,ES_AUTOHSCROLL
+END
+
+IDD_DLG_CHKCALC DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmChkCalc - History log data checker",IDC_STATIC,25,17,484,150
+    GROUPBOX        "Log Window",IDC_STATIC,26,180,481,113
+    LTEXT           "/FLD",IDC_STATIC,37,38,81,8
+    LTEXT           "/FXP ",IDC_STATIC,36,67,81,8
+    LTEXT           "/HLOG",IDC_STATIC,34,98,81,8
+    LTEXT           "the name of a OpenTM2 folder (w/o path and ext)",IDC_STATIC,37,47,116,18
+    LTEXT           "the fully qualified name of an exported OpenTM2 folder",IDC_STATIC,35,77,117,17
+    LTEXT           "the fully qualified history log file name",IDC_STATIC,33,105,116,18
+    CONTROL         "",IDC_CHECK_CHK_FXP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,199,70,16,10
+    CONTROL         "",IDC_CHECK_CHK_HLOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,199,98,16,10
+    CONTROL         "",IDC_CHECK_CHK_FLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,199,38,16,10
+    EDITTEXT        IDC_CHK_EDIT_FXP,239,69,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHK_EDIT_FLD,239,36,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CHK_EDIT_HLOG,239,98,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_CHK_FLD,425,37,50,14,NOT WS_VISIBLE
+    PUSHBUTTON      "Search",IDC_BUTTON_CHK_FXP,425,70,50,14
+    PUSHBUTTON      "Search",IDC_BUTTON_CHK_HLOG,426,97,50,14
+    PUSHBUTTON      "Run",IDC_BUTTON_CHKCALC_RUN,35,151,50,14
+    LISTBOX         IDC_LIST_LOG,32,190,471,100,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "/ALL",IDC_STATIC,33,127,81,8
+    LTEXT           "check all installed folders",IDC_STATIC,35,134,116,8
+    CONTROL         "",IDC_CHECK_CHK_ALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,199,126,16,10
+END
+
+IDD_DLG_CARETEITMFROMMEMORY DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmCreateITMFromMemory - Create source-source memory",IDC_STATIC,25,17,484,173
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "/IN",IDC_STATIC,37,32,81,8
+    LTEXT           "the name of an existing memory (already imported into OpenTM2)",IDC_STATIC,35,43,195,20
+    EDITTEXT        IDC_CITMFM_EDIT_IN,270,42,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Run",IDC_CITMFM_BUTTON_RUN,33,170,50,14
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/OUT",IDC_STATIC,35,95,81,8
+    LTEXT           "the name of a new output memory (created as internal OpenTM2 memory)",IDC_STATIC,34,107,195,23
+    EDITTEXT        IDC_CITMFM_EDIT_OUT,270,94,174,14,ES_AUTOHSCROLL
+END
+
+IDD_DLG_MTEVAL DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmMtEval - MT Log evaluation tool",-1,25,17,484,150
+    GROUPBOX        "Log Window",-1,26,180,481,113
+    LTEXT           "filespec",-1,37,38,81,8
+    LTEXT           "outfile.xml",-1,35,82,81,8
+    LTEXT           "long folder name or short folder name with a .F00 extension or directory containing exported folders",-1,37,47,158,25
+    LTEXT           "the fully qualified name of the output file",-1,35,90,143,17
+    CONTROL         "",IDC_CHECK_MTEVAL_OUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,198,76,16,10
+    EDITTEXT        IDC_MTEVAL_EDIT_OUTFILE,239,74,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MTEVAL_EDIT_FSP,239,36,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_MTEVAL_FILESPEC,425,35,50,14
+    PUSHBUTTON      "Search",IDC_BUTTON_MTEVAL_OUTFILE,426,74,50,14
+    PUSHBUTTON      "Run",IDC_BUTTON_MTEVAL_RUN,35,151,50,14
+    LISTBOX         IDC_LIST_LOG,32,190,471,100,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "/details ",-1,34,119,81,8
+    LTEXT           "activates the output of the segment detail information",-1,35,127,157,19
+    CONTROL         "",IDC_CHECK_MTEVAL_DETAILS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,123,16,10
+END
+
+IDD_DLG_TMXSPLITSEGMENTS DIALOGEX 0, 0, 530, 306
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "TMXSplitSegments - TMX segment splitter",IDC_STATIC,25,17,484,183
+    GROUPBOX        "Log Window",IDC_STATIC,24,210,484,81
+    LTEXT           "inputmem",IDC_STATIC,37,32,81,8
+    LTEXT           "outputmem   ",IDC_STATIC,37,60,81,8
+    LTEXT           "/LOGS",IDC_STATIC,33,86,81,8
+    LTEXT           "fully qualified name of the TMX input memory",IDC_STATIC,35,43,195,11
+    LTEXT           "fully qualified name of the TMX output memory",IDC_STATIC,36,68,150,11
+    EDITTEXT        IDC_TMXSPLITSEG_EDIT_INMEM,269,31,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_TMSPLITSEG_INMEM,456,32,50,14
+    PUSHBUTTON      "Run",IDC_TMXSPLITSEG_BUTTON_RUN,41,183,50,14
+    LISTBOX         IDC_LIST_LOG,28,220,473,66,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "allows to select which log files should be produced \n E to create seperate error log file \nW to create seperate warnings log file \n A to create combined error/warning log file  ",IDC_STATIC,32,95,193,37
+    LTEXT           "/log ",IDC_STATIC,33,134,81,8
+    LTEXT           "the fully qualified name for the log file. If not specified a log file, named TmxSplitSegments.LOG is written to the current directory. To switch off logging specify ""OFF"" as logfile name",IDC_STATIC,31,145,190,33
+    CONTROL         "",IDC_TMXSPLITSEG_CHECK_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,236,132,16,10
+    EDITTEXT        IDC_EDIT_TMXSPLITSEG_LOG,269,131,174,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_TMXSPLITSEG_LOGS,269,86,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_TMXSPLITSEG_OUTMEM,269,58,174,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_TMXSPLITSEG_CHECK_LOGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,235,86,16,10
+    CONTROL         "",IDC_TMXSPLITSEG_CHECK_OUTPUTMEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,235,61,16,10
+    PUSHBUTTON      "Search",IDC_BUTTON_TMSSPLITSEG_OUTMEM,456,56,50,14
+END
+
+IDD_DLG_EXP2TMX DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmExp2Tmx - EXP to TMX convertor",IDC_STATIC,25,17,484,171
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "/INPUTMEM",IDC_STATIC,37,32,81,8
+    LTEXT           "/OUTPUTMEM",IDC_STATIC,35,60,81,8
+    LTEXT           "/INMODE ",IDC_STATIC,33,89,81,8
+    LTEXT           "the fully qualified name of the input memory",IDC_STATIC,35,43,195,11
+    LTEXT           "the fully qualified name of the output memory",IDC_STATIC,33,70,150,11
+    LTEXT           "selects the output format of the TMX memory",IDC_STATIC,31,137,169,12
+    CONTROL         "",IDC_EXP2TMX_CHECK_OUTMEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,240,65,16,10
+    CONTROL         "",IDC_EXP2TMX_CHECK_INMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,239,93,16,10
+    EDITTEXT        IDC_EXP2TMX_EDIT_OUTMEM,270,64,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EXP2TMX_EDIT_INMEM,269,31,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_INMEM,456,32,50,14
+    PUSHBUTTON      "Search",IDC_BUTTON_OUTMEM,455,63,50,14
+    PUSHBUTTON      "Run",IDC_EXP2TMX_BUTTON_RUN,37,173,50,14
+    LTEXT           "/OUTMODE ",IDC_STATIC,31,129,81,8
+    LTEXT           "the input mode and can be UTF16, ASCII, ANSI or the number of the codepage, this parameter is only required for non-UTF16 memories without <codepage> tag",IDC_STATIC,33,98,193,26
+    COMBOBOX        IDC_EXP2TMX_COMBO_OUTMODE,272,127,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_EXP2TMX_CHECK_OUTMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,240,129,16,10
+    COMBOBOX        IDC_EXP2TMXCOMBO_INMODE,271,93,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/NOCRLF",IDC_STATIC,33,153,169,10
+    LTEXT           "remove CRLFs in segment text",IDC_STATIC,33,162,169,10
+    CONTROL         "",IDC_EXP2TMX_CHECK_NOCRLF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,239,156,16,10
+END
+
+IDD_DLG_REMOVETAGS DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmRemoveTags - Inline tag removal tool",IDC_STATIC,25,17,484,168
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "/INMEM",IDC_STATIC,37,32,81,8
+    LTEXT           "/OUTMEM",IDC_STATIC,37,62,81,8
+    LTEXT           "/INTYPE",IDC_STATIC,37,89,81,8
+    LTEXT           "the fully qualified name of the input memory",IDC_STATIC,35,43,195,11
+    LTEXT           "the fully qualified name of the output memory",IDC_STATIC,34,71,150,11
+    LTEXT           "the markup to use for tag recognition ",IDC_STATIC,34,150,169,12
+    EDITTEXT        IDC_REMOVETAGS_EDIT_OUTMEM,268,59,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_REMOVETAGS_EDIT_INMEM,269,31,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_INMEM,456,32,50,14
+    PUSHBUTTON      "Search",IDC_BUTTON_OUTMEM,456,58,50,14
+    PUSHBUTTON      "Run",IDC_REMOVETAGS_BUTTON_RUN,38,169,50,14
+    LTEXT           "/OUTTYPE ",IDC_STATIC,35,113,81,8
+    LTEXT           "the type of the input memory",IDC_STATIC,35,97,193,13
+    COMBOBOX        IDC_RMEOVETAGS_COMBO_OUTMODE,269,118,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_REMOVETAGSCOMBO_INMODE,269,88,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/MArkup",IDC_STATIC,35,138,28,8
+    LTEXT           "the type of the output memory",IDC_STATIC,34,122,169,12
+    CONTROL         "",IDC_REMOETAGS_CHECK_MARKUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,239,142,16,10
+    COMBOBOX        IDC_RMEOVETAGS_COMBO_MARKUP,269,142,174,90,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_DLG_SHOWFXP DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmShowFxp - Show FXP information",-1,25,17,484,150
+    GROUPBOX        "Log Window",-1,26,180,481,113
+    LTEXT           "folderfile",-1,37,54,81,8
+    LTEXT           "the fully qualified name of an exported folder. If no file extension is given "".FXP"" is assumed",-1,35,66,158,18
+    EDITTEXT        IDC_SHOWFXP_EDIT_FSP,237,52,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_BUTTON_SHOWFXP_FILESPEC,437,52,50,14
+    PUSHBUTTON      "Run",IDC_BUTTON_SHOWFXP_RUN,35,151,50,14
+    LISTBOX         IDC_LIST_LOG,32,190,471,100,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "/details ",-1,38,106,81,8
+    LTEXT           "shows the output in greater details",-1,36,117,157,12
+    CONTROL         "",IDC_CHECK_SHOWFXP_DETAILS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,214,114,16,10
+END
+
+IDD_DLG_TMX2EXP DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmTmx2Exp - TMX to EXP memory convertor",IDC_STATIC,25,17,484,191
+    GROUPBOX        "Log Window",IDC_STATIC,25,214,481,79
+    LTEXT           "/INPUTMEM",IDC_STATIC,37,32,81,8
+    LTEXT           "/OUTPUTMEM",IDC_STATIC,34,58,81,8
+    LTEXT           "/OUTMODE",IDC_STATIC,33,84,81,8
+    LTEXT           "the fully qualified name of the input memory",IDC_STATIC,35,43,195,11
+    LTEXT           "the fully qualified name of the output memory",IDC_STATIC,33,69,150,11
+    LTEXT           "the markup to use for the segments in the EXP file.You can specify a comma separated list with different markup tables.",IDC_STATIC,34,118,201,23
+    CONTROL         "",IDC_TMX2EXP_CHECK_OUTMEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,237,66,16,10
+    CONTROL         "",IDC_TMX2EXP_CHECK_OUTMODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,238,95,16,10
+    EDITTEXT        IDC_TMX2EXP_EDIT_OUTMEM,270,64,174,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TMX2EXP_EDIT_INMEM,269,31,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Search",IDC_TMX2EXP_BUTTON_INMEM,456,32,50,14
+    PUSHBUTTON      "Run",IDC_TMX2EXP_BUTTON_RUN,32,192,50,14
+    LTEXT           "/MArkup",IDC_STATIC,34,110,81,8
+    LTEXT           "the output mode and can be UTF16, ASCII, or ANSI",IDC_STATIC,33,95,193,13
+    CONTROL         "",IDC_tMX2EXP_CHECK_MARKUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,238,119,16,10
+    COMBOBOX        IDC_TMX2EXPCOMBO_OUTMODE,271,93,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_LIST_LOG,29,222,473,69,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/CLEANRTF",IDC_STATIC,33,147,81,8
+    CONTROL         "",IDC_TMX2EXP_CHECK_CLEANTF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,237,146,16,10
+    LTEXT           "converts the memory to a source/source memory",IDC_STATIC,271,153,175,10
+    LTEXT           "/SOURCESOURCE",IDC_STATIC,271,145,81,8
+    LTEXT           "removes any RTF tags contained in the segments",IDC_STATIC,33,155,201,10
+    LTEXT           "/INCURLYBRACE",IDC_STATIC,34,170,81,8
+    LTEXT           "restricts RTF tag removal to tags enclosed in curly braces (needs /CLEANRTF as well)",IDC_STATIC,33,178,427,13
+    CONTROL         "",IDC_TMX2EXP_CHECK_SS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,457,145,16,10
+    CONTROL         "",IDC_TMX2EXP_CHECK_INCLUDEBRACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,237,167,16,10
+    EDITTEXT        IDC_TMX2EXP_EDIT_MARKUP,271,118,174,14,ES_AUTOHSCROLL
+END
+
+IDD_DLG_TMX2TEXT DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmTmxSource2Text - TMX Source text extractor",IDC_STATIC,25,17,484,173
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "infile",IDC_STATIC,37,32,81,8
+    LTEXT           "the fully qualified name of the Translation Memory in TMX format",IDC_STATIC,35,43,195,19
+    EDITTEXT        IDC_TMX2TEXT_EDIT_IN,270,42,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Run",IDC_TMX2TEXT_BUTTON_RUN,33,170,50,14
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "outfile",IDC_STATIC,35,95,81,8
+    LTEXT           "the fully qualified name of the output text file",IDC_STATIC,34,107,195,11
+    EDITTEXT        IDC_TMX2TEXT_EDIT_OUT,270,94,174,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_CHECK_TMX2TEXT_OUTFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,95,16,10
+    PUSHBUTTON      "Search",IDC_BUTTON_TMX2TEXT_INFILE,454,41,37,14
+    PUSHBUTTON      "Search",IDC_BUTTON_TMX2TEXT_OUTFILE,453,94,37,14
+END
+
+IDD_DLG_XLIFF2EXP DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmXliff2Exp - XLIFF (machine translation) to EXP memory convertor",IDC_STATIC,25,17,484,173
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "/INPUTMEM",IDC_STATIC,37,32,81,8
+    LTEXT           "the fully qualified name of the input XLIFF memory(this name can contain wildcards)",IDC_STATIC,35,43,195,19
+    EDITTEXT        IDC_XLIFF2EXP_EDIT_IN,270,42,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Run",IDC_XLIFF2EXP_BUTTON_RUN,33,170,50,14
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/OUTPUTMEM",IDC_STATIC,35,95,81,8
+    LTEXT           "the fully qualified name of the output EXP memory",IDC_STATIC,34,107,195,11
+    EDITTEXT        IDC_XLIFF2EXP_EDIT_OUT,270,94,174,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_CHECK_XLIFF2EXP_OUTFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,95,16,10
+    PUSHBUTTON      "Search",IDC_BUTTON_XLIFF2EXP_INFILE,454,41,37,14
+    PUSHBUTTON      "Search",IDC_BUTTON_XLIFF2EXP_OUTFILE,453,94,37,14
+END
+
+IDD_DLG_MIGRATOR DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "TM2OTMMigrator - TranslationManager to OpenTM2 migration utility",IDC_STATIC,25,17,484,173
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "/Mem",IDC_STATIC,37,32,81,8
+    LTEXT           "migrate TranslationManager translation memory databases",IDC_STATIC,35,43,150,17
+    PUSHBUTTON      "Run",IDC_MIG_BUTTON_RUN,33,170,50,14
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/SharedMem",IDC_STATIC,261,34,81,8
+    LTEXT           "migrate Shared TranslationManager translation memory databases",IDC_STATIC,259,46,177,18
+    LTEXT           "/Folder",IDC_STATIC,33,65,81,8
+    LTEXT           "migrate TranslationManager folder",IDC_STATIC,34,75,192,12
+    LTEXT           "/Dict",IDC_STATIC,259,69,81,8
+    LTEXT           "migrate TranslationManager dictionaries",IDC_STATIC,259,78,158,12
+    LTEXT           "/Settings",IDC_STATIC,34,98,28,8
+    LTEXT           "migrate TranslationManager settings",IDC_STATIC,33,108,126,8
+    LTEXT           "/CalcProfile",IDC_STATIC,257,100,48,8
+    LTEXT           "migrate TranslationManager calculation profiles",IDC_STATIC,256,111,187,8
+    LTEXT           "/AnalysisProfile",IDC_STATIC,33,129,28,8
+    LTEXT           "migrate TranslationManager analysis profiles",IDC_STATIC,32,140,135,16
+    LTEXT           "/ALL",IDC_STATIC,255,131,28,8
+    LTEXT           "migrate all TranslationManager data",IDC_STATIC,254,142,187,8
+    CONTROL         "",IDC_CHECK_MIG_MEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,30,16,10
+    CONTROL         "",IDC_CHECK_MIG_FOLDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,67,16,10
+    CONTROL         "",IDC_CHECK_MIG_SETTING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,99,16,10
+    CONTROL         "",IDC_CHECK_MIG_ANA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,179,127,16,10
+    CONTROL         "",IDC_CHECK_MIG_SHMEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,445,33,16,10
+    CONTROL         "",IDC_CHECK_MIG_DICT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,445,66,16,10
+    CONTROL         "",IDC_CHECK_MIG_CALCPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,446,98,16,10
+    CONTROL         "",IDC_CHECK_MIG_ALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,445,129,16,10
+END
+
+IDD_DLG_GETTOOLINFO DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmGetToolInfo- Get tool information",IDC_STATIC,25,17,484,173
+    GROUPBOX        "Log Window",IDC_STATIC,25,194,481,99
+    LTEXT           "/CMD",IDC_STATIC,38,46,81,8
+    LTEXT           "Show the tool by command mode",IDC_STATIC,37,57,195,19
+    PUSHBUTTON      "Run",IDC_GETTOOLINFO_BUTTON_RUN,33,170,50,14
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/UI",IDC_STATIC,37,89,81,8
+    LTEXT           "Show the tool by UI mode",IDC_STATIC,37,100,195,11
+    CONTROL         "",IDC_CHECK_GETTOOLINFO_UI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,284,86,16,10
+    CONTROL         "",IDC_CHECK_GETTOOLINFO_CMD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,283,49,16,10
+END
+
+IDD_DLG_GETREPORTDATA DIALOGEX 0, 0, 530, 308
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmGetReportData - extract calculation report data",-1,25,17,484,173
+    GROUPBOX        "Log Window",-1,25,194,481,99
+    LTEXT           "FolderPackage",-1,38,47,81,8
+    LTEXT           "the fully qualified name of the input folder package",-1,37,61,195,14
+    EDITTEXT        IDC_GETRPD_EDIT_IN,256,46,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Run",IDC_GETRPD_BUTTON_RUN,33,170,50,14
+    LISTBOX         IDC_LIST_LOG,29,202,473,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Search",IDC_BUTTON_GETRPD_INFILE,455,47,37,14
+END
+
+IDD_DLG_MEMTOOL DIALOGEX 0, 0, 531, 519
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VSCROLL | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "OtmMemoryTool - The OpenTM2 memory value change utility",IDC_STATIC,23,6,484,376
+    GROUPBOX        "Log Window",IDC_STATIC,20,394,485,117
+    LTEXT           "/TASK",IDC_STATIC,35,28,81,8
+    LTEXT           "/MEM",IDC_STATIC,33,52,81,8
+    LTEXT           "/REV",IDC_STATIC,33,81,81,8
+    LTEXT           "detail task to process with memory",IDC_STATIC,33,36,195,10
+    LTEXT           "name of the internal OpenTM2 translation memory",IDC_STATIC,33,64,189,11
+    LTEXT           "name of the markup table that must be changed",IDC_STATIC,35,146,180,10
+    EDITTEXT        IDC_MEMTOOL_EDIT_MEM,268,54,174,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Run",IDC_MEMTOOL_BUTTON_RUN,32,364,50,14
+    LTEXT           "/FROMMARKUP",IDC_STATIC,35,137,63,8
+    LTEXT           "Memory containing the reversed segments",IDC_STATIC,33,90,191,19
+    LISTBOX         IDC_LIST_LOG,23,404,477,100,LBS_SORT | LBS_NOINTEGRALHEIGHT | NOT WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "/TOMARKUP",IDC_STATIC,35,167,43,8
+    CONTROL         "",IDC_MEMTOOL_CHECK_TOMAKRUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,172,16,10
+    LTEXT           "name of the new markup table",IDC_STATIC,34,176,170,10
+    LTEXT           "/FROMLANG",IDC_STATIC,35,194,81,8
+    LTEXT           "name of the language that must be changed",IDC_STATIC,35,201,179,13
+    COMBOBOX        IDC_MEMTOOLCOMBO_TASK,268,30,173,60,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MEMTOOL_EDIT_REV,269,81,174,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MEMTOOL_CHECK_FROMMARKUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,230,142,16,10
+    CONTROL         "",IDC_MEMTOOL_CHECK_FROMLANG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,198,16,10
+    LTEXT           "/TOLANG",IDC_STATIC,35,221,59,8
+    LTEXT           "name of the new language",IDC_STATIC,35,228,144,8
+    LTEXT           "/DOC",IDC_STATIC,34,269,59,8
+    LTEXT           "/DATE",IDC_STATIC,35,244,59,8
+    LTEXT           "new date, and the new time",IDC_STATIC,35,253,150,8
+    CONTROL         "",IDC_MEMTOOL_CHECK_TOLANG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,225,16,10
+    CONTROL         "",IDC_MEMTOOL_CHECK_DATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,231,247,16,10
+    EDITTEXT        IDC_MEMTOOL_EDIT_DATE,265,244,174,14,ES_AUTOHSCROLL
+    LTEXT           "document name of the segments to be changed",IDC_STATIC,33,279,174,11
+    CONTROL         "",IDC_MEMTOOL_CHECK_DOC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,273,16,10
+    EDITTEXT        IDC_MEMTOOL_EDIT_DOC,265,270,174,14,ES_AUTOHSCROLL
+    LTEXT           "/CLEAR",IDC_STATIC,34,294,25,8
+    LTEXT           "clear the MT-flag ",IDC_STATIC,35,302,104,8
+    LTEXT           "/SET",IDC_STATIC,34,318,16,8
+    LTEXT           "set the MT-flag",IDC_STATIC,33,327,174,8
+    CONTROL         "",IDC_MEMTOOL_CHECK_CLEAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,295,16,10
+    CONTROL         "",IDC_MEMTOOL_CHECK_SET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,319,16,10
+    LTEXT           "/OUT",IDC_STATIC,33,108,71,8
+    LTEXT           "Memory only containing segments with no duplicates",IDC_STATIC,33,116,169,17
+    LTEXT           "/TYPE=noconf",IDC_STATIC,33,342,71,8
+    LTEXT           "with this, messages are supressed",IDC_STATIC,33,350,157,10
+    CONTROL         "",IDC_MEMTOOL_CHECK_TYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,341,16,10
+    EDITTEXT        IDC_MEMTOOL_EDIT_OUT,269,110,174,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_MEMTOOL_COMBO_FROMMARKUP,267,144,174,90,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MEMTOOL_COMBO_FROMLANG,266,198,174,90,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MEMTOOL_COMBO_TOLANG,265,224,174,90,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MEMTOOL_COMBO_TOMARKUP,266,172,174,90,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "OpenTM2ToolsLauncher"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "OpenTM2ToolsLauncher.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "OpenTM2ToolsLauncher.exe"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_OPENTM2TOOLSLAUNCHER_DIALOG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 560
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 368
+    END
+
+    IDD_DLG_TOOLLAUNCHER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 301
+    END
+
+    IDD_DLG_ADL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 301
+    END
+
+    IDD_DLG_CHANGEFXP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_CHKCALC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 301
+    END
+
+    IDD_DLG_CARETEITMFROMMEMORY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_MTEVAL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 301
+    END
+
+    IDD_DLG_TMXSPLITSEGMENTS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 298
+    END
+
+    IDD_DLG_EXP2TMX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_REMOVETAGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_SHOWFXP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 301
+    END
+
+    IDD_DLG_TMX2EXP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_TMX2TEXT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_XLIFF2EXP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_MIGRATOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_GETTOOLINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_GETREPORTDATA, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 523
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 300
+    END
+
+    IDD_DLG_MEMTOOL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 512
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 511
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "&About OpenTM2ToolsLauncher..."
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#include "res\OpenTM2ToolsLauncher.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"      // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

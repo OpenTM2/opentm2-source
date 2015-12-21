@@ -1,0 +1,18 @@
+#|Copyright Notice:                                                           |
+#|                                                                            |
+#|      Copyright (C) 1990-2014, International Business Machines              |
+#|      Corporation and others. All rights reserved                           |
+#+----------------------------------------------------------------------------+
+#OpenTM2 Configurationfile
+[Networks]
+URL=http://www.beo-doc.de/opentm2/updates
+ProxyAddress=
+ProxyPort=
+[BasicPlugins]
+Name=
+MinCnt=0
+[NonRemovablePlugins]
+Name=UserMarkupTablePlugin,EqfMemoryPlugin,EqfDocumentPlugin,OtmSpellHSCheckPlugin,OtmMorphICUPlugin,EqfDictionaryPlugin
+[Settings]
+
+Frequency=0

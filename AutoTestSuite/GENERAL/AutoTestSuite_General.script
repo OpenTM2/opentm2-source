@@ -1,0 +1,20 @@
+****************************************************************************************************
+** Script name...: AutoTestSuite_General.script                                                   **
+** Purpose.......: Script including all general test scripts of the OpenTM2 Auto Test Suite       **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: December 1, 2014                                                               **
+** Update........: December 1, 2014                                                               **
+** Copyright.....: Copyright (C) 1990-2014, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+* do a base test of all available API calls
+INCLUDE BaseAPITest.script
+
+
+
+
+

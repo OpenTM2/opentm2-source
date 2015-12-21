@@ -1,0 +1,47 @@
+<html>
+<head>
+<meta name="COPYRIGHT" content="Copyright (c) 2014 IBM Corporation and others. All Rights Reserved." />
+</head>
+<body>
+<i>This guide shall explain you the structure of the project, so new developers will have an easy start.</i>
+
+<h1>The project-root ("/"):</h1>
+<p>
+Important in this directory are the files "configuration.conf" and "log.txt".
+Also, the "resources/" directory, that includes such things as icons, and other information the project uses.
+If you create a jar-package of this project, do not forget to deliver them with your package.
+Also we have additional Java packages (such as antlr, miglayout,...) in the "libs/" directory. 
+If you need to include further external libraries, please put them in this directory.
+Last, but not least, the "src/" directory contains all source code of the project.
+</p>
+
+<h1>The resources-directory ("/resources/"):</h1>
+<p>
+There is a subdirectory "icons/" with all icons used in the project.
+Further more, there are the files "commands.xml", "EQFFUNC.h" and "parseApiCalls.py".
+For the running application only "commands.xml" is important, as this is the source for the application
+to know which commands/apicalls/blocks exist in the ScriptLanguage.
+As the api calls in the "commands.xml" directly depend on openTM2 there is one of the header files of openTM2.
+You can use the script "parseApiCalls.py" to parse this, or a newer version, of "EQFFUNC.h" and update the content of
+"commands.xml". Simpy call "./parseApiCall.py commands.xml EQFFUNC.h" and it will update the content of "commands.xml".
+</p>
+
+<h1>The src-directory ("/src/"):</h1>
+<p>
+Through many subdirectories you will end up in the directory "/src/de/ibm/com/opentm2scripteride/" where you can find 
+four subdirectories to which I will refer later on.
+Also in this root-source-directory you will find "MainApp.java" which provides the main class and the system entry point
+(main function) of this application.</p>
+
+<b>NOTE:</b><br/>
+<p>This project makes use of the "Singleton" pattern. If you don't know it, please learn first what it is and why it is used.
+In this project all classes that may only exist once and must be globally accessible are written as a Singleton class.
+</p>
+
+<h2>The gui-directory ("/src/[...]/gui"):</h2>
+<p>
+In this directory you will find all windows the application needs. These windows are designed with WindowBuilder, a free
+plugin for Eclipse to build a GUI easily.
+</p>
+</body>
+</html>

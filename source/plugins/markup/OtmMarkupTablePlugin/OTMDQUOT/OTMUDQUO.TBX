@@ -1,0 +1,81 @@
+<!-- ............................................................... -->
+<!--  Copyright (C) 1998-2013, International Business Machines       -->
+<!--        Corporation and others. All rights reserved              -->
+<!-- ............................................................... -->
+<TAGTABLE>
+<SEGMENTEXIT>OTMQUOTE</SEGMENTEXIT>
+  <DESCRIPTION>Double Quoted text (UTF-8)</DESCRIPTION>
+  <DESCRNAME>OTMUDQUO</DESCRNAME>
+  <MULTSUBST>*</MULTSUBST>
+  <SINGLESUBST>?</SINGLESUBST>
+  <CHARSET>UTF8</CHARSET>
+  <REFLOW>YES</REFLOW>
+<TAG>
+  <STRING>""</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>...</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>:NONE.</STRING>
+  <LENGTH>6</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\</STRING>
+  <LENGTH>1</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\"</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\N</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\T</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>~</STRING>
+  <LENGTH>1</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%1</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%2</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%3</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%4</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%5</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%6</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%7</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%8</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%9</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+</TAGTABLE>

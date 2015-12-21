@@ -1,0 +1,555 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 30 Aug 2000
+// - added strings for dictionary property sheet tabs
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   J:\DATA\EQFDICT.MVI   1.2   13 Jan 1996 14:06:06   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDICT.MVI  $
+ * 
+ *    Rev 1.2   13 Jan 1996 14:06:06   BUILD
+ * - added strings for initial user names of dictionary fields
+ *
+ *    Rev 1.1   10 Jan 1996 19:51:00   BUILD
+ * - added strings for new display mode checkbox
+ *
+ *    Rev 1.0   09 Jan 1996 10:05:54   BUILD
+ * Initial revision.
+ */
+
+////////////////////////////////////////////////////////////////////////////////
+//                 Strings for dictionary list window                         //
+////////////////////////////////////////////////////////////////////////////////
+#define STR_DICT_NAME_COLTITLE "Name"
+#define STR_DICT_DESCR_COLTITLE "Description"
+#define STR_DICT_DRIVE_COLTITLE "Drive"
+#define STR_DICT_SERVER_COLTITLE "Server"
+#define STR_DICT_OWNER_COLTITLE "Owner"
+#define STR_DICT_NO_OWNER_STR "N/A"    //not applicable
+#define STR_DICT_SOURCELANG_COLTITLE "Source Language"
+
+////////////////////////////////////////////////////////////////////////////////
+//                 Strings of Dictionary export dialog panel                  //
+////////////////////////////////////////////////////////////////////////////////
+//strings for dictionary export dialog
+//format group box
+   #define STR_DEX_FORMAT_GB "Format"
+//export into sgml format outside the system
+   #define STR_DEX_EXTERNAL_RB "External"
+//export dictionary to another drive in the internal format
+   #define STR_DEX_TROJA_RB "OpenTM2"
+//label for groupbox containing name and description of dictionary for export
+   #define STR_DEX_EXPORT_GB "Export"
+//label for entry field containing name of dictionary for export
+   #define STR_DEX_NAME_TEXT "Name:"
+//label for entry field containing description of dictionary for export
+   #define STR_DEX_DESCRIPT_TEXT "Description:"
+//destination group box label
+   #define STR_DEX_TO_GB "To"
+//label for the entry field containing name of sgml file into which the dictionary
+//is exported
+   #define STR_DEX_NAME_TEXT "Name:"
+//label for the static containing file path information
+   #define STR_DEX_CURDIR_TEXT "Current directory:"
+//label of the directories list box
+   #define STR_DEX_DIR_TEXT "Directories"
+//export pushbutton triggers the export dictionary function
+   #define STR_DEX_EXPORT_PB "&Export"
+//export dictionary cancel pushbutton
+   #define STR_DEX_CANCEL_PB "Cancel"
+//export dictionary help pushbutton
+   #define STR_DEX_HELP_PB "Help"
+//name of the dialog which appears as titel of the dialog
+   #define STR_DICTEXP_DLG "Export Dictionary"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary export standard window                             //
+////////////////////////////////////////////////////////////////////////////////
+
+//strings on the standard export dictionary window containing slider
+//standard window titel bar
+   #define STR_DEX_TITLEBAR  "Exporting Dictionary: %1 "
+//text in standard window above slider
+   #define STR_DEX_EXPORT_DICTNAME "to external file: %1"
+//text in box around currently exported term
+   #define STR_DEX_ENTRY_STATICTEXT  " Current entry "
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Create Dictionary dialog panel                                //
+////////////////////////////////////////////////////////////////////////////////
+
+//strings for dictionary properties or create new dictionary dialog
+//titel of create dictionary dialog
+   #define STR_DICNEW_CREATEDICT_TEXT  "New Dictionary"
+//text field adjacent to the entry field containing dictionary name
+   #define STR_DICNEW_NAME_TEXT  "Name:"
+//test field adjacent to entry field for short description of dictionary
+   #define STR_DICNEW_DESCR_TEXT "Description:"
+//group box around disk drives
+   #define STR_DICNEW_LOCATION_GB  "Location of dictionary"
+//local radio button
+   #define STR_DICNEW_LOCAL_RB  "Local"
+//shared radio button
+   #define STR_DICNEW_SHARED_RB  "Shared"
+//remote radio button
+   #define STR_DICNEW_REMOTE_RB  "Remote"
+//server list box text
+   #define STR_DICNEW_SERVER_TEXT  "Server"
+//text field for disk drives
+   #define STR_DICNEW_DRIVES_TEXT  "Disk drive:"
+//text field adjacent to listbox containing source languages
+   #define STR_DICNEW_SOURCELANG_TEXT  "Source language:"
+//text field associated with pushbutton for list of dictionary which can be used
+//as model for creation of a new dictionary
+   #define STR_DICNEW_EXIST_TEXT "Use existing dictionary as model:"
+//pushbutton to list model dictionaries
+   #define STR_DICNEW_YES_PB   "Yes..."
+//set the entry structure of dict to be created
+   #define STR_DICNEW_SET_TEXT "Change entry fields:"
+//pushbutton to call up dialog to set entry structure
+   #define STR_DICNEW_SET_PB   "Yes..."
+//create a new dictionary pushbutton
+   #define STR_DICNEW_CREATE_PB  "&Create"
+//cancel dialog
+   #define STR_DICNEW_CANCEL_PB  "Cancel"
+//call up help information
+   #define STR_DICNEW_HELP_PB  "Help"
+//tabs of property sheets for dictionary properties 
+   #define STR_DICTPROP_TAB_GENERAL  "General Properties"
+   #define STR_DICTPROP_TAB_OPTIONS  "Entry Structure"
+   
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Change Entry Structure dialog panel                           //
+////////////////////////////////////////////////////////////////////////////////
+
+//titel of dictionary properties dialog
+   #define STR_DICNAME_TEXT "Change Entry Fields"
+//test field adjacent to listbox with dictionary entry field names
+   #define STR_DICNAME_ENTRYFIELDS_TEXT  "Entry fields"
+//dictionary structure level box
+   #define STR_DICNAME_LEVEL_GB "Level"
+//entry level static text
+   #define STR_DICNAME_LEV1_TEXT  "Entry"
+//homograph level text
+   #define STR_DICNAME_LEV2_TEXT  "Homonym"
+//sense level text
+   #define STR_DICNAME_LEV3_TEXT  "Sense"
+//target level text
+   #define STR_DICNAME_LEV4_TEXT  "Target"
+//selection of display panels for dictionary display group box
+   #define STR_DICNAME_DISPLAY_GB "Display"
+//display on first panel in the display entry sequence on display entry dialog
+   #define STR_DICNAME_L1_RB  "Panel 1"
+//display on second panel
+   #define STR_DICNAME_L2_RB  "Panel 2"
+//display on third panel
+   #define STR_DICNAME_L3_RB  "Panel 3"
+//don't display at all
+   #define STR_DICNAME_OMIT_RB "Omit"
+//display in automatic lookup
+   #define STR_DICNAME_AUTLOOKUP_CB "Aut. Lookup"
+//entry field size group box
+   #define STR_DICNAME_SIZE_GB "Size"
+//large field (mle)
+   #define STR_DICNAME_LARGE_RB "Large"
+//small field (sle)
+   #define STR_DICNAME_SMALL_RB "Small"
+//change dictionary entry field name pushbutton
+   #define STR_DICNAME_CHANGENAME_PB  "Change &name..."
+//add user defined entry field pushbutton
+   #define STR_DICNAME_ADDFIELD_PB  "&Add field..."
+//delete dictionary entry field pushbutton
+   #define STR_DICNAME_DELFIELD_PB  "&Delete field"
+//invoke changes to properties or create a new dictionary pushbutton
+   #define STR_DICNAME_SET_PB  "&Change"
+//cancel dialog
+   #define STR_DICNAME_CANCEL_PB  "Cancel"
+//call up help information
+   #define STR_DICNAME_HELP_PB  "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary properties dialog panel                            //
+////////////////////////////////////////////////////////////////////////////////
+
+//strings for dictionary properties or create new dictionary dialog
+//titel of create dictionary dialog
+   #define STR_DICPROP_PROPDICT_TEXT  "Dictionary Properties"   
+//text field adjacent to the entry field containing dictionary name
+   #define STR_DICPROP_NAME_TEXT  "Name:"
+//test field adjacent to entry field for short description of dictionary
+   #define STR_DICPROP_DESCR_TEXT "Description:"
+//location
+   #define STR_DICPROP_LOC_TEXT  "Location:"
+//location of the dictionary
+   #define STR_DICPROP_LOCAL_TEXT "Local"
+   #define STR_DICPROP_REMOTE_TEXT "Remote"
+   #define STR_DICPROP_SHARED_TEXT "Shared"
+//disk drive
+   #define STR_DICPROP_DRIVE_TEXT  "Disk drive:"
+//source language
+   #define STR_DICPROP_SOURCELANG_TEXT  "Source language:"
+//test field adjacent to listbox with dictionary entry field names
+   #define STR_DICPROP_ENTRYFIELDS_TEXT  "Entry fields"
+//dictionary structure level box
+   #define STR_DICPROP_LEVEL_GB "Level"
+//entry level static text
+   #define STR_DICPROP_LEV1_TEXT  "Entry"
+//homograph level text
+   #define STR_DICPROP_LEV2_TEXT  "Homonym"
+//sense level text
+   #define STR_DICPROP_LEV3_TEXT  "Sense"
+//target level text
+   #define STR_DICPROP_LEV4_TEXT  "Target"
+//selection of display panels for dictionary display group box
+   #define STR_DICPROP_DISPLAY_GB "Display"
+//display on first panel in the display entry sequence on display entry dialog
+   #define STR_DICPROP_L1_RB  "Panel 1"
+//display on second panel
+   #define STR_DICPROP_L2_RB  "Panel 2"
+//display on third panel
+   #define STR_DICPROP_L3_RB  "Panel 3"
+//don't display at all
+   #define STR_DICPROP_OMIT_RB "Omit"
+//display in automatic lookup
+   #define STR_DICPROP_AUTLOOKUP_CB "Aut. Lookup"
+//entry field size group box
+   #define STR_DICPROP_SIZE_GB "Size"
+//large field (mle)
+   #define STR_DICPROP_LARGE_RB "Large"
+//small field (sle)
+   #define STR_DICPROP_SMALL_RB "Small"
+//change dictionary entry field name pushbutton
+   #define STR_DICPROP_CHANGENAME_PB  "Change &name..."
+//invoke changes to properties or create a new dictionary pushbutton
+   #define STR_DICPROP_CHANGE_PB  "&Change"
+//Text on the second pushbutton on the properties/new dialogs
+   #define STR_DICPROP_UNPROTECT_TEXT "&Unprotect..."
+   #define STR_DICPROP_PROTECTED_TEXT "&Protect..."
+//cancel dialog
+   #define STR_DICPROP_CANCEL_PB  "Cancel"
+//call up help information
+   #define STR_DICPROP_HELP_PB  "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary model dialog                                       //
+////////////////////////////////////////////////////////////////////////////////
+
+//controls on the dictionary model dialog called up via the 'yes' pushbutton on the
+//change properties or create new dictionary dialog
+//Titel of the model dialog
+   #define STR_DICMODEL_DLG "Use Existing Dictionary as Model"
+//pushbutton that takes the selected dictionary as model
+   #define STR_DICMODEL_OK_PB "&Select"
+//cancel dialog pushbutton
+   #define STR_DICMODEL_CANCEL_PB "Cancel"
+//help pushbutton
+   #define STR_DICMODEL_HELP_PB "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Add new name or change existing name dialog                   //
+////////////////////////////////////////////////////////////////////////////////
+
+//controls on the change name or add new name dialog
+//text field adjacent to internal system entry field name
+   #define STR_PCH_SYSTNAME_TEXT "Entry field:"
+//text field adjacent to entry field name as as displayed for user purposes
+   #define STR_PCH_DISPLAYED_TEXT "Displayed as:"
+//help pushbutton
+   #define STR_PCH_HELP_PB "Help"
+//cancel pushbutton
+   #define STR_PCH_CANCEL_PB "Cancel"
+//pushbutton which carries out changes or adds a new name
+   #define STR_PCH_CHANGE_PB  "&Change"
+   #define STR_PCH_ADD_PB  "&Add"
+//Name of dialog when a dictionary entry field name is added
+   #define STR_PCH_ADD_TEXT "Add Entry Field"
+//Name of dialog when a dictionary entry field name is changed
+   #define STR_PCH_CHANGE_TEXT  "Change Entry Field Name"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary merge options dialog panel                         //
+////////////////////////////////////////////////////////////////////////////////
+
+//Dictionary merge dialog
+//Title bar of the dictionary merge dialog
+//   #define STR_DICTMERGE_DLG "Dictionary Merge Options"
+//checkbox - if on then whenever a replace or an ignore is found, the user is
+//prompted via a message
+//   #define STR_DICTMERGE_CONFIRM_PB "Confirm on changes"
+//second radio button - if the entry exists in the destination dictionary, it
+//is replace by the entry in the source dictionary
+//   #define STR_DICTMERGE_REPLACE_RB  "Replace existing entries"
+//first radio button - if entry doesn't exist in destination dictionary then
+//the entry is ignored
+//   #define STR_DICTMERGE_IGNORE_RB "Preserve existing entries"
+//merge text in the case of two dictionaries being merged
+//   #define STR_DICTMERGE_IMP_MERGE_TEXT "Merging folder dictionary %1 into dictionary %2"
+//merge dictionary in the case of a sgml file being merged with an existing
+//dictionary
+//   #define STR_DICTMERGE_SGML_MERGE_TEXT "Merging SGML file %1 into dictionary %2"
+//first pushbutton
+//   #define STR_DICTMERGE_MERGE_PB  "Merge"
+//second pushbutton
+//   #define STR_DICTMERGE_CANCEL_PB "Cancel"
+//third pushbutton
+//   #define STR_DICTMERGE_HELP_PB "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Enter password dialog panel                                   //
+////////////////////////////////////////////////////////////////////////////////
+
+//General information to the user of the password dialog so that he knows what
+//the password is required for, in this case to be able to merge two dictionaries.
+//Use a '\' so that a ctl/linefeed isn't included and word wrap can work.
+   #define STR_PASSWORD_TEXT  "The dictionary %1 is protected and further processing is only permitted if the correct password is entered."
+
+//Set a dictionary to read/only, i.e. protect it in protect dictionary dialog.
+   #define STR_2PASSWORDS_TEXT  "If you want to protect the dictionary you have created, enter a password and enter it again for confirmation."
+
+//When a dictionary has been protected (set to read/only), the password needs to
+//be entered to release protection (set to read/write). General text on the
+//password dialog.
+   #define STR_1PASSWORD_TEXT "To unprotect dictionary %1, enter the password associated with this dictionary."
+
+//controls for the query password dialog
+//Text that appears before password entry field
+   #define STR_DICTPASSWORD_NOTE_TEXT "Note: The password is not visible when you enter it."
+//text adjacent to sle where password is entered
+   #define STR_DICTPASSWORD_PSW_TEXT "Password:"
+//third pushbutton
+   #define STR_DICTPASSWORD_HELP_PB "Help"
+//second push button
+   #define STR_DICTPASSWORD_CANCEL_PB  "Cancel"
+//first pushbutton - checks password entered to see if correct
+   #define STR_DICTPASSWORD_ENTER_PB   "&OK"
+//first pushbutton - unprotects the dictionary
+   #define STR_DICT1PASSWORD_ENTER_PB   "&Unprotect"
+//title bar of query password dialog
+   #define STR_DICTPASSWORD_DLG  "Query Password for Dictionary"
+//title bar of unprotect dictionary dialog
+   #define STR_DICT1PASSWORD_DLG  "Unprotect Dictionary"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Protect Dictionary dialog panel                               //
+////////////////////////////////////////////////////////////////////////////////
+
+//controls for the protect dictionary dialog
+//third pushbutton
+   #define STR_DICT2PASSWORD_HELP_PB "Help"
+//second pushbutton
+   #define STR_DICT2PASSWORD_CANCEL_PB "Cancel"
+//first pushbutton
+   #define STR_DICT2PASSWORD_ENTER_PB "&Protect"
+//text adjacent to where the password is entered twice
+   #define STR_DICT2PASSWORD_1PSW_TEXT   "Password:"
+   #define STR_DICT2PASSWORD_2PSW_TEXT   "Confirmation:"
+//text that appears before the sle to enter password
+   #define STR_DICT2PASSWORD_NOTE_TEXT "Note: The password is not visible when you enter it."
+//Title bar of the protect dictionary dialog
+   #define STR_DICT2PASSWORD_DLG  "Protect Dictionary"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary import standard window                             //
+////////////////////////////////////////////////////////////////////////////////
+
+//dictionary import standard window
+//standard window title bar
+   #define STR_DIMP_TITLEBAR "Importing Dictionary: %1"
+//static text above slider in standard window
+   #define STR_DIMP_IMPORT_DICTNAME "from external file: %1"
+//static text above slider in standard window during folder import
+   #define STR_DIMP_IMPORT_FOLDTEXT "contained in the folder"
+//static in group box cureently displayed entry
+   #define STR_DIMP_ENTRY_STATICTEXT " Current entry "
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary Import dialog panel                                //
+////////////////////////////////////////////////////////////////////////////////
+
+//dictionary import title bar
+   #define STR_DICTIMP_DLG "Import Dictionary"
+//format group box text
+   #define STR_DICTIMP_FORMAT_GB "Format"
+//external radio button
+   #define STR_DICTIMP_ASCII_RB "External"
+//internal radio button
+   #define STR_DICTIMP_INTERNAL_RB "OpenTM2"
+//import group box text
+   #define STR_DICTIMP_IMPORT_GB "From"
+//name of file for import
+   #define STR_DICTIMP_FILENAME_TEXT "Name:"
+//directory of file for import
+   #define STR_DICTIMP_CURRENTDIR_TEXT "Current directory:"
+//text to indicate directories
+   #define STR_DICTIMP_DIR_TEXT "Directories"
+//text to indicate files
+   #define STR_DICTIMP_FILES_TEXT "Files"
+//text adjacent to combo box with destination dictionary
+   #define STR_DICTIMP_TO_TEXT "To dictionary:"
+//text on first pushbutton
+   #define STR_DICTIMP_OK_PB "&Import"
+//text on second pushbutton
+   #define STR_DICTIMP_CANCEL_PB "Cancel"
+//text on third pushbutton
+   #define STR_DICTIMP_HELP_PB "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of Dictionary organize standard window                           //
+////////////////////////////////////////////////////////////////////////////////
+
+//dictionary organize standard window
+//standard window title bar
+   #define STR_DORG_TITLEBAR "Organizing Dictionary: %1"
+//Text in group box around term that is currently being processed
+   #define STR_DORG_ENTRY_GB " Current entry "
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings for Remote Dictionaries dialog                                   //
+////////////////////////////////////////////////////////////////////////////////
+   #define STR_DICTREM_TITLE "Include Remote Dictionary"
+   #define STR_DICTREM_INCLUDE_PB "&Include"
+   #define STR_DICTREM_CANCEL_PB "Cancel"
+   #define STR_DICTREM_HELP_PB "Help"
+   #define STR_DICTREM_SERVER_TEXT "Server"
+   #define STR_DICTREM_DICT_TEXT "Dictionaries"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings for the initial user names of dictionary fields                  //
+////////////////////////////////////////////////////////////////////////////////
+#define STR_HEADWORD_USRNAME                "Headword"
+#define STR_AUTHOR_USRNAME                  "Author"
+#define STR_CREATIONDATE_USRNAME            "Creation Date"
+#define STR_STATUSCODE_USRNAME              "Status Code"
+#define STR_PARTOFSPEECH_USRNAME            "Part of Speech"
+#define STR_SOURCEOFHEADWORD_USRNAME        "Source of Headword"
+#define STR_ABBREVFULLFORM_USRNAME          "Abbrev./Fullform"
+#define STR_AUTHOROFUPDATE_USRNAME          "Author of Update"
+#define STR_LASTUPDATE_USRNAME              "Last Update"
+#define STR_DEFINITION_USRNAME              "Definition"
+#define STR_SOURCEOFDEFINITION_USRNAME      "Source of Definition"
+#define STR_SYNONYM_USRNAME                 "Synonym"
+#define STR_OTHERRELATEDTERMS_USRNAME       "Other Related Terms"
+#define STR_CONTEXT_USRNAME                 "Context"
+#define STR_SOURCEOFCONTEXT_USRNAME         "Source of Context"
+#define STR_COMMENTS_USRNAME                "Comments"
+#define STR_NOTEONUSAGE_USRNAME             "Note on Usage"
+#define STR_LANGUAGE_USRNAME                "Language"
+#define STR_TRANSLATION_USRNAME             "Translation"
+#define STR_COMPANYSUBJECTCODE_USRNAME      "Company/Subject Code"
+#define STR_TRANSSOURCEOFTRANS_USRNAME      "Source of Translation"
+#define STR_TRANSABBREVFULLFORM_USRNAME     "Abbrev./Fullform"
+#define STR_TRANSAUTHOR_USRNAME             "Author"
+#define STR_TRANSAUTHOROFUPDATE_USRNAME     "Author of Update"
+#define STR_TRANSCREATIONDATE_USRNAME       "Creation Date"
+#define STR_TRANSLASTUPDATE_USRNAME         "Last Update"
+#define STR_TRANSSTATUSCODE_USRNAME         "Status Code"
+#define STR_TRANSPARTOFSPEECH_USRNAME       "Part of Speech"
+#define STR_TRANSDEFINITION_USRNAME         "Definition"
+#define STR_TRANSSOURCEOFDEF_USRNAME        "Source of Definition"
+#define STR_TRANSSYNONYM_USRNAME            "Synonym"
+#define STR_TRANSOTHERREL_USRNAE            "Other Related Terms"
+#define STR_TRANSCONTEXT_USRNAME            "Context"
+#define STR_TRANSSRCOFCONTEXT_USRNAME       "Source of Context"
+#define STR_TRANSCOMMENTS_USRNAME           "Comments"

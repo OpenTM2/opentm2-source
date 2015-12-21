@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!-- ............................................................... -->
+<!--  Copyright (C) 1998-2013, International Business Machines       -->
+<!--        Corporation and others. All rights reserved              -->
+<!-- ............................................................... -->
+<!-- OTMXML control file: XLIFF files         -->
+<xmltags>
+    <neutral>
+        <tag> bpt </tag>
+    </neutral>
+    <neutral>
+        <tag> /bpt </tag>
+    </neutral>
+    <neutral>
+        <tag> bx </tag>
+    </neutral>
+    <neutral>
+        <tag> /bx </tag>
+    </neutral>
+    <neutral>
+        <tag> ept </tag>
+    </neutral>
+    <neutral>
+        <tag> /ept </tag>
+    </neutral>
+    <neutral>
+        <tag> ex </tag>
+    </neutral>
+    <neutral>
+        <tag> /ex </tag>
+    </neutral>
+    <neutral>
+        <tag> g </tag>
+    </neutral>
+    <neutral>
+        <tag> /g </tag>
+    </neutral>
+    <neutral>
+        <tag> it </tag>
+    </neutral>
+    <neutral>
+        <tag> /it </tag>
+    </neutral>
+    <neutral>
+        <tag> mrk </tag>
+    </neutral>
+    <neutral>
+        <tag> /mrk </tag>
+    </neutral>
+    <neutral>
+        <tag> ph </tag>
+    </neutral>
+    <neutral>
+        <tag> /ph </tag>
+    </neutral>
+    <neutral>
+        <tag> sub </tag>
+    </neutral>
+    <neutral>
+        <tag> /sub </tag>
+    </neutral>
+    <neutral>
+        <tag> x </tag>
+    </neutral>
+    <neutral>
+        <tag> /x </tag>
+    </neutral>
+
+    <attribute>
+        <tag> xliff </tag>
+        <transattr> xml:lang </transattr>
+    </attribute>
+    <attribute>
+        <tag> file </tag>
+        <transattr> xml:lang </transattr>
+    </attribute>
+    <attribute>
+        <tag> file </tag>
+        <transattr> target-language </transattr>
+    </attribute>
+
+    <state>
+        <tag> body </tag>
+        <initial> OFF </initial>
+    </state>
+    <state>
+        <tag> header </tag>
+        <initial> OFF </initial>
+    </state>
+    <state>
+        <tag> group </tag>
+        <initial> OFF </initial>
+    </state>
+    <state>
+        <tag> target </tag>
+        <endtag> /target </endtag>
+    </state>
+
+    <copytext>
+        <tag> source </tag>
+        <endtag> target </endtag>
+        <parent> trans-unit </parent>
+    </copytext>    
+
+    <insertattr>
+        <tag> file </tag>
+        <copyattr> target-language="en" </copyattr>
+        <condattr> source-language </condattr>
+    </insertattr>
+    <insertattr>
+        <tag> bpt </tag>
+        <copyattr> twbtrans="0" </copyattr>
+        <condattr> * </condattr>
+        <remove> YES </remove>
+    </insertattr>
+    <insertattr>
+        <tag> ept </tag>
+        <copyattr> twbtrans="0" </copyattr>
+        <condattr> * </condattr>
+        <remove> YES </remove>
+    </insertattr>
+    <insertattr>
+        <tag> it </tag>
+        <copyattr> twbtrans="0" </copyattr>
+        <condattr> * </condattr>
+        <remove> YES </remove>
+    </insertattr>
+    <insertattr>
+        <tag> ph </tag>
+        <copyattr> twbtrans="0" </copyattr>
+        <condattr> * </condattr>
+        <remove> YES </remove>
+    </insertattr>
+    <insertattr>
+        <tag> sub </tag>
+        <copyattr> twbtrans="1" </copyattr>
+        <condattr> * </condattr>
+        <remove> YES </remove>
+    </insertattr>
+    <insertattr>
+        <tag> mrk </tag>
+        <copyattr> twbtrans="0" </copyattr>
+        <condattr> mtype </condattr>
+        <condattrvalue> protected </condattrvalue>
+        <remove> YES </remove>
+    </insertattr>
+
+    <stateattr>
+       <condattr> twbtrans </condattr>
+       <condattrvalue> 0 </condattrvalue>
+       <initial> OFF </initial>
+    </stateattr>
+    <stateattr>
+       <condattr> twbtrans </condattr>
+       <condattrvalue> 1 </condattrvalue>
+       <initial> ON </initial>
+    </stateattr>
+
+    <stateattr>
+       <condattr> translate </condattr>
+       <condattrvalue> no </condattrvalue>
+       <initial> OFF </initial>
+    </stateattr>
+    <stateattr>
+       <condattr> translate </condattr>
+       <condattrvalue> yes </condattrvalue>
+       <initial> ON </initial>
+    </stateattr>
+
+</xmltags>

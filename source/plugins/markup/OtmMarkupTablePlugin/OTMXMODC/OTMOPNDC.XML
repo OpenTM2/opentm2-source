@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!-- ............................................................... -->
+<!--  Copyright (C) 1998-2013, International Business Machines       -->
+<!--        Corporation and others. All rights reserved              -->
+<!-- ............................................................... -->
+<!-- OTMXML control file: Open Document XML format      -->
+<!-- Support v1.2 changes.                              -->
+<xmltags>
+   <utf8> </utf8>
+
+   <neutral>
+      <tag> text:a </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:a </tag>
+   </neutral>
+   <neutral>
+      <tag> text:alphabetical-index-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:alphabetical-index-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> text:alphabetical-index-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:alphabetical-index-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> text:alphabetical-index-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:alphabetical-index-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> text:bibliography-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:bibliography-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> text:bookmark </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:bookmark </tag>
+   </neutral>
+   <neutral>
+      <tag> text:bookmark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:bookmark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> text:bookmark-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:bookmark-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> text:bookmark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:bookmark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> text:change </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:change </tag>
+   </neutral>
+   <neutral>
+      <tag> text:change-end </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:change-end </tag>
+   </neutral>
+   <neutral>
+      <tag> text:change-start </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:change-start </tag>
+   </neutral>
+   <neutral>
+      <tag> text:chapter </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:chapter </tag>
+   </neutral>
+   <neutral>
+      <tag> text:character-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:character-count </tag>
+   </neutral>
+   <neutral>
+      <tag> text:conditional-text </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:conditional-text </tag>
+   </neutral>
+   <neutral>
+      <tag> text:database-display </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:database-display </tag>
+   </neutral>
+   <neutral>
+      <tag> text:database-name </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:database-name </tag>
+   </neutral>
+   <neutral>
+      <tag> text:database-next </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:database-next </tag>
+   </neutral>
+   <neutral>
+      <tag> text:database-row-number </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:database-row-number </tag>
+   </neutral>
+   <neutral>
+      <tag> text:database-row-select </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:database-row-select </tag>
+   </neutral>
+   <neutral>
+      <tag> text:date </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:date </tag>
+   </neutral>
+   <neutral>
+      <tag> text:dde-connection </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:dde-connection </tag>
+   </neutral>
+   <neutral>
+      <tag> text:description </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:description </tag>
+   </neutral>
+   <neutral>
+      <tag> text:editing-cycles </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:editing-cycles </tag>
+   </neutral>
+   <neutral>
+      <tag> text:editing-duration </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:editing-duration </tag>
+   </neutral>
+   <neutral>
+      <tag> text:execute-macro </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:execute-macro </tag>
+   </neutral>
+   <neutral>
+      <tag> text:expression </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:expression </tag>
+   </neutral>
+   <neutral>
+      <tag> text:file-name </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:file-name </tag>
+   </neutral>
+   <neutral>
+      <tag> text:image-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:image-count </tag>
+   </neutral>
+   <neutral>
+      <tag> text:initial-creator </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:initial-creator </tag>
+   </neutral>
+   <neutral>
+      <tag> text:keywords </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:keywords </tag>
+   </neutral>
+   <neutral>
+      <tag> text:line-break </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:line-break </tag>
+   </neutral>
+   <neutral>
+      <tag> text:measure </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:measure </tag>
+   </neutral>
+   <neutral>
+      <tag> text:meta </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:meta </tag>
+   </neutral>
+   <neutral>
+      <tag> text:meta-field </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:meta-field </tag>
+   </neutral>
+   <neutral>
+      <tag> text:note </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:note </tag>
+   </neutral>
+   <neutral>
+      <tag> text:note-body </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:note-body </tag>
+   </neutral>
+   <neutral>
+      <tag> text:note-citation </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:note-citation </tag>
+   </neutral>
+   <neutral>
+      <tag> text:note-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:note-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> text:object-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:object-count </tag>
+   </neutral>
+   <neutral>
+      <tag> text:page-continuation </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:page-continuation </tag>
+   </neutral>
+   <neutral>
+      <tag> text:page-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:page-count </tag>
+   </neutral>
+   <neutral>
+      <tag> text:page-number </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:page-number </tag>
+   </neutral>
+   <neutral>
+      <tag> text:page-variable-get </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:page-variable-get </tag>
+   </neutral>
+   <neutral>
+      <tag> text:page-variable-set </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:page-variable-set </tag>
+   </neutral>
+   <neutral>
+      <tag> text:paragraph-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:paragraph-count </tag>
+   </neutral>
+   <neutral>
+      <tag> text:placeholder </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:placeholder </tag>
+   </neutral>
+   <neutral>                          -->
+      <tag> text:print-date </tag>    -->
+   </neutral>
+   <neutral>
+      <tag> text:reference-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:reference-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> text:reference-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:reference-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> text:reference-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:reference-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> text:reference-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:reference-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> text:ruby </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:ruby </tag>
+   </neutral>
+   <neutral>
+      <tag> text:ruby-base </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:ruby-base </tag>
+   </neutral>
+   <neutral>
+      <tag> text:ruby-text </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:ruby-text </tag>
+   </neutral>
+   <neutral>
+      <tag> text:s </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:s </tag>
+   </neutral>
+   <neutral>
+      <tag> text:script </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:script </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-city </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-city </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-company </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-company </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-country </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-country </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-email </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-email </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-fax </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-fax </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-firstname </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-firstname </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-initials </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-initials </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-lastname </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-lastname </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-phone-private </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-phone-private </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-phone-work </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-phone-work </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-position </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-position </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-postal-code </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-postal-code </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-state-or-proviince </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-state-or-province </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-street </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-street </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sender-title </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sender-title </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sequence </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sequence </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sequence-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sequence-ref </tag>
+   </neutral>
+   <neutral>
+      <tag> text:sheet-name </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:sheet-name </tag>
+   </neutral>
+   <neutral>
+      <tag> text:soft-page-break </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:soft-page-break </tag>
+   </neutral>
+   <neutral>
+      <tag> text:span </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:span </tag>
+   </neutral>
+   <neutral>
+      <tag> text:subject </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:subject </tag>
+   </neutral>
+   <neutral>
+      <tag> text:tab </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:tab </tag>
+   </neutral>
+   <neutral>
+      <tag> text:table-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:table-count </tag>
+   </neutral>
+   <neutral>
+      <tag> text:table-formula </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:table-formula </tag>
+   </neutral>
+   <neutral>
+      <tag> text:template-name </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:template-name </tag>
+   </neutral>
+   <neutral>
+      <tag> text:text-input </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:text-input </tag>
+   </neutral>
+   <neutral>
+      <tag> text:time </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:time </tag>
+   </neutral>
+   <neutral>
+      <tag> text:title </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:title </tag>
+   </neutral>
+   <neutral>
+      <tag> text:toc-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:toc-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> text:toc-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:toc-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> text:toc-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:toc-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> text:user-defined </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:user-defined </tag>
+   </neutral>
+   <neutral>
+      <tag> text:user-field-get </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:user-field-get </tag>
+   </neutral>
+   <neutral>
+      <tag> text:user-field-input </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:user-field-input </tag>
+   </neutral>
+   <neutral>
+      <tag> text:user-index-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:user-index-mark </tag>
+   </neutral>
+   <neutral>
+      <tag> text:user-index-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:user-index-mark-end </tag>
+   </neutral>
+   <neutral>
+      <tag> text:user-index-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:user-index-mark-start </tag>
+   </neutral>
+   <neutral>
+      <tag> text:variable-get </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:variable-get </tag>
+   </neutral>
+   <neutral>
+      <tag> text:variable-input </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:variable-input </tag>
+   </neutral>
+   <neutral>
+      <tag> text:variable-set </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:variable-set </tag>
+   </neutral>
+   <neutral>
+      <tag> text:word-count </tag>
+   </neutral>
+   <neutral>
+      <tag> /text:word-count </tag>
+   </neutral>
+   <neutral>
+      <tag> svg:desc </tag>
+   </neutral>
+   <neutral>
+      <tag> /svg:desc </tag>
+   </neutral>
+   <neutral>
+      <tag> svg:title </tag>
+   </neutral>
+   <neutral>
+      <tag> /svg:title </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:a </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:a </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:applet </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:applet </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:area-circle </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:area-circle </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:area-polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:area-polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:area-rectangle </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:area-rectangle </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:caption </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:caption </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:circle </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:circle </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:connector </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:connector </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:contour-path </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:contour-path </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:contour-polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:contour-polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:control </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:control </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:ellipse </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:ellipse </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:floating-frame </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:floating-frame </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:frame </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:frame </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:g </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:g </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:glue-point </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:glue-point </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:image </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:image </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:image-map </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:image-map </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:line </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:line </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:measure </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:measure </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:object </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:object </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:object-ole </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:object-ole </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:param </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:param </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:path </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:path </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:plugin </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:plugin </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:polyline </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:polyline </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:rect </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:rect </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:regular-polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:regular-polygon </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:textbox </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:textbox </tag>
+   </neutral>
+   <neutral>
+      <tag> draw:thumbnail </tag>
+   </neutral>
+   <neutral>
+      <tag> /draw:thumbnail </tag>
+   </neutral>
+
+   <attribute>
+      <tag> * </tag>
+      <transattr> db:decimal </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> db:description </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> db:field </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> db:string </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> db:thousand </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> db:title </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> form:title </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> number:title </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> office:string-value </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> office:title </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> table:title </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> text:hint </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> text:label </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> text:title </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> text:value </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:alphabetical-index-mark </tag>
+      <transattr> text:string-value </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:alphabetical-index-mark </tag>
+      <transattr> text:key1 </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:alphabetical-index-mark </tag>
+      <transattr> text:key2 </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:alphabetical-index-mark </tag>
+      <transattr> text:string-value-phonetic </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:alphabetical-index-mark </tag>
+      <transattr> text:key1-phonetic </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:alphabetical-index-mark </tag>
+      <transattr> text:key2-phonetic </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:bibliography-mark </tag>
+      <transattr> text:booktitle </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:conditional-text </tag>
+      <transattr> text:string-value-if-false </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:conditional-text </tag>
+      <transattr> text:string-value-if-true </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:hidden-text </tag>
+      <transattr> text:string-value </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:note-citation </tag>
+      <transattr> text:label </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:page-continuation </tag>
+      <transattr> string-value </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:placeholder </tag>
+      <transattr> text:description </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:text-input </tag>
+      <transattr> text:description </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:s </tag>
+      <transattr> text:c </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:toc-mark </tag>
+      <transattr> text:string-value </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:user-field-input </tag>
+      <transattr> text:description </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:user-index-mark </tag>
+      <transattr> text:string-value </transattr>
+   </attribute>
+   <attribute>
+      <tag> text:variable-input </tag>
+      <transattr> text:description </transattr>
+   </attribute>
+
+   <state>
+      <tag> text:tracked-changes </tag>
+      <endtag> /text:tracked-changes </endtag>
+   </state>
+   <state>
+      <tag> dc:creator </tag>
+      <endtag> /dc:creator </endtag>
+   </state>
+   <state>
+      <tag> dc:date </tag>
+      <endtag> /dc:date </endtag>
+   </state>
+   <state>
+      <tag> meta:creation-date </tag>
+      <endtag> /meta:creation-date </endtag>
+   </state>
+   <state>
+      <tag> meta:editing-cycles </tag>
+      <endtag> /meta:editing-cycles </endtag>
+   </state>
+   <state>
+      <tag> meta:editing-duration </tag>
+      <endtag> /meta:editing-duration </endtag>
+   </state>
+   <state>
+      <tag> meta:generator </tag>
+      <endtag> /meta:generator </endtag>
+   </state>
+   <state>
+      <tag> meta:initial-creator </tag>
+      <endtag> /meta:initial-creator </endtag>
+   </state>
+   <state>
+      <tag> meta:print-date </tag>
+      <endtag> /meta:print-date </endtag>
+   </state>
+   <state>
+      <tag> meta:printed-by </tag>
+      <endtag> /meta:printed-by </endtag>
+   </state>
+<!--   <state>                               -->
+<!--      <tag> meta:template </tag>         -->
+<!--      <endtag> /meta:template </endtag>  -->
+<!--   </state>                              -->
+<!--   <state>                               -->
+<!--      <tag> text:a </tag>                -->
+<!--      <endtag> /text:a </endtag>         -->
+<!--   </state>                              -->
+
+</xmltags>
+

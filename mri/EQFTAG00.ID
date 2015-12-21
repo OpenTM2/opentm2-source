@@ -1,0 +1,261 @@
+// Copyright (c) 1996-2013, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 28 Jul 2005
+// GQ: - added SID_TAGCHARSET_UTF8
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Apr 2005
+// GQ: - addd ID for SID_CLS_TRANSLVAR
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Oct 2003
+// --RJ: P018279: add ID_MUPROP_GEN_REFLOW_CB, SID_TAGREFLOW_YES / NO / NOTSPECIFIED
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 29 Oct 2002
+// GQ: - added CLS_WHITESPACE string ID
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 3 Sep 2001
+// GQ: Added markup table string IDs and control IDs for markup table property dialog
+// 
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 25 Jun 2001
+// GQ: Added IDs used in markup table property dialog
+// GQ: Added IDs for new markup table columns
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFTAG00.IV_   1.1   03 May 1999 09:19:50   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFTAG00.IV_  $
+ *
+ *    Rev 1.1   03 May 1999 09:19:50   BUILD
+ * - added ID for title text of descriptive name column
+ *
+ *    Rev 1.0   09 Jan 1996 10:11:36   BUILD
+ * Initial revision.
+*/
+
+#define ID_TAGTABLE_LB    ID_TAGTABLE_WINDOW + 1
+
+#define IDS_TAGT_NAME_COLTITLE  ID_TAGTABLE_WINDOW + 2
+#define IDS_TAGT_DESCRNAME_COLTITLE  ID_TAGTABLE_WINDOW + 3
+#define IDS_TAGT_DESCR_COLTITLE  ID_TAGTABLE_WINDOW + 4
+#define IDS_TAGT_VERSION_COLTITLE  ID_TAGTABLE_WINDOW + 5
+#define IDS_TAGT_PLUGIN_COLTITLE  ID_TAGTABLE_WINDOW + 6
+#define IDS_TAGT_SUPPLIER_COLTITLE  ID_TAGTABLE_WINDOW + 7
+
+// IDs used for markup table property dialog
+#define ID_MUPROP_CANCEL_PB              ID_MUPROP_DLG +  1
+#define ID_MUPROP_OK                     ID_MUPROP_DLG +  2
+#define ID_MUPROP_TABCTRL                ID_MUPROP_DLG +  3
+#define ID_MUPROP_PROTECT_PB             ID_MUPROP_DLG +  4
+#define ID_MUPROP_HELP_PB                ID_MUPROP_DLG +  5
+
+#define ID_MUPROP_GEN_DESCRNAME_EF       ID_MUPROP_DLG + 10
+#define ID_MUPROP_GEN_DESCR_EF           ID_MUPROP_DLG + 11
+#define ID_MUPROP_GEN_EXIT_EF            ID_MUPROP_DLG + 12
+#define ID_MUPROP_GEN_NAME_EF            ID_MUPROP_DLG + 13
+#define ID_MUPROP_GEN_CHARSET_CB         ID_MUPROP_DLG + 14
+#define ID_MUPROP_GEN_SINGLESUBSTCHAR_EF ID_MUPROP_DLG + 15
+#define ID_MUPROP_GEN_MULTSUBSTCHAR_EF   ID_MUPROP_DLG + 16
+#define ID_MUPROP_GEN_TRNOTELEV1_EF      ID_MUPROP_DLG + 17
+#define ID_MUPROP_GEN_TRNOTELEV2_EF      ID_MUPROP_DLG + 18
+#define ID_MUPROP_GEN_TRNOTEEND_EF       ID_MUPROP_DLG + 19
+#define ID_MUPROP_GEN_TRNOTESTART_EF     ID_MUPROP_DLG + 60
+#define ID_MUPROP_GEN_REFLOW_CB          ID_MUPROP_DLG + 61
+
+
+#define ID_MUPROP_TAG_DELIM_CB           ID_MUPROP_DLG + 20
+#define ID_MUPROP_TAG_ID_EF              ID_MUPROP_DLG + 21
+#define ID_MUPROP_TAG_SEGFLAGS_CB        ID_MUPROP_DLG + 22
+#define ID_MUPROP_TAG_TAGS_LB            ID_MUPROP_DLG + 23
+#define ID_MUPROP_TAG_TEXTSTYLE_CB       ID_MUPROP_DLG + 24
+#define ID_MUPROP_TAG_TYPE_CB            ID_MUPROP_DLG + 25
+#define ID_MUPROP_TAG_WITHATTR_CHK       ID_MUPROP_DLG + 26
+#define ID_MUPROP_TAG_NAME_EF            ID_MUPROP_DLG + 27
+#define ID_MUPROP_TAG_DELIM_EF           ID_MUPROP_DLG + 28
+#define ID_MUPROP_TAG_TAGLEN_EF          ID_MUPROP_DLG + 30
+#define ID_MUPROP_TAG_TRANSL_CHK         ID_MUPROP_DLG + 31
+#define ID_MUPROP_TAG_TRNOTE_CHK         ID_MUPROP_DLG + 32
+#define ID_MUPROP_TAG_ADDINFO_EF         ID_MUPROP_DLG + 33
+#define ID_MUPROP_TAG_COLPOS_EF          ID_MUPROP_DLG + 34
+#define ID_MUPROP_TAG_CLASSID_CB         ID_MUPROP_DLG + 35
+#define ID_MUPROP_TAG_ADD_PB             ID_MUPROP_DLG + 36
+#define ID_MUPROP_TAG_DELETE_PB          ID_MUPROP_DLG + 37
+
+#define ID_MUPROP_ATTR_ATTR_LB           ID_MUPROP_DLG + 40
+#define ID_MUPROP_ATTR_NAME_EF           ID_MUPROP_DLG + 41
+#define ID_MUPROP_ATTR_DELIM_EF          ID_MUPROP_DLG + 42
+#define ID_MUPROP_ATTR_LENGTH_EF         ID_MUPROP_DLG + 43
+#define ID_MUPROP_ATTR_ADDINFO_EF        ID_MUPROP_DLG + 44
+#define ID_MUPROP_ATTR_TRANSL_CHK        ID_MUPROP_DLG + 45
+#define ID_MUPROP_ATTR_ADD_PB            ID_MUPROP_DLG + 47
+#define ID_MUPROP_ATTR_DELETE_PB         ID_MUPROP_DLG + 48
+
+#define ID_MUPROP_TEST_TEXT_GB           ID_MUPROP_DLG + 50
+#define ID_MUPROP_TEST_LOAD_PB           ID_MUPROP_DLG + 51
+#define ID_MUPROP_TEST_ADDATTR_PB        ID_MUPROP_DLG + 52
+#define ID_MUPROP_TEST_ADDTAG_PB         ID_MUPROP_DLG + 53
+#define ID_MUPROP_TEST_TEXT_RICHEDIT     ID_MUPROP_DLG + 54
+#define ID_MUPROP_TEST_REFRESH_PB        ID_MUPROP_DLG + 55
+#define ID_MUPROP_TEST_LEGEND_EF         ID_MUPROP_DLG + 56
+#define ID_MUPROP_TEST_LEGEND_STATIC     ID_MUPROP_DLG + 57
+#define ID_MUPROP_TEST_TEXT_STATIC       ID_MUPROP_DLG + 58
+
+#define ID_MUPROP_UNPROT_PASSWORD_EF     ID_MUPROP_UNPROTECT_DLG + 1
+#define ID_MUPROP_UNPROT_OK_PB           ID_MUPROP_UNPROTECT_DLG + 2
+#define ID_MUPROP_UNPROT_CANCEL_PB       ID_MUPROP_UNPROTECT_DLG + 3
+#define ID_MUPROP_UNPROT_HELP_PB         ID_MUPROP_UNPROTECT_DLG + 4
+
+#define ID_MUPROP_PROTECT_PASSWORD_EF    ID_MUPROP_PROTECT_DLG + 1
+#define ID_MUPROP_PROTECT_CONF_EF        ID_MUPROP_PROTECT_DLG + 2
+#define ID_MUPROP_PROTECT_OK_PB          ID_MUPROP_PROTECT_DLG + 3
+#define ID_MUPROP_PROTECT_CANCEL_PB      ID_MUPROP_PROTECT_DLG + 4
+#define ID_MUPROP_PROTECT_HELP_PB        ID_MUPROP_PROTECT_DLG + 5
+
+#define SID_TAGCHARSET_ASCII             ID_MUPROP_DLG + 100
+#define SID_TAGCHARSET_ANSI              ID_MUPROP_DLG + 101
+#define SID_TAGCHARSET_UNICODE           ID_MUPROP_DLG + 102
+#define SID_STARTDEL_TAG                 ID_MUPROP_DLG + 103
+#define SID_ENDDEL_TAG                   ID_MUPROP_DLG + 104
+#define SID_SELC_TAG                     ID_MUPROP_DLG + 105
+#define SID_STARTNEUTRAL_TAG             ID_MUPROP_DLG + 106
+#define SID_ENDNEUTRAL_TAG               ID_MUPROP_DLG + 107
+#define SID_SEG_OFF                      ID_MUPROP_DLG + 108
+#define SID_SEG_NEUTRAL                  ID_MUPROP_DLG + 109
+#define SID_SEG_ON                       ID_MUPROP_DLG + 110
+#define SID_SEG_RESET                    ID_MUPROP_DLG + 111
+#define SID_SEG_LINE                     ID_MUPROP_DLG + 112
+#define SID_PROTECT_ON                   ID_MUPROP_DLG + 113
+#define SID_PROTECT_OFF                  ID_MUPROP_DLG + 114
+#define SID_TSL_TEXT                     ID_MUPROP_DLG + 115
+#define SID_TSNL_TEXT                    ID_MUPROP_DLG + 116
+#define SID_NOEXPL_TEXT                  ID_MUPROP_DLG + 117
+#define SID_CLS_DEFAULT                  ID_MUPROP_DLG + 118
+#define SID_CLS_HEAD                     ID_MUPROP_DLG + 119
+#define SID_CLS_EHEAD                    ID_MUPROP_DLG + 120
+#define SID_CLS_PARA                     ID_MUPROP_DLG + 121
+#define SID_CLS_EPARA                    ID_MUPROP_DLG + 122
+#define SID_CLS_XTRCT                    ID_MUPROP_DLG + 123
+#define SID_CLS_EXTRCT                   ID_MUPROP_DLG + 124
+#define SID_CLS_LIST                     ID_MUPROP_DLG + 125
+#define SID_CLS_ELIST                    ID_MUPROP_DLG + 126
+#define SID_CLS_HILIT                    ID_MUPROP_DLG + 127
+#define SID_CLS_EHILIT                   ID_MUPROP_DLG + 128
+#define SID_CLS_PROTECT                  ID_MUPROP_DLG + 129
+#define SID_CLS_TREF                     ID_MUPROP_DLG + 130
+#define SID_CLS_LREF                     ID_MUPROP_DLG + 131
+#define SID_CLS_ADDINF                   ID_MUPROP_DLG + 132
+#define SID_CLS_EADDINF                  ID_MUPROP_DLG + 133
+#define SID_CLS_UNCHG                    ID_MUPROP_DLG + 134
+#define SID_CLS_VAR                      ID_MUPROP_DLG + 135
+#define SID_CLS_WHITESPACE               ID_MUPROP_DLG + 136
+
+#define SID_TAGREFLOW_YES                ID_MUPROP_DLG + 137
+#define SID_TAGREFLOW_NO                 ID_MUPROP_DLG + 138
+#define SID_TAGREFLOW_NOTSPECIFIED       ID_MUPROP_DLG + 139
+
+#define SID_CLS_TRANSLVAR                ID_MUPROP_DLG + 140
+
+#define SID_TAGCHARSET_UTF8              ID_MUPROP_DLG + 141

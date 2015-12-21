@@ -1,0 +1,362 @@
+# Copyright (C) 2013-2015, International Business Machines
+# Corporation and others. All rights reserved
+
+# Basic variables setup
+$CR        = [\p{Sentence_Break = CR}];
+$LF        = [\p{Sentence_Break = LF}];
+$Extend    = [\p{Sentence_Break = Extend}];
+$Sep       = [\p{Sentence_Break = Sep}];
+$Format    = [\p{Sentence_Break = Format}];
+$Sp        = [\p{Sentence_Break = Sp}];
+$Lower     = [\p{Sentence_Break = Lower}];
+$Upper     = [\p{Sentence_Break = Upper}];
+$OLetter   = [\p{Sentence_Break = OLetter}];
+$Numeric   = [\p{Sentence_Break = Numeric}];
+$ATerm     = [\p{Sentence_Break = ATerm}];
+$SContinue = [\p{Sentence_Break = SContinue}];
+$STerm     = [\p{Sentence_Break = STerm}];
+$Close     = [\p{Sentence_Break = Close}];
+$SpEx       = $Sp      ($Extend | $Format)*;
+$LowerEx    = $Lower   ($Extend | $Format)*;
+$UpperEx    = $Upper   ($Extend | $Format)*;
+$OLetterEx  = $OLetter ($Extend | $Format)*;
+$NumericEx  = $Numeric ($Extend | $Format)*;
+$ATermEx    = $ATerm   ($Extend | $Format)*;
+$SContinueEx= $SContinue ($Extend | $Format)*;
+$STermEx    = $STerm   ($Extend | $Format)*;
+$CloseEx    = $Close   ($Extend | $Format)*;
+
+# Start of rules
+!!chain;
+
+# Forward rules
+!!forward;
+
+$TABS = ( \u2192 | \u0009 );
+$SpecialCharacters = ('~' | '@' | '#' | '$' | '%' | '^' | '&' | '*' | '-' | '_' | '+' | '=' | ':' | ';' | '/' | '\' | '|' | '<' | '>' | \u001A | \u00A3 |  \u0096 | \u0081 | \u00EC | \u00E7);
+$BracketCharacters = ('[' | ']' | '{' | '}');
+$NotLettersEx = [^$OLetter $Upper $Lower $Sep $CR $LF $ATerm $STerm] ($Extend | $Format)*;
+
+[^$Sep $CR $LF]? ($Extend | $Format)*;
+
+# double new lines
+($CR | $LF) ($CR | $LF);
+
+[{bof}] $SpEx* ($CR | $LF)+ ($UpperEx | $LowerEx);
+
+# single-digit period at the begining of line
+[{bof}] $SpEx* ($NumericEx | $UpperEx | $LowerEx) $ATermEx $SpEx ($NumericEx |$UpperEx | $LowerEx | $CloseEx) ($UpperEx | $LowerEx)*;
+
+# text single-digit period Text
+($UpperEx | $LowerEx) (':')? ($CR | $LF)* $SpEx+ ($UpperEx | $LowerEx |$NumericEx) $ATermEx $SpEx ($UpperEx | $LowerEx);
+
+# single-letter newline spaces number space
+$SpEx $LowerEx $ATermEx ($CR | $LF)+ $SpEx $SpEx+ $NumericEx $ATermEx $SpEx;
+
+# single-letter period space parentheses
+$SpEx $LowerEx $ATermEx $SpEx $CloseEx ($UpperEx | $LowerEx);
+
+# text parentheses newline space text
+($UpperEx | $LowerEx) $CloseEx ($CR | $LF) ($CR | $LF)? $SpEx+ ($UpperEx | $LowerEx);
+
+# text.*text
+($UpperEx | $LowerEx) $ATermEx '+' ($UpperEx | $LowerEx);
+
+# text period space newline tab at the end of string
+($UpperEx | $LowerEx) $ATermEx $SpEx ($CR | $LF)+ $TABS [{eof}];
+
+# space period upper
+$SpEx $ATermEx $UpperEx;
+
+# period number or comma or special
+$ATermEx ($NumericEx | $SContinueEx | $SpecialCharacters);
+
+# double punctuation
+($ATermEx | $STermEx) $STermEx;
+$STermEx $ATermEx;
+
+# newline space parentheses newline space
+($CR | $LF)+ $SpEx+ $CloseEx ($CR | $LF)+ $SpEx+;
+
+# text parentheses and newline space inside of a sentence
+$LowerEx $CloseEx $SpEx+ ($CR | $LF)+ $SpEx+ $LowerEx;
+
+# quotation and newline
+($UpperEx | $LowerEx) ('"' $SpEx* '"' | '"') $SpEx* ($CR | $LF)+ ($UpperEx | $LowerEx);
+
+# text space brackets newlines text
+($UpperEx | $LowerEx) $SpEx* $CloseEx ($CR | $LF) ($CR | $LF)? ($UpperEx | $LowerEx);
+
+# text space newline space newline
+($UpperEx | $LowerEx) $SpEx ($CR | $LF)+ $SpEx ($CR | $LF)+;
+
+# lower-text period space lower-text
+$SpEx $LowerEx $LowerEx $LowerEx $ATermEx $SpEx $LowerEx ($LowerEx)+ $SpEx ($UpperEx | $LowerEx | $SpEx)* $ATermEx $SpEx*;
+
+# spaces at the end of the string
+$SpEx $NumericEx $ATermEx ($CR | $LF)+ $SpEx+ [{eof}];
+
+# text newline tabs space newline
+($UpperEx | $LowerEx | $NumericEx) ($CR | $LF)+ $TABS* $SpEx+ ($CR | $LF)+;
+
+# lower-text newline space newline text
+$LowerEx+ ($CR | $LF)+ $SpEx+ ($CR | $LF)+ $LowerEx+;
+
+# period ']' or '}' space text
+$ATermEx (']' | '}') $SpEx* ($NumericEx | $UpperEx | $LowerEx);
+
+# double periods
+($NumericEx | $UpperEx | $LowerEx) $SpEx* $ATermEx $ATermEx ($NumericEx | $UpperEx | $LowerEx |$SpEx+);
+
+# double punctuations
+($NumericEx | $UpperEx | $LowerEx | $CloseEx) $SpEx? ($STermEx| $ATermEx) $ATermEx $SpEx? ([{eof}] | ($CR | $LF)+);
+
+# triple periods
+($NumericEx | $UpperEx | $LowerEx) '...' $SpEx* $NumericEx*;
+
+# triple periods space newline space
+($NumericEx | $UpperEx | $LowerEx) $SpEx+ '...' $SpEx* ($CR | $LF) ($CR | $LF)? $SpEx*;
+
+# triple periods newline
+($NumericEx | $UpperEx | $LowerEx) '...' ($CR | $LF) ($CR | $LF)? $SpEx* ($NumericEx | $UpperEx | $LowerEx);
+
+# triple periods space period
+'...' $SpEx+ '.';
+
+# comma space triple period parentheses
+$SpEx $SContinueEx $SpEx '...' $CloseEx;
+
+# quotation space triple periods space text
+$CloseEx $SpEx* '...' $SpEx* $LowerEx;
+
+# text triple period space newline tabs
+($UpperEx | $LowerEx) '...' $SpEx+ ($CR | $LF)+ $TABS+;
+
+# comma space triple periods space at the end of the string
+($UpperEx | $LowerEx |$SContinueEx) $SpEx* '...' $SpEx* ([{eof}] | $CloseEx+ $SpecialCharacters);
+
+# space triple periods newline
+($UpperEx | $LowerEx) $SContinueEx? $SpEx* ($CR | $LF)* '...' ($CR | $LF)* $SpEx* ($UpperEx | $LowerEx);
+
+# triple periods surrounded by parentheses
+($UpperEx | $LowerEx) $SpEx* $CloseEx $SpEx* '...' $SpEx* $CloseEx $SpEx* $SpecialCharacters;
+
+# periods and / or \
+('.')+ ('/' | '\');
+
+# periods text
+[{bof}] ('	')* '...' $SpEx? ($UpperEx | $LowerEx);
+
+# comma periods comma
+$SContinueEx '...' ('.')* $SContinueEx;
+
+# text quotation periods
+($UpperEx | $LowerEx) $CloseEx ('.')+;
+
+# text newline at least four periods newline
+($UpperEx | $LowerEx) $SpEx* ($CR | $LF)+ '...' ('.')+ ($CR | $LF)+;
+
+# elipse inside brackets (lower space ... bracket space bracket lower)
+$LowerEx $SpEx '...' $CloseEx $SpEx $CloseEx $LowerEx;
+
+# leading and trailing spaces after elipse
+'...' $SpEx $SpEx $SpEx+ ($UpperEx | $LowerEx);
+
+# comma space ... space special text
+$SpEx $SContinueEx $SpEx '...' $SpEx $CloseEx $SpEx $SpecialCharacters $SpEx ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $SpEx? $SContinueEx $SpEx '...'  $SpEx $CloseEx+ $SpEx $SpecialCharacters?;
+($UpperEx | $LowerEx) $SContinueEx $SpEx '...'  $CloseEx;
+
+# brackets and commas
+$CloseEx SpEx $CloseEx ($UpperEx | $LowerEx);
+$CloseEx $SContinueEx $SpEx '...' $CloseEx;
+
+# bracket space ... space brackets
+($UpperEx | $LowerEx) $CloseEx $SpEx? '...' $SpEx? $CloseEx+ ($SpEx? $CloseEx? |  ($UpperEx | $LowerEx) | $SpEx $CloseEx+ ($UpperEx | $LowerEx));
+
+# bracket space ... space bracket special
+($UpperEx | $LowerEx) $CloseEx+ $SpEx '...' ($SpEx $CloseEx)+ ($SpEx | $CloseEx)+ $SpEx? $CloseEx? ($CloseEx | $SpecialCharacters | ($UpperEx | $LowerEx));
+($UpperEx | $LowerEx) $CloseEx+ $SpEx '...' $SpEx $CloseEx+ $SpEx $SpecialCharacters $SpEx  ($UpperEx | $LowerEx);
+
+# text space ... brackets text
+($UpperEx | $LowerEx) $SpEx '...' $CloseEx+ ($SpEx $CloseEx+)? ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx $SpEx '...' $CloseEx+ $SpEx $CloseEx  ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx* $SpEx '...' $CloseEx+ (($SpEx $CloseEx) | $CloseEx)?;
+($UpperEx | $LowerEx) $CloseEx $SpEx '...' $CloseEx $SpEx $CloseEx+ $SpEx $CloseEx $SpEx ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $SpEx+ '...' $SpEx+ $SpecialCharacters $NumericEx;
+
+# special number ... number
+$SpecialCharacters $SpEx $NumericEx+ $SpEx '...' $SpEx $NumericEx+;
+
+# periods surrounded by closed characters
+$CloseEx ('.')+ $CloseEx+ $SpEx+ ($SpecialCharacters? | $CloseEx+);
+
+# text newline periods space
+($UpperEx | $LowerEx) ($CR | $LF)+ '...' ('.')* $SpEx+;
+
+# at least four periods
+($NumericEx | $UpperEx | $LowerEx) $SpEx? $ATermEx $ATermEx $ATermEx $ATermEx+ $SpEx?;
+
+# text space at least four periods
+($UpperEx | $LowerEx) $SpEx $ATermEx $ATermEx $ATermEx $ATermEx+ ($UpperEx | $LowerEx);
+
+# text newline special text
+($NumericEx | $UpperEx | $LowerEx) $CloseEx+ $SpEx* ($CR | $LF)+ $SpEx* ($SpecialCharacters | $SContinueEx | $CloseEx) ($NumericEx | $UpperEx | $LowerEx);
+
+# text newline special space text
+($NumericEx | $UpperEx | $LowerEx) (';' | ':' | '#')? $SpEx* ((($CR | $LF) ($CR | $LF)? $SpEx* ($SContinueEx | $CloseEx)+) | ( ($CR | $LF) ($CR | $LF)? $SpEx* $SpecialCharacters+)) $SpEx* ($NumericEx | $UpperEx | $LowerEx);
+$SpecialCharacters+ ($CR | $LF) ($CR | $LF)? $SpEx+ $CloseEx ($SpecialCharacters | $SpEx)+ ($UpperEx | $LowerEx);
+
+# text newline special text
+($NumericEx | $UpperEx | $LowerEx) $SpEx* ($CR | $LF) ($CR | $LF)? $SpEx* ($SpecialCharacters | $SContinueEx | $CloseEx | $ATermEx | $STermEx)+ ($NumericEx | $UpperEx | $LowerEx);
+
+# text special newline space text
+$NumericEx $SpEx? ($SpecialCharacters | $SContinueEx | '"')+ ($CR | $LF)+ $SpEx* ($UpperEx | $LowerEx);
+$NumericEx $SpEx? ($SpecialCharacters | $SContinueEx | $CloseEx)+ ($CR | $LF)+ $SpEx* ($NumericEx);
+($UpperEx | $LowerEx) $SpEx? ($SpecialCharacters | $SContinueEx | '"')+ ($CR | $LF) ($CR | $LF)? $SpEx* ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $SpEx? ($SpecialCharacters | $SContinueEx | $CloseEx)+ ($CR | $LF) ($CR | $LF)? $SpEx* ($NumericEx);
+
+# text space special space newline space text
+($UpperEx | $LowerEx) $SpEx* $SpecialCharacters $SpEx* ($CR | $LF) ($CR | $LF)? $SpEx* ($NumericEx | $UpperEx | $LowerEx);
+$NumericEx $SpEx* $SpecialCharacters $SpEx* ($CR | $LF)+ $SpEx* ($NumericEx | $UpperEx | $LowerEx);
+
+# special newline text
+$SpecialCharacters ($CR | $LF) ($CR | $LF)? ($UpperEx | $LowerEx);
+
+# special newline space comma
+$SpecialCharacters ($CR | $LF)+ $SpEx+ $SContinueEx;
+
+# period brackets special text
+$ATermEx $BracketCharacters $SpEx* $SpecialCharacters $SpEx* ($UpperEx | $LowerEx);
+
+# newline () or ""
+($UpperEx | $LowerEx | ':' | ';' | $SContinueEx) $SpEx* ($CR | $LF) ($CR | $LF)? ($CR | $LF)? $SpEx* $CloseEx* ($SpecialCharacters | $SContinueEx | $CloseEx | $NumericEx | $UpperEx | $LowerEx);
+
+# text periods special
+($UpperEx | $LowerEx) ('.')+ $SpecialCharacters;
+
+# special periods comma
+($SpecialCharacters | (($UpperEx | $LowerEx) $SpEx)) ('.')+ $SContinueEx;
+
+# text newline text (special handling for atermex and stermex)
+($UpperEx | $LowerEx) (';' | ':' | $SContinueEx)? $SpEx* ($CR | $LF)+ ($ATermEx | $STermEx) $SpEx*;
+
+# alphanumeric period alphanumeric
+($UpperEx | $LowerEx | $NumericEx | '*') $ATermEx ('%')? ($UpperEx | $LowerEx | $NumericEx | '*' | '\');
+
+# newline [ space ] space text
+($UpperEx | $LowerEx) ($CR | $LF)+ $CloseEx $SpEx* $CloseEx $SpEx* ($UpperEx | $LowerEx);
+
+# text ( characters ) text
+($UpperEx | $LowerEx) $SpEx+ '(' ($ATermEx | $SpecialCharacters | $SContinueEx | $CloseEx)+ ')' $SpEx* $SContinueEx? $SpEx* ($UpperEx | $LowerEx);
+
+# text colon newline spaces end of string
+($UpperEx | $LowerEx) $SpecialCharacters ($CR | $LF)+ $SpEx ($CR | $LF)+ [{eof}];
+($UpperEx | $LowerEx) $SpecialCharacters ($CR | $LF) ($CR | $LF)? $SpEx+ [{eof}];
+($UpperEx | $LowerEx) $CloseEx $SpecialCharacters ($CR | $LF)+ $SpEx+ [{eof}];
+
+# text and newline in between parentheses
+($UpperEx | $LowerEx) $SpEx $CloseEx $SpEx* ($CR | $LF)+ $CloseEx $SpEx* ($UpperEx | $LowerEx);
+
+# space bracket newline comma
+$SpEx $CloseEx ($CR | $LF)+ $SpEx+ $SContinueEx;
+
+# text comma space newline bracket space text
+($UpperEx | $LowerEx) $SContinueEx $SpEx* ($CR | $LF)+ $SpEx* $CloseEx $SpEx* ($NumericEx | $UpperEx | $LowerEx);
+
+# ending quotation space newline text
+($UpperEx | $LowerEx) '"' $SpEx+ ($CR | $LF)+ ($UpperEx | $LowerEx);
+
+# text newline tabs
+($UpperEx | $LowerEx) ($CR | $LF)+ $TABS+;
+
+# copyright symbol
+($UpperEx | $LowerEx) ($CR | $LF)+ (\u00B6)? (\u00A9 | \u00B8 | \u00AE) $SpEx+ $NumericEx;
+
+# copyright symbol at the beginning
+[{bof}] (\u00B6)? (\u00A9 | \u00B8 | \u00AE) ($CR | $LF)+ ($UpperEx | $LowerEx);
+
+# copyright symbol newline spaces text
+($UpperEx | $LowerEx) (\u00B6)? (\u00A9 | \u00B8 | \u00AE) ($CR | $LF)+ $SpEx* ($UpperEx | $LowerEx);
+
+# ( space newline space text
+'(' $SpEx* ($CR | $LF)+ $SpEx* ($UpperEx | $LowerEx);
+
+# end parenthese newline space text
+($UpperEx | $LowerEx) ')' $SpEx ($CR | $LF)+ ($UpperEx | $LowerEx);
+
+# space letter period ( letter
+$SpEx* ($UpperEx | $LowerEx) $ATermEx '(' $SpEx* ($UpperEx | $LowerEx);
+
+# '#' newline parentheses
+'#' ($CR | $LF)+ '(' ($UpperEx | $LowerEx);
+
+# comma quotation newline text
+$SContinueEx $CloseEx ($CR | $LF)+ $SpEx* ($UpperEx | $LowerEx);
+
+# special quotation newline text
+$SpecialCharacters $CloseEx $SpEx* ($CR | $LF) ($CR | $LF)? $SpEx* $CloseEx ($SpecialCharacters | $SpEx)+ ($UpperEx | $LowerEx);
+
+# special newline text
+$SpecialCharacters ($CR | $LF) ($CR | $LF)? $SpEx+ ($SpecialCharacters | $SpEx)+ ($UpperEx | $LowerEx);
+($SpecialCharacters | $SpEx) ($SpecialCharacters | $SpEx)+ ($CR | $LF) ($CR | $LF)? ($SpecialCharacters | $SpEx | $CloseEx)+;
+
+# / upper period space or space upper period space
+('/' | $SpEx) $UpperEx $ATermEx $SpEx+ ($UpperEx | $LowerEx);
+
+# text newline text (may contain special; similar to a list of items)
+($UpperEx | $LowerEx | $NumericEx | $SpecialCharacters | $CloseEx) ($CR | $LF) ($CR | $LF)? $SpEx+ $SpecialCharacters $SpEx+ ($SpecialCharacters | $CloseEx);
+
+# text parentheses newline text (similar to a list of items)
+($UpperEx | $LowerEx) $CloseEx ($CR | $LF) ($CR | $LF)? $SpEx+ $SpecialCharacters $SpEx+ ($UpperEx | $LowerEx);
+
+# punctuation and non-letters
+$STermEx $NotLettersEx;
+
+# punctuation letters
+($STermEx | $ATermEx) ($UpperEx | $LowerEx)+;
+
+# > newline text
+'>' ($CR | $LF) ($CR | $LF)? $LowerEx;
+
+# text newline and many spaces
+($UpperEx | $LowerEx) ($CR | $LF) ($CR | $LF)? $SpEx  $SpEx  $SpEx  $SpEx  $SpEx  $SpEx+ ($CR | $LF) ($CR | $LF)?;
+
+# text spaces newline spaces text
+($UpperEx | $LowerEx | $NumericEx | $SContinueEx | ';') $SpEx* ($Sep | $CR | $LF)? ($Sep | $CR | $LF)? $SpEx* ('+' | $UpperEx | $LowerEx | $NumericEx);
+
+# text newline period spaces
+($NumericEx | $UpperEx | $LowerEx) ($CR | $LF)+ $SpEx* $ATermEx $SpEx*;
+
+# text comma newline
+($UpperEx | $LowerEx) $SContinueEx $SpEx* ($CR | $LF)+;
+
+$SRC_CODE_CONDITIONAL=($SpecialCharacters | '!') $SpecialCharacters;
+# Source code files and comments
+('*' '/' | '#') $SpEx* ($CR | $LF)+ $SpEx* ('/' '*' | '#');
+('}' | '#') $SpEx* ($CR | $LF)+ $SpEx* ('$')? ($UpperEx | $LowerEx);
+'*' $SpEx* ($CR | $LF)+ $SpEx* '*' $SpEx* ($UpperEx | $LowerEx);
+$SpecialCharacters ($TABS | $SpEx)+ $NumericEx+ $ATermEx  $TABS+ ($UpperEx | $LowerEx);
+$CloseEx $TABS ($CR | $LF) ($CR | $LF)? $TABS+ $SpecialCharacters $TABS;
+$CloseEx+ ';' ($CR | $LF) ($CR | $LF)? ($TABS| $SpEx)+ $SpecialCharacters ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $SpEx* ($CR | $LF)+ $SpEx* '*' $SpEx*;
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? $CloseEx* ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ $SpEx+ ($SRC_CODE_CONDITIONAL)? ($CR | $LF) ($CR | $LF)? ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? $SRC_CODE_CONDITIONAL $SpEx (($UpperEx | $LowerEx) | $CloseEx)+ (($SpEx | $TABS)+ ($UpperEx | $LowerEx))*;
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? ($TABS| $SpEx)+ (('!') | ($SpecialCharacters+  ($TABS| $SpEx)+)) ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? $SpEx+ $CloseEx+ ($TABS| $SpEx)+ ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? $SpecialCharacters (($TABS| $SpEx)+ $SpecialCharacters)? $CloseEx+ ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? (($TABS| $SpEx)+ $SpecialCharacters+)+ ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx  $TABS ($CR | $LF) ($CR | $LF)? ($TABS| $SpEx)+ $SpecialCharacters ($TABS| $SpEx)+ $Numeric+ $ATermEx ($SpEx | $TABS)+ ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx  ($CR | $LF) ($CR | $LF)? ($TABS| $SpEx)+ ($CloseEx | $SpecialCharacters)+ ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ ($CR | $LF) ($CR | $LF)? ($TABS| $SpEx)+ ($UpperEx | $LowerEx);
+($UpperEx | $LowerEx) $CloseEx+ $SpecialCharacters ($CR | $LF) ($CR | $LF)? ($TABS| $SpEx)+ ('?' $SpecialCharacters)? ($UpperEx | $LowerEx);
+
+# quotation newline special text
+($UpperEx | $LowerEx) $CloseEx ($CR | $LF) ($CR | $LF)? $SpecialCharacters $SpEx;
+
+($STermEx | $ATermEx) $CloseEx* $SpEx* ($Sep | $CR | $LF)?;
+
+[[^$STerm $ATerm $Close $Sp $Sep $LF $CR $Format $Extend]{bof}] ($Extend | $Format | $Close | $Sp)* .;
+[[^$STerm $ATerm $Close $Sp $Sep $LF $CR $Format $Extend]{bof}] ($Extend | $Format | $Close | $Sp)* ([$Sep $LF $CR {eof}] | $CR $LF){100};
+

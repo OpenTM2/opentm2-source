@@ -1,0 +1,344 @@
+//+----------------------------------------------------------------------------+
+//|EQFMEM.MRI                                                                  |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Stefan Doersam                                                      |
+//+----------------------------------------------------------------------------+
+//|Description: MRI for Translation MEmory functions                           |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 22 Jan 2003
+// GQ: - Changed label of segments field in memory properties
+//       from Segments to Different Segments
+// 
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFMEM.MVI   1.2   07 Jul 1997 11:09:28   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFMEM.MVI  $
+ *
+ *    Rev 1.2   07 Jul 1997 11:09:28   BUILD
+ * - completed TM properties dialog
+ *
+ *    Rev 1.1   30 Jun 1997 14:10:22   BUILD
+ * - implemented work item A.57g: TM property dialog
+ *
+ *    Rev 1.0   09 Jan 1996 10:09:50   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+
+/****************************************************************/
+/* Text for the New Translation Memory dialog                   */
+/****************************************************************/
+#define STR_MEM_NEW_TITLE          "New Translation Memory"
+#define STR_MEM_NEW_NAME_TEXT      "Name:"
+#define STR_MEM_NEW_DESC_TEXT      "Description:"
+#define STR_MEM_NEW_LOCAL_TEXT     "Local"
+#define STR_MEM_NEW_SHARED_TEXT    "Shared"
+#define STR_MEM_NEW_REMOTE_TEXT    "Remote"
+#define STR_MEM_NEW_SERVER_TEXT    "Server"
+#define STR_MEM_NEW_DRIVE_TEXT     "Disk drive"
+#define STR_MEM_NEW_LOCATION_GB    "Location of Translation Memory"
+#define STR_MEM_NEW_MARKUP_TEXT    "Markup:"
+#define STR_MEM_NEW_SOURCE_TEXT    "Source language:"
+#define STR_MEM_NEW_TARGET_TEXT    "Target language:"
+#define STR_MEM_NEW_CREATE_PB      "&Create"
+
+/****************************************************************/
+/* Text for the Import Translation Memory dialog                */
+/****************************************************************/
+#define STR_MEM_IM_TITLE          "Import Translation Memory"
+#define STR_MEM_IM_FORMAT_GB      "Format"
+#define STR_MEM_IM_EXTERN_RB      "External"
+#define STR_MEM_IM_INTERN_RB      "OpenTM2"
+#define STR_MEM_IM_FROM_GB        "From"
+#define STR_MEM_IM_NAME_TEXT      "Name:"
+#define STR_MEM_IM_DIR_TEXT       "Directories"
+#define STR_MEM_IM_FILES_TEXT     "Files"
+#define STR_MEM_IM_TOMEM_TEXT     "To Translation Memory:"
+#define STR_MEM_IM_IMPORT_PB      "&Import"
+#define STR_MEM_IM_CURDIR_TEXT    "Current directory:"
+
+/****************************************************************/
+/* Text for the Export Translation Memory dialog                */
+/****************************************************************/
+#define STR_MEM_EX_TITLE          "Export Translation Memory"
+#define STR_MEM_EX_FORMAT_GB      "Format"
+#define STR_MEM_EX_EXTERN_RB      "External"
+#define STR_MEM_EX_INTERN_RB      "OpenTM2"
+#define STR_MEM_EX_FROM_TEXT      "Name:"
+#define STR_MEM_EX_FROM_DESCR     "Description:"
+#define STR_MEM_EX_FROM_GB        "Export"
+#define STR_MEM_EX_TO_GB          "To"
+#define STR_MEM_EX_NAME_TEXT      "Name:"
+#define STR_MEM_EX_DIR_TEXT       "Directories"
+#define STR_MEM_EX_EXPORT_PB      "&Export"
+#define STR_MEM_EX_CURDIR_TEXT    "Current directory:"
+
+/****************************************************************/
+/* Text for the Merge Translation Memory dialog                 */
+/****************************************************************/
+#define STR_MEM_ME_TITLE          "Merge Translation Memory"
+#define STR_MEM_ME_FROM_TEXT      "Name:"
+//#define STR_MEM_ME_TO_GB          "To"
+#define STR_MEM_ME_TM_TEXT        "Into Translation Memory"
+#define STR_MEM_ME_MERGE_PB       "&Merge"
+
+/****************************************************************/
+/* Global Text for all dialogs                                  */
+/****************************************************************/
+#define STR_CANCEL_PB              "Cancel"
+#define STR_HELP_PB                "Help"
+
+/****************************************************************/
+/* Text for the TM Export Slider                                */
+/****************************************************************/
+#define STR_MEMSL_EP_TITLE           "Exporting Translation Memory: "
+#define STR_MEMSL_EP1_TEXT           "Export Translation Memory:"
+#define STR_MEMSL_EP2_TEXT           "to external file: "
+
+/****************************************************************/
+/* Text for the TM Import Slider                                */
+/****************************************************************/
+#define STR_MEMSL_IP_TITLE           "Importing Translation Memory: "
+#define STR_MEMSL_IP1_TEXT           "Importing file:"
+#define STR_MEMSL_IP2_TEXT           "from external file: "
+
+/****************************************************************/
+/* Text for the TM Organize Slider                              */
+/****************************************************************/
+#define STR_MEMSL_OR_TITLE           "Organizing Translation Memory: "
+
+/****************************************************************/
+/* Text for the TM Merge Slider                                 */
+/****************************************************************/
+#define STR_MEMSL_ME_TITLE           "Merging Translation Memory: "
+#define STR_MEMSL_ME1_TEXT           "Merge Translation Memory:"
+#define STR_MEMSL_ME2_TEXT           "into Translation Memory: "
+
+/****************************************************************/
+/* Text for the Translation Memory List Window                  */
+/****************************************************************/
+#define STR_MEM_TITLE              "Translation Memory List"
+#define STR_MEM_NAME_TITLE         "Name"
+#define STR_MEM_DESCRIPTION_TITLE  "Description"
+#define STR_MEM_SIZE_TITLE         "Size"
+#define STR_MEM_DRIVE_TITLE        "Drive"
+#ifndef _WINDOWS
+  #define STR_MEM_SERVER_TITLE       "Server"
+#else
+  #define STR_MEM_SERVER_TITLE       ""
+#endif
+#define STR_MEM_SOURCE_TITLE       "Source Language"
+#ifndef _WINDOWS
+  #define STR_MEM_TARGET_TITLE       "Target Language"
+  #define STR_MEM_MARKUP_TITLE       "Markup"
+#else
+  #define STR_MEM_TARGET_TITLE       ""
+  #define STR_MEM_MARKUP_TITLE       ""
+#endif
+#define STR_MEM_FILESIZE_NA_TEXT   "N/A"
+#define STR_MEM_OWNER_TITLE        "Owner"
+/******************************************************************************/
+/* Text for the controls in the Include Remote Translation Memory dialog      */
+/******************************************************************************/
+
+#define STR_INCLRMTM_TITLE         "Include Remote Translation Memory Databases"
+#define STR_INCLRMTM_INCLUDE_PB    "&Include"
+#define STR_INCLRMTM_CANCEL_PB     "Cancel"
+#define STR_INCLRMTM_HELP_PB       "Help"
+#define STR_INCLRMTM_SERVER_TEXT   "Server"
+#define STR_INCLRMTM_TM_TEXT       "Translation Memory databases"
+
+/******************************************************************************/
+/* Text for the controls in the Maintain Server List dialog                   */
+/******************************************************************************/
+#define STR_SERVLIST_TITLE         "Maintain Server List"
+#define STR_SERVLIST_SERVER_TEXT   "Available servers"
+#define STR_SERVLIST_OK_PB         "&Save"
+#define STR_SERVLIST_ADD_PB        "&Add server..."
+#define STR_SERVLIST_DELETE_PB     "&Delete server"
+#define STR_SERVLIST_CANCEL_PB     "Cancel"
+#define STR_SERVLIST_HELP_PB       "Help"
+
+/******************************************************************************/
+/* Text for the controls in the Maintain Server List Name dialog              */
+/******************************************************************************/
+#define STR_SERVLIST_NAME_TITLE      "Add Server Name"
+#define STR_SERVLIST_NAME_TEXT       "Name:"
+#define STR_SERVLIST_NAME_OK_PB      "&Add"
+#define STR_SERVLIST_NAME_CANCEL_PB  "Cancel"
+#define STR_SERVLIST_NAME_HELP_PB    "Help"
+
+/******************************************************************************/
+/* Text for the controls in the Wait Server dialog                            */
+/******************************************************************************/
+#define STR_SERVWAIT_WAIT_TEXT     "Please wait while trying to access server:"
+
+/****************************************************************/
+/* Text for query tag table and target lang during import       */
+/****************************************************************/
+#define STR_NTM_TAGLANG_TITLE         "Markup and Language Selection"
+#define STR_NTM_TAGLANG_TARGET_TEXT   "Target Language:"
+#define STR_TAGLANG_TAGTAB_TEXT       "Markup:"
+#define STR_TAGLANG_INFO_TEXT1        "Select Markup and Language of"
+#define STR_TAGLANG_INFO_TEXT2        "Translation Memory to be imported"
+#define STR_TAGLANG_OK_PB             "&Ok"
+
+/****************************************************************/
+/* Strings for TM property dialog                               */
+/****************************************************************/
+#ifdef TOP97_A57G_TMPROP
+
+// dialog title
+#define STR_TM_PROP_DLG                "Translation Memory Properties"
+
+// text field adjacent to the entry field containing dictionary name
+#define STR_TM_PROP_NAME_TEXT  "Name:"
+
+// text field adjacent to entry field for description of dictionary
+#define STR_TM_PROP_DESCR_TEXT "Description:"
+
+// location
+#define STR_TM_PROP_LOC_TEXT  "Location:"
+
+// location of the TM
+#define STR_TM_PROP_LOCAL_TEXT "Local"
+#define STR_TM_PROP_SHARED_TEXT "Shared"
+
+// disk drive
+#define STR_TM_PROP_DRIVE_TEXT  "Disk drive:"
+
+//source language
+#define STR_TM_PROP_SOURCELANG_TEXT  "Source language:"
+
+//size
+#define STR_TM_PROP_SIZE_TEXT  "File size:"
+
+//segments
+#define STR_TM_PROP_SEGS_TEXT  "Different segments:"
+
+//last update
+#define STR_TM_PROP_UPD_TEXT  "Last update:"
+
+// document listbox title
+#define STR_TM_PROP_DOCS_TEXT   "Documents:"
+
+// markup listbox title
+#define  STR_TM_PROP_MARKUP_TEXT "Markups:"
+
+// change pushbutton
+#define STR_TM_PROP_CHANGE_PB  "&Change"
+
+// cancel dialog
+#define STR_TM_PROP_CANCEL_PB  "Cancel"
+
+// call up help information
+#define STR_TM_PROP_HELP_PB  "Help"
+
+#endif

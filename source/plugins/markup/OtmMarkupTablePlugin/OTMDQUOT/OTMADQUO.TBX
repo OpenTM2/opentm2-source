@@ -1,0 +1,157 @@
+<!-- ............................................................... -->
+<!--  Copyright (C) 1998-2013, International Business Machines       -->
+<!--        Corporation and others. All rights reserved              -->
+<!-- ............................................................... -->
+<TAGTABLE>
+<SEGMENTEXIT>OTMBMRI</SEGMENTEXIT>
+  <DESCRIPTION>Double Quoted text (ANSI)</DESCRIPTION>
+  <DESCRNAME>OTMADQUO</DESCRNAME>
+  <MULTSUBST>*</MULTSUBST>
+  <SINGLESUBST>?</SINGLESUBST>
+  <CHARSET>ASCII</CHARSET>
+  <REFLOW>YES</REFLOW>
+<TAG>
+  <STRING>""</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>...</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P0</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P01</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P02</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P03</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P04</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P05</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P06</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P07</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P08</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P09</STRING>
+  <LENGTH>4</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P1</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P2</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P3</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P4</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P5</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P6</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P7</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P8</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>/P9</STRING>
+  <LENGTH>3</LENGTH>
+</TAG>
+<TAG>
+  <STRING>:NONE.</STRING>
+  <LENGTH>6</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\</STRING>
+  <LENGTH>1</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\"</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\N</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>\\T</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>~</STRING>
+  <LENGTH>1</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%1</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%2</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%3</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%4</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%5</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%6</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%7</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%8</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+<TAG>
+  <STRING>%9</STRING>
+  <LENGTH>2</LENGTH>
+</TAG>
+</TAGTABLE>

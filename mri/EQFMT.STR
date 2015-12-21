@@ -1,0 +1,151 @@
+//+----------------------------------------------------------------------------+
+//|EQFMT.STR                                                                   |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:                                                                     |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description: String table for Machine Translation                           |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFMT.SVR   1.1   14 Sep 1998 15:29:38   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFMT.SVR  $
+ * 
+ *    Rev 1.1   14 Sep 1998 15:29:38   BUILD
+ * LOGIN PB added
+ *
+ *    Rev 1.0   25 Aug 1998 19:07:56   BUILD
+ * Initial revision.
+ *
+ *
+ *
+*/
+//+----------------------------------------------------------------------------+
+STRINGTABLE
+BEGIN
+// dialog Machine Translation Properties
+  SID_MT_PROPERTY_DLG      ,     STR_MT_PROPERTY_DLG
+  SID_MT_ENGINE_GB         ,     STR_MT_ENGINE_GB
+  SID_MT_ENGINE_CB         ,     STR_MT_ENGINE_CB
+  SID_MT_MACHINE_CB        ,     STR_MT_MACHINE_CB
+  SID_MT_PROFILE_CB        ,     STR_MT_PROFILE_CB
+  SID_MT_MEMORY_GB         ,     STR_MT_MEMORY_GB
+  SID_MT_MEMORY_CB         ,     STR_MT_MEMORY_CB
+  SID_MT_SET_PB            ,     STR_MT_SET_PB
+  SID_MT_CANCEL_PB         ,     STR_MT_CANCEL_PB
+  SID_MT_HELP_PB           ,     STR_MT_HELP_PB
+  SID_MT_SETTINGS_PB       ,     STR_MT_SETTINGS_PB
+  SID_MT_LOGIN_PB          ,     STR_MT_LOGIN_PB
+  SID_MT_USER_EF           ,     STR_MT_USER_EF
+  SID_MT_PASS_EF           ,     STR_MT_PASS_EF
+END
+

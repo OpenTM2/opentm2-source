@@ -1,0 +1,358 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFSTART.RC - String table declarations                                   |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Apr 2004
+// GQ: - added entry for shipment column title
+// 
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.3 $ ----------- 5 Nov 2003
+// GQ: - added new string entries for SID_FOL_NAMEWOPATH_COLTITLE and STR_FOL_EXTENSION_COLTITLE
+//
+//
+// $Revision: 1.2 $ ----------- 22 Oct 2003
+// GQ: - added entry for SID_FOL_TRANSLATOR_COLTITLE
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.2 $ ----------- 11 Sep 2001
+// string for source date col added (R06520)
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.6 $ ----------- 16 Oct 2000
+// -- add statusbar display texts
+//
+//
+// $Revision: 1.5 $ ----------- 18 Jul 2000
+// - added strings for column filter operators
+//
+//
+// $Revision: 1.4 $ ----------- 22 May 2000
+// -- add STR_FLLI_ROOT
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - added entries for system property dialog
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFSTART.SVR   1.13   03 May 1999 09:19:08   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFSTART.SVR  $
+ *
+ *    Rev 1.13   03 May 1999 09:19:08   BUILD
+ * - moved format name string entries from EQFPTM.STR to EQFSTART.STR
+ *
+ *    Rev 1.12   01 Feb 1999 13:22:50   BUILD
+ * added IFDEF around LOGOS stuff
+ *
+ *    Rev 1.11   01 Feb 1999 09:44:48   BUILD
+ * -- add toolbar titlebar texts..
+ *
+ *    Rev 1.10   07 Dec 1998 17:09:56   BUILD
+ * add IFDEF for WIN
+ *
+ *    Rev 1.9   15 Oct 1998 19:49:44   BUILD
+ * added LOGOS
+ *
+ *    Rev 1.8   25 Aug 1998 19:03:00   BUILD
+ * add colum titles for MT list window
+ *
+ *    Rev 1.7   17 Dec 1997 12:30:48   BUILD
+ * -- A57B:  add Style pulldown text
+ *
+ *    Rev 1.6   04 Nov 1997 11:09:18   BUILD
+ * -- A52: add TRNOTE title string
+ * - added entries for TM tool EQFTMT
+ *
+ *    Rev 1.5   15 Sep 1997 10:45:50   BUILD
+ * - A.57k Object rename function: Added string table entries for dynamic strings
+ *   of rename dialog
+ *
+ *    Rev 1.4   07 Jul 1997 11:12:56   BUILD
+ * -- add '*** dictionary in use ***' string
+ *
+ *    Rev 1.3   21 Mar 1997 12:16:16   BUILD
+ * - added entries for folder list columns mem list and dict list
+ *
+ *    Rev 1.2   24 Feb 1997 11:37:26   BUILD
+ * - added entries for new document list columns editor and alias
+ *
+ *    Rev 1.1   25 Mar 1996 10:11:52   BUILD
+ * - added strings for EQFCMD.EXE
+ *
+ *    Rev 1.0   09 Jan 1996 10:11:30   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+
+STRINGTABLE
+BEGIN
+    SID_HELPCREATION_ERR,    STR_HELPCREATION_ERR
+    SID_HELPEXEC_ERR,        STR_HELPEXEC_ERR
+    SID_HELPNOT_AVAILABLE,   STR_HELPNOT_AVAILABLE
+    SID_HELPWINDOW_TITLE,    STR_HELPWINDOW_TITLE
+    SID_TWBM_TITLE,          STR_TWBM_TITLE
+    SID_FLLI_TITLE,          STR_FLLI_TITLE
+    SID_FLLI_ROOT,           STR_FLLI_ROOT
+#ifdef _WINDOWS
+    SID_TWBM_TITLE_LOGOS,    STR_TWBM_TITLE_LOGOS
+#endif
+    SID_FLL_NAME_COLTITLE,   STR_FLL_NAME_COLTITLE
+    SID_FLL_DESCR_COLTITLE,  STR_FLL_DESCR_COLTITLE
+    SID_FLL_DATE_COLTITLE,   STR_FLL_DATE_COLTITLE
+    SID_FLL_MEM_COLTITLE,    STR_FLL_MEM_COLTITLE
+    SID_FLL_FORMAT_COLTITLE, STR_FLL_FORMAT_COLTITLE
+    SID_FLL_DRIVE_COLTITLE,  STR_FLL_DRIVE_COLTITLE
+    SID_FLL_DICT_COLTITLE,   STR_FLL_DICT_COLTITLE
+    SID_FLL_EDIT_COLTITLE,   STR_FLL_EDIT_COLTITLE
+    SID_FLL_SOURCE_COLTITLE, STR_FLL_SOURCE_COLTITLE
+    SID_FLL_TARGET_COLTITLE, STR_FLL_TARGET_COLTITLE
+    SID_FLL_DICTLIST_COLTITLE, STR_FLL_DICTLIST_COLTITLE
+    SID_FLL_MEMLIST_COLTITLE, STR_FLL_MEMLIST_COLTITLE
+
+    SID_FOL_NAME_COLTITLE,   STR_FOL_NAME_COLTITLE
+    SID_FOL_TRANSL_COLTITLE, STR_FOL_TRANSL_COLTITLE
+    SID_FOL_ANAL_COLTITLE,   STR_FOL_ANAL_COLTITLE
+    SID_FOL_EXP_COLTITLE,    STR_FOL_EXP_COLTITLE
+    SID_FOL_IMP_COLTITLE,    STR_FOL_IMP_COLTITLE
+    SID_FOL_UPD_COLTITLE,    STR_FOL_UPD_COLTITLE
+    SID_FOL_UPDT_COLTITLE,   STR_FOL_UPDT_COLTITLE
+    SID_FOL_SRC_COLTITLE,    STR_FOL_SRC_COLTITLE
+    SID_FOL_SIZE_COLTITLE,   STR_FOL_SIZE_COLTITLE
+    SID_FOL_COMPLETE_COLTITLE,  STR_FOL_COMPLETE_COLTITLE
+    SID_FOL_MODIFIED_COLTITLE,  STR_FOL_MODIFIED_COLTITLE
+    SID_FOL_SCRATCH_COLTITLE,   STR_FOL_SCRATCH_COLTITLE
+    SID_FOL_COPIED_COLTITLE,    STR_FOL_COPIED_COLTITLE
+    SID_FOL_SOURCE_COLTITLE, STR_FOL_SOURCE_COLTITLE
+    SID_FOL_TARGET_COLTITLE, STR_FOL_TARGET_COLTITLE
+    SID_FOL_FORMAT_COLTITLE, STR_FOL_FORMAT_COLTITLE
+    SID_FOL_MEMORY_COLTITLE, STR_FOL_MEMORY_COLTITLE
+    SID_FOL_EDITOR_COLTITLE, STR_FOL_EDIT_COLTITLE
+    SID_FOL_ALIAS_COLTITLE,  STR_FOL_ALIAS_COLTITLE
+    SID_FOL_TRANSLATOR_COLTITLE, STR_FOL_TRANSLATOR_COLTITLE
+    SID_FOL_NAMEWOPATH_COLTITLE, STR_FOL_NAMEWOPATH_COLTITLE
+    SID_FOL_EXTENSION_COLTITLE,  STR_FOL_EXTENSION_COLTITLE
+    SID_FOL_SHIPMENT_COLTITLE,  STR_FOL_SHIPMENT_COLTITLE
+
+    SID_FOLI_TITLE,          STR_FOLI_TITLE
+    SID_DOCI_TITLE,          STR_DOCI_TITLE
+
+    SID_PROPFOL_TITLE1,      STR_PROPFOL_TITLE1
+    SID_PROPFOL_TITLE2,      STR_PROPFOL_TITLE2
+    SID_NFOL_CREATE,         STR_NFOL_CREATE
+    SID_NFOL_CHANGE,         STR_NFOL_CHANGE
+    SID_FEXP_EXTERNAL,       STR_FEXP_EXTERNAL
+    SID_DICT_TITLE,          STR_DICT_TITLE
+    SID_DOCWND_TITLE,        STR_DOCWND_TITLE
+    SID_TAGTABLE_TITLE,      STR_TAGTABLE_TITLE
+
+    SID_NO_ENTRY,            STR_NO_ENTRY
+    SID_PROP_TITLE,          STR_PROP_TITLE
+    SID_DCT_TITLE,           STR_DCT_TITLE
+    SID_SRC_TITLE,           STR_SRC_TITLE
+    SID_START_FLAG,          STR_START_FLAG
+    SID_END_FLAG,            STR_END_FLAG
+    SID_F_FLAG,              STR_F_FLAG
+    SID_R_FLAG,              STR_R_FLAG
+    SID_M_FLAG,              STR_M_FLAG
+    SID_ENTRY_IN_USE,        STR_ENTRY_IN_USE
+    SID_TRNOTE_TITLE,        STR_TRNOTE_TITLE
+    SID_STYLE,               STR_TB_AAB_STYLE
+
+    SID_LOGO_TITLELINE,      STR_LOGO_TITLELINE
+#ifdef _WINDOWS
+    SID_LOGO_TITLELINE_LOGOS,  STR_LOGO_TITLELINE_LOGOS
+#endif
+    SID_LOGO_COPYRIGHT1,     STR_LOGO_COPYRIGHT1
+    SID_LOGO_COPYRIGHT2,     STR_LOGO_COPYRIGHT2
+#ifdef _WINDOWS
+    SID_LOGO_COPYRIGHT2_LOGOS, STR_LOGO_COPYRIGHT2_LOGOS
+#endif
+    SID_LOGO_COPYRIGHT3,     STR_LOGO_COPYRIGHT3
+    SID_LOGO_COPYRIGHT4,     STR_LOGO_COPYRIGHT4
+    SID_LOGO_COPYRIGHT5,     STR_LOGO_COPYRIGHT5
+    SID_LOGO_REVISION,       STR_DRIVER_LEVEL
+
+    SID_FILTER_TITLE,        STR_FILTER_TITLE
+    SID_FILTER_CHECKBOX,     STR_FILTER_CHECKBOX
+    SID_FILTER_NAME_TEXT,    STR_FILTER_NAME_TEXT
+    SID_FILTER_DESCR_TEXT,   STR_FILTER_DESCR_TEXT
+    SID_FILTER_EDIT_PB,      STR_FILTER_EDIT_PB
+
+    SID_FILE_MI_OPEN,        STR_FILE_MI_OPEN
+
+    SID_CONNECT_TM_DLG,      STR_CONNECT_TM_DLG
+
+    IDS_DDECMD_TITLE,        STR_DDECMD_TITLE
+
+    SID_RENAME_FOL_DLG,      STR_RENAME_FOL_DLG
+    SID_RENAME_DICT_DLG,     STR_RENAME_DICT_DLG
+    SID_RENAME_TM_DLG,       STR_RENAME_TM_DLG
+
+    SID_RENAME_FOL_OBJ_TEXT, STR_RENAME_FOL_OBJ_TEXT
+    SID_RENAME_DICT_OBJ_TEXT,STR_RENAME_DICT_OBJ_TEXT
+    SID_RENAME_TM_OBJ_TEXT,  STR_RENAME_TM_OBJ_TEXT
+
+    IDS_TMT_TMFILE,             STR_TMT_TMFILE
+    IDS_TMT_SEGNO,              STR_TMT_SEGNO
+    IDS_TMT_MARKUPSEGS,         STR_TMT_MARKUPSEGS
+    IDS_TMT_LANGSEGS,           STR_TMT_LANGSEGS
+    IDS_TMT_ERROR,              STR_TMT_ERROR
+    IDS_TMT_TITLE,              STR_TMT_TITLE
+
+#ifdef _WINDOWS
+    SID_MT_DOC_COLTITLE,        STR_MT_DOC_COLTITLE
+    SID_MT_STATUS_COLTITLE,     STR_MT_STATUS_COLTITLE
+    SID_MT_DATE_COLTITLE,       STR_MT_DATE_COLTITLE
+    SID_MT_ENGINE_COLTITLE,     STR_MT_ENGINE_COLTITLE
+    SID_MT_SOURCELANG_COLTITLE, STR_MT_SOURCELANG_COLTITLE
+    SID_MT_TARGETLANG_COLTITLE, STR_MT_TARGETLANG_COLTITLE
+
+    SID_MT_TITLE,               STR_MT_TITLE
+#endif
+    SID_TWB_TOOLBAR             STR_TWB_TOOLBAR
+    SID_TPRO_TOOLBAR            STR_TPRO_TOOLBAR
+
+  SID_EQFRTF_NAME, STR_EQFRTF_NAME
+  SID_EQFRTF_FILTER, STR_EQFRTF_FILTER
+  SID_EQFAMI_NAME, STR_EQFAMI_NAME
+  SID_EQFAMI_FILTER, STR_EQFAMI_FILTER
+  SID_EQFASCII_NAME, STR_EQFASCII_NAME
+  SID_EQFASM_NAME, STR_EQFASM_NAME
+  SID_EQFASM_FILTER, STR_EQFASM_FILTER
+  SID_EQFWORD_NAME, STR_EQFWORD_NAME
+  SID_EQFWORD_FILTER, STR_EQFWORD_FILTER
+  SID_EQFINTER_NAME, STR_EQFINTER_NAME
+  SID_EQFINTER_FILTER, STR_EQFINTER_FILTER
+  SID_EQFVENT_NAME, STR_EQFVENT_NAME
+  SID_EQFVENT_FILTER, STR_EQFVENT_FILTER
+  SID_EQFWP_NAME,    STR_EQFWP_NAME
+  SID_EQFWP_FILTER,   STR_EQFWP_FILTER
+  SID_EQFBOOK_NAME,   STR_EQFBOOK_NAME
+  SID_EQFBOOK_FILTER, STR_EQFBOOK_FILTER
+  SID_EQFMRI_NAME,    STR_EQFMRI_NAME
+  SID_ALLFILES_FILTER, STR_ALLFILES_FILTER
+#ifdef _WINDOWS
+  IDS_SYSPROP_TAB_GENERAL,      STR_SYSPROP_TAB_GENERAL
+  IDS_TWBSYSPROP_TTIP_GENERAL,  STR_TWBSYSPROP_TTIP_GENERAL
+#endif
+  SID_EQUALOP,        STR_EQUALOP
+  SID_NOTEQUALOP,     STR_NOTEQUALOP
+  SID_LESSOP,         STR_LESSOP
+  SID_LESSEQOP,       STR_LESSEQOP
+  SID_GREATEROP,      STR_GREATEROP
+  SID_GREATEREQOP,    STR_GREATEREQOP
+  SID_LIKEOP,         STR_LIKEOP
+
+  SID_STATUSBAR_OBJ_TEXT_SEL,   STR_STATUSBAR_OBJ_TEXT_SEL
+  SID_STATUSBAR_OBJ_TEXT_NOSEL, STR_STATUSBAR_OBJ_TEXT_NOSEL
+
+
+END

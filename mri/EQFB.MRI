@@ -1,0 +1,1506 @@
+//+----------------------------------------------------------------------------+
+//|EQFB.MRI                                                                    |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//  Text of AAB items
+
+///// Mnemonics will be set dynamically through the program
+/////  Actionbar Item File
+#define  STR_TB_AAB_FILE            "&File"
+/////  File Pulldown Item  Next file in ring
+#define  STR_TB_AAB_LOADDOC         "&Translation Environment"
+/////  File Pulldown Item  Next file in ring
+#define  STR_TB_AAB_NEXT            "&Next"
+/////  File Pulldown Item  Open new file
+#define  STR_TB_AAB_OPEN            "&Open..."
+/////  File Pulldown Item  Save file
+#define  STR_TB_AAB_SAVE            "&Save"
+/////  File Pulldown Item  Save As dialog
+#define  STR_TB_AAB_SAVEAS          "Save &As..."
+/////  File Pulldown Item  Print file
+#define  STR_TB_AAB_PRINT           "&Print..."
+/////  File Pulldown Item  Quit file
+#define  STR_TB_AAB_QUIT            "&Quit"
+/////  File Pulldown Item  Save and Quit file
+#define  STR_TB_AAB_END             "&End-Save"
+
+/////  Actionbar Item Edit
+#define  STR_TB_AAB_EDIT            "&Edit"
+/////  Edit Pulldown Item  Activate Find dialog
+#define  STR_TB_AAB_FIND            "&Find and Replace..."
+/////  Edit Pulldown Item  Activate Concordance Search dialog
+#define  STR_TB_AAB_CONFIND         "&Concordance search..."
+/////  Edit Pulldown Item  Clipboard operation Cut
+#define  STR_TB_AAB_CUT             "Cu&t"
+/////  Edit Pulldown Item  Clipboard operation Copy
+#define  STR_TB_AAB_COPY            "&Copy"
+/////  Edit Pulldown Item  Clipboard operation Paste
+#define  STR_TB_AAB_PASTE           "&Paste"
+/////  Edit Pulldown Item  Delete marked area
+#define  STR_TB_AAB_CLEAR           "C&lear"
+/////  Edit Pulldown Item  Undo Changes in Current segment
+#define  STR_TB_AAB_UNDO            "&Undo"
+/////  Edit Pulldown Item  Redo UNDOne changes
+#define  STR_TB_AAB_REDO            "&Redo"
+/////  Edit Pulldown Item  Unmark marked block
+#define  STR_TB_AAB_UNMARK          "Un&mark Block"
+/////  Edit Pulldown Item  Split line
+#define  STR_TB_AAB_SPLIT           "&Split Line"
+/////  Edit Pulldown Item  Join line
+#define  STR_TB_AAB_JOIN            "&Join Line"
+/////  Edit Pulldown Item  Activate line wrap
+#define  STR_TB_AAB_WRAP            "Line &Wrap"
+/////  Edit Pulldown Item  reflow segment
+#define  STR_TB_AAB_REFLOW          "&Reflow Segment"
+
+/////  Edit Pulldown Item  copy proposal block
+#define  STR_TB_AAB_COPYPROPBLOCK   "C&opy Proposal Block"
+
+
+/////  Actionbar Item Options
+#define  STR_TB_AAB_OPTIONS         "&Options"
+/////  Option Pulldown Item  Activate Colors  dialog
+#define  STR_TB_AAB_COLORS          "&Colors..."
+/////  Option Pulldown Item  Activate Font Size  dialog
+#define  STR_TB_AAB_FONTS           "&Fonts..."
+/////  Option Pulldown Item  Activate Key Assignments  dialog
+#define  STR_TB_AAB_KEYS            "&Keys..."
+/////  Option Pulldown Item  Activate Margins  dialog
+#define  STR_TB_AAB_MARGINS         "&Margin..."
+/////  Option Pulldown Item  Activate Test Sentence dialog
+#define  STR_TB_AAB_TEST            "&Sentence Lookup..."
+/////  Option Pulldown Item  Activate Exec. Command dialog
+#define  STR_TB_AAB_COMMAND         "C&ommands..."
+/////  Option Pulldown Item  Activate Exec. Command dialog
+#define  STR_TB_AAB_SETTINGS        "&Profile Settings..."
+/////  Option Pulldown Item  Activate Exec. Command dialog
+#define  STR_TB_AAB_PROFINIT        "Profile &Initials..."
+/////  Option extended Font dialog
+#define  STR_TB_AAB_FONTEXT         "&Fonts..."
+
+/* dalia (start) */
+/////  Option Pulldown Item  Arabic DCF
+#ifndef _WINDOWS
+#define  STR_TB_AAB_ARABICDCF       "&Arabic DCF..."
+#endif
+/* dalia (end) */
+
+/////  Actionbar Item Cursor
+#define  STR_TB_AAB_CURSOR          "Cu&rsor"
+/////  Cursor Pulldown Item  Find mark
+#define  STR_TB_AAB_CFIND           "&Find block"
+/////  Cursor Pulldown Item  Top of document
+#define  STR_TB_AAB_CTOP            "&Top"
+/////  Cursor Pulldown Item  Bottom of document
+#define  STR_TB_AAB_CBOTTOM         "&Bottom"
+/////  Cursor Pulldown Item  Start of line
+#define  STR_TB_AAB_CSTARTLINE      "&Start of Line"
+/////  Cursor Pulldown Item  End of line
+#define  STR_TB_AAB_CENDLINE        "&End of Line"
+/////  Cursor Pulldown Item  Start of segment
+#define  STR_TB_AAB_CSTARTSEG       "St&art of Segment"
+/////  Cursor Pulldown Item  End of segment
+#define  STR_TB_AAB_CENDSEG         "E&nd of Segment"
+/////  Cursor Pulldown Goto line
+#define  STR_TB_AAB_GOTOLINE        "&Go To Line..."
+/////  Cursor Pulldown Goto segment
+#define  STR_TB_AAB_GOTOSEG         "Go To Segment..."
+/////  Cursor Pulldown Query line
+#define  STR_TB_AAB_QUERYLINE       "&Query Line"
+/////  Cursor Pulldown table of contents Goto
+#define  STR_TB_AAB_TOCGOTO         "S&pecial Go To ..."
+
+
+/////  Actionbar Item Translate
+#define  STR_TB_AAB_TRANSLATE       "&Translate"
+/////  Translate Pulldown Item  Translate Segment
+#define  STR_TB_AAB_TTSEG           "&Translate Segment"
+/////  Translate Pulldown Item  Next Untranslated Segment
+#define  STR_TB_AAB_TTNEXTSEG       "&Next Untranslated Segment"
+/////  Translate Pulldown Item  Untranslate Segment
+#define  STR_TB_AAB_TTUNSEG         "&Untranslate Segment"
+/////  Translate Pulldown Item  Dictionary Lookup
+#define  STR_TB_AAB_TLOOKUP         "&Look Up a Term..."
+/////  Translate Pulldown Item  Activate Dictionary Window
+#define  STR_TB_AAB_TDICT           "&3) Dictionary Window"
+/////  Translate Pulldown Item  Activate Translation Memory window
+#define  STR_TB_AAB_TMEM            "&2) Translation Memory Window"
+/////  Translate Pulldown Item  Display original
+#define  STR_TB_AAB_TORG            "&4) Original Window"
+/////  Translate Pulldown Item  Goto Active Segment
+#define  STR_TB_AAB_TACTIVE         "&Go To Active Segment"
+/////  Translate Pulldown Item  Join Segments
+#define  STR_TB_AAB_TJOIN           "&Join Segments"
+/////  Translate Pulldown Item  Split Joined Segments
+#define  STR_TB_AAB_TSPLIT          "&Split Joined Segments"
+/////  Translate Pulldown Item  Mark Segment for later review
+#define  STR_TB_AAB_TMARK           "Set &Bookmark"
+/////  Translate Pulldown Item  goto Marked Segment
+#define  STR_TB_AAB_TGOMARK         "Go To Boo&kmark"
+/////  Translate Pulldown Item  clear Segment mark
+#define  STR_TB_AAB_TCLEARMARK      "&Clear Bookmark"
+/////  Translate Pulldown Item  Post Edit
+#define  STR_TB_AAB_TPOSTEDIT       "&Postediting"
+/////  Translate Pulldown Item  Automatic Translation
+#define  STR_TB_AAB_TAUTOMATIC      "&Automatic Substitution"
+/////  Translate Pulldown Item  Edit a Term in Dictionary
+#define  STR_TB_AAB_EDITTERM        "&Edit a Term..."
+/////  Translate Pulldown Item  Add an Abbreviation
+#define  STR_TB_AAB_ADDABBREV       "Add an User Abbreviation"
+/////  Translate Pulldown Item  Edit Abbreviations
+#define  STR_TB_AAB_EDITABBREV       "Edit User Abbreviations..."
+/////  Translate Pulldown Item  Edit Addenda terms
+#define  STR_TB_AAB_EDITADD          "Edit Addendum Terms..."
+/////  Translate Pulldown Item  Show translation
+#define  STR_TB_AAB_SHOWTRANS    "Show Translation"
+
+// settings for 'Tailor' popup...
+#define STR_TB_TAILOR               "Tailor"
+#define STR_TB_SC_HORZ              "Horizontal"
+#define STR_TB_SC_VERT              "Vertical"
+#define STR_TB_SC_TITLE             "Titlebar"
+#define STR_TB_SC_CLOSE             "Close"
+#define STR_TB_SC_SIZE              "Size"
+#define STR_TB_SC_MOVE              "Move"
+
+#define STR_TB_SC_STATUS            "Statusbar"
+#define STR_TB_SC_RULER             "Ruler"
+
+
+#define  STR_TB_AAB_SPELL           "S&pellcheck"
+#define  STR_TB_AAB_PROOFSEG        "&Segment..."
+#define  STR_TB_AAB_PROOFALL        "&File..."
+#define  STR_TB_AAB_SYNONYM         "S&ynonyms"
+#define  STR_TB_AAB_AUTOSPELL       "&Auto Spellcheck"
+#define  STR_TB_AAB_NEXTMISSPELL    "&Next Misspelled"
+
+#define STR_TB_AAB_IGNORE           "Ignore All"
+#define STR_TB_AAB_ADDENDA          "Add Addenda"
+#define STR_TB_SPELL_NO_PROP        "No Aid Available"
+
+#define STR_TB_AAB_GOUPDSEGMENT     "Next Updated"
+
+// statusbar settings
+// Column indication (limited to 7 chars)
+#define  STR_TB_STB_COL             "Col"
+// Line indication (limited to 7 chars)
+#define  STR_TB_STB_LINE            "Ln"
+// segment indication (limited to 7 chars)
+#define  STR_TB_STB_SEGMENT         "Seg"
+// Cursor in insert mode (limited to 7 chars)
+#define  STR_TB_STB_INSERT          "Ins"
+// File loading statusbar message  -- don't translate %d%%
+#define  STR_TB_STB_LOADING         "Loading ... %d%%"
+
+
+/////  Actionbar Item Style
+#define  STR_TB_AAB_STYLE           "Sty&le"
+/////  Style Pulldown Item  Protect tags
+#define  STR_TB_AAB_SPROTECT        "&Protect"
+/////  Style Pulldown Item  unProtect tags
+#define  STR_TB_AAB_SUNPROTECT      "&Unprotect"
+/////  Style Pulldown Item  hide tags
+#define  STR_TB_AAB_SHIDE           "&Hide"
+
+/////  Style Pulldown Item  shrink tags
+#define  STR_TB_AAB_SSHRINK         "&Shrink"
+/////  Style Pulldown Item  hide tags
+#define  STR_TB_AAB_SCOMPACT        "&Compact"
+/////  Style Pulldown Item  shorten tags
+#define  STR_TB_AAB_SSHORTEN        "C&ompact+1"
+////   Style WYSIWYG
+#define  STR_TB_AAB_SWYSIWYG        "W&ysiwyg"
+
+
+/////  Window Pulldown
+#define  STR_TB_AAB_WINDOW          "&Window"
+#define  STR_TB_AAB_TTRANS          "&1) Translation Window"
+#define  STR_TB_AAB_TSRCPROP        "&5) Source of Proposal Window"
+#define  STR_TB_AAB_TSEGPROP        "&6) Segment Properties Window"
+
+/////  Actionbar Item Help
+#define  STR_TB_AAB_HELP            "&Help"
+
+#ifdef TOP97_A52
+///// Titlebar for Translation window
+  #define  STR_TB_TRANS_WINDOW        "Translation: %1"
+///// Titlebar for Original window
+  #define  STR_TB_ORIGINAL_WINDOW     "Original: %1"
+#else
+///// Titlebar for Translation window
+  #define  STR_TB_TRANS_WINDOW        "Translation"
+///// Titlebar for Original window
+  #define  STR_TB_ORIGINAL_WINDOW     "Original"
+#endif
+//////////////////////////////////////////////////////////////
+///// dialogs for Translation Processor
+/////////////////////////////////////////////////////////////
+////  Pushbuttons used through out the system
+/////////////////////////////////////////////////////////////
+///   Change pushbutton
+#define  STR_TB_PB_CHANGE           "&Change"
+///   Defaults pushbutton
+#define  STR_TB_PB_DEFAULTS         "&Defaults"
+#define  STR_TB_PB_DEFAULT          "&Default"
+///   Cancel pushbutton
+#define  STR_TB_PB_CANCEL           "Cancel"
+///   Cancel pushbutton
+#define  STR_TB_PB_GOTO             "&Go to"
+///   Help   pushbutton
+#define  STR_TB_PB_HELP             "Help"
+///   Set pushbutton
+#define  STR_TB_PB_SET              "&Set"
+///   Assign pushbutton
+#define  STR_TB_PB_ASSIGN           "&Assign"
+///   Find pushbutton
+#define  STR_TB_PB_FIND             "&Find"
+///   Open pushbutton
+#define  STR_TB_PB_OPEN             "&Open"
+///   Push button for Look Up the translation memory and dictionary
+#define  STR_TB_PB_LOOKUP           "&Lookup"
+///   Push button for Execute command
+#define  STR_TB_PB_EXECUTE          "&Run"
+///   Print pushbutton
+#define  STR_TB_PB_PRINT            "P&rint..."
+
+/////////////////////////////////////////////////////////////
+//  Set color dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_COLFONT_COLORFONT   "Set Colors"
+///   different type of available text units
+#define  STR_TB_COLFONT_TYPEOFTEXT  "Type of text"
+
+///   available colors  - static text
+#define  STR_TB_COLFONT_COLOR       "Color"
+///   different available foreground colors  -- static text
+#define  STR_TB_COLFONT_FOREGROUND  "Foreground"
+///   different available background colors  -- static text
+#define  STR_TB_COLFONT_BACKGROUND  "Background"
+
+///   different available font attributes - Underscored, Reverse
+#define  STR_TB_COLFONT_ATTRIBUTE   "Attribute"
+///   different available font
+#define  STR_TB_COLFONT_FONT        "Font"
+///   different display types ( underscored, reverse)    -- radio button
+#define  STR_TB_COLFONT_UNDERSCORE  "Underscore"
+///   different display types ( underscored, reverse)    -- radio button
+#define  STR_TB_COLFONT_REVERSE     "Reverse"
+///   sample text title
+#define  STR_TB_COLFONT_TEXT        "Sample text"
+///   sample text  - displayed in the selected font and colors
+//    restricted length : 40 characters
+
+/* dalia (start) */
+#define STR_TB_AR_COLFONT_SAMPLETEXT   " ¥µõõ ¹+ Õ - Sample Text -  ¥µõõ ¹+ Õ"
+#define STR_TB_COLFONT_SAMPLETEXT   "Sample Text - Sample Text - Sample Text"
+/* dalia (end) */
+
+/////////////////////////////////////////////////////////////
+//  Assign keys dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_ASSKEYS_ASSIGNKEYS  "Assign Keys"
+///   descriptive text
+#define  STR_TB_ASSKEYS_FUNCANDKEYS "Functions and assigned key"
+///   Pushbutton for clearing a key setting
+#define  STR_TB_ASSKEYS_CLEARKEYS   "C&lear key"
+///   Pushbutton for assigning a new key
+#define  STR_TB_ASSKEYS_ASSIGNKEY   "Assign &new key"
+// Add for R012027 start
+#define  STR_TB_ASSKEYS_ADDNEWCHAR   "Add New &Character"
+#define  STR_TB_ASSKEYS_EDITCHAR     "&Edit Character"
+#define  STR_TB_ASSKEYS_REMOVECHAR   "&Remove Character"
+#define  STR_TITLE_INSERT_CHAR       "Insert character:"
+#define  STR_SPEC_CHAR_DLG_TITLE     "Add New Character"
+#define  STR_SPEC_CHAR_DLG_TITLE_E   "Edit Character"
+#define  STR_SPEC_CHAR_DLG_TITLE_D   "Remove Character"
+#define  STR_BTN_IDOK_ADD            "Add Character"
+#define  STR_BTN_IDOK_EDIT           "Update"
+#define  STR_TITLE_INSERT_CHAR_W     L"Insert char:"
+#define  STR_INSERT_CHAR             "Insert char:"
+#define  STR_ERR_DUP_CHAR            "The new added character is duplicated, please check."
+#define  STR_ERR_EMPTY_STR           "Character or unicode is not allowed empty, please check."
+#define  STR_TB_VK_NONE_W            L"* none *"
+#define  STR_WARN_REMOVE_CONFIRM     "Do you really want to remove the character?"
+// Add end
+///   Text displayed when user is asked to press the key for
+///   the selected function
+#define  STR_TB_ASSKEYS_KEYTEXT     "Press the new key to be assigned to the function"
+
+///   Static text for header of Key Setting print out
+///    (length 40 chars)
+#define  STR_TB_ASSKEYS_HEADER      "   OpenTM2 Key Assignments"
+
+///   Title of print job for printing of key settings
+#define  STR_TB_ASSKEYS_PRTJOB      "Key Settings"
+
+///   Title for print job for printing file
+#define  STR_TB_PRINTFILE_PRTJOB    "Folder: %s  Document: %s"
+
+/////////////////////////////////////////////////////////////
+//  Spellcheck  dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_SPELL_TITLE "Spellcheck"
+///   do nothing with the current misspelled word
+///   if it occurs again, display it to user as usual
+#define  STR_TB_SPELL_SKIP  "&Skip"
+///   Pushbutton to add the detected misspelled word
+///   in a temporary addenda and do no changes to this word
+#define  STR_TB_SPELL_TEMPADD  "&Temp add"
+///   add to addenda
+#define  STR_TB_SPELL_ADDENDA "&Addendum"
+///   misspelled word:
+#define STR_TB_SPELL_MISSPELL "Misspelled word"
+///  changed word
+#define STR_TB_SPELL_CHANGE "Change to"
+/// list of similar words
+#define STR_TB_SPELL_SIMILAR "Similar words"
+
+/////////////////////////////////////////////////////////////
+//  Find  dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_FIND_TITLE          "Find and Replace"
+///   text preceding the entry field for entering the search term
+#define  STR_TB_FIND_FIND           "Find:"
+///   text preceding the entry field for entering the change into term
+#define  STR_TB_FIND_CHANGE         "Change to:"
+
+///   mode of search (Case sensitive or not)   -- title text
+#define  STR_TB_FIND_CASE           "Case"
+///   mode of search (Case sensitive )         -- radio button
+#define  STR_TB_FIND_RESPECT        "Respect"
+///   mode of search (Case insensitive )       -- radio button
+#define  STR_TB_FIND_IGNORE         "Ignore"
+
+///   direction of search (forward/backward)   -- title text
+#define  STR_TB_FIND_DIRSEARCH      "Direction"
+///   direction of search (forward )           -- radio button
+#define  STR_TB_FIND_FORWARD        "Forward"
+///   direction of search (backward )          -- radio button
+#define  STR_TB_FIND_BACKWARD        "Backward"
+
+///   change range                             -- title text
+#define  STR_TB_FIND_RANGE          "Change range"
+///   range of change (until end )             -- radio button
+#ifdef TOP97_A53
+   #define  STR_TB_FIND_CURPOSTOEND    "File"
+#else
+   #define  STR_TB_FIND_CURPOSTOEND    "Current position to end"
+#endif
+///   range of change (in segment only)        -- radio button
+#define  STR_TB_FIND_SEGONLY        "Within segment only"
+
+///   confirm on change                        -- check box
+#define  STR_TB_FIND_CONFIRM        "Confirm on changes"
+
+
+/////////////////////////////////////////////////////////////
+//  Open dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_OPEN_TITLE          "Open"
+///   file type either normal text file or Troja document
+#define  STR_TB_OPEN_FILETYPE       "File type"
+///   Troja document
+#define  STR_TB_OPEN_TROJADOC       "TM document"
+///   text file
+#define  STR_TB_OPEN_TEXTDOC        "Text file"
+///   if Troja document then Source or Target is possible -- radio button
+///   Source document
+#define  STR_TB_OPEN_TROJASOURCE    "Original"
+///   Target document
+#define  STR_TB_OPEN_TROJATARGET    "Translation"
+
+///   Select the drive of the document     -- title text (length 40 chars)
+#define  STR_TB_OPEN_DRIVES         "Disk drive"
+///   Static text for name of normal text files -- title text for listbox
+///    (length 40 chars)
+#define  STR_TB_OPEN_NAME           "Name:"
+///   Static text for Troja documents  -- title text for listbox contents
+///    (length 40 chars)
+#define  STR_TB_OPEN_DOCNAME        "Document name"
+///   Static text for Troja Folders  -- title text for listbox contents
+///    (length 40 chars)
+#define  STR_TB_OPEN_FOLDERS        "Folders"
+///   Static text for Troja Documents -- title text for listbox contents
+///    (length 40 chars)
+#define  STR_TB_OPEN_DOCUMENTS      "Documents"
+///   Static text for file directories -- title text for listbox contents
+///    (length 40 chars)
+#define  STR_TB_OPEN_DIRECTORIES    "Directories"
+///   Static text for files -- title text for listbox contents
+///    (length 40 chars)
+#define  STR_TB_OPEN_FILES          "Files"
+
+
+
+/////////////////////////////////////////////////////////////
+//  Entry dialog for test sentences
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_ENTRY_TITLE         "Sentence Lookup"
+///   Text displayed to inform user what he has to enter
+#define  STR_TB_ENTRY_STATIC        "Enter the sentence to be looked up"
+
+
+
+/////////////////////////////////////////////////////////////
+//  Set Right margin dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_MARGIN_TITLE        "Set Margin"
+///   Text in front of the entry field where to enter right margin
+#define  STR_TB_MARGIN_STATIC       "Right margin:"
+///   Text afteer the entry field where to enter right margin
+#define  STR_TB_CHARACTER_STATIC    "characters"
+
+
+
+/////////////////////////////////////////////////////////////
+//  Select font size
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_FONTSIZE_TITLE      "Set Fonts"
+///   Listbox containing all different window types - title text
+#define  STR_TB_FONTSIZE_WINDOW     "Window"
+///   Listbox containing the different fonts - title text
+#define  STR_TB_FONTSIZE_FONT        "Font"
+///   Listbox containing all different font sizes  - title text
+#define  STR_TB_FONTSIZE_SIZE       "Font size"
+
+///   sample text - displayed as title
+#define  STR_TB_FONTSIZE_TEXT       "Sample text"
+
+
+/////////////////////////////////////////////////////////////
+//  Goto Line dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_GOTO_TITLE        "Go to Line"
+///   Text in front of the entry field where to enter the line
+#define  STR_TB_GOTO_STATIC       "Line number:"
+
+/////////////////////////////////////////////////////////////
+//  Profile 1 dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_PROFONE_TITLE     "Customize Translation Functions"
+///    text for what to do in dialog
+#define  STR_TB_PROFONE_TODO_STATIC      "Select the functions to be active:"
+///   text for group of style abbreviations
+#define  STR_TB_PROFONE_STYLEABBR "Style abbreviations"
+
+#ifdef TOP97_A50
+///   text for shrink abbreviation
+#define  STR_TB_PROFONE_SHRINK_STATIC  "Shrink style abbreviation"
+///   text for compact abbreviation
+#define  STR_TB_PROFONE_COMPACT_STATIC "Compact style abbreviation"
+#else
+///   text for shrink abbreviation
+#define  STR_TB_PROFONE_SHRINK_STATIC  "Shrink"
+///   text for compact abbreviation
+#define  STR_TB_PROFONE_COMPACT_STATIC "Compact"
+#endif
+#define  STR_TB_PROFONE_TRNOTE_STATIC "Note"
+
+///   text for listbox: automatic replace in fuzzy matches
+#define  STR_TB_PROFONE_AUTOREPL    "Automatic replace in fuzzy matches"
+///   text for listbox: backspace goes across lines
+#define  STR_TB_PROFONE_CUABACK     "Backspace across line boundaries"
+///   text for listbox: abbreviate source in translation memory wnd
+#define  STR_TB_PROFONE_DISPSRC     "Abbreviate Translation Memory proposal"
+///   text for listbox: toggle to insert mode when activating a segment
+#define  STR_TB_PROFONE_AUTOINSMODE "Set insert mode for activate segment"
+///   text for listbox: Insert proposal if insert mode active
+#define  STR_TB_PROFONE_INSPROP     "Insert proposal if insert mode is active"
+///   text for listbox: Automatic insert of SO/SI
+#define  STR_TB_PROFONE_INSSOSI     "Automatic insert of SO/SI characters"
+///   text for listbox: Interrupt automatic translation at a none-match
+#define  STR_TB_PROFONE_AUTOSTOP    "Interrupt automatic substitution"
+///   text for listbox: Check for changed tags if saving a segment
+#define  STR_TB_PROFONE_CHECKTAGS   "Check for changes of inline tags"
+///   text for listbox: Display the message 'fuzzy proposal unchanged'
+#define  STR_TB_PROFONE_MSGPROPEQ   "Suppress messages 'Fuzzy proposal unchanged' and 'MT proposal unchanged'"
+///   text for listbox: Display the message 'Source unchanged'
+#define  STR_TB_PROFONE_MSGSRCEQ    "Suppress message 'Source unchanged'"
+///   text for listbox: ignore CRLF for exact matches
+//  #define  STR_TB_PROFONE_IGNCRLF     "Ignore CRLF for exact matches"
+///   text for listbox: display source of proposals window always
+#define  STR_TB_PROFONE_SRCPROPWND  "Display 'Source of Proposal' window"
+///   text for listbox: display number of existing proposals
+#define  STR_TB_PROFONE_NUMPROPS  "Number of Proposals"
+///   text for listbox: display filename of which the proposal is
+#define  STR_TB_PROFONE_ORIGINPROP  "Document of Proposal"
+///   text for listbox: display date when proposal was translated
+#define  STR_TB_PROFONE_DATEOFPROP  "Date of Proposal"
+///   text for listbox: display additional information for dictionary terms
+#define  STR_TB_PROFONE_ADDINFODIC  "Information for dictionary terms"
+///   text for listbox: use latest exact match
+#define  STR_TB_PROFONE_USELATESTMATCH "Use latest exact match when more than one found"
+///   text for listbox: Use NO CUA selection
+#define  STR_TB_PROFONE_USENOCUASEL    "Use no CUA selection"
+///   text for listbox: display all dictionary matches of all dictionaries
+#define  STR_TB_PROFONE_ALLDICTTERMS "Dictionary terms of all dictionaries"
+///   text for listbox: use exact context memory matches during auto subst
+#define  STR_TB_PROFONE_EXACTCONTEXTMATCH "Use exact context match when more than one found"
+///   text for listbox: segment boundary sign in postedit
+#define  STR_TB_PROFONE_SEGBOUNDSIGN "Segment boundary sign in post edit"
+///   text for listbox: dictionary name indicator near dictionary entry
+#define  STR_TB_PROFONE_DISPDICTNAME "Dictionary indicator"
+///    text for combobox for style of memory window
+#define  STR_TB_PROFONE_DISPMTALWAYS "Display MT match always"
+///    text for combobox for style of memory window
+#define  STR_TB_PROFONE_TMWND_STATIC     "Translation Memory window"
+///    text for active line number
+#define  STR_TB_PROFONE_ACTLINE_STATIC   "Line number for active segment"
+///    text for right margin
+#define  STR_TB_PROFONE_RMARGIN_STATIC   "Right margin"
+///    text for proposal window style protect
+#define  STR_TB_PROFONE_PROTECTED        "Protect"
+///    text for proposal window style hide
+#define  STR_TB_PROFONE_HIDE             "Hide"
+///    text for proposal window style - compact
+#define  STR_TB_PROFONE_COMPACT          "Compact"
+///    text for proposal window style - shorten
+#define  STR_TB_PROFONE_SHORTEN          "Compact+1"
+///    text for automatic linewrap margin
+#define  STR_TB_PROFONE_AUTO             "Auto"
+///    text for save file each xxx minutes
+#define  STR_TB_PROFONE_AUTOSAVE         "Save translated file every"
+#define  STR_TB_PROFONE_MINUTE           "minutes"
+#define  STR_TB_PROFONE_AUTOSUBST        "Substitution of exact matches"
+#define  STR_TB_PROFONE_VISIBLESPACE     "Visible white spaces"
+///   text for listbox: display additional information for dictionary terms
+#define  STR_TB_PROFONE_LKUPSINGLEOFCOMPOUNDS  "Show single words of compound terms in auto-lookup"
+
+/////////////////////////////////////////////////////////////
+//  Profile 2 dialog
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_PROFTWO_TITLE            "Set Initial Values"
+///    text for what to do in dialog
+#define  STR_TB_PROFTWO_TODO_STATIC      "Select the values to be initially active:"
+///    Text for style group
+#define  STR_TB_PROFTWO_INITSTYLE        "Style"
+///    text for spin button for style of translation window
+#define  STR_TB_PROFTWO_TRANSWND_STATIC  "Translation window"
+///    text for spin button for style of memory window
+#define  STR_TB_PROFTWO_TMWND_STATIC     "Translation Memory window"
+///    text for linewrap on/off
+#define  STR_TB_PROFTWO_LINEWRAP         "Line wrap"
+///    text for cursor insert on/off
+#define  STR_TB_PROFTWO_CRSINSERT        "Cursor insert mode"
+///    text for active line number
+#define  STR_TB_PROFTWO_ACTLINE_STATIC   "Line number for active segment"
+///    text for right margin
+#define  STR_TB_PROFTWO_RMARGIN_STATIC   "Right margin"
+///    text for spinbutton - protected
+#define  STR_TB_PROFTWO_PROTECTED        "Protect"
+///    text for spinbutton - unprotected
+#define  STR_TB_PROFTWO_UNPROTECTED      "Unprotect"
+///    text for spinbutton - hide
+#define  STR_TB_PROFTWO_HIDE             "Hide"
+///    text for spinbutton - shrink
+#define  STR_TB_PROFTWO_SHRINK           "Shrink"
+///    text for spinbutton - compact
+#define  STR_TB_PROFTWO_COMPACT          "Compact"
+
+
+/////////////////////////////////////////////////////////////
+//  Command dialog for execute commands
+/////////////////////////////////////////////////////////////
+///   title bar text
+#define  STR_TB_COMMAND_TITLE         "Run Command"
+///   Text displayed to inform user what he has to enter
+#define  STR_TB_COMMAND_STATIC        "Functions available"
+
+
+/////////////////////////////////////////////////////////////
+//  available fonts
+/////////////////////////////////////////////////////////////
+///   default font  -- length 40 chars
+#define  STR_TB_FONT_DEFAULT        "Default"
+///   italic  font  -- length 40 chars
+#define  STR_TB_FONT_ITALIC         "Italic"
+///   bold    font  -- length 40 chars
+#define  STR_TB_FONT_BOLD           "Bold"
+///   small caps font  -- length 40 chars
+#define  STR_TB_FONT_SMALLCAPS      "Small caps"
+
+
+
+/////////////////////////////////////////////////////////////
+//  available colors
+/////////////////////////////////////////////////////////////
+///   color black   -- length 40 chars
+#define  STR_TB_COL_BLACK           "Black"
+///   color blue    -- length 40 chars
+#define  STR_TB_COL_BLUE            "Blue"
+///   color green   -- length 40 chars
+#define  STR_TB_COL_GREEN           "Green"
+///   color cyan    -- length 40 chars
+#define  STR_TB_COL_CYAN            "Cyan"
+///   color red     -- length 40 chars
+#define  STR_TB_COL_RED             "Red"
+///   color pink    -- length 40 chars
+#define  STR_TB_COL_PINK            "Pink"
+///   color brown   -- length 40 chars
+#define  STR_TB_COL_BROWN           "Brown"
+///   color light grey    -- length 40 chars
+#define  STR_TB_COL_LGREY           "Light grey"
+///   color grey    -- length 40 chars
+#define  STR_TB_COL_GREY            "Dark grey"
+///   color light blue    -- length 40 chars
+#define  STR_TB_COL_LBLUE           "Light blue"
+///   color light green   -- length 40 chars
+#define  STR_TB_COL_LGREEN          "Light green"
+///   color light cyan    -- length 40 chars
+#define  STR_TB_COL_LCYAN           "Light cyan"
+///   color light red     -- length 40 chars
+#define  STR_TB_COL_LRED            "Light red"
+///   color light pink    -- length 40 chars
+#define  STR_TB_COL_LPINK           "Light pink"
+///   color yellow        -- length 40 chars
+#define  STR_TB_COL_YELLOW          "Yellow"
+///   color white         -- length 40 chars
+#define  STR_TB_COL_WHITE           "White"
+
+
+/////////////////////////////////////////////////////////////
+//  available objects to be colored
+//  like color of active segment, already translated segment, etc.
+/////////////////////////////////////////////////////////////
+///   not used at the moment -- length 40 chars
+#define  STR_TB_COL_EXIT            ""
+///   translated segment -- length 40 chars
+#define  STR_TB_COL_XLATED          "(TM) - Translated segment"
+///   active segment -- length 40 chars
+#define  STR_TB_COL_ACTIVE          "(T) - Active segment"
+///   not translated  segment -- length 40 chars
+#define  STR_TB_COL_TOBE            "(TMO) - Not translated segment"
+///   protected  segment -- length 40 chars
+#define  STR_TB_COL_NOP             "(TOI) - Protected segment"
+///   protected in translated segment -- length 40 chars
+#define  STR_TB_COL_P_XLATED        "(TM) - Protected in translated segment"
+///   protected in active segment -- length 40 chars
+#define  STR_TB_COL_P_ACTIVE        "(T) - Protected in active segment"
+///   protected in not translated segment -- length 40 chars
+#define  STR_TB_COL_P_TOBE          "(TMOI) - Protected in not translated text"
+///   protected in protected segment -- length 40 chars
+#define  STR_TB_COL_P_NOP           "(TOI) - Protected in protected segment"
+///   source of proposal             -- NOT USED ANY MORE
+#define  STR_TB_COL_SRV_PROPSRCINS  "(MS) - Source inserted"
+///   source of proposal prefix      -- length 40 chars
+#define  STR_TB_COL_SRV_PROP0PREFIX "(MS) - Source prefix 0"
+///   proposal text                  -- NOT USED ANY MORE
+#define  STR_TB_COL_SRV_PROPSRCDEL  "(MS) - Source deleted"
+///   proposal text prefix           -- length 40 chars
+#define  STR_TB_COL_SRV_PROPNPREFIX "(MS) - Translation prefix n"
+///   dictionary head word           -- length 40 chars
+#define  STR_TB_COL_SRV_DICTHEAD    "(D) - Headword"
+///   dictionary translation         -- length 40 chars
+#define  STR_TB_COL_SRV_DICTTRANS   "(D) - Translation"
+///   dictionary prefix              -- length 40 chars
+#define  STR_TB_COL_SRV_DICTPREFIX  "(D) - Prefix"
+///   color if source equal          -- length 40 chars
+#define  STR_TB_COL_SRV_PROPSRCEQU  "(MS) - Source equal"
+///   color for source unequal          -- length 40 chars
+#define  STR_TB_COL_SRV_PROPSRCUNEQU "(MS) - Source modified"
+///   color for unprotected tag         -- length 40 chars
+#define  STR_TB_COL_ACTIVE_TAG      "(T) - Unprotected in active segment"
+///   color for anchor, toggle col 1    -- length 40 chars
+#define  STR_TB_COL_ITM_ANCHOR_1      "(I) - Connected segment 1 "
+///   color for anchor, toggle col 2    -- length 40 chars
+#define  STR_TB_COL_ITM_ANCHOR_2      "(I) - Connected segment 2 "
+///   color for anchor toggle col 3     -- length 40 chars
+#define  STR_TB_COL_ITM_ANCHOR_3      "(I) - Connected segment 3 "
+///   color for unaligned target        -- length 40 chars
+#define  STR_TB_COL_ITM_VALID_01      "(I) - Unaligned target segment"
+///   color for unaligned source        -- length 40 chars
+#define  STR_TB_COL_ITM_VALID_10      "(I) - Unaligned source segment"
+///   color for aligned, toggle col 1   -- length 40 chars
+#define  STR_TB_COL_ITM_VALID_11_1    "(I) - Aligned segment 1"
+///   color for aligned, toggle col 2   -- length 40 chars
+#define  STR_TB_COL_ITM_VALID_11_2    "(I) - Aligned segment 2"
+///   color for aligned, toggle col 3   -- length 40 chars
+#define  STR_TB_COL_ITM_VALID_11_3    "(I) - Aligned segment 3"
+///   color for crossed out segment     -- length 40 chars
+#define  STR_TB_COL_ITM_CROSSED_OUT   "(I) - Ignored segment "
+///   color for nop anchor, toggle col 1    -- length 40 chars
+#define  STR_TB_COL_ITM_NOP_ANCHOR_1  "(I) - Synchronized markup 1"
+///   color for nop anchor, toggle col 2    -- length 40 chars
+#define  STR_TB_COL_ITM_NOP_ANCHOR_2  "(I) - Synchronized markup 2"
+///   color for nop anchor, toggle col 3    -- length 40 chars
+#define  STR_TB_COL_ITM_NOP_ANCHOR_3  "(I) - Synchronized markup 3"
+///   color for visual active           -- length 40 chars
+#define  STR_TB_COL_ITM_VISACT        "(I) - Active segment"
+///   color for overcrosssing user anchor-- length 40 chars
+#define  STR_TB_COL_ITM_OVERCROSS     "(I) - Overcrossed connection"
+///   additional dictionary info -- length 40 chars
+#define  STR_TB_COL_ADDINFO         "(D) - Additional information"
+
+///   TRNOtes level one, 1st color -- length 40 chars
+#define  STR_TB_COL_TRNOTE_11        "(N) - Translators note 1st level 1"
+///   TRNOtes level one, 2nd color -- length 40 chars
+#define  STR_TB_COL_TRNOTE_12         "(N) - Translators note 1st level 2"
+///   TRNOtes level two            -- length 40 chars
+#define  STR_TB_COL_TRNOTE_2          "(N) - Translators note 2nd level "
+///   Dictionary indicator         -- length 40 chars
+#define  STR_TB_COL_DICTINDIC         "(D) - Dictionary indicator "
+///   color for highlighting unmatching tag- length 40 chars
+#define  STR_TB_COL_UNMATCHTAG        "(T) - Unmatched tag"
+///   color for segment translated from scratch -- length 40 chars
+#define  STR_TB_COL_TFROMSCRATCH      "(T) - Translated from scratch"
+///   color for segment translated as modified proposal --length 40 chars
+#define  STR_TB_COL_TMODPROPOSAL      "(T) - Translated as modified proposal"
+///   color for segment translated as unmodified proposal- length 40 chars
+#define  STR_TB_COL_TCOPYPROPOSAL     "(T) - Translated as proposal copy"
+///   color for TRNOTE indicator/abbreviation in standard editor
+#define  STR_TB_COL_STANDARD_TRNOTE   "(T) - Tag for Translators note"
+
+#define  STR_TB_COL_DICTSTYLEPREF     "(D) - Dictionary style preferred"
+#define  STR_TB_COL_DICTSTYLENOT      "(D) - Dictionary style not allowed"
+
+///   color for machine match proposal
+#define  STR_TB_COL_MACH_NORMAL       "(M) - Machine proposal"
+
+///   color for protected in machine match proposal
+#define  STR_TB_COL_MACH_PROT         "(M) - Protected in machine proposal"
+
+///   color for fuzzy match proposal
+#define  STR_TB_COL_FUZZY_NORMAL       "(M) - Fuzzy proposal"
+
+///   color for protected in fuzzy match proposal
+#define  STR_TB_COL_FUZZY_PROT         "(M) - Protected in fuzzy proposal"
+
+/////////////////////////////////////////////////////////////
+//  available windows to be set font
+/////////////////////////////////////////////////////////////
+///   other document window        -- length 40 chars
+#define  STR_TB_FONT_OTHER          "Other documents"
+///   source document window       -- length 40 chars
+#define  STR_TB_FONT_SSOURCE        "Original"
+///   target document window       -- length 40 chars
+#define  STR_TB_FONT_STARGET        "Translation"
+///   proposal window              -- length 40 chars
+#define  STR_TB_FONT_SERVPROP       "Translation Memory"
+///   dictionary window             -- length 40 chars
+#define  STR_TB_FONT_SERVDICT       "Dictionary"
+///   proposal source window        -- length 40 chars
+#define  STR_TB_FONT_SERVSOURCE     "Source of Translation Memory proposal"
+///   ITM visualization source doc  -- length 40 chars
+#define  STR_TB_FONT_VISSRC         "ITM Source"
+///   ITM visualization target doc  -- length 40 chars
+#define  STR_TB_FONT_VISTGT         "ITM Target"
+
+/////////////////////////////////////////////////////////////
+//  available function names
+//  functions with empty strings will not be shown as selectable
+//  for keyboard assignement
+//
+/////////////////////////////////////////////////////////////
+
+///   Activate translation memory window  -- length 40 chars
+#define  STR_TB_FUNC_ACTPROP      "Translation Memory window"
+///   Scroll dictionary window down       -- length 40 chars
+#define  STR_TB_FUNC_DICTDOWN     "Scroll dictionary down"
+///   Scroll dictionary window up         -- length 40 chars
+#define  STR_TB_FUNC_DICTUP       "Scroll dictionary up"
+///   Scroll dictionary prefixes down     -- length 40 chars
+#define  STR_TB_FUNC_DICTPFXDOWN     "Scroll dictionary prefix down"
+///   Scroll dictionary prefixes up       -- length 40 chars
+#define  STR_TB_FUNC_DICTPFXUP       "Scroll dictionary prefix up"
+///   Backspace                           -- length 40 chars
+#define  STR_TB_FUNC_BACKSPACE    "Backspace"
+///   Back Tab                            -- length 40 chars
+#define  STR_TB_FUNC_BACKTAB      "Tab backward"
+///   Bottom of document                  -- length 40 chars
+#define  STR_TB_FUNC_BOTTOMDOC    "Bottom"
+///   Delete character                    -- length 40 chars
+#define  STR_TB_FUNC_DELETECHAR   "Delete character"
+///   Cursor down                         -- length 40 chars
+#define  STR_TB_FUNC_DOWN         "Cursor down"
+///   Cursor to end of line               -- length 40 chars
+#define  STR_TB_FUNC_ENDLINE      "End of line"
+///   Cursor to end of segment            -- length 40 chars
+#define  STR_TB_FUNC_ENDSEG       "End of segment"
+///   Nop for the moment                  -- length 40 chars
+#define  STR_TB_FUNC_ESCAPE       ""
+///   Save and end a file                 -- length 40 chars
+#define  STR_TB_FUNC_FILE         "File"
+///   Toggle cursor status                -- length 40 chars
+#define  STR_TB_FUNC_INSTOGGLE    "Insert toggle"
+///   Insert a line                       -- length 40 chars
+#define  STR_TB_FUNC_INSERTLINE   "Insert line"
+///   Join a line                         -- length 40 chars
+#define  STR_TB_FUNC_JOINLINE     "Join line"
+///   Cursor movement left                -- length 40 chars
+#define  STR_TB_FUNC_LEFT         "Cursor left"
+///   Toggle to next document             -- length 40 chars
+#ifdef TOP97_A52
+  #define  STR_TB_FUNC_NEXTDOC      ""
+#else
+  #define  STR_TB_FUNC_NEXTDOC      "Next document"
+#endif
+///   Move cursor to next word            -- length 40 chars
+#define  STR_TB_FUNC_NEXTWORD     "Next word"
+///   Nop function for the moment         -- length 40 chars
+#define  STR_TB_FUNC_NOTHING      ""
+///   Scroll screen a page down           -- length 40 chars
+#define  STR_TB_FUNC_PAGEDOWN     "Scroll page down"
+///   Scroll screen a page up             -- length 40 chars
+#define  STR_TB_FUNC_PAGEUP       "Scroll page up"
+///   Activate previous document          -- length 40 chars
+#define  STR_TB_FUNC_PREVDOC      "Previous document"
+///   Move to previous word with the cursor -- length 40 chars
+#define  STR_TB_FUNC_PREVWORD     "Previous word"
+///   Quit a document                     -- length 40 chars
+#define  STR_TB_FUNC_QUIT         "Quit"
+///   Move cursor to the right            -- length 40 chars
+#define  STR_TB_FUNC_RIGHT        "Cursor right"
+///   Save a document                     -- length 40 chars
+#define  STR_TB_FUNC_SAVE         "Save"
+///   Scroll screen one line down         -- length 40 chars
+#define  STR_TB_FUNC_SCROLLDOWN   "Scroll down"
+///   Scroll screen one line left         -- length 40 chars
+#define  STR_TB_FUNC_SCROLLLEFT   "Scroll left"
+///   Scroll screen one line right        -- length 40 chars
+#define  STR_TB_FUNC_SCROLLRIGHT  "Scroll right"
+///   Scroll screen one line up           -- length 40 chars
+#define  STR_TB_FUNC_SCROLLUP     "Scroll up"
+///   Split line at cursor position       -- length 40 chars
+#define  STR_TB_FUNC_SPLITLINE    "Split line"
+///   Move cursor to begin of line        -- length 40 chars
+#define  STR_TB_FUNC_STARTLINE    "Start of line"
+///   Move cursor to start of segment     -- length 40 chars
+#define  STR_TB_FUNC_STARTSEG     "Start of segment"
+///   Tab with cursor to next tabstop     -- length 40 chars
+#define  STR_TB_FUNC_TAB          "Tab forward"
+///   Move cursor to begin of document    -- length 40 chars
+#define  STR_TB_FUNC_TOPDOC       "Top"
+///   Truncate a segment at cursor position -- length 40 chars
+#define  STR_TB_FUNC_TRUNCSEG     "Truncate segment"
+///   Truncate a line at cursor position  -- length 40 chars
+#define  STR_TB_FUNC_TRUNCATE     "Truncate line"
+///   Undo last changes                   -- length 40 chars
+#define  STR_TB_FUNC_UNDO         "Undo"
+///   Move cursor one line up             -- length 40 chars
+#define  STR_TB_FUNC_UP           "Cursor up"
+///   Copy dictionary match -- key 'hard assigned'
+///       therefore no string to be added here -- length 40 chars
+#define  STR_TB_FUNC_GETDICTMATCH ""
+///   Copy proposal match -- key 'hard assigned'
+///       therefore no string to be added here -- length 40 chars
+#define  STR_TB_FUNC_GETPROPMATCH ""
+///   Scroll proposal down                -- length 40 chars
+#define  STR_TB_FUNC_PROPDOWN     "Scroll proposal down"
+///   Scroll proposal up                  -- length 40 chars
+#define  STR_TB_FUNC_PROPUP       "Scroll proposal up"
+///   Save current segment and activate next   -- length 40 chars
+#define  STR_TB_FUNC_TSEG         "Translate segment"
+///   Save current segment and activate next untranslated   -- length 40 chars
+#define  STR_TB_FUNC_TSEGNEXT     "Next untranslated segment"
+///   Start dictionary lookup             -- length 40 chars
+#define  STR_TB_FUNC_DICTLOOK     "Dictionary lookup"
+///   Activate dictionary window          -- length 40 chars
+#define  STR_TB_FUNC_ACTDIC       "Dictionary window"
+///   Join segments                       -- length 40 chars
+#define  STR_TB_FUNC_JOINSEG      "Join segments"
+///   split previously joined segments    -- length 40 chars
+#define  STR_TB_FUNC_SPLITSEG     "Split joined segments"
+///   mark a segment for later revision   -- length 40 chars
+#define  STR_TB_FUNC_MARKSEG      "Set bookmark"
+///   goto active segment                 -- length 40 chars
+#define  STR_TB_FUNC_GOTOSEG      "Go to active segment"
+///   goto next marked segment            -- length 40 chars
+#define  STR_TB_FUNC_GOTOMARK     "Go to bookmark"
+///   clear a segment mark                -- length 40 chars
+#define  STR_TB_FUNC_CLEARSEGMARK "Clear bookmark"
+///   activate postedit mode              -- length 40 chars
+#define  STR_TB_FUNC_POSTEDIT     "Post editing"
+///   activate automatic translation      -- length 40 chars
+#define  STR_TB_FUNC_AUTOTRANS    "Automatic substitution"
+///   display the find dialog             -- length 40 chars
+#define  STR_TB_FUNC_FIND         "Find"
+///   display the concordance search dialog -- length 40 chars
+#define  STR_TB_FUNC_CFIND        "Concordance Search"
+///   display the segment property dialog 
+#define  STR_TB_FUNC_SEGPROP      "Segment properties"
+///   nop for the moment                  -- length 40 chars
+#define  STR_TB_FUNC_RFIND        ""
+///   nop for the moment                  -- length 40 chars
+#define  STR_TB_FUNC_RING         ""
+///   display the open dialog             -- length 40 chars
+#define  STR_TB_FUNC_OPEN         "Open"
+///   cut marked text to clipboard        -- length 40 chars
+#define  STR_TB_FUNC_CUT          "Cut to clipboard"
+///   copy marked text to clipboard       -- length 40 chars
+#define  STR_TB_FUNC_COPY         "Copy to clipboard"
+///   paste text from clipboard           -- length 40 chars
+#define  STR_TB_FUNC_PASTE        "Paste from clipboard"
+///   dummy functions for later use -- DO NOT CHANGE  -- length 40 chars
+#define  STR_TB_FUNC_MARKNEXT     ""
+///   dummy functions for later use -- DO NOT CHANGE  -- length 40 chars
+#define  STR_TB_FUNC_MARKPREV     ""
+///   display the Color dialog            -- length 40 chars
+#define  STR_TB_FUNC_FONTS        "Color and fonts dialog"
+///   display the Keys  dialog            -- length 40 chars
+#define  STR_TB_FUNC_KEYS         "Keys dialog"
+///   display fuzzy matches even if an exact match wasfound
+#define  STR_TB_FUNC_ADDFUZZY     "Display fuzzy matches "
+///   Activate the original document      -- length 40 chars
+#define  STR_TB_FUNC_DISPORG      "Original window"
+///   Hide the recognized tags            -- length 40 chars
+#define  STR_TB_FUNC_HIDE         "Hide tags"
+///   Protect the recognized tags            -- length 40 chars
+#define  STR_TB_FUNC_PROTECT      "Protect tags"
+///   UnProtect the recognized tags            -- length 40 chars
+#define  STR_TB_FUNC_UNPROTECT    "Unprotect tags"
+///   Move cursor to begin of next line        -- length 40 chars
+#define  STR_TB_FUNC_NEXTLINE     "Next line"
+///   Nop for the moment -- DO NOT CHANGE      -- length 40 chars
+#define  STR_TB_FUNC_CHARACTER    ""
+///   Mark a block                             -- length 40 chars
+#define  STR_TB_FUNC_MARKBLOCK    "Mark block"
+///   Clear the marked area                    -- length 40 chars
+#define  STR_TB_FUNC_MARKCLEAR    "Unmark block"
+///   Delete the marked area                   -- length 40 chars
+#define  STR_TB_FUNC_MARKDELETE   "Delete block"
+///   Copy the marked area to the cursor pos   -- length 40 chars
+#define  STR_TB_FUNC_MARKCOPY     "Copy block"
+///   Move the marked area to the cursor pos   -- length 40 chars
+#define  STR_TB_FUNC_MARKMOVE     "Move block"
+///   Find the marked area                     -- length 40 chars
+#define  STR_TB_FUNC_MARKFIND     "Find block"
+///   Print a document                         -- length 40 chars
+#define  STR_TB_FUNC_PRINT        "Print document"
+///   Mark a segment                           -- length 40 chars
+#define  STR_TB_FUNC_MARKBLOCKSEG "Mark segment"
+///   Nop for the moment -- DO NOT CHANGE      -- length 40 chars
+#define  STR_TB_FUNC_MARKLEFT     ""
+///   Nop for the moment -- DO NOT CHANGE      -- length 40 chars
+#define  STR_TB_FUNC_MARKRIGHT    ""
+///   Nop for the moment -- DO NOT CHANGE      -- length 40 chars
+#define  STR_TB_FUNC_MARKUP       ""
+///   Nop for the moment -- DO NOT CHANGE      -- length 40 chars
+#define  STR_TB_FUNC_MARKDOWN     ""
+///   Delete a line                            -- length 40 chars
+#define  STR_TB_FUNC_DELLINE      "Delete line"
+///   Test the entered sentence against dictionary and Translation
+///   memory                                   -- length 40 chars
+#define  STR_TB_FUNC_ENTRYSEN     "Sentence lookup dialog"
+///   Untranslate segment                      -- length 40 chars
+#define  STR_TB_FUNC_UNTRANS      "Untranslate segment"
+///   Reflow segment in spec. margins          -- length 40 chars
+#define  STR_TB_FUNC_LINEWRAP     "Reflow segment"
+#ifndef TOP97_A50
+///   Set the margin dialog                    -- length 40 chars
+#define  STR_TB_FUNC_RMARGIN      "Margin dialog"
+#endif
+///   display the font size dialog             -- length 40 chars
+#define  STR_TB_FUNC_FONTSIZE     "Font sizes dialog"
+///   activate the automatic reflow/linewrap   -- length 40 chars
+#define  STR_TB_FUNC_MARGINACT    "Line wrap toggle"
+///   spellcheck a segment                     -- length 40 chars
+#define  STR_TB_FUNC_SPELLSEG     "Spellcheck segment"
+///   spellcheck the file                      -- length 40 chars
+#define  STR_TB_FUNC_SPELLFILE    "Spellcheck file"
+///   mark a word                              -- length 40 chars
+#define  STR_TB_FUNC_MARKWORD     "Mark word"
+///   delete a word                            -- length 40 chars
+#define  STR_TB_FUNC_DELWORD      "Delete word"
+///   delete until next tag in segment         -- length 40 chars
+#define  STR_TB_FUNC_DELTILTAG    "Delete until tag"
+///   delete total segment                     -- length 40 chars
+#define  STR_TB_FUNC_DELSEG       "Delete segment"
+///   delete total segment                     -- length 40 chars
+#define  STR_TB_FUNC_COMMAND      "Commands dialog"
+///   goto seg transl. from scratch            -- length 40 chars
+#define  STR_TB_FUNC_SCRATCH      "Go to newly transl. segment"
+///   goto seg which is a jcopy of a proposal  -- length 40 chars
+#define  STR_TB_FUNC_PROPCPY      "Go to unchanged segment"
+///   goto seg which is a copy + typed in      -- length 40 chars
+#define  STR_TB_FUNC_CPYTYPED     "Go to changed segment"
+///   expand current segment             -- length 40 chars
+#define  STR_TB_FUNC_EXPAND       "Expand current segment"
+///   compress current segment           -- length 40 chars
+#define  STR_TB_FUNC_COMPRESS     "Compress current segment"
+///   Settings dialog                    -- length 40 chars
+#define  STR_TB_FUNC_SETTINGS     "Profile Settings dialog"
+///   Goto line dialog                   -- length 40 chars
+#define  STR_TB_FUNC_GOTO         "Go to line dialog"
+///   Query current line                 -- length 40 chars
+#define  STR_TB_FUNC_QUERYLINE    "Query active line"
+///   Shrink document                    -- length 40 chars
+#define  STR_TB_FUNC_SHRINK       "Shrink tags"
+///   Compact document                   -- length 40 chars
+#define  STR_TB_FUNC_COMPACT      "Compact document"
+///   Compact+1 document style           -- length 40 chars
+#define  STR_TB_FUNC_SSHORTEN     "Compact+1 document"
+///   insert SOSI in current segment     -- length 40 chars
+#define  STR_TB_FUNC_SEGINSOSI    "Insert SO/SI in segment"
+///   delete SOSI in current segment     -- length 40 chars
+#define  STR_TB_FUNC_SEGDELSOSI   "Delete SO/SI in segment"
+///   insert SOSI in all xlated segments -- length 40 chars
+#define  STR_TB_FUNC_DOCINSOSI    "Insert SO/SI in file"
+///   delete SOSI in all xlated segments -- length 40 chars
+#define  STR_TB_FUNC_DOCDELSOSI   "Delete SO/SI in file"
+///   activate translation window        -- length 40 chars
+#define  STR_TB_FUNC_ACTTRANS     "Translation window"
+#ifndef TOP97_A50
+///   profile initial values dialog      -- length 40 chars
+#define  STR_TB_FUNC_PROFINIT     "Profile Initials dialog"
+#endif
+///   profile initial values dialog      -- length 40 chars
+#define  STR_TB_FUNC_SRCPROP      "Source of Proposal window"
+///   Edit a Term command function
+#define  STR_TB_FUNC_EDITTERM     "Edit a term"
+/////  Translate Pulldown Item  Add an Abbreviation
+#define  STR_TB_FUNC_ADDABBREV    "Add an user abbreviation"
+
+/////  function name for re-import document
+#define  STR_TB_FUNC_REIMPORT    "Re-import document"
+
+/////  Translate Pulldown Item  Toggle first character
+#define  STR_TB_FUNC_INITCAPS     "Toggle first character"
+
+/////  TranslationPulldown ITem: Show translation
+#define  STR_TB_FUNC_SHOWTRANS    "Show translation"
+
+/////  text for open window containing the translators note of active document
+#define  STR_TB_FUNC_OPENTRNOTE   "TRNote window"
+
+/////  text for functions
+#define  STR_TB_FUNC_TOCGOTO   "Special go to dialog"
+
+/////  text for proposal mark copy
+#define  STR_TB_FUNC_PROPMARKCOPY   "Copy proposal block"
+
+/* dalia (start) */
+#ifndef _WINDOWS
+///   Arabic DCF command for Script/BM to work in host -- length 40 chars
+#define  STR_TB_FUNC_ARABICDCF    "Arabic DCF"
+#endif
+/* dalia (end) */
+#define  STR_TB_FUNC_SPELLAUTO         "Auto Spellcheck"
+#define  STR_TB_FUNC_NEXTMISSPELLED    "Next Misspelled"
+#define  STR_TB_FUNC_GOUPDSEGMENT      "Next Updated"
+#define  STR_TB_FUNC_REDO              "Redo changes"
+#define  STR_TB_FUNC_WYSIWYG           "WYSIWYG"
+#define  STR_TB_FUNC_ALLEXACTPROPS     "Display all exact proposals"
+#define  STR_TB_FUNC_LRM               "Left-to-right mark"
+#define  STR_TB_FUNC_RLM               "Right-to-left mark" 
+
+///   dummy functions for later use -- DO NOT CHANGE  -- length 40 chars
+#define  STR_TB_FUNC_DUMMY        ""
+
+// Add for R012027
+#define  STR_TB_FUNC_INSERTCHAR        "Insert character"
+// Add end
+
+///   Text displayed during interactive analysing  -- length 20 chars
+#ifndef _PTM
+  #define  STR_ANALWAIT_WAIT_TEXT   "Please wait while analyzing document..."
+#else
+  #define  STR_ANALWAIT_WAIT_TEXT   "Analyzing document"
+#endif
+/////////////////////////////////////////////////////////////
+//  available spcial key and function names
+//   length is limited to 20 characters
+// the message is put together as follows:
+//     %1%2%3Keyname
+//  where
+//     %1   STR_TB_VK_SHIFT        or NULL  if not requested
+//     %2   STR_TB_VK_CTRL         or NULL  if not requested
+//     %3   STR_TB_VK_ALT          or NULL  if not requested
+//     %4   Character pressed      or NULL  if not requested
+//  SHIFT, ALT and CTRL do not have a special key
+// the length for these special keys is limited to 10
+/////////////////////////////////////////////////////////////
+/// length limited to 10 characters
+#define  STR_TB_VK_CHAR           "%1%2%3%4"
+#define  STR_TB_VK_SHIFT          "Shift+"
+#define  STR_TB_VK_CTRL           "Ctrl+"
+#define  STR_TB_VK_ALT            "Alt+"
+/// length limited to 20 characters
+#define  STR_TB_VK_BREAK          "%1%2%3Break"
+#define  STR_TB_VK_BACKSPACE      "%1%2%3Backspace"
+#define  STR_TB_VK_TAB            "%1%2%3Tab"
+#define  STR_TB_VK_BACKTAB        "%1%2%3Backtab"
+#define  STR_TB_VK_NEWLINE        "%1%2%3Newline"
+#define  STR_TB_VK_ALTGRAF        "%1%2%3AltGraf"
+#define  STR_TB_VK_PAUSE          "%1%2%3Pause"
+#define  STR_TB_VK_CAPSLOCK       "%1%2%3CapsLock"
+#define  STR_TB_VK_ESC            "%1%2%3Esc"
+#define  STR_TB_VK_SPACE          "%1%2%3Space"
+#define  STR_TB_VK_PAGEUP         "%1%2%3PageUp"
+#define  STR_TB_VK_PAGEDOWN       "%1%2%3PageDown"
+#define  STR_TB_VK_END            "%1%2%3End"
+#define  STR_TB_VK_HOME           "%1%2%3Home"
+#define  STR_TB_VK_LEFT           "%1%2%3Left"
+#define  STR_TB_VK_UP             "%1%2%3Up"
+#define  STR_TB_VK_RIGHT          "%1%2%3Right"
+#define  STR_TB_VK_DOWN           "%1%2%3Down"
+#define  STR_TB_VK_PRINTSCRN      "%1%2%3PrintScreen"
+#define  STR_TB_VK_INSERT         "%1%2%3Insert"
+#define  STR_TB_VK_DELETE         "%1%2%3Delete"
+#define  STR_TB_VK_SCRLLOCK       "%1%2%3ScrollLock"
+#define  STR_TB_VK_NUMLOCK        "%1%2%3NumLock"
+#define  STR_TB_VK_ENTER          "%1%2%3Enter"
+#define  STR_TB_VK_SYSRQ          "%1%2%3SysRq"
+#define  STR_TB_VK_F1             "%1%2%3F1"
+#define  STR_TB_VK_F2             "%1%2%3F2"
+#define  STR_TB_VK_F3             "%1%2%3F3"
+#define  STR_TB_VK_F4             "%1%2%3F4"
+#define  STR_TB_VK_F5             "%1%2%3F5"
+#define  STR_TB_VK_F6             "%1%2%3F6"
+#define  STR_TB_VK_F7             "%1%2%3F7"
+#define  STR_TB_VK_F8             "%1%2%3F8"
+#define  STR_TB_VK_F9             "%1%2%3F9"
+#define  STR_TB_VK_F10            "%1%2%3F10"
+#define  STR_TB_VK_F11            "%1%2%3F11"
+#define  STR_TB_VK_F12            "%1%2%3F12"
+#define  STR_TB_VK_F13            "%1%2%3F13"
+#define  STR_TB_VK_F14            "%1%2%3F14"
+#define  STR_TB_VK_F15            "%1%2%3F15"
+#define  STR_TB_VK_F16            "%1%2%3F16"
+#define  STR_TB_VK_F17            "%1%2%3F17"
+#define  STR_TB_VK_F18            "%1%2%3F18"
+#define  STR_TB_VK_F19            "%1%2%3F19"
+#define  STR_TB_VK_F20            "%1%2%3F20"
+#define  STR_TB_VK_F21            "%1%2%3F21"
+#define  STR_TB_VK_F22            "%1%2%3F22"
+#define  STR_TB_VK_F23            "%1%2%3F23"
+#define  STR_TB_VK_F24            "%1%2%3F24"
+
+#define  STR_TB_VK_NONE           "* none *"
+
+/**********************************************************************/
+/* ITM mri definitions                                                */
+/**********************************************************************/
+#define STR_ITM_TITLE               "Edit Initial Translation Memory"
+#define STR_ITM_TITLE_TM            "Edit Initial Translation Memory: %s"
+///   Target File: Filename                    -- length 30 chars
+#define STR_ITM_TARGETFILE "Target File: %s"
+#define STR_ITM_TARGETFILE_X "Target File:"
+///   Source File: Filename                    -- length 30 chars
+#define STR_ITM_SOURCEFILE "Source File: %s"
+#define STR_ITM_SOURCEFILE_X "Source File: "
+///   ITM File                                 -- length 30 chars
+#define STR_ITM_TMFILE     "ITM File:    %s"
+#define STR_ITM_TMFILE_X   "ITM File:"
+///   What part of ITM is currently working    -- length 30 chars
+#define STR_ITM_STATUS     "Task:        %s"
+#define STR_ITM_STATUS_X   "Task:"
+///   Cleaning up                              -- length 30 chars
+#define STR_ITM_CLEANUP    "Cleaning up"
+///   Analysing the documents                  -- length 30 chars
+#define STR_ITM_ANALYSE    "Analyzing  "
+///   Aligning the target/source files         -- length 30 chars
+#define STR_ITM_ALIGNING   "Aligning   "
+///   Prepare the files                        -- length 30 chars
+#define STR_ITM_PREPARE    "Prepare files "
+///   Prepare the files                        -- length 30 chars
+#define STR_ITM_PREPAREENV "Prepare environment"
+///   Error                                    -- length 30 chars
+#define STR_ITM_ERROR      "Error         "
+
+// Update Translation Memory
+#define STR_ITM_UPDATETM             "Save Alignment"
+// Name of Translation Memory to be filled
+#define STR_ITM_TM                   "Translation Memory: %s"
+
+
+// Titlebar text of ITM progress window
+#define  STR_ITMWAIT_WAIT_TEXT   "Please wait ..."
+
+/**********************************************************************/
+/* Delete Machine Translation Matches                                 */
+/**********************************************************************/
+///   titlebar of the process window           -- length 30 chars
+#define STR_DMM_TITLE     "Delete [m]-flagged Matches"
+///   current segment
+#define STR_DMM_SEGNO      "Current Segment   :  "
+///   number of deleted segments
+#define STR_DMM_DELSEGS    "Deleted Segments  :  "
+///   translation memory name
+#define STR_DMM_TMFILE     "Translation Memory:  "
+///   Error                                    -- length 30 chars
+#define STR_DMM_ERROR      "Error         "
+
+/**********************************************************************/
+/* Change Machine Translation Matches                                 */
+/**********************************************************************/
+///   titlebar of the process window           -- length 30 chars
+#define STR_CMM_TITLE     "Change [m]-flagged Matches"
+///   current segment
+#define STR_CMM_SEGNO      "Current Segment   :  "
+///   number of cleared segments
+#define STR_CMM_CLRSEGS    "Cleared Segments  :  "
+///   number of set segments
+#define STR_CMM_SETSEGS    "Set Segments      :  "
+///   translation memory name
+#define STR_CMM_TMFILE     "Translation Memory:  "
+///   Error                                    -- length 30 chars
+#define STR_CMM_ERROR      "Error         "
+
+
+/**********************************************************************/
+/* Reverse Machine Translation Matches                                 */
+/**********************************************************************/
+///   titlebar of the process window           -- length 30 chars
+#define STR_REVM_TITLE     "Reverse Translation Memory"
+///   current segment
+#define STR_REVM_SEGNO      "Current Segment   :  "
+///   number of set segments
+#define STR_REVM_TMREVFILE  "Reversed Memory   :  "
+///   translation memory name
+#define STR_REVM_TMFILE     "Translation Memory:  "
+///   Error                                    -- length 30 chars
+#define STR_REVM_ERROR      "Error         "
+
+
+/**********************************************************************/
+/* ITM mri definitions                                                */
+/**********************************************************************/
+// Initial Translation Memory build dialog title
+// fill with same version number STR_ITM_TITLE in eqfb.mri
+#define STR_ITM_MAIN_DLG_TITLE      "Create Initial Translation Memory"
+// memory drop-down combo box text
+#define STR_ITM_TRANSMEM_STATIC     "Translation Memory:"
+/**********************************************************************/
+/* group box to select source files and target files                  */
+/**********************************************************************/
+#define STR_ITM_SELFILE             "Selection of file pairs:"
+// entry field for source filename
+#define STR_ITM_SOURCE_STATIC       "Source file:"
+// entry field for target filename
+#define STR_ITM_TARGET_STATIC       "Target file:"
+// display current directory
+#define STR_ITM_CURDIR_STATIC       "Current Directory:"
+// listbox with filenames of current directory
+#define STR_ITM_FILES_LB            "Files"
+// listbox with directories
+#define STR_ITM_DIRECTORIES_LB      "Directories"
+// listbox with list of file pairs  (src/target)
+#define STR_ITM_FILELIST_LB         "Filelist"
+// itm pushbuttons
+#define STR_ITM_ADDTOLIST_PB        "Add "
+#define STR_ITM_ALIGN_PB            "&Align"
+#define STR_ITM_VISUAL_PB           "&Create"
+#define STR_ITM_CANCEL_PB           "Cancel"
+#define STR_ITM_HELP_PB             "Help"
+#define STR_ITM_MARKUP_STATIC       "Markup:"
+#define STR_ITM_DELINLIST_PB        "Delete"
+#define STR_ITM_DELALL_PB           "Delete all"
+#define STR_ITM_SRCLANG_STATIC       "Source language:"
+#define STR_ITM_TGTLANG_STATIC       "Target language:"
+#define STR_ITM_PREPARE_PB           "&Prepare"
+#define STR_ITM_SRCSTARTPATH_STATIC   "Source Startpath"
+#define STR_ITM_TGTSTARTPATH_STATIC   "Target Startpath"
+
+
+#define STR_ITM_AAB_FILE             "&File"
+
+#define STR_ITM_AAB_QUIT             "&Quit\tF3"
+#define STR_ITM_AAB_ENDSAVE          "&End-Save\tF4"
+#define STR_ITM_AAB_CONTINUE         "&Save\tF2"
+#define STR_ITM_AAB_SRCDOC           "&Source\tCtrl+t"
+#define STR_ITM_AAB_TGTDOC           "&Target\tCtrl+t"
+#define STR_ITM_SRCDOC               "Source:"
+#define STR_ITM_TGTDOC               "Target:"
+
+#define STR_ITM_AAB_TOGGLE           "&Toggle window\tCtrl+t"
+
+#define STR_ITM_AAB_EDIT             "&Edit"
+
+#define STR_ITM_AAB_CONNECT          "&Connect segments\tCtrl+o"
+#define STR_ITM_AAB_DELCONNECT       "&Delete connection\tCtrl+d"
+#define STR_ITM_AAB_DELUSERCON       "&Delete all user connections"
+#define STR_ITM_AAB_CROSSOUT         "&Ignore segment\tCtrl+i"
+#define STR_ITM_AAB_UNDOCROSSOUT     "&Undo Ignore\tCtrl+u"
+#define STR_ITM_AAB_JOINSEG          "&Join segments\tCtrl+j"
+#define STR_ITM_AAB_SPLITSEG         "&Split joined segments\tCtrl+s"
+
+#define STR_ITM_POPUP_MARKSEG        "Mark segment"
+#define STR_ITM_POPUP_UNMARKSEG      "Unmark segment"
+#define STR_ITM_POPUP_SYNCHRONIZE    "Synchronize"
+#define STR_ITM_POPUP_CONNECT        "Connect segment"
+#define STR_ITM_POPUP_CROSSOUT       "Ignore segment"
+#define STR_ITM_POPUP_JOINSEG        "Join segments"
+
+#define STR_ITM_AAB_GOTO             "Cu&rsor"
+
+#define STR_ITM_AAB_NEXTANCHOR       "Next &connection\tCtrl+Shift+Down"
+#define STR_ITM_AAB_PREVANCHOR       "&Previous connection\tCtrl+Shift+Up"
+#define STR_ITM_AAB_NEXTLONE         "Next &unaligned\tAlt+Down"
+#define STR_ITM_AAB_PREVLONE         "Previous un&aligned\tAlt+Up"
+#define STR_ITM_AAB_NEXTBAD          "Next &irregular\tShift+Alt+Down"
+#define STR_ITM_AAB_PREVBAD          "Previous i&rregular\tShift+Alt+Up"
+#define STR_ITM_AAB_SYNCHRONIZE      "&Synchronize\tCtrl+Enter"
+#define STR_ITM_AAB_MARKSEGMENT      "&Mark segment\tCtrl+m"
+#define STR_ITM_AAB_UNMARKSEG        "U&nmark segment\tCtrl+n"
+
+#define STR_ITM_AAB_VIEW             "&Options"
+
+#define STR_ITM_AAB_ZOOMALL          "Zoom &all"
+#define STR_ITM_AAB_ZOOM100          "&Zoom 100 lines"
+#define STR_ITM_AAB_PAGE             "Zoom &one page"
+#define STR_ITM_AAB_FONTS            "&Colors..."
+#define STR_ITM_AAB_STYLES           "Sty&le"
+#define STR_ITM_AAB_SIZES            "&Fonts..."
+#define STR_ITM_AAB_TILE             "&Arrange"
+#define STR_ITM_AAB_HORIZONTAL       "&Horizontal"
+#define STR_ITM_AAB_VERTICAL         "&Vertical"
+#define STR_ITM_AAB_PARALLEL         "&Parallel"
+#define STR_ITM_AAB_ADDABBREV       "&Add an user abbreviation\tCtrl+a"
+#define STR_ITM_AAB_AUTOWRAP         "&Automatic linewrap"
+
+#define STR_ITM_AAB_FIND             "&Find and Replace\tCtrl+f"
+#define STR_ITM_AAB_BOOKMARK         "Set &bookmark\tCtrl+b"
+#define STR_ITM_AAB_GOBOOKMARK       "&Go to bookmark\tCtrl+g"
+#define STR_ITM_AAB_CLEARBOOKMARK    "Cl&ear bookmark\tCtrl+e"
+
+/// items added to ITM for ITM edit
+#define STR_ITM_AAB_VISIBLESPACE     "&Visible white spaces"
+#define STR_ITM_AAB_GOTOLINE         "Go to &line..."
+#define STR_ITM_AAB_QUERYLINE        "&Query line"
+#define STR_ITM_AAB_CUT              "Cu&t\tCtrl+x"
+#define STR_ITM_AAB_COPY             "&Copy\tCtrl+c"
+#define STR_ITM_AAB_PASTE            "&Paste\tCtrl+v"
+#define STR_ITM_AAB_CLEAR            "C&lear"
+#define STR_ITM_AAB_UNDO             "&Undo"
+#define STR_ITM_AAB_SPLIT            "&Split line"
+#define STR_ITM_AAB_JOIN             "&Join line"
+#define STR_ITM_AAB_INITCAPS         "Toggle &initial Caps"
+
+#define STR_ITM_AAB_ALIGN            "Align"
+#define STR_ITM_AAB_SPELL            "Spellcheck"
+#define STR_ITM_AAB_PROOFSEG         "Segment..."
+#define STR_ITM_AAB_PROOFALL         "File..."
+#define STR_ITM_AAB_NEXTMISSPELL     "Next Misspelled"
+
+/////  Actionbar Item Help
+#define  STR_ITM_AAB_HELP            "&Help"
+
+
+// titlebar text for save as dialog
+#define STR_PTM_SAVEAS_DLG            "Save as"
+
+// text for statusline
+#define STR_ITM_STAT_SEGMENTS         "Segments:"
+#define STR_ITM_STAT_UNALIGNED        "Unaligned:"
+#define STR_ITM_STAT_IGNORED          "Ignored:"
+#define STR_ITM_STAT_MATCH            "Match:"
+#define STR_ITM_STAT_IRREGULAR        "Irregular:"
+
+// text for TOC GOTO dialog
+#define STR_TB_TOCGOTO_TITLE            "Table of contents"
+
+
+
+//    text for group box in property sheets
+#define  STR_TB_PROFONE_DISPLAYOPT_STATIC     "Display Options"
+#define  STR_TB_PROFONE_DISPLAYSETTING_STATIC "Display Settings"
+//    tab control: Editor and tooltip
+#define  STR_TB_TABCTRL_EDITOR                "Editor"
+#define  STR_TB_TABCTRL_TTIP_EDITOR           "Editor Settings and Options"
+//    tab control: Display and tooltip
+#define  STR_TB_TABCTRL_DISPLAY               "Display"
+#define  STR_TB_TABCTRL_TTIP_DISPLAY          "Different Display Styles"
+//    tab control: Dictionary and tooltip
+#define  STR_TB_TABCTRL_DICTIONARY            "Dictionary"
+#define  STR_TB_TABCTRL_TTIP_DICTIONARY       "Dictionary window styles/information"
+//    tab control: TranslationMemory and tooltip
+#define  STR_TB_TABCTRL_TRANSLMEM             "Transl.Mem"
+#define  STR_TB_TABCTRL_TTIP_TRANSLMEM        "Proposal window styles/display options"
+//    tab control: Messages and tooltip
+#define  STR_TB_TABCTRL_MESSAGES              "Messages"
+#define  STR_TB_TABCTRL_TTIP_MESSAGES         "Enable/disable information messages"
+
+#define STR_TB_TABCTRL_SUBSTOPT               "Substitution Options"
+#define STR_TB_TABCTRL_CURSOR                 "Cursor"
+#define STR_TB_TABCTRL_DBCS                   "Double Byte"
+
+//    tab control: background tasks
+#define STR_TB_TABCTRL_BACKTASKS              "Background tasks"
+#define STR_TB_TABCTRL_TTIP_BACKTASKS         "Enable/Disable functions running in the background"
+
+#define STR_TB_TABCTRL_AUTSUBST               "Aut.Substitution"
+#define STR_TB_TABCTRL_TTIP_AUTSUBST          "Settings for automatic substitution"
+
+// text for extended font dialog
+#define STR_TB_FONTEXT_FONT                    "Font"
+#define STR_TB_FONTEXT_FONTSTYLE               "Font style"
+#define STR_TB_FONTEXT_SIZE                    "Size"
+#define STR_TB_FONTEXT_REPRESENT               "Representation"
+#define STR_TB_FONTEXT_FGCOLOR                 "Foreground color"
+#define STR_TB_FONTEXT_BGCOLOR                 "Background color"
+#define STR_TB_FONTEXT_STRIKETHROUGH           "Strikethrough"
+#define STR_TB_FONTEXT_UNDERLINE               "Underline"
+#define STR_TB_FONTEXT_TITLE                   "Font"
+#define STR_TB_PB_OK                           "OK"
+#define STR_TB_FONTEXT_PREVIEW                 "Preview"
+#define STR_TB_FONTEXT_SCRIPT                  "Font script"
+
+/////////////////////////////////////////////////////////////
+//  available objects to be colored  (EXTENDED FONT DIALOG!)
+//  like color of active segment, already translated segment, etc.
+/////////////////////////////////////////////////////////////
+///   not used at the moment -- length 40 chars
+#define STR_TB_FONTEXT_ROOT             "Translation Environment"
+#define STR_TB_FONTEXT_TGROUP           "Translation"
+#define STR_TB_FONTEXT_RGROUP           "Postedit"
+#define STR_TB_FONTEXT_DGROUP           "Dictionary"
+#define STR_TB_FONTEXT_MGROUP           "Translation Proposal"
+#define STR_TB_FONTEXT_IGROUP           "ITM"
+
+
+#define  STR_TB_FONTEXT_T_SOURCE        "Source text"
+///   source     segment -- length 40 chars
+#define  STR_TB_FONTEXT_T_TRANSLATION   "Translation"
+///   transl.segment -- length 40 chars
+#define  STR_TB_FONTEXT_T_LAYOUT        "Layout information"
+///   layout info    -- length 40 chars
+#define  STR_TB_FONTEXT_T_ACTIVE        "Active sentence"
+///   active segment -- length 40 chars
+#define  STR_TB_FONTEXT_T_TRNOTE        "Translators note"
+///   active segment -- length 40 chars
+#define  STR_TB_FONTEXT_T_RTFEDIT_TRNOTE        "Tag for Translators note"
+///   REvision  -- length 40 chars 
+#define  STR_TB_FONTEXT_R_SCRATCH       "Translated from scratch"
+#define  STR_TB_FONTEXT_R_MODIFIED      "Modified Proposal"
+#define  STR_TB_FONTEXT_R_COPIED        "Copied Proposal"
+#define  STR_TB_FONTEXT_R_LAYOUTCHANGES "Layout changes"
+///   dictionary window --length 40 chars
+#define  STR_TB_FONTEXT_D_HEADWORD      "Headword"
+#define  STR_TB_FONTEXT_D_TRANSLATION   "Translation"
+#define  STR_TB_FONTEXT_D_PREFIX        "Prefix"
+#define  STR_TB_FONTEXT_D_ADDITIONINFO  "Additional Information"
+///   translation memory window --length 40 chars
+#define  STR_TB_FONTEXT_M_PREFIX        "Prefix"
+#define  STR_TB_FONTEXT_M_PMODIFIED     "Proposal modification"
+#define  STR_TB_FONTEXT_M_PINSERTED     "Proposal insertion"
+#define  STR_TB_FONTEXT_M_PDELETED      "Proposal deletion"
+///   ITM --length 40 chars
+#define  STR_TB_FONTEXT_I_ANCHOR1       "Anchor - color 1"
+#define  STR_TB_FONTEXT_I_ANCHOR2       "Anchor - color 2"
+#define  STR_TB_FONTEXT_I_ANCHOR3       "Anchor - color 3"
+#define  STR_TB_FONTEXT_I_UNALIGNED     "Unaligned sentence"
+#define  STR_TB_FONTEXT_I_CROSSEDOUT    "Crossed out sentence"
+#define  STR_TB_FONTEXT_I_OVERCROSS     "Overcross aligned"
+#define  STR_TB_FONTEXT_I_ALIGN1        "Aligned - color 1"
+#define  STR_TB_FONTEXT_I_ALIGN2        "Aligned - color 2"
+#define  STR_TB_FONTEXT_I_ALIGN3        "Aligned - color 3"
+// fontstyles
+#define STR_TB_FONTEXT_STANDARD         "Standard"
+#define STR_TB_FONTEXT_KURSIV           "Italic"
+#define STR_TB_FONTEXT_FETT             "Bold"
+#define STR_TB_FONTEXT_FETTKURSIV       "Bold italic"

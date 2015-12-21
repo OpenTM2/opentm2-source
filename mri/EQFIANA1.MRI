@@ -1,0 +1,98 @@
+// Copyright (c) 2012, International Business Machines
+// Corporation and others.  All rights reserved.
+
+//EQFIANA1 dialog
+#define IDS_AN_0    "Analyze Documents"
+#define IDS_AN_1    "Documents to be analyzed:"
+#define IDS_AN_2    "Available"
+#define IDS_AN_3    "Selected"
+//#define IDS_AN_4    "Dictionaries"
+//#define IDS_AN_5    "to be searched :"
+#define IDS_AN_6    "Translation Memory databases to be searched:"
+#define IDS_AN_9    "Translation Memory databases"
+#define IDS_AN_10   "Add segments to Translation Memory of folder/document"
+
+/*
+#define IDS_AN_11   "Add exact matches to document"
+*/
+#define IDS_AN_11   "Substitute exact matches in the documents automatically"
+#define IDS_AN_21   "Use latest exact match when more than one found"
+#define IDS_AN_AUTOJOIN  "Use joined segments when found"
+#define IDS_AN_EXACTCONTEXT "Use exact context match when more than one found"
+#define IDS_AN_12   "&Analyze"
+//#define IDS_AN_13   "More..."
+#define IDS_AN_14   "Cancel"
+#define IDS_AN_15   "Help"
+
+
+#define IDS_AN_17   "Create lists"
+#define IDS_AN_18   "&Settings..."
+#define IDS_AN_19   "Create file containing untranslated segments"
+
+#define IDS_AN_COUNTMATCH "Count Translation Memory match information"
+
+#define IDS_AN_REDUNDCOUNT "Prepare redundancy report"
+
+#define IDS_AN_MACHTRANS "Send untranslated segments to MT server"
+
+#define IDS_AN_IGNORE_IDENTICAL "No substitution if source and target segment is identical"
+#define IDS_AN_IGNORE_PATH "Ignore path in document names"
+
+#define IDS_AN2_TITLE      "List Settings"
+#define IDS_AN2_1          "Add found terms to dictionary:"
+#define IDS_AN2_2          "Create list of new terms:"
+#define IDS_AN2_3          "Minimum number of occurrences"
+#define IDS_AN2_4          "Include context information"
+#define IDS_AN2_5          "Create list of found terms:"
+#define IDS_AN2_MWT        "Include new multi-word terms"
+#define IDS_AN2_LB_INFO    "Dictionaries to be used for analysis:"
+#define IDS_AN2_LB1_TITLE  "Available"
+#define IDS_AN2_LB2_TITLE  "Selected"
+#define IDS_AN2_9          "Use exclusion lists"
+#define IDS_AN2_10         "Use exclusion dictionaries"
+// #define IDS_AN2_11      "Use compound word:"
+#define IDS_AN2_PB_SET     "&Set"
+#define IDS_AN2_PB_CANCEL  "Cancel"
+#define IDS_AN2_PB_HELP    "Help"
+#define STR_MSG_PRESEGM    "Text presegmentation"
+#define STR_MSG_TEXTSEGM   "Text segmentation"
+#define STR_MSG_POSTSEGM   "Text postsegmentation"
+#define STR_MSG_POSTTM     "Postsegmentation"
+#define STR_MSG_TMP        "Translation Memory, term list and dictionary processing"
+#define STR_MSG_LISTOUT    "Output term lists and/or dictionary"
+#define STR_TATITLEBAR     "Analyze: "
+#define STR_TATODO         "Documents to be processed"
+#define STR_TADONE         "Documents processed"
+#define STR_ARCHTM_TITLE   "Build Archive Translation Memory: "
+#define STR_MSG_REDUNDCOUNT "Redundancy counting"
+#define STR_EXPORTSEGS_TITLE "Export segments in tag groups"
+/* end add by DOE @@@@@ */
+
+
+/**********************************************************************/
+/* Strings for Build Archive TM function                              */
+/**********************************************************************/
+#define STR_ARCHTM_DLG_TITLE   "Build Archive Translation Memory"
+#define STR_ARCHTM_DOCS_TEXT   "Documents being searched"
+#define STR_ARCHTM_INTOTM_TEXT "Archive into Translation Memory:"
+#define STR_ARCHTM_USEFORFOLDER_CB "Use as folder Translation Memory"
+#define STR_ARCHTM_BUILD_PB    "&Build"
+#define STR_ARCHTM_CANCEL_PB   "Cancel"
+#define STR_ARCHTM_HELP_PB     "Help"
+
+//
+// strings for analysis property sheet
+//
+
+// tool tip strings
+#define STR_ANAPROP_TTIP_GENERAL  "General analysis settings"
+#define STR_ANAPROP_TTIP_AUTSUBST "Settings for automatic substitution"
+#define STR_ANAPROP_TTIP_LISTS    "Settings for list creation"
+#define STR_ANAPROP_TTIP_OTHER    "Miscellaneous analysis settings"
+
+// property sheet tab strings
+#define STR_ANAPROP_TAB_GENERAL   "General"
+#define STR_ANAPROP_TAB_AUTSUBST  "Aut.Substitution"
+#define STR_ANAPROP_TAB_LISTS     "List Settings"
+#define STR_ANAPROP_TAB_OTHER     "Miscellaneous"
+

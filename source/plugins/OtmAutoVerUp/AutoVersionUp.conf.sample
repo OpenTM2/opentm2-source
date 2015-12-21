@@ -1,0 +1,13 @@
+#|Copyright Notice:                                                           |
+#|                                                                            |
+#|      Copyright (C) 1990-2014, International Business Machines              |
+#|      Corporation and others. All rights reserved                           |
+#+----------------------------------------------------------------------------+
+[Settings]
+StartFirst=1
+
+Frequency=0
+[Networks]
+URL=http://www.beo-doc.de/opentm2/updates
+ProxyAddress=
+ProxyPort=

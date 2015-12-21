@@ -1,0 +1,36 @@
+<!--       Copyright (C) 1990-2013, International Business Machines             -->
+<!--       Corporation and others. All rights reserved                          -->
+<?xml version="1.0" encoding="UTF-8" ?> 
+<avu> 
+	<component name="OpenTM2">
+		<Version>1.0.1</Version>	          
+		<AvaliableDate>2013/01/01</AvaliableDate >
+		<description>OpenTM2 update</description> 
+		<author>Gerhard Queck</author> 
+		<homepage>http://</homepage> 		
+		<latestUpdate>Bug Fixing</latestUpdate> 
+		<install>			
+			<download type="zip">http://9.125.92.50:8000/ftp/projects/o/OpenTM2/downloads/OpenTM2-0.9.6-9C-Setup.zip</download>
+			<copy from="" to="$OPENTM2DIR$\" validate="true" />
+			<fullinstall>Installation executable file</fullinstall>
+			<Fixpacks>
+			  <Fixpack id=''>
+			  	<download>http://downloads.....</download> 
+					<copy from="" to="$OPENTM2DIR$\" validate="true" />  
+				</Fixpack>
+			</Fixpacks>
+		</install>
+	</component>
+	<component name="MUT">
+		<Version>1.0.1</Version>          
+		<AvaliableDate>2013/01/01</AvaliableDate >
+		<description>Markup table update</description> 
+		<author>Gerhard Queck</author> 
+		<homepage>http://</homepage> 
+		<install>			
+			<download>http://downloads.....</download>
+			<copy from="" to="$OPENTM2DIR$\" validate="true" /> 
+			<fullinstall>Installation executable file</fullinstall>
+		</install>
+	</component>
+</avu>

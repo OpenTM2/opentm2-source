@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!-- ............................................................... -->
+<!--  Copyright (C) 1998-2013, International Business Machines       -->
+<!--        Corporation and others. All rights reserved              -->
+<!-- ............................................................... -->
+<!-- OTMXML control file: XHTML file format in HTML encoding   -->
+<xmltags>
+   <html> </html>
+   <neutral>
+      <tag> a </tag>
+   </neutral>
+   <neutral>
+      <tag> /a </tag>
+   </neutral>
+   <neutral>
+      <tag> abbr </tag>
+   </neutral>
+   <neutral>
+      <tag> /abbr </tag>
+   </neutral>
+   <neutral>
+      <tag> acronym </tag>
+   </neutral>
+   <neutral>
+      <tag> /acronym </tag>
+   </neutral>
+   <neutral>
+      <tag> b </tag>
+   </neutral>
+   <neutral>
+      <tag> /b </tag>
+   </neutral>
+   <neutral>
+      <tag> bdo </tag>
+   </neutral>
+   <neutral>
+      <tag> /bdo </tag>
+   </neutral>
+   <neutral>
+      <tag> big </tag>
+   </neutral>
+   <neutral>
+      <tag> /big </tag>
+   </neutral>
+   <neutral>
+      <tag> blink </tag>
+   </neutral>
+   <neutral>
+      <tag> /blink </tag>
+   </neutral>
+   <neutral>
+      <tag> button </tag>
+   </neutral>
+   <neutral>
+      <tag> /button </tag>
+   </neutral>
+   <neutral>
+      <tag> cite </tag>
+   </neutral>
+   <neutral>
+      <tag> /cite </tag>
+   </neutral>
+   <neutral>
+      <tag> code </tag>
+   </neutral>
+   <neutral>
+      <tag> /code </tag>
+   </neutral>
+   <neutral>
+      <tag> dfn </tag>
+   </neutral>
+   <neutral>
+      <tag> /dfn </tag>
+   </neutral>
+   <neutral>
+      <tag> em </tag>
+   </neutral>
+   <neutral>
+      <tag> /em </tag>
+   </neutral>
+   <neutral>
+      <tag> fontq </tag>
+   </neutral>
+   <neutral>
+      <tag> /fontq </tag>
+   </neutral>
+   <neutral>
+      <tag> i </tag>
+   </neutral>
+   <neutral>
+      <tag> /i </tag>
+   </neutral>
+   <neutral>
+      <tag> img </tag>
+   </neutral>
+   <neutral>
+      <tag> /img </tag>
+   </neutral>
+   <neutral>
+      <tag> kbd </tag>
+   </neutral>
+   <neutral>
+      <tag> /kbd </tag>
+   </neutral>
+   <neutral>
+      <tag> link </tag>
+   </neutral>
+   <neutral>
+      <tag> /link </tag>
+   </neutral>
+   <neutral>
+      <tag> q </tag>
+   </neutral>
+   <neutral>
+      <tag> /q </tag>
+   </neutral>
+   <neutral>
+      <tag> s </tag>
+   </neutral>
+   <neutral>
+      <tag> /s </tag>
+   </neutral>
+   <neutral>
+      <tag> samp </tag>
+   </neutral>
+   <neutral>
+      <tag> /samp </tag>
+   </neutral>
+   <neutral>
+      <tag> small </tag>
+   </neutral>
+   <neutral>
+      <tag> /small </tag>
+   </neutral>
+   <neutral>
+      <tag> span </tag>
+   </neutral>
+   <neutral>
+      <tag> /span </tag>
+   </neutral>
+   <neutral>
+      <tag> strike </tag>
+   </neutral>
+   <neutral>
+      <tag> /strike </tag>
+   </neutral>
+   <neutral>
+      <tag> strong </tag>
+   </neutral>
+   <neutral>
+      <tag> /strong </tag>
+   </neutral>
+   <neutral>
+      <tag> sub </tag>
+   </neutral>
+   <neutral>
+      <tag> /sub </tag>
+   </neutral>
+   <neutral>
+      <tag> sup </tag>
+   </neutral>
+   <neutral>
+      <tag> /sup </tag>
+   </neutral>
+   <neutral>
+      <tag> tt </tag>
+   </neutral>
+   <neutral>
+      <tag> /tt </tag>
+   </neutral>
+   <neutral>
+      <tag> u </tag>
+   </neutral>
+   <neutral>
+      <tag> /u </tag>
+   </neutral>
+   <neutral>
+      <tag> var </tag>
+   </neutral>
+   <neutral>
+      <tag> /var </tag>
+   </neutral>
+   <neutral>
+      <tag> wps:portletTitle </tag>
+   </neutral>
+   <neutral>
+      <tag> /wps:portletTitle </tag>
+   </neutral>
+
+   <attribute>
+      <tag> * </tag>
+      <transattr> lang </transattr>
+   </attribute>
+   <attribute>
+      <tag> * </tag>
+      <transattr> title </transattr>
+   </attribute>
+
+   <attribute>
+      <tag> a </tag>
+      <transattr> charset hreflang indexstring tocstring </transattr>
+   </attribute>
+   <attribute>
+      <tag> applet </tag>
+      <transattr> alt </transattr>
+   </attribute>
+   <attribute>
+      <tag> area </tag>
+      <transattr> alt </transattr>
+   </attribute>
+   <attribute>
+      <tag> img </tag>
+      <transattr> alt </transattr>
+   </attribute>
+   <attribute>
+      <tag> input </tag>
+      <condattr> type </condattr>
+      <condattrvalue> button reset submit text </condattrvalue>
+      <transattr> alt value </transattr>
+   </attribute>
+   <attribute>
+      <tag> isindex </tag>
+      <transattr> prompt </transattr>
+   </attribute>
+   <attribute>
+      <tag> link </tag>
+      <transattr> charset hreflang </transattr>
+   </attribute>
+   <attribute>
+      <tag> meta </tag>
+      <transattr> content </transattr>
+   </attribute>
+   <attribute>
+      <tag> object </tag>
+      <transattr> standby </transattr>
+   </attribute>
+   <attribute>
+      <tag> optgroup </tag>
+      <transattr> label </transattr>
+   </attribute>
+   <attribute>
+      <tag> option </tag>
+      <transattr> label value </transattr>
+      <skipattrvalue> http://* https://* </skipattrvalue>
+   </attribute>
+   <attribute>
+      <tag> param </tag>
+      <transattr> value </transattr>
+   </attribute>
+   <attribute>
+      <tag> script </tag>
+      <transattr> charset </transattr>
+   </attribute>
+   <attribute>
+      <tag> table </tag>
+      <transattr> summary </transattr>
+   </attribute>
+   <attribute>
+      <tag> td </tag>
+      <transattr> abbr </transattr>
+   </attribute>
+   <attribute>
+      <tag> th </tag>
+      <transattr> abbr </transattr>
+   </attribute>
+
+   <state>
+      <initial> OFF </initial>
+      <tag> script </tag>
+      <endtag> /script </endtag>
+      <condattr> language type </condattr>
+      <condattrvalue> javascript jscript vbscript text/javascript text/jscript text/vbscript </condattrvalue>
+   </state>
+   <state>
+      <initial> OFF </initial>
+      <tag> style </tag>
+      <endtag> /style </endtag>
+   </state>
+</xmltags>

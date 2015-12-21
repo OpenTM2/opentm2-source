@@ -1,0 +1,754 @@
+English(U.S.)
+50: Morphological Dictionary US.DIC
+51: Language Code 6011
+52: Noise List US.NOI
+53: Stopword List US.STW
+54: Addenda Dictionary US.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group English
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+English(U.K.)
+50: Morphological Dictionary UK.DIC
+51: Language Code 5997
+52: Noise List UK.NOI
+53: Stopword List UK.STW
+54: Addenda Dictionary UK.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group English
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+German(national)
+50: Morphological Dictionary DEUTSCH2.DIC
+51: Language Code 4841
+52: Noise List DEUTSCH.NOI
+53: Stopword List DEUTSCH.STW
+54: Addenda Dictionary DEUTSCH.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group German
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+German(newnat)
+50: Morphological Dictionary DEUTSCH2.DIC
+51: Language Code 4841
+52: Noise List DEUTSCH.NOI
+53: Stopword List DEUTSCH.STW
+54: Addenda Dictionary DEUTSCH.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group German
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+German(DPAnat)
+50: Morphological Dictionary DEUT2DPA.DIC
+51: Language Code 4841
+52: Noise List DEUTSCH.NOI
+53: Stopword List DEUTSCH.STW
+54: Addenda Dictionary DEUTSCH.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group German
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+German(reform)
+50: Morphological Dictionary deXX7000.DIC
+51: Language Code 4841
+52: Noise List DEUTSCH.NOI
+53: Stopword List DEUTSCH.STW
+54: Addenda Dictionary deXX7000.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group German
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+German(Swiss)
+50: Morphological Dictionary DSCHWEIZ.DIC
+51: Language Code 4839
+52: Noise List DSCHWEIZ.NOI
+53: Stopword List DSCHWEIZ.STW
+54: Addenda Dictionary DSCHWEIZ.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group German
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+French(national)
+50: Morphological Dictionary FRANCAIS.DIC
+51: Language Code 7011
+52: Noise List FRANCAIS.NOI
+53: Stopword List FRANCAIS.STW
+54: Addenda Dictionary FRANCAIS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group French
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+French(Canadian)
+50: Morphological Dictionary CANADIEN.DIC
+51: Language Code 7013
+52: Noise List CANADIEN.NOI
+53: Stopword List CANADIEN.STW
+54: Addenda Dictionary CANADIEN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group French
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Italian
+50: Morphological Dictionary ITALIANO.DIC
+51: Language Code 9771
+52: Noise List ITALIANO.NOI
+53: Stopword List ITALIANO.STW
+54: Addenda Dictionary ITALIANO.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Italian
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Spanish
+50: Morphological Dictionary ESPANA.DIC
+51: Language Code 6156
+52: Noise List ESPANA.NOI
+53: Stopword List ESPANA.STW
+54: Addenda Dictionary ESPANA.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Spanish
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Dutch(restrictive)
+50: Morphological Dictionary NEDERLND.DIC
+51: Language Code 14034
+52: Noise List NEDERLND.NOI
+53: Stopword List NEDERLND.STW
+54: Addenda Dictionary NEDERLND.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Dutch
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Dutch(permissive)
+50: Morphological Dictionary NEDPLUS.DIC
+51: Language Code 14034
+52: Noise List NEDPLUS.NOI
+53: Stopword List NEDPLUS.STW
+54: Addenda Dictionary NEDPLUS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Dutch
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Portuguese(Brasil)
+50: Morphological Dictionary BRASIL.DIC
+51: Language Code 16072
+52: Noise List BRASIL.NOI
+53: Stopword List BRASIL.STW
+54: Addenda Dictionary BRASIL.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Portuguese
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Portuguese(nat.)
+50: Morphological Dictionary PORTUGAL.DIC
+51: Language Code 16077
+52: Noise List PORTUGAL.NOI
+53: Stopword List PORTUGAL.STW
+54: Addenda Dictionary PORTUGAL.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Portuguese
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Portuguese(Br.New)
+50: Morphological Dictionary ptBR7005.dic
+51: Language Code 16072
+52: Noise List BRASIL.NOI
+53: Stopword List BRASIL.STW
+54: Addenda Dictionary ptBR7005.ADD
+55: Compound Separator  N
+56: Language Exit EQFMOFRO
+57: Codepage 850
+58: Group Portuguese
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Portuguese(nt.New)
+50: Morphological Dictionary ptPT7005.DIC
+51: Language Code 16077
+52: Noise List PORTUGAL.NOI
+53: Stopword List PORTUGAL.STW
+54: Addenda Dictionary ptPT7005.ADD
+55: Compound Separator  N
+56: Language Exit EQFMOFRO
+57: Codepage 850
+58: Group Portuguese
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Catalan
+50: Morphological Dictionary CATALA.DIC
+51: Language Code 3820
+52: Noise List CATALA.NOI
+53: Stopword List CATALA.STW
+54: Addenda Dictionary CATALA.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Catalan
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Danish
+50: Morphological Dictionary DANSK.DIC
+51: Language Code 4714
+52: Noise List DANSK.NOI
+53: Stopword List DANSK.STW
+54: Addenda Dictionary DANSK.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Danish
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Icelandic
+50: Morphological Dictionary ISLENSK.DIC
+51: Language Code 9752
+52: Noise List ISLENSK.NOI
+53: Stopword List ISLENSK.STW
+54: Addenda Dictionary ISLENSK.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Icelandic
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Norwegian(bokmal)
+50: Morphological Dictionary NORBOK.DIC
+51: Language Code 14122
+52: Noise List NORBOK.NOI
+53: Stopword List NORBOK.STW
+54: Addenda Dictionary NORBOK.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Norwegian(bokmal)
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Norwegian(nynorsk)
+50: Morphological Dictionary NORNYN.DIC
+51: Language Code 14134
+52: Noise List NORNYN.NOI
+53: Stopword List NORNYN.STW
+54: Addenda Dictionary NORNYN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Norwegian(nynorsk)
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Swedish
+50: Morphological Dictionary SVENSK.DIC
+51: Language Code 18835
+52: Noise List SVENSK.NOI
+53: Stopword List SVENSK.STW
+54: Addenda Dictionary SVENSK.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Swedish
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Greek
+50: Morphological Dictionary HELLAS.DIC
+51: Language Code 5942
+52: Noise List HELLAS.NOI
+53: Stopword List HELLAS.STW
+54: Addenda Dictionary HELLAS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 869
+58: Group Greek
+59: Spellcheck Y
+60: AnsiCodepage 1253
+End
+Afrikaans
+50: Morphological Dictionary AFRIKAAN.DIC
+51: Language Code 2168
+52: Noise List AFRIKAAN.NOI
+53: Stopword List AFRIKAAN.STW
+54: Addenda Dictionary AFRIKAAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Afrikaans
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Finnish
+50: Morphological Dictionary SUOMI.DIC
+51: Language Code 6754
+52: Noise List SUOMI.NOI
+53: Stopword List SUOMI.STW
+54: Addenda Dictionary SUOMI.ADD
+55: Compound Separator  Y
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Finnish
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Polish
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List POLSKA.NOI
+53: Stopword List POLSKA.STW
+54: Addenda Dictionary POLSKA.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Polish
+59: Spellcheck Y
+60: AnsiCodepage 1250
+End
+Hungarian
+50: Morphological Dictionary MAGYAR.DIC
+51: Language Code 8914
+52: Noise List MAGYAR.NOI
+53: Stopword List MAGYAR.STW
+54: Addenda Dictionary MAGYAR.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Hungarian
+59: Spellcheck Y
+60: AnsiCodepage 1250
+End
+Czech
+50: Morphological Dictionary CZECH.DIC
+51: Language Code 4365
+52: Noise List CZECH.NOI
+53: Stopword List CZECH.STW
+54: Addenda Dictionary CZECH.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Czech
+59: Spellcheck Y
+60: AnsiCodepage 1250
+End
+Turkish
+50: Morphological Dictionary TURKIYE.DIC
+51: Language Code 19621
+52: Noise List TURKIYE.NOI
+53: Stopword List TURKIYE.STW
+54: Addenda Dictionary TURKIYE.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 857
+58: Group Turkish
+59: Spellcheck Y
+60: AnsiCodepage 1254
+End
+Russian
+50: Morphological Dictionary RUSSIAN.DIC
+51: Language Code 17919
+52: Noise List RUSSIAN.NOI
+53: Stopword List RUSSIAN.STW
+54: Addenda Dictionary RUSSIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 866
+58: Group Russian
+59: Spellcheck Y
+60: AnsiCodepage 1251
+End
+Japanese
+50: Morphological Dictionary DBCS.DIC
+51: Language Code 10564
+52: Noise List DBCS.NOI
+53: Stopword List DBCS.STW
+54: Addenda Dictionary DBCS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 943
+58: Group Japanese
+59: Spellcheck Y
+60: AnsiCodepage 943
+End
+Chinese(simpl.)
+50: Morphological Dictionary DBCS.DIC
+51: Language Code 4029
+52: Noise List DBCS.NOI
+53: Stopword List DBCS.STW
+54: Addenda Dictionary DBCS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 936
+58: Group Chinese(simpl.)
+59: Spellcheck Y
+60: AnsiCodepage 936
+End
+Chinese(trad.)
+50: Morphological Dictionary DBCS.DIC
+51: Language Code 4030
+52: Noise List DBCS.NOI
+53: Stopword List DBCS.STW
+54: Addenda Dictionary DBCS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 950
+58: Group Chinese(trad.)
+59: Spellcheck Y
+60: AnsiCodepage 950
+End
+Korean
+50: Morphological Dictionary DBCS.DIC
+51: Language Code 11438
+52: Noise List DBCS.NOI
+53: Stopword List DBCS.STW
+54: Addenda Dictionary DBCS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 949
+58: Group Korean
+59: Spellcheck Y
+60: AnsiCodepage 949
+End
+Australian
+50: Morphological Dictionary AUS.DIC
+51: Language Code 5991
+52: Noise List AUS.NOI
+53: Stopword List AUS.STW
+54: Addenda Dictionary AUS.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Australian
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Arabic
+50: Morphological Dictionary ARABIC.DIC
+51: Language Code 2511
+52: Noise List ARABIC.NOI
+53: Stopword List ARABIC.STW
+54: Addenda Dictionary ARABIC.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 864
+58: Group Arabic
+59: Spellcheck Y
+60: AnsiCodepage 1256
+End
+Hebrew
+50: Morphological Dictionary HEBREW.DIC
+51: Language Code 8422
+52: Noise List HEBREW.NOI
+53: Stopword List HEBREW.STW
+54: Addenda Dictionary HEBREW.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 862
+58: Group Hebrew
+59: Spellcheck Y
+60: AnsiCodepage 1255
+End
+Romanian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List ROMAN.NOI
+53: Stopword List ROMAN.STW
+54: Addenda Dictionary ROMAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Romanian
+59: Spellcheck N
+60: AnsiCodepage 1250
+End
+Slovene
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List SLOVENE.NOI
+53: Stopword List SLOVENE.STW
+54: Addenda Dictionary SLOVENE.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Slovene
+59: Spellcheck N
+60: AnsiCodepage 1250
+End
+Croatian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List CROAT.NOI
+53: Stopword List CROAT.STW
+54: Addenda Dictionary CROAT.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Croatian
+59: Spellcheck N
+60: AnsiCodepage 1250
+End
+Slovakian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List SLOVAK.NOI
+53: Stopword List SLOVAK.STW
+54: Addenda Dictionary SLOVAK.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 852
+58: Group Slovakian
+59: Spellcheck N
+60: AnsiCodepage 1250
+End
+Lithuanian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List LITH.NOI
+53: Stopword List LITH.STW
+54: Addenda Dictionary LITH.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 28603
+58: Group Lithuania
+59: Spellcheck N
+60: AnsiCodepage 1257
+End
+Latvian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List LATVIA.NOI
+53: Stopword List LATVIA.STW
+54: Addenda Dictionary LATVIA.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 28603
+58: Group Latvia
+59: Spellcheck N
+60: AnsiCodepage 1257
+End
+Estonian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List EST.NOI
+53: Stopword List EST.STW
+54: Addenda Dictionary EST.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 28603
+58: Group Estonia
+59: Spellcheck N
+60: AnsiCodepage 1257
+End
+Thai
+50: Morphological Dictionary THAI.DIC
+51: Language Code 19311
+52: Noise List THAI.NOI
+53: Stopword List THAI.STW
+54: Addenda Dictionary THAI.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 874
+58: Group Thai
+59: Spellcheck Y
+60: AnsiCodepage 874
+End
+Bulgarian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List BULGARIAN.NOI
+53: Stopword List BULGARIAN.STW
+54: Addenda Dictionary BULGARIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 28595
+58: Group Bulgarian
+59: Spellcheck N
+60: AnsiCodepage 1251
+End
+Macedonian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List MACEDONIAN.NOI
+53: Stopword List MACEDONIAN.STW
+54: Addenda Dictionary MACEDONIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 855
+58: Group Bulgarian
+59: Spellcheck N
+60: AnsiCodepage 1251
+End
+Serbian(Cyrillic)
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List SERBIAN.NOI
+53: Stopword List SERBIAN.STW
+54: Addenda Dictionary SERBIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 855
+58: Group Serbian
+59: Spellcheck N
+60: AnsiCodepage 1251
+End
+Belarusian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List BELARUSIAN.NOI
+53: Stopword List BELARUSIAN.STW
+54: Addenda Dictionary BELARUSIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 1251
+58: Group Belarusian
+59: Spellcheck N
+60: AnsiCodepage 1251
+End
+Ukrainian
+50: Morphological Dictionary POLSKA.DIC
+51: Language Code 15840
+52: Noise List UKRAINIAN.NOI
+53: Stopword List UKRAINIAN.STW
+54: Addenda Dictionary UKRAINIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 1251
+58: Group Ukrainian
+59: Spellcheck N
+60: AnsiCodepage 1251
+End
+OtherÿLanguages
+50: Morphological Dictionary US.DIC
+51: Language Code 6011
+52: Noise List US.NOI
+53: Stopword List US.STW
+54: Addenda Dictionary US.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Other
+59: Spellcheck N
+60: AnsiCodepage 1252
+End
+Kazakh
+50: Morphological Dictionary RUSSIAN.DIC
+51: Language Code 17919
+52: Noise List KAZAKH.NOI
+53: Stopword List KAZAKH.STW
+54: Addenda Dictionary KAZAKH.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 65001
+58: Group Kazakh
+59: Spellcheck N
+60: AnsiCodepage 65001
+End
+Vietnamese
+50: Morphological Dictionary US.DIC
+51: Language Code 17919
+52: Noise List VIET.NOI
+53: Stopword List VIET.STW
+54: Addenda Dictionary VIET.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 1258
+58: Group Vietnamese
+59: Spellcheck N
+60: AnsiCodepage 1258
+End
+Indonesian
+50: Morphological Dictionary US.DIC
+51: Language Code 1234
+52: Noise List INDO.NOI
+53: Stopword List INDO.STW
+54: Addenda Dictionary INDO.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Indonesian
+59: Spellcheck N
+60: AnsiCodepage 1252
+End
+Malay
+50: Morphological Dictionary US.DIC
+51: Language Code 1234
+52: Noise List MALAY.NOI
+53: Stopword List MALAY.STW
+54: Addenda Dictionary MALAY.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 850
+58: Group Malay
+59: Spellcheck N
+60: AnsiCodepage 1252
+End
+Basque
+50: Morphological Dictionary EU.DIC
+51: Language Code 1252
+52: Noise List BASQUE.NOI
+53: Stopword List BASQUE.STW
+54: Addenda Dictionary BASQUE.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 1252
+58: Group Basque
+59: Spellcheck Y
+60: AnsiCodepage 1252
+End
+Mongolian
+50: Morphological Dictionary US.DIC
+51: Language Code 1234
+52: Noise List MONGOLIAN.NOI
+53: Stopword List MONGOLIAN.STW
+54: Addenda Dictionary MONGOLIAN.ADD
+55: Compound Separator  N
+56: Language Exit EQFMONUL
+57: Codepage 866
+58: Group Mongolian
+59: Spellcheck N
+60: AnsiCodepage 1251
+End

@@ -1,0 +1,23 @@
+****************************************************************************************************
+** Script name...: AutoTestSuite_Memory.script                                                **
+** Purpose.......: Script including all memory test scripts of the OpenTM2 Auto Test Suite    **
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: February 25, 2015                                                               **
+** Update........: February 25, 2015                                                               **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+* include all dictionary test scripts
+
+INCLUDE EqfCreateITM.script
+
+INCLUDE EqfFilterNomatchFile.script
+
+
+
+
+

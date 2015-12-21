@@ -1,0 +1,188 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.4 $ ----------- 28 Jul 2000
+// - fixes to enable build
+// 
+//
+// $Revision: 1.3 $ ----------- 27 Jul 2000
+// -- changes for better search granularity (AS/400 ITM)
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFTMFUN.MVI   1.2   26 Feb 1996 15:34:30   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFTMFUN.MVI  $
+ *
+ *    Rev 1.2   26 Feb 1996 15:34:30   BUILD
+ * - reworded some strings (for ROB)
+ *
+ *    Rev 1.1   12 Feb 1996 10:25:36   BUILD
+ * - removed strings for password dialog
+ * - reworded strings as proposed by ROB/TAF
+ *
+ *    Rev 1.0   09 Jan 1996 10:14:28   BUILD
+ * Initial revision.
+*/
+
+// document dialog
+   #define STR_TM_QUERY_DOC_HELP_PB     "Help"
+   #define STR_TM_QUERY_DOC_CANCEL_PB   "Cancel"
+   #define STR_TM_QUERY_DOC_ENTER_PB    "&Set"
+   #define STR_TM_QUERY_DOC_DLG         "Select Document"
+   #define STR_TM_QUERY_DOC_NOTE        "Type the name of the document the translation is to originate from."
+   #define STR_TM_QUERY_DOC_TEXT        "Document:"
+   #define STR_TM_QUERY_DOC_FILTER_RB   "Define a filter:"
+   #define STR_TM_QUERY_DOC_FILES_RB    "Select file(s):"
+
+
+//query dialog
+   #define STR_TM_QUERY_DLG          "Translation Memory Editor"
+   #define STR_TM_QUERY_TM_NAME      "Translation Memory:"
+   #define STR_TM_QUERY_SEARCH_NUM   "Search for segment number:"
+   #define STR_TM_QUERY_LOOKUP       "Search in:"
+   #define STR_TM_QUERY_SOURCE_RB    "Source"
+   #define STR_TM_QUERY_TARGET_RB    "Target"
+   #define STR_TM_QUERY_CASE         "Case:"
+   #define STR_TM_QUERY_RESP_RB      "Respect"
+   #define STR_TM_QUERY_IGN_RB       "Ignore"
+   #define STR_TM_QUERY_SEARCH_TEXT  "Search string or sentence:"
+   #define STR_TM_WILD_SEARCH_CB     "Use '*' and '?' for wildcard search"
+   #define STR_TM_QUERY_XTRANS_CB    "Find only matches with more than one translation"
+   #define STR_TM_QUERY_SEGNUM       "Maximum number of segments to load:"
+   #define STR_TM_QUERY_DOC_CB       "Use document(s):"
+   #define STR_TM_QUERY_DOC_PB       "Select..."
+   #define STR_TM_QUERY_DATE_CB      "Use date range:"
+   #define STR_TM_QUERY_DATE_PB      "Select..."
+   #define STR_TM_QUERY_CANCEL_PB    "Cancel"
+   #define STR_TM_QUERY_ENTER_PB     "&Look up..."
+   #define STR_TM_QUERY_HELP_PB      "Help"
+   #define STR_TM_QUERY_MARKUP       "Markup:"
+   #define STR_TM_QUERY_SEARCHTYPE_GB "Type of search"
+   #define STR_TM_QUERY_OPTIONS_GB    "Options"
+   #define STR_TM_QUERY_MPLMIN       "Restrict search to"
+   #define STR_TM_QUERY_MPLUS_CB     "M-flagged segments only"
+   #define STR_TM_QUERY_MMINUS_CB    "Segments w/o M-flag"
+   #define STR_TM_QUERY_PMSEGS1      "Show +/-"
+   #define STR_TM_QUERY_PMSEGS2      "segments"
+
+//specify date dialog
+   #define STR_TM_DATE_DLG           "Select Date Range"
+   #define STR_TM_DATE_TEXT          "Select the period of time when translations were made."
+   #define STR_TM_DATE_START         "From"
+   #define STR_TM_DATE_END           "To"
+   #define STR_TM_DATE_MONTH         "Month:"
+   #define STR_TM_DATE_YEAR          "Year:"
+   #define STR_TM_DATE_ENTER_PB      "Set"
+   #define STR_TM_DATE_HELP_PB       "Help"
+   #define STR_TM_DATE_CANCEL_PB     "Cancel"
+   #define STR_TMM_MONTH01           "January"
+   #define STR_TMM_MONTH02           "February"
+   #define STR_TMM_MONTH03           "March"
+   #define STR_TMM_MONTH04           "April"
+   #define STR_TMM_MONTH05           "May"
+   #define STR_TMM_MONTH06           "June"
+   #define STR_TMM_MONTH07           "July"
+   #define STR_TMM_MONTH08           "August"
+   #define STR_TMM_MONTH09           "September"
+   #define STR_TMM_MONTH10           "October"
+   #define STR_TMM_MONTH11           "November"
+   #define STR_TMM_MONTH12           "December"

@@ -1,0 +1,389 @@
+//+----------------------------------------------------------------------------+
+//|EQFFILT.DLG                                                                 |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Gerhard Queck (QSoft)                                               |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:                                                                |
+//|   Resource file containing all dialog templates used by the filter handler |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 28 Sep 2004
+// GQ: - removed obsolete templates
+//     - accessibility: added invisible labels to value entry fields
+// 
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFFILT.DVG   1.1   17 Sep 1996 07:46:54   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFFILT.DVG  $
+ *
+ *    Rev 1.1   17 Sep 1996 07:46:54   BUILD
+ * - decreased size of edit filter dialog for DBCS NLS environment
+ *
+ *    Rev 1.0   09 Jan 1996 10:07:02   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+
+ID_FILT_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  23, 12, 223, 246
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_FILT_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_FILT_NAME_TEXT, ID_FILT_NAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 11, 70, 9
+
+  CONTROL "", ID_FILT_NAME_LB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    82, 6, 136, 86
+  CONTROL STR_FILT_DESCR_TEXT, ID_FILT_DESCR_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 26, 70, 9
+
+  CONTROL "", ID_FILT_DESCR_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    83, 28, 131, 12
+  CONTROL STR_FILT_AVAILFIELDS_TEXT, ID_FILT_AVAILFIELDS_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 42, 102, 9
+
+  CONTROL "", ID_FILT_AVAILFIELDS_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE,
+    6, 54, 102, 38
+  CONTROL STR_FILT_OPERATORS_TEXT, ID_FILT_OPERATORS_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    115, 42, 102, 9
+
+  CONTROL "", ID_FILT_OPERATORS_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE,
+    115, 54, 102, 38
+
+  CONTROL STR_FILT_CONDITION_GB, ID_FILT_CONDITION_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 97, 211, 86
+  CONTROL STR_FILT_SELECT_TEXT, ID_FILT_SELECT_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    12, 109, 64, 9
+
+  CONTROL "", ID_FILT_SELECT_MLE,
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    82, 104, 128, 24
+  CONTROL STR_FILT_WHERE_TEXT, ID_FILT_WHERE_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    12, 135, 64, 9
+
+  CONTROL "", ID_FILT_WHERE_MLE,
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    82, 131, 128, 48
+  CONTROL STR_FILT_SAVETO_TEXT, ID_FILT_SAVETO_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 192, 75, 9
+
+  CONTROL "", ID_FILT_SAVETO_CB,
+    COMBOBOX,
+    CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_VISIBLE,
+    82, 189, 134, 48
+  CONTROL STR_FILT_SAVE_PB, ID_FILT_SAVE_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    4, 228, 56, 15
+  CONTROL STR_FILT_DELETE_PB, ID_FILT_DELETE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    68, 228, 56, 15
+  CONTROL STR_FILT_CANCEL_PB, ID_FILT_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    132, 228, 38, 15
+  CONTROL STR_FILT_HELP_PB, ID_FILT_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    179, 228, 38, 15
+END
+
+ID_FILTOP1_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  28, 102, 223, 90
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_FILTOP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL "", ID_FILTOP1_INFO_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 8, 211, 36
+  CONTROL "", ID_FILTOP1_FIELD_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 50, 102, 9
+
+  CONTROL "Enter Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 50, 0, 0
+
+  CONTROL "", ID_FILTOP1_VALUE_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 50, 102, 12
+  CONTROL STR_FILTOP_OK_PB, ID_FILTOP1_OK_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    14, 72, 56, 15
+  CONTROL STR_FILTOP_CANCEL_PB, ID_FILTOP1_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 72, 38, 15
+  CONTROL STR_FILTOP_HELP_PB, ID_FILTOP1_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    168, 72, 38, 15
+END
+
+ID_FILTOP2_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  52, 86, 223, 111
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_FILTOP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL "", ID_FILTOP2_INFO_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 7, 211, 48
+  CONTROL "", ID_FILTOP2_FIELD1_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 57, 102, 9
+
+  CONTROL "Enter First Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 56, 0, 0
+
+  CONTROL "", ID_FILTOP2_VALUE1_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 56, 102, 12
+  CONTROL "AND", ID_FILTOP2_FIELD2_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    12, 72, 95, 9
+
+  CONTROL "Enter Second Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 71, 0, 0
+  CONTROL "", ID_FILTOP2_VALUE2_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 71, 102, 12
+  CONTROL STR_FILTOP_OK_PB, ID_FILTOP1_OK_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 93, 56, 15
+  CONTROL STR_FILTOP_CANCEL_PB, ID_FILTOP1_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 93, 38, 15
+  CONTROL STR_FILTOP_HELP_PB, ID_FILTOP2_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 93, 38, 15
+END
+
+ID_FILTOP3_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  45, 57, 223, 150
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_FILTOP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL "", ID_FILTOP3_INFO_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 8, 211, 38
+
+  CONTROL "", ID_FILTOP3_FIELD1_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 53, 102, 9
+  CONTROL "Enter First Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 52, 0, 0
+  CONTROL "", ID_FILTOP3_VALUE1_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 52, 102, 12
+  CONTROL "Enter Second Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 64, 0, 0
+  CONTROL "", ID_FILTOP3_VALUE2_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 64, 102, 12
+  CONTROL "Enter Third Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 76, 0, 0
+  CONTROL "", ID_FILTOP3_VALUE3_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 76, 102, 12
+  CONTROL "Enter Fourth Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 88, 0, 0
+  CONTROL "", ID_FILTOP3_VALUE4_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 88, 102, 12
+  CONTROL "Enter Fifth Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 100, 0, 0
+  CONTROL "", ID_FILTOP3_VALUE5_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 100, 102, 12
+
+  CONTROL "Enter Sixth Value:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    114, 112, 0, 0
+  CONTROL "", ID_FILTOP3_VALUE6_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    115, 112, 102, 12
+  CONTROL STR_FILTOP_OK_PB, ID_FILTOP1_OK_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 132, 56, 15
+  CONTROL STR_FILTOP_CANCEL_PB, ID_FILTOP1_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 132, 38, 15
+  CONTROL STR_FILTOP_HELP_PB, ID_FILTOP3_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 132, 38, 15
+END

@@ -1,0 +1,187 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 23 Oct 2001
+// CV (10/22/01)
+// -- ID_DICTIMP_NEWCURRENTDIR_DISPLAY added
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 13 Oct 2000
+// - added ID for format combobox
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFDIMP.IV_   1.0   09 Jan 1996 10:06:14   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDIMP.IV_  $
+ *
+ *    Rev 1.0   09 Jan 1996 10:06:14   BUILD
+ * Initial revision.
+*/
+// Dialog: Import dictionary
+#define ID_DICTIMP_FORMAT_GB         ID_DICTIMP_DLG+1
+#define ID_DICTIMP_ASCII_RB          ID_DICTIMP_DLG+2
+#define ID_DICTIMP_INTERNAL_RB       ID_DICTIMP_DLG+3
+#define ID_DICTIMP_IMPORT_GB         ID_DICTIMP_DLG+4
+#define ID_DICTIMP_DUMMY             ID_DICTIMP_DLG+5
+#define ID_DICTIMP_FILENAME_TEXT     ID_DICTIMP_DLG+6
+#define ID_DICTIMP_PATH_EF           ID_DICTIMP_DLG+7
+#define ID_DICTIMP_DIR_TEXT          ID_DICTIMP_DLG+8
+#define ID_DICTIMP_FILES_TEXT        ID_DICTIMP_DLG+9
+#define ID_DICTIMP_DIR_LB            ID_DICTIMP_DLG+10
+#define ID_DICTIMP_FILES_LB          ID_DICTIMP_DLG+11
+#define ID_DICTIMP_TO_TEXT           ID_DICTIMP_DLG+12
+#define ID_DICTIMP_TO_LB             ID_DICTIMP_DLG+13
+#define ID_DICTIMP_OK_PB             ID_DICTIMP_DLG+14
+#define ID_DICTIMP_CANCEL_PB         ID_DICTIMP_DLG+15
+#define ID_DICTIMP_HELP_PB           ID_DICTIMP_DLG+16
+#define ID_DIMPSLIDER                ID_DICTIMP_DLG+17
+#define ID_IMPORTDICT_TEXT           ID_DICTIMP_DLG+18
+#define ID_INDICT_TEXT               ID_DICTIMP_DLG+19
+#define ID_ENTRY_TEXT                ID_DICTIMP_DLG+20
+#define IDS_DIMP_TITLEBAR            ID_DICTIMP_DLG+21
+#define IDS_DIMP_IMPORT_DICTNAME     ID_DICTIMP_DLG+22
+#define IDS_DIMP_ENTRY_STATICTEXT    ID_DICTIMP_DLG+23
+#define ID_DICTIMP_NEWCURRENTDIR_TEXT ID_DICTIMP_DLG+24
+#define ID_DICTIMP_NEWCURRENTDIR_DISPLAY ID_DICTIMP_DLG+25
+#define ID_DICTIMP_CURRENTDIR_TEXT    ID_DICTIMP_DLG+26
+#define IDS_DIMP_IMPORT_FOLDTEXT     ID_DICTIMP_DLG+27
+
+#define IDS_DORG_TITLEBAR            ID_DICTIMP_DLG+36
+#define IDS_DORG_ENTRY_GB            ID_DICTIMP_DLG+37
+#define ID_DORGSLIDER                ID_DICTIMP_DLG+38
+#define ID_DORG_ENTRY_GB             ID_DICTIMP_DLG+39
+#define ID_DORG_ENTRY_TEXT           ID_DICTIMP_DLG+40
+#define ID_DICTORG_WINDOW            ID_DICTIMP_DLG+41
+
+#define ID_DICTIMP_FORMAT_CB         ID_DICTIMP_DLG+42
+
+#define ID_DICTIMP_FORMAT_GB         ID_DICTIMP_DLG+1
+#define ID_DICTMERGE_HELP_PB          ID_DICTMERGE_DLG+1
+#define ID_DICTMERGE_CANCEL_PB        ID_DICTMERGE_DLG+2
+#define ID_DICTMERGE_MERGE_PB         ID_DICTMERGE_DLG+3
+#define ID_DICTMERGE_CONFIRM_PB       ID_DICTMERGE_DLG+4
+#define ID_DICTMERGE_NAME_TEXT        ID_DICTMERGE_DLG+5
+#define ID_DICTMERGE_REPLACE_RB       ID_DICTMERGE_DLG+6
+#define ID_DICTMERGE_IGNORE_RB        ID_DICTMERGE_DLG+7
+#define IDS_DICTMERGE_IMP_MERGE_TEXT  ID_DICTMERGE_DLG+14
+#define IDS_DICTMERGE_SGML_MERGE_TEXT ID_DICTMERGE_DLG+15
+
+#define ID_DICTPASSWORD_NOTE_TEXT     ID_DICTPASSWORD_DLG+1
+#define ID_DICTPASSWORD_HELP_PB       ID_DICTPASSWORD_DLG+2
+#define ID_DICTPASSWORD_CANCEL_PB     ID_DICTPASSWORD_DLG+3
+#define ID_DICTPASSWORD_ENTER_PB      ID_DICTPASSWORD_DLG+4
+#define ID_DICTPASSWORD_PSW_EF        ID_DICTPASSWORD_DLG+5
+#define ID_DICTPASSWORD_PSW_TEXT      ID_DICTPASSWORD_DLG+6
+#define ID_DICTPASSWORD_STATIC_TEXT   ID_DICTPASSWORD_DLG+7
+#define IDS_PASSWORD_TEXT             ID_DICTPASSWORD_DLG+8
+#define IDS_1PASSWORD_TEXT            ID_DICTPASSWORD_DLG+9
+
+#define ID_DICT2PASSWORD_NOTE_TEXT    ID_DICT2PASSWORD_DLG+1
+#define ID_DICT2PASSWORD_HELP_PB      ID_DICT2PASSWORD_DLG+2
+#define ID_DICT2PASSWORD_CANCEL_PB    ID_DICT2PASSWORD_DLG+3
+#define ID_DICT2PASSWORD_ENTER_PB     ID_DICT2PASSWORD_DLG+4
+#define ID_DICT2PASSWORD_PSW1_EF      ID_DICT2PASSWORD_DLG+5
+#define ID_DICT2PASSWORD_PSW2_EF      ID_DICT2PASSWORD_DLG+6
+#define ID_DICT2PASSWORD_1PSW_TEXT    ID_DICT2PASSWORD_DLG+7
+#define ID_DICT2PASSWORD_2PSW_TEXT    ID_DICT2PASSWORD_DLG+8
+#define ID_DICT2PASSWORD_STATIC_TEXT  ID_DICT2PASSWORD_DLG+9
+#define IDS_2PASSWORDS_TEXT           ID_DICT2PASSWORD_DLG+10

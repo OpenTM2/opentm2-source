@@ -1,0 +1,218 @@
+// Copyright (c) 1996-2013, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 28 Jul 2005
+// GQ: - added STR_TAGCHARSET_UTF8
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Apr 2005
+// GQ: - added text for CLS_TRANSLVAR style
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Oct 2003
+// --RJ: P018279: add STR_TAGREFLOW_YES / NO / NOTSPECIFIED
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 29 Oct 2002
+// GQ: - added CLS_WHITESPACE string
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 3 Sep 2001
+// GQ: Added strings for markup table properties dialog
+// 
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 25 Jun 2001
+// GQ: Added string for markup table list description column
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFTIMP.MVI   1.1   03 May 1999 09:20:20   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFTIMP.MVI  $
+ *
+ *    Rev 1.1   03 May 1999 09:20:20   BUILD
+ * - added string for desriptive name of markup table
+ *
+ *    Rev 1.0   09 Jan 1996 10:12:06   BUILD
+ * Initial revision.
+*/
+
+// tagtable import dialog strings
+#define STR_TIMP_DLG                "Import Markup Table"
+#define STR_TAGIMPORT_TITLEBAR      "Importing Markup Table: "
+#define STR_TAGIMPORT_TAGTXT        "from external file: "
+#define STR_TIMP_FORMAT_GB          "Format"
+#define STR_TIMP_INTERNAL_RB        "OpenTM2"
+#define STR_TIMP_ASCII_RB           "External"
+#define STR_TIMP_IMPORT_GB          "From"
+#define STR_TIMP_FILENAME_TEXT      "Name:"
+#define STR_TIMP_CURRENTDIR_TEXT    "Current directory:"
+#define STR_TIMP_DIR_TEXT           "Directories"
+#define STR_TIMP_FILES_TEXT         "Files"
+#define STR_TIMP_TO_TEXT            "To markup table:"
+#define STR_TIMP_TO_PLUGIN_TEXT     "To markup plugin:"
+#define STR_TIMP_TO_PLUGIN_TEXT2    "User"
+#define STR_TIMP_OK_PB              "&Import"
+#define STR_TIMP_HELP_PB            "Help"
+#define STR_TIMP_CANCEL_PB          "Cancel"
+
+#define STR_TAGT_NAME_COLTITLE        "Name"
+#define STR_TAGT_DESCRNAME_COLTITLE   "Descriptive Name"
+#define STR_TAGT_DESCR_COLTITLE       "Description"
+#define STR_TAGT_VERSION_COLTITLE     "Version"
+#define STR_TAGT_PLUGIN_COLTITLE      "Plugin"
+#define STR_TAGT_SUPPLIER_COLTITLE    "Supplier"
+
+// strings in markup table property dialog
+
+// charactersets
+#define STR_TAGCHARSET_ASCII   "ASCII"
+#define STR_TAGCHARSET_ANSI    "ANSI"
+#define STR_TAGCHARSET_UNICODE "Unicode"
+#define STR_TAGCHARSET_UTF8    "UTF8"
+
+// reflow styles
+#define STR_TAGREFLOW_YES   "YES"
+#define STR_TAGREFLOW_NO    "NO"
+#define STR_TAGREFLOW_NOTSPECIFIED "   "
+
+// tag types
+#define STR_STARTDEL_TAG     "Start segment delimiter"
+#define STR_ENDDEL_TAG       "End segment delimiter"
+#define STR_SELC_TAG         "Self contained"
+#define STR_STARTNEUTRAL_TAG "Start neutral tag"
+#define STR_ENDNEUTRAL_TAG   "End neutral tag"
+
+// segmenting style
+#define STR_SEG_OFF             "Segmenting down"
+#define STR_SEG_NEUTRAL         "Neutral"
+#define STR_SEG_ON              "Segmenting up"
+#define STR_SEG_RESET           "Reset"
+#define STR_SEG_LINE            "Line-per-line segmenting"
+#define STR_PROTECT_ON          "Start protected text"
+#define STR_PROTECT_OFF         "End protected text"
+
+// associated text
+#define STR_TSL_TEXT            "Text on same line"
+#define STR_TSNL_TEXT           "Text on same or next line"
+#define STR_NOEXPL_TEXT         "No associated text"
+
+// tag classes
+#define STR_CLS_DEFAULT         "Default"
+#define STR_CLS_HEAD            "Header or title"
+#define STR_CLS_EHEAD           "End of header or title"
+#define STR_CLS_PARA            "Paragraph"
+#define STR_CLS_EPARA           "End of Paragraph"
+#define STR_CLS_XTRCT           "Extraction"
+#define STR_CLS_EXTRCT          "End of extraction"
+#define STR_CLS_LIST            "List item"
+#define STR_CLS_ELIST           "End of list item"
+#define STR_CLS_HILIT           "Highlighting"
+#define STR_CLS_EHILIT          "End of highlighting"
+#define STR_CLS_PROTECT         "Protected text"
+#define STR_CLS_TREF            "Reference"
+#define STR_CLS_LREF            "Link reference"
+#define STR_CLS_ADDINF          "Additional info"
+#define STR_CLS_EADDINF         "End of additional info"
+#define STR_CLS_UNCHG           "Keep tag unchanged"
+#define STR_CLS_VAR             "Variable"
+#define STR_CLS_WHITESPACE      "Whitespace"
+#define STR_CLS_TRANSLVAR       "Translatable variable"

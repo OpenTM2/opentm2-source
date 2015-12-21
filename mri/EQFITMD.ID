@@ -1,0 +1,279 @@
+//+----------------------------------------------------------------------------+
+//|EQFITMD.ID                                                                  |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:       R.Jornitz                                                     |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:  id's for ITM,                                                 |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Entry Points:                                                               |
+//|                                                                            |
+//|                                                                           |
+//|+-- status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          |
+//|            "Q"=Quick-and-dirty )                                           |
+//+----------------------------------------------------------------------------+
+//|Externals:                                                                  |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Internals:                                                                  |
+//|                                                                            |
+//|                                                                           |
+//|+-- status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          |
+//|            "Q"=Quick-and-dirty )                                           |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 22 Nov 2006
+// GQ: - added IDs for new ITM dialog controls
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 5 Oct 2000
+// -- support edit of target doc
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFITMD.IV_   1.6   15 Nov 1999 20:07:44   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFITMD.IV_  $
+ *
+ *    Rev 1.6   15 Nov 1999 20:07:44   BUILD
+ * -- add support for different source and target start path
+ *
+ *    Rev 1.5   01 Oct 1999 17:14:56   BUILD
+ * -- add ID_ITM_STARTPATH_EF
+ *
+ *    Rev 1.4   08 Sep 1997 10:38:12   BUILD
+ * -- A50: add automatic linewrap to ITM
+ * -- adjust sequence of menu items
+ *
+ *    Rev 1.3   14 Mar 1996 11:31:32   BUILD
+ * - KWT : changes in ITM visual
+ *
+ *    Rev 1.2   26 Feb 1996 15:50:24   BUILD
+ * -- KWT0032: add slider for ITM
+ *
+ *    Rev 1.1   12 Feb 1996 10:38:42   BUILD
+ * - add changes in visual itm pulldowns
+ *
+ *    Rev 1.0   09 Jan 1996 10:08:20   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+#define ID_ITM_SOURCE_EF             ID_ITM_MAIN_DLG +  1
+#define ID_ITM_TARGET_EF             ID_ITM_MAIN_DLG +  2
+#define ID_ITM_SRCFILE_LB            ID_ITM_MAIN_DLG +  3
+#define ID_ITM_SRCDIR_LB             ID_ITM_MAIN_DLG +  4
+#define ID_ITM_TGTDIR_LB             ID_ITM_MAIN_DLG +  5
+#define ID_ITM_TGTFILE_LB            ID_ITM_MAIN_DLG +  6
+#define ID_ITM_FILELIST_LB           ID_ITM_MAIN_DLG +  7
+#define ID_ITM_TRANSMEM_CB           ID_ITM_MAIN_DLG +  8
+#define ID_ITM_MARKUP_CB             ID_ITM_MAIN_DLG +  9
+#define ID_ITM_ADDTOLIST_PB          ID_ITM_MAIN_DLG + 10
+#define ID_ITM_ALIGN_PB              ID_ITM_MAIN_DLG + 11
+#define ID_ITM_CANCEL_PB             ID_ITM_MAIN_DLG + 12
+#define ID_ITM_HELP_PB               ID_ITM_MAIN_DLG + 13
+#define ID_ITM_CURDIRTGT_STATIC      ID_ITM_MAIN_DLG + 14
+#define ID_ITM_CURDIRSRC_STATIC      ID_ITM_MAIN_DLG + 15
+#define ID_ITM_DELINLIST_PB          ID_ITM_MAIN_DLG + 16
+#define ID_ITM_SRCLANG_CB            ID_ITM_MAIN_DLG + 17
+#define ID_ITM_TGTLANG_CB            ID_ITM_MAIN_DLG + 18
+#define ID_ITM_VISUAL_PB             ID_ITM_MAIN_DLG + 19
+#define ID_ITM_PREPARE_PB            ID_ITM_MAIN_DLG + 20
+#define ID_ITM_DELALL_PB             ID_ITM_MAIN_DLG + 21
+#define ID_ITM_SRCSTARTPATH_EF       ID_ITM_MAIN_DLG + 22
+#define ID_ITM_TGTSTARTPATH_EF       ID_ITM_MAIN_DLG + 23
+
+#define ID_ITM_CURDIRSRC_EF          ID_ITM_MAIN_DLG + 25
+#define ID_ITM_CURDIRTGT_EF          ID_ITM_MAIN_DLG + 26
+#define ID_ITM_CURDIRSRC_BROWSE_PB   ID_ITM_MAIN_DLG + 27
+#define ID_ITM_CURDIRTGT_BROWSE_PB   ID_ITM_MAIN_DLG + 28
+#define ID_ITM_ADDALLTOLIST_PB       ID_ITM_MAIN_DLG + 29
+#define ID_ITM_TGTLANG_STATIC        ID_ITM_MAIN_DLG + 30
+#define ID_ITM_SELECTION_GB          ID_ITM_MAIN_DLG + 31
+#define ID_ITM_MARKUP_STATIC         ID_ITM_MAIN_DLG + 32
+#define ID_ITM_SRCSTARTPATH_STATIC   ID_ITM_MAIN_DLG + 33
+#define ID_ITM_TGTSTARTPATH_STATIC   ID_ITM_MAIN_DLG + 34
+#define ID_ITM_TARGET_STATIC         ID_ITM_MAIN_DLG + 35
+#define ID_ITM_TGTFILE_STATIC        ID_ITM_MAIN_DLG + 36
+#define ID_ITM_FILELIST_STATIC       ID_ITM_MAIN_DLG + 37
+
+//////////////////////////////////////////////////////////////////////
+// EQFITMD.ID IDs used in VisITM Main Window
+//////////////////////////////////////////////////////////////////////
+#define IDM_ITM_FILE_MENU            ID_ITM_MAIN_DLG + 50
+#define IDM_ITMQUIT                  ID_ITM_MAIN_DLG + 51
+#define IDM_ENDSAVE                  ID_ITM_MAIN_DLG + 52
+#define IDM_EDIT_MENU                ID_ITM_MAIN_DLG + 53
+#define IDM_CONNECT                  ID_ITM_MAIN_DLG + 54
+#define IDM_DELCONNECT               ID_ITM_MAIN_DLG + 55
+#define IDM_DELUSERCON               ID_ITM_MAIN_DLG + 56
+#define IDM_CROSSOUT                 ID_ITM_MAIN_DLG + 57
+#define IDM_GOTO_MENU                ID_ITM_MAIN_DLG + 58
+#define IDM_NEXTANCHOR               ID_ITM_MAIN_DLG + 59
+#define IDM_PREVANCHOR               ID_ITM_MAIN_DLG + 61
+#define IDM_NEXTLONE                 ID_ITM_MAIN_DLG + 62
+#define IDM_PREVLONE                 ID_ITM_MAIN_DLG + 63
+#define IDM_NEXTBAD                  ID_ITM_MAIN_DLG + 64
+#define IDM_PREVBAD                  ID_ITM_MAIN_DLG + 65
+#define IDM_VIEW_MENU                ID_ITM_MAIN_DLG + 66
+#define IDM_ZOOMALL                  ID_ITM_MAIN_DLG + 67
+#define IDM_ZOOM100                  ID_ITM_MAIN_DLG + 68
+#define IDM_PAGE                     ID_ITM_MAIN_DLG + 69
+#define IDM_FONTS                    ID_ITM_MAIN_DLG + 70
+#define IDM_STYLES                   ID_ITM_MAIN_DLG + 71
+#define IDM_ITM_HELP                 ID_ITM_MAIN_DLG + 72
+#define IDM_UNDOCROSSOUT             ID_ITM_MAIN_DLG + 73
+#define IDM_SYNCHRONIZE              ID_ITM_MAIN_DLG + 74
+#define IDM_ITMJOINSEG               ID_ITM_MAIN_DLG + 75
+#define IDM_ITMSPLITSEG              ID_ITM_MAIN_DLG + 76
+#define IDM_SRCDOC                   ID_ITM_MAIN_DLG + 77
+#define IDM_TGTDOC                   ID_ITM_MAIN_DLG + 78
+#define IDM_MARKSEGMENT              ID_ITM_MAIN_DLG + 79
+#define IDM_UNMARKSEG                ID_ITM_MAIN_DLG + 80
+#define IDM_SIZES                    ID_ITM_MAIN_DLG + 81
+#define IDM_TILE                     ID_ITM_MAIN_DLG + 82
+#define IDM_HORIZONTAL               ID_ITM_MAIN_DLG + 83
+#define IDM_VERTICAL                 ID_ITM_MAIN_DLG + 84
+#define IDM_CONTINUE                 ID_ITM_MAIN_DLG + 85
+#define IDM_PARALLEL                 ID_ITM_MAIN_DLG + 86
+#define IDM_ITMADDABBR               ID_ITM_MAIN_DLG + 87
+#define IDM_TOGGLE                   ID_ITM_MAIN_DLG + 88
+#define IDM_AUTOWRAP                 ID_ITM_MAIN_DLG + 89
+#define IDM_ALIGN_MENU               ID_ITM_MAIN_DLG + 90
+
+#ifdef _WINDOWS
+  // under Windows the AAB items are numbered as offsets from 0, no real Ids
+  #undef IDM_ITM_FILE_MENU
+  #undef IDM_EDIT_MENU
+  #undef IDM_GOTO_MENU
+  #undef IDM_ITM_HELP
+  #undef IDM_VIEW_MENU
+  #undef IDM_STYLES
+  #undef IDM_ALIGN_MENU
+
+  #define IDM_ITM_FILE_MENU     0
+  #define IDM_EDIT_MENU         1
+  #define IDM_ALIGN_MENU        2
+  #define IDM_VIEW_MENU         3
+  #define IDM_GOTO_MENU         4
+  #define IDM_STYLES            5
+  #define IDM_ITM_HELP          6
+#endif
+
+#define  ID_ITM_PROCESS_ITMFILE          ID_ITM_PROCESS_DLG + 1
+#define  ID_ITM_PROCESS_ITMFILE_TEXT     ID_ITM_PROCESS_DLG + 2
+#define  ID_ITM_PROCESS_SOURCEFILE       ID_ITM_PROCESS_DLG + 3
+#define  ID_ITM_PROCESS_SOURCEFILE_TEXT  ID_ITM_PROCESS_DLG + 4
+#define  ID_ITM_PROCESS_TARGETFILE       ID_ITM_PROCESS_DLG + 5
+#define  ID_ITM_PROCESS_TARGETFILE_TEXT  ID_ITM_PROCESS_DLG + 6
+#define  ID_ITM_PROCESS_TASK             ID_ITM_PROCESS_DLG + 7
+#define  ID_ITM_PROCESS_TASK_TEXT        ID_ITM_PROCESS_DLG + 8
+#define  ID_ITM_PROCESS_TASK_TEXT2       ID_ITM_PROCESS_DLG + 9
+#define  ID_ITM_PROCESS_SLIDER           ID_ITM_PROCESS_DLG + 10

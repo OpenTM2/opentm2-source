@@ -1,0 +1,32 @@
+/*
+   EQFIANA1.RC                                                              
+
+   Copyright Notice:                                                         
+ 
+      Copyright (C) 1990-2012, International Business Machines           
+      Corporation and others. All rights reserved                        
+*/
+
+#include <WINRES.H>
+#include <fclspbw.h>
+#include <eqfprogr.h>
+#include "eqf.id"
+#include <eqfiana1.mri>
+#include "eqfiana1.id"
+#include "eqfiana1.dlg"
+
+STRINGTABLE
+BEGIN
+  IDS_PRESEGM          ,    STR_MSG_PRESEGM
+  IDS_TEXTSEGM          ,   STR_MSG_TEXTSEGM
+  IDS_POSTSEGM          ,   STR_MSG_POSTSEGM
+  IDS_POSTTM            ,   STR_MSG_POSTTM
+  IDS_TMP               ,   STR_MSG_TMP
+  IDS_LISTOUT           ,   STR_MSG_LISTOUT
+  IDS_TATITLEBAR        ,   STR_TATITLEBAR
+  IDS_TATODO            ,   STR_TATODO
+  IDS_TADONE            ,   STR_TADONE
+  IDS_ARCHTM_TITLE      ,   STR_ARCHTM_TITLE
+  IDS_REDUNDCOUNT       ,   STR_MSG_REDUNDCOUNT
+  IDS_EXPORTSEGS_TITLE  ,   STR_EXPORTSEGS_TITLE
+END

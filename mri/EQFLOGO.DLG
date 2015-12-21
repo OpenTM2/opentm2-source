@@ -1,0 +1,55 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFLOGO.DLG - Dialog templates for 'About Troja' dialog window            |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+
+
+  +----------------------------------------------------------------------------+
+*/
+
+/**********************************************************************/
+/* The text and the bitmaps shown in the followinf dialog are now     */
+/* painted dynamically within the window procedure for this           */
+/* dialog                                                             */
+/**********************************************************************/
+ID_LOGO_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  95, 30, 255, 252
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_LOGO_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+//      CONTROL STR_LOGO_TITLELINE, -1, 1, 140, 288, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+
+//      CONTROL STR_LOGO_COPYRIGHT1, -1, 160, 90, 133, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+//      CONTROL STR_LOGO_COPYRIGHT2, -1, 160, 80, 133, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+//      CONTROL STR_LOGO_COPYRIGHT3, -1, 160, 70, 133, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+//      CONTROL STR_LOGO_COPYRIGHT4, -1, 160, 60, 133, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+//      CONTROL STR_LOGO_COPYRIGHT5, -1, 160, 50, 133, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+//      CONTROL STR_LOGO_TEXT1, -1, 76, 50, 105, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+//      CONTROL STR_LOGO_TEXT2, -1, 76, 38, 105, 10, WC_STATIC,
+//              SS_TEXT | DT_CENTER | DT_TOP | WS_VISIBLE
+
+//      CONTROL "", ID_LOGO_BMP, 25, 32, 39, 36, WC_STATIC,
+//              SS_GROUPBOX | WS_VISIBLE
+//      CONTROL "#9020", -1, 34, 43, 45, 42, WC_STATIC,
+//              SS_ICON | WS_VISIBLE
+
+  CONTROL STR_PB_OK, PID_PB_OK, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    203, 211, 56, 15
+END
+

@@ -1,0 +1,411 @@
+//+----------------------------------------------------------------------------+
+//|EQFMEMD.DLG                                                                 |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+
+ID_MEMCREATE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 14, 223, 222
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_SYSMENU | WS_CAPTION
+CAPTION STR_MEM_NEW_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+/* text and entry field for name */
+  CONTROL STR_MEM_NEW_NAME_TEXT, DID_CD_TXT_NAME,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 11, 70, 9
+
+  CONTROL "", DID_CD_NAME,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    79, 10, 135, 12
+/* text and entry field for description */
+  CONTROL STR_MEM_NEW_DESC_TEXT, DID_CD_TXT_DESCRIPTION,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 26, 70, 9
+
+  CONTROL "", DID_CD_DESCRIPTION,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    79, 25, 135, 12
+
+  CONTROL "Type:", DID_CD_TYPE_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 56, 40, 12
+
+  CONTROL "", DID_CD_TYPE_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    56, 56, 150, 100
+
+/* dummy controls and text for drive icons positioning */
+  CONTROL STR_MEM_NEW_DRIVE_TEXT, DID_CD_TXT_DRIVES,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 84, 197, 9
+
+  CONTROL "", DID_CD_DUMMY,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_GROUP,
+    11, 96, 24, 12
+/* groupbox for location of TM */
+
+  CONTROL STR_MEM_NEW_LOCATION_GB, DID_CD_TMLOCATION_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE,
+    6, 42, 211, 102
+/* drop down LB and text for source language */
+
+  CONTROL STR_MEM_NEW_SOURCE_TEXT, DID_CD_TXT_SOURCE,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 153, 70, 9
+
+  CONTROL "", DID_CD_SOURCE,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    77, 152, 140, 57
+/* push buttons Create, Cancel, Help */
+  CONTROL STR_MEM_NEW_CREATE_PB, PID_PB_OK,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    14, 204, 48, 15
+  CONTROL STR_CANCEL_PB, PID_PB_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 204, 38, 15
+  CONTROL STR_HELP_PB, PID_PB_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 204, 38, 15
+END
+
+/*****************************************************************************/
+/*  TM import dialog template                                                */
+/*****************************************************************************/
+
+ID_MEMLOAD_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 14, 275, 250
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_MEM_IM_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+/* format group box */
+  CONTROL STR_MEM_IM_FORMAT_GB, DID_LD_FORMATGROUP,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE | WS_GROUP,
+    6, 1, 262, 27
+
+/* format combo box */
+  CONTROL "", DID_LD_FORMAT_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | CBS_AUTOHSCROLL  | WS_TABSTOP | WS_VISIBLE,
+    12, 9, 173, 48
+
+/* import group box */
+  CONTROL STR_MEM_IM_FROM_GB, DID_LD_IMPORTGROUP,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 32, 262, 157
+
+/* place holder for drive icons */
+  CONTROL "", DID_LD_DUMMY,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP,
+    11, 40, 24, 12
+
+/* static text for Name entry filed */
+  CONTROL STR_MEM_IM_NAME_TEXT, DID_LD_FILENAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 88, 43, 9
+
+/* name entry field */
+  CONTROL "", DID_LD_PATH,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    50, 87, 204, 12
+
+/* static text after which the current directory is displayed */
+  CONTROL STR_MEM_IM_CURDIR_TEXT, DID_LD_CURDIR_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 107, 81, 9
+
+/* place holder for current directory hidden field */
+  CONTROL "", DID_LD_CURDIR_EF,
+    STATIC,
+    SS_LEFT,
+    95, 107, 165, 9
+
+/* static text for directories listbox */
+  CONTROL STR_MEM_IM_DIR_TEXT, DID_LD_DIR_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 125, 122, 9
+
+/* directories list box */
+  CONTROL "", DID_LD_DIR,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
+    12, 136, 122, 52
+
+/* static text for files listbox */
+  CONTROL STR_MEM_IM_FILES_TEXT, DID_LD_FILES_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    142, 125, 95, 9
+
+/* files list box */
+  CONTROL "", DID_LD_FILES,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_HSCROLL,
+    142, 136, 122, 52
+
+/* static text for To TM combo box */
+  CONTROL STR_MEM_IM_TOMEM_TEXT, DID_LD_TO_TEXT,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 190, 262, 36
+
+/* To TM combo box */
+  CONTROL "", DID_LD_TO,
+    COMBOBOX,
+    CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | CBS_AUTOHSCROLL  | WS_TABSTOP | WS_VISIBLE,
+    12, 202, 240, 80
+
+/* process import pushbutton */
+  CONTROL STR_MEM_IM_IMPORT_PB, PID_PB_OK,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    23, 232, 56, 15
+/* cancle pushbutton */
+
+  CONTROL STR_CANCEL_PB, PID_PB_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    126, 232, 38, 15
+/* help pushbutton */
+  CONTROL STR_HELP_PB, PID_PB_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    211, 232, 38, 15
+END
+
+
+ID_MEMMERGE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 14, 223, 134
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_MEM_ME_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_MEM_ME_FROM_TEXT, DID_MEMMERGE_FROM_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 9, 44, 9
+
+  CONTROL "", DID_MEMMERGE_FROM,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    51, 9, 163, 9
+
+  CONTROL STR_MEM_ME_TM_TEXT, DID_MEMMERGE_TO_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 25, 188, 9
+
+  CONTROL "", DID_MEMMERGE_TO,
+    LISTBOX,
+    LBS_STANDARD | WS_HSCROLL | WS_TABSTOP | WS_VISIBLE,
+    6, 37, 216, 77
+  CONTROL STR_MEM_ME_MERGE_PB, PID_PB_OK,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    14, 116, 56, 15
+  CONTROL STR_CANCEL_PB, PID_PB_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 116, 38, 15
+  CONTROL STR_HELP_PB, PID_PB_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 116, 38, 15
+END
+
+
+/*****************************************************************************/
+/*  dialog to query target language and tag table                            */
+/*****************************************************************************/
+ID_NTM_TAGLANG_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 96, 173, 120
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_SYSMENU | WS_CAPTION
+CAPTION STR_NTM_TAGLANG_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+/* info text: select .... */
+  CONTROL STR_TAGLANG_INFO_TEXT1, DID_TAGLANG_TXT_INFO1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 12, 164, 9
+
+  CONTROL STR_TAGLANG_INFO_TEXT2, DID_TAGLANG_TXT_INFO2,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 21, 164, 9
+/* drop down LB and text for markup language */
+  CONTROL STR_TAGLANG_TAGTAB_TEXT, DID_TAGLANG_TXT_TAGTAB,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 37, 70, 9
+
+  CONTROL "", DID_TAGLANG_TAGTAB_LB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    77, 36, 86, 33
+/* drop down LB and text for target language */
+  CONTROL STR_NTM_TAGLANG_TARGET_TEXT, DID_TAGLANG_TXT_TARGET,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 78, 70, 9
+
+  CONTROL "", DID_TAGLANG_TARGET_LB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    77, 77, 86, 33
+/* push buttons Create, Cancel, Help */
+  CONTROL STR_TAGLANG_OK_PB, PID_PB_OK,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    6, 102, 48, 15
+  CONTROL STR_CANCEL_PB, PID_PB_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    74, 102, 38, 15
+  CONTROL STR_HELP_PB, PID_PB_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    129, 102, 38, 15
+END
+
+
+ID_TM_PROP_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  0, 0, 219, 256
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_TM_PROP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_TM_PROP_NAME_TEXT, ID_TM_PROP_NAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 6, 70, 9
+  CONTROL "", ID_TM_PROP_NAME_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 6, 135, 9
+
+  CONTROL "Short name:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 21, 70, 9
+  CONTROL "", ID_TM_PROP_SHORTNAME_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 21, 135, 9
+
+  CONTROL STR_TM_PROP_DESCR_TEXT, ID_TM_PROP_DESCR_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 35, 70, 9
+  CONTROL "", ID_TM_PROP_DESCR_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    79, 34, 135, 12
+
+  CONTROL STR_TM_PROP_LOC_TEXT, ID_TM_PROP_LOC_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 50, 70, 9
+  CONTROL "", ID_TM_PROP_LOC_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 50, 135, 9
+
+  CONTROL STR_TM_PROP_DRIVE_TEXT, ID_TM_PROP_DRIVE_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 64, 72, 9
+
+  CONTROL "", ID_TM_PROP_DRIVE_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 64, 135, 9
+  CONTROL STR_TM_PROP_SOURCELANG_TEXT, ID_TM_PROP_SOURCELANG_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 78, 70, 9
+
+  CONTROL "", ID_TM_PROP_SOURCELANG_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 78, 135, 9
+  CONTROL STR_TM_PROP_SEGS_TEXT, ID_TM_PROP_SEGS_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 93, 70, 9
+
+  CONTROL "", ID_TM_PROP_SEGS_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 93, 135, 9
+  CONTROL STR_TM_PROP_SIZE_TEXT, ID_TM_PROP_SIZE_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 107, 70, 9
+
+  CONTROL "", ID_TM_PROP_SIZE_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 107, 135, 9
+  CONTROL STR_TM_PROP_UPD_TEXT, ID_TM_PROP_UPD_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 122, 70, 9
+
+  CONTROL "", ID_TM_PROP_UPD_EF,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    79, 122, 135, 9
+  CONTROL STR_TM_PROP_DOCS_TEXT, ID_TM_PROP_DOCS_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 136, 70, 9
+
+  CONTROL "", ID_TM_PROP_DOCS_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
+    79, 136, 135, 57
+  CONTROL STR_TM_PROP_MARKUP_TEXT, ID_TM_PROP_MARKUP_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 196, 70, 9
+
+  CONTROL "", ID_TM_PROP_MARKUP_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE,
+    79, 195, 135, 48
+
+  CONTROL STR_TM_PROP_CHANGE_PB, ID_TM_PROP_CHANGE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    13, 238, 56, 15
+  CONTROL STR_TM_PROP_CANCEL_PB, ID_TM_PROP_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    98, 238, 38, 15
+  CONTROL STR_TM_PROP_HELP_PB, ID_TM_PROP_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    166, 238, 38, 15
+END
+

@@ -1,0 +1,188 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.4 $ ----------- 28 Jul 2000
+// - fixes to enable build
+// 
+//
+// $Revision: 1.3 $ ----------- 27 Jul 2000
+// - added IDs for AS/400 ITM functionality
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFTMFUN.IV_   1.1   12 Feb 1996 10:26:52   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFTMFUN.IV_  $
+ *
+ *    Rev 1.1   12 Feb 1996 10:26:52   BUILD
+ * - removed obsolete IDs
+ *
+ *    Rev 1.0   09 Jan 1996 10:14:24   BUILD
+ * Initial revision.
+*/
+// Translation Memory Maintenance Specify Document Dialog
+#define ID_TM_QUERY_DOC_NOTE          ID_TM_QUERY_DOC_DLG+1
+#define ID_TM_QUERY_DOC_HELP_PB       ID_TM_QUERY_DOC_DLG+2
+#define ID_TM_QUERY_DOC_CANCEL_PB     ID_TM_QUERY_DOC_DLG+3
+#define ID_TM_QUERY_DOC_ENTER_PB      ID_TM_QUERY_DOC_DLG+4
+#define ID_TM_QUERY_DOC_EF            ID_TM_QUERY_DOC_DLG+5
+#define ID_TM_QUERY_DOC_TEXT          ID_TM_QUERY_DOC_DLG+6
+#define ID_TM_QUERY_DOC_FILTER_RB     ID_TM_QUERY_DOC_DLG+7
+#define ID_TM_QUERY_DOC_FILES_RB      ID_TM_QUERY_DOC_DLG+8
+#define ID_TM_QUERY_DOC_FILES_LB      ID_TM_QUERY_DOC_DLG+9
+
+// #define ID_TM_EDIT_MLE               ID_TM_EDIT_DLG+1
+// #define ID_TM_EDIT_CANCEL_PB         ID_TM_EDIT_DLG+2
+// #define ID_TM_EDIT_NEXT_PB           ID_TM_EDIT_DLG+3
+// #define ID_TM_EDIT_SRC_TEXT          ID_TM_EDIT_DLG+4
+// #define ID_TM_EDIT_TRG_TEXT          ID_TM_EDIT_DLG+5
+// #define ID_TM_EDIT_SOURCE            ID_TM_EDIT_DLG+6
+// #define ID_TM_EDIT_TARGET            ID_TM_EDIT_DLG+7
+// #define ID_TM_EDIT_DOC               ID_TM_EDIT_DLG+8
+
+
+#define ID_TM_QUERY_TM_NAME          ID_TM_QUERY_DLG+1
+#define ID_TM_QUERY_LOOKUP           ID_TM_QUERY_DLG+2
+#define ID_TM_QUERY_SOURCE_RB        ID_TM_QUERY_DLG+3
+#define ID_TM_QUERY_TARGET_RB        ID_TM_QUERY_DLG+4
+#define ID_TM_QUERY_CASE             ID_TM_QUERY_DLG+5
+#define ID_TM_QUERY_RESP_RB          ID_TM_QUERY_DLG+6
+#define ID_TM_QUERY_IGN_RB           ID_TM_QUERY_DLG+7
+#define ID_TM_QUERY_SEARCH_TEXT      ID_TM_QUERY_DLG+8
+#define ID_TM_WILD_SEARCH_CB         ID_TM_QUERY_DLG+9
+#define ID_TM_QUERY_XTRANS_CB        ID_TM_QUERY_DLG+10
+#define ID_TM_QUERY_DATE_CB          ID_TM_QUERY_DLG+11
+#define ID_TM_QUERY_DATE_PB          ID_TM_QUERY_DLG+12
+#define ID_TM_QUERY_CANCEL_PB        ID_TM_QUERY_DLG+13
+#define ID_TM_QUERY_ENTER_PB         ID_TM_QUERY_DLG+14
+#define ID_TM_QUERY_HELP_PB          ID_TM_QUERY_DLG+15
+#define ID_TM_QUERY_TM_STATIC        ID_TM_QUERY_DLG+16
+#define ID_TM_QUERY_STRING_MLE       ID_TM_QUERY_DLG+17
+#define ID_TM_QUERY_DATE_STATIC      ID_TM_QUERY_DLG+18
+#define ID_TM_QUERY_SEGNUM           ID_TM_QUERY_DLG+19
+#define ID_TM_QUERY_SEGNUM_EF        ID_TM_QUERY_DLG+20
+#define ID_TM_QUERY_DOC_CB           ID_TM_QUERY_DLG+21
+#define ID_TM_QUERY_DOC_STATIC       ID_TM_QUERY_DLG+22
+#define ID_TM_QUERY_DOC_PB           ID_TM_QUERY_DLG+23
+#define ID_TM_QUERY_MARKUP           ID_TM_QUERY_DLG+24
+#define ID_TM_QUERY_MARKUP_CB        ID_TM_QUERY_DLG+25
+#define ID_TM_QUERY_SEARCH_NUM       ID_TM_QUERY_DLG+26
+#define ID_TM_QUERY_SEARCH_NUM_EF    ID_TM_QUERY_DLG+27
+#define ID_TM_QUERY_MPLUS_CB         ID_TM_QUERY_DLG+28
+#define ID_TM_QUERY_MMINUS_CB        ID_TM_QUERY_DLG+29
+#define ID_TM_QUERY_PMSEGS1          ID_TM_QUERY_DLG+30
+#define ID_TM_QUERY_PMSEGS2          ID_TM_QUERY_DLG+31
+#define ID_TM_QUERY_PMSEGS_EF        ID_TM_QUERY_DLG+32
+#define ID_TM_QUERY_MPLMIN           ID_TM_QUERY_DLG+33
+
+
+#define ID_TM_DATE_TEXT              ID_TM_DATE_DLG+1
+#define ID_TM_DATE_START             ID_TM_DATE_DLG+2
+#define ID_TM_DATE_END               ID_TM_DATE_DLG+3
+#define ID_TM_DATE_MONTH             ID_TM_DATE_DLG+4
+#define ID_TM_DATE_YEAR              ID_TM_DATE_DLG+5
+#define ID_TM_DATE_ENTER_PB          ID_TM_DATE_DLG+6
+#define ID_TM_DATE_HELP_PB           ID_TM_DATE_DLG+7
+#define ID_TM_DATE_CANCEL_PB         ID_TM_DATE_DLG+8
+#define ID_TM_DATE_START_MONTH_DL    ID_TM_DATE_DLG+9
+#define ID_TM_DATE_END_MONTH_DL      ID_TM_DATE_DLG+10
+#define ID_TM_DATE_START_YEAR_DL     ID_TM_DATE_DLG+11
+#define ID_TM_DATE_END_YEAR_DL       ID_TM_DATE_DLG+12

@@ -1,0 +1,581 @@
+//旼컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴커
+//?QFRES.RC                  Combined TM resource                             ?
+//쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
+//?opyright Notice:                                                           ?
+//?                                                                           ?
+//?     Copyright (C) 1990-2014, International Business Machines              ?
+//?     Corporation and others. All rights reserved                           ?
+//쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
+//?o be done / known limitations / caveats:                                   ?
+//?                                                                           ?
+//쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
+//?PVCS Section                                                               ?
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 29 Sep 2004
+// --RJ: accessibility: load bitmaps with string as identifier
+// -- delete unused compiler ifdefs
+// 
+//
+// $Revision: 1.2 $ ----------- 28 Sep 2004
+// GQ: - changed arrow bitmaps to icons
+//
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.2 $ ----------- 10 Apr 2003
+// GQ: - added arrow bitmaps
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.3 $ ----------- 16 Oct 2002
+// GQ: - added include of commctrl.h
+//
+//
+// $Revision: 1.2 $ ----------- 16 Sep 2002
+// GQ: - added include of EQFMTP.DLG
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.4 $ ----------- 25 Sep 2001
+// GQ: Added include of EQFMUPRP.DLG
+// GQ: Re-added include of EQFTAG.STR
+//
+//
+// $Revision: 1.3 $ ----------- 21 Sep 2001
+// MK(21/09/2001)
+// -- Removed path from resources to make compile from any directory
+//
+//
+// $Revision: 1.2 $ ----------- 3 Sep 2001
+// GQ: Added include of EQFTAG.STR
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.15 $ ----------- 25 Jun 2001
+// GQ: Added entry for description column of markup table list
+//
+//
+// $Revision: 1.14 $ ----------- 22 Sep 2000
+// added eqfallg.bmp
+//
+//
+// $Revision: 1.13 $ ----------- 21 Sep 2000
+// --added eqfdoc99.dlg
+//
+//
+// $Revision: 1.12 $ ----------- 12 Sep 2000
+// - added include of EQFSUBF.DLG
+//
+//
+// $Revision: 1.11 $ ----------- 30 Aug 2000
+// --removed eqfdoc99.dlg
+//
+//
+// $Revision: 1.10 $ ----------- 30 Aug 2000
+// --added eqfdic99.dlg and eqfdoc99.dlg
+//
+//
+// $Revision: 1.9 $ ----------- 27 Jul 2000
+// -- added strings for manipulation of M-flags
+//
+//
+// $Revision: 1.8 $ ----------- 18 Jul 2000
+// - added include of filter dialog template
+//
+//
+// $Revision: 1.7 $ ----------- 24 May 2000
+// property sheet for folder export
+//
+//
+//
+// $Revision: 1.6 $ ----------- 22 May 2000
+// - added include of sort dialog
+//
+//
+// $Revision: 1.5 $ ----------- 19 May 2000
+// property sheet for conting report
+//
+//
+// $Revision: 1.4 $ ----------- 4 May 2000
+// -- add EQFFLOW.ICO
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - added include of EQFSPRP.DLG (system propertie dialog)
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFRES.RV_   1.22   17 Jun 1999 15:04:36   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFRES.RV_  $
+ *
+ *    Rev 1.22   17 Jun 1999 15:04:36   BUILD
+ * - modifications for Lotus NGD support
+ *
+ *    Rev 1.21   25 May 1999 10:45:30   BUILD
+ * -- added EQFDOC.dlg for Document Import/Export property dlg
+ *
+ *    Rev 1.20   03 May 1999 09:11:34   BUILD
+ * - added include of EQFANA.DLG, added string table entries for analysis property
+ *   sheet
+ * - added entry for title text of descriptive name column of markup table list
+ *
+ *    Rev 1.19   22 Feb 1999 14:10:06   BUILD
+ * -- add property page dialog
+ *
+ *    Rev 1.18   12 Feb 1999 09:51:32   BUILD
+ * added eqfrpt3.dlg
+ *
+ *    Rev 1.17   15 Dec 1998 11:49:04   BUILD
+ * -- add icon to EEA about dialogbox
+ *
+ *    Rev 1.16   07 Dec 1998 10:29:40   BUILD
+ * -- add EQFEEA.DLG
+ *
+ *    Rev 1.15   16 Nov 1998 16:18:56   BUILD
+ * -- enable for MFC and EEA..
+ *
+ *    Rev 1.14   02 Nov 1998 11:16:00   BUILD
+ * - added string table entry for redundancy counting process
+ *
+ *    Rev 1.13   25 Aug 1998 19:00:10   BUILD
+ * add EQFMT.ID for MT list window
+ *
+ *    Rev 1.12   06 Mar 1998 15:47:48   BUILD
+ * new counting report
+ *
+ *    Rev 1.11   16 Feb 1998 07:14:38   BUILD
+ * - Win32: added gray-backgrounded bitmaps
+ *
+ *    Rev 1.10   14 Jan 1998 15:55:02   BUILD
+ * - do not include pmstddlg.h under Windows
+ * - moved .MRI files to begin of #includes
+ * - added Windows bitmaps and icons
+ *
+ *    Rev 1.9   13 Jan 1997 15:14:50   BUILD
+ * - added entry for title of archive TM process window
+ *
+ *    Rev 1.8   02 Dec 1996 10:26:04   BUILD
+ * - added include of report handler MRI
+ *
+ *    Rev 1.7   11 Sep 1996 19:58:28   BUILD
+ * - added include of EQFCOLW.x files
+ *
+ *    Rev 1.6   25 Mar 1996 10:17:08   BUILD
+ * - added string table entries for TMM status bar prompts
+ *
+ *    Rev 1.5   18 Mar 1996 16:57:18   BUILD
+ * - added string table entry for SID_QDPR_PRTLIST_TITLE and SID_DISP_DICT_PRTJOB
+ *
+ *    Rev 1.3   12 Feb 1996 10:26:40   BUILD
+ * - added TMM month names
+ *
+ *    Rev 1.2   29 Jan 1996 17:23:54   BUILD
+ * - added TMM icon
+ *
+ *    Rev 1.1   13 Jan 1996 14:06:44   BUILD
+ * - moved dictionary strings to EQFDICT.STR
+ *
+ *    Rev 1.0   09 Jan 1996 10:12:52   BUILD
+ * Initial revision.
+*/
+//읕컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴켸
+
+#define INCL_NLS
+#define INCL_WIN
+#define INCL_WINSTDSPIN
+
+#define WC_EQF_FILTER   "EqfFilter"    // window class for filter controls
+
+#include <WINRES.H>
+#include <fclspbw.h>
+#include <eqfprogr.h>
+
+#include <commctrl.h>
+#include "EQF.ID"
+#include "EQFB.MRI"
+#include "EQFCNT01.MRI"
+#include "EQFDICT.MRI"
+#include "EQFDICTL.MRI"
+#include "EQFDOC01.MRI"
+#include "EQFFOL.MRI"
+#include "EQFFILT.MRI"
+#include "EQFIANA1.MRI"
+#include "EQFLIST.MRI"
+#include "EQFLNG00.MRI"
+#include "EQFMEM.MRI"
+#include "EQFPTM.MRI"
+#include "EQFQDPRR.MRI"
+#include "EQFSTART.MRI"
+#include "EQFTEXP.MRI"
+#include "EQFUTCLB.MRI"
+#include "EQFLSTAB.MRI"
+#include "EQFTMM.MRI"
+#include "EQFCOLW.MRI"
+#include "EQFTMFUN.MRI"
+#include "EQFRPT.MRI"
+#include "EQFMT.MRI"
+#include "EQFTIMP.MRI"
+
+  #include "eqfeea.mri"
+  #include "eqfeea.id"
+
+#include "EQFB.ID"
+#include "EQFBDLG.ID"
+#include "EQFCNT01.ID"
+#include "EQFDDLG.ID"
+#include "EQFDEX.ID"
+#include "EQFDIC00.ID"
+#include "EQFDIMP.ID"
+#include "EQFDOC01.ID"
+#include "EQFDPROP.ID"
+#include "EQFFILT.ID"
+#include "EQFFLL.ID"
+#include "EQFFOL.ID"
+#include "EQFHELP.ID"
+#include "EQFIANA1.ID"
+#include "EQFITMD.ID"
+#include "EQFLIST.ID"
+#include "EQFLNG00.ID"
+#include "EQFMEM.ID"
+#include "EQFPTM.ID"
+#include "EQFQDPR.ID"
+#include "EQFRDICS.ID"
+#include "EQFSTART.ID"
+#include "EQFTAG00.ID"
+#include "EQFTEXP.ID"
+#include "EQFTIMP.ID"
+#include "EQFTWB.ID"
+#include "EQFUTCLB.ID"
+#include "EQFUTILS.ID"
+#include "EQFTMM.ID"
+#include "EQFTMFUN.ID"
+#include "EQFCOLW.ID"
+#include "EQFRPT.ID"
+#include "EQFMT.ID"
+#include "EQFSERNO.H"
+
+STRINGTABLE
+BEGIN
+ IDS_TMM_TITLE, STR_TMM_TITLE
+ IDS_TMM_TARGETFILE, STR_TMM_TARGETFILE
+ IDS_TMM_SOURCEFILE, STR_TMM_SOURCEFILE
+ IDS_TMM_MONTH01,    STR_TMM_MONTH01
+ IDS_TMM_MONTH02,    STR_TMM_MONTH02
+ IDS_TMM_MONTH03,    STR_TMM_MONTH03
+ IDS_TMM_MONTH04,    STR_TMM_MONTH04
+ IDS_TMM_MONTH05,    STR_TMM_MONTH05
+ IDS_TMM_MONTH06,    STR_TMM_MONTH06
+ IDS_TMM_MONTH07,    STR_TMM_MONTH07
+ IDS_TMM_MONTH08,    STR_TMM_MONTH08
+ IDS_TMM_MONTH09,    STR_TMM_MONTH09
+ IDS_TMM_MONTH10,    STR_TMM_MONTH10
+ IDS_TMM_MONTH11,    STR_TMM_MONTH11
+ IDS_TMM_MONTH12,    STR_TMM_MONTH12
+ IDS_TMM_STATUSPROMPT,  STR_TMM_STATUSPROMPT
+ IDS_TMM_DOCPROMPT,     STR_TMM_DOCPROMPT
+ IDS_TMM_DATEPROMPT,    STR_TMM_DATEPROMPT
+ IDS_TMM_CURPROMPT,     STR_TMM_CURPROMPT
+ IDS_TMM_TOTALPROMPT,   STR_TMM_TOTALPROMPT
+ IDS_TMM_COMPLPROMPT,   STR_TMM_COMPLPROMPT
+ IDS_TMM_SEARCHSTATE,   STR_TMM_SEARCHSTATE
+ IDS_TMM_DELETESTATE,   STR_TMM_DELETESTATE
+ IDS_TMM_QUERYSTATE,    STR_TMM_QUERYSTATE
+ IDS_TMM_WORKSTATE,     STR_TMM_WORKSTATE
+END
+
+STRINGTABLE
+{
+  SID_LOOKUP_TITLE,        STR_LOOKUP_DLG
+  SID_DISP_ENTRY_TITLE,    STR_DISP_ENTRY_DLG
+  SID_DISP_PANEL_TEXT,     STR_DISP_PANEL_TEXT
+  SID_DISP_DICT_TEXT,      STR_DISP_DICT_TEXT
+  SID_EDIT_ENTRY_TITLE,    STR_EDIT_ENTRY_DLG
+  SID_EDIT_ENTRY_TEMPLATE, STR_EDIT_ENTRY_TEMPLATE_NO
+  SID_MERGE_SGML_HEADING,  STR_MERGE_SGML_HEADING
+  SID_MERGE_EDIT_HEADING,  STR_MERGE_EDIT_HEADING
+  SID_MERGE_ASD_HEADING,   STR_MERGE_ASD_HEADING
+  SID_DISP_DICT_PRTJOB,    STR_DISP_DICT_PRTJOB
+  SID_QDPR_PRINTING,       STR_QDPR_PRINTING
+  SID_QDPR_PRINTTO_PRINTER,STR_QDPR_PRINTTO_PRINTER
+  SID_QDPR_PRINTTO_FILE,   STR_QDPR_PRINTTO_FILE
+  SID_QDPR_PROC_TITLE,     STR_QDPR_PROC_TITLE
+  SID_QDPR_PRTDLG_TITLE,   STR_QDPR_PRTDLG_TITLE
+  SID_QDPR_PRTLIST_TITLE,  STR_QDPR_PRTLIST_TITLE
+END
+
+
+
+STRINGTABLE
+BEGIN
+  IDS_PRESEGM          ,    STR_MSG_PRESEGM
+  IDS_TEXTSEGM          ,   STR_MSG_TEXTSEGM
+  IDS_POSTSEGM          ,   STR_MSG_POSTSEGM
+  IDS_POSTTM            ,   STR_MSG_POSTTM
+  IDS_TMP               ,   STR_MSG_TMP
+  IDS_LISTOUT           ,   STR_MSG_LISTOUT
+  IDS_TATITLEBAR        ,   STR_TATITLEBAR
+  IDS_TATODO            ,   STR_TATODO
+  IDS_TADONE            ,   STR_TADONE
+  IDS_ARCHTM_TITLE      ,   STR_ARCHTM_TITLE
+  IDS_REDUNDCOUNT       ,   STR_MSG_REDUNDCOUNT
+  IDS_ANAPROP_TTIP_GENERAL,     STR_ANAPROP_TTIP_GENERAL
+  IDS_ANAPROP_TTIP_AUTSUBST,    STR_ANAPROP_TTIP_AUTSUBST
+  IDS_ANAPROP_TTIP_LISTS,       STR_ANAPROP_TTIP_LISTS
+  IDS_ANAPROP_TTIP_OTHER,       STR_ANAPROP_TTIP_OTHER
+  IDS_ANAPROP_TAB_GENERAL,      STR_ANAPROP_TAB_GENERAL
+  IDS_ANAPROP_TAB_AUTSUBST,     STR_ANAPROP_TAB_AUTSUBST
+  IDS_ANAPROP_TAB_LISTS,        STR_ANAPROP_TAB_LISTS
+  IDS_ANAPROP_TAB_OTHER,        STR_ANAPROP_TAB_OTHER
+END
+
+
+TWB_ICON ICON           EQFTWBW.ICO
+FLL_ICON ICON           EQFFLLW.ICO
+FOL_ICON ICON           EQFFOLW.ICO
+DOC_ICON ICON           EQFDOCW.ICO
+ANA_ICON ICON           EQFANAW.ICO
+MEM_ICON ICON           EQFMEMW.ICO
+DICTIMP_ICON ICON       EQFDIMPW.ICO
+DICTEXP_ICON ICON       EQFDEXPW.ICO
+FOLIMP_ICON ICON        EQFFIMPW.ICO
+FOLEXP_ICON ICON        EQFFEXPW.ICO
+DICTORG_ICON ICON       EQFDORGW.ICO
+TAG_ICON ICON           EQFTAGW.ICO
+DICTLIST_ICON ICON      EQFDICW.ICO
+COUNT_ICON ICON         EQFCNTW.ICO
+TMEMIMP_ICON ICON       EQFMIMPW.ICO
+TMEMEXP_ICON ICON       EQFMEXPW.ICO
+TMEMMERGE_ICON ICON     EQFMMRGW.ICO
+TMEMORG_ICON ICON       EQFMORGW.ICO
+TMEMSERVER_ICON ICON    EQFMSRVW.ICO
+DICTLOOKUP_ICON ICON    EQFDICLW.ICO
+DICTENTRYDISP_ICON ICON EQFDICDW.ICO
+DICTEDIT_ICON ICON      EQFDICEW.ICO
+MARKUPIMP_ICON ICON     EQFTIMPW.ICO
+MARKUPEXP_ICON ICON     EQFTEXPW.ICO
+LIST_ICON ICON          EQFLISTW.ICO
+LIST_EXCL_ICON ICON     EQFLIEXW.ICO
+LIST_NEW_ICON ICON      EQFLINEW.ICO
+LIST_FOUND_ICON ICON    EQFLIFOW.ICO
+
+
+ID_DICTPRINT_ICON ICON  EQFQDPRW.ICO
+ID_TMM_ICON ICON        EQFTMMW.ICO
+EQFITM_ICON ICON        EQFITMW.ICO
+
+NOTESDB_ICON ICON       EQFNOTES.ICO
+SUBDIR_ICON ICON        EQFSUBD.ICO
+FLL_OPENED_ICON ICON    EQFFLOW.ICO
+
+// Icons for list view control
+IDI_ICON_CB_GREY        ICON                    "OTM_CB_GREY.ico"
+IDI_ICON_CB_NO          ICON                    "OTM_CB_NO.ico"
+IDI_ICON_CB_YES         ICON                    "OTM_CB_YES.ico"
+
+
+//DICTG_BMP BITMAP          EQFDICTG.BMP
+Dictionary BITMAP        EQFDICTG.BMP
+Deleted    BITMAP        EQFDELG.BMP
+All        BITMAP        EQFALLG.BMP
+Excluded   BITMAP        EQFEXCLG.BMP
+NOMARKG_BMP   BITMAP        EQFNMRKG.BMP
+
+EQFUP_ICON   ICON         EQFUP.ICO
+EQFTOP_ICON   ICON        EQFTOP.ICO
+EQFBOTTOM_ICON   ICON     EQFBOTTOM.ICO
+EQFDOWN_ICON   ICON       EQFDOWN.ICO
+
+DICT_BMP BITMAP           EQFDICTW.BMP
+DELETE_BMP BITMAP         EQFDELW.BMP
+EXCL_BMP BITMAP           EQFEXCLW.BMP
+Unmarked BITMAP         EQFNMRKW.BMP
+EQFFD_BITMAP BITMAP       EQFFDW.BMP
+EQFHD_BITMAP BITMAP       EQFHDW.BMP
+EQFCD_BITMAP BITMAP       EQFCDW.BMP
+EQFRAM_BITMAP BITMAP      EQFRAMW.BMP
+EQFNET_BITMAP BITMAP      EQFNETW.BMP
+EQFTOOLBAR_BITMAP BITMAP  EQFTOOLW.BMP
+ID_BACKGROUND_BMP BITMAP  EQFBACKW.BMP
+
+
+
+STRINGTABLE
+BEGIN
+ IDS_TAGEXPORT_TITLEBAR, STR_TAGEXPORT_TITLEBAR
+ IDS_TAGEXPORT_TAGTXT, STR_TAGEXPORT_TAGTXT
+END
+
+STRINGTABLE
+BEGIN
+ IDS_TAGIMPORT_TITLEBAR, STR_TAGIMPORT_TITLEBAR
+ IDS_TAGIMPORT_TAGTXT, STR_TAGIMPORT_TAGTXT
+ IDS_TAGT_NAME_COLTITLE, STR_TAGT_NAME_COLTITLE
+ IDS_TAGT_DESCRNAME_COLTITLE, STR_TAGT_DESCRNAME_COLTITLE
+ IDS_TAGT_DESCR_COLTITLE, STR_TAGT_DESCR_COLTITLE
+ IDS_TAGT_VERSION_COLTITLE, STR_TAGT_VERSION_COLTITLE
+ IDS_TAGT_PLUGIN_COLTITLE, STR_TAGT_PLUGIN_COLTITLE
+ IDS_TAGT_SUPPLIER_COLTITLE, STR_TAGT_SUPPLIER_COLTITLE
+END
+
+#include "EQFDICT.STR"
+#include "EQFB.ACC"
+#include "EQFB.MEN"
+#include "EQFB.STR"
+#include "EQFBDLG.DLG"
+#include "EQFSTART.MEN"
+#include "EQFCNT01.DLG"
+#include "EQFCNT01.STR"
+#include "EQFDDLG.DLG"
+#include "EQFDEX.DLG"
+#include "EQFDIMP.DLG"
+#include "EQFDOC01.DLG"
+#include "EQFDOC01.STR"
+#include "EQFDPROP.DLG"
+#include "EQFFILT.DLG"
+#include "EQFFILT.STR"
+#include "EQFFILTC.DLG"
+#include "EQFFOL.DLG"
+#include "EQFFOL.STR"
+#include "EQFIANA1.DLG"
+#include "EQFITM.MEN"
+#include "EQFITMD.DLG"
+#include "EQFLIST.DLG"
+#include "EQFLIST.STR"
+#include "EQFLNG00.STR"
+#include "EQFLOGO.DLG"
+#include "EQFMEM.STR"
+#include "EQFMEMD.DLG"
+
+#include "EQFRDICS.DLG"
+#include "EQFSTART.STR"
+#include "EQFTEXP.DLG"
+#include "EQFTIMP.DLG"
+#include "EQFTWB.DLG"
+#include "EQFUTCLB.DLG"
+#include "EQFUTILS.DLG"
+#include "EQFTMM.MEN"
+#include "EQFTMFUN.DLG"
+#include "EQFCOLW.STR"
+#include "EQFRPT.DLG"
+#include "EQFRPT.STR"
+#include "EQFRPT1.DLG"
+#include "EQFRPT2.DLG"
+#include "EQFRPT3.DLG"
+#include "EQFMT.DLG"
+#include "EQFMT.STR"
+
+  #include "EQFEEA.RC"    // include icon
+  #include "eqfeea.str"
+  #include "eqfeea.men"
+  #include "eqfeea.dlg"
+  #include "eqfd.rc"
+  #include "eqfbprop.dlg"
+  #include "eqfana.dlg"
+  #include "eqfmtp.dlg"
+  #include "eqfdoc.dlg"
+  #include "eqfsprop.dlg"
+  #include "EQFRPT99.DLG"
+  #include "eqfsort.dlg"
+  #include "eqffol99.dlg"
+  #include "eqfdic99.dlg"
+  #include "eqffilt2.dlg"
+  #include "eqftmf99.dlg"
+  #include "eqfsubf.dlg"
+  #include "eqfdoc99.dlg"
+  #include "eqfmuprp.dlg"
+  #include "eqftag.str"
+

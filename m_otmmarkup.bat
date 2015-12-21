@@ -1,0 +1,27 @@
+@echo off
+rem Copyright (c) 2013, International Business Machines
+rem Corporation and others.  All rights reserved.
+
+if NOT "%_MAKEDEBUG%"=="" goto debug
+
+
+rem =========== set nodebug variables =================
+set _OTMMARKUP_CFLAGS=%_OTMMARKUP_CFLAGS_NODEBUG%
+set _OTMMARKUP_CUFLAGS=%_OTMMARKUP_CUFLAGS_NODEBUG%
+set _OTMMARKUP_CPPFLAGS=%_OTMMARKUP_CPPFLAGS_NODEBUG%
+set _OTMMARKUP_LINKFLAGS=%_OTMMARKUP_LINKFLAGS_NODEBUG%
+set _OTMMARKUP_OBJ=%_OTMMARKUP_OBJ_NODEBUG%
+set _OTMMARKUP_DLL=%_OTMMARKUP_DLL_NODEBUG%
+goto exit
+
+rem =========== set debug variables =================
+:debug
+
+set _OTMMARKUP_CFLAGS=%_OTMMARKUP_CFLAGS_DEBUG%
+set _OTMMARKUP_CUFLAGS=%_OTMMARKUP_CUFLAGS_DEBUG%
+set _OTMMARKUP_CPPFLAGS=%_OTMMARKUP_CPPFLAGS_DEBUG%
+set _OTMMARKUP_LINKFLAGS=%_OTMMARKUP_LINKFLAGS_DEBUG%
+set _OTMMARKUP_OBJ=%_OTMMARKUP_OBJ_DEBUG%
+set _OTMMARKUP_DLL=%_OTMMARKUP_DLL_DEBUG%
+
+:exit

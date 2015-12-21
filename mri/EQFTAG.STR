@@ -1,0 +1,170 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFTAG.STR - string table of markup table dialogs                         |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |
+  +----------------------------------------------------------------------------+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 28 Jul 2005
+// GQ: - added UTF8 charset entry
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Apr 2005
+// GQ: - added entry for SID_CLS_TRANSLVAR
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Oct 2003
+// --RJ: P018279: add STR_TAGREFLOW_YES / NO / NOTSPECIFIED
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 29 Oct 2002
+// GQ: - added CLS_WHITESPACE string entry
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 Sep 2001
+// GQ: Initial put, string table for markup table stuff
+// 
+//
+*/
+
+STRINGTABLE
+BEGIN
+   SID_TAGCHARSET_ASCII,            STR_TAGCHARSET_ASCII
+   SID_TAGCHARSET_ANSI,             STR_TAGCHARSET_ANSI
+   SID_TAGCHARSET_UNICODE,          STR_TAGCHARSET_UNICODE
+   SID_TAGCHARSET_UTF8,             STR_TAGCHARSET_UTF8
+   SID_STARTDEL_TAG,                STR_STARTDEL_TAG
+   SID_ENDDEL_TAG,                  STR_ENDDEL_TAG
+   SID_SELC_TAG,                    STR_SELC_TAG
+   SID_STARTNEUTRAL_TAG,            STR_STARTNEUTRAL_TAG
+   SID_ENDNEUTRAL_TAG,              STR_ENDNEUTRAL_TAG
+   SID_SEG_OFF,                     STR_SEG_OFF
+   SID_SEG_NEUTRAL,                 STR_SEG_NEUTRAL
+   SID_SEG_ON,                      STR_SEG_ON
+   SID_SEG_RESET,                   STR_SEG_RESET
+   SID_SEG_LINE,                    STR_SEG_LINE
+   SID_PROTECT_ON,                  STR_PROTECT_ON
+   SID_PROTECT_OFF,                 STR_PROTECT_OFF
+   SID_TSL_TEXT,                    STR_TSL_TEXT
+   SID_TSNL_TEXT,                   STR_TSNL_TEXT
+   SID_NOEXPL_TEXT,                 STR_NOEXPL_TEXT
+   SID_CLS_DEFAULT,                 STR_CLS_DEFAULT
+   SID_CLS_HEAD,                    STR_CLS_HEAD
+   SID_CLS_EHEAD,                   STR_CLS_EHEAD
+   SID_CLS_PARA,                    STR_CLS_PARA
+   SID_CLS_EPARA,                   STR_CLS_EPARA
+   SID_CLS_XTRCT,                   STR_CLS_XTRCT
+   SID_CLS_EXTRCT,                  STR_CLS_EXTRCT
+   SID_CLS_LIST,                    STR_CLS_LIST
+   SID_CLS_ELIST,                   STR_CLS_ELIST
+   SID_CLS_HILIT,                   STR_CLS_HILIT
+   SID_CLS_EHILIT,                  STR_CLS_EHILIT
+   SID_CLS_PROTECT,                 STR_CLS_PROTECT
+   SID_CLS_TREF,                    STR_CLS_TREF
+   SID_CLS_LREF,                    STR_CLS_LREF
+   SID_CLS_ADDINF,                  STR_CLS_ADDINF
+   SID_CLS_EADDINF,                 STR_CLS_EADDINF
+   SID_CLS_UNCHG,                   STR_CLS_UNCHG
+   SID_CLS_VAR,                     STR_CLS_VAR
+   SID_CLS_WHITESPACE,              STR_CLS_WHITESPACE
+   SID_TAGREFLOW_YES,               STR_TAGREFLOW_YES 
+   SID_TAGREFLOW_NO,                STR_TAGREFLOW_NO  
+   SID_TAGREFLOW_NOTSPECIFIED,      STR_TAGREFLOW_NOTSPECIFIED
+   SID_CLS_TRANSLVAR,               STR_CLS_TRANSLVAR
+
+END

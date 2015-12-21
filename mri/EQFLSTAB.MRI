@@ -1,0 +1,45 @@
+//+----------------------------------------------------------------------------+
+//|EQFLSTAB.MRI                                                                |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Gerhard Queck (QSoft)                                               |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:                                                                |
+//|   MRI of abbreviation list maintenance                                     |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+
+// Name for abbreviations list type
+#define STR_UTILS_MI_ABBR        "&Abbreviation Lists"
+
+// Name for abbreviations list type
+#define STR_LST_ABR_NAME               "Abbreviation List"
+
+// Name for abbreviations list title
+#define STR_LST_ABR_TITLE               "Abbreviation Lists"
+
+// dialog title text for open of abbreviation lists; %1 = language
+#define STR_LSTEDIT_ABRLTITLE_TEXT        "Edit User Abbreviations for : %1"
+
+// title of abbreviations list printout; %1 = name of list
+   #define STR_LISTPRINT_ABR_TITLE "Abbreviation List: %1"
+
+// title of abbreviation list export
+   #define STR_LSTEXP_ABR_TITLE_TEXT   "Export Abbreviation List"
+
+// title of abbreviation list import
+//   #define STR_LSTIMP_FTL_TITLE_TEXT   "Import Abbreviation List"
+
+// Name for ddenda list title
+#define STR_LST_ADD_TITLE               "Addendum Lists"
+
+// dialog title text for open of addenda lists; %1 = language
+#define STR_LSTEDIT_ADDLTITLE_TEXT        "Edit Addendum Terms for : %1"
+

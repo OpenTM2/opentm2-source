@@ -1,0 +1,1109 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFB.AVC   1.6   03 Mar 1999 12:40:26   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFB.AVC  $
+ * 
+ *    Rev 1.6   03 Mar 1999 12:40:26   BUILD
+ * -- add IDM_DICTCPY + 26 --- + 51 for special DBCS entry mode
+ *
+ *    Rev 1.5   16 Jul 1998 10:59:50   BUILD
+ * -- KBT0332: correctly set the accelerator table
+ *
+ *    Rev 1.4   07 Jan 1998 11:48:12   BUILD
+ * -- KBT0023: fix problems of lost 'p'
+ *
+ *    Rev 1.3   19 Dec 1997 16:19:40   BUILD
+ * -- KBT0162: enable for special shortkey -- even in KANA case
+ *
+ *    Rev 1.2   17 Dec 1997 12:27:40   BUILD
+ * -- KBT0162: enable for special shortkey -- no roman..
+ *
+ *    Rev 1.1   21 Mar 1997 12:19:30   BUILD
+ * -- add support for Ctrl-n in case of different DBCS modes
+ *
+ *    Rev 1.0   09 Jan 1996 10:03:56   BUILD
+ * Initial revision.
+*/
+// accelerator tables for support of Service window
+ID_MAINSERVICES ACCELERATORS LOADONCALL MOVEABLE DISCARDABLE 
+BEGIN
+    "^A",        IDM_DICTCPY
+    "^B",        IDM_DICTCPY + 1
+    "^C",        IDM_DICTCPY + 2
+    "^D",        IDM_DICTCPY + 3
+    "^E",        IDM_DICTCPY + 4
+    "^F",        IDM_DICTCPY + 5
+    "^G",        IDM_DICTCPY + 6
+    "^H",        IDM_DICTCPY + 7
+    "^I",        IDM_DICTCPY + 8
+    "^J",        IDM_DICTCPY + 9
+    "^K",        IDM_DICTCPY + 10
+    "^L",        IDM_DICTCPY + 11
+    "^M",        IDM_DICTCPY + 12
+    "^N",        IDM_DICTCPY + 13
+    "^O",        IDM_DICTCPY + 14
+    "^P",        IDM_DICTCPY + 15
+    "^Q",        IDM_DICTCPY + 16
+    "^R",        IDM_DICTCPY + 17
+    "^S",        IDM_DICTCPY + 18
+    "^T",        IDM_DICTCPY + 19
+    "^U",        IDM_DICTCPY + 20
+    "^V",        IDM_DICTCPY + 21
+    "^W",        IDM_DICTCPY + 22
+    "^X",        IDM_DICTCPY + 23
+    "^Y",        IDM_DICTCPY + 24
+    "^Z",        IDM_DICTCPY + 25
+#ifndef _WINDOWS
+    "0",        IDM_PROPCPY + 0, ASCII, CONTROL
+    "1",        IDM_PROPCPY + 1, ASCII, CONTROL
+    "2",        IDM_PROPCPY + 2, ASCII, CONTROL
+    "3",        IDM_PROPCPY + 3, ASCII, CONTROL
+    "4",        IDM_PROPCPY + 4, ASCII, CONTROL
+    "5",        IDM_PROPCPY + 5, ASCII, CONTROL
+    "6",        IDM_PROPCPY + 6, ASCII, CONTROL
+    "7",        IDM_PROPCPY + 7, ASCII, CONTROL
+    "8",        IDM_PROPCPY + 8, ASCII, CONTROL
+    "9",        IDM_PROPCPY + 9, ASCII, CONTROL
+
+// Alphanumeric
+    "\x80\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x80\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x80\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x80\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x80\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x80\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x80\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x80\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x80\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x80\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Katakana
+    "\x81\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x81\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x81\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x81\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x81\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x81\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x81\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x81\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x81\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x81\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Hiragana
+    "\x82\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x82\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x82\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x82\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x82\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x82\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x82\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x82\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x82\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x82\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// no roman
+    "\x82\xed", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x82\xca", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x82\xd3", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x82\xa0", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x82\xa4", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x82\xa6", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x82\xa8", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x82\xe2", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x82\xe4", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x82\xe6", IDM_PROPCPY + 9, ASCII, CONTROL
+
+    "\x83\x8f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x83\x6b", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x83\x74", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x83\x41", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x83\x45", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x83\x47", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x83\x49", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x83\x84", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x83\x86", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x83\x88", IDM_PROPCPY + 9, ASCII, CONTROL
+
+// Roman
+    "\x86\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x86\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x86\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x86\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x86\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x86\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x86\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x86\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x86\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x86\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Hanja
+    "\x87\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x87\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x87\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x87\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x87\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x87\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x87\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x87\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x87\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x87\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Hangeul
+    "\x88\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x88\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x88\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x88\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x88\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x88\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x88\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x88\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x88\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x88\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Jamo
+    "\x89\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x89\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x89\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x89\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x89\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x89\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x89\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x89\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x89\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x89\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Hanzi
+    "\x8A\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x8A\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x8A\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x8A\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x8A\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x8A\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x8A\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x8A\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x8A\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x8A\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Tsangjye
+    "\x8C\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x8C\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x8C\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x8C\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x8C\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x8C\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x8C\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x8C\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x8C\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x8C\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// Phonetic
+    "\x8D\x4f", IDM_PROPCPY + 0, ASCII, CONTROL
+    "\x8D\x50", IDM_PROPCPY + 1, ASCII, CONTROL
+    "\x8D\x51", IDM_PROPCPY + 2, ASCII, CONTROL
+    "\x8D\x52", IDM_PROPCPY + 3, ASCII, CONTROL
+    "\x8D\x53", IDM_PROPCPY + 4, ASCII, CONTROL
+    "\x8D\x54", IDM_PROPCPY + 5, ASCII, CONTROL
+    "\x8D\x55", IDM_PROPCPY + 6, ASCII, CONTROL
+    "\x8D\x56", IDM_PROPCPY + 7, ASCII, CONTROL
+    "\x8D\x57", IDM_PROPCPY + 8, ASCII, CONTROL
+    "\x8D\x58", IDM_PROPCPY + 9, ASCII, CONTROL
+// single byte (kana)
+    "\xdc",     IDM_PROPCPY + 0, ASCII, CONTROL
+    "\xc7",     IDM_PROPCPY + 1, ASCII, CONTROL
+    "\xcc",     IDM_PROPCPY + 2, ASCII, CONTROL
+    "\xb1",     IDM_PROPCPY + 3, ASCII, CONTROL
+    "\xb3",     IDM_PROPCPY + 4, ASCII, CONTROL
+    "\xb4",     IDM_PROPCPY + 5, ASCII, CONTROL
+    "\xb5",     IDM_PROPCPY + 6, ASCII, CONTROL
+    "\xd4",     IDM_PROPCPY + 7, ASCII, CONTROL
+    "\xd5",     IDM_PROPCPY + 8, ASCII, CONTROL
+    "\xd6",     IDM_PROPCPY + 9, ASCII, CONTROL
+
+
+// Alphanumeric
+    "\x80\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x80\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x80\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x80\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x80\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x80\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x80\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x80\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x80\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x80\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x80\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x80\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x80\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x80\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x80\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x80\x91",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x80\x92",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x80\x93",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x80\x94",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x80\x95",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x80\x96",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x80\x97",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x80\x98",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x80\x99",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x80\x9a",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x80\x9b",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x80\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x80\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x80\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x80\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x80\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x80\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x80\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x80\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x80\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x80\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x80\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x80\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x80\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x80\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x80\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x80\x91",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x80\x92",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x80\x93",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x80\x94",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x80\x95",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x80\x96",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x80\x97",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x80\x98",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x80\x99",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x80\x9a",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x80\x9b",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Katakana
+    "\x81\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x81\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x81\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x81\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x81\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x81\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x81\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x81\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x81\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x81\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x81\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x81\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x81\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x81\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x81\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x81\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x81\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x81\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x81\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x81\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x81\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x81\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x81\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x81\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x81\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x81\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x81\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x81\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x81\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x81\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x81\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x81\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x81\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x81\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x81\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x81\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x81\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x81\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x81\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x81\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x81\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x81\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+//    "\x81\x91",  IDM_DICTCPY + 42  , CHAR, CONTROL | SHIFT
+//    "\x81\x92",  IDM_DICTCPY + 43  , CHAR, CONTROL | SHIFT
+    "\x81\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x81\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x81\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x81\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x81\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x81\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x81\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x81\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// 8192 and 8191 are used for Ctrl-shift-L and Ctrl-shift O later on
+// in this file: tested 3.3.99
+
+// Hiragana
+    "\x82\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x82\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x82\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x82\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x82\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x82\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x82\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x82\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x82\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x82\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x82\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x82\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x82\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x82\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x82\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x82\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x82\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x82\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x82\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x82\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x82\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x82\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x82\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x82\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x82\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x82\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x82\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x82\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x82\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x82\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x82\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x82\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x82\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x82\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x82\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x82\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x82\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x82\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x82\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x82\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x82\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x82\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x82\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x82\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x82\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x82\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x82\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x82\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x82\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x82\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x82\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x82\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// no roman - Hiragana
+    "\x82\xbf",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x82\xb1",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x82\xbb",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x82\xb5",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x82\xa2",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x82\xcd",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x82\xab",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x82\xad",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x82\xc9",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x82\xdc",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x82\xcc",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x82\xe8",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x82\xe0",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x82\xdd",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x82\xe7",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x82\xb9",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x82\xbd",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x82\xb7",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x82\xc6",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x82\xa9",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x82\xc8",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x82\xd0",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x82\xc4",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x82\xb3",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x82\xf1",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x82\xc2",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x82\xbf",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x82\xb1",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x82\xbb",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x82\xb5",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x82\xa1",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x82\xcd",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x82\xab",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x82\xad",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x82\xc9",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x82\xdc",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x82\xcc",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x81\x92",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x82\xe0",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x82\xdd",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x81\x91",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x81\x77",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x82\xbd",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x82\xb7",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x82\xc6",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x82\xa9",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x82\xc8",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x82\xd0",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x82\xc4",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x82\xb3",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x82\xf1",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x82\xc1",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+
+    "\x82\x60",  IDM_DICTCPY       , ASCII , CONTROL
+    "\x82\x61",  IDM_DICTCPY + 1   , ASCII , CONTROL
+    "\x82\x62",  IDM_DICTCPY + 2   , ASCII , CONTROL
+    "\x82\x63",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x82\x64",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x82\x65",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x82\x66",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x82\x67",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x82\x68",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x82\x69",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x82\x6a",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x82\x6b",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x82\x6c",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x82\x6d",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x82\x6e",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x82\x6f",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x82\x70",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x82\x71",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x82\x72",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x82\x73",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x82\x74",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x82\x75",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x82\x76",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x82\x77",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x82\x78",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x82\x79",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x82\x60",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x82\x61",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x82\x62",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x82\x63",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x82\x64",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x82\x65",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x82\x66",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x82\x67",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x82\x68",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x82\x69",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x82\x6a",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x82\x6b",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x82\x6c",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x82\x6d",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x82\x6e",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x82\x6f",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x82\x70",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x82\x71",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x82\x72",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x82\x73",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x82\x74",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x82\x75",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x82\x76",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x82\x77",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x82\x78",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x82\x79",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+
+// no roman - Katakana DBCS
+    "\x83\x60",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x83\x52",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x83\x5c",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x83\x56",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x83\x43",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x83\x6e",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x83\x4c",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x83\x4e",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x83\x6a",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x83\x7d",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x83\x6d",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x83\x8a",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x83\x82",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x83\x7e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x83\x89",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x83\x5a",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x83\x5e",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x83\x58",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x83\x67",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x83\x4a",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x83\x69",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x83\x71",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x83\x65",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x83\x54",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x83\x93",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x83\x63",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x83\x60",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x83\x52",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x83\x5c",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x83\x56",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x83\x42",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x83\x6e",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x83\x4c",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x83\x4e",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x83\x6a",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x83\x7d",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x83\x6d",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x81\x92",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x83\x82",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x83\x7e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x81\x91",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x81\x77",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x83\x5e",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x83\x58",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x83\x67",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x83\x4a",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x83\x69",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x83\x71",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x83\x65",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x83\x54",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x83\x93",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x83\x62",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+
+
+// Roman
+    "\x86\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x86\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x86\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x86\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x86\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x86\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x86\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x86\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x86\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x86\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x86\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x86\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x86\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x86\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x86\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x86\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x86\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x86\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x86\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x86\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x86\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x86\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x86\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x86\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x86\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x86\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x86\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x86\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x86\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x86\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x86\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x86\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x86\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x86\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x86\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x86\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x86\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x86\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x86\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x86\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x86\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x86\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x86\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x86\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x86\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x86\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x86\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x86\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x86\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x86\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x86\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x86\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Hanja
+    "\x87\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x87\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x87\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x87\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x87\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x87\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x87\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x87\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x87\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x87\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x87\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x87\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x87\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x87\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x87\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x87\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x87\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x87\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x87\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x87\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x87\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x87\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x87\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x87\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x87\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x87\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x87\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x87\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x87\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x87\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x87\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x87\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x87\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x87\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x87\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x87\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x87\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x87\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x87\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x87\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x87\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x87\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x87\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x87\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x87\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x87\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x87\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x87\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x87\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x87\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x87\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x87\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Hangeul
+    "\x88\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x88\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x88\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x88\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x88\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x88\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x88\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x88\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x88\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x88\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x88\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x88\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x88\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x88\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x88\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x88\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x88\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x88\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x88\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x88\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x88\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x88\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x88\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x88\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x88\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x88\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x88\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x88\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x88\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x88\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x88\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x88\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x88\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x88\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x88\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x88\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x88\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x88\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x88\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x88\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x88\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x88\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x88\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x88\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x88\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x88\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x88\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x88\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x88\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x88\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x88\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x88\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Jamo
+    "\x89\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x89\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x89\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x89\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x89\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x89\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x89\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x89\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x89\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x89\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x89\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x89\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x89\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x89\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x89\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x89\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x89\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x89\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x89\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x89\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x89\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x89\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x89\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x89\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x89\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x89\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x89\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x89\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x89\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x89\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x89\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x89\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x89\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x89\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x89\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x89\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x89\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x89\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x89\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x89\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x89\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x89\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x89\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x89\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x89\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x89\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x89\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x89\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x89\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x89\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x89\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x89\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Hanzi
+    "\x8A\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x8A\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x8A\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x8A\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x8A\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x8A\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x8A\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x8A\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x8A\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x8A\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x8A\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x8A\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x8A\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x8A\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x8A\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x8A\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x8A\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x8A\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x8A\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x8A\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x8A\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x8A\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x8A\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x8A\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x8A\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x8A\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x8A\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x8A\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x8A\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x8A\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x8A\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x8A\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x8A\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x8A\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x8A\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x8A\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x8A\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x8A\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x8A\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x8A\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x8A\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x8A\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x8A\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x8A\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x8A\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x8A\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x8A\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x8A\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x8A\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x8A\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x8A\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x8A\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Tsangjye
+    "\x8C\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x8C\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x8C\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x8C\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x8C\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x8C\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x8C\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x8C\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x8C\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x8C\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x8C\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x8C\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x8C\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x8C\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x8C\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x8C\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x8C\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x8C\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x8C\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x8C\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x8C\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x8C\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x8C\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x8C\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x8C\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x8C\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x8C\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x8C\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x8C\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x8C\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x8C\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x8C\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x8C\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x8C\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x8C\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x8C\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x8C\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x8C\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x8C\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x8C\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x8C\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x8C\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x8C\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x8C\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x8C\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x8C\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x8C\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x8C\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x8C\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x8C\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x8C\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x8C\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// Phonetic
+    "\x8D\x81",  IDM_DICTCPY       , ASCII, CONTROL
+    "\x8D\x82",  IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\x8D\x83",  IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\x8D\x84",  IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\x8D\x85",  IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\x8D\x86",  IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\x8D\x87",  IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\x8D\x88",  IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\x8D\x89",  IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\x8D\x8a",  IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\x8D\x8b",  IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\x8D\x8c",  IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\x8D\x8d",  IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\x8D\x8e",  IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\x8D\x8f",  IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\x8D\x90",  IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\x8D\x91",  IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\x8D\x92",  IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\x8D\x93",  IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\x8D\x94",  IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\x8D\x95",  IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\x8D\x96",  IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\x8D\x97",  IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\x8D\x98",  IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\x8D\x99",  IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\x8D\x9a",  IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\x8D\x81",  IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\x8D\x82",  IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\x8D\x83",  IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\x8D\x84",  IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\x8D\x85",  IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\x8D\x86",  IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\x8D\x87",  IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\x8D\x88",  IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\x8D\x89",  IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\x8D\x8a",  IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\x8D\x8b",  IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+    "\x8D\x8c",  IDM_DICTCPY + 37  , ASCII, CONTROL | SHIFT
+    "\x8D\x8d",  IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\x8D\x8e",  IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+    "\x8D\x8f",  IDM_DICTCPY + 40  , ASCII, CONTROL | SHIFT
+    "\x8D\x90",  IDM_DICTCPY + 41  , ASCII, CONTROL | SHIFT
+    "\x8D\x91",  IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\x8D\x92",  IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\x8D\x93",  IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\x8D\x94",  IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\x8D\x95",  IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\x8D\x96",  IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\x8D\x97",  IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\x8D\x98",  IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\x8D\x99",  IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\x8D\x9a",  IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// single byte (kana)
+    "\xc1",      IDM_DICTCPY       , ASCII, CONTROL
+    "\xba",      IDM_DICTCPY + 1   , ASCII, CONTROL
+    "\xbf",      IDM_DICTCPY + 2   , ASCII, CONTROL
+    "\xbc",      IDM_DICTCPY + 3   , ASCII, CONTROL
+    "\xb2",      IDM_DICTCPY + 4   , ASCII, CONTROL
+    "\xca",      IDM_DICTCPY + 5   , ASCII, CONTROL
+    "\xb7",      IDM_DICTCPY + 6   , ASCII, CONTROL
+    "\xb8",      IDM_DICTCPY + 7   , ASCII, CONTROL
+    "\xc6",      IDM_DICTCPY + 8   , ASCII, CONTROL
+    "\xcf",      IDM_DICTCPY + 9   , ASCII, CONTROL
+    "\xc9",      IDM_DICTCPY + 10  , ASCII, CONTROL
+    "\xd8",      IDM_DICTCPY + 11  , ASCII, CONTROL
+    "\xd3",      IDM_DICTCPY + 12  , ASCII, CONTROL
+    "\xd0",      IDM_DICTCPY + 13  , ASCII, CONTROL
+    "\xd7",      IDM_DICTCPY + 14  , ASCII, CONTROL
+    "\xbe",      IDM_DICTCPY + 15  , ASCII, CONTROL
+    "\xc0",      IDM_DICTCPY + 16  , ASCII, CONTROL
+    "\xbd",      IDM_DICTCPY + 17  , ASCII, CONTROL
+    "\xc4",      IDM_DICTCPY + 18  , ASCII, CONTROL
+    "\xb6",      IDM_DICTCPY + 19  , ASCII, CONTROL
+    "\xc5",      IDM_DICTCPY + 20  , ASCII, CONTROL
+    "\xcb",      IDM_DICTCPY + 21  , ASCII, CONTROL
+    "\xc3",      IDM_DICTCPY + 22  , ASCII, CONTROL
+    "\xbb",      IDM_DICTCPY + 23  , ASCII, CONTROL
+    "\xdd",      IDM_DICTCPY + 24  , ASCII, CONTROL
+    "\xc2",      IDM_DICTCPY + 25  , ASCII, CONTROL
+
+    "\xc1",      IDM_DICTCPY + 26  , ASCII, CONTROL | SHIFT
+    "\xba",      IDM_DICTCPY + 27  , ASCII, CONTROL | SHIFT
+    "\xbf",      IDM_DICTCPY + 28  , ASCII, CONTROL | SHIFT
+    "\xbc",      IDM_DICTCPY + 29  , ASCII, CONTROL | SHIFT
+    "\xa8",      IDM_DICTCPY + 30  , ASCII, CONTROL | SHIFT
+    "\xca",      IDM_DICTCPY + 31  , ASCII, CONTROL | SHIFT
+    "\xb7",      IDM_DICTCPY + 32  , ASCII, CONTROL | SHIFT
+    "\xb8",      IDM_DICTCPY + 33  , ASCII, CONTROL | SHIFT
+    "\xc6",      IDM_DICTCPY + 34  , ASCII, CONTROL | SHIFT
+    "\xcf",      IDM_DICTCPY + 35  , ASCII, CONTROL | SHIFT
+    "\xc9",      IDM_DICTCPY + 36  , ASCII, CONTROL | SHIFT
+//  "\xd8",      IDM_DICTCPY + 37  , CHAR, CONTROL | SHIFT
+    "\xd3",      IDM_DICTCPY + 38  , ASCII, CONTROL | SHIFT
+    "\xd0",      IDM_DICTCPY + 39  , ASCII, CONTROL | SHIFT
+//  "\xd7",      IDM_DICTCPY + 40  , CHAR, CONTROL | SHIFT
+//  "\xbe",      IDM_DICTCPY + 41  , CHAR, CONTROL | SHIFT
+    "\xc0",      IDM_DICTCPY + 42  , ASCII, CONTROL | SHIFT
+    "\xbd",      IDM_DICTCPY + 43  , ASCII, CONTROL | SHIFT
+    "\xc4",      IDM_DICTCPY + 44  , ASCII, CONTROL | SHIFT
+    "\xb6",      IDM_DICTCPY + 45  , ASCII, CONTROL | SHIFT
+    "\xc5",      IDM_DICTCPY + 46  , ASCII, CONTROL | SHIFT
+    "\xcb",      IDM_DICTCPY + 47  , ASCII, CONTROL | SHIFT
+    "\xc3",      IDM_DICTCPY + 48  , ASCII, CONTROL | SHIFT
+    "\xbb",      IDM_DICTCPY + 49  , ASCII, CONTROL | SHIFT
+    "\xdd",      IDM_DICTCPY + 50  , ASCII, CONTROL | SHIFT
+    "\xaf",      IDM_DICTCPY + 51  , ASCII, CONTROL | SHIFT
+// ctrl-shift OLP returns 0000, not the values specified above
+// hence the entries are disabled
+
+
+#else
+    "0",        IDM_PROPCPY + 0, VIRTKEY, CONTROL
+    "1",        IDM_PROPCPY + 1, VIRTKEY, CONTROL
+    "2",        IDM_PROPCPY + 2, VIRTKEY, CONTROL
+    "3",        IDM_PROPCPY + 3, VIRTKEY, CONTROL
+    "4",        IDM_PROPCPY + 4, VIRTKEY, CONTROL
+    "5",        IDM_PROPCPY + 5, VIRTKEY, CONTROL
+    "6",        IDM_PROPCPY + 6, VIRTKEY, CONTROL
+    "7",        IDM_PROPCPY + 7, VIRTKEY, CONTROL
+    "8",        IDM_PROPCPY + 8, VIRTKEY, CONTROL
+    "9",        IDM_PROPCPY + 9, VIRTKEY, CONTROL
+    VK_ADD,        IDM_HOTPOPUP   , VIRTKEY, ALT
+#endif
+END
+
+#ifndef _WINDOWS
+ID_MAINACCEL ACCELERATORS LOADONCALL MOVEABLE DISCARDABLE 
+BEGIN
+    " ",         SC_SYSMENU,     ASCII,       ALT, 
+    VK_F4,       SC_CLOSE,       VIRTKEY, ALT, 
+    VK_F5,       SC_RESTORE,     VIRTKEY, ALT, 
+    VK_F6,       SC_NEXT,        VIRTKEY, ALT, 
+    VK_F7,       SC_MOVE,        VIRTKEY, ALT, 
+    VK_F8,       SC_SIZE,        VIRTKEY, ALT, 
+    VK_F9,       SC_MINIMIZE,    VIRTKEY, ALT, 
+    VK_F10,      SC_MAXIMIZE,    VIRTKEY, ALT, 
+END
+
+#endif

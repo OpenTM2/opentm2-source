@@ -1,0 +1,213 @@
+// Copyright (c) 1996-2013, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Sep 2004
+// --RJ: delete unused ifndef _WIN32BIT, ifndef DBCS
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFTIMP.DVG   1.1   29 Sep 1998 07:35:14   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFTIMP.DVG  $
+ * 
+ *    Rev 1.1   29 Sep 1998 07:35:14   BUILD
+ * - enlarged dialog for the display of 3 x 9 drive icons
+ *
+ *    Rev 1.0   09 Jan 1996 10:11:58   BUILD
+ * Initial revision.
+*/
+
+ID_TAGIMP_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  0, 0, 275, 263
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_TIMP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_TIMP_FORMAT_GB, ID_TAGIMP_FORMAT_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 2, 262, 28
+  CONTROL STR_TIMP_ASCII_RB, ID_TAGIMP_ASCII_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    12, 14, 95, 12
+
+  CONTROL STR_TIMP_INTERNAL_RB, ID_TAGIMP_INTERNAL_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE | WS_TABSTOP,
+    118, 14, 95, 12
+  CONTROL STR_TIMP_IMPORT_GB, ID_TAGIMP_IMPORT_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 32, 262, 157
+
+  CONTROL "", ID_TAGIMP_DUMMY, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP,
+    11, 40, 24, 12
+  CONTROL STR_TIMP_FILENAME_TEXT, ID_TAGIMP_FILENAME_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 88, 43, 9
+
+  CONTROL "", ID_TAGIMP_PATH_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_VISIBLE | WS_TABSTOP,
+    50, 87, 158, 12
+  CONTROL STR_TIMP_CURRENTDIR_TEXT, ID_TAGIMP_CURRENTDIR_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 107, 81, 9
+
+  CONTROL "", ID_TAGIMP_NEWCURRENTDIR_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    95, 107, 115, 9
+  CONTROL STR_TIMP_DIR_TEXT, ID_TAGIMP_DIR_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 125, 95, 9
+
+  CONTROL "", ID_TAGIMP_DIR_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_TABSTOP,
+    12, 136, 95, 48
+  CONTROL STR_TIMP_FILES_TEXT, ID_TAGIMP_FILES_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    115, 125, 95, 9
+
+  CONTROL "", ID_TAGIMP_FILES_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_TABSTOP,
+    115, 136, 95, 48
+
+  CONTROL STR_TIMP_TO_TEXT, ID_TAGIMP_TO_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 196, 102, 9
+  CONTROL "", ID_TAGIMP_TO_LB, 
+    COMBOBOX,
+    CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_VISIBLE,
+    115, 195, 102, 33
+
+
+  CONTROL STR_TIMP_TO_PLUGIN_TEXT, ID_TAGIMP_TO_PLUGIN_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 209, 102, 9
+  CONTROL STR_TIMP_TO_PLUGIN_TEXT2, ID_TAGIMP_TO_PLUGIN_TEXT2, 
+    STATIC,   
+    SS_LEFT | WS_VISIBLE,
+    115, 209, 102, 33
+
+  CONTROL STR_TIMP_OK_PB, ID_TAGIMP_OK_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE | WS_TABSTOP,
+    23, 243, 56, 15
+  CONTROL STR_TIMP_CANCEL_PB, ID_TAGIMP_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    126, 243, 38, 15
+  CONTROL STR_TIMP_HELP_PB, ID_TAGIMP_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    211, 243, 38, 15
+END

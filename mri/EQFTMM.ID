@@ -1,0 +1,223 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.4 $ ----------- 7 Aug 2000
+// - added ID for mflag submenu
+// 
+//
+// $Revision: 1.3 $ ----------- 27 Jul 2000
+// -- added IDs for manipulation of M-flags
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFTMM.IV_   1.6   07 Dec 1998 10:41:26   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFTMM.IV_  $
+ *
+ *    Rev 1.6   07 Dec 1998 10:41:26   BUILD
+ * -- add ID_TMM_LASTABB
+ *
+ *    Rev 1.5   25 Mar 1996 10:17:00   BUILD
+ * - added string IDs for status bar prompts
+ *
+ *    Rev 1.4   18 Mar 1996 16:39:12   BUILD
+ * - added ID for toggle window menu item
+ *
+ *    Rev 1.2   11 Mar 1996 10:17:42   BUILD
+ * - correct IDs of main AAB items when used under Windows
+ *
+ *    Rev 1.1   12 Feb 1996 10:26:46   BUILD
+ * - added IDs for month names
+ *
+ *    Rev 1.0   09 Jan 1996 10:14:18   BUILD
+ * Initial revision.
+*/
+//////////////////////////////////////////////////////////////////////
+// EQFTMM.ID IDs used in TM Maintain Window
+//////////////////////////////////////////////////////////////////////
+
+
+#define ID_TMM_ABB_FILE             ID_TMM_WINDOW + 1
+#define ID_TMM_EXIT                 ID_TMM_WINDOW + 2
+#define ID_TMM_SAVE                 ID_TMM_WINDOW + 3
+#define ID_TMM_NEXT                 ID_TMM_WINDOW + 4
+#define ID_TMM_PREVIOUS             ID_TMM_WINDOW + 5
+#define ID_TMM_SRCDOC               ID_TMM_WINDOW + 6
+#define ID_TMM_TGTDOC               ID_TMM_WINDOW + 7
+#define ID_TMM_ABB_EDIT             ID_TMM_WINDOW + 8
+#define ID_TMM_FIND                 ID_TMM_WINDOW + 9
+#define ID_TMM_CUT                  ID_TMM_WINDOW + 10
+#define ID_TMM_COPY                 ID_TMM_WINDOW + 11
+#define ID_TMM_PASTE                ID_TMM_WINDOW + 12
+#define ID_TMM_JOIN                 ID_TMM_WINDOW + 13
+#define ID_TMM_SPLIT                ID_TMM_WINDOW + 14
+#define ID_TMM_UNMARK               ID_TMM_WINDOW + 15
+#define ID_TMM_DELETE               ID_TMM_WINDOW + 16
+#define ID_TMM_DEL_ALL              ID_TMM_WINDOW + 17
+#define ID_TMM_DEL_CUR              ID_TMM_WINDOW + 18
+#define ID_TMM_ABB_OPTIONS          ID_TMM_WINDOW + 19
+#define ID_TMM_FONTCOL              ID_TMM_WINDOW + 20
+#define ID_TMM_FONTSIZES            ID_TMM_WINDOW + 21
+#define ID_TMM_ARRANGE              ID_TMM_WINDOW + 22
+#define ID_TMM_HORIZONTAL           ID_TMM_WINDOW + 23
+#define ID_TMM_VERTICAL             ID_TMM_WINDOW + 24
+#define ID_TMM_SPELLCHECK           ID_TMM_WINDOW + 25
+#define ID_TMM_PROOFALL             ID_TMM_WINDOW + 26
+#define ID_TMM_PROOFSEG             ID_TMM_WINDOW + 27
+#define ID_TMM_ABB_STYLE            ID_TMM_WINDOW + 28
+#define ID_TMM_PROTECT              ID_TMM_WINDOW + 29
+#define ID_TMM_UNPROTECT            ID_TMM_WINDOW + 30
+#define ID_TMM_HIDE                 ID_TMM_WINDOW + 31
+#define ID_TMM_COMPACT              ID_TMM_WINDOW + 32
+#define IDS_TMM_SOURCEFILE          ID_TMM_WINDOW + 33
+#define IDS_TMM_TARGETFILE          ID_TMM_WINDOW + 34
+#define IDS_TMM_TITLE               ID_TMM_WINDOW + 35
+#define ID_TMM_UNDO                 ID_TMM_WINDOW + 36
+
+#define IDS_TMM_MONTH01             ID_TMM_WINDOW + 37
+#define IDS_TMM_MONTH02             ID_TMM_WINDOW + 38
+#define IDS_TMM_MONTH03             ID_TMM_WINDOW + 39
+#define IDS_TMM_MONTH04             ID_TMM_WINDOW + 40
+#define IDS_TMM_MONTH05             ID_TMM_WINDOW + 41
+#define IDS_TMM_MONTH06             ID_TMM_WINDOW + 42
+#define IDS_TMM_MONTH07             ID_TMM_WINDOW + 43
+#define IDS_TMM_MONTH08             ID_TMM_WINDOW + 44
+#define IDS_TMM_MONTH09             ID_TMM_WINDOW + 45
+#define IDS_TMM_MONTH10             ID_TMM_WINDOW + 46
+#define IDS_TMM_MONTH11             ID_TMM_WINDOW + 47
+#define IDS_TMM_MONTH12             ID_TMM_WINDOW + 48
+#define ID_TMM_TOGGLEDOC            ID_TMM_WINDOW + 49
+#define ID_TMM_SETM_ALL             ID_TMM_WINDOW + 50
+#define ID_TMM_SETM_CUR             ID_TMM_WINDOW + 51
+#define ID_TMM_DELM_ALL             ID_TMM_WINDOW + 52
+#define ID_TMM_DELM_CUR             ID_TMM_WINDOW + 53
+#define ID_TMM_MFLAG                ID_TMM_WINDOW + 54
+// id's higher than ID_TMM_LASTABB are not supported
+// to add ID's increase ID_TMM_LASTABB accordingly
+#define ID_TMM_LASTAAB              ID_TMM_WINDOW + 55
+
+
+#define IDS_TMM_STATUSPROMPT        ID_TMM_STATUSBAR + 10
+#define IDS_TMM_DOCPROMPT           ID_TMM_STATUSBAR + 11
+#define IDS_TMM_DATEPROMPT          ID_TMM_STATUSBAR + 12
+#define IDS_TMM_CURPROMPT           ID_TMM_STATUSBAR + 13
+#define IDS_TMM_TOTALPROMPT         ID_TMM_STATUSBAR + 14
+#define IDS_TMM_COMPLPROMPT         ID_TMM_STATUSBAR + 15
+
+#define IDS_TMM_SEARCHSTATE         ID_TMM_STATUSBAR + 16
+#define IDS_TMM_DELETESTATE         ID_TMM_STATUSBAR + 17
+#define IDS_TMM_QUERYSTATE          ID_TMM_STATUSBAR + 18
+#define IDS_TMM_WORKSTATE           ID_TMM_STATUSBAR + 19
+
+/**********************************************************************/
+/* under windows our main AAB items start from 0 and are numbered...  */
+/**********************************************************************/
+#ifdef _WINDOWS
+  #undef  ID_TMM_ABB_FILE
+  #undef  ID_TMM_ABB_EDIT
+  #undef  ID_TMM_ABB_OPTIONS
+  #undef  ID_TMM_ABB_STYLE
+
+  #define ID_TMM_ABB_FILE             0
+  #define ID_TMM_ABB_EDIT             1
+  #define ID_TMM_ABB_OPTIONS          2
+  #define ID_TMM_ABB_STYLE            3
+#endif

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE msg PUBLIC "-//IBM//DTD DITA Message Reference//EN" "msgRef.dtd">
+<msg id="asn0105i" xml:lang="en-us" class="- topic/topic reference/reference msg/msg ">
+<msgId class="- topic/title reference/title msg/msgId "><msgNumber class="- topic/ph reference/ph msg/msgNumber ">ASN0105I</msgNumber></msgId>
+<msgText class="- topic/shortdesc reference/shortdesc msg/msgText ">CAPTURE <varname outputclass="vartype=quotedString varnumber=1">capture_schema</varname>. <varname outputclass="vartype=quotedString varnumber=2">n</varname> rows have
+been pruned from the table <varname outputclass="vartype=quotedString varnumber=3">table_owner</varname>.<varname outputclass="vartype=quotedString varnumber=4">table_name</varname> at <varname outputclass="vartype=quotedString varnumber=5">timestamp</varname>.</msgText>
+<prolog translate="no">
+<metadata>
+<keywords><keyword>asn0105</keyword><keyword>asn105i</keyword><keyword>asn105</keyword></keywords></metadata></prolog>
+<msgBody class="- topic/body reference/refbody msg/msgBody ">
+<msgExplanation class="- topic/section reference/section msg/msgExplanation "><p>The Capture program pruned records from a CD, UOW, TRACE, MONITOR, or SIGNAL
+table.</p></msgExplanation>
+<msgUserResponse class="- topic/section reference/section msg/msgUserResponse "><p>This message is for your information only, and no action is required.</p></msgUserResponse></msgBody></msg>

@@ -1,0 +1,139 @@
+// Copyright (c) 2000-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 21 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 22 May 2000
+// - initial put
+// 
+//
+// $Revision$
+
+
+ID_SORT_DLG DIALOG DISCARDABLE  0, 0, 237, 161
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sort list items"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "1st sort key",-1,7,7,223,35,WS_GROUP
+    COMBOBOX        ID_SORT_KEY1_CB,14,17,99,58,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Ascending",ID_SORT_ASCENDING1_RB,"Button",
+                    BS_AUTORADIOBUTTON,136,15,92,10
+    CONTROL         "Descending",ID_SORT_DESCENDING1_RB,"Button",
+                    BS_AUTORADIOBUTTON,136,28,92,10
+
+    GROUPBOX        "2nd sort key",-1,7,48,223,35,WS_GROUP
+    COMBOBOX        ID_SORT_KEY2_CB,14,58,99,58,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Ascending",ID_SORT_ASCENDING2_RB,"Button",
+                    BS_AUTORADIOBUTTON,136,56,92,10
+    CONTROL         "Descending",ID_SORT_DESCENDING2_RB,"Button",
+                    BS_AUTORADIOBUTTON,136,69,92,10
+
+    GROUPBOX        "3rd sort key",-1,7,90,223,35,WS_GROUP
+    COMBOBOX        ID_SORT_KEY3_CB,14,100,99,58,CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Ascending",ID_SORT_ASCENDING3_RB,"Button",
+                    BS_AUTORADIOBUTTON,136,98,92,10
+    CONTROL         "Descending",ID_SORT_DESCENDING3_RB,"Button",
+                    BS_AUTORADIOBUTTON,136,111,92,10
+
+    DEFPUSHBUTTON   "Sort",ID_SORT_SORT_PB,24,140,50,14
+    PUSHBUTTON      "Cancel",ID_SORT_CANCEL_PB,93,140,50,14
+    CONTROL         "Help", PID_PB_HELP,
+                    EQFHELPBUTTON, WS_TABSTOP | WS_VISIBLE,
+                    162,140,50,14
+END

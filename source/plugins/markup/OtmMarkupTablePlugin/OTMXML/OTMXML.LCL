@@ -1,0 +1,60 @@
+* ............................................................... 
+*  Copyright (C) 1998-2013, International Business Machines       
+*        Corporation and others. All rights reserved              
+* ............................................................... 
+*
+* XML:LANG values based on TM language
+*
+*
+Afrikaans                 = af-za
+Arabic                    = ar-eg
+Belarusian                = be-by                          
+Bulgarian                 = bg-bg                          
+Catalan                   = ca-es                          
+Chinese(simpl.)           = zh-cn                          
+Chinese(trad.)            = zh-tw                          
+Croatian                  = hr-hr                          
+Czech                     = cs-cz                          
+Danish                    = da-dk                          
+Dutch(permissive)         = nl-nl                          
+Dutch(restrictive)        = nl-nl                          
+English(U.K.)             = en-gb                          
+English(U.S.)             = en-us                          
+Estonian                  = et-ee                          
+Finnish                   = fi-fi                          
+French(Canadian)          = fr-ca                          
+French(national)          = fr-fr                          
+German(DPAnat)            = de-de                          
+German(national)          = de-de                          
+German(newnat)            = de-de                          
+German(reform)            = de-de                          
+German(Swiss)             = de-ch                          
+Greek                     = el-gr                          
+Hebrew                    = he-il                          
+Hindi                     = hi-in                          
+Hungarian                 = hu-hu                          
+Icelandic                 = is-is                          
+Indonesian                = id-id                          
+Italian                   = it-it                          
+Japanese                  = ja-jp                          
+Kazakh                    = kz-kz                          
+Korean                    = ko-kr                          
+Latvian                   = lv-lv                          
+Lithuanian                = lt-lt                          
+Macedonian                = mk-mk                          
+Norwegian(bokmal)         = no-no                          
+Norwegian(nynorsk)        = no-no                          
+Polish                    = pl-pl                          
+Portuguese(Brasil)        = pt-br                          
+Portuguese(nat.)          = pt-pt                          
+Romanian                  = ro-ro                          
+Russian                   = ru-ru                          
+Serbian(Cyrillic)         = sr-sp                          
+Slovakian                 = sk-sk                          
+Slovene                   = sl-si                          
+Spanish                   = es-es                          
+Swedish                   = sv-se                          
+Thai                      = th-th                          
+Turkish                   = tr-tr                          
+Ukrainian                 = uk-ua                          
+Urdu                      = ur-pk                          

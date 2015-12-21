@@ -1,0 +1,34 @@
+//
+//  OtmCleanupPlugin.ID - IDs used by clean up tool
+//
+//  Copyright Notice:                           
+//
+//      Copyright (C) 1990-2014, International Business Machines
+//      Corporation and others. All rights reserved
+//
+
+#include <windows.h>
+#include <commctrl.h>
+#include <richedit.h>
+#include "OtmCleanupPlugin.id"
+
+LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US
+
+ID_CLEANUP_DIALOG DIALOGEX DISCARDABLE 6, 18, 600, 320
+STYLE DS_MODALFRAME|DS_3DLOOK|WS_THICKFRAME|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_VISIBLE
+CAPTION "Remove temporary files"
+FONT 8, "MS Sans Serif", 0, 0, 1
+BEGIN
+  CONTROL "Temporary files being deleted", -1, "Static", 0, 8, 4, 100, 12
+  CONTROL "", ID_CLEANUP_TREE, "SYSTREEVIEW32", WS_TABSTOP | WS_BORDER | TVS_CHECKBOXES, 4, 18, 540, 242
+  CONTROL "Delete\nselected\nfiles", ID_CLEANUP_DELETE, "Button", BS_MULTILINE | WS_TABSTOP, 550, 20, 40, 48
+  CONTROL "Cancel", ID_CLEANUP_CANCEL, "Button", WS_TABSTOP, 550, 74, 40, 16
+  CONTROL "Select All", ID_CLEANUP_SELECTALL, "Button", WS_TABSTOP, 140, 260, 70, 16
+  CONTROL "Deselect All", ID_CLEANUP_DESELECTALL, "Button", WS_TABSTOP, 340, 260, 70, 16
+  CONTROL "Number of selected files:", -1, "Static", 0, 10, 284, 120, 14
+  CONTROL "", ID_CLEANUP_FILES, "Static", SS_CENTER | WS_BORDER, 130, 282, 70, 16
+  CONTROL "Total size of selected files:", -1, "Static", 0, 10, 304, 120, 14
+  CONTROL "", ID_CLEANUP_SIZE, "Static", SS_CENTER | WS_BORDER, 130, 302, 70, 16
+END
+
+

@@ -1,0 +1,9 @@
+/* EQFITM.RC - Icon resource file for ITM.EXE                             */
+/* Copyright Notice:                                                      */
+/*                                                                        */
+/*      Copyright (C) 1990-2012, International Business Machines          */
+/*      Corporation and others. All rights reserved                       */
+
+#include "eqf.id"
+
+EQFITM_ICON ICON     EQFITMW.ICO

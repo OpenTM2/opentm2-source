@@ -1,0 +1,519 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFSTART.MRI - MRI for TWB window and dialogs                             |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2015, International Business Machines           |
+  |      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+*/
+
+#define STR_INSTALL_ERROR "OpenTM2 is not installed correctly. \
+Please re-install the system."
+#define STR_INSTALL_ERROR_TITLE "Fatal Error"
+
+#define STR_HELPEXEC_ERR         "Help Terminated Due to Error"
+#define STR_HELPCREATION_ERR     "Help Creation Error"
+#define STR_HELPNOT_AVAILABLE    "Help Not Available"
+#define STR_HELPWINDOW_TITLE     "Help for OpenTM2"
+
+/**********************************************************************/
+/* add defines in case our error file could not be loaded or message  */
+/* could not be found                                                 */
+/**********************************************************************/
+#ifdef _WINDOWS
+/*********************************************************************/
+/* substitution parameters are as follows for the next 3 msgs:       */
+/*   %1 filename of message file                                     */
+/*   %2 message number                                               */
+/*********************************************************************/
+ #define STR_MSGF_FILE_NOT_FOUND "Message file %1 cannot be found."
+ #define STR_MSGF_MSGNUM_INV     "The system cannot find message %2 in message file %1."
+ #define STR_MSGF_FILEFORM_INV   "The system cannot read message file %1."
+#endif
+
+
+// text displayed in folder list titlebar
+#define STR_FLLI_TITLE           "Folder List"
+#define STR_FLLI_ROOT            "Folder List"
+
+// text for the folder list column titles
+#define STR_FLL_NAME_COLTITLE     "Name"
+#define STR_FLL_DESCR_COLTITLE    "Description"
+#define STR_FLL_DATE_COLTITLE     "Updated"
+#define STR_FLL_MEM_COLTITLE      "TransMem"
+#define STR_FLL_FORMAT_COLTITLE   "Markup"
+#define STR_FLL_DRIVE_COLTITLE    "Drive"
+#define STR_FLL_DICT_COLTITLE     "Dict."
+#define STR_FLL_EDIT_COLTITLE     "Editor"
+#define STR_FLL_SOURCE_COLTITLE   "Source Language"
+#define STR_FLL_TARGET_COLTITLE   "Target Language"
+#define STR_FLL_DICTLIST_COLTITLE "Dictionaries"
+#define STR_FLL_MEMLIST_COLTITLE  "Search Translation Memory"
+
+// text for the document list column titles
+#define STR_FOL_NAME_COLTITLE     "Name"
+#define STR_FOL_TRANSL_COLTITLE   "Transl."
+#define STR_FOL_ANAL_COLTITLE     "Analyzed"
+#define STR_FOL_EXP_COLTITLE      "Exported"
+#define STR_FOL_IMP_COLTITLE      "Imported"
+#define STR_FOL_UPD_COLTITLE      "Updated [Date]"
+#define STR_FOL_UPDT_COLTITLE     "Updated"
+#define STR_FOL_SRC_COLTITLE      "Source [Date+Time]"
+#define STR_FOL_SIZE_COLTITLE     "Size"
+#define STR_FOL_COMPLETE_COLTITLE "Compl.%"
+#define STR_FOL_MODIFIED_COLTITLE "Changed"
+#define STR_FOL_SCRATCH_COLTITLE  "New"
+#define STR_FOL_COPIED_COLTITLE   "Copied"
+#define STR_FOL_SOURCE_COLTITLE   "Source Language"
+#define STR_FOL_TARGET_COLTITLE   "Target Language"
+#define STR_FOL_FORMAT_COLTITLE   "Markup"
+#define STR_FOL_MEMORY_COLTITLE   "TransMem"
+#define STR_FOL_EDIT_COLTITLE     "Editor"
+#define STR_FOL_ALIAS_COLTITLE     "Alias"
+#define STR_FOL_TRANSLATOR_COLTITLE "Translator"
+#define STR_FOL_NAMEWOPATH_COLTITLE "Name without path"
+#define STR_FOL_EXTENSION_COLTITLE  "Extension"
+#define STR_FOL_SHIPMENT_COLTITLE  "Shipment"
+
+#define STR_FOLI_TITLE           "Document List: "
+
+#define STR_DOCI_TITLE           "Document "
+
+// text strings of AAB items (_SM_) and AAB pulldowns (_SM_)
+#define STR_TWBM_SM_FILE         "&File"
+#define STR_TWBM_SM_VIEW         "&View"
+#define STR_TWBM_SM_TERMINOLOGY  "&Terminology"
+#define STR_TWBM_SM_UTILITIES    "&Utilities"
+#define STR_TWBM_SM_WINDOWS      "&Window"
+#define STR_TWBM_SM_HELP         "&Help"
+#define STR_TWBM_SM_PLUGINS      "Plugins"
+
+
+//
+// File Menue
+//
+
+
+#define STR_FILE_MI_OPEN         "&Open"
+#define STR_FILE_MI_NEW          "&New..."
+#define STR_FILE_MI_PROPERTIES   "P&roperties"
+#define STR_FILE_MI_HTMLPROPS    "Properties S&ummary"
+#define STR_FILE_MI_DELETE       "&Delete"
+   #define STR_FILE_MI_KILL         "Kill"
+#define STR_FILE_MI_RENAME       "Rename O&bject..."
+   #define STR_FILE_MI_MOVE         "Move..."
+#define STR_FILE_MI_MERGE        "&Merge..."
+#define STR_FILE_MI_ORGANIZE     "Or&ganize"
+#define STR_FILE_MI_PRINT        "&Print..."
+#define STR_FILE_MI_PRINTLIST    "Prin&t List..."
+#define STR_FILE_MI_SYSPROP      "S&ystem Preferences"
+   #define STR_FILE_MI_RECOVER      "Recover"
+#define STR_FILE_MI_ANALYZE      "&Analyze..."
+#define STR_FILE_MI_EXPORT       "&Export..."
+#define STR_FILE_MI_IMPORT       "&Import..."
+#define STR_FILE_MI_SELECTALL    "&Select All"
+#define STR_FILE_MI_DESELECTALL  "Dese&lect All"
+#define STR_FILE_MI_FINDCHANGE   "Global &Find and Replace..."
+#define STR_FILE_MI_FUZZYSEARCH  "Fuzzy Segment Search..."
+#define STR_FILE_MI_COPY         "Copy"
+#define STR_FILE_MI_CUT          "Cut"
+#define STR_FILE_MI_PASTE        "Paste"
+#define STR_FILE_MI_EXIT         "E&xit"
+
+//
+// Help Menue
+//
+
+
+#define STR_HELP_MI_HELPFORHELP  "&Help for Help..."
+#define STR_HELP_MI_EXTENDEDHELP "&Extended Help..."
+#define STR_HELP_MI_KEYSHELP     "&Keys Help..."
+#define STR_HELP_MI_HELPINDEX    "Help &Index..."
+     #define STR_HELP_MI_TUTORIAL     "&Tutorial..."
+#define STR_FILE_MI_EBUS         "Home&page"
+#define STR_FILE_MI_EBUS1        "&Documentation (PDF)"
+#define STR_HELP_MI_PRODUCTINFO  "&Product Information..."
+
+
+//
+// View Menue
+//
+
+
+#define STR_VIEW_MI_NAMES        "&Name"
+#define STR_VIEW_MI_DETAILS      "&Details"
+#define STR_VIEW_MI_DETAILSDLG   "&Change Details..."
+#define STR_VIEW_MI_SOME         "&Filter..."
+#define STR_VIEW_MI_ALL          "Show &All"
+#define STR_VIEW_MI_SORT         "S&ort..."
+// start of 'Only used in Windows Version' section
+#define STR_VIEW_MI_TOOLBAR      "&Toolbar"
+#define STR_VIEW_MI_STATUSBAR    "&Statusbar"
+
+#define STR_VIEW_MI_SHRINKPATH   "Shrink Path"
+#define STR_VIEW_MI_HIDEPATH     "Hide Path"
+#define STR_VIEW_MI_SHOWPATH     "Show Path"
+
+
+// end of 'Only used in Windows Version' section
+
+
+//
+// Utilities Menue
+//
+
+
+
+#define STR_UTILS_MI_COUNT       "Count &Words..."
+#define STR_UTILS_MI_REPORT      "Create Counting &Report..."
+#define STR_UTILS_MI_TAGTABLE    "Display &Markup Table List"
+// new start
+#define STR_UTILS_MI_PLGINMGR    "Plugin Manager..."
+#define STR_UTILS_MI_ATOVERUP    "Auto Version Upgrade..."
+// new end
+#define STR_UTILS_MI_DRIVES      "Configure &Drives..."
+     #define STR_UTILS_MI_SERVLIST    "Maintain server list..."
+     #define STR_UTILS_MI_REMOTETM    "Include remote resources..."
+#define STR_UTILS_MI_DELEXPMAT   "Delete E&xported Folder..."
+#define STR_UTILS_MI_LNGUPDATE   "Display &Language List"
+#define STR_UTILS_MI_CONNECT     "C&onnect Shared Resources..."
+#define STR_UTILS_MI_ARCHTM      "&Build Archive Translation Memory..."
+#define STR_UTILS_SM_DELETERESTORE     "&Delete/Restore Documents based on a list"
+#define STR_UTILS_MI_DELETEDOCS   "&Delete Documents..."
+#define STR_UTILS_MI_RESTOREDOCS  "&Restore Deleted Documents"
+#define STR_TWBM_SM_TERMLISTS    "Display &Terminology Lists"
+#define STR_UTILS_MI_EXCLUSION   "&Exclusion Lists"
+#define STR_UTILS_MI_NOISE       "N&oise Lists"
+#define STR_UTILS_MI_NEWTERMS    "&New Terms Lists"
+#define STR_UTILS_MI_FOUNDTERMS  "&Found Terms Lists"
+     #define STR_UTILS_SM_PANELLANG   "&Panel language"
+#define STR_UTILS_MI_MT          "Display Machine Translation Job List"
+
+//
+// Windows Menue
+//
+
+
+#define STR_WIND_MI_MINALL       "&Minimize All"
+#define STR_WIND_MI_RESTOREALL   "&Restore All"
+
+// start of 'Only used in Windows Version' section
+#define STR_WIND_MI_TILE         "&Tile Windows"
+#define STR_WIND_MI_CASCADE      "&Cascade Windows"
+// end of 'Only used in Windows Version' section
+
+
+
+#ifdef _TLEX
+ #define STR_TWB_TOOLBAR          "TL Workbench"
+ #define STR_TPRO_TOOLBAR         "DB Workbench"
+#else
+ #define STR_TWB_TOOLBAR          "&Workbench"
+ #define STR_TPRO_TOOLBAR         "&Translation Environment"
+#endif
+
+#define STR_UTIL_MI_LOAD         "&Load"
+
+#define STR_TWBM_SM_TQM          "TQM"
+#define STR_TQM_MI_LOGON         "&Logon..."
+#define STR_TQM_MI_LOGOFF        "Log&off..."
+#define STR_TQM_MI_USER          "User Profiles..."
+#define STR_TQM_MI_EVALUATION    "Evaluation Profiles..."
+#define STR_TQM_MI_VENDOR        "Translation Company List..."
+#define STR_TQM_MI_REPORTS       "&Reports..."
+#define STR_TQM_MI_PROJECTS      "&Project list"
+#define STR_TQM_MI_SETTINGS      "&Settings ..."
+#define STR_TQM_MI_ARCHIVE       "Project &Archive ..."
+#define STR_TQM_MI_NETWORK       "Location for shared data ..."
+#define STR_TQM_MI_MERGE         "&Move to/from project archive ..."
+
+//----- title of dictionary window ------
+#define STR_DICT_TITLE           "Dictionary List"
+
+//----- title of document window (window containing editor windows) ------
+#define STR_DOCWND_TITLE         "Translation Environment: %1 (%2)"
+
+//----- title of tagtable window ------
+#define STR_TAGTABLE_TITLE       "Markup Table List"
+
+#define STR_PB_OK                "OK"
+#define STR_PB_HELP              "Help"
+#define STR_PB_CANCEL            "Cancel"
+#define STR_PB_NEW               "New"
+#define STR_PB_INFO              "Info..."
+
+/******************* strings for Mat Logo dialog box **************************/
+#define STR_LOGO_TITLE           "Product Information"
+
+/* title for Mat Logo dialog box */
+
+#define STR_LOGO_TITLELINE "OpenTM2 Community Edition"
+
+#define STR_LOGO_TITLELINE_LOGOS "e.Sense Memory"
+/* titleline for MAT Logo dialog box */
+
+ #define STR_LOGO_COPYRIGHT1 "5622-999"
+
+
+#define STR_LOGO_COPYRIGHT2_LOGOS "(C) Copyright Logos Corp. 1998 - 2000"
+
+#define STR_LOGO_COPYRIGHT2 "Copyright (C) 1994 - 2015,"
+#define STR_LOGO_COPYRIGHT3 "International Business Machines"
+#define STR_LOGO_COPYRIGHT4 "Corporation and others."
+#define STR_LOGO_COPYRIGHT5 "All rights reserved."
+
+
+
+#define STR_LOGO_TEXT1  STR_DRIVER_LEVEL
+#define STR_LOGO_TEXT2  STR_DRIVER_DATE
+#define STR_LOGO_EXPDATE ""
+/* lines of logo text area */
+
+/******************* strings for Drives Dialog      **************************/
+
+// title bar text of 'Drives' dialog panel
+   #define STR_TWBDRIVES_DLG         "Configure OpenTM2 Drives"
+
+// text of primary drive groupbox
+   #define STR_TWBDRIVES_PRIMDRIVE       "OpenTM2 main drive"
+
+// text of additional drives groupbox
+   #define STR_TWBDRIVES_ADDDRIVE       "Additional OpenTM2 drives"
+
+// name of 'Set' pushbutton
+   #define STR_TWBDRIVES_SET        "&Set"
+
+// name of 'Cancel' pushbutton
+   #define STR_TWBDRIVES_CANCEL     "Cancel"
+
+// name of 'Help' pushbutton
+   #define STR_TWBDRIVES_HELP       "Help"
+
+
+/******************* strings for service windows    **************************/
+
+  #define STR_NO_ENTRY              "- no entry available -"
+  #define STR_ENTRY_IN_USE          "*** Dictionary in use ***"
+  #define STR_PROP_TITLE            "Translation Memory: %1"
+  #define STR_DCT_TITLE             "Dictionary: %1"
+  #define STR_SRC_TITLE             "Source of Proposal(s)"
+  #define STR_TRNOTE_TITLE          "Translator's Note"
+  #define STR_PROP_DELETE           "Delete Proposal"
+
+// the following lines should NOT be CHANGED during translation
+  #define STR_START_FLAG            "["
+  #define STR_END_FLAG              "]"
+  #define STR_F_FLAG                "f"
+  #define STR_R_FLAG                "r"
+  #define STR_M_FLAG                "m"
+// end of lines NOT to be CHANGED during translation
+
+
+/**********************************************************************/
+/* Strings for filter control                                         */
+/**********************************************************************/
+// Filter control, groupbox title
+#define STR_FILTER_TITLE     "Filter"
+
+// Filter control, label of 'Use filter' checkbox
+#define STR_FILTER_CHECKBOX  "Use filter"
+
+// Filter control, label of 'Edit filter' pushbutton
+#define STR_FILTER_EDIT_PB   "E&dit..."
+
+// Filter control, label for filter name combobox
+#define STR_FILTER_NAME_TEXT              "Name:"
+
+// Filter control, label for filter description
+#define STR_FILTER_DESCR_TEXT           "Description:"
+
+/**********************************************************************/
+/* Strings for child window system menues                             */
+/**********************************************************************/
+#define STR_SYSMENU_RESTORE   "&Restore\tCtrl+F5"
+#define STR_SYSMENU_SWITCH    "Switch &window\tCtrl+F6"
+#define STR_SYSMENU_MOVE      "&Move\tCtrl+F7"
+#define STR_SYSMENU_SIZE      "&Size\tCtrl+F8"
+#define STR_SYSMENU_MINIMIZE  "Mi&nimize\tCtrl+F9"
+#define STR_SYSMENU_MAXIMIZE  "Ma&ximize\tCtrl+F10"
+
+#define STR_SYSMENU_CLOSE     "&Close\tCtrl+F4"
+
+/**********************************************************************/
+/* Strings for the 'Set destination' dialog                           */
+/**********************************************************************/
+#define STR_UTL_SETFILE_DLG_TITLE     "Select File"
+#define STR_UTL_SETFILE_SET_PB        "&Set"
+#define STR_UTL_SETFILE_CANCEL_PB     "Cancel"
+#define STR_UTL_SETFILE_HELP_PB       "Help"
+#define STR_UTL_SETFILE_GP            ""
+#define STR_UTL_SETFILE_NAME_TXT      "Name:"
+#define STR_UTL_SETFILE_DIR_TXT       "Directories"
+#define STR_UTL_SETFILE_FILES_TXT     "Files"
+#define STR_UTL_CURDIR_TXT            "Current directory:"
+#define STR_UTL_DIR_TXT               "Directories"
+
+/**********************************************************************/
+/* Strings for the 'yes-to-all' dialog/message box                    */
+/**********************************************************************/
+#define STR_UTL_YESTOALL_YES_PB       "&Yes"
+#define STR_UTL_YESTOALL_YESTOALL_PB  "Yes to &All"
+#define STR_UTL_YESTOALL_NO_PB        "&No"
+#define STR_UTL_YESTOALL_CANCEL_PB    "Cancel"
+#define STR_UTL_YESTOALL_HELP_PB      "Help"
+
+
+/******************* strings for Connect Dialog     **************************/
+
+// title bar text of 'Connect' dialog panel (when used for dictionaries)
+   #define STR_CONNECT_DIC_DLG         "Connect Shared Dictionaries"
+
+// title bar text of 'Connect' dialog panel (when used for TMs)
+   #define STR_CONNECT_TM_DLG          "Connect Shared Translation Memory databases"
+
+// label of 'Available' listbox
+   #define STR_CONNECT_RES_AVAILABLE   "Available"
+
+// label of 'Selected' listbox
+   #define STR_CONNECT_RES_SELECTED    "Selected"
+
+// name of 'Add' pushbutton
+   #define STR_CONNECT_RES_ADD        "&Add -->>"
+
+// name of 'Remove' pushbutton
+   #define STR_CONNECT_RES_REMOVE     "<<-- &Remove"
+
+// name of 'Set' pushbutton
+   #define STR_CONNECT_RES_OK         "&Connect"
+
+// name of 'Cancel' pushbutton
+   #define STR_CONNECT_RES_CANCEL     "Cancel"
+
+// name of 'Help' pushbutton
+   #define STR_CONNECT_RES_HELP       "Help"
+
+/*********** strings for DDE CMD line interface  **************************/
+
+   #define STR_DDECMD_TITLE           "OpenTM2 Batch"
+
+
+///////////////////////////////
+// strings for rename dialog //
+///////////////////////////////
+
+// dialog title when used for folders
+#define STR_RENAME_FOL_DLG       "Rename Folder"
+
+// dialog title when used for dictionaries
+#define STR_RENAME_DICT_DLG      "Rename Dictionary"
+
+// dialog title when used for Translation Memory databases
+#define STR_RENAME_TM_DLG        "Rename Translation Memory"
+
+// object name label when used for folders
+#define STR_RENAME_FOL_OBJ_TEXT  "Folder:"
+
+// object name label when used for dictionaries
+#define STR_RENAME_DICT_OBJ_TEXT "Dictionary:"
+
+// object name label when used for Translation Memory databases
+#define STR_RENAME_TM_OBJ_TEXT   "Translation Memory:"
+
+// label for new name entryfield
+#define STR_RENAME_RENAMETO_TEXT  "Rename to:"
+
+// text of adjust references checkbox
+#define STR_RENAME_ADJUST_CHK     "Adjust all references automatically"
+
+// label of error log listbox
+#define STR_RENAME_LOG_TEXT       "Errors"
+
+// label of rename pushbutton
+#define STR_RENAME_RENAME_PB      "Rename"
+
+// label of cancel pushbutton
+#define STR_RENAME_CANCEL_PB      "Cancel"
+
+// label of help pushbutton
+#define STR_RENAME_HELP_PB        "Help"
+
+#define STR_ADDUSER_TM_DLG        "Add User"
+#define STR_ADDUSER_USERID_TEXT   "User ID:"
+#define STR_ADDUSER_ADD_PB        "Add"
+#define STR_ADDUSER_CACEL_PB      "Cancel"
+
+#define STR_REMOVEUSER_TM_DLG            "Remove User"
+#define STR_REMOVEUSER_USERS             "Users"
+#define STR_REMOVEUSER_REMOVE_BUTTON     "remove"
+#define STR_REMOVEUSER_CANCEL_BUTTON     "close"
+
+#define STR_LISTUSER_TM_DLG            "List User"
+#define STR_LISTUSER_CANCEL_BUTTON     "close"
+/**********************************************************************/
+/* TM Tool - Change markup or target language of segments             */
+/**********************************************************************/
+///   titlebar of the process window           -- length 30 chars
+#define STR_TMT_TITLE     "Change Markup and Target Language"
+///   current segment
+#define STR_TMT_SEGNO      "Current Segment   :  "
+///   number of cleared segments
+#define STR_TMT_MARKUPSEGS    "Changed Markups   :  "
+///   number of set segments
+#define STR_TMT_LANGSEGS    "Changed Languages :  "
+///   translation memory name
+#define STR_TMT_TMFILE     "Translation Memory:  "
+///   Error                                    -- length 30 chars
+#define STR_TMT_ERROR      "Error         "
+
+// text for the MT list column titles
+#define STR_MT_DOC_COLTITLE        "Name"
+#define STR_MT_STATUS_COLTITLE     "Status"
+#define STR_MT_DATE_COLTITLE     "Date"
+#define STR_MT_ENGINE_COLTITLE     "MT Engine"
+#define STR_MT_TITLE             "Machine Translation List: "
+#define STR_MT_SOURCELANG_COLTITLE "Source Language"
+#define STR_MT_TARGETLANG_COLTITLE "Target Language"
+
+
+// Strings for symbolic format names and format filters
+#define STR_EQFRTF_NAME              "Rich text format"
+#define STR_EQFRTF_FILTER            "Rich text format (*.rtf)"
+#define STR_EQFAMI_NAME              "Ami Pro"
+#define STR_EQFAMI_FILTER            "Ami Pro (*.sam)"
+#define STR_EQFASCII_NAME            "ASCII"
+#define STR_EQFASM_NAME              "Assembler"
+#define STR_EQFASM_FILTER            "Assembler (*.asm)"
+#define STR_EQFWORD_NAME             "Word for Windows"
+#define STR_EQFWORD_FILTER           "Word for Windows (*.doc)"
+#define STR_EQFINTER_NAME            "Interleaf"
+#define STR_EQFINTER_FILTER          "Interleaf (*.*)"
+#define STR_EQFVENT_NAME             "Ventura"
+#define STR_EQFVENT_FILTER           "Ventura (*.*)"
+#define STR_EQFWP_NAME               "WordPerfect"
+#define STR_EQFWP_FILTER             "WordPerfect (*.doc)"
+#define STR_EQFBOOK_NAME             "BookMaster"
+#define STR_EQFBOOK_FILTER           "BookMaster (*.scr;*.ipf)"
+#define STR_EQFMRI_NAME              "MRI"
+#define STR_ALLFILES_FILTER          "All files (*.*)"
+
+
+#define STR_EQUALOP                  "Equal"
+#define STR_NOTEQUALOP               "Not equal"
+#define STR_LESSOP                   "Less"
+#define STR_LESSEQOP                 "Less or equal"
+#define STR_GREATEROP                "Greater"
+#define STR_GREATEREQOP              "Greater or equal"
+#define STR_LIKEOP                   "Like"
+
+// strings for system property dialog
+#ifdef _WINDOWS
+  #define STR_SYSPROP_TAB_GENERAL      "General"
+  #define STR_TWBSYSPROP_TTIP_GENERAL  "General system property settings"
+#endif
+
+#define STR_STATUSBAR_OBJ_TEXT_SEL     "%d of %d Object(s) marked"
+#define STR_STATUSBAR_OBJ_TEXT_NOSEL   "%d Object(s)"

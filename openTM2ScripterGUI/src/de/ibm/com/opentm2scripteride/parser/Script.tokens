@@ -1,0 +1,41 @@
+/*
+ * Copyright (C) 2014, International Business Machines
+ * Corporation and others.  All Rights Reserved.
+ */
+T__33=33
+T__34=34
+T__35=35
+T__36=36
+BOOLOP=4
+COMMENT=5
+CONSTANT=6
+D=7
+E=8
+ELSE=9
+ELSEIF=10
+ENDFOR=11
+ENDIF=12
+F=13
+FOR=14
+HASHMARKER=15
+I=16
+IF=17
+L=18
+MOSTCHAR=19
+N=20
+NEWLINE=21
+NL=22
+NORMALCHAR=23
+NORMALWORD=24
+O=25
+QUOTE=26
+R=27
+S=28
+SPACE=29
+SPECIALCHAR=30
+VARIABLE=31
+WS=32
+'"'=33
+'$'=34
+'%'=35
+','=36

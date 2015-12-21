@@ -1,0 +1,37 @@
+****************************************************************************************************
+** Script name...: EQFDELETEDICT.script                                                           **
+** Purpose.......: Script testing the EqfDeleteDict API call                                      **
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: January 20, 2015                                                               **
+** Update........: January 20, 2015                                                               **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+define Data,%TestDataLocation%\DICTIONARY\EQFDELETEDICT
+
+
+TESTCASE EQFDELETEDICT001,Call EqfDeleteDict API without parameters
+  EqfDeleteDict
+  TESTRESULT 29, Incorrect return code when no parameters have been given
+End
+
+TESTCASE EQFDELETEDICT002,Call EqfDeleteDict API using a non-existing dictionary
+  EqfDeleteDict ThisDictDoesNotExist
+  TESTRESULT 270, Incorrect return code when dictionary does not exist
+End
+
+TESTCASE EQFDELETEDICT003,Call EqfDeleteDict API using a existing dictionary
+  EqfImportDict %DATA%\EQFDELETEDICT003.SGM,EQFDELETEDICT003
+  TESTRESULT 0, Import of test dictionary failed
+  EqfDeleteDict EQFDELETEDICT003
+  TESTRESULT 0, Incorrect return code when dictionary does exist
+End
+
+
+

@@ -1,0 +1,220 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 4 Feb 2005
+// GQ: - added ID for short name field
+// 
+//
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+//
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFDPROP.IV_   1.1   10 Jan 1996 19:37:16   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDPROP.IV_  $
+ *
+ *    Rev 1.1   10 Jan 1996 19:37:16   BUILD
+ * - added IDs for new display checkbox
+ *
+ *    Rev 1.0   09 Jan 1996 10:06:46   BUILD
+ * Initial revision.
+*/
+//create new dict dialog
+#define ID_DICNEW_NAME_TEXT         ID_DICNEW_DLG +  1
+#define ID_DICNEW_NAME_EF           ID_DICNEW_DLG +  2
+#define ID_DICNEW_DESCR_TEXT        ID_DICNEW_DLG +  3
+#define ID_DICNEW_DESCR_EF          ID_DICNEW_DLG +  4
+#define ID_DICNEW_LOCATION_GB       ID_DICNEW_DLG +  5
+#define ID_DICNEW_LOCAL_RB          ID_DICNEW_DLG +  6
+#define ID_DICNEW_REMOTE_RB         ID_DICNEW_DLG +  7
+#define ID_DICNEW_SERVER_TEXT       ID_DICNEW_DLG +  8
+#define ID_DICNEW_SERVER_LB         ID_DICNEW_DLG +  9
+#define ID_DICNEW_DRIVES_TEXT       ID_DICNEW_DLG +  10
+#define ID_DICNEW_DRIVES_PB         ID_DICNEW_DLG +  11
+#define ID_DICNEW_SOURCELANG_TEXT   ID_DICNEW_DLG +  12
+#define ID_DICNEW_SOURCELANG_CB     ID_DICNEW_DLG +  13
+#define ID_DICNEW_EXIST_TEXT        ID_DICNEW_DLG +  14
+#define ID_DICNEW_YES_PB            ID_DICNEW_DLG +  15
+#define ID_DICNEW_SET_TEXT          ID_DICNEW_DLG +  16
+#define ID_DICNEW_SET_PB            ID_DICNEW_DLG +  17
+#define ID_DICNEW_CREATE_PB         ID_DICNEW_DLG +  18
+#define ID_DICNEW_PROTECTED_PB      ID_DICNEW_DLG +  19
+#define ID_DICNEW_CANCEL_PB         ID_DICNEW_DLG +  20
+#define ID_DICNEW_HELP_PB           ID_DICNEW_DLG +  21
+#define ID_DICNEW_SHARED_RB         ID_DICNEW_DLG +  22
+
+//set entry structure dialog
+#define ID_DICNAME_ENTRYFIELDS_TEXT  ID_DICNAME_DLG + 1
+#define ID_DICNAME_ENTRYFIELDS_LB    ID_DICNAME_DLG + 2
+#define ID_DICNAME_LEV1_TEXT         ID_DICNAME_DLG + 3
+#define ID_DICNAME_LEV2_TEXT         ID_DICNAME_DLG + 4
+#define ID_DICNAME_LEV3_TEXT         ID_DICNAME_DLG + 5
+#define ID_DICNAME_LEV4_TEXT         ID_DICNAME_DLG + 6
+#define ID_DICNAME_L1_RB             ID_DICNAME_DLG + 7
+#define ID_DICNAME_L2_RB             ID_DICNAME_DLG + 8
+#define ID_DICNAME_L3_RB             ID_DICNAME_DLG + 9
+#define ID_DICNAME_CHANGENAME_PB     ID_DICNAME_DLG + 10
+#define ID_DICNAME_ADDFIELD_PB       ID_DICNAME_DLG + 11
+#define ID_DICNAME_DELFIELD_PB       ID_DICNAME_DLG + 12
+#define ID_DICNAME_SET_PB            ID_DICNAME_DLG + 13
+#define ID_DICNAME_CANCEL_PB         ID_DICNAME_DLG + 14
+#define ID_DICNAME_HELP_PB           ID_DICNAME_DLG + 15
+#define ID_DICNAME_DISPLAY_GB        ID_DICNAME_DLG + 16
+#define ID_DICNAME_LEVEL_GB          ID_DICNAME_DLG + 17
+#define ID_DICNAME_OMIT_RB           ID_DICNAME_DLG + 18
+#define ID_DICNAME_SIZE_GB           ID_DICNAME_DLG + 19
+#define ID_DICNAME_LARGE_RB          ID_DICNAME_DLG + 20
+#define ID_DICNAME_SMALL_RB          ID_DICNAME_DLG + 21
+#define ID_DICNAME_AUTLOOKUP_CB      ID_DICNAME_DLG + 22
+
+//dictionary property dialog
+#define ID_DICPROP_NAME_TEXT         ID_DICPROP_DLG +  1
+#define ID_DICPROP_NAME_EF           ID_DICPROP_DLG +  2
+#define ID_DICPROP_DESCR_TEXT        ID_DICPROP_DLG +  3
+#define ID_DICPROP_DESCR_EF          ID_DICPROP_DLG +  4
+#define ID_DICPROP_LOC_TEXT          ID_DICPROP_DLG +  5
+#define ID_DICPROP_LOC_EF            ID_DICPROP_DLG +  6
+#define ID_DICPROP_DRIVE_TEXT        ID_DICPROP_DLG +  7
+#define ID_DICPROP_DRIVE_EF          ID_DICPROP_DLG +  8
+#define ID_DICPROP_SOURCELANG_TEXT   ID_DICPROP_DLG +  9
+#define ID_DICPROP_SOURCELANG_EF     ID_DICPROP_DLG + 10
+#define ID_DICPROP_ENTRYFIELDS_TEXT  ID_DICPROP_DLG + 11
+#define ID_DICPROP_ENTRYFIELDS_LB    ID_DICPROP_DLG + 12
+#define ID_DICPROP_LEVEL_GB          ID_DICPROP_DLG + 13
+#define ID_DICPROP_LEV1_TEXT         ID_DICPROP_DLG + 14
+#define ID_DICPROP_LEV2_TEXT         ID_DICPROP_DLG + 15
+#define ID_DICPROP_LEV3_TEXT         ID_DICPROP_DLG + 16
+#define ID_DICPROP_LEV4_TEXT         ID_DICPROP_DLG + 17
+#define ID_DICPROP_DISPLAY_GB        ID_DICPROP_DLG + 18
+#define ID_DICPROP_L1_RB             ID_DICPROP_DLG + 19
+#define ID_DICPROP_L2_RB             ID_DICPROP_DLG + 20
+#define ID_DICPROP_L3_RB             ID_DICPROP_DLG + 21
+#define ID_DICPROP_OMIT_RB           ID_DICPROP_DLG + 22
+#define ID_DICPROP_PROTECTED_PB      ID_DICPROP_DLG + 23
+#define ID_DICPROP_CHANGENAME_PB     ID_DICPROP_DLG + 24
+#define ID_DICPROP_CHANGE_PB         ID_DICPROP_DLG + 25
+#define ID_DICPROP_CANCEL_PB         ID_DICPROP_DLG + 26
+#define ID_DICPROP_HELP_PB           ID_DICPROP_DLG + 27
+#define ID_DICPROP_SIZE_GB           ID_DICPROP_DLG + 28
+#define ID_DICPROP_LARGE_RB          ID_DICPROP_DLG + 29
+#define ID_DICPROP_SMALL_RB          ID_DICPROP_DLG + 30
+#define IDS_DICPROP_PROTECTED_TEXT   ID_DICPROP_DLG + 31
+#define IDS_DICPROP_UNPROTECT_TEXT   ID_DICPROP_DLG + 32
+#define IDS_DICPROP_REMOTE_TEXT      ID_DICPROP_DLG + 33
+#define IDS_DICPROP_LOCAL_TEXT       ID_DICPROP_DLG + 34
+#define IDS_DICPROP_SHARED_TEXT      ID_DICPROP_DLG + 35
+#define ID_DICPROP_AUTLOOKUP_CB      ID_DICNAME_DLG + 36
+#define ID_DICPROP_SHORTNAME_EF      ID_DICPROP_DLG + 37
+
+#define ID_DICMODEL_DICT_LB           ID_DICMODEL_DLG + 1
+#define ID_DICMODEL_OK_PB             ID_DICMODEL_DLG + 2
+#define ID_DICMODEL_CANCEL_PB         ID_DICMODEL_DLG + 3
+#define ID_DICMODEL_HELP_PB           ID_DICMODEL_DLG + 4
+
+#define ID_PCH_SYSTNAME_TEXT          ID_PCH_DLG + 1
+#define ID_PCH_HELP_PB                ID_PCH_DLG + 2
+#define ID_PCH_CANCEL_PB              ID_PCH_DLG + 3
+#define ID_PCH_OK_PB                  ID_PCH_DLG + 4
+#define ID_PCH_SYSTNAME_EF            ID_PCH_DLG + 5
+#define ID_PCH_DISPLAYED_TEXT         ID_PCH_DLG + 6
+#define ID_PCH_DISPLAYED_EF           ID_PCH_DLG + 7
+#define IDS_PCH_ADD_PB                ID_PCH_DLG + 8
+#define IDS_PCH_CHANGE_PB             ID_PCH_DLG + 9
+#define IDS_PCH_ADD_TEXT              ID_PCH_DLG + 10
+#define IDS_PCH_CHANGE_TEXT           ID_PCH_DLG + 11
+

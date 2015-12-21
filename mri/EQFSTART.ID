@@ -1,0 +1,303 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFSTART.ID  - Additional PM IDs for the EQFSTARR resource                |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Apr 2004
+// GQ: - added SID_FOL_SHIPMENT_COLTITLE
+// 
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.3 $ ----------- 5 Nov 2003
+// GQ: - added string IDs SID_FOL_NAMEWOPATH_COLTITLE and SID_FOL_EXTENSION_COLTITLE
+//
+//
+// $Revision: 1.2 $ ----------- 22 Oct 2003
+// GQ: - added SID_FOL_TRANSLATOR_COLTITLE
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.2 $ ----------- 11 Sep 2001
+// SID_FOL_SRC_COLTITLE added (R06520)
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.5 $ ----------- 16 Oct 2000
+// -- set statusbar ids
+//
+//
+// $Revision: 1.4 $ ----------- 22 May 2000
+// -- add SID_FLLI_ROOT
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - added IDs for system property dialog strings
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFSTART.IV_   1.7   03 May 1999 09:18:54   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFSTART.IV_  $
+ *
+ *    Rev 1.7   03 May 1999 09:18:54   BUILD
+ * - moved format string IDs from EQFPTM.ID to EQFSTART.ID
+ *
+ *    Rev 1.6   01 Feb 1999 09:44:56   BUILD
+ * -- add toolbar title text ids
+ *
+ *    Rev 1.5   15 Oct 1998 19:49:34   BUILD
+ * add LOGOS LTM stuff
+ *
+ *    Rev 1.4   04 Nov 1997 11:24:06   BUILD
+ * - added string IDs for TM tool
+ *
+ *    Rev 1.3   21 Mar 1997 12:16:24   BUILD
+ * - added IDs for new folder list columns: dict list and mem list
+ *
+ *    Rev 1.2   24 Feb 1997 11:37:34   BUILD
+ * - added column title string IDs for new document list columns editor and alias
+ *
+ *    Rev 1.1   25 Mar 1996 10:12:00   BUILD
+ * - added string IDs for EQFCMD.EXE
+ *
+ *    Rev 1.0   09 Jan 1996 10:11:16   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+// additional IDs for folder list titles
+#define SID_FLL_EDIT_COLTITLE   ID_STRINGS + 100           // coltitle of editor column
+
+// IDs for document list titles
+#define SID_FOL_NAME_COLTITLE    ID_STRINGS + 101
+#define SID_FOL_TRANSL_COLTITLE  ID_STRINGS + 102
+#define SID_FOL_ANAL_COLTITLE    ID_STRINGS + 103
+#define SID_FOL_EXP_COLTITLE     ID_STRINGS + 104
+#define SID_FOL_IMP_COLTITLE     ID_STRINGS + 105
+#define SID_FOL_UPD_COLTITLE     ID_STRINGS + 106
+#define SID_FOL_UPDT_COLTITLE    ID_STRINGS + 107
+#define SID_FOL_SIZE_COLTITLE    ID_STRINGS + 108
+#define SID_FOL_COMPLETE_COLTITLE ID_STRINGS + 109 // column title: complete
+#define SID_FOL_MODIFIED_COLTITLE ID_STRINGS + 110 // column title: modified
+#define SID_FOL_SCRATCH_COLTITLE  ID_STRINGS + 111 // column title: scratch
+#define SID_FOL_COPIED_COLTITLE   ID_STRINGS + 112 // column title: copied
+
+//later defined
+//#define SID_FOL_SRC_COLTITLE      ID_STRINGS + 151 // column title: source
+
+// same IDs are already defined in EQFTMCOM, but we need our new defines here
+#undef SID_LOGO_TITLELINE
+#undef SID_LOGO_COPYRIGHT1
+#undef SID_LOGO_COPYRIGHT2
+#undef SID_LOGO_COPYRIGHT3
+#undef SID_LOGO_COPYRIGHT4
+#undef SID_LOGO_COPYRIGHT5
+
+
+#define SID_LOGO_TITLELINE        ID_STRINGS + 113
+#define SID_LOGO_COPYRIGHT1       ID_STRINGS + 114
+#define SID_LOGO_COPYRIGHT2       ID_STRINGS + 115
+#define SID_LOGO_COPYRIGHT3       ID_STRINGS + 116
+#define SID_LOGO_COPYRIGHT4       ID_STRINGS + 117
+#define SID_LOGO_COPYRIGHT5       ID_STRINGS + 118
+#define SID_LOGO_REVISION         ID_STRINGS + 119
+
+#define SID_FILTER_TITLE          ID_STRINGS + 120
+#define SID_FILTER_CHECKBOX       ID_STRINGS + 121
+#define SID_FILTER_EDIT_PB        ID_STRINGS + 122
+#define SID_FILTER_NAME_TEXT      ID_STRINGS + 123
+#define SID_FILTER_DESCR_TEXT     ID_STRINGS + 124
+
+/**********************************************************************/
+/* Additional IDs for new fields in folder list column listbox        */
+/**********************************************************************/
+#define SID_FLL_SOURCE_COLTITLE   ID_STRINGS + 125
+#define SID_FLL_TARGET_COLTITLE   ID_STRINGS + 126
+
+/**********************************************************************/
+/* Additional IDs for new fields in document list column listbox      */
+/**********************************************************************/
+#define SID_FOL_SOURCE_COLTITLE   ID_STRINGS + 127
+#define SID_FOL_TARGET_COLTITLE   ID_STRINGS + 128
+#define SID_FOL_FORMAT_COLTITLE   ID_STRINGS + 129
+#define SID_FOL_MEMORY_COLTITLE   ID_STRINGS + 130
+
+/**********************************************************************/
+/* Strings in DDE CMD line interface                                  */
+/**********************************************************************/
+#define IDS_DDECMD_TITLE          ID_STRINGS + 131
+
+/**********************************************************************/
+/* Additional IDs for new fields in document list column listbox      */
+/**********************************************************************/
+#define SID_FOL_EDITOR_COLTITLE   ID_STRINGS + 132
+#define SID_FOL_ALIAS_COLTITLE    ID_STRINGS + 133
+
+/**********************************************************************/
+/* Additional IDs for new columns in folder list column listbox       */
+/**********************************************************************/
+#define SID_FLL_MEMLIST_COLTITLE  ID_STRINGS + 134
+#define SID_FLL_DICTLIST_COLTITLE ID_STRINGS + 135
+
+
+/**********************************************************************/
+/* IDs for TM Tool                                                    */
+/**********************************************************************/
+#define  IDS_TMT_TMFILE              ID_STRINGS + 136
+#define  IDS_TMT_SEGNO               ID_STRINGS + 137
+#define  IDS_TMT_MARKUPSEGS          ID_STRINGS + 138
+#define  IDS_TMT_LANGSEGS            ID_STRINGS + 139
+#define  IDS_TMT_ERROR               ID_STRINGS + 140
+#define  IDS_TMT_TITLE               ID_STRINGS + 141
+
+
+
+
+
+#define SID_LOGO_TITLELINE_LOGOS     ID_STRINGS + 142
+#define SID_LOGO_COPYRIGHT2_LOGOS    ID_STRINGS + 143
+
+#define SID_TWB_TOOLBAR              ID_STRINGS + 144
+#define SID_TPRO_TOOLBAR             ID_STRINGS + 145
+
+#define IDS_SYSPROP_TAB_GENERAL      ID_STRINGS + 146
+#define IDS_TWBSYSPROP_TTIP_GENERAL  ID_STRINGS + 147
+
+
+#define SID_FLLI_ROOT                ID_STRINGS + 148 // ID for folder list root in tree
+
+
+#define SID_STATUSBAR_OBJ_TEXT_SEL   ID_STRINGS + 149
+#define SID_STATUSBAR_OBJ_TEXT_NOSEL ID_STRINGS + 150
+
+#define SID_FOL_SRC_COLTITLE      ID_STRINGS + 151 // column title: source
+#define SID_FOL_TRANSLATOR_COLTITLE  ID_STRINGS + 152 // column title: translator
+#define SID_FOL_NAMEWOPATH_COLTITLE  ID_STRINGS + 153 // column title: name w/o path
+#define SID_FOL_EXTENSION_COLTITLE   ID_STRINGS + 154 // column title: extension
+#define SID_FOL_SHIPMENT_COLTITLE    ID_STRINGS + 155 // column title: ship number
+
+// String IDs for format names and format filters
+// Note: for formats whithout a filter string ID, there is no
+//       filter available
+#define SID_EQFRTF_NAME                ID_FORMAT_STRINGS + 1
+#define SID_EQFRTF_FILTER              ID_FORMAT_STRINGS + 2
+#define SID_EQFAMI_NAME                ID_FORMAT_STRINGS + 3
+#define SID_EQFAMI_FILTER              ID_FORMAT_STRINGS + 4
+#define SID_EQFASCII_NAME              ID_FORMAT_STRINGS + 5
+#define SID_EQFASM_NAME                ID_FORMAT_STRINGS + 6
+#define SID_EQFASM_FILTER              ID_FORMAT_STRINGS + 7
+#define SID_EQFWORD_NAME               ID_FORMAT_STRINGS + 8
+#define SID_EQFWORD_FILTER             ID_FORMAT_STRINGS + 9
+#define SID_EQFINTER_NAME              ID_FORMAT_STRINGS + 10
+#define SID_EQFINTER_FILTER            ID_FORMAT_STRINGS + 11
+#define SID_EQFVENT_NAME               ID_FORMAT_STRINGS + 12
+#define SID_EQFVENT_FILTER             ID_FORMAT_STRINGS + 13
+#define SID_EQFWP_NAME                 ID_FORMAT_STRINGS + 14
+#define SID_EQFWP_FILTER               ID_FORMAT_STRINGS + 15
+#define SID_EQFBOOK_NAME               ID_FORMAT_STRINGS + 16
+#define SID_EQFBOOK_FILTER             ID_FORMAT_STRINGS + 17
+#define SID_EQFMRI_NAME                ID_FORMAT_STRINGS + 18
+#define SID_ALLFILES_FILTER            ID_FORMAT_STRINGS + 19
+

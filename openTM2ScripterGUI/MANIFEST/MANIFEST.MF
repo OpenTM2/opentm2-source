@@ -1,0 +1,7 @@
+IBM-COPY-RIGHT-COMMENT: Copyright (C) 1990-2014, International Business Machines Corporation and others. All rights reserved
+Manifest-Version: 1.0
+Created-By: 1.7.0_06 (Oracle Corporation)
+Class-Path: ./libs/miglayout15-swing.jar ./libs/jdom.jar ./libs/antlr-3.4-complete.jar
+Main-Class: de.ibm.com.opentm2scripteride.MainApp
+
+

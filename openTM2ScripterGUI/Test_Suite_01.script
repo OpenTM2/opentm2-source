@@ -1,0 +1,93 @@
+****************************************************************************************************
+* Copyright (C) 2014, International Business Machines
+* Corporation and others.  All Rights Reserved.
+* PURPOSE ..: Script to test OpenTM2 functions in an automated way
+* DATE .....: April 19, 2011
+* AUTHOR ...: Gerhard Fetz
+* Version ..: 2.0.0 
+* Updated ..: July 04, 2011
+****************************************************************************************************
+*
+*
+****************************************************************************************************
+* Define constants 
+****************************************************************************************************
+define project_memory_name,  GF_Test_Memory_01
+define readonly_memory_name, GF_Test_RO_Memory_01
+define folder_name,          GF_Test_Folder_01
+* single line comment
+define folder_description,   Gerhards Test FOLDER
+define dict_name,            GF_Test_Dict_01
+define document_import_path, c:\Eigene\IBM\01_TM_STUFF\Open_Source_TM\OpenTM2\Test_Suite\Test_Suite_V3\documents\SRC\
+define document_export_path, c:\Eigene\IBM\01_TM_STUFF\Open_Source_TM\OpenTM2\Test_Suite\Test_Suite_V3\documents\TRG\
+define wordcount_path,       c:\Eigene\IBM\01_TM_STUFF\Open_Source_TM\OpenTM2\Test_Suite\Test_Suite_V3\wordcount\
+define folder_path,          c:\Eigene\IBM\01_TM_STUFF\Open_Source_TM\OpenTM2\Test_Suite\Test_Suite_V3\folder\
+define memory_path,          c:\Eigene\IBM\01_TM_STUFF\Open_Source_TM\OpenTM2\Test_Suite\Test_Suite_V3\memory\
+define dictionary_path,      c:\Eigene\IBM\01_TM_STUFF\Open_Source_TM\OpenTM2\Test_Suite\Test_Suite_V3\dictionary\
+*
+*
+****************************************************************************************************
+* Delete test folders and test memories (in case I forgot to delete it before running this script again)
+****************************************************************************************************
+EqfDeleteFolder %folder_name%
+EqfDeleteMem    %project_memory_name%
+EqfDeleteMem    %readonly_memory_name%
+ #    smarker_1  
+*
+*
+****************************************************************************************************
+* Create an empty project Translation Memory
+****************************************************************************************************
+EqfCreateMem %project_memory_name%,"Gerhards Test Translation Memory",,English(U.S.),LOCAL_OPT
+*
+*
+****************************************************************************************************
+* Import a Translation Memory (TMX-format) and use it as read-only memory
+****************************************************************************************************
+EqfCreateMem %readonly_memory_name%,"Gerhards Test TMX RO Translation Memory",,English(U.S.),LOCAL_OPT
+EqfImportMem %readonly_memory_name%,%memory_path%%readonly_memory_name%.tmx,OVERWRITE_OPT+TMX_OPT
+*
+*
+****************************************************************************************************
+* Create Folder and use dictionary SHOWDICT
+****************************************************************************************************
+EqfCreateFolder %folder_name%,"%folder_description%",,%project_memory_name%,IBMHTM32,,showdict,English(U.S.),German(Reform),,%readonly_memory_name%
+*
+*
+****************************************************************************************************
+* Import documents from document_path and use a wild-card for HTML-documents
+****************************************************************************************************
+EqfimportDoc %folder_name%,%document_import_path%html*.*
+*
+*
+****************************************************************************************************
+* Analyse ALL documents in the folder
+****************************************************************************************************
+EqfAnalyzeDocEx %folder_name%,,(%project_memory_name%,%readonly_memory_name%),,,AutoSubst_opt+AddToMem_OPT+AutoJoin_opt+OverWrite_opt
+*
+*
+****************************************************************************************************
+* Count words of all files in the folder
+****************************************************************************************************
+EqfCountWords %folder_name%,,SOURCE_OPT+OVERWRITE_OPT+TEXT_OUTPUT_OPT,%wordcount_path%SourceWordCount.txt
+EqfCountWords %folder_name%,,TARGET_OPT+OVERWRITE_OPT+TEXT_OUTPUT_OPT,%wordcount_path%TargetWordCount.txt
+*
+*
+****************************************************************************************************
+* Export Folder
+****************************************************************************************************
+EqfExportFolderFP  %folder_name%,%folder_path%,WITHMEM_OPT+OVERWRITE_OPT
+*
+*
+****************************************************************************************************
+* Export a Translation Memory (SGML UTF16)
+****************************************************************************************************
+EqfExportMem %project_memory_name%,%memory_path%%project_memory_name%.exp,OVERWRITE_OPT+UTF16_OPT
+*
+*
+****************************************************************************************************
+* Delete Folder and Memory
+****************************************************************************************************
+* EqfDeleteFolder %folder_name%
+* EqfDeleteMem    %project_memory_name%
+* EqfDeleteMem    %readonly_memory_name%

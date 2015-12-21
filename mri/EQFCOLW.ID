@@ -1,0 +1,284 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFCOLW.ID - Presentation Manager IDs for column widths                   |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2013, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Nov 2006
+// GQ: - added SID_CNT00_DUPLICATE_COLWIDTH
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Apr 2004
+// GQ: - added SID_FOL_SHIPMENT_COLWIDTH
+// 
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.3 $ ----------- 5 Nov 2003
+// GQ: - added string IDs SID_FOL_NAMEWOPATH_COLWIDTH and SID_FOL_EXTENSION_COLWIDTH
+//
+//
+// $Revision: 1.2 $ ----------- 22 Oct 2003
+// GQ_ - added id SID_FOL_TRANSLATOR_COLWIDTH
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.2 $ ----------- 11 Sep 2001
+// SID_FOL_SRC_COLWIDTH added (R06520)
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.3 $ ----------- 25 Jun 2001
+// GQ: Added width entries for new markup table list columns
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFCOLW.IV_   1.5   03 May 1999 09:20:12   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFCOLW.IV_  $
+ *
+ *    Rev 1.5   03 May 1999 09:20:12   BUILD
+ * - added ID for width of descriptive name column of markup table list
+ *
+ *    Rev 1.4   25 Aug 1998 19:00:14   BUILD
+ * add MT Listwindow defines
+ *
+ *    Rev 1.3   11 Jun 1997 17:19:38   BUILD
+ * - added string ID for column width of new TM match counting
+ *
+ *    Rev 1.2   21 Mar 1997 12:16:46   BUILD
+ * - added column width IDs for new folder list columns: mem list and dict list
+ *
+ *    Rev 1.1   24 Feb 1997 11:36:54   BUILD
+ * - added column width IDs for alias and editor column of document list
+ *
+ *    Rev 1.0   11 Sep 1996 19:57:12   BUILD
+ * - initial put
+ *
+  +----------------------------------------------------------------------------+
+*/
+
+
+/**********************************************************************/
+/* width IDs for document list                                        */
+/**********************************************************************/
+#define SID_FOL_NAME_COLWIDTH          ID_COLWIDTH_STRINGS + 1
+#define SID_FOL_TRANSL_COLWIDTH        ID_COLWIDTH_STRINGS + 2
+#define SID_FOL_ANAL_COLWIDTH          ID_COLWIDTH_STRINGS + 3
+#define SID_FOL_EXP_COLWIDTH           ID_COLWIDTH_STRINGS + 4
+#define SID_FOL_IMP_COLWIDTH           ID_COLWIDTH_STRINGS + 5
+#define SID_FOL_UPD_COLWIDTH           ID_COLWIDTH_STRINGS + 6
+#define SID_FOL_UPDT_COLWIDTH          ID_COLWIDTH_STRINGS + 7
+#define SID_FOL_SIZE_COLWIDTH          ID_COLWIDTH_STRINGS + 8
+#define SID_FOL_COMPLETE_COLWIDTH      ID_COLWIDTH_STRINGS + 9
+#define SID_FOL_MODIFIED_COLWIDTH      ID_COLWIDTH_STRINGS + 10
+#define SID_FOL_SCRATCH_COLWIDTH       ID_COLWIDTH_STRINGS + 11
+#define SID_FOL_COPIED_COLWIDTH        ID_COLWIDTH_STRINGS + 12
+#define SID_FOL_FORMAT_COLWIDTH        ID_COLWIDTH_STRINGS + 13
+#define SID_FOL_MEMORY_COLWIDTH        ID_COLWIDTH_STRINGS + 14
+#define SID_FOL_SOURCE_COLWIDTH        ID_COLWIDTH_STRINGS + 15
+#define SID_FOL_TARGET_COLWIDTH        ID_COLWIDTH_STRINGS + 16
+#define SID_FOL_EDITOR_COLWIDTH        ID_COLWIDTH_STRINGS + 17
+#define SID_FOL_ALIAS_COLWIDTH         ID_COLWIDTH_STRINGS + 18
+#define SID_FOL_SRC_COLWIDTH           ID_COLWIDTH_STRINGS + 19
+#define SID_FOL_TRANSLATOR_COLWIDTH    ID_COLWIDTH_STRINGS + 59
+#define SID_FOL_NAMEWOPATH_COLWIDTH    ID_COLWIDTH_STRINGS + 68
+#define SID_FOL_EXTENSION_COLWIDTH     ID_COLWIDTH_STRINGS + 69
+#define SID_FOL_SHIPMENT_COLWIDTH      ID_COLWIDTH_STRINGS + 31
+
+/**********************************************************************/
+/* width IDs for folder list                                          */
+/**********************************************************************/
+#define SID_FLL_NAME_COLWIDTH          ID_COLWIDTH_STRINGS + 20
+#define SID_FLL_DESCR_COLWIDTH         ID_COLWIDTH_STRINGS + 21
+#define SID_FLL_DATE_COLWIDTH          ID_COLWIDTH_STRINGS + 22
+#define SID_FLL_FORMAT_COLWIDTH        ID_COLWIDTH_STRINGS + 23
+#define SID_FLL_MEM_COLWIDTH           ID_COLWIDTH_STRINGS + 24
+#define SID_FLL_DRIVE_COLWIDTH         ID_COLWIDTH_STRINGS + 25
+#define SID_FLL_DICT_COLWIDTH          ID_COLWIDTH_STRINGS + 26
+#define SID_FLL_EDIT_COLWIDTH          ID_COLWIDTH_STRINGS + 27
+#define SID_FLL_SOURCE_COLWIDTH        ID_COLWIDTH_STRINGS + 28
+#define SID_FLL_TARGET_COLWIDTH        ID_COLWIDTH_STRINGS + 29
+
+/**********************************************************************/
+/* width IDs for TM list                                              */
+/**********************************************************************/
+#define MEM_NAME_COLWIDTH              ID_COLWIDTH_STRINGS + 40
+#define MEM_DESCRIPTION_COLWIDTH       ID_COLWIDTH_STRINGS + 41
+#define MEM_SIZE_COLWIDTH              ID_COLWIDTH_STRINGS + 42
+#define MEM_DRIVE_COLWIDTH             ID_COLWIDTH_STRINGS + 43
+#define MEM_SERVER_COLWIDTH            ID_COLWIDTH_STRINGS + 44
+#define MEM_OWNER_COLWIDTH             ID_COLWIDTH_STRINGS + 45
+#define MEM_SOURCE_COLWIDTH            ID_COLWIDTH_STRINGS + 46
+
+/**********************************************************************/
+/* width IDs for dictionary list                                      */
+/**********************************************************************/
+#define IDS_DICT_NAME_COLWIDTH         ID_COLWIDTH_STRINGS + 50
+#define IDS_DICT_DESCR_COLWIDTH        ID_COLWIDTH_STRINGS + 51
+#define IDS_DICT_DRIVE_COLWIDTH        ID_COLWIDTH_STRINGS + 52
+#define IDS_DICT_OWNER_COLWIDTH        ID_COLWIDTH_STRINGS + 53
+#define IDS_DICT_SERVER_COLWIDTH       ID_COLWIDTH_STRINGS + 54
+#define IDS_DICT_SOURCELANG_COLWIDTH   ID_COLWIDTH_STRINGS + 55
+// GQ note: 59 has been used for SID_FOL_TRANSLATOR_COLWIDTH
+
+/**********************************************************************/
+/* width IDs for markup list                                          */
+/**********************************************************************/
+#define IDS_TAGT_NAME_COLWIDTH         ID_COLWIDTH_STRINGS + 60
+#define IDS_TAGT_DESCRNAME_COLWIDTH    ID_COLWIDTH_STRINGS + 61
+#define IDS_TAGT_DESCR_COLWIDTH        ID_COLWIDTH_STRINGS + 62
+#define IDS_TAGT_VERSION_COLWIDTH      ID_COLWIDTH_STRINGS + 63
+#define IDS_TAGT_PLUGIN_COLWIDTH       ID_COLWIDTH_STRINGS + 64
+#define IDS_TAGT_SUPPLIER_COLWIDTH     ID_COLWIDTH_STRINGS + 65
+// DAW note: 68 has been used for SID_FOL_NAMEWOPATH_COLWIDTH
+// DAW note: 69 has been used for SID_FOL_EXTENSION_COLWIDTH
+
+/**********************************************************************/
+/* width IDs for language list                                        */
+/**********************************************************************/
+#define SID_LANGUAGE_COLWIDTH          ID_COLWIDTH_STRINGS + 70
+#define SID_ACTIVE_COLWIDTH            ID_COLWIDTH_STRINGS + 71
+
+/**********************************************************************/
+/* width IDs for terminology lists                                    */
+/**********************************************************************/
+#define SID_LST_NAME_COLWIDTH               ID_COLWIDTH_STRINGS + 80
+#define SID_LST_DRIVE_COLWIDTH              ID_COLWIDTH_STRINGS + 81
+#define SID_LST_SIZE_COLWIDTH               ID_COLWIDTH_STRINGS + 82
+#define SID_LST_UPD1_COLWIDTH               ID_COLWIDTH_STRINGS + 83
+#define SID_LST_UPD2_COLWIDTH               ID_COLWIDTH_STRINGS + 84
+
+/**********************************************************************/
+/* width IDs for wordcount list window                                */
+/**********************************************************************/
+#define SID_CNT00_DOCUMENTS_COLWIDTH   ID_COLWIDTH_STRINGS + 90
+#define SID_CNT00_TOBE_TRANSLATED_COLWIDTH ID_COLWIDTH_STRINGS + 91
+#define SID_CNT00_TRANSLATED_COLWIDTH  ID_COLWIDTH_STRINGS + 92
+#define SID_CNT00_TOTAL_COLWIDTH       ID_COLWIDTH_STRINGS + 93
+#define SID_CNT00_MARKUP_COLWIDTH      ID_COLWIDTH_STRINGS + 94
+#define SID_CNT00_NL_COLWIDTH          ID_COLWIDTH_STRINGS + 95
+
+/**********************************************************************/
+/* width IDs for new folder list columns                              */
+/**********************************************************************/
+#define SID_FLL_MEMLIST_COLWIDTH       ID_COLWIDTH_STRINGS + 96
+#define SID_FLL_DICTLIST_COLWIDTH      ID_COLWIDTH_STRINGS + 97
+
+/**********************************************************************/
+/* width ID for TM match wordcount list window                        */
+/**********************************************************************/
+#define SID_CNT00_TMMATCH_COLWIDTH     ID_COLWIDTH_STRINGS + 98
+
+/**********************************************************************/
+/* width entries for Machine translation list window                  */
+/**********************************************************************/
+#define  SID_MT_DOC_COLWIDTH           ID_COLWIDTH_STRINGS + 99
+#define  SID_MT_STATUS_COLWIDTH        ID_COLWIDTH_STRINGS + 100
+#define  SID_MT_DATE_COLWIDTH          ID_COLWIDTH_STRINGS + 101
+#define  SID_MT_ENGINE_COLWIDTH        ID_COLWIDTH_STRINGS + 102
+#define  SID_MT_SOURCELANG_COLWIDTH    ID_COLWIDTH_STRINGS + 103
+#define  SID_MT_TARGETLANG_COLWIDTH    ID_COLWIDTH_STRINGS + 104
+
+#define  SID_CNT00_DUPLICATE_COLWIDTH ID_COLWIDTH_STRINGS + 105

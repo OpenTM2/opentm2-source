@@ -1,0 +1,222 @@
+//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+//³EQFEEA.MEN                                                                  ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³Copyright Notice:                                                           ³
+//³                                                                            ³
+//³      Copyright (C) 1990-2010, International Business Machines              ³
+//³      Corporation and others. All rights reserved                           ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³Author:                                                                     ³
+//³                                                                            ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³Description:                                                                ³
+//³                                                                            ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³Entry Points:                                                               ³
+//³                                                                            ³
+//³                                                                           ³
+//³ÀÄÄ status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          ³
+//³            "Q"=Quick-and-dirty )                                           ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³Externals:                                                                  ³
+//³                                                                            ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³Internals:                                                                  ³
+//³                                                                            ³
+//³                                                                           ³
+//³ÀÄÄ status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          ³
+//³            "Q"=Quick-and-dirty )                                           ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³To be done / known limitations / caveats:                                   ³
+//³                                                                            ³
+//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+//³ PVCS Section                                                               ³
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFEEA.MVN   1.3   21 Dec 1998 12:22:20   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFEEA.MVN  $
+ * 
+ *    Rev 1.3   21 Dec 1998 12:22:20   BUILD
+ * -- allow to enable result/problem window
+ *
+ *    Rev 1.2   15 Dec 1998 11:49:32   BUILD
+ * -- modify help pulldown
+ *
+ *    Rev 1.1   07 Dec 1998 10:30:48   BUILD
+ * -- update Menu
+ *
+ *    Rev 1.0   16 Nov 1998 17:00:52   BUILD
+ * Initial revision.
+ *
+*/
+//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+//  Actionbar settings of EEA PII Editor
+//  Text of AAB items will be set in the MRI file
+
+
+ID_EEA_WINDOW MENU PRELOAD 
+BEGIN
+  POPUP STR_TB_AAB_FILE
+  BEGIN
+    MENUITEM STR_TB_AAB_SAVE, IDM_SAVE
+    MENUITEM STR_TB_AAB_PRINT, IDM_PRINT
+    MENUITEM SEPARATOR
+    MENUITEM STR_TB_AAB_QUIT, IDM_QUIT
+    MENUITEM STR_TB_AAB_END, IDM_FILE
+    MENUITEM SEPARATOR
+  END
+  POPUP STR_TB_AAB_EDIT
+  BEGIN
+    MENUITEM STR_TB_AAB_FIND, IDM_FIND
+    MENUITEM STR_TB_AAB_UNDO, IDM_UNDO
+    MENUITEM SEPARATOR
+    MENUITEM STR_TB_AAB_CUT, IDM_CUT
+    MENUITEM STR_TB_AAB_COPY, IDM_COPY
+    MENUITEM STR_TB_AAB_PASTE, IDM_PASTE
+  END
+  POPUP STR_TB_AAB_CURSOR
+  BEGIN
+    MENUITEM STR_TB_AAB_CFIND, IDM_FINDMARK
+    MENUITEM STR_TB_AAB_TOCGOTO, IDM_TOCGOTO
+    MENUITEM STR_TB_AAB_GOTOLINE, IDM_GOTOLINE
+    MENUITEM STR_TB_AAB_QUERYLINE, IDM_QUERYLINE
+    MENUITEM SEPARATOR
+    MENUITEM STR_TB_AAB_CTOP, IDM_TOP
+    MENUITEM STR_TB_AAB_CBOTTOM, IDM_BOTTOM
+    MENUITEM SEPARATOR
+    MENUITEM STR_TB_AAB_CSTARTLINE, IDM_SOL
+    MENUITEM STR_TB_AAB_CENDLINE, IDM_EOL
+  END
+
+  POPUP STR_EEA_STYLE
+  BEGIN
+    MENUITEM STR_EEA_COPY, IDM_EEA_USE
+    MENUITEM STR_EEA_SKIP, IDM_EEA_SKIP
+    MENUITEM STR_EEA_DONE, IDM_EEA_DONE
+    MENUITEM SEPARATOR
+    MENUITEM STR_EEA_AAB_SEEA_SEG, IDM_EEA_SEGMENT
+    MENUITEM STR_EEA_AAB_SEEA_FILE, IDM_EEA_FILE
+    MENUITEM SEPARATOR
+    MENUITEM STR_EEA_AAB_TERM, IDM_EEA_TERM
+  END
+
+  POPUP STR_TB_AAB_STYLE
+  BEGIN
+    MENUITEM STR_TB_AAB_SPROTECT, IDM_PROTECTED
+    MENUITEM STR_TB_AAB_SUNPROTECT, IDM_UNPROTECTED
+    MENUITEM STR_TB_AAB_SHIDE, IDM_HIDE
+    MENUITEM STR_TB_AAB_SSHRINK, IDM_SHRINK
+    MENUITEM STR_TB_AAB_SCOMPACT, IDM_COMPACT
+    MENUITEM STR_TB_AAB_SSHORTEN, IDM_SHORTEN
+    MENUITEM SEPARATOR
+    MENUITEM STR_EEA_AAB_TOOLBAR, IDM_EEA_TOOLBAR
+    MENUITEM STR_EEA_AAB_RESULT, IDM_EEA_RESULT
+    MENUITEM STR_EEA_AAB_PROBLEM, IDM_EEA_PROBLEM
+  END
+  POPUP STR_TB_AAB_HELP
+  BEGIN
+    MENUITEM STR_HELP_MI_EEAHELP, PID_HELP_MI_EEAHELP
+    MENUITEM STR_HELP_MI_PRODUCTINFO, PID_HELP_MI_PRODUCTINFO
+  END
+END
+

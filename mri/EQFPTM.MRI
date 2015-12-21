@@ -1,0 +1,212 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFPTM.MRI - MRI material special for Personal TM                         |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Feb 2002
+// RJ: Avoid warning for duplicate definition of STR_FILE_MI_COPY -- the one of EQFSTART.mri is used 
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+ *
+ * $Header:   K:\DATA\EQFPTM.MVI   1.1   03 May 1999 09:19:14   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFPTM.MVI  $
+ * 
+ *    Rev 1.1   03 May 1999 09:19:14   BUILD
+ * - moved format strings from EQFPTM.MRI to EQFSTART.MRI
+ *
+ *    Rev 1.0   09 Jan 1996 10:10:46   BUILD
+ * Initial revision.
+*/
+
+// Special TM/Pers menu items
+
+// String for 'Open...' menu item
+#define STR_FILE_MI_OPENDLG          "&Import..."
+
+// String for 'Open...' menu item
+//#define STR_FILE_MI_COPY             "~Export..."
+
+
+// TM/Pers Copy(Save as) dialog
+
+// titlebar text
+#define STR_PTM_COPYDOC_DLG          "Export Document"
+
+
+// label of file name entryfield
+#define STR_PTM_COPYDOC_FILENAME_TEXT "File &Name:"
+
+// label of directories listbox
+#define STR_PTM_COPYDOC_DIR_TEXT     "&Directories:"
+
+// label of file type combobox
+#define STR_PTM_COPYDOC_TYPE_TEXT    "File Type (Markup):"
+
+// label of drive type combobox
+#define STR_PTM_COPYDOC_DRIVE_TXT    "Dri&ves:"
+
+// text for O.K. pushbutton
+#define STR_PTM_COPYDOC_OK_PB        "&Export"
+
+// text for Cancel pushbutton
+#define STR_PTM_COPYDOC_CANCEL_PB    "Cancel"
+
+// text for Help pushbutton
+#define STR_PTM_COPYDOC_HELP_PB      "&Help"
+
+
+// TM/Pers open dialog
+
+// titlebar text
+#define STR_PTM_OPENDOC_DLG          "Import Document"
+
+// label of file name entryfield
+#define STR_PTM_OPENDOC_FILENAME_TEXT "File &Name:"
+
+// label of directories listbox
+#define STR_PTM_OPENDOC_DIR_TEXT     "&Directories:"
+
+// label of file type combobox
+#define STR_PTM_OPENDOC_TYPE_TEXT    "List Files of &Type:"
+
+// label of drive type combobox
+#define STR_PTM_OPENDOC_DRIVE_TXT    "Dri&ves:"
+
+// text for O.K. pushbutton
+#define STR_PTM_OPENDOC_OK_PB        "&Import"
+
+// text for Cancel pushbutton
+#define STR_PTM_OPENDOC_CANCEL_PB    "Cancel"
+
+// text for Help pushbutton
+#define STR_PTM_OPENDOC_HELP_PB    "&Help"
+
+
+
+// TM/Pers lookup dialog
+
+// titlebar text
+#define STR_PTM_LOOKUP_DLG           "Lookup a Term"
+
+// text for term entryfield label
+#define STR_PTM_LOOKUP_TERM_TEXT     "Term:"
+
+// text for lookup pushbutton
+#define STR_PTM_LOOKUP_LOOKUP_PB     "&Look up..."
+
+// text for Edit pushbutton
+#define STR_PTM_LOOKUP_EDIT_PB       "&Edit..."
+
+// text for Cancel pushbutton
+#define STR_PTM_LOOKUP_CANCEL_PB     "Cancel"
+
+// text for Help pushbutton
+#define STR_PTM_LOOKUP_HELP_PB       "Help"
+

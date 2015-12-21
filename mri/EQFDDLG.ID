@@ -1,0 +1,230 @@
+// Copyright (c) 1990-2012, International Business Machines
+// Corporation, SOTEC, and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*******************************************************************************
+**                                                                            **
+** Program    : include file for eqfddlg.rc and eqfddlg.dlg                   **
+** Source     : eqfddlg.h                                                     **
+** Date       : 10.05.90                                                      **
+** Author     : h.b. & m.k.                                                   **
+** Company    : SOTEC GmbH & Co. KG, Calwer Str.11, 7261 Ostelheim            **
+**                                                                            **
+********************************************************************************
+**                                                                            **
+** Description: this module contains the definitions for the resource file    **
+**              eqfddlg.rc and eqfddlg.dlg                                    **
+**                                                                            **
+********************************************************************************
+**                                                                            **
+** Change History:                                                            **
+**                                                                            **
+*******************************************************************************/
+
+
+ /*
+ * $Header:   J:\DATA\EQFDDLG.IV_   1.0   09 Jan 1996 10:05:06   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDDLG.IV_  $
+ * 
+ *    Rev 1.0   09 Jan 1996 10:05:06   BUILD
+ * Initial revision.
+ */
+
+#define DISP_ENTRY_PUBO_HELP           DISP_ENTRY_DLG +  1
+#define DISP_ENTRY_PUBO_PRINT          DISP_ENTRY_DLG +  2
+#define DISP_ENTRY_PUBO_COPY           DISP_ENTRY_DLG +  3
+#define DISP_ENTRY_PUBO_EDIT           DISP_ENTRY_DLG +  4
+#define DISP_ENTRY_PUBO_CANCEL         DISP_ENTRY_DLG +  5
+#define DISP_ENTRY_STEXT_HDWRD         DISP_ENTRY_DLG +  6
+#define DISP_ENTRY_STEXT_DICT          DISP_ENTRY_DLG +  7
+#define DISP_ENTRY_STEXT_ENTRY         DISP_ENTRY_DLG +  8
+#define DISP_ENTRY_VTEXT_HDWRD         DISP_ENTRY_DLG +  9
+#define DISP_ENTRY_DICT_SPIN           DISP_ENTRY_DLG + 10
+#define DISP_ENTRY_MLE_ENTRY           DISP_ENTRY_DLG + 11
+#define DISP_ENTRY_LEVEL_SPIN          DISP_ENTRY_DLG + 12
+#define DISP_ENTRY_STEXT_DISPLAY       DISP_ENTRY_DLG + 13
+
+#ifndef _PTM
+#define LOOKUP_PUBO_HELP               LOOKUP_DLG +  1
+#define LOOKUP_PUBO_OK                 LOOKUP_DLG +  2
+#define LOOKUP_ARBUT_FILT_OFF          LOOKUP_DLG +  3
+#define LOOKUP_ARBUT_FILT_ON           LOOKUP_DLG +  4
+#define LOOKUP_GRBOX_FILTER            LOOKUP_DLG +  5
+#define LOOKUP_ARBUT_HIDTERM           LOOKUP_DLG +  6
+#define LOOKUP_ARBUT_ABBREV            LOOKUP_DLG +  7
+#define LOOKUP_ARBUT_RELTERM           LOOKUP_DLG +  8
+#define LOOKUP_ARBUT_SYN               LOOKUP_DLG +  9
+#define LOOKUP_ARBUT_COMPWORD          LOOKUP_DLG + 10
+#define LOOKUP_ARBUT_NEIGHB            LOOKUP_DLG + 11
+#define LOOKUP_ARBUT_HEADWORD          LOOKUP_DLG + 12
+#define LOOKUP_GRBOX_SEARCH_OPT        LOOKUP_DLG + 13
+#define LOOKUP_STEXT_WORD              LOOKUP_DLG + 14
+#define LOOKUP_WORD_COMBO              LOOKUP_DLG + 15
+#define LOOKUP_ARBUT_FILT_CHG          LOOKUP_DLG + 16
+#define LOOKUP_DICT01_TEXT             LOOKUP_DLG + 17
+#define LOOKUP_DICT02_TEXT             LOOKUP_DLG + 18
+#define LOOKUP_DICT03_TEXT             LOOKUP_DLG + 19
+#define LOOKUP_DICT04_TEXT             LOOKUP_DLG + 20
+#define LOOKUP_DICT05_TEXT             LOOKUP_DLG + 21
+#define LOOKUP_DICT06_TEXT             LOOKUP_DLG + 22
+#define LOOKUP_DICT07_TEXT             LOOKUP_DLG + 23
+#define LOOKUP_DICT08_TEXT             LOOKUP_DLG + 24
+#define LOOKUP_DICT09_TEXT             LOOKUP_DLG + 25
+#define LOOKUP_DICT10_TEXT             LOOKUP_DLG + 26
+#define LOOKUP_PUBO_EDIT               LOOKUP_DLG + 27
+#define LOOKUP_PUBO_CANCEL             LOOKUP_DLG + 28
+#endif
+
+#define EDIT_ENTRY_EDIT_HEADWORD       EDIT_ENTRY_DLG +  1
+#define EDE_TEMPGB_ID                  EDIT_ENTRY_DLG +  2
+#define EDIT_ENTRY_VTEXT_SRC_DICT      EDIT_ENTRY_DLG +  3
+#define EDIT_ENTRY_STEXT_SRC_DICT      EDIT_ENTRY_DLG +  4
+#define EDIT_ENTRY_STEXT_TARGET_DICT   EDIT_ENTRY_DLG +  5
+#define EDIT_ENTRY_STEXT_HEADWORD      EDIT_ENTRY_DLG +  6
+#define EDIT_ENTRY_STEXT_TEMPL         EDIT_ENTRY_DLG +  7
+#define EDIT_ENTRY_PUBO_PREV_TEMPL     EDIT_ENTRY_DLG +  8
+#define EDIT_ENTRY_PUBO_NEXT_TEMPL     EDIT_ENTRY_DLG +  9
+#define EDIT_ENTRY_PUBO_DEL_TEMPL      EDIT_ENTRY_DLG + 10
+#define EDIT_ENTRY_PUBO_ADD_TEMPL      EDIT_ENTRY_DLG + 11
+#define EDIT_ENTRY_PUBO_CANCEL         EDIT_ENTRY_DLG + 12
+#define EDIT_ENTRY_PUBO_DEL_ENTRY      EDIT_ENTRY_DLG + 13
+#define EDIT_ENTRY_PUBO_SAVE           EDIT_ENTRY_DLG + 14
+#define EDIT_ENTRY_PUBO_HELP           EDIT_ENTRY_DLG + 15
+#define EDIT_ENTRY_PUBO_PASTE          EDIT_ENTRY_DLG + 16
+#define EDIT_ENTRY_PUBO_COPY           EDIT_ENTRY_DLG + 17
+#define EDE_GB_EF_ID                   EDIT_ENTRY_DLG + 18
+#define EDIT_ENTRY_GRBOX_DICT_ENTRY    EDIT_ENTRY_DLG + 19
+#define EDIT_ENTRY_GRBOX_ENTRY         EDIT_ENTRY_DLG + 20
+#define EDIT_ENTRY_GRBOX_TEMPLATE      EDIT_ENTRY_DLG + 21
+#define EDIT_ENTRY_SCROLL_ENTRY        EDIT_ENTRY_DLG + 22
+#define EDIT_ENTRY_STEXT_DICT          EDIT_ENTRY_DLG + 23
+#define EDIT_ENTRY_COMBO_TARGET_DICT   EDIT_ENTRY_DLG + 24
+#define EDIT_ENTRY_PUBO_COPY_TEMPL     EDIT_ENTRY_DLG + 25
+#define EDIT_ENTRY_STEXT_DICTNAME      EDIT_ENTRY_DLG + 26
+#define EDIT_ENTRY_GRBOX_CLIPBOARD     EDIT_ENTRY_DLG + 27
+
+#define  SID_LOOKUP_TITLE              ID_DLUP_STRINGS + 1
+#define  SID_DISP_ENTRY_TITLE          ID_DLUP_STRINGS + 2
+#define  SID_EDIT_ENTRY_TITLE          ID_DLUP_STRINGS + 3
+#define  SID_MERGE_EDIT_HEADING        ID_DLUP_STRINGS + 4
+#define  SID_MERGE_SGML_HEADING        ID_DLUP_STRINGS + 5
+#define  SID_MERGE_ASD_HEADING         ID_DLUP_STRINGS + 6
+#define  SID_EDIT_ENTRY_TEMPLATE       ID_DLUP_STRINGS + 7
+#define  SID_DISP_PANEL_TEXT           ID_DLUP_STRINGS + 8
+#define  SID_DISP_DICT_TEXT            ID_DLUP_STRINGS + 9
+#define  SID_DISP_DICT_PRTJOB          ID_DLUP_STRINGS + 10
+/**********************************************************************/
+/* String IDs ID_DLUP_STRINGS + 20 up to ID_DLUP_STRINGS +29 are      */
+/* reserved for dictionary print!!!                                   */
+/**********************************************************************/
+
+#define ID_ASDMERGE_ENTRY_EF           ID_ASDMERGE_DLG +  1
+#define ID_ASDMERGE_NEW_MLE            ID_ASDMERGE_DLG +  2
+#define ID_ASDMERGE_OLD_MLE            ID_ASDMERGE_DLG +  3
+#define ID_ASDMERGE_REPLACE_RB         ID_ASDMERGE_DLG +  4
+#define ID_ASDMERGE_IGNORE_RB          ID_ASDMERGE_DLG +  5
+#define ID_ASDMERGE_ADD_RB             ID_ASDMERGE_DLG +  6
+#define ID_ASDMERGE_NOPROMPT_CHK       ID_ASDMERGE_DLG +  7
+#define ID_ASDMERGE_MERGE_PB           ID_ASDMERGE_DLG +  8
+#define ID_ASDMERGE_CANCEL_PB          ID_ASDMERGE_DLG +  9
+#define ID_ASDMERGE_HELP_PB            ID_ASDMERGE_DLG + 10
+#define ID_ASDMERGE_NEW_TEXT           ID_ASDMERGE_DLG + 11
+#define ID_ASDMERGE_OLD_TEXT           ID_ASDMERGE_DLG + 12

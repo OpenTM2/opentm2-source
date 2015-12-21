@@ -1,0 +1,419 @@
+//+----------------------------------------------------------------------------+
+//|EQFLIST.MRI                                                                 |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Gerhard Queck (QSoft)                                               |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:                                                                |
+//|   MRI of list handler and list handler dialogs.                            |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   J:\DATA\EQFLIST.MVI   1.0   09 Jan 1996 10:08:34   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFLIST.MVI  $
+ * 
+ *    Rev 1.0   09 Jan 1996 10:08:34   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+
+////////////////////////////////////////////////////////////////////////////////
+// String used in list window                                                 //
+////////////////////////////////////////////////////////////////////////////////
+
+// Title of list window
+#define STR_LST_TITLE                  "Terminology Lists"
+
+// The following strings are used in the list type combo listbox
+
+// Name for exclusion list type
+#define STR_LST_EXCL_NAME              "Exclusion List"
+
+// Name for new terms list type
+#define STR_LST_NTL_NAME               "New Terms List"
+
+// Name for noise word list type
+#define STR_LST_NOISE_NAME             "Noise List"
+
+// Name for found terms list type
+#define STR_LST_FTL_NAME               "Found Terms List"
+
+// Name for exclusion list title
+#define STR_LST_EXCL_TITLE              "Exclusion Lists"
+
+// Name for new terms list title
+#define STR_LST_NTL_TITLE               "New Terms Lists"
+
+// Name for noise word list title
+#define STR_LST_NOISE_TITLE             "Noise Lists"
+
+// Name for found terms list title
+#define STR_LST_FTL_TITLE               "Found Terms Lists"
+
+// The following strings are the column headings of the list listbox
+
+// Heading for drive column
+#define STR_LST_DRIVE_HDR              "Drive"
+
+// Heading for name column
+#define STR_LST_NAME_HDR               "Name"
+
+// Heading for size column
+#define STR_LST_SIZE_HDR               "Size"
+
+// Heading for last update in date format
+// Note: The word(s) in brackets are not displayed in the column heading,
+//       but in the select details list only
+#define STR_LST_UPD1_HDR               "Updated [Date]"
+
+// Heading for last update in date/time format
+// Note: The word(s) in brackets are not displayed in the column heading,
+//       but in the select details list only
+#define STR_LST_UPD2_HDR               "Updated [Date+Time]"
+
+////////////////////////////////////////////////////////////////////////////////
+//                 Strings of list export dialog panel                        //
+////////////////////////////////////////////////////////////////////////////////
+// format group box
+   #define STR_LISTEXP_FORMAT_GB "Format"
+
+//export into sgml format outside the system
+   #define STR_LISTEXP_EXTERNAL_RB "External"
+
+//export list to another drive in the internal format
+   #define STR_LISTEXP_MAT_RB "OpenTM2"
+
+//export list to another drive in the user format
+   #define STR_LISTEXP_USER_RB "User"
+
+//label for entry field containing name of list for export
+   #define STR_LISTEXP_EXPORT_TEXT "Export:"
+
+//destination group box label
+   #define STR_LISTEXP_TO_GB "To"
+
+//label for the entry field containing name of sgml file into which the list
+//is exported
+   #define STR_LISTEXP_NAME_TEXT "Name:"
+
+//label of the current directory field
+   #define STR_LISTEXP_CURDIR_TEXT "Current directory:"
+
+//label of the directories list box
+   #define STR_LISTEXP_DIR_TEXT "Directories"
+
+//export pushbutton triggers the export list function
+   #define STR_LISTEXP_EXPORT_PB "&Export"
+
+//export list cancel pushbutton
+   #define STR_LISTEXP_CANCEL_PB "Cancel"
+
+//export list help pushbutton
+   #define STR_LISTEXP_HELP_PB "Help"
+
+//name of the dialog which appears as titel of the dialog
+   #define STR_LISTEXP_DLG "Export List"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of list Import dialog panel                                //
+////////////////////////////////////////////////////////////////////////////////
+
+//list import title bar
+   #define STR_LISTIMP_DLG "Import List"
+
+//format group box text
+   #define STR_LISTIMP_FORMAT_GB "Format"
+
+//external radio button
+   #define STR_LISTIMP_EXTERNAL_RB "External"
+
+//internal radio button
+   #define STR_LISTIMP_MAT_RB "OpenTM2"
+
+//import in user format radio button
+   #define STR_LISTIMP_USER_RB "User"
+
+//import group box text for external format
+   #define STR_LISTIMP_IMPORTEXT_GB "From"
+
+//import group box text for internal format
+   #define STR_LISTIMP_IMPORTINT_GB "From"
+
+//import group box text for user format
+   #define STR_LISTIMP_IMPORTUSER_GB "From"
+
+//name of file for import
+   #define STR_LISTIMP_FILENAME_TEXT "Name:"
+
+//label of the current directory field
+   #define STR_LISTIMP_CURDIR_TEXT "Current directory:"
+
+// heading of directory listbox in external or user format mode
+   #define STR_LISTIMP_DIR_LB_TITLE "Directories"
+
+// heading of directory listbox in MAT format mode (listbox is used for lists)
+   #define STR_LISTIMP_LIST_LB_TITLE "Lists"
+
+//text to indicate files
+   #define STR_LISTIMP_FILES_TEXT "Files"
+
+//text adjacent to combo box with destination list
+   #define STR_LISTIMP_TO_TEXT "To list:"
+
+//text on first pushbutton
+   #define STR_LISTIMP_OK_PB "&Import"
+
+//text on second pushbutton
+   #define STR_LISTIMP_CANCEL_PB "Cancel"
+
+//text on third pushbutton
+   #define STR_LISTIMP_HELP_PB "Help"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of work with lists dialog panel                                  //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text of work with lists dialog for new term lists
+//       %1 is replaced with the name of the list
+#define STR_LSTWORK_NTL_TITLE_TEXT "Work with New Terms List: %1"
+
+// title bar text of work with lists dialog for found term lists
+//       %1 is replaced with the name of the list
+#define STR_LSTWORK_FTL_TITLE_TEXT "Work with Found Terms List: %1"
+
+// Text in front of view icons/buttons
+#define STR_LISTMARK_VIEW                 "View:"
+
+#define STR_LISTWORK_MKALL_PB             "All"
+
+#define STR_LISTWORK_MKNOT_PB             ""
+
+#define STR_LISTWORK_UNMARK_PB            "&Unmark"
+
+#define STR_LISTWORK_DELMARK_PB           "Mark for &delete"
+
+#define STR_LISTWORK_DICTMARK_PB          "&Mark for dictionary..."
+
+#define STR_LISTWORK_EXCLMARK_PB          "Mark for e&xclusion list"
+
+#define STR_LISTWORK_SAVE_PB              "&Save"
+
+#define STR_LISTWORK_PROCMARK_PB          "&Process"
+
+#define STR_LISTWORK_CANCEL_PB            "Cancel"
+
+#define STR_LISTWORK_HELP_PB              "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of mark for dictionary dialog                                    //
+////////////////////////////////////////////////////////////////////////////////
+#define STR_LISTMARK_DLG                  "Mark Term for Dictionary"
+
+#define STR_LISTMARK_TERM                 "Term:"
+
+#define STR_LISTMARK_TRANS_TEXT           "Translation:"
+
+#define STR_LISTMARK_CONTEXT_CHK          "Add context to dictionary entry"
+
+#define STR_LISTMARK_DICT_TEXT            "Dictionary"
+
+#define STR_LISTMARK_MARK_PB              "&Mark"
+
+#define STR_LISTMARK_SKIP_PB              "&Skip"
+
+#define STR_LISTMARK_CANCEL_PB            "Cancel"
+
+#define STR_LISTMARK_HELP_PB              "Help"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings of list edit dialog                                              //
+////////////////////////////////////////////////////////////////////////////////
+
+// dialog title text for open of exclusion lists; %1 = list name
+#define STR_LSTEDIT_EXCLTITLE_TEXT        "Edit Exclusion List: %1"
+
+// dialog title text for open of noise lists; %1 = list name
+#define STR_LSTEDIT_NOISETITLE_TEXT       "Edit Noise List: %1"
+
+// dialog title text for create of exclusion lists
+#define STR_LSTNEW_EXCLTITLE_TEXT         "New Exclusion List"
+
+// dialog title text for create of noise lists
+#define STR_LSTNEW_NOISETITLE_TEXT        "New Noise List"
+
+// label for save-to combobox
+#define STR_LISTEDIT_SAVETO_TEXT          "Save to:"
+
+// label for save-to combobox
+#define STR_LISTEDIT_NAME_TEXT            "Name:"
+
+// label of save pushbutton
+#define STR_LISTEDIT_SAVE_PB              "&Save"
+
+// label of save pushbutton
+#define STR_LISTEDIT_CREATE_PB            "&Create"
+
+// label of cancel pushbutton
+#define STR_LISTEDIT_CANCEL_PB            "Cancel"
+
+// label of help pushbutton
+#define STR_LISTEDIT_HELP_PB              "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings for list print function                                          //
+////////////////////////////////////////////////////////////////////////////////
+
+// title of exclusion list printout; %1 = name of list
+   #define STR_LISTPRINT_EXCL_TITLE "Exclusion List: %1"
+
+// title of noise list printout; %1 = name of list
+   #define STR_LISTPRINT_NOISE_TITLE "Noise List: %1"
+
+// title of new terms list printout; %1 = name of list
+   #define STR_LISTPRINT_NTL_TITLE "New Terms List: %1"
+
+// title of found terms list printout; %1 = name of list
+   #define STR_LISTPRINT_FTL_TITLE "Found Terms List: %1"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings for list export dialog                                           //
+////////////////////////////////////////////////////////////////////////////////
+
+// title of exclusion list export
+   #define STR_LSTEXP_EXCL_TITLE_TEXT  "Export Exclusion List"
+
+// title of noise list export
+   #define STR_LSTEXP_NOISE_TITLE_TEXT "Export Noise List"
+
+// title of new terms list export
+   #define STR_LSTEXP_NTL_TITLE_TEXT   "Export New Terms List"
+
+// title of found terms list export
+   #define STR_LSTEXP_FTL_TITLE_TEXT   "Export Found Terms List"
+
+////////////////////////////////////////////////////////////////////////////////
+//   Strings for list import dialog                                           //
+////////////////////////////////////////////////////////////////////////////////
+
+// title of exclusion list import
+   #define STR_LSTIMP_EXCL_TITLE_TEXT  "Import Exclusion List"
+
+// title of noise list import
+   #define STR_LSTIMP_NOISE_TITLE_TEXT "Import Noise List"
+
+// title of new terms list import
+   #define STR_LSTIMP_NTL_TITLE_TEXT   "Import New Terms List"
+
+// title of found terms list import
+   #define STR_LSTIMP_FTL_TITLE_TEXT   "Import Found Terms List"

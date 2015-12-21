@@ -1,0 +1,316 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Sep 2004
+// --RJ: Accessibility: delete ID_DICTIMP_DLG case if defined USESMALLDIALOG,
+// --      delete unused #ifndef WINDOWS case, delete unuser #ifdef _DBCS case
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 12 Nov 2001
+// GQ: - Allow multiple selection in files listbox
+// 
+//
+// $Revision: 1.2 $ ----------- 23 Oct 2001
+// CV (10/22/01)
+// -- ID_DICTIMP_DLG, ID_DICTIMP_NEWCURRENTDIR_DISPLAY added
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.5 $ ----------- 13 Oct 2000
+// - added format combobox
+//
+//
+// $Revision: 1.4 $ ----------- 18 Apr 2000
+// - fixed PTM KBT0707: Under OS/2 only 14 drive letters
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - set CBS_AUTOHSCROLL style for to combobox
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFDIMP.DVG   1.1   19 May 1998 14:28:12   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDIMP.DVG  $
+ *
+ *    Rev 1.1   19 May 1998 14:28:12   BUILD
+ * - enlarged Win32 version of dictionary import dialog to
+ *   allow display of 3 * 9 drive icons
+ *
+ *    Rev 1.0   09 Jan 1996 10:06:08   BUILD
+ * Initial revision.
+*/
+
+ID_DICTIMP_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  0, 0, 275, 250
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_DICTIMP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_DICTIMP_FORMAT_GB, ID_DICTIMP_FORMAT_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 0, 262, 28
+
+  CONTROL "", ID_DICTIMP_FORMAT_CB, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | CBS_AUTOHSCROLL  | WS_TABSTOP | WS_VISIBLE,
+    12, 9, 173, 48
+
+  CONTROL STR_DICTIMP_IMPORT_GB, ID_DICTIMP_IMPORT_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 32, 262, 157
+
+  CONTROL "", ID_DICTIMP_DUMMY, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP,
+    11, 40, 24, 12
+  CONTROL STR_DICTIMP_FILENAME_TEXT, ID_DICTIMP_FILENAME_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 88, 43, 9
+
+  CONTROL "", ID_DICTIMP_PATH_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_VISIBLE | WS_TABSTOP,
+    50, 87, 158, 12
+
+  CONTROL STR_DICTIMP_CURRENTDIR_TEXT, ID_DICTIMP_CURRENTDIR_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 107, 81, 9
+
+  CONTROL "", ID_DICTIMP_NEWCURRENTDIR_TEXT, 
+    STATIC,
+    SS_LEFT,
+    95, 107, 115, 9
+
+  CONTROL "", ID_DICTIMP_NEWCURRENTDIR_DISPLAY, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    95, 107, 115, 9
+  CONTROL STR_DICTIMP_DIR_TEXT, ID_DICTIMP_DIR_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 125, 95, 9
+
+  CONTROL "", ID_DICTIMP_DIR_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_TABSTOP,
+    12, 136, 95, 48
+  CONTROL STR_DICTIMP_FILES_TEXT, ID_DICTIMP_FILES_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    115, 125, 95, 9
+
+  CONTROL "", ID_DICTIMP_FILES_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_TABSTOP | LBS_MULTIPLESEL | LBS_EXTENDEDSEL,
+    115, 136, 95, 48
+
+  CONTROL STR_DICTIMP_TO_TEXT, ID_DICTIMP_TO_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 199, 102, 9
+
+  CONTROL "", ID_DICTIMP_TO_LB, 
+    COMBOBOX,
+    CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | CBS_AUTOHSCROLL  | WS_TABSTOP | WS_VISIBLE,
+    115, 195, 102, 33
+
+  CONTROL STR_DICTIMP_OK_PB, ID_DICTIMP_OK_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE | WS_TABSTOP,
+    23, 232, 56, 15
+  CONTROL STR_DICTIMP_CANCEL_PB, ID_DICTIMP_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    126, 232, 38, 15
+  CONTROL STR_DICTIMP_HELP_PB, ID_DICTIMP_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    211, 232, 38, 15
+END
+
+
+ID_DICTPASSWORD_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  50, 67, 223, 138
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_DICTPASSWORD_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL "", ID_DICTPASSWORD_STATIC_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 13, 211, 43
+
+  CONTROL STR_DICTPASSWORD_NOTE_TEXT, ID_DICTPASSWORD_NOTE_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 59, 211, 21
+  CONTROL STR_DICTPASSWORD_PSW_TEXT, ID_DICTPASSWORD_PSW_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 91, 62, 9
+
+
+  CONTROL "", ID_DICTPASSWORD_PSW_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE | ES_PASSWORD,
+    69, 90, 146, 12
+  CONTROL STR_DICTPASSWORD_ENTER_PB, ID_DICTPASSWORD_ENTER_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    18, 120, 44, 15
+  CONTROL STR_DICTPASSWORD_CANCEL_PB, ID_DICTPASSWORD_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON |  WS_TABSTOP | WS_VISIBLE,
+    100, 120, 38, 15
+  CONTROL STR_DICTPASSWORD_HELP_PB, ID_DICTPASSWORD_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    170, 120, 38, 15
+END
+
+ID_DICT2PASSWORD_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  50, 67, 223, 144
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_DICT2PASSWORD_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL "", ID_DICT2PASSWORD_STATIC_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 11, 211, 33
+  CONTROL STR_DICT2PASSWORD_NOTE_TEXT, ID_DICT2PASSWORD_NOTE_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 49, 211, 21
+
+  CONTROL STR_DICT2PASSWORD_1PSW_TEXT, ID_DICT2PASSWORD_1PSW_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 74, 62, 9
+
+  CONTROL "", ID_DICT2PASSWORD_PSW1_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE | ES_PASSWORD,
+    69, 73, 146, 12
+
+  CONTROL STR_DICT2PASSWORD_2PSW_TEXT, ID_DICT2PASSWORD_2PSW_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 99, 62, 9
+
+  CONTROL "", ID_DICT2PASSWORD_PSW2_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE | ES_PASSWORD,
+    69, 98, 146, 12
+  CONTROL STR_DICT2PASSWORD_ENTER_PB, ID_DICT2PASSWORD_ENTER_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    14, 126, 56, 15
+  CONTROL STR_DICT2PASSWORD_CANCEL_PB, ID_DICT2PASSWORD_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 126, 38, 15
+  CONTROL STR_DICT2PASSWORD_HELP_PB, ID_DICT2PASSWORD_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 126, 38, 15
+END

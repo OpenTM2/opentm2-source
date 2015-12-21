@@ -1,0 +1,182 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Sep 2004
+// --RJ: delete unused ID_TM_QUERY_DLG, ID_TM_QUERA_DOC_DLG
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFTMFUN.DVG   1.3   17 May 1999 13:32:16   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFTMFUN.DVG  $
+ * 
+ *    Rev 1.3   17 May 1999 13:32:16   BUILD
+ * - avoid duplicate dialog IDs
+ *
+ *    Rev 1.2   17 Sep 1996 07:47:04   BUILD
+ * - adjusted size of TMM Query dialog for DBCS environments
+ *
+ *    Rev 1.1   12 Feb 1996 10:25:30   BUILD
+ * - removed TM password dialog
+ * - re-arranged TM query dialog as proposed by ROB/TAF
+ * - fixed PTM KWT0266: Deselect of date and document checkboxes not possible
+ *
+ *    Rev 1.0   09 Jan 1996 10:14:22   BUILD
+ * Initial revision.
+*/
+
+ID_TM_DATE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  50, 67, 223, 138
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_TM_DATE_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL STR_TM_DATE_TEXT, ID_TM_DATE_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 10, 211, 24
+  CONTROL STR_TM_DATE_START, ID_TM_DATE_START, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    64, 39, 25, 9
+  CONTROL STR_TM_DATE_END, ID_TM_DATE_END, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    173, 39, 25, 9
+  CONTROL STR_TM_DATE_MONTH, ID_TM_DATE_MONTH, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 57, 25, 9
+
+  CONTROL STR_TM_DATE_YEAR, ID_TM_DATE_YEAR, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 93, 25, 9
+  CONTROL "", ID_TM_DATE_START_MONTH_DL, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    38, 59, 77, 48
+  CONTROL "", ID_TM_DATE_END_MONTH_DL, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    139, 59, 77, 48
+  CONTROL "", ID_TM_DATE_START_YEAR_DL, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    38, 90, 77, 42
+
+  CONTROL "", ID_TM_DATE_END_YEAR_DL, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    139, 90, 77, 42
+  CONTROL STR_TM_DATE_ENTER_PB, ID_TM_DATE_ENTER_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_VISIBLE,
+    18, 120, 44, 15
+  CONTROL STR_TM_DATE_CANCEL_PB, ID_TM_DATE_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    100, 120, 38, 15
+  CONTROL STR_TM_DATE_HELP_PB, ID_TM_DATE_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    170, 120, 38, 15
+END

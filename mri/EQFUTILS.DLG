@@ -1,0 +1,507 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFUTILS.DLG - Dialog templates for Dialog Utilities                      |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2013, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+ *
+ * $Header:   K:\DATA\EQFUTILS.DVG   1.9   22 Nov 1999 18:07:32   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFUTILS.DVG  $
+ * 
+ *    Rev 1.9   22 Nov 1999 18:07:32   BUILD
+ * - enlarged rename dialog for long name support
+ *
+ *    Rev 1.8   15 Sep 1997 10:45:58   BUILD
+ * - A.57k Object rename function: added object rename dialog
+ *
+ *    Rev 1.7   16 Dec 1996 09:57:44   BUILD
+ * - enlarged yes-to-all dialog
+ *
+ *    Rev 1.6   07 Oct 1996 17:13:14   BUILD
+ * - fixed PTM KAT0157: No button of yes-to-all message box is too small (DBCS)
+ *
+ *    Rev 1.5   23 Sep 1996 14:28:26   BUILD
+ * - enlarged sizze of "Yes-to-all" button for DBCS environment
+ *
+ *    Rev 1.3   05 Feb 1996 13:37:26   BUILD
+ * - set different icon text (=ID of system icon) for Windows environment
+ *
+ *    Rev 1.2   24 Jan 1996 10:05:28   BUILD
+ * - enlarged yes-to-all message box
+ *
+ *    Rev 1.1   10 Jan 1996 19:26:46   BUILD
+ * - added template for "Yes-to-all" message box
+ *
+ *    Rev 1.0   09 Jan 1996 10:12:40   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+/**********************************************************************/
+/*                          Set file dialog                           */
+/**********************************************************************/
+ID_UTL_SETFILE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  90, 48, 223, 186
+STYLE DS_CONTEXTHELP | WS_VISIBLE | WS_BORDER | DS_MODALFRAME | WS_CAPTION 
+CAPTION STR_UTL_SETFILE_DLG_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+/****************************************************************/
+/*                          Name group                          */
+/****************************************************************/
+
+  CONTROL STR_UTL_SETFILE_GP, ID_UTL_SETFILE_GP, 
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE,
+    6, 6, 211, 156
+/****************************************************************/
+/*                         Drives Group                         */
+/****************************************************************/
+
+  CONTROL "", ID_UTL_SETFILE_DRIVEA_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP,
+    11, 12, 24, 12
+/****************************************************************/
+/*                       Name entry field                       */
+/****************************************************************/
+#ifndef _DBCS
+  CONTROL STR_UTL_SETFILE_NAME_TXT, ID_UTL_SETFILE_NAME_TXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 51, 64, 9
+#else
+  CONTROL STR_UTL_SETFILE_NAME_TXT, ID_UTL_SETFILE_NAME_TXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 51, 60, 9
+#endif
+
+  CONTROL "", ID_UTL_SETFILE_NAME_EF, 
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    77, 50, 132, 12
+/****************************************************************/
+/*                      Current directory                       */
+/****************************************************************/
+#ifndef _DBCS
+  CONTROL STR_UTL_CURDIR_TXT, ID_UTL_CURDIR_TXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 69, 81, 9
+#else
+  CONTROL STR_UTL_CURDIR_TXT, ID_UTL_CURDIR_TXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 69, 80, 9
+#endif
+
+  CONTROL "", ID_UTL_CURDIR_NAME_TXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    95, 69, 115, 9
+/****************************************************************/
+/*                     Directories listbox                      */
+/****************************************************************/
+  CONTROL STR_UTL_DIR_TXT, -1, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 86, 95, 9
+
+  CONTROL STR_UTL_SETFILE_DIR_TXT, ID_UTL_SETFILE_DIR_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    12, 99, 95, 57
+/****************************************************************/
+/*                         Pushbuttons                          */
+/****************************************************************/
+  CONTROL STR_UTL_SETFILE_SET_PB, ID_UTL_SETFILE_SET_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    14, 168, 56, 15
+  CONTROL STR_UTL_SETFILE_CANCEL_PB, ID_UTL_SETFILE_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 168, 38, 15
+
+  CONTROL STR_UTL_SETFILE_HELP_PB, ID_UTL_SETFILE_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 168, 38, 15
+/****************************************************************/
+/*                      dummy radiobuttons                      */
+/*                        (not visible)                         */
+/****************************************************************/
+  CONTROL "", ID_UTL_SETFILE_DUMMY1, 
+    BUTTON,
+    BS_AUTORADIOBUTTON,
+    0, 174, 8, 12
+  CONTROL "", ID_UTL_SETFILE_DUMMY2, 
+    BUTTON,
+    BS_AUTORADIOBUTTON,
+    8, 174, 8, 12
+  CONTROL "", ID_UTL_SETFILE_DUMMY3, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL,
+    17, 174, 8, 12
+END
+
+
+
+ID_UTL_YESTOALL_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 19, 257, 90
+STYLE DS_CONTEXTHELP | WS_VISIBLE | WS_BORDER | DS_MODALFRAME | WS_CAPTION 
+CAPTION ""
+FONT 8 "MS Sans Serif"
+BEGIN
+#ifdef _WINDOWS
+  CONTROL 32514, ID_UTL_YESTOALL_ICON, 
+    STATIC,
+    SS_ICON | WS_VISIBLE,
+    5, 35, 17, 19
+#else
+  CONTROL "#12", ID_UTL_YESTOALL_ICON, 
+    STATIC,
+    SS_ICON | WS_VISIBLE,
+    5, 35, 17, 19
+#endif
+
+  CONTROL "", ID_UTL_YESTOALL_MSG_TXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    32, 10, 206, 58
+#ifndef _DBCS
+  CONTROL STR_UTL_YESTOALL_YES_PB, ID_UTL_YESTOALL_YES_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    7, 73, 34, 15
+  CONTROL STR_UTL_YESTOALL_YESTOALL_PB, ID_UTL_YESTOALL_YESTOALL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    57, 73, 41, 15
+  CONTROL STR_UTL_YESTOALL_NO_PB, ID_UTL_YESTOALL_NO_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    112, 73, 34, 15
+  CONTROL STR_UTL_YESTOALL_CANCEL_PB, ID_UTL_YESTOALL_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    160, 73, 34, 15
+  CONTROL STR_UTL_YESTOALL_HELP_PB, ID_UTL_YESTOALL_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    207, 73, 34, 15
+#else
+  CONTROL STR_UTL_YESTOALL_YES_PB, ID_UTL_YESTOALL_YES_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    6, 73, 34, 15
+  CONTROL STR_UTL_YESTOALL_YESTOALL_PB, ID_UTL_YESTOALL_YESTOALL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    53, 73, 58, 15
+  CONTROL STR_UTL_YESTOALL_NO_PB, ID_UTL_YESTOALL_NO_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    122, 73, 41, 15
+  CONTROL STR_UTL_YESTOALL_CANCEL_PB, ID_UTL_YESTOALL_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    174, 73, 34, 15
+  CONTROL STR_UTL_YESTOALL_HELP_PB, ID_UTL_YESTOALL_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    219, 73, 34, 15
+#endif
+END
+
+#ifdef R004332_LONGNAMES
+ID_RENAME_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 12, 298, 84
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER 
+CAPTION STR_RENAME_FOL_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "", ID_RENAME_OBJ_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 13, 69, 9
+
+  CONTROL "", ID_RENAME_NAME_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    77, 13, 173, 9
+  CONTROL STR_RENAME_RENAMETO_TEXT, -1, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 27, 69, 9
+
+  CONTROL "", ID_RENAME_NEWNAME_EF, 
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    77, 26, 173, 12
+
+  CONTROL STR_RENAME_ADJUST_CHK, ID_RENAME_ADJUST_CHK, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    6, 41, 181, 12
+  CONTROL STR_RENAME_RENAME_PB, ID_RENAME_RENAME_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    40, 66, 56, 15
+  CONTROL STR_RENAME_CANCEL_PB, ID_RENAME_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    137, 66, 38, 15
+  CONTROL STR_RENAME_HELP_PB, ID_RENAME_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    217, 66, 38, 15
+END
+#else
+ID_RENAME_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 12, 194, 84
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER 
+CAPTION STR_RENAME_FOL_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "", ID_RENAME_OBJ_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 13, 69, 9
+
+  CONTROL "", ID_RENAME_NAME_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    77, 13, 69, 9
+  CONTROL STR_RENAME_RENAMETO_TEXT, -1, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 27, 69, 9
+
+  CONTROL "", ID_RENAME_NEWNAME_EF, 
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    77, 26, 69, 12
+
+  CONTROL STR_RENAME_ADJUST_CHK, ID_RENAME_ADJUST_CHK, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    6, 41, 181, 12
+  CONTROL STR_RENAME_RENAME_PB, ID_RENAME_RENAME_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    9, 66, 56, 15
+  CONTROL STR_RENAME_CANCEL_PB, ID_RENAME_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    84, 66, 38, 15
+  CONTROL STR_RENAME_HELP_PB, ID_RENAME_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    142, 66, 38, 15
+END
+#endif
+
+ID_OPTION_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 12, 620, 84
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER 
+CAPTION STR_RENAME_FOL_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "", ID_OPTION_LABEL_TEXT, STATIC, SS_LEFT | WS_VISIBLE, 6, 13, 109, 9
+
+  CONTROL "", ID_OPTION_DATA_EF, EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    117, 13, 173, 12
+
+  CONTROL "", ID_OPTION_DESC_TEXT, STATIC, SS_LEFT | WS_VISIBLE, 306, 13, 360, 9
+
+
+  CONTROL "OK", ID_OPTIONSDLG_OK_PB, BUTTON, BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE, 90, 66, 56, 15
+  CONTROL "Cancel", ID_OPTIONSDLG_CANCEL_PB,  BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 277, 86, 38, 15
+  CONTROL "Help", ID_OPTIONSDLG_HELP_PB, EQFHELPBUTTON, WS_TABSTOP | WS_VISIBLE, 447, 66, 38, 15
+END
+
+/*******************************************************************************/
+/*                 add user dialog                                             */
+/*******************************************************************************/
+ID_ADDUSER_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 12, 298, 84
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER 
+CAPTION STR_ADDUSER_TM_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  
+  CONTROL STR_ADDUSER_USERID_TEXT, -1, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 27, 69, 9
+
+  CONTROL "", ID_ADDUSER_DLG_USERID_EF, 
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    77, 26, 173, 12
+
+  CONTROL STR_ADDUSER_ADD_PB, ID_ADDUSER_ADD_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    70, 66, 56, 15
+  CONTROL STR_ADDUSER_CACEL_PB, ID_ADDUSER_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    170, 66, 56, 15
+END
+
+/*******************************************************************************/
+/*                 remove user dialog                                             */
+/*******************************************************************************/
+ID_REMOVEUSER_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 12, 300, 180
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION STR_REMOVEUSER_TM_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+/*
+  CONTROL STR_REMOVEUSER_USERS, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 14, 69, 9
+*/
+  CONTROL "", ID_REMOVEUSER_USERS_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
+    6, 6, 290, 150
+
+  CONTROL STR_REMOVEUSER_REMOVE_BUTTON, ID_REMOVEUSER_REMOVE_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    60, 158, 56, 15
+  CONTROL STR_REMOVEUSER_CANCEL_BUTTON, ID_REMOVEUSER_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    170, 158, 56, 15
+END
+
+/*******************************************************************************/
+/*                 list user dialog                                             */
+/*******************************************************************************/
+ID_LISTUSER_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 12, 300, 180
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION STR_LISTUSER_TM_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "", ID_LISTUSER_USERS_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
+    6, 6, 290, 150
+
+  CONTROL STR_LISTUSER_CANCEL_BUTTON, ID_LISTUSER_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    120, 158, 56, 15
+END
+
+

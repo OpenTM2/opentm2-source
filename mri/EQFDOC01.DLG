@@ -1,0 +1,353 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFDOC01.DLG - Document related dialogs                                   |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 28 Sep 2004
+// GQ: - removed obsolete dialog templates
+// 
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.3 $ ----------- 14 Dec 1999
+// - added CBS_AUTOHSCROLL style to TM field in document properties dialog
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFDOC01.DVG   1.18   07 Jun 1999 10:20:38   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFDOC01.DVG  $
+ *
+ *    Rev 1.18   07 Jun 1999 10:20:38   BUILD
+ * - enlarged width of document properties dialog as some date values were
+ *   truncated
+ *
+ *    Rev 1.17   17 May 1999 13:31:38   BUILD
+ * - added conversion field to document properties dialog and to new documents
+ *   dialog
+ *
+ *    Rev 1.16   07 Dec 1998 11:40:36   BUILD
+ * Document Import dialog: Directories Horzscrollbar added
+ * Document Export dialog: Files Horzscrollbar added
+ *
+ *    Rev 1.15   23 Nov 1998 10:12:06   BUILD
+ * - fixed PTM KBT0402: Long file name truncated
+ *
+ *    Rev 1.14   16 Nov 1998 16:11:26   BUILD
+ * - reworked document export dialog for export with relative path
+ *
+ *    Rev 1.13   26 Oct 1998 18:40:40   BUILD
+ * - continued work item R004290 - import path
+ *
+ *    Rev 1.12   29 Sep 1998 07:35:08   BUILD
+ * - implemented work item R004290
+ *
+ *    Rev 1.11   19 May 1998 14:27:36   BUILD
+ * - enlarged Win32 version of document import and document export dialog to
+ *   allow display of 3 * 10 drive icons
+ *
+ *    Rev 1.10   26 Aug 1997 14:54:28   BUILD
+ * - fixed PTM KBT0056: Long file names in list boxes...
+ *
+ *    Rev 1.9   06 May 1997 07:42:50   BUILD
+ * - re-positioned text static field of long-to-short document name dialog
+ *
+ *    Rev 1.8   07 Mar 1997 10:17:00   BUILD
+ * -- added missing #else for TOP97
+ *
+ *    Rev 1.7   05 Mar 1997 09:47:56   BUILD
+ * - corrected minor control alignments in doc properties and doc new dialog
+ *
+ *    Rev 1.6   24 Feb 1997 11:01:56   BUILD
+ * - enlarged width of name field of document property dialog and added alias
+ *   entry field
+ * - added dialog for long-to-short name dialog (ID_DOCSHORT_DLG)
+ * - added new fields to document properties dialog
+ *
+ *    Rev 1.5   22 Oct 1996 13:58:32   BUILD
+ * - fixed PTM KAT0179: Document export: There must be more drive letters displayed
+ *
+ *    Rev 1.4   07 Oct 1996 17:12:52   BUILD
+ * - fixed PTM KAT0157: FOLEXP dialog some controls truncated (DBCS)
+ *
+ *    Rev 1.3   23 Sep 1996 14:31:06   BUILD
+ * - reduced horizontal size of document import dialog for DBCS environment
+ *
+ *    Rev 1.2   17 Sep 1996 07:47:34   BUILD
+ * - decreased size of document export dialog for DBCS NLS environments
+ *
+ *    Rev 1.1   05 Feb 1996 13:38:24   BUILD
+ * - added LS_EXTENDEDSEL style to multiple selection listboxes
+ *
+ *    Rev 1.0   09 Jan 1996 10:06:22   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+
+
+/*+----------------------------------------------------------------------------+
+  |    Revision mark dialg                                                     |
+  +----------------------------------------------------------------------------+
+*/
+ID_REVMARK_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 36, 223, 206
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_REVMARK_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL STR_REVMARK_NAME, ID_REVMARK_NAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 13, 70, 9
+
+  CONTROL "", ID_REVMARK_NAME_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 12, 135, 12
+  CONTROL STR_REVMARK_DESCR, ID_REVMARK_DESCR_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 29, 70, 9
+
+  CONTROL "", ID_REVMARK_DESCR_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 28, 135, 12
+
+  CONTROL STR_REVMARK_CAT1_GB, ID_REVMARK_CAT1_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE,
+    6, 43, 211, 42
+  CONTROL STR_REVMARK_CAT1_BEG, ID_REVMARK_CAT1_BEG_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 56, 64, 9
+
+  CONTROL "", ID_REVMARK_CAT1_BEG_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 55, 129, 12
+  CONTROL STR_REVMARK_CAT1_END, ID_REVMARK_CAT1_END_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 71, 64, 9
+
+  CONTROL "", ID_REVMARK_CAT1_END_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 70, 129, 12
+
+  CONTROL STR_REVMARK_CAT2_GB, ID_REVMARK_CAT2_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE,
+    6, 89, 211, 42
+  CONTROL STR_REVMARK_CAT2_BEG, ID_REVMARK_CAT2_BEG_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 101, 64, 9
+
+  CONTROL "", ID_REVMARK_CAT2_BEG_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 100, 129, 12
+  CONTROL STR_REVMARK_CAT2_END, ID_REVMARK_CAT2_END_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 117, 64, 9
+
+  CONTROL "", ID_REVMARK_CAT2_END_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 116, 129, 12
+
+  CONTROL STR_REVMARK_CAT3_GB, ID_REVMARK_CAT3_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE,
+    6, 134, 211, 42
+  CONTROL STR_REVMARK_CAT3_BEG, ID_REVMARK_CAT3_BEG_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 147, 64, 9
+
+  CONTROL "", ID_REVMARK_CAT3_BEG_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 146, 129, 12
+  CONTROL STR_REVMARK_CAT3_END, ID_REVMARK_CAT3_END_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 163, 64, 9
+
+  CONTROL "", ID_REVMARK_CAT3_END_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    79, 162, 129, 12
+  CONTROL STR_REVMARK_SAVE_PB, ID_REVMARK_SAVE_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    4, 188, 56, 15
+  CONTROL STR_REVMARK_DELETE_PB, ID_REVMARK_DELETE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    68, 188, 56, 15
+  CONTROL STR_REVMARK_CANCEL_PB, ID_REVMARK_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    132, 188, 38, 15
+  CONTROL STR_REVMARK_HELP_PB, ID_REVMARK_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    179, 188, 38, 15
+END
+
+
+/*+----------------------------------------------------------------------------+
+  |    Document long name to short name dialog                                 |
+  +----------------------------------------------------------------------------+
+*/
+ID_DOCSHORT_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 60, 173, 120
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION STR_DOCSHORT_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL STR_DOCSHORT_NOTE, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    4, 6, 155, 57
+  CONTROL STR_DOCSHORT_NAME, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    4, 69, 51, 9
+
+  CONTROL "", ID_DOCSHORT_NAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    56, 69, 103, 9
+  CONTROL STR_DOCSHORT_SHORTNAME, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    4, 81, 51, 9
+
+  CONTROL "", ID_DOCSHORT_SHORTNAME_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    56, 80, 103, 12
+  CONTROL STR_DOCSHORT_SET_PB, ID_DOCSHORT_SET_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    8, 99, 38, 15
+  CONTROL STR_DOCSHORT_CANCEL, ID_DOCSHORT_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    64, 99, 38, 15
+  CONTROL STR_DOCSHORT_HELP, ID_DOCSHORT_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    121, 99, 38, 15
+END
+

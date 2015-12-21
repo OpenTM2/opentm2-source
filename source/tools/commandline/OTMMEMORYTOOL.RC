@@ -1,0 +1,9 @@
+//+----------------------------------------------------------------------------+
+//| OTMREVM.RC - Icon resource file for OTMREVM.EXE                            |
+//+----------------------------------------------------------------------------+
+//| Copyright (c) 2013, International Business Machines                        |
+//| Corporation and others.  All rights reserved.                              |
+//+----------------------------------------------------------------------------+
+#include "eqf.id"
+
+ID_OTMMEMORYTOOL_ICON ICON     OTMMEMORYTOOL.ICO

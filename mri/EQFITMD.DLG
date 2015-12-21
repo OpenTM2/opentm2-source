@@ -1,0 +1,404 @@
+//+----------------------------------------------------------------------------+
+//|EQFITMD.DLG                                                                 |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:                                                                     |
+//|  Regine Jornitz                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:                                                                |
+//|  Dialog definition for ITM dialog                                          |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 9 Mar 2007
+// GQ: - fixed P031121 EQFITM: Window not always painted completely
+// 
+//
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+//
+//
+// $Revision: 1.2 $ ----------- 22 Nov 2006
+// GQ: - fixed P020061: Visual ITM doesn't allow to exactly choose right directory and file
+//
+//
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+//
+//
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+//
+//
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+//
+//
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+//
+//
+// $Revision: 1.2 $ ----------- 27 Sep 2004
+// --RJ: accessibility: delete unused dialog resource
+//
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.3 $ ----------- 29 Apr 2002
+// --RJ: make filelist listbox with more lines for DBCS too
+//
+//
+// $Revision: 1.2 $ ----------- 22 Apr 2002
+// --RJ: make filelist listbox with more lines
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFITMD.DVG   1.15   15 Nov 1999 20:41:06   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFITMD.DVG  $
+ *
+ *    Rev 1.15   15 Nov 1999 20:41:06   BUILD
+ *
+ *    Rev 1.14   08 Oct 1999 15:42:16   BUILD
+ * -- add support for startpath / relative path in dialogd
+ *
+ *    Rev 1.13   26 Aug 1997 14:54:18   BUILD
+ * - fixed PTM KBT0056: Long file names not visible completely and horizontal
+ *   scrolling not possible
+ *
+ *    Rev 1.12   21 Oct 1996 11:45:10   BUILD
+ * - enlarged (horizontal) ITM process dialog for DBCS environment
+ *
+ *    Rev 1.11   07 Oct 1996 17:14:04   BUILD
+ * - fixed PTM KAT0157: ITM Process dialog has some truncated strings (DBCS)
+ * - aligned pushbuttons at bottom of ITM dialog (DBCS)
+ *
+ *    Rev 1.10   24 Sep 1996 19:12:30   BUILD
+ * - use same dialog template for OS/2 and Windows environment
+ *
+ *    Rev 1.9   23 Sep 1996 14:30:22   BUILD
+ * - enlarged delete pushbutton for DBCS environment and cur dir statics
+ *
+ *    Rev 1.7   18 Sep 1996 10:15:22   BUILD
+ * - enable all ITM dialog pushbuttons even if compiled for Windows DBCS version...
+ *
+ *    Rev 1.6   14 Mar 1996 11:33:16   BUILD
+ * -- KWT0467: streamline dialog
+ *
+ *    Rev 1.4   04 Mar 1996 10:53:34   BUILD
+ * -- update progress dialog for ITM
+ *
+ *    Rev 1.3   26 Feb 1996 15:49:04   BUILD
+ * -- KWT0032: allow for slider in ITM
+ *
+ *    Rev 1.2   12 Feb 1996 10:38:36   BUILD
+ * - add changes in ITM dlg size (KWT 259)
+ *
+ *    Rev 1.1   29 Jan 1996 17:28:32   BUILD
+ * -- get rid of Warning MINMAX_BUTTON during MRIWIN construction
+ *
+ *    Rev 1.0   09 Jan 1996 10:08:16   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+
+ID_ITM_MAIN_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  8, 24, 355, 294
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER | WS_SIZEBOX
+CAPTION STR_ITM_MAIN_DLG_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_ITM_TRANSMEM_STATIC, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    5, 9, 70, 9
+
+  CONTROL "", ID_ITM_TRANSMEM_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    82, 6, 90, 62
+
+  CONTROL STR_ITM_MARKUP_STATIC, ID_ITM_MARKUP_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    179, 9, 56, 9
+  CONTROL "", ID_ITM_MARKUP_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    252, 6, 90, 62
+
+  CONTROL STR_ITM_SRCLANG_STATIC, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    5, 26, 70, 9
+
+  CONTROL "", ID_ITM_SRCLANG_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    82, 25, 90, 62
+
+  CONTROL STR_ITM_TGTLANG_STATIC, ID_ITM_TGTLANG_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    179, 26, 56, 9
+
+  CONTROL "", ID_ITM_TGTLANG_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    252, 25, 90, 62
+
+  CONTROL STR_ITM_SELFILE, ID_ITM_SELECTION_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    5, 41, 343, 147
+  CONTROL STR_ITM_SRCSTARTPATH_STATIC, ID_ITM_SRCSTARTPATH_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    8, 54, 64, 9
+  CONTROL "", ID_ITM_SRCSTARTPATH_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    82, 53, 89, 12
+
+  CONTROL STR_ITM_TGTSTARTPATH_STATIC, ID_ITM_TGTSTARTPATH_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    179, 54, 64, 9
+  CONTROL "", ID_ITM_TGTSTARTPATH_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    252, 53, 89, 12
+
+
+  CONTROL STR_ITM_SOURCE_STATIC, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    8, 71, 62, 9
+  CONTROL "", ID_ITM_SOURCE_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    82, 70, 90, 12
+
+  CONTROL STR_ITM_TARGET_STATIC, ID_ITM_TARGET_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    179, 71, 62, 9
+  CONTROL "", ID_ITM_TARGET_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    252, 70, 89, 12
+
+  CONTROL STR_ITM_CURDIR_STATIC, ID_ITM_CURDIRSRC_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    8, 90, 64, 9
+  PUSHBUTTON "Browse", ID_ITM_CURDIRSRC_BROWSE_PB,123,86,48,15
+  EDITTEXT   ID_ITM_CURDIRSRC_EF,7,103,164,12,ES_AUTOHSCROLL
+
+  CONTROL STR_ITM_FILES_LB, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    9, 120, 30, 9
+  CONTROL "", ID_ITM_SRCFILE_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
+    7, 131, 164, 55
+
+  CONTROL STR_ITM_CURDIR_STATIC, ID_ITM_CURDIRTGT_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    182, 92, 64, 9
+  PUSHBUTTON "Browse", ID_ITM_CURDIRTGT_BROWSE_PB,298,86,48,15
+  EDITTEXT  ID_ITM_CURDIRTGT_EF,182,103,164,12,ES_AUTOHSCROLL
+
+  CONTROL STR_ITM_FILES_LB, ID_ITM_TGTFILE_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    184, 120, 30, 9
+  CONTROL "", ID_ITM_TGTFILE_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
+    182, 131, 164, 55
+
+  CONTROL STR_ITM_ADDTOLIST_PB, ID_ITM_ADDTOLIST_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    39, 194, 48, 15
+  CONTROL "Add all matching files", ID_ITM_ADDALLTOLIST_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    113, 194, 83, 15
+  CONTROL STR_ITM_DELINLIST_PB, ID_ITM_DELINLIST_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    222, 194, 48, 15
+  CONTROL STR_ITM_DELALL_PB, ID_ITM_DELALL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    296, 194, 48, 15
+
+
+  CONTROL STR_ITM_FILELIST_LB, ID_ITM_FILELIST_STATIC,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    5, 200, 33, 9
+  CONTROL "", ID_ITM_FILELIST_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_MULTIPLESEL | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS,
+    5, 212, 343, 60
+
+  CONTROL STR_ITM_VISUAL_PB, ID_ITM_VISUAL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    8, 275, 48, 15
+  CONTROL STR_ITM_ALIGN_PB, ID_ITM_ALIGN_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    77, 275, 48, 15
+  CONTROL STR_ITM_PREPARE_PB, ID_ITM_PREPARE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    147, 275, 48, 15
+  CONTROL STR_ITM_CANCEL_PB, ID_ITM_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    216, 275, 48, 15
+  CONTROL STR_ITM_HELP_PB, ID_ITM_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    285, 275, 48, 15
+END
+
+
+
+ID_ITM_PROCESS_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  58, 99, 188, 144
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION | DS_MODALFRAME
+CAPTION STR_ITMWAIT_WAIT_TEXT
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_ITM_TMFILE_X, ID_ITM_PROCESS_ITMFILE,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    7, 15, 60, 9
+  CONTROL "", ID_ITM_PROCESS_ITMFILE_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    69, 15, 108, 9
+  CONTROL STR_ITM_SOURCEFILE_X, ID_ITM_PROCESS_SOURCEFILE,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    7, 33, 60, 9
+  CONTROL "", ID_ITM_PROCESS_SOURCEFILE_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    69, 33, 108, 9
+  CONTROL STR_ITM_TARGETFILE_X, ID_ITM_PROCESS_TARGETFILE,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    7, 51, 60, 9
+  CONTROL "", ID_ITM_PROCESS_TARGETFILE_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    69, 51, 108, 9
+  CONTROL STR_ITM_STATUS_X, ID_ITM_PROCESS_TASK,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    7, 69, 60, 9
+  CONTROL "", ID_ITM_PROCESS_TASK_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    69, 69, 108, 9
+  CONTROL "", ID_ITM_PROCESS_TASK_TEXT2,
+    STATIC,
+    SS_CENTER | WS_VISIBLE,
+    7, 87, 156, 9
+
+  CONTROL "", ID_ITM_PROCESS_SLIDER,
+    PROGRESSCONTROL,
+    WS_VISIBLE | PBS_HORIZONTAL  | PBS_PERCENTAGE  | PBS_CHISELED ,
+    7, 102, 173, 18
+
+END
+

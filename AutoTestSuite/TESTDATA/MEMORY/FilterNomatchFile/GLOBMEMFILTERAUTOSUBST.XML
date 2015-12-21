@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="HamsterV1.XSL" ?>
+<HamsterFiltering>
+   <header>
+      <generator>HAMSTER</generator>
+      <generatorVersion>1.0.0</generatorVersion>
+      <creationDate>Wed Mar 09 18:41:05 2011</creationDate>
+      <metadataFileName>CL405ACD003_0_en-US_pt-BR_filter.xml</metadataFileName >
+      <inputspecs>CL405ACD003_0_en-US_pt-BR_filter.fxp</inputspecs>
+   </header>
+   <Filter Name="hamsterFilterV1" HamsterFolder="Y">
+		<ProjectId name="CL405"
+			Iuc="P"
+			sequence="0"
+			division="7D"
+			tmbArchived="0"
+			numberOfWords="15"
+			numberOfSegments="4"
+			cfmArrivalDate="2013/08/26"
+			processingFlag="Substitute">
+		</ProjectId>
+   </Filter>
+</HamsterFiltering>

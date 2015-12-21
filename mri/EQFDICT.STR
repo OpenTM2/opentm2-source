@@ -1,0 +1,207 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 30 Aug 2000
+// - added strings for dictionary property sheets
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+////////////////////////////////////////////////////////////////////////////////
+//                 Strings table for dictionary strings                       //
+////////////////////////////////////////////////////////////////////////////////
+/*
+ * $Header:   J:\DATA\EQFDICT.SVR   1.0   13 Jan 1996 14:07:20   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDICT.SVR  $
+ * 
+ *    Rev 1.0   13 Jan 1996 14:07:20   BUILD
+ * - initial put
+ *
+ */
+
+STRINGTABLE
+BEGIN
+//strings for dictionary list window column list box
+ IDS_DICT_NAME_COLTITLE, STR_DICT_NAME_COLTITLE
+ IDS_DICT_DESCR_COLTITLE, STR_DICT_DESCR_COLTITLE
+ IDS_DICT_DRIVE_COLTITLE, STR_DICT_DRIVE_COLTITLE
+ IDS_DICT_SERVER_COLTITLE, STR_DICT_SERVER_COLTITLE
+ IDS_DICT_OWNER_COLTITLE, STR_DICT_OWNER_COLTITLE
+ IDS_DICT_NO_OWNER_STR, STR_DICT_NO_OWNER_STR
+ IDS_DICT_SOURCELANG_COLTITLE, STR_DICT_SOURCELANG_COLTITLE
+
+//Dictionary properties/ Create new dictionary
+ IDS_DICPROP_UNPROTECT_TEXT, STR_DICPROP_UNPROTECT_TEXT
+ IDS_DICPROP_PROTECTED_TEXT, STR_DICPROP_PROTECTED_TEXT
+ IDS_DICPROP_LOCAL_TEXT, STR_DICPROP_LOCAL_TEXT
+ IDS_DICPROP_SHARED_TEXT, STR_DICPROP_SHARED_TEXT
+ IDS_DICPROP_REMOTE_TEXT, STR_DICPROP_REMOTE_TEXT
+ IDS_PCH_ADD_PB, STR_PCH_ADD_PB
+ IDS_PCH_CHANGE_PB, STR_PCH_CHANGE_PB
+ IDS_PCH_ADD_TEXT, STR_PCH_ADD_TEXT
+ IDS_PCH_CHANGE_TEXT, STR_PCH_CHANGE_TEXT
+
+//Dictionary export
+ IDS_DEX_TITLEBAR, STR_DEX_TITLEBAR
+ IDS_DEX_EXPORT_DICTNAME, STR_DEX_EXPORT_DICTNAME
+ IDS_DEX_ENTRY_STATICTEXT, STR_DEX_ENTRY_STATICTEXT
+
+//Dictionary import
+ IDS_DIMP_TITLEBAR, STR_DIMP_TITLEBAR
+ IDS_DIMP_IMPORT_DICTNAME, STR_DIMP_IMPORT_DICTNAME
+ IDS_DIMP_IMPORT_FOLDTEXT, STR_DIMP_IMPORT_FOLDTEXT
+ IDS_DIMP_ENTRY_STATICTEXT, STR_DIMP_ENTRY_STATICTEXT
+
+//Dictionary organize
+ IDS_DORG_TITLEBAR, STR_DORG_TITLEBAR
+ IDS_DORG_ENTRY_GB, STR_DORG_ENTRY_GB
+
+//Query password
+ IDS_PASSWORD_TEXT, STR_PASSWORD_TEXT
+ IDS_1PASSWORD_TEXT, STR_1PASSWORD_TEXT
+
+//Protect dictionary
+ IDS_2PASSWORDS_TEXT, STR_2PASSWORDS_TEXT
+
+//Property sheets for dictionary
+ IDS_DICTPROP_TAB_GENERAL, STR_DICTPROP_TAB_GENERAL
+ IDS_DICTPROP_TAB_OPTIONS, STR_DICTPROP_TAB_OPTIONS
+
+
+
+
+// strings for initial user name of fields
+  IDS_HEADWORD_USRNAME,           STR_HEADWORD_USRNAME
+  IDS_AUTHOR_USRNAME,             STR_AUTHOR_USRNAME
+  IDS_CREATIONDATE_USRNAME,       STR_CREATIONDATE_USRNAME
+  IDS_STATUSCODE_USRNAME,         STR_STATUSCODE_USRNAME
+  IDS_PARTOFSPEECH_USRNAME,       STR_PARTOFSPEECH_USRNAME
+  IDS_SOURCEOFHEADWORD_USRNAME,   STR_SOURCEOFHEADWORD_USRNAME
+  IDS_ABBREVFULLFORM_USRNAME,     STR_ABBREVFULLFORM_USRNAME
+  IDS_AUTHOROFUPDATE_USRNAME,     STR_AUTHOROFUPDATE_USRNAME
+  IDS_LASTUPDATE_USRNAME,         STR_LASTUPDATE_USRNAME
+  IDS_DEFINITION_USRNAME,         STR_DEFINITION_USRNAME
+  IDS_SOURCEOFDEFINITION_USRNAME, STR_SOURCEOFDEFINITION_USRNAME
+  IDS_SYNONYM_USRNAME,            STR_SYNONYM_USRNAME
+  IDS_OTHERRELATEDTERMS_USRNAME,  STR_OTHERRELATEDTERMS_USRNAME
+  IDS_CONTEXT_USRNAME,            STR_CONTEXT_USRNAME
+  IDS_SOURCEOFCONTEXT_USRNAME,    STR_SOURCEOFCONTEXT_USRNAME
+  IDS_COMMENTS_USRNAME,           STR_COMMENTS_USRNAME
+  IDS_NOTEONUSAGE_USRNAME,        STR_NOTEONUSAGE_USRNAME
+  IDS_LANGUAGE_USRNAME,           STR_LANGUAGE_USRNAME
+  IDS_TRANSLATION_USRNAME,        STR_TRANSLATION_USRNAME
+  IDS_COMPANYSUBJECTCODE_USRNAME, STR_COMPANYSUBJECTCODE_USRNAME
+  IDS_TRANSSOURCEOFTRANS_USRNAME, STR_TRANSSOURCEOFTRANS_USRNAME
+  IDS_TRANSABBREVFULLFORM_USRNAME,STR_TRANSABBREVFULLFORM_USRNAME
+  IDS_TRANSAUTHOR_USRNAME,        STR_TRANSAUTHOR_USRNAME
+  IDS_TRANSAUTHOROFUPDATE_USRNAME,STR_TRANSAUTHOROFUPDATE_USRNAME
+  IDS_TRANSCREATIONDATE_USRNAME,  STR_TRANSCREATIONDATE_USRNAME
+  IDS_TRANSLASTUPDATE_USRNAME,    STR_TRANSLASTUPDATE_USRNAME
+  IDS_TRANSSTATUSCODE_USRNAME,    STR_TRANSSTATUSCODE_USRNAME
+  IDS_TRANSPARTOFSPEECH_USRNAME,  STR_TRANSPARTOFSPEECH_USRNAME
+  IDS_TRANSDEFINITION_USRNAME,    STR_TRANSDEFINITION_USRNAME
+  IDS_TRANSSOURCEOFDEF_USRNAME,   STR_TRANSSOURCEOFDEF_USRNAME
+  IDS_TRANSSYNONYM_USRNAME,       STR_TRANSSYNONYM_USRNAME
+  IDS_TRANSOTHERREL_USRNAE,       STR_TRANSOTHERREL_USRNAE
+  IDS_TRANSCONTEXT_USRNAME,       STR_TRANSCONTEXT_USRNAME
+  IDS_TRANSSRCOFCONTEXT_USRNAME,  STR_TRANSSRCOFCONTEXT_USRNAME
+  IDS_TRANSCOMMENTS_USRNAME,      STR_TRANSCOMMENTS_USRNAME
+
+END

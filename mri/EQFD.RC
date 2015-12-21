@@ -1,0 +1,375 @@
+//旼컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴커
+//쿐QFD.RC       TM MFC resources                                              ?
+//쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
+//쿎opyright Notice:                                                           ?
+//?                                                                           ?
+//?     Copyright (C) 1990-2015, International Business Machines              ?
+//?     Corporation and others. All rights reserved                           ?
+//쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
+//쿟o be done / known limitations / caveats:                                   ?
+//?                                                                           ?
+//읕컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴켸
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+
+#include "afxres.h"
+#include "eqf.id"
+#include "eqfb.id"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#include "afxres.rc"
+#include "afxprint.rc"
+
+#ifdef APSTUDIO_INVOKED
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+        "eqfrcmfc.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+        "#include ""afxres.h""\r\n"
+        "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+        "\r\n"
+        "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+        "#ifdef _WIN32\r\n"
+        "LANGUAGE 9, 1\r\n"
+        "#pragma code_page(1252)\r\n"
+        "#endif\r\n"
+        "#include ""afxres.rc""         // Standard components\r\n"
+        "#include ""afxprint.rc""       // printing/print preview resources\r\n"
+        "#endif"
+        "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    ID_TWBM_WINDOW          "OpenTM2\n\nEQFD\n\n\nEQFD.Document\nEQFD Document"
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+ID_TWBM_WINDOW          BITMAP  MOVEABLE PURE   "eqftwb.bmp"
+
+#ifdef REDIT_VISIBLE
+  ID_TP_MAIN_WINDOW       BITMAP  MOVEABLE PURE   "Eqftprov.bmp"
+#else
+  ID_TP_MAIN_WINDOW       BITMAP  MOVEABLE PURE   "Eqftpro.bmp"
+#endif
+ID_EEA_WINDOW           BITMAP  MOVEABLE PURE   "EqfEEA.bmp"
+
+ID_BIDI_CARET_PUSH      BITMAP  MOVEABLE PURE   "eqfbidir.bmp"
+ID_BIDI_CARET_POP       BITMAP  MOVEABLE PURE   "eqfbidil.bmp"
+ID_BIDI_CARET_SEGMENT   BITMAP  MOVEABLE PURE   "eqfbidit.bmp"
+ID_TB_FONTEXT_FONTTYPE  BITMAP  DISCARDABLE     "eqffont.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+
+ID_TWBM_WINDOW      TOOLBAR DISCARDABLE  16, 16
+BEGIN
+    BUTTON      PID_FILE_MI_OPEN
+    BUTTON      PID_FILE_MI_PROPERTIES
+    SEPARATOR
+    BUTTON      PID_FILE_MI_DELETE
+    BUTTON      PID_FILE_MI_ANALYZE
+    SEPARATOR
+    BUTTON      PID_FILE_MI_IMPORT
+    BUTTON      PID_FILE_MI_EXPORT
+    SEPARATOR
+    BUTTON      PID_UTILS_MI_COUNT
+    BUTTON      PID_UTILS_MI_REPORT
+    BUTTON      PID_UTILS_MI_ARCHTM
+    BUTTON      PID_UTILS_MI_MT
+    BUTTON      PID_FILE_MI_FINDCHANGE
+    BUTTON      PID_FILE_MI_FUZZYSEARCH
+    SEPARATOR
+    BUTTON      PID_FILE_MI_SELECTALL
+    BUTTON      PID_FILE_MI_DESELECTALL
+    SEPARATOR
+    BUTTON      PID_UTILS_MI_TAGTABLE
+    BUTTON      PID_UTILS_MI_LNGUPDATE
+    BUTTON      PID_UTILS_MI_EXCLUSION
+    BUTTON      PID_UTILS_MI_NEWTERMS
+    BUTTON      PID_UTILS_MI_FOUNDTERMS
+    SEPARATOR
+    BUTTON      PID_FILE_MI_EBUS
+    BUTTON      PID_FILE_MI_EBUS1
+    BUTTON      PID_HELP_MI_INDEX
+END
+
+ID_TP_MAIN_WINDOW TOOLBAR DISCARDABLE 16, 16
+BEGIN
+    BUTTON      IDM_OPEN
+    BUTTON      IDM_SAVE
+    BUTTON      IDM_PRINT
+    SEPARATOR
+    BUTTON      IDM_CUT
+    BUTTON      IDM_COPY
+    BUTTON      IDM_PASTE
+    SEPARATOR
+    BUTTON      IDM_FIND
+    BUTTON      IDM_DICTLOOK
+    SEPARATOR
+    BUTTON      IDM_TRANSSEG
+    BUTTON      IDM_TRANSNEW
+    BUTTON      IDM_GOTO
+#ifdef REDIT_VISIBLE
+    BUTTON      IDM_VISIBLESPACE
+#endif
+    BUTTON      IDM_SHOWTRANS
+    BUTTON      IDM_TOCGOTO
+END
+
+ID_EEA_WINDOW TOOLBAR DISCARDABLE  16, 16
+BEGIN
+    BUTTON      IDM_SAVE
+    BUTTON      IDM_PRINT
+        SEPARATOR
+    BUTTON      IDM_CUT
+    BUTTON      IDM_COPY
+    BUTTON      IDM_PASTE
+        SEPARATOR
+    BUTTON      IDM_EEA_USE
+    BUTTON      IDM_EEA_SKIP
+    BUTTON      IDM_EEA_DONE
+        SEPARATOR
+    BUTTON      IDM_EEA_SEGMENT
+    BUTTON      IDM_EEA_FILE
+        SEPARATOR
+    BUTTON      PID_HELP_MI_PRODUCTINFO
+END
+
+
+
+STRINGTABLE DISCARDABLE
+BEGIN
+        ID_INDICATOR_EXT        "EXT"
+        ID_INDICATOR_CAPS       "CAP"
+        ID_INDICATOR_NUM        "NUM"
+        ID_INDICATOR_SCRL       "SCRL"
+        ID_INDICATOR_OVR        "OVR"
+        ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+        PID_FILE_MI_NEW             "Create a new object\nNew"
+        PID_FILE_MI_OPEN            "Open a selected object\nOpen"
+        PID_FILE_MI_PROPERTIES      "Properties of selected object\nProperties"
+        PID_FILE_MI_DELETE          "Delete the selected object\nDelete"
+        PID_FILE_MI_RENAME          "Rename the selected object\nRename"
+        PID_FILE_MI_MERGE           "Merge the selected object into\nMerge"
+        PID_FILE_MI_ORGANIZE        "Organize the selected object\nOrganize"
+        PID_FILE_MI_ANALYZE         "Analyze the selected object\nAnalyze"
+        PID_FILE_MI_PRINT           "Print the selected object\nPrint"
+        PID_FILE_MI_PRINTLIST       "Print the listed objects\nPrint list"
+        PID_FILE_MI_EXPORT          "Export the selected object\nExport"
+        PID_FILE_MI_IMPORT          "Import the selected object\nImport"
+        PID_FILE_MI_FINDCHANGE      "Global Find&Change in selected object\nGlobal Find&Change"
+        PID_FILE_MI_FUZZYSEARCH     "Search Fuzzy Match segments in selected objects\nSearch Fuzzy Segments" 
+        PID_FILE_MI_SELECTALL       "Select all\nSelect all"
+        PID_FILE_MI_DESELECTALL     "Deselect all\nDeselect all"
+        PID_FILE_MI_EBUS            "OpenTM2 homepage\nOpenTM2 homepage"
+        PID_FILE_MI_EBUS1           "OpenTM2 documentation (PDF)\nOpenTM2 documentation (PDF)"
+
+        PID_VIEW_MI_NAMES           "List Names only\nNames view"
+        PID_VIEW_MI_DETAILS         "List details selected\nDetails view"
+        PID_VIEW_MI_DETAILSDLG      "Change Details view\nChange Details"
+        PID_VIEW_MI_SORT            "List items sorted\nSorted view"
+        PID_VIEW_MI_SOME            "List selected items\nSelected view"
+        PID_VIEW_MI_ALL             "List all items\nAll items view"
+
+        PID_VIEW_TWB_TOOLBAR        "Show or hide the workbench toolbar\nToggle workbench ToolBar"
+        PID_VIEW_TPRO_TOOLBAR       "Show or hide the Translation Environment toolbar\nToggle Translation Environment ToolBar"
+        PID_VIEW_MI_STATUSBAR       "Show or hide the status bar\nToggle StatusBar"
+
+        PID_UTILS_MI_COUNT          "Count the words of the selected objects\nCount words"
+        PID_UTILS_MI_MT             "Machine Translation\nMachine Translation"
+        PID_UTILS_MI_REPORT         "Create a special counting report\nCounting report"
+        PID_UTILS_MI_DRIVES         "Configure OpenTM2 drives\nConfigure drives"
+        // new start
+        PID_UTILS_MI_PLGINMGR       "Plugin Manager GUI\nPlugin Manager"
+        PID_UTILS_MI_ATOVERUP       "Auto Version Upgrade GUI\nAuto Version Upgrade"
+        // new end
+        PID_UTILS_MI_TAGTABLE       "Display installed markup tables\nMarkup table list"
+        PID_UTILS_MI_CONNECT        "Connect shared resources\nConnect shared resources"
+        PID_UTILS_MI_DELEXPMAT      "Delete exported folder\nDelete exported folder"
+        PID_UTILS_MI_LNGUPDATE      "Activate installed languages\nDisplay language list"
+        PID_UTILS_MI_ARCHTM         "Build archive Translation Memory containing only relevant matches\nBuild Archive Translation Memory"
+        PID_UTILS_MI_EXCLUSION      "Display exclusion lists\nExclusion lists"
+        PID_UTILS_MI_NEWTERMS       "Display new terms lists\nNew terms lists"
+        PID_UTILS_MI_FOUNDTERMS     "Display found terms lists\nFound terms lists"
+        PID_WIND_MI_MINALL          "Minimize all windows\nMinimize"
+        PID_WIND_MI_RESTOREALL      "Restore all windows to their original size\nRestore"
+        PID_WIND_MI_TILE            "Arrange windows as non-overlapping tiles\nTile Windows"
+        PID_WIND_MI_CASCADE         "Arrange windows so they overlap\nCascade Windows"
+        PID_HELP_FOR_HELP           "Display information for using help\nHelp for Help"
+        PID_HELP_MI_INDEX           "Display help index\nHelp index"
+        PID_HELP_MI_EEAHELP         "Display EEA general help\nEEA Help"
+        PID_HELP_MI_PRODUCTINFO     "Display program information, version number and copyright\nAbout"
+        PID_UTILS_MI_EXPORTSEGS     "Export segments inside tag groups"
+
+          IDM_HOME                "Home\nHome"
+          IDM_CUT                 "Cut the selection and put it on the Clipboard\nCut"
+          IDM_COPY                "Copy the selection and put it on the Clipboard\nCopy"
+          IDM_CLEAR               "Erase the selection\nErase"
+          IDM_PASTE               "Insert Clipboard contents\nPaste"
+////          IDM_EDIT                "EDIT"
+////          IDM_CYCLE               "CYCLE"
+////      ID_EDIT_UNDO            "Undo the last action\nUndo"
+////      IDM_FILE_MENU           "FILE_MENU"
+          IDM_OPEN                "Open the selected document\nOpen"
+          IDM_SAVE                "Save the file\nSave"
+          IDM_FILE                "Save and Quit the open document\nFile"
+          IDM_QUIT                "Quit the open document\nQuit"
+          IDM_UNDO                "Undo previous operation\nUndo"
+          IDM_UNMARK              "Deselect any marked block\nUnMark"
+          IDM_FINDMARK            "Find marked block\nFind Mark"
+          IDM_TOP                 "Move cursor to top of the document\nTop"
+          IDM_BOTTOM              "Move cursor to bottom of the document\nBottom"
+          IDM_SOL                 "Move cursor to beginning of line\nHome"
+          IDM_EOL                 "Move cursor to end of line\nEnd"
+          IDM_SOS                 "Move cursor to beginning of segment\nStart of segment"
+          IDM_EOS                 "Move cursor to end of segment\nEnd of segment"
+//          IDM_CURSOR              "Use Cursor to control the cursor position within the Translation Environment\nCursor positioning"
+          IDM_SPLIT               "Split line at cursor in two lines\nSplit"
+          IDM_JOIN                "Join line to combine current line with next line\nJoin"
+//          IDM_OPTIONS_MENU        "Use Options to specify font, colors, key assignments\nSettings"
+          IDM_PRINT               "Print document\nPrint"
+//          IDM_TRANS_MENU          "Use Translate to work with your translations\nTranslate"
+          IDM_TRANSSEG            "Activate a segment for translation\nActivate segment"
+          IDM_TRANSNEW            "Activate the next untranslated segment\nNext untranslated"
+          IDM_DICTLOOK            "Look up selected term in the dictionary\nLook up a term"
+          IDM_DICTWND             "Activate the dictionary window\nDictionary Window"
+          IDM_TMWND               "Activate the Translation Memory window\nTranslation Memory Window"
+          IDM_DISPORG             "Display the original document\nOriginal window"
+          IDM_GOTO                "Display the currently active segment\nPosition at active segment"
+          IDM_JOINSEG             "Combine the active segment with the next one\nCombine active segment with next one"
+          IDM_SPLITSEG            "Split two previously joined segments\nSplit"
+          IDM_MARKSEG             "Mark a complete segment in the file for easy location\nMark a segment"
+          IDM_GOTOMARK            "Go to the marked segment\nGo to mark"
+          IDM_CLEARMARK           "Remove the segment mark from the current segment\nClear mark"
+          IDM_POSTEDIT            "Post edit already translated segments\nPost edit"
+          IDM_AUTOTRANS           "Start automatic substitution process\nAutomatic substitution"
+          IDM_FONTCOL             "Start font and color dialog\nColors..."
+          IDM_KEYS                "Start key assignment dialog\nKeys..."
+//        IDM_STYLE_MENU          "Select the different display styles\nStyle"
+          IDM_PROTECTED           "Select protected style\nProtected"
+          IDM_UNPROTECTED         "Select unprotected style\nUnprotected"
+          IDM_HIDE                "Select hide style\nHide"
+//        IDM_LOAD_SERVICES       "LOAD_SERVICES"
+//        IDM_LOAD_FILE           "LOAD_FILE"
+          IDM_FIND                "Find & Change dialog\nFind&&Change"
+          IDM_CFIND               "Concordance Search Dialog\nConcordance Search"
+//        IDM_RFIND               "RFIND"
+//        IDM_RING_DLG            "RING_DLG"
+          IDM_ENTRY               "Lookup Sentence in TranslationMemory and Dictionary\nSentence lookup"
+          IDM_UNTRANS             "Untranslate segment\nUntranslate segment"
+          IDM_REFLOW              "Reflow segment\nReflow segment"
+          IDM_WRAP                "Toggle line wrap ON/OFF\nLine wrap"
+//        IDM_RMARGIN             "RMARGIN"
+          IDM_FONTSIZE            "Start font sizes dialog\nFonts..."
+          IDM_PROOFSEG            "Spellcheck active segment\nSpellcheck"
+          IDM_PROOFALL            "Spellcheck file\nSpellcheck file"
+//        IDM_SYNONYM             "SYNONYM"
+//        IDM_SPELL_MENU          "SPELL_MENU"
+          IDM_COMMAND             "Start commands dialog\nCommands..."
+          IDM_SHRINK              "Select shrink style\nShrink"
+          IDM_COMPACT             "Select compact style\nCompact"
+          IDM_SETTINGS            "Start settings dialog\nSettings..."
+          IDM_GOTOLINE            "Goto specified line\nGoto line"
+          IDM_GOTOSEG             "Goto specified segment\nGoto segment"
+          IDM_QUERYLINE           "Display cursor line\nCursor line"
+//        IDM_PROFINIT            "PROFINIT"
+//        IDM_WINDOW_MENU         "WINDOW_MENU"
+//        IDM_TRANSWND            "TRANSWND"
+          IDM_SRCPROPWND          "Activate the source of proposal window\nSource of proposal window"
+          IDM_EDITTERM            "Edit a dictionary term\nEdit term"
+          IDM_ADDABBREV           "Add an abbreviation\nAdd an abbreviation"
+          IDM_EDITABBREV          "Start edit abbreviations dialog\nEdit abbreviations"
+          IDM_EDITADD             "Edit addendum terms\nEdit addendum terms"
+          IDM_TAILOR              "Tailor\nTailor"
+//        IDM_SC_HORZ             "SC_HORZ"
+//        IDM_SC_VERT             "SC_VERT"
+//        IDM_SC_TITLE            "SC_TITLE"
+//        IDM_PROPDELETE          "PROPDELETE"
+          IDM_SHOWTRANS           "Display translation in Preview format\nPreview"
+          IDM_SC_STATUS           "Display statusbar\nStatusbar"
+//        IDM_OTHERWND            "OTHERWND"
+//        IDM_LASTOTHER           "LASTOTHER"
+//        IDM_DICTCPY             "DICTCPY"
+//        IDM_HOTPOPUP            "HOTPOPUP"
+          IDM_COPYPROPBLOCK       "Copy marked section from proposal\nCopy proposal"
+          IDM_SC_RULER            "Display ruler in edit window\nRuler"
+          IDM_TRNOTE              "Display translator's note\nTranslation note"
+          IDM_TOCGOTO             "Display table of contents\nTable of Contents"
+          IDM_SHORTEN             "Select Compact+1 style\nCompact+1"
+          IDM_AUTOSPELL           "Spellcheck automatically\nAuto Spellcheck"
+          IDM_NEXTMISSPELL        "Goto next misspelled word\nNext Misspelled"
+          IDM_GOUPDSEGMENT        "Go to next updated segment\nNext Updated"
+          IDM_IGNOREALL           "Ignore all these misspelled words\nIgnore All"
+          IDM_ADDENDA             "Add misspelled word to addenda\nAdd Addenda"
+          IDM_VISIBLESPACE        "Visible blanks and linefeeds\nVisible whitespaces"
+          IDM_FONTEXT             "Start fonts dialog\nFonts..."
+          IDM_REDO                "Undo the last Undo action\nRedo"
+          IDM_INITCAPS            "Toggle initial caps\nToggle initial caps"
+//  EEA stuff
+          IDM_EEA_USE             "Insert/Replace the listed exception with the suggestion\nInsert/Replace"
+          IDM_EEA_SKIP            "Skip this exception and select next one\nSkip Exception"
+          IDM_EEA_DONE            "Delete exception from exception list and select next one\nDone with Exception"
+          IDM_EEA_TERM            "Add term to valid term list\nNew Term"
+          IDM_EEA_SEGMENT         "Reanalyze the current sentence\nEEA Analyze sentence"
+          IDM_EEA_FILE            "Reanalyze the complete file\nEEA Analyze file"
+
+END
+
+STRINGTABLE DISCARDABLE
+BEGIN
+        AFX_IDS_SCSIZE          "Change the window size"
+        AFX_IDS_SCMOVE          "Change the window position"
+        AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+        AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+        AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+        AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+        AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+        AFX_IDS_SCRESTORE       "Restore the window to normal size"
+        AFX_IDS_SCTASKLIST      "Activate Task List"
+        AFX_IDS_MDICHILD        "Activate this window"
+        AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+END
+
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "OpenTM2"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END

@@ -1,0 +1,278 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFCOLW.STR - String table for column widths                              |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2013, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Nov 2006
+// GQ: - added entry for SID_CNT00_DUPLICATE_COLWIDTH
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 8 Apr 2004
+// GQ: - added entry for SID_FOL_SHIPMENT_COLWIDTH
+// 
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.3 $ ----------- 5 Nov 2003
+// GQ: - added entries for  SID_FOL_NAMEWOPATH_COLWIDTH and SID_FOL_EXTENSION_COLWIDTH
+//
+//
+// $Revision: 1.2 $ ----------- 22 Oct 2003
+// GQ: - added entry for SID_FOL_TRANSLATOR_COLWIDTH
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.2 $ ----------- 11 Sep 2001
+// SID_FOL_SRC_COLWIDTH added (R06520)
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.3 $ ----------- 25 Jun 2001
+// GQ: Added width entries for new markup table list columns
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFCOLW.SVR   1.6   03 May 1999 09:20:06   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFCOLW.SVR  $
+ *
+ *    Rev 1.6   03 May 1999 09:20:06   BUILD
+ * - added entry for width of descriptive name column of markup table list
+ *
+ *    Rev 1.5   25 Aug 1998 19:00:02   BUILD
+ * MT list window support
+ *
+ *    Rev 1.4   13 Jun 1997 12:50:46   BUILD
+ * corrected TMMATCH
+ *
+ *    Rev 1.3   11 Jun 1997 17:19:30   BUILD
+ * - added entry for column width of new TM match counting
+ *
+ *    Rev 1.2   21 Mar 1997 12:16:30   BUILD
+ * - added column width entries for new folder list columns: mem list and dict list
+ *
+ *    Rev 1.1   24 Feb 1997 11:37:04   BUILD
+ * - added entries for the document columns alias and editor
+ *
+ *    Rev 1.0   11 Sep 1996 19:57:48   BUILD
+ * - initial put
+ *
+  +----------------------------------------------------------------------------+
+*/
+
+
+STRINGTABLE
+BEGIN
+/**********************************************************************/
+/* width entries for document list                                    */
+/**********************************************************************/
+  SID_FOL_NAME_COLWIDTH,               STR_FOL_NAME_COLWIDTH
+  SID_FOL_TRANSL_COLWIDTH,             STR_FOL_TRANSL_COLWIDTH
+  SID_FOL_ANAL_COLWIDTH,               STR_FOL_ANAL_COLWIDTH
+  SID_FOL_EXP_COLWIDTH,                STR_FOL_EXP_COLWIDTH
+  SID_FOL_IMP_COLWIDTH,                STR_FOL_IMP_COLWIDTH
+  SID_FOL_UPD_COLWIDTH,                STR_FOL_UPD_COLWIDTH
+  SID_FOL_UPDT_COLWIDTH,               STR_FOL_UPDT_COLWIDTH
+  SID_FOL_SRC_COLWIDTH,                STR_FOL_SRC_COLWIDTH
+  SID_FOL_SIZE_COLWIDTH,               STR_FOL_SIZE_COLWIDTH
+  SID_FOL_COMPLETE_COLWIDTH,           STR_FOL_COMPLETE_COLWIDTH
+  SID_FOL_MODIFIED_COLWIDTH,           STR_FOL_MODIFIED_COLWIDTH
+  SID_FOL_SCRATCH_COLWIDTH,            STR_FOL_SCRATCH_COLWIDTH
+  SID_FOL_COPIED_COLWIDTH,             STR_FOL_COPIED_COLWIDTH
+  SID_FOL_FORMAT_COLWIDTH,             STR_FOL_FORMAT_COLWIDTH
+  SID_FOL_MEMORY_COLWIDTH,             STR_FOL_MEMORY_COLWIDTH
+  SID_FOL_SOURCE_COLWIDTH,             STR_FOL_SOURCE_COLWIDTH
+  SID_FOL_TARGET_COLWIDTH,             STR_FOL_TARGET_COLWIDTH
+  SID_FOL_EDITOR_COLWIDTH,             STR_FOL_EDITOR_COLWIDTH
+  SID_FOL_ALIAS_COLWIDTH,              STR_FOL_ALIAS_COLWIDTH
+  SID_FOL_TRANSLATOR_COLWIDTH,         STR_FOL_TRANSLATOR_COLWIDTH
+  SID_FOL_NAMEWOPATH_COLWIDTH,         STR_FOL_NAMEWOPATH_COLWIDTH
+  SID_FOL_EXTENSION_COLWIDTH,          STR_FOL_EXTENSION_COLWIDTH
+  SID_FOL_SHIPMENT_COLWIDTH,           STR_FOL_SHIPMENT_COLWIDTH
+
+/**********************************************************************/
+/* width entries for folder list                                      */
+/**********************************************************************/
+  SID_FLL_NAME_COLWIDTH,               STR_FLL_NAME_COLWIDTH
+  SID_FLL_DESCR_COLWIDTH,              STR_FLL_DESCR_COLWIDTH
+  SID_FLL_DATE_COLWIDTH,               STR_FLL_DATE_COLWIDTH
+  SID_FLL_FORMAT_COLWIDTH,             STR_FLL_FORMAT_COLWIDTH
+  SID_FLL_MEM_COLWIDTH,                STR_FLL_MEM_COLWIDTH
+  SID_FLL_DRIVE_COLWIDTH,              STR_FLL_DRIVE_COLWIDTH
+  SID_FLL_DICT_COLWIDTH,               STR_FLL_DICT_COLWIDTH
+  SID_FLL_EDIT_COLWIDTH,               STR_FLL_EDIT_COLWIDTH
+  SID_FLL_SOURCE_COLWIDTH,             STR_FLL_SOURCE_COLWIDTH
+  SID_FLL_TARGET_COLWIDTH,             STR_FLL_TARGET_COLWIDTH
+  SID_FLL_MEMLIST_COLWIDTH,            STR_FLL_MEMLIST_COLWIDTH
+  SID_FLL_DICTLIST_COLWIDTH,           STR_FLL_DICTLIST_COLWIDTH
+
+/**********************************************************************/
+/* width entries for TM list                                          */
+/**********************************************************************/
+  MEM_NAME_COLWIDTH,                   STR_MTR_NAME_COLWIDTH
+  MEM_DESCRIPTION_COLWIDTH,            STR_MTR_DESCRIPTION_COLWIDTH
+  MEM_SIZE_COLWIDTH,                   STR_MTR_SIZE_COLWIDTH
+  MEM_DRIVE_COLWIDTH,                  STR_MTR_DRIVE_COLWIDTH
+  MEM_SERVER_COLWIDTH,                 STR_MTR_SERVER_COLWIDTH
+  MEM_OWNER_COLWIDTH,                  STR_MTR_OWNER_COLWIDTH
+  MEM_SOURCE_COLWIDTH,                 STR_MTR_SOURCE_COLWIDTH
+
+/**********************************************************************/
+/* width entries for dictionary list                                  */
+/**********************************************************************/
+  IDS_DICT_NAME_COLWIDTH,              STR_DICT_NAME_COLWIDTH
+  IDS_DICT_DESCR_COLWIDTH,             STR_DICT_DESCR_COLWIDTH
+  IDS_DICT_DRIVE_COLWIDTH,             STR_DICT_DRIVE_COLWIDTH
+  IDS_DICT_OWNER_COLWIDTH,             STR_DICT_OWNER_COLWIDTH
+  IDS_DICT_SERVER_COLWIDTH,            STR_DICT_SERVER_COLWIDTH
+  IDS_DICT_SOURCELANG_COLWIDTH,        STR_DICT_SOURCELANG_COLWIDTH
+
+/**********************************************************************/
+/* width entries for markup list                                      */
+/**********************************************************************/
+  IDS_TAGT_NAME_COLWIDTH,              STR_TAGT_NAME_COLWIDTH
+  IDS_TAGT_DESCRNAME_COLWIDTH,         STR_TAGT_DESCRNAME_COLWIDTH
+  IDS_TAGT_DESCR_COLWIDTH,             STR_TAGT_DESCR_COLWIDTH
+  IDS_TAGT_VERSION_COLWIDTH,           STR_TAGT_VERSION_COLWIDTH
+  IDS_TAGT_PLUGIN_COLWIDTH,            STR_TAGT_PLUGIN_COLWIDTH
+  IDS_TAGT_SUPPLIER_COLWIDTH,          STR_TAGT_SUPPLIER_COLWIDTH
+
+/**********************************************************************/
+/* width entries for language list                                    */
+/**********************************************************************/
+  SID_LANGUAGE_COLWIDTH,               STR_LANGUAGE_COLWIDTH
+  SID_ACTIVE_COLWIDTH,                 STR_ACTIVE_COLWIDTH
+
+/**********************************************************************/
+/* width entries for terminology lists                                */
+/**********************************************************************/
+  SID_LST_NAME_COLWIDTH,               STR_LST_NAME_COLWIDTH
+  SID_LST_DRIVE_COLWIDTH,              STR_LST_DRIVE_COLWIDTH
+  SID_LST_SIZE_COLWIDTH,               STR_LST_SIZE_COLWIDTH
+  SID_LST_UPD1_COLWIDTH,               STR_LST_UPD1_COLWIDTH
+  SID_LST_UPD2_COLWIDTH,               STR_LST_UPD2_COLWIDTH
+
+/**********************************************************************/
+/* width entries for wordcount list window                            */
+/**********************************************************************/
+  SID_CNT00_DOCUMENTS_COLWIDTH,        STR_CNT00_DOCUMENTS_COLWIDTH
+  SID_CNT00_TOBE_TRANSLATED_COLWIDTH,  STR_CNT00_TOBE_TRANSLATED_COLWIDTH
+  SID_CNT00_TRANSLATED_COLWIDTH,       STR_CNT00_TRANSLATED_COLWIDTH
+  SID_CNT00_TOTAL_COLWIDTH,            STR_CNT00_TOTAL_COLWIDTH
+  SID_CNT00_MARKUP_COLWIDTH,           STR_CNT00_MARKUP_COLWIDTH
+  SID_CNT00_NL_COLWIDTH,               STR_CNT00_NL_COLWIDTH
+#ifdef TOP97_MATCHCOUNT
+  SID_CNT00_TMMATCH_COLWIDTH,          STR_CNT00_TMMATCH_COLWIDTH
+#endif
+/**********************************************************************/
+/* width entries for Machine translation list window                  */
+/**********************************************************************/
+  SID_MT_DOC_COLWIDTH,                 STR_MT_DOC_COLWIDTH
+  SID_MT_STATUS_COLWIDTH,              STR_MT_STATUS_COLWIDTH
+  SID_MT_DATE_COLWIDTH,                STR_MT_DATE_COLWIDTH
+  SID_MT_ENGINE_COLWIDTH,              STR_MT_ENGINE_COLWIDTH
+
+  SID_CNT00_DUPLICATE_COLWIDTH,        STR_CNT00_DUPLICATE_COLWIDTH
+END

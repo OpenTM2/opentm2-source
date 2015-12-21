@@ -1,0 +1,410 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 27 Sep 2004
+// --RJ: accessibility: delete unused ID_DICPROP_DLG; add missing listbox label
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Sep 2004
+// --RJ: Accessibility: deleted unused dialogs
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 8 Aug 2001
+// MK(06/08/01)
+// - Enabled 'New Dictionary' Dialog for three lines of selectable drives.
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/* $Header:   K:\DATA\EQFDPROP.DVG   1.9   17 May 1999 13:30:58   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFDPROP.DVG  $
+ * 
+ *    Rev 1.9   17 May 1999 13:30:58   BUILD
+ * - re-arranged dialog template to allow conversion to Windows w/o errors
+ *
+ *    Rev 1.8   28 Oct 1996 12:00:44   BUILD
+ * - fixed "Bottom of Level groupbox in DictProp dialog truncated" problem
+ *
+ *    Rev 1.7   07 Oct 1996 17:13:02   BUILD
+ * - fixed PTM KAT0157: DICTPROP change name button truncated (DBCS)
+ *
+ *    Rev 1.6   23 Sep 1996 14:30:32   BUILD
+ * - adjusted size of aut.lookup checkbox
+ *
+ *    Rev 1.5   17 Sep 1996 07:47:22   BUILD
+ * - decreased size of DICPROP dlg for DBCS NLS environemnts
+ *
+ *    Rev 1.4   19 Jul 1996 17:53:16   BUILD
+ * - re-arranged DictNew dialog to allow two lines of drive buttons
+ *
+ *    Rev 1.3   12 Feb 1996 10:29:24   BUILD
+ * - removed WS_TABSTOP style from shared radiobutton
+ *
+ *    Rev 1.2   29 Jan 1996 17:07:42   BUILD
+ * - removed REMOTE controls
+ *
+ *    Rev 1.1   10 Jan 1996 19:26:28   BUILD
+ * - added new display checkbox to property dialog
+ *
+ *    Rev 1.0   09 Jan 1996 10:06:42   BUILD
+ * Initial revision.
+*/
+
+ID_DICNEW_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 14, 223, 222
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_DICNEW_CREATEDICT_TEXT
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_DICNEW_NAME_TEXT, ID_DICNEW_NAME_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 11, 70, 9
+
+  CONTROL "", ID_DICNEW_NAME_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    79, 10, 135, 12
+  CONTROL STR_DICNEW_DESCR_TEXT, ID_DICNEW_DESCR_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 26, 70, 9
+
+  CONTROL "", ID_DICNEW_DESCR_EF, 
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    79, 25, 135, 12
+
+  CONTROL STR_DICNEW_LOCAL_RB, ID_DICNEW_LOCAL_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    12, 52, 95, 12
+
+  CONTROL STR_DICNEW_SHARED_RB, ID_DICNEW_SHARED_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    112, 52, 95, 12
+  CONTROL STR_DICNEW_DRIVES_TEXT, ID_DICNEW_DRIVES_TEXT, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 67, 197, 9
+
+  CONTROL "", ID_DICNEW_DRIVES_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_GROUP,
+    11, 76, 24, 12
+
+
+  CONTROL STR_DICNEW_LOCATION_GB, ID_DICNEW_LOCATION_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE,
+    6, 43, 211, 87
+  CONTROL STR_DICNEW_SOURCELANG_TEXT, ID_DICNEW_SOURCELANG_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 138, 70, 9
+
+  CONTROL "", ID_DICNEW_SOURCELANG_CB, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    77, 139, 140, 38
+  CONTROL STR_DICNEW_EXIST_TEXT, ID_DICNEW_EXIST_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 164, 160, 9
+
+  CONTROL STR_DICNEW_YES_PB, ID_DICNEW_YES_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    168, 158, 38, 15
+  CONTROL STR_DICNEW_SET_TEXT, ID_DICNEW_SET_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 186, 160, 9
+
+  CONTROL STR_DICNEW_SET_PB, ID_DICNEW_SET_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    168, 180, 38, 15
+  CONTROL STR_DICNEW_CREATE_PB, ID_DICNEW_CREATE_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    4, 204, 56, 15
+  CONTROL "", ID_DICNEW_PROTECTED_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    68, 204, 56, 15
+  CONTROL STR_DICNEW_CANCEL_PB, ID_DICNEW_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    132, 204, 38, 15
+  CONTROL STR_DICNEW_HELP_PB, ID_DICNEW_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    179, 204, 38, 15
+END
+
+
+ID_DICNAME_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  0, 0, 309, 172
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_DICNAME_TEXT
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_DICNAME_ENTRYFIELDS_TEXT, ID_DICNAME_ENTRYFIELDS_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 17, 155, 9
+
+  CONTROL "", ID_DICNAME_ENTRYFIELDS_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE,
+    6, 26, 155, 120
+  CONTROL STR_DICNAME_DISPLAY_GB, ID_DICNAME_DISPLAY_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    167, 25, 65, 87
+  CONTROL STR_DICNAME_L1_RB, ID_DICNAME_L1_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    173, 37, 57, 12
+  CONTROL STR_DICNAME_L2_RB, ID_DICNAME_L2_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    173, 50, 57, 12
+  CONTROL STR_DICNAME_L3_RB, ID_DICNAME_L3_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    173, 63, 57, 12
+  CONTROL STR_DICNAME_OMIT_RB, ID_DICNAME_OMIT_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    173, 76, 57, 12
+
+  CONTROL STR_DICNAME_AUTLOOKUP_CB, ID_DICNAME_AUTLOOKUP_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE,
+    173, 96, 57, 12
+  CONTROL STR_DICNAME_SIZE_GB, ID_DICNAME_SIZE_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    167, 113, 65, 38
+  CONTROL STR_DICNAME_LARGE_RB, ID_DICNAME_LARGE_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    173, 123, 57, 12
+
+  CONTROL STR_DICNAME_SMALL_RB, ID_DICNAME_SMALL_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    173, 135, 57, 12
+  CONTROL STR_DICNAME_LEVEL_GB, ID_DICNAME_LEVEL_GB, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    240, 25, 62, 68
+  CONTROL STR_DICNAME_LEV1_TEXT, ID_DICNAME_LEV1_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    246, 37, 53, 12
+  CONTROL STR_DICNAME_LEV2_TEXT, ID_DICNAME_LEV2_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    246, 50, 53, 12
+  CONTROL STR_DICNAME_LEV3_TEXT, ID_DICNAME_LEV3_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    246, 63, 53, 12
+
+  CONTROL STR_DICNAME_LEV4_TEXT, ID_DICNAME_LEV4_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    246, 76, 53, 12
+  CONTROL STR_DICNAME_CHANGENAME_PB, ID_DICNAME_CHANGENAME_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    240, 96, 62, 15
+  CONTROL STR_DICNAME_ADDFIELD_PB, ID_DICNAME_ADDFIELD_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    240, 114, 62, 15
+
+  CONTROL STR_DICNAME_DELFIELD_PB, ID_DICNAME_DELFIELD_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    240, 131, 62, 15
+  CONTROL STR_DICNAME_SET_PB, ID_DICNAME_SET_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    29, 154, 56, 15
+  CONTROL STR_DICNAME_CANCEL_PB, ID_DICNAME_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    143, 154, 38, 15
+  CONTROL STR_DICNAME_HELP_PB, ID_DICNAME_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    240, 154, 38, 15
+END
+
+
+ID_DICMODEL_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  35, 40, 223, 108
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_DICMODEL_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "Dictionary name:", -1, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 7, 80, 9
+
+  CONTROL "", ID_DICMODEL_DICT_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    6, 17, 102, 67
+  CONTROL STR_DICMODEL_OK_PB, ID_DICMODEL_OK_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 90, 56, 15
+  CONTROL STR_DICMODEL_CANCEL_PB, ID_DICMODEL_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 90, 38, 15
+  CONTROL STR_DICMODEL_HELP_PB, ID_DICMODEL_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 90, 38, 15
+END
+
+ID_PCH_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  61, 140, 223, 96
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION ""
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_PCH_SYSTNAME_TEXT, ID_PCH_SYSTNAME_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 14, 62, 9
+
+  CONTROL "", ID_PCH_SYSTNAME_EF, 
+    EDIT,
+    ES_LEFT | ES_READONLY | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    69, 13, 147, 12
+  CONTROL STR_PCH_DISPLAYED_TEXT, ID_PCH_DISPLAYED_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 36, 62, 9
+
+  CONTROL "", ID_PCH_DISPLAYED_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | ES_AUTOHSCROLL | WS_TABSTOP | WS_VISIBLE,
+    69, 35, 147, 12
+  CONTROL "", ID_PCH_OK_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 78, 56, 15
+  CONTROL STR_PCH_CANCEL_PB, ID_PCH_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 78, 38, 15
+  CONTROL STR_PCH_HELP_PB, ID_PCH_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 78, 38, 15
+END
+

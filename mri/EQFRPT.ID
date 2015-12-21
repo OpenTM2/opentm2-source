@@ -1,0 +1,520 @@
+//+----------------------------------------------------------------------------+
+//|EQFRPT.ID                                                                   |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Michael Sekinger                                                    |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description: Dialog and string IDs for Counting Report                      |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 20 Apr 2004
+// GQ: - added ID for internal profile name control
+// 
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.2 $ ----------- 30 Jul 2003
+// GQ: - added DID_RPT_ACTPROFILE_TEXT id
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.3 $ ----------- 6 Feb 2002
+// --RJ: kbt969: add SID_RPT_OUT_FOLDERFORMAT, SID_RPT_OUT_NEWSOURCENOTIMPORTED
+//
+//
+// $Revision: 1.2 $ ----------- 3 Dec 2001
+//  -- No comment!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.5 $ ----------- 20 Jun 2001
+// xmh - 19 June 2001 - DID_RPT_INVISIBLE_LB2 added.
+//
+//
+// $Revision: 1.4 $ ----------- 24 Aug 2000
+// added action_17
+// added shipment handling dialog
+//
+//
+// $Revision: 1.3 $ ----------- 19 May 2000
+// property sheet for conting report
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFRPT.IV_   1.11   10 Jun 1999 13:01:32   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFRPT.IV_  $
+ *
+ *    Rev 1.11   10 Jun 1999 13:01:32   BUILD
+ * Added SID_RPT_ACTION_16 for version number log
+ *
+ *    Rev 1.10   22 Feb 1999 17:44:50   BUILD
+ * added column3_chk
+ *
+ *    Rev 1.9   12 Feb 1999 09:49:04   BUILD
+ * added more option dialog
+ *
+ *    Rev 1.8   19 Jan 1999 16:46:20   BUILD
+ * invonsistent logtasl added
+ *
+ *    Rev 1.7   11 Jan 1999 16:05:58   BUILD
+ * Added RPT_ACTION_14
+ *
+ *    Rev 1.6   18 Dec 1998 11:52:00   BUILD
+ * added invalid histlog action
+ *
+ *    Rev 1.5   30 Nov 1998 09:50:04   BUILD
+ * added description entry field
+ *
+ *    Rev 1.4   09 Nov 1998 18:44:18   BUILD
+ * added pre analysis report
+ * added sort order
+ *
+ *    Rev 1.3   14 Sep 1998 15:31:04   BUILD
+ * added html file output format
+ *
+ *    Rev 1.2   06 Mar 1998 15:41:42   BUILD
+ * new counting report
+ *
+ *    Rev 1.1   11 Dec 1996 16:16:44   BUILD
+ * - added different IDs for the different report types
+ *
+ *    Rev 1.0   02 Dec 1996 10:44:10   BUILD
+ * - initial put
+ *
+*/
+//+----------------------------------------------------------------------------+
+
+
+// dialog Counting Report
+  // dialog "Word Counting Report"
+  #define DID_CNT_REPORT_DLG          ID_CNT_REPORT_DLG
+
+  // folder, documents
+  #define DID_RPT_FOLDER_TEXT         ID_CNT_REPORT_DLG+1
+  #define DID_RPT_FOLDERNAME_TEXT     ID_CNT_REPORT_DLG+2
+  #define DID_RPT_DOCUMENTS_TEXT      ID_CNT_REPORT_DLG+3
+  #define DID_RPT_DOCUMENTS_LB        ID_CNT_REPORT_DLG+4
+
+  // groupbox "Report"
+  #define DID_RPT_REPORT_GB           ID_CNT_REPORT_DLG+5
+  #define DID_RPT_REPORT_CB           ID_CNT_REPORT_DLG+6
+  #define DID_RPT_OPTIONS_TEXT        ID_CNT_REPORT_DLG+7
+  #define DID_RPT_OPTIONS_SPIN        ID_CNT_REPORT_DLG+8
+
+  // groupbox "Output to"
+  #define DID_RPT_OUTPUTTO_GB         ID_CNT_REPORT_DLG+9
+  #define DID_RPT_SCREEN_CHK          ID_CNT_REPORT_DLG+10
+  #define DID_RPT_FILE_CHK            ID_CNT_REPORT_DLG+11
+  #define DID_RPT_NAME_TEXT           ID_CNT_REPORT_DLG+12
+  #define DID_RPT_FILENAME_EF         ID_CNT_REPORT_DLG+13
+  #define DID_RPT_FILESELECT_PB       ID_CNT_REPORT_DLG+14
+
+  // pusbuttons
+  #define DID_RPT_CREATE_PB           ID_CNT_REPORT_DLG+15
+  #define DID_RPT_CANCEL_PB           ID_CNT_REPORT_DLG+16
+  #define DID_RPT_HELP_PB             ID_CNT_REPORT_DLG+17
+
+  // strings
+  // reports
+  #define SID_RPT_REPORT_1            ID_CNT_REPORT_DLG+18
+  #define SID_RPT_REPORT_2            ID_CNT_REPORT_DLG+19
+  #define SID_RPT_REPORT_3            ID_CNT_REPORT_DLG+20
+  #define SID_RPT_REPORT_4            ID_CNT_REPORT_DLG+21
+  #define SID_RPT_REPORT_5            ID_CNT_REPORT_DLG+22
+  #define SID_RPT_REPORT_6            ID_CNT_REPORT_DLG+23
+
+  #define SID_RPT_FORMAT_1            ID_CNT_REPORT_DLG+24
+  #define SID_RPT_FORMAT_2            ID_CNT_REPORT_DLG+25
+  #define SID_RPT_FORMAT_3            ID_CNT_REPORT_DLG+26
+
+ // settings for report 3
+  #define DID_RPT_SETTINGS_PB         ID_CNT_REPORT_DLG+27
+
+ // settings for report 3 final fact sheet numbers
+  #define DID_RPT_SETTINGS1_PB        ID_CNT_REPORT_DLG+28
+
+  #define DID_RPT_SETTINGS_PB         ID_CNT_REPORT_DLG+27
+
+
+  // options
+  #define SID_RPT_OPTION_1            ID_CNT_REPORT_DLG+29
+  #define SID_RPT_OPTION_2            ID_CNT_REPORT_DLG+30
+  #define SID_RPT_OPTION_3            ID_CNT_REPORT_DLG+31
+  #define SID_RPT_OPTION_4            ID_CNT_REPORT_DLG+32
+  #define SID_RPT_OPTION_5            ID_CNT_REPORT_DLG+33
+  #define SID_RPT_OPTION_6            ID_CNT_REPORT_DLG+34
+  #define SID_RPT_OPTION_7            ID_CNT_REPORT_DLG+35
+  #define SID_RPT_OPTION_8            ID_CNT_REPORT_DLG+36
+  #define SID_RPT_OPTION_9            ID_CNT_REPORT_DLG+37
+  #define SID_RPT_OPTION_10           ID_CNT_REPORT_DLG+38
+  #define SID_RPT_OPTION_11           ID_CNT_REPORT_DLG+39
+  #define SID_RPT_OPTION_12           ID_CNT_REPORT_DLG+40
+  #define DID_RPT_FORMAT_TEXT         ID_CNT_REPORT_DLG+41
+  #define DID_RPT_FORMAT_CB           ID_CNT_REPORT_DLG+42
+  #define DID_RPT_PROFILE_TEXT        ID_CNT_REPORT_DLG+43
+  #define DID_RPT_PROFILE_CB          ID_CNT_REPORT_DLG+44
+  #define DID_RPT_LOAD_PB             ID_CNT_REPORT_DLG+45
+  #define DID_RPT_SAVE_PB             ID_CNT_REPORT_DLG+46
+  #define DID_RPT_DESCRIPTION_TEXT    ID_CNT_REPORT_DLG+47
+  #define DID_RPT_DESCRIPTION_EF      ID_CNT_REPORT_DLG+48
+  #define DID_RPT_PROFILE_GB          ID_CNT_REPORT_DLG+49
+  #define DID_RPT_ACTPROFILE_TEXT     ID_CNT_REPORT_DLG+50
+  #define DID_RPT_INTPROFILENAME_TEXT ID_CNT_REPORT_DLG+51
+
+  #define DID_CNT_REPORT1_DLG         ID_CNT_REPORT1_DLG
+  #define DID_RPT1_OPTIONS_GB         ID_CNT_REPORT1_DLG + 1
+  #define DID_RPT1_OPTION1_CB         ID_CNT_REPORT1_DLG + 2
+  #define DID_RPT1_COLUMNS_GB         ID_CNT_REPORT1_DLG + 3
+  #define DID_RPT1_COLUMN1_CHK        ID_CNT_REPORT1_DLG + 4
+  #define DID_RPT1_SET_PB             ID_CNT_REPORT1_DLG + 5
+  #define DID_RPT1_CANCEL_PB          ID_CNT_REPORT1_DLG + 6
+  #define DID_RPT1_HELP_PB            ID_CNT_REPORT1_DLG + 7
+  #define DID_RPT1_OPTION1_TEXT       ID_CNT_REPORT1_DLG + 8
+
+  #define SID_RPT1_OPTION1_1          ID_CNT_REPORT1_DLG + 9
+  #define SID_RPT1_OPTION1_2          ID_CNT_REPORT1_DLG + 10
+  #define SID_RPT1_OPTION1_3          ID_CNT_REPORT1_DLG + 11
+  #define SID_RPT1_OPTION1_4          ID_CNT_REPORT1_DLG + 12
+
+  #define SID_RPT1_OPTION2_1          ID_CNT_REPORT1_DLG + 13
+  #define SID_RPT1_OPTION2_2          ID_CNT_REPORT1_DLG + 14
+
+  #define DID_RPT1_OPTION2_CB         ID_CNT_REPORT1_DLG + 15
+  #define DID_RPT1_OPTION2_TEXT       ID_CNT_REPORT1_DLG + 16
+
+  #define SID_RPT1_OPTION3_1          ID_CNT_REPORT1_DLG + 17
+  #define SID_RPT1_OPTION3_2          ID_CNT_REPORT1_DLG + 18
+  #define SID_RPT1_OPTION3_3          ID_CNT_REPORT1_DLG + 19
+
+  #define DID_RPT1_OPTION3_CB         ID_CNT_REPORT1_DLG + 20
+  #define DID_RPT1_OPTION3_TEXT       ID_CNT_REPORT1_DLG + 21
+
+  #define DID_RPT1_COLUMN2_CHK        ID_CNT_REPORT1_DLG + 22
+  #define DID_RPT1_COLUMN3_CHK        ID_CNT_REPORT1_DLG + 23
+  #define DID_RPT1_COLUMN4_CHK        ID_CNT_REPORT1_DLG + 24
+  #define DID_RPT1_OPTION4_CB         ID_CNT_REPORT1_DLG + 25
+  #define DID_RPT1_OPTION4_TEXT       ID_CNT_REPORT1_DLG + 26
+  #define SID_RPT1_OPTION4_1          ID_CNT_REPORT1_DLG + 27
+  #define SID_RPT1_OPTION4_2          ID_CNT_REPORT1_DLG + 28
+  #define DID_RPT1_STATISTICS_GB      ID_CNT_REPORT1_DLG + 29
+
+  #define SID_RPT1_OPTION5_1          ID_CNT_REPORT1_DLG + 30
+  #define SID_RPT1_OPTION5_2          ID_CNT_REPORT1_DLG + 31
+  #define DID_RPT1_OPTION5_CB         ID_CNT_REPORT1_DLG + 32
+  #define DID_RPT1_OPTION5_TEXT       ID_CNT_REPORT1_DLG + 33
+
+
+  #define DID_RPT1_MORE_PB            ID_CNT_REPORT1_DLG + 34
+
+
+  #define DID_RPT3_COLUMN1_CHK        ID_CNT_REPORT1_DLG + 35
+  #define DID_RPT3_COLUMN2_CHK        ID_CNT_REPORT1_DLG + 36
+
+
+// more options
+// ------------
+
+  #define DID_CNT_REPORT4_DLG         ID_CNT_REPORT4_DLG
+  #define DID_RPT4_COLUMN1_CHK        ID_CNT_REPORT4_DLG + 1
+  #define DID_RPT4_COLUMN2_CHK        ID_CNT_REPORT4_DLG + 2
+  #define DID_RPT4_OPTIONS_GB         ID_CNT_REPORT4_DLG + 3
+  #define DID_RPT4_SET_PB             ID_CNT_REPORT1_DLG + 4
+  #define DID_RPT4_CANCEL_PB          ID_CNT_REPORT1_DLG + 5
+  #define DID_RPT4_HELP_PB            ID_CNT_REPORT1_DLG + 6
+  #define SID_CNT_REPORT4_DLG         ID_CNT_REPORT4_DLG + 7
+  #define SID_RPT4_OPTIONS_GB         ID_CNT_REPORT4_DLG + 8
+  #define SID_RPT4_COLUMN1_CHK        ID_CNT_REPORT4_DLG + 9
+  #define SID_RPT4_COLUMN2_CHK        ID_CNT_REPORT4_DLG + 10
+  #define SID_RPT4_SET_PB             ID_CNT_REPORT4_DLG + 11
+  #define SID_RPT4_CANCEL_PB          ID_CNT_REPORT4_DLG + 12
+  #define SID_RPT4_HELP_PB            ID_CNT_REPORT4_DLG + 13
+  #define SID_RPT1_MORE_PB            ID_CNT_REPORT4_DLG + 14
+  #define DID_RPT4_COLUMN3_CHK        ID_CNT_REPORT4_DLG + 15
+  #define SID_RPT4_COLUMN3_CHK        ID_CNT_REPORT4_DLG + 16
+  #define DID_RPT5_OPTIONS_GB         ID_CNT_REPORT4_DLG + 17
+  #define DID_RPT5_COLUMN1_CHK        ID_CNT_REPORT4_DLG + 18
+
+
+
+// Final Fact Sheet
+
+  #define DID_CNT_REPORT2_DLG         ID_CNT_REPORT2_DLG
+  #define DID_RPT2_OPTIONS_GB         ID_CNT_REPORT2_DLG + 1
+  #define DID_RPT2_OPTION1_CB         ID_CNT_REPORT2_DLG + 2
+  #define DID_RPT2_OPTION2_CB         ID_CNT_REPORT2_DLG + 3
+
+  #define SID_RPT2_OPTION1_1          ID_CNT_REPORT2_DLG + 4
+  #define SID_RPT2_OPTION1_2          ID_CNT_REPORT2_DLG + 5
+  #define SID_RPT2_OPTION1_3          ID_CNT_REPORT2_DLG + 6
+  #define SID_RPT2_OPTION1_4          ID_CNT_REPORT2_DLG + 7
+  #define SID_RPT2_OPTION1_5          ID_CNT_REPORT2_DLG + 8
+  #define SID_RPT2_OPTION1_6          ID_CNT_REPORT2_DLG + 9
+  #define SID_RPT2_OPTION1_7          ID_CNT_REPORT2_DLG + 10
+  #define SID_RPT2_OPTION1_8          ID_CNT_REPORT2_DLG + 11
+  #define SID_RPT2_OPTION1_9          ID_CNT_REPORT2_DLG + 12
+  #define SID_RPT2_OPTION1_10         ID_CNT_REPORT2_DLG + 13
+
+  #define SID_RPT2_OPTION2_1          ID_CNT_REPORT2_DLG + 14
+  #define SID_RPT2_OPTION2_2          ID_CNT_REPORT2_DLG + 15
+  #define SID_RPT2_OPTION2_3          ID_CNT_REPORT2_DLG + 16
+
+
+  #define DID_RPT2_OPTION1_TEXT       ID_CNT_REPORT2_DLG + 17
+  #define DID_RPT2_OPTION2_TEXT       ID_CNT_REPORT2_DLG + 18
+
+  #define DID_RPT2_SET_PB             ID_CNT_REPORT2_DLG + 19
+  #define DID_RPT2_CANCEL_PB          ID_CNT_REPORT2_DLG + 20
+  #define DID_RPT2_HELP_PB            ID_CNT_REPORT2_DLG + 21
+  #define DID_RPT2_SETFACTORS_PB      ID_CNT_REPORT2_DLG + 22
+
+  #define DID_RPT2_FACTOR1_EF         ID_CNT_REPORT2_DLG + 23
+  #define DID_RPT2_FACTOR2_EF         ID_CNT_REPORT2_DLG + 24
+
+  #define DID_RPT2_FACTOR3_EF         ID_CNT_REPORT2_DLG + 25
+  #define DID_RPT2_OPTION3_CB         ID_CNT_REPORT2_DLG + 26
+  #define SID_RPT2_OPTION3_1          ID_CNT_REPORT2_DLG + 27
+  #define SID_RPT2_OPTION3_2          ID_CNT_REPORT2_DLG + 28
+  #define SID_RPT2_OPTION3_3          ID_CNT_REPORT2_DLG + 29
+  #define DID_RPT2_OPTION3_TEXT       ID_CNT_REPORT2_DLG + 30
+  #define DID_RPT2_OPTIONS1_GB        ID_CNT_REPORT2_DLG + 31
+  #define DID_RPT2_OPTION4_CB         ID_CNT_REPORT2_DLG + 32
+
+  #define DID_RPT2_OPTIONS99_GB       ID_CNT_REPORT2_DLG + 33
+  #define IDS_RPTPROP_TAB_GENERAL     ID_CNT_REPORT2_DLG + 34
+  #define IDS_RPTPROP_TAB_PROFILE     ID_CNT_REPORT2_DLG + 35
+  #define IDS_RPTPROP_TAB_SETTINGS    ID_CNT_REPORT2_DLG + 36
+  #define IDS_RPTPROP_TAB_FACTSHEET   ID_CNT_REPORT2_DLG + 37
+  #define IDS_RPTPROP_TAB_MORE        ID_CNT_REPORT2_DLG + 38
+
+  #define IDS_RPTPROP_TTIP_GENERAL    ID_CNT_REPORT2_DLG + 39
+  #define IDS_RPTPROP_TTIP_PROFILE    ID_CNT_REPORT2_DLG + 40
+  #define IDS_RPTPROP_TTIP_SETTINGS   ID_CNT_REPORT2_DLG + 41
+  #define IDS_RPTPROP_TTIP_FACTSHEET  ID_CNT_REPORT2_DLG + 42
+  #define IDS_RPTPROP_TTIP_MORE       ID_CNT_REPORT2_DLG + 43
+
+  #define DID_RPT5_OPTION1_TEXT       ID_CNT_REPORT2_DLG + 44
+  #define DID_RPT5_OPTION1_CB         ID_CNT_REPORT2_DLG + 45
+  #define IDS_RPTPROP_TAB_SHIPM       ID_CNT_REPORT2_DLG + 46
+
+
+// listwindow for report output
+  // listwindow
+  #define ID_CNT_HISTREPORT_LW        ID_CNT_REPORT_LW
+  #define ID_CNT_CALCREPORT_LW        ID_CNT_REPORT_LW+1
+  #define SID_RPT_LW_TITLE            ID_CNT_REPORT_LW+2
+
+  // column listbox in listwindow
+  #define DID_HISTRPT_OUT_LB          ID_CNT_REPORT_LW+3
+  #define DID_CALCRPT_OUT_LB          ID_CNT_REPORT_LW+4
+
+  // 1. invisible listbox for long filenames
+  #define DID_RPT_INVISIBLE_LB        ID_CNT_REPORT_LW+5
+
+  // summary counting report
+  #define ID_CNT_SUMREPORT_LW         ID_CNT_REPORT_LW+6
+  #define DID_SUMRPT_OUT_LB           ID_CNT_REPORT_LW+7
+
+  // 2. invisible listbox for short filenames
+  #define DID_RPT_INVISIBLE_LB2       ID_CNT_REPORT_LW+8
+
+  // string for output
+  #define SID_RPT_OUT_FORMAT          ID_CNT_REPORT_OUT
+  #define SID_RPT_OUT_EXT_FORMAT      ID_CNT_REPORT_OUT+1
+  #define SID_RPT_OUT_INT_FORMAT      ID_CNT_REPORT_OUT+2
+
+  #define SID_RPT_OUT_FOLDER          ID_CNT_REPORT_OUT+3
+  #define SID_RPT_OUT_DOCUMENT        ID_CNT_REPORT_OUT+4
+
+  #define SID_RPT_OUT_MARKUP          ID_CNT_REPORT_OUT+5
+  #define SID_RPT_OUT_MEMORY          ID_CNT_REPORT_OUT+6
+  #define SID_RPT_OUT_DESCRIPTION     ID_CNT_REPORT_OUT+7
+  #define SID_RPT_OUT_EDITOR          ID_CNT_REPORT_OUT+8
+  #define SID_RPT_OUT_DICTIONARY      ID_CNT_REPORT_OUT+9
+
+  #define SID_RPT_OUT_SRC_LNG         ID_CNT_REPORT_OUT+10
+  #define SID_RPT_OUT_TGT_LNG         ID_CNT_REPORT_OUT+11
+  #define SID_RPT_OUT_SRCDOCREPL      ID_CNT_REPORT_OUT+12
+  #define SID_RPT_OUT_TGTDOCREPL      ID_CNT_REPORT_OUT+13
+
+  #define SID_RPT_OUT_IMPORT_PATH     ID_CNT_REPORT_OUT+14
+  #define SID_RPT_OUT_SRC_PATH        ID_CNT_REPORT_OUT+15
+  #define SID_RPT_OUT_TGT_PATH        ID_CNT_REPORT_OUT+16
+
+  #define SID_RPT_OUT_ADDTOTM         ID_CNT_REPORT_OUT+17
+  #define SID_RPT_OUT_AUTOREPLACE     ID_CNT_REPORT_OUT+18
+  #define SID_RPT_OUT_LATESTMATCH     ID_CNT_REPORT_OUT+19
+  #define SID_RPT_OUT_AUTOJOIN        ID_CNT_REPORT_OUT+20
+
+  #define SID_RPT_OUT_ORIGINAL        ID_CNT_REPORT_OUT+21
+  #define SID_RPT_OUT_TRANSLATION     ID_CNT_REPORT_OUT+22
+  #define SID_RPT_OUT_SNOMATCH        ID_CNT_REPORT_OUT+23
+  #define SID_RPT_OUT_SNOMATCH_PATH   ID_CNT_REPORT_OUT+24
+  #define SID_RPT_OUT_WITHREVMARK     ID_CNT_REPORT_OUT+25
+
+  #define SID_RPT_OUT_SEGMENTS        ID_CNT_REPORT_OUT+26
+  #define SID_RPT_OUT_SOURCE          ID_CNT_REPORT_OUT+27
+  #define SID_RPT_OUT_MODIFIED        ID_CNT_REPORT_OUT+28
+  #define SID_RPT_OUT_TARGET          ID_CNT_REPORT_OUT+29
+  #define SID_RPT_OUT_WORDS           ID_CNT_REPORT_OUT+30
+
+  #define SID_RPT_OUT_ANALYSIS        ID_CNT_REPORT_OUT+31
+  #define SID_RPT_OUT_AUTOSUBST       ID_CNT_REPORT_OUT+32
+  #define SID_RPT_OUT_EDIT            ID_CNT_REPORT_OUT+33
+  #define SID_RPT_OUT_EXACT           ID_CNT_REPORT_OUT+34
+  #define SID_RPT_OUT_REPLACE         ID_CNT_REPORT_OUT+35
+  #define SID_RPT_OUT_FUZZY           ID_CNT_REPORT_OUT+36
+  #define SID_RPT_OUT_MACHINE         ID_CNT_REPORT_OUT+37
+  #define SID_RPT_OUT_NONE            ID_CNT_REPORT_OUT+38
+  #define SID_RPT_OUT_MATCHES         ID_CNT_REPORT_OUT+39
+  #define SID_RPT_OUT_NOT             ID_CNT_REPORT_OUT+40
+  #define SID_RPT_OUT_TRANSLATED      ID_CNT_REPORT_OUT+41
+  #define SID_RPT_OUT_SUMMARY         ID_CNT_REPORT_OUT+42
+  #define SID_RPT_OUT_KL5             ID_CNT_REPORT_OUT+43
+  #define SID_RPT_OUT_KL15            ID_CNT_REPORT_OUT+44
+  #define SID_RPT_OUT_GRGL15          ID_CNT_REPORT_OUT+45
+  #define SID_RPT_OUT_NUMBER          ID_CNT_REPORT_OUT+46
+  #define SID_RPT_OUT_DATE            ID_CNT_REPORT_OUT+47
+  #define SID_RPT_OUT_TIME            ID_CNT_REPORT_OUT+48
+  #define SID_RPT_OUT_PROCESSTASK     ID_CNT_REPORT_OUT+49
+  #define SID_RPT_OUT_NULLSTRING      ID_CNT_REPORT_OUT+50
+  #define SID_RPT_OUT_DOCOFFOLDER     ID_CNT_REPORT_OUT+51
+  #define SID_RPT_OUT_SUMGENERATED    ID_CNT_REPORT_OUT+52
+
+  #define SID_RPT_OUT_TRUE            ID_CNT_REPORT_OUT+53
+  #define SID_RPT_OUT_FALSE           ID_CNT_REPORT_OUT+54
+
+  #define SID_RPT_OUT_LASTPROCESS     ID_CNT_REPORT_OUT+55
+  #define SID_RPT_OUT_STATE           ID_CNT_REPORT_OUT+56
+  #define SID_RPT_OUT_DOCSSELECTED    ID_CNT_REPORT_OUT+57
+  #define SID_RPT_OUT_OF              ID_CNT_REPORT_OUT+58
+
+  #define SID_RPT_OUT_RPTGENERATED    ID_CNT_REPORT_OUT+59
+
+  // actions
+  #define SID_RPT_ACTION_1            ID_CNT_REPORT_OUT+60
+  #define SID_RPT_ACTION_2            ID_CNT_REPORT_OUT+61
+  #define SID_RPT_ACTION_3            ID_CNT_REPORT_OUT+62
+  #define SID_RPT_ACTION_4            ID_CNT_REPORT_OUT+63
+  #define SID_RPT_ACTION_5            ID_CNT_REPORT_OUT+64
+  #define SID_RPT_ACTION_6            ID_CNT_REPORT_OUT+65
+  #define SID_RPT_ACTION_7            ID_CNT_REPORT_OUT+66
+  #define SID_RPT_ACTION_8            ID_CNT_REPORT_OUT+67
+  #define SID_RPT_ACTION_9            ID_CNT_REPORT_OUT+68
+  #define SID_RPT_ACTION_10           ID_CNT_REPORT_OUT+69
+  #define SID_RPT_ACTION_11           ID_CNT_REPORT_OUT+70
+  #define SID_RPT_ACTION_12           ID_CNT_REPORT_OUT+71
+  #define SID_RPT_ACTION_13           ID_CNT_REPORT_OUT+72
+  #define SID_RPT_ACTION_14           ID_CNT_REPORT_OUT+73
+  #define SID_RPT_ACTION_15           ID_CNT_REPORT_OUT+74
+  #define SID_RPT_ACTION_16           ID_CNT_REPORT_OUT+75
+  #define SID_RPT_ACTION_17           ID_CNT_REPORT_OUT+76
+  #define SID_RPT_ACTION_18           ID_CNT_REPORT_OUT+77
+  #define SID_RPT_FUZZY_LEVEL         ID_CNT_REPORT_OUT+78
+  #define SID_RPT_OUT_FOLDERFORMAT    ID_CNT_REPORT_OUT+79
+  #define SID_RPT_OUT_NEWSOURCENOTIMPORTED  ID_CNT_REPORT_OUT+80
+

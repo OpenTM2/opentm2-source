@@ -1,0 +1,612 @@
+//+----------------------------------------------------------------------------+
+//|EQFRPT.MRI                                                                  |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Michael Sekinger                                                    |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description: MRI strings for Counting Report                                |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 6 Feb 2002
+// RJ: KBT969: add STR_RPT_OUT_FOLDERFORMAT, STR_RPT_OUT_NEWSOURCENOTIMPORTED
+// 
+// 
+// $Revision: 1.2 $ ----------- 3 Dec 2001
+//  -- No comment!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.5 $ ----------- 5 Dec 2000
+// mistake in grammar corrected: "shrunk to..." 
+// 
+// 
+// $Revision: 1.4 $ ----------- 24 Aug 2000
+// added action_17
+// 
+// 
+// $Revision: 1.3 $ ----------- 19 May 2000
+// property sheet for conting report
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFRPT.MVI   1.15   10 Jun 1999 13:01:18   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFRPT.MVI  $
+ * 
+ *    Rev 1.15   10 Jun 1999 13:01:18   BUILD
+ * Added Version log
+ *
+ *    Rev 1.14   25 Feb 1999 10:04:10   BUILD
+ * change Complexity Word  to   Compl. Word
+ *
+ *    Rev 1.13   22 Feb 1999 17:44:40   BUILD
+ * Lost Data: Force New Shipment added
+ *
+ *    Rev 1.12   12 Feb 1999 09:49:14   BUILD
+ * added more dialog
+ * No. -> Tasl Id for History Log
+ *
+ *    Rev 1.11   01 Feb 1999 11:31:14   BUILD
+ * changed 4..14 to 5..14
+ *
+ *    Rev 1.10   19 Jan 1999 16:46:00   BUILD
+ * Wordcount data inconsistent added
+ *
+ *    Rev 1.9   11 Jan 1999 16:05:48   BUILD
+ * Added STR_RPT_ACTION_14
+ *
+ *    Rev 1.8   18 Dec 1998 11:51:42   BUILD
+ * invalid data ACTION added
+ *
+ *    Rev 1.7   30 Nov 1998 09:49:58   BUILD
+ * Added description
+ *
+ *    Rev 1.6   23 Nov 1998 14:07:46   BUILD
+ * added redundancy list
+ *
+ *    Rev 1.5   09 Nov 1998 18:44:08   BUILD
+ * pre-analysis report added
+ * added  sort order
+ *
+ *    Rev 1.4   15 Oct 1998 19:49:28   BUILD
+ * changed column description for Source/Source analysis tool
+ *
+ *    Rev 1.3   14 Sep 1998 15:30:54   BUILD
+ * added html file output format
+ *
+ *    Rev 1.2   17 Mar 1998 10:53:12   BUILD
+ * spinbutton change in main dialog
+ *
+ *    Rev 1.1   06 Mar 1998 15:42:10   BUILD
+ * new counting report
+ *
+ *    Rev 1.0   02 Dec 1996 10:44:20   BUILD
+ * - initial put
+ *
+*/
+//+----------------------------------------------------------------------------+
+
+// ---------------------------------
+// Dialog Counting Report
+//   Counting Report main dialog
+//   Summary Counting report dialog
+//   Final fact sheet dialog
+// ---------------------------------
+
+
+// Dialog "Word Counting Report"  + "Settings..."  + "Final Fact Sheet"
+  #define STR_CNT_REPORT_DLG           "Create Counting Report"
+  #define STR_CNT_REPORT1_DLG          "Counting Report Settings"
+  #define STR_CNT_REPORT2_DLG          "Final Fact Sheet Settings"
+
+
+// Folder, Documents
+  #define STR_RPT_FOLDER_TEXT          "Folder:"
+  #define STR_RPT_PROFILE_TEXT         "Profile:"
+  #define STR_RPT_DOCUMENTS_TEXT       "Documents"
+
+// Groupbox "Report"
+  #define STR_RPT_REPORT_GB            "Report"
+  #define STR_RPT_PROFILE_GB           "Profile"
+
+// SETTINGS Groupbox "DISPLAY OPTIONS"
+  #define STR_RPT1_OPTIONS_GB          "Display"
+  #define STR_RPT1_OPTION1_CB          "Count Number of:"
+  #define STR_RPT1_OPTION2_CB          "Categories"
+  #define STR_RPT1_OPTION3_CB          "Report layout"
+  #define STR_RPT1_OPTION5_CB          "Documents ordered"
+
+// SETTINGS final fact sheet
+  #define STR_RPT2_OPTIONS_GB          "Final Fact Sheet"
+  #define STR_RPT2_OPTIONS99_GB          "Final Factors"
+  #define STR_RPT2_OPTIONS1_GB          "Final Counting"
+  #define STR_RPT2_OPTION1_CB          "Column"
+  #define STR_RPT2_OPTION2_CB          "Category"
+  #define STR_RPT2_OPTION3_CB          "Unit"
+
+
+  #define STR_RPTPROP_TAB_GENERAL      "General"
+  #define STR_RPTPROP_TAB_PROFILE      "Profile"
+  #define STR_RPTPROP_TAB_SETTINGS     "Settings"
+  #define STR_RPTPROP_TAB_FACTSHEET    "FactSheet"
+  #define STR_RPTPROP_TAB_MORE         "Security"
+  #define STR_RPTPROP_TAB_SHIPM        "Shipments"
+  
+
+  #define STR_RPTPROP_TTIP_GENERAL     "General Settings"
+  #define STR_RPTPROP_TTIP_PROFILE     "Profile Load and Save"
+  #define STR_RPTPROP_TTIP_SETTINGS    "Special Settings"
+  #define STR_RPTPROP_TTIP_FACTSHEET   "Final Fact Sheet Settings and Numbers"
+  #define STR_RPTPROP_TTIP_MORE        "Security Settings"
+
+
+  #define STR_RPT_OPTIONS_TEXT         "Types of Reports"  // "Options:"
+  #define STR_RPT_FORMAT_TEXT          "Format:"
+
+// Groupbox "Output to"
+  #define STR_RPT_OUTPUTTO_GB          "Output to"
+  #define STR_RPT_SCREEN_CHK           "Screen"
+  #define STR_RPT_FILE_CHK             "File"
+  #define STR_RPT_NAME_TEXT            "Name:"
+  #define STR_RPT_DESCRIPTION_TEXT     "Description:"
+  #define STR_RPT_FILESELECT_PB        "&Select..."
+
+
+// SETTINGS groupbox  for summary calculating report
+  #define STR_RPT1_COLUMNS_GB          "Select Columns"
+  #define STR_RPT1_STATISTICS_GB       "Statistics"
+  #define STR_RPT1_COLUMN1_CHK         "Build summary of categories"
+  #define STR_RPT1_COLUMN2_CHK         "Automatic Shrink"
+  #define STR_RPT1_COLUMN3_CHK         "Include Statistics"
+  #define STR_RPT1_COLUMN4_CHK         "Use Existing Proposals"
+
+// Pusbuttons for main dialog
+  #define STR_RPT_SETTINGS_PB          "Settings..."
+  #define STR_RPT_SETTINGS1_PB         "Fact Sheet..."
+  #define STR_RPT_CREATE_PB            "&Create"
+  #define STR_RPT_CANCEL_PB            "Cancel"
+  #define STR_RPT_HELP_PB              "Help"
+  #define STR_RPT_LOAD_PB              "Load"
+  #define STR_RPT_SAVE_PB              "Save"
+
+//  Pusbuttons for summary calculating report
+  #define STR_RPT1_SET_PB              "&Set"
+  #define STR_RPT1_CANCEL_PB           "Cancel"
+  #define STR_RPT1_HELP_PB             "Help"
+  #define STR_RPT1_MORE_PB             "More..."
+
+
+// Pusbuttons for final fact sheet
+  #define STR_RPT2_SET_PB              "&Set"
+  #define STR_RPT2_CANCEL_PB           "Cancel"
+  #define STR_RPT2_HELP_PB             "Help"
+
+
+// Pusbuttons for more dialog
+  #define STR_RPT4_SET_PB              "&Set"
+  #define STR_RPT4_CANCEL_PB           "Cancel"
+  #define STR_RPT4_HELP_PB             "Help"
+
+
+
+// not used, for final fact sheet
+  #define STR_RPT2_SETFACTORS_PB       "&Set Factors"
+
+//---------
+// Strings
+//---------
+
+// Reports
+  #define STR_RPT_REPORT_1          "History Report"
+  #define STR_RPT_REPORT_2          "Counting Report"
+  #define STR_RPT_REPORT_3          "Calculating Report"
+  #define STR_RPT_REPORT_4          "Pre-Analysis Report"
+  #define STR_RPT_REPORT_5          "Redundancy Report"
+  #define STR_RPT_REPORT_6          "Redundant Segment List"
+
+// Options
+  #define STR_RPT_OPTION_1          "Brief, sort by Date"
+  #define STR_RPT_OPTION_2          "Brief, sort by Document"
+  #define STR_RPT_OPTION_3          "Detail"
+  #define STR_RPT_OPTION_4          "Version"
+  #define STR_RPT_OPTION_5          "With totals"
+  #define STR_RPT_OPTION_6          "Without totals"
+  #define STR_RPT_OPTION_7          "Base"
+  #define STR_RPT_OPTION_8          "Base & Summary"
+  #define STR_RPT_OPTION_9          "Base,Summary & Fact Sheet"
+  #define STR_RPT_OPTION_10         "Summary & Fact Sheet"
+  #define STR_RPT_OPTION_11         "Fact Sheet"
+  #define STR_RPT_OPTION_12         "Summary"
+
+
+// Formats
+  #define STR_RPT_FORMAT_1          "ASCII"
+  #define STR_RPT_FORMAT_2          "RTF"
+  #define STR_RPT_FORMAT_3          "HTML"
+
+// Options for summary counting report
+  #define STR_RPT1_OPTION1_1       "Source Words"
+  #define STR_RPT1_OPTION1_2       "Target Words"
+  #define STR_RPT1_OPTION1_3       "Segments"
+  #define STR_RPT1_OPTION1_4       "Modified Words"
+
+  #define STR_RPT1_OPTION2_1       "Show categories"
+  #define STR_RPT1_OPTION2_2       "Hide categories"
+
+  #define STR_RPT1_OPTION3_1       "Standard"
+  #define STR_RPT1_OPTION3_2       "Standard and Group-Summary"
+  #define STR_RPT1_OPTION3_3       "Shrunk to Groups"
+
+  #define STR_RPT1_OPTION4_1       "Standard Statistics"
+  #define STR_RPT1_OPTION4_2       "Advanced Statistics"
+
+  #define STR_RPT1_OPTION5_1       "Alphabetically"
+  #define STR_RPT1_OPTION5_2       "Process Optimized"
+
+// final fact sheet; counting factors
+  #define STR_RPT2_OPTION1_1       "Analysis Auto Subst"
+  #define STR_RPT2_OPTION1_2       "Analysis Auto Subst2"
+  #define STR_RPT2_OPTION1_3       "Edit Auto Subst"
+  #define STR_RPT2_OPTION1_4       "Exact Matches"
+  #define STR_RPT2_OPTION1_5       "Replace Matches"
+  #define STR_RPT2_OPTION1_6       "Fuzzy Matches < 70%"
+  #define STR_RPT2_OPTION1_7       "Fuzzy Matches < 90%"
+  #define STR_RPT2_OPTION1_8       "Fuzzy Matches > 90%"
+  #define STR_RPT2_OPTION1_9       "Machine Matches"
+  #define STR_RPT2_OPTION1_10      "Manually Translated"
+
+  #define STR_RPT2_OPTION2_1       "Simple  (1..4 Words)"
+  #define STR_RPT2_OPTION2_2       "Medium  (5..14 Words, mean)"
+  #define STR_RPT2_OPTION2_3       "Complex (>= 15 Words)"
+
+// final fact sheet local currency, standard
+  #define STR_RPT2_OPTION3_1       "1 word"
+  #define STR_RPT2_OPTION3_2       "Standard line (10 words)"
+  #define STR_RPT2_OPTION3_3       "Standard page (250 words)"
+
+// final fact sheet factors
+  #define STR_RPT2_FACTOR1_TEXT    "Complexity Factor"
+  #define STR_RPT2_FACTOR2_TEXT    "Pay Factor"
+  #define STR_RPT2_FACTOR3_TEXT    "Local Currency"
+
+  #define STR_CNT_REPORT4_DLG      "More Options"
+  #define STR_RPT4_OPTIONS_GB      "Options"
+  #define STR_RPT4_COLUMN1_CHK     "Plausibility check"
+  #define STR_RPT4_COLUMN2_CHK     "List of Documents"
+  #define STR_RPT4_COLUMN3_CHK     "Lost Data: Force New Shipment"
+
+
+
+//------------------------------------
+// Strings for Summary counting report
+//------------------------------------
+
+
+  #define STR_RPT3_SIMPLE          "1..4"
+  #define STR_RPT3_MEDIUM          "5..14"
+  #define STR_RPT3_COMPLEX         ">= 15"
+  #define STR_RPT3_SUM             "Sum"
+  #define STR_RPT3_SUMMARY         "Summary"
+  #define STR_RPT3_FACT            "Final Fact Sheet"
+  #define STR_RPT3_ACTUAL_WORDS    "Actual Words"
+  #define STR_RPT3_COMPLEXITY      "Complexity"
+  #define STR_RPT3_FACTOR          "Factor"
+  #define STR_RPT3_FACTORT         "Factor *"
+  #define STR_RPT3_MEAN_COMP       "mean comp"
+  #define STR_RPT3_COMPLEXITY_WORDS   "Compl. Word"
+  #define STR_RPT3_PAY             "Pay"
+  #define STR_RPT3_MEAN_PAY         "mean pay"
+  #define STR_RPT3_PAY_WORDS        "Payable Words"
+  #define STR_RPT3_FINAL_SUMMARY    "Final Summary"
+  #define STR_RPT3_STANDARD_LINES   "Standard Lines"
+  #define STR_RPT3_STANDARD_PAGES   "Standard Pages"
+  #define STR_RPT3_LOCAL_CURRENCY   "Local Currency"
+  #define STR_RPT3_TOTAL_PAY        "Total Pay"
+  #define STR_RPT3_STATISTICS       "Statistics"
+  #define STR_RPT3_                 ""
+
+  #define STR_RPT3_DOCUMENT         "Document"
+  #define STR_RPT3_CATEGORY         "Category"
+
+
+// summary counting report, column description
+
+// data
+  #define STR_RPT3_COLUMN1_1   "Number"
+  #define STR_RPT3_COLUMN1_2   "Fuzzy"          //adjusted fuzzy level
+  #define STR_RPT3_COLUMN1_3   "Sum"            // sum
+  #define STR_RPT3_COLUMN1_4   "Analyze"
+  #define STR_RPT3_COLUMN1_5   "Analyze"
+  #define STR_RPT3_COLUMN1_6   "Analyze"
+  #define STR_RPT3_COLUMN1_7   "Sum"            // sum
+  #define STR_RPT3_COLUMN1_8   "Edit"
+  #define STR_RPT3_COLUMN1_9   "Edit"
+  #define STR_RPT3_COLUMN1_10  "Sum"            // sum
+  #define STR_RPT3_COLUMN1_11  "Fuzzy"
+  #define STR_RPT3_COLUMN1_12  "Fuzzy"
+  #define STR_RPT3_COLUMN1_13  "Fuzzy"
+  #define STR_RPT3_COLUMN1_14  "Changed"
+  #define STR_RPT3_COLUMN1_15  "Mach."
+  #define STR_RPT3_COLUMN1_16  "None"
+  #define STR_RPT3_COLUMN1_17  "Not"
+// Statistics
+  #define STR_RPT3_COLUMN1_18  "Edit"
+  #define STR_RPT3_COLUMN1_19  "Edit"
+  #define STR_RPT3_COLUMN1_20  "Sum"
+  #define STR_RPT3_COLUMN1_21  "Fuzzy"
+  #define STR_RPT3_COLUMN1_22  "Fuzzy"
+  #define STR_RPT3_COLUMN1_23  "Fuzzy"
+  #define STR_RPT3_COLUMN1_24  "Mach"
+// Used for statistics
+  #define STR_RPT3_COLUMN1_25  "Stat"
+  #define STR_RPT3_COLUMN1_26  "Stat"
+  #define STR_RPT3_COLUMN1_27  "Stat"
+  #define STR_RPT3_COLUMN1_28  "Stat"
+  #define STR_RPT3_COLUMN1_29  "Stat"
+  #define STR_RPT3_COLUMN1_30  "Stat"
+  #define STR_RPT3_COLUMN1_31  "Stat"
+
+
+// Data
+  #define STR_RPT3_COLUMN2_1  "Shipm"
+  #define STR_RPT3_COLUMN2_2  "Level"           //adjusted fuzzy level
+  #define STR_RPT3_COLUMN2_3  "Analyze"
+  #define STR_RPT3_COLUMN2_4  "Auto"
+  #define STR_RPT3_COLUMN2_5  "Post"
+  #define STR_RPT3_COLUMN2_6  "Edit"
+  #define STR_RPT3_COLUMN2_7  "Edit"
+  #define STR_RPT3_COLUMN2_8  "Exact"
+  #define STR_RPT3_COLUMN2_9  "Replace"
+  #define STR_RPT3_COLUMN2_10 "Fuzzy"
+  #define STR_RPT3_COLUMN2_11 "50-70%"
+  #define STR_RPT3_COLUMN2_12 "70-90%"
+  #define STR_RPT3_COLUMN2_13 ">90%"
+  #define STR_RPT3_COLUMN2_14 "Fuzzy"
+  #define STR_RPT3_COLUMN2_15 "Matches"
+  #define STR_RPT3_COLUMN2_16 "Matches"
+  #define STR_RPT3_COLUMN2_17 "Transl"
+// Statistics
+  #define STR_RPT3_COLUMN2_18  "Exact"
+  #define STR_RPT3_COLUMN2_19  "Repl"
+  #define STR_RPT3_COLUMN2_20  "Fuzzy"
+  #define STR_RPT3_COLUMN2_21  "50-70%"
+  #define STR_RPT3_COLUMN2_22  "70-90%"
+  #define STR_RPT3_COLUMN2_23  ">90%"
+  #define STR_RPT3_COLUMN2_24  "Matches"
+// Used for statistics
+  #define STR_RPT3_COLUMN2_25  "Stat"
+  #define STR_RPT3_COLUMN2_26  "Stat"
+  #define STR_RPT3_COLUMN2_27  "Stat"
+  #define STR_RPT3_COLUMN2_28  "Stat"
+  #define STR_RPT3_COLUMN2_29  "Stat"
+  #define STR_RPT3_COLUMN2_30  "Stat"
+  #define STR_RPT3_COLUMN2_31  "Stat"
+
+
+
+// table definitions
+  #define STR_RPT3_BEGIN_TABLE   "<TABLE>"
+  #define STR_RPT3_END_TABLE     "</TABLE>"
+  #define STR_RPT3_BEGIN_HEADER  "<HEADER>"
+  #define STR_RPT3_END_HEADER    "</HEADER>"
+  #define STR_RPT3_BEGIN_TEXT    "<TEXT>"
+  #define STR_RPT3_END_TEXT      "</TEXT>"
+  #define STR_RPT3_BEGIN_TITLE   "<TITLE>"
+  #define STR_RPT3_END_TITLE     "</TITLE>"
+
+
+
+
+//-------------------
+// Listwindow Report
+//-------------------
+
+// Strings for Listwindow
+  #define STR_RPT_LW_TITLE           "Counting Report"
+
+// Strings for Output
+  #define STR_RPT_OUT_FORMAT         "Format"
+  #define STR_RPT_OUT_EXT_FORMAT     "External"
+  #define STR_RPT_OUT_INT_FORMAT     "OpenTM2"
+
+  #define STR_RPT_OUT_FOLDER         "Folder"
+  #define STR_RPT_OUT_DOCUMENT       "Document"
+
+  #define STR_RPT_OUT_MARKUP         "Markup"
+  #define STR_RPT_OUT_MEMORY         "Translation memory"
+  #define STR_RPT_OUT_DESCRIPTION    "Description"
+  #define STR_RPT_OUT_EDITOR         "Editor"
+  #define STR_RPT_OUT_DICTIONARY     "Dictionaries"
+
+  #define STR_RPT_OUT_SRC_LNG        "Source language"
+  #define STR_RPT_OUT_TGT_LNG        "Target language"
+  #define STR_RPT_OUT_SRCDOCREPL     "Source replaced"
+  #define STR_RPT_OUT_TGTDOCREPL     "Target replaced"
+
+  #define STR_RPT_OUT_IMPORT_PATH    "Import path"
+  #define STR_RPT_OUT_SRC_PATH       "Source path"
+  #define STR_RPT_OUT_TGT_PATH       "Target path"
+
+  #define STR_RPT_OUT_ADDTOTM        "Add segments to TM"
+  #define STR_RPT_OUT_AUTOREPLACE    "Substitute exact matches"
+  #define STR_RPT_OUT_LATESTMATCH    "Use latest exact match"
+  #define STR_RPT_OUT_AUTOJOIN       "Use joined segments"
+
+  #define STR_RPT_OUT_ORIGINAL       "Original"
+  #define STR_RPT_OUT_TRANSLATION    "Translation"
+  #define STR_RPT_OUT_SNOMATCH       "SNOMATCH"
+  #define STR_RPT_OUT_SNOMATCH_PATH  "SNOMATCH path"
+  #define STR_RPT_OUT_WITHREVMARK    "With revision marks"
+
+  #define STR_RPT_OUT_SEGMENTS       "Segments"
+  #define STR_RPT_OUT_SOURCE         "Source"
+  #define STR_RPT_OUT_MODIFIED       "Modified"
+  #define STR_RPT_OUT_TARGET         "Target"
+  #define STR_RPT_OUT_WORDS          "Words"
+
+  #define STR_RPT_OUT_ANALYSIS       "Analysis"
+  #define STR_RPT_OUT_AUTOSUBST      "Autosubst"
+  #define STR_RPT_OUT_EDIT           "Edit"
+  #define STR_RPT_OUT_EXACT          "Exact"
+  #define STR_RPT_OUT_REPLACE        "Replace"
+  #define STR_RPT_OUT_FUZZY          "Fuzzy"
+  #define STR_RPT_OUT_MACHINE        "Machine"
+  #define STR_RPT_OUT_NONE           "None"
+  #define STR_RPT_OUT_MATCHES        "Matches"
+  #define STR_RPT_OUT_NOT            "Not"
+  #define STR_RPT_OUT_TRANSLATED     "Translated"
+  #define STR_RPT_OUT_SUMMARY        "Summary"
+  #define STR_RPT_OUT_KL5            "1..4"
+  #define STR_RPT_OUT_KL15           "5..14"
+  #define STR_RPT_OUT_GRGL15         ">=15"
+  #define STR_RPT_OUT_NUMBER         "Task Id"
+  #define STR_RPT_OUT_DATE           "Date"
+  #define STR_RPT_OUT_TIME           "Time"
+  #define STR_RPT_OUT_PROCESSTASK    "Process task"
+  #define STR_RPT_OUT_NULLSTRING     " "
+  #define STR_RPT_OUT_DOCOFFOLDER    "Selected documents of folder"
+  #define STR_RPT_OUT_SUMGENERATED   "Summary generated at"
+
+  #define STR_RPT_OUT_TRUE           "Yes"
+  #define STR_RPT_OUT_FALSE          "No"
+
+  #define STR_RPT_OUT_LASTPROCESS    "Last process task"
+  #define STR_RPT_OUT_STATE          "State"
+  #define STR_RPT_OUT_DOCSSELECTED   "Documents selected"
+  #define STR_RPT_OUT_OF             "of"
+
+  #define STR_RPT_OUT_RPTGENERATED   "Report generated at"
+
+// actions
+  #define STR_RPT_ACTION_1           "Document import"
+  #define STR_RPT_ACTION_2           "...with replace of target"
+  #define STR_RPT_ACTION_3           "Document analysis"
+  #define STR_RPT_ACTION_4           "...with automatic substitution"
+  #define STR_RPT_ACTION_5           "Document delete"
+  #define STR_RPT_ACTION_6           "Document open, edit, save"
+  #define STR_RPT_ACTION_7           "Document export"
+  #define STR_RPT_ACTION_8           "Document properties changed"
+  #define STR_RPT_ACTION_9           "Folder properties changed"
+  #define STR_RPT_ACTION_10          "Document with long name imported"
+  #define STR_RPT_ACTION_11          "Save of document expanded format"
+  #define STR_RPT_ACTION_12          "Document import  expanded format"
+  #define STR_RPT_ACTION_13          "WordCount data invalid; Reset forced"
+  #define STR_RPT_ACTION_14          "Document save from API call"
+  #define STR_RPT_ACTION_15          "WordCount data inconsistent"
+  #define STR_RPT_ACTION_16          "Version Information"
+  #define STR_RPT_ACTION_17          "Folder Shipment Number changed"
+  #define STR_RPT_ACTION_18          "Document import (2)"
+  #define STR_RPT_FUZZY_LEVEL        "Adjusted level of fuzzyness for category"
+  #define STR_RPT_OUT_FOLDERFORMAT   "Folder" 
+  #define STR_RPT_OUT_NEWSOURCENOTIMPORTED   "New source not imported during import"
+
+
+
+

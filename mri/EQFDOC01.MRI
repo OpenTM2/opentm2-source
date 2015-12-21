@@ -1,0 +1,313 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFDOC01.MRI - MRI material of document dialogs                           |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+*/
+////////////////////////////////////////////////////////////////////////////////
+//               Strings of document import dialog panel                      //
+////////////////////////////////////////////////////////////////////////////////
+
+// title bar text
+#define STR_DOCIMP_TITLE      "Import Documents"
+
+// heading of format groupbox
+#define STR_DOCIMP_FORMAT     "Format"
+
+// name of external format radiobutton
+#define STR_DOCIMP_EXTFORMAT  "External Format"
+
+// name of external format with relative path radiobutton
+#define STR_DOCIMP_IMPPATHFORMAT  "External Format with relative path"
+
+// name of internal format radiobutton
+// Note: this name should reflect the product name
+#define STR_DOCIMP_INTFORMAT  "OpenTM2 Format"
+
+// heading of import groupbox in case of import in external format
+#define STR_DOCIMP_EXTIMPORT  "From"
+
+// heading of import groupbox in case of import in internal format
+#define STR_DOCIMP_INTIMPORT  "From"
+
+// heading of path/filename entry field
+#define STR_DOCIMP_FILENAME   "Name:"
+
+//label of the current directory field
+#define STR_DOCIMP_CURDIR_TEXT "Current directory:"
+
+//label of the start path field
+#define STR_DOCIMP_STARTPATH_TEXT "Start path:"
+
+// heading of directory listbox in case of import in external format
+#define STR_DOCIMP_EXTDIRECTORY   "Directories"
+
+// heading of directory listbox in case of import in internal format
+#define STR_DOCIMP_INTDIRECTORY   "Folders"
+
+// heading of file listbox in case of import in external format
+#define STR_DOCIMP_EXTFILE        "Files"
+
+// heading of file listbox in case of import in internal format
+#define STR_DOCIMP_INTFILE        "Documents"
+
+// label of browse pushbutton
+#define STR_DOCIMP_BROWSE         "&Browse"
+
+// label of select all documents pushbutton
+#define STR_DOCIMP_SELALL         "&Select all"
+
+// label of deselect all documents pushbutton
+#define STR_DOCIMP_DESALL         "Dese&lect all"
+
+// prefix of folder name static
+#define STR_DOCIMP_TOFOLDER    "To folder:"
+
+// name of import pushbutton
+#define STR_DOCIMP_IMPORT      "&Import"
+
+// name of cancel pushbutton
+#define STR_DOCIMP_CANCEL      "Cancel"
+
+// name of help pushbutton
+#define STR_DOCIMP_HELP        "Help"
+
+#define STR_NGDIMP_SERVER      "Server:"
+#define STR_NGDIMP_DATABASE    "Databases:"
+#define STR_NGDIMP_FILENAME    "Filename:"
+#define STR_NGDIMP_TGTLNG      "Target Language:"
+#define STR_NGDIMP_SRCLNG      "Source Language:"
+#define STR_NGDIMP_NOTRANS     "Extract untranslated terms only"
+
+// DO NOT TRANSLATE
+#define STR_NGDIMP_FILTER     "Notes Database Files\0*.NSF\0\0"
+
+#define STR_NGDIMP_SELTITLE   "Choose a Notes database:"
+
+#define STR_DOCIMP_TTIP_EXTFORMAT      "Import documents in external format"
+#define STR_DOCIMP_TTIP_INTFORMAT      "Import OpenTM2 documents"
+#define STR_DOCIMP_TTIP_IMPPATHFORMAT  "Import documents and preserve path information"
+
+#define STR_DOCEXP_TTIP_EXTFORMAT      "Export documents in external format"
+#define STR_DOCEXP_TTIP_INTFORMAT      "Export OpenTM2 documents"
+#define STR_DOCEXP_TTIP_IMPPATHFORMAT  "Export documents and use preserved path information"
+
+////////////////////////////////////////////////////////////////////////////////
+//               Strings of document export dialog panel                      //
+////////////////////////////////////////////////////////////////////////////////
+// title bar text
+#define STR_DOCEXP_TITLE      "Export Documents"
+
+// heading of format groupbox
+#define STR_DOCEXP_FORMAT     "Format"
+
+// name of external format radiobutton
+#define STR_DOCEXP_EXTFORMAT "External Format"
+
+// name of external format with relative path radiobutton
+#define STR_DOCEXP_IMPPATHFORMAT  "External Format with relative path"
+
+// name of internal format radiobutton
+// Note: this name should reflect the product name
+#define STR_DOCEXP_INTFORMAT  "OpenTM2 Format"
+
+// heading of document listbox
+#define STR_DOCEXP_DOCUMENTS  "Documents"
+
+// heading of export groupbox while exporting in external format
+#define STR_DOCEXP_EXTEXPORT  "Export"
+
+// heading of export groupbox while exporting in internal format
+#define STR_DOCEXP_INTEXPORT  "Export"
+
+// name of translation checkbox
+#define STR_DOCEXP_TRANSLATION "Translation"
+
+// identifier for path name entry field
+// Note: this string is used for the path name under the 'Translation'
+//       checkbox and for the path name under the 'Original' checkbox
+#define STR_DOCEXP_PATH "Path:"
+
+// identifier for path name entry field when in relative path mode
+// Note: this string is used for the path name under the 'Translation'
+//       checkbox and for the path name under the 'Original' checkbox
+#define STR_DOCEXP_STARTPATH "Start path:"
+
+// name of 'with revision marks' checkbox
+#define STR_DOCEXP_WITHREVMARK "With revision marks"
+
+// identifier for revision mark name combobox
+#define STR_DOCEXP_REVMARKNAME "Name:"
+
+// identifier for edit revision mark pushbutton
+#define STR_DOCEXP_REVEDIT "E&dit..."
+
+// name of 'with tracking IDs' checkbox
+#define STR_DOCEXP_WITHTRACKID "With TVT tracking IDs"
+
+// name of original checkbox
+#define STR_DOCEXP_ORIGINAL   "Original"
+
+// name of not matching segments checkbox
+#define STR_DOCEXP_SNOMATCH   "Untranslated segments"
+
+// heading of 'to drive' groupbox
+#define STR_DOCEXP_TODRIVE "To"
+
+// name of export pushbutton
+#define STR_DOCEXP_EXPORT     "&Export"
+
+// name of cancel pushbutton
+#define STR_DOCEXP_CANCEL     "Cancel"
+
+// name of help pushbutton
+#define STR_DOCEXP_HELP       "Help"
+
+// conversion entry 'use document conversion'
+#define STR_DOCEXP_USEDOCCONV "* Use document conversion *"
+
+#define STR_NGDEXP_EXPORT      "Export"
+#define STR_NGDEXP_OPTIONS     "Option"
+#define STR_NGDEXP_APPROVE     "Mark term as approved"
+#define STR_NGDEXP_INSERT      "Insert translated terms into the corresponding Notes database"
+
+
+////////////////////////////////////////////////////////////////////////////////
+//               Strings of revision mark dialog                              //
+////////////////////////////////////////////////////////////////////////////////
+
+// revision mark dialog titlebar text
+#define STR_REVMARK_TITLE     "Edit Revision Marks"
+
+// revision mark dialog, name static
+#define STR_REVMARK_NAME      "Name:"
+
+// revision mark dialog, description static
+#define STR_REVMARK_DESCR     "Description:"
+
+// revision mark dialog, groupbox title for category 1
+#define STR_REVMARK_CAT1_GB   "Revision mark for segments translated from scratch"
+
+// revision mark dialog, text for cat1 begin revision mark
+#define STR_REVMARK_CAT1_BEG  "Begin text:"
+
+// revision mark dialog, text for cat1 end revision mark
+#define STR_REVMARK_CAT1_END  "End text:"
+
+// revision mark dialog, groupbox title for category 2
+#define STR_REVMARK_CAT2_GB   "Revision mark for modified proposals"
+
+// revision mark dialog, text for cat2 begin revision mark
+#define STR_REVMARK_CAT2_BEG  "Begin text:"
+
+// revision mark dialog, text for cat2 end revision mark
+#define STR_REVMARK_CAT2_END  "End text:"
+
+// revision mark dialog, groupbox title for category 3
+#define STR_REVMARK_CAT3_GB   "Revision mark for unmodified proposals"
+
+// revision mark dialog, text for cat3 begin revision mark
+#define STR_REVMARK_CAT3_BEG  "Begin text:"
+
+// revision mark dialog, text for cat3 end revision mark
+#define STR_REVMARK_CAT3_END  "End text:"
+
+// revision mark dialog, text in save pushbutton
+#define STR_REVMARK_SAVE_PB   "&Save"
+
+// revision mark dialog, text in delete pushbutton
+#define STR_REVMARK_DELETE_PB   "Delete"
+
+// revision mark dialog, text in cancel pushbutton
+#define STR_REVMARK_CANCEL_PB   "Cancel"
+
+// revision mark dialog, text in help pushbutton
+#define STR_REVMARK_HELP_PB   "Help"
+
+////////////////////////////////////////////////////////////////////////////////
+//               Strings of document properties dialog                        //
+////////////////////////////////////////////////////////////////////////////////
+
+#define STR_DOCPROP_DLG_TITLE    "Document Properties"
+
+#define STR_DOCPROP_NAME         "Name:"
+#define STR_DOCPROP_ALIAS        "Alias:"
+
+#define STR_DOCPROP_FOLSETTINGS  "Folder settings"
+#define STR_DOCPROP_FOLFORMAT    "Markup:"
+#define STR_DOCPROP_FOLTM        "Translation Memory:"
+#define STR_DOCPROP_FOLSRCLNG    "Source language:"
+#define STR_DOCPROP_FOLTRGLNG    "Target language:"
+#define STR_DOCPROP_FOLEDITOR    "Editor:"
+#define STR_DOCPROP_FOLCONV      "Conversion:"
+
+#define STR_DOCPROP_DOCSETTINGS  "Document settings"
+#define STR_DOCPROP_DOCFORMAT    "Markup:"
+#define STR_DOCPROP_DOCTM        "Translation Memory:"
+#define STR_DOCPROP_DOCSRCLNG    "Source language:"
+#define STR_DOCPROP_DOCTRGLNG    "Target language:"
+#define STR_DOCPROP_DOCEDITOR    "Editor:"
+#define STR_DOCPROP_DOCCONV      "Conversion:"
+
+#define STR_DOCPROP_STATISTIC    "Statistics"
+#define STR_DOCPROP_TRANSLATED   "Translated:"
+#define STR_DOCPROP_ANALYZED     "Analyzed:"
+#define STR_DOCPROP_IMPORTED     "Date of import:"
+#define STR_DOCPROP_EXPORTED     "Date of export:"
+#define STR_DOCPROP_SOURCE       "Date of source file:"
+#define STR_DOCPROP_UPDATED      "Last update:"
+#define STR_DOCPROP_SIZE         "Size:"
+#define STR_DOCPROP_COMPLETED    "Completion rate:"
+#define STR_DOCPROP_CHANGEDSEGS  "Changed segments:"
+#define STR_DOCPROP_NEWSEGS      "New segments:"
+#define STR_DOCPROP_COPIEDSEGS   "Copied segments:"
+#define STR_DOCPROP_USEFORALL    "&Use settings for remaining documents"
+
+#define STR_DOCPROP_CHANGE       "&Change"
+#define STR_DOCPROP_CANCEL       "Cancel"
+#define STR_DOCPROP_HELP         "Help"
+
+#define STR_DOCPROP_DOCADMIN         "Document administration"
+#define STR_DOCPROP_FOLADMIN         "Folder administration"
+#define STR_DOCPROP_DOCTRANSL_NAME   "Translator's name:"
+#define STR_DOCPROP_FOLTRANSL_NAME   "Translator's name:"
+#define STR_DOCPROP_DOCTRANSL_MAIL   "Translator's e-mail:"
+#define STR_DOCPROP_FOLTRANSL_MAIL   "Translator's e-mail:"
+#define STR_DOCPROP_DOCPROD_SHIPMNT  "Shipment number:"
+#define STR_DOCPROP_FOLPROD_SHIPMNT  "Shipment number:"
+
+//strings for property sheet tabs for document properties
+#define STR_DOC_PROP_TAB_SETTINGS    "Settings"
+#define STR_DOC_PROP_TAB_ADMIN       "Admin"
+#define STR_DOC_PROP_TAB_STATISTICS  "Statistics"
+
+
+/**********************************************************************/
+/* title string for document properties dialog when used for new      */
+/* documents                                                          */
+/**********************************************************************/
+#define STR_DOCPROP_NEWDOC_TITLE "Document Properties"
+#define STR_DOCPROP_RELPATH      "Relative Path:"
+
+/**********************************************************************/
+/* Name of change pushbutton of document properties dialog when used  */
+/* for new documents                                                  */
+/**********************************************************************/
+#define STR_DOCPROP_SET_PB       "&Change"
+
+
+// Strings for long-to-short name dialog
+#define STR_DOCSHORT_TITLE       "Specify Short Document Name"
+#define STR_DOCSHORT_NAME        "Long name:"
+#define STR_DOCSHORT_SHORTNAME   "Short name:"
+#define STR_DOCSHORT_NOTE        "The target drive does not support the\
+ document name. If you continue the export you will loose the long or\
+ special document name and you have to enter a short document name in the entry field below."
+#define STR_DOCSHORT_SET_PB      "Set"
+#define STR_DOCSHORT_CANCEL      "Cancel"
+#define STR_DOCSHORT_HELP        "Help"

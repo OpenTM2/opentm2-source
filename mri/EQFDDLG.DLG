@@ -1,0 +1,590 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFDDLG.DLG - Dictionary Dialogs w/o Import/Export/Create                 |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:   Contains dialog templates                                  |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 28 Sep 2004
+// GQ: - removed obsolete templates
+//     - accessibility: added invisible label to DISP_ENTRY_DLG
+// 
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.2 $ ----------- 18 Sep 2003
+// GQ: fixed IV00002 part of P017511: truncated field in lookup term dialog
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - enlarged dialogs for long dictionary names
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFDDLG.DVG   1.6   01 Mar 1999 10:09:02   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFDDLG.DVG  $
+ *
+ *    Rev 1.6   01 Mar 1999 10:09:02   BUILD
+ * -- adjust filtercontrol in lookup dialog
+ *
+ *    Rev 1.5   16 Feb 1998 07:37:18   BUILD
+ * - Win32: use comboboxes instead of spinbuttons
+ *
+ *    Rev 1.4   07 Oct 1996 17:12:40   BUILD
+ * - fixed PTM KAT0157: DICTEDIT first etry field truncated (DBCS)
+ *
+ *    Rev 1.3   13 Sep 1996 20:49:48   BUILD
+ * - finally corrected dictionary edit dialog for VGA resolution in DBCS
+ *   environments
+ *
+ *    Rev 1.1   11 Sep 1996 19:58:44   BUILD
+ * - modifications for Japanes NLS version
+ *
+ *    Rev 1.0   09 Jan 1996 10:05:02   BUILD
+ * Initial revision.
+*/
+
+LOOKUP_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  69, 12, 275, 235
+STYLE DS_CONTEXTHELP | WS_BORDER | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_LOOKUP_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_LOOKUP_STEXT_WORD, LOOKUP_STEXT_WORD,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 13, 36, 9
+
+  CONTROL "", LOOKUP_WORD_COMBO,
+    COMBOBOX,
+    CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    43, 11, 173, 100
+  CONTROL STR_LOOKUP_GRBOX_SEARCH_OPT, LOOKUP_GRBOX_SEARCH_OPT,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 25, 137, 108
+  CONTROL STR_LOOKUP_ARBUT_NEIGHB, LOOKUP_ARBUT_NEIGHB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 39, 128, 12
+  CONTROL STR_LOOKUP_ARBUT_COMPWORD, LOOKUP_ARBUT_COMPWORD,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 53, 128, 12
+  CONTROL STR_LOOKUP_ARBUT_SYN, LOOKUP_ARBUT_SYN,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 67, 128, 12
+  CONTROL STR_LOOKUP_ARBUT_RELTERM, LOOKUP_ARBUT_RELTERM,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 82, 128, 12
+  CONTROL STR_LOOKUP_ARBUT_ABBREV, LOOKUP_ARBUT_ABBREV,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE,
+    12, 96, 128, 12
+
+  CONTROL STR_LOOKUP_ARBUT_HEADWORD, LOOKUP_ARBUT_HEADWORD,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    12, 111, 128, 12
+
+  CONTROL STR_LOOKUP_GRBOX_DICT_LIST, -1,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    147, 25, 123, 108
+  CONTROL "", LOOKUP_DICT01_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 37, 117, 9
+  CONTROL "", LOOKUP_DICT02_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 46, 117, 9
+  CONTROL "", LOOKUP_DICT03_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 56, 117, 9
+  CONTROL "", LOOKUP_DICT04_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 66, 117, 9
+  CONTROL "", LOOKUP_DICT05_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 75, 117, 9
+  CONTROL "", LOOKUP_DICT06_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 85, 117, 9
+  CONTROL "", LOOKUP_DICT07_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 94, 117, 9
+  CONTROL "", LOOKUP_DICT08_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 104, 117, 9
+  CONTROL "", LOOKUP_DICT09_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 114, 117, 9
+
+  CONTROL "", LOOKUP_DICT10_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    151, 123, 117, 9
+
+  CONTROL "", LOOKUP_ARBUT_FILT_CHG,
+    WC_EQF_FILTER,
+    WS_VISIBLE | WS_GROUP,
+    6, 138, 262, 75
+
+  CONTROL STR_LOOKUP_PUBO_OK, LOOKUP_PUBO_OK,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    12, 217, 56, 15
+  CONTROL STR_LOOKUP_PUBO_EDIT, LOOKUP_PUBO_EDIT,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    91, 217, 56, 15
+  CONTROL STR_LOOKUP_PUBO_CANCEL, LOOKUP_PUBO_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    171, 217, 38, 15
+  CONTROL STR_LOOKUP_PUBO_HELP, LOOKUP_PUBO_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    233, 217, 38, 15
+END
+
+DISP_ENTRY_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  43, 60, 298, 228
+STYLE DS_CONTEXTHELP | WS_THICKFRAME | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_DISP_ENTRY_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL STR_DISP_ENTRY_STEXT_DICT, DISP_ENTRY_STEXT_DICT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 6, 44, 9
+  CONTROL "", DISP_ENTRY_DICT_SPIN,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    51, 4, 107, 48
+  CONTROL STR_DISP_ENTRY_STEXT_DISPLAY, DISP_ENTRY_STEXT_DISPLAY,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    164, 6, 49, 9
+  CONTROL "", DISP_ENTRY_LEVEL_SPIN,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    216, 4, 46, 48
+
+  CONTROL "Entry:", -1, STATIC, SS_LEFT | WS_VISIBLE,
+    5,26,0,0
+  CONTROL "", DISP_ENTRY_MLE_ENTRY,
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_READONLY | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    6, 26, 294, 180
+  CONTROL STR_DISP_ENTRY_PUBO_COPY, DISP_ENTRY_PUBO_COPY,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    6, 210, 56, 15
+  CONTROL STR_DISP_ENTRY_PUBO_EDIT, DISP_ENTRY_PUBO_EDIT,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    70, 210, 56, 15
+  CONTROL STR_DISP_ENTRY_PUBO_PRINT, DISP_ENTRY_PUBO_PRINT,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    135, 210, 56, 15
+  CONTROL STR_DISP_ENTRY_PUBO_CANCEL, DISP_ENTRY_PUBO_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    209, 210, 38, 15
+  CONTROL STR_DISP_ENTRY_PUBO_HELP, DISP_ENTRY_PUBO_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    258, 210, 38, 15
+END
+
+EDIT_ENTRY_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  25, 4, 295, 264
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_SYSMENU | WS_CAPTION
+CAPTION STR_EDIT_ENTRY_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL STR_EDIT_ENTRY_STEXT_DICT, EDIT_ENTRY_STEXT_DICT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 6, 53, 9
+  CONTROL "", EDIT_ENTRY_STEXT_DICTNAME,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    60, 6, 154, 9
+  CONTROL STR_EDIT_ENTRY_TERM_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 20, 53, 9
+  CONTROL "", EDIT_ENTRY_EDIT_HEADWORD,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    60, 19, 154, 12
+  CONTROL "", EDE_GB_EF_ID,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 33, 203, 170
+  CONTROL "", EDIT_ENTRY_STEXT_TEMPL,
+    STATIC,
+    SS_CENTER | WS_VISIBLE,
+    121, 32, 73, 9
+  CONTROL "", EDIT_ENTRY_SCROLL_ENTRY,
+    SCROLLBAR,
+    SBS_VERT | WS_VISIBLE,
+    208, 37, 8, 166
+
+  CONTROL STR_EDIT_ENTRY_TEMPLATE, EDIT_ENTRY_GRBOX_TEMPLATE,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE | WS_TABSTOP,
+    224, 32, 65, 112
+  CONTROL STR_EDIT_ENTRY_PUBO_NEXT_TEMPL, EDIT_ENTRY_PUBO_NEXT_TEMPL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 43, 53, 15
+  CONTROL STR_EDIT_ENTRY_PUBO_PREV_TEMPL, EDIT_ENTRY_PUBO_PREV_TEMPL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 65, 53, 15
+  CONTROL STR_EDIT_ENTRY_PUBO_ADD_TEMPL, EDIT_ENTRY_PUBO_ADD_TEMPL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 85, 53, 15
+  CONTROL STR_EDIT_ENTRY_PUBO_COPY_TEMPL, EDIT_ENTRY_PUBO_COPY_TEMPL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 105, 53, 15
+
+  CONTROL STR_EDIT_ENTRY_PUBO_DEL_TEMPL, EDIT_ENTRY_PUBO_DEL_TEMPL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 125, 53, 15
+  CONTROL STR_EDIT_ENTRY_CLIPBOARD, EDIT_ENTRY_GRBOX_CLIPBOARD,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE | WS_TABSTOP,
+    224, 147, 65, 50
+  CONTROL STR_EDIT_ENTRY_PUBO_COPY, EDIT_ENTRY_PUBO_COPY,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 158, 53, 15
+
+  CONTROL STR_EDIT_ENTRY_PUBO_PASTE, EDIT_ENTRY_PUBO_PASTE,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    230, 179, 53, 15
+  CONTROL STR_EDIT_ENTRY_SAVETO, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 213, 131, 9
+
+  CONTROL "", EDIT_ENTRY_COMBO_TARGET_DICT,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    138, 213, 115, 33
+  CONTROL STR_EDIT_ENTRY_PUBO_SAVE, EDIT_ENTRY_PUBO_SAVE,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    13, 246, 56, 15
+  CONTROL STR_EDIT_ENTRY_PUBO_DEL_ENTRY, EDIT_ENTRY_PUBO_DEL_ENTRY,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    96, 246, 56, 15
+  CONTROL STR_EDIT_ENTRY_PUBO_CANCEL, EDIT_ENTRY_PUBO_CANCEL,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    178, 246, 38, 15
+  CONTROL STR_EDIT_ENTRY_PUBO_HELP, EDIT_ENTRY_PUBO_HELP,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    243, 246, 38, 15
+END
+
+ID_ASDMERGE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  11, 3, 223, 256
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_SYSMENU | WS_CAPTION
+CAPTION STR_ASDMERGE_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_ASDMERGE_TERM_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 10, 44, 9
+
+  CONTROL "", ID_ASDMERGE_ENTRY_EF,
+    EDIT,
+    ES_LEFT | ES_READONLY | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    51, 10, 163, 12
+  CONTROL STR_MERGE_ASD_HEADING, ID_ASDMERGE_NEW_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 28, 211, 9
+
+  CONTROL "", ID_ASDMERGE_NEW_MLE,
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE | ES_READONLY,
+    6, 41, 211, 52
+  CONTROL STR_ASDMERGE_OLD_TEXT, ID_ASDMERGE_OLD_TEXT,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 101, 211, 9
+
+
+  CONTROL "", ID_ASDMERGE_OLD_MLE,
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE | ES_READONLY,
+    6, 113, 211, 52
+  CONTROL STR_ASDMERGE_OPTION_GB, -1,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 167, 211, 62
+  CONTROL STR_ASDMERGE_REPLACE_RB, ID_ASDMERGE_REPLACE_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    10, 176, 205, 12
+  CONTROL STR_ASDMERGE_IGNORE_RB, ID_ASDMERGE_IGNORE_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    10, 187, 205, 12
+  CONTROL STR_ASDMERGE_ADD_RB, ID_ASDMERGE_ADD_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    10, 198, 205, 12
+
+  CONTROL STR_ASDMERGE_NOPROMPT_CHK, ID_ASDMERGE_NOPROMPT_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    10, 214, 205, 12
+  CONTROL STR_ASDMERGE_MERGE_PB, ID_ASDMERGE_MERGE_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    14, 238, 56, 15
+  CONTROL STR_ASDMERGE_CANCEL_PB, ID_ASDMERGE_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 238, 38, 15
+  CONTROL STR_ASDMERGE_HELP_PB, ID_ASDMERGE_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    168, 238, 38, 15
+END
+
+/**********************************************************************/
+/*                    Dictionary print main dialog                    */
+/**********************************************************************/
+ID_QDPR_PRTDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  30, 12, 223, 240
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_BORDER | WS_CAPTION
+CAPTION STR_QDPR_PRTDLG_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+/****************************************************************/
+/*                 Name of dictionary to print                  */
+/****************************************************************/
+  CONTROL STR_QDPR_PRTDLG_PRINT_TXT1, ID_QDPR_PRTDLG_PRINT_TXT1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 3, 79, 9
+
+  CONTROL "", ID_QDPR_PRTDLG_PRINT_TXT2,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    86, 3, 130, 9
+/****************************************************************/
+/* Dictionary description                                       */
+/****************************************************************/
+  CONTROL STR_QDPR_PRTDLG_DICDESCR_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 15, 79, 9
+
+  CONTROL "", ID_QDPR_PRTDLG_DICDESCR_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | ES_READONLY | WS_VISIBLE,
+    86, 15, 130, 9
+/****************************************************************/
+/*                   Print destination group                    */
+/****************************************************************/
+  CONTROL STR_QDPR_PRTDLG_DEST_GP, ID_QDPR_PRTDLG_DEST_GP,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE | WS_GROUP,
+    6, 30, 211, 57
+  CONTROL STR_QDPR_PRTDLG_PRINTER_RB, ID_QDPR_PRTDLG_PRINTER_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE | WS_TABSTOP,
+    12, 39, 128, 14
+  CONTROL STR_QDPR_PRTDLG_FILE_RB, ID_QDPR_PRTDLG_FILE_RB,
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_VISIBLE | WS_TABSTOP,
+    12, 54, 128, 14
+  CONTROL STR_QDPR_PRTDLG_SET_PB, ID_QDPR_PRTDLG_SET_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_TABSTOP,
+    142, 53, 56, 15
+  CONTROL STR_QDPR_PRTDLG_FILENAME_TEXT, ID_QDPR_PRTDLG_FILENAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 73, 64, 9
+
+  CONTROL "", ID_QDPR_PRTDLG_NAME_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP,
+    86, 72, 122, 12
+/****************************************************************/
+/*                         Format group                         */
+/****************************************************************/
+  CONTROL STR_QDPR_PRTDLG_FORMAT_GP, ID_QDPR_PRTDLG_FORMAT_GP,
+    BUTTON,
+    BS_GROUPBOX | WS_VISIBLE | WS_GROUP,
+    6, 90, 211, 54
+  CONTROL STR_QDPR_PRTDLG_FORMNAME_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 104, 72, 9
+  CONTROL "", ID_QDPR_PRTDLG_FORMAT_CBS,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_VISIBLE,
+    86, 106, 128, 48
+  CONTROL STR_QDPR_PRTDLG_FORMDESC_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 126, 72, 9
+
+  CONTROL "", ID_QDPR_PRTDLG_DESC_EF,
+    EDIT,
+    ES_LEFT | ES_READONLY | ES_AUTOHSCROLL | WS_VISIBLE | WS_TABSTOP,
+    86, 126, 122, 9
+/****************************************************************/
+/*                         Filter group                         */
+/****************************************************************/
+
+  CONTROL "", ID_QDPR_PRTDLG_FILTER_CB,
+    WC_EQF_FILTER,
+    WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    6, 153, 211, 57
+/****************************************************************/
+/*                         Pushbuttons                          */
+/****************************************************************/
+  CONTROL STR_QDPR_PRTDLG_PRINT_PB, ID_QDPR_PRTDLG_PRINT_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
+    14, 222, 56, 15
+  CONTROL STR_QDPR_PRTDLG_CANCEL_PB, ID_QDPR_PRTDLG_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 222, 38, 15
+  CONTROL STR_QDPR_PRTDLG_HELP_PB, ID_QDPR_PRTDLG_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 222, 38, 15
+END
+

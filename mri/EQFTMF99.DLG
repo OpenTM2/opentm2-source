@@ -1,0 +1,348 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 21 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 27 Jul 2000
+// -- changed layout of search dialog
+// -- added possibility to search for a particular segment by number
+// -- added possibility to restrict search to segments with/without M-flag
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFTMFUN.DVG   1.3   17 May 1999 13:32:16   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFTMFUN.DVG  $
+ * 
+ *    Rev 1.3   17 May 1999 13:32:16   BUILD
+ * - avoid duplicate dialog IDs
+ *
+ *    Rev 1.2   17 Sep 1996 07:47:04   BUILD
+ * - adjusted size of TMM Query dialog for DBCS environments
+ *
+ *    Rev 1.1   12 Feb 1996 10:25:30   BUILD
+ * - removed TM password dialog
+ * - re-arranged TM query dialog as proposed by ROB/TAF
+ * - fixed PTM KWT0266: Deselect of date and document checkboxes not possible
+ *
+ *    Rev 1.0   09 Jan 1996 10:14:22   BUILD
+ * Initial revision.
+*/
+/* query dialog */
+ID_TM_QUERY99_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  17, 30, 319, 264
+STYLE DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_TM_QUERY_DLG
+FONT 8 "Helv"
+BEGIN
+/* which Translation Memory we are working on */
+  CONTROL STR_TM_QUERY_TM_NAME, ID_TM_QUERY_TM_NAME, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 6, 173, 9
+
+  CONTROL "", ID_TM_QUERY_TM_STATIC, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    173, 6, 86, 9
+/* search by segment number */
+  CONTROL STR_TM_QUERY_SEARCH_NUM, ID_TM_QUERY_SEARCH_NUM, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 19, 103, 9
+
+  CONTROL "", ID_TM_QUERY_SEARCH_NUM_EF, 
+    EDIT,
+    ES_CENTER | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    112, 18, 43, 12
+/* note and entryfield for search text */
+  CONTROL STR_TM_QUERY_SEARCH_TEXT, ID_TM_QUERY_SEARCH_TEXT, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 33, 173, 9
+
+  CONTROL "", ID_TM_QUERY_STRING_MLE, 
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    6, 46, 298, 38
+
+  CONTROL STR_TM_QUERY_SEARCHTYPE_GB, -1, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 87, 298, 57
+
+  CONTROL STR_TM_WILD_SEARCH_CB, ID_TM_WILD_SEARCH_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    12, 98, 129, 12
+/* respect or ignore case */
+  CONTROL STR_TM_QUERY_CASE, ID_TM_QUERY_CASE, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    147, 101, 34, 9
+  CONTROL STR_TM_QUERY_RESP_RB, ID_TM_QUERY_RESP_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    173, 99, 43, 12
+
+  CONTROL STR_TM_QUERY_IGN_RB, ID_TM_QUERY_IGN_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    173, 112, 43, 12
+/* lookup source or target entries */
+  CONTROL STR_TM_QUERY_LOOKUP, ID_TM_QUERY_LOOKUP, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    220, 101, 34, 9
+  CONTROL STR_TM_QUERY_SOURCE_RB, ID_TM_QUERY_SOURCE_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    259, 99, 43, 12
+
+  CONTROL STR_TM_QUERY_TARGET_RB, ID_TM_QUERY_TARGET_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    259, 112, 43, 12
+/* markup */
+  CONTROL STR_TM_QUERY_MARKUP, ID_TM_QUERY_MARKUP, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    12, 128, 69, 9
+
+  CONTROL "", ID_TM_QUERY_MARKUP_CB, 
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP | WS_VISIBLE | ES_AUTOHSCROLL,
+    98, 128, 70, 57
+
+  CONTROL STR_TM_QUERY_OPTIONS_GB, -1, 
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 147, 298, 80
+/* get only matches with more translations */
+
+  CONTROL STR_TM_QUERY_XTRANS_CB, ID_TM_QUERY_XTRANS_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    12, 158, 250, 12
+/* query date (text, last used, PB) */
+  CONTROL STR_TM_QUERY_DATE_CB, ID_TM_QUERY_DATE_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    12, 176, 86, 12
+  CONTROL "", ID_TM_QUERY_DATE_STATIC, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    98, 179, 86, 9
+
+  CONTROL STR_TM_QUERY_DATE_PB, ID_TM_QUERY_DATE_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    189, 173, 56, 15
+/* query name of document from which translations should result */
+  CONTROL STR_TM_QUERY_DOC_CB, ID_TM_QUERY_DOC_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    12, 194, 86, 12
+  CONTROL "", ID_TM_QUERY_DOC_STATIC, 
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    107, 197, 77, 9
+
+  CONTROL STR_TM_QUERY_DOC_PB, ID_TM_QUERY_DOC_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    189, 191, 56, 15
+/* confine search to segments with/without M-flag? */
+  CONTROL STR_TM_QUERY_MPLMIN, ID_TM_QUERY_MPLMIN, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    12, 215, 69, 9
+  CONTROL STR_TM_QUERY_MPLUS_CB, ID_TM_QUERY_MPLUS_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    76, 212, 95, 12
+
+  CONTROL STR_TM_QUERY_MMINUS_CB, ID_TM_QUERY_MMINUS_CB, 
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    176, 212, 86, 12
+/* query number of segments to be loaded in editor */
+  CONTROL STR_TM_QUERY_SEGNUM, ID_TM_QUERY_SEGNUM, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 230, 125, 9
+
+  CONTROL "", ID_TM_QUERY_SEGNUM_EF, 
+    EDIT,
+    ES_CENTER | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    134, 229, 25, 12
+/* query number of surrounding segments */
+  CONTROL STR_TM_QUERY_PMSEGS1, ID_TM_QUERY_PMSEGS1, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    181, 230, 34, 9
+  CONTROL "", ID_TM_QUERY_PMSEGS_EF, 
+    EDIT,
+    ES_CENTER | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    220, 229, 17, 12
+
+  CONTROL STR_TM_QUERY_PMSEGS2, ID_TM_QUERY_PMSEGS2, 
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    242, 230, 34, 9
+/* pushbuttons                                                */
+  CONTROL STR_TM_QUERY_ENTER_PB, ID_TM_QUERY_ENTER_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_VISIBLE | WS_TABSTOP,
+    24, 246, 56, 15
+  CONTROL STR_TM_QUERY_CANCEL_PB, ID_TM_QUERY_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    127, 246, 38, 15
+
+  CONTROL STR_TM_QUERY_HELP_PB, ID_TM_QUERY_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    212, 246, 38, 15
+END
+
+ID_TM_QUERY_DOC99_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  50, 67, 223, 144
+STYLE DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION 
+CAPTION STR_TM_QUERY_DOC_DLG
+FONT 8 "Helv"
+BEGIN
+
+  CONTROL STR_TM_QUERY_DOC_FILTER_RB, ID_TM_QUERY_DOC_FILTER_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    6, 8, 64, 12
+//        CONTROL STR_TM_QUERY_DOC_NOTE, ID_TM_QUERY_DOC_NOTE, 7, 44, 244, 18, WC_STATIC,
+//                SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE | DT_WORDBREAK
+
+
+  CONTROL "", ID_TM_QUERY_DOC_EF, 
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    76, 10, 146, 12
+
+  CONTROL STR_TM_QUERY_DOC_FILES_RB, ID_TM_QUERY_DOC_FILES_RB, 
+    BUTTON,
+    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_VISIBLE,
+    6, 26, 64, 12
+  CONTROL "", ID_TM_QUERY_DOC_FILES_LB, 
+    LISTBOX,
+    LBS_STANDARD | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_HSCROLL | WS_VSCROLL | WS_VISIBLE | WS_TABSTOP,
+    76, 30, 146, 90
+//                LBS_MULTIPLESEL | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | WS_VISIBLE
+
+//        CONTROL STR_TM_QUERY_DOC_TEXT, ID_TM_QUERY_DOC_TEXT, 7, 32, 72, 8, WC_STATIC,
+//                SS_TEXT | DT_LEFT | DT_TOP | WS_GROUP | WS_VISIBLE
+
+  CONTROL STR_TM_QUERY_DOC_ENTER_PB, ID_TM_QUERY_DOC_ENTER_PB, 
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_GROUP | WS_VISIBLE,
+    11, 126, 44, 15
+  CONTROL STR_TM_QUERY_DOC_CANCEL_PB, ID_TM_QUERY_DOC_CANCEL_PB, 
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    100, 126, 38, 15
+  CONTROL STR_TM_QUERY_DOC_HELP_PB, ID_TM_QUERY_DOC_HELP_PB, 
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    170, 126, 38, 15
+END

@@ -1,0 +1,204 @@
+//+----------------------------------------------------------------------------+
+//|EQFEEA.ID                                                                   |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:                                                                     |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:                                                                |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Entry Points:                                                               |
+//|                                                                            |
+//|                                                                           |
+//|+-- status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          |
+//|            "Q"=Quick-and-dirty )                                           |
+//+----------------------------------------------------------------------------+
+//|Externals:                                                                  |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Internals:                                                                  |
+//|                                                                            |
+//|                                                                           |
+//|+-- status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          |
+//|            "Q"=Quick-and-dirty )                                           |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+/*
+ * $Header:   K:\DATA\EQFEEA.IV_   1.3   21 Dec 1998 12:22:28   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFEEA.IV_  $
+ * 
+ *    Rev 1.3   21 Dec 1998 12:22:28   BUILD
+ * -- add select/deselect all
+ *
+ *    Rev 1.2   15 Dec 1998 12:24:30   BUILD
+ * -- add wait dialog
+ *
+ *    Rev 1.1   07 Dec 1998 10:43:44   BUILD
+ * -- EEA ID file
+ *
+ *    Rev 1.0   16 Nov 1998 16:59:16   BUILD
+ * Initial revision.
+ *
+*/
+//+----------------------------------------------------------------------------+
+
+
+//////////////////////////////////////////////////////////////////////
+//
+// EQFEEA - EEA PII IDs
+//
+//////////////////////////////////////////////////////////////////////
+
+#define IDM_EEA_MENU            ID_EEA_WINDOW + 1
+#define IDM_EEA_SEGMENT         ID_EEA_WINDOW + 2
+#define IDM_EEA_TOOLBAR         ID_EEA_WINDOW + 3
+#define IDM_EEA_RESULT          ID_EEA_WINDOW + 4
+#define IDM_EEA_PROBLEM         ID_EEA_WINDOW + 5
+#define IDM_EEA_USE             ID_EEA_WINDOW + 6
+#define IDM_EEA_SKIP            ID_EEA_WINDOW + 7
+#define IDM_EEA_DONE            ID_EEA_WINDOW + 8
+#define IDM_EEA_FILE            ID_EEA_WINDOW + 9
+#define IDM_EEA_TERM            ID_EEA_WINDOW + 10
+#define PID_HELP_MI_EEAHELP     ID_EEA_WINDOW + 11
+
+#define IDS_EEA_CLARITY_NA      ID_EEA_WINDOW + 12
+#define IDS_EEA_CLARITY_NUMBER  ID_EEA_WINDOW + 13
+#define IDS_EEA_CLARITY         ID_EEA_WINDOW + 14
+#define IDS_EEA_FILE            ID_EEA_WINDOW + 15
+#define IDS_EEA_TASK            ID_EEA_WINDOW + 16
+#define IDS_EEA_ERROR           ID_EEA_WINDOW + 17
+#define IDS_EEA_TITLE           ID_EEA_WINDOW + 18
+
+#define IDM_EEA_FILE1           ID_EEA_WINDOW + 20
+
+#define IDC_EEA_TABCTRL         ID_EEA_RESULTWND + 1
+#define IDC_EEA_FILETREE        ID_EEA_RESULTWND + 2
+#define IDC_EEA_EXCEPTLIST      ID_EEA_RESULTWND + 3
+#define IDC_EEA_SELECTALL       ID_EEA_RESULTWND + 4
+#define IDC_EEA_DESELECTALL     ID_EEA_RESULTWND + 5
+
+#define IDC_EEA_USE             ID_EEA_PROBLEMWND + 1
+#define IDC_EEA_SKIP            ID_EEA_PROBLEMWND + 2
+#define IDC_EEA_DONE            ID_EEA_PROBLEMWND + 3
+#define IDC_EEA_PROBLEM         ID_EEA_PROBLEMWND + 4
+#define IDC_EEA_PROBLEM_TEXT    ID_EEA_PROBLEMWND + 5
+#define IDC_EEA_PROBLEM_TXT2    ID_EEA_PROBLEMWND + 6
+#define IDC_EEA_PROBLEM2        ID_EEA_PROBLEMWND + 7
+#define IDC_EEA_PROBLEM2_TEXT   ID_EEA_PROBLEMWND + 8
+#define IDC_EEA_SUGGESTION      ID_EEA_PROBLEMWND + 9
+#define IDC_EEA_SUGGESTION2     ID_EEA_PROBLEMWND + 10
+#define IDC_EEA_SUGGESTION_TEXT ID_EEA_PROBLEMWND + 11
+#define IDC_EEA_HELP            ID_EEA_PROBLEMWND + 12
+#define IDC_EEA_TERM            ID_EEA_PROBLEMWND + 13
+
+#define ID_EEA_PROGRESS_FILE    ID_EEA_ANALWAIT_DLG + 1
+#define ID_EEA_PROGRESS_TEXT    ID_EEA_ANALWAIT_DLG + 2
+#define ID_EEA_PROGRESS         ID_EEA_ANALWAIT_DLG + 3

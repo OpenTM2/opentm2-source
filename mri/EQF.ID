@@ -1,0 +1,881 @@
+/*+----------------------------------------------------------------------------+
+  |  EQF.ID - Presentation Manager IDs (and private window classes)            |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+*/
+
+//--------------------------------------------------------------------------//
+// ID defines:                                                              //
+//                                                                          //
+//    1500  -  1699    - General IDs (pushbuttons, helps, drive IDs, ...)   //
+//    1700  -  1799    - String IDs  (SID_....)                             //
+//    2000  -  2499    - IDs for pulldowns and menu items of TWB AAB        //
+//    2500  - 15000    - IDs for Troja dialogs and windows                  //
+//    15000 - 19999    - IDs for Artemis dialogs and windows                //
+//    20000 - 21000    - task identifiers                                   //
+//--------------------------------------------------------------------------//
+
+//#if !defined(EQF_ID_INCLUDED)
+
+/**********************************************************************/
+/* include definition file ...                                        */
+/**********************************************************************/
+  #include <eqftops.h>
+/**********************************************************************/
+/* Private window classes used in dialog templates                    */
+/**********************************************************************/
+#ifdef _WINDOWS
+  #define EQFHELPBUTTON     "EqfHelpButton"
+  #define ITMHELPBUTTON     "EqfItmHelpButton"
+#endif
+
+/**********************************************************************/
+/* Icon IDs                                                           */
+/**********************************************************************/
+#define  DICTIMP_ICON                9000
+#define  DICTEXP_ICON                9001
+#define  FOLIMP_ICON                 9010
+#define  FOLEXP_ICON                 9011
+#define  TWB_ICON                    9020             // DeskTop
+#define  FLL_ICON                    9021             // Drawer
+#define  FOL_ICON                    9022             // Folder
+#define  DOC_ICON                    9023             // Document
+#define  ANA_ICON                    9024             // Search Result
+#define  MEM_ICON                    9025             // Memory
+#define  TAG_ICON                    9026             // Tag Table Icon
+#define  COUNT_ICON                  9027             // Word Count Icon
+#define  TMEMIMP_ICON                9028             // Translationmemory import
+#define  TMEMEXP_ICON                9029             // Translationmemory export
+#define  TMEMMERGE_ICON              9030             // Translationmemory merge
+#define  TMEMORG_ICON                9031             // Translationmemory organize
+#define  TMEMSERVER_ICON             9032             // Translationmemory server
+#define  DICTLOOKUP_ICON             9033             // Dictionary lookup
+#define  DICTENTRYDISP_ICON          9034             // Dictionary entry display
+#define  DICTEDIT_ICON               9035             // Dictionary edit
+#define  MARKUPIMP_ICON              9036             // Markup table import
+#define  MARKUPEXP_ICON              9037             // Markup table export
+#define  DICTMINI_BITMAP             9038             // Dictionary mini Icon
+#define  WASTEPAPERMIN_BITMAP        9039             // Waste paper bin mini Icon
+#define  DICTORG_ICON                9040             // Dictionary organize icon
+#define  EXCLUSMINI_BITMAP           9041             // Exclusion list nini icon
+#define  DICTLIST_ICON               9050             // dictionary list icon
+#define  ID_DICTPRINT_ICON           9051             // dictionary print icon
+#define  LIST_ICON                   9060             // list handler icon
+#define  TQMV_ICON                   9065             // TQM vendor list
+#define  TQMD_ICON                   9070             // TQM document list
+#define  EQFCMD_ICON                 9075             // EQFCMD icon
+#define  EQFITM_ICON                 9080             // EQFITM icon
+#define  ID_TMM_ICON                 9082             // TMM icon
+#define  ID_CMM_ICON                 9083             // CMM icon
+#define  ID_DMM_ICON                 9084             // DMM icon
+#define  ID_OTMMEMORYTOOL_ICON                9085             // REVM icon
+#define  ID_EEA_ICON                 9086             // EEA  icon
+#define  ID_BIDI_CARET_PUSH          9087             // Caret for bidi push
+#define  ID_BIDI_CARET_POP           9088             // Caret for bidi pop
+#define  NOTESDB_ICON                9089             // Notes database
+#define  SUBDIR_ICON                 9090             // subdirectory icon
+#define  FLL_OPENED_ICON             9091             // icon for opened folder list
+#define  ID_TB_FONTEXT_FONTTYPE      9092             // ext.font dlg bitmap
+
+
+#define  LIST_EXCL_ICON              9093             // list handler icon
+#define  LIST_NEW_ICON               9094             // list handler icon
+#define  LIST_FOUND_ICON             9095             // list handler icon
+
+
+#define  ID_BIDI_CARET_SEGMENT       9096             // Caret for bidi triple mode
+
+// Icons for list view control
+#define IDI_ICON_CB_GREY                9097
+#define IDI_ICON_CB_NO                  9098
+#define IDI_ICON_CB_YES                 9099
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//    1500 - 1699      - General IDs (pushbuttons, helps, drive IDs, ...)   //
+//                                                                          //
+//--------------------------------------------------------------------------//
+//------------------------  global help IDs ----------------------------------
+#define PID_HELP_FOR_HELP       1501     // help resid for "Help for Help" MI
+#define PID_HELP_MI_TUTORIAL    1502     // help resid for "Tutorial Help" MI
+#define PID_HELP_MI_INDEX       1503     // help resid for "Index" MI
+#define PID_HELP_MI_PRODUCTINFO 1504     // help resid for "ProductInfo" MI
+#ifdef ID_HELP                           // remove MFC define for ID_HELP
+  #undef ID_HELP
+#endif
+#define ID_HELP                 1505     // ID for Windows help controls
+//------------------- IDs for child system menus -----------------------------
+#define ID_CHILDSYSMENU         1510     // id for child's system menu resource
+#define ID_CHILDACCEL           1511     // id for child's accelerator table
+//--------------  generally used IDs for drive buttons -----------------------
+#define PID_DRIVEBUTTON_A       1520
+#define PID_DRIVEBUTTON_Z PID_DRIVEBUTTON_A + 25
+#define ID_TODRIVEA_BTN         1550
+#define ID_TODRIVEZ_BTN   ID_TODRIVEA_BTN + 25
+#define ID_FROMDRIVEA_BTN       1580
+#define ID_FROMDRIVEZ_BTN ID_FROMDRIVEA_BTN + 25
+
+#define ID_FOLDERDRIVEA_BTN         2610
+#define ID_FOLDERDRIVEZ_BTN   ID_FOLDERDRIVEA_BTN + 25
+//--------------------  general pushbutton IDs --------------------------------
+#define PID_PB_OK               1620
+#define PID_PB_HELP             PID_PB_OK + 1
+#define PID_PB_CANCEL           PID_PB_OK + 2
+#define PID_PB_NEW              PID_PB_OK + 3
+#define PID_PB_MORE             PID_PB_OK + 4
+#define PID_PB_INFO             PID_PB_OK + 5
+#define PID_PB_BASEFOLDER       PID_PB_OK + 6
+
+#define  ID_FILTER_CHECKBOX    1630    // ID used for filter checkbox
+#define  ID_FILTER_EDIT_PB     1631    // ID used for filter edit pushbutton
+#define  ID_FILTER_COMBO       1632    // ID used for filter combobox
+#define  ID_FILTER_DESCR_EF    1633    // ID used for filter description field
+#define  ID_FILTER_NAME_TEXT   1634    // ID used for filter name static text
+#define  ID_FILTER_DESCR_TEXT  1635    // ID used for filter description text
+
+#define  ID_TWB_TOOLBAR        1636    // ID used TWB toolbar
+
+//--------------------  icon and bitmap IDs    --------------------------------
+#define ID_ICONS                1640
+#define ID_DICT_ICON            ID_ICONS + 1     // icon for dictioanry window
+
+#define EQFUP_ICON               1670            // Up arrow
+#define EQFTOP_ICON              1671            // Top arrow
+#define EQFDOWN_ICON             1672            // Down arrow
+#define EQFBOTTOM_ICON           1673            // Bottom arrow
+
+#define EQFFD_BITMAP             1680            // floppy disk
+#define EQFHD_BITMAP             1681            // fixed disk bitmap
+#define EQFNET_BITMAP            1682            // remote disk bitmap
+#define EQFRAM_BITMAP            1683            // ram disk bitmap
+#define EQFCD_BITMAP             1684            // cd-rom disk bitmap
+#define EQFTOOLBAR_BITMAP        1685            // toolbar bitmap
+
+#ifdef WIN32BIT
+#define DICTG_BMP                1686  // bitmap for dictionary symbol (gray bg)
+#define DELETEG_BMP              1687  // bitmap for delete symbol (gray bg)
+#define EXCLG_BMP                1688  // bitmap for exclusion list symbol (gray bg)
+#define NOMARKG_BMP              1689  // bitmap for not marked symbol (gray bg)
+//#define ALL_BMP                  16  // bitmap for delete symbol (gray bg)
+#endif
+
+// IDs used for IBM logo bitmaps displayed in the main window of the EQFTMCOM
+// program; a small and a large logo a supplied for VGA and 8514/A or XGA
+#define ID_EQF_BMP_IBMLOGO_SMALL 1690
+#define ID_EQF_BMP_IBMLOGO_LARGE 1691
+#define DICT_BMP                 1692  // bitmap for dictionary symbol
+#define DELETE_BMP               1693  // bitmap for delete symbol
+#define EXCL_BMP                 1694  // bitmap for exclusion list symbol
+#define ID_EQF_BMP_EQFLOGO_SMALL 1695
+#define ID_EQF_BMP_EQFLOGO_LARGE 1696
+#define ID_BACKGROUND_BMP        1697  // workbech background bitmap
+#define NOMARK_BMP               1698  // bitmap for not marked symbol
+
+#ifdef WIN32BIT
+#define ALL_BMP                  1699  // bitmap for delete symbol (gray bg)
+#endif
+
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//    1700 - 1799      - String IDs  (SID_....)                             //
+//                                                                          //
+//--------------------------------------------------------------------------//
+#define ID_STRINGS              1700
+#define SID_TWBM_TITLE          ID_STRINGS +  1
+#define SID_FLLI_TITLE          ID_STRINGS +  2
+#define SID_TWBM_TITLE_LOGOS    ID_STRINGS +  3
+#define SID_FOLI_TITLE          ID_STRINGS +  6
+#define SID_FOLI_HDR11          ID_STRINGS +  7
+#define SID_FOLI_HDR12          ID_STRINGS +  8
+#define SID_DOCI_TITLE          ID_STRINGS +  9
+#define SID_PROPFOL_TITLE1      ID_STRINGS + 20
+#define SID_PROPFOL_TITLE2      ID_STRINGS + 21
+#define SID_HELPCREATION_ERR    ID_STRINGS + 22
+#define SID_HELPEXEC_ERR        ID_STRINGS + 23
+#define SID_HELPNOT_AVAILABLE   ID_STRINGS + 24
+#define SID_HELPWINDOW_TITLE    ID_STRINGS + 25
+#define SID_NFOL_MATCHLEVEL0    ID_STRINGS + 26
+#define SID_NFOL_MATCHLEVEL1    ID_STRINGS + 27
+#define SID_NFOL_MATCHLEVEL2    ID_STRINGS + 28
+#define SID_NFOL_CREATE         ID_STRINGS + 29
+#define SID_NFOL_CHANGE         ID_STRINGS + 30
+#define SID_FEXP_EXTERNAL       ID_STRINGS + 31
+#define SID_DICT_TITLE          ID_STRINGS + 32 // title of dictionary window
+#define SID_DOCWND_TITLE        ID_STRINGS + 33 // title of document window
+
+// folderlist column titles
+#define SID_FLL_NAME_COLTITLE   ID_STRINGS + 34 // coltitle of name column
+#define SID_FLL_DESCR_COLTITLE  ID_STRINGS + 35 // coltitle of description col.
+#define SID_FLL_DATE_COLTITLE   ID_STRINGS + 36 // coltitle of date column
+#define SID_FLL_MEM_COLTITLE    ID_STRINGS + 37 // coltitle of memory column
+#define SID_FLL_FORMAT_COLTITLE ID_STRINGS + 38 // coltitle of format column
+#define SID_FLL_DRIVE_COLTITLE  ID_STRINGS + 39 // coltitle of drive column
+#define SID_FLL_DICT_COLTITLE   ID_STRINGS + 40 // coltitle of dictionary col.
+
+#define SID_TAGTABLE_TITLE      ID_STRINGS + 41 // title of tagtable window
+
+#define SID_NO_ENTRY            ID_STRINGS + 42 // IDs of service window strings
+#define SID_PROP_TITLE          ID_STRINGS + 43
+#define SID_DCT_TITLE           ID_STRINGS + 44
+#define SID_SRC_TITLE           ID_STRINGS + 45
+#define SID_START_FLAG          ID_STRINGS + 46 // the '['
+#define SID_END_FLAG            ID_STRINGS + 47 //     ']'
+#define SID_F_FLAG              ID_STRINGS + 48 //     'F'
+#define SID_R_FLAG              ID_STRINGS + 49 //     'R'
+#define SID_M_FLAG              ID_STRINGS + 50 //     'M'of th TM prop wn
+
+#define SID_FILE_MI_OPEN        ID_STRINGS + 51 //     Open... menu text
+
+#define SID_ENTRY_IN_USE        ID_STRINGS + 52 // in use condition for dict entry
+#define SID_TRNOTE_TITLE        ID_STRINGS + 53 // ID for TRNOTE window
+#define SID_STYLE               ID_STRINGS + 54 // ID for Style pulldown text
+
+#define SID_FOLDERPROPS_CHANGE  ID_STRINGS + 55
+#define SID_FOLDERPROPS_CREATE  ID_STRINGS + 56
+
+
+// LOGOS LOGOS FOR LTM
+// -------------------
+
+#define ID_EQF_BMP_LOGOSLOGO    1760            // bitmap for logos mt system
+#define ID_EQF_BMP_LOGOSLOGO1   1761            // bitmap for logos mt system
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//    2000 - 2499      - IDs for pulldowns and menu items of TWB AAB        //
+//                                                                          //
+//--------------------------------------------------------------------------//
+#define ID_TWBM_AAB             2000
+
+// Note: under Windows there is no ID for popup menus, so we use
+//       the index of the popups instead
+#if defined(_WINDOWS)
+  #define PID_TWBM_SM_FILE        0
+  #define PID_TWBM_SM_VIEW        1
+  #define PID_TWBM_SM_UTILITIES   2
+  #define PID_TWBM_SM_WINDOWS     3
+  #define PID_TWBM_SM_HELP        4
+#else
+  #define PID_TWBM_SM_FILE        ID_TWBM_AAB+1
+  #define PID_TWBM_SM_VIEW        ID_TWBM_AAB+2
+  #define PID_TWBM_SM_UTILITIES   ID_TWBM_AAB+7
+  #define PID_TWBM_SM_HELP        ID_TWBM_AAB+8
+  #define PID_TWBM_SM_WINDOWS     ID_TWBM_AAB+9
+#endif
+
+#define PID_FILE_MI_OPEN        ID_TWBM_AAB+20
+#define PID_FILE_MI_NEW         ID_TWBM_AAB+21
+#define PID_FILE_MI_PROPERTIES  ID_TWBM_AAB+22
+#define PID_FILE_MI_DELETE      ID_TWBM_AAB+23
+#define PID_FILE_MI_MOVE        ID_TWBM_AAB+24
+#define PID_FILE_MI_EXPORT      ID_TWBM_AAB+25
+#define PID_FILE_MI_IMPORT      ID_TWBM_AAB+26
+#define PID_FILE_MI_SELECTALL   ID_TWBM_AAB+27
+#define PID_FILE_MI_DESELECTALL ID_TWBM_AAB+28
+#define PID_FILE_MI_ORGANIZE    ID_TWBM_AAB+29
+#define PID_FILE_MI_RECOVER     ID_TWBM_AAB+30
+#define PID_FILE_MI_ANALYZE     ID_TWBM_AAB+31
+#define PID_FILE_MI_MERGE       ID_TWBM_AAB+32
+#define PID_FILE_MI_PRINT       ID_TWBM_AAB+33
+#define PID_FILE_MI_FINDCHANGE  ID_TWBM_AAB+34
+
+#define PID_UTILS_MI_DUMP       ID_TWBM_AAB+35
+#define PID_UTILS_MI_COUNT      ID_TWBM_AAB+36
+#define PID_UTILS_MI_TAGTABLE   ID_TWBM_AAB+37
+#define PID_UTILS_MI_DRIVES     ID_TWBM_AAB+38
+#define PID_UTILS_MI_SERVLIST   ID_TWBM_AAB+39
+#define PID_UTILS_MI_REMOTETM   ID_TWBM_AAB+40
+#define PID_UTILS_MI_DELEXPMAT  ID_TWBM_AAB+41
+#define PID_UTILS_MI_LNGUPDATE  ID_TWBM_AAB+42
+#define PID_TERMLISTS_POPUP     ID_TWBM_AAB+43
+#define PID_UTILS_MI_EXCLUSION  ID_TWBM_AAB+44
+#define PID_UTILS_MI_NOISE      ID_TWBM_AAB+45
+#define PID_UTILS_MI_NEWTERMS   ID_TWBM_AAB+46
+#define PID_UTILS_MI_FOUNDTERMS ID_TWBM_AAB+47
+#define PID_UTILS_MI_ABBR       ID_TWBM_AAB+48
+#define PID_UTILS_MI_CONNECT    ID_TWBM_AAB+49
+#define PID_UTILS_MI_PLGINMGR   ID_TWBM_AAB+79  // new start
+#define PID_UTILS_MI_ATOVERUP   ID_TWBM_AAB+80  // new end
+
+#define PID_VIEW_MI_NAMES       ID_TWBM_AAB+50
+#define PID_VIEW_MI_DETAILS     ID_TWBM_AAB+51
+#define PID_VIEW_MI_DETAILSDLG  ID_TWBM_AAB+52
+#define PID_VIEW_MI_SORT        ID_TWBM_AAB+53
+#define PID_VIEW_MI_SOME        ID_TWBM_AAB+54
+#define PID_VIEW_MI_ALL         ID_TWBM_AAB+55
+#define PID_VIEW_MI_TOOLBAR     ID_TWBM_AAB+56
+#define PID_VIEW_MI_STATUSBAR   ID_TWBM_AAB+57
+
+#define PID_UTILS_MI_REPORT     ID_TWBM_AAB+58
+#define PID_UTILS_MI_ARCHTM     ID_TWBM_AAB+59
+
+#define PID_UTIL_MI_LOAD        ID_TWBM_AAB+60
+#define PID_UTILS_MI_MT         ID_TWBM_AAB+61    // Machine translation
+#define PID_FILE_MI_KILL        ID_TWBM_AAB+62    // Kill for MT JOB
+
+#define PID_VIEW_TWB_TOOLBAR    ID_TWBM_AAB+63
+#define PID_VIEW_TPRO_TOOLBAR   ID_TWBM_AAB+64
+
+
+#define PID_FILE_MI_EBUS        ID_TWBM_AAB+65
+#define PID_FILE_MI_EBUS1       ID_TWBM_AAB+66
+
+#define PID_FILE_MI_HTMLPROPS   ID_TWBM_AAB+67
+
+#define PID_VIEW_MI_SHRINKPATH  ID_TWBM_AAB+68
+#define PID_VIEW_MI_HIDEPATH    ID_TWBM_AAB+69
+#define PID_VIEW_MI_SHOWPATH    ID_TWBM_AAB+70
+
+#define PID_FILE_MI_CUT         ID_TWBM_AAB+71
+#define PID_FILE_MI_COPY        ID_TWBM_AAB+72
+#define PID_FILE_MI_PASTE       ID_TWBM_AAB+73
+
+#define PID_FILE_MI_EBUS2       ID_TWBM_AAB+74
+#define PID_FILE_MI_EXIT        ID_TWBM_AAB+75
+
+#define PID_UTILS_MI_DELETEDOCS ID_TWBM_AAB+76
+#define PID_UTILS_MI_RESTOREDOCS ID_TWBM_AAB+77
+#define PID_UTILS_MI_EXPORTSEGS  ID_TWBM_AAB+78
+
+#define PID_WIND_MI_TOP         ID_TWBM_AAB + 100 // top item in WINDOWS menu
+#define PID_WIND_MI_BOT         ID_TWBM_AAB + 250 // bottom item in WINDOWS menu
+
+#define PID_WIND_MI_MINALL      PID_WIND_MI_TOP+1
+#define PID_WIND_MI_RESTOREALL  PID_WIND_MI_TOP+2
+#define PID_WIND_MI_NEXT        PID_WIND_MI_TOP+3
+
+#define PID_TQM_MI_LOGON        ID_TWBM_AAB + 251
+#define PID_TQM_MI_LOGOFF       ID_TWBM_AAB + 252
+#define PID_TQM_MI_VENDOR       ID_TWBM_AAB + 253
+#define PID_TWBM_SM_TQM         ID_TWBM_AAB + 254
+#define PID_TQM_MI_USER         ID_TWBM_AAB + 255
+#define PID_TQM_MI_EVALUATION   ID_TWBM_AAB + 256
+#define PID_TQM_MI_REPORTS      ID_TWBM_AAB + 257
+#define PID_WIND_MI_TILE        ID_TWBM_AAB + 258
+#define PID_WIND_MI_CASCADE     ID_TWBM_AAB + 259
+
+#define PID_SYS_CLOSE           ID_TWBM_AAB + 260
+#define PID_SYS_MOVE            ID_TWBM_AAB + 261
+#define PID_SYS_SIZE            ID_TWBM_AAB + 262
+
+#define PID_UTILS_SM_PANELLANG  ID_TWBM_AAB + 263
+#define PID_UTILS_MI_LANGDUMMY  ID_TWBM_AAB + 264
+#define PID_UTILS_MI_LANGFIRST  ID_TWBM_AAB + 265
+#define PID_UTILS_MI_LANGLAST   ID_TWBM_AAB + 300
+
+#define PID_FILE_MI_OPENDLG     ID_TWBM_AAB+301
+//#define PID_FILE_MI_COPY        ID_TWBM_AAB+302
+#define PID_FILE_MI_PRINTLIST   ID_TWBM_AAB+303
+#define PID_FILE_MI_RENAME      ID_TWBM_AAB+304
+#define PID_FILE_MI_SYSPROP     ID_TWBM_AAB+305
+
+#define PID_TQM_MI_PROJECTS     ID_TWBM_AAB + 306
+#define PID_TQM_MI_SETTINGS     ID_TWBM_AAB + 307
+#define PID_TQM_MI_ARCHIVE      ID_TWBM_AAB + 308
+#define PID_TQM_MI_NETWORK      ID_TWBM_AAB + 309
+
+#define PID_FILE_MI_FUZZYSEARCH ID_TWBM_AAB+310
+
+#define PID_FILE_MI_ADDUSER     ID_TWBM_AAB+311
+#define PID_FILE_MI_REMOVEUSER  ID_TWBM_AAB+312
+#define PID_FILE_MI_LISTUSER    ID_TWBM_AAB+313
+
+// start ID for menu items added by tool plugins
+#define ID_TWBM_AAB_TOOLPLUGINS ID_TWBM_AAB+340
+
+#define ID_TWBM_AAB_LAST        ID_TWBM_AAB+400
+
+#define ID_FLL_POPUP        0  // Folder list popup when a folder is selected
+#define ID_FLL_POPUP_NOSEL  1  // Folder list popup when no folder is selected
+#define ID_FOL_POPUP        2  // Document list popup when a document is selected
+#define ID_FOL_POPUP_NOSEL  3  // Document list popup when no document is selected
+#define ID_DIC_POPUP        4  // Dictionary list when a dictionary is selected
+#define ID_DIC_POPUP_NOSEL  5  // Dictionary list when no dictionary is selected
+#define ID_MEM_POPUP        6  // Memory list when a memory is selected
+#define ID_MEM_POPUP_NOSEL  7  // Memory list when no memory is selected
+#define ID_TAG_POPUP        8  // Tag table list when a tag table is selected
+#define ID_TAG_POPUP_NOSEL  9  // Tag table list when no tag table is selected
+#define ID_LST_POPUP        10 // Terminology lists when a list is selected
+#define ID_LST_POPUP_NOSEL  11 // Terminology lists when no list is selected
+#define ID_TWB_POPUP        12 // Popup for right mouse clicks outside list windows
+#define ID_SRV_POPUP_DCT    13 // Popup within dictionary window
+#define ID_SRV_POPUP_TM     14 // Popup within translation memory window
+#define ID_SRV_POPUP_SRCP   15 // Popup within source of prop.memory window
+#define ID_TPRO_POPUP_SRC   16 // Popup within original window
+#define ID_TPRO_POPUP_OTHER 17 // Popup within other docs window
+#define ID_TPRO_POPUP_TRANS 18 // Popup within transl. window
+#define ID_LNG_POPUP        19 // popup during language update
+#define ID_LNG_POPUP_NOSEL  20 // popup during language update (no-sel)
+#define ID_CNT_POPUP        21 // word count popup window
+#define ID_LST_WO_NEW_POPUP 22 // Term lists when a list is selected w/o new
+#define ID_LST_WO_NEW_POPUP_NOSEL  23  // Term lists when no list is selected w/o new
+#define ID_ITM_POPUP        24 // popup within visual itm
+#define ID_TPRO_POPUP_TRNOTE 25 // popup TRNOTE window
+#define ID_MT_POPUP         26 // popup MT list window
+#define ID_MT_POPUP_NOSEL   27 // popup MT window no selection
+#define ID_EEA_POPUP        28 // popup for EEA window
+#define ID_TPRO_POPUP_SPELL 29 // Popup within transl. window for misspelled words
+#define ID_TQMPROJ_POPUP    30
+#define ID_TQM_POPUP        31
+#define ID_TQM_POPUP_NOSEL  32
+#define ID_FLLTREE_POPUP    33 // Popup selected in folder tree
+#define ID_TRTF_POPUP_SRC   34 // Popup within original window
+#define ID_TRTF_POPUP_OTHER 35 // Popup within other docs window
+#define ID_TRTF_POPUP_TRANS 36 // Popup within transl. window
+#define ID_FOL_POPUP_AFC    37 // Document list popup when a document is selected
+#define ID_FOL_POPUP_NOSEL_AFC    38 // Document list popup when a document is selected
+#define ID_MEM_POPUP_MULTSEL  39  // memory list when more than one item is selected
+#define ID_FLL_POPUP_MULTSEL  40  // folder list when more than one item is selected
+#define ID_FOL_POPUP_MULTSEL  41  // document list when more than one item is selected
+#define ID_DIC_POPUP_MULTSEL  42  // ditionary list when more than one item is selected
+#define ID_FLLTREE_SUBFOL_POPUP 43 // Popup subfolder selected in folder tree
+#define ID_FLL_POPUP_IE_NOSEL   44 // Folder list popup, IE like mode, no folder selected
+#define ID_FOL_POPUP_MULTSEL_AFC 45  // document list when more than one item is selected for child folders
+#define ID_FLLTREE_ROOT_POPUP 46 // Popup root entry selected in folder tree
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//    2500 - 10000     - IDs for Troja dialogs and windows                  //
+//                                                                          //
+//--------------------------------------------------------------------------//
+#define ID_TWBM_WINDOW          2500   // TWB Main Window
+#define ID_POPUP_MENU           2501   // Menu containing popup menus
+#define ID_STYLE_MENU           2502   // Menu containing style submenu
+#define ID_FILIMP_DLG           3000   // TWB File Import Dialog
+#define ID_FILEXP_DLG           3050   // TWB File Export Dialog
+#define ID_ANALYSIS_DLG         3200   // TWB Invoke Analysis Dialog
+#define DID_IANA                ID_ANALYSIS_DLG  // will be removed !!!
+#define ID_MEMORY_WINDOW        7000   // Troja: memory window
+#define PID_MEMCREATE           ID_MEMORY_WINDOW // will be removed !!!
+#define ID_MEMCREATE_DLG        7050   // ID of Memory Database Create Dialog
+#define ID_MEMLOAD_DLG          7100   // ID of Memory Database Load Dialog
+#define ID_MEMEXPORT_DLG        7150   // ID of Memory Database EXPORT Dialog
+#define ID_MEMORG_WINDOW        7200   // ID of Memory Organize Process Window
+#define ID_MEMEXP_WINDOW        7250   // ID of Memory Organize Process Window
+#define ID_MEMIMP_WINDOW        7300   // ID of Memory Organize Process Window
+#define ID_MEMMERGE_WINDOW      7350   // ID of Memory Organize Process Window
+#define ID_NTM_TAGLANG_DLG      7400   // ID of Memory Tagtable and Language Dialog
+// #include "eqfmem.id"
+#define ID_LOGO_DLG             8000   // logo dialog box
+#define ID_FLIST_WINDOW         8050   // folderlist window
+#define ID_FOLSUBFOLDER_WINDOW  8075   // folder / subfolder Window
+#define ID_FOLDER_WINDOW        8100   // folder / document list window
+#define ID_NEWFOLDER_DLG        8150   // new folder dialog
+#define ID_FOLMEMSEL_DLG        8240   // memory selection dialog
+#define ID_FOLDICSEL_DLG        8249   // dictionary selection dialog
+#define ID_DICTIMP_DLG          8250   // Troja: dictionary import dialog
+#define ID_DICTIONARY_WINDOW    8300   // Troja: dictionary window
+#define ID_DICTIMP_WINDOW       8350   // Troja: dictionary import window
+#define ID_ANALYSIS_WINDOW      8450   // Troja: text analysis window
+#define ID_DOCUMENT_WINDOW      8500   // Troja: document window
+#define ID_FOLEXP_DLG           8550   // Troja: folder export dialog
+#define ID_FOLIMP_DLG           8600   // Troja: folder import dialog
+#define ID_FOLNOTE_DLG          8650   // Troja: folder export note dialog
+#define ID_FOLINFO_DLG          8700   // Troja: folder import info dialog
+#define ID_SELVIEW_DLG          8750   // view details selection dialog
+#define ID_FLLDUMP_DLG          8800   // folder dump debug info dialog
+#define ID_WORDCNT_DLG          8850   // word count dialog
+#define ID_WORDCNT_WINDOW       8900   // word count window
+#define ID_FOLPROP_DLG          8950   // folder properties dialog
+#define ID_DICTEXP_DLG          9000   // Troja: dictionary export dialog
+#define ID_DICTEXP_WINDOW       9050   // Troja: dictionary export window
+#define ID_FOLMODEL_DLG         9100   // Troja: model folder selection dialog
+#define ID_TAGTABLE_WINDOW      9150   // Tag Table List Window
+#define ID_TAGEXP_WINDOW        9200   // Tag Table Export Window
+#define ID_TAGIMP_WINDOW        9250   // Tag Table Import Window
+#define ID_TAGEXP_DLG           9300   // Tag Table Export Dialog
+#define ID_TAGIMP_DLG           9350   // Tag Table Import Dialog
+#define ID_MEMMERGE_DLG         9400   // Merge translation memory dialog
+#define ID_FOLEXP_WINDOW        9450   // Folder Export Window
+#define ID_FOLIMP_WINDOW        9500   // Folder Import Window
+#define ID_TWBDRIVES_DLG        9550   // Drive configuration dialog
+#define ID_DICNEW_DLG           9600   // Dictionary Create Dialog
+#define ID_DICPROP_DLG          9650   // Dictionary Property Dialog
+#define ID_DICMODEL_DLG         9700   // Dictionary Model Dialog
+#define ID_DICNAME_DLG          9750   // Dictionary Entry Name Dialog
+#define ID_SLIDERWINDOW         9800   // Slider Control Window
+#define ID_ANALYSIS2_DLG        9850   // Analysis (2) Dialog
+#define ID_REMOTETM_DLG         9900   // Include Remote TM's Dialog
+#define ID_SERVLIST_DLG         9950   // Maintain Server List Dialog
+
+//--------------------------------------------------------------------------//
+//   IDs for Translation Processor                                          //
+//--------------------------------------------------------------------------//
+#define ID_TP_MAIN_WINDOW      10000   // TP main window
+#define ID_TB_FIND_DLG         10100   // TP find dialog
+#define ID_TB_METADATA_DLG     10150   // segment metadata / segment properties dialog
+#define ID_TB_MD_NOTE_DLG      10190   // segment metadata - note dialog 
+#define ID_TB_FONTCOL_DLG      10200   // TP font/color dialog
+#define ID_TB_COMMENT_DLG      10250   // proposal comment dialog 
+
+/* VIO Dialog maintained for BIDI ID_TB_VIO_FONTSIZE_DLG defined below */
+#define ID_TB_FONTSIZE_DLG     10300   // TP fontsize dialog
+
+#define ID_TB_OPEN_DLG         10400   // TP open dialog
+#define ID_TB_KEYS_DLG         10500   // TP key assignment dialog
+#define ID_TB_RMARGIN_DLG      10700   // TP right margine dialog
+#define ID_TB_SPELL_DLG        10800   // TP spell check dialog
+#define ID_TB_COMMAND_DLG      10900   // TP command dialog
+#define ID_TWBS_DICT_WINDOW    11000   // TP dictionary window
+#define ID_TWBS_PROP_WINDOW    11100   // TP TM proposalsog
+#define ID_TWBS_SOURCE_WINDOW  11200   // TP source window
+#define ID_TWBS_FRAME_WINDOW   11300   // TP frame window
+#define ID_TWBS_ORIG_WINDOW    11400   // TP original window
+#define ID_TWBS_OTHER_WINDOW   11500   // TP other file window
+#define ID_TB_SETTINGS_DLG     11600   // TP settings dialog
+#define ID_TB_GOTO_DLG         11700   // TP Gotos dialog
+#define ID_TB_PROFONE_DLG      11800   // TP Profile one
+#define ID_TB_PROFTWO_DLG      11900   // TP Profile two
+#define ID_TB_ANALWAIT_DLG     12000   // wait for analyze
+#define ID_TB_REIMPORTWAIT_DLG 12050   // wait for re-import document
+#define ID_TB_SHOW_DLG         12100   // TP Show WYSIWYG
+#define ID_TP_STATUSBAR        12200   // Statusbar window id
+#define ID_TP_RULER            12250   // Ruler window id
+#define ID_TWBS_TRNOTE_WINDOW  12260   // TRNote window
+#define ID_TB_TOCGOTO_DLG      12270   // TP Table of contents goto
+
+// ID_TB_ENTRY dialog moved from 10600 because
+// of overlapping IDs
+#define ID_TB_ENTRY_DLG        12300   // allow to enter sentence
+#define ID_TB_PROPERTIES_DLG   12350   // property page dialogs
+#define ID_TB_PROP_EDITOR_DLG         12351
+#define ID_TB_PROP_DISPLAY_DLG        12352
+#define ID_TB_PROP_DICTIONARY_DLG     12353
+#define ID_TB_PROP_TRANSLMEM_DLG      12354
+#define ID_TB_PROP_MESSAGES_DLG       12355
+#define ID_TB_PROP_BACKTASKS_DLG      12356
+#define ID_TB_PROP_AUTSUBST_DLG       12357
+
+#define ID_TB_MAINWINDOW_STR   12400
+
+/**********************************************************************/
+/* 12500         -- IDs for ITM dialogs and windows                   */
+/**********************************************************************/
+#define ID_ITM_MAIN_DLG        12500
+#define ID_ITM_WINDOW          12600
+#define ID_ITM_DOCWINDOW       12630
+#define ID_ITM_STATUSBAR       12650
+#define ID_ITM_PROCESS_DLG     12670
+
+//--------------------------------------------------------------------------//
+//   more IDs for Translation Processor                                     //
+//--------------------------------------------------------------------------//
+#define ID_TB_FONTEXT_DLG      12700   // extended font dlg (replaces FONTCOL)
+#define ID_TP_MAINRFONT_WINDOW 12800   // new Richedit editor
+#define ID_TB_CFIND_DLG        12900   // TP concordance search dialog
+
+//--------------------------------------------------------------------------//
+//                                                                          //
+//   13000 - 13999     - IDs for Troja dialogs and windows - part two       //
+//                                                                          //
+//--------------------------------------------------------------------------//
+#define ID_DICTMERGE_DLG       13000   // dictionary merge dialog
+#define ID_SERVWAIT_DLG        13050   // Wait for server Dialog
+#define ID_EXPFOLDEL_DLG       13100   // delete exported folder dialog
+#define ID_DICTPASSWORD_DLG    13150   // dictionary password dialog
+#define ID_DICT2PASSWORD_DLG   13200   // dictionary enter password dialog
+#define ID_DICADDFIELD_DLG     13250   // dictionary add field dialog
+#define ID_LIST_WINDOW         13300   // list handler main window
+#define ID_LNGUPDATE_WINDOW    13350   // Source language update window
+#define ID_LISTEXP_FTL_DLG     13400   // list handler: list export dialog
+#define ID_LISTEXP_NTL_DLG     13450   // list handler: list export dialog
+#define ID_LISTEXP_NOIS_DLG    13500   // list handler: list export dialog
+#define ID_LISTEXP_EXCL_DLG    13550   // list handler: list export dialog
+#define ID_LISTIMP_FTL_DLG     13600   // list handler: list import dialog
+#define ID_LISTIMP_NTL_DLG     13650   // list handler: list import dialog
+#define ID_LISTIMP_NOIS_DLG    13700   // list handler: list import dialog
+#define ID_LISTIMP_EXCL_DLG    13750   // list handler: list import dialog
+#define ID_LISTMARK_FTL_DLG    13800   // list handler: mark for dictionary dlg
+#define ID_LISTMARK_NTL_DLG    13830   // list handler: mark for dictionary dlg
+#define ID_ASDMERGE_DLG        13850   // dialog of AsdMergeEntry function
+#define DISP_ENTRY_DLG         13900   // display dictionary entry dialog
+#define LOOKUP_DLG             13950   // dictionary lookup dialog
+#define EDIT_ENTRY_DLG         14000   // dictionary edit dialog
+#define EDIT_ENTRY_FIRST_EF_ID 14050   // IDs of dict edit controls
+#define ID_LISTWORK_NTL_DLG    14100   // list handler: work with list dialog
+#define ID_LISTWORK_FTL_DLG    14150   // list handler: work with list dialog
+#define ID_LISTEDIT_NEW_EXCL_DLG 14200 // list handler: list edit dialog
+#define ID_LISTEDIT_NEW_NOIS_DLG 14250 // list handler: list edit dialog
+#define ID_LISTEDIT_EDI_EXCL_DLG 14300 // list handler: list edit dialog
+#define ID_LISTEDIT_EDI_NOIS_DLG 14350 // list handler: list edit dialog
+#define ID_FILT_DLG            14400   // edit/create filter dialog
+#define ID_FILTOP1_DLG         14450   // filter first operand dialog
+#define ID_FILTOP2_DLG         14500   // filter second operand dialog
+#define ID_FILTOP3_DLG         14550   // filter third operand dialog
+#define ID_TEXTANALYSIS        14600   // analyze process window
+#define ID_SERVLIST_NAME_DLG   14650   // maintain server list - name dialog
+#define ID_REVMARK_DLG         14700   // maintain revision marks dialog
+#define ID_DICTREM_DLG         14750   // remote dictionary
+#define ID_DOCPROP_DLG         14800   // Document properties dialog
+#define ID_NEWDOC_DLG          14850   // New Document dialog
+#define ID_FOLLANG_DLG         14900   // Folder language dialog
+#define ID_FOLFIND_DLG         14950   // Global Find/Change dialog
+//                             15000   // next free ID
+
+//--------------------------------------------------------------------------//
+//   other EQF base IDs  15000 - 18999                                      //
+//--------------------------------------------------------------------------//
+#define ID_EQF_TMCOM_BASE      15000   // base ID for TM communication code
+
+
+
+#define ID_MTLIST_WINDOW       15050   // MTlist window
+#define ID_TP_DICT_ACC         15100   // dictionary accelerators
+#define ID_ANAPROF_DLG         15200   // analysis profile window   
+
+//                             15300   // next free ID
+
+
+#define ID_WINDOW              19000   // General main window ID
+
+#define ID_TMM_DOCWINDOW       19500   // TMM document window
+#define ID_TM_QUERY_DOC_DLG    19550   // TMM dialog
+#define ID_TM_DATE_DLG         19600   // TMM date dialog
+#define ID_TM_QUERY_DLG        19650   // TMM query dialog
+#define ID_TMM_WINDOW          19700   // Translation Memory Maintenance window
+#define ID_TM_PASSWORD_DLG     19750   // TM Maintenance Password dialog
+#define ID_PCH_DLG             19800   // Dictionary password dialog
+#define ID_DIM_DLG             19860   // dictionary import dialog
+#define ID_DEX_DLG             19880   // dictionary export dialog
+#define ID_TMM_STATUSBAR       19900   // TMM status bar
+#define ID_TM_QUERY99_DLG      19990   // new TMM query window
+#define ID_TM_QUERY_DOC99_DLG  19995   // new TMM document dialog
+
+//+----------------------------------------------------------------------------+
+//| string IDs for Demo/Original recognition                                   |
+//+----------------------------------------------------------------------------+
+#define SID_TM_FULL_VERSION     20000  // string indicating full version of TM
+#define SID_TM_DRIVER_LEVEL     20005  // string in OTMLOGOR.DLL containing
+                                       // driver version string
+
+//+----------------------------------------------------------------------------+
+//| Another group of dialog IDs                                                |
+//+----------------------------------------------------------------------------+
+#define ID_DOCSHORT_DLG          20050 // Document long-to-short name dialog
+#define ID_RENAME_DLG            20100 // General object rename dialog
+#define ID_FOL_DELHLOG_DLG       20150 // confirmation dialog for the delete of history logs
+#define ID_FUZZYSEARCH_DLG       20200 // Fuzzy Search dialog
+#define ID_OPTION_DLG            20250 // Options dialog
+
+#define ID_ADDUSER_DLG           20270 // show add user dialog
+#define ID_REMOVEUSER_DLG        20280 // show remove user dialog
+#define  ID_LISTUSER_DLG          20290
+//+----------------------------------------------------------------------------+
+//| string base IDs for private string tables                                  |
+//+----------------------------------------------------------------------------+
+#define ID_COLWIDTH_STRINGS     20500  // strings for column widths
+#define ID_FOL_STRINGS          21000  // strings of folder handler
+#define ID_MEM_STRINGS          21100  // strings of memory handler
+#define ID_DOCEXPIMP_STRINGS    21200  // strings for document export/import
+#define ID_LIST_STRINGS         21300  // strings of list handler
+#define ID_DLUP_STRINGS         21400  // strings for dictionary lookup
+#define ID_FILT_STRINGS         21500  // strings of filter handler
+#define ID_TQM_STRINGS          21600  // strings of TQM
+#define ID_DICT_STRINGS         21700  // strings of dict handler
+#define ID_ANAL_STRINGS         21800  // strings of anal handler
+#define ID_FORMAT_STRINGS       21900  // strings for format names
+
+#define ID_QDPR_PRTDLG            29100
+#define ID_UTL_SETFILE_DLG        29160
+#define ID_QDPR_PROCESS_WINDOW    29200
+#define ID_QDPR_ICON              29210
+
+#ifdef _PTM
+  #define ID_PTM_OPEN_DLG         29300 // Personal TM open dialog
+  #define ID_PTM_COPY_DLG         29350 // Personal TM copy dialog
+  #define ID_PTM_LOOKUP_DLG       29400 // Personal TM lookup dialog
+  #define ID_PTM_SAVEAS_DLG       29450 // Personal TM save as dialog
+#endif
+
+#define ID_LISTEDIT_EDI_ABR_DLG  29500 // list handler: abbr list edit dialog
+#define ID_CONNECT_DIC_DLG       29550 // connect shared dictionaries dialog
+#define ID_CONNECT_TM_DLG        29600 // connect shared TMs dialog
+#define ID_LISTEDIT_EDI_ADD_DLG  29650 // list handler: addenda list edit dialog
+#define ID_UTL_YESTOALL_DLG      29700 // yes-to-all message box
+#define ID_ARCHTM_DLG            29750 // build archive TM dialog
+#define ID_ARCHTM_PROC_WINDOW    29800 // build archive TM process window
+#define ID_EXPORTSEGS_PROC_WINDOW 29820 // exports segments process window
+#define ID_CNT_REPORT_DLG        29850 // report dialog
+#define ID_CNT_REPORT_LW         29900 // report list window
+#define ID_CNT_REPORT_OUT        29910
+#define ID_FOLIMPDOC_DLG         29950 // Document Options dialog
+
+#ifdef _WPTMIF
+  #define ID_WPSETTING_DLG        30000
+  #define ID_WPPROPOSAL_DLG       30100
+  #define ID_WPANALYSIS_DLG       30200
+  #define ID_WP_ENVIRONSET_DLG    30300
+  #define ID_WPENVIRONCOLOR_DLG   30400
+  #define ID_WPITM_MAIN_DLG       30500
+  #define ID_WPITM_WAIT_DLG       30600
+  #define ID_WPDOCINFO_DLG        30700
+  #define ID_WPMEMDELETE_DLG      30800
+#endif
+
+/* VIO Dialog maintained for BIDI */
+#define ID_TB_VIO_FONTSIZE_DLG    30900   // TP VIO fontsize dialog
+#define ID_TM_PROP_DLG            30950   // TM properties dialog
+
+
+/* summary calculating report */
+
+#define ID_CNT_REPORT1_DLG        31000   // settings dialog
+#define ID_CNT_REPORT2_DLG        31100   // final fact sheet
+
+/* machine translation dialog */
+
+#define ID_MT_PROPERTY_DLG        31200   // final fact sheet
+#define ID_MTPROP_DLG             31210
+#define ID_MTPROP_GENERAL_DLG     31212
+#define ID_MTPROP_SERVER_DLG      31214
+#define ID_MTPROP_STAT_DLG        31216
+#define ID_MTPROP_SUBJECT_DLG     31218
+
+#define ID_CNT_REPORT4_DLG        31300   // final fact sheet
+
+// analysis property sheet and property pages
+#define ID_ANAPROP_DLG            31400   // property page dialogs
+#define ID_ANAPROP_GENERAL_DLG    31402
+#define ID_ANAPROP_AUTSUBST_DLG   31404
+#define ID_ANAPROP_LISTS_DLG      31406
+#define ID_ANAPROP_OTHER_DLG      31408
+
+// document import property sheet dialog and property pages
+#define ID_DOCIMP_PROP_DLG        31500
+#define ID_DOCIMP_DLG             31502
+#define ID_DOCIMP_NGD_DLG         31503
+
+#define ID_DOCEXP_PROP_DLG        31505
+#define ID_DOCEXP_DLG             31507
+#define ID_DOCEXP_NGD_DLG         31508
+
+
+// Propertysheet for Folder Properties
+#define ID_FOLDERPROPS_DLG               31509
+#define ID_FOLDERPROPS_GENERAL_DLG       31510
+#define ID_FOLDERPROPS_AFC_DLG           31511
+#define ID_FOLDERPROPS_SHOWPROPS_DLG     31512
+#define ID_FOLDERPROPS_PROJECTINFO_DLG   31513
+#define ID_FOLDERPROPS_TABCTRL           31514
+#define ID_NEWFOLDERPROPS_DLG            31515
+#define ID_FOLDERPROPS_GLOBALMEMOPT_DLG  31516
+
+// system properties dialog: property sheet and property pages
+#define ID_SYSPROP_DLG            31600   // property page dialogs
+#define ID_SYSPROP_GENERAL_DLG    31601
+#define ID_SYSPROP_ADVANCED_DLG   31640
+#define ID_SYSPROP_MARKUP_DLG     31642
+#define ID_SYSPROP_MEMORY_DLG     31644
+
+#define ID_PLUGIN_MANAGER_DLG     32150  // Plugin Manager Dialog
+#define ID_PLUGM_INSTALLED_DLG    32200  // child list dialog for Plugin Manager Dialog's tab
+#define ID_PLUGM_AVAILABLE_DLG    32250  // child list dialog for Plugin Manager Dialog's tab
+#define ID_PLUGM_UPDATES_DLG      32300  // child list dialog for Plugin Manager Dialog's tab
+#define ID_PLUGM_SETTINGS_DLG     32350
+#define ID_PLUGM_HELP_DLG         32400
+#define IDD_PROGRESS_CTRL_DLG     32450
+// Counting Report property sheet and property pages
+#define ID_RPTPROP_DLG            31650   // property page dialogs
+#define ID_RPTPROP_GENERAL_DLG    31651
+#define ID_RPTPROP_PROFILE_DLG    31652
+#define ID_RPTPROP_SETTINGS_DLG   31653
+#define ID_RPTPROP_FACTSHEET_DLG  31654
+#define ID_RPTPROP_MORE_DLG       31655
+#define ID_ANA_PROP_TABCTRL       31656
+#define ID_RPTPROP_SHIPM_DLG      31657
+
+// Folder Export property sheet
+#define ID_FOLEXPPROP_DLG         31670   // property page dialogs
+#define ID_FOLEXP_PROP_TABCTRL    31671
+#define ID_FOLEXPPROP_GENERAL_DLG 31672
+#define ID_FOLEXPPROP_OPTIONS_DLG 31673
+
+// Folder Import property sheet
+#define ID_FOLIMPPROP_DLG         31674   // property page dialogs
+#define ID_FOLIMP_PROP_TABCTRL    31675
+#define ID_FOLIMPPROP_GENERAL_DLG 31676
+#define ID_FOLIMPPROP_OPTIONS_DLG 31677
+#define ID_FOLIMPPROP_DETAILS_DLG 31678
+
+// Property dialog and property sheets for dictionary properties
+#define ID_DICTPROP_DLG         31680   // property page dialogs
+#define ID_DICT_PROP_TABCTRL    31681
+#define ID_DICTPROP_GENERAL_DLG 31682
+#define ID_DICTPROP_OPTIONS_DLG 31683
+
+// Property dialog and property sheets for document properties / new document
+#define ID_DOC_PROP_DLG             31690   // property page dialogs
+#define ID_DOC_PROP_TABCTRL         31691
+#define ID_DOC_PROP_SETTINGS_DLG    31692
+#define ID_DOC_PROP_ADMIN_DLG       31693
+#define ID_DOC_PROP_STATISTICS_DLG  31694
+#define ID_DOCNEW_PROP_DLG          31695
+#define ID_DOCNEW_PROP_SETTINGS_DLG 31696
+#define ID_DOCNEW_PROP_ADMIN_DLG    31697
+
+
+
+
+
+#define ID_SORT_DLG               31700   // select sort columns dialog
+#define ID_FILT2_DLG              31750   // filter columns dialog
+
+// base IDs for subfolder dialogs
+#define ID_SUBFOLDER_DLG          31800
+#define ID_SUBFOLDERNEW_DLG       31830
+#define ID_SUBFOLDERPROP_DLG      31840
+
+// Markup Table property dialog and property pages (31861-31959) for control IDs)
+#define ID_MUPROP_DLG             31860
+#define ID_MUPROP_GENERAL_PAGE    31960
+#define ID_MUPROP_TAGS_PAGE       31961
+#define ID_MUPROP_ATTR_PAGE       31962
+#define ID_MUPROP_TEST_PAGE       31963
+#define ID_MUPROP_PROTECT_DLG     31970
+#define ID_MUPROP_UNPROTECT_DLG   31980
+
+
+// EEA Windows IDs
+#define ID_EEA_WINDOW             32000   // EEA Window
+#define ID_EEA_STATUSBAR          32050   // EEA Statusbar window
+#define ID_EEA_RESULTWND          32060   // EEA Window with all results
+#define ID_EEA_PROBLEMWND         32070   // EEA window with detailed problems
+#define ID_EEA_ABOUTBOX           32080   // EEA product information box
+#define ID_EEA_ANALWAIT_DLG       32090   // EEA Analysis Dialog
+
+#define ID_EXPORTSEGS_DLG         32100   // export segments dialog
+
+// Add for R012027
+#define IDD_DLG_SPEC_CHAR               33000
+#define IDC_BTN_ADD_NEW_CHAR            33001
+#define IDC_BTN_HELP                    33002
+#define IDC_BTN_OPEN_WIN_CHAR_MAP       33003
+#define IDC_EDT_CHAR                    33004
+#define IDC_EDT_UNICODE                 33005
+#define IDC_EDT_CHARNAME                33006
+#define ID_OPTION_KEYS                  33007
+// Add end
+
+#define ID_FOLFIND_INTERACTIVE_TAB      33050
+#define ID_FOLFIND_BATCHLIST_TAB        33100
+#define ID_FOLFIND_BATCHLIST_ENTRY_DLG  33150
+
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+
+#define _APS_NO_MFC					130
+#define _APS_NEXT_RESOURCE_VALUE	129
+#define _APS_NEXT_COMMAND_VALUE		32771
+#define _APS_NEXT_CONTROL_VALUE		1000
+#define _APS_NEXT_SYMED_VALUE		110
+#endif
+#endif
+
+//#define EQF_ID_INCLUDED
+//#endif
+//   End of EQF.ID

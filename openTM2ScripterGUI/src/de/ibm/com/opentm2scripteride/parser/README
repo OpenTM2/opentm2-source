@@ -1,0 +1,10 @@
+***************************************************
+Copyright (C) 2014, International Business Machines
+Corporation and others.  All Rights Reserved.
+
+*README*
+***************************************************
+
+The Parser and Lexer classes are created automatically with ANTLR3.
+All you need is to write/modify the Grammar given in Script.g and generate the classes with 'java org.antlr.Tool Script.g'
+For the syntax of the grammar please refer to the official ANTLR documentation.

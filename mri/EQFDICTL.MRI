@@ -1,0 +1,294 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFDICTL.MRI - MRI material for dictionary lookup utility                 |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+ *
+ * $Header:   J:\DATA\EQFDICTL.MVI   1.0   09 Jan 1996 10:05:58   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDICTL.MVI  $
+ * 
+ *    Rev 1.0   09 Jan 1996 10:05:58   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+
+#define STR_DICTL_TITLE            "Dictionary Lookup"
+
+#define STR_LOOKUP_DLG             "Look up a Term"
+
+#define STR_LOOKUP_WORD_COMBO      "Term"
+
+#define STR_LOOKUP_STEXT_WORD      "Term:"
+
+#define STR_LOOKUP_GRBOX_SEARCH_OPT "Type of search"
+
+#define STR_LOOKUP_ARBUT_NEIGHB     "&Neighborhood"
+
+#define STR_LOOKUP_ARBUT_COMPWORD   "&Compound word"
+
+#define STR_LOOKUP_ARBUT_SYN        "&Synonym"
+
+#define STR_LOOKUP_ARBUT_RELTERM    "&Related term"
+
+#define STR_LOOKUP_ARBUT_ABBREV     "&Abbreviation"
+
+#define STR_LOOKUP_ARBUT_HEADWORD   "&Headword"
+
+#define STR_LOOKUP_GRBOX_DICT_LIST  "Dictionaries"
+
+#define STR_LOOKUP_PUBO_OK          "&Look up..."
+
+#define STR_LOOKUP_PUBO_EDIT        "&Edit..."
+
+#define STR_LOOKUP_PUBO_CANCEL      "Cancel"
+
+#define STR_LOOKUP_PUBO_HELP        "Help"
+
+#define STR_DISP_ENTRY_DLG          "Lookup Entry: "
+
+#define STR_DISP_ENTRY_STEXT_DICT   "Dictionary:"
+
+#define STR_DISP_ENTRY_STEXT_DISPLAY   "Display:"
+
+#define STR_DISP_PANEL_TEXT   "Panel %1"
+
+#define STR_DISP_DICT_TEXT   "Dictionary"
+
+// print job name for printing of dictionary entry; %1 is replaced by
+// name pf printed entry
+#define STR_DISP_DICT_PRTJOB "Dictionary Entry: %1"
+
+// %1 is replaced with the number of the current template
+// %2 is replaced with the maximal template number
+#define STR_EDIT_ENTRY_TEMPLATE_NO  "Template %1 of %2"
+
+#define STR_DISP_ENTRY_PUBO_COPY    "&Copy"
+
+#define STR_DISP_ENTRY_PUBO_EDIT    "E&dit..."
+
+#define STR_DISP_ENTRY_PUBO_PRINT   "&Print..."
+
+#define STR_DISP_ENTRY_PUBO_CANCEL  "Cancel"
+
+#define STR_DISP_ENTRY_PUBO_HELP    "Help"
+
+#define STR_EDIT_ENTRY_DLG          "Edit Entry in Dictionary"
+
+#define STR_EDIT_ENTRY_STEXT_DICT   "Dictionary:"
+
+#define STR_EDIT_ENTRY_TERM_TEXT    "Term:"
+
+#define STR_EDIT_ENTRY_TEMPLATE          "Template"
+
+#define STR_EDIT_ENTRY_PUBO_NEXT_TEMPL   "&Next"
+
+#define STR_EDIT_ENTRY_PUBO_PREV_TEMPL   "&Previous"
+
+#define STR_EDIT_ENTRY_PUBO_ADD_TEMPL    "&Add"
+
+#define STR_EDIT_ENTRY_PUBO_COPY_TEMPL   "&Copy"
+
+#define STR_EDIT_ENTRY_PUBO_DEL_TEMPL    "&Delete"
+
+#define STR_EDIT_ENTRY_CLIPBOARD         "Clipboard"
+
+#define STR_EDIT_ENTRY_PUBO_COPY         "Copy"
+
+#define STR_EDIT_ENTRY_PUBO_PASTE        "Paste"
+
+#define STR_EDIT_ENTRY_SAVETO            "Save to dictionary:"
+
+#define STR_EDIT_ENTRY_PUBO_SAVE         "&Save"
+
+#define STR_EDIT_ENTRY_PUBO_DEL_ENTRY    "Delete"
+
+#define STR_EDIT_ENTRY_PUBO_CANCEL       "Cancel"
+
+#define STR_EDIT_ENTRY_PUBO_HELP         "Help"
+
+
+/**********************************************************************/
+/**********************************************************************/
+/*         Strings used in the merge dictionary entry dialog          */
+/**********************************************************************/
+/**********************************************************************/
+
+/**********************************************************************/
+/* dialog title bar text                                              */
+/**********************************************************************/
+#define STR_ASDMERGE_DLG              "Merge Dictionary Entries"
+
+/**********************************************************************/
+/* headword entry field heading                                       */
+/**********************************************************************/
+#define STR_ASDMERGE_TERM_TEXT        "Term:"
+
+/**********************************************************************/
+/* heading of source MLE if merging from a dictionary                 */
+/* (%1 is replaced with the name of the source dictionary)            */
+/**********************************************************************/
+#define STR_MERGE_ASD_HEADING         "Merge from source dictionary: %1"
+
+/**********************************************************************/
+/* heading of source MLE if merging from a SGML file                  */
+/**********************************************************************/
+#define STR_MERGE_SGML_HEADING        "Merge from SGML dictionary"
+
+/**********************************************************************/
+/* heading of source MLE if merging from dictionary edit dialog       */
+/**********************************************************************/
+#define STR_MERGE_EDIT_HEADING        "Merge from edited entry"
+
+/**********************************************************************/
+/* heading of target entry MLE                                        */
+/* (%1 is replaced with the name of the target dictionary)            */
+/**********************************************************************/
+#define STR_ASDMERGE_OLD_TEXT         "Merge into target dictionary: %1"
+
+/**********************************************************************/
+/* heading of option groupbox                                         */
+/**********************************************************************/
+#define STR_ASDMERGE_OPTION_GB        "Options"
+
+/**********************************************************************/
+/* text of 'ignore source entry' radiobutton                          */
+/**********************************************************************/
+#define STR_ASDMERGE_IGNORE_RB        "Ignore source entry"
+
+/**********************************************************************/
+/* text of 'replace target with source' radiobutton                   */
+/**********************************************************************/
+#define STR_ASDMERGE_REPLACE_RB       "Replace target entry with source entry"
+
+/**********************************************************************/
+/* text of 'combine source and target' radiobutton                    */
+/**********************************************************************/
+#define STR_ASDMERGE_ADD_RB           "Combine entries"
+
+/**********************************************************************/
+/* text of 'use options for all entries' checkbox                     */
+/**********************************************************************/
+#define STR_ASDMERGE_NOPROMPT_CHK     "Use the selected option for all entries"
+
+/**********************************************************************/
+/* text of MERGE pushbutton                                           */
+/**********************************************************************/
+#define STR_ASDMERGE_MERGE_PB         "&Merge"
+
+/**********************************************************************/
+/* text of CANCEL pushbutton                                          */
+/**********************************************************************/
+#define STR_ASDMERGE_CANCEL_PB        "Cancel"
+
+/**********************************************************************/
+/* text of help pushbutton                                            */
+/**********************************************************************/
+#define STR_ASDMERGE_HELP_PB          "Help"
+

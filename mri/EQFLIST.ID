@@ -1,0 +1,285 @@
+//+----------------------------------------------------------------------------+
+//|EQFLIST.ID                                                                  |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Gerhard Queck (QSoft)                                               |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description:                                                                |
+//|   Include file containing all PM IDs used by the list handler and its      |
+//|   dialogs.                                                                 |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 14 Feb 2001
+// - added IDs for list import/export format comboboxes
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFLIST.IV_   1.1   10 Jan 1996 19:38:04   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFLIST.IV_  $
+ *
+ *    Rev 1.1   10 Jan 1996 19:38:04   BUILD
+ * - added IDs for edit addenda dict dialog
+ *
+ *    Rev 1.0   09 Jan 1996 10:08:30   BUILD
+ * Initial revision.
+*/
+//+----------------------------------------------------------------------------+
+
+/**********************************************************************/
+/* IDs for List Instance Window                                       */
+/**********************************************************************/
+#define ID_LIST_LB                ID_LIST_WINDOW + 1
+#define ID_LIST_TYPE_CB           ID_LIST_WINDOW + 2
+
+/**********************************************************************/
+/* IDs for Work With List Dialog (LISTWORK)                           */
+/**********************************************************************/
+#define ID_LISTWORK_MKALL_PB      ID_LISTWORK_NTL_DLG +  1
+#define ID_LISTWORK_MKNOT_PB      ID_LISTWORK_NTL_DLG +  2
+#define ID_LISTWORK_MKDEL_PB      ID_LISTWORK_NTL_DLG +  3
+#define ID_LISTWORK_MKEXC_PB      ID_LISTWORK_NTL_DLG +  4
+#define ID_LISTWORK_MKDCT_PB      ID_LISTWORK_NTL_DLG +  5
+#define ID_LISTWORK_TERM_LB       ID_LISTWORK_NTL_DLG +  6
+#define ID_LISTWORK_DELMARK_PB    ID_LISTWORK_NTL_DLG +  7
+#define ID_LISTWORK_DICTMARK_PB   ID_LISTWORK_NTL_DLG +  8
+#define ID_LISTWORK_EXCLMARK_PB   ID_LISTWORK_NTL_DLG +  9
+#define ID_LISTWORK_EXCL_CB       ID_LISTWORK_NTL_DLG + 10
+#define ID_LISTWORK_SAVE_PB       ID_LISTWORK_NTL_DLG + 11
+#define ID_LISTWORK_PROCMARK_PB   ID_LISTWORK_NTL_DLG + 12
+#define ID_LISTWORK_CANCEL_PB     ID_LISTWORK_NTL_DLG + 13
+#define ID_LISTWORK_HELP_PB       ID_LISTWORK_NTL_DLG + 14
+#define ID_LISTWORK_UNMARK_PB     ID_LISTWORK_NTL_DLG + 15
+
+/**********************************************************************/
+/* IDs for Mark for Dictionary Dialog (LISTMARK)                      */
+/**********************************************************************/
+#define ID_LISTMARK_TERM_EF       ID_LISTMARK_NTL_DLG +  1
+#define ID_LISTMARK_CONTEXT_CHK   ID_LISTMARK_NTL_DLG +  2
+#define ID_LISTMARK_CONTEXT_MLE   ID_LISTMARK_NTL_DLG +  3
+#define ID_LISTMARK_TRANS_EF      ID_LISTMARK_NTL_DLG +  4
+#define ID_LISTMARK_DICTIONARY_LB ID_LISTMARK_NTL_DLG +  5
+#define ID_LISTMARK_MARK_PB       ID_LISTMARK_NTL_DLG +  6
+#define ID_LISTMARK_SKIP_PB       ID_LISTMARK_NTL_DLG +  7
+#define ID_LISTMARK_CANCEL_PB     ID_LISTMARK_NTL_DLG +  8
+#define ID_LISTMARK_HELP_PB       ID_LISTMARK_NTL_DLG +  9
+
+/**********************************************************************/
+/* String IDs of the list handler and its dialogs                     */
+/**********************************************************************/
+#define SID_LST_TITLE             ID_LIST_STRINGS +  1
+#define SID_LST_EXCL_NAME         ID_LIST_STRINGS +  2
+#define SID_LST_NTL_NAME          ID_LIST_STRINGS +  3
+#define SID_LST_NOISE_NAME        ID_LIST_STRINGS +  4
+#define SID_LST_FTL_NAME          ID_LIST_STRINGS +  5
+#define SID_LST_DRIVE_HDR         ID_LIST_STRINGS +  6
+#define SID_LST_NAME_HDR          ID_LIST_STRINGS +  7
+#define SID_LST_SIZE_HDR          ID_LIST_STRINGS +  8
+#define SID_LST_UPD1_HDR          ID_LIST_STRINGS +  9
+#define SID_LST_UPD2_HDR          ID_LIST_STRINGS + 10
+
+#define SID_LSTEDIT_EXCLTITLE_TEXT  ID_LIST_STRINGS + 12
+#define SID_LSTEDIT_NOISETITLE_TEXT ID_LIST_STRINGS + 13
+#define SID_LSTNEW_EXCLTITLE_TEXT   ID_LIST_STRINGS + 14
+#define SID_LSTNEW_NOISETITLE_TEXT  ID_LIST_STRINGS + 15
+
+#define SID_LISTPRINT_EXCL_TITLE    ID_LIST_STRINGS + 16
+#define SID_LISTPRINT_NOISE_TITLE   ID_LIST_STRINGS + 17
+#define SID_LISTPRINT_NTL_TITLE     ID_LIST_STRINGS + 18
+#define SID_LISTPRINT_FTL_TITLE     ID_LIST_STRINGS + 19
+
+#define SID_LSTWORK_NTL_TITLE_TEXT ID_LIST_STRINGS + 20
+#define SID_LSTWORK_FTL_TITLE_TEXT ID_LIST_STRINGS + 21
+
+#define SID_LSTEXP_NTL_TITLE_TEXT    ID_LIST_STRINGS + 22
+#define SID_LSTEXP_FTL_TITLE_TEXT    ID_LIST_STRINGS + 23
+#define SID_LSTEXP_EXCL_TITLE_TEXT   ID_LIST_STRINGS + 24
+#define SID_LSTEXP_NOISE_TITLE_TEXT  ID_LIST_STRINGS + 25
+
+#define SID_LSTIMP_NTL_TITLE_TEXT    ID_LIST_STRINGS + 26
+#define SID_LSTIMP_FTL_TITLE_TEXT    ID_LIST_STRINGS + 27
+#define SID_LSTIMP_EXCL_TITLE_TEXT   ID_LIST_STRINGS + 28
+#define SID_LSTIMP_NOISE_TITLE_TEXT  ID_LIST_STRINGS + 29
+
+#define SID_LISTIMP_DIR_LB_TITLE     ID_LIST_STRINGS + 30
+#define SID_LISTIMP_LIST_LB_TITLE    ID_LIST_STRINGS + 31
+
+#define SID_LISTWORK_MKNOT_PB        ID_LIST_STRINGS + 32
+#define SID_LISTWORK_MKALL_PB        ID_LIST_STRINGS + 33
+
+#define SID_LISTEDIT_SAVETO_TEXT    ID_LIST_STRINGS + 34
+#define SID_LISTEDIT_NAME_TEXT      ID_LIST_STRINGS + 35
+#define SID_LISTEDIT_SAVE_TEXT      ID_LIST_STRINGS + 36
+#define SID_LISTEDIT_CREATE_TEXT    ID_LIST_STRINGS + 37
+
+#define SID_LST_EXCL_TITLE          ID_LIST_STRINGS + 38
+#define SID_LST_NTL_TITLE           ID_LIST_STRINGS + 39
+#define SID_LST_NOISE_TITLE         ID_LIST_STRINGS + 40
+#define SID_LST_FTL_TITLE           ID_LIST_STRINGS + 41
+#define SID_LST_ABR_TITLE           ID_LIST_STRINGS + 42
+#define SID_LSTEDIT_ABRTITLE_TEXT   ID_LIST_STRINGS + 43
+#define SID_LST_ADD_TITLE           ID_LIST_STRINGS + 44
+#define SID_LSTEDIT_ADDTITLE_TEXT   ID_LIST_STRINGS + 45
+
+/**********************************************************************/
+/* IDs for List Edit Dialog (LISTEDIT)                                */
+/**********************************************************************/
+#define ID_LISTEDIT_TERM_MLE    ID_LISTEDIT_NEW_NOIS_DLG + 1
+#define ID_LISTEDIT_SAVETO_CB   ID_LISTEDIT_NEW_NOIS_DLG + 2
+#define ID_LISTEDIT_SAVE_PB     ID_LISTEDIT_NEW_NOIS_DLG + 3
+#define ID_LISTEDIT_CANCEL_PB   ID_LISTEDIT_NEW_NOIS_DLG + 4
+#define ID_LISTEDIT_HELP_PB     ID_LISTEDIT_NEW_NOIS_DLG + 5
+#define ID_LISTEDIT_SAVETO_TEXT ID_LISTEDIT_NEW_NOIS_DLG + 6
+
+/**********************************************************************/
+/* IDs for List Export Dialog (LISTEXP)                               */
+/**********************************************************************/
+#define ID_LISTEXP_FORMAT_GB          ID_LISTEXP_NTL_DLG+1
+#define ID_LISTEXP_MAT_RB             ID_LISTEXP_NTL_DLG+2
+#define ID_LISTEXP_USER_RB            ID_LISTEXP_NTL_DLG+3
+#define ID_LISTEXP_EXTERNAL_RB        ID_LISTEXP_NTL_DLG+4
+#define ID_LISTEXP_EXPORT_TEXT        ID_LISTEXP_NTL_DLG+5
+#define ID_LISTEXP_EXPORT_EF          ID_LISTEXP_NTL_DLG+6
+#define ID_LISTEXP_TO_GB              ID_LISTEXP_NTL_DLG+7
+#define ID_LISTEXP_DUMMY              ID_LISTEXP_NTL_DLG+8
+#define ID_LISTEXP_NAME_TEXT          ID_LISTEXP_NTL_DLG+9
+#define ID_LISTEXP_DIR_TEXT           ID_LISTEXP_NTL_DLG+10
+#define ID_LISTEXP_NAME_EF            ID_LISTEXP_NTL_DLG+11
+#define ID_LISTEXP_DIR_LB             ID_LISTEXP_NTL_DLG+12
+#define ID_LISTEXP_EXPORT_PB          ID_LISTEXP_NTL_DLG+13
+#define ID_LISTEXP_CANCEL_PB          ID_LISTEXP_NTL_DLG+14
+#define ID_LISTEXP_HELP_PB            ID_LISTEXP_NTL_DLG+15
+#define ID_LISTEXP_CURDIR_TEXT        ID_LISTEXP_NTL_DLG+16
+#define ID_LISTEXP_CURDIR_EF          ID_LISTEXP_NTL_DLG+17
+#define ID_LISTEXP_FORMAT_CB          ID_LISTEXP_NTL_DLG+18
+
+/**********************************************************************/
+/* IDs for List Import Dialog (LISTIMP)                               */
+/**********************************************************************/
+#define ID_LISTIMP_FORMAT_GB         ID_LISTIMP_NTL_DLG+1
+#define ID_LISTIMP_EXTERNAL_RB       ID_LISTIMP_NTL_DLG+2
+#define ID_LISTIMP_MAT_RB            ID_LISTIMP_NTL_DLG+3
+#define ID_LISTIMP_USER_RB           ID_LISTIMP_NTL_DLG+4
+#define ID_LISTIMP_IMPORT_GB         ID_LISTIMP_NTL_DLG+5
+#define ID_LISTIMP_DUMMY             ID_LISTIMP_NTL_DLG+6
+#define ID_LISTIMP_FILENAME_TEXT     ID_LISTIMP_NTL_DLG+7
+#define ID_LISTIMP_PATH_EF           ID_LISTIMP_NTL_DLG+8
+#define ID_LISTIMP_DIR_TEXT          ID_LISTIMP_NTL_DLG+9
+#define ID_LISTIMP_FILES_TEXT        ID_LISTIMP_NTL_DLG+10
+#define ID_LISTIMP_DIR_LB            ID_LISTIMP_NTL_DLG+11
+#define ID_LISTIMP_FILES_LB          ID_LISTIMP_NTL_DLG+12
+#define ID_LISTIMP_TO_TEXT           ID_LISTIMP_NTL_DLG+13
+#define ID_LISTIMP_TO_LB             ID_LISTIMP_NTL_DLG+14
+#define ID_LISTIMP_OK_PB             ID_LISTIMP_NTL_DLG+15
+#define ID_LISTIMP_CANCEL_PB         ID_LISTIMP_NTL_DLG+16
+#define ID_LISTIMP_HELP_PB           ID_LISTIMP_NTL_DLG+17
+#define ID_LISTIMP_CURDIR_TEXT       ID_LISTIMP_NTL_DLG+18
+#define ID_LISTIMP_NEWCURDIR_TEXT    ID_LISTIMP_NTL_DLG+19
+#define ID_LISTIMP_FORMAT_CB         ID_LISTIMP_NTL_DLG+20

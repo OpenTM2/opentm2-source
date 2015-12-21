@@ -1,0 +1,531 @@
+<commands>
+  <wrapper>
+    <command command="" endcommand="ENDIF" id="condition" name="Condition"/>
+    <command command="" endcommand="" id="commentblock" name="Comment Block"/>
+  </wrapper>
+  <functions>
+    <command command="DEC" id="decrease" name="Decrease">
+      <parameter id="name" name="name" type="variable"/>
+    </command>
+    <command command="ADD" id="add" name="Add">
+      <parameter id="name" name="name" type="variable"/>
+      <parameter id="value" name="value" type="uint"/>
+    </command>
+    <command command="DEFINE" id="define" name="Define">
+      <parameter id="name" name="name" type="constant"/>
+      <parameter id="value" name="value" type="constant"/>
+    </command>
+    <command command="INC" id="increase" name="Increase">
+      <parameter id="name" name="name"/>
+    </command>
+    <command command="SETVALUE" id="setvalue" name="Set Value">
+      <parameter id="name" name="name" type="variable"/>
+      <parameter id="value" name="value" type="value"/>
+    </command>
+    <command command="SUB" id="substract" name="Substract">
+      <parameter id="name" name="name" type="variable"/>
+      <parameter id="value" name="value" type="uint"/>
+    </command>
+    <command command="SLEEP" id="sleep" name="Sleep">
+      <parameter id="time" name="time" type="uint"/>
+    </command>
+    <command command="GOTO" id="goto" name="Go to">
+      <parameter id="marker" name="marker"/>
+    </command>
+    <command command="GOTOCOND" id="gotowithcondition" name="Go to with Condition">
+      <parameter id="marker" name="marker"/>
+      <parameter id="condition" name="condition" type="condition"/>
+    </command>
+    <command command="INCLUDE" id="include" name="Include">
+      <parameter id="scriptpath" name="ScriptPath"/>
+    </command>
+    <command command="SAVERETURNCODE" id="savereturncode" name="Save return code">
+      <parameter id="variable" name="variable" type="variable"/>
+    </command>
+    <command command="TESTRESULT" id="testresult" name="TestResult">
+      <parameter id="variable" name="variable" type="variable"/>
+      <parameter id="errormsg" name="errormsg" type="variable"/>
+    </command>
+    <command command="DELETEFILE" id="deletefile" name="DeleteFile">
+      <parameter id="variable" name="variable" type="variable"/>
+    </command>
+    <command command="#" id="hashmarker" name="Marker #">
+      <parameter id="markername" name="Markername"/>
+    </command>
+    <command command="COMPAREBINARY" id="comparebinary" name="Compare binary">
+      <parameter id="firstfile" name="FirstFile"/>
+      <parameter id="secondfile" name="SecondFile"/>
+    </command>
+    <command command="COMPAREWORDCOUNT" id="comparewordcount" name="Compare wordcount">
+      <parameter id="firstfile" name="FirstFile"/>
+      <parameter id="secondfile" name="SecondFile"/>
+    </command>
+    <command command="ECHO" id="echo" name="Echo">
+      <parameter id="output" name="Output"/>
+    </command>
+    <command command="MARKER" id="marker" name="Marker">
+      <parameter id="markername" name="Markername"/>
+    </command>
+    <command command="*" id="comment" name="Comment">
+      <parameter id="comment" name="comment" optional="true"/>
+    </command>
+  </functions>
+  <blocks>
+    <command command="IF" endcommand="" id="if" name="If" usewrapper="condition">
+      <parameter id="condition" name="condition" type="condition"/>
+    </command>
+    <command command="ELSEIF" endcommand="" id="elseif" name="Else If">
+      <parameter id="condition" name="condition" type="condition"/>
+    </command>
+    <command command="ELSE" endcommand="" id="else" name="Else"/>
+    <command command="FOR" endcommand="ENDFOR" id="loopfor" name="Loop For">
+      <parameter id="variable" name="variable" type="variable"/>
+      <parameter id="startvalue" name="startvalue" type="uint"/>
+      <parameter id="condition" name="condition" type="condition"/>
+      <parameter id="action" name="action" type="action"/>
+    </command>
+    <command command="TESTCASE" endcommand="END" id="testcase" name="TestCase">
+      <parameter id="casename" name="casename" type="variable"/>
+      <parameter id="description" name="description" type="variable"/>
+    </command>
+  </blocks>
+  <api>
+    <command command="EqfCreateFolder" description="" id="eqfcreatefolder" name="EqfCreateFolder">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="folder description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+      <parameter description="folder target drive" id="chtargetdrive" name="chTargetDrive" optional="true" type="char"/>
+      <parameter description="folder Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="folder markup" id="pszmarkup" name="pszMarkup"/>
+      <parameter description="folder editor" id="pszeditor" name="pszEditor" optional="true"/>
+      <parameter description="list of dictionaries or NULL" id="pszdictionaries" name="pszDictionaries" optional="true"/>
+      <parameter description="folder source language" id="pszsourcelanguage" name="pszSourceLanguage"/>
+      <parameter description="folder target language" id="psztargetlanguage" name="pszTargetLanguage"/>
+      <parameter description="export conversion or NULL" id="pszconversion" name="pszConversion" optional="true"/>
+      <parameter description="list of readonly TMs or NULL" id="pszreadonlymems" name="pszReadOnlyMems" optional="true"/>
+    </command>
+    <command command="EqfCreateControlledFolder" description="" id="eqfcreatecontrolledfolder" name="EqfCreateControlledFolder">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="folder description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+      <parameter description="folder target drive" id="chtargetdrive" name="chTargetDrive" optional="true" type="char"/>
+      <parameter description="folder Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="folder markup" id="pszmarkup" name="pszMarkup"/>
+      <parameter description="folder editor" id="pszeditor" name="pszEditor" optional="true"/>
+      <parameter description="list of dictionaries or NULL" id="pszdictionaries" name="pszDictionaries" optional="true"/>
+      <parameter description="folder source language" id="pszsourcelanguage" name="pszSourceLanguage"/>
+      <parameter description="folder target language" id="psztargetlanguage" name="pszTargetLanguage"/>
+      <parameter description="export conversion or NULL" id="pszconversion" name="pszConversion" optional="true"/>
+      <parameter description="list of readonly TMs or NULL" id="pszreadonlymems" name="pszReadOnlyMems" optional="true"/>
+      <parameter description="password" id="pszpassword" name="pszPassword"/>
+      <parameter description="name of the project coordinator" id="pszprojcoordname" name="pszProjCoordName" optional="true"/>
+      <parameter description="project coordinator's mail" id="pszprojcoordmail" name="pszProjCoordMail" optional="true"/>
+      <parameter description="name of the translator" id="psztranslatorname" name="pszTranslatorName" optional="true"/>
+      <parameter description="translator's mail" id="psztranslatormail" name="pszTranslatorMail" optional="true"/>
+      <parameter description="Name of the product" id="pszproductname" name="pszProductName" optional="true"/>
+      <parameter description="Product Famiily" id="pszproductfamily" name="pszProductFamily" optional="true"/>
+      <parameter description="Similar Product Family" id="pszsimilarproduct" name="pszSimilarProduct" optional="true"/>
+      <parameter description="Product subject area dictionary" id="pszproductdict" name="pszProductDict" optional="true"/>
+      <parameter description="Product subject area memory" id="pszproductmem" name="pszProductMem" optional="true"/>
+      <parameter description="Previous version of the product" id="pszpreviousversion" name="pszPreviousVersion" optional="true"/>
+      <parameter description="Version of the Product" id="pszversion" name="pszVersion" optional="true"/>
+      <parameter description="Shipment number" id="pszshipmentnumber" name="pszShipmentNumber" optional="true"/>
+    </command>
+    <command command="EqfChangeFolProps" description="" id="eqfchangefolprops" name="EqfChangeFolProps">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="target drive" id="chtargetdrive" name="chTargetDrive" optional="true" type="char"/>
+      <parameter description="target language or NULL" id="psztargetlanguage" name="pszTargetLanguage" optional="true"/>
+      <parameter description="folder Translation Memory or NULL" id="pszmemname" name="pszMemName" optional="true"/>
+      <parameter description="list of dictionaries or NULL" id="pszdictionaries" name="pszDictionaries" optional="true"/>
+    </command>
+    <command command="EqfChangeFolPropsEx" description="" id="eqfchangefolpropsex" name="EqfChangeFolPropsEx">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="target drive" id="chtargetdrive" name="chTargetDrive" optional="true" type="char"/>
+      <parameter description="target language or NULL" id="psztargetlanguage" name="pszTargetLanguage" optional="true"/>
+      <parameter description="folder Translation Memory or NULL" id="pszmemname" name="pszMemName" optional="true"/>
+      <parameter description="list of dictionaries or NULL" id="pszdictionaries" name="pszDictionaries" optional="true"/>
+      <parameter description="list of read-only search memories or NULL" id="pszromemories" name="pszROMemories" optional="true"/>
+      <parameter description="folder description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+      <parameter description="calculation profile name or NULL" id="pszprofile" name="pszProfile" optional="true"/>
+      <parameter description="for future enhancements, currently NULL" id="pszunused2" name="pszUnUsed2" optional="true"/>
+    </command>
+    <command command="EqfCreateSubFolder" description="" id="eqfcreatesubfolder" name="EqfCreateSubFolder">
+      <parameter description="name of parent (sub)folder" id="pszparentfolder" name="pszParentFolder"/>
+      <parameter description="subfolders name" id="pszsubfoldername" name="pszSubFolderName"/>
+      <parameter description="subfolders Translation Memory or NULL" id="pszmemname" name="pszMemName" optional="true"/>
+      <parameter description="name of Markup used for subfolder" id="pszmarkup" name="pszMarkup" optional="true"/>
+      <parameter description="Source Language used for subfolder or NULL" id="pszsourcelanguage" name="pszSourceLanguage" optional="true"/>
+      <parameter description="Target Language used for subfolder or NULL" id="psztargetlanguage" name="pszTargetLanguage" optional="true"/>
+      <parameter description="editor used by sub folder  or NULL" id="pszeditor" name="pszEditor" optional="true"/>
+      <parameter description="Conversion used for subfolder or NULL" id="pszconversion" name="pszConversion" optional="true"/>
+      <parameter description="Name of translator or NULL" id="psztranslator" name="pszTranslator" optional="true"/>
+      <parameter description="Mail of translator or NULL" id="psztranslatormail" name="pszTranslatorMail" optional="true"/>
+    </command>
+    <command command="EqfExportFolder" description="" id="eqfexportfolder" name="EqfExportFolder">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="folder target drive" id="chtargetdrive" name="chTargetDrive" type="char"/>
+      <parameter description="options for the folder export or 0L
+@Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
+@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+      <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+    </command>
+    <command command="EqfExportFolderFP" description="" id="eqfexportfolderfp" name="EqfExportFolderFP">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="folder target path" id="psztargetpath" name="pszTargetPath"/>
+      <parameter description="options for the folder export or 0L
+@Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
+@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+      <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+    </command>
+    <command command="EqfExportFolderFPas" description="" id="eqfexportfolderfpas" name="EqfExportFolderFPas">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="folder target path" id="psztargetpath" name="pszTargetPath"/>
+      <parameter description="Export as - optional new name for exported folder" id="pszexportas" name="pszExportAs" optional="true"/>
+      <parameter description="options for the folder export or 0L
+@Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
+@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+      <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+      <parameter description="export name for memory in folder" id="pszmemoryexportas" name="pszMemoryExportAs" optional="true"/>
+    </command>
+    <command command="EqfCountWords" description="" id="eqfcountwords" name="EqfCountWords">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="options for the word count
+@Wordount:      TMMATCH_OPT{SEPERATEREPLMATCH_OPT},
+SOURCE_OPT, TARGET_OPT(default), DUPLICATE_OPT, DUPMEMMATCH_OPT
+@Output Format: XML_OUTPUT_OPT, HTML_OUTPUT_OPT, TEXT_OUTPUT_OPT(default)
+@Other:         {SEPERATEREPLMATCH_OPT,OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+      <parameter description="fully qualified output file" id="pszoutfile" name="pszOutFile"/>
+    </command>
+    <command command="EqfImportDict" description="" id="eqfimportdict" name="EqfImportDict">
+      <parameter description="fully qualified name of input file" id="pszinfile" name="pszInFile"/>
+      <parameter description="name of dictionary" id="pszdictname" name="pszDictName"/>
+      <parameter description="password of dictionary" id="pszpassword" name="pszPassword" optional="true"/>
+      <parameter description="dictionary import options
+@Import Mode: ASCII_OPT,ANSI_OPT,DXT_UTF8_OPT,UTF16_OPT(default)
+@Merge Mode:  IGNORE_OPT, REPLACE_OPT, COMBINE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfExportDict" description="" id="eqfexportdict" name="EqfExportDict">
+      <parameter description="name of dictionary" id="pszdictname" name="pszDictName"/>
+      <parameter description="dictionary export options or 0L
+@Export Mode: ASCII_OPT, ANSI_OPT, DXT_UTF8_OPT, UTF16_OPT(default)
+@Other: OVERWRITE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+      <parameter description="fully qualified name of output file" id="pszoutfile" name="pszOutFile"/>
+    </command>
+    <command command="EqfImportDoc" description="" id="eqfimportdoc" name="EqfImportDoc">
+      <parameter description="name of folder receiving the documents" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of input files (documents)" id="pszfiles" name="pszFiles"/>
+      <parameter description="document Translation Memory or NULL" id="pszmemname" name="pszMemname" optional="true"/>
+      <parameter description="document markup or NULL" id="pszmarkup" name="pszMarkup" optional="true"/>
+      <parameter description="document editor or NULL" id="pszeditor" name="pszEditor" optional="true"/>
+      <parameter description="document source language or NULL" id="pszsourcelanguage" name="pszSourceLanguage" optional="true"/>
+      <parameter description="document target language or NULL" id="psztargetlanguage" name="pszTargetLanguage" optional="true"/>
+      <parameter description="alias for document name or NULL" id="pszalias" name="pszAlias" optional="true"/>
+      <parameter description="optional start path" id="pszstartpath" name="pszStartPath" optional="true"/>
+      <parameter description="optional document conversion" id="pszconversion" name="pszConversion" optional="true"/>
+      <parameter description="document import options or 0L
+@Option: OVERWRITE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfExportDoc" description="" id="eqfexportdoc" name="EqfExportDoc">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents with path information" id="pszfiles" name="pszFiles"/>
+      <parameter description="optional start path" id="pszstartpath" name="pszStartPath" optional="true"/>
+      <parameter description="options for document export
+@GROUP: [Exoprt File,Export Format]
+@Exoprt File: SOURCE_OPT,TARGET_OPT(default),SNOMATCH_OPT
+@Export Format: PLAINXML_OPT,
+VALFORMAT_XML_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
+VALFORMAT_DOC_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
+VALFORMAT_ODT_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
+VALFORMAT_HTML_OPT{VALFORMAT_COMBINE_OPT VALFORMAT_PROTSEGS_OPT}
+@Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfImportMem" description="" id="eqfimportmem" name="EqfImportMem">
+      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="fully qualified name of input file" id="pszinfile" name="pszInFile"/>
+      <parameter description="options for Translation Memory import
+@Import Mode: TMX_OPT{CLEANRTF_OPT}, XLIFF_MT_OPT,UTF16_OPT,ANSI_OPT,ASCII_OPT(default)
+@Other: {CLEANRTF_OPT,IGNORE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfExportMem" description="" id="eqfexportmem" name="EqfExportMem">
+      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="fully qualified name of output file" id="pszoutfile" name="pszOutFile"/>
+      <parameter description="options for Translation Memory export
+@Export Mode: UTF16_OPT,ANSI_OPT,TMX_UTF8_OPT{TMX_NOCRLF_OPT},TMX_UTF16_OPT{TMX_NOCRLF_OPT},ASCII_OPT(default)
+@Other: OVERWRITE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfOrganizeMem" description="" id="eqforganizemem" name="EqfOrganizeMem">
+      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemname"/>
+    </command>
+    <command command="EqfCreateMem" description="" id="eqfcreatemem" name="EqfCreateMem">
+      <parameter description="name of new Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="description for new Translation Memory or NULL" id="pszdescription" name="pszDescription" optional="true"/>
+      <parameter description="target drive for new Translation Memory" id="chtodrive" name="chToDrive" optional="true" type="char"/>
+      <parameter description="Translation Memory source language" id="pszsourcelanguage" name="pszSourceLanguage"/>
+      <parameter description="type of new Translation Memory
+@Location:SHARED_OPT,LOCAL_OPT(default)" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfCreateITM" description="" id="eqfcreateitm" name="EqfCreateITM">
+      <parameter description="name of new Translation Memory" id="pszmemname" name="pszMemName"/>
+      <parameter description="list of filepairs or NULL" id="pszfilepairs" name="pszFilePairs" optional="true"/>
+      <parameter description="use markup table" id="pszmarkup" name="pszMarkup"/>
+      <parameter description="external memory name or NULL" id="pszsgmlmemfile" name="pszSGMLMemFile" optional="true"/>
+      <parameter description="Translation Memory source language" id="pszsourcelanguage" name="pszSourceLanguage"/>
+      <parameter description="Translation Memory target language" id="psztargetlanguage" name="pszTargetLanguage"/>
+      <parameter description="Startpath not stored for source files or NULL" id="pszsourcestartpath" name="pszSourceStartPath" optional="true"/>
+      <parameter description="Startpath not stored for target files or NULL" id="psztargetstartpath" name="pszTargetStartPath" optional="true"/>
+      <parameter description="type of creation
+@Type:{NOANA_TYP,NOTM_TYP,PREPARE_TYP}" id="ltype" name="lType" optional="true" type="long"/>
+    </command>
+    <command command="EqfChangeMFlag" description="" id="eqfchangemflag" name="EqfChangeMFlag">
+      <parameter description="name of new Translation Memory" id="pszmemname" name="pszMemName"/>
+      <parameter description="type of action
+@Action:CLEAR_MMOPT,SET_MMOPT" id="laction" name="lAction" type="long"/>
+    </command>
+    <command command="EqfAnalyzeDoc" description="" id="eqfanalyzedoc" name="EqfAnalyzeDoc">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list with document names or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="Translation Memory for analysis" id="pszmemname" name="pszMemname" optional="true"/>
+      <parameter description="options for analysis
+@:{TMMATCH_OPT,ADDTOMEM_OPT,AUTOSUBST_OPT,UNTRANSLATED_OPT,
+AUTOLAST_OPT,AUTOJOIN_OPT,AUTOCONTEXT_OPT,REDUNDCOUNT_OPT,
+OVERWRITE_OPT,IGNOREPATH_OPT,ADJUSTLEADWS_OPT,ADJUSTTRAILWS_OPT,
+NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,
+RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfAnalyzeDocEx" description="" id="eqfanalyzedocex" name="EqfAnalyzeDocEx">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list with document names or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="Translation Memory for analysis" id="pszmemname" name="pszMemname" optional="true"/>
+      <parameter description="analyis profile name or NULL" id="pszprofile" name="pszProfile" optional="true"/>
+      <parameter description="reserved for future enhancements, has to be NULL" id="pvreserved" name="pvReserved" optional="true" type="pvoid"/>
+      <parameter description="options for analysis
+@:{TMMATCH_OPT,ADDTOMEM_OPT,AUTOSUBST_OPT,UNTRANSLATED_OPT,
+AUTOLAST_OPT,AUTOJOIN_OPT,AUTOCONTEXT_OPT,REDUNDCOUNT_OPT,
+OVERWRITE_OPT,IGNOREPATH_OPT,ADJUSTLEADWS_OPT,ADJUSTTRAILWS_OPT,
+NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,
+RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfDeleteMem" description="" id="eqfdeletemem" name="EqfDeleteMem">
+      <parameter description="Translation Memory being deleted" id="pszmemname" name="pszMemName"/>
+    </command>
+    <command command="EqfImportFolder" description="" id="eqfimportfolder" name="EqfImportFolder">
+      <parameter description="name of folder being imported" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="drive containing the imported folder" id="chfromdrive" name="chFromDrive" type="char"/>
+      <parameter description="target drive for folder" id="chtodrive" name="chToDrive" optional="true" type="char"/>
+      <parameter description="folder import options
+@Import Mode: XLIFF_OPT
+@Other: {WITHDICT_OPT, WITHMEM_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfImportFolderFP" description="" id="eqfimportfolderfp" name="EqfImportFolderFP">
+      <parameter description="name of folder being imported" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="path containing the imported folder" id="pszfrompath" name="pszFromPath"/>
+      <parameter description="target drive for folder" id="chtodrive" name="chToDrive" optional="true" type="char"/>
+      <parameter description="folder import options
+@Import Mode: XLIFF_OPT
+@Other: {WITHDICT_OPT, WITHMEM_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfDeleteFolder" description="" id="eqfdeletefolder" name="EqfDeleteFolder">
+      <parameter description="name of folder being deleted" id="pszfoldername" name="pszFolderName"/>
+    </command>
+    <command command="EqfGetFolderProp" description="" id="eqfgetfolderprop" name="EqfGetFolderProp">
+      <parameter description="name of folder to get properties from" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="structure of Folderproperties to be returned" id="pextfolprop" name="pExtFolProp" type="pextfolprop"/>
+    </command>
+    <command command="EqfDeleteDoc" description="" id="eqfdeletedoc" name="EqfDeleteDoc">
+      <parameter description="name of folder containing the documents" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents being deleted" id="pszdocuments" name="pszDocuments"/>
+    </command>
+    <command command="EqfCreateCountReport" description="" id="eqfcreatecountreport" name="EqfCreateCountReport">
+      <parameter description="name of folder containing the documents" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents being counted" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="fully qualified name of output file" id="pszoutfile" name="pszOutFile"/>
+      <parameter description="ID of report being created
+@Report ID:CALCULATING_REP,PREANALYSIS_REP,REDUNDANCY_REP,REDUNDANCYSEGMENT_REP" id="usreport" name="usReport" type="ushort"/>
+      <parameter description="type of report being created
+@Type:BASE_REPTYPE,BASE_SUMMARY_REPTYPE,BASE_SUMMARY_FACTSHEET_REPTYPE,SUMMARY_FACTSHEET_REPTYPE,FACTSHEET_REPTYPE" id="ustype" name="usType" type="ushort"/>
+      <parameter description="name of profile" id="pszprofile" name="pszProfile" optional="true"/>
+      <parameter description="output format
+@Output Foramt: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
+@Other: OVERWRITE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfArchiveTM" description="" id="eqfarchivetm" name="EqfArchiveTM">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="drive" id="chtodrive" name="chToDrive" optional="true" type="char"/>
+      <parameter description="list with document names or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="output Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="options for analysis
+@Options: {USEASFOLDERTM_OPT,SOURCESOURCEMEM_OPT,SETMFLAG_OPT,OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfCreateMarkup" description="" id="eqfcreatemarkup" name="EqfCreateMarkup">
+      <parameter description="fully qualified name of input file" id="pszinfile" name="pszInFile"/>
+      <parameter description="fully qualified name of output file" id="pszoutfile" name="pszOutFile"/>
+    </command>
+    <command command="EqfStartSession" description="" id="eqfstartsession" name="EqfStartSession">
+      <parameter description="ptr to callers Eqf session handle variable" id="phsession" name="phSession" type="phsession"/>
+    </command>
+    <command command="EqfEndSession" description="" id="eqfendsession" name="EqfEndSession"/>
+    <command command="EqfCreateCntReport" description="" id="eqfcreatecntreport" name="EqfCreateCntReport">
+      <parameter description="target drive letter" id="chdriveletter" name="chDriveLetter" optional="true" type="char"/>
+      <parameter description="name of folder containing the documents" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents being counted" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="type of report" id="preporttype" name="pReportType" type="preporttype"/>
+      <parameter description="fully qualified name of output file" id="pszoutfilename" name="pszOutfileName"/>
+      <parameter description="outpur format" id="pszformat" name="pszFormat"/>
+      <parameter description="name of profile" id="pszprofile" name="pszProfile" optional="true"/>
+      <parameter description="report settings" id="prepsettings" name="pRepSettings" type="preportsettings"/>
+      <parameter description="factsheet settings" id="pfactsheet" name="pFactSheet" type="pfactsheet"/>
+      <parameter description="column handling" id="uscolumn" name="usColumn" type="ushort"/>
+      <parameter description="category setting" id="uscategory" name="usCategory" type="ushort"/>
+      <parameter description="final factors" id="pfinalfactors" name="pFinalFactors" type="pfinalfactors"/>
+      <parameter description="security settings
+@Security:{PLAUS_OPT,LOST_OPT,LIST_OPT}" id="loptsecurity" name="lOptSecurity" optional="true" type="long"/>
+      <parameter description="shipment handlign" id="bsingleshipment" name="bSingleShipment" optional="true" type="bool"/>
+    </command>
+    <command command="EqfBuildSegDocName" description="" id="eqfbuildsegdocname" name="EqfBuildSegDocName">
+      <parameter description="pointer to long folder name w/p drive, path and ext" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="pointer to long document name" id="pszdocumentname" name="pszDocumentName"/>
+      <parameter description="TRUE (1)  = build segmented source file name
+FALSE (0) = build segmented target file name" id="fsource" name="fSource" type="ushort"/>
+      <parameter description="points to buffer for full file name
+must have a size of at least 60 characters" id="pszsegfile" name="pszSegFile"/>
+    </command>
+    <command command="EqfSetSysLanguage" description="" id="eqfsetsyslanguage" name="EqfSetSysLanguage">
+      <parameter description="System language to be set" id="psystemproplang" name="pSystemPropLang"/>
+    </command>
+    <command command="EqfGetSysLanguage" description="" id="eqfgetsyslanguage" name="EqfGetSysLanguage">
+      <parameter description="System language filled at output" id="psystemproplang" name="pSystemPropLang"/>
+    </command>
+    <command command="EqfCleanMemory" description="" id="eqfcleanmemory" name="EqfCleanMemory">
+      <parameter description="name of folder containing the translatable material" id="pszfolder" name="pszFolder"/>
+      <parameter description="fully qualified name of external input memory (encoding: UTF-16)" id="pszinmemory" name="pszInMemory"/>
+      <parameter description="name of internal output memory or fully qualified name of external output memory" id="pszoutmemory" name="pszOutMemory"/>
+      <parameter description="options for processing
+@Options:CLEANMEM_INTERNAL_MEMORY_OPT,CLEANMEM_EXTERNAL_MEMORY_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfRename" description="" id="eqfrename" name="EqfRename">
+      <parameter description="rename mode:
+@Mode:RENAME_FOLDER, RENAME_MEMORY, RENAME_DICTIONARY" id="usmode" name="usMode" type="ushort"/>
+      <parameter description="name of object being renamed" id="pszname" name="pszName"/>
+      <parameter description="new name of object" id="psznewname" name="pszNewName"/>
+      <parameter description="options for processing
+@Option:ADJUSTREFERENCES_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfProcessNomatch" description="" id="eqfprocessnomatch" name="EqfProcessNomatch">
+      <parameter description="fully qualified name of the SNOMATCh file, folder name or search path" id="psznomatch" name="pszNomatch"/>
+      <parameter description="name of the internal input memory" id="pszinmemory" name="pszInMemory"/>
+      <parameter description="name of internal output memory (is created if it does not exist)" id="pszoutmemory" name="pszOutMemory"/>
+      <parameter description="fully qualified file name of the memory match count report (text format)" id="pszmemmatchreporttext" name="pszMemMatchReportText" optional="true"/>
+      <parameter description="fully qualified file name of the memory match count report (XML format)" id="pszmemmatchreportxml" name="pszMemMatchReportXml" optional="true"/>
+      <parameter description="fully qualified file name of the duplicate word count report (text format)" id="pszdupreporttext" name="pszDupReportText" optional="true"/>
+      <parameter description="fully qualified file name of the duplicate word count report (XML format)" id="pszdupreportxml" name="pszDupReportXml" optional="true"/>
+      <parameter description="options for processing
+@Options: {COMPLETE_IN_ONE_CALL_OPT,RESPECTCRLF_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfProcessNomatchEx" description="" id="eqfprocessnomatchex" name="EqfProcessNomatchEx">
+      <parameter description="fully qualified name of the SNOMATCh file, folder name or search path" id="psznomatch" name="pszNomatch"/>
+      <parameter description="name of the internal input memory" id="pszinmemory" name="pszInMemory"/>
+      <parameter description="name of internal output memory (is created if it does not exist)" id="pszoutmemory" name="pszOutMemory"/>
+      <parameter description="fully qualified file name of the memory match count report (text format)" id="pszmemmatchreporttext" name="pszMemMatchReportText" optional="true"/>
+      <parameter description="fully qualified file name of the memory match count report (XML format)" id="pszmemmatchreportxml" name="pszMemMatchReportXml" optional="true"/>
+      <parameter description="fully qualified file name of the duplicate word count report (text format)" id="pszdupreporttext" name="pszDupReportText" optional="true"/>
+      <parameter description="fully qualified file name of the duplicate word count report (XML format)" id="pszdupreportxml" name="pszDupReportXml" optional="true"/>
+      <parameter description="fully qualified file name of the output nomatch file in nfluent XML format" id="pszoutnomatchxml" name="pszOutNomatchXml" optional="true"/>
+      <parameter description="fully qualified file name of the output nomatch file in TM EXP format" id="pszoutnomatchexp" name="pszOutNomatchExp" optional="true"/>
+      <parameter description="options for processing
+@Options: {COMPLETE_IN_ONE_CALL_OPT,RESPECTCRLF_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfOpenDoc" description="" id="eqfopendoc" name="EqfOpenDoc">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="name of document" id="pszdocument" name="pszDocument"/>
+      <parameter description="segment number of segment to be activated" id="ulsegnum" name="ulSegNum" optional="true" type="ulong"/>
+      <parameter description="line to be activated (ulSegNum has to be 0)" id="ulline" name="ulLine" optional="true" type="ulong"/>
+    </command>
+    <command command="EqfOpenDocEx" description="" id="eqfopendocex" name="EqfOpenDocEx">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="name of document" id="pszdocument" name="pszDocument"/>
+      <parameter description="segment number of segment to be activated" id="ulsegnum" name="ulSegNum" optional="true" type="ulong"/>
+      <parameter description="line to be activated (ulSegNum has to be 0)" id="ulline" name="ulLine" optional="true" type="ulong"/>
+      <parameter description="UTF-16 search string (ulSegNum and ulLine have to be 0)" id="pszsearch" name="pszSearch" optional="true" type="wchar_t*"/>
+    </command>
+    <command command="EqfDeleteMTLog" description="" id="eqfdeletemtlog" name="EqfDeleteMTLog">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+    </command>
+    <command command="EqfGetShortName" description="" id="eqfgetshortname" name="EqfGetShortName">
+      <parameter description="type of object being processed,
+@Type: FOLDER_OBJ, MEMORY_OBJ, DICT_OBJ, DOCUMENT_OBJ" id="objecttype" name="ObjectType" type="ushort"/>
+      <parameter description="long name of the object, for DOCUMENT_OBJ,
+use a colon between folder-name and document-name as &quot;folder-name:document-name&quot;" id="pszlongname" name="pszLongName"/>
+      <parameter description="buffer for returned short name" id="pszshortname" name="pszShortName"/>
+    </command>
+    <command command="EqfRemoveDocs" description="" id="eqfremovedocs" name="EqfRemoveDocs">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="name of text file containing the list of document names" id="pszlistfile" name="pszListFile"/>
+    </command>
+    <command command="EqfRestoreDocs" description="" id="eqfrestoredocs" name="EqfRestoreDocs">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+    </command>
+    <command command="EqfAddCTIDList" description="" id="eqfaddctidlist" name="EqfAddCTIDList">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="fully qualified name of the CTID list file" id="pszctidlistfile" name="pszCTIDListFile"/>
+    </command>
+    <command command="EqfExportSegs" description="" id="eqfexportsegs" name="EqfExportSegs">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list with document names or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="file containing start/stop tag list" id="pszstartstopfile" name="pszStartStopFile"/>
+      <parameter description="name of output file" id="pszoutfile" name="pszOutFile"/>
+      <parameter description="options
+@Other: {COMPLETE_IN_ONE_CALL_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfFolderExists" description="" id="eqffolderexists" name="EqfFolderExists">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+    </command>
+    <command command="EqfMemoryExists" description="" id="eqfmemoryexists" name="EqfMemoryExists">
+      <parameter description="name of the memory" id="pszmemoryname" name="pszMemoryName"/>
+    </command>
+    <command command="EqfDictionaryExists" description="" id="eqfdictionaryexists" name="EqfDictionaryExists">
+      <parameter description="name of the dictionary" id="pszdictionaryname" name="pszDictionaryName"/>
+    </command>
+    <command command="EqfDocumentExists" description="" id="eqfdocumentexists" name="EqfDocumentExists">
+      <parameter description="name of folder containing the document" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="name of the document" id="pszdocumentname" name="pszDocumentName"/>
+    </command>
+    <command command="EqfCountWordsInString" description="" id="eqfcountwordsinstring" name="EqfCountWordsInString">
+      <parameter description="name of the markup table to be used for the recognition of in-line tags,if this parameter is NULL no in-line tag recognition will be performed" id="pszmarkup" name="pszMarkup" optional="true" type="char*"/>
+      <parameter description="OpenTM2 name for the language of the given text" id="pszlanguage" name="pszLanguage" type="char*"/>
+      <parameter description="null-terminated string containing the text to be counted, the encoding is UTF-16" id="psztext" name="pszText" type="wchar_t*"/>
+      <parameter description="points to an unsigned long value receiving the number of words in the text" id="pulwords" name="pulWords" type="ulong*"/>
+      <parameter description="points to an unsigned long value receiving the number of inline tags in the text" id="pulinlinetags" name="pulInlineTags" type="ulong*"/>
+    </command>
+    <command command="EqfReduceToStemForm" description="" id="eqfreducetostemform" name="EqfReduceToStemForm">
+      <parameter description="name of the language being used for the stem form reduction" id="pszlanguage" name="pszLanguage" type="char*"/>
+      <parameter description="a comma seperated list of terms or NULL if a input file is being used" id="pszinputterms" name="pszInputTerms" type="char*"/>
+      <parameter description="the fully qualified name of a plain text file containing the terms, one term per line or NULL if pszInputTemrs is being used" id="pszinputfile" name="pszInputFile" type="char*"/>
+      <parameter description="name of the report file receiving the results of the operation, the report is in the XML format" id="pszreport" name="pszReport" type="char*"/>
+      <parameter description="options
+@Output Format:TEXT_OUTPUT_OPT,XML_OUTPUT_OPT(default)" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfClearMTFlag" description="" id="eqfclearmtflag" name="EqfClearMTFlag">
+      <parameter description="fully qualified file name of the input memory (the file is in EXP format)" id="pszinmemory" name="pszInMemory" type="char*"/>
+      <parameter description="fully qualified file name of the output memory, if not specified the input memory is changed directly" id="pszoutmemory" name="pszOutMemory" optional="true" type="char*"/>
+    </command>
+    <command command="EqfFilterNoMatchFile" description="" id="eqffilternomatchfile" name="EqfFilterNoMatchFile">
+      <parameter description="fully qualified file name of the input NOMATCH file in XML format" id="pszinnomatchxml" name="pszInNoMatchXML" type="char*"/>
+      <parameter description="fully qualified file name of the Global Memory option file" id="pszglobmemoptionfile" name="pszGlobMemOptionFile" type="char*"/>
+      <parameter description="Name of the internal memory being used for the lookup." id="pszmemory" name="pszMemory" type="char*"/>
+      <parameter description="fully qualified file name of the new NOMATCH file in the XML format" id="pszoutnomatchxml" name="pszOutNoMatchXML" optional="true" type="char*"/>
+      <parameter description="fully qualified file name of the new NOMATCH file in the EXP format" id="pszoutnomatchexp" name="pszOutNoMatchEXP" optional="true" type="char*"/>
+      <parameter description="fully qualified file name of the created memory match word count report" id="pszwordcountreport" name="pszWordCountReport" optional="true" type="char*"/>
+      <parameter description="options for the processing
+@Output Format: XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
+@Other: COMPLETE_IN_ONE_CALL_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfDeleteDict" description="" id="eqfdeletedict" name="EqfDeleteDict">
+      <parameter description="name of dictionary" id="pszdictname" name="pszDictName"/>
+    </command>
+    <command command="EqfGetVersionEx" description="" id="eqfgetversionex" name="EqfGetVersionEx">
+      <parameter description="to retrieve version information" id="pszversion" name="pszVersion"/>
+    </command>
+  </api>
+</commands>

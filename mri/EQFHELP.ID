@@ -1,0 +1,2914 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFHELP.ID - RESIDs for Dave and IPF help manager                         |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  ID Ranges:                                                                |
+  |      1 -   999    Helps for messages                                       |
+  |   1000 -  1999    Hypertext Links                                          |
+  |   2000 -  2999    TWB window and actionbar                                 |
+  |   3000 -  3999    Folder list window                                       |
+  |   4000 -  4999    Document list window                                     |
+  |   5000 -  5099    New folder dialog                                        |
+  |   5100 -  5199    Folder Properties Dialog                                 |
+  |   5200 -  5299    New Folder - Select Model Folder dialog                  |
+  |   6000 -  6999    Analysis (1) dialog                                      |
+  |   7000 -  7099    free                                                     |
+  |   7100 -  7199    Tag Table List Window                                    |
+  |   7200 -  7299    Tag Table Export Window                                  |
+  |   7300 -  7399    Tag Table Import Window                                  |
+  |   7400 -  7499    Tag Table Export Dialog                                  |
+  |   7500 -  7599    Tag Table Import Dialog                                  |
+  |   7600 -  7699    Word Count Dialog                                        |
+  |   7700 -  7799    Word Count Window                                        |
+  |   7800 -  7829    Folder Export Dialog                                     |
+  |   7830 -  7859    Folder Export Note Dialog                                |
+  |   7860 -  7869    Folder Export Window                                     |
+  |   7900 -  7929    Folder Import Dialog                                     |
+  |   7930 -  7959    Folder Import Info Dialog                                |
+  |   7960 -  7969    Folder Import Window                                     |
+  |   8000 -  8999    Document import dialog                                   |
+  |   9000 -  9999    Document export dialog                                   |
+  |  10000 - 10999    New translation memory / Create TM dialog                |
+  |  11000 - 11999    Translation memory import dialog                         |
+  |  12000 - 12999    Translation memory window                                |
+  |  13000 - 13299    Dictionary window                                        |
+  |  13300 - 13699    Dictionary Export Dialog                                 |
+  |  13700 - 13899    Dictionary Import Dialog                                 |
+  |  13900 - 13949    Dictionary Export Window                                 |
+  |  13950 - 13999    Dictionary Import Window                                 |
+  |  14000 - 14199    Translation memory export dialog                         |
+  |  14200 - 14399    Translation memory merge dialog                          |
+  |  15000 - 15099    Drives Dialog                                            |
+  |  15100 - 15999    free                                                     |
+  |  16000 - 16099    File/View Pulldown + View Dialogs for Folderlist         |
+  |  16100 - 16199    File/View Pulldown + View Dialogs for Document List      |
+  |  16200 - 16299    File/View Pulldown + View Dialogs for Translation Memory |
+  |  16300 - 16399    File/View Pulldown + View Dialogs for Dictioanry         |
+  |  17000 - 17099    Translation Processor - Actionbar Items                  |
+  |  17100 - 17199    Translation Processor - Find Dialog                      |
+  |  17200 - 17299    Translation Processor - Key Assignment Dialog            |
+  |  17300 - 17399    Translation Processor - Color/Font Dialog                |
+  |  17400 - 17499    Translation Processor - Open File Dialog                 |
+  |  17500 - 17599    Translation Processor - Test Sentence Dialog             |
+  |  17600 - 17699    Translation Processor - Right Margine Dialog             |
+  |  18100 - 18199    Dictionary Entry Display Dialog                          |
+  |  18200 - 18299    Dictionary Lookup Dialog                                 |
+  |  18300 - 18399    Dictionary Edit Dialog                                   |
+  |  18400 - 18499    Dictionary Properties Dialog                             |
+  |  18500 - 18599    Select Model Dictionary Dialog                           |
+  |  18600 - 18649    Dictionary Field Name Dialog                             |
+  |  18650 - 18699    Dictionary Change Name Dialog                            |
+  |  18700 - 18799    Delete Exported Folder Dialog                            |
+  |  18800 - 18899    Include Remote TM Dialog                                 |
+  |  18900 - 18999    Maintain Server List Dialog                              |
+  |  19000 - 19099    Dictionary Create Dialog                                 |
+  |  19100 - 19199    Dictionary Query Password Dialog                         |
+  |  19200 - 19299    Dictionary Enter Password Dialog                         |
+  |  19300 - 19399    Translation Processor - Spellcheck Dialog                |
+  |  19400 - 19499    Dictionary Merge Dialog                                  |
+  |  19500 - 19599    Analysis 2 Dialog (alias List Settings Dialog)           |
+  |  19600 -          new dialogs                                              |
+  |  30000 - 30999    WP/TM IF dialogs                                         |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 20 Jul 2009
+// GQ: - added HID_WCOUNT_FORMAT_CB (7623)
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 1 Apr 2009
+// GQ: - added help ID HID_SYSPROP_ENTITY_CHK (6227)
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 7 Nov 2008
+// GQ:- corrected/removed superfluos help IDs for analysis profile dialog
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Nov 2008
+// GQ: - added help IDs for analyiss profile dialog
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 1 Aug 2008
+// GQ: - added HID_WCOUNT_DUPMEMMATCH_CHK
+// 
+// 
+// $Revision: 1.2 $ ----------- 31 Jul 2008
+// GQ: - added IDs: HID_AN_PROFILE_CHK, HID_AN_PROFILE_CB, and HID_AN_PROFILE_PB
+//     - added IDs: HID_ANA_PROF_EXTHELP, HID_ANAPROF_GROUP_CB, HID_ANAPROF_AVAIL_LB, HID_ANAPROF_SELECT_PB,
+//       HID_ANAPROF_DESELECT_PB, HID_ANAPROF_SELECTED_LB, HID_ANAPROF_AUTOSUBST_CHK, HID_ANAPROF_NOMATCHSEGS_CHK,
+//       HID_ANAPROF_MEMMATCH_CHK, HID_ANAPROF_REDUND_CHK, HID_ANAPROF_LEADINGWS_CHK, HID_ANAPROF_TRAILINGWS_CHK,
+//       HID_ANAPROF_RESPECTCRLF_CHK, HID_ANAPROF_AUTOJOIN_CHK
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 14 Nov 2007
+// GQ: - modified help IDs for concordance search dialog: from 23100-23130 to 25200-25230
+// 
+// 
+// $Revision: 1.2 $ ----------- 13 Nov 2007
+// GQ: - added help IDs for concordance search dialog: HID_TB_CFIND_EXTHELP (23100) up to
+//       HID_TB_CFIND_RESFIND_PB (23130)
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 18 Jul 2007
+// GQ: - added HID_FOLIMP_FORMAT_CB (7920) and HID_FOLEXP_FORMAT_CB (7817)
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Nov 2006
+// GQ: - added id for duplicate words radio button of count dialog (HID_WCOUNT_DUPLICATE_RB)
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 11 Apr 2006
+// GQ: - added help ID for system properties SGML/DITA checkbox (HID_SYSPROP_SGMLDITA_CHK)
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 7 Dec 2005
+// GQ: - removed duplicate Help IDs (_MEMSEL_... + _DICSEL_... )
+// 
+//
+// $Revision: 1.2 $ ----------- 5 Dec 2005
+// GQ: - added help IDs for folder memory and dictionary selection dialog
+//
+//
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+//
+//
+// $Revision: 1.3 $ ----------- 23 Aug 2005
+// GQ: - added help IDs for folder import password dialog (HID_FOLIMPPW_...)
+//
+//
+// $Revision: 1.2 $ ----------- 20 Jul 2005
+// GQ: - added the help IDs: HID_NFOL_MEMCHANGE_PB, HID_NFOL_DICCHANGE_PB
+//     - added help IDs for memory (HID_FOLMEMSEL...) selection dialog
+//     - added help IDs for dictionary (HID_FOLDICSEL...) selection dialog
+//
+//
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+//
+//
+// $Revision: 1.2 $ ----------- 20 Dec 2004
+// --RJ: GLobal Find and Replace Dlg: add HID_FOLFIND_WHOLEWORD_CHK
+//
+//
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+//
+//
+// $Revision: 1.3 $ ----------- 15 Nov 2004
+// GQ: - adde dhelp IDs for MT Job dialog
+//
+//
+// $Revision: 1.2 $ ----------- 30 Sep 2004
+// --RJ: accessibility: add HIDs for ID_FILT2_DLG, ID_SORT_DLG, ID_SUBFOLDERNEW_DLG
+//
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.2 $ ----------- 2 Apr 2004
+// -- RJ:  add new HID_SYSPROP_LKUP_FUZZYSMALL_EF, HID_SYSPROP_LKUP_FUZZYMEDIUM_EF, HID_SYSPROP_LKUP_FUZZYLARGE_EF,
+// --    add new HID_FOLEXP_MASTER_CHK
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.4 $ ----------- 5 Nov 2003
+// --RJ: R007563: change wording to LKUPSINGLEOFCOMPOUNDS
+//
+//
+// $Revision: 1.3 $ ----------- 29 Oct 2003
+// --RJ: R007563: add HID_TB_PROFONE_NOLKUPSINGLEOFCOMPOUNDS
+//
+//
+// $Revision: 1.2 $ ----------- 8 Oct 2003
+// --RJ: P018279: add HID_MUPROP_GEN_REFLOW_CB
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.2 $ ----------- 2 Oct 2002
+// --RJ: add HID_SYSPROP_DEFTGTLANG_CB
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.3 $ ----------- 31 Oct 2001
+// GQ: - Added help ID for output conversion combobox of document export
+//
+//
+// $Revision: 1.2 $ ----------- 19 Oct 2001
+// GQ: - Added help IDs for fuyyiness levels in system preferences dialog
+//     - Added help IDs for markup table properties dialogs and ...pages
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.7 $ ----------- 7 May 2001
+// GQ: Added help ID for 'search in translatable text only' checkbox
+// -- RJ: add help ids for PROFILE settings new fields
+//
+//
+// $Revision: 1.6 $ ----------- 16 Oct 2000
+// -- add help id's for new items in editor and ITM
+//
+//
+// $Revision: 1.5 $ ----------- 10 Jul 2000
+// added folder import property sheet
+//
+//
+// $Revision: 1.4 $ ----------- 14 Feb 2000
+// - added help IDs for analysis whitespace handling and new folder export flags
+//
+//
+// $Revision: 1.3 $ ----------- 10 Jan 2000
+// - added help IDs for new analysis options
+// - added help IDs for system property dialog
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFHELP.IV_   1.36   01 Oct 1999 17:09:06   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFHELP.IV_  $
+ *
+ *    Rev 1.36   01 Oct 1999 17:09:06   BUILD
+ * - added help IDs for counting report and archive TM menu item
+ *
+ *    Rev 1.35   26 Jul 1999 11:48:32   BUILD
+ * -- R004422_BACKSAVE: add IDs for HID_TB_PPROP_BACKTASKS_EXTHELP
+ *
+ *    Rev 1.34   05 Jul 1999 10:15:28   BUILD
+ * -- add various help ids
+ *
+ *    Rev 1.33   07 Jun 1999 10:29:50   BUILD
+ * - added help IDs for analysis property sheet
+ *
+ *    Rev 1.32   17 May 1999 13:32:52   BUILD
+ * - added help IDs for conversion fields of document and folder properties
+ *
+ *    Rev 1.31   03 May 1999 09:17:46   BUILD
+ * -- R004357_HLMISSPELLED: add HID_TP_MAIN_AUTOSPELL, HID_TP_MAIN_NEXTMISSPELL
+ *
+ *    Rev 1.30   22 Feb 1999 14:13:08   BUILD
+ * -- add help ids for property sheet dialog
+ *
+ *    Rev 1.29   07 Dec 1998 11:39:36   BUILD
+ * added help for counting report
+ *
+ *    Rev 1.28   16 Nov 1998 16:25:48   BUILD
+ * - added help IDs for with relative path radiobuttons
+ *
+ *    Rev 1.27   12 Oct 1998 17:49:48   BUILD
+ * add MT property help
+ *
+ *    Rev 1.26   14 Sep 1998 15:28:48   BUILD
+ * added hid_offeset_file_kill_mi
+ *
+ *    Rev 1.25   06 Mar 1998 15:46:08   BUILD
+ * new counting report
+ *
+ *    Rev 1.24   24 Nov 1997 10:59:16   BUILD
+ * -- A48: add help for trnote
+ *
+ *    Rev 1.23   12 Nov 1997 13:42:48   BUILD
+ * - added help offset IDs for print list and rename menu item
+ * - added help IDs for rename dialog
+ *
+ *    Rev 1.22   04 Nov 1997 11:15:52   BUILD
+ * - added help ID for TM replace match checkbox of word count dialog
+ *
+ *    Rev 1.21   08 Sep 1997 10:40:30   BUILD
+ * -- TOP97_A50:  automatic linewrap within ITM
+ *
+ *    Rev 1.20   19 Aug 1997 14:01:56   BUILD
+ * - A.57c "Special handling for document TMs"
+ *   added help ID for "With document TM" checkbox of folder export dialog
+ *
+ *    Rev 1.19   28 Jul 1997 10:23:18   BUILD
+ * - A57g: added help IDs for TM property dialog
+ *
+ *    Rev 1.18   30 Jun 1997 14:22:04   BUILD
+ * -- A50: add HID_TB_PROFONE_ACTLINE_EF / RMARGIN_CBS, TMWND_CBS
+ *
+ *    Rev 1.17   23 Jun 1997 10:08:28   BUILD
+ * -- add HID_IDM_NEXTBAD_MI 17965, HID_IDM_PREVBAD_MI 17970
+ *
+ *    Rev 1.16   11 Jun 1997 17:18:26   BUILD
+ * - added help IDs for TM Match counting
+ *
+ *    Rev 1.15   05 Mar 1997 09:45:10   BUILD
+ * - added help IDs for new controls in document properties and new document
+ *   dialog
+ * - added help IDs for "Specify short document name" dialog
+ *
+ *    Rev 1.14   25 Feb 1997 10:36:10   BUILD
+ * -- Compiler defines for _POE22, _TKT21, and NEWTCSTUFF eliminated
+ *
+ *    Rev 1.13   24 Feb 1997 11:27:38   BUILD
+ * -- add id for Show Translation window
+ *
+ *    Rev 1.12   20 Jan 1997 09:13:06   BUILD
+ * - added help IDs for "Set document processing options" dialog
+ *
+ *    Rev 1.11   20 Dec 1996 15:18:20   BUILD
+ * - added help IDs for archive TM dialog and process window
+ *
+ *    Rev 1.10   16 Dec 1996 09:41:42   BUILD
+ * -- add support for exact context match
+ *
+ *    Rev 1.9   11 Dec 1996 16:10:40   BUILD
+ * - added help IDs for report handler list window
+ * -- add R/O memory avail and selected LBs
+ * - added help ID for "With search TMs" checkbox of folder export
+ *
+ *    Rev 1.8   02 Dec 1996 10:34:42   BUILD
+ * - added help IDs for "Create counting report" dialog
+ *
+ *    Rev 1.7   03 Sep 1996 09:43:08   BUILD
+ * - added help ID for "rename" checkbox and "newname" combobox of folder
+ *   import dialog
+ * - added help ID for "original name" entryfield of folder properties dialog
+ * - added help id for "Connect shared resources" menu item and for
+ *   "Terminology Lists" submenu
+ *
+ *    Rev 1.6   28 Mar 1996 15:47:12   BUILD
+ * - added tile and cascade
+ *
+ *    Rev 1.5   12 Feb 1996 10:32:02   BUILD
+ * - added help IDs for TMM function
+ *
+ *    Rev 1.4   29 Jan 1996 17:11:50   BUILD
+ * - removed IDs for REMOTE items of utility pulldown
+ *
+ *    Rev 1.3   24 Jan 1996 10:09:20   BUILD
+ * - corrected IDs of HID_LISTEDIT_EDI_ABR_HELP_PB and
+ *   HID_LISTEDIT_EDI_ADD_HELP_PB
+ * - added help IDs for aut.lookup checkbox of DICNAME and DICPROP dialog
+ * - added IDs for global-find-and-change
+ *
+ *    Rev 1.2   13 Jan 1996 14:05:02   BUILD
+ * - added help ID for autojoin checkbox of analysis 1 dialog
+ *
+ *    Rev 1.1   10 Jan 1996 19:37:30   BUILD
+ * - added IDs for edit addenda dictionary
+ *
+ *    Rev 1.0   09 Jan 1996 10:07:52   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for error messages                                          |
+  +----------------------------------------------------------------------------+
+*/
+/* The resids for error messages are the error message numbers.               */
+/* See file EQFMSG.H for these numbers and the associated help text.          */
+/* For the error messages the help resid range 1 to 999 has been reserved     */
+
+/*+----------------------------------------------------------------------------+
+  |    help resid for NO HELP. This id is used when an option is not availabel |
+  |    for the selected dialog. For this id no help should be defined.         |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_NO_HELP                       0      // no help available
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for troja user controls                                     |
+  +----------------------------------------------------------------------------+
+*/
+#define  HID_FILTER_CHECKBOX    1630    // filter checkbox
+#define  HID_FILTER_EDIT_PB     1631    // filter edit pushbutton
+#define  HID_FILTER_COMBO       1632    // filter combobox
+#define  HID_FILTER_DESCR_EF    1633    // filter description field
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for troja main window ( = translation workbench )           |
+  |    and TWB AAB except IDs for FILE and VIEW pulldown                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TWBM_EXTHELP               2000      // extended help for twb
+#define   HID_TWBM_HELP_SM             2800      // 'Help' submenu
+#define     HID_HELP_HELPFORHELP_MI    2805      // 'Help for Help' menu item
+#define     HID_HELP_EXTENDEDHELP_MI   2810      // 'Extended Help' menu item
+#define     HID_HELP_KEYSHELP_MI       2815      // 'Keys Help' menu item
+#define     HID_HELP_HELPINDEX_MI      2820      // 'Help Index' menu item
+#define     HID_HELP_TUTORIAL_MI       2825      // 'Tutorial' menu item
+#define     HID_HELP_PRODUCTINFO_MI    2830      // 'Productinfo' menu item
+#define   HID_TWBM_WINDOWS_SM          2900      // 'Windows' submenu
+#define     HID_WIND_MINALL_MI         2905      // 'Minimize All' menu item
+#define     HID_WIND_RESTOREALL_MI     2910      // 'Restore All' menu item
+#define     HID_WIND_ACTWIN_MI         2915      // menu items for act. windows
+#define     HID_WIND_TILE_MI           2920      // 'Tile' menu item
+#define     HID_WIND_CASCADE_MI        2925      // 'Cascade' menu item
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folderlist window                                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FLL_EXTHELP                3000      // extended help for folderlist
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for documentlist window                                     |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DOCL_EXTHELP                4000      // extended help for folderlist
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for new folder dialog                                       |
+  +----------------------------------------------------------------------------+
+*/
+// Create New Folder Dialog
+#define HID_NFOL_EXTHELP                5000      // ext. help for new folder
+#define   HID_NFOL_NAME_EF              5005      // folder name
+#define   HID_NFOL_DESCR_EF             5010      // folder description
+#define   HID_NFOL_DRIVE_PB             5012      // drive icon push buttons
+#define   HID_NFOL_BASEFOLDER_PB        5015      // 'base details on' pushbutton
+#define   HID_NFOL_MEMORY_CB            5020      // 'memory DB' combo box
+#define   HID_NFOL_FORMAT_CB            5023      // 'format' combo box
+#define   HID_NFOL_EDITOR_CB            5024      // 'editor' combo box
+#define   HID_NFOL_DICTAVAIL_LB         5025      // 'available dict' listbox
+#define   HID_NFOL_DICTSEL_LB           5035      // 'selected dict' listbox
+#define   HID_NFOL_RO_TM_AVAIL_LB       5037      // 'available TMs' listbox
+#define   HID_NFOL_RO_TM_SEL_LB         5039      // 'selected TMs' listbox
+#define   HID_NFOL_CREATE_PB            5040      // 'Create' push button
+#define   HID_NFOL_CANCEL_PB            5050      // 'Cancel' push button
+#define   HID_NFOL_HELP_PB              5055      // 'Help' push button
+#define   HID_NFOL_SOURCELANG_CB        5057      // source language combobox
+#define   HID_NFOL_TARGETLANG_CB        5059      // target language combobox
+#define   HID_NFOL_CONV_CB              5060      // conversion combobox
+#define   HID_NFOL_MEMCHANGE_PB         5061      // button "Select..." for memories
+#define   HID_NFOL_DICCHANGE_PB         5062      // button "Select..." for dictionaries
+
+
+// Folder Properties Dialog
+#define HID_FOLPROP_EXTHELP             5100      // ext. help for new folder
+#define   HID_FOLPROP_NAME_EF           5105      // folder name
+#define   HID_FOLPROP_DESCR_EF          5110      // folder description
+#define   HID_FOLPROP_DRIVE_PB          5112      // drive icon push buttons
+#define   HID_FOLPROP_BASEFOLDER_PB     5115      // 'base on' pushbutton
+#define   HID_FOLPROP_ORGNAME_EF        5117
+#define   HID_FOLPROP_MEMORY_CB         5120      // 'memory DB' combo box
+#define   HID_FOLPROP_FORMAT_CB         5123      // 'format' combo box
+#define   HID_FOLPROP_EDITOR_CB         5124      // 'editor' combo box
+#define   HID_FOLPROP_DICTAVAIL_LB      5125      // 'available dict' listbox
+#define   HID_FOLPROP_DICTSEL_LB        5135      // 'selected dict' listbox
+#define   HID_FOLPROP_RO_TM_AVAIL_LB    5137      // 'available TMs' listbox
+#define   HID_FOLPROP_RO_TM_SEL_LB      5139      // 'selected TMs' listbox
+#define   HID_FOLPROP_CREATE_PB         5140      // 'Change' push button
+#define   HID_FOLPROP_INFO_PB           5145      // 'Info' push button
+#define   HID_FOLPROP_CANCEL_PB         5150      // 'Cancel' push button
+#define   HID_FOLPROP_HELP_PB           5155      // 'Help' push button
+#define   HID_FOLPROP_SOURCELANG_CB     5157      // source language combobox
+#define   HID_FOLPROP_TARGETLANG_CB     5159      // target language combobox
+#define   HID_FOLPROP_CONV_CB           5160      // conversion combobox
+#define   HID_FOLPROP_MEMCHANGE_PB      5161      // button "Select..." for memories
+#define   HID_FOLPROP_DICCHANGE_PB     5162      // button "Select..." for dictionaries
+
+// Folder Model Dialog
+#define HID_FOLMODEL_EXTHELP            5200      // ext. help for folder model
+#define   HID_FOLMODEL_FOLDER_LB        5205      // folder listbox
+#define   HID_FOLMODEL_SELECT_PB        5210      // 'Select' push button
+#define   HID_FOLMODEL_CANCEL_PB        5215      // 'Cancel' push button
+#define   HID_FOLMODEL_HELP_PB          5220      // 'Help' push button
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for analysis (1) dialog                                     |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_ANA1_EXTHELP                6000      // ext. help for analysis (1)
+#define   HID_ANA1_ANALYZE_LB           6005      // 'analyze files' listbox
+#define   HID_ANA1_MEMAVAIL_LB          6020      // available memdb listbox
+#define   HID_ANA1_MEMSEL_LB            6025      // selected memdb listbox
+#define   HID_ANA1_ADDTO_CHK            6030      // 'add to memdb' checkbox
+#define   HID_ANA1_ADDTO_CB             6035      // 'add to memdb' combobox
+#define   HID_ANA1_ADDMATCH_CHK         6040      // 'add exact match' checkbox
+#define   HID_ANA1_AUTOJOIN_CHK         6041      // 'autojoin segs' checkbox
+#define   HID_ANA1_ADDLATESTMATCH_CHK   6042      // 'add latest match' checkbox
+#define   HID_ANA1_ADDTONEWFILE_CHK     6043      // 'add not found segments' checkbox
+#define   HID_ANA1_ADDEXACTCONTEXT_CHK  6044      // 'add exact context match' checkbox
+#define   HID_ANA1_OK_PB                6045      // 'OK' push button
+#define   HID_ANA1_TMMATCH_CHK          6046      // 'TM match' checkbox
+#define   HID_ANA1_MORE_PB              6050      // 'More' push button
+#define   HID_ANA1_CANCEL_PB            6055      // 'Cancel' push button
+#define   HID_ANA1_HELP_PB              6060      // 'Help' push button
+#define   HID_ANA1_CREATELIST_CHK       6065      // 'Create lists' checkbox
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for analysis profile dialog                                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_ANA_PROF_EXTHELP                6070  
+#define HID_ANAPROF_GROUP_CB                6071  // markup groub combobox
+#define HID_ANAPROF_AVAIL_LB                6072  // available markups listbox 
+#define HID_ANAPROF_SELECT_PB               6073  // select markup push button    
+#define HID_ANAPROF_DESELECT_PB             6074  // deselect markup pushbutton
+#define HID_ANAPROF_SELECTED_LB             6075  // selected markups listbox
+#define HID_ANAPROF_AUTOSUBST_CHK           6076  // auto substitution checkbox 
+#define HID_ANAPROF_NOMATCHSEGS_CHK         6077  // create file containing untranslated segments checkbox
+#define HID_ANAPROF_MEMMATCH_CHK            6078  // count memory match info checkbox
+#define HID_ANAPROF_REDUND_CHK              6079  // prepare redundancy report
+#define HID_ANAPROF_LEADINGWS_CHK           6080  // adjust leading whitespace checkbox
+#define HID_ANAPROF_TRAILINGWS_CHK          6081  // adjust trailing whitespace checkbox
+#define HID_ANAPROF_RESPECTCRLF_CHK         6082  // respect CRLF checkbox
+#define HID_ANAPROF_AUTOJOIN_CHK            6083  // use joined segments when found checkbox 
+#define HID_ANAPROF_PROTECT_PB              6086
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for analysis property pages                                 |
+  +----------------------------------------------------------------------------+
+*/
+
+#define HID_ANA_PROP_EXTHELP                6100
+#define   HID_ANA_PROP_ANALYZE_PB           6101
+#define   HID_ANA_PROP_CANCEL_PB            6102
+#define   HID_ANA_PROP_HELP_PB              6103
+#define   HID_ANA_PROP_TABCTRL              6104
+
+#define HID_ANA_PROP_GENERAL_EXTHELP        6110
+#define   HID_ANA_PROP_ANALYZE_LB           6111      // 'analyze files' listbox
+#define   HID_ANA_PROP_ADDTO_CB             6112      // 'add to memdb' combobox
+#define   HID_ANA_PROP_ADDMATCH_CHK         6113      // 'add exact match' checkbox
+#define   HID_ANA_PROP_ADDTONEWFILE_CHK     6114      // 'add not found segments' checkbox
+#define   HID_ANA_PROP_TMMATCH_CHK          6115      // 'TM match' checkbox
+#define   HID_ANA_PROP_CREATELIST_CHK       6116      // 'Create lists' checkbox
+#define   HID_AN_PROFILE_CHK                6117      // analysis profile checkbox      
+#define   HID_AN_PROFILE_CB                 6118      // analysis profile combobox 
+#define   HID_AN_PROFILE_PB                 6119      // analysis profile edit push button
+
+#define HID_ANA_PROP_AUTSUBST_EXTHELP       6120
+#define   HID_ANA_PROP_AUTOJOIN_CHK         6121      // 'autojoin segs' checkbox
+#define   HID_ANA_PROP_ADDLATESTMATCH_CHK   6122      // 'add latest match' checkbox
+#define   HID_ANA_PROP_ADDEXACTCONTEXT_CHK  6123      // 'add exact context match' checkbox
+#define   HID_ANA_PROP_IGNORE_IDENTICAL_CHK 6124      // 'ignore identical segs' checkbox
+#define   HID_ANA_PROP_IGNORE_PATH_CHK      6125      // 'ignore document path' checkbox
+#define   HID_ANA1_LEADINGWS_CHK            6126      // 'Leading whitespace adjustment' checkbox
+#define   HID_ANA1_TRAILINGWS_CHK           6127      // 'Trailing whitespace adjustment' checkbox
+
+
+#define HID_ANA_PROP_MISC_EXTHELP           6130
+#define   HID_ANA_PROP_MEMAVAIL_LB          6131      // available memdb listbox
+#define   HID_ANA_PROP_MEMSEL_LB            6132      // selected memdb listbox
+#define   HID_ANA_PROP_ADDTO_CHK            6133      // 'add to memdb' checkbox
+
+#define HID_ANA_PROP_LIST_EXTHELP           6140
+#define   HID_ANA_PROP_ADDTERM_CHK          6141
+#define   HID_ANA_PROP_ADDTERMDIC_CB        6142
+#define   HID_ANA_PROP_NEWTERM_CHK          6143
+#define   HID_ANA_PROP_NEWTERMDIC_CB        6144
+#define   HID_ANA_PROP_NEWMINOCCUR_EF       6145
+#define   HID_ANA_PROP_NEWLISTINFO_CHK      6146
+#define   HID_ANA_PROP_FOUNDTERM_CHK        6147
+#define   HID_ANA_PROP_FOUNDTERMDIC_CB      6148
+#define   HID_ANA_PROP_FOUNDLISTINFO_CHK    6149
+#define   HID_ANA_PROP_FOUNDMINOCCUR_EF     6150
+#define   HID_ANA_PROP_DICTAVA_LB           6151
+#define   HID_ANA_PROP_DICTSEL_LB           6152
+#define   HID_ANA_PROP_EXTERMSINLIST_CHK    6153
+#define   HID_ANA_PROP_EXTERMSINLIST_CB     6154
+#define   HID_ANA_PROP_EXTERMSINDIC_CHK     6155
+#define   HID_ANA_PROP_EXTERMSINDIC_CB      6156
+
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for system property pages                                   |
+  +----------------------------------------------------------------------------+
+*/
+
+#define HID_SYSPROP_EXTHELP                 6200
+#define   HID_SYSPROP_SET_PB                6201
+#define   HID_SYSPROP_CANCEL_PB             6202
+#define   HID_SYSPROP_HELP_PB               6203
+#define   HID_SYSPROP_TABCTRL               6204
+
+#define HID_SYSPROP_GENERAL_EXTHELP         6210
+#define   HID_SYSPROP_BROWSER_EF            6211
+#define   HID_SYSPROP_LOGOTIME_EF           6212
+#define   HID_SYSPROP_GENTAGGING_CHK        6213
+#define   HID_SYSPROP_BROWSE_PB             6214
+#define   HID_SYSPROP_USEIELIKELIST_CHK     6215
+#define   HID_SYSPROP_FUZZYSMALL_EF         6216
+#define   HID_SYSPROP_FUZZYSMALL_SB         6217
+#define   HID_SYSPROP_FUZZYMEDIUM_EF        6218
+#define   HID_SYSPROP_FUZZYMEDIUM_SB        6219
+#define   HID_SYSPROP_FUZZYLARGE_EF         6220
+#define   HID_SYSPROP_FUZZYLARGE_SB         6221
+#define   HID_SYSPROP_DEFTGTLANG_CB         6222
+#define   HID_SYSPROP_LKUP_FUZZYSMALL_EF    6223
+#define   HID_SYSPROP_LKUP_FUZZYMEDIUM_EF   6224
+#define   HID_SYSPROP_LKUP_FUZZYLARGE_EF    6225
+
+#define HID_SYSPROP_MARKUP_EXTHELP          6228
+#define   HID_SYSPROP_SGMLDITA_CHK          6226
+#define   HID_SYSPROP_ENTITY_CHK            6227
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for tag table list window                                   |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TAGLIST_EXTHELP             7100      // ext. help for tag table list
+#define   HID_TAGLIST_TAGTABLE_LB       7105      // tag table listbox
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for tag table export window                                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TAGEXPW_EXTHELP             7200      // ext. help for tag export window
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for tag table import window                                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TAGIMPW_EXTHELP             7300      // ext. help for tag import window
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for tag table export dialog                                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TAGEXP_EXTHELP              7400      // ext. help for tag export dlg
+#define    HID_TAGEXP_TROJA_BTN         7405
+#define    HID_TAGEXP_EXTERNAL_BTN      7410
+#define    HID_TAGEXP_EXPORT_SLE        7415
+#define    HID_TAGEXP_DRIVE_BTN         7420
+#define    HID_TAGEXP_NAME_SLE          7425
+#define    HID_TAGEXP_DIR_LB            7430
+#define    HID_TAGEXP_EXPORT_BTN        7435
+#define    HID_TAGEXP_CANCEL_BTN        7440
+#define    HID_TAGEXP_HELP_BTN          7445
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for tag table import dialog                                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TAGIMP_EXTHELP              7500      // ext. help for tag import dlg
+#define    HID_TAGIMP_ASCII_BTN         7505
+#define    HID_TAGIMP_INTERNAL_BTN      7510
+#define    HID_TAGIMP_DRIVE_BTN         7515
+#define    HID_TAGIMP_PATH_SLE          7520
+#define    HID_TAGIMP_DIR_LB            7525
+#define    HID_TAGIMP_FILES_LB          7530
+#define    HID_TAGIMP_TO_SLE            7535
+#define    HID_TAGIMP_OK_BTN            7540
+#define    HID_TAGIMP_CANCEL_BTN        7545
+#define    HID_TAGIMP_HELP_BTN          7550
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for word count dialog                                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_WCOUNT_EXTHELP              7600      // ext. help for word count dlg
+#define    HID_WCOUNT_LISTBOX           7605
+#define    HID_WCOUNT_ORIGINAL_RB       7610
+#define    HID_WCOUNT_TRANSLATION_RB    7615
+#define    HID_WCOUNT_TMMATCH_RB        7617
+#define    HID_WCOUNT_TMREPLMATCH_CHK   7618
+#define    HID_WCOUNT_DUPLICATE_RB      7619
+#define    HID_WCOUNT_FILE_CB           7620
+#define    HID_WCOUNT_DUPMEMMATCH_CHK   7622
+#define    HID_WCOUNT_FORMAT_CB         7623
+#define    HID_WCOUNT_FILE_EF           7625
+#define    HID_WCOUNT_FILE_SET_PB       7630
+#define    HID_WCOUNT_SCREEN_CHK        7635
+#define    HID_WCOUNT_COUNT_PB          7640
+#define    HID_WCOUNT_CANCEL_PB         7645
+#define    HID_WCOUNT_HELP_PB           7650
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for word count window                                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_WCOUNTW_EXTHELP             7700      // ext. help for word count win
+#define  HID_CNT00_COUNT_LB             7702      // wordcount listbox
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder export dialog                                    |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLEXP_EXTHELP              7800      // ext. help for folder export
+#define    HID_FOLEXP_NOTE_CHK          7802
+#define    HID_FOLEXP_DRIVE_PB          7804
+#define    HID_FOLEXP_DELETE_CHK        7806
+#define    HID_FOLEXP_WITHMEM_CHK       7808
+#define    HID_FOLEXP_WITHROMEM_CHK     7809
+#define    HID_FOLEXP_WITHDICT_CHK      7810
+#define    HID_FOLEXP_WITHDOCMEM_CHK    7811
+#define    HID_FOLEXP_HELP_PB           7812
+#define    HID_FOLEXP_CANCEL_PB         7814
+#define    HID_FOLEXP_EXPORT_PB         7816
+#define    HID_FOLEXP_SELDOCS_CHK       7818     // select documents checkbox
+#define    HID_FOLEXP_SELALL_PB         7820     // select all docs pushbutton
+#define    HID_FOLEXP_DESELALL_PB       7822     // deselect all docs pushb.
+#define    HID_FOLEXP_DOCS_LB           7824     // document listbox
+#define    HID_FOLEXP_OLDVERS_CHK       7825     // export-in-version-1-format
+#define    HID_FOLEXP_EXPORTAS_CHK      7827     // export-as checkbox
+#define    HID_FOLEXP_EXPORTAS_EF       7828     // export-as entryfield
+#define    HID_FOLEXP_EXPORTSHORT_CHK   7829     // export-using folder short name
+#define    HID_FOLEXP_MASTER_CHK        7815
+#define    HID_FOLEXP_FORMAT_CB         7817
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder export note dialog                               |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLNOTE_EXTHELP             7830      // help for folder note dlg
+#define    HID_FOLNOTE_NOTE_MLE         7832
+#define    HID_FOLNOTE_HELP_PB          7834
+#define    HID_FOLNOTE_CANCEL_PB        7836
+#define    HID_FOLNOTE_NOTE_PB          7838
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder export window                                    |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLEXPW_EXTHELP             7860      // help for folder export win
+
+// help IDs for folder memory selection dialog
+#define HID_FOLMEMSEL_EXTHELP           7870      // help for memory selection dlg
+#define     HID_FOLMEMSEL_AVAILABLE_LB  7871
+#define     HID_FOLMEMSEL_SELECTED_LB   7872
+#define     HID_FOLMEMSEL_OK_PB         7873
+#define     HID_FOLMEMSEL_HELP_PB       7874
+#define     HID_FOLMEMSEL_CANCEL_PB     7875
+
+// help IDs for folder dictionary selection dialog
+#define HID_FOLDICSEL_EXTHELP           7880      // help for dictionary selection dlg
+#define     HID_FOLDICSEL_AVAILABLE_LB  7881
+#define     HID_FOLDICSEL_SELECTED_LB   7882
+#define     HID_FOLDICSEL_OK_PB         7883
+#define     HID_FOLDICSEL_HELP_PB       7884
+#define     HID_FOLDICSEL_CANCEL_PB     7885
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder import dialog                                    |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLIMP_EXTHELP              7900      // EXT. help for folder import
+#define    HID_FOLIMP_FROMDRIVE_PB      7902
+#define    HID_FOLIMP_FOLDER_LB         7904
+#define    HID_FOLIMP_WITHDICT_CHK      7906
+#define    HID_FOLIMP_WITHMEM_CHK       7908
+#define    HID_FOLIMP_RENAME_CHK        7909
+#define    HID_FOLIMP_TODRIVE_PB        7910
+#define    HID_FOLIMP_NEWNAME_CB        7911
+#define    HID_FOLIMP_HELP_PB           7912
+#define    HID_FOLIMP_CANCEL_PB         7914
+#define    HID_FOLIMP_INFO_PB           7916
+#define    HID_FOLIMP_IMPORT_PB         7918
+#define    HID_FOLIMP_FORMAT_CB         7920
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder import info dialog                               |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLINFO_EXTHELP             7930      // help for folder info dlg
+#define    HID_FOLINFO_NOTE_MLE         7932
+#define    HID_FOLINFO_HELP_PB          7934
+#define    HID_FOLINFO_OK_PB            7936
+#define    HID_FOLINFO_DICTS_LB         7938
+#define    HID_FOLINFO_PRINT_PB         7940
+#define    HID_FOLINFO_DOCS_LB          7942     // help for document listbox
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder import password dialog                           |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLIMPPW_EXTHELP            7950
+#define   HID_FOLIMPPW_PSW_EF           7951
+#define   HID_FOLIMPPW_ENTER_PB         7952
+#define   HID_FOLIMPPW_CANCEL_PB        7953
+#define   HID_FOLIMPPW_HELP_PB          7954
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder import window                                    |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLIMPW_EXTHELP             7960      // help for folder import win
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for document import dialog                                  |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FIMP_EXTHELP                8000      // ext. help for file import
+#define   HID_FIMP_ASCIIFORMAT_RB       8005      // 'ASCII Format' radio button
+#define   HID_FIMP_TROJAFORMAT_RB       8010      // 'Troja Format' radio button
+#define   HID_FIMP_IMPPATH_RB           8011      // 'relative path' radio button
+#define   HID_FIMP_DRIVE_PB             8025      // drive pushbuttons
+#define   HID_FIMP_FILENAME_EF          8030      // file name entryfield
+#define   HID_FIMP_DIRECTORY_LB         8035      // 'directories' listbox
+#define   HID_FIMP_FILES_LB             8040               // 'files' listbox
+#define   HID_FIMP_SELALL_PB            8045
+#define   HID_FIMP_DESALL_PB            8047
+#define   HID_FIMP_OK_PB                8050      // 'OK' pushbutton
+#define   HID_FIMP_CANCEL_PB            8055      // 'Cancel' pushbutton
+#define   HID_FIMP_HELP_PB              8060      // 'Help' push button
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for file export dialog                                      |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FEXP_EXTHELP                9000      // ext. help for file export
+#define   HID_FEXP_TROJAFORMAT_RB       9005      // 'Troja Format' radio button
+#define   HID_FEXP_ASCIIFORMAT_RB       9017      // 'ASCII Format' radio button
+#define   HID_FEXP_IMPPATH_RB           9018      // 'relative path' radio button
+#define   HID_FEXP_TARGFILE_CHK         9020      // 'Exp. Target' checkbox
+#define   HID_FEXP_TARGPATH_CB          9025      // 'Target Path' combobox
+#define   HID_FEXP_CONV_CB              9026      // 'Output conversion' combobox
+#define   HID_FEXP_REVMARK_CHK          9027
+#define   HID_FEXP_REVEDIT_PB           9028
+#define   HID_FEXP_REVMARKNAME_TEXT     9029
+#define   HID_FEXP_SOURCEFILE_CHK       9030      // 'Exp. Source' checkbox
+#define   HID_FEXP_SOURCEPATH_CB        9035      // 'Source Path' combobox
+#define   HID_FEXP_FILES_LB             9040      // 'files' listbox
+#define   HID_FEXP_SNOMATCH_CHK         9042      // 'Nomatch' checkbox
+#define   HID_FEXP_SNOMATCHPATH_EF      9044      // 'Nomatch' entryfield
+#define   HID_FEXP_DRIVE_PB             9045      // drive pushbuttons
+#define   HID_FEXP_OK_PB                9050      // 'OK' pushbutton
+#define   HID_FEXP_CANCEL_PB            9055      // 'Cancel' pushbutton
+#define   HID_FEXP_HELP_PB              9060      // 'Help' push button
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for create memory dialog ('New memory')                     |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_MEMCR_EXTHELP              10000      // ext help for new memory dlg
+#define   HID_MEMCR_NAME_EF            10005      // 'Memory Name' entry field
+#define   HID_MEMCR_DESCR_EF           10010      // 'Description' entry field
+#define   HID_MEMCR_DRIVE_PB           10015      // drive pushbuttons
+#define   HID_MEMCR_FORMAT_CB          10020      // 'Format' combobox
+#define   HID_MEMCR_SOURCE_CB          10030      // 'Source' combobox
+#define   HID_MEMCR_TARGET_CB          10035      // 'Target' combobox
+#define   HID_MEMCR_OK_PB              10040      // 'OK' pushbutton
+#define   HID_MEMCR_CANCEL_PB          10045      // 'Cancel' pushbutton
+#define   HID_MEMCR_HELP_PB            10050      // 'Help' push button
+#define   HID_MEMCR_LOCAL_RB           10060
+#define   HID_MEMCR_SHARED_RB          10065
+#define   HID_MEMCR_REMOTE_RB          10070
+#define   HID_MEMCR_SERVER_LB          10080
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for TM property dialog                                      |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TMPROP_EXTHELP             10100     // ext help for TM property dlg
+#define   HID_TMPROP_DESCR_EF          10105     // description entry field
+#define   HID_TMPROP_DOC_LB            10110     // document listbox
+#define   HID_TMPROP_MARKUP_LB         10115     // markup listbox
+#define   HID_TMPROP_CHANGE_PB         10120     // change pushbutton
+#define   HID_TMPROP_CANCEL_PB         10125     // cancel pushbutton
+#define   HID_TMPROP_HELP_PB           10130     // help push button
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for memory import dialog                                    |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_MEMIMP_EXTHELP             11000      // ext help for import memory
+#define   HID_MEMIMP_ASCIIFORMAT_RB    11005      // 'ASCII Format' radio button
+#define   HID_MEMIMP_TROJAFORMAT_RB    11010      // 'Troja Format' radio button
+#define   HID_MEMIMP_DRIVE_PB          11015      // drive pushbuttons
+#define   HID_MEMIMP_FILENAME_EF       11020      // file name entryfield
+#define   HID_MEMIMP_DIRECTORY_LB      11025      // 'directories' listbox
+#define   HID_MEMIMP_FILES_LB          11030      // 'files' listbox
+#define   HID_MEMIMP_OK_PB             11035      // 'OK' pushbutton
+#define   HID_MEMIMP_CANCEL_PB         11040      // 'Cancel' pushbutton
+#define   HID_MEMIMP_HELP_PB           11045      // 'Help' push button
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for memory window                                           |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_MEM_EXTHELP                12000      // extended help for memory
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dictionary window                                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICT_EXTHELP               13000      // extended help for dictionary
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dictionary export dialog                                |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DEXP_EXTHELP               13300      // extended help for dictexp
+#define    HID_DEXP_TROJA_BTN          13305
+#define    HID_DEXP_EXTERNAL_BTN       13310
+#define    HID_DEXP_EXPORT_SLE         13315
+#define    HID_DEXP_DRIVE_BTN          13320
+#define    HID_DEXP_NAME_SLE           13325
+#define    HID_DEXP_DIR_LB             13330
+#define    HID_DEXP_EXPORT_BTN         13335
+#define    HID_DEXP_CANCEL_BTN         13340
+#define    HID_DEXP_HELP_BTN           13345
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dictionary import dialog                                |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DIMP_EXTHELP               13700      // extended help for dictimp
+#define    HID_DICTIMP_ASCII_BTN       13705
+#define    HID_DICTIMP_INTERNAL_BTN    13710
+#define    HID_DICTIMP_DRIVE_BTN       13715
+#define    HID_DICTIMP_PATH_SLE        13720
+#define    HID_DICTIMP_DIR_LB          13725
+#define    HID_DICTIMP_FILES_LB        13730
+#define    HID_DICTIMP_TO_LB           13735
+#define    HID_DICTIMP_OK_BTN          13740
+#define    HID_DICTIMP_CANCEL_BTN      13745
+#define    HID_DICTIMP_HELP_BTN        13750
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dictionary export window                                |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DEXPW_EXTHELP              13900      // extended help for dictexp
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dictionary import window                                |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DIMPW_EXTHELP              13950      // extended help for dictimp
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for memory export dialog                                    |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_MEMEXP_EXTHELP             14000      // ext help for export memory
+#define   HID_MEMEXP_ASCIIFORMAT_RB    14005      // 'ASCII Format' radio button
+#define   HID_MEMEXP_TROJAFORMAT_RB    14010      // 'Troja Format' radio button
+#define   HID_MEMEXP_DRIVE_PB          14015      // drive pushbuttons
+#define   HID_MEMEXP_FILENAME_EF       14020      // file name entryfield
+#define   HID_MEMEXP_DIRECTORY_LB      14025      // 'directories' listbox
+#define   HID_MEMEXP_FILES_LB          14030      // 'files' listbox
+#define   HID_MEMEXP_OK_PB             14035      // 'OK' pushbutton
+#define   HID_MEMEXP_CANCEL_PB         14040      // 'Cancel' pushbutton
+#define   HID_MEMEXP_HELP_PB           14045      // 'Help' push button
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for memory merge dialog                                     |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_MEMMERGE_EXTHELP           14200      // ext help for memory merge
+#define   HID_MEMMERGE_TO_LB           14205      // To listbox
+#define   HID_MEMMERGE_MERGE_PB        14210      // 'Merge' pushbutton
+#define   HID_MEMMERGE_CANCEL_PB       14215      // 'Cancel' pushbutton
+#define   HID_MEMMERGE_HELP_PB         14220      // 'Help' push button
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for folder language dialog                                  |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLLANG_EXTHELP            14900      // ext help for folder language
+#define   HID_FOLLANG_SOURCELANG_CBS   14906
+#define   HID_FOLLANG_TARGETLANG_CBS   14908
+#define   HID_FOLLANG_OK_PB            14910
+#define   HID_FOLLANG_CANCEL_PB        14912
+#define   HID_FOLLANG_HELP_PB          14914
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for drives dialog                                           |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TWBDRIVES_EXTHELP           15000      // ext help for drives dlg
+#define   HID_TWBDRIVES_DRIVE_PB        15005      // drive icons
+#define   HID_TWBDRIVES_SET_PB          15010      // 'Set' pushbutton
+#define   HID_TWBDRIVES_CANCEL_PB       15015      // 'Cancel' pushbutton
+#define   HID_TWBDRIVES_HELP_PB         15020      // 'Help' push button
+
+////////////////////////////////////////////////////////////////////////////////
+//                   File Pulldown      View Pulldown    View Dialog(s)       //
+// Folder List        16001-029         16030-039        16040-099            //
+// Document List      16101-129         16130-139        16140-199            //
+// Translation Memory 16201-229         16230-239        16240-299            //
+// Dictionary         16301-329         16330-339        16340-399            //
+////////////////////////////////////////////////////////////////////////////////
+// The help IDs are splitted into a base value for the type of active window  //
+// (e.g. 16100 for document list) and an offset value for the individual      //
+// control (e.g. 30 for the View pulldown of the actionbar); the actual help  //
+// ID is the base value plus the offset value (e.g the help ID for the        //
+// View pulldown of the document list is 16100 + 30 = 16130).                 //
+////////////////////////////////////////////////////////////////////////////////
+
+// base values for help IDs
+#define HID_BASE_FOLLIST         16000            // base for folder list helps
+#define HID_BASE_DOCLIST         16100            // base for doc. list helps
+#define HID_BASE_MEMLIST         16200            // base for memory helps
+#define HID_BASE_DICLIST         16300            // base for dictionary helps
+#define HID_BASE_TAGLIST         16400            // base for taglist helps
+#define HID_BASE_LIST            16450            // base for Lists
+#define HID_BASE_LIST_NTL        16500            // base for NTL lists
+#define HID_BASE_TPMAIN          16800            // base for TPRO
+#define HID_BASE_LNGUPD          16900            // base for language update
+#define HID_BASE_MTLIST          15050            // base for MT list
+
+// offset values for help IDs
+#define   HID_OFFSET_TWBM_FILE_SM           1     // 'File' submenu
+#define     HID_OFFSET_FILE_OPEN_MI         2     // 'Open' menu item
+#define     HID_OFFSET_FILE_NEW_MI          3     // 'New' menu item
+#define     HID_OFFSET_FILE_PROPERTIES_MI   4     // 'Properties' menu item
+#define     HID_OFFSET_FILE_DELETE_MI       5     // 'Delete' menu item
+#define     HID_OFFSET_FILE_MOVE_MI         6     // 'Move' menu item
+#define     HID_OFFSET_FILE_EXPORT_MI       7     // 'Export' menu item
+#define     HID_OFFSET_FILE_IMPORT_MI       8     // 'Import' menu item
+#define     HID_OFFSET_FILE_ORGANIZE_MI     9     // 'Organize' menu item
+#define     HID_OFFSET_FILE_RECOVER_MI     10     // 'Recover' menu item
+#define     HID_OFFSET_FILE_ANALYZE_MI     11     // 'Analyze' menu item
+#define     HID_OFFSET_FILE_SELECTALL_MI   12     // 'Select All' menu item
+#define     HID_OFFSET_FILE_DESELECTALL_MI 13     // 'Deselect All' menu item
+#define     HID_OFFSET_FILE_MERGE_MI       14     // 'Merge' menu item
+#define     HID_OFFSET_FILE_PRINT_MI       15     // 'Print' menu item
+
+#define     HID_OFFSET_FILE_OPENEXT_MI     16     // 'Open...' menu item
+#define     HID_OFFSET_FILE_COPYEXT_MI     18     // 'Copy...' menu item
+
+#define     HID_OFFSET_FILE_PRINTLIST_MI   19     // 'Print list...' menu item
+#define     HID_OFFSET_FILE_RENAME_MI      20     // 'Rename...' menu item
+
+#define     HID_OFFSET_FILE_KILL_MI        21     // 'KILL' menu item
+
+
+#define   HID_OFFSET_TWBM_VIEW_SM          30     // 'View' submenu
+#define     HID_OFFSET_VIEW_NAMES_MI       31     // 'Names' menu item
+#define     HID_OFFSET_VIEW_DETAILS_MI     32     // 'Details' menu item
+#define     HID_OFFSET_VIEW_DETAILSDLG_MI  33     // 'Details Dialog' menu item
+#define     HID_OFFSET_VIEW_SOME_MI        34     // 'Some' menu item
+#define     HID_OFFSET_VIEW_SORT_MI        35     // 'Sort' menu item
+#define     HID_OFFSET_VIEW_ALL_MI         36     // 'All' menu item
+
+#define HID_OFFSET_SELVIEW_EXTHELP         40     // ext help for change view
+#define   HID_OFFSET_SELVIEW_AVAIL_LB      41     // listbox 'Available'
+#define   HID_OFFSET_SELVIEW_SELECT_LB     42     // listbox 'Selected'
+#define   HID_OFFSET_SELVIEW_VIEW_PB       43     // 'View' pushbutton
+// #define   HID_OFFSET_SELVIEW_DEFAULTS_PB   44     // 'Defaults' pushbutton
+// #define   HID_OFFSET_SELVIEW_ALL_PB        45     // 'All' pushbutton
+#define   HID_OFFSET_SELVIEW_CLEAR_PB      46     // 'Clear' pushbutton
+#define   HID_OFFSET_SELVIEW_CANCEL_PB     47     // 'Cancel' pushbutton
+#define   HID_OFFSET_SELVIEW_HELP_PB       48     // 'Help' pushbutton
+
+#define  HID_TWBM_UTILITIES_SM              50     // 'Utilities' submenu
+#define   HID_UTILS_DUMP_MI                 51     // only for debug
+#define   HID_UTILS_COUNT_MI                52     // 'Word Count' menu item
+#define   HID_UTILS_TAGTABLE_MI             53     // 'Tag Table' menu item
+#define   HID_UTILS_DRIVES_MI               54     // 'Drives...' menu item
+#define   HID_UTILS_CONNECT_MI              55     // 'Connect...' menu item
+#define   HID_UTILS_REPORT_MI               56     // 'Counting report..' menu item
+#define   HID_UTILS_DELEXPMAT_MI            57     // 'Delete Exported Material'
+#define   HID_UTILS_MI_LNGUPDATE            58     // 'Language Check'
+#define   HID_UTILS_ARCHTM_MI               59     // 'Build archive TM...' menu item
+#define   HID_UTILS_TERMLISTS_SM            60     // 'Terminology Lists' submenu
+#define   HID_OFFSET_FILE_DELETE_MI          5     // 'Delete' menu item
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor main window                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_MAIN_EXTHELP               17000    // ext help for TP window
+#define    HID_TP_MAIN_FILE_SM            17002    // "File" pulldown
+#define       HID_TP_MAIN_NEXT_MI         17004    // "Next" pulldown item
+#define       HID_TP_MAIN_OPEN_MI         17006    // "Open ..." pulldown item
+#define       HID_TP_MAIN_SAVE_MI         17008    // "Save" pulldown item
+#define       HID_TP_MAIN_SAVEAS_MI       17009    // "Save As" pulldown item
+#define       HID_TP_MAIN_PRINT_MI        17010    // "Print" pulldown item
+#define       HID_TP_MAIN_QUIT_MI         17012    // "Quit"  pulldown item
+#define       HID_TP_MAIN_ENDSAVE_MI      17014    // "End-save" pulldown item
+#define    HID_TP_MAIN_EDIT_SM            17016    // "Edit" pulldown item
+#define       HID_TP_MAIN_FIND_MI         17018    // "Find ..." pulldown item
+#define       HID_TP_MAIN_CUT_MI          17022    // "Cut" pulldown item
+#define       HID_TP_MAIN_COPY_MI         17024    // "Copy" pulldown item
+#define       HID_TP_MAIN_PASTE_MI        17026    // "Paste" pulldown item
+#define       HID_TP_MAIN_CLEAR_MI        17028    // "Clear" pulldown item
+#define       HID_TP_MAIN_UNDO_MI         17030    // "Undo" pulldown item
+#define       HID_TP_MAIN_COPYPROPBLOCK_MI 17031   // "Copy proposal block"
+#define       HID_TP_MAIN_UNMARK_MI       17032    // "Unmark" pulldown item
+#define       HID_TP_MAIN_SPLIT_MI        17033    // "Split" pulldown item
+#define       HID_TP_MAIN_WRAP_MI         17034    // "Line wrap" item
+#define       HID_TP_MAIN_JOIN_MI         17035    // "Join" pulldown item
+#define       HID_TP_MAIN_REFLOW_MI       17036    // "Reflow segment" item
+#define    HID_TP_MAIN_OPTIONS_SM         17037    // "Options" pulldown item
+#define       HID_TP_MAIN_FONTS_MI        17038    // "Fonts and Colors"  pulldown item
+#define       HID_TP_MAIN_KEYS_MI         17039    // "Key Assignments" pulldown item
+#define       HID_TP_MAIN_RMARGIN_MI      17040    //
+#define       HID_TP_MAIN_FONTSIZE_MI     17041
+#define       HID_TP_MAIN_ENTRY_MI        17042
+#define       HID_TP_MAIN_COMMAND_MI      17043
+#define       HID_TP_MAIN_PROFSET_MI      17051
+#define       HID_TP_MAIN_PROFINI_MI      17045
+#define    HID_TP_MAIN_CURSOR_SM          17044    // "Cursor" pulldown item
+#define       HID_TP_MAIN_GOUPDSEGMENT_MI 17053    // Go to "Next updated" segment
+#define       HID_TP_MAIN_FINDMARK_MI     17046    // "Find mark" pulldown item
+#define       HID_TP_MAIN_TOCGOTO_MI      17055    // "Special go to..."
+#define       HID_TP_MAIN_GOTOLINE_MI     17047    // "Goto line" pulldown item
+#define       HID_TP_MAIN_TOP_MI          17048    // "Top" pulldown item
+#define       HID_TP_MAIN_QUERYLINE_MI    17049    // "Query line" pulldown item
+#define       HID_TP_MAIN_BOTTOM_MI       17050    // "Bottom" pulldown item
+#define       HID_TP_MAIN_BEGLINE_MI      17052    // "Start of line" pulldown item
+#define       HID_TP_MAIN_ENDLINE_MI      17054    // "End of line" pulldown item
+#define       HID_TP_MAIN_BEGSEG_MI       17056    // "Start of segment" pulldown item
+#define       HID_TP_MAIN_ENDSEG_MI       17058    // "End of segment" pulldown item
+#define    HID_TP_MAIN_TRANSLATE_SM       17060    // "Translate" pulldown item
+#define       HID_TP_MAIN_TRANSEG_MI      17062    // "~Translate Segment" pulldown item
+#define       HID_TP_MAIN_NEXTSEG_MI      17064    // "~Next untranslated Segment" pulldown item
+#define       HID_TP_MAIN_UNTRANS_MI      17065    // "Untranslate Segment" pulldown item
+#define       HID_TP_MAIN_LOOKUP_MI       17066    // "Dictionary Lookup" pulldown item
+#define       HID_TP_MAIN_EDIT_MI         17067    // "Dictionary Edit" pulldown item
+#define       HID_TP_MAIN_GOTOSEG_MI      17074    // "Go to Active Segment" pulldown item
+#define       HID_TP_MAIN_JOINSEG_MI      17076    // "Join Segments" pulldown item
+#define       HID_TP_MAIN_SPLITSEG_MI     17078    // "Split Joined Segments" pulldown item
+#define       HID_TP_MAIN_MARKSEG_MI      17080    // "Mark Segment"          pulldown item
+#define       HID_TP_MAIN_GOTOMARKSEG_MI  17082    // "Go to Marked Segment"  pulldown item
+#define       HID_TP_MAIN_CLEARSEGMARK_MI 17084    // "Clear Segment Mark" pulldown item
+#define       HID_TP_MAIN_POSTEDIT_MI     17086    // "Post Editing" pulldown item
+#define       HID_TP_MAIN_AUTOTRANS_MI    17088    // "Automatic Translation" pulldown item
+#define       HID_TP_MAIN_ADDABBREV_MI    17089    // "Add an Abbreviation" pulldown item
+#define       HID_TP_MAIN_EDITABBREV_MI   17081    // "Edit Abbreviations" pulldown item
+#define       HID_TP_MAIN_EDITADD_MI      17083    // "Edit Addenda terms" pulldown item
+#define       HID_TP_MAIN_SHOWTRANS_MI    17085    // "Show translation" pulldown item
+#define    HID_TP_MAIN_STYLE_SM           17090    // "Style" pulldown item
+#define       HID_TP_MAIN_PROTECT_MI      17092    // "Protected" pulldown item
+#define       HID_TP_MAIN_UNPROTECT_MI    17094    // "Unprotected" pulldown item
+#define       HID_TP_MAIN_HIDE_MI         17096    // "Hide" pulldown item
+#define       HID_TP_MAIN_SHRINK_MI       17095    // "Shrink" pulldown item
+#define       HID_TP_MAIN_COMPACT_MI      17093    // "Compact" pulldown item
+#define       HID_TP_MAIN_SHORTEN_MI      17087    // "Compact+1"
+#define    HID_TP_MAIN_SPELL_SM           17097    // "Spellcheck" submenu
+#define       HID_TP_MAIN_PROOFSEG_MI     17098    // "Proofread Segment" item
+#define       HID_TP_MAIN_PROOFALL_MI     17099    // "Proofread File" item
+#define    HID_TP_MAIN_WINDOW_SM          17091    // "Window" submenu
+#define       HID_TP_MAIN_DICTWIN_MI      17068    // "Dictionary Window" pulldown item
+#define       HID_TP_MAIN_TRANSMWIN_MI    17070    // "Translation Memory Window" pulldown item
+#define       HID_TP_MAIN_TRANSWIN_MI     17069    // "Translation Window" pulldown item
+#define       HID_TP_MAIN_SOURCEWIN_MI    17073    // "Source of proposal Window" pulldown item
+#define       HID_TP_MAIN_ORGWIN_MI       17072    // "Display Original" pulldown item
+#define       HID_TP_MAIN_TRNOTE_MI       17071    // "Translator's note" window
+#define       HID_TP_MAIN_AUTOSPELL_MI    17061    // "Auto Spellcheck" on/off
+#define       HID_TP_MAIN_NEXTMISSPELL_MI 17063    // "Next misspelled" goto
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor find dialog                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_FIND_EXTHELP               17100    // ext help for TP find dlg
+#define    HID_TP_FIND_FIND_EF            17101    // find text entryfield
+#define    HID_TP_FIND_CHANGE_EF          17102    // change text entry field
+#define    HID_TP_FIND_RESPECT_RB         17103    // respect case radiobutton
+#define    HID_TP_FIND_IGNORE_RB          17104    // ignore case radiobutton
+#define    HID_TP_FIND_FORWARD_RB         17105    // forward radiobutton
+#define    HID_TP_FIND_BACKWARD_RB        17106    // backward radiobutton
+#define    HID_TP_FIND_CURPOSTOEND_RB     17107    // current to end radiobutton
+#define    HID_TP_FIND_ELEMENT_RB         17109    // element radio button
+#define    HID_TP_FIND_CONFCHANGES_CHK    17111    // change confirmation checkbox
+#define    HID_TP_FIND_FIND_PB            17113    // "Find" pushbutton
+#define    HID_TP_FIND_CHANGE_PB          17115    // "Change" pushbutton
+#define    HID_TP_FIND_CANCEL_PB          17117    // "Cancel" pushbutton
+#define    HID_TP_FIND_HELP_PB            17119    // "Help" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor key assignment dialog             |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_KEYS_EXTHELP               17200    // ext help for TP keys dlg
+#define    HID_TP_KEYS_FUNCTION_LB        17201    // function/key listbox
+#define    HID_TP_KEYS_SET_PB             17202    // "Set" pushbutton
+#define    HID_TP_KEYS_DEFAULT_PB         17203    // "Default" pushbutton
+#define    HID_TP_KEYS_CANCEL_PB          17204    // "Cancel" pushbutton
+#define    HID_TP_KEYS_HELP_PB            17205    // "Help" pushbutton
+#define    HID_TP_KEYS_ASSIGN_PB          17206    // "Assign" pushbutton
+#define    HID_TP_KEYS_CLEAR_PB           17208    // "Clear" pushbutton
+#define    HID_TP_KEYS_PRINT_PB           17210    // "Print" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor color/font dialog                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_FONTS_EXTHELP              17300    // ext help for TP font dlg
+#define    HID_TP_FONTS_ITEM_LB           17301    // text items listbox
+#define    HID_TP_FONTS_FOREGROUND_LB     17302    // foreground colors
+#define    HID_TP_FONTS_BACKGROUND_LB     17303    // background colors
+#define    HID_TP_FONTS_FONT_LB           17304    // fonts listbox
+#define    HID_TP_FONTS_UNDSCORE_CHK      17305    // underscore checkbox
+#define    HID_TP_FONTS_REVERSE_CHK       17306    // reverse checkbox
+#define    HID_TP_FONTS_CHANGE_PB         17311    // "Change" pushbutton
+#define    HID_TP_FONTS_DEFAULT_PB        17312    // "Default" pushbutton
+#define    HID_TP_FONTS_CANCEL_PB         17313    // "Cancel" pushbutton
+#define    HID_TP_FONTS_HELP_PB           17314    // "Help" pushbutton
+
+#define HID_TP_FONTSIZE_EXTHELP           17320    // ext help for TP fontsize dlg
+#define    HID_TB_FONTSIZE_WINDOW_LB      17321
+#define    HID_TB_FONTSIZE_SIZES_LB       17322
+#define    HID_TB_FONTSIZE_SAMPLE_GB      17323
+#define    HID_TB_FONTSIZE_SET_PB         17324    // "Set" pushbutton
+#define    HID_TB_FONTSIZE_DEFAULT_PB     17325    // "Default" pushbutton
+#define    HID_TB_FONTSIZE_CANCEL_PB      17326    // "Cancel" pushbutton
+#define    HID_TB_FONTSIZE_HELP_PB        17327    // "Help" pushbutton
+#define    HID_TB_FONTSIZE_FONTS_LB       17328    // Fonts listbox
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor open dialog                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_OPEN_EXTHELP               17400    // ext help for TP open dlg
+#define    HID_TP_OPEN_DRIVE_PB           17403    // drive buttons
+#define    HID_TP_OPEN_DIR_LB             17404    // directory listbox
+#define    HID_TP_OPEN_FILE_LB            17405    // files listbox
+#define    HID_TP_OPEN_OPEN_PB            17406    // "Open" pushbutton
+#define    HID_TP_OPEN_CANCEL_PB          17407    // "Cancel" pushbutton
+#define    HID_TP_OPEN_HELP_PB            17408    // "Help" pushbutton
+#define    HID_TP_OPEN_DOC_RB             17409    // troja document radiobutton
+#define    HID_TP_OPEN_FILE_RB            17410    // text file radiobutton
+#define    HID_TP_OPEN_SOURCE_RB          17414    // source radiobutton
+#define    HID_TP_OPEN_TARGET_RB          17415    // target radiobutton
+#define    HID_TP_OPEN_DOCNAME_EF         17416    // document name entryfield
+#define    HID_TP_OPEN_FILNAME_EF         17417    // filename entryfield
+#define    HID_TP_OPEN_FOLDER_LB          17418    // folder listbox
+#define    HID_TP_OPEN_DOC_LB             17419    // document listbox
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor Entry Dialog                      |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_ENTRY_EXTHELP              17500    // ext help for TP open dlg
+#define    HID_TP_ENTRY_MLE               17503    // MLE for new sentence/entry
+#define    HID_TP_ENTRY_LOOKUP_PB         17506    // "Lookup" pushbutton
+#define    HID_TP_ENTRY_CANCEL_PB         17507    // "Cancel" pushbutton
+#define    HID_TP_ENTRY_HELP_PB           17508    // "Help" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Translation Processor Right Margin Dialog               |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_RMARGIN_EXTHELP             17600   // ext help for TP rmargin
+#define    HID_TP_RMARGIN_EF               17605   // right margin entry field
+#define    HID_TP_RMARGIN_SET_PB           17610   // "SET" pushbutton
+#define    HID_TP_RMARGIN_DEFAULT_PB       17615   // "Defaults" pushbutton
+#define    HID_TP_RMARGIN_CANCEL_PB        17620   // "Cancel" pushbutton
+#define    HID_TP_RMARGIN_HELP_PB          17625   // "Help" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for ITM Dialog                                              |
+  +----------------------------------------------------------------------------+
+*/
+#define  HID_ITM_MAINDLG_EXTHELP           17700   // extended help
+#define    HID_ITM_SOURCE_EF               17710   // source file entryfield
+#define    HID_ITM_TARGET_EF               17715   // target file entryfield
+#define    HID_ITM_SRCFILE_LB              17720   // files listbox for src select
+#define    HID_ITM_SRCDIR_LB               17725   // directory listbox for src
+#define    HID_ITM_FILELIST_LB             17740   // selected filepairs listbox
+#define    HID_ITM_TRANSMEM_CB             17745   // translation memory combobox
+#define    HID_ITM_MARKUP_CB               17750   // markup table combobox
+#define    HID_ITM_ADDTOLIST_PB            17755   // "Add" pushbutton
+#define    HID_ITM_DELINLIST_PB            17760   // "Delete" pushbutton
+#define    HID_ITM_SRCLANG_CB              17765   // source language combobox
+#define    HID_ITM_TGTLANG_CB              17770   // target language combobox
+#define    HID_ITM_VISUAL_PB               17775   // "Visual" pushbutton
+#define    HID_ITM_ALIGN_PB                17780   // "Align" pushbutton
+#define    HID_ITM_CANCEL_PB               17785   // "Cancel" pushbutton
+#define    HID_ITM_HELP_PB                 17790   // "Help" pushbutton
+#define    HID_ITM_DELALL_PB               17791   // "Delete all " pushbutton
+#define    HID_ITM_SRCSTARTPATH_EF         17792   // startpath for src docs
+#define    HID_ITM_TGTSTARTPATH_EF         17793   // startpath for tgt docs
+#define    HID_ITM_PREPARE_PB              17795   // "Prepare" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for ITM Main window                                         |
+  +----------------------------------------------------------------------------+
+*/
+#define    HID_ITM_MAIN_EXTHELP            17800
+#define    HID_IDM_ITM_FILE_MENU_SM        17802   // menu in itm main
+#define    HID_IDM_ITMQUIT_MI              17805   // quit the alignment
+#define    HID_IDM_ENDSAVE_MI              17810   // save and quit
+#define    HID_IDM_EDIT_MENU_SM            17815   // edit menu
+#define    HID_IDM_CONNECT_MI              17820   // connect 2 segments
+#define    HID_IDM_DELCONNECT_MI           17825   // delete connection
+#define    HID_IDM_CROSSOUT_MI             17830   // cross out segment
+#define    HID_IDM_GOTO_MENU_SM            17835   // goto menu item
+#define    HID_IDM_NEXTANCHOR_MI           17840   // goto next connection
+#define    HID_IDM_PREVANCHOR_MI           17845   // goto previous connection
+#define    HID_IDM_NEXTLONE_MI             17850   // goto next unaligned
+#define    HID_IDM_PREVLONE_MI             17855   // goto previous unaligned
+#define    HID_IDM_VIEW_MENU_SM            17860   // view menu
+#define    HID_IDM_FONTS_MI                17880   // fonts dialog
+#define    HID_IDM_STYLES_MI               17885   // styles submenu
+#define    HID_IDM_ITM_HELP_MI             17890   // help
+#define    HID_IDM_UNDOCROSSOUT_MI         17895   // undo cross out
+#define    HID_IDM_SYNCHRONIZE_MI          17900   // synchronize current segment
+#define    HID_IDM_ITMJOINSEG_MI           17905   // join segments
+#define    HID_IDM_ITMSPLITSEG_MI          17910   // split joined segments
+#define    HID_IDM_SRCDOC_MI               17915   // srcdoc activate
+#define    HID_IDM_TGTDOC_MI               17920   // tgtdoc activate
+#define    HID_IDM_MARKSEGMENT_MI          17925   // mark segment
+#define    HID_IDM_UNMARKSEG_MI            17930   // unmark segment
+#define    HID_IDM_SIZES_MI                17935   // fontsizes dialog
+#define    HID_IDM_CONTINUE_MI             17940   // continue later on
+#define    HID_IDM_TILE_MI                 17945   // arrange visdoc windows
+#define    HID_IDM_HORIZONTAL_MI           17950   // horizontal arrange
+#define    HID_IDM_VERTICAL_MI             17955   // vertical arrange
+#define    HID_IDM_PARALLEL_MI             17960   // parallelize all alignments
+#define    HID_IDM_NEXTBAD_MI              17965   // goto next irregular align.
+#define    HID_IDM_PREVBAD_MI              17970   // goto prev.irregular align.
+#define    HID_IDM_AUTOWRAP_MI             17975   // automatic linewrap in ITM
+#define    HID_IDM_INITCAPS                17976   // toggle initial caps
+#define    HID_IDM_ALIGN_MENU              17977   // align popup
+#define    HID_IDM_VISIBLESPACE            17978   // visible whitespace
+#define    HID_IDM_TOGGLE                  17979   // toggle src/tgt itm wnd
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Entry Display Dialog                         |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DISP_ENTRY_EXTHELP             18100   // extended help for dialog
+#define HID_DISP_ENTRY_LEVEL_SPIN          18102   // display level spinbutton
+#define HID_DISP_ENTRY_ENTRY_MLE           18104   // MLE containing entry
+#define HID_DISP_ENTRY_COPY_PB             18106   // "Copy" pushbutton
+#define HID_DISP_ENTRY_EDIT_PB             18108   // "Edit" pushbutton
+#define HID_DISP_ENTRY_PRINT_PB            18110   // "Print" pushbutton
+#define HID_DISP_ENTRY_HELP_PB             18112   // "Help" pushbutton
+#define HID_DISP_ENTRY_CANCEL_PB           18114   // "Cancel" pushbutton
+#define HID_DISP_ENTRY_DICT_SPIN           18116   // dictionary spinbutton
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Lookup Dialog                                |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_LOOKUP_EXTHELP                 18200   // extended help for dialog
+#define HID_LOOKUP_WORD_COMBO              18202   // term combobox
+#define HID_LOOKUP_ARBUT_NEIGHB            18204   // "Neighborhood" radiobutton
+#define HID_LOOKUP_ARBUT_COMPWORD          18206   // "Compound Word" radiobutton
+#define HID_LOOKUP_ARBUT_SYN               18208   // "Synonym" radiobutton
+#define HID_LOOKUP_ARBUT_RELTERM           18210   // "Related Term" radiobutton
+#define HID_LOOKUP_ARBUT_ABBREV            18212   // "Abbreviation" radiobutton
+#define HID_LOOKUP_ARBUT_HEADWORD          18214   // "Headword" radiobutton
+#define HID_LOOKUP_SPINBTN                 18220
+#define HID_LOOKUP_FILT_CHG_PB             18221
+#define HID_LOOKUP_OK_PB                   18222   // "Lookup" pushbutton
+#define HID_LOOKUP_HELP_PB                 18224   // "Help" pushbutton
+#define HID_LOOKUP_CANCEL_PB               18226   // "Cancel" pushbutton
+#define HID_LOOKUP_EDIT_PB                 18228   // "Edit" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Edit Dialog                                  |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_EDIT_ENTRY_EXTHELP             18300   // extended help for dialog
+#define HID_EDIT_ENTRY_HEADWORD_EF         18302   // headword entry field
+#define HID_EDIT_ENTRY_FIELD_SLE_MLE       18304   // entry data field(s)
+#define HID_EDIT_ENTRY_SCROLLBAR           18306   // scrollbar
+#define HID_EDIT_ENTRY_NEXT_PB             18308   // "Next" pushbutton
+#define HID_EDIT_ENTRY_PREV_PB             18310   // "Previous" pushbutton
+#define HID_EDIT_ENTRY_ADD_TEMPL_PB        18312   // "Add" templ pushbutton
+#define HID_EDIT_ENTRY_COPY_TEMPL_PB       18314   // "Copy" templ pushbutton
+#define HID_EDIT_ENTRY_DEL_TEMPL_PB        18316   // "Delete" templ pushbutton
+#define HID_EDIT_ENTRY_COPY_PB             18318   // "Copy" pushbutton
+#define HID_EDIT_ENTRY_PASTE_PB            18320   // "Paste" pushbutton
+#define HID_EDIT_ENTRY_TGT_DICT_CB         18322   // target dictionary combobox
+#define HID_EDIT_ENTRY_SAVE_PB             18324   // "Save" pushbutton
+#define HID_EDIT_ENTRY_DEL_ENTRY_PB        18326   // "Delete" pushbutton
+#define HID_EDIT_ENTRY_CANCEL_PB           18328   // "Cancel" pushbutton
+#define HID_EDIT_ENTRY_HELP_PB             18330   // "Help" pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Properties Dialog                            |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICPROP_EXTHELP                18400   // extended help for dialog
+#define HID_DICPROP_NAME_EF                18402
+#define HID_DICPROP_DESCR_EF               18404
+#define HID_DICPROP_LOC_EF                 18406
+#define HID_DICPROP_DRIVE_EF               18408
+#define HID_DICPROP_SOURCELANG_EF          18410
+#define HID_DICPROP_ENTRYFIELDS_LB         18412
+#define HID_DICPROP_LEVEL_GB               18414
+#define HID_DICPROP_LEV1_TEXT              18416
+#define HID_DICPROP_LEV2_TEXT              18418
+#define HID_DICPROP_LEV3_TEXT              18424
+#define HID_DICPROP_LEV4_TEXT              18426
+#define HID_DICPROP_DISPLAY_GB             18428
+#define HID_DICPROP_L1_RB                  18430
+#define HID_DICPROP_L2_RB                  18431
+#define HID_DICPROP_L3_RB                  18432
+#define HID_DICPROP_OMIT_RB                18434
+#define HID_DICPROP_PROTECTED_PB           18436
+#define HID_DICPROP_CHANGENAME_PB          18438
+#define HID_DICPROP_CHANGE_PB              18440
+#define HID_DICPROP_CANCEL_PB              18442
+#define HID_DICPROP_HELP_PB                18444
+#define HID_DICPROP_SIZE_GB                18446
+#define HID_DICPROP_LARGE_RB               18448
+#define HID_DICPROP_SMALL_RB               18450
+#define HID_DICPROP_AUTLOOKUP_CB           18451
+
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Select Model Dictionary Dialog                          |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICMODEL_EXTHELP               18500   // extended help for dialog
+#define HID_DICMODEL_DICT_LB               18502   // model dictionary listbox
+#define HID_DICMODEL_OK_BTN                18504   // "OK" pushbutton
+#define HID_DICMODEL_CANCEL_BTN            18506   // "Cancel" pushbutton
+#define HID_DICMODEL_HELP_BTN              18508   // "Help" pushbutton
+
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Properties                                   |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICNAME_EXTHELP                 18600
+#define HID_DICNAME_ENTRYFIELDS_LB          18602
+#define HID_DICNAME_LEV1_TEXT               18604
+#define HID_DICNAME_LEV2_TEXT               18606
+#define HID_DICNAME_LEV3_TEXT               18608
+#define HID_DICNAME_LEV4_TEXT               18610
+#define HID_DICNAME_L1_RB                   18612
+#define HID_DICNAME_L2_RB                   18614
+#define HID_DICNAME_L3_RB                   18616
+#define HID_DICNAME_CHANGENAME_PB           18618
+#define HID_DICNAME_ADDFIELD_PB             18620
+#define HID_DICNAME_DELFIELD_PB             18622
+#define HID_DICNAME_SET_PB                  18624
+#define HID_DICNAME_CANCEL_PB               18626
+#define HID_DICNAME_HELP_PB                 18628
+#define HID_DICNAME_DISPLAY_GB              18630
+#define HID_DICNAME_LEVEL_GB                18632
+#define HID_DICNAME_OMIT_RB                 18634
+#define HID_DICNAME_SIZE_GB                 18636
+#define HID_DICNAME_LARGE_RB                18638
+#define HID_DICNAME_SMALL_RB                18640
+#define HID_DICNAME_AUTLOOKUP_CB            18642
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Change Dictionary Add Field Dialog                      |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICADDFIELD_EXTHELP           18650   // extended help for dialog
+#define HID_DICADDFIELD_SYSTNAME_SLE      18652   // system name entryfield
+#define HID_DICADDFIELD_DISPLAYED_SLE     18654   // user name entry field
+#define HID_DICADDFIELD_OK_BTN            18656   // "OK" pushbutton
+#define HID_DICADDFIELD_CANCEL_BTN        18658   // "Cancel" pushbutton
+#define HID_DICADDFIELD_HELP_BTN          18660   // "Help" pushbutton
+
+
+/**********************************************************************/
+/* HIDs Change Entry Field Name                                        */
+/**********************************************************************/
+#define  HID_PCH_EXTHELP                  18670   // extended help for dialog
+#define    HID_PCH_SYSTNAME_EF            18672   // system name entryfield
+#define    HID_PCH_DISPLAYED_EF           18674   // user name entry field
+#define    HID_PCH_OK_PB                  18676   // "OK" pushbutton
+#define    HID_PCH_CANCEL_PB              18678   // "Cancel" pushbutton
+#define    HID_PCH_HELP_PB                18680   // "Help" pushbutton
+
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for Delete Exported Folder dialog                           |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_FOLDELEXP_EXTHELP             18700   // EXT. help for del. exp. folder
+#define    HID_FOLDELEXP_FROMDRIVE_PB     18702
+#define    HID_FOLDELEXP_FOLDER_LB        18704
+#define    HID_FOLDELEXP_HELP_PB          18712
+#define    HID_FOLDELEXP_CANCEL_PB        18714
+#define    HID_FOLDELEXP_INFO_PB          18716
+#define    HID_FOLDELEXP_IMPORT_PB        18718
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dialog 'Include Remote Translation Memory'              |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_INCLRMTM_EXTHELP              18800
+#define    HID_INCLRMTM_SERVER_LB         18802
+#define    HID_INCLRMTM_TM_LB             18804
+#define    HID_INCLRMTM_INCLUDE_PB        18806
+#define    HID_INCLRMTM_CANCEL_PB         18808
+#define    HID_INCLRMTM_HELP_PB           18810
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for dialog 'Maintain Server List'                           |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_SERVLIST_EXTHELP              18900
+#define    HID_SERVLIST_SERVER_LB         18902
+#define    HID_SERVLIST_OK_PB             18906
+#define    HID_SERVLIST_ADD_PB            18908
+#define    HID_SERVLIST_DELETE_PB         18910
+#define    HID_SERVLIST_CANCEL_PB         18912
+#define    HID_SERVLIST_HELP_PB           18914
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Create Dialog                                |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICNEW_EXTHELP                19000            // extended help for dialog
+#define    HID_DICNEW_NAME_EF             19002
+#define    HID_DICNEW_DESCR_EF            19004
+#define    HID_DICNEW_LOCATION_GB         19006
+#define    HID_DICNEW_LOCAL_RB            19008
+#define    HID_DICNEW_SHARED_RB           19009
+#define    HID_DICNEW_REMOTE_RB           19010
+#define    HID_DICNEW_SERVER_LB           19012
+#define    HID_DICNEW_SOURCELANG_CB       19016
+#define    HID_DICNEW_YES_PB              19018
+#define    HID_DICNEW_SET_PB              19020
+#define    HID_DICNEW_CREATE_PB           19022
+#define    HID_DICNEW_PROTECTED_PB        19024
+#define    HID_DICNEW_CANCEL_PB           19026
+#define    HID_DICNEW_HELP_PB             19028
+#define    HID_NDIC_DRIVE_PB              19030
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Query Password dialog                        |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICTPASSWORD_EXTHELP          19100   // extended help for dialog
+#define    HID_DICTPASSWORD_PSW_EF        19102
+#define    HID_DICTPASSWORD_ENTER_PB      19104
+#define    HID_DICTPASSWORD_HELP_PB       19106
+#define    HID_DICTPASSWORD_CANCEL_PB     19108
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Enter Password dialog                        |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_DICT2PASSWORD_EXTHELP         19200   // extended help for dialog
+#define    HID_DICT2PASSWORD_PSW1_EF      19202
+#define    HID_DICT2PASSWORD_PSW2_EF      19204
+#define    HID_DICT2PASSWORD_ENTER_PB     19206
+#define    HID_DICT2PASSWORD_CANCEL_PB    19208
+#define    HID_DICT2PASSWORD_HELP_PB      19210
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Translation Processor Spellcheck Dialog                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TP_SPELL_EXTHELP              19300   // extended help for dialog
+#define    HID_TP_SPELL_WRONG_EF          19302   // wrong word entry field
+#define    HID_TP_SPELL_CORRECT_EF        19304   // corrected word entry field
+#define    HID_TP_SPELL_PROOFAID_LB       19306   // 'Simular words' listbox
+#define    HID_TP_SPELL_CHANGE_PB         19308   // 'Change' pushbutton
+#define    HID_TP_SPELL_SKIP_PB           19310   // 'Skip' pushbutton
+#define    HID_TP_SPELL_ADDENDA_PB        19312   // 'Addenda' pushbutton
+#define    HID_TP_SPELL_TEMPADD_PB        19314   // 'Temp Addenda' pushbutton
+#define    HID_TP_SPELL_CANCEL_PB         19316   // 'Cancel' pushbutton
+#define    HID_TP_SPELL_HELP_PB           19318   // 'Help' pushbutton
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Dictionary Merge dialog                                 |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_ASDMERGE_EXTHELP              19400
+#define    HID_ASDMERGE_ENTRY_EF          19402
+#define    HID_ASDMERGE_NEW_MLE           19404
+#define    HID_ASDMERGE_OLD_MLE           19406
+#define    HID_ASDMERGE_REPLACE_RB        19408
+#define    HID_ASDMERGE_IGNORE_RB         19410
+#define    HID_ASDMERGE_ADD_RB            19412
+#define    HID_ASDMERGE_NOPROMPT_CHK      19414
+#define    HID_ASDMERGE_MERGE_PB          19416
+#define    HID_ASDMERGE_CANCEL_PB         19418
+#define    HID_ASDMERGE_HELP_PB           19420
+#define    HID_ASDMERGE_NEW_TEXT          19422
+#define    HID_ASDMERGE_OLD_TEXT          19424
+
+/*+----------------------------------------------------------------------------+
+  |    Help resids for Analysis 2 Dialog (alias List Settings Dialog)          |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_AN2_EXTHELP                   19500
+#define HID_AN2_ADDTERM_CHK               19502
+#define HID_AN2_ADDTERMDIC_CB             19504
+#define HID_AN2_NEWTERM_CHK               19506
+#define HID_AN2_NEWTERMDIC_CB             19508
+#define HID_AN2_NEWMINOCCUR_EF            19510
+#define HID_AN2_NEWLISTINFO_CHK           19512
+#define HID_AN2_FOUNDTERM_CHK             19514
+#define HID_AN2_FOUNDTERMDIC_CB           19516
+#define HID_AN2_FOUNDLISTINFO_CHK         19518
+#define HID_AN2_FOUNDMINOCCUR_EF          19520
+#define HID_AN2_DICTAVA_LB                19522
+#define HID_AN2_DICTSEL_LB                19524
+#define HID_AN2_EXTERMSINLIST_CHK         19526
+#define HID_AN2_EXTERMSINLIST_CB          19528
+#define HID_AN2_EXTERMSINDIC_CHK          19530
+#define HID_AN2_EXTERMSINDIC_CB           19532
+#define HID_AN2_COMPWORD_CHK              19534
+#define HID_AN2_COMPWORD_CB               19536
+#define HID_AN2_OK_PB                     19538
+#define HID_AN2_CANCEL_PB                 19540
+#define HID_AN2_HELP_PB                   19542
+
+/*+----------------------------------------------------------------------------+
+  |    help resids for TB Command dialog                                       |
+  +----------------------------------------------------------------------------+
+*/
+#define HID_TB_COMMAND_EXTHELP          19600
+#define HID_TB_COMMAND_LB               19602
+#define HID_TB_COMMAND_EXECUTE_PB       19604
+#define HID_TB_COMMAND_CANCEL_PB        19606
+#define HID_TB_COMMAND_HELP_PB          19608
+
+
+
+/**********************************************************************/
+/* HIDs for List Instance Window                                       */
+/**********************************************************************/
+#define HID_LIST_EXTHELP                19700
+#define HID_LIST_LB                     19702
+#define HID_LIST_TYPE_CB                19704
+
+/**********************************************************************/
+/* HIDs for Source Language Update                                    */
+/**********************************************************************/
+#define HID_LNGUPDATE_EXTHELP           19800
+
+/**********************************************************************/
+/* HIDs for Mark for Dictionary Dialog (LISTMARK NTL)                  */
+/**********************************************************************/
+#define HID_LISTMARK_NTL_EXTHELP            19900
+#define HID_LISTMARK_NTL_TERM_EF            19901
+#define HID_LISTMARK_NTL_CONTEXT_CHK        19902
+#define HID_LISTMARK_NTL_CONTEXT_MLE        19904
+#define HID_LISTMARK_NTL_TRANS_EF           19906
+#define HID_LISTMARK_NTL_DICTIONARY_LB      19908
+#define HID_LISTMARK_NTL_MARK_PB            19910
+#define HID_LISTMARK_NTL_SKIP_PB            19912
+#define HID_LISTMARK_NTL_CANCEL_PB          19914
+#define HID_LISTMARK_NTL_HELP_PB            19916
+
+/**********************************************************************/
+/* HIDs for Mark for Dictionary Dialog (LISTMARK FTL)                  */
+/**********************************************************************/
+#define HID_LISTMARK_FTL_EXTHELP            20000
+#define HID_LISTMARK_FTL_TERM_EF            20001
+#define HID_LISTMARK_FTL_CONTEXT_CHK        20002
+#define HID_LISTMARK_FTL_CONTEXT_MLE        20004
+#define HID_LISTMARK_FTL_TRANS_EF           20006
+#define HID_LISTMARK_FTL_DICTIONARY_LB      20008
+#define HID_LISTMARK_FTL_MARK_PB            20010
+#define HID_LISTMARK_FTL_SKIP_PB            20012
+#define HID_LISTMARK_FTL_CANCEL_PB          20014
+#define HID_LISTMARK_FTL_HELP_PB            20016
+
+/**********************************************************************/
+/* HIDs for List Export Dialog (LISTEXP NTL)                               */
+/**********************************************************************/
+#define HID_LISTEXP_NTL_EXTHELP             20100
+#define HID_LISTEXP_NTL_MAT_RB              20104
+#define HID_LISTEXP_NTL_USER_RB             20106
+#define HID_LISTEXP_NTL_EXTERNAL_RB         20108
+#define HID_LISTEXP_NTL_EXPORT_EF           20110
+#define HID_LISTEXP_NTL_DRIVE_PB            20112
+#define HID_LISTEXP_NTL_DUMMY               20114
+#define HID_LISTEXP_NTL_NAME_EF             20116
+#define HID_LISTEXP_NTL_DIR_LB              20118
+#define HID_LISTEXP_NTL_EXPORT_PB           20120
+#define HID_LISTEXP_NTL_CANCEL_PB           20122
+#define HID_LISTEXP_NTL_HELP_PB             20124
+
+/**********************************************************************/
+/* HIDs for List Export Dialog (LISTEXP FTL)                               */
+/**********************************************************************/
+#define HID_LISTEXP_FTL_EXTHELP             20200
+#define HID_LISTEXP_FTL_MAT_RB              20204
+#define HID_LISTEXP_FTL_USER_RB             20206
+#define HID_LISTEXP_FTL_EXTERNAL_RB         20208
+#define HID_LISTEXP_FTL_EXPORT_EF           20210
+#define HID_LISTEXP_FTL_DRIVE_PB            20212
+#define HID_LISTEXP_FTL_DUMMY               20214
+#define HID_LISTEXP_FTL_NAME_EF             20216
+#define HID_LISTEXP_FTL_DIR_LB              20218
+#define HID_LISTEXP_FTL_EXPORT_PB           20220
+#define HID_LISTEXP_FTL_CANCEL_PB           20222
+#define HID_LISTEXP_FTL_HELP_PB             20224
+
+/**********************************************************************/
+/* HIDs for List Export Dialog (LISTEXP NOIS)                              */
+/**********************************************************************/
+#define HID_LISTEXP_NOIS_EXTHELP             20300
+#define HID_LISTEXP_NOIS_MAT_RB              20304
+#define HID_LISTEXP_NOIS_USER_RB             20306
+#define HID_LISTEXP_NOIS_EXTERNAL_RB         20308
+#define HID_LISTEXP_NOIS_EXPORT_EF           20310
+#define HID_LISTEXP_NOIS_DRIVE_PB            20312
+#define HID_LISTEXP_NOIS_DUMMY               20314
+#define HID_LISTEXP_NOIS_NAME_EF             20316
+#define HID_LISTEXP_NOIS_DIR_LB              20318
+#define HID_LISTEXP_NOIS_EXPORT_PB           20320
+#define HID_LISTEXP_NOIS_CANCEL_PB           20322
+#define HID_LISTEXP_NOIS_HELP_PB             20324
+
+/**********************************************************************/
+/* HIDs for List Export Dialog (LISTEXP EXCL)                              */
+/**********************************************************************/
+#define HID_LISTEXP_EXCL_EXTHELP             20400
+#define HID_LISTEXP_EXCL_MAT_RB              20404
+#define HID_LISTEXP_EXCL_USER_RB             20406
+#define HID_LISTEXP_EXCL_EXTERNAL_RB         20408
+#define HID_LISTEXP_EXCL_EXPORT_EF           20410
+#define HID_LISTEXP_EXCL_DRIVE_PB            20412
+#define HID_LISTEXP_EXCL_DUMMY               20414
+#define HID_LISTEXP_EXCL_NAME_EF             20416
+#define HID_LISTEXP_EXCL_DIR_LB              20418
+#define HID_LISTEXP_EXCL_EXPORT_PB           20420
+#define HID_LISTEXP_EXCL_CANCEL_PB           20422
+#define HID_LISTEXP_EXCL_HELP_PB             20424
+
+/**********************************************************************/
+/* HIDs for List Import Dialog (LISTIMP NTL)                            */
+/**********************************************************************/
+#define HID_LISTIMP_NTL_EXTHELP             20500
+#define HID_LISTIMP_NTL_EXTERNAL_RB         20504
+#define HID_LISTIMP_NTL_MAT_RB              20506
+#define HID_LISTIMP_NTL_USER_RB             20508
+#define HID_LISTIMP_NTL_DRIVE_PB            20510
+#define HID_LISTIMP_NTL_PATH_EF             20512
+#define HID_LISTIMP_NTL_DIR_LB              20516
+#define HID_LISTIMP_NTL_FILES_LB            20518
+#define HID_LISTIMP_NTL_TO_LB               20520
+#define HID_LISTIMP_NTL_OK_PB               20522
+#define HID_LISTIMP_NTL_CANCEL_PB           20524
+#define HID_LISTIMP_NTL_HELP_PB             20526
+#define HID_LISTIMP_NTL_LIST_LB             20528
+
+/**********************************************************************/
+/* HIDs for List Import Dialog (LISTIMP FTL)                            */
+/**********************************************************************/
+#define HID_LISTIMP_FTL_EXTHELP             20600
+#define HID_LISTIMP_FTL_EXTERNAL_RB         20604
+#define HID_LISTIMP_FTL_MAT_RB              20606
+#define HID_LISTIMP_FTL_USER_RB             20608
+#define HID_LISTIMP_FTL_DRIVE_PB            20610
+#define HID_LISTIMP_FTL_PATH_EF             20612
+#define HID_LISTIMP_FTL_DIR_LB              20616
+#define HID_LISTIMP_FTL_FILES_LB            20618
+#define HID_LISTIMP_FTL_TO_LB               20620
+#define HID_LISTIMP_FTL_OK_PB               20622
+#define HID_LISTIMP_FTL_CANCEL_PB           20624
+#define HID_LISTIMP_FTL_HELP_PB             20626
+#define HID_LISTIMP_FTL_LIST_LB             20628
+
+/**********************************************************************/
+/* HIDs for List Import Dialog (LISTIMP NOIS)                           */
+/**********************************************************************/
+#define HID_LISTIMP_NOIS_EXTHELP             20700
+#define HID_LISTIMP_NOIS_EXTERNAL_RB         20704
+#define HID_LISTIMP_NOIS_MAT_RB              20706
+#define HID_LISTIMP_NOIS_USER_RB             20708
+#define HID_LISTIMP_NOIS_DRIVE_PB            20710
+#define HID_LISTIMP_NOIS_PATH_EF             20712
+#define HID_LISTIMP_NOIS_DIR_LB              20716
+#define HID_LISTIMP_NOIS_FILES_LB            20718
+#define HID_LISTIMP_NOIS_TO_LB               20720
+#define HID_LISTIMP_NOIS_OK_PB               20722
+#define HID_LISTIMP_NOIS_CANCEL_PB           20724
+#define HID_LISTIMP_NOIS_HELP_PB             20726
+#define HID_LISTIMP_NOIS_LIST_LB             20728
+
+/**********************************************************************/
+/* HIDs for List Import Dialog (LISTIMP EXCL)                           */
+/**********************************************************************/
+#define HID_LISTIMP_EXCL_EXTHELP             20800
+#define HID_LISTIMP_EXCL_EXTERNAL_RB         20804
+#define HID_LISTIMP_EXCL_MAT_RB              20806
+#define HID_LISTIMP_EXCL_USER_RB             20808
+#define HID_LISTIMP_EXCL_DRIVE_PB            20810
+#define HID_LISTIMP_EXCL_PATH_EF             20812
+#define HID_LISTIMP_EXCL_DIR_LB              20816
+#define HID_LISTIMP_EXCL_FILES_LB            20818
+#define HID_LISTIMP_EXCL_TO_LB               20820
+#define HID_LISTIMP_EXCL_OK_PB               20822
+#define HID_LISTIMP_EXCL_CANCEL_PB           20824
+#define HID_LISTIMP_EXCL_HELP_PB             20826
+#define HID_LISTIMP_EXCL_LIST_LB             20828
+
+/**********************************************************************/
+/* HIDs for Work With List Dialog (LISTWORK NTL)                       */
+/**********************************************************************/
+#define HID_LISTWORK_NTL_EXTHELP        20900
+#define HID_LISTWORK_NTL_MKALL_PB       20902
+#define HID_LISTWORK_NTL_MKNOT_PB       20904
+#define HID_LISTWORK_NTL_MKDEL_PB       20906
+#define HID_LISTWORK_NTL_MKEXC_PB       20908
+#define HID_LISTWORK_NTL_MKDCT_PB       20910
+#define HID_LISTWORK_NTL_TERM_LB        20912
+#define HID_LISTWORK_NTL_DELMARK_PB     20914
+#define HID_LISTWORK_NTL_DICTMARK_PB    20916
+#define HID_LISTWORK_NTL_EXCLMARK_PB    20918
+#define HID_LISTWORK_NTL_EXCL_CB        20920
+#define HID_LISTWORK_NTL_SAVE_PB        20922
+#define HID_LISTWORK_NTL_PROCMARK_PB    20924
+#define HID_LISTWORK_NTL_CANCEL_PB      20926
+#define HID_LISTWORK_NTL_HELP_PB        20928
+#define HID_LISTWORK_NTL_UNMARK_PB      20930
+
+/**********************************************************************/
+/* HIDs for Work With List Dialog (LISTWORK FTL)                       */
+/**********************************************************************/
+#define HID_LISTWORK_FTL_EXTHELP        21000
+#define HID_LISTWORK_FTL_MKALL_PB       21002
+#define HID_LISTWORK_FTL_MKNOT_PB       21004
+#define HID_LISTWORK_FTL_MKDEL_PB       21006
+#define HID_LISTWORK_FTL_MKEXC_PB       21008
+#define HID_LISTWORK_FTL_MKDCT_PB       21010
+#define HID_LISTWORK_FTL_TERM_LB        21012
+#define HID_LISTWORK_FTL_DELMARK_PB     21014
+#define HID_LISTWORK_FTL_DICTMARK_PB    21016
+#define HID_LISTWORK_FTL_EXCLMARK_PB    21018
+#define HID_LISTWORK_FTL_EXCL_CB        21020
+#define HID_LISTWORK_FTL_SAVE_PB        21022
+#define HID_LISTWORK_FTL_PROCMARK_PB    21024
+#define HID_LISTWORK_FTL_CANCEL_PB      21026
+#define HID_LISTWORK_FTL_HELP_PB        21028
+#define HID_LISTWORK_FTL_UNMARK_PB      21030
+
+/**********************************************************************/
+/* HIDs for List Edit Dialog (LISTEDIT NEW EXCL)                       */
+/**********************************************************************/
+#define HID_LISTEDIT_NEW_EXCL_EXTHELP            21100
+#define HID_LISTEDIT_NEW_EXCL_TERM_MLE           21102
+#define HID_LISTEDIT_NEW_EXCL_SAVETO_CB          21104
+#define HID_LISTEDIT_NEW_EXCL_SAVE_PB            21106
+#define HID_LISTEDIT_NEW_EXCL_CANCEL_PB          21108
+#define HID_LISTEDIT_NEW_EXCL_HELP_PB            21110
+
+/**********************************************************************/
+/* HIDs for List Edit Dialog (LISTEDIT NEW NOIS)                       */
+/**********************************************************************/
+#define HID_LISTEDIT_NEW_NOIS_EXTHELP            21200
+#define HID_LISTEDIT_NEW_NOIS_TERM_MLE           21202
+#define HID_LISTEDIT_NEW_NOIS_SAVETO_CB          21204
+#define HID_LISTEDIT_NEW_NOIS_SAVE_PB            21206
+#define HID_LISTEDIT_NEW_NOIS_CANCEL_PB          21208
+#define HID_LISTEDIT_NEW_NOIS_HELP_PB            21210
+
+/**********************************************************************/
+/* HIDs for List Edit Dialog (LISTEDIT EDI EXCL)                       */
+/**********************************************************************/
+#define HID_LISTEDIT_EDI_EXCL_EXTHELP            21300
+#define HID_LISTEDIT_EDI_EXCL_TERM_MLE           21302
+#define HID_LISTEDIT_EDI_EXCL_SAVETO_CB          21304
+#define HID_LISTEDIT_EDI_EXCL_SAVE_PB            21306
+#define HID_LISTEDIT_EDI_EXCL_CANCEL_PB          21308
+#define HID_LISTEDIT_EDI_EXCL_HELP_PB            21310
+
+/**********************************************************************/
+/* HIDs for List Edit Dialog (LISTEDIT EDI NOIS)                       */
+/**********************************************************************/
+#define HID_LISTEDIT_EDI_NOIS_EXTHELP            21400
+#define HID_LISTEDIT_EDI_NOIS_TERM_MLE           21402
+#define HID_LISTEDIT_EDI_NOIS_SAVETO_CB          21404
+#define HID_LISTEDIT_EDI_NOIS_SAVE_PB            21406
+#define HID_LISTEDIT_EDI_NOIS_CANCEL_PB          21408
+#define HID_LISTEDIT_EDI_NOIS_HELP_PB            21410
+
+/**********************************************************************/
+/* HIDs for List Edit Dialog (LISTEDIT EDI Abbreviation                */
+/**********************************************************************/
+#define HID_LISTEDIT_EDI_ABR_EXTHELP             21450
+#define HID_LISTEDIT_EDI_ABR_TERM_MLE            21452
+#define HID_LISTEDIT_EDI_ABR_SAVETO_CB           21454
+#define HID_LISTEDIT_EDI_ABR_SAVE_PB             21456
+#define HID_LISTEDIT_EDI_ABR_CANCEL_PB           21458
+#define HID_LISTEDIT_EDI_ABR_HELP_PB             21459
+
+/**********************************************************************/
+/* HIDs for List Edit Dialog (LISTEDIT EDI Addenda)                    */
+/**********************************************************************/
+#define HID_LISTEDIT_EDI_ADD_EXTHELP             21460
+#define HID_LISTEDIT_EDI_ADD_TERM_MLE            21462
+#define HID_LISTEDIT_EDI_ADD_SAVETO_CB           21464
+#define HID_LISTEDIT_EDI_ADD_SAVE_PB             21466
+#define HID_LISTEDIT_EDI_ADD_CANCEL_PB           21468
+#define HID_LISTEDIT_EDI_ADD_HELP_PB             21469
+
+
+/**********************************************************************/
+/* HIDs TP dictionary window                                           */
+/**********************************************************************/
+#define HID_TWBS_DICT_EXTHELP                    21500
+
+
+/**********************************************************************/
+/* HIDs TP tranlation memory proposals window                          */
+/**********************************************************************/
+#define HID_TWBS_PROP_EXTHELP                    21600
+
+/**********************************************************************/
+/* HIDs TP tranlation memory proposals window                          */
+/**********************************************************************/
+#define HID_TB_SHOWTRANS_EXTHELP                 21650
+
+
+/**********************************************************************/
+/* HIDs TP  source text window                                         */
+/**********************************************************************/
+#define HID_TWBS_SOURCE_EXTHELP                  21700
+
+/**********************************************************************/
+/* HIDs Server list name dialog                                        */
+/**********************************************************************/
+#define HID_SERVLIST_NAME_EXTHELP                21800
+#define    HID_SERVLIST_NAME_EF                  21802
+#define    HID_SERVLIST_NAME_OK_PB               21804
+#define    HID_SERVLIST_NAME_CANCEL_PB           21806
+#define    HID_SERVLIST_NAME_HELP_PB             21808
+
+/**********************************************************************/
+/* HIDs TP  frame window                                               */
+/**********************************************************************/
+#define HID_TWBS_FRAME_EXTHELP                   21900
+
+/**********************************************************************/
+/* HIDs SERVER                                                         */
+/**********************************************************************/
+#define HID_TMCOM_EXTHELP                        22000
+#define    HID_TMCOM_SM_FILE                     22002     //file pulldown
+#define    HID_TMCOM_MI_EXIT                     22004     //'Exit' menu item
+#define    HID_TMCOM_MI_RESUME                   22006     //'Resume' menu item
+#define    HID_TMCOM_SM_UTILS                    22008     //submenue
+#define    HID_TMCOM_MI_DRIVES                   22010     //'Drives' menu item
+#define    HID_TMCOM_HELP_SM                     22012
+#define    HID_TMCOM_MI_HELPFORHELP              22014
+#define    HID_TMCOM_MI_EXTENDEDHELP             22016
+#define    HID_TMCOM_MI_HELP_KEYSHELP            22018
+#define    HID_TMCON_MI_HELPINDEX_MI             22020
+
+
+
+
+
+/**********************************************************************/
+/* HIDs SERVER Drives Dialog                                           */
+/**********************************************************************/
+#define HID_TMCOM_DRIVES_EXTHELP                 22100
+#define    HID_TMCOM_DRIVES_DRIVE_PB             22102     //drive buttons
+#define    HID_TMCOM_SET_PB                      22104     //'Set' Pushbutton
+#define    HID_TMCOM_CANCEL_PB                   22106     //'Cancel' Pushbutton
+#define    HID_TMCOM_HELP_PB                     22108     //'Help' Pushbutton
+
+
+/**********************************************************************/
+/* HIDs Tutorial Manager Window                                       */
+/**********************************************************************/
+#define HID_WELCOME_PAGE                         22200
+
+/**********************************************************************/
+/* HIDs TP Original Window                                             */
+/**********************************************************************/
+#define HID_TWBS_ORIG_EXTHELP                    22300
+
+
+/**********************************************************************/
+/* HIDs TP  source text window and TRNote Window                       */
+/**********************************************************************/
+#define HID_TWBS_OTHER_EXTHELP                   22400
+#define HID_TWBS_TRNOTE_EXTHELP                  22450
+
+/**********************************************************************/
+/* HIDs Remote Dictionary Dialog                                       */
+/**********************************************************************/
+#define HID_DICTREM_EXTHELP                         22500
+#define    HID_DICTREM_SERVER_LB                    22502
+#define    HID_DICTREM_DICT_LB                      22504
+#define    HID_DICTREM_INCLUDE_PB                   22506
+#define    HID_DICTREM_CANCEL_PB                    22508
+#define    HID_DICTREM_HELP_PB                      22510
+
+
+
+/**********************************************************************/
+/* HIDs Goto Line                                                      */
+/**********************************************************************/
+#define HID_TB_GOTO_EXTHELP                         22600
+#define    HID_TB_GOTO_EF                           22602
+#define    HID_TB_GOTO_GOTO_PB                      22604
+#define    HID_TB_GOTO_CANCEL_PB                    22606
+#define    HID_TB_GOTO_HELP_PB                      22608
+
+
+/**********************************************************************/
+/* HIDs Print Dictionary                                               */
+/**********************************************************************/
+#define HID_QDPR_PRTDLG_EXTHELP                     22700
+#define     HID_QDPR_PRTDLG_PRINT_PB                22702
+#define     HID_QDPR_PRTDLG_CANCEL_PB               22704
+#define     HID_QDPR_PRTDLG_HELP_PB                 22706
+#define     HID_QDPR_PRTDLG_FORMAT_CBS              22710
+#define     HID_QDPR_PRTDLG_DESC_EF                 22711
+#define     HID_QDPR_PRTDLG_PRINTER_RB              22712
+#define     HID_QDPR_PRTDLG_FILE_RB                 22714
+#define     HID_QDPR_PRTDLG_SET_PB                  22716
+#define     HID_QDPR_PRTDLG_NAME_EF                 22717
+
+/**********************************************************************/
+/* HIDs Process Filter                                                 */
+/**********************************************************************/
+#define HID_FILT_EXTHELP                            22800
+#define    HID_FILT_NAME_LB                         22802
+#define    HID_FILT_DESCR_EF                        22804
+#define    HID_FILT_AVAILFIELDS_LB                  22806
+#define    HID_FILT_OPERATORS_LB                    22808
+#define    HID_FILT_SELECT_MLE                      22810
+#define    HID_FILT_WHERE_MLE                       22812
+#define    HID_FILT_SAVETO_CB                       22814
+#define    HID_FILT_SAVE_PB                         22816
+#define    HID_FILT_DELETE_PB                       22818
+#define    HID_FILT_CANCEL_PB                       22820
+#define    HID_FILT_HELP_PB                         22822
+
+/**********************************************************************/
+/* HIDs Dictionary Condition (1)                                       */
+/**********************************************************************/
+#define HID_FILTOP1_EXTHELP                         22900
+#define    HID_FILTOP1_VALUE_EF                     22902
+#define    HID_FILTOP1_OK_PB                        22904
+#define    HID_FILTOP1_CANCEL_PB                    22906
+#define    HID_FILTOP1_HELP_PB                      22908
+
+
+
+#define HID_FILT2_EXTHELP                       22850
+#define HID_FILT2_KEY1_CB                       22852
+#define HID_FILT2_KEY2_CB                       22854
+#define HID_FILT2_KEY3_CB                       22856
+#define HID_FILT2_OP1_CB                        22858
+#define HID_FILT2_OP2_CB                        22860
+#define HID_FILT2_OP3_CB                        22862
+#define HID_FILT2_VALUE1_EF                     22864
+#define HID_FILT2_VALUE2_EF                     22866
+#define HID_FILT2_VALUE3_EF                     22868
+#define HID_FILT2_FILTER_PB                     22870
+#define HID_FILT2_CANCEL_PB                     22878
+
+#define HID_SORT_EXTHELP              22948
+#define HID_SORT_KEY1_CB              22950
+#define HID_SORT_ASCENDING1_RB        22952
+#define HID_SORT_DESCENDING1_RB       22954
+#define HID_SORT_KEY2_CB              22956
+#define HID_SORT_ASCENDING2_RB        22958
+#define HID_SORT_DESCENDING2_RB       22960
+#define HID_SORT_KEY3_CB              22962
+#define HID_SORT_ASCENDING3_RB        22964
+#define HID_SORT_DESCENDING3_RB       22966
+#define HID_SORT_SORT_PB              22968
+#define HID_SORT_CANCEL_PB            22970
+
+#define HID_SUBFOLDERNEW_EXTHELP        23050
+#define HID_SUBFOLDER_NAME_TEXT         23052
+#define HID_SUBFOLDER_TM_CB             23054
+#define HID_SUBFOLDER_FORMAT_CB         23056
+#define HID_SUBFOLDER_SRCLNG_CB         23058
+#define HID_SUBFOLDER_TRGLNG_CB         23060
+#define HID_SUBFOLDER_EDITOR_CB         23062
+#define HID_SUBFOLDER_CONV_CB           23064
+#define HID_SUBFOLDER_TRANSL_CB         23066
+#define HID_SUBFOLDER_EMAIL_EF          23068
+#define HID_SUBFOLDER_CHANGE_PB         23070
+#define HID_SUBFOLDER_CANCEL_PB         23080
+
+
+#define HID_MTPROP_EXTHELP              23200
+#define HID_MTPROP_TABCTRL              23202
+#define HID_MTPROP_SUBJAREA_LB          23204
+#define HID_MTPROP_WORDLIMIT_EF         23206
+#define HID_MTPROP_SMALLFUZZY_EF        23208
+#define HID_MTPROP_MEDIUMFUZZY_EF       23210
+#define HID_MTPROP_LARGEFUZZY_EF        23212
+#define HID_MTPROP_MQSERVER_EF          23214
+#define HID_MTPROP_QUEUEMGR_EF          23216
+#define HID_MTPROP_INPQUEUE_EF          23218
+#define HID_MTPROP_OUTQUEUE_EF          23220
+#define HID_MTPROP_FOLDER_EF            23222
+#define HID_MTPROP_SOURCELANG_EF        23224
+#define HID_MTPROP_TARGETLANG_EF        23226
+#define HID_MTPROP_EMAIL_EF             23228
+#define HID_MTPROP_SELSUBJAREA_LB       23230
+#define HID_MTPROP_WORDLIMIT_CHK        23232
+#define HID_MTPROP_SMALLFUZZY_CHK       23234
+#define HID_MTPROP_MEDIUMFUZZY_CHK      23236
+#define HID_MTPROP_LARGEFUZZY_CHK       23238
+#define HID_MTPROP_CHANGESUBJECT_PB     23240
+#define HID_MTPROP_AVAILSUBJECT_TREE    23242
+#define HID_MTPROP_SELECTSUBJECT_LB     23244
+#define HID_MTPROP_COPYSUBJECT_PB       23246
+#define HID_MTPROP_REMOVESUBJECT_PB     23248
+#define HID_MTPROP_NUMOFWORDS_EF        23250
+#define HID_MTPROP_SUBJECTTOP_PB        23252
+#define HID_MTPROP_SUBJECTUP_PB         23254
+#define HID_MTPROP_SUBJECTDN_PB         23256
+#define HID_MTPROP_SUBJECTBOT_PB        23258
+#define HID_MTPROP_MQS_RB               23260
+#define HID_MTPROP_FTP_RB               23262
+#define HID_MTPROP_FTPSERVER_EF         23264
+#define HID_MTPROP_FTPUSER_EF           23266
+#define HID_MTPROP_FTPPASSWORD_EF       23268
+#define HID_MTPROP_FTPPORT_EF           23270
+#define HID_MTPROP_FTPDIRECTACCESS_RB   23272
+#define HID_MTPROP_FTPSOCKSPROXY_RB     23274
+#define HID_MTPROP_FTPPROXY_RB          23276
+#define HID_MTPROP_FTPPASSIVEMODE_CHK   23278
+#define HID_MTPROP_FTPPROXYADDRESS      23280
+#define HID_MTPROP_FTPPROXYPORT         23282
+
+
+/**********************************************************************/
+/* HIDs Dictionary Condition (2)                                       */
+/**********************************************************************/
+#define HID_FILTOP2_EXTHELP                         23000
+#define    HID_FILTOP2_VALUE1_EF                    23002
+#define    HID_FILTOP2_VALUE2_EF                    23004
+#define    HID_FILTOP2_HELP_PB                      23006
+
+
+/**********************************************************************/
+/* HIDs Dictionary Condition (3)                                       */
+/**********************************************************************/
+#define HID_FILTOP3_EXTHELP                         23100
+#define    HID_FILTOP3_VALUE1_EF                    23102
+#define    HID_FILTOP3_VALUE2_EF                    23104
+#define    HID_FILTOP3_VALUE3_EF                    23106
+#define    HID_FILTOP3_VALUE4_EF                    23108
+#define    HID_FILTOP3_VALUE5_EF                    23110
+#define    HID_FILTOP3_VALUE6_EF                    23112
+#define    HID_FILTOP3_HELP_PB                      23114
+
+/**********************************************************************/
+/* HIDs Select File                                                    */
+/**********************************************************************/
+#define HID_UTL_SETFILE_EXTHELP                     23200
+#define    HID_UTL_SETFILE_SET_PB                   23202
+#define    HID_UTL_SETFILE_CANCEL_PB                23204
+#define    HID_UTL_SETFILE_HELP_PB                  23206
+#define    HID_UTL_SETFILE_DIR_LB                   23208
+#define    HID_UTL_SETFILE_NAME_EF                  23212
+#define    HID_UTL_SETFILE_DRIVEA_PB                23214
+
+/**********************************************************************/
+/* HIDs Revision Marks                                                 */
+/**********************************************************************/
+#define HID_REVMARK_EXTHELP                         23300
+#define    HID_REVMARK_NAME_EF                      23302
+#define    HID_REVMARK_CAT1_BEG_EF                  23304
+#define    HID_REVMARK_CAT1_END_EF                  23306
+#define    HID_REVMARK_CAT2_BEG_EF                  23308
+#define    HID_REVMARK_CAT2_END_EF                  23310
+#define    HID_REVMARK_CAT3_BEG_EF                  23312
+#define    HID_REVMARK_CAT3_END_EF                  23314
+#define    HID_REVMARK_SAVE_PB                      23316
+#define    HID_REVMARK_CANCEL_PB                    23318
+#define    HID_REVMARK_HELP_PB                      23320
+#define    HID_REVMARK_DESCR_EF                     23322
+
+/**********************************************************************/
+/* HIDs FontExt dialog ( fonts for RTFEDit)23350                       */
+/**********************************************************************/
+#define    HID_TB_FONTEXT_TREE                      23350
+#define    HID_TB_FONTEXT_FONT_CBS                  23352
+#define    HID_TB_FONTEXT_FONTSTYLE_CBS             23354
+#define    HID_TB_FONTEXT_SIZE                      23356
+#define    HID_TB_FONTEXT_FGCOLOR                   23358
+#define    HID_TB_FONTEXT_BGCOLOR                   23360
+#define    HID_TB_FONTEXT_SCRIPT                    23362
+#define    HID_TB_FONTEXT_STRIKETHROUGH             23364
+#define    HID_TB_FONTEXT_UNDERLINE                 23366
+#define    HID_TB_FONTEXT_PREVIEW                   23368
+#define    HID_TB_FONTEXT_TEXT                      23370
+#define    HID_TB_FONTEXT_OK_PB                     23372
+#define    HID_TB_FONTEXT_DEFAULT_PB                23374
+#define    HID_TB_FONTEXT_CANCEL_PB                 23376
+#define    HID_TB_FONTEXT_HELP_PB                   23378
+#define    HID_TB_FONTEXT_DLG                       23380
+/**********************************************************************/
+/* HIDs Customize translation Functions    23400                       */
+/**********************************************************************/
+#define HID_TB_PROFONE_EXTHELP                      23400
+#define    HID_TB_PROFONE_SETTINGS_LB               23402
+#define    HID_TB_PROFONE_SHRINK_EF                 23404
+#define    HID_TB_PROFONE_COMPACT_EF                23406
+#define    HID_TB_PROFONE_SET_PB                    23408
+#define    HID_TB_PROFONE_CANCEL_PB                 23410
+#define    HID_TB_PROFONE_HELP_PB                   23412
+#define    HID_TB_PROFONE_ACTLINE_EF                23414
+#define    HID_TB_PROFONE_RMARGIN_CBS               23416
+#define    HID_TB_PROFONE_TMWND_CBS                 23418
+#define    HID_TB_PROFONE_TRNOTE_EF                 23420
+
+
+/**********************************************************************/
+/* HIDs Customize translation Functions via property page 23440        */
+/**********************************************************************/
+#define HID_TB_PROP_MESSAGE_EXTHELP                 23440
+#define   HID_TB_PROP_CHECKTAGS                      23442
+#define   HID_TB_PROP_MSGPROPEQ                      23444
+#define   HID_TB_PROP_MSGSRCEQ                       23446
+#define HID_TB_PROP_DICTIONARY_EXTHELP              23450
+#define   HID_TB_PROP_ADDINFODIC                     23452
+#define   HID_TB_PROP_ALLDICTTERMS                   23454
+#define   HID_TB_PROP_DISPDICTNAME                   23456
+#define   HID_TB_PROP_LKUPSINGLEOFCOMPOUNDS          23457
+#define HID_TB_PROP_TRANSLMEM_EXTHELP               23460
+#define   HID_TB_PROP_TMWND_CBS                      23461
+#define   HID_TB_PROP_SRCPROPWND                     23462
+#define   HID_TB_PROP_NUMPROPS                       23463
+#define   HID_TB_PROP_ORIGINPROP                     23464
+#define   HID_TB_PROP_DATEOFPROP                     23465
+#define   HID_TB_PROP_DISPMTALWAYS                   23466
+#define   HID_TB_PROP_AUTOREPL                       23467
+#define   HID_TB_PROP_DISPSRC                        23468
+#define HID_TB_PROP_EDITOR_EXTHELP                  23470
+#define   HID_TB_PROP_AUTOSTOP                       23471
+#define   HID_TB_PROP_EXACTCONTEXTMATCH              23472
+#define   HID_TB_PROP_USELATESTMATCH                 23473
+#define   HID_TB_PROP_CUABACK                        23474
+#define   HID_TB_PROP_USENOCUASEL                    23475
+#define   HID_TB_PROP_INSPROP                        23476
+#define   HID_TB_PROP_AUTOINSMODE                    23477
+#define   HID_TB_PROP_INSSOSI                        23478
+#define HID_TB_PROP_DISPLAY_EXTHELP                 23480
+#define   HID_TB_PROP_SEGBOUNDSIGN                   23481
+#define   HID_TB_PROP_SHRINK_EF                      23482
+#define   HID_TB_PROP_COMPACT_EF                     23483
+#define   HID_TB_PROP_TRNOTE_EF                      23484
+#define   HID_TB_PROP_ACTLINE_EF                     23485
+#define   HID_TB_PROP_RMARGIN_CBS                    23486
+#define   HID_TB_PROP_VISIBLESPACE                   23487
+#define HID_TB_PROPERTIES_EXTHELP                   23490
+#define   HID_TB_PROP_SET_PB                         23492
+#define   HID_TB_PROP_CANCEL_PB                      23494
+#define   HID_TB_PROP_HELP_PB                        23496
+#define   HID_TB_PROP_TABCTRL                        23498
+#define HID_TB_PROP_BACKTASKS_EXTHELP               23520
+#define   HID_TB_PROP_AUTOSAVE                       23522
+#define   HID_TB_PROP_MINUTE_CBS                     23524
+#define   HID_TB_PROP_AUTOSUBST                      23526
+
+
+#define HID_TB_PROP_AUTSUBST_EXTHELP                23527
+
+#define HID_TB_PROFONE_BIDILOGICDISPLAY               23528
+#define HID_TB_PROFONE_VISIBLEBLANK_EF                23530
+#define HID_TB_PROFONE_VISIBLEBLANK_STATIC            23532
+#define HID_TB_PROFONE_VISIBLEHARDRETURN_EF           23534
+#define HID_TB_PROFONE_VISIBLEHARDRETURN_STATIC       23536
+#define HID_TB_PROFONE_SEGMENTBOUND_EF                23538
+#define HID_TB_PROFONE_SEGMENTBOUND_STATIC            23540
+#define HID_TB_PROFONE_ADJUSTLEADINGWS                23542
+#define HID_TB_PROFONE_ADJUSTTRAILINGWS               23544
+#define HID_TB_PROFONE_ALLEXACTPROPS                  23546
+#define HID_TB_PROFONE_FUZZYPERCENT                   23548
+
+
+/**********************************************************************/
+/* HIDs Set Init Values     23500                                      */
+/**********************************************************************/
+#define HID_TB_PROFTWO_EXTHELP                      23500
+#define    HID_TB_PROFTWO_TRANSWND_SPIN             23502
+#define    HID_TB_PROFTWO_TMWND_SPIN                23504
+#define    HID_TB_PROFTWO_LINEWRAP_CHK              23506
+#define    HID_TB_PROFTWO_CRSINSERT_CHK             23508
+#define    HID_TB_PROFTWO_RMARGIN_EF                23510
+#define    HID_TB_PROFTWO_ACTLINE_EF                23512
+#define    HID_TB_PROFTWO_SET_PB                    23514
+#define    HID_TB_PROFTWO_CANCEL_PB                 23516
+#define    HID_TB_PROFTWO_HELP_PB                   23518
+
+/**********************************************************************/
+/* HIDs Document Properties Dialog  23600                             */
+/**********************************************************************/
+#define HID_DOCPROP_EXTHELP                        23600
+#define   HID_DOCPROP_DOCFORMAT_CB                 23602
+#define   HID_DOCPROP_DOCTM_CB                     23604
+#define   HID_DOCPROP_DOCSRCLNG_CB                 23606
+#define   HID_DOCPROP_DOCTRGLNG_CB                 23608
+#define   HID_DOCPROP_CHANGE_PB                    23610
+#define   HID_DOCPROP_CANCEL_PB                    23612
+#define   HID_DOCPROP_HELP_PB                      23614
+#define   HID_DOCPROP_ALIAS_EF                     23615
+#define   HID_DOCPROP_EDITOR_CB                    23616
+#define   HID_DOCPROP_CONV_CB                      23617
+
+/**********************************************************************/
+/* HIDs New Document Dialog   23700                                   */
+/**********************************************************************/
+#define HID_NEWDOC_EXTHELP                         23700
+#define   HID_NEWDOC_DOCFORMAT_CB                  23702
+#define   HID_NEWDOC_DOCTM_CB                      23704
+#define   HID_NEWDOC_DOCSRCLNG_CB                  23706
+#define   HID_NEWDOC_DOCTRGLNG_CB                  23708
+#define   HID_NEWDOC_CHANGE_PB                     23710
+#define   HID_NEWDOC_CANCEL_PB                     23712
+#define   HID_NEWDOC_USEFORALL_CHK                 23714
+#define   HID_NEWDOC_HELP_PB                       23716
+#define   HID_NEWDOC_ALIAS_EF                      23717
+#define   HID_NEWDOC_EDITOR_CB                     23718
+
+/**********************************************************************/
+/* HIDs Transl.Memory Import - query target language  23800           */
+/**********************************************************************/
+#define HID_TAGLANG_EXTHELP                        23800
+#define   HID_TAGLANG_TARGET_LB                    23805
+#define   HID_TAGLANG_TAGTAB_LB                    23810
+#define   HID_TAGLANG_OK_PB                        23815
+#define   HID_TAGLANG_CANCEL_PB                    23820
+#define   HID_TAGLANG_HELP_PB                      23825
+
+
+/**********************************************************************/
+/* HIDs CONNECT shared dictionary dialog              23900           */
+/**********************************************************************/
+#define HID_CONNECT_DIC_EXTHELP                      23900
+#define   HID_CONNECT_DIC_AVAILABLE_LB               23905
+#define   HID_CONNECT_DIC_ADD_PB                     23910
+#define   HID_CONNECT_DIC_REMOVE_PB                  23915
+#define   HID_CONNECT_DIC_SELECTED_LB                23920
+#define   HID_CONNECT_DIC_OK_PB                      23925
+#define   HID_CONNECT_DIC_CANCEL_PB                  23930
+#define   HID_CONNECT_DIC_HELP_PB                    23935
+
+/**********************************************************************/
+/* HIDs CONNECT shared dictionary dialog              23950           */
+/**********************************************************************/
+#define HID_CONNECT_TM_EXTHELP                        23950
+#define   HID_CONNECT_TM_AVAILABLE_LB                 23955
+#define   HID_CONNECT_TM_ADD_PB                       23960
+#define   HID_CONNECT_TM_REMOVE_PB                    23965
+#define   HID_CONNECT_TM_SELECTED_LB                  23970
+#define   HID_CONNECT_TM_OK_PB                        23975
+#define   HID_CONNECT_TM_CANCEL_PB                    23980
+#define   HID_CONNECT_TM_HELP_PB                      23985
+
+
+/**********************************************************************/
+/* HIDs for open dialog for PTM                                       */
+/**********************************************************************/
+#define   HID_PTM_OPEN_EXTHELP                     24000
+  #define HID_PTM_OPEN_FILENAME_EF                 24005
+  #define HID_PTM_OPEN_FILES_LB                    24010
+  #define HID_PTM_OPEN_DIR_LB                      24015
+  #define HID_PTM_OPEN_TYPE_CB                     24020
+  #define HID_PTM_OPEN_DRIVE_CB                    24030
+  #define HID_PTM_OPEN_OK_PB                       24040
+  #define HID_PTM_OPEN_CANCEL_PB                   24050
+  #define HID_PTM_OPEN_HELP_PB                     24060
+
+/**********************************************************************/
+/* HIDs for copy dialog for PTM                                       */
+/**********************************************************************/
+#define   HID_PTM_COPY_EXTHELP                     24100
+  #define HID_PTM_COPYDOC_FILENAME_EF              24105
+  #define HID_PTM_COPYDOC_FILES_LB                 24110
+  #define HID_PTM_COPYDOC_DIR_LB                   24115
+  #define HID_PTM_COPYDOC_TYPE_CB                  24120
+  #define HID_PTM_COPYDOC_DRIVE_CB                 24130
+  #define HID_PTM_COPYDOC_OK_PB                    24140
+  #define HID_PTM_COPYDOC_CANCEL_PB                24150
+  #define HID_PTM_COPYDOC_HELP_PB                  24160
+
+/**********************************************************************/
+/* HIDs for lookup dialog for PTM                                     */
+/**********************************************************************/
+#define   HID_PTM_LOOKUP_EXTHELP                   24200
+  #define HID_PTM_LOOKUP_TERM_EF                   24205
+  #define HID_PTM_LOOKUP_TERM_LB                   24210
+  #define HID_PTM_LOOKUP_OK_PB                     24220
+  #define HID_PTM_LOOKUP_EDIT_PB                   24225
+  #define HID_PTM_LOOKUP_CANCEL_PB                 24230
+  #define HID_PTM_LOOKUP_HELP_PB                   24235
+
+/**********************************************************************/
+/* HIDs for saveas dialog for PTM                                     */
+/**********************************************************************/
+#define   HID_PTM_SAVEAS_EXTHELP                   24300
+  #define HID_PTM_SAVEAS_FILENAME_EF               24305
+  #define HID_PTM_SAVEAS_FILES_LB                  24310
+  #define HID_PTM_SAVEAS_DIR_LB                    24315
+  #define HID_PTM_SAVEAS_TYPE_CB                   24320
+  #define HID_PTM_SAVEAS_DRIVE_CB                  24330
+  #define HID_PTM_SAVEAS_OK_PB                     24340
+  #define HID_PTM_SAVEAS_CANCEL_PB                 24350
+  #define HID_PTM_SAVEAS_HELP_PB                   24360
+
+/**********************************************************************/
+/* HIDs Global find and change utility                                 */
+/**********************************************************************/
+#define HID_FOLFIND_EXTHELP                         24400
+#define   HID_FOLFIND_FIND_EF                       24402
+#define   HID_FOLFIND_CHANGE_EF                     24404
+#define   HID_FOLFIND_RESPECT_RB                    24406
+#define   HID_FOLFIND_IGNORE_RB                     24408
+#define   HID_FOLFIND_DOCS_LB                       24410
+#define   HID_FOLFIND_FIND_PB                       24412
+#define   HID_FOLFIND_CHANGE_PB                     24414
+#define   HID_FOLFIND_CANCEL_PB                     24416
+#define   HID_FOLFIND_HELP_PB                       24418
+#define   HID_FOLFIND_CONFCHANGES_CHK               24420
+#define   HID_FOLFIND_OPEN_PB                       24422
+#define   HID_FOLFIND_FINDNEXT_PB                   24424
+#define   HID_FOLFIND_APPLY_PB                      24426
+#define   HID_FOLFIND_TEXT_MLE                      24428
+#define   HID_FOLFIND_MEMUPD_CHK                    24430
+#define   HID_FOLFIND_TRANSLTEXTONLY_CHK            24432
+#define   HID_FOLFIND_WHOLEWORD_CHK                 24434
+
+/**********************************************************************/
+/* HIDs Translation Memory Maintenance date dlg                       */
+/**********************************************************************/
+#define HID_TM_DATE_EXTHELP                         24500
+#define   HID_TM_DATE_START_MONTH_DL                24502
+#define   HID_TM_DATE_END_MONTH_DL                  24504
+#define   HID_TM_DATE_START_YEAR_DL                 24506
+#define   HID_TM_DATE_END_YEAR_DL                   24508
+#define   HID_TM_DATE_ENTER_PB                      24510
+#define   HID_TM_DATE_CANCEL_PB                     24512
+#define   HID_TM_DATE_HELP_PB                       24514
+
+/**********************************************************************/
+/* HIDs Translation Memory Maintenance doc dlg                        */
+/**********************************************************************/
+#define HID_TM_QUERY_DOC_EXTHELP                    24550
+#define   HID_TM_QUERY_DOC_EF                       24552
+#define   HID_TM_QUERY_DOC_ENTER_PB                 24554
+#define   HID_TM_QUERY_DOC_CANCEL_PB                24556
+#define   HID_TM_QUERY_DOC_HELP_PB                  24558
+
+/**********************************************************************/
+/* HIDs Translation Memory Maintenance query dlg                      */
+/**********************************************************************/
+#define HID_TM_QUERY_EXTHELP                        24600
+#define   HID_TM_QUERY_SOURCE_RB                    24602
+#define   HID_TM_QUERY_TARGET_RB                    24604
+#define   HID_TM_QUERY_RESP_RB                      24606
+#define   HID_TM_QUERY_IGN_RB                       24608
+#define   HID_TM_WILD_SEARCH_CB                     24610
+#define   HID_TM_QUERY_XTRANS_CB                    24612
+#define   HID_TM_QUERY_DATE_CB                      24614
+#define   HID_TM_QUERY_DATE_PB                      24616
+#define   HID_TM_QUERY_CANCEL_PB                    24618
+#define   HID_TM_QUERY_ENTER_PB                     24620
+#define   HID_TM_QUERY_HELP_PB                      24622
+#define   HID_TM_QUERY_STRING_MLE                   24624
+#define   HID_TM_QUERY_SEGNUM_EF                    24626
+#define   HID_TM_QUERY_DOC_CB                       24628
+#define   HID_TM_QUERY_DOC_PB                       24630
+#define   HID_TM_QUERY_MARKUP_CB                    24632
+
+/**********************************************************************/
+/* HIDs for the translation memory edit window
+/**********************************************************************/
+#define HID_TMM_EDIT_EXTHELP                        24700
+#define HID_TMM_ABB_FILE                            24702
+#define HID_TMM_EXIT                                24704
+#define HID_TMM_SAVE                                24706
+#define HID_TMM_NEXT                                24708
+#define HID_TMM_TGTDOC                              24710
+#define HID_TMM_SRCDOC                              24712
+#define HID_TMM_ABB_EDIT                            24714
+#define HID_TMM_FIND                                24716
+#define HID_TMM_CUT                                 24718
+#define HID_TMM_COPY                                24720
+#define HID_TMM_PASTE                               24722
+#define HID_TMM_JOIN                                24724
+#define HID_TMM_SPLIT                               24726
+#define HID_TMM_UNMARK                              24728
+#define HID_TMM_DELETE                              24730
+#define HID_TMM_DEL_ALL                             24732
+#define HID_TMM_DEL_CUR                             24734
+#define HID_TMM_ABB_OPTIONS                         24736
+#define HID_TMM_FONTCOL                             24738
+#define HID_TMM_FONTSIZES                           24740
+#define HID_TMM_ARRANGE                             24742
+#define HID_TMM_HORIZONTAL                          24744
+#define HID_TMM_VERTICAL                            24746
+#define HID_TMM_SPELLCHECK                          24748
+#define HID_TMM_PROOFALL                            24750
+#define HID_TMM_PROOFSEG                            24752
+#define HID_TMM_ABB_STYLE                           24754
+#define HID_TMM_PROTECT                             24756
+#define HID_TMM_UNPROTECT                           24758
+#define HID_TMM_HIDE                                24760
+#define HID_TMM_COMPACT                             24762
+#define HID_TMM_PREVIOUS                            24764
+#define HID_TMM_UNDO                                24766
+
+/**********************************************************************/
+/* HIDs for Create counting report dialog                             */
+/**********************************************************************/
+#define HID_CNTDLG_EXTHELP                          24800
+#define HID_CNTDLG_DOCUMENTS_LB                     24802
+#define HID_CNTDLG_REPORT_CB                        24804
+#define HID_CNTDLG_OPTIONS_SPIN                     24806
+#define HID_CNTDLG_DESCRIPTION_EF                   24807
+#define HID_CNTDLG_SCREEN_CHK                       24808
+#define HID_CNTDLG_FILE_CHK                         24810
+#define HID_CNTDLG_FILENAME_EF                      24812
+#define HID_CNTDLG_FORMAT_CB                        24813
+#define HID_CNTDLG_FILESELECT_PB                    24814
+#define HID_CNTDLG_PROFILE_CB                       24815
+#define HID_CNTDLG_CREATE_PB                        24816
+#define HID_CNTDLG_CANCEL_PB                        24818
+#define HID_CNTDLG_HELP_PB                          24820
+#define HID_CNTDLG_SETTINGS_PB                      24821
+#define HID_CNTDLG_SETTINGS1_PB                     24822
+#define HID_CNTDLG_LOAD_PB                          24823
+#define HID_CNTDLG_SAVE_PB                          24824
+
+/*******************************/
+/* for summary counting window */
+/*******************************/
+
+#define HID_RPT1_EXTHELP                            24830
+#define HID_RPT1_OPTION1_CB                         24831
+#define HID_RPT1_OPTION2_CB                         24832
+#define HID_RPT1_COLUMN1_CHK                        24833
+#define HID_RPT1_OPTION3_CB                         24834
+#define HID_RPT1_COLUMN2_CHK                        24835
+#define HID_RPT1_COLUMN3_CHK                        24836
+#define HID_RPT1_OPTION4_CB                         24837
+#define HID_RPT1_COLUMN4_CHK                        24838
+#define HID_RPT1_OPTION5_CB                         24839
+#define HID_RPT1_SET_PB                             24840
+#define HID_RPT1_CANCEL_PB                          24841
+#define HID_RPT1_HELP_PB                            24842
+
+
+/*******************************/
+/* for final fact sheet window*/
+/*******************************/
+
+
+
+
+/**********************************************************************/
+/* HIDs for report handler list window                                */
+/**********************************************************************/
+#define HID_HISTRPTWIN_EXTHELP                      24850
+#define HID_CALCRPTWIN_EXTHELP                      24860
+
+
+/**********************************************************************/
+/* HIDs for archive TM dialog and process window                      */
+/**********************************************************************/
+#define HID_ARCHTM_EXTHELP                          24900
+#define HID_ARCHTM_DOC_LB                           24901
+#define HID_ARCHTM_USEFORFOLDER_CB                  24902
+#define HID_ARCHTM_TOTM_COMBO                       24903
+#define HID_ARCHTM_BUILD_PB                         24904
+#define HID_ARCHTM_CANCEL_PB                        24905
+#define HID_ARCHTM_HELP_PB                          24906
+
+#define HID_ARCHTM_WIN_EXTHELP                      24910
+
+/**********************************************************************/
+/* HIDs for "Set document processing options" dialog of folder import */
+/**********************************************************************/
+#define HID_FOLIMPDOC_EXTHELP                       24950
+#define HID_FOLIMPDOC_DOC_LB                        24951
+#define HID_FOLIMPDOC_IGNORE_PB                     24952
+#define HID_FOLIMPDOC_REPLACE_PB                    24953
+#define HID_FOLIMPDOC_SET_PB                        24954
+#define HID_FOLIMPDOC_CANCEL_PB                     24955
+#define HID_FOLIMPDOC_HELP_PB                       24956
+
+/**********************************************************************/
+/* HIDs for "Specify short doucment name dialog                       */
+/**********************************************************************/
+#define HID_DOCSHORT_EXTHELP                        25000
+#define HID_DOCSHORT_SHORTNAME_EF                   25002
+#define HID_DOCSHORT_SET_PB                         25004
+#define HID_DOCSHORT_CANCEL_PB                      25006
+#define HID_DOCSHORT_HELP_PB                        25008
+
+/**********************************************************************/
+/* HIDs for rename dialog                                             */
+/**********************************************************************/
+#define HID_RENAME_FOL_EXTHELP                      25100
+#define HID_RENAME_FOL_NEWNAME_EF                   25102
+#define HID_RENAME_FOL_RENAME_PB                    25106
+#define HID_RENAME_FOL_CANCEL_PB                    25108
+#define HID_RENAME_FOL_HELP_PB                      25110
+
+#define HID_RENAME_DICT_EXTHELP                     25120
+#define HID_RENAME_DICT_NEWNAME_EF                  25122
+#define HID_RENAME_DICT_ADJUST_CHK                  25124
+#define HID_RENAME_DICT_RENAME_PB                   25126
+#define HID_RENAME_DICT_CANCEL_PB                   25128
+#define HID_RENAME_DICT_HELP_PB                     25130
+
+#define HID_RENAME_TM_EXTHELP                       25140
+#define HID_RENAME_TM_NEWNAME_EF                    25142
+#define HID_RENAME_TM_ADJUST_CHK                    25144
+#define HID_RENAME_TM_RENAME_PB                     25146
+#define HID_RENAME_TM_CANCEL_PB                     25148
+#define HID_RENAME_TM_HELP_PB                       25150
+
+// IDs for concordance search dialog
+#define HID_TB_CFIND_EXTHELP                        25200 
+#define HID_TB_CFIND_FIND_EF                        25202
+#define HID_TB_CFIND_PRIMMEM_CHK                    25204 
+#define HID_TB_CFIND_ADDMEM_CHK                     25206
+#define HID_TB_CFIND_ADDMEM_LB                      25208  
+#define HID_TB_CFIND_MEMCHANGE_PB                   25210
+#define HID_TB_CFIND_SOURCE_RB                      25212
+#define HID_TB_CFIND_TARGET_RB                      25214  
+#define HID_TB_CFIND_IGNORECASE_CHK                 25216
+#define HID_TB_CFIND_RESULT_EF                      25218
+#define HID_TB_CFIND_FIND_PB                        25220
+#define HID_TB_CFIND_STOP_PB                        25222
+#define HID_TB_CFIND_CANCEL_PB                      25224
+#define HID_TB_CFIND_HELP_PB                        25226 
+#define HID_TB_CFIND_RESFIND_EF                     25228
+#define HID_TB_CFIND_RESFIND_PB                     25230
+
+
+
+/**********************************************************************/
+/* HIDs for WP Settings for File Preparation dialog                   */
+/**********************************************************************/
+#define  HID_WPSETTING_EXTHELP                     30000
+  #define HID_WPSETTING_SOURCELANG_CBS             30010
+  #define HID_WPSETTING_TARGETLANG_CBS             30020
+  #define HID_WPSETTING_MEMORY_CBS                 30030
+  #define HID_WPSETTING_AUTOSUBST_BTN              30035
+  #define HID_WPSETTING_MEMAVAILABLE_LB            30040
+  #define HID_WPSETTING_MEMSELECTED_LB             30050
+  #define HID_WPSETTING_AVAILABLE_LB               30060
+  #define HID_WPSETTING_SELECTED_LB                30070
+  #define HID_WPSETTING_SET_PB                     30075
+  #define HID_WPSETTING_CANCEL_PB                  30080
+  #define HID_WPSETTING_HELP_PB                    30085
+
+/**********************************************************************/
+/* HIDs for WP Proposal window                                        */
+/**********************************************************************/
+#define  HID_WPPROPOSAL_EXTHELP                    30100
+  #define HID_WPPROPOSAL_EDIT                      30105
+  #define HID_WPPROPNUM_CBS                        30110
+  #define HID_WPPROPQUAL_TEXT                      30115
+  #define HID_WPPROPFILE_TEXT                      30120
+  #define HID_WPPROPTYPE_CBS                       30125
+  #define HID_WPPROPCOPY_BTN                       30130
+  #define HID_WPPROPTAKE_BTN                       30135
+  #define HID_WPPROPREPL_BTN                       30140
+  #define HID_WPZOOM_CBS                           30145
+
+/**********************************************************************/
+/* HIDs for WP Environment Settings dialog                            */
+/**********************************************************************/
+#define  HID_WPENVIRONSET_EXTHELP                  30300
+  #define HID_WP_ENVIRONSET_TRANSLATED_PB          30305
+  #define HID_WP_ENVIRONSET_AUTOTRANSLATED_PB      30310
+  #define HID_WP_ENVIRONSET_MODIFICATIONS_PB       30315
+  #define HID_WP_ENVIRONSET_DICTENTRIES_PB         30320
+  #define HID_WP_ENVIRONSET_ACTSENTENCE_PB         30325
+  #define HID_WP_ENVIRONSET_UNTRANSLATED_PB        30330
+  #define HID_WP_EVIRONSET_WORKDIR_CTRL            30335
+  #define HID_WP_ENVIRONSET_POSTEDIT_CHK           30340
+  #define HID_WP_ENVIRONSET_OK_PB                  30345
+  #define HID_WP_ENVIRONSET_CANCEL_PB              30350
+  #define HID_WP_ENVIRONSET_HELP_PB                30355
+
+/**********************************************************************/
+/* HIDs for WP Color dialog                                           */
+/**********************************************************************/
+#define  HID_WPENVIRONCOL_EXTHELP                  30400
+  #define HID_WP_ENVIRONCOLOR_WHEEL                30405
+  #define HID_WP_ENVIRONCOLOR_RED                  30410
+  #define HID_WP_ENVIRONCOLOR_GREEN                30415
+  #define HID_WP_ENVIRONCOLOR_BLUE                 30420
+  #define HID_WP_ENVIRONCOLOR_RGB                  30425
+  #define HID_WP_ENVIRONCOLOR_OK_PB                30430
+  #define HID_WP_ENVIRONCOLOR_CANCEL_PB            30435
+  #define HID_WP_ENVIRONCOLOR_HELP_PB              30440
+
+/**********************************************************************/
+/* HIDs for WP Document Information dialog                            */
+/**********************************************************************/
+#define  HID_WPDOCINFO_EXTHELP                     30700
+  #define HID_WPDOCINFO_SOURCELANG_TEXT            30705
+  #define HID_WPDOCINFO_TARGETLANG_TEXT            30710
+  #define HID_WPDOCINFO_MEMORY_TEXT                30715
+  #define HID_WPDOCINFO_AUTOSUBST_BTN              30720
+  #define HID_WPDOCINFO_MEMORY_LB                  30725
+  #define HID_WPSETTING_DICTIONARY_LB              30730
+  #define HID_WPDOCINFO_DATETIME_TEXT              30735
+  #define HID_WPDOCINFO_SENTENCENUM_TEXT           30740
+  #define HID_WPDOCINFO_EXACTMATCHNUM_TEXT         30745
+  #define HID_WPDOCINFO_FUZZYMATCHNUM_TEXT         30750
+  #define HID_WPDOCINFO_OK_PB                      30755
+
+/**********************************************************************/
+/* HIDs for WP Translation Memory Delete dialog                       */
+/**********************************************************************/
+
+#define HID_WPMEMDELETE_EXTHELP                    30800
+#define HID_WP_MEMDEL_MEMORY_CBS                   30810
+#define HID_WP_MEMDEL_DELETE_PB                    30820
+#define HID_WP_MEMDEL_CANCEL_PB                    30830
+#define HID_WP_MEMDEL_HELP_PB                      30840
+
+/*********************************************************************/
+/*  HIDs for Machine Translation Property dialog                     */
+/*********************************************************************/
+#define HID_MT_PROPERTY_DLG                        31200
+
+#define HID_MT_ENGINE_CB                           31202
+#define HID_MT_MEMORY_CB                           31204
+#define HID_MT_SET_PB                              31206
+#define HID_MT_CANCEL_PB                           31208
+
+#define HID_MT_SETTINGS_PB                         31212
+#define HID_MT_MACHINE_CB                          31214
+#define HID_MT_PROFILE_CB                          31216
+#define HID_MT_USER_EF                             31218
+#define HID_MT_PASS_EF                             31220
+#define HID_MT_LOGIN_PB                            31222
+#define HID_MT_HELP_PB                             31230
+
+
+/*******************************/
+/* for final fact sheet window*/
+/*******************************/
+
+#define HID_RPT2_EXTHELP                           31300
+#define HID_RPT2_OPTION1_CB                        31302
+#define HID_RPT2_OPTION2_CB                        31304
+#define HID_RPT2_FACTOR1_EF                        31306
+#define HID_RPT2_FACTOR2_EF                        31308
+#define HID_RPT2_OPTION3_CB                        31310
+#define HID_RPT2_FACTOR3_EF                        31312
+#define HID_RPT2_OPTION4_CB                        31314
+#define HID_RPT2_SET_PB                            31316
+#define HID_RPT2_CANCEL_PB                         31318
+#define HID_RPT2_HELP_PB                           31320
+
+// help IDs for markup table properties dialog
+
+#define HID_MUPROP_EXTHELP                         31400
+#define HID_MUPROP_CANCEL_PB                       31402
+#define HID_MUPROP_OK                              31404
+#define HID_MUPROP_TABCTRL                         31406
+#define HID_MUPROP_PROTECT_PB                      31408
+#define HID_MUPROP_HELP_PB                         31410
+
+// help IDs for markup table properties general page
+#define HID_MUPROP_GEN_DESCRNAME_EF                31412
+#define HID_MUPROP_GEN_DESCR_EF                    31414
+#define HID_MUPROP_GEN_EXIT_EF                     31416
+#define HID_MUPROP_GEN_NAME_EF                     31418
+#define HID_MUPROP_GEN_CHARSET_CB                  31420
+#define HID_MUPROP_GEN_SINGLESUBSTCHAR_EF          31422
+#define HID_MUPROP_GEN_MULTSUBSTCHAR_EF            31424
+#define HID_MUPROP_GEN_TRNOTELEV1_EF               31426
+#define HID_MUPROP_GEN_TRNOTELEV2_EF               31428
+#define HID_MUPROP_GEN_TRNOTEEND_EF                31430
+#define HID_MUPROP_GEN_TRNOTESTART_EF              31432
+#define HID_MUPROP_GEN_REFLOW_CB                   31433
+
+// help IDs for markup table properties tags page
+#define HID_MUPROP_TAG_DELIM_CB                    31440
+#define HID_MUPROP_TAG_ID_EF                       31442
+#define HID_MUPROP_TAG_SEGFLAGS_CB                 31444
+#define HID_MUPROP_TAG_TAGS_LB                     31446
+#define HID_MUPROP_TAG_TEXTSTYLE_CB                31448
+#define HID_MUPROP_TAG_TYPE_CB                     31450
+#define HID_MUPROP_TAG_WITHATTR_CHK                31452
+#define HID_MUPROP_TAG_NAME_EF                     31454
+#define HID_MUPROP_TAG_DELIM_EF                    31456
+#define HID_MUPROP_TAG_TAGLEN_EF                   31458
+#define HID_MUPROP_TAG_TRANSL_CHK                  31460
+#define HID_MUPROP_TAG_TRNOTE_CHK                  31462
+#define HID_MUPROP_TAG_ADDINFO_EF                  31464
+#define HID_MUPROP_TAG_COLPOS_EF                   31466
+#define HID_MUPROP_TAG_CLASSID_CB                  31468
+#define HID_MUPROP_TAG_ADD_PB                      31470
+#define HID_MUPROP_TAG_DELETE_PB                   31472
+
+// help IDs for markup table properties tags page
+#define HID_MUPROP_ATTR_ATTR_LB                    31480
+#define HID_MUPROP_ATTR_NAME_EF                    31482
+#define HID_MUPROP_ATTR_DELIM_EF                   31484
+#define HID_MUPROP_ATTR_LENGTH_EF                  31486
+#define HID_MUPROP_ATTR_ADDINFO_EF                 31488
+#define HID_MUPROP_ATTR_TRANSL_CHK                 31490
+#define HID_MUPROP_ATTR_ADD_PB                     31492
+#define HID_MUPROP_ATTR_DELETE_PB                  31494
+
+// help IDs for markup table properties tags page
+#define HID_MUPROP_TEST_TEXT_GB                    31500
+#define HID_MUPROP_TEST_LOAD_PB                    31502
+#define HID_MUPROP_TEST_ADDATTR_PB                 31504
+#define HID_MUPROP_TEST_ADDTAG_PB                  31506
+#define HID_MUPROP_TEST_TEXT_RICHEDIT              31508
+#define HID_MUPROP_TEST_REFRESH_PB                 31510
+#define HID_MUPROP_TEST_LEGEND_EF                  31512
+
+
+// help IDs for markup table properties protect dialog
+#define HID_MUPROP_PROT_EXTHELP                    31520
+#define HID_MUPROP_PROTECT_PASSWORD_EF             31522
+#define HID_MUPROP_PROTECT_CONF_EF                 31524
+#define HID_MUPROP_PROTECT_OK_PB                   31526
+#define HID_MUPROP_PROTECT_CANCEL_PB               31528
+#define HID_MUPROP_PROTECT_HELP_PB                 31530
+
+
+// help IDs for markup table properties unprotect dialog
+#define HID_MUPROP_UNPROT_EXTHELP                  31540
+#define HID_MUPROP_UNPROT_PASSWORD_EF              31442
+#define HID_MUPROP_UNPROT_OK_PB                    31444
+#define HID_MUPROP_UNPROT_CANCEL_PB                31446
+#define HID_MUPROP_UNPROT_HELP_PB                  31448
+
+
+
+
+/*+----------------------------------------------------------------------------+
+  |    end of EQFHELP.ID ...   (at least for now)                              |
+  +----------------------------------------------------------------------------+
+*/

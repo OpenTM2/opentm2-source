@@ -1,0 +1,47 @@
+<!--       Copyright (C) 1990-2013, International Business Machines             -->
+<!--       Corporation and others. All rights reserved                          -->
+<?xml version="1.0" encoding="UTF-8" ?> 
+<plugins>
+	<plugin name="EqfDictionaryPlugin">
+		<Version>v1.0.1</Version>
+		<description>dictionary plugin</description>
+		<longdescription>This is the dictionary plugin for the OpenTM2 base dictionaries.</longdescription>
+		<author>Gerhard Queck</author>
+		<homepage>http://</homepage>
+		<latestUpdate>Bug Fixing</latestUpdate>
+		<type>Dictionary</type>
+		<install>
+	        <dependencies>
+				<dependency name="xxx">
+				<download>http://downloads.....</download> 
+				<copy from="" to="$PLUGINDIR$\" validate="true" /> 
+				</dependency>
+			</dependencies>
+			<mainpart>
+				<download type="zip">http://9.125.92.50:8000/ftp/projects/o/OpenTM2/downloads/EqfDictionaryPlugin.zip</download> 
+				<copy from="" to="$PLUGINDIR$\" validate="true" />  
+			</mainpart>
+		</install>
+	</plugin>
+	<plugin name="OtmSpellHSPlugin">
+		<Version>1.0.0</Version>
+		<description>Language Support</description>
+		<longdescription>This is the OpenTM2 spell checking engine based on HUNSPELL.</longdescription>
+		<author>Yang Ge</author>
+		<homepage>http://</homepage>
+		<latestUpdate>New</latestUpdate>
+		<type>Language Support</type>
+		<install>
+	        <dependencies>
+				<dependency name="xxx">
+				<download>http://downloads.....</download> 
+				<copy from="" to="$PLUGINDIR$\" validate="true" /> 
+				</dependency>
+			</dependencies>
+			<mainpart>
+				<download type="zip">http://9.125.92.50:8000/ftp/projects/o/OpenTM2/downloads/OtmSpellHSPlugin.zip</download> 
+				<copy from="" to="$PLUGINDIR$\" validate="true" />  
+			</mainpart>
+		</install>
+	</plugin>
+</plugins>

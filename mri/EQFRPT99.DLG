@@ -1,0 +1,761 @@
+//+----------------------------------------------------------------------------+
+//|EQFRPT99.DLG                                                                |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author: Michael Sekinger                                                    |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|Description: Templates for Counting Report dialog                           |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Sep 2004
+// GQ: - added invisible labels for accessibility
+// 
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.3 $ ----------- 20 Apr 2004
+// GQ: - added control for internal profile name
+//
+//
+// $Revision: 1.2 $ ----------- 1 Apr 2004
+// GQ: - fixed P019362: Tab-key ignores name entry field
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.3 $ ----------- 6 Aug 2003
+// GQ: - re-arranged save and load profile pushbuttons
+//
+//
+// $Revision: 1.2 $ ----------- 30 Jul 2003
+// GQ: - added actual profile control to profile page
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 21 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.2 $ ----------- 24 Aug 2000
+// added Shipment dialog
+//
+//
+// $Revision: 1.1 $ ----------- 19 May 2000
+// property sheet for conting report
+//
+//
+//
+//+----------------------------------------------------------------------------+
+
+
+
+ID_RPTPROP_DLG DIALOG 0, 0, 263, 290
+STYLE DS_MODALFRAME | DS_CONTEXTHELP |
+      WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION STR_CNT_REPORT_DLG
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL STR_RPT_CREATE_PB, DID_RPT_CREATE_PB,
+      BUTTON, BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+      25, 270, 56, 15
+    CONTROL STR_RPT_CANCEL_PB, DID_RPT_CANCEL_PB,
+      BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+      114, 270, 38, 15
+    CONTROL STR_RPT_HELP_PB, DID_RPT_HELP_PB,
+      EQFHELPBUTTON,
+      WS_TABSTOP | WS_VISIBLE,
+      195, 270, 38, 15
+    CONTROL "",ID_ANA_PROP_TABCTRL,"SysTabControl32",
+      TCS_TOOLTIPS | WS_GROUP | WS_TABSTOP,
+      5,5, 250,260,
+      WS_EX_TRANSPARENT
+END
+
+
+
+ID_RPTPROP_GENERAL_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 235, 235
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+
+/* text "Folder:" */
+
+  CONTROL STR_RPT_FOLDER_TEXT, DID_RPT_FOLDER_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 7, 95, 9
+/* current folder */
+
+  CONTROL "", DID_RPT_FOLDERNAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    112, 7, 95, 9
+
+
+/* text "Documents" */
+
+  CONTROL STR_RPT_DOCUMENTS_TEXT, DID_RPT_DOCUMENTS_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    6, 19, 95, 9
+/* listbox with Documents to be counted */
+
+
+  CONTROL "", DID_RPT_DOCUMENTS_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_HSCROLL | WS_VISIBLE,
+    6, 19, 211, 45
+/* group box for report options */
+/********************************/
+
+  CONTROL STR_RPT_REPORT_GB, DID_RPT_REPORT_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 63, 211, 87
+/* valid reports to select */
+
+  CONTROL "", DID_RPT_REPORT_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    12, 75, 197, 45
+/* text "Options:" */
+
+  CONTROL STR_RPT_OPTIONS_TEXT, DID_RPT_OPTIONS_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 107, 64, 9
+/* valid options to select */
+/* CONTROL "",     DID_RPT_OPTIONS_SPIN,
+                100, 134, 142, 8,
+                WC_SPINBUTTON,
+                SPBS_MASTER | SPBS_READONLY | WS_TABSTOP | WS_VISIBLE   */
+
+
+
+
+  CONTROL "", DID_RPT_OPTIONS_SPIN,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 104, 122, 45
+/* text "DESCRIPTION" */
+
+  CONTROL STR_RPT_DESCRIPTION_TEXT, DID_RPT_DESCRIPTION_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 128, 64, 9
+/* DESCRIPTION entry field */
+
+
+
+  CONTROL "", DID_RPT_DESCRIPTION_EF,
+    EDIT,
+    ES_LEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    86, 127, 122, 12
+
+/* Group box for profile buttons */
+
+  CONTROL STR_RPT_REPORT_GB, DID_RPT_REPORT_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    666, 69, 211, 87
+
+
+/* group box for Output options */
+/********************************/
+
+  CONTROL STR_RPT_OUTPUTTO_GB, DID_RPT_OUTPUTTO_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 152, 211, 86
+/* screen check box */
+
+  CONTROL STR_RPT_SCREEN_CHK, DID_RPT_SCREEN_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 166, 128, 12
+/* file check box */
+
+  CONTROL STR_RPT_FILE_CHK, DID_RPT_FILE_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 180, 128, 12
+/* text "Name" */
+
+  CONTROL STR_RPT_NAME_TEXT, DID_RPT_NAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 198, 64, 9
+
+
+  CONTROL STR_RPT_FILESELECT_PB, DID_RPT_FILESELECT_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    142, 177, 56, 15
+
+  // invisible label for file name field
+  CONTROL "File name:", -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    85, 197, 0, 0
+
+/* output file entry field */
+
+  CONTROL "", DID_RPT_FILENAME_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP,
+    86, 197, 122, 12
+/* PB for file select dialog */
+
+
+/* text "Format:" */
+
+  CONTROL STR_RPT_FORMAT_TEXT, DID_RPT_FORMAT_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 218, 64, 9
+/* valid file formats to select */
+
+
+  CONTROL "", DID_RPT_FORMAT_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 218, 122, 45
+
+
+END
+
+
+
+
+ID_RPTPROP_PROFILE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 235, 235
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+
+/* Group box for profile buttons */
+
+  CONTROL STR_RPT_PROFILE_GB, DID_RPT_PROFILE_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    10, 10, 200, 120
+
+/* Actual profile */
+
+  CONTROL "Actual profile: ", -1, STATIC, SS_LEFT | WS_VISIBLE, 19, 20, 54, 9
+
+  CONTROL "", DID_RPT_ACTPROFILE_TEXT, STATIC,
+     SS_SUNKEN | SS_LEFT | WS_VISIBLE,  76, 19, 80, 12
+
+/* Internal Name */
+
+  CONTROL "Internal name: ", -1, STATIC, SS_LEFT | WS_VISIBLE, 19, 34, 54, 9
+
+  CONTROL "", DID_RPT_INTPROFILENAME_TEXT, STATIC,
+     SS_SUNKEN | SS_LEFT | WS_VISIBLE,  76, 33, 80, 12
+
+/* text "Profile:" */
+
+  CONTROL STR_RPT_PROFILE_TEXT, DID_RPT_PROFILE_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 56, 64, 9
+
+/* settings to be loaded/ saved */
+
+  CONTROL "", DID_RPT_PROFILE_CB,
+    COMBOBOX,
+    CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    76, 58, 122, 45
+
+
+/* PB load */
+
+  CONTROL STR_RPT_LOAD_PB, DID_RPT_LOAD_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    76, 88, 56, 15
+
+/* PB save */
+
+  CONTROL STR_RPT_SAVE_PB, DID_RPT_SAVE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP | WS_TABSTOP,
+    140, 88, 56, 15
+
+
+END
+
+
+
+
+
+
+ID_RPTPROP_SETTINGS_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 235, 235
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+
+
+/* group box for report options */
+/* ============================ */
+
+
+  CONTROL STR_RPT1_OPTIONS_GB, DID_RPT1_OPTIONS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 15, 211, 86
+/* text "Options:" */
+
+
+  CONTROL STR_RPT1_OPTION1_CB, DID_RPT1_OPTION1_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 39, 64, 9
+/* valid options to select (option_1)*/
+
+
+  CONTROL "", DID_RPT1_OPTION1_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 39, 123, 45
+/* text "Options2:" */
+
+
+  CONTROL STR_RPT1_OPTION2_CB, DID_RPT1_OPTION2_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 63, 64, 9
+/* valid options2 to select (option_2)*/
+
+
+  CONTROL "", DID_RPT1_OPTION2_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 63, 123, 45
+/* select column box */
+
+
+  CONTROL STR_RPT1_COLUMN1_CHK, DID_RPT1_COLUMN1_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 84, 128, 12
+/* group box for Output options */
+/* ============================ */
+
+/* select column box  for summary of the three columns in case of details*/
+
+
+  CONTROL STR_RPT1_COLUMNS_GB, DID_RPT1_COLUMNS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 112, 211, 68
+/* text "Options3:" */
+
+
+  CONTROL STR_RPT1_OPTION3_CB, DID_RPT1_OPTION3_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 135, 64, 9
+/* valid options to select (option_3)*/
+
+
+  CONTROL "", DID_RPT1_OPTION3_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 135, 123, 45
+/* select column box */
+
+
+  CONTROL STR_RPT1_COLUMN2_CHK, DID_RPT1_COLUMN2_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 162, 128, 12
+/* group box for Statistics     */
+/* ============================ */
+
+
+  CONTROL STR_RPT1_STATISTICS_GB, DID_RPT1_STATISTICS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 190, 211, 50
+/* select column box : statistics*/
+
+  CONTROL STR_RPT1_COLUMN3_CHK, DID_RPT1_COLUMN3_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 204, 86, 12
+/* valid options to select (option_4, Statistics )*/
+
+
+  CONTROL "", DID_RPT1_OPTION4_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    95, 204, 115, 45
+/* select column box : use Existing proposals*/
+
+
+  CONTROL STR_RPT1_COLUMN4_CHK, DID_RPT1_COLUMN4_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 222, 128, 12
+/* text "Options5:" ORDER */
+
+
+  CONTROL STR_RPT1_OPTION5_CB, DID_RPT1_OPTION5_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 255, 69, 9
+/* valid options to select (option_5) ORDER */
+
+
+  CONTROL "", DID_RPT1_OPTION5_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 255, 123, 45
+
+END
+
+
+
+
+
+
+ID_RPTPROP_FACTSHEET_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 235, 235
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+
+
+
+
+/* group box for final fact sheet factors */
+/* ====================================== */
+
+
+ CONTROL STR_RPT2_OPTIONS_GB, DID_RPT2_OPTIONS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 12, 211, 134
+/* text "Options:" */
+
+
+  CONTROL STR_RPT2_OPTION1_CB, DID_RPT2_OPTION1_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 39, 64, 9
+/* valid options to select (option_1)*/
+
+
+  CONTROL "", DID_RPT2_OPTION1_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 39, 123, 45
+/* text "Options2:" */
+
+
+  CONTROL STR_RPT2_OPTION2_CB, DID_RPT2_OPTION2_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 63, 64, 9
+/* valid options2 to select (option_2)*/
+
+
+  CONTROL "", DID_RPT2_OPTION2_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 63, 123, 45
+/* PB set */
+/*CONTROL         STR_RPT2_SETFACTORS_PB, DID_RPT2_SETFACTORS_PB,
+                17, 80, 105, 13,
+                WC_BUTTON,
+                BS_PUSHBUTTON | WS_VISIBLE | WS_GROUP | WS_TABSTOP     */
+
+
+/* entryfield */
+
+/* text for FACTOR1 entry field */
+
+  CONTROL STR_RPT2_FACTOR1_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 99, 90, 9
+/*  entry field for factor1 */
+
+  CONTROL "", DID_RPT2_FACTOR1_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    103, 98, 36, 12
+/* text for FACTOR2 entry field */
+
+  CONTROL STR_RPT2_FACTOR2_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 123, 90, 9
+/*  entry field for factor1 */
+
+
+
+  CONTROL "", DID_RPT2_FACTOR2_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    103, 122, 36, 12
+/* final factors */
+/*****************/
+
+
+CONTROL STR_RPT2_OPTIONS99_GB, DID_RPT2_OPTIONS99_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 150, 211, 70
+/* text "Options:" */
+
+
+
+
+/* text "Options3:"  UNITY*/
+
+
+  CONTROL STR_RPT2_OPTION3_CB, DID_RPT2_OPTION3_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 171, 64, 9
+/* valid options3 to select (option_3) UNITY*/
+
+
+
+
+
+  CONTROL "", DID_RPT2_OPTION3_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 171, 123, 45
+/* text for FACTOR3 entry field */
+
+  CONTROL STR_RPT2_FACTOR3_TEXT, -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    19, 201, 90, 9
+/*  entry field for factor1 */
+
+
+  CONTROL "", DID_RPT2_FACTOR3_EF,
+    EDIT,
+    ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    103, 200, 36, 12
+/* valid options4 to select (option_3) CURRENCY*/
+
+  // invisible label for following combobox
+  CONTROL "Currency Name.", -1,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    154, 200, 0, 0
+
+  CONTROL "", DID_RPT2_OPTION4_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    155, 200, 53, 45
+
+
+END
+
+
+
+
+
+ID_RPTPROP_MORE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 235, 235
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+
+
+
+/* group box for report options */
+/* ============================ */
+
+
+
+
+  CONTROL STR_RPT4_OPTIONS_GB, DID_RPT4_OPTIONS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 15, 211, 86
+
+
+/* select column box  (document list)*/
+  CONTROL STR_RPT4_COLUMN2_CHK, DID_RPT4_COLUMN2_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 36, 128, 12
+
+/* select column box (plausibility)   */
+  CONTROL STR_RPT4_COLUMN1_CHK, DID_RPT4_COLUMN1_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 60, 128, 12
+
+/* select column box  (new shipment forced)*/
+  CONTROL STR_RPT4_COLUMN3_CHK, DID_RPT4_COLUMN3_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 84, 128, 12
+
+
+
+
+
+
+
+
+END
+
+
+
+
+
+ID_RPTPROP_SHIPM_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 30, 235, 235
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+
+
+
+/* group box for report shipment options */
+/* ===================================== */
+
+
+  CONTROL "Shipment Handling", DID_RPT5_OPTIONS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    6, 15, 211, 86
+
+
+
+  CONTROL "Use folder shipments", DID_RPT5_COLUMN1_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP,
+    12, 36, 128, 12
+/* select column box shipment usage*/
+
+
+
+  CONTROL "Shipment", DID_RPT5_OPTION1_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    12, 60, 64, 9
+
+
+
+ CONTROL "", DID_RPT5_OPTION1_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    86, 60, 123, 45
+
+
+
+
+END
+
+
+
+

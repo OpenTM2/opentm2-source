@@ -1,0 +1,201 @@
+// Copyright (c) 1996-2011, International Business Machines
+// Corporation and others.  All rights reserved.
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.5 $ ----------- 30 Oct 2000
+// 
+// changed find and change  to   find and replace
+// 
+// 
+// $Revision: 1.4 $ ----------- 7 Aug 2000
+// - changed some menu item strings and added string for mflag sub menu
+// 
+//
+// $Revision: 1.3 $ ----------- 27 Jul 2000
+// -- added strings for manipulation of M-flags
+//
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFTMM.MVI   1.7   01 Apr 1996 08:28:32   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFTMM.MVI  $
+ *
+ *    Rev 1.7   01 Apr 1996 08:28:32   BUILD
+ * - modified strings for TMEdit status bar
+ *
+ *    Rev 1.6   25 Mar 1996 10:17:22   BUILD
+ * - added strings for TMEdit status bar prompts and state strings
+ *
+ *    Rev 1.5   18 Mar 1996 16:39:24   BUILD
+ * - removed strings for source/target document toggle, added toggle string
+ *
+ *    Rev 1.3   11 Mar 1996 10:32:12   BUILD
+ * - KWT0434: change name of STR_TMM_FONTCOL and _FONTSIZES
+ *
+ *    Rev 1.2   26 Feb 1996 15:35:36   BUILD
+ * - modified menu item strings according to input from ROB
+ *
+ *    Rev 1.1   19 Feb 1996 09:14:36   BUILD
+ * - added name of TM to TM edit window title
+ *
+ *    Rev 1.0   09 Jan 1996 10:13:02   BUILD
+ * Initial revision.
+*/
+//Translation Memory maintenance title (%1 is replaced with the TM name)
+#define STR_TMM_TITLE      "Edit Translation Memory: %1"
+#define STR_TMM_SOURCEFILE "Original"
+#define STR_TMM_TARGETFILE "Translation"
+#define STR_TMM_TOGGLEDOC  "&Toggle windows\tCtrl+t"
+
+#define STR_TMM_ABB_FILE             "&File"
+#define STR_TMM_EXIT                 "&Quit\tF4"
+#define STR_TMM_SAVE                 "&New query\tF5"
+// @@@LUE
+#define STR_TMM_NEXT                 "&Next"
+#define STR_TMM_PREVIOUS             "&Previous"
+#define STR_TMM_UNDO                 "&Undo"
+// @@@LUE end
+#define STR_TMM_ABB_EDIT             "&Edit"
+#define STR_TMM_FIND                 "&Find and Replace..."
+#define STR_TMM_CUT                  "Cu&t\tShift+Del"
+#define STR_TMM_COPY                 "&Copy\tCtrl+Del"
+#define STR_TMM_PASTE                "&Paste\tShift+Ins"
+#define STR_TMM_SPLIT                "&Split line\tCtrl+s"
+#define STR_TMM_JOIN                 "&Join line\tCtrl+j"
+#define STR_TMM_UNMARK               "Un&mark block\tCtrl+m"
+#define STR_TMM_DELETE               "&Delete"
+#define STR_TMM_DEL_ALL              "&All segments"
+#define STR_TMM_DEL_CUR              "&Current segment\tCtrl+d"
+#define STR_TMM_SETM_ALL             "Set all M-flags"
+#define STR_TMM_SETM_CUR             "Set one M-flag"
+#define STR_TMM_DELM_ALL             "Delete all M-flags"
+#define STR_TMM_DELM_CUR             "Delete one M-Flag"
+#define STR_TMM_ABB_OPTIONS          "&Options"
+#define STR_TMM_FONTCOL              "&Colors..."
+#define STR_TMM_FONTSIZES            "&Fonts..."
+#define STR_TMM_ARRANGE              "&Arrange"
+#define STR_TMM_HORIZONTAL           "&Horizontal"
+#define STR_TMM_VERTICAL             "&Vertical"
+#define STR_TMM_SPELLCHECK           "S&pellcheck"
+#define STR_TMM_PROOFALL             "All segments"
+#define STR_TMM_PROOFSEG             "Current segment"
+#define STR_TMM_ABB_STYLE            "Sty&le"
+#define STR_TMM_PROTECT              "&Protect"
+#define STR_TMM_UNPROTECT            "&Unprotect"
+#define STR_TMM_HIDE                 "&Hide"
+#define STR_TMM_COMPACT              "&Compact"
+#define STR_TMM_MFLAG                "Set M-Flag"
+
+// Prompt strings for the TMEdit status bar
+#define STR_TMM_MFLAGPROMPT          "M-Flag:"
+#define STR_TMM_MFLAG_ON             "On"
+#define STR_TMM_MFLAG_OFF            "Off"
+#define STR_TMM_STATUSPROMPT         "Status:"
+#define STR_TMM_DOCPROMPT            "Document:"
+#define STR_TMM_DATEPROMPT           "Date:"
+// %1 = current segment number, %2 = total segment number
+#define STR_TMM_CURPROMPT            "Segment %1 of %2"
+#define STR_TMM_TOTALPROMPT          "Total:"
+#define STR_TMM_COMPLPROMPT          "Loaded:"
+
+#define STR_TMM_SEARCHSTATE          "searching..."
+#define STR_TMM_DELETESTATE          "Deleting all..."
+#define STR_TMM_QUERYSTATE           "Enter new query..."
+#define STR_TMM_WORKSTATE            "It's your turn."

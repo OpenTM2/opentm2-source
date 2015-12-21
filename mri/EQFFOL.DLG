@@ -1,0 +1,454 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFFOL.DLG - Dialog templates for folder related dialog windows           |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 4 Aug 2009
+// GQ: - added ID_FOL_DELHLOG_DLG
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 28 Sep 2004
+// GQ: ID_FOLIMPDOC_DLG: replaced UtlClb with List control
+// 
+//
+// $Revision: 1.2 $ ----------- 7 Sep 2004
+// GQ: - removed obsolete dialogs ID_NEW_FOLDER_DLG, ID_FOLEXP_DLG
+//     - added label to folder list in ID_FOLMODEL_DLG
+//     - added label to text field in ID_FOLNOTE_DLG
+//     - added (invisible) label to document settings listbox in ID_FOLIMPDOC_DLG
+//
+//
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+//
+//
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+//
+//
+// $Revision: 1.2 $ ----------- 1 Apr 2004
+// GQ: - removed obsolete dialog templates (OS/2, Win16, DBCS,...)
+//
+//
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+//
+//
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+//
+//
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+//
+//
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+//
+//
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+//
+//
+// $Revision: 1.12 $ ----------- 5 Jun 2001
+// GQ: Moved FOLFIND dialog to EQFFOL99.DLG
+//
+//
+// $Revision: 1.11 $ ----------- 7 May 2001
+// GQ: Added "translatable text only" checkbox to global find&change dialog
+//
+//
+// $Revision: 1.10 $ ----------- 30 Oct 2000
+// adjusted Global Find and Change dialog
+//
+//
+// $Revision: 1.9 $ ----------- 25 Oct 2000
+// adjusted ID_FOLFIND_DOCS_LB to horz scrollbar
+//
+//
+// $Revision: 1.8 $ ----------- 28 Aug 2000
+// changed Global find and change dialog for search history
+//
+//
+// $Revision: 1.7 $ ----------- 4 May 2000
+// - removed end-of-comment delimiter following #ifdef
+//
+//
+// $Revision: 1.6 $ ----------- 21 Feb 2000
+// - fixed PTM KBT0693: Overlapping in property dialog
+// - added horizontal scrollbar to folder listbox of folder import dialog
+//
+//
+// $Revision: 1.5 $ ----------- 14 Feb 2000
+// - added new export options to folder export dialog
+// - enlarged folder properties dialog
+//
+//
+// $Revision: 1.4 $ ----------- 10 Jan 2000
+// - added CBS_AUTOHSCROLL style to new name field of folder import
+//
+//
+// $Revision: 1.3 $ ----------- 14 Dec 1999
+// - enabled new folder dialog for long file names
+//
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+//
+// $CMVC
+//
+//
+// $Revision: 1.2 $ ----------- 6 Dec 1999
+//  -- Initial Revision!!
+//
+ *
+ * $Header:   K:\DATA\EQFFOL.DVG   1.18   08 Nov 1999 13:55:44   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFFOL.DVG  $
+ *
+ *    Rev 1.18   08 Nov 1999 13:55:44   BUILD
+ * - enlarged controls showing folder names for long folder name support
+ *
+ *    Rev 1.17   07 Jun 1999 10:20:46   BUILD
+ * - enlarged folder import and folder export dialog for Windows and OS/2 platform
+ *   to allow display of 9*3 drive icons
+ *
+ *    Rev 1.16   17 May 1999 13:31:48   BUILD
+ * - added conversion field to folder properties and new folder dialog
+ *
+ *    Rev 1.15   07 Dec 1998 11:40:46   BUILD
+ * added horizontal scrollbar to document LB
+ *
+ *    Rev 1.14   16 Nov 1998 17:22:52   BUILD
+ * corrected dialog push botton positions
+ *
+ *    Rev 1.13   09 Nov 1998 09:35:08   BUILD
+ * -- add HISTLOG export function
+ *
+ *    Rev 1.12   08 Jun 1998 18:21:58   BUILD
+ * - enlarged dialogs to allow display of up to 27 drive icons
+ *
+ *    Rev 1.10   19 Aug 1997 14:00:52   BUILD
+ * - added new variables for work item A.57c "Special handling for document TMs"
+ *
+ *    Rev 1.9   05 Mar 1997 09:49:58   BUILD
+ * -- support for R/O Translation memory databases
+ *
+ *    Rev 1.8   25 Feb 1997 10:34:42   BUILD
+ * -- Compiler defines for _POE22, _TKT21, and NEWTCSTUFF eliminated
+ *
+ *    Rev 1.7   13 Jan 1997 15:17:24   BUILD
+ * - added Document Processing Optione dialog
+ *
+ *    Rev 1.6   11 Dec 1996 16:22:58   BUILD
+ * -- A14: new new-folder dialog
+ *
+ *    Rev 1.5   23 Sep 1996 14:30:42   BUILD
+ * - NewFolder: corrected position of source language static for DBCS environment
+ *
+ *    Rev 1.4   17 Sep 1996 07:46:42   BUILD
+ * - decreased size of folder info dialog for DBCS NLS environment
+ * - enlarged some controls of global find dialog for DBCS environment
+ *
+ *    Rev 1.2   09 Sep 1996 10:41:58   BUILD
+ * - added "rename" checkbox and "newname" combobox to folder import dialog
+ *
+ *    Rev 1.1   05 Feb 1996 13:38:14   BUILD
+ * - added LS_EXTENDEDSEL style to multiple selection listboxes
+ *
+ *    Rev 1.0   09 Jan 1996 10:07:32   BUILD
+ * Initial revision.
+  +----------------------------------------------------------------------------+
+*/
+
+
+ID_FOLMODEL_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  35, 40, 223, 108
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_FOLMODEL_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "Folder:", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 6, 64, 9
+  CONTROL "", ID_FOLMODEL_FOLDER_LB,
+    LISTBOX,
+    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_GROUP | WS_VISIBLE,
+    6, 17, 214, 67
+  CONTROL STR_FOLMODEL_SELECT, ID_FOLMODEL_OK_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 90, 56, 15
+  CONTROL STR_FOLMODEL_CANCEL, ID_FOLMODEL_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    100, 90, 38, 15
+  CONTROL STR_FOLMODEL_HELP, ID_FOLMODEL_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_TABSTOP | WS_VISIBLE,
+    168, 90, 38, 15
+END
+
+
+ID_FOLNOTE_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  23, 117, 223, 121
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_SYSMENU | WS_CAPTION
+CAPTION STR_FOLNOTE_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_FOLNOTE_FOLDER, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 9, 36, 9
+
+  CONTROL "", ID_FOLNOTE_FOLDER_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    43, 9, 172, 9
+
+  CONTROL "Note:", -1,
+    STATIC,
+    SS_LEFT,
+    6, 23, 0, 0
+
+  CONTROL "", ID_FOLNOTE_NOTE_MLE,
+    EDIT,
+    ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE | ES_AUTOVSCROLL | WS_VSCROLL,
+    6, 23, 211, 76
+  CONTROL STR_FOLNOTE_OK, ID_FOLNOTE_NOTE_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 103, 56, 15
+  CONTROL STR_FOLNOTE_CANCEL, ID_FOLNOTE_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 103, 38, 15
+  CONTROL STR_FOLNOTE_HELP, ID_FOLNOTE_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 103, 38, 15
+END
+
+ID_FOLLANG_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  86, 60, 223, 108
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION STR_FOLLANG_DLG
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL STR_FOLLANG_NAME, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 7, 70, 9
+
+  CONTROL "", ID_FOLLANG_NAME_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE | WS_GROUP,
+    79, 7, 135, 9
+  CONTROL STR_FOLLANG_DESCR, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 23, 70, 9
+
+  CONTROL "", ID_FOLLANG_DESCR_TEXT,
+    STATIC,
+    SS_LEFT | WS_VISIBLE | WS_GROUP,
+    79, 23, 135, 9
+  CONTROL STR_FOLLANG_SOURCELANG, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 39, 70, 9
+
+  CONTROL "", ID_FOLLANG_SOURCELANG_CBS,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    77, 40, 140, 52
+  CONTROL STR_FOLLANG_TARGETLANG, -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 56, 70, 9
+
+  CONTROL "", ID_FOLLANG_TARGETLANG_CBS,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    77, 56, 140, 52
+  CONTROL STR_FOLLANG_OK_PB, ID_FOLLANG_OK_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    14, 90, 56, 15
+  CONTROL STR_PB_CANCEL, ID_FOLLANG_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    100, 90, 38, 15
+  CONTROL STR_PB_HELP, ID_FOLLANG_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    168, 90, 38, 15
+END
+
+
+ID_FOLIMPDOC_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  9, 12, 362, 180
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION STR_FOLIMPDOC_TITLE
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "Document settings", -1,
+    STATIC,
+    SS_LEFT | WS_GROUP | WS_VISIBLE,
+    6, 15, 0, 0
+  CONTROL "", ID_FOLIMPDOC_DOC_LB, "SysListView32",
+    LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP | WS_VISIBLE,
+    6,15,272,135
+  CONTROL STR_FOLIMPDOC_OPT_GB, -1,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    280, 10, 75, 55
+  CONTROL STR_FOLIMPDOC_REPLACE_PB, ID_FOLIMPDOC_REPLACE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    284, 23, 69, 15
+
+  CONTROL STR_FOLIMPDOC_IGNORE_PB, ID_FOLIMPDOC_IGNORE_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    284, 43, 69, 15
+  CONTROL STR_FOLIMPDOC_SET_PB, ID_FOLIMPDOC_SET_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    29, 162, 56, 15
+  CONTROL STR_FOLIMPDOC_CANCEL_PB, ID_FOLIMPDOC_CANCEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    141, 162, 38, 15
+  CONTROL STR_FOLIMPDOC_HELP_PB, ID_FOLIMPDOC_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    250, 162, 38, 15
+END
+
+ID_FOL_DELHLOG_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  9, 12, 362, 180
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION "History log delete confirmation"
+FONT 8 "MS Sans Serif"
+BEGIN
+
+  CONTROL "Warning!", -1,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 6, 15, 200, 9
+    
+  CONTROL "When you delete the history log file all information necessary for calculation reports will be deleted and \
+no history of the folder and its documents is available anymore.\n", -1,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 6, 34, 340, 18
+    
+  CONTROL "Only delete the history log file when you re-use the folder for new and independend shipments or for different translation projects.", -1,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 6, 62, 340, 18
+    
+  CONTROL "Your user ID:", -1,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 6, 90, 80, 9
+
+  CONTROL "", ID_FOL_DELHLOG_USERID_EF,
+    EDIT,
+    ES_NOHIDESEL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    200, 88, 80, 12
+    
+  CONTROL "Confirmation text:", -1,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 6, 110, 80, 9
+    
+  CONTROL "", ID_FOL_DELHLOG_CAPTCHA_EF,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 200, 110, 80, 9
+    
+  CONTROL "To confirm the delete enter the six characters of the confirmation text here:", -1,
+    STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 6, 132, 170, 18
+    
+  CONTROL "", ID_FOL_DELHLOG_CONFIRM_EF,
+    EDIT,
+    ES_NOHIDESEL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    200, 132, 80, 12
+    
+  CONTROL "Delete history log", ID_FOL_DELHLOG_DEL_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    29, 162, 80, 15
+  CONTROL "Cancel", ID_FOL_DELHLOG_CANCEL_PB,
+    BUTTON,
+    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
+    171, 162, 38, 15
+  CONTROL "Help", ID_FOL_DELHLOG_HELP_PB,
+    EQFHELPBUTTON,
+    WS_TABSTOP | WS_VISIBLE,
+    275, 162, 38, 15
+END

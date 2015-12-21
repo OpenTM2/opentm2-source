@@ -1,0 +1,189 @@
+#  Copyright Notice:                                                         
+#                                                                            
+#      Copyright (C) 1990-2015, International Business Machines              
+#      Corporation and others. All rights reserved                           
+
+# deletes the EQFDLL.DLL and the EQFDLL.LIB to allow re-linking with correct EQF_API.LIB
+# and relinks it again
+
+build: $(_LIB)EQFDLL.LIB
+
+$(_LIB)EQFDLL.LIB: 
+    @echo ---- Relinking $(_DLL)\EQFDLL.DLL
+    @echo ---- Relinking $(_DLL)\EQFDLL.DLL >>$(_ERR)
+    @$(_LINKER) @<<lnk.rsp>>$(_ERR)
+                          $(_OBJ)\EQFCOPYR.OBJ
+                          $(_OBJ)\EQFLOGO.OBJ
+                          $(_OBJ)\EQFDRVEX.OBJ
+                          $(_OBJ)\EQFANA00.OBJ
+                          $(_OBJ)\EQFBCLIP.OBJ
+                          $(_OBJ)\EQFBDLG.OBJ
+                          $(_OBJ)\EQFBDLGF.OBJ
+                          $(_OBJ)\EQFBDLGP.OBJ
+                          $(_OBJ)\EQFBDLGS.OBJ
+                          $(_OBJ)\EQFBDOC.OBJ
+                          $(_OBJ)\EQFBFILE.OBJ
+                          $(_OBJ)\EQFBFIND.OBJ
+                          $(_OBJ)\EQFBCFND.OBJ
+                          $(_OBJ)\EQFBFUNC.OBJ
+                          $(_OBJ)\EQFBFUZZ.OBJ
+                          $(_OBJ)\EQFBINIT.OBJ
+                          $(_OBJ)\EQFBKEYB.OBJ
+                          $(_OBJ)\EQFBMAIN.OBJ
+                          $(_OBJ)\EQFBMARK.OBJ
+                          $(_OBJ)\EQFBPM.OBJ
+                          $(_OBJ)\EQFBSCRN.OBJ
+                          $(_OBJ)\EQFBTRAN.OBJ
+                          $(_OBJ)\EQFBTRUT.OBJ
+                          $(_OBJ)\EQFBUTL.OBJ
+                          $(_OBJ)\EQFBWORK.OBJ
+                          $(_OBJ)\EQFBWPRC.OBJ
+                          $(_OBJ)\EQFCMPR.OBJ
+                          $(_OBJ)\EQFCNT00.OBJ
+                          $(_OBJ)\EQFCNT01.OBJ
+                          $(_OBJ)\EQFDAM.OBJ
+                          $(_OBJ)\EQFDASD.OBJ
+                          $(_OBJ)\EQFDASDM.OBJ
+                          $(_OBJ)\EQFDASDT.OBJ
+                          $(_OBJ)\EQFDDE00.OBJ
+                          $(_OBJ)\EQFDDED.OBJ
+                          $(_OBJ)\EQFDDISP.OBJ
+                          $(_OBJ)\EQFDEDIT.OBJ
+                          $(_OBJ)\EQFDEX.OBJ
+                          $(_OBJ)\EQFDIC00.OBJ
+                          $(_OBJ)\EQFDIC01.OBJ
+                          $(_OBJ)\EQFDIC02.OBJ
+                          $(_OBJ)\EQFDIC03.OBJ
+                          $(_OBJ)\EQFDIMP.OBJ
+                          $(_OBJ)\EQFDLOOK.OBJ
+                          $(_OBJ)\EQFDLUP.OBJ
+                          $(_OBJ)\EQFDOC00.OBJ
+                          $(_OBJ)\EQFDOC01.OBJ
+                          $(_OBJ)\EQFDOC02.OBJ
+                          $(_OBJ)\EQFDORG.OBJ
+                          $(_OBJ)\EQFFILTC.OBJ
+                          $(_OBJ)\EQFFILTD.OBJ
+                          $(_OBJ)\EQFFILTH.OBJ
+                          $(_OBJ)\EQFFILTU.OBJ
+                          $(_OBJ)\EQFFILTW.OBJ
+                          $(_OBJ)\EQFPROPS.OBJ
+                          $(_OBJ)\EQFFLL00.OBJ
+                          $(_OBJ)\EQFFOL00.OBJ
+                          $(_OBJ)\EQFFOL01.OBJ
+                          $(_OBJ)\EQFFOL02.OBJ
+                          $(_OBJ)\EQFFOL03.OBJ
+                          $(_OBJ)\EQFFOL04.OBJ
+                          $(_OBJ)\EQFFOL05.OBJ
+                          $(_OBJ)\EQFFOL06.OBJ
+                          $(_OBJ)\EQFFOLLI.OBJ
+                          $(_OBJ)\EQFHASH.OBJ
+                          $(_OBJ)\EQFHNDLR.OBJ
+                          $(_OBJ)\EQFIANA1.OBJ
+                          $(_OBJ)\EQFLIST.OBJ
+                          $(_OBJ)\EQFLNG00.OBJ
+                          $(_OBJ)\EQFLSTIE.OBJ
+                          $(_OBJ)\EQFLSTLP.OBJ
+                          $(_OBJ)\EQFLSTUT.OBJ
+                          $(_OBJ)\EQFMEM00.OBJ
+                          $(_OBJ)\EQFMEMCD.OBJ
+                          $(_OBJ)\EQFMEMED.OBJ
+                          $(_OBJ)\EQFMEMEP.OBJ
+                          $(_OBJ)\EQFMEMIP.OBJ
+                          $(_OBJ)\EQFMEMLD.OBJ
+                          $(_OBJ)\EQFMEMLP.OBJ
+                          $(_OBJ)\EQFMECLM.OBJ
+                          $(_OBJ)\EQFPRSNO.OBJ
+                          $(_OBJ)\EQFMEMMD.OBJ
+                          $(_OBJ)\EQFMEMMP.OBJ
+                          $(_OBJ)\EQFMEMRP.OBJ
+                          $(_OBJ)\EQFMEMSD.OBJ
+                          $(_OBJ)\EQFMEMUT.OBJ
+                          $(_OBJ)\EQFMORPH.OBJ
+                          $(_OBJ)\EQFMORPW.OBJ
+                          $(_OBJ)\EQFNOISE.OBJ
+                          $(_OBJ)\EQFNTCL.OBJ
+                          $(_OBJ)\EQFNTCR.OBJ
+                          $(_OBJ)\EQFNTDEL.OBJ
+                          $(_OBJ)\EQFNTEXT.OBJ
+                          $(_OBJ)\EQFNTGET.OBJ
+                          $(_OBJ)\EQFNTMDB.OBJ
+                          $(_OBJ)\EQFNTOP.OBJ
+                          $(_OBJ)\EQFNTPUT.OBJ
+                          $(_OBJ)\EQFNTTMT.OBJ
+                          $(_OBJ)\EQFNTUTL.OBJ
+                          $(_OBJ)\EQFOBJ00.OBJ
+                          $(_OBJ)\EQFPARSE.OBJ
+                          $(_OBJ)\EQFPRO00.OBJ
+                          $(_OBJ)\EQFQDAM.OBJ
+                          $(_OBJ)\EQFQDAMI.OBJ
+                          $(_OBJ)\EQFQDAMU.OBJ
+                          $(_OBJ)\EQFQDAMW.OBJ
+                          $(_OBJ)\EQFQDPR.OBJ
+                          $(_OBJ)\EQFQDPRA.OBJ
+                          $(_OBJ)\EQFQDPRD.OBJ
+                          $(_OBJ)\EQFQDPRP.OBJ
+                          $(_OBJ)\EQFQDSRV.OBJ
+                          $(_OBJ)\EQFQLDB.OBJ
+                          $(_OBJ)\EQFQLDBI.OBJ
+                          $(_OBJ)\EQFRDICS.OBJ
+                          $(_OBJ)\EQFRPT.OBJ
+                          $(_OBJ)\EQFRPT00.OBJ
+                          $(_OBJ)\EQFRPT01.OBJ
+                          $(_OBJ)\EQFSDICS.OBJ
+                          $(_OBJ)\EQFTAARC.OBJ
+                          $(_OBJ)\EQFTAFUN.OBJ
+                          $(_OBJ)\EQFTAG00.OBJ
+                          $(_OBJ)\EQFTALP0.OBJ
+                          $(_OBJ)\EQFTALP1.OBJ
+                          $(_OBJ)\EQFTALP2.OBJ
+                          $(_OBJ)\EQFTAPH2.OBJ
+                          $(_OBJ)\EQFTATAG.OBJ
+                          $(_OBJ)\EQFTEXP.OBJ
+                          $(_OBJ)\EQFTIMP.OBJ
+                          $(_OBJ)\EQFTMEXT.OBJ
+                          $(_OBJ)\EQFTMFUN.OBJ
+                          $(_OBJ)\EQFTMM.OBJ
+                          $(_OBJ)\EQFTMMV.OBJ
+                          $(_OBJ)\EQFTMRTV.OBJ
+                          $(_OBJ)\EQFTMSTR.OBJ
+                          $(_OBJ)\EQFTMU.OBJ
+                          $(_OBJ)\EQFTMUPD.OBJ
+                          $(_OBJ)\EQFTMUTL.OBJ
+                          $(_OBJ)\EQFTOKEN.OBJ
+                          $(_OBJ)\EQFTSEGM.OBJ
+                          $(_OBJ)\EQFUTCLB.OBJ
+                          $(_OBJ)\EQFUTDLG.OBJ
+                          $(_OBJ)\EQFUTDOS.OBJ
+                          $(_OBJ)\EQFUTERR.OBJ
+                          $(_OBJ)\EQFUTFIL.OBJ
+                          $(_OBJ)\EQFUTILS.OBJ
+                          $(_OBJ)\EQFUTLNG.OBJ
+                          $(_OBJ)\EQFUTPRT.OBJ
+                          $(_OBJ)\EQFUTMDI.OBJ
+                          $(_OBJ)\EQFWCNT.OBJ
+                          $(_OBJ)\EQFXDOC.OBJ
+                          $(_OBJ)\EQF_DA.OBJ
+                          $(_OBJ)\EQF_MT.OBJ
+                          $(_OBJ)\EQF_TM.OBJ
+                          $(_OBJ)\EQF_TWBS.OBJ
+                          $(_OBJ)\EQFOSWIN.OBJ
+                          $(_OBJ)\EQFQDPRU.OBJ
+                          $(_OBJ)\EQFPROGR.OBJ
+                          $(_OBJ)\EQFMAIN.OBJ
+                          $(_OBJ)\EQFMT00.OBJ
+                          $(_OBJ)\EQFMT01.OBJ
+                          $(_OBJ)\EQFBIDI.OBJ
+                          $(_OBJ)\EQFBRTF.OBJ
+                          $(_OBJ)\EQFBRTFF.OBJ
+                          $(_OBJ)\EQFPAPI.OBJ
+                          $(_OBJ)\EQFSEGMD.OBJ
+                          $(_OBJ)\EQFAPROF.OBJ
+                          $(_OBJ)\EQFENTITY.OBJ
+                          $(_OBJ)\EQFFSRCH.OBJ
+                          $(_OBJ)\EQFSETUP.OBJ
+/OUT:$(_DLL)\EQFDLL.DLL
+/MAP:$(_MAP)\EQFDLL.MAP $(_LINK_OPTIONS) /DLL
+$(_LINK_LIB_CRT) $(_LIB)\EQF_API.LIB imm32.lib SHELL32.LIB COMCTL32.LIB $(_LIB)\EQFRPXML.LIB $(_LIB)\EQFTAML.LIB $(_LIB)\EQFNTM.LIB
+/DEF:$(_DEF)\EQFDLL.$(_DEFEXT)
+<<
+

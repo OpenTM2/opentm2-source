@@ -1,0 +1,130 @@
+****************************************************************************************************
+** Script name...: EqfCreateItm.script 
+** Purpose.......: Script to test the API call EqfCreateItm
+** Version.......: 1.0.0                           
+** Creation Date.: Februaryr 19, 2015
+** Update........: Februaryr 19, 2015
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           
+**                 and others. All rights reserved                                                
+** Developer.....: Gerhard Queck                                                                
+**                 QSoft Gmbh for IBM Translation Technical Services               
+**                 vqueck@de.ibm.com                                                              
+****************************************************************************************************
+
+****************************************************************************************************
+* Define constants 
+****************************************************************************************************
+INCLUDE ..\AutoTestSuite_Settings.script
+
+define Data,%TestDataLocation%\MEMORY\CREATEITM
+
+****************************************************************************************************
+* Prepare test data ... 
+****************************************************************************************************
+
+****************************************************************************************************
+* Test cases... 
+****************************************************************************************************
+
+TESTCASE CREATEITM001,Call EqfCreateItm without parameters
+  EqfCreateITM 
+  TESTRESULT 29, wrong return code of EqfCreateITM when no parameters are specified
+End
+
+TESTCASE CREATEITM002,Call EqfCreateItm with a memory name only
+  EqfCreateMem CreateITM002,,,English(U.S.)
+  EqfCreateITM CreateITM002
+  TESTRESULT 37, wrong return code of EqfCreateITM when only memory has been specified
+  EqfDeleteMem CreateITM002
+End
+
+TESTCASE CREATEITM003,Call EqfCreateItm with only one document specified
+  EqfCreateMem CreateITM003,,,English(U.S.)
+  EqfCreateITM CreateITM003,file001.dita,IBMDITA,,English(U.S.),English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 396, wrong return code of EqfCreateITM when only one document has been specified
+  EqfDeleteMem CreateITM003
+End
+
+TESTCASE CREATEITM004,Call EqfCreateItm with incorrect file name pairs
+  EqfCreateMem CreateITM004,,,English(U.S.)
+  EqfCreateITM CreateITM004,(file001.dita, file001.dita,file002.dita),IBMDITA,,English(U.S.),English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 396, wrong return code of EqfCreateITM when incorect file pairs have been specified
+  EqfDeleteMem CreateITM004
+End
+
+TESTCASE CREATEITM005,Call EqfCreateItm with a not existing list file
+  EqfCreateMem CreateITM005,,,English(U.S.)
+  EqfCreateITM CreateITM005,@ThisFileDoesNotExist.lst,IBMDITA,,English(U.S.),English(U.S.)
+  TESTRESULT 1087, wrong return code of EqfCreateITM when a not existing list file  has been specified
+  EqfDeleteMem CreateITM005
+End
+
+TESTCASE CREATEITM006,Call EqfCreateItm with a list file with incorrect list syntax
+  EqfCreateMem CreateITM006,,,English(U.S.)
+  EqfCreateITM CreateITM006,@%Data%\CREATEITM-INVALID.LST,IBMDITA,,English(U.S.),English(U.S.)
+  TESTRESULT 806, wrong return code of EqfCreateITM when an incorrect list file has been specified
+  EqfDeleteMem CreateITM006
+End
+
+TESTCASE CREATEITM007,Call EqfCreateItm without specifying a markup table
+  EqfCreateMem CreateITM007,,,English(U.S.)
+  EqfCreateITM CreateITM007,@%Data%\CREATEITM.LST,,,English(U.S.),English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 306, wrong return code of EqfCreateITM when no markup table has been specified
+  EqfDeleteMem CreateITM007
+End
+
+TESTCASE CREATEITM008,Call EqfCreateItm specifying a invalid markup table
+  EqfCreateMem CreateITM008,,,English(U.S.)
+  EqfCreateITM CreateITM008,@%Data%\CREATEITM.LST,INVALIDMU,,English(U.S.),English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 103, wrong return code of EqfCreateITM when a invalid markup table has been specified
+  EqfDeleteMem CreateITM008
+End
+
+TESTCASE CREATEITM009,Call EqfCreateItm without specifying the source language
+  EqfCreateMem CreateITM009,,,English(U.S.)
+  EqfCreateITM CreateITM009,@%Data%\CREATEITM.LST,IBMDITA,,,English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 233, wrong return code of EqfCreateITM when no source language has been specified
+  EqfDeleteMem CreateITM009
+End
+
+TESTCASE CREATEITM010,Call EqfCreateItm specifying a invalid source language
+  EqfCreateMem CreateITM010,,,English(U.S.)
+  EqfCreateITM CreateITM010,@%Data%\CREATEITM.LST,IBMDITA,,Marsian,English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 461, wrong return code of EqfCreateITM when a invalid source language has been specified
+  EqfDeleteMem CreateITM010
+End
+
+TESTCASE CREATEITM011,Call EqfCreateItm without specifying the target language
+  EqfCreateMem CreateITM011,,,English(U.S.)
+  EqfCreateITM CreateITM011,@%Data%\CREATEITM.LST,IBMDITA,,English(U.S.),,%Data%\source,%Data%\target
+  TESTRESULT 234, wrong return code of EqfCreateITM when no target language has been specified
+  EqfDeleteMem CreateITM011
+End
+
+TESTCASE CREATEITM012,Call EqfCreateItm specifying a invalid target language
+  EqfCreateMem CreateITM012,,,English(U.S.)
+  EqfCreateITM CreateITM012,@%Data%\CREATEITM.LST,IBMDITA,,English(U.S.),Marsian,%Data%\source,%Data%\target
+  TESTRESULT 461, wrong return code of EqfCreateITM when a invalid target language has been specified
+  EqfDeleteMem CreateITM012
+End
+
+TESTCASE CREATEITM013,Call EqfCreateItm specifying a invalid start path
+  EqfCreateMem CreateITM013,,,English(U.S.)
+  EqfCreateITM CreateITM013,@%Data%\CREATEITM.LST,IBMDITA,,English(U.S.),English(U.S.),%Data%\XXXXXXXXX,%Data%\XXXXXXXXX
+  TESTRESULT 43, wrong return code of EqfCreateITM when a invalid start path has been specified
+  EqfDeleteMem CreateITM013
+End
+
+TESTCASE CREATEITM014,Call EqfCreateItm with file pairs listed in the command line
+  EqfCreateMem CreateITM014,,,English(U.S.)
+  EqfCreateITM CreateITM014, @%Data%\CREATEITM.LST,IBMDITA,,English(U.S.),English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 0, EqfCreateITM wrong return code when called with directly specified file pairs
+  EqfDeleteMem CreateITM014
+End
+
+TESTCASE CREATEITM015,Call EqfCreateItm using a file containing the file pairs
+  EqfCreateMem CreateITM015,,,English(U.S.)
+  EqfCreateITM CreateITM015, @%Data%\CREATEITM.LST,IBMDITA,,English(U.S.),English(U.S.),%Data%\source,%Data%\target
+  TESTRESULT 0, EqfCreateITM wrong return code when called with a list of file pairs
+  EqfDeleteMem CreateITM015
+End

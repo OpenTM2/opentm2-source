@@ -1,0 +1,227 @@
+//+----------------------------------------------------------------------------+
+//|EQFCNT01.ID                                                                 |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:      Stefan Doersam                                                 |
+//+----------------------------------------------------------------------------+
+//|Description: Dialog and string IDs for word count                           |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.2 $ ----------- 29 Mar 2010
+// GQ: - added DID_CNT_FUZZYMATCH_RB
+// 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 20 Jul 2009
+// GQ: - added DID_CNT_FORMAT_CB
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 31 Jul 2008
+// GQ: - added ID for new duplicate word count option
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Nov 2006
+// GQ: - added ID DID_CNT_DUPLICATES_RB
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 21 Feb 2000
+// - added entry for machine match column
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   J:\DATA\EQFCNT01.IV_   1.2   04 Nov 1997 11:13:36   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFCNT01.IV_  $
+ *
+ *    Rev 1.2   04 Nov 1997 11:13:36   BUILD
+ * - added IDs for replace match counting
+ *
+ *    Rev 1.1   11 Jun 1997 17:16:42   BUILD
+ * - added ID for TM match radiobutton
+ * - added string IDs for TM match word counting
+ *
+ *    Rev 1.0   09 Jan 1996 10:04:46   BUILD
+ * Initial revision.
+*/
+/* Change Activity:                                                           */
+/*                                                                            */
+/* Code   Reason   Release  Date   Origin   Comments                          */
+/* ----   -------- -------- ------ ------ : --------------------------------- */
+/* $00    INITIAL  110      930806 DOE    :                                   */
+/* $1204  KIT1204  110      930806 DOE    :added defines for file inuse string*/
+//+----------------------------------------------------------------------------+
+
+//-- id s for dialog procedure EQFCNT01
+//-- ID_WORDCNT_DLG is defined in EQF.ID
+
+#define DID_CNT_LB_TEXT            ID_WORDCNT_DLG+1
+#define DID_CNT_LB                 ID_WORDCNT_DLG+2
+#define DID_CNT_OPTIONS_GB         ID_WORDCNT_DLG+3
+#define DID_CNT_ORIGINAL_RB        ID_WORDCNT_DLG+4
+#define DID_CNT_TRANSLATION_RB     ID_WORDCNT_DLG+5
+#define DID_CNT_OUTPUT_GB          ID_WORDCNT_DLG+6
+#define DID_CNT_FILE_CHK           ID_WORDCNT_DLG+7
+#define DID_CNT_FILE_EF            ID_WORDCNT_DLG+8
+#define PID_PB_COUNT               ID_WORDCNT_DLG+9
+#define DID_CNT_SCREEN_CHK         ID_WORDCNT_DLG+10
+#define DID_CNT_FILE_SET_PB        ID_WORDCNT_DLG+13
+#define DID_CNT_TMMATCHES_RB       ID_WORDCNT_DLG+14
+#define DID_CNT_TMREPLMATCH_CHK    ID_WORDCNT_DLG+15
+#define DID_CNT_DUPLICATES_RB      ID_WORDCNT_DLG+16
+#define DID_CNT_MEMMATCH_CHK       ID_WORDCNT_DLG+17
+#define DID_CNT_FORMAT_CB          ID_WORDCNT_DLG+18
+#define DID_CNT_FUZZYMATCH_RB      ID_WORDCNT_DLG+19
+
+//--- listbox of the count handler, containing the selected documents
+#define DID_CNT00_COUNTHANDLER_LB      ID_WORDCNT_WINDOW+1
+
+//--- column listbox in count instance window
+#define DID_CNT00_COUNT_LB             ID_WORDCNT_WINDOW+2
+
+
+//--- ids for the stringtable for EQFCNT00.C
+#define SID_CNT00_TITLE_ORIGINAL       ID_WORDCNT_WINDOW+3
+#define SID_CNT00_TITLE_TRANSLATION    ID_WORDCNT_WINDOW+4
+#define SID_CNT00_FILE_ORIGINAL_GML    ID_WORDCNT_WINDOW+5
+#define SID_CNT00_FILE_TRANSLATION_GML ID_WORDCNT_WINDOW+7
+#define SID_CNT00_FILE_SUM_TEXT        ID_WORDCNT_WINDOW+9
+#define SID_CNT00_FILE_ERROR_LINE      ID_WORDCNT_WINDOW+10
+#define SID_CNT00_DOCUMENTS            ID_WORDCNT_WINDOW+11
+#define SID_CNT00_TOBE_TRANSLATED      ID_WORDCNT_WINDOW+12
+#define SID_CNT00_TRANSLATED           ID_WORDCNT_WINDOW+13
+#define SID_CNT00_NL                   ID_WORDCNT_WINDOW+14
+#define SID_CNT00_MARKUP               ID_WORDCNT_WINDOW+15
+#define SID_CNT00_TOTAL                ID_WORDCNT_WINDOW+16
+#define SID_CNT00_FOLDER_TEXT          ID_WORDCNT_WINDOW+17
+#define SID_CNT00_COUNTING_TEXT        ID_WORDCNT_WINDOW+18
+#define SID_CNT00_ERROR_TEXT           ID_WORDCNT_WINDOW+19
+#define SID_CNT00_FILE_LOCKED_LINE     ID_WORDCNT_WINDOW+20          /*@1204A*/
+#define SID_CNT00_LOCKED_TEXT          ID_WORDCNT_WINDOW+21          /*@1204A*/
+
+//--- ids for the stringtable for EQFCNT01.C
+#define SID_CNT01_MSG_TRANSLATION      ID_WORDCNT_WINDOW+22
+#define SID_CNT01_GML                  ID_WORDCNT_WINDOW+23
+#define  SID_CNT_FILENAME_TEXT         ID_WORDCNT_WINDOW+24
+
+#ifdef TOP97_MATCHCOUNT
+//---- IDs for TM match counting
+#define SID_CNT00_FILE_TMMATCH_GML     ID_WORDCNT_WINDOW+26
+#define SID_CNT00_FILE_NOMATCH_LINE    ID_WORDCNT_WINDOW+27
+#define SID_CNT00_TITLE_TMMATCHES      ID_WORDCNT_WINDOW+28
+#define SID_CNT00_EXACTEXACT           ID_WORDCNT_WINDOW+29
+#define SID_CNT00_EXACTONE             ID_WORDCNT_WINDOW+30
+#define SID_CNT00_EXACTMORE            ID_WORDCNT_WINDOW+31
+#define SID_CNT00_FUZZY                ID_WORDCNT_WINDOW+32
+#define SID_CNT00_NOMATCH              ID_WORDCNT_WINDOW+33
+#define SID_CNT00_NOINFO_TEXT          ID_WORDCNT_WINDOW+34
+#define SID_CNT00_FILE_NOINFO_LINE     ID_WORDCNT_WINDOW+35
+#define SID_CNT00_FILE_TMREPLMATCH_GML ID_WORDCNT_WINDOW+37
+#define SID_CNT00_REPL                 ID_WORDCNT_WINDOW+38
+#define SID_CNT00_FUZZYREPL            ID_WORDCNT_WINDOW+39
+#define SID_CNT00_MACHMATCH            ID_WORDCNT_WINDOW+40
+#endif
+
+//--- message used in wordcount instance
+#define WM_EQF_COUNT               WM_EQF_$+1

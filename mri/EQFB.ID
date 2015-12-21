@@ -1,0 +1,792 @@
+//+----------------------------------------------------------------------------+
+//|EQFB.ID                                                                     |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+#ifndef _INCL_EQFB_ID
+  #define _INCL_EQFB_ID
+//////////////////////////////////////////////////////////////////////
+//
+// EQFB - The Translation Browser for MAT Tools
+//
+// EQFB.ID  IDs used in Translation Browser Main Window
+//
+//////////////////////////////////////////////////////////////////////
+#define IDM_EXIT          (ID_TP_MAIN_WINDOW + 1)
+#define IDM_RESUME        (ID_TP_MAIN_WINDOW + 2)
+#define IDM_HELP          (ID_TP_MAIN_WINDOW + 3)
+#define IDM_HOME          (ID_TP_MAIN_WINDOW + 4)
+#define IDM_CUT           (ID_TP_MAIN_WINDOW + 5)
+#define IDM_COPY          (ID_TP_MAIN_WINDOW + 6)
+#define IDM_CLEAR         (ID_TP_MAIN_WINDOW + 7)
+#define IDM_PASTE         (ID_TP_MAIN_WINDOW + 8)
+#define IDM_EDIT          (ID_TP_MAIN_WINDOW + 9)
+#define IDM_CYCLE         (ID_TP_MAIN_WINDOW + 10)
+#define IDM_FILE_MENU     (ID_TP_MAIN_WINDOW + 11)
+#define IDM_OPEN          (ID_TP_MAIN_WINDOW + 12)
+#define IDM_SAVE          (ID_TP_MAIN_WINDOW + 13)
+#define IDM_SAVEAS        (ID_TP_MAIN_WINDOW + 14)
+#define IDM_FILE          (ID_TP_MAIN_WINDOW + 15)
+#define IDM_QUIT          (ID_TP_MAIN_WINDOW + 16)
+#define IDM_UNDO          (ID_TP_MAIN_WINDOW + 17)
+#define IDM_UNMARK        (ID_TP_MAIN_WINDOW + 18)
+#define IDM_FINDMARK      (ID_TP_MAIN_WINDOW + 19)
+#define IDM_TOP           (ID_TP_MAIN_WINDOW + 20)
+#define IDM_BOTTOM        (ID_TP_MAIN_WINDOW + 21)
+#define IDM_SOL           (ID_TP_MAIN_WINDOW + 22)
+#define IDM_EOL           (ID_TP_MAIN_WINDOW + 23)
+#define IDM_SOS           (ID_TP_MAIN_WINDOW + 24)
+#define IDM_EOS           (ID_TP_MAIN_WINDOW + 25)
+#define IDM_CURSOR        (ID_TP_MAIN_WINDOW + 26)
+#define IDM_SPLIT         (ID_TP_MAIN_WINDOW + 27)
+#define IDM_JOIN          (ID_TP_MAIN_WINDOW + 28)
+#define IDM_OPTIONS_MENU  (ID_TP_MAIN_WINDOW + 29)
+#define IDM_PRINT         (ID_TP_MAIN_WINDOW + 30)
+#define IDM_TRANS_MENU    (ID_TP_MAIN_WINDOW + 31)
+#define IDM_TRANSSEG      (ID_TP_MAIN_WINDOW + 32)
+#define IDM_TRANSNEW      (ID_TP_MAIN_WINDOW + 33)
+#define IDM_DICTLOOK      (ID_TP_MAIN_WINDOW + 34)
+#define IDM_DICTWND       (ID_TP_MAIN_WINDOW + 35)
+#define IDM_TMWND         (ID_TP_MAIN_WINDOW + 36)
+#define IDM_DISPORG       (ID_TP_MAIN_WINDOW + 37)
+#define IDM_GOTO          (ID_TP_MAIN_WINDOW + 38)
+#define IDM_JOINSEG       (ID_TP_MAIN_WINDOW + 39)
+#define IDM_SPLITSEG      (ID_TP_MAIN_WINDOW + 40)
+#define IDM_MARKSEG       (ID_TP_MAIN_WINDOW + 41)
+#define IDM_GOTOMARK      (ID_TP_MAIN_WINDOW + 42)
+#define IDM_CLEARMARK     (ID_TP_MAIN_WINDOW + 43)
+#define IDM_POSTEDIT      (ID_TP_MAIN_WINDOW + 44)
+#define IDM_AUTOTRANS     (ID_TP_MAIN_WINDOW + 45)
+#define IDM_FONTCOL       (ID_TP_MAIN_WINDOW + 46)
+#define IDM_KEYS          (ID_TP_MAIN_WINDOW + 47)
+#define IDM_STYLE_MENU    (ID_TP_MAIN_WINDOW + 48)
+#define IDM_PROTECTED     (ID_TP_MAIN_WINDOW + 49)
+#define IDM_UNPROTECTED   (ID_TP_MAIN_WINDOW + 50)
+#define IDM_HIDE          (ID_TP_MAIN_WINDOW + 51)
+#define IDM_GOUPDSEGMENT  (ID_TP_MAIN_WINDOW + 52)
+#define IDM_LOAD_SERVICES (ID_TP_MAIN_WINDOW + 53)
+#define IDM_LOAD_FILE     (ID_TP_MAIN_WINDOW + 54)
+#define IDM_FIND          (ID_TP_MAIN_WINDOW + 55)
+#define IDM_RFIND         (ID_TP_MAIN_WINDOW + 56)
+#define IDM_RING_DLG      (ID_TP_MAIN_WINDOW + 57)
+#define IDM_ENTRY         (ID_TP_MAIN_WINDOW + 58)
+#define IDM_UNTRANS       (ID_TP_MAIN_WINDOW + 59)
+#define IDM_REFLOW        (ID_TP_MAIN_WINDOW + 60)
+#define IDM_WRAP          (ID_TP_MAIN_WINDOW + 61)
+#define IDM_RMARGIN       (ID_TP_MAIN_WINDOW + 62)
+#define IDM_FONTSIZE      (ID_TP_MAIN_WINDOW + 63)
+#define IDM_PROOFSEG      (ID_TP_MAIN_WINDOW + 64)
+#define IDM_PROOFALL      (ID_TP_MAIN_WINDOW + 65)
+#define IDM_SYNONYM       (ID_TP_MAIN_WINDOW + 66)
+#define IDM_SPELL_MENU    (ID_TP_MAIN_WINDOW + 67)
+#define IDM_COMMAND       (ID_TP_MAIN_WINDOW + 68)
+
+#define IDM_SHRINK        (ID_TP_MAIN_WINDOW + 69)
+#define IDM_COMPACT       (ID_TP_MAIN_WINDOW + 70)
+#define IDM_SETTINGS      (ID_TP_MAIN_WINDOW + 71)
+#define IDM_GOTOLINE      (ID_TP_MAIN_WINDOW + 72)
+#define IDM_QUERYLINE     (ID_TP_MAIN_WINDOW + 73)
+#define IDM_PROFINIT      (ID_TP_MAIN_WINDOW + 74)
+
+#define IDM_WINDOW_MENU   (ID_TP_MAIN_WINDOW + 75)
+#define IDM_TRANSWND      (ID_TP_MAIN_WINDOW + 76)
+#define IDM_SRCPROPWND    (ID_TP_MAIN_WINDOW + 77)
+#define IDM_EDITTERM      (ID_TP_MAIN_WINDOW + 78)
+#define IDM_ADDABBREV     (ID_TP_MAIN_WINDOW + 79)
+#define IDM_EDITABBREV    (ID_TP_MAIN_WINDOW + 80)
+#define IDM_EDITADD       (ID_TP_MAIN_WINDOW + 81)
+
+// define tailoring options for all windows...
+#define IDM_TAILOR        (ID_TP_MAIN_WINDOW + 82)
+#define IDM_SC_HORZ       (ID_TP_MAIN_WINDOW + 83)
+#define IDM_SC_VERT       (ID_TP_MAIN_WINDOW + 84)
+#define IDM_SC_TITLE      (ID_TP_MAIN_WINDOW + 85)
+
+#define IDM_PROPDELETE    (ID_TP_MAIN_WINDOW + 86)
+#define IDM_SHOWTRANS     (ID_TP_MAIN_WINDOW + 87)
+
+// segment properties / metadata window
+#define IDM_SEGPROPWND    (ID_TP_MAIN_WINDOW + 88)
+
+
+/**********************************************************************/
+/* this is the last free id -- any new ids should start with above    */
+/* 130 -- see below                                                   */
+/**********************************************************************/
+#define IDM_SC_STATUS     (ID_TP_MAIN_WINDOW + 89)
+
+/**********************************************************************/
+/* keep room for about 9  'otherwnd' (dynamicallly)                   */
+/* ID_TP_MAIN_WINDOW + 90 until + 99 are reserved therefore!          */
+/**********************************************************************/
+#define IDM_OTHERWND      (ID_TP_MAIN_WINDOW + 90)
+#define IDM_LASTOTHER     (ID_TP_MAIN_WINDOW + 99)
+/**********************************************************************/
+/* idm's for accelerator keys for DictCpy and TM -copy                */
+/* ID_TP_MAIN_WINDOW + 100 ...128 free since IDM_DICTCPY moved        */
+/**********************************************************************/
+
+#define IDM_GOTOSEG       (ID_TP_MAIN_WINDOW + 101)
+#define IDM_CFIND          (ID_TP_MAIN_WINDOW + 102)
+
+
+#define ID_MAINSERVICES   4711
+#define IDM_HOTPOPUP      (ID_TP_MAIN_WINDOW + 129)
+#define IDM_PROPCPY       (ID_TP_MAIN_WINDOW + 130)
+#define IDM_SC_RULER      (ID_TP_MAIN_WINDOW + 141)
+#define IDM_TRNOTE        (ID_TP_MAIN_WINDOW + 142)
+#define IDM_TOCGOTO       (ID_TP_MAIN_WINDOW + 143)
+#define IDM_SHORTEN       (ID_TP_MAIN_WINDOW + 144)
+#define IDM_COPYPROPBLOCK (ID_TP_MAIN_WINDOW + 145)
+#define IDM_AUTOSPELL     (ID_TP_MAIN_WINDOW + 146)
+#define IDM_NEXTMISSPELL  (ID_TP_MAIN_WINDOW + 147)
+#define IDM_IGNOREALL     (ID_TP_MAIN_WINDOW + 148)
+#define IDM_ADDENDA       (ID_TP_MAIN_WINDOW + 149)
+#define IDM_VISIBLESPACE  (ID_TP_MAIN_WINDOW + 150)
+#define IDM_FONTEXT       (ID_TP_MAIN_WINDOW + 151)
+#define IDM_REDO          (ID_TP_MAIN_WINDOW + 152)
+#define IDM_WYSIWYG       (ID_TP_MAIN_WINDOW + 153)
+#define IDM_INITCAPS      (ID_TP_MAIN_WINDOW + 154)
+#define IDM_REIMPORT        (ID_TP_MAIN_WINDOW + 155)
+/**********************************************************************/
+/* this is the first free id to be used for new stuff...              */
+/**********************************************************************/
+#define IDM_FIRST_FREE      (ID_TP_MAIN_WINDOW + 156)
+
+#define IDM_LAST_FREE       (ID_TP_MAIN_WINDOW + 169)
+
+#define IDM_DOC_ENVIRONMENT (ID_TP_MAIN_WINDOW + 170)
+#define IDM_LASTDOC_ENVIRONMENT  (IDM_DOC_ENVIRONMENT+20)
+#define IDM_SPELLAID_1      (IDM_LASTDOC_ENVIRONMENT+1)
+#define IDM_SPELLAID_2      (IDM_SPELLAID_1+1)
+#define IDM_SPELLAID_3      (IDM_SPELLAID_2+1)
+#define IDM_SPELLAID_4      (IDM_SPELLAID_3+1)
+#define IDM_SPELLAID_5      (IDM_SPELLAID_4+1)
+#define IDM_SPELLAID_6      (IDM_SPELLAID_5+1)
+#define IDM_SPELLAID_7      (IDM_SPELLAID_6+1)
+#define IDS_SPELL_NOAID     (IDM_SPELLAID_7+1)
+
+/**********************************************************************/
+/* special range for dictionaries                                     */
+/**********************************************************************/
+#define IDM_DICTCPY       (ID_TP_DICT_ACC)
+/**********************************************************************/
+/* under windows our main AAB items start from 0 and are numbered...  */
+/**********************************************************************/
+#ifdef _WINDOWS
+  #undef IDM_FILE_MENU
+  #undef IDM_EDIT
+  #undef IDM_OPTIONS_MENU
+  #undef IDM_CURSOR
+  #undef IDM_TRANS_MENU
+  #undef IDM_SPELL_MENU
+  #undef IDM_STYLE_MENU
+  #undef IDM_WINDOW_MENU
+  #undef IDM_HELP
+
+  #define IDM_FILE_MENU         0
+  #define IDM_EDIT              1
+  #define IDM_OPTIONS_MENU      2
+  #define IDM_CURSOR            3
+  #define IDM_TRANS_MENU        4
+  #define IDM_SPELL_MENU        5
+  #define IDM_STYLE_MENU        6
+  #define IDM_WINDOW_MENU       7
+  #define IDM_HELP              8
+#endif
+
+
+
+/*********************************************************************
+ * Constants   IDs for resource                                      *
+ *********************************************************************/
+
+#define ID_MAINACCEL            ID_TP_MAIN_WINDOW
+
+#define IDS_TRANS               ID_TB_MAINWINDOW_STR +  1
+#define IDS_ORIGINAL            ID_TB_MAINWINDOW_STR +  2
+#define IDS_SAMPLETEXT          ID_TB_MAINWINDOW_STR +  3
+#define IDS_TB_OPEN_NAME        ID_TB_MAINWINDOW_STR +  4
+#define IDS_TB_OPEN_DOCNAME     ID_TB_MAINWINDOW_STR +  5
+#define IDS_TB_OPEN_FOLDERS     ID_TB_MAINWINDOW_STR +  6
+#define IDS_TB_OPEN_DOCUMENTS   ID_TB_MAINWINDOW_STR +  7
+#define IDS_TB_OPEN_DIRECTORIES ID_TB_MAINWINDOW_STR +  8
+#define IDS_TB_OPEN_FILES       ID_TB_MAINWINDOW_STR +  9
+
+#define IDS_TB_ASSKEYS_HEADER   ID_TB_MAINWINDOW_STR + 10
+#define IDS_TB_ASSKEYS_PRTJOB   ID_TB_MAINWINDOW_STR + 11
+#define IDS_TB_PRINTFILE_PRTJOB ID_TB_MAINWINDOW_STR + 12
+
+//BIDI
+#define IDS_AR_SAMPLETEXT       ID_TB_MAINWINDOW_STR + 13
+
+#define IDS_TB_WYSIWYG_PRINT    ID_TB_MAINWINDOW_STR + 14
+
+//  defines for fonts
+#define IDS_TB_FONT_DEFAULT     ID_TB_MAINWINDOW_STR + 20
+#define IDS_TB_FONT_ITALIC      ID_TB_MAINWINDOW_STR + 21
+#define IDS_TB_FONT_BOLD        ID_TB_MAINWINDOW_STR + 22
+#define IDS_TB_FONT_SMALLCAPS   ID_TB_MAINWINDOW_STR + 23
+
+//  defines for statusbar
+#define IDS_TB_STB_COL          ID_TB_MAINWINDOW_STR + 24
+#define IDS_TB_STB_LINE         ID_TB_MAINWINDOW_STR + 25
+#define IDS_TB_STB_SEGMENT      ID_TB_MAINWINDOW_STR + 26
+#define IDS_TB_STB_INSERT       ID_TB_MAINWINDOW_STR + 27
+#define IDS_TB_STB_LOADING      ID_TB_MAINWINDOW_STR + 28
+
+//  defines for colors   -- used in color selection dialog
+//  order MUST not be changed
+#define IDS_TB_COL_BLACK        ID_TB_FONTCOL_DLG +  1
+#define IDS_TB_COL_BLUE         ID_TB_FONTCOL_DLG +  2
+#define IDS_TB_COL_GREEN        ID_TB_FONTCOL_DLG +  3
+#define IDS_TB_COL_CYAN         ID_TB_FONTCOL_DLG +  4
+#define IDS_TB_COL_RED          ID_TB_FONTCOL_DLG +  5
+#define IDS_TB_COL_PINK         ID_TB_FONTCOL_DLG +  6
+#define IDS_TB_COL_BROWN        ID_TB_FONTCOL_DLG +  7
+#define IDS_TB_COL_LGREY        ID_TB_FONTCOL_DLG +  8
+#define IDS_TB_COL_GREY         ID_TB_FONTCOL_DLG +  9
+#define IDS_TB_COL_LBLUE        ID_TB_FONTCOL_DLG + 10
+#define IDS_TB_COL_LGREEN       ID_TB_FONTCOL_DLG + 11
+#define IDS_TB_COL_LCYAN        ID_TB_FONTCOL_DLG + 12
+#define IDS_TB_COL_LRED         ID_TB_FONTCOL_DLG + 13
+#define IDS_TB_COL_LPINK        ID_TB_FONTCOL_DLG + 14
+#define IDS_TB_COL_YELLOW       ID_TB_FONTCOL_DLG + 15
+#define IDS_TB_COL_WHITE        ID_TB_FONTCOL_DLG + 16
+
+//  defines for different objects colors   -- used in color selection dialog
+//  order MUST not be changed
+//  order MUST be the same as in COLOUR enumeration in eqftpi.h!!
+#define IDS_TB_COL_EXIT             ID_TB_FONTCOL_DLG + 20
+#define IDS_TB_COL_XLATED           ID_TB_FONTCOL_DLG + 21
+#define IDS_TB_COL_ACTIVE           ID_TB_FONTCOL_DLG + 22
+#define IDS_TB_COL_TOBE             ID_TB_FONTCOL_DLG + 23
+#define IDS_TB_COL_NOP              ID_TB_FONTCOL_DLG + 24
+#define IDS_TB_COL_P_XLATED         ID_TB_FONTCOL_DLG + 25
+#define IDS_TB_COL_P_ACTIVE         ID_TB_FONTCOL_DLG + 26
+#define IDS_TB_COL_P_TOBE           ID_TB_FONTCOL_DLG + 27
+#define IDS_TB_COL_P_NOP            ID_TB_FONTCOL_DLG + 28
+#define IDS_TB_COL_SRV_PROPSRCINS   ID_TB_FONTCOL_DLG + 29
+#define IDS_TB_COL_SRV_PROP0PREFIX  ID_TB_FONTCOL_DLG + 30
+#define IDS_TB_COL_SRV_PROPSRCDEL   ID_TB_FONTCOL_DLG + 31
+#define IDS_TB_COL_SRV_PROPNPREFIX  ID_TB_FONTCOL_DLG + 32
+#define IDS_TB_COL_SRV_DICTHEAD     ID_TB_FONTCOL_DLG + 33
+#define IDS_TB_COL_SRV_DICTTRANS    ID_TB_FONTCOL_DLG + 34
+#define IDS_TB_COL_SRV_DICTPREFIX   ID_TB_FONTCOL_DLG + 35
+#define IDS_TB_COL_SRV_PROPSRCEQU   ID_TB_FONTCOL_DLG + 36
+#define IDS_TB_COL_SRV_PROPSRCUNEQU ID_TB_FONTCOL_DLG + 37
+#define IDS_TB_COL_ACTIVE_TAG       ID_TB_FONTCOL_DLG + 38
+#define IDS_TB_COL_ITM_ANCHOR_1     ID_TB_FONTCOL_DLG + 39
+#define IDS_TB_COL_ITM_ANCHOR_2     ID_TB_FONTCOL_DLG + 40
+#define IDS_TB_COL_ITM_ANCHOR_3     ID_TB_FONTCOL_DLG + 41
+#define IDS_TB_COL_ITM_VALID_01     ID_TB_FONTCOL_DLG + 42
+#define IDS_TB_COL_ITM_VALID_10     ID_TB_FONTCOL_DLG + 43
+#define IDS_TB_COL_ITM_VALID_11_1   ID_TB_FONTCOL_DLG + 44
+#define IDS_TB_COL_ITM_VALID_11_2   ID_TB_FONTCOL_DLG + 45
+#define IDS_TB_COL_ITM_VALID_11_3   ID_TB_FONTCOL_DLG + 46
+#define IDS_TB_COL_ITM_CROSSED_OUT  ID_TB_FONTCOL_DLG + 47
+#define IDS_TB_COL_ITM_NOP_ANCHOR_1 ID_TB_FONTCOL_DLG + 48
+#define IDS_TB_COL_ITM_NOP_ANCHOR_2 ID_TB_FONTCOL_DLG + 49
+#define IDS_TB_COL_ITM_NOP_ANCHOR_3 ID_TB_FONTCOL_DLG + 50
+#define IDS_TB_COL_ITM_VISACT       ID_TB_FONTCOL_DLG + 51
+#define IDS_TB_COL_ITM_OVERCROSS    ID_TB_FONTCOL_DLG + 52
+#define IDS_TB_COL_ADDINFO          ID_TB_FONTCOL_DLG + 53
+#define IDS_TB_COL_TRNOTE_11        ID_TB_FONTCOL_DLG + 54
+#define IDS_TB_COL_TRNOTE_12        ID_TB_FONTCOL_DLG + 55
+#define IDS_TB_COL_TRNOTE_2         ID_TB_FONTCOL_DLG + 56
+#define IDS_TB_COL_DICTINDIC        ID_TB_FONTCOL_DLG + 57
+#define IDS_TB_COL_UNMATCHTAG       ID_TB_FONTCOL_DLG + 58
+#define IDS_TB_COL_TFROMSCRATCH     ID_TB_FONTCOL_DLG + 59
+#define IDS_TB_COL_TMODPROPOSAL     ID_TB_FONTCOL_DLG + 60
+#define IDS_TB_COL_TCOPYPROPOSAL    ID_TB_FONTCOL_DLG + 61
+#define IDS_TB_COL_STANDARD_TRNOTE  ID_TB_FONTCOL_DLG + 62
+#define IDS_TB_COL_DICTSTYLEPREF    ID_TB_FONTCOL_DLG + 63
+#define IDS_TB_COL_DICTSTYLENOT     ID_TB_FONTCOL_DLG + 64
+#define IDS_TB_COL_MACHINE_MATCH_NORMAL ID_TB_FONTCOL_DLG + 65
+#define IDS_TB_COL_MACHINE_MATCH_PROT   ID_TB_FONTCOL_DLG + 66
+#define IDS_TB_COL_FUZZY_MATCH_NORMAL   ID_TB_FONTCOL_DLG + 67
+#define IDS_TB_COL_FUZZY_MATCH_PROT     ID_TB_FONTCOL_DLG + 68
+
+
+/////////////////////////////////////////////////////////////
+//  available windows to be set font
+//  order MUST not be changed
+/////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////
+//  id's for FONT dlg: Fonts for "MAX_DIF_DOC" many documents!!
+//  Take care: new doctypes "TRNOTE_DOC" and "EEA_DOC" do not
+//  have a fontdefine here- therefore ID_TB_FONTSIZE_DLG +9
+//  and ID_TB_FONTSIZE_DLG+10 must be unused here!
+/////////////////////////////////////////////////////////////
+#define  IDS_TB_FONT_OTHER           ID_TB_FONTSIZE_DLG + 1
+#define  IDS_TB_FONT_SSOURCE         ID_TB_FONTSIZE_DLG + 2
+#define  IDS_TB_FONT_STARGET         ID_TB_FONTSIZE_DLG + 3
+#define  IDS_TB_FONT_SERVPROP        ID_TB_FONTSIZE_DLG + 4
+#define  IDS_TB_FONT_SERVDICT        ID_TB_FONTSIZE_DLG + 5
+#define  IDS_TB_FONT_SERVSOURCE      ID_TB_FONTSIZE_DLG + 6
+#define  IDS_TB_FONT_VISSRC          ID_TB_FONTSIZE_DLG + 7
+#define  IDS_TB_FONT_VISTGT          ID_TB_FONTSIZE_DLG + 8
+//
+/////////////////////////////////////////////////////////////
+//  id's for ITM, appended to the fontsize id's
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define  IDS_ITM_TARGETFILE          ID_TB_FONTSIZE_DLG +15
+#define  IDS_ITM_SOURCEFILE          ID_TB_FONTSIZE_DLG +16
+#define  IDS_ITM_TMFILE              ID_TB_FONTSIZE_DLG +17
+#define  IDS_ITM_STATUS              ID_TB_FONTSIZE_DLG +18
+#define  IDS_ITM_CLEANUP             ID_TB_FONTSIZE_DLG +19
+#define  IDS_ITM_ANALYSE             ID_TB_FONTSIZE_DLG +20
+#define  IDS_ITM_ALIGNING            ID_TB_FONTSIZE_DLG +21
+#define  IDS_ITM_PREPARE             ID_TB_FONTSIZE_DLG +22
+#define  IDS_ITM_ERROR               ID_TB_FONTSIZE_DLG +23
+#define  IDS_ITM_TITLE               ID_TB_FONTSIZE_DLG +24
+
+#define  IDS_ITM_SRCDOC              ID_TB_FONTSIZE_DLG +25
+#define  IDS_ITM_TGTDOC              ID_TB_FONTSIZE_DLG +26
+#define  IDS_ITM_UPDATETM            ID_TB_FONTSIZE_DLG +27
+#define  IDS_ITM_TM                  ID_TB_FONTSIZE_DLG +28
+#define  IDS_ITM_PREPAREENV          ID_TB_FONTSIZE_DLG +29
+#define  IDS_ITM_STAT_SEGMENTS       ID_TB_FONTSIZE_DLG +30
+#define  IDS_ITM_STAT_UNALIGNED      ID_TB_FONTSIZE_DLG +31
+#define  IDS_ITM_STAT_IGNORED        ID_TB_FONTSIZE_DLG +32
+#define  IDS_ITM_STAT_MATCH          ID_TB_FONTSIZE_DLG +33
+#define  IDS_ITM_TITLE_TM            ID_TB_FONTSIZE_DLG +34
+#define  IDS_ITM_STAT_IRREGULAR      ID_TB_FONTSIZE_DLG +35
+
+/////////////////////////////////////////////////////////////
+//  id's for DMM, appended to the fontsize id's
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define  IDS_DMM_TMFILE              ID_TB_FONTSIZE_DLG +40
+#define  IDS_DMM_SEGNO               ID_TB_FONTSIZE_DLG +41
+#define  IDS_DMM_DELSEGS             ID_TB_FONTSIZE_DLG +42
+#define  IDS_DMM_ERROR               ID_TB_FONTSIZE_DLG +43
+#define  IDS_DMM_TITLE               ID_TB_FONTSIZE_DLG +44
+
+/////////////////////////////////////////////////////////////
+//  id's for CMM, appended to the fontsize id's
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define  IDS_CMM_TMFILE              ID_TB_FONTSIZE_DLG +50
+#define  IDS_CMM_SEGNO               ID_TB_FONTSIZE_DLG +51
+#define  IDS_CMM_CLRSEGS             ID_TB_FONTSIZE_DLG +52
+#define  IDS_CMM_SETSEGS             ID_TB_FONTSIZE_DLG +53
+#define  IDS_CMM_ERROR               ID_TB_FONTSIZE_DLG +54
+#define  IDS_CMM_TITLE               ID_TB_FONTSIZE_DLG +55
+
+/////////////////////////////////////////////////////////////
+//  id's for REVM, appended to the fontsize id's
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define  IDS_REVM_TMFILE              ID_TB_FONTSIZE_DLG +60
+#define  IDS_REVM_TMREVFILE           ID_TB_FONTSIZE_DLG +61
+#define  IDS_REVM_SEGNO               ID_TB_FONTSIZE_DLG +62
+#define  IDS_REVM_ERROR               ID_TB_FONTSIZE_DLG +63
+#define  IDS_REVM_TITLE               ID_TB_FONTSIZE_DLG +64
+
+/////////////////////////////////////////////////////////////
+//  id's for FontExt dialog : tree
+//  defines for different tree objects -- used in ext.font dialog
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define  IDS_TB_FONTEXT_ROOT          ID_TB_FONTEXT_DLG + 20
+#define  IDS_TB_FONTEXT_TGROUP        ID_TB_FONTEXT_DLG + 21
+#define  IDS_TB_FONTEXT_RGROUP        ID_TB_FONTEXT_DLG + 22
+#define  IDS_TB_FONTEXT_DGROUP        ID_TB_FONTEXT_DLG + 23
+#define  IDS_TB_FONTEXT_MGROUP        ID_TB_FONTEXT_DLG + 24
+#define  IDS_TB_FONTEXT_IGROUP        ID_TB_FONTEXT_DLG + 25
+
+/////////////////////////////////////////////////////////////
+//  id's for FontExt dialog : tree
+//  defines for different tree objects -- used in ext.font dialog
+//  use same order as in EXTTEXTTYPE enum !!!!
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+
+#define  IDS_TB_FONTEXT_T_SOURCE         ID_TB_FONTEXT_DLG + 30
+#define  IDS_TB_FONTEXT_T_TRANSLATION    ID_TB_FONTEXT_DLG + 31
+#define  IDS_TB_FONTEXT_T_LAYOUT         ID_TB_FONTEXT_DLG + 32
+#define  IDS_TB_FONTEXT_T_ACTIVE         ID_TB_FONTEXT_DLG + 33
+#define  IDS_TB_FONTEXT_T_TRNOTE         ID_TB_FONTEXT_DLG + 34
+#define  IDS_TB_FONTEXT_R_SCRATCH        ID_TB_FONTEXT_DLG + 35
+#define  IDS_TB_FONTEXT_R_MODIFIED       ID_TB_FONTEXT_DLG + 36
+#define  IDS_TB_FONTEXT_R_COPIED         ID_TB_FONTEXT_DLG + 37
+#define  IDS_TB_FONTEXT_R_LAYOUTCHANGES  ID_TB_FONTEXT_DLG + 38
+#define  IDS_TB_FONTEXT_D_HEADWORD       ID_TB_FONTEXT_DLG + 39
+#define  IDS_TB_FONTEXT_D_TRANSLATION    ID_TB_FONTEXT_DLG + 40
+#define  IDS_TB_FONTEXT_D_PREFIX         ID_TB_FONTEXT_DLG + 41
+#define  IDS_TB_FONTEXT_D_ADDITIONINFO   ID_TB_FONTEXT_DLG + 42
+#define  IDS_TB_FONTEXT_M_PREFIX         ID_TB_FONTEXT_DLG + 43
+#define  IDS_TB_FONTEXT_M_PMODIFIED      ID_TB_FONTEXT_DLG + 44
+#define  IDS_TB_FONTEXT_M_PINSERTED      ID_TB_FONTEXT_DLG + 45
+#define  IDS_TB_FONTEXT_M_PDELETED       ID_TB_FONTEXT_DLG + 46
+#define  IDS_TB_FONTEXT_I_ANCHOR1        ID_TB_FONTEXT_DLG + 47
+#define  IDS_TB_FONTEXT_I_ANCHOR2        ID_TB_FONTEXT_DLG + 48
+#define  IDS_TB_FONTEXT_I_ANCHOR3        ID_TB_FONTEXT_DLG + 49
+#define  IDS_TB_FONTEXT_I_UNALIGNED      ID_TB_FONTEXT_DLG + 50
+#define  IDS_TB_FONTEXT_I_CROSSEDOUT     ID_TB_FONTEXT_DLG + 51
+#define  IDS_TB_FONTEXT_I_OVERCROSS      ID_TB_FONTEXT_DLG + 52
+#define  IDS_TB_FONTEXT_I_ALIGN1         ID_TB_FONTEXT_DLG + 53
+#define  IDS_TB_FONTEXT_I_ALIGN2         ID_TB_FONTEXT_DLG + 54
+#define  IDS_TB_FONTEXT_I_ALIGN3         ID_TB_FONTEXT_DLG + 55
+#define  IDS_TB_FONTEXT_TITLE            ID_TB_FONTEXT_DLG + 56
+
+#define  IDS_TB_FONTEXT_STANDARD         ID_TB_FONTEXT_DLG + 70
+#define  IDS_TB_FONTEXT_KURSIV           ID_TB_FONTEXT_DLG + 71
+#define  IDS_TB_FONTEXT_FETT             ID_TB_FONTEXT_DLG + 72
+#define  IDS_TB_FONTEXT_FETTKURSIV       ID_TB_FONTEXT_DLG + 73
+
+#define  IDS_TB_FONTEXT_T_RTFEDIT_TRNOTE  ID_TB_FONTEXT_DLG + 74
+
+/////////////////////////////////////////////////////////////
+//  available function names
+//  functions with empty strings will not be shown as selectable
+//  for keyboard assignement
+//
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define IDS_TB_FUNC_ACTPROP          ID_TB_KEYS_DLG + 0
+#define IDS_TB_FUNC_DICTDOWN         ID_TB_KEYS_DLG + 1
+#define IDS_TB_FUNC_DICTUP           ID_TB_KEYS_DLG + 2
+#define IDS_TB_FUNC_BACKSPACE        ID_TB_KEYS_DLG + 3
+#define IDS_TB_FUNC_BACKTAB          ID_TB_KEYS_DLG + 4
+#define IDS_TB_FUNC_BOTTOMDOC        ID_TB_KEYS_DLG + 5
+#define IDS_TB_FUNC_DELETECHAR       ID_TB_KEYS_DLG + 6
+#define IDS_TB_FUNC_DOWN             ID_TB_KEYS_DLG + 7
+#define IDS_TB_FUNC_ENDLINE          ID_TB_KEYS_DLG + 8
+#define IDS_TB_FUNC_ENDSEG           ID_TB_KEYS_DLG + 9
+#define IDS_TB_FUNC_ESCAPE           ID_TB_KEYS_DLG + 10
+#define IDS_TB_FUNC_FILE             ID_TB_KEYS_DLG + 11
+#define IDS_TB_FUNC_INSTOGGLE        ID_TB_KEYS_DLG + 12
+#define IDS_TB_FUNC_INSERTLINE       ID_TB_KEYS_DLG + 13
+#define IDS_TB_FUNC_JOINLINE         ID_TB_KEYS_DLG + 14
+#define IDS_TB_FUNC_LEFT             ID_TB_KEYS_DLG + 15
+#define IDS_TB_FUNC_NEXTDOC          ID_TB_KEYS_DLG + 16
+#define IDS_TB_FUNC_NEXTWORD         ID_TB_KEYS_DLG + 17
+#define IDS_TB_FUNC_NOTHING          ID_TB_KEYS_DLG + 18
+#define IDS_TB_FUNC_PAGEDOWN         ID_TB_KEYS_DLG + 19
+#define IDS_TB_FUNC_PAGEUP           ID_TB_KEYS_DLG + 20
+#define IDS_TB_FUNC_PREVDOC          ID_TB_KEYS_DLG + 21
+#define IDS_TB_FUNC_PREVWORD         ID_TB_KEYS_DLG + 22
+#define IDS_TB_FUNC_QUIT             ID_TB_KEYS_DLG + 23
+#define IDS_TB_FUNC_RIGHT            ID_TB_KEYS_DLG + 24
+#define IDS_TB_FUNC_SAVE             ID_TB_KEYS_DLG + 25
+#define IDS_TB_FUNC_SCROLLDOWN       ID_TB_KEYS_DLG + 26
+#define IDS_TB_FUNC_SCROLLLEFT       ID_TB_KEYS_DLG + 27
+#define IDS_TB_FUNC_SCROLLRIGHT      ID_TB_KEYS_DLG + 28
+#define IDS_TB_FUNC_SCROLLUP         ID_TB_KEYS_DLG + 29
+#define IDS_TB_FUNC_SPLITLINE        ID_TB_KEYS_DLG + 30
+#define IDS_TB_FUNC_STARTLINE        ID_TB_KEYS_DLG + 31
+#define IDS_TB_FUNC_STARTSEG         ID_TB_KEYS_DLG + 32
+#define IDS_TB_FUNC_TAB              ID_TB_KEYS_DLG + 33
+#define IDS_TB_FUNC_TOPDOC           ID_TB_KEYS_DLG + 34
+#define IDS_TB_FUNC_TRUNCSEG         ID_TB_KEYS_DLG + 35
+#define IDS_TB_FUNC_TRUNCATE         ID_TB_KEYS_DLG + 36
+#define IDS_TB_FUNC_UNDO             ID_TB_KEYS_DLG + 37
+#define IDS_TB_FUNC_UP               ID_TB_KEYS_DLG + 38
+#define IDS_TB_FUNC_GETDICTMATCH     ID_TB_KEYS_DLG + 39
+#define IDS_TB_FUNC_GETPROPMATCH     ID_TB_KEYS_DLG + 40
+#define IDS_TB_FUNC_PROPDOWN         ID_TB_KEYS_DLG + 41
+#define IDS_TB_FUNC_PROPUP           ID_TB_KEYS_DLG + 42
+#define IDS_TB_FUNC_TSEG             ID_TB_KEYS_DLG + 43
+#define IDS_TB_FUNC_TSEGNEXT         ID_TB_KEYS_DLG + 44
+#define IDS_TB_FUNC_DICTLOOK         ID_TB_KEYS_DLG + 45
+#define IDS_TB_FUNC_ACTDICT          ID_TB_KEYS_DLG + 46
+#define IDS_TB_FUNC_JOINSEG          ID_TB_KEYS_DLG + 47
+#define IDS_TB_FUNC_SPLITSEG         ID_TB_KEYS_DLG + 48
+#define IDS_TB_FUNC_MARKSEG          ID_TB_KEYS_DLG + 49
+#define IDS_TB_FUNC_GOTOSEG          ID_TB_KEYS_DLG + 50
+#define IDS_TB_FUNC_GOTOMARK         ID_TB_KEYS_DLG + 51
+#define IDS_TB_FUNC_CLEARSEGMARK     ID_TB_KEYS_DLG + 52
+#define IDS_TB_FUNC_POSTEDIT         ID_TB_KEYS_DLG + 53
+#define IDS_TB_FUNC_AUTOTRANS        ID_TB_KEYS_DLG + 54
+#define IDS_TB_FUNC_FIND             ID_TB_KEYS_DLG + 55
+#define IDS_TB_FUNC_RFIND            ID_TB_KEYS_DLG + 56
+#define IDS_TB_FUNC_RING             ID_TB_KEYS_DLG + 57
+#define IDS_TB_FUNC_OPEN             ID_TB_KEYS_DLG + 58
+#define IDS_TB_FUNC_CUT              ID_TB_KEYS_DLG + 59
+#define IDS_TB_FUNC_COPY             ID_TB_KEYS_DLG + 60
+#define IDS_TB_FUNC_PASTE            ID_TB_KEYS_DLG + 61
+#define IDS_TB_FUNC_MARKNEXT         ID_TB_KEYS_DLG + 62
+#define IDS_TB_FUNC_MARKPREV         ID_TB_KEYS_DLG + 63
+#define IDS_TB_FUNC_FONTS            ID_TB_KEYS_DLG + 64
+#define IDS_TB_FUNC_KEYS             ID_TB_KEYS_DLG + 65
+#define IDS_TB_FUNC_ADDFUZZY         ID_TB_KEYS_DLG + 66
+#define IDS_TB_FUNC_DISPORG          ID_TB_KEYS_DLG + 67
+#define IDS_TB_FUNC_HIDE             ID_TB_KEYS_DLG + 68
+#define IDS_TB_FUNC_PROTECT          ID_TB_KEYS_DLG + 69
+#define IDS_TB_FUNC_UNPROTECT        ID_TB_KEYS_DLG + 70
+#define IDS_TB_FUNC_NEXTLINE         ID_TB_KEYS_DLG + 71
+#define IDS_TB_FUNC_CHARACTER        ID_TB_KEYS_DLG + 72
+#define IDS_TB_FUNC_MARKBLOCK        ID_TB_KEYS_DLG + 73
+#define IDS_TB_FUNC_MARKCLEAR        ID_TB_KEYS_DLG + 74
+#define IDS_TB_FUNC_MARKDELETE       ID_TB_KEYS_DLG + 75
+#define IDS_TB_FUNC_MARKCOPY         ID_TB_KEYS_DLG + 76
+#define IDS_TB_FUNC_MARKMOVE         ID_TB_KEYS_DLG + 77
+#define IDS_TB_FUNC_MARKFIND         ID_TB_KEYS_DLG + 78
+#define IDS_TB_FUNC_PRINT            ID_TB_KEYS_DLG + 79
+#define IDS_TB_FUNC_MARKBLOCKSEG     ID_TB_KEYS_DLG + 80
+#define IDS_TB_FUNC_MARKLEFT         ID_TB_KEYS_DLG + 81
+#define IDS_TB_FUNC_MARKRIGHT        ID_TB_KEYS_DLG + 82
+#define IDS_TB_FUNC_MARKUP           ID_TB_KEYS_DLG + 83
+#define IDS_TB_FUNC_MARKDOWN         ID_TB_KEYS_DLG + 84
+#define IDS_TB_FUNC_DELLINE          ID_TB_KEYS_DLG + 85
+#define IDS_TB_FUNC_ENTRYSEN         ID_TB_KEYS_DLG + 86
+#define IDS_TB_FUNC_UNTRANS          ID_TB_KEYS_DLG + 87
+#define IDS_TB_FUNC_LINEWRAP         ID_TB_KEYS_DLG + 88
+
+#define IDS_TB_FUNC_LRM              ID_TB_KEYS_DLG + 89
+
+#define IDS_TB_FUNC_FONTSIZE         ID_TB_KEYS_DLG + 90
+#define IDS_TB_FUNC_MARGINACT        ID_TB_KEYS_DLG + 91
+#define IDS_TB_FUNC_SPELLSEG         ID_TB_KEYS_DLG + 92
+#define IDS_TB_FUNC_SPELLFILE        ID_TB_KEYS_DLG + 93
+#define IDS_TB_FUNC_MARKWORD         ID_TB_KEYS_DLG + 94
+#define IDS_TB_FUNC_DELWORD          ID_TB_KEYS_DLG + 95
+#define IDS_TB_FUNC_DELTILTAG        ID_TB_KEYS_DLG + 96
+#define IDS_TB_FUNC_DELSEG           ID_TB_KEYS_DLG + 97
+#define IDS_TB_FUNC_COMMAND          ID_TB_KEYS_DLG + 98
+
+#define IDS_TB_FUNC_SCRATCH          ID_TB_KEYS_DLG + 99
+#define IDS_TB_FUNC_PROPCPY          ID_TB_KEYS_DLG+ 100
+#define IDS_TB_FUNC_CPYTYPED         ID_TB_KEYS_DLG+ 101
+
+#define IDS_TB_FUNC_EXPAND           ID_TB_KEYS_DLG+ 102
+#define IDS_TB_FUNC_COMPRESS         ID_TB_KEYS_DLG+ 103
+
+#define IDS_TB_FUNC_SETTINGS         ID_TB_KEYS_DLG+ 104
+#define IDS_TB_FUNC_GOTO             ID_TB_KEYS_DLG+ 105
+#define IDS_TB_FUNC_QUERYLINE        ID_TB_KEYS_DLG+ 106
+#define IDS_TB_FUNC_SHRINK           ID_TB_KEYS_DLG+ 107
+#define IDS_TB_FUNC_COMPACT          ID_TB_KEYS_DLG+ 108
+#define IDS_TB_FUNC_SEGINSOSI        ID_TB_KEYS_DLG+ 109
+#define IDS_TB_FUNC_SEGDELSOSI       ID_TB_KEYS_DLG+ 110
+#define IDS_TB_FUNC_DOCINSOSI        ID_TB_KEYS_DLG+ 111
+#define IDS_TB_FUNC_DOCDELSOSI       ID_TB_KEYS_DLG+ 112
+#define IDS_TB_FUNC_ACTTRANS         ID_TB_KEYS_DLG+ 113
+
+#define IDS_TB_FUNC_RLM              ID_TB_KEYS_DLG + 114
+
+#define IDS_TB_FUNC_SRCPROP          ID_TB_KEYS_DLG+ 115
+#define IDS_TB_FUNC_EDITTERM         ID_TB_KEYS_DLG+ 116
+#define IDS_TB_FUNC_DUMMY38          ID_TB_KEYS_DLG+ 117
+#define IDS_TB_FUNC_DUMMY39          ID_TB_KEYS_DLG+ 118
+#define IDS_TB_FUNC_ADDABBREV        ID_TB_KEYS_DLG+ 119
+#define IDS_TB_FUNC_REIMPORT         ID_TB_KEYS_DLG+ 120
+#define IDS_TB_FUNC_EDITADD          ID_TB_KEYS_DLG+ 121
+#define IDS_TB_FUNC_MARKSTART        ID_TB_KEYS_DLG+ 122
+#define IDS_TB_FUNC_MARKEND          ID_TB_KEYS_DLG+ 123
+#define IDS_TB_FUNC_INITCAPS         ID_TB_KEYS_DLG+ 124
+#define IDS_TB_FUNC_SHOWTRANS        ID_TB_KEYS_DLG+ 125
+#define IDS_TB_FUNC_DUMMY47          ID_TB_KEYS_DLG+ 126
+#define IDS_TB_FUNC_DUMMY48          ID_TB_KEYS_DLG+ 127
+#ifdef TOP97_A48
+#define IDS_TB_FUNC_OPENTRNOTE       ID_TB_KEYS_DLG+ 128
+#else
+#define IDS_TB_FUNC_DUMMY49          ID_TB_KEYS_DLG+ 128
+#endif
+#ifdef TOP97_A54
+#define IDS_TB_FUNC_TOCGOTO          ID_TB_KEYS_DLG + 129
+#else
+#define IDS_TB_FUNC_DUMMY50          ID_TB_KEYS_DLG + 129
+#endif
+#ifdef TOP97_A64
+#define IDS_TB_FUNC_SHORTEN          ID_TB_KEYS_DLG+ 130
+#else
+#define IDS_TB_FUNC_DUMMY51          ID_TB_KEYS_DLG + 130
+#endif
+#ifdef R004355_PROPMARKCOPY
+#define IDS_TB_FUNC_PROPMARKCOPY     ID_TB_KEYS_DLG+ 131
+#else
+#define IDS_TB_FUNC_DUMMY_001        ID_TB_KEYS_DLG + 131
+#endif
+#ifdef R004357_HLMISSPELLED
+#define IDS_TB_FUNC_NEXTMISSPELLED   ID_TB_KEYS_DLG+ 132
+#define IDS_TB_FUNC_SPELLAUTO        ID_TB_KEYS_DLG+ 133
+#else
+#define IDS_TB_FUNC_DUMMY_002        ID_TB_KEYS_DLG + 132
+#define IDS_TB_FUNC_DUMMY_003        ID_TB_KEYS_DLG + 133
+#endif
+#ifdef R004442_GOUPDSEGMENT
+#define IDS_TB_FUNC_GOUPDSEGMENT     ID_TB_KEYS_DLG + 134
+#else
+#define IDS_TB_FUNC_DUMMY_004        ID_TB_KEYS_DLG + 134
+#endif
+#define IDS_TB_FUNC_VISIBLESPACE     ID_TB_KEYS_DLG + 135
+#define IDS_TB_FUNC_REDO             ID_TB_KEYS_DLG + 136
+#define IDS_TB_FUNC_WYSIWYG          ID_TB_KEYS_DLG + 137
+#define IDS_TB_FUNC_ALLEXACTPROPS    ID_TB_KEYS_DLG + 138
+#define IDS_TB_FUNC_CFIND            ID_TB_KEYS_DLG + 141
+#define IDS_TB_FUNC_SEGPROP          ID_TB_KEYS_DLG + 142
+#define IDS_TB_FUNC_DICTPFXDOWN      ID_TB_KEYS_DLG + 143
+#define IDS_TB_FUNC_DICTPFXUP        ID_TB_KEYS_DLG + 144
+// Add for R012027
+#define IDS_TB_FUNC_INSERTCHAR       ID_TB_KEYS_DLG + 145
+// Add end
+
+/////////////////////////////////////////////////////////////
+//  available special key and function names
+//   length is limited to 20 characters
+//  DO NOT CHANGE ORDER
+/////////////////////////////////////////////////////////////
+#define IDS_TB_VK_CHAR               ID_TB_ENTRY_DLG + 29
+#define IDS_TB_VK_SHIFT              ID_TB_ENTRY_DLG + 30
+#define IDS_TB_VK_CTRL               ID_TB_ENTRY_DLG + 31
+#define IDS_TB_VK_ALT                ID_TB_ENTRY_DLG + 32
+#define IDS_TB_VK_BREAK              ID_TB_ENTRY_DLG + 33
+#define IDS_TB_VK_BACKSPACE          ID_TB_ENTRY_DLG + 34
+#define IDS_TB_VK_TAB                ID_TB_ENTRY_DLG + 35
+#define IDS_TB_VK_BACKTAB            ID_TB_ENTRY_DLG + 36
+#define IDS_TB_VK_NEWLINE            ID_TB_ENTRY_DLG + 37
+#define IDS_TB_VK_ALTGRAF            ID_TB_ENTRY_DLG + 38
+#define IDS_TB_VK_PAUSE              ID_TB_ENTRY_DLG + 39
+#define IDS_TB_VK_CAPSLOCK           ID_TB_ENTRY_DLG + 40
+#define IDS_TB_VK_ESC                ID_TB_ENTRY_DLG + 41
+#define IDS_TB_VK_SPACE              ID_TB_ENTRY_DLG + 42
+#define IDS_TB_VK_PAGEUP             ID_TB_ENTRY_DLG + 43
+#define IDS_TB_VK_PAGEDOWN           ID_TB_ENTRY_DLG + 44
+#define IDS_TB_VK_END                ID_TB_ENTRY_DLG + 45
+#define IDS_TB_VK_HOME               ID_TB_ENTRY_DLG + 46
+#define IDS_TB_VK_LEFT               ID_TB_ENTRY_DLG + 47
+#define IDS_TB_VK_UP                 ID_TB_ENTRY_DLG + 48
+#define IDS_TB_VK_RIGHT              ID_TB_ENTRY_DLG + 49
+#define IDS_TB_VK_DOWN               ID_TB_ENTRY_DLG + 50
+#define IDS_TB_VK_PRINTSCRN          ID_TB_ENTRY_DLG + 51
+#define IDS_TB_VK_INSERT             ID_TB_ENTRY_DLG + 52
+#define IDS_TB_VK_DELETE             ID_TB_ENTRY_DLG + 53
+#define IDS_TB_VK_SCRLLOCK           ID_TB_ENTRY_DLG + 54
+#define IDS_TB_VK_NUMLOCK            ID_TB_ENTRY_DLG + 55
+#define IDS_TB_VK_ENTER              ID_TB_ENTRY_DLG + 56
+#define IDS_TB_VK_SYSRQ              ID_TB_ENTRY_DLG + 57
+#define IDS_TB_VK_F1                 ID_TB_ENTRY_DLG + 58
+#define IDS_TB_VK_F2                 ID_TB_ENTRY_DLG + 59
+#define IDS_TB_VK_F3                 ID_TB_ENTRY_DLG + 60
+#define IDS_TB_VK_F4                 ID_TB_ENTRY_DLG + 61
+#define IDS_TB_VK_F5                 ID_TB_ENTRY_DLG + 62
+#define IDS_TB_VK_F6                 ID_TB_ENTRY_DLG + 63
+#define IDS_TB_VK_F7                 ID_TB_ENTRY_DLG + 64
+#define IDS_TB_VK_F8                 ID_TB_ENTRY_DLG + 65
+#define IDS_TB_VK_F9                 ID_TB_ENTRY_DLG + 66
+#define IDS_TB_VK_F10                ID_TB_ENTRY_DLG + 67
+#define IDS_TB_VK_F11                ID_TB_ENTRY_DLG + 68
+#define IDS_TB_VK_F12                ID_TB_ENTRY_DLG + 69
+#define IDS_TB_VK_F13                ID_TB_ENTRY_DLG + 70
+#define IDS_TB_VK_F14                ID_TB_ENTRY_DLG + 71
+#define IDS_TB_VK_F15                ID_TB_ENTRY_DLG + 72
+#define IDS_TB_VK_F16                ID_TB_ENTRY_DLG + 73
+#define IDS_TB_VK_F17                ID_TB_ENTRY_DLG + 74
+#define IDS_TB_VK_F18                ID_TB_ENTRY_DLG + 75
+#define IDS_TB_VK_F19                ID_TB_ENTRY_DLG + 76
+#define IDS_TB_VK_F20                ID_TB_ENTRY_DLG + 77
+#define IDS_TB_VK_F21                ID_TB_ENTRY_DLG + 78
+#define IDS_TB_VK_F22                ID_TB_ENTRY_DLG + 79
+#define IDS_TB_VK_F23                ID_TB_ENTRY_DLG + 80
+#define IDS_TB_VK_F24                ID_TB_ENTRY_DLG + 81
+#define IDS_TB_VK_NONE               ID_TB_ENTRY_DLG + 82
+
+
+/////////////////////////////////////////////////////////////
+//  available styles to be set in spinbutton in profile two dialog
+//  order MUST not be changed
+/////////////////////////////////////////////////////////////
+
+#define  IDS_TB_PROFTWO_PROTECTED    ID_TB_PROFTWO_DLG + 1
+#define  IDS_TB_PROFTWO_UNPROTECTED  ID_TB_PROFTWO_DLG + 2
+#define  IDS_TB_PROFTWO_HIDE         ID_TB_PROFTWO_DLG + 3
+#define  IDS_TB_PROFTWO_SHRINK       ID_TB_PROFTWO_DLG + 4
+#define  IDS_TB_PROFTWO_COMPACT      ID_TB_PROFTWO_DLG + 5
+
+/////////////////////////////////////////////////////////////
+//  available items in listbox in profile one dialog
+//  (profile settings) order MUST not be changed
+//  if a item is added ajust MAXLBITEMS in eqftpi.h
+/////////////////////////////////////////////////////////////
+#define  IDS_TB_PROFONE_START        (ID_TB_PROFONE_DLG + 1 )
+
+
+#if defined (TOP97_A51) || defined (TOP97_A50)
+
+#define  IDS_TB_PROFONE_CUABACK      ID_TB_PROFONE_DLG + 1
+#define  IDS_TB_PROFONE_AUTOINSMODE  ID_TB_PROFONE_DLG + 2
+#define  IDS_TB_PROFONE_INSSOSI      ID_TB_PROFONE_DLG + 3
+#define  IDS_TB_PROFONE_CHECKTAGS    ID_TB_PROFONE_DLG + 4
+#define  IDS_TB_PROFONE_MSGPROPEQ    ID_TB_PROFONE_DLG + 5
+#define  IDS_TB_PROFONE_MSGSRCEQ     ID_TB_PROFONE_DLG + 6
+#define  IDS_TB_PROFONE_USENOCUASEL  ID_TB_PROFONE_DLG + 7
+#define  IDS_TB_PROFONE_SEGBOUNDSIGN      ID_TB_PROFONE_DLG+ 8
+#define  IDS_TB_PROFONE_AUTOREPL     ID_TB_PROFONE_DLG + 9
+#define  IDS_TB_PROFONE_DISPSRC      ID_TB_PROFONE_DLG + 10
+#define  IDS_TB_PROFONE_INSPROP      ID_TB_PROFONE_DLG + 11
+#define  IDS_TB_PROFONE_SRCPROPWND   ID_TB_PROFONE_DLG + 12
+#define  IDS_TB_PROFONE_NUMPROPS     ID_TB_PROFONE_DLG + 13
+#define  IDS_TB_PROFONE_ORIGINPROP   ID_TB_PROFONE_DLG + 14
+#define  IDS_TB_PROFONE_DATEOFPROP   ID_TB_PROFONE_DLG + 15
+#define  IDS_TB_PROFONE_AUTOSTOP     ID_TB_PROFONE_DLG + 16
+#define  IDS_TB_PROFONE_EXACTCONTEXTMATCH ID_TB_PROFONE_DLG+17
+#define  IDS_TB_PROFONE_USELATESTMATCH ID_TB_PROFONE_DLG + 18
+#define  IDS_TB_PROFONE_ADDINFODIC   ID_TB_PROFONE_DLG + 19
+#define  IDS_TB_PROFONE_ALLDICTTERMS ID_TB_PROFONE_DLG + 20
+#define  IDS_TB_PROFONE_DISPDICTNAME ID_TB_PROFONE_DLG + 21
+#define  IDS_TB_PROFONE_DISPMTALWAYS ID_TB_PROFONE_DLG + 22
+#define  IDS_TB_PROFONE_LKUPSINGLEOFCOMPOUNDS  ID_TB_PROFONE_DLG + 23
+
+#define  IDS_TB_PROFONE_PROTECTED    ID_TB_PROFONE_DLG + 41
+#define  IDS_TB_PROFONE_HIDE         ID_TB_PROFONE_DLG + 42
+#define  IDS_TB_PROFONE_COMPACT      ID_TB_PROFONE_DLG + 43
+#define  IDS_TB_PROFONE_AUTO         ID_TB_PROFONE_DLG + 44
+#define  IDS_TB_PROFONE_SHORTEN      ID_TB_PROFONE_DLG + 45
+
+
+// save as dialog
+#define  IDS_SAVEAS_DLG              ID_TB_PROFONE_DLG +50
+
+#define  IDS_TB_TABCTRL_EDITOR       ID_TB_PROFONE_DLG + 51
+#define  IDS_TB_TABCTRL_DISPLAY      ID_TB_PROFONE_DLG + 52
+#define  IDS_TB_TABCTRL_DICTIONARY   ID_TB_PROFONE_DLG + 53
+#define  IDS_TB_TABCTRL_TRANSLMEM    ID_TB_PROFONE_DLG + 54
+#define  IDS_TB_TABCTRL_MESSAGES     ID_TB_PROFONE_DLG + 55
+
+#define  IDS_TB_TABCTRL_TTIP_EDITOR       ID_TB_PROFONE_DLG + 56
+#define  IDS_TB_TABCTRL_TTIP_DISPLAY      ID_TB_PROFONE_DLG + 57
+#define  IDS_TB_TABCTRL_TTIP_DICTIONARY   ID_TB_PROFONE_DLG + 58
+#define  IDS_TB_TABCTRL_TTIP_TRANSLMEM    ID_TB_PROFONE_DLG + 59
+#define  IDS_TB_TABCTRL_TTIP_MESSAGES     ID_TB_PROFONE_DLG + 60
+
+#define  IDS_TB_TABCTRL_BACKTASKS         ID_TB_PROFONE_DLG + 61
+#define  IDS_TB_TABCTRL_TTIP_BACKTASKS    ID_TB_PROFONE_DLG + 62
+
+#define  IDS_TB_TABCTRL_AUTSUBST          ID_TB_PROFONE_DLG + 63  
+#define  IDS_TB_TABCTRL_TTIP_AUTSUBST     ID_TB_PROFONE_DLG + 64
+
+#else
+
+#define  IDS_TB_PROFONE_AUTOREPL     ID_TB_PROFONE_DLG + 1
+#define  IDS_TB_PROFONE_CUABACK      ID_TB_PROFONE_DLG + 2
+#define  IDS_TB_PROFONE_DISPSRC      ID_TB_PROFONE_DLG + 3
+#define  IDS_TB_PROFONE_AUTOINSMODE  ID_TB_PROFONE_DLG + 4
+#define  IDS_TB_PROFONE_INSPROP      ID_TB_PROFONE_DLG + 5
+#define  IDS_TB_PROFONE_INSSOSI      ID_TB_PROFONE_DLG + 6
+#define  IDS_TB_PROFONE_AUTOSTOP     ID_TB_PROFONE_DLG + 7
+#define  IDS_TB_PROFONE_CHECKTAGS    ID_TB_PROFONE_DLG + 8
+#define  IDS_TB_PROFONE_MSGPROPEQ    ID_TB_PROFONE_DLG + 9
+#define  IDS_TB_PROFONE_MSGSRCEQ     ID_TB_PROFONE_DLG +10
+#define  IDS_TB_PROFONE_SRCPROPWND   ID_TB_PROFONE_DLG +11
+#define  IDS_TB_PROFONE_NUMPROPS     ID_TB_PROFONE_DLG +12
+#define  IDS_TB_PROFONE_ORIGINPROP   ID_TB_PROFONE_DLG +13
+#define  IDS_TB_PROFONE_DATEOFPROP   ID_TB_PROFONE_DLG +14
+#define  IDS_TB_PROFONE_ADDINFODIC   ID_TB_PROFONE_DLG +15
+#define  IDS_TB_PROFONE_USELATESTMATCH ID_TB_PROFONE_DLG +16
+#define  IDS_TB_PROFONE_USENOCUASEL  ID_TB_PROFONE_DLG +17
+#define  IDS_TB_PROFONE_ALLDICTTERMS ID_TB_PROFONE_DLG +18
+#define  IDS_TB_PROFONE_EXACTCONTEXTMATCH ID_TB_PROFONE_DLG+19
+
+
+#define  IDS_SAVEAS_DLG              ID_TB_PROFONE_DLG +20
+#endif
+//
+#endif

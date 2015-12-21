@@ -1,0 +1,244 @@
+//+----------------------------------------------------------------------------+
+//|EQFCNT01.MRI                                                                |
+//+----------------------------------------------------------------------------+
+//|Copyright Notice:                                                           |
+//|                                                                            |
+//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Corporation and others. All rights reserved                           |
+//+----------------------------------------------------------------------------+
+//|Author:      Stefan Doersam                                                 |
+//+----------------------------------------------------------------------------+
+//|Description: MRI strings for word count                                     |
+//+----------------------------------------------------------------------------+
+//|To be done / known limitations / caveats:                                   |
+//+----------------------------------------------------------------------------+
+//| PVCS Section                                                               |
+//
+// $CMVC
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Nov 2006
+// GQ: - added some strings for duplicate word count
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 21 Feb 2000
+// - added heading for machine match column
+// 
+//
+//
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+//
+/*
+ * $Header:   K:\DATA\EQFCNT01.MVI   1.5   12 Feb 1999 09:52:32   BUILD  $
+ *
+ * $Log:   K:\DATA\EQFCNT01.MVI  $
+ *
+ *    Rev 1.5   12 Feb 1999 09:52:32   BUILD
+ * changed header strings for original/target word count
+ *
+ *    Rev 1.4   04 Nov 1997 11:13:52   BUILD
+ * - added strings for replace match counting
+ *
+ *    Rev 1.3   21 Jul 1997 12:39:42   BUILD
+ * - fixed PTM KBT0037: Restrict width of TM match count report to 80 columns
+ *
+ *    Rev 1.2   23 Jun 1997 10:01:08   BUILD
+ * - fixed PTM KBT0027: Bring word count report back to 80 columns
+ *
+ *    Rev 1.1   11 Jun 1997 17:16:34   BUILD
+ * - addes strings for TM match info radiobutton
+ *
+ *    Rev 1.0   09 Jan 1996 10:04:50   BUILD
+ * Initial revision.
+*/
+/* Change Activity:                                                           */
+/*                                                                            */
+/* Code   Reason   Release  Date   Origin   Comments                          */
+/* ----   -------- -------- ------ ------ : --------------------------------- */
+//+----------------------------------------------------------------------------+
+
+//--- strings for the word count dialog (EQFCNT01.C)
+#define STR_CNT_WORD_COUNT         "Count Words"
+#define STR_CNT_DOCUMENTS          "Documents"
+#define STR_CNT_COUNT_OPTIONS      "Options"
+#define STR_CNT_ORIGINAL           "Original"
+#define STR_CNT_TRANSLATION        "Translation"
+#define STR_CNT_TMMATCHES          "Translation Memory match information"
+#define STR_CNT_TMREPLMATCH        "Count replace matches separately"
+#define STR_CNT_TRANSLATED_WORDS   "Translated words"
+#define STR_CNT_UNTRANSLATED_WORDS "Untranslated words"
+#define STR_CNT_TOTAL_WORDS        "Total words"
+#define STR_CNT_OUTPUT_TO          "Output to"
+#define STR_CNT_FILE               "File"
+#define STR_CNT_PRINTER            "Printer"
+#define STR_CNT_COUNT              "&Count"
+#define STR_CNT_CANCEL             "Cancel"
+#define STR_CNT_HELP               "Help"
+#define STR_CNT_SCREEN             "Screen"
+#define STR_CNT_GML                "GML"
+
+/**********************************************************************/
+/* select button and filename for print to file selection             */
+/**********************************************************************/
+#define STR_CNT_FILE_SET_PB            "&Select..."
+#define STR_CNT_FILENAME_TEXT          "Name:"
+
+//--- strings used in EQFCNT00.C and EQFCNT01.C
+//--- the stringtable file: EQFCNT01.STR
+
+//--- word count dialog replace strings for error messages
+#define STR_CNT01_MSG_TRANSLATION          "Translation"
+
+//--- word count instance(=result) window, general
+#define STR_CNT00_TITLE_ORIGINAL           "Word Count Results - Original"
+#define STR_CNT00_TITLE_TRANSLATION        "Word Count Results - Translation"
+#define STR_CNT00_FOLDER_TEXT              "Folder: "
+#define STR_CNT00_COUNTING_TEXT            "counting..."
+#define STR_CNT00_ERROR_TEXT               "Error"
+#define STR_CNT00_LOCKED_TEXT              "File in use"             /*@1204A*/
+#ifdef TOP97_MATCHCOUNT
+  #define STR_CNT00_TITLE_TMMATCHES          "Word Count Results - Translation Memory Matches"
+  #define STR_CNT00_NOINFO_TEXT              "No match info"
+#endif
+
+//--- word count instance window, column headers for count listbox
+#define STR_CNT00_DOCUMENTS               "Documents"
+#define STR_CNT00_TOBE_TRANSLATED         "Untranslated"
+#define STR_CNT00_TRANSLATED              "Translated"
+#define STR_CNT00_MARKUP                  "Markup"
+#define STR_CNT00_NL                      "Target Words"
+#define STR_CNT00_TOTAL                   "Total" //also used for summary line
+#ifdef TOP97_MATCHCOUNT
+  #define STR_CNT00_EXACTEXACT            "Exact-Exact" // exact-exact matches
+  #define STR_CNT00_EXACTONE              "Exact (1)"   // exact match - one proposal
+  #define STR_CNT00_EXACTMORE             "Exact (2+)"  // exact match - two or more proposal
+  #define STR_CNT00_FUZZY                 "Fuzzy"       // fuzzy match
+  #define STR_CNT00_NOMATCH               "No match"    // no match/proposal
+  #define STR_CNT00_REPL                  "Replace"     // replace match
+  #define STR_CNT00_MACHMATCH             "MachMatch"   // machine match
+  #define STR_CNT00_FUZZYREPL             "FuzzyRepl"   // fuzzy replace match
+#endif
+//--- text for output file of word count
+#define STR_CNT00_FILE_ERROR_LINE         "   !!!! Error counting document"
+#define STR_CNT00_FILE_LOCKED_LINE        "   !!!! File in use"      /*@1204A*/
+#define STR_CNT00_FILE_SUM_TEXT                "Total        "
+#ifdef TOP97_MATCHCOUNT
+  #define STR_CNT00_FILE_NOINFO_LINE      "   !!!! No match information available"      /*@1204A*/
+#endif
+
+//--- colum headers for output file of word count
+#ifdef TOP97
+#define STR_CNT00_FILE_ORIGINAL_GML  "Documents                                     Untranslated  Markup   Total"
+//                                    123456789012345678901234567890 12345678901234567 1234567 1234567
+#define STR_CNT00_FILE_TRANSLATION_GML "Documents                                  Translated    Untranslated Target words  Markup"
+//                                      123456789012                   123456789012 123456789012345 123456789012 1234567
+#ifdef TOP97_MATCHCOUNT
+#define STR_CNT00_FILE_TMMATCH_GML "Documents          Total Exact-Exact  Exact (1)  Exact (2+)     Fuzzy  MachMatch   No Match"
+//                                  123456789012  1234567890 12345678901 1234567890 12456789012 123456789  123456789 1234567890
+#define STR_CNT00_FILE_TMREPLMATCH_GML "Documents          Total Exact-Exact  Exact (1)  Exact (2+)     Fuzzy  MachMatch   No Match    Replace  FuzzyRepl"
+//                                      123456789012  1234567890 12345678901 1234567890 12456789012 123456789 1234567890 1234567890 1234567890 1234567890
+#endif
+#else
+#define STR_CNT00_FILE_ORIGINAL_GML  "Documents         Untranslated  Markup   Total"
+//                                    123456789012 12345678901234567 1234567 1234567
+#define STR_CNT00_FILE_TRANSLATION_GML "Documents       Translated      Untranslated  Target words  Markup"
+//                                      123456789012 1234567890123 12345678901234567 1234567890123 1234567
+#ifdef TOP97_MATCHCOUNT
+#define STR_CNT00_FILE_TMMATCH_GML "Documents          Total Exact-Exact  Exact (1)  Exact (2+)     Fuzzy   No Match"
+//                                  123456789012  1234567890 12345678901 1234567890 12456789012 123456789 1234567890
+#define STR_CNT00_FILE_TMREPLMATCH_GML "Documents          Total Exact-Exact  Exact (1)  Exact (2+)     Fuzzy   No Match    Replace  FuzzyRepl"
+//                                      123456789012  1234567890 12345678901 1234567890 12456789012 123456789 1234567890 1234567890 1234567890
+#endif
+#endif

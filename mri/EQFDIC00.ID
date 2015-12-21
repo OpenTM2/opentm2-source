@@ -1,0 +1,180 @@
+/*+----------------------------------------------------------------------------+
+  |  EQFDIC00.ID - Presentation Manager IDs of dictioanry handler              |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+|      Copyright (C) 1990-2012, International Business Machines           |
+|      Corporation and others. All rights reserved                        |  
+  +----------------------------------------------------------------------------+
+
+  |  Description:                                                              |
+  +----------------------------------------------------------------------------+
+  | PVCS Section                                                               |
+// 
+// $CMVC 
+// 
+// $Revision: 1.1 $ ----------- 14 Dec 2009
+//  -- New Release TM6.2.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 1 Oct 2009
+//  -- New Release TM6.1.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 2 Jun 2009
+//  -- New Release TM6.1.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 8 Dec 2008
+//  -- New Release TM6.1.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Sep 2008
+//  -- New Release TM6.1.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 23 Apr 2008
+//  -- New Release TM6.1.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 13 Dec 2007
+//  -- New Release TM6.1.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Aug 2007
+//  -- New Release TM6.1.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Apr 2007
+//  -- New Release TM6.1.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2006
+//  -- New Release TM6.1.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 9 May 2006
+//  -- New Release TM6.0.11!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Dec 2005
+//  -- New Release TM6.0.10!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 16 Sep 2005
+//  -- New Release TM6.0.9!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 18 May 2005
+//  -- New Release TM6.0.8!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 29 Nov 2004
+//  -- New Release TM6.0.7!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 31 Aug 2004
+//  -- New Release TM6.0.6!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 3 May 2004
+//  -- New Release TM6.0.5!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 15 Dec 2003
+//  -- New Release TM6.0.4!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 6 Oct 2003
+//  -- New Release TM6.0.3!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 26 Jun 2003
+//  -- New Release TM6.0.2!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Feb 2003
+//  -- New Release TM6.0.1!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 25 Jul 2002
+//  -- New Release TM6.0!!
+// 
+// 
+// $Revision: 1.1 $ ----------- 20 Aug 2001
+//  -- New Release TM2.7.2!!
+// 
+// 
+// $Revision: 1.3 $ ----------- 30 Aug 2000
+// - added IDs for Dictionary Property Sheets  
+// 
+// 
+// 
+// $Revision: 1.2 $ ----------- 7 Dec 1999
+//  -- Initial Revision!!
+// 
+ *
+ * $Header:   J:\DATA\EQFDIC00.IV_   1.1   13 Jan 1996 14:04:50   BUILD  $
+ *
+ * $Log:   J:\DATA\EQFDIC00.IV_  $
+ * 
+ *    Rev 1.1   13 Jan 1996 14:04:50   BUILD
+ * - added string IDs for initial user field names
+ *
+ *    Rev 1.0   09 Jan 1996 10:05:30   BUILD
+ * Initial revision.
+*/
+
+#define PID_DICTIONARY_LB    ID_DICTIONARY_WINDOW + 5
+
+//dictionary list window ids
+#define IDS_DICT_NAME_COLTITLE        ID_DICT_STRINGS + 1
+#define IDS_DICT_DESCR_COLTITLE       ID_DICT_STRINGS + 2
+#define IDS_DICT_DRIVE_COLTITLE       ID_DICT_STRINGS + 3
+#define IDS_DICT_SERVER_COLTITLE      ID_DICT_STRINGS + 4
+#define IDS_DICT_OWNER_COLTITLE       ID_DICT_STRINGS + 5
+#define IDS_DICT_NO_OWNER_STR         ID_DICT_STRINGS + 6
+#define IDS_DICT_SOURCELANG_COLTITLE  ID_DICT_STRINGS + 7
+
+// strings for initial user name of fields
+#define IDS_HEADWORD_USRNAME              ID_DICT_STRINGS + 10
+#define IDS_AUTHOR_USRNAME                ID_DICT_STRINGS + 11
+#define IDS_CREATIONDATE_USRNAME          ID_DICT_STRINGS + 12
+#define IDS_STATUSCODE_USRNAME            ID_DICT_STRINGS + 13
+#define IDS_PARTOFSPEECH_USRNAME          ID_DICT_STRINGS + 14
+#define IDS_SOURCEOFHEADWORD_USRNAME      ID_DICT_STRINGS + 15
+#define IDS_ABBREVFULLFORM_USRNAME        ID_DICT_STRINGS + 16
+#define IDS_AUTHOROFUPDATE_USRNAME        ID_DICT_STRINGS + 17
+#define IDS_LASTUPDATE_USRNAME            ID_DICT_STRINGS + 18
+#define IDS_DEFINITION_USRNAME            ID_DICT_STRINGS + 19
+#define IDS_SOURCEOFDEFINITION_USRNAME    ID_DICT_STRINGS + 20
+#define IDS_SYNONYM_USRNAME               ID_DICT_STRINGS + 21
+#define IDS_OTHERRELATEDTERMS_USRNAME     ID_DICT_STRINGS + 22
+#define IDS_CONTEXT_USRNAME               ID_DICT_STRINGS + 23
+#define IDS_SOURCEOFCONTEXT_USRNAME       ID_DICT_STRINGS + 24
+#define IDS_COMMENTS_USRNAME              ID_DICT_STRINGS + 25
+#define IDS_NOTEONUSAGE_USRNAME           ID_DICT_STRINGS + 26
+#define IDS_LANGUAGE_USRNAME              ID_DICT_STRINGS + 27
+#define IDS_TRANSLATION_USRNAME           ID_DICT_STRINGS + 28
+#define IDS_COMPANYSUBJECTCODE_USRNAME    ID_DICT_STRINGS + 29
+#define IDS_TRANSSOURCEOFTRANS_USRNAME    ID_DICT_STRINGS + 30
+#define IDS_TRANSABBREVFULLFORM_USRNAME   ID_DICT_STRINGS + 31
+#define IDS_TRANSAUTHOR_USRNAME           ID_DICT_STRINGS + 32
+#define IDS_TRANSAUTHOROFUPDATE_USRNAME   ID_DICT_STRINGS + 33
+#define IDS_TRANSCREATIONDATE_USRNAME     ID_DICT_STRINGS + 34
+#define IDS_TRANSLASTUPDATE_USRNAME       ID_DICT_STRINGS + 35
+#define IDS_TRANSSTATUSCODE_USRNAME       ID_DICT_STRINGS + 36
+#define IDS_TRANSPARTOFSPEECH_USRNAME     ID_DICT_STRINGS + 37
+#define IDS_TRANSDEFINITION_USRNAME       ID_DICT_STRINGS + 38
+#define IDS_TRANSSOURCEOFDEF_USRNAME      ID_DICT_STRINGS + 39
+#define IDS_TRANSSYNONYM_USRNAME          ID_DICT_STRINGS + 40
+#define IDS_TRANSOTHERREL_USRNAE          ID_DICT_STRINGS + 41
+#define IDS_TRANSCONTEXT_USRNAME          ID_DICT_STRINGS + 42
+#define IDS_TRANSSRCOFCONTEXT_USRNAME     ID_DICT_STRINGS + 43
+#define IDS_TRANSCOMMENTS_USRNAME         ID_DICT_STRINGS + 44
+
+// Property sheet for dictionary properties
+#define  IDS_DICTPROP_TAB_GENERAL ID_DICTPROP_DLG + 45
+#define  IDS_DICTPROP_TAB_OPTIONS ID_DICTPROP_DLG + 46
+
+

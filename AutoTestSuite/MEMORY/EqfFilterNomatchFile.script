@@ -1,0 +1,89 @@
+****************************************************************************************************
+** Script name...: API_EQFFilterNomatchFile.script                                                **
+** Purpose.......: Script to test the API call EqfFilterNomatchFile                               **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: December 14, 2014                                                              **
+** Update........: December 14, 2014                                                              **
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 QSoft Gmbh for IBM Translation Technical Services                              **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+****************************************************************************************************
+* Define constants 
+****************************************************************************************************
+*define TestDataLocation,E:\OTMIBM\trunk\AUTOTESTSUITE\TESTDATA
+INCLUDE ..\AutoTestSuite_Settings.script
+
+define Data,%TestDataLocation%\MEMORY\FILTERNOMATCHFILE
+
+****************************************************************************************************
+* Prepare test data ... 
+****************************************************************************************************
+EqfDeleteMem FilterNomatchFileMem
+EqfCreateMem FilterNomatchFileMem, , , English(U.S.), 
+EqfImportMem FilterNomatchFileMem,%Data%\FILTERNOMATCHFILEMEM.EXP,UTF16_OPT
+
+****************************************************************************************************
+* Test cases... 
+****************************************************************************************************
+TESTCASE FILTERNOMATCHFILE001,Call EqfFilterNomatchFile API without any parameters specified
+  EqfFilterNomatchFile 
+  TESTRESULT 36, EqfFilterNomatchFile wrong return code when called without parameters
+End
+
+TESTCASE FILTERNOMATCHFILE002,Call API with non-existing input file
+  EqfFilterNomatchFile %Data%\DOESNOTEXIST.XML,%Data%\GLOBMEMFILTER.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT.TXT
+  TESTRESULT 40, EqfFilterNomatchFile wrong return code when input file does not exist
+End
+
+TESTCASE FILTERNOMATCHFILE003,Call API with non-existing global memory filter file
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\DOESNOTEXIST.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT.TXT
+  TESTRESULT 936, EqfFilterNomatchFile wrong return code when global memory filter file does not exist
+End
+
+TESTCASE FILTERNOMATCHFILE004,Call API with non-existing memory 
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERHAMSTER.XML,DOESNOTEXIST,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT.TXT
+  TESTRESULT 133, EqfFilterNomatchFile wrong return code when input memory does not exist
+End
+
+TESTCASE FILTERNOMATCHFILE005,Call API using a "ignore hamster matches " filter and XML output 
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERIGNORE.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT-IGN.TXT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+End
+
+TESTCASE FILTERNOMATCHFILE006,Call API using a "auto-subst hamster matches " filter and XML output 
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERAUTOSUBST.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT-SUBST.TXT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+End
+
+TESTCASE FILTERNOMATCHFILE007,Call API using a "leave as hamster matches " filter and XML output 
+  EqfFilterNoMatchFile %Data%\NOMATCHIN.XML, %Data%\GLOBMEMFILTERHAMSTER.XML, FilterNomatchFileMem, %Data%\NOMATCHOUT.XML, %Data%\NOMATCHOUT.EXP, %Data%\WORDOUNTOUT-HAMSTER.TXT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+  COMPAREBINARY %Data%\NOMATCHOUT.EXP,%Data%\NOMATCHOUT.EXP
+  TESTRESULT 0, Exported memory is different from import memory
+  
+End
+
+TESTCASE FILTERNOMATCHFILE008,Call API using a "leave as hamster matches " filter and EXP output 
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERHAMSTER.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT08.TXT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+End
+
+TESTCASE FILTERNOMATCHFILE009,Call API creating XML and EXP output 
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERHAMSTER.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT09.TXT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+End
+
+TESTCASE FILTERNOMATCHFILE010,Call API creating a TEXT word count
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERHAMSTER.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT10.TXT,TEXT_OUTPUT_OPT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+End
+
+TESTCASE FILTERNOMATCHFILE011,Call API creating a XML word count
+  EqfFilterNomatchFile %Data%\NOMATCHIN.XML,%Data%\GLOBMEMFILTERHAMSTER.XML,FilterNomatchFileMem,%Data%\NOMATCHOUT.XML,%Data%\NOMATCHOUT.EXP,%Data%\WORDOUNTOUT.XML,XML_OUTPUT_OPT
+  TESTRESULT 0, EqfFilterNomatchFile did not succeed
+End
+

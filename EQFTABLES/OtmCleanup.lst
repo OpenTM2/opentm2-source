@@ -1,0 +1,30 @@
+// OtmCleanup.lst
+// 
+//	Copyright Notice:
+//
+//	Copyright (C) 1990-2015, International Business Machines
+//	Corporation and others. All rights reserved
+//
+// This file contains the list of temporary files which can be deleted using the OtmCleanupPlugin tool
+//
+// The files in the list may contain wildcards ( '*' for multiple substitution, '?' for single substitution)
+//
+// File names starting with a backslash are considered as fully qualified
+// File names which do not start with a backslash are relative to the Otm main directory
+//
+//
+\otm\*.log              // log files
+logs\*.*                // log files
+$$$$*.xml               // XML file left over from XSLT conversion
+downloads\*.exe         // install packages
+downloads\*.zip         // install packages
+property\eqfevent*.log  // event log file
+mem\*.temp              // temporary memory files
+mem\$MT*.*              // temporary memory files
+mem\$CNT*.*             // temporary memory files
+mem\$CM*.*              // temporary memory files
+mem\$ORG*.*             // temporary memory files
+import*                 // files from incomplete folder imports
+mem\*.MEMINFO           // memory info files from incomplete folder exports
+win\*.REG               // system/user path backup files
+
