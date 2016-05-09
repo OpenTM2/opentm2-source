@@ -1,7 +1,7 @@
 ****************************************************************************************************
 ** Script name...: AutoTestSuite_Memory.script                                                **
 ** Purpose.......: Script including all memory test scripts of the OpenTM2 Auto Test Suite    **
-** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
 **                 and others. All rights reserved                                                **
 ** Version.......: 1.0.0                                                                          **
 ** Creation Date.: February 25, 2015                                                               **
@@ -18,6 +18,12 @@ INCLUDE EqfCreateITM.script
 INCLUDE EqfFilterNomatchFile.script
 
 
+
+INCLUDE EqfImportMemEx.script
+
+
+
+INCLUDE EqfAddMatchSegID.script
 
 
 

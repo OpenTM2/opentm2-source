@@ -113,7 +113,7 @@ BOOL PostUnseg(PSZ in, PSZ style)
                       fputs( szStyle, fOut ) ;
                    }
                 } else {
-                   MessageBoxA(HWND_DESKTOP, ODC_EXTRACT_STYLE, ODC_EXTRACT_ERROR_TITLE, MB_OK);
+                   MessageBoxA(HWND_DESKTOP, ODC_EXTRACT_STYLE, ODC_EXTRACT_ERROR_TITLE, MB_OK | MB_DEFBUTTON1 | MB_ICONWARNING | MB_SYSTEMMODAL);
                    bReturn = FALSE ; 
                    break ;
                 }

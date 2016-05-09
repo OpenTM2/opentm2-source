@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author: Markus Conrad                                                       |
@@ -120,6 +120,7 @@ typedef struct _MEM_EXPORT_IDA
  OtmMemory    *pMem;                      // pointer to memory being exported
  OtmProposal  *pProposal;                   // buffer for proposal data
  CHAR_W       szSegmentBuffer[MAX_SEGMENT_SIZE]; // Buffer for segment data
+ CHAR_W       szSegmentBuffer2[MAX_SEGMENT_SIZE]; // Buffer for preprocessed segment data
  int          iComplete;                  // completion rate
  CHAR         szPlugin[MAX_LONGFILESPEC]; // name of memory plugin handling the current memory database
 }
@@ -133,6 +134,7 @@ USHORT  MemExportStart(     PPROCESSCOMMAREA, HWND );
 USHORT  MemExportProcess(   PMEM_EXPORT_IDA pExportIDA );
 USHORT  MemExportWriteFile( PMEM_EXPORT_IDA pExportIDA );
 USHORT  MemExportWrite(     PMEM_EXPORT_IDA pExportIDA, PSZ_W  pszToWrite );
+USHORT  MemExportPrepareSegment( PMEM_EXPORT_IDA pExportIDA, PSZ_W pszSegmentIn, PSZ_W pszSegmentOut );
 
 /* !brief function handling the GUI mode of the memory import */
 BOOL MemGUIExportMemory
@@ -1822,13 +1824,15 @@ USHORT MemExportWriteFile ( PMEM_EXPORT_IDA  pExportIDA ) // pointer to the
    // write segment source
    pExportIDA->pProposal->getSource( pExportIDA->szSegmentBuffer, sizeof(pExportIDA->szSegmentBuffer) );
    if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, MEM_SOURCE_BEGIN_TAGW );
-   if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, pExportIDA->szSegmentBuffer );
+   if ( usRc == MEM_PROCESS_OK ) usRc = MemExportPrepareSegment( pExportIDA, pExportIDA->szSegmentBuffer, pExportIDA->szSegmentBuffer2  );
+   if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, pExportIDA->szSegmentBuffer2 );
    if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, MEM_SOURCE_END_TAGW );
 
    // write segment target
    pExportIDA->pProposal->getTarget( pExportIDA->szSegmentBuffer, sizeof(pExportIDA->szSegmentBuffer) );
    if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, MEM_TARGET_BEGIN_TAGW  );
-   if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, pExportIDA->szSegmentBuffer );
+   if ( usRc == MEM_PROCESS_OK ) usRc = MemExportPrepareSegment( pExportIDA, pExportIDA->szSegmentBuffer, pExportIDA->szSegmentBuffer2  );
+   if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, pExportIDA->szSegmentBuffer2 );
    if ( usRc == MEM_PROCESS_OK ) usRc = MemExportWrite( pExportIDA, MEM_TARGET_END_TAGW );
 
 
@@ -2561,3 +2565,38 @@ USHORT MemFuncExportProcess
   return( usRC );
 
 } /* end of function MemFuncExportProcess */
+
+USHORT  MemExportPrepareSegment( PMEM_EXPORT_IDA pExportIDA, PSZ_W pszSegmentIn, PSZ_W pszSegmentOut )
+{
+#ifdef FORCE_CRLF_IN_MEMORY_OUTPUT
+  PSZ_W pszSource = pszSegmentIn;
+  PSZ_W pszTarget = pszSegmentOut;
+
+  pExportIDA;
+
+  while( *pszSource )
+  {
+    if ( *pszSource == L'\r' )
+    {
+      // ignore carriage return
+      pszSource++;
+    }
+    else if ( *pszSource == L'\n' )
+    {
+      // convert to CRLF
+      pszSource++;
+      *pszTarget++ = L'\r';
+      *pszTarget++ = L'\n';
+    }
+    else
+    {
+      // copy as-is
+      *pszTarget++ = *pszSource++;
+    } /* endif */
+  } /* endwhile */
+  *pszTarget = 0;
+#else
+  wcscpy( pszSegmentOut, pszSegmentIn );
+#endif
+  return( MEM_PROCESS_OK );
+}

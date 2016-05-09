@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -127,24 +127,38 @@ extern "C"
 
 #define TMMATCHTYPE_PROP            "TM:MatchType"
 #define TMMATCHTYPE_PROP_W         L"TM:MatchType"
+#define TMMATCHTYPE_PROP_W_OLD     L"TM-MatchType"
 
 #define MTSERVICE_PROP              "MT:ServiceID"
 #define MTSERVICE_PROP_W           L"MT:ServiceID"
+#define MTSERVICE_PROP_W_OLD       L"MT-ServiceID"
 
 #define MTMETRICNAME_PROP           "MT:MetricName"
 #define MTMETRICNAME_PROP_W        L"MT:MetricName"
+#define MTMETRICNAME_PROP_W_OLD    L"MT-MetricName"
 
 #define MTMETRICVALUE_PROP          "MT:MetricValue"
 #define MTMETRICVALUE_PROP_W       L"MT:MetricValue"
+#define MTMETRICVALUE_PROP_W_OLD   L"MT-MetricValue"
 
 #define PEEDITDISTANCECHARS_PROP    "PE:EditDistanceChars"
 #define PEEDITDISTANCECHARS_PROP_W L"PE:EditDistanceChars"
+#define PEEDITDISTANCECHARS_PROP_W_OLD L"PE-EditDistanceChars"
 
 #define PEEDITDISTANCEWORDS_PROP    "PE:EditDistanceWords"
 #define PEEDITDISTANCEWORDS_PROP_W L"PE:EditDistanceWords"
+#define PEEDITDISTANCEWORDS_PROP_W_OLD L"PE-EditDistanceWords"
 
 #define MTFIELDS_PROP               "MT:Fields"
 #define MTFIELDS_PROP_W            L"MT:Fields"
+#define MTFIELDS_PROP_W_OLD        L"MT-Fields"
+
+#define WORDS_PROP                 "tmgr:words"
+#define WORDS_PROP_W               L"tmgr:words"
+
+#define MATCHSEGID_PROP           "tmgr:MatchSegID"
+#define MATCHSEGID_PROP_W        L"tmgr:MatchSegID"
+
 
 // IDs of TMX elelements
 typedef enum { TMX_ELEMENT, PROP_ELEMENT, HEADER_ELEMENT, TU_ELEMENT, TUV_ELEMENT, BODY_ELEMENT,
@@ -176,8 +190,8 @@ TMXNAMETOID TmxNameToID[] =
 
 // PROP types
 typedef enum { TMLANGUAGE_PROP, TMMARKUP_PROP, TMDOCNAME_PROP, MACHINEFLAG_PROP, SEG_PROP, TMDESCRIPTION_PROP, TMNOTE_PROP, TMNOTESTYLE_PROP,
-  TRANSLATIONFLAG_PROP, TMTMMATCHTYPE_PROP, TMMTSERVICE_PROP, TMMTMETRICNAME_PROP, TMMTMETRICVALUE_PROP, TMPEEDITDISTANCECHARS_PROP, TMPEEDITDISTANCEWORDS_PROP, 
-  TMMTFIELDS_PROP, UNKNOWN_PROP } TMXPROPID;
+  TRANSLATIONFLAG_PROP, TMTMMATCHTYPE_PROP, TMMTSERVICE_PROP, TMMTMETRICNAME_PROP, TMMTMETRICVALUE_PROP, TMPEEDITDISTANCECHARS_PROP, TMPEEDITDISTANCEWORDS_PROP,  
+  TMMTFIELDS_PROP, TMWORDS_PROP, TMMATCHSEGID_PROP, UNKNOWN_PROP } TMXPROPID;
 
 // stack elements
 typedef struct _TMXELEMENT
@@ -309,6 +323,8 @@ private:
     CHAR_W   szNote[MAX_SEGMENT_SIZE];// buffer for note text
     CHAR_W   szNoteStyle[100];        // buffer for note style
     CHAR_W   szMTMetrics[MAX_SEGMENT_SIZE];// buffer for MT metrics data
+    ULONG    ulWords;                 // number of words in the segment text
+    CHAR_W   szMatchSegID[MAX_SEGMENT_SIZE];// buffer for match segment ID
   } BUFFERAREAS, *PBUFFERAREAS;
 
   PBUFFERAREAS pBuf; 
@@ -737,6 +753,43 @@ USHORT CTMXExportImport::WriteSegment
         {
           m_xw.WriteStartElement( "prop" );
           m_xw.WriteAttributeString( L"type", szAttrNameBuffer );
+          m_xw.WriteString( szBuffer); 
+          m_xw.WriteEndElement(); // prop
+        } /* endif */           
+      } /* endwhile */         
+    } /* endif */
+
+    hKey = MADSearchKey( pSegment->szAddInfo, L"wcnt" );
+    if ( hKey != NULL )
+    {
+      BOOL fAttribute = TRUE;
+      CHAR_W szAttrNameBuffer[40];
+      while ( fAttribute )
+      {
+        fAttribute = MADGetNextAttr( &hKey, szAttrNameBuffer, szBuffer, sizeof(szBuffer) / sizeof(CHAR_W) );
+        if ( fAttribute && (wcsicmp( szAttrNameBuffer, L"words" ) == 0) )
+        {
+          m_xw.WriteStartElement( "prop" );
+          m_xw.WriteAttributeString( L"type", L"tmgr:words" );
+          m_xw.WriteString( szBuffer); 
+          m_xw.WriteEndElement(); // prop
+        } /* endif */           
+      } /* endwhile */         
+    } /* endif */
+
+
+    hKey = MADSearchKey( pSegment->szAddInfo, L"MatchSegID" );
+    if ( hKey != NULL )
+    {
+      BOOL fAttribute = TRUE;
+      CHAR_W szAttrNameBuffer[40];
+      while ( fAttribute )
+      {
+        fAttribute = MADGetNextAttr( &hKey, szAttrNameBuffer, szBuffer, sizeof(szBuffer) / sizeof(CHAR_W) );
+        if ( fAttribute && (wcsicmp( szAttrNameBuffer, L"ID" ) == 0) )
+        {
+          m_xw.WriteStartElement( "prop" );
+          m_xw.WriteAttributeString( L"type", L"tmgr:MatchSegID" );
           m_xw.WriteString( szBuffer); 
           m_xw.WriteEndElement(); // prop
         } /* endif */           
@@ -1596,33 +1649,41 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
               {
                 CurElement.PropID = TMDESCRIPTION_PROP;
               } 
-              else if ( wcsicmp( pszValue, TMMATCHTYPE_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, TMMATCHTYPE_PROP_W ) == 0 ) || (wcsicmp( pszValue, TMMATCHTYPE_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMTMMATCHTYPE_PROP;
               } 
-              else if ( wcsicmp( pszValue, MTSERVICE_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, MTSERVICE_PROP_W ) == 0 ) || (wcsicmp( pszValue, MTSERVICE_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMMTSERVICE_PROP;
               } 
-              else if ( wcsicmp( pszValue, MTMETRICNAME_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, MTMETRICNAME_PROP_W ) == 0 ) || (wcsicmp( pszValue, MTMETRICNAME_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMMTMETRICNAME_PROP;
               } 
-              else if ( wcsicmp( pszValue, MTMETRICVALUE_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, MTMETRICVALUE_PROP_W ) == 0 ) || (wcsicmp( pszValue, MTMETRICVALUE_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMMTMETRICVALUE_PROP;
               } 
-              else if ( wcsicmp( pszValue, PEEDITDISTANCECHARS_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, PEEDITDISTANCECHARS_PROP_W ) == 0 ) || (wcsicmp( pszValue, PEEDITDISTANCECHARS_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMPEEDITDISTANCECHARS_PROP;
               } 
-              else if ( wcsicmp( pszValue, PEEDITDISTANCEWORDS_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, PEEDITDISTANCEWORDS_PROP_W ) == 0 ) || (wcsicmp( pszValue, PEEDITDISTANCEWORDS_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMPEEDITDISTANCEWORDS_PROP;
               } 
-              else if ( wcsicmp( pszValue, MTFIELDS_PROP_W ) == 0 )
+              else if ( (wcsicmp( pszValue, MTFIELDS_PROP_W ) == 0 ) || (wcsicmp( pszValue, MTFIELDS_PROP_W_OLD ) == 0 ) )
               {
                 CurElement.PropID = TMMTFIELDS_PROP;
+              } 
+              else if ( wcsicmp( pszValue, WORDS_PROP_W ) == 0 )
+              {
+                CurElement.PropID = TMWORDS_PROP;
+              } 
+              else if ( wcsicmp( pszValue, MATCHSEGID_PROP_W ) == 0 )
+              {
+                CurElement.PropID = TMMATCHSEGID_PROP;
               } /* endif */
             } /* endif */
           } /* endif */
@@ -1694,6 +1755,8 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
         pBuf->szNote[0] = 0;
         pBuf->szNoteStyle[0] = 0;
         pBuf->szMTMetrics[0] = 0;
+        pBuf->szMatchSegID[0] = 0;
+        pBuf->ulWords = 0;
 
         // reset TUV array
         iCurTuv = 0;
@@ -1943,6 +2006,18 @@ void TMXParseHandler::fillSegmentInfo
   {
     swprintf( pSegment->szAddInfo + wcslen(pSegment->szAddInfo), L"<MT%s></MT>", pBuf->szMTMetrics );
   } /* endif */     
+
+  // word count info
+  if ( (pBuf->ulWords != 0) )
+  {
+    swprintf( pSegment->szAddInfo + wcslen(pSegment->szAddInfo), L"<wcnt words=\"%lu\"></wcnt>", pBuf->ulWords );
+  } /* endif */     
+
+  // Match segment ID
+  if ( (pBuf->szMatchSegID[0] != 0) )
+  {
+    swprintf( pSegment->szAddInfo + wcslen(pSegment->szAddInfo), L"<MatchSegID ID=\"%s\"/>", pBuf->szMatchSegID );
+  } /* endif */     
 }
 
 void TMXParseHandler::endElement(const XMLCh* const name )
@@ -2113,7 +2188,8 @@ void TMXParseHandler::endElement(const XMLCh* const name )
         // check if <tuv> contains all required info
         BOOL fTuvValid = TRUE;
    
-        if ( pBuf->szData[0] == 0 ) fTuvValid = FALSE;          // no data for <tuv>
+        // GQ 2016/01/22 Allow empty data areas in order to allow conversion of memories with empty target segments
+        // if ( pBuf->szData[0] == 0 ) fTuvValid = FALSE;          // no data for <tuv>
         if ( CurElement.szTMLanguage[0] == 0 )
         {
           // no Tmgr language available, check TMX language  
@@ -2310,6 +2386,14 @@ void TMXParseHandler::endElement(const XMLCh* const name )
       wcscat( pBuf->szMTMetrics, pBuf->szPropW );
       wcscat( pBuf->szMTMetrics, L"\"" );
     }
+    else if ( CurrentProp == TMWORDS_PROP )
+    {
+      pBuf->ulWords = atol( pBuf->szProp );
+    }
+    else if ( CurrentProp == TMMATCHSEGID_PROP )
+    {
+      wcscpy( pBuf->szMatchSegID, pBuf->szPropW );
+    }
     else if ( CurrentProp == SEG_PROP )
     {
       CurElement.lSegNum = atol( pBuf->szProp );
@@ -2320,16 +2404,22 @@ void TMXParseHandler::endElement(const XMLCh* const name )
 void TMXParseHandler::characters(const XMLCh* const chars, const XMLSize_t length)
 {
   PSZ_W pszChars = (PSZ_W)chars;
+  int iLength = length;
 
   if ( hfLog ) fprintf( hfLog, "%ld Characters; \"%S\"\n", length, pszChars );
 
   if ( (CurElement.ID == PROP_ELEMENT) && (CurElement.PropID != UNKNOWN_PROP) )
   {
-    // store data in prop value buffer
-    int iBytes = WideCharToMultiByte( CP_OEMCP, 0, pszChars, length, pBuf->szProp, sizeof(pBuf->szProp), NULL, NULL );
+    // append data in prop value buffer
+    int iCurLength = wcslen( pBuf->szPropW );
+    int iFree = (sizeof(pBuf->szPropW) / sizeof(CHAR_W)) - iCurLength - 1;
+    if ( iLength > iFree ) iLength = iFree;
+
+    wcsncpy( pBuf->szPropW + iCurLength, pszChars, iLength );
+    pBuf->szPropW[iCurLength+iLength] = 0;
+
+    int iBytes = WideCharToMultiByte( CP_OEMCP, 0, pBuf->szPropW, -1, pBuf->szProp, sizeof(pBuf->szProp), NULL, NULL );
     pBuf->szProp[iBytes] = '\0';
-    wcsncpy( pBuf->szPropW, pszChars, length );
-    pBuf->szPropW[length] = 0;
   }
   else if ( fCatchData && (CurElement.ID == INVCHAR_ELEMENT) )
   {
@@ -2514,6 +2604,8 @@ BOOL TMXParseHandler::TMXLanguage2TMLanguage( PSZ pszTMLanguage, PSZ pszTMXLangu
 
 void TMXParseHandler::SetMemInterface( PFN_MEMINSERTSEGMENT pfnInsert, LONG lHandle, PLOADEDTABLE pTable, PTOKENENTRY pBuf, int iSize )
 {
+  pBuf;
+
   pfnInsertSegment = pfnInsert;
   lMemHandle = lHandle;
   pRTFTable = pTable;
@@ -2805,6 +2897,8 @@ typedef struct _CONVERTERDATA
   ULONG       ulInputCP;                         // codepage to use for import when importing non-Unicode memory
   BOOL        fAnsi;                             // TRUE = input in ASCII format / FALSE = input in ASCII mode
   CHAR        szInMode[200];                     // buffer for input mode
+  CHAR_W      szDescription[1024];               // buffer for memory description
+  int         iLineNum;                          // current line number
 
   //-- data for output memory processing --
   CHAR        szOutMemory[MAX_LONGFILESPEC];     // fully qualified name of current output memory
@@ -2824,7 +2918,7 @@ typedef struct _CONVERTERDATA
   //PLOADEDTABLE pLoadedTable;                     // pointer to currently loaded markup table
   //PTOKENENTRY  pTokBuf;                          // buffer for TaTagTokenize tokens
   //CHAR_W       szActiveTagTable[100];            // buffer for name of loaded tag table
-  //CHAR         szMsgBuffer[2048];                // buffer for message texts
+  CHAR           szErrorText[2048];                // error message text in case of errors
   //BOOL         fLog;                             // true = write messages to log file
 } CONVERTERDATA, *PCONVERTERDATA;
 
@@ -3065,12 +3159,14 @@ USHORT EXPTOTMX
   PSZ              pszOutMem,           // fully qualified name of output (TMX) memory
   PSZ              pszInMode,           // input mode "ANSI"/"ASCII"/"UTF16" or a codepage number
   LONG             lOutMode,            // output mode UTF16/UTF8
-  PLONG            plSegs               // number of written segments
+  PLONG            plSegs,              // number of written segments
+  PSZ              pszMsgBuffer,        // buffer for error messages
+  BOOL             fSkip,               // TRUE = skip invalid segments but continue with processing
+  FILE             *hfLog               // handle of log file or NULL if no logging of invalid segments is to be done
 )
 {
   USHORT           usRC = 0;           // function return code
   LONG             lHandle = 0;        // import handle
-  FILE             *hfOut = NULL;
   PCONVERTERDATA   pData = NULL;
   BOOL             fSegmentAvailable = FALSE;
 
@@ -3090,6 +3186,7 @@ USHORT EXPTOTMX
   {
     pData->MemInfo.fUTF16 = (lOutMode & TMX_UTF16_OPT) != 0;
     pData->MemInfo.fNoCRLF = (lOutMode & TMX_NOCRLF_OPT) != 0;
+    WideCharToMultiByte( CP_ACP, 0, pData->szDescription, -1, pData->MemInfo.szDescription, sizeof(pData->MemInfo.szDescription), NULL, NULL );
 
     usRC = EXTMEMEXPORTSTART( &lHandle, pszOutMem, &(pData->MemInfo) );
   } /* endif */
@@ -3115,7 +3212,14 @@ USHORT EXPTOTMX
 
   if ( plSegs ) *plSegs = (LONG)pData->ulSegments;
 
+  // pass any error message text to caller in case of errors
+  if ( usRC && (pData->szErrorText[0] != EOS) )
+  {
+    strcpy( pszMsgBuffer, pData->szErrorText );
+  } /* endif */
+
   if ( pData ) UtlAlloc( (PVOID *)&pData, 0, 0, NOMSG );
+
 
   return( usRC );
 } /* end of function EXPTOTMX */
@@ -3227,7 +3331,7 @@ USHORT CheckExistence( PCONVERTERDATA pData, PSZ pszInMemory )
   if ( hdir == INVALID_HANDLE_VALUE )
   {
      usRC = ERROR_FILE_NOT_FOUND;
-     //ShowError( pData, "Input memory %s could not be opened", pszInMemory );
+     sprintf( pData->szErrorText, "Input memory %s could not be opened", pszInMemory );
   }
   else
   {
@@ -3325,7 +3429,7 @@ USHORT GetEncodingEx( PCONVERTERDATA pData, PSZ pszInMemory, PSZ pszInMode, PSZ 
 
       if ( _wcsnicmp( pszTemp, L"<ntmmemorydb>", 13 ) != 0 )
       {
-        // ShowError( pData, "The format of the file %s is not supported", pData->szInMemory );
+        sprintf( pData->szErrorText, "The format of the file %s is not supported", pData->szInMemory );
         usRC = ERROR_INVALID_DATA;
       } /* endif */
 
@@ -3368,25 +3472,35 @@ USHORT GetEncodingEx( PCONVERTERDATA pData, PSZ pszInMemory, PSZ pszInMode, PSZ 
       }
       else
       {
-        // ShowError( pData, "The file %s is no memory in valid EXP format", pData->szInMemory );
+        sprintf( pData->szErrorText, "The file %s is no memory in valid EXP format", pData->szInMemory );
         usRC = ERROR_INVALID_DATA;
       } /* endif */
     } /* endif */
   } /* endif */
 
-  // read memory header up to first segment and check for codepage tag
+  // read memory header up to first segment and check for codepage tag, store any found memory description
   if ( usRC == NO_ERROR )
   {
     BOOL fEOF = FALSE;
+    BOOL fDescription = FALSE;
 
     pData->szLine[0] = 0;
+    pData->szDescription[0] = 0;
     GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
 
     while ( (usRC == NO_ERROR) && !fEOF && 
             (_wcsnicmp( pData->szLine, L"<segment>", 9 ) != 0) &&
             (_wcsnicmp( pData->szLine, L"</ntmmemorydb>", 14 ) != 0))
     {
-      if ( _wcsnicmp( pData->szLine, L"<codepage>", 10 ) != 0 )
+      if ( _wcsnicmp( pData->szLine, L"<description>", 13 ) == 0 )
+      {
+        fDescription = TRUE;
+      }
+      else if ( _wcsnicmp( pData->szLine, L"</description>", 14 ) == 0 )
+      {
+        fDescription = FALSE;
+      }
+      else if ( _wcsnicmp( pData->szLine, L"<codepage>", 10 ) == 0 )
       {
         StripTag( pData->szLine + 10, L"</codepage>" );
         if ( _wcsnicmp( pData->szLine + 10, L"ANSI=", 5 ) == 0 ) 
@@ -3397,6 +3511,10 @@ USHORT GetEncodingEx( PCONVERTERDATA pData, PSZ pszInMemory, PSZ pszInMode, PSZ 
         {
           pData->ulInputCP = _wtol( pData->szLine + 16 );
         } /* endif */
+      } 
+      else if ( fDescription )
+      {
+        wcscat( pData->szDescription, pData->szLine );
       } /* endif */
 
       pData->szLine[0] = 0;
@@ -3432,6 +3550,9 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
   // read data until segment is complete
   if ( _wcsnicmp( pData->szLine, L"<segment>", 9 ) == 0 ) 
   {
+    int iStartLine = pData->iLineNum;
+    PSZ pszError = "";
+
     // reset segment data
     pData->Segment.szSource[0] = 0;
     pData->szControl[0] = 0;
@@ -3452,6 +3573,7 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
+          pszError = "Incomplete segment control string";
         }
         else
         {
@@ -3488,44 +3610,54 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
       {
         // get the segment source
         BOOL fEnd = StripTag( pData->szLine + 8, L"</source>" );
-        usRC = ConcatenateSegData( pData->Segment.szSource, pData->szLine + 8, MAX_SEGMENT_SIZE );
+        usRC = ConcatenateSegData( pData->Segment.szSource, pData->szLine + 8, sizeof(pData->Segment.szSource)/sizeof(CHAR_W) );
 
         while ( !usRC && !fEnd && !fEOF )
         {
-          usRC = ConcatenateSegData( pData->Segment.szSource, L"\r\n", MAX_SEGMENT_SIZE );
+          usRC = ConcatenateSegData( pData->Segment.szSource, L"\n", MAX_SEGMENT_SIZE );
           GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
           fEnd = StripTag( pData->szLine, L"</source>" );
           if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
           {
-            usRC = ConcatenateSegData( pData->Segment.szSource, pData->szLine, MAX_SEGMENT_SIZE );
+            usRC = ConcatenateSegData( pData->Segment.szSource, pData->szLine, sizeof(pData->Segment.szSource)/sizeof(CHAR_W) );
           } /* endif */
         } /*endwhile */
-        if ( !usRC && !fEnd )
+        if ( usRC )
+        {
+          pszError = "Segment source text too long";
+        }
+        else if ( !fEnd )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
+          pszError = "Missing </source> tag";
         } /* endif */
       }
       else if ( _wcsnicmp( pData->szLine, L"<target>", 8 ) == 0 )
       {
         // get the segment target
         BOOL fEnd = StripTag( pData->szLine + 8, L"</target>" );
-        usRC = ConcatenateSegData( pData->Segment.szTarget, pData->szLine + 8, MAX_SEGMENT_SIZE );
+        usRC = ConcatenateSegData( pData->Segment.szTarget, pData->szLine + 8, sizeof(pData->Segment.szTarget)/sizeof(CHAR_W) );
 
         while ( !usRC && !fEnd && !fEOF )
         {
-          usRC = ConcatenateSegData( pData->Segment.szTarget, L"\r\n", MAX_SEGMENT_SIZE );
+          usRC = ConcatenateSegData( pData->Segment.szTarget, L"\n", MAX_SEGMENT_SIZE );
           GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
           fEnd = StripTag( pData->szLine, L"</target>" );
           if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
           {
-            usRC = ConcatenateSegData( pData->Segment.szTarget, pData->szLine, MAX_SEGMENT_SIZE );
+            usRC = ConcatenateSegData( pData->Segment.szTarget, pData->szLine, sizeof(pData->Segment.szTarget)/sizeof(CHAR_W) );
           } /* endif */
         } /*endwhile */
-        if ( !usRC && !fEnd )
+        if ( usRC )
+        {
+          pszError = "Segment target text too long";
+        }
+        else if ( !fEnd )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
+          pszError = "Missing </target> tag";
         } /* endif */
       } 
       else if ( wcsnicmp( pData->szLine, L"<adddata>", 9 ) == 0 )
@@ -3544,10 +3676,15 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
             usRC = ConcatenateSegData( pData->Segment.szAddInfo, pData->szLine, MAX_SEGMENT_SIZE );
           } /* endif */
         } /*endwhile */
-        if ( !usRC && !fEnd )
+        if ( usRC )
+        {
+          pszError = "Segment additional data text too long";
+        }
+        else if ( !fEnd )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
+          pszError = "Missing </adddata> tag";
         } /* endif */
       } /* endif */
     } /*endwhile */
@@ -3555,9 +3692,31 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
     // read next line
     GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
 
+    // test segment data
+    if ( !usRC )
+    {
+      int iSourceLen = wcslen( pData->Segment.szSource );
+      int iTargetLen = wcslen( pData->Segment.szTarget );
+      if ( iSourceLen >= MAX_SEGMENT_SIZE )
+      {
+        pszError = "Segment source text is too long";
+        usRC = ERROR_INVALID_SEGMENT;
+      }
+      else if (iTargetLen >= MAX_SEGMENT_SIZE )
+      {
+        pszError = "Segment target text is too long";
+        usRC = ERROR_INVALID_SEGMENT;
+      }
+      else if ( iSourceLen == 0 )
+      {
+        pszError = "No segment source text found";
+        usRC = ERROR_INVALID_SEGMENT;
+      } /* endif */
+    } /* endif */
+
     if ( usRC )
     {
-      // ShowError( pData, "Error: incomplete or corrupted segment data in input memory %s.", pData->szInMemory );
+      sprintf( pData->szErrorText, "The segment beginning in line %ld is invalid, the reason is \"%s\".", iStartLine, pszError );
     }
     else
     {
@@ -3785,6 +3944,7 @@ USHORT GetLine( PCONVERTERDATA pData, PSZ_W pszLine, int iSize, BOOL fUnicode, P
     MultiByteToWideChar( pData->ulInputCP, 0, szAsciiLine, -1, pszLine, iSize-1 );
   } /* endif */
 
+  pData->iLineNum++;
   return( usRC );
 }
 
@@ -3885,7 +4045,7 @@ HADDDATAKEY MADSearchKey( PSZ_W pAddData, PSZ_W pszKey )
         }
         else
         {
-          pAddData += wcslen(pszKey);
+          pAddData++;
         } /* endif */           
       } /* endif */         
     } /* endwhile */       

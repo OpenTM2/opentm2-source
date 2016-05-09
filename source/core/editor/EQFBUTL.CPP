@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -93,16 +93,20 @@ BOOL  EQFBUtlSpell
 
    pIda    = (PDOCUMENT_IDA) pstEQFGen->pDoc;
 
-   SpellFactory* pSpellFactoryInstance = SpellFactory::getInstance();
-	 if (NULL == pSpellFactoryInstance)
-	 {
-		 return( FALSE );
-   } 
-
-   return ( pSpellFactoryInstance->isSupported( pIda->szDocTargetLang ) );
-
+   return ( EQFBCheckSpellLang( pIda->szDocTargetLang ) );
 } /* end of function EQFBUtlSpell */
 
+
+BOOL EQFBCheckSpellLang ( PSZ pszLang )        // check avail. of spell check
+{
+  SpellFactory* pSpellFactoryInstance = SpellFactory::getInstance();
+	if (NULL == pSpellFactoryInstance)
+	{
+		return( FALSE );
+  } 
+
+  return ( pSpellFactoryInstance->isSupported( pszLang ) );
+}
 
 BOOL
 EQFBCheckTags
@@ -4588,20 +4592,66 @@ VOID ActivateMTLog( PSZ pDocName, PSZ pszTagTable )
   }
 } /* end of function ActivateMTLog */
 
-VOID WriteMTLog( PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData )
+VOID WriteMTLog( PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData, PPEDATABUFFER pPEData )
 {
-  WriteToMTLog( hMTLog, pSegLog, pszSegSource, pszPropSourceDoc, pszMetaData );
+  WriteToMTLog( hMTLog, pSegLog, pszSegSource, pszPropSourceDoc, pszMetaData, pPEData );
 }
 
-VOID WriteToMTLog( FILE *hLog, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData )
+
+// helper function to compute PE data offsets
+VOID PEDataSetDataOffset( PSZ_W pszData, PULONG pulDataLen, PULONG pulDataOffs, PULONG pulCurOffs )
+{
+  if ( *pszData != 0 ) 
+  {
+    *pulDataOffs = *pulCurOffs;
+    *pulDataLen = ((wcslen(pszData) + 1) * sizeof(CHAR_W));
+    *pulCurOffs = *pulCurOffs  + *pulDataLen;
+  } /* endif */
+}
+
+VOID WriteToMTLog( FILE *hLog, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData, PPEDATABUFFER pPEData )
 {
   if ( hLog )
   {
+    PESEGLOGDATA PEData;                       
+
     // fill fixed length part of record
     pSegLog->ulEyeCatcher = ACTSEGLOG2_EYECATCHER;
     pSegLog->ulSegLen = 0;
     pSegLog->ulPropSourceLen = 0;
     pSegLog->ulMetaDataLen = 0;
+    pSegLog->ulPEDataLen = 0;
+
+    // prepare PE data area if PE data is available
+    memset( &PEData, 0, sizeof(PEData) );
+    if ( pPEData != NULL )
+    {
+      ULONG ulCurOffs = sizeof(PEData);
+
+      if ( (pPEData->szCopiedMatchID[0] != 0) || (pPEData->szCopiedTarget[0] != 0) || (pPEData->szMTMatchID[0] != 0) ||
+           (pPEData->szMTTarget[0] != 0) || (pPEData->szTarget[0] != 0) )
+      {
+        ulCurOffs = sizeof(PEData);
+      } /* endif */
+
+      PEDataSetDataOffset( pPEData->szTarget, &(PEData.ulTargetLen), &(PEData.ulTargetOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szMTTarget, &(PEData.ulMTTargetLen), &(PEData.ulMTTargetOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szMTMatchID, &(PEData.ulMTMatchIDLen), &(PEData.ulMTMatchIDOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szCopiedTarget, &(PEData.ulCopiedTargetLen), &(PEData.ulCopiedTargetOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szCopiedMatchID, &(PEData.ulCopiedMatchIDLen), &(PEData.ulCopiedMatchIDOffs), &ulCurOffs );
+
+      if ( ulCurOffs == sizeof(PEData) )
+      {
+        // no PE data is available
+        PEData.ulSize = 0;
+        pSegLog->ulPEDataLen = 0;
+      }
+      else
+      {
+        pSegLog->ulPEDataLen = PEData.ulSize = ulCurOffs;
+      }
+    } /* endif */
+
     if ( (pszSegSource != NULL) && (*pszSegSource != 0) )
     {
       pSegLog->ulSegLen = (wcslen(pszSegSource) + 1) * sizeof(CHAR_W);
@@ -4614,7 +4664,7 @@ VOID WriteToMTLog( FILE *hLog, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ p
     {
       pSegLog->ulMetaDataLen = (wcslen(pszMetaData) + 1) * sizeof(CHAR_W);
     } /* endif */       
-    pSegLog->ulRecordLen = sizeof(ACTSEGLOGENH2) + pSegLog->ulSegLen + pSegLog->ulPropSourceLen + pSegLog->ulMetaDataLen;
+    pSegLog->ulRecordLen = sizeof(ACTSEGLOGENH2) + pSegLog->ulSegLen + pSegLog->ulPropSourceLen + pSegLog->ulMetaDataLen + pSegLog->ulPEDataLen;
 
     UtlTime( (LONG *)&(pSegLog->ulTimeStamp) ); 
 
@@ -4677,6 +4727,17 @@ VOID WriteToMTLog( FILE *hLog, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ p
 
     // write any proposal meta data
     if ( pSegLog->ulMetaDataLen != 0 ) fwrite( pszMetaData, pSegLog->ulMetaDataLen, 1, hLog);
+
+    // write any PE data
+    if ( pSegLog->ulPEDataLen != 0 ) 
+    {
+      fwrite( &PEData, sizeof(PEData), 1, hLog);
+      if ( PEData.ulTargetLen != 0 ) fwrite( pPEData->szTarget, PEData.ulTargetLen, 1, hLog );
+      if ( PEData.ulMTTargetLen != 0 ) fwrite( pPEData->szMTTarget, PEData.ulMTTargetLen, 1, hLog );
+      if ( PEData.ulMTMatchIDLen != 0 ) fwrite( pPEData->szMTMatchID, PEData.ulMTMatchIDLen, 1, hLog );
+      if ( PEData.ulCopiedTargetLen != 0 ) fwrite( pPEData->szCopiedTarget, PEData.ulCopiedTargetLen, 1, hLog );
+      if ( PEData.ulCopiedMatchIDLen != 0 ) fwrite( pPEData->szCopiedMatchID, PEData.ulCopiedMatchIDLen, 1, hLog );
+    } /* endif */
   } /* endif */     
 
 }/* end of function WriteToMTLog */
@@ -5355,6 +5416,9 @@ SHORT EQFBReadProfile( VOID )
                EQFBAddFunction( SEGPROP_FUNC, pKeyTable, pDefKeyTable );
                EQFBAddFunction( DICTPFXDOWN_FUNC, pKeyTable, pDefKeyTable );
                EQFBAddFunction( DICTPFXUP_FUNC, pKeyTable, pDefKeyTable );
+               EQFBAddFunction( TSEGNEXT_EXACT_FUNC, pKeyTable, pDefKeyTable );
+               EQFBAddFunction( TSEGNEXT_FUZZY_FUNC, pKeyTable, pDefKeyTable );
+               EQFBAddFunction( TSEGNEXT_NONE_FUNC, pKeyTable, pDefKeyTable );
 
                afValue[ProfHead.usType] = TRUE;
                break;
@@ -6128,10 +6192,14 @@ void OtmReadSCKeyProfile()
     // get / check buffer for profile data
     for (size_t iInx = 0; iInx < nLen; iInx++)
     {
-        SPECCHARKEY test;
-        usDosRC = UtlReadL(hProfile, &test, (ULONG)sizeof(test), &ulBytesRead, FALSE);
-        (*pSpecCharKeyVec).push_back(test);
-        sRC = ( usDosRC ) ? ERR_READFILE : 0;
+        SPECCHARKEY oneSCKey;
+        usDosRC = UtlReadL(hProfile, &oneSCKey, (ULONG)sizeof(oneSCKey), &ulBytesRead, FALSE);
+        (*pSpecCharKeyVec).push_back(oneSCKey);
+        sRC = (usDosRC) ? ERR_READFILE : 0;
+        if (sRC)
+        {
+            break;
+        }
     }
 
     BackupSpecCharKeyVec();

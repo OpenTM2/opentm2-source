@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 package de.ibm.com.opentm2scripteride.gui;
@@ -52,12 +52,12 @@ public class AboutWindow extends JDialog {
 
 		
 		setMinimumSize(new Dimension(300, 270));
-		setBounds(200, 200, 400, 250);
+		setBounds(200, 200, 450, 250);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		
 		StyleContext.NamedStyle centerStyle = StyleContext.getDefaultStyleContext().new NamedStyle();
-		StyleConstants.setAlignment(centerStyle,StyleConstants.ALIGN_CENTER);
+		StyleConstants.setAlignment(centerStyle,StyleConstants.ALIGN_LEFT);
 
 		JTextPane textArea = new JTextPane();
 		textArea.setLogicalStyle(centerStyle);
@@ -89,14 +89,23 @@ public class AboutWindow extends JDialog {
 	 * @return String to display
 	 */
 	private String getAboutText(){
-		String about = 	MainApp.getInstance().getAppName()+" v"+MainApp.getInstance().getVersion()+"\n\n"+
+		/*String about = 	MainApp.getInstance().getAppName()+" v"+MainApp.getInstance().getVersion()+"\n\n"+
 						"A graphical user interface to create and run openTM2 scripts\n\n"+
 						"This product includes icons from:\n"+
 						"famfamfam.com/lab/icons/silk/\n\n"+
 						"(c)Copyright IBM Corporation 2012, IBM Translation Technical Services\n"+
-						"IBM Authorized Use Only";
-		
-		return about;			
+						"IBM Authorized Use Only";*/
+
+		StringBuilder sbAbout = new StringBuilder();
+		sbAbout.append("\n     OpenTM2Scripter GUI, a graphical user interface to\n")
+		       .append("     create and run OpenTM2 scripts.\n\n")
+		       .append("     Copyright(C) 2012-2016,\n")
+		       .append("     International Business Machines Corporation and others.\n")
+		       .append("     All rights reserved.\n")
+		       .append("     Version ").append(MainApp.getInstance().getVersion()).append("\n\n")
+		       .append("     This product includes icons from:\n")
+		       .append("     famfam.com/lab/icons.silk/");
+		return sbAbout.toString();			
 	}
 	
 

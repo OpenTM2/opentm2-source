@@ -1,0 +1,25 @@
+#Copyright (C) 2016, International Business Machines
+#Corporation and others.  All Rights Reserved.
+..\OtmTMService\src\com\otm\db\Dao.java
+..\OtmTMService\src\com\otm\db\DaoFactory.java
+..\OtmTMService\src\com\otm\db\DaoMysqlImpl.java
+..\OtmTMService\src\com\otm\db\TU.java
+..\OtmTMService\src\com\otm\db\TUV.java
+..\OtmTMService\src\com\otm\log\ServiceLogger.java
+..\OtmTMService\src\com\otm\test\DbTest.java
+..\OtmTMService\src\com\otm\test\SyncTest.java
+..\OtmTMService\src\com\otm\test\XmlParserTest.java
+..\OtmTMService\src\com\otm\util\CfgUtil.java
+..\OtmTMService\src\com\otm\util\HttpDownload.java
+..\OtmTMService\src\com\otm\util\ListWindowsProcess.java
+..\OtmTMService\src\com\otm\util\RunCommand.java
+..\OtmTMService\src\com\otm\util\ServerComponentsControl.java
+..\OtmTMService\src\com\otm\util\SimpleBase64.java
+..\OtmTMService\src\com\otm\util\SyncParameters.java
+..\OtmTMService\src\com\otm\util\TmxParser.java
+..\OtmTMService\src\com\otm\util\TMXSaxContentHandler.java
+..\OtmTMService\src\com\otm\util\TmxSaxParser.java
+..\OtmTMService\src\com\otm\webservice\OtmTMService.java
+..\OtmTMService\src\com\otm\webservice\OtmTMServiceImpl.java
+..\OtmTMService\src\com\otm\webservice\OtmTMServiceServer.java
+..\OtmTMService\src\com\otm\webservice\OtmTMServiceSynchronizes.java

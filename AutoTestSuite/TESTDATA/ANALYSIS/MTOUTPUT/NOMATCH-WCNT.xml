@@ -1,0 +1,1050 @@
+﻿<?xml version='1.0'?>
+<rqt action="trqt" tl="de-DE" uid="xyz@us.ibm.com">
+   <docs>
+    <d lang="en-US" dt="ndoc" url="fqz0_c_installing_db2.dita" markup="IBMDITA">
+      <p pid="1">
+        <s sid="1" seg="7" words="2"><t tid="1" tt="orig">Installing DB2</t></s>
+        <s sid="2" seg="10" words="11"><t tid="1" tt="orig">You can install DB2 on AIX, Linux, or Windows operating systems.</t></s>
+        <s sid="3" seg="16" words="1"><t tid="1" tt="orig">installing</t></s>
+        <s sid="4" seg="18" words="1"><t tid="1" tt="orig">DB2</t></s>
+      </p>
+    </d>
+    <d lang="en-US" dt="ndoc" url="MatchTest.txt" markup="EQFALINE">
+      <p pid="1">
+        <s sid="5" seg="1" words="23"><t tid="1" tt="orig">NOMATCH This is a test document for the handling and counting of memory proposals, each segment starts with the list of available proposals.</t></s>
+        <s sid="6" seg="9" words="17"><t tid="1" tt="orig">Fuzzy90+MT A machine translation proposal plus a very good fuzzy match proposal exists for this sentence.</t></s>
+        <s sid="7" seg="11" words="19"><t tid="1" tt="orig">Fuzzy69+MT The fuzzy proposals does not match the sentence perfectly and we have a MT proposal as well.</t></s>
+        <s sid="8" seg="13" words="30"><t tid="1" tt="orig">FUZZY47+MT A special case for counting as fuzzy matches below 50% are counted as no match but the remaining MT proposal should ensure that this is counted as MT segment.</t></s>
+      </p>
+    </d>
+    <d lang="en-US" dt="ndoc" url="isig\BulkLoadFrontend\src\com\engiweb\batch\web\resource\localization\Messages.properties" markup="IBMNJDK2">
+      <p pid="1">
+        <s sid="9" seg="20" words="3"><t tid="1" tt="orig">Start massive import</t></s>
+        <s sid="10" seg="22" words="1"><t tid="1" tt="orig">Send</t></s>
+        <s sid="11" seg="24" words="1"><t tid="1" tt="orig">Progress </t></s>
+        <s sid="12" seg="27" words="7"><t tid="1" tt="orig">Please download the Excel (XLS) template for </t></s>
+        <s sid="13" seg="30" words="8"><t tid="1" tt="orig">Please select the Excel (XLS) file to upload</t></s>
+        <s sid="14" seg="32" words="2"><t tid="1" tt="orig">Operation started. </t></s>
+        <s sid="15" seg="33" words="6"><t tid="1" tt="orig">It will run in background mode.</t></s>
+        <s sid="16" seg="35" words="5"><t tid="1" tt="orig">Authorization job roles on OU</t></s>
+        <s sid="17" seg="37" words="4"><t tid="1" tt="orig">Add Permission to Activity</t></s>
+        <s sid="18" seg="39" words="4"><t tid="1" tt="orig">Add Permission to Domain</t></s>
+        <s sid="19" seg="41" words="4"><t tid="1" tt="orig">Remove Permission from Activity</t></s>
+        <s sid="20" seg="43" words="5"><t tid="1" tt="orig">Insert in external table (ERC)</t></s>
+        <s sid="21" seg="45" words="3"><t tid="1" tt="orig">Insert Activities Hierarchy</t></s>
+        <s sid="22" seg="47" words="2"><t tid="1" tt="orig">Risk Definition</t></s>
+        <s sid="23" seg="49" words="3"><t tid="1" tt="orig">Remediations to Risks</t></s>
+        <s sid="24" seg="51" words="2"><t tid="1" tt="orig">Remove Risks</t></s>
+        <s sid="25" seg="53" words="2"><t tid="1" tt="orig">Remove Activities</t></s>
+        <s sid="26" seg="55" words="3"><t tid="1" tt="orig">Technical Transformation Import</t></s>
+        <s sid="27" seg="57" words="4"><t tid="1" tt="orig">Technical Transformation Bulk Load</t></s>
+        <s sid="28" seg="59" words="3"><t tid="1" tt="orig">Delete Org Unit</t></s>
+        <s sid="29" seg="61" words="4"><t tid="1" tt="orig">Authorization resources on employment</t></s>
+        <s sid="30" seg="63" words="2"><t tid="1" tt="orig">Remove Employment</t></s>
+        <s sid="31" seg="65" words="5"><t tid="1" tt="orig">Authorization job roles on users</t></s>
+        <s sid="32" seg="67" words="2"><t tid="1" tt="orig">Insert Applications</t></s>
+        <s sid="33" seg="69" words="2"><t tid="1" tt="orig">User Delegation</t></s>
+        <s sid="34" seg="71" words="5"><t tid="1" tt="orig">Add Risk Entitlement to Activity</t></s>
+        <s sid="35" seg="73" words="3"><t tid="1" tt="orig">Load non-SAP Application</t></s>
+        <s sid="36" seg="75" words="4"><t tid="1" tt="orig">Add rights to users</t></s>
+        <s sid="37" seg="77" words="3"><t tid="1" tt="orig">Insert Risk Entitlement</t></s>
+        <s sid="38" seg="79" words="3"><t tid="1" tt="orig">Remove Risk Entitlement</t></s>
+        <s sid="39" seg="81" words="5"><t tid="1" tt="orig">Remove Risk Entitlement From Activity</t></s>
+        <s sid="40" seg="83" words="3"><t tid="1" tt="orig">Insert job roles</t></s>
+        <s sid="41" seg="85" words="2"><t tid="1" tt="orig">Remove Users</t></s>
+        <s sid="42" seg="87" words="3"><t tid="1" tt="orig">Remove Organization Units</t></s>
+        <s sid="43" seg="89" words="2"><t tid="1" tt="orig">Remove Entitlements</t></s>
+        <s sid="44" seg="91" words="2"><t tid="1" tt="orig">Remove Applications</t></s>
+        <s sid="45" seg="93" words="3"><t tid="1" tt="orig">Remove User-OU-Entitlement Assignments</t></s>
+        <s sid="46" seg="95" words="2"><t tid="1" tt="orig">Insert Resources</t></s>
+        <s sid="47" seg="97" words="4"><t tid="1" tt="orig">Remove Entitlements from OU</t></s>
+        <s sid="48" seg="99" words="2"><t tid="1" tt="orig">Remove Resources</t></s>
+        <s sid="49" seg="101" words="2"><t tid="1" tt="orig">Insert Entitlements</t></s>
+        <s sid="50" seg="103" words="2"><t tid="1" tt="orig">Insert Property</t></s>
+        <s sid="51" seg="105" words="3"><t tid="1" tt="orig">Insert Rights Lookup</t></s>
+        <s sid="52" seg="107" words="5"><t tid="1" tt="orig">Add Resources to Org Unit</t></s>
+        <s sid="53" seg="109" words="4"><t tid="1" tt="orig">Add Resources to User-Entitlement</t></s>
+        <s sid="54" seg="111" words="5"><t tid="1" tt="orig">Add Internal Resources to User-Entitlement</t></s>
+        <s sid="55" seg="113" words="5"><t tid="1" tt="orig">Remove Resources from Org Unit</t></s>
+        <s sid="56" seg="115" words="4"><t tid="1" tt="orig">Remove Resources from User-Entitlement</t></s>
+        <s sid="57" seg="117" words="5"><t tid="1" tt="orig">Remove Internal Resources from User-Entitlement</t></s>
+        <s sid="58" seg="119" words="3"><t tid="1" tt="orig">Insert Organization Units</t></s>
+        <s sid="59" seg="121" words="2"><t tid="1" tt="orig">Insert Users</t></s>
+        <s sid="60" seg="123" words="2"><t tid="1" tt="orig">User-Ou-Entitlement Assignments</t></s>
+        <s sid="61" seg="125" words="3"><t tid="1" tt="orig">Build Entitlement Hierarchy</t></s>
+        <s sid="62" seg="127" words="4"><t tid="1" tt="orig">Authorization resources on OU</t></s>
+        <s sid="63" seg="129" words="2"><t tid="1" tt="orig">Massive import</t></s>
+        <s sid="64" seg="131" words="1"><t tid="1" tt="orig">Add</t></s>
+        <s sid="65" seg="133" words="1"><t tid="1" tt="orig">Cancel</t></s>
+        <s sid="66" seg="135" words="2"><t tid="1" tt="orig">Errors File</t></s>
+        <s sid="67" seg="137" words="2"><t tid="1" tt="orig">Results File</t></s>
+        <s sid="68" seg="139" words="3"><t tid="1" tt="orig">Start massive import</t></s>
+        <s sid="69" seg="141" words="1"><t tid="1" tt="orig">Remove</t></s>
+        <s sid="70" seg="143" words="1"><t tid="1" tt="orig">Search</t></s>
+        <s sid="71" seg="145" words="1"><t tid="1" tt="orig">Save</t></s>
+        <s sid="72" seg="147" words="2"><t tid="1" tt="orig">Upload file</t></s>
+        <s sid="73" seg="149" words="2"><t tid="1" tt="orig">Confirm Password</t></s>
+        <s sid="74" seg="151" words="4"><t tid="1" tt="orig">The passwords are different</t></s>
+        <s sid="75" seg="153" words="3"><t tid="1" tt="orig">Password not typed</t></s>
+        <s sid="76" seg="155" words="1"><t tid="1" tt="orig">Password</t></s>
+        <s sid="77" seg="157" words="2"><t tid="1" tt="orig">Change Password</t></s>
+        <s sid="78" seg="159" words="1"><t tid="1" tt="orig">User</t></s>
+        <s sid="79" seg="161" words="1"><t tid="1" tt="orig">Action</t></s>
+        <s sid="80" seg="163" words="2"><t tid="1" tt="orig">File Batch</t></s>
+        <s sid="81" seg="165" words="2"><t tid="1" tt="orig">Change Pwd</t></s>
+        <s sid="82" seg="167" words="2"><t tid="1" tt="orig">Change Realm</t></s>
+        <s sid="83" seg="169" words="2"><t tid="1" tt="orig">Download Template</t></s>
+        <s sid="84" seg="171" words="1"><t tid="1" tt="orig">Environment</t></s>
+        <s sid="85" seg="173" words="1"><t tid="1" tt="orig">Exit</t></s>
+        <s sid="86" seg="175" words="1"><t tid="1" tt="orig">File</t></s>
+        <s sid="87" seg="177" words="1"><t tid="1" tt="orig">Home</t></s>
+        <s sid="88" seg="179" words="1"><t tid="1" tt="orig">Login</t></s>
+        <s sid="89" seg="181" words="4"><t tid="1" tt="orig">History of batch operations</t></s>
+        <s sid="90" seg="183" words="2"><t tid="1" tt="orig">Upload File</t></s>
+        <s sid="91" seg="185" words="2"><t tid="1" tt="orig">File Upload</t></s>
+        <s sid="92" seg="187" words="2"><t tid="1" tt="orig">Unexpected Error</t></s>
+        <s sid="93" seg="189" words="4"><t tid="1" tt="orig">User was not found</t></s>
+        <s sid="94" seg="191" words="2"><t tid="1" tt="orig">Invalid Token.</t></s>
+        <s sid="95" seg="193" words="4"><t tid="1" tt="orig">Attention: Force Password Change.</t></s>
+        <s sid="96" seg="195" words="6"><t tid="1" tt="orig">Attention\: You must change the password.</t></s>
+        <s sid="97" seg="197" words="2"><t tid="1" tt="orig">Token Expired. </t></s>
+        <s sid="98" seg="198" words="4"><t tid="1" tt="orig">You must login again.</t></s>
+        <s sid="99" seg="200" words="6"><t tid="1" tt="orig">The Password has not been changed.</t></s>
+        <s sid="100" seg="202" words="8"><t tid="1" tt="orig">It was not possible to sign the token.</t></s>
+        <s sid="101" seg="204" words="3"><t tid="1" tt="orig">Invalid Token Signature.</t></s>
+        <s sid="102" seg="206" words="4"><t tid="1" tt="orig">Token signature verification failed.</t></s>
+        <s sid="103" seg="208" words="3"><t tid="1" tt="orig">X509 verification failed.</t></s>
+        <s sid="104" seg="210" words="9"><t tid="1" tt="orig">The X509 of the SAML token was not found.</t></s>
+        <s sid="105" seg="212" words="3"><t tid="1" tt="orig">Invalid SAML token.</t></s>
+        <s sid="106" seg="214" words="4"><t tid="1" tt="orig">Invalid SAML token date.</t></s>
+        <s sid="107" seg="216" words="3"><t tid="1" tt="orig">Invalid Password Typed</t></s>
+        <s sid="108" seg="218" words="4"><t tid="1" tt="orig">Invalid SAML token IP.</t></s>
+        <s sid="109" seg="220" words="3"><t tid="1" tt="orig">Password is expired</t></s>
+        <s sid="110" seg="222" words="3"><t tid="1" tt="orig">Password too short.</t></s>
+        <s sid="111" seg="224" words="3"><t tid="1" tt="orig">Password too long.</t></s>
+        <s sid="112" seg="226" words="11"><t tid="1" tt="orig">Password contains less than the required number of upper case characters.</t></s>
+        <s sid="113" seg="228" words="11"><t tid="1" tt="orig">Password contains less than the required number of lower case characters.</t></s>
+        <s sid="114" seg="230" words="10"><t tid="1" tt="orig">Password contains less than the required number of numerical characters.</t></s>
+        <s sid="115" seg="232" words="10"><t tid="1" tt="orig">Password contains less than the required number of special characters.</t></s>
+        <s sid="116" seg="234" words="5"><t tid="1" tt="orig">Password cannot contain personal information.</t></s>
+        <s sid="117" seg="236" words="9"><t tid="1" tt="orig">Password must be different than the last N passwords.</t></s>
+        <s sid="118" seg="238" words="2"><t tid="1" tt="orig">Invalid Password.</t></s>
+        <s sid="119" seg="240" words="4"><t tid="1" tt="orig">Password contains invalid characters.</t></s>
+        <s sid="120" seg="242" words="4"><t tid="1" tt="orig">User is not enabled</t></s>
+        <s sid="121" seg="244" words="5"><t tid="1" tt="orig">Password is an invalid word.</t></s>
+        <s sid="122" seg="246" words="4"><t tid="1" tt="orig">Password typed is void</t></s>
+        <s sid="123" seg="248" words="3"><t tid="1" tt="orig">Old password incorrect. </t></s>
+        <s sid="124" seg="249" words="3"><t tid="1" tt="orig">Operation not completed.</t></s>
+        <s sid="125" seg="251" words="6"><t tid="1" tt="orig">Password cannot contain ASCII extended characters.</t></s>
+        <s sid="126" seg="253" words="10"><t tid="1" tt="orig">The maximum allowable number of incorrect passwords has been reached.</t></s>
+        <s sid="127" seg="255" words="9"><t tid="1" tt="orig">The maximum allowable period of inactivity has been reached.</t></s>
+        <s sid="128" seg="257" words="7"><t tid="1" tt="orig">User's Organizational Unit has not been found.</t></s>
+        <s sid="129" seg="259" words="7"><t tid="1" tt="orig">User's Security Data has not been found.</t></s>
+        <s sid="130" seg="261" words="1"><t tid="1" tt="orig">Cancel</t></s>
+        <s sid="131" seg="263" words="1"><t tid="1" tt="orig">No</t></s>
+        <s sid="132" seg="265" words="1"><t tid="1" tt="orig">Ok</t></s>
+        <s sid="133" seg="267" words="1"><t tid="1" tt="orig">Yes</t></s>
+        <s sid="134" seg="269" words="2"><t tid="1" tt="orig">Please wait...</t></s>
+        <s sid="135" seg="271" words="1"><t tid="1" tt="orig">Cancel</t></s>
+        <s sid="136" seg="273" words="1"><t tid="1" tt="orig">Login</t></s>
+        <s sid="137" seg="275" words="4"><t tid="1" tt="orig">Configuration file not found</t></s>
+        <s sid="138" seg="277" words="4"><t tid="1" tt="orig">Wrong userid or password</t></s>
+        <s sid="139" seg="279" words="2"><t tid="1" tt="orig">Login Error</t></s>
+        <s sid="140" seg="281" words="2"><t tid="1" tt="orig">Product Administrator</t></s>
+        <s sid="141" seg="283" words="1"><t tid="1" tt="orig">Password</t></s>
+        <s sid="142" seg="285" words="1"><t tid="1" tt="orig">Realm</t></s>
+        <s sid="143" seg="287" words="1"><t tid="1" tt="orig">User</t></s>
+        <s sid="144" seg="289" words="1"><t tid="1" tt="orig">UserID</t></s>
+        <s sid="145" seg="291" words="2"><t tid="1" tt="orig">Password expiring. </t></s>
+        <s sid="146" seg="292" words="8"><t tid="1" tt="orig">Do you wish to change your password now? </t></s>
+        <s sid="147" seg="293" words="1"><t tid="1" tt="orig">(NEW)</t></s>
+        <s sid="148" seg="295" words="6"><t tid="1" tt="orig">You must change your password (NEW)</t></s>
+        <s sid="149" seg="297" words="2"><t tid="1" tt="orig">Realm Selection</t></s>
+        <s sid="150" seg="299" words="2"><t tid="1" tt="orig">User Login</t></s>
+        <s sid="151" seg="301" words="4"><t tid="1" tt="orig">Exit the Administration Console?</t></s>
+        <s sid="152" seg="303" words="2"><t tid="1" tt="orig">User Logout</t></s>
+        <s sid="153" seg="305" words="2"><t tid="1" tt="orig">Operation aborted</t></s>
+        <s sid="154" seg="307" words="1"><t tid="1" tt="orig">Error</t></s>
+        <s sid="155" seg="309" words="1"><t tid="1" tt="orig">Information</t></s>
+        <s sid="156" seg="311" words="3"><t tid="1" tt="orig">Operation successfully completed</t></s>
+        <s sid="157" seg="313" words="3"><t tid="1" tt="orig">Are you sure?</t></s>
+        <s sid="158" seg="315" words="6"><t tid="1" tt="orig">Unexpected Error during connection to server</t></s>
+        <s sid="159" seg="317" words="2"><t tid="1" tt="orig">Session Expired</t></s>
+        <s sid="160" seg="319" words="2"><t tid="1" tt="orig">Possible Solution</t></s>
+        <s sid="161" seg="321" words="1"><t tid="1" tt="orig">to</t></s>
+        <s sid="162" seg="323" words="3"><t tid="1" tt="orig">Orgunit Event In</t></s>
+        <s sid="163" seg="325" words="3"><t tid="1" tt="orig">User Event In</t></s>
+        <s sid="164" seg="327" words="2"><t tid="1" tt="orig">Event Out</t></s>
+        <s sid="165" seg="329" words="2"><t tid="1" tt="orig">Event Target</t></s>
+        <s sid="166" seg="331" words="1"><t tid="1" tt="orig">Inconsistency</t></s>
+        <s sid="167" seg="333" words="2"><t tid="1" tt="orig">OrgUnit ERC</t></s>
+        <s sid="168" seg="335" words="1"><t tid="1" tt="orig">Report</t></s>
+        <s sid="169" seg="337" words="3"><t tid="1" tt="orig">Event In Datail </t></s>
+        <s sid="170" seg="340" words="3"><t tid="1" tt="orig">Event Out Datail </t></s>
+        <s sid="171" seg="343" words="3"><t tid="1" tt="orig">Event Target Datail </t></s>
+        <s sid="172" seg="346" words="2"><t tid="1" tt="orig">Inconsistency Datail </t></s>
+        <s sid="173" seg="349" words="3"><t tid="1" tt="orig">Orgunit ERC Datail </t></s>
+        <s sid="174" seg="352" words="3"><t tid="1" tt="orig">User ERC Datail </t></s>
+        <s sid="175" seg="355" words="3"><t tid="1" tt="orig">Filter Events In</t></s>
+        <s sid="176" seg="357" words="3"><t tid="1" tt="orig">Filter Events Out</t></s>
+        <s sid="177" seg="359" words="3"><t tid="1" tt="orig">Automatic Report Refresh</t></s>
+        <s sid="178" seg="361" words="4"><t tid="1" tt="orig">Disable Automatic Report Refresh</t></s>
+        <s sid="179" seg="363" words="3"><t tid="1" tt="orig">Event In Report</t></s>
+        <s sid="180" seg="365" words="2"><t tid="1" tt="orig">Report Inconsistency</t></s>
+        <s sid="181" seg="367" words="3"><t tid="1" tt="orig">Event Out Report</t></s>
+        <s sid="182" seg="369" words="3"><t tid="1" tt="orig">Event Target Report</t></s>
+        <s sid="183" seg="371" words="1"><t tid="1" tt="orig">Reprocess</t></s>
+        <s sid="184" seg="373" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="185" seg="375" words="1"><t tid="1" tt="orig">from</t></s>
+        <s sid="186" seg="377" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="187" seg="379" words="4"><t tid="1" tt="orig">Data format NOT Valid</t></s>
+        <s sid="188" seg="381" words="7"><t tid="1" tt="orig">Event Date prior to event date of</t></s>
+        <s sid="189" seg="383" words="2"><t tid="1" tt="orig">Event IN</t></s>
+        <s sid="190" seg="385" words="2"><t tid="1" tt="orig">Event OUT</t></s>
+        <s sid="191" seg="387" words="2"><t tid="1" tt="orig">OU Code *</t></s>
+        <s sid="192" seg="389" words="3"><t tid="1" tt="orig">OU Parent Code*</t></s>
+        <s sid="193" seg="391" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="194" seg="393" words="2"><t tid="1" tt="orig">Process Date</t></s>
+        <s sid="195" seg="395" words="4"><t tid="1" tt="orig">Event In Detail Selected</t></s>
+        <s sid="196" seg="397" words="2"><t tid="1" tt="orig">OrgUnit ERC</t></s>
+        <s sid="197" seg="399" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="198" seg="401" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="199" seg="403" words="3"><t tid="1" tt="orig">Last Mod Time</t></s>
+        <s sid="200" seg="405" words="3"><t tid="1" tt="orig">Last Mod User</t></s>
+        <s sid="201" seg="407" words="2"><t tid="1" tt="orig">Register Number *</t></s>
+        <s sid="202" seg="409" words="2"><t tid="1" tt="orig">Action Reason *</t></s>
+        <s sid="203" seg="411" words="4"><t tid="1" tt="orig">No Event In Selected</t></s>
+        <s sid="204" seg="413" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="205" seg="415" words="1"><t tid="1" tt="orig">ORGANIZATIONAL_UNIT_ERC</t></s>
+        <s sid="206" seg="417" words="1"><t tid="1" tt="orig">Ownership</t></s>
+        <s sid="207" seg="419" words="5"><t tid="1" tt="orig">Events In will be cancelled. \n</t></s>
+        <s sid="208" seg="420" words="1"><t tid="1" tt="orig">Continue?</t></s>
+        <s sid="209" seg="422" words="3"><t tid="1" tt="orig">Event In Removal</t></s>
+        <s sid="210" seg="424" words="3"><t tid="1" tt="orig">Event In Filtered</t></s>
+        <s sid="211" seg="426" words="3"><t tid="1" tt="orig">Event In Search</t></s>
+        <s sid="212" seg="428" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="213" seg="430" words="2"><t tid="1" tt="orig">Action Type *</t></s>
+        <s sid="214" seg="432" words="2"><t tid="1" tt="orig">Event In</t></s>
+        <s sid="215" seg="434" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="216" seg="436" words="1"><t tid="1" tt="orig">USER_ERC</t></s>
+        <s sid="217" seg="438" words="2"><t tid="1" tt="orig">Operation Code</t></s>
+        <s sid="218" seg="440" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="219" seg="442" words="2"><t tid="1" tt="orig">Process Date</t></s>
+        <s sid="220" seg="444" words="4"><t tid="1" tt="orig">Event Out Selected Detail</t></s>
+        <s sid="221" seg="446" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="222" seg="448" words="4"><t tid="1" tt="orig">No Event Out Selected</t></s>
+        <s sid="223" seg="450" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="224" seg="452" words="1"><t tid="1" tt="orig">Person</t></s>
+        <s sid="225" seg="454" words="5"><t tid="1" tt="orig">Events Out will be cancelled. \n</t></s>
+        <s sid="226" seg="455" words="1"><t tid="1" tt="orig">Continue?</t></s>
+        <s sid="227" seg="457" words="3"><t tid="1" tt="orig">Event Out Removal</t></s>
+        <s sid="228" seg="459" words="3"><t tid="1" tt="orig">Event Out Filtered</t></s>
+        <s sid="229" seg="461" words="3"><t tid="1" tt="orig">Event Out Search</t></s>
+        <s sid="230" seg="463" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="231" seg="465" words="1"><t tid="1" tt="orig">Target</t></s>
+        <s sid="232" seg="467" words="2"><t tid="1" tt="orig">Event Out</t></s>
+        <s sid="233" seg="469" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="234" seg="471" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="235" seg="473" words="1"><t tid="1" tt="orig">Value 1</t></s>
+        <s sid="236" seg="475" words="1"><t tid="1" tt="orig">Value 2</t></s>
+        <s sid="237" seg="477" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="238" seg="479" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="239" seg="481" words="2"><t tid="1" tt="orig">Process Date</t></s>
+        <s sid="240" seg="483" words="4"><t tid="1" tt="orig">Event Target Selected Detail </t></s>
+        <s sid="241" seg="486" words="1"><t tid="1" tt="orig">Functionality</t></s>
+        <s sid="242" seg="488" words="2"><t tid="1" tt="orig">Functionality Type</t></s>
+        <s sid="243" seg="490" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="244" seg="492" words="4"><t tid="1" tt="orig">No Event Target Found</t></s>
+        <s sid="245" seg="494" words="4"><t tid="1" tt="orig">No Event Target Selected</t></s>
+        <s sid="246" seg="496" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="247" seg="498" words="1"><t tid="1" tt="orig">Ownership</t></s>
+        <s sid="248" seg="500" words="5"><t tid="1" tt="orig">Events Target will be cancelled. \n</t></s>
+        <s sid="249" seg="501" words="1"><t tid="1" tt="orig">Continue?</t></s>
+        <s sid="250" seg="503" words="3"><t tid="1" tt="orig">Event Target Removal</t></s>
+        <s sid="251" seg="505" words="3"><t tid="1" tt="orig">Event Target Filtered</t></s>
+        <s sid="252" seg="507" words="3"><t tid="1" tt="orig">Event Target Search</t></s>
+        <s sid="253" seg="509" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="254" seg="511" words="1"><t tid="1" tt="orig">Target</t></s>
+        <s sid="255" seg="513" words="2"><t tid="1" tt="orig">Event Target</t></s>
+        <s sid="256" seg="515" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="257" seg="517" words="1"><t tid="1" tt="orig">Application</t></s>
+        <s sid="258" seg="519" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="259" seg="521" words="2"><t tid="1" tt="orig">Date event</t></s>
+        <s sid="260" seg="523" words="2"><t tid="1" tt="orig">Date process</t></s>
+        <s sid="261" seg="525" words="3"><t tid="1" tt="orig">Inconsistency Selected Detail</t></s>
+        <s sid="262" seg="527" words="2"><t tid="1" tt="orig">Event target</t></s>
+        <s sid="263" seg="529" words="1"><t tid="1" tt="orig">Functionality</t></s>
+        <s sid="264" seg="531" words="2"><t tid="1" tt="orig">Functionality Type</t></s>
+        <s sid="265" seg="533" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="266" seg="535" words="3"><t tid="1" tt="orig">Last Mod Time</t></s>
+        <s sid="267" seg="537" words="3"><t tid="1" tt="orig">Last Mod User</t></s>
+        <s sid="268" seg="539" words="3"><t tid="1" tt="orig">No Inconsistency Selected</t></s>
+        <s sid="269" seg="541" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="270" seg="543" words="1"><t tid="1" tt="orig">Permission</t></s>
+        <s sid="271" seg="545" words="4"><t tid="1" tt="orig">Inconsistency will be cancelled. \n</t></s>
+        <s sid="272" seg="546" words="1"><t tid="1" tt="orig">Continue?</t></s>
+        <s sid="273" seg="548" words="2"><t tid="1" tt="orig">Inconsistency Removal</t></s>
+        <s sid="274" seg="550" words="2"><t tid="1" tt="orig">Inconsistency Research</t></s>
+        <s sid="275" seg="552" words="1"><t tid="1" tt="orig">Role</t></s>
+        <s sid="276" seg="554" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="277" seg="556" words="1"><t tid="1" tt="orig">Target</t></s>
+        <s sid="278" seg="558" words="1"><t tid="1" tt="orig">Inconsistency</t></s>
+        <s sid="279" seg="560" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="280" seg="562" words="1"><t tid="1" tt="orig">MGRRuleEngine</t></s>
+        <s sid="281" seg="564" words="3"><t tid="1" tt="orig">Orgunit Event In</t></s>
+        <s sid="282" seg="566" words="3"><t tid="1" tt="orig">User Event In</t></s>
+        <s sid="283" seg="568" words="2"><t tid="1" tt="orig">Event Out</t></s>
+        <s sid="284" seg="570" words="2"><t tid="1" tt="orig">Event Target</t></s>
+        <s sid="285" seg="572" words="1"><t tid="1" tt="orig">Inconsistency</t></s>
+        <s sid="286" seg="574" words="2"><t tid="1" tt="orig">OrgUnit ERC</t></s>
+        <s sid="287" seg="576" words="1"><t tid="1" tt="orig">Report</t></s>
+        <s sid="288" seg="578" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="289" seg="580" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="290" seg="582" words="2"><t tid="1" tt="orig">Create User</t></s>
+        <s sid="291" seg="584" words="2"><t tid="1" tt="orig">Modify OU</t></s>
+        <s sid="292" seg="586" words="2"><t tid="1" tt="orig">Delete OU</t></s>
+        <s sid="293" seg="588" words="2"><t tid="1" tt="orig">Move Employee</t></s>
+        <s sid="294" seg="590" words="2"><t tid="1" tt="orig">Modify User</t></s>
+        <s sid="295" seg="592" words="2"><t tid="1" tt="orig">Delete User</t></s>
+        <s sid="296" seg="594" words="2"><t tid="1" tt="orig">Create OU</t></s>
+        <s sid="297" seg="596" words="0"><t tid="1" tt="orig">99</t></s>
+        <s sid="298" seg="598" words="2"><t tid="1" tt="orig">Add Functionality</t></s>
+        <s sid="299" seg="600" words="2"><t tid="1" tt="orig">Remove Functionality</t></s>
+        <s sid="300" seg="602" words="2"><t tid="1" tt="orig">Add Delegation</t></s>
+        <s sid="301" seg="604" words="2"><t tid="1" tt="orig">Remove Delegation</t></s>
+        <s sid="302" seg="606" words="2"><t tid="1" tt="orig">Disable User</t></s>
+        <s sid="303" seg="608" words="2"><t tid="1" tt="orig">Enable User</t></s>
+        <s sid="304" seg="610" words="2"><t tid="1" tt="orig">Add Functionality</t></s>
+        <s sid="305" seg="612" words="2"><t tid="1" tt="orig">Create User</t></s>
+        <s sid="306" seg="614" words="2"><t tid="1" tt="orig">Delete Use</t></s>
+        <s sid="307" seg="616" words="2"><t tid="1" tt="orig">Remove Functionality</t></s>
+        <s sid="308" seg="618" words="2"><t tid="1" tt="orig">Reset Password</t></s>
+        <s sid="309" seg="620" words="2"><t tid="1" tt="orig">Disable Uset</t></s>
+        <s sid="310" seg="622" words="2"><t tid="1" tt="orig">Enable User</t></s>
+        <s sid="311" seg="624" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="312" seg="626" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="313" seg="628" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="314" seg="630" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="315" seg="632" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="316" seg="634" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="317" seg="636" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="318" seg="638" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="319" seg="640" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="320" seg="642" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="321" seg="644" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="322" seg="646" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="323" seg="648" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="324" seg="650" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="325" seg="652" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="326" seg="654" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="327" seg="656" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="328" seg="658" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="329" seg="660" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="330" seg="662" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="331" seg="664" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="332" seg="666" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="333" seg="668" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="334" seg="670" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="335" seg="672" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="336" seg="674" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="337" seg="676" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="338" seg="678" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="339" seg="680" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="340" seg="682" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="341" seg="684" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="342" seg="686" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="343" seg="688" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="344" seg="690" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="345" seg="692" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="346" seg="694" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="347" seg="696" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="348" seg="698" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="349" seg="700" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="350" seg="702" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="351" seg="704" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="352" seg="706" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="353" seg="708" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="354" seg="710" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="355" seg="712" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="356" seg="714" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="357" seg="716" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="358" seg="718" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="359" seg="720" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="360" seg="722" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="361" seg="724" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="362" seg="726" words="1"><t tid="1" tt="orig">Description</t></s>
+        <s sid="363" seg="728" words="4"><t tid="1" tt="orig">OrgUnit ERC Selected Detail </t></s>
+        <s sid="364" seg="731" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="365" seg="733" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="366" seg="735" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="367" seg="737" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="368" seg="739" words="1"><t tid="1" tt="orig">Name</t></s>
+        <s sid="369" seg="741" words="4"><t tid="1" tt="orig">No OrgUnit ERC Found</t></s>
+        <s sid="370" seg="743" words="4"><t tid="1" tt="orig">No OrgUnit ERC Selected</t></s>
+        <s sid="371" seg="745" words="2"><t tid="1" tt="orig">Parent Code</t></s>
+        <s sid="372" seg="747" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="373" seg="749" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="374" seg="751" words="2"><t tid="1" tt="orig">Event Search</t></s>
+        <s sid="375" seg="753" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="376" seg="755" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="377" seg="757" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="378" seg="759" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="379" seg="761" words="1"><t tid="1" tt="orig">Name</t></s>
+        <s sid="380" seg="763" words="2"><t tid="1" tt="orig">Parent Code</t></s>
+        <s sid="381" seg="765" words="3"><t tid="1" tt="orig">OrgUnit ERC Search</t></s>
+        <s sid="382" seg="767" words="2"><t tid="1" tt="orig">OrgUnit ERC</t></s>
+        <s sid="383" seg="769" words="3"><t tid="1" tt="orig">Event In Report</t></s>
+        <s sid="384" seg="771" words="3"><t tid="1" tt="orig">Event Out Report</t></s>
+        <s sid="385" seg="773" words="3"><t tid="1" tt="orig">Event Target Report</t></s>
+        <s sid="386" seg="775" words="2"><t tid="1" tt="orig">Inconsistency Report</t></s>
+        <s sid="387" seg="777" words="69"><t tid="1" tt="orig">Reprocessed\n (Statemgrre.report.eventiErrore\=Error\n (Statemgrre.report.eventiinOrgunit10\=MODIFY OU Event\n (Operationmgrre.report.eventiinOrgunit11\=DELETE OU Event\n (Operationmgrre.report.eventiinOrgunit9\=CREATE OU Event\n (Operationmgrre.report.eventiinUser1\=CRETE USER Event\n (Operationmgrre.report.eventiinUser12\=MOVE EMPLYEE Event\n (Operationmgrre.report.eventiinUser2\=MODIFY USER Event\n (Operationmgrre.report.eventiinUser3\=DELETE USER Event\n (Operationmgrre.report.eventiout1\=Add Functionality Event\n (Operationmgrre.report.eventiout2\=Remove Functionality Event\n (Operationmgrre.report.eventiout4\=Add Delegated Event\n (Operationmgrre.report.eventiout5\=Remove Delegated Event\n (Operationmgrre.report.eventiout6\=User Disabled Event\n (Operationmgrre.report.eventiout7\=Enable User Event\n (Operationmgrre.report.eventiRiel\=Reprocess\n (Statemgrre.report.eventitarget1\=Add Functionality Event\n (Operationmgrre.report.eventitarget10\=Create User Event\n (Operationmgrre.report.eventitarget11\=Delete User Event\n</t></s>
+        <s sid="388" seg="778" words="20"><t tid="1" tt="orig">(Operationmgrre.report.eventitarget2\=Remove Functionality Event\n (Operationmgrre.report.eventitarget3\=Reset Password Event\n (Operationmgrre.report.eventitarget6\=Disable User Event\n (Operationmgrre.report.eventitarget7\=Enable User Event\n (Operationmgrre.report.eventoin\=REPORT EVENTI IN</t></s>
+        <s sid="389" seg="780" words="3"><t tid="1" tt="orig">REPORT EVENTI OUT</t></s>
+        <s sid="390" seg="782" words="3"><t tid="1" tt="orig">REPORT EVENTI TARGET</t></s>
+        <s sid="391" seg="784" words="2"><t tid="1" tt="orig">REPORT INCONSISTENZE</t></s>
+        <s sid="392" seg="786" words="2"><t tid="1" tt="orig">OrgUnit ERC</t></s>
+        <s sid="393" seg="788" words="1"><t tid="1" tt="orig">Report</t></s>
+        <s sid="394" seg="790" words="1"><t tid="1" tt="orig">Total</t></s>
+        <s sid="395" seg="792" words="1"><t tid="1" tt="orig">TOTALE</t></s>
+        <s sid="396" seg="794" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="397" seg="796" words="4"><t tid="1" tt="orig">Select only one event</t></s>
+        <s sid="398" seg="798" words="2"><t tid="1" tt="orig">To Reprocess</t></s>
+        <s sid="399" seg="800" words="1"><t tid="1" tt="orig">Reprocessed</t></s>
+        <s sid="400" seg="802" words="1"><t tid="1" tt="orig">Error</t></s>
+        <s sid="401" seg="804" words="2"><t tid="1" tt="orig">Event Application</t></s>
+        <s sid="402" seg="806" words="1"><t tid="1" tt="orig">Sex</t></s>
+        <s sid="403" seg="808" words="3"><t tid="1" tt="orig">Country of origin</t></s>
+        <s sid="404" seg="810" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="405" seg="812" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="406" seg="814" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="407" seg="816" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="408" seg="818" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="409" seg="820" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="410" seg="822" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="411" seg="824" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="412" seg="826" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="413" seg="828" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="414" seg="830" words="1"><t tid="1" tt="orig">Citizenship</t></s>
+        <s sid="415" seg="832" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="416" seg="834" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="417" seg="836" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="418" seg="838" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="419" seg="840" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="420" seg="842" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="421" seg="844" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="422" seg="846" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="423" seg="848" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="424" seg="850" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="425" seg="852" words="1"><t tid="1" tt="orig">Title</t></s>
+        <s sid="426" seg="854" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="427" seg="856" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="428" seg="858" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="429" seg="860" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="430" seg="862" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="431" seg="864" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="432" seg="866" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="433" seg="868" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="434" seg="870" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="435" seg="872" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="436" seg="874" words="1"><t tid="1" tt="orig">CAP</t></s>
+        <s sid="437" seg="876" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="438" seg="878" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="439" seg="880" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="440" seg="882" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="441" seg="884" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="442" seg="886" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="443" seg="888" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="444" seg="890" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="445" seg="892" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="446" seg="894" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="447" seg="896" words="1"><t tid="1" tt="orig">Country</t></s>
+        <s sid="448" seg="898" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="449" seg="900" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="450" seg="902" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="451" seg="904" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="452" seg="906" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="453" seg="908" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="454" seg="910" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="455" seg="912" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="456" seg="914" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="457" seg="916" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="458" seg="918" words="2"><t tid="1" tt="orig">Telephone Number</t></s>
+        <s sid="459" seg="920" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="460" seg="922" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="461" seg="924" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="462" seg="926" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="463" seg="928" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="464" seg="930" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="465" seg="932" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="466" seg="934" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="467" seg="936" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="468" seg="938" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="469" seg="940" words="1"><t tid="1" tt="orig">Province</t></s>
+        <s sid="470" seg="942" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="471" seg="944" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="472" seg="946" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="473" seg="948" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="474" seg="950" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="475" seg="952" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="476" seg="954" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="477" seg="956" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="478" seg="958" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="479" seg="960" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="480" seg="962" words="2"><t tid="1" tt="orig">Action Type</t></s>
+        <s sid="481" seg="964" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="482" seg="966" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="483" seg="968" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="484" seg="970" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="485" seg="972" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="486" seg="974" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="487" seg="976" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="488" seg="978" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="489" seg="980" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="490" seg="982" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="491" seg="984" words="2"><t tid="1" tt="orig">Action reason</t></s>
+        <s sid="492" seg="986" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="493" seg="988" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="494" seg="990" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="495" seg="992" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="496" seg="994" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="497" seg="996" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="498" seg="998" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="499" seg="1000" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="500" seg="1002" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="501" seg="1004" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="502" seg="1006" words="1"><t tid="1" tt="orig">Society</t></s>
+        <s sid="503" seg="1008" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="504" seg="1010" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="505" seg="1012" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="506" seg="1014" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="507" seg="1016" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="508" seg="1018" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="509" seg="1020" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="510" seg="1022" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="511" seg="1024" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="512" seg="1026" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="513" seg="1028" words="2"><t tid="1" tt="orig">Mail Address</t></s>
+        <s sid="514" seg="1030" words="3"><t tid="1" tt="orig">Account expiration date</t></s>
+        <s sid="515" seg="1032" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="516" seg="1034" words="3"><t tid="1" tt="orig">Fiscal Town Code</t></s>
+        <s sid="517" seg="1036" words="2"><t tid="1" tt="orig">Employee Assignment</t></s>
+        <s sid="518" seg="1038" words="4"><t tid="1" tt="orig">Type of collective contract</t></s>
+        <s sid="519" seg="1040" words="2"><t tid="1" tt="orig">Personnel Area</t></s>
+        <s sid="520" seg="1042" words="2"><t tid="1" tt="orig">Employee Status</t></s>
+        <s sid="521" seg="1044" words="2"><t tid="1" tt="orig">Personnel Sub-Area</t></s>
+        <s sid="522" seg="1046" words="2"><t tid="1" tt="orig">Employee Type</t></s>
+        <s sid="523" seg="1048" words="2"><t tid="1" tt="orig">Organizational Key</t></s>
+        <s sid="524" seg="1050" words="2"><t tid="1" tt="orig">Job code</t></s>
+        <s sid="525" seg="1052" words="1"><t tid="1" tt="orig">City</t></s>
+        <s sid="526" seg="1054" words="2"><t tid="1" tt="orig">Relationship Type</t></s>
+        <s sid="527" seg="1056" words="2"><t tid="1" tt="orig">Contract End</t></s>
+        <s sid="528" seg="1058" words="1"><t tid="1" tt="orig">Qualification</t></s>
+        <s sid="529" seg="1060" words="2"><t tid="1" tt="orig">Headline Key</t></s>
+        <s sid="530" seg="1062" words="3"><t tid="1" tt="orig">Address Record Type</t></s>
+        <s sid="531" seg="1064" words="1"><t tid="1" tt="orig">Address</t></s>
+        <s sid="532" seg="1066" words="1"><t tid="1" tt="orig">Division</t></s>
+        <s sid="533" seg="1068" words="1"><t tid="1" tt="orig">House '#'</t></s>
+        <s sid="534" seg="1070" words="3"><t tid="1" tt="orig">Elemento dati sede</t></s>
+        <s sid="535" seg="1072" words="2"><t tid="1" tt="orig">Street Name</t></s>
+        <s sid="536" seg="1074" words="1"><t tid="1" tt="orig">E-mail</t></s>
+        <s sid="537" seg="1076" words="1"><t tid="1" tt="orig">CAP</t></s>
+        <s sid="538" seg="1078" words="1"><t tid="1" tt="orig">Locality</t></s>
+        <s sid="539" seg="1080" words="1"><t tid="1" tt="orig">Country</t></s>
+        <s sid="540" seg="1082" words="1"><t tid="1" tt="orig">Region</t></s>
+        <s sid="541" seg="1084" words="2"><t tid="1" tt="orig">County Code</t></s>
+        <s sid="542" seg="1086" words="2"><t tid="1" tt="orig">Company Description</t></s>
+        <s sid="543" seg="1088" words="3"><t tid="1" tt="orig">Personnel Area Description</t></s>
+        <s sid="544" seg="1090" words="3"><t tid="1" tt="orig">Personnel Sub-Area Description</t></s>
+        <s sid="545" seg="1092" words="1"><t tid="1" tt="orig">Code 1</t></s>
+        <s sid="546" seg="1094" words="2"><t tid="1" tt="orig">Telephone exchange 1</t></s>
+        <s sid="547" seg="1096" words="1"><t tid="1" tt="orig">Birthday</t></s>
+        <s sid="548" seg="1098" words="1"><t tid="1" tt="orig">Internal 1</t></s>
+        <s sid="549" seg="1100" words="1"><t tid="1" tt="orig">Code 2</t></s>
+        <s sid="550" seg="1102" words="2"><t tid="1" tt="orig">Telephone exchange 2</t></s>
+        <s sid="551" seg="1104" words="1"><t tid="1" tt="orig">Internal 2</t></s>
+        <s sid="552" seg="1106" words="2"><t tid="1" tt="orig">Fax Code</t></s>
+        <s sid="553" seg="1108" words="2"><t tid="1" tt="orig">Fax exchange</t></s>
+        <s sid="554" seg="1110" words="2"><t tid="1" tt="orig">Fax Internal</t></s>
+        <s sid="555" seg="1112" words="3"><t tid="1" tt="orig">Meeting Room Code</t></s>
+        <s sid="556" seg="1114" words="3"><t tid="1" tt="orig">Meeting Room exchange</t></s>
+        <s sid="557" seg="1116" words="4"><t tid="1" tt="orig">Meeting Room Internal Number</t></s>
+        <s sid="558" seg="1118" words="1"><t tid="1" tt="orig">Birthplace</t></s>
+        <s sid="559" seg="1120" words="2"><t tid="1" tt="orig">Room Number</t></s>
+        <s sid="560" seg="1122" words="2"><t tid="1" tt="orig">Room Code</t></s>
+        <s sid="561" seg="1124" words="1"><t tid="1" tt="orig">Floor</t></s>
+        <s sid="562" seg="1126" words="2"><t tid="1" tt="orig">Detached Office</t></s>
+        <s sid="563" seg="1128" words="2"><t tid="1" tt="orig">Build Number</t></s>
+        <s sid="564" seg="1130" words="1"><t tid="1" tt="orig">AD_OU</t></s>
+        <s sid="565" seg="1132" words="1"><t tid="1" tt="orig">AD_suffix</t></s>
+        <s sid="566" seg="1134" words="1"><t tid="1" tt="orig">AD_user_adm</t></s>
+        <s sid="567" seg="1136" words="1"><t tid="1" tt="orig">AD_homemdb</t></s>
+        <s sid="568" seg="1138" words="1"><t tid="1" tt="orig">Type</t></s>
+        <s sid="569" seg="1140" words="3"><t tid="1" tt="orig">Social Security Number</t></s>
+        <s sid="570" seg="1142" words="1"><t tid="1" tt="orig">Disabled</t></s>
+        <s sid="571" seg="1144" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="572" seg="1146" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="573" seg="1148" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="574" seg="1150" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="575" seg="1152" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="576" seg="1154" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="577" seg="1156" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="578" seg="1158" words="3"><t tid="1" tt="orig">Last Action type</t></s>
+        <s sid="579" seg="1160" words="3"><t tid="1" tt="orig">Last Action reason</t></s>
+        <s sid="580" seg="1162" words="1"><t tid="1" tt="orig">OU</t></s>
+        <s sid="581" seg="1164" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="582" seg="1166" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="583" seg="1168" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="584" seg="1170" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="585" seg="1172" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="586" seg="1174" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="587" seg="1176" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="588" seg="1178" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="589" seg="1180" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="590" seg="1182" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="591" seg="1184" words="3"><t tid="1" tt="orig">Province of birth</t></s>
+        <s sid="592" seg="1186" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="593" seg="1188" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="594" seg="1190" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="595" seg="1192" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="596" seg="1194" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="597" seg="1196" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="598" seg="1198" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="599" seg="1200" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="600" seg="1202" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="601" seg="1204" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="602" seg="1206" words="4"><t tid="1" tt="orig">User Erc Selected Detail</t></s>
+        <s sid="603" seg="1208" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="604" seg="1210" words="2"><t tid="1" tt="orig">Code PM</t></s>
+        <s sid="605" seg="1212" words="1"><t tid="1" tt="orig">Cid</t></s>
+        <s sid="606" seg="1214" words="1"><t tid="1" tt="orig">Register</t></s>
+        <s sid="607" seg="1216" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="608" seg="1218" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="609" seg="1220" words="3"><t tid="1" tt="orig">Last Mod Time</t></s>
+        <s sid="610" seg="1222" words="3"><t tid="1" tt="orig">Last Mod User</t></s>
+        <s sid="611" seg="1224" words="1"><t tid="1" tt="orig">Name</t></s>
+        <s sid="612" seg="1226" words="4"><t tid="1" tt="orig">No User ERC Found</t></s>
+        <s sid="613" seg="1228" words="4"><t tid="1" tt="orig">No User ERC Selected</t></s>
+        <s sid="614" seg="1230" words="2"><t tid="1" tt="orig">Event Search</t></s>
+        <s sid="615" seg="1232" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="616" seg="1234" words="2"><t tid="1" tt="orig">Code PM</t></s>
+        <s sid="617" seg="1236" words="1"><t tid="1" tt="orig">Cid</t></s>
+        <s sid="618" seg="1238" words="1"><t tid="1" tt="orig">Register</t></s>
+        <s sid="619" seg="1240" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="620" seg="1242" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="621" seg="1244" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="622" seg="1246" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="623" seg="1248" words="1"><t tid="1" tt="orig">Name</t></s>
+        <s sid="624" seg="1250" words="1"><t tid="1" tt="orig">Skip</t></s>
+        <s sid="625" seg="1252" words="1"><t tid="1" tt="orig">Surname</t></s>
+        <s sid="626" seg="1254" words="3"><t tid="1" tt="orig">User ERC Search</t></s>
+        <s sid="627" seg="1256" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="628" seg="1258" words="1"><t tid="1" tt="orig">Skip</t></s>
+        <s sid="629" seg="1260" words="1"><t tid="1" tt="orig">Surname</t></s>
+        <s sid="630" seg="1262" words="2"><t tid="1" tt="orig">User Erc</t></s>
+        <s sid="631" seg="1264" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="632" seg="1266" words="5"><t tid="1" tt="orig">Unable to download error file</t></s>
+        <s sid="633" seg="1268" words="5"><t tid="1" tt="orig">Unable to download result file</t></s>
+        <s sid="634" seg="1270" words="5"><t tid="1" tt="orig">Unable to retrieve scheduled jobs</t></s>
+        <s sid="635" seg="1272" words="4"><t tid="1" tt="orig">Problems in establishing advancement</t></s>
+        <s sid="636" seg="1274" words="8"><t tid="1" tt="orig">Another massive import is already running\: please wait </t></s>
+        <s sid="637" seg="1277" words="4"><t tid="1" tt="orig">Problems in application access</t></s>
+        <s sid="638" seg="1279" words="5"><t tid="1" tt="orig">Problems in connection to PM</t></s>
+        <s sid="639" seg="1281" words="7"><t tid="1" tt="orig">Problems in login: wrong username or password</t></s>
+        <s sid="640" seg="1283" words="4"><t tid="1" tt="orig">First select a file </t></s>
+        <s sid="641" seg="1286" words="7"><t tid="1" tt="orig">Unable to establish connection to Batch Engine</t></s>
+        <s sid="642" seg="1288" words="5"><t tid="1" tt="orig">Problems in contacting the scheduler</t></s>
+        <s sid="643" seg="1290" words="5"><t tid="1" tt="orig">Problems in launching the scheduler</t></s>
+        <s sid="644" seg="1292" words="5"><t tid="1" tt="orig">Unable to know application status</t></s>
+        <s sid="645" seg="1294" words="3"><t tid="1" tt="orig">Invalid File Upload</t></s>
+        <s sid="646" seg="1296" words="4"><t tid="1" tt="orig">Problems in file upload </t></s>
+        <s sid="647" seg="1299" words="8"><t tid="1" tt="orig">Wrong file type: only Excel (XLS) file supported</t></s>
+        <s sid="648" seg="1301" words="3"><t tid="1" tt="orig">Job not found</t></s>
+        <s sid="649" seg="1303" words="3"><t tid="1" tt="orig">Job not selected</t></s>
+        <s sid="650" seg="1305" words="3"><t tid="1" tt="orig">Cannot start download. </t></s>
+        <s sid="651" seg="1306" words="5"><t tid="1" tt="orig">Process status is not completed.</t></s>
+        <s sid="652" seg="1308" words="4"><t tid="1" tt="orig">Massive import successfully terminated. </t></s>
+        <s sid="653" seg="1309" words="9"><t tid="1" tt="orig">Please look at operation's log files to know more</t></s>
+        <s sid="654" seg="1311" words="7"><t tid="1" tt="orig">* The system started to process excel file</t></s>
+        <s sid="655" seg="1313" words="4"><t tid="1" tt="orig">* Job scheduled for execution</t></s>
+        <s sid="656" seg="1315" words="2"><t tid="1" tt="orig">* Login performed</t></s>
+        <s sid="657" seg="1317" words="2"><t tid="1" tt="orig">* File uploaded</t></s>
+        <s sid="658" seg="1319" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="659" seg="1321" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="660" seg="1323" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="661" seg="1325" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="662" seg="1327" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="663" seg="1329" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="664" seg="1331" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="665" seg="1333" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="666" seg="1335" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="667" seg="1337" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="668" seg="1339" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="669" seg="1341" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="670" seg="1343" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="671" seg="1345" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="672" seg="1347" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="673" seg="1349" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="674" seg="1351" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="675" seg="1353" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="676" seg="1355" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="677" seg="1357" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="678" seg="1359" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="679" seg="1361" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="680" seg="1363" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="681" seg="1365" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="682" seg="1367" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="683" seg="1369" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="684" seg="1371" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="685" seg="1373" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="686" seg="1375" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="687" seg="1377" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="688" seg="1379" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="689" seg="1381" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="690" seg="1383" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="691" seg="1385" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="692" seg="1387" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="693" seg="1389" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="694" seg="1391" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="695" seg="1393" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="696" seg="1395" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="697" seg="1397" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="698" seg="1399" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="699" seg="1401" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="700" seg="1403" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="701" seg="1405" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="702" seg="1407" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="703" seg="1409" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="704" seg="1411" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="705" seg="1413" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="706" seg="1415" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="707" seg="1417" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="708" seg="1419" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="709" seg="1421" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="710" seg="1423" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="711" seg="1425" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="712" seg="1427" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="713" seg="1429" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="714" seg="1431" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="715" seg="1433" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="716" seg="1435" words="1"><t tid="1" tt="orig">Risultati</t></s>
+        <s sid="717" seg="1437" words="5"><t tid="1" tt="orig">Go to the first page</t></s>
+        <s sid="718" seg="1439" words="5"><t tid="1" tt="orig">Go to the last page</t></s>
+        <s sid="719" seg="1441" words="5"><t tid="1" tt="orig">Go to the next page</t></s>
+        <s sid="720" seg="1443" words="5"><t tid="1" tt="orig">Go to the previous page</t></s>
+        <s sid="721" seg="1445" words="2"><t tid="1" tt="orig">Realm Login</t></s>
+        <s sid="722" seg="1447" words="1"><t tid="1" tt="orig">Realms</t></s>
+        <s sid="723" seg="1449" words="2"><t tid="1" tt="orig">Realm Selection</t></s>
+        <s sid="724" seg="1451" words="0"><t tid="1" tt="orig">#</t></s>
+        <s sid="725" seg="1453" words="1"><t tid="1" tt="orig">Date</t></s>
+        <s sid="726" seg="1455" words="2"><t tid="1" tt="orig">Supported operations</t></s>
+        <s sid="727" seg="1457" words="2"><t tid="1" tt="orig">Error file</t></s>
+        <s sid="728" seg="1459" words="2"><t tid="1" tt="orig">File name</t></s>
+        <s sid="729" seg="1461" words="2"><t tid="1" tt="orig">Result file</t></s>
+        <s sid="730" seg="1463" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="731" seg="1465" words="2"><t tid="1" tt="orig">Process Date</t></s>
+        <s sid="732" seg="1467" words="2"><t tid="1" tt="orig">OU Code</t></s>
+        <s sid="733" seg="1469" words="3"><t tid="1" tt="orig">OU Parent Code</t></s>
+        <s sid="734" seg="1471" words="2"><t tid="1" tt="orig">OrgUnit ERC</t></s>
+        <s sid="735" seg="1473" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="736" seg="1475" words="3"><t tid="1" tt="orig">Last Mod Time</t></s>
+        <s sid="737" seg="1477" words="3"><t tid="1" tt="orig">Last Mod User</t></s>
+        <s sid="738" seg="1479" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="739" seg="1481" words="1"><t tid="1" tt="orig">Ownership</t></s>
+        <s sid="740" seg="1483" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="741" seg="1485" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="742" seg="1487" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="743" seg="1489" words="2"><t tid="1" tt="orig">Process Date</t></s>
+        <s sid="744" seg="1491" words="2"><t tid="1" tt="orig">Register Number</t></s>
+        <s sid="745" seg="1493" words="2"><t tid="1" tt="orig">OU Code</t></s>
+        <s sid="746" seg="1495" words="2"><t tid="1" tt="orig">Action Type</t></s>
+        <s sid="747" seg="1497" words="2"><t tid="1" tt="orig">Action Reason</t></s>
+        <s sid="748" seg="1499" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="749" seg="1501" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="750" seg="1503" words="3"><t tid="1" tt="orig">Last Mod Time</t></s>
+        <s sid="751" seg="1505" words="3"><t tid="1" tt="orig">Last Mod User</t></s>
+        <s sid="752" seg="1507" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="753" seg="1509" words="1"><t tid="1" tt="orig">Ownership</t></s>
+        <s sid="754" seg="1511" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="755" seg="1513" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="756" seg="1515" words="2"><t tid="1" tt="orig">Operation Code</t></s>
+        <s sid="757" seg="1517" words="2"><t tid="1" tt="orig">Date Event</t></s>
+        <s sid="758" seg="1519" words="2"><t tid="1" tt="orig">Date Process</t></s>
+        <s sid="759" seg="1521" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="760" seg="1523" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="761" seg="1525" words="1"><t tid="1" tt="orig">Person</t></s>
+        <s sid="762" seg="1527" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="763" seg="1529" words="1"><t tid="1" tt="orig">Target</t></s>
+        <s sid="764" seg="1531" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="765" seg="1533" words="2"><t tid="1" tt="orig">User ERC</t></s>
+        <s sid="766" seg="1535" words="1"><t tid="1" tt="orig">Value 1</t></s>
+        <s sid="767" seg="1537" words="1"><t tid="1" tt="orig">Value 2</t></s>
+        <s sid="768" seg="1539" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="769" seg="1541" words="2"><t tid="1" tt="orig">Event Date</t></s>
+        <s sid="770" seg="1543" words="2"><t tid="1" tt="orig">Process Date</t></s>
+        <s sid="771" seg="1545" words="1"><t tid="1" tt="orig">Functionality</t></s>
+        <s sid="772" seg="1547" words="2"><t tid="1" tt="orig">Functionality Type</t></s>
+        <s sid="773" seg="1549" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="774" seg="1551" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="775" seg="1553" words="1"><t tid="1" tt="orig">Ownership</t></s>
+        <s sid="776" seg="1555" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="777" seg="1557" words="1"><t tid="1" tt="orig">Target</t></s>
+        <s sid="778" seg="1559" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="779" seg="1561" words="1"><t tid="1" tt="orig">Application</t></s>
+        <s sid="780" seg="1563" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="781" seg="1565" words="2"><t tid="1" tt="orig">Date event</t></s>
+        <s sid="782" seg="1567" words="2"><t tid="1" tt="orig">Data process</t></s>
+        <s sid="783" seg="1569" words="2"><t tid="1" tt="orig">Event Target</t></s>
+        <s sid="784" seg="1571" words="1"><t tid="1" tt="orig">Functionality</t></s>
+        <s sid="785" seg="1573" words="2"><t tid="1" tt="orig">Functionality Type</t></s>
+        <s sid="786" seg="1575" words="1"><t tid="1" tt="orig">Id</t></s>
+        <s sid="787" seg="1577" words="3"><t tid="1" tt="orig">Last Mod Time</t></s>
+        <s sid="788" seg="1579" words="3"><t tid="1" tt="orig">Last Mod User</t></s>
+        <s sid="789" seg="1581" words="1"><t tid="1" tt="orig">Operation</t></s>
+        <s sid="790" seg="1583" words="1"><t tid="1" tt="orig">Permission</t></s>
+        <s sid="791" seg="1585" words="1"><t tid="1" tt="orig">Role</t></s>
+        <s sid="792" seg="1587" words="1"><t tid="1" tt="orig">State</t></s>
+        <s sid="793" seg="1589" words="1"><t tid="1" tt="orig">Target</t></s>
+        <s sid="794" seg="1591" words="1"><t tid="1" tt="orig">Trace</t></s>
+        <s sid="795" seg="1593" words="1"><t tid="1" tt="orig">Code</t></s>
+        <s sid="796" seg="1595" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="797" seg="1597" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="798" seg="1599" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="799" seg="1601" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="800" seg="1603" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="801" seg="1605" words="1"><t tid="1" tt="orig">Name</t></s>
+        <s sid="802" seg="1607" words="2"><t tid="1" tt="orig">Parent Code</t></s>
+        <s sid="803" seg="1609" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="804" seg="1611" words="2"><t tid="1" tt="orig">PM Code</t></s>
+        <s sid="805" seg="1613" words="1"><t tid="1" tt="orig">Cid</t></s>
+        <s sid="806" seg="1615" words="2"><t tid="1" tt="orig">Register number</t></s>
+        <s sid="807" seg="1617" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="808" seg="1619" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="809" seg="1621" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="810" seg="1623" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="811" seg="1625" words="1"><t tid="1" tt="orig">Name</t></s>
+        <s sid="812" seg="1627" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="813" seg="1629" words="1"><t tid="1" tt="orig">Surname</t></s>
+        <s sid="814" seg="1631" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="815" seg="1633" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="816" seg="1635" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="817" seg="1637" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="818" seg="1639" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="819" seg="1641" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="820" seg="1643" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="821" seg="1645" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="822" seg="1647" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="823" seg="1649" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="824" seg="1651" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="825" seg="1653" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="826" seg="1655" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="827" seg="1657" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="828" seg="1659" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="829" seg="1661" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="830" seg="1663" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="831" seg="1665" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="832" seg="1667" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="833" seg="1669" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="834" seg="1671" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="835" seg="1673" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="836" seg="1675" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="837" seg="1677" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="838" seg="1679" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="839" seg="1681" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="840" seg="1683" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="841" seg="1685" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="842" seg="1687" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="843" seg="1689" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="844" seg="1691" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="845" seg="1693" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="846" seg="1695" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="847" seg="1697" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="848" seg="1699" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="849" seg="1701" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="850" seg="1703" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="851" seg="1705" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="852" seg="1707" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="853" seg="1709" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="854" seg="1711" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="855" seg="1713" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="856" seg="1715" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="857" seg="1717" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="858" seg="1719" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="859" seg="1721" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="860" seg="1723" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="861" seg="1725" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="862" seg="1727" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="863" seg="1729" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="864" seg="1731" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="865" seg="1733" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="866" seg="1735" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="867" seg="1737" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="868" seg="1739" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="869" seg="1741" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="870" seg="1743" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="871" seg="1745" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="872" seg="1747" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="873" seg="1749" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="874" seg="1751" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="875" seg="1753" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="876" seg="1755" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="877" seg="1757" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="878" seg="1759" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="879" seg="1761" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="880" seg="1763" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="881" seg="1765" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="882" seg="1767" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="883" seg="1769" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="884" seg="1771" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="885" seg="1773" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="886" seg="1775" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="887" seg="1777" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="888" seg="1779" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="889" seg="1781" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="890" seg="1783" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="891" seg="1785" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="892" seg="1787" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="893" seg="1789" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="894" seg="1791" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="895" seg="1793" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="896" seg="1795" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="897" seg="1797" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="898" seg="1799" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="899" seg="1801" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="900" seg="1803" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="901" seg="1805" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="902" seg="1807" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="903" seg="1809" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="904" seg="1811" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="905" seg="1813" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="906" seg="1815" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="907" seg="1817" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="908" seg="1819" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="909" seg="1821" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="910" seg="1823" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="911" seg="1825" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="912" seg="1827" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="913" seg="1829" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="914" seg="1831" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="915" seg="1833" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="916" seg="1835" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="917" seg="1837" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="918" seg="1839" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="919" seg="1841" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="920" seg="1843" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="921" seg="1845" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="922" seg="1847" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="923" seg="1849" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="924" seg="1851" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="925" seg="1853" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="926" seg="1855" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="927" seg="1857" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="928" seg="1859" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="929" seg="1861" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="930" seg="1863" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="931" seg="1865" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="932" seg="1867" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="933" seg="1869" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="934" seg="1871" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="935" seg="1873" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="936" seg="1875" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="937" seg="1877" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="938" seg="1879" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="939" seg="1881" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="940" seg="1883" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="941" seg="1885" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="942" seg="1887" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="943" seg="1889" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="944" seg="1891" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="945" seg="1893" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="946" seg="1895" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="947" seg="1897" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="948" seg="1899" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="949" seg="1901" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="950" seg="1903" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="951" seg="1905" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="952" seg="1907" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="953" seg="1909" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="954" seg="1911" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="955" seg="1913" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="956" seg="1915" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="957" seg="1917" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="958" seg="1919" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="959" seg="1921" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="960" seg="1923" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="961" seg="1925" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="962" seg="1927" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="963" seg="1929" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="964" seg="1931" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="965" seg="1933" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="966" seg="1935" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="967" seg="1937" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="968" seg="1939" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="969" seg="1941" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="970" seg="1943" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="971" seg="1945" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="972" seg="1947" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="973" seg="1949" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="974" seg="1951" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="975" seg="1953" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="976" seg="1955" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="977" seg="1957" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="978" seg="1959" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="979" seg="1961" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="980" seg="1963" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="981" seg="1965" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="982" seg="1967" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="983" seg="1969" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="984" seg="1971" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="985" seg="1973" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="986" seg="1975" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="987" seg="1977" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="988" seg="1979" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="989" seg="1981" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="990" seg="1983" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="991" seg="1985" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="992" seg="1987" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="993" seg="1989" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="994" seg="1991" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="995" seg="1993" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="996" seg="1995" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="997" seg="1997" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="998" seg="1999" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="999" seg="2001" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1000" seg="2003" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1001" seg="2005" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1002" seg="2007" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1003" seg="2009" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1004" seg="2011" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1005" seg="2013" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1006" seg="2015" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1007" seg="2017" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1008" seg="2019" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1009" seg="2021" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1010" seg="2023" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1011" seg="2025" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1012" seg="2027" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1013" seg="2029" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1014" seg="2031" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1015" seg="2033" words="1"><t tid="1" tt="orig">*#NOT_USED#*</t></s>
+        <s sid="1016" seg="2035" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1017" seg="2037" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1018" seg="2039" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1019" seg="2041" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1020" seg="2043" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1021" seg="2045" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1022" seg="2047" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1023" seg="2049" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1024" seg="2051" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1025" seg="2053" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1026" seg="2055" words="0"><t tid="1" tt="orig">1</t></s>
+        <s sid="1027" seg="2058" words="1"><t tid="1" tt="orig">Pending</t></s>
+        <s sid="1028" seg="2060" words="1"><t tid="1" tt="orig">Running</t></s>
+        <s sid="1029" seg="2062" words="1"><t tid="1" tt="orig">Completed</t></s>
+        <s sid="1030" seg="2064" words="1"><t tid="1" tt="orig">Error</t></s>
+      </p>
+    </d>
+   </docs>
+   <summary>
+      <totalWords>1734</totalWords>
+   <summary>
+</rqt>

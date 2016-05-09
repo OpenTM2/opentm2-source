@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 
 //+----------------------------------------------------------------------------+
@@ -2642,15 +2642,15 @@ PSZ         pszShipmentNumber        // Shipment number
 
 USHORT FolFuncChangeFolProps
 (
-PSZ         pszFolderName,           // name of the folder
-CHAR        chTargetDrive,           // target drive
-PSZ         pszTargetLanguage,       // target language or NULL
-PSZ         pszMemName,              // folder Translation Memory or NULL
-PSZ         pszDictionaries,         // list of dictionaries or NULL
+  PSZ         pszFolderName,           // name of the folder
+  CHAR        chTargetDrive,           // target drive
+  PSZ         pszTargetLanguage,       // target language or NULL  
+  PSZ         pszMemName,              // folder Translation Memory or NULL
+  PSZ         pszDictionaries,         // list of dictionaries or NULL
   PSZ         pszROMemories,           // list of read-only search memories or NULL
   PSZ         pszDescription,          // folder description or NULL
   PSZ         pszProfile,              // profile name or NULL
-  PSZ         pszUnUsed2               // for future enhancements, currently NULL
+  PSZ         pszShipment              // shipment number or NULL
 )
 {
   USHORT           usRC = NO_ERROR;        // function return code
@@ -2669,8 +2669,6 @@ PSZ         pszDictionaries,         // list of dictionaries or NULL
   CHAR szTargetLanguage[MAX_LONGFILESPEC];
   CHAR szDictionaries[MAX_LONGFILESPEC];
   CHAR szObjName[MAX_LONGFILESPEC];
-
-  pszUnUsed2;
 
   szMemoryName[0] = EOS;
   szTargetLanguage[0] = EOS;
@@ -2888,6 +2886,12 @@ PSZ         pszDictionaries,         // list of dictionaries or NULL
       memset( pFolProp->szProfile, 0, sizeof(pFolProp->szProfile) );
       strncpy( pFolProp->szProfile, pszProfile, sizeof(pFolProp->szProfile) - 5 );
       strcat( pFolProp->szProfile, ".R00" );
+    } // endif OK
+
+    if ( fOK && !fIsSubFolder && (pszShipment != NULL) )
+    {
+      memset( pFolProp->szShipment, 0, sizeof(pFolProp->szShipment) );
+      strncpy( pFolProp->szShipment, pszShipment, sizeof(pFolProp->szShipment) - 1 );
     } // endif OK
 
 
@@ -3161,6 +3165,217 @@ USHORT FolFuncGetFolProps
 
   return( usRC );
 }
+
+// data structure for FolFuncGetFolPropEx function
+typedef struct _GETFOLPROPEXDATA
+{
+  CHAR             szFolderName[MAX_LONGFILESPEC];
+  CHAR             szObjName[MAX_LONGFILESPEC];
+  CHAR             szShortName[MAX_FILESPEC];
+  CHAR             szPropFileName[MAX_FILESPEC];
+  CHAR             szData[(MAX_NUM_OF_READONLY_MDB+10)*MAX_LONGFILESPEC];
+} GETFOLPROPEXDATA, *PGETFOLPROPEXDATA;
+
+USHORT FolFuncGetFolPropEx
+(
+  PSZ         pszFolderName,           // mand: name of the folder to get the property value from
+  PSZ         pszKey,                  // mand: name of the requested value
+                                       //@: DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,PROFILE,SHIPMENT
+  PSZ         pszBuffer,               // mand: buffer for the returned value
+  int         iBufSize                 // mand: size of the buffer
+)
+{
+  PPROPFOLDER      pProp = NULL;       // pointer to folder properties
+  USHORT           usRC = NO_ERROR;    // function return code
+  BOOL             fOK = TRUE;         // success indicator
+  BOOL             fFolIsNew = FALSE;
+  PGETFOLPROPEXDATA pData = NULL;
+  PSZ              pszParm;
+  CHAR             szLocalBuffer[40];  // local buffer for values needing some preprocessing
+
+  // allocate our data buffer 
+  if (fOK)
+  {
+    fOK = UtlAlloc( (PVOID *) &pData, 0L,sizeof(GETFOLPROPEXDATA), NOMSG );
+    if ( !fOK )
+    {
+      UtlErrorHwnd( ERROR_STORAGE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+      usRC = ERROR_STORAGE;
+    } /* endif */
+  } /* endif */
+
+  // Check if folder name is valid
+  if (fOK)
+  {
+    if ( (pszFolderName == NULL) || (*pszFolderName == EOS) )
+    {
+      fOK = FALSE;
+      usRC = TA_MANDFOLDER;
+      UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    }
+    else
+    {
+      strcpy( pData->szFolderName, pszFolderName );
+      ObjLongToShortName( pData->szFolderName, pData->szShortName, FOLDER_OBJECT, &fFolIsNew );
+      if( fFolIsNew )
+      {
+        fOK = FALSE;
+        pszParm = pData->szFolderName;
+        usRC = ERROR_XLATE_FOLDER_NOT_EXIST;
+        UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      }
+      else
+      {
+        UtlMakeEQFPath( pData->szPropFileName, NULC, PROPERTY_PATH, NULL );
+        strcat( pData->szPropFileName, BACKSLASH_STR );
+        strcat( pData->szPropFileName, pData->szShortName );
+        strcat( pData->szPropFileName, EXT_FOLDER_MAIN );
+      }
+    }
+  } /* endif */
+
+  if (fOK)
+  {
+    // preset caller's buffer
+    if( pszBuffer )
+    {
+      *pszBuffer = EOS;
+    }
+    else
+    {
+      fOK = FALSE;
+      usRC = EQFRS_AREA_TOO_SMALL;
+      UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    } /* endif */
+  }
+
+  // load the folder property file into memory
+  if ( fOK )
+  {
+    ULONG  ulLen;
+    fOK = UtlLoadFileL( pData->szPropFileName, (PVOID *)&pProp, &ulLen, FALSE, FALSE );
+    if ( !fOK )
+    {
+      pszParm = pData->szPropFileName;
+      UtlErrorHwnd( ERROR_PROPERTY_ACCESS, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      usRC = ERROR_PROPERTY_ACCESS;
+    } /* endif */
+  } /* endif */
+
+  // check key parameter and access requested folder property value
+  if ( fOK )
+  {
+    PSZ pszValue = NULL;
+
+    if ( (pszKey == NULL) || (*pszKey == EOS) )
+    {
+      PSZ pszParms[2];
+      fOK = FALSE;
+      pszParms[0] = "";
+      pszParms[1] = "KEY";
+      usRC = BATCH_WRONGVALUE;
+      UtlErrorHwnd( usRC, MB_CANCEL, 2, pszParms, EQF_ERROR, HWND_FUNCIF );
+    }
+    else if ( stricmp( pszKey, "DRIVE" ) == 0 )
+    {
+      pData->szData[0] = pProp->chDrive;
+      pData->szData[1] = EOS;
+      pszValue = pData->szData;
+    }
+    else if ( stricmp( pszKey, "TARGETLANGUAGE" ) == 0 )
+    {
+      pszValue = pProp->szTargetLang;
+    }
+    else if ( stricmp( pszKey, "SOURCELANGUAGE" ) == 0 )
+    {
+      pszValue = pProp->szSourceLang;
+    }
+    else if ( stricmp( pszKey, "MEMORY" ) == 0 )
+    {
+      strcpy( pData->szData, pProp->szLongMemory[0] ? pProp->szLongMemory : pProp->szMemory );
+      OEMTOANSI( pData->szData );
+      pszValue = pData->szData;
+    }
+    else if ( stricmp( pszKey, "DICTIONARIES" ) == 0 )
+    {
+      pData->szData[0] = EOS;
+      for( int i = 0; i < MAX_NUM_OF_FOLDER_DICS; i++ )
+      {
+        if ( pProp->aLongDicTbl[i][0] != EOS )
+        {
+          if ( i != 0 ) strcat( pData->szData, "," );
+          strcat( pData->szData, pProp->aLongDicTbl[i] );
+        } /* endif */
+      } /* endfor */
+      OEMTOANSI( pData->szData );
+      pszValue = pData->szData;
+    }
+    else if ( stricmp( pszKey, "ROMEMORIES" ) == 0 )
+    {  
+      pData->szData[0] = EOS;
+      for( int i = 0; i < MAX_NUM_OF_READONLY_MDB; i++ )
+      {
+        if ( pProp->aLongMemTbl[i][0] != EOS )
+        {
+          if ( i != 0 ) strcat( pData->szData, "," );
+          strcat( pData->szData, pProp->aLongMemTbl[i] );
+        } /* endif */
+      } /* endfor */
+      OEMTOANSI( pData->szData );
+      pszValue = pData->szData;
+    }
+    else if ( stricmp( pszKey, "DESCRIPTION" ) == 0 )
+    {
+      strcpy( pData->szData, pProp->szDescription );
+      OEMTOANSI( pData->szData );
+      pszValue = pData->szData;
+    }
+    else if ( stricmp( pszKey, "ANALYSISPROFILE" ) == 0 )
+    {
+      pszValue = pProp->szSavedDlgIanaProfile; 
+    }
+    else if ( stricmp( pszKey, "COUNTINGPROFILE" ) == 0 )
+    {
+      Utlstrccpy( szLocalBuffer, pProp->szProfile, DOT );
+      pszValue = szLocalBuffer; 
+    }
+    else if ( stricmp( pszKey, "SHIPMENT" ) == 0 )
+    {
+      pszValue = pProp->szShipment;  
+    }
+    else
+    {
+        PSZ pszParms[2];
+        fOK = FALSE;
+        pszParms[0] = pszKey;
+        pszParms[1] = "KEY";
+        usRC = BATCH_WRONGVALUE;
+        UtlErrorHwnd( usRC, MB_CANCEL, 2, pszParms, EQF_ERROR, HWND_FUNCIF );
+    } /* endif */
+
+    if ( fOK )
+    {
+      if ( (int)strlen( pszValue ) >= iBufSize )
+      {
+         fOK = FALSE;
+         usRC = EQFRS_AREA_TOO_SMALL;
+         UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+      }
+      else
+      {
+        strcpy( pszBuffer, pszValue );
+      } /* endif */
+    } /* endif */
+  } /* endif */
+
+
+  // Cleanup
+  if ( pProp )  UtlAlloc( (PVOID *)&pProp, 0L, 0L, NOMSG );
+  if ( pData )  UtlAlloc( (PVOID *)&pData, 0L, 0L, NOMSG );
+
+  return( usRC );
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4501,8 +4716,14 @@ LPARAM mp2
         LoadFields_1( hwndDlg, pIda);
       } /* endif */
 
-      SETTEXTLIMIT( hwndDlg, ID_FOLNEW_DICTPID_EF, sizeof(pIda->pProp->szDictPIDSelect)-1 );
-      SETTEXT( hwndDlg, ID_FOLNEW_DICTPID_EF, pIda->pProp->szDictPIDSelect );
+      SETTEXTLIMIT( hwndDlg, ID_FOLNEW_DICTPID_EF, MAX_DICTPID_VALUES-1 ) ;
+      if ( pIda->pProp->szDictPIDSelect1[0] ) {  // Old value in 1.2.4 
+         strcpy( pIda->pProp->szDictPIDSelect2, pIda->pProp->szDictPIDSelect1 );
+         memset( pIda->pProp->szDictPIDSelect1, NULC, sizeof( pIda->pProp->szDictPIDSelect1) );
+      }
+      strcpy( pIda->szBuffer1, pIda->pProp->szDictPIDSelect2 ) ;
+      OEMTOANSI( pIda->szBuffer1 );
+      SETTEXT( hwndDlg, ID_FOLNEW_DICTPID_EF, pIda->szBuffer1 );
 
       // enable hizontal scrolling in our selection listboxes
       UtlSetHorzScrollingForLB( GetDlgItem( hwndDlg, ID_FOLNEW_MEMSELECT_LB ) );
@@ -4883,10 +5104,12 @@ LPARAM mp2
               if ( sItem > 0 ) {
                  pIda->pProp->fDictPIDSelect = QUERYCHECK( hwndDlg, ID_FOLNEW_DICTPID_CHK );
               } else {
-                 pIda->pProp->fDictPIDSelect = FALSE ;
+                 pIda->pProp->fDictPIDSelect = FALSE;
               }
-              QUERYTEXT( hwndDlg, ID_FOLNEW_DICTPID_EF, pIda->pProp->szDictPIDSelect);
-              CheckDictPIDValues( pIda->pProp->szDictPIDSelect ) ;
+              memset( pIda->pProp->szDictPIDSelect2, NULC, sizeof( pIda->pProp->szDictPIDSelect2) );
+              QUERYTEXT( hwndDlg, ID_FOLNEW_DICTPID_EF, pIda->pProp->szDictPIDSelect2 );
+              ANSITOOEM( pIda->pProp->szDictPIDSelect2 );
+              CheckDictPIDValues( pIda->pProp->szDictPIDSelect2 );
             } /* endif */
 
             //-- check selected translation memory databases
@@ -6844,18 +7067,49 @@ FolSetDocListView
 (
 	PPROPFOLDER  pProp
 )
-{ // P021037: Default Details view items for newly created folder
-   pProp->sDetailsViewList[0] = 1;            // SID_FOL_NAME_COLTITLE
-   pProp->sDetailsViewList[1] = 3;            // SID_FOL_TRANSL_COLTITLE
-   pProp->sDetailsViewList[2] = 4;            // SID_FOL_ANAL_COLTITLE
-   pProp->sDetailsViewList[3] = 9;            // SID_FOL_SIZE_COLTITLE
-   pProp->sDetailsViewList[4] = 10;           //SID_FOL_COMPLETE_COLTITLE
-   pProp->sDetailsViewList[5] = 14;           // SID_FOL_FORMAT_COLTITLE
-   pProp->sDetailsViewList[6] = 15;           // SID_FOL_MEMORY_COLTITLE
-   pProp->sDetailsViewList[7] = -1;
-   // doc. list of new folder should start with details view
-   memcpy( pProp->sLastUsedViewList, pProp->sDetailsViewList,
-           sizeof(pProp->sLastUsedViewList) );
+{ 
+  PSHORT psView = NULL;
+  USHORT usLen = 0;
+
+  // preset view with hard-coded values
+  // P021037: Default Details view items for newly created folder
+  pProp->sDetailsViewList[0] = 1;            // SID_FOL_NAME_COLTITLE
+  pProp->sDetailsViewList[1] = 3;            // SID_FOL_TRANSL_COLTITLE
+  pProp->sDetailsViewList[2] = 4;            // SID_FOL_ANAL_COLTITLE
+  pProp->sDetailsViewList[3] = 9;            // SID_FOL_SIZE_COLTITLE
+  pProp->sDetailsViewList[4] = 10;           //SID_FOL_COMPLETE_COLTITLE
+  pProp->sDetailsViewList[5] = 14;           // SID_FOL_FORMAT_COLTITLE
+  pProp->sDetailsViewList[6] = 15;           // SID_FOL_MEMORY_COLTITLE
+  pProp->sDetailsViewList[7] = -1;
+
+  // try to load user document default view list
+  CHAR szDefaults[MAX_LONGFILESPEC];
+
+  UtlMakeEQFPath( szDefaults, NULC, PROPERTY_PATH, NULL );
+  strcat( szDefaults, "\\FOLDERVIEW.DEFAULT" );
+
+  if ( UtlLoadFile( szDefaults, (PVOID *)&psView, &usLen, FALSE, FALSE ) )
+  {
+    if ( usLen <= (MAX_VIEW * sizeof(USHORT)) )   // is size valid?
+    {
+      int iTarget = 0;
+      for( int i = 0; i < MAX_VIEW; i++ )
+      {
+        if ( psView[i] == -1 ) break;
+
+        if ( (psView[i] > 0) && (psView[i] < 30) )   // is column number acceptable?
+        {
+          pProp->sDetailsViewList[iTarget++] = psView[i];
+        } /* endif */
+      } /* endfor */
+      pProp->sDetailsViewList[iTarget] = -1;
+    } /* endif */
+    UtlAlloc( (PVOID *)&psView, 0, 0, NOMSG );
+  } /* endif */
+
+  // doc. list of new folder should start with details view
+  memcpy( pProp->sLastUsedViewList, pProp->sDetailsViewList, sizeof(pProp->sLastUsedViewList) );
+
   return;
 }
 
@@ -6942,10 +7196,11 @@ BOOL FolShowSelectionDialog
     {
        pSelDlgIda->iDialogID = ID_FOLDICSEL_DLG;
        pSelDlgIda->hwndAvailLB = pIda->hDictPIDLBA ;
-       pSelDlgIda->iMaxSelected = MAX_NUM_OF_FOLDER_DICS;
+       pSelDlgIda->fDictPIDSel = TRUE ;
+       pSelDlgIda->iMaxSelected = 40;
        strcpy( pSelDlgIda->szTitleBar, "Select dictionary PID values" );
        pSelDlgIda->pFolPropIda = pIda;
-       strcpy( pSelDlgIda->szBuffer, pIda->pProp->szDictPIDSelect ) ;
+       strcpy( pSelDlgIda->szBuffer, pIda->pProp->szDictPIDSelect2 ) ;
        PSZ pszValue = strtok( pSelDlgIda->szBuffer, ";," ) ;
        i = 0;
        while( pszValue) 
@@ -6994,17 +7249,17 @@ BOOL FolShowSelectionDialog
     } /* endif */
     else
     {
-       memset( pIda->pProp->szDictPIDSelect, NULC, sizeof( pIda->pProp->szDictPIDSelect) );
+       memset( pIda->pProp->szDictPIDSelect2, NULC, sizeof( pIda->pProp->szDictPIDSelect2) );
        for( int i=0 ; i < pSelDlgIda->iSelected ; ++i )
        {
-         if ( (strlen(pIda->pProp->szDictPIDSelect)+strlen(pSelDlgIda->aSelected[i])+1) < sizeof(pIda->pProp->szDictPIDSelect) ) {
-            if ( pIda->pProp->szDictPIDSelect[0] ) 
-               strcat( pIda->pProp->szDictPIDSelect, ";" );
-            strcat( pIda->pProp->szDictPIDSelect, pSelDlgIda->aSelected[i] );
+         if ( (strlen(pIda->pProp->szDictPIDSelect2)+strlen(pSelDlgIda->aSelected[i])+1) < sizeof(pIda->pProp->szDictPIDSelect2) ) {
+            if ( pIda->pProp->szDictPIDSelect2[0] ) 
+               strcat( pIda->pProp->szDictPIDSelect2, ";" );
+            strcat( pIda->pProp->szDictPIDSelect2, pSelDlgIda->aSelected[i] );
          }
          else 
          {
-            /* Value will not fit in PID variable (60 chars) */
+            /* Value will not fit in PID variable (400 chars) */
          }
        } 
     }
@@ -7073,8 +7328,12 @@ INT_PTR APIENTRY FOLMEMSEL_DLGPROC( HWND hwndDlg, WINMSG msg, WPARAM mp1, LPARAM
             if ( sItem != LIT_NONE )
             {
               USHORT usAlreadySelectedMsg = ( pIda->fMemSel ) ? INFO_MEM_SELECTED : INFO_DIC_SELECTED;
+              if ( pIda->fDictPIDSel ) 
+                 usAlreadySelectedMsg = INFO_DICTPID_SELECTED;
               int iMaxFiles = pIda->iMaxSelected;
               USHORT usMaxSelectedMsg = ( pIda->fMemSel ) ? ERROR_MAX_READONLY_TM : INFO_DIC_MAXSELECTED;
+              if ( pIda->fDictPIDSel ) 
+                 usMaxSelectedMsg = ERROR_DICTPID_MAXSELECTED;
 
               QUERYITEMTEXT( hwndDlg, ID_FOLMEMSEL_AVAILABLE_LB, sItem, pIda->szBuffer );
               sItem = SEARCHITEM( hwndDlg, ID_FOLMEMSEL_SELECTED_LB, pIda->szBuffer );
@@ -7086,7 +7345,7 @@ INT_PTR APIENTRY FOLMEMSEL_DLGPROC( HWND hwndDlg, WINMSG msg, WPARAM mp1, LPARAM
               {
                 UtlErrorHwnd( usMaxSelectedMsg, MB_OK, 0, (PSZ *)NULP, EQF_WARNING, hwndDlg );
               }
-              else if ( !pIda->fMemSel )
+              else if ( !pIda->fMemSel && !pIda->fDictPIDSel )
               {
                 if ( pIda->pFolPropIda != NULL )
                 {
@@ -7124,6 +7383,25 @@ INT_PTR APIENTRY FOLMEMSEL_DLGPROC( HWND hwndDlg, WINMSG msg, WPARAM mp1, LPARAM
                     UtlSetHorzScrollingForLB( GetDlgItem( hwndDlg, ID_FOLMEMSEL_SELECTED_LB ) );
                   } /* endif */
                 } /* endif */
+              }
+              else if ( pIda->fDictPIDSel )
+              {
+                 int iLength = 0 ;
+                 int iCount = QUERYITEMCOUNT( hwndDlg, ID_FOLMEMSEL_SELECTED_LB );
+                 for( int i=0 ; i<iCount ; i++ ) {
+                    QUERYITEMTEXT( hwndDlg, ID_FOLMEMSEL_SELECTED_LB, i, pIda->szBuffer2 );
+                    iLength += strlen(pIda->szBuffer2) + 1 ;
+                 }
+                 if ( iLength+ strlen(pIda->szBuffer)+1 > MAX_DICTPID_VALUES ) {
+                    UtlErrorHwnd( ERROR_DICTPID_MAXSELECTED, MB_OK, 0, (PSZ *)NULP, EQF_WARNING, hwndDlg );
+                 } 
+                 else 
+                 {
+                   INSERTITEMEND( hwndDlg, ID_FOLMEMSEL_SELECTED_LB, pIda->szBuffer );
+                   if ( QUERYITEMCOUNT( hwndDlg, ID_FOLMEMSEL_SELECTED_LB)  == 1 ) 
+                     SELECTITEM( hwndDlg, ID_FOLMEMSEL_SELECTED_LB, 0 );
+                   UtlSetHorzScrollingForLB( GetDlgItem( hwndDlg, ID_FOLMEMSEL_SELECTED_LB ) );
+                 } /* endif */
               }
               else 
               {
@@ -8719,7 +8997,6 @@ BOOL FolDictPIDSelection
   PSZ_W            pszPIDList = NULL ;
   ULONG            ulTermNum;
   ULONG            ulDataLen;
-  ULONG            ulMaxData = MAX_SEGMENT_SIZE * sizeof(CHAR_W) * 6;  // size for dict entry
   ULONG            ulMaxList = MAX_SEGMENT_SIZE * sizeof(CHAR_W) * 2;  // size for list of all PID values
   USHORT           usNlProductLevel ;
   USHORT           usNlProductField ;
@@ -8739,7 +9016,7 @@ BOOL FolDictPIDSelection
   fOK = UtlAlloc( (PVOID *)&pszPIDList, 0L, ulMaxList, NOMSG );
   if ( fOK ) {
     *pszPIDList = EOS;
-    fOK = UtlAlloc( (PVOID *)&pszTermData, 0L, ulMaxData, NOMSG );
+    fOK = UtlAlloc( (PVOID *)&pszTermData, 0L, MAXI_SIZE, NOMSG );
   }
 
   //  Search each of the folder dictionaries for PID values
@@ -8899,7 +9176,7 @@ BOOL FolDictPIDSelection
                                       }
                                    }
                                 }
-                                break;
+             //                 break;    // Handle all trans terms for the head term.
                              }
                           }
                         }
@@ -8930,8 +9207,10 @@ BOOL FolDictPIDSelection
 
      if ( FolShowSelectionDialog( hwndDlg, pIda, TRUE ) )
      {
-        SETTEXT( hwndDlg, ID_FOLNEW_DICTPID_EF, pIda->pProp->szDictPIDSelect );
-        if ( pIda->pProp->szDictPIDSelect[0] ) {
+        strcpy( pIda->szBuffer1, pIda->pProp->szDictPIDSelect2 ) ;
+        OEMTOANSI( pIda->szBuffer1 ) ;
+        SETTEXT( hwndDlg, ID_FOLNEW_DICTPID_EF, pIda->szBuffer1 );
+        if ( pIda->pProp->szDictPIDSelect2[0] ) {
            pIda->pProp->fDictPIDSelect = TRUE ;
         } else {
            pIda->pProp->fDictPIDSelect = FALSE ;

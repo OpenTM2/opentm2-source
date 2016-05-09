@@ -1,7 +1,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
         /**
@@ -14,7 +14,7 @@
         #include "adb_synchronize.h"
         
                /*
-                * implmentation of the synchronize|http://webservices.folt.de/ element
+                * implmentation of the synchronize|http://webservice.otm.com/ element
                 */
            
 
@@ -59,13 +59,13 @@
 
             memset(_synchronize, 0, sizeof(adb_synchronize_t));
 
-            _synchronize->property_Type = (axis2_char_t *)axutil_strdup(env, "adb_synchronize");
+            _synchronize->property_Type = axutil_strdup(env, "adb_synchronize");
             _synchronize->property_parameters  = NULL;
                   _synchronize->is_valid_parameters  = AXIS2_FALSE;
             
                   qname =  axutil_qname_create (env,
                         "synchronize",
-                        "http://webservices.folt.de/",
+                        "http://webservice.otm.com/",
                         NULL);
                 _synchronize->qname = qname;
             
@@ -380,9 +380,9 @@
                     next_ns_index = &next_ns_index_value;
                      
                            ns1 = axiom_namespace_create (env,
-                                             "http://webservices.folt.de/",
+                                             "http://webservice.otm.com/",
                                              "n"); 
-                           axutil_hash_set(namespaces, "http://webservices.folt.de/", AXIS2_HASH_KEY_STRING, axutil_strdup(env, "n"));
+                           axutil_hash_set(namespaces, "http://webservice.otm.com/", AXIS2_HASH_KEY_STRING, axutil_strdup(env, "n"));
                        
                      
                     parent_element = axiom_element_create (env, NULL, "synchronize", ns1 , &parent);

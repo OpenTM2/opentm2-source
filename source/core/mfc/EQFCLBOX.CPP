@@ -3,12 +3,14 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
 // force usage of old 32bit time value (Note: only dates up to the year 2038 are supported)
 #define _USE_32BIT_TIME_T
+
+#define OEMRESOURCE
 
 #include "eqfmfc.h"
 
@@ -102,6 +104,8 @@ typedef struct _CLBCOMPAREITEMDATA
 int CALLBACK CLBCompareItem(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 int CALLBACK CLBCompareSingleColum( USHORT usColType, PSZ pszColText1, PSZ pszColText2 );
 
+// convert a normal button to a bitmap button using the specified Windows bitmap
+int MakeBitmapButton( CDialog *pDlg, int iButtonID, int iBitmapID );
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1866,6 +1870,7 @@ void CListViewEx::OnDetailsDlg()
           sizeof(detailDlg.ColumnHeader) );
   memcpy( detailDlg.usColumnWidth, GetColumnWidth(),
           sizeof(detailDlg.usColumnWidth) );
+  detailDlg.sPopupID = this->sPopUpId;
 
   switch ( detailDlg.DoModal() )
   {
@@ -2692,9 +2697,14 @@ CDetailView::CDetailView(CWnd* pParent /*=NULL*/)
         //{{AFX_DATA_INIT(CDetailView)
                 // NOTE: the ClassWizard will add member initialization here
         //}}AFX_DATA_INIT
-
+  m_pToolTip = NULL;
+  this->sPopupID = -1;
 }
 
+CDetailView::~CDetailView()
+{
+  delete m_pToolTip;
+}
 
 BEGIN_MESSAGE_MAP(CDetailView, CDialog)
         //{{AFX_MSG_MAP(CDetailView)
@@ -2702,6 +2712,10 @@ BEGIN_MESSAGE_MAP(CDetailView, CDialog)
         ON_LBN_DBLCLK(ID_SELVIEW_SELECT_LB, OnDblclkSelect)
         ON_BN_CLICKED(ID_SELVIEW_SELECT_PB, OnSelect)
         ON_BN_CLICKED(ID_SELVIEW_DESELECT_PB, OnDeselect)
+        ON_BN_CLICKED(ID_SELVIEW_UP_PB, OnUp )
+        ON_BN_CLICKED(ID_SELVIEW_DOWN_PB, OnDown )
+        ON_BN_CLICKED(ID_SELVIEW_SAVEDEF_PB, OnSaveDefault )
+        ON_BN_CLICKED(ID_SELVIEW_LOADDEF_PB, OnLoadDefault )
         ON_BN_CLICKED(ID_SELVIEW_VIEW_PB, OnView)
         ON_BN_CLICKED(ID_SELVIEW_HELP_PB, OnHelp)
         ON_BN_CLICKED(ID_SELVIEW_CLEAR_PB, OnClear)
@@ -2715,35 +2729,185 @@ END_MESSAGE_MAP()
 
 BOOL CDetailView::OnInitDialog()
 {
-  /********************************************************************/
-  /*                                                                  */
-  /********************************************************************/
+  // adjust header depending on type of view
+
+  // LOADSTRING( NULLHANDLE, hResMod, pColData->usId,   ColumnHeader[i]);
+  switch( this->sPopupID )
+  {
+    case ID_FOL_POPUP:
+      SetWindowText( "Change document list view details" );
+      break;
+    case ID_DIC_POPUP:
+      SetWindowText( "Change dictionary list view details" );
+      break;
+    case ID_MEM_POPUP:
+      SetWindowText( "Change translation memory list view details" );
+      break;
+    case ID_TAG_POPUP:
+      SetWindowText( "Change markup table list view details" );
+      break;
+    case ID_FLL_POPUP:
+      SetWindowText( "Change folder list view details" );
+      break;
+    case ID_MT_POPUP:
+      SetWindowText( "Change MT job list view details" );
+      break;
+    case ID_LST_POPUP:
+      SetWindowText( "Change terminology list view details" );
+      break;
+  }
+
+  // fill the available listbox and ignore already selected columns
+
+  RefillListboxes( this->asDetailsView );
+
+  CListBox * pLBoxAvail = (CListBox*)GetDlgItem( ID_SELVIEW_AVAIL_LB );
+  pLBoxAvail->SetFocus();
+
+  // change our buttons to bitmap buttons
+  MakeBitmapButton( this, ID_SELVIEW_SELECT_PB, OBM_RGARROW );
+  MakeBitmapButton( this, ID_SELVIEW_DESELECT_PB, OBM_LFARROW );
+  MakeBitmapButton( this, ID_SELVIEW_UP_PB, OBM_UPARROW );
+  MakeBitmapButton( this, ID_SELVIEW_DOWN_PB, OBM_DNARROW );
+
+  //Set up the tooltip
+  m_pToolTip = new CToolTipCtrl;
+  if( !m_pToolTip->Create(this) )
+  {
+      return TRUE;
+  }
+
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_AVAIL_LB ),"Available view columns, double-click entry to move it to the selected view columns");
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_SELECT_LB  ),"Selected view columns, double-click entry to remove it from the selected view columns");
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_SELECT_PB  ),"Move selected colum to the list of selected view columns" );
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_DESELECT_PB  ),"Remove selectede item(s) from the list of selected view columns" );
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_UP_PB ), "Shift the selected columns one position up" ); 
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_DOWN_PB ), "Shift the selected columns one positon down" ); 
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_LOADDEF_PB ), "Load default view columns" );
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_SAVEDEF_PB ), "Save currently selected view columns as default" );
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_VIEW_PB ), "Change the details view using the selected view columns" );
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_CLEAR_PB ), "Remove all selected view columns except for the name columns" );
+  m_pToolTip->AddTool( GetDlgItem( ID_SELVIEW_CANCEL_PB ), "Leave dialog and discard any changes" );
+
+  m_pToolTip->Activate(TRUE);
+
+  return /*TRUE*/ FALSE;
+}
+
+BOOL CDetailView::PreTranslateMessage(MSG* pMsg)
+{
+  if (NULL != m_pToolTip)
+      m_pToolTip->RelayEvent(pMsg);
+
+  return CDialog::PreTranslateMessage(pMsg);
+}
+
+void CDetailView::OnSelect()
+{  // should do the same as dblclick on an item in "available" listbox
+  CDetailView::OnDblclkAvail();
+}
+
+void CDetailView::OnUp()
+{
+  CListBox *pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB );
+  if ( pLBoxSelected == NULL ) return;
+
+  int iNumOfItems = pLBoxSelected->GetCount();
+  for( int i = 0; i < iNumOfItems; i++)
+  {
+    if ( pLBoxSelected->GetSel( i ) )
+    {
+      // swap the current listbox item with the previous item
+      if (i > 0 && !pLBoxSelected->GetSel( i - 1 ))
+      {
+        CString itemText;
+        pLBoxSelected->GetText( i, itemText );
+        DWORD_PTR pData = pLBoxSelected->GetItemData( i );
+        pLBoxSelected->DeleteString( i );
+        pLBoxSelected->InsertString( i - 1, itemText );
+        pLBoxSelected->SetItemData( i - 1, pData );
+        pLBoxSelected->SetSel( i - 1, TRUE );
+      } /* endif */
+    } /* endif */
+  } /* endfor */
+}
+
+void CDetailView::OnDown()
+{
+  CListBox *pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB );
+  if ( pLBoxSelected == NULL ) return;
+
+  int iStartIndex = pLBoxSelected->GetCount() - 1;
+  for( int i = iStartIndex; i > -1; i-- )
+  {
+    if ( pLBoxSelected->GetSel( i ) )
+    { 
+      // swap listbox item with the next one
+      if ( i < iStartIndex && !pLBoxSelected->GetSel( i + 1 ))
+      {
+        CString itemText;
+        pLBoxSelected->GetText( i, itemText );
+        DWORD_PTR pData = pLBoxSelected->GetItemData( i );
+        pLBoxSelected->DeleteString( i );
+        pLBoxSelected->InsertString( i + 1, itemText );
+        pLBoxSelected->SetItemData( i + 1, pData );
+        pLBoxSelected->SetSel( i + 1, TRUE );
+      } /* endif */
+    } /* endif */
+  } /* endfor */
+}
+
+
+void CDetailView::RefillListboxes( PSHORT psViewList )
+{
   CListBox *pLBoxAvail;
   CListBox *pLBoxSelected;
+
   if ( (pLBoxAvail = (CListBox*)GetDlgItem( ID_SELVIEW_AVAIL_LB ))!= NULL)
   {
-    for ( int i=1; i < MAX_DEFINEDCOLUMNS; i++ )
+    pLBoxAvail->ResetContent();
+
+    for ( int i = 1; i < MAX_DEFINEDCOLUMNS; i++ )
     {
-      /****************************************************************/
-      /* copy only columns which have a length > 0                    */
-      /****************************************************************/
+      // copy only columns which have a length > 0                    
       if (ColumnHeader[i][0] && usColumnWidth[i])
       {
-        int iItem = pLBoxAvail->InsertString( -1, ColumnHeader[i] );
-        if ( iItem != LB_ERR )
+        // search the current column in the list of selected columns
+        BOOL fSelected = FALSE;
+        int j = 0;
+        int sColumn;
+        while ( ( j < MAX_VIEW) && ((psViewList[j]) != CLBLISTEND) )
         {
-          pLBoxAvail->SetItemData( iItem, i );
+          sColumn = psViewList[j] & CLB_COLNUMBERMASK;
+          if ( sColumn == i )
+          {
+            fSelected = TRUE;
+          } /* endif */
+          j++;      
+        } /* endwhile */
+
+        // add to available listbox if not selected
+        if ( !fSelected )
+        {
+          int iItem = pLBoxAvail->InsertString( -1, ColumnHeader[i] );
+          if ( iItem != LB_ERR )
+          {
+            pLBoxAvail->SetItemData( iItem, i );
+          } /* endif */
         } /* endif */
       } /* endif */
     } /* endfor */
+    pLBoxAvail->SetCurSel( 0 ); 
   } /* endif */
 
   if ( (pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB )) != NULL)
   {
     int i = 0;
     int sColumn;
-//  while ( (i<21)&&(sColumn = asDetailsView[i]) != CLBLISTEND )
-    while ( (i<MAX_VIEW)&&((sColumn = asDetailsView[i]) != CLBLISTEND) )
+
+    pLBoxSelected->ResetContent();
+
+    while ( (i<MAX_VIEW)&&((sColumn = psViewList[i]) != CLBLISTEND) )
     {
       sColumn &= CLB_COLNUMBERMASK;
 
@@ -2757,69 +2921,124 @@ BOOL CDetailView::OnInitDialog()
       } /* endif */
       i++;      // point to next item in list
     } /* endwhile */
-    asDetailsView[MAX_VIEW-1] = CLBLISTEND;
+    psViewList[MAX_VIEW-1] = CLBLISTEND;
+    pLBoxSelected->SetCurSel( 0 );
+  } /* endif */
+}
+
+
+void CDetailView::RemoveFromSelected( CListBox *pLBoxAvail, CListBox *pLBoxSelected, int i )
+{
+  int iColumnIndex = pLBoxSelected->GetItemData( i );
+  if (iColumnIndex != 1 )  // do not remove name column...
+  {
+    // delete item in selected listbox
+    pLBoxSelected->DeleteString( i );
+
+    // add item at correct position in available listbox
+    int iNumAvailable = pLBoxAvail->GetCount();
+    int iInsertHere = 0;
+    for ( iInsertHere = 0; iInsertHere < iNumAvailable; iInsertHere++ )
+    {
+      int iAvailColumnIndex = pLBoxAvail->GetItemData( iInsertHere );
+      if ( iAvailColumnIndex > iColumnIndex )
+        break;
+    }
+    int iIndex = pLBoxAvail->InsertString( iInsertHere, ColumnHeader[iColumnIndex] );
+    if ( iIndex != LB_ERR ) pLBoxAvail->SetItemData( iIndex, iColumnIndex );
+  } /* endif */
+}
+
+void CDetailView::GetDefaultsFileName( int iPopupID, PSZ pszName )
+{
+  switch( iPopupID )
+  {
+    case ID_FOL_POPUP: strcpy( pszName, "FOLDERVIEW.DEFAULT" ); break;
+    case ID_DIC_POPUP: strcpy( pszName, "DICTVIEW.DEFAULT" ); break;
+    case ID_MEM_POPUP: strcpy( pszName, "MEMORYVIEW.DEFAULT" ); break;
+    case ID_TAG_POPUP: strcpy( pszName, "MARKUPVIEW.DEFAULT" ); break;
+    case ID_FLL_POPUP: strcpy( pszName, "FOLDERLISTVIEW.DEFAULT" ); break;
+    case ID_MT_POPUP:  strcpy( pszName, "MTJOBVIEW.DEFAULT" ); break;
+    case ID_LST_POPUP: strcpy( pszName, "LISTVIEW.DEFAULT" ); break;
+  }
+}
+
+
+void CDetailView::OnSaveDefault()
+{ 
+  SHORT sView[MAX_VIEW];
+
+  CListBox *pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB);
+  int iNoOfItems = pLBoxSelected->GetCount();
+  int i;
+
+  memset( sView, 0, sizeof(sView) );
+
+  for (i=0; i< iNoOfItems; i++)
+  {
+    sView[i] = (SHORT) pLBoxSelected->GetItemData( i );
+  } /* endfor */
+  sView[i] = CLBLISTEND;
+
+  CHAR szDefaults[MAX_LONGFILESPEC];
+
+  UtlMakeEQFPath( szDefaults, NULC, PROPERTY_PATH, NULL );
+  strcat( szDefaults, BACKSLASH_STR );
+  GetDefaultsFileName( this->sPopupID, szDefaults + strlen(szDefaults) );
+
+  UtlWriteFile( szDefaults, sizeof(sView), (PVOID)sView, FALSE );
+}
+
+
+void CDetailView::OnLoadDefault()
+{
+  CHAR szDefaults[MAX_LONGFILESPEC];
+
+  UtlMakeEQFPath( szDefaults, NULC, PROPERTY_PATH, NULL );
+  strcat( szDefaults, BACKSLASH_STR );
+  GetDefaultsFileName( this->sPopupID, szDefaults + strlen(szDefaults) );
+
+  PSHORT psView = NULL;
+  USHORT usLen = 0;
+  if ( UtlLoadFile( szDefaults, (PVOID *)&psView, &usLen, FALSE, FALSE ) )
+  {
+    if ( usLen <= (MAX_VIEW * sizeof(USHORT)) )   // is size valid?
+    {
+      RefillListboxes( psView );
+    } /* enif */
+    UtlAlloc( (PVOID *)&psView, 0, 0, NOMSG );
   } /* endif */
 
-  pLBoxAvail->SetCurSel( 0 );
-  pLBoxSelected->SetCurSel( 0 );
-  pLBoxAvail->SetFocus();
-
-  return /*TRUE*/ FALSE;
 }
 
-void CDetailView::OnSelect()
-{  // should do the same as dblclick on an item in "available" listbox
-  CDetailView::OnDblclkAvail();
-}
 
 void CDetailView::OnDblclkAvail()
 {
 
   CListBox *pLBoxAvail =    (CListBox*)GetDlgItem( ID_SELVIEW_AVAIL_LB );
   CListBox *pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB);
-  if ( pLBoxAvail && pLBoxSelected )
+
+  int iNoOfItems = pLBoxSelected->GetCount();
+
+  if ( pLBoxAvail && pLBoxSelected && (iNoOfItems < MAX_VIEW) )
   {
-    /******************************************************************/
-    /* get selection in AVAIL, remove item in SELECT (if available)   */
-    /* add it at end                                                  */
-    /******************************************************************/
+    // remove entry from available listbox
     int iSelItem = pLBoxAvail->GetCurSel();
-    int iItem    = pLBoxAvail->GetItemData( iSelItem );
-
-    /******************************************************************/
-    /* remove column from selected listbox                            */
-    /******************************************************************/
-    int iNoOfItems = pLBoxSelected->GetCount();
-
-    while (iNoOfItems > 1)
+    if ( iSelItem >= 0 )
     {
-      iNoOfItems--;
-      if ( iItem == (int)pLBoxSelected->GetItemData( iNoOfItems ) )
-      {
-        pLBoxSelected->DeleteString( iNoOfItems );
-        iNoOfItems = -1;
-      } /* endif */
-    } /* endwhile */
+      int iColumnIndex = pLBoxAvail->GetItemData( iSelItem );
+      pLBoxAvail->DeleteString( iSelItem );
 
-    // ensure that not more than MAX_VIEW columns are selected
-    if (iItem != (int)pLBoxSelected->GetItemData(0) )
-    {
-      iNoOfItems = pLBoxSelected->GetCount();
-      if ( iNoOfItems < MAX_VIEW )
-      {
-        /******************************************************************/
-        /* add newly selected string at end... but only if it is not "Name"* /
-        /******************************************************************/
-        int iIndex = pLBoxSelected->InsertString( -1, ColumnHeader[iItem] );
-        if ( iIndex != LB_ERR )
-        {
-          pLBoxSelected->SetItemData( iIndex, iItem );
-        } /* endif */
-      } /* endif */
+      // add entry to the end of the seleced listbox
+      int iIndex = pLBoxSelected->InsertString( -1, ColumnHeader[iColumnIndex] );
+      if ( iIndex != LB_ERR ) pLBoxSelected->SetItemData( iIndex, iColumnIndex );
+
+      int iNumSelected = pLBoxSelected->GetCount();
+      ((CWnd *)GetDlgItem( ID_SELVIEW_VIEW_PB ))->EnableWindow( iNumSelected != 0 );
+      ((CWnd *)GetDlgItem( ID_SELVIEW_SELECT_PB ))->EnableWindow( iNumSelected < MAX_VIEW );
+      ((CWnd *)GetDlgItem( ID_SELVIEW_DESELECT_PB ))->EnableWindow( iNumSelected != 0 );
     } /* endif */
-    ((CWnd *)GetDlgItem( ID_SELVIEW_VIEW_PB ))->EnableWindow( pLBoxSelected->GetCount() );
   } /* endif */
-
 }
 
 void CDetailView::OnDeselect()
@@ -2829,21 +3048,23 @@ void CDetailView::OnDeselect()
 
 void CDetailView::OnDblclkSelect()
 {
+  CListBox *pLBoxAvail =    (CListBox*)GetDlgItem( ID_SELVIEW_AVAIL_LB );
   CListBox *pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB);
-  if ( pLBoxSelected )
+  if ( pLBoxSelected && pLBoxAvail )
   {
-    /******************************************************************/
-    /* donot del "Name" ( 1st and iSelItem = 0)                       */
-    /******************************************************************/
-    int iSelItem = pLBoxSelected->GetCurSel();
-    if (iSelItem > 0 )
+    int iStartIndex = pLBoxSelected->GetCount() - 1;
+    for( int i = iStartIndex; i > -1; i-- )
     {
-      /******************************************************************/
-      /* delete selected item and active/deactivate View PB             */
-      /******************************************************************/
-      pLBoxSelected->DeleteString(pLBoxSelected->GetCurSel());
-      ((CWnd *)GetDlgItem( ID_SELVIEW_VIEW_PB ))->EnableWindow( pLBoxSelected->GetCount() );
-    } /* endif */
+      if ( pLBoxSelected->GetSel( i ) )
+      { 
+        // move back to available list
+        RemoveFromSelected( pLBoxAvail, pLBoxSelected, i );
+      } /* endif */
+    } /* endfor */
+
+    int iNumSelected = pLBoxSelected->GetCount();
+    ((CWnd *)GetDlgItem( ID_SELVIEW_VIEW_PB ))->EnableWindow( iNumSelected != 0 );
+    ((CWnd *)GetDlgItem( ID_SELVIEW_DESELECT_PB ))->EnableWindow( iNumSelected != 0 );
   } /* endif */
 }
 
@@ -2882,19 +3103,15 @@ void CDetailView::OnHelp()
 
 void CDetailView::OnClear()
 {
-  ((CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB))->ResetContent();
-
-  /******************************************************************/
-  /* add first entry of avail lb -this must be always in selected lb*/
-  /* usually it is "Name"  (iItem = 1)                              */
-  /******************************************************************/
-  CListBox *pLBoxSelected;
-  pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB );
-
-  int iIndex = pLBoxSelected->InsertString( -1, ColumnHeader[1] );
-  if ( iIndex != LB_ERR )
+  CListBox *pLBoxAvail =    (CListBox*)GetDlgItem( ID_SELVIEW_AVAIL_LB );
+  CListBox *pLBoxSelected = (CListBox*)GetDlgItem( ID_SELVIEW_SELECT_LB);
+  if ( pLBoxSelected && pLBoxAvail )
   {
-    pLBoxSelected->SetItemData( iIndex, 1 );
+    int iStartIndex = pLBoxSelected->GetCount() - 1;
+    for( int i = iStartIndex; i > -1; i-- )
+    {
+      RemoveFromSelected( pLBoxAvail, pLBoxSelected, i );
+    } /* endfor */
   } /* endif */
 }
 
@@ -3032,6 +3249,12 @@ LRESULT CEQFDoc::TwbInitMenu( HWND hwnd, WPARAM mp1, LPARAM mp2 )
 
       case PID_TWBM_SM_HELP:
          // do nothing; leave help items active ...
+
+         // GQ 2015/10/13: disable some of the help items until out help system is working again
+         UtlMenuDisableItem( PID_HELP_FOR_HELP );
+         UtlMenuDisableItem( PID_HELP_MI_INDEX );
+
+
          break;
 
       case PID_UTILS_SM_PANELLANG:
@@ -3800,3 +4023,11 @@ VOID CListViewEx::Filter()
   UnlockWindowUpdate();
 }
 
+// convert a normal button to a bitmap button using the specified Windows bitmap
+int MakeBitmapButton( CDialog *pDlg, int iButtonID, int iBitmapID )
+{
+  CButton* pBtn= (CButton*)pDlg->GetDlgItem(iButtonID);
+  pBtn->ModifyStyle( 0, BS_BITMAP );
+  pBtn->SetBitmap(::LoadBitmap(NULL, MAKEINTRESOURCE(iBitmapID)));
+  return( 0 );
+}

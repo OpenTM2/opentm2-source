@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -2149,8 +2149,11 @@ SHORT QDAMLocateKey_V2
   SHORT  sMid = 0;                         //
   SHORT  sRc = 0;                          // return value
   PCHAR_W  pKey2;                            // pointer to key string
+  PCHAR_W  pHyphen;                            // pointer to key string
+  SHORT    sCheckVariants=0;
   BOOL   fFound = FALSE;
   PBTREEGLOB    pBT = pBTIda->pBTree;
+  CHAR_W  szKey[500];
 
   *psKeyPos = -1;                         // key not found
   if ( pRecord )
@@ -2159,206 +2162,249 @@ SHORT QDAMLocateKey_V2
     sHigh = (SHORT) OCCUPIED( pRecord) -1 ;      // counting starts at zero
     sLow = 0;                                    // start here
 
-    while ( !fFound && sLow <= sHigh )
-    {
-       sMid = (sLow + sHigh)/2;
-       pKey2 = QDAMGetszKey_V2( pRecord, sMid, pBT->usVersion );
+    wcscpy( szKey, pKey ) ;
+    pHyphen = wcschr(szKey, L'-') ;
+    if ( pHyphen ) {
+       sCheckVariants = 1 ;             // 3 variations when term contains hyphen, temporary -> 1
+    }  else {
+       sCheckVariants = 1 ;
+    }
+    while( sCheckVariants > 0 && !fFound ) {
 
-       if ( pKey2 )
-       {
-          sResult = (*pBT->compare)(pBTIda, pKey, pKey2);
-          if ( sResult < 0 )
-          {
-            sHigh = sMid - 1;                        // Go left
-          }
-          else if (sResult > 0)
-          {
-            sLow = sMid+1;                           // Go right
-          }
-          else
-          {
-             fFound = TRUE;
-             // if exact match is required we have to do a strcmp
-             // to ensure it and probably check the previous or the
-             // next one because our insertion is case insensitive
-
-             /*********************************************************/
-             /* checking will be done in any case to return the best  */
-             /* matching substring                                    */
-             /*********************************************************/
-             if ( pBT->fTransMem )
-             {
-               if (*((PULONG)pKey) == *((PULONG)pKey2))
+      while ( !fFound && sLow <= sHigh )
+      {
+         sMid = (sLow + sHigh)/2;
+         pKey2 = QDAMGetszKey_V2( pRecord, sMid, pBT->usVersion );
+  
+         if ( pKey2 )
+         {
+            sResult = (*pBT->compare)(pBTIda, szKey, pKey2);
+            if ( sResult < 0 )
+            {
+              sHigh = sMid - 1;                        // Go left
+            }
+            else if (sResult > 0)
+            {
+              sLow = sMid+1;                           // Go right
+            }
+            else
+            {
+               fFound = TRUE;
+               // if exact match is required we have to do a strcmp
+               // to ensure it and probably check the previous or the
+               // next one because our insertion is case insensitive
+  
+               /*********************************************************/
+               /* checking will be done in any case to return the best  */
+               /* matching substring                                    */
+               /*********************************************************/
+               if ( pBT->fTransMem )
                {
-                  *psKeyPos = sMid;
+                 if (*((PULONG)szKey) == *((PULONG)pKey2))
+                 {
+                    *psKeyPos = sMid;
+                 }
+                 else
+                 {
+                    // try with previous
+                    if ( sMid > sLow )
+                    {
+                      pKey2 = QDAMGetszKey_V2( pRecord, (SHORT)(sMid-1), pBT->usVersion );
+                      if ( pKey2 == NULL )
+                      {
+                        sRc = BTREE_CORRUPTED;
+                      }
+                      else if ( *((PULONG)szKey) == *((PULONG)pKey2) )
+                      {
+                        *psKeyPos = sMid-1 ;
+                      } /* endif */
+                    } /* endif */
+                    //  still not found
+                    if ( !sRc && *psKeyPos == -1 && sMid < sHigh )
+                    {
+                      pKey2 = QDAMGetszKey_V2(  pRecord, (SHORT)(sMid+1), pBT->usVersion );
+                      if ( pKey2 == NULL )
+                      {
+                        sRc = BTREE_CORRUPTED;
+                      }
+                      else if ( *((PULONG)szKey) == *((PULONG)pKey2) )
+                      {
+                            *psKeyPos = sMid+1 ;
+                      } /* endif */
+                    } /* endif */
+                 } /* endif */
                }
                else
                {
-                  // try with previous
-                  if ( sMid > sLow )
-                  {
-                    pKey2 = QDAMGetszKey_V2( pRecord, (SHORT)(sMid-1), pBT->usVersion );
-                    if ( pKey2 == NULL )
-                    {
-                      sRc = BTREE_CORRUPTED;
-                    }
-                    else if ( *((PULONG)pKey) == *((PULONG)pKey2) )
-                    {
-                      *psKeyPos = sMid-1 ;
-                    } /* endif */
-                  } /* endif */
-                  //  still not found
-                  if ( !sRc && *psKeyPos == -1 && sMid < sHigh )
-                  {
-                    pKey2 = QDAMGetszKey_V2(  pRecord, (SHORT)(sMid+1), pBT->usVersion );
-                    if ( pKey2 == NULL )
-                    {
-                      sRc = BTREE_CORRUPTED;
-                    }
-                    else if ( *((PULONG)pKey) == *((PULONG)pKey2) )
-                    {
-                          *psKeyPos = sMid+1 ;
-                    } /* endif */
-                  } /* endif */
-               } /* endif */
-             }
-             else
-             {
-               /*******************************************************/
-               /* if dealing with exacts we have to do some more      */
-               /* explicit checking, else we have to find first pos.  */
-               /* substring match...                                  */
-               /*******************************************************/
-               enum KEYMATCH
-               {
-                 EXACT_KEY,            // keys are exactly the same
-                 CASEDIFF_KEY,         // case of keys is different
-                 PUNCTDIFF_KEY,        // punctuation of keys differs
-                 NOMATCH_KEY           // keys do not match at all
-               } BestKeyMatch = NOMATCH_KEY; // match level of best key so far
-               SHORT sBestKey = -1;    // best key found so far
-
-               /*****************************************************/
-               /* go back as long as the keys are the same ...      */
-               /*****************************************************/
-
-               while ( sMid > sLow )
-               {
-                 pKey2 = QDAMGetszKey_V2( pRecord, (SHORT)(sMid-1), pBT->usVersion );
-                 if ( pKey2 == NULL )
+                 /*******************************************************/
+                 /* if dealing with exacts we have to do some more      */
+                 /* explicit checking, else we have to find first pos.  */
+                 /* substring match...                                  */
+                 /*******************************************************/
+                 enum KEYMATCH
                  {
-                   sRc = BTREE_CORRUPTED;
-                   break;
-                 }
-                 else if ( (*pBT->compare)(pBTIda, pKey, pKey2) == 0 )
+                   EXACT_KEY,            // keys are exactly the same
+                   CASEDIFF_KEY,         // case of keys is different
+                   PUNCTDIFF_KEY,        // punctuation of keys differs
+                   NOMATCH_KEY           // keys do not match at all
+                 } BestKeyMatch = NOMATCH_KEY; // match level of best key so far
+                 SHORT sBestKey = -1;    // best key found so far
+  
+                 /*****************************************************/
+                 /* go back as long as the keys are the same ...      */
+                 /*****************************************************/
+  
+                 /* DAW  If sMid == sLow and keys still the same, then may need to look at previous entry */
+                 /*      For example, if "Submit" is first entry of this record, and "submit" is last     */
+                 /*      entry of previous record, and looking for "submit".                              */
+  
+                 while ( sMid > sLow )
                  {
-                   sMid --;
-                 }
-                 else
-                 {
-                   break;
-                 } /* endif */
-               } /* endwhile */
-
-               *psKeyPos = sMid;      // set key position
-
-               /*****************************************************/
-               /* go forward as long as the keys are the same  ..   */
-               /* and no matching sentence found                    */
-               /*****************************************************/
-               if ( (searchType == FEXACT) ||
-                    (searchType == FEQUIV) )
-               {
-                 *psKeyPos = -1;       // reset key position for exact search
-                                       // and equivalent search
-               } /* endif */
-
-               while ( sMid <= sHigh )
-               {
-                 pKey2 = QDAMGetszKey_V2( pRecord, sMid, pBT->usVersion );
-                 if ( pKey2 == NULL )
-                 {
-                   sRc = BTREE_CORRUPTED;
-                   break;
-                 }
-                 else if ( (*pBT->compare)(pBTIda, pKey, pKey2) == 0 )
-                 {
-                   if ( searchType == FEQUIV)
+                   pKey2 = QDAMGetszKey_V2( pRecord, (SHORT)(sMid-1), pBT->usVersion );
+  
+                   if ( pKey2 == NULL )
                    {
-                     if ( UTF16strcmp( pKey, pKey2 ) == 0 )
-                     {
-                       // the match will not get better anymore ...
-                       *psKeyPos = sMid;
-                       break;
-                     }
-                     else if ( QDAMCaseCompare( pBTIda, pKey, pKey2, FALSE ) == 0 )
-                     {
-                       // match but case of characters differ
-                       // so remember match if we have no better match yet and
-                       // look for better ones...
-                       if ( BestKeyMatch > CASEDIFF_KEY )
-                       {
-                         BestKeyMatch = CASEDIFF_KEY;
-                         sBestKey = sMid;
-                       } /* endif */
-                     }
-                     else if ( QDAMCaseCompare( pBTIda, pKey, pKey2, TRUE ) == 0 )
-                     {
-                       // match but punctuation differs
-                       // so remember match if we have no other yet and
-                       // look for better ones...
-                       if ( BestKeyMatch == NOMATCH_KEY )
-                       {
-                         BestKeyMatch = PUNCTDIFF_KEY;
-                         sBestKey = sMid;
-                       } /* endif */
-                     } /* endif */
-                     sMid++;           // continue with next key
+                     sRc = BTREE_CORRUPTED;
+                     break;
                    }
-                   else if (UTF16strcmp( pKey, pKey2 ))
+                   else if ( (*pBT->compare)(pBTIda, szKey, pKey2) == 0 )
                    {
-                     sMid ++;
+                     sMid --;
                    }
                    else
                    {
-                     *psKeyPos = sMid;
                      break;
                    } /* endif */
-                 }
-                 else
+                 } /* endwhile */
+  
+                 *psKeyPos = sMid;      // set key position
+  
+                 /*****************************************************/
+                 /* go forward as long as the keys are the same  ..   */
+                 /* and no matching sentence found                    */
+                 /*****************************************************/
+                 if ( (searchType == FEXACT) ||
+                      (searchType == FEQUIV) )
                  {
-                   break;
+                   *psKeyPos = -1;       // reset key position for exact search
+                                         // and equivalent search
                  } /* endif */
-               } /* endwhile */
-
-               // use best matching key if no other was found
-               if ( *psKeyPos == -1 )
-               {
-                 *psKeyPos = sBestKey;
+  
+                 while ( sMid <= sHigh )
+                 {
+                   pKey2 = QDAMGetszKey_V2( pRecord, sMid, pBT->usVersion );
+                   if ( pKey2 == NULL )
+                   {
+                     sRc = BTREE_CORRUPTED;
+                     break;
+                   }
+                   else if ( (*pBT->compare)(pBTIda, szKey, pKey2) == 0 )
+                   {
+                     if ( searchType == FEQUIV)
+                     {
+                       if ( UTF16strcmp( szKey, pKey2 ) == 0 )
+                       {
+                         // the match will not get better anymore ...
+                         *psKeyPos = sMid;
+                         break;
+                       }
+                       else if ( QDAMCaseCompare( pBTIda, szKey, pKey2, FALSE ) == 0 )
+                       {
+                         // match but case of characters differ
+                         // so remember match if we have no better match yet and
+                         // look for better ones...
+                         if ( BestKeyMatch > CASEDIFF_KEY )
+                         {
+                           BestKeyMatch = CASEDIFF_KEY;
+                           sBestKey = sMid;
+                         } /* endif */
+                       }
+                       else if ( QDAMCaseCompare( pBTIda, szKey, pKey2, TRUE ) == 0 )
+                       {
+                         // match but punctuation differs
+                         // so remember match if we have no other yet and
+                         // look for better ones...
+                         if ( BestKeyMatch == NOMATCH_KEY )
+                         {
+                           BestKeyMatch = PUNCTDIFF_KEY;
+                           sBestKey = sMid;
+                         } /* endif */
+                       } /* endif */
+                       sMid++;           // continue with next key
+                     }
+                     else if (UTF16strcmp( szKey, pKey2 ))
+                     {
+                        if ( QDAMCaseCompare( pBTIda, szKey, pKey2, TRUE ) == 0 )
+                        {
+                          // match but punctuation differs
+                          // so remember match if we have no other yet and
+                          // look for better ones...
+                          if ( BestKeyMatch == NOMATCH_KEY )
+                          {
+                            BestKeyMatch = PUNCTDIFF_KEY;
+                            sBestKey = sMid;
+                          } /* endif */
+                        } /* endif */
+                       sMid ++;
+                     }
+                     else
+                     {
+                       *psKeyPos = sMid;
+                       break;
+                     } /* endif */
+                   }
+                   else
+                   {
+                     break;
+                   } /* endif */
+                 } /* endwhile */
+  
+                 // use best matching key if no other was found
+                 if ( *psKeyPos == -1 )
+                 {
+                   *psKeyPos = sBestKey;
+                 } /* endif */
                } /* endif */
-             } /* endif */
+  
+               /*********************************************************/
+               /* if we are checking only for substrings and didn't     */
+               /* find a match yet, we will set the prev. found substrin*/
+               /*********************************************************/
+               if ( (*psKeyPos == -1) && (searchType == FSUBSTR)  )
+               {
+                  *psKeyPos = sMid;
+               } /* endif */
+               *psNearPos = *psKeyPos;
+            } /* endif */
+         }
+         else
+         {
+            fFound = TRUE;
+            sRc = BTREE_CORRUPTED;                // tree is corrupted
+         } /* endif */
+      } /* endwhile */
+      if ( !fFound )
+      {
+        *psNearPos = min(sLow,(SHORT)OCCUPIED(pRecord)-1);// set nearest pos
+      } /* endif */
 
-             /*********************************************************/
-             /* if we are checking only for substrings and didn't     */
-             /* find a match yet, we will set the prev. found substrin*/
-             /*********************************************************/
-             if ( (*psKeyPos == -1) && (searchType == FSUBSTR)  )
-             {
-                *psKeyPos = sMid;
-             } /* endif */
-             *psNearPos = *psKeyPos;
-          } /* endif */
-       }
-       else
-       {
-          fFound = TRUE;
-          sRc = BTREE_CORRUPTED;                // tree is corrupted
-       } /* endif */
-    } /* endwhile */
-    if ( !fFound )
-    {
-      *psNearPos = min(sLow,(SHORT)OCCUPIED(pRecord)-1);// set nearest pos
-    } /* endif */
+      --sCheckVariants ;
+      if ( ( ! fFound  ) &&                      // No match yet and term with hyphen
+           ( pHyphen ) ) {
+         sHigh = (SHORT) OCCUPIED( pRecord) -1 ; // counting restarts at zero
+         sLow = 0;                               // start here
+         if ( sCheckVariants == 2 ) {            // 1st hyphen variant
+           wcscpy( szKey, pKey ) ;               // Replace hyphen with blank
+           *pHyphen = NULL ;
+         } else
+         if ( sCheckVariants == 1 ) {            // 2nd hyphen variant
+           wcscpy( szKey, pKey ) ;               // Remove hyphen and concatenate words
+           memmove( pHyphen, pHyphen+1, (wcslen(pHyphen+1)+1)*sizeof(WCHAR) ) ;
+         } else {
+            sCheckVariants = 0 ;
+         }
+      } 
+    }
     BTREEUNLOCKRECORD( pRecord );
   } /* endif */
 
@@ -6375,7 +6421,8 @@ BOOL QDAMMatchCompound
 
   // look for first character of compound
   PSZ_W  pszTemp = pKey;
-  USHORT usCompoundLen = (USHORT)UTF16strlenBYTE(pCompound);
+  USHORT usCompareLen  = (USHORT)UTF16strlenBYTE(pCompound);
+  USHORT usCompoundLen = (USHORT)UTF16strlenCHAR(pCompound);
   USHORT usTermLen     = (USHORT)UTF16strlenCHAR(pKey);
 
   while ( !fMatch && (*pszTemp != EOS) )
@@ -6384,7 +6431,7 @@ BOOL QDAMMatchCompound
     {
       // check for rest of compound
       if ( (usTermLen >= usCompoundLen) &&
-           (memicmp( (PBYTE)pszTemp, (PBYTE)pCompound, usCompoundLen ) == 0 ) )
+           (memicmp( (PBYTE)pszTemp, (PBYTE)pCompound, usCompareLen ) == 0 ) )
       {
         // got a match!
         fMatch = TRUE;

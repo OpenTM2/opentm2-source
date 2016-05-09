@@ -7,7 +7,7 @@
 
 Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1496,18 +1496,7 @@ int MemoryFactory::connectToMemory(
     return( this->iLastError );
   } /* end */     
 
-  // connect to the shared memory
-  iRC = plugin->connectToMemory( pszMemoryName, pvOptions );
-  if ( iRC != 0 )
-  {
-    this->iLastError = plugin->getLastError( this->strLastError );
-    if ( (hwndOwner != NULLHANDLE) && (hwndOwner != HWND_FUNCIF) )
-    {
-      MessageBox( hwndOwner, this->strLastError.c_str(), "Error", MB_OK );
-    } /* end */       
-    return( this->iLastError );
-  } /* end */     
-
+     
   // create local memory (use any memory plugin for this)
   if ( plugin->isLocalMemoryUsed() )
   {
@@ -1526,6 +1515,20 @@ int MemoryFactory::connectToMemory(
       pLocalMem = NULL;
     } /* end */     
   }
+
+   // First to create memory, then connect to server, otherwise have problem with replicator
+   // connect to the shared memory
+  iRC = plugin->connectToMemory( pszMemoryName, pvOptions );
+  if ( iRC != 0 )
+  {
+    this->iLastError = plugin->getLastError( this->strLastError );
+    if ( (hwndOwner != NULLHANDLE) && (hwndOwner != HWND_FUNCIF) )
+    {
+      MessageBox( hwndOwner, this->strLastError.c_str(), "Error", MB_OK );
+    } /* end */       
+    return( this->iLastError );
+  } /* end */
+
   return( this->iLastError );
 }
 

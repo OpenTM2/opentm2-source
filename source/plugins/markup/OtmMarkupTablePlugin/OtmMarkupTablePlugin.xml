@@ -2,7 +2,7 @@
  <!-- 
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
  -->
 <markups>
@@ -285,7 +285,7 @@
 
   <markup>
     <name>OTMXMXLF</name>
-    <shortDescription>XLIFF 1.2 FILES - ASCII encoding</shortDescription>
+    <shortDescription>XLIFF 1.2 files - ASCII encoding</shortDescription>
     <longDescription>Markup for XML Localization Interchange File Format (XLIFF) 1.2 files which are encoded in ASCII</longDescription>
     <version>1.0</version>
     <table>OTMXMXLF.TBL</table>
@@ -295,7 +295,7 @@
 
   <markup>
     <name>OTMXAXLF</name>
-    <shortDescription>XLIFF 1.2 FILES - ANSI encoding</shortDescription>
+    <shortDescription>XLIFF 1.2 files - ANSI encoding</shortDescription>
     <longDescription>Markup for XML Localization Interchange File Format (XLIFF) 1.2 files which are encoded in ANSI</longDescription>
     <version>1.0</version>
     <table>OTMXAXLF.TBL</table>
@@ -305,7 +305,7 @@
 
   <markup>
     <name>OTMXUXLF</name>
-    <shortDescription>XLIFF 1.2 FILES - UTF-8 encoding</shortDescription>
+    <shortDescription>XLIFF 1.2 files - UTF-8 encoding</shortDescription>
     <longDescription>Markup for XML Localization Interchange File Format (XLIFF) 1.2 files which are encoded in UTF-8</longDescription>
     <version>1.0</version>
     <table>OTMXUXLF.TBL</table>
@@ -315,12 +315,22 @@
 
   <markup>
     <name>OTMXUSDL</name>
-    <shortDescription>SDLXLIFF FILES - UTF-8 encoding</shortDescription>
+    <shortDescription>SDLXLIFF files - UTF-8 encoding</shortDescription>
     <longDescription>Markup for SDLXLIFF files which are encoded in UTF-8</longDescription>
     <version>1.0</version>
     <table>OTMXUSDL.TBL</table>
     <userExit>OTMXML.DLL</userExit>
     <files>TABLE\OTMSDLXLF.XML,TABLE\OTMXML.CTL,TABLE\OTMXML.LCL</files>
+  </markup>
+
+  <markup>
+    <name>OTMMSOFC</name>
+    <shortDescription>Microsoft Office 2007 and later files</shortDescription>
+    <longDescription>Markup for Microsoft Office Word (DOCX), Excel (XLSX), PowerPoint (PPTX) 2007 and later documents</longDescription>
+    <version>1.0.0</version>
+    <table>OTMMSOFC.TBL</table>
+    <userExit>OTMMSOFC.DLL</userExit>
+    <files>none</files>
   </markup>
 
 </markups>

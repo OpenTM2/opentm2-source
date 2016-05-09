@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |      Copyright (C) 1990-2015 International Business Machines              |
+# |      Copyright (C) 1990-2016 International Business Machines              |
 # |      Corporation and others. All rights reserved                           |
 # +----------------------------------------------------------------------------+
 
@@ -46,21 +46,33 @@ build:
     @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\OpenTM2ScripterGUI.jar $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI /Y >>$(_ERR)
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\configuration.conf $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI /Y >>$(_ERR)
-	@echo ---- copying libs ---- 
-	@if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\libs md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\libs
-	@copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\libs\*.jar $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\libs /Y >>$(_ERR)
-	@echo ---- copying manifest---- 
-	@if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST
-	@copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\MANIFEST\*.mf $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST /Y >>$(_ERR)
-	@echo ---- copying resources---- 
+    @echo ---- copying libs ---- 
+    @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\libs md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\libs
+    @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\libs\*.jar $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\libs /Y >>$(_ERR)
+    @echo ---- copying manifest---- 
+    @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST
+    @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\MANIFEST\*.mf $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST /Y >>$(_ERR)
+    @echo ---- copying resources---- 
     @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\resources\commands.xml $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources /Y >>$(_ERR)
     @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources\icons md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources\icons
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\resources\icons\*.png $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources\icons /Y >>$(_ERR)
+    @echo ---- copying OtmTMService ---- 
+    @echo ---- OtmTMService ---- >>$(_ERR)
+    @if not exist $(RELEASE_DIR)\OTM\OtmTMService md $(RELEASE_DIR)\OTM\OtmTMService
+    @copy $(_DRIVE)\$(_DEVDIR)\OtmTMService\OtmTMService.jar $(RELEASE_DIR)\OTM\OtmTMService /Y >>$(_ERR)
+    @echo ---- copying libs ---- 
+    @if not exist $(RELEASE_DIR)\OTM\OtmTMService\lib md $(RELEASE_DIR)\OTM\OtmTMService\lib
+    @copy $(_DRIVE)\$(_DEVDIR)\OtmTMService\lib\*.jar $(RELEASE_DIR)\OTM\OtmTMService\lib /Y >>$(_ERR)
+    @if not exist $(RELEASE_DIR)\OTM\OtmTMService\configure md $(RELEASE_DIR)\OTM\OtmTMService\configure
+    @copy $(_DRIVE)\$(_DEVDIR)\OtmTMService\configure\* $(RELEASE_DIR)\OTM\OtmTMService\configure /Y >>$(_ERR)
+    @echo ---- copying manifest---- 
+    @if not exist $(RELEASE_DIR)\OTM\OtmTMService\MANIFEST md $(RELEASE_DIR)\OTM\OtmTMService\MANIFEST
+    @copy $(_DRIVE)\$(_DEVDIR)\OtmTMService\MANIFEST\*.mf $(RELEASE_DIR)\OTM\OtmTMService\MANIFEST /Y >>$(_ERR)
     @echo ---- copying binaries from $(PACKAGESBIN) ---- 
     @echo ---- copying binaries from $(PACKAGESBIN) ---- >>$(_ERR)
     @copy $(PACKAGESBIN)\*.* $(RELEASE_DIR)\OTM\WIN /Y >>$(_ERR)
-	@echo ---- copying OpenTMSHelper from $(_DRIVE)\$(_DEVDIR)\OpenTMSHelper ---- 
+    @echo ---- copying OpenTMSHelper from $(_DRIVE)\$(_DEVDIR)\OpenTMSHelper ---- 
     @echo ---- copying OpenTMSHelper from $(_DRIVE)\$(_DEVDIR)\OpenTMSHelper ----  >>$(_ERR)
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTMSHelper\OpenTMSHelper.jar $(RELEASE_DIR)\OTM\WIN /Y >>$(_ERR)
     @echo ---- copying MSG file ---- 
@@ -70,7 +82,8 @@ build:
     @echo ---- copying compiled help file ---- >>$(_ERR)
     @if not exist $(RELEASE_DIR)\OTM\DOC md $(RELEASE_DIR)\OTM\DOC
 	@copy $(_DOC)\PluginManager\PluginManager.chm $(RELEASE_DIR)\OTM\DOC /Y >>$(_ERR)
-	@copy $(_DOC)\eqfr5mst.pdf $(RELEASE_DIR)\OTM\DOC /Y >>$(_ERR)
+	@copy $(_DOC)\Opentm2TechnicalReference.pdf $(RELEASE_DIR)\OTM\DOC /Y >>$(_ERR)
+	@copy $(_DOC)\Opentm2TranslatorsReference.pdf $(RELEASE_DIR)\OTM\DOC /Y >>$(_ERR)
 	@copy $(_DOC)\OpenTM2APICalls.pdf $(RELEASE_DIR)\OTM\DOC /Y >>$(_ERR)
 
 

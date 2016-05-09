@@ -4,7 +4,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -7148,6 +7148,11 @@ BOOL DicImportFileOpenDialog
         case 4:  pDimpIda->usImpMode = DICT_FORMAT_XML_UTF8; break;
         default: pDimpIda->usImpMode = DICT_FORMAT_SGML_ANSI; break;
       } /*endswitch */
+      PSZ pszFileExt = strrchr( pDimpIda->szDictName, '.' );
+      if ( ( pszFileExt ) &&
+           ( ! stricmp( pszFileExt, ".DXT" ) ) ) {
+         pDimpIda->usImpMode = DICT_FORMAT_XML_UTF8; 
+      }
 
       //save last used values
       if ( SetPropAccess( pDimpIda->hDictListProp, PROP_ACCESS_WRITE))

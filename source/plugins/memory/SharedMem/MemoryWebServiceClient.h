@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "core\pluginmanager\OtmMemoryPlugin.h"
 
 class __declspec(dllexport) MemoryWebServiceClient
@@ -197,6 +198,11 @@ int listMemoryUsers
 	std::vector<std::string> &users
 );
 
+// load current update counter value
+void loadUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter );
+// write new update counter value
+void writeUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter );
+
 
 /*! \brief Error codes returned by MemoryWebServiceClient.
 */
@@ -243,6 +249,9 @@ private:
     std::string &strResponse
   );
 
+  int  doSyncCall(std::map<std::string,std::string> &parameters, const std::string requiredVal, std::string &retVal );
+
+  void makeUpdateCounterFileName( std::string &strPropPath, std::string &strPropFile, std::string &strUpdateCounterFileName );
 };
 
 #endif // #ifndef _MEMORYWEBSERVICECLIENT_H_

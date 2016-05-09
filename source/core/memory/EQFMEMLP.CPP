@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author: Markus Conrad                                                       |
@@ -687,6 +687,13 @@ VOID EQFMemLoadProcess ( PPROCESSCOMMAREA pCommArea,
                     }
                     else
                         fOk = FALSE;
+
+                   // update memory description with description of imported memory
+                   if ( fOk )
+                   {
+                     pLoadData->pMem->setDescription( pLoadData->pstMemInfo->szDescription );
+                   } /* endif */
+
                 }
                 //END process next TMX TM to fill some information
 
@@ -1192,6 +1199,11 @@ static USHORT  MemLoadStart( PVOID *ppIda,
 
       pLIDA->pszActFile = pLIDA->pszList;
 
+      pLIDA->fCreateMatchID = pDialogIDA->fCreateMatchID;
+      pLIDA->fForceNewMatchID = pDialogIDA->fForceNewMatchID;
+      strcpy( pLIDA->szMatchIDPrefix, pDialogIDA->szMatchIDPrefix );
+      wcscpy( pLIDA->szMatchIDPrefixW, pDialogIDA->szMatchIDPrefixW );
+
       if ( pDialogIDA->ulOemCP )
         pLIDA->ulOemCP = pDialogIDA->ulOemCP;
       else
@@ -1408,6 +1420,12 @@ static USHORT  MemLoadStart( PVOID *ppIda,
            fOK = FALSE;
          } /* endif */
        } /* endif */
+
+       // update memory description with description of imported memory
+       if ( fOK )
+       {
+         pLIDA->pMem->setDescription( pLIDA->pstMemInfo->szDescription );
+       } /* endif */
      } /* endif */
 
      pLIDA->fControlFound = TRUE; // avoid error message at end of import 
@@ -1481,6 +1499,13 @@ static USHORT  MemLoadStart( PVOID *ppIda,
            fOK = FALSE;
          } /* endif */
        } /* endif */
+
+       // update memory description with description of imported memory
+       if ( fOK )
+       {
+         pLIDA->pMem->setDescription( pLIDA->pstMemInfo->szDescription );
+       } /* endif */
+
      } /* endif */
 
      pLIDA->fControlFound = TRUE; // avoid error message at end of import 
@@ -1845,6 +1870,8 @@ static USHORT MemLoadProcess( PMEM_LOAD_IDA  pLIDA  ) //pointer to the load IDA
           // A CONTROL token has been found
           pLIDA->fControlFound = TRUE;
           pLIDA->pTokenEntry = pLIDA->pTokenEntryWork;
+
+          pLIDA->ulSequenceNumber++;           // Increase segment sequence number in any case
 
           // Prepare the data for the TmReplace call
           fProcess = NTMLoadPrepSeg( pLIDA, &fSegmentTooLarge );
@@ -2764,7 +2791,19 @@ NTMLoadPrepSeg( PMEM_LOAD_IDA  pLIDA, PBOOL pfSegmentTooLarge ) //pointer to the
      if ( MemLPCheckForTag( pTEW, pLIDA->sAddInfoTokenID ) )
      {
        fOk = MemLPExtractValue( &pTEW, pLIDA->sAddInfoTokenID, pLIDA->sAddInfoEndTokenID, pLIDA->szSegBuffer, MAX_SEGMENT_SIZE, pfSegmentTooLarge );
+
+       // do any match segment ID processing
+       if ( fOk && pLIDA->fCreateMatchID )
+       {
+         MADAddMatchSegID( pLIDA->szSegBuffer, pLIDA->szMatchIDPrefixW, pLIDA->ulSequenceNumber, pLIDA->fForceNewMatchID );
+       } /* endif */
+
        if ( fOk ) pLIDA->pProposal->setAddInfo( pLIDA->szSegBuffer );
+     }
+     else if ( pLIDA->fCreateMatchID ) 
+     {
+       swprintf( pLIDA->szSegBuffer, L"<MatchSegID ID=\"%s%lu\"/>", pLIDA->szMatchIDPrefixW, pLIDA->ulSequenceNumber );
+       pLIDA->pProposal->setAddInfo( pLIDA->szSegBuffer );
      } /* endif */      
    } /* endif */      
 
@@ -2845,6 +2884,7 @@ USHORT MemBatchTMImport
      strcpy( pLoadIDA->szMemName, pMemImp->szName );
      if ( !pFactory->exists( NULL, pLoadIDA->szMemName ) )
      {
+       fOK = FALSE;
        pszParm = pMemImp->szName;
        UtlErrorHwnd( ERROR_MEMORY_NOTFOUND, MB_CANCEL, 1, &pszParm, EQF_ERROR, pMemImp->hwndErrMsg );
      } /* endif */
@@ -3010,6 +3050,10 @@ USHORT MemFuncImportMem
   PFCTDATA    pData,                   // function I/F session data
   PSZ         pszMemName,              // name of Translation Memory
   PSZ         pszInFile,               // fully qualified name of input file
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  PSZ         pszUnused1,              // not in use, for future enhancements
+  PSZ         pszUnused2,              // not in use, for future enhancements
   LONG        lOptions                 // options for Translation Memory import
 )
 {
@@ -3020,7 +3064,7 @@ USHORT MemFuncImportMem
   {
     // prepare a new analysis run
     pData->usProgress = 0;
-    usRC = MemFuncPrepImport( pData, pszMemName, pszInFile, lOptions );
+    usRC = MemFuncPrepImport( pData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
   }
   else
   {
@@ -3036,6 +3080,10 @@ USHORT MemFuncPrepImport
   PFCTDATA    pData,                   // function I/F session data
   PSZ         pszMemName,              // name of Translation Memory
   PSZ         pszInFile,               // fully qualified name of input file
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  PSZ         pszUnused1,              // not in use, for future enhancements
+  PSZ         pszUnused2,              // not in use, for future enhancements
   LONG        lOptions                 // options for Translation Memory import
 )
 {
@@ -3044,13 +3092,14 @@ USHORT MemFuncPrepImport
   PSZ         pszParm;                 // error parameter pointer
   PMEM_LOAD_DLG_IDA pLoadIDA = NULL;   // Pointer to the load IDA
 
+  pszUnused1; pszUnused2;
+
    /*******************************************************************/
    /* Allocate storage for the MEM_LOAD_DLG_IDA. The area will be free*/
    /* in the function  EQFMemloadStart. Only in case of an error      */
    /* it will be freed here.                                          */
    /*******************************************************************/
-   fOK = UtlAllocHwnd( (PVOID *)&pLoadIDA, 0L, (LONG)sizeof(MEM_LOAD_DLG_IDA),
-                       ERROR_STORAGE, HWND_FUNCIF );
+   fOK = UtlAllocHwnd( (PVOID *)&pLoadIDA, 0L, (LONG)sizeof(MEM_LOAD_DLG_IDA), ERROR_STORAGE, HWND_FUNCIF );
     if ( fOK )
     {  // use def.target lang. from system preferences of TM
           pLoadIDA->ulOemCP = GetLangOEMCP(NULL);
@@ -3113,6 +3162,17 @@ USHORT MemFuncPrepImport
         UtlSetUShort( QS_MEMIMPMRKUPACTION, MEMIMP_MRKUP_ACTION_RESET );
      }
 
+     if ( lOptions & FORCENEWMATCHID_OPT )
+     {
+       pLoadIDA->fForceNewMatchID = TRUE;
+     } /* endif */
+   } /* endif */
+
+   // prepare segment match ID prefix
+   if ( fOK )
+   {
+     pLoadIDA->fCreateMatchID = MADPrepareMatchSegIDPrefix( pszTM_ID, pszStoreID, pLoadIDA->szMatchIDPrefix );
+     if ( pLoadIDA->fCreateMatchID  ) MultiByteToWideChar( CP_ACP, 0, pLoadIDA->szMatchIDPrefix, -1, pLoadIDA->szMatchIDPrefixW, sizeof(pLoadIDA->szMatchIDPrefixW)/sizeof(CHAR_W) );
    } /* endif */
 
    /*******************************************************************/
@@ -3772,7 +3832,9 @@ USHORT APIENTRY MEMINSERTSEGMENT
   USHORT usRC = 0;
 
   PMEM_LOAD_IDA pLIDA = (PMEM_LOAD_IDA)lMemHandle;
-  
+
+  pLIDA->ulSequenceNumber++;           // Increase segment sequence number in any case
+
   // prepare segment data
   if ( pSegment->fValid )
   {
@@ -3800,6 +3862,7 @@ USHORT APIENTRY MEMINSERTSEGMENT
 
     // insert/replace segment in(to) memory
     usRC = (USHORT)pLIDA->pMem->putProposal( *(pLIDA->pProposal) );
+
 
     if ( !usRC )
     {

@@ -1,5 +1,5 @@
 /*! EQFTMI.H      Internal header file for Translation Memory functions
-	Copyright (c) 1990-2014, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 /**********************************************************************/
@@ -608,6 +608,12 @@ typedef struct _MEM_LOAD_IDA
  BOOL         fYesToAll;                  // yes-to-all flag for merge confirmation
  FILE         *hSegLog;                   // handle of segment log file
  CHAR         szSegLog[MAX_EQF_PATH];     // name of segment log file
+ BOOL          fForceNewMatchID;          // create a new match segment ID even when the match already has one
+ BOOL          fCreateMatchID;            // create match segment IDs
+ CHAR          szMatchIDPrefix[256];      // prefix to be used for the match segment ID
+ CHAR_W        szMatchIDPrefixW[256];     // prefix to be used for the match segment ID (UTF16 version)
+ CHAR_W        szMatchSegIdInfo[512];     // buffer for the complete match segment ID entry
+ ULONG         ulSequenceNumber;          // segment sequence number within current external memory file
 }MEM_LOAD_IDA, * PMEM_LOAD_IDA;
 
 typedef struct _MEM_MERGE_IDA
@@ -1448,6 +1454,10 @@ typedef struct _MEM_LOAD_DLG_IDA
  BOOL         fImpModeSet;                // TRUE = imp mode has been set by the impot file check logic
  OtmMemory    *pMem;                      // pointer to memory being imported
  OtmProposal  *pProposal;                 // buffer for proposal data
+ BOOL          fForceNewMatchID;          // create a new match segment ID even when the match already has one
+ BOOL          fCreateMatchID;            // create match segment IDs
+ CHAR          szMatchIDPrefix[256];      // prefix to be used for the match segment ID
+ CHAR_W        szMatchIDPrefixW[256];     // prefix to be used for the match segment ID (UTF16 version)
 }MEM_LOAD_DLG_IDA, * PMEM_LOAD_DLG_IDA;
 
 BOOL    MemImportFileOpenDialog( PMEM_LOAD_DLG_IDA   pLoadIDA );

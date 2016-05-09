@@ -3,7 +3,7 @@
 //쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
 //쿎opyright Notice:                                                           ?
 //?                                                                           ?
-//?     Copyright (C) 1990-2015, International Business Machines              ?
+//?     Copyright (C) 1990-2016, International Business Machines              ?
 //?     Corporation and others. All rights reserved                           ?
 //쳐컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴캑
 //쿟o be done / known limitations / caveats:                                   ?
@@ -123,6 +123,7 @@ BEGIN
     SEPARATOR
     BUTTON      PID_FILE_MI_EBUS
     BUTTON      PID_FILE_MI_EBUS1
+    BUTTON      PID_FILE_MI_TECHGUIDE
     BUTTON      PID_HELP_MI_INDEX
 END
 
@@ -199,7 +200,8 @@ BEGIN
         PID_FILE_MI_SELECTALL       "Select all\nSelect all"
         PID_FILE_MI_DESELECTALL     "Deselect all\nDeselect all"
         PID_FILE_MI_EBUS            "OpenTM2 homepage\nOpenTM2 homepage"
-        PID_FILE_MI_EBUS1           "OpenTM2 documentation (PDF)\nOpenTM2 documentation (PDF)"
+        PID_FILE_MI_EBUS1           "Translator's Reference Guide (PDF)\nTranslator's Reference Guide (PDF)"
+        PID_FILE_MI_TECHGUIDE       "Technical Reference Guide (PDF)\nTechnical Reference Guide (PDF)"
 
         PID_VIEW_MI_NAMES           "List Names only\nNames view"
         PID_VIEW_MI_DETAILS         "List details selected\nDetails view"

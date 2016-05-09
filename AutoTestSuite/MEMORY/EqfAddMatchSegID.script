@@ -1,0 +1,86 @@
+****************************************************************************************************
+** Script name...: EqfAddMatchSegID.script                                                        **
+** Purpose.......: Script to test the API call EqfAddMatchSegID                                   **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: February 29, 2016                                                              **
+** Update........: February 29, 2016                                                              **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 QSoft Gmbh for IBM Translation Technical Services                              **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+****************************************************************************************************
+* Define constants 
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+define Data,%TestDataLocation%\MEMORY\ADDMATCHSEGID
+
+****************************************************************************************************
+* Prepare test data ... 
+****************************************************************************************************
+EqfDeleteMem AddMatchSegIDMem
+
+****************************************************************************************************
+* Test cases... 
+****************************************************************************************************
+
+TESTCASE EQFADDMATCHSEG001,Call EqfAddMatchSegID API without any parameters specified
+  EqfAddMatchSegID 
+  TESTRESULT 29, EqfImportMemEx wrong return code when called without parameters
+End
+
+
+
+TESTCASE EQFADDMATCHSEG002,Call EqfAddMatchSegID API with non-existing memory
+  EqfAddMatchSegID NotExistingMem,AAP001XXX,MTX
+  TESTRESULT 133, EqfAddMatchSegID wrong return code when called with not existing memory
+End
+
+TESTCASE EQFADDMATCHSEG003,Call EqfAddMatchSegID API without match ID specifications
+  EqfCreateMem AddMatchSegIDMem, , , English(U.S.), 
+  EqfAddMatchSegID AddMatchSegIDMem
+  TESTRESULT 673, EqfAddMatchSegID wrong return code when called without match ID specification
+End
+
+TESTCASE EQFADDMATCHSEG004,Call EqfAddMatchSegID API to generate match segment IDs
+  EqfCreateMem AddMatchSegIDMem, , , English(U.S.), 
+  EqfImportMem AddMatchSegIDMem, %Data%\AddMatchSegID.EXP, (UTF16_OPT,GENERIC_UNKNOWN_MARKUP_OPT)
+  EqfAddMatchSegID AddMatchSegIDMem,AAP001XXX,MTX
+  EqfExportMem AddMatchSegIDMem, %Data%\ADDMATCHSEGID-Out4.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem AddMatchSegIDMem
+  COMPAREBINARY %Data%\AddMatchSegID-Out4-Expected.EXP, %Data%\ADDMATCHSEGID-Out4.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+TESTCASE EQFADDMATCHSEG005,Call EqfAddMatchSegID API to force the match segment ID generation
+  EqfCreateMem AddMatchSegIDMem, , , English(U.S.), 
+  EqfImportMem AddMatchSegIDMem, %Data%\AddMatchSegID.EXP, (UTF16_OPT)
+  EqfAddMatchSegID AddMatchSegIDMem,AAP001XXX,MTX,FORCENEWMATCHID_OPT
+  EqfExportMem AddMatchSegIDMem, %Data%\ADDMATCHSEGID-Out5.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem AddMatchSegIDMem
+  COMPAREBINARY %Data%\AddMatchSegID-Out5-Expected.EXP, %Data%\ADDMATCHSEGID-Out5.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+TESTCASE EQFADDMATCHSEG006,Test EqfAddMatchSegID API with special characters in TM_ID and StoreID
+  EqfCreateMem AddMatchSegIDMem, , , English(U.S.), 
+  EqfImportMem AddMatchSegIDMem, %Data%\AddMatchSegID.EXP, (UTF16_OPT)
+  EqfAddMatchSegID AddMatchSegIDMem,A_P001X_X,M<>X
+  EqfExportMem AddMatchSegIDMem, %Data%\ADDMATCHSEGID-Out6.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem AddMatchSegIDMem
+  COMPAREBINARY %Data%\AddMatchSegID-Out6-Expected.EXP, %Data%\ADDMATCHSEGID-Out6.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+* Cleanup
+*
+DeleteFile %Data%\AddMatchSegID-Out4.EXP
+DeleteFile %Data%\AddMatchSegID-Out5.EXP
+DeleteFile %Data%\AddMatchSegID-Out6.EXP
+EqfDeleteMem AddMatchSegIDMem
+
+

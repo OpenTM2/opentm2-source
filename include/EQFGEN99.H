@@ -132,6 +132,7 @@ protected:
   afx_msg LRESULT On_WM_CLOSE( WPARAM mp1, LPARAM mp2 );
   afx_msg void OnEBus();
   afx_msg void OnEBus1();
+  afx_msg void OnTechGuide();
   afx_msg void OnEBus2();
 
   afx_msg void OnTimer( UINT uTimer )

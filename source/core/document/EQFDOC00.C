@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -2592,6 +2592,8 @@ CreateDocInstWnd
   ULONG           flStyle;                 //fram creation flags
   RECTL           Rectl;                   // rectangle structure
   PDOCUMENT_IDA   pDocIda;                 //pointer to document ida
+  BOOL            fStartSpellCheck = FALSE;
+
 
   *phClient = NULLHANDLE;
   flStyle = FCF_TITLEBAR | FCF_SIZEBORDER | FCF_MINBUTTON;
@@ -4647,4 +4649,174 @@ USHORT GetLangID( PDOCUMENT_IDA pIda )
 }
 
 
+BOOL FolSpellcheck
+(
+  PSZ              pszFolObjName,      // folder object name
+  BOOL             fFromFolderList,    // TRUE = called from folder list
+  BOOL             fMultipleObjs       // TRUE = called with a list of folder object names
+)
+{
+  POPENANDPOS pOpen = NULL;
+  BOOL fOK = TRUE;
+  PSZ pszList = NULL;                  // pointer to list of document object names
+  LONG lListSize = 0;                  // current size (in bytes) of list of document object names
+  LONG lListUsed = 0;                  // number of bytes already in use in the list of document object names
+
+  // allocate open-and-pos structure
+  if ( !UtlAlloc( (PVOID *)&pOpen, 0L, (LONG)sizeof(OPENANDPOS), ERROR_STORAGE ) )
+  {
+    return( FALSE );
+  } /* endif */
+
+  if ( FolIsSubFolderObject( pszFolObjName ) )
+  {
+    // convert pszFolObjName to folder object name by cutting the subfolder part and property part from the name
+    strcpy( pOpen->szDocName, pszFolObjName );
+    UtlSplitFnameFromPath( pOpen->szDocName );
+    UtlSplitFnameFromPath( pOpen->szDocName );
+  }
+  else
+  {
+    // pszFolObjName contains the folder object name already
+    strcpy( pOpen->szDocName, pszFolObjName );
+  } /* endif */
+
+  // get list of documents and add them to the list of spellchecked documents
+  if ( fOK )
+  {
+
+    HWND hwndTemp = WinCreateWindow( NULLHANDLE, WC_LISTBOX, "", 0L, 0, 0, 0, 0, NULLHANDLE, HWND_TOP, 2, NULL, NULL );
+    do
+    {
+      LONG lAddSize = 0;               // additional room needed in document object name list
+
+      if ( fMultipleObjs )
+      {
+        int i = 0;
+        int docs = 0;
+
+        // fill temp listbox with documents of folder
+        DELETEALLHWND( hwndTemp );
+        strcpy( pOpen->szDocName, pszFolObjName );
+        EqfSend2Handler( FOLDERHANDLER, WM_EQF_INSERTNAMES, MP1FROMHWND(hwndTemp), MP2FROMP(pszFolObjName) );
+
+        // next folder
+        pszFolObjName += strlen(pszFolObjName) + 1;
+      }
+      else if ( fFromFolderList )
+      {
+        EqfSend2Handler( FOLDERHANDLER, WM_EQF_INSERTNAMES, MP1FROMHWND(hwndTemp), MP2FROMP(pOpen->szDocName) );
+      }
+      else
+      {
+        EqfSend2Handler( FOLDERHANDLER, WM_EQF_QUERYSELECTEDNAMES, MP1FROMHWND(hwndTemp), MP2FROMP(pOpen->szDocName) );
+      } /* endif */
+
+      // compute additional size required for the documents in the listbox
+      {
+        lAddSize = 0;
+        int iNumOfDocs = QUERYITEMCOUNTHWND( hwndTemp );
+        int i = 0;
+        int iFolNameLength = strlen( pOpen->szDocName ) + 1;
+        while ( i < iNumOfDocs )
+        {
+          int iLen = SendMessage( hwndTemp, LB_GETTEXTLEN, i, 0 );
+          if ( iLen != LB_ERR ) lAddSize += (iLen + iFolNameLength + 1); // add length of document object name (which is folder object name plus backslash plus document name)
+          i++;
+        } /*endwhile */
+      }
+
+      // enlarge the document list area
+      if ( lAddSize )
+      {
+        fOK = UtlAlloc( (PVOID *)&pszList, lListSize, (lListSize + lAddSize + 1), ERROR_STORAGE );
+        if ( fOK ) lListSize += lAddSize + 1;
+      } /* endif */
+
+      // add the document object names to the list
+      if ( fOK && lAddSize )
+      {
+        int iNumOfDocs = QUERYITEMCOUNTHWND( hwndTemp );
+        int i = 0;
+        int iFolNameLength = strlen( pOpen->szDocName );
+        while ( i < iNumOfDocs )
+        {
+          strcpy( pszList + lListUsed, pOpen->szDocName );
+          lListUsed += iFolNameLength;
+          pszList[lListUsed++] = '\\';
+
+          SendMessage( hwndTemp,LB_GETTEXT, i, (LPARAM)(LPCSTR)(pszList + lListUsed) );
+          lListUsed += strlen( pszList + lListUsed ) + 1; 
+          i++;
+        } /*endwhile */
+      } /* endif */
+    } while ( fOK && fMultipleObjs && *pszFolObjName );
+
+    // terminate document object name list
+    pszList[lListUsed] = EOS;
+
+    WinDestroyWindow( hwndTemp );
+  } /* endif */
+
+  // check if all documents use the same target language and if there is spellcheck support for the target language
+  if ( fOK )
+  {
+    PSZ pszCurDoc = pszList;
+    char szLastTargetLang[MAX_LANG_LENGTH];      // last used target language
+    char szDocTargetLang[MAX_LANG_LENGTH];       // target language of current document
+
+    szLastTargetLang[0] = EOS;
+    while ( fOK && (*pszCurDoc != EOS) )
+    {
+      szDocTargetLang[0] = EOS;
+      DocQueryInfo( pszCurDoc, NULL, NULL, NULL, szDocTargetLang, FALSE );
+      if ( szDocTargetLang[0] != EOS )
+      {
+        if ( (szLastTargetLang[0] != EOS) && (strcmp( szLastTargetLang, szDocTargetLang ) != 0) )
+        {
+          PSZ pszParms[2];
+          pszParms[0] = szLastTargetLang;
+          pszParms[1] = szDocTargetLang;
+          UtlError( ERROR_DIFFERENT_TARGET_LANG, MB_CANCEL, 2, pszParms, EQF_ERROR );
+          fOK = FALSE;
+        } /* endif */
+        strcpy( szLastTargetLang, szDocTargetLang );
+      } /* endif */
+      pszCurDoc += strlen(pszCurDoc) + 1;        // continue with next document
+    } /* endwhile */
+
+    // test target language
+    if ( fOK && (szLastTargetLang[0] != EOS) )
+    {
+	    fOK = EQFBCheckSpellLang( szLastTargetLang );
+      if ( !fOK  )
+      {
+        PSZ pszParm;
+        pszParm = szLastTargetLang;
+        UtlError( ERROR_NO_SPELL_SUPPORT_FOR_TARGET_LANG, MB_CANCEL, 1, &pszParm, EQF_ERROR );
+      } /* endif */
+    } /* endif */
+  } /* endif */
+
+  if ( fOK )
+  {
+    strcpy( pOpen->szDocName, pszList ); // start with first document in the list
+    pOpen->ulSeg = 0;
+    pOpen->usOffs= 0;
+    pOpen->usLen = 0;
+    pOpen->chFind[0] = 0;
+    pOpen->fSpellcheck = TRUE;
+    pOpen->pszDocumentList = pszList;
+    EqfPost2Handler( DOCUMENTHANDLER, WM_EQF_PROCESSTASK, MP1FROMSHORT(OPEN_AND_POSITION_TASK), MP2FROMP(pOpen) );
+  } /* endif */
+
+  // cleanup in case of errors
+  if ( !fOK )
+  {
+    if ( pszList != NULL ) UtlAlloc( (PVOID *)&pszList, 0, 0, NOMSG );
+    if ( pOpen != NULL ) UtlAlloc( (PVOID *)&pOpen, 0, 0, NOMSG );
+  } /* endif */
+
+  return( fOK );
+} /* end of function FolSpellcheck */
 

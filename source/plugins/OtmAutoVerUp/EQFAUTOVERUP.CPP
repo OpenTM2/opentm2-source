@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -27,7 +27,7 @@ int AutoVesrionUpProps(HINSTANCE hInstance, char * szOtmPath, LPTSTR lpCmdLine)
     // set path as global value
     int nRC = NO_ERROR;
 
-    HWND hwndOpenTM2 = FindWindow(NULL, OPENTM2_APP_NAME_STR);
+    HWND hwndOpenTM2 = FindWindow(OPENTM2_APP_NAME_STR, NULL);
 
     AutoVerUpStart(szOtmPath);
 
@@ -1016,7 +1016,7 @@ int UpdateSelectedComponent(HWND hwndTabDlg)
 
     // each task is divided to two parst: start and end, so the total count should multiply by 2
     nCheckedCnt = nCheckedCnt * 2;
-    gOtmSftp = new COtmSftp();
+	gOtmHttps = new COtmHttps();
     HINSTANCE hInst = (HINSTANCE) GetWindowLong(hwndTabDlg, GWL_HINSTANCE);
     ghwndPrgCtrlDlg = CreateDialogParam(hInst,
                                         MAKEINTRESOURCE(IDD_PROGRESS_CTRL_DLG),
@@ -1118,11 +1118,10 @@ unsigned int __stdcall DownloadPCThreadProc(LPVOID lpParameter)
         GetPrivateProfileString(APP_AUTO_VER_UP_NET_SET, KEY_AUTO_VER_UP_PROXY_ADDRESS, EMPTY_STR, networkParam.strProxyAddress, sizeof(networkParam.strProxyAddress), gstrgConfigFile);
         GetPrivateProfileString(APP_AUTO_VER_UP_NET_SET, KEY_AUTO_VER_UP_PROXY_PORT, EMPTY_STR, networkParam.strProxyPort, sizeof(networkParam.strProxyPort), gstrgConfigFile);
         networkParam.nTimeout = GetPrivateProfileInt(APP_AUTO_VER_UP_NET_SET, KEY_AUTO_VER_UP_TIMEOUT, DEF_CONNECT_TIMEOUT, gstrgConfigFile);
-
-        COtmHttps * otmHttps = new COtmHttps();
+   
 
         glogAutoVerUp.writef("Download to %s.", pDownloadParam->strDLFile);
-//        nRC = otmHttps->DownloadFile(pDownloadParam->strDLUrl, pDownloadParam->strDLFile, &networkParam);
+        nRC = gOtmHttps->DownloadFile(pDownloadParam->strDLUrl, pDownloadParam->strDLFile, &networkParam);
         glogAutoVerUp.writef("Download %s end(%d), %s", pDownloadParam->strDLFile, nRC, networkParam.strError);
 
         if (nRC)
@@ -1578,8 +1577,7 @@ LPARAM mp2
         SendMessage(hwndPBTotal, PBM_STEPIT, 0, 0);
         SendMessage(hwndPBTotal, PBM_SETPOS, (WPARAM)0, (LPARAM)0);
 
-        // gOtmHttp->SetProcessDlg(hwndPrgCtrlDlg, IDC_PROGRESS_BAR);
-        gOtmSftp->SetProcessDlg(hwndPrgCtrlDlg, IDC_PROGRESS_BAR);
+        gOtmHttps->SetProcessDlg(hwndPrgCtrlDlg, IDC_PROGRESS_BAR);
         break;
 
     case WM_COMMAND:
@@ -2211,7 +2209,7 @@ void ResizeWholeDlg(HWND hwndDlg, SHORT sNewWidth, SHORT sNewHeight)
 
 void CloseOpenTM2()
 {
-    HWND hwndOpenTM2 = FindWindow(NULL, OPENTM2_APP_NAME_STR);
+    HWND hwndOpenTM2 = FindWindow(OPENTM2_APP_NAME_STR, NULL);
     SetForegroundWindow(hwndOpenTM2);
     SendMessage(hwndOpenTM2, WM_CLOSE, 0, 0);
 }

@@ -1,7 +1,7 @@
 //+----------------------------------------------------------------------------+
-//| EXP2TMX.C                                                                 |
+//| EXP2TMX.C                                                                  |
 //+----------------------------------------------------------------------------+
-//| Copyright (C) 2012-2015, International Business Machines                        |
+//| Copyright (C) 2012-2016, International Business Machines                   |
 //| Corporation and others.  All rights reserved.                              |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -107,6 +107,7 @@ typedef struct _EXP2TMX_DATA
   CHAR_W       szActiveTagTable[100];            // buffer for name of loaded tag table
   CHAR         szMsgBuffer[2048];                // buffer for message texts
   BOOL         fLog;                             // true = write messages to log file
+  CHAR         szErrorMsgBuffer[4000];           // buffer for error messages
 } EXP2TMX_DATA, *PEXP2TMX_DATA;
 
 
@@ -451,7 +452,8 @@ USHORT ConvertSingleMemory
   lOutMode = (stricmp( pData->szOutMode, "UTF16" ) == 0 ) ? TMX_UTF16_OPT : TMX_UTF8_OPT;
   if ( pData->fNoCRLF ) lOutMode = lOutMode | TMX_NOCRLF_OPT; 
 
-  usRC = EXPTOTMX( pszInMemory, pData->szOutMemory, pData->szInMode, lOutMode, &lSegments ); 
+  pData->szErrorMsgBuffer[0] = EOS;
+  usRC = EXPTOTMX( pszInMemory, pData->szOutMemory, pData->szInMode, lOutMode, &lSegments, pData->szErrorMsgBuffer, FALSE, NULL ); 
 
   if ( usRC == NO_ERROR)
   {
@@ -464,6 +466,10 @@ USHORT ConvertSingleMemory
     sprintf( pData->szUtf8Buffer, "Conversion of memory %s into TMX memory %s failed, rc=%u.",
       pszInMemory, pData->szOutMemory, usRC ); 
     ShowError( pData, "%s", pData->szUtf8Buffer );
+    if ( pData->szErrorMsgBuffer[0] != EOS )
+    {
+      ShowInfo( pData, "%s", pData->szErrorMsgBuffer );
+    } /* endif */
   } /* endif */
   return( usRC );
 } /* end of function ConvertSingleMemory */

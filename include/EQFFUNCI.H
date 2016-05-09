@@ -1,5 +1,5 @@
 /*! EQFFUNCI.H      internal header file for non-DDE batch functions
-	Copyright (c) 1999-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #define FCTDATA_IDENTIFIER 0x1998A04FL
@@ -34,7 +34,9 @@ typedef enum _FCTFUNCTIONS
   FCT_EQFPROCESSNOMATCH,
   FCT_EQFEXPORTSEGS,
   FCT_EQFCREATEMARKUP,
-  FCT_EQFFILTERNOMATCHFILE
+  FCT_EQFIMPORTMEMEX,
+  FCT_EQFFILTERNOMATCHFILE,
+  FCT_EQFADDMATCHSEGID
 } FCTFUNCTIONS, *PFCTFUNCTIONS;
 
 // processing step identifiers
@@ -135,7 +137,7 @@ typedef struct _FCTDATA
   PVOID       pvExportSegsIda;        // pointer to export segments IDA
 
   PVOID       pvFilterNoMatchFile;    // for pointer to filter nomatch file IDA
-  PVOID       pvUnused2;              // for future use
+  PVOID       pvAddMatchSegID;        // for pointer to add match segment ID data area
   PVOID       pvUnused3;              // for future use
 
 
@@ -187,19 +189,38 @@ USHORT TAFuncPrepAnalysis
 );
 
 __declspec(dllexport)
+USHORT MemFuncAddMatchSegID
+(
+  PFCTDATA    pMatchSegIDData,         // function I/F session data
+  PSZ         pszMemName,              // Translation Memory being processed
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  LONG        lOptions                 // options for function
+);
+
+__declspec(dllexport)
 USHORT MemFuncImportMem
 (
   PFCTDATA    pData,                   // function I/F session data
   PSZ         pszMemname,              // name of Translation Memory
   PSZ         pszInFile,               // fully qualified name of input file
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  PSZ         pszUnused1,              // not in use, for future enhancements
+  PSZ         pszUnused2,              // not in use, for future enhancements
   LONG        lOptions                 // options for Translation Memory import
 );
+
 
 USHORT MemFuncPrepImport
 (
   PFCTDATA    pData,                   // function I/F session data
   PSZ         pszMemname,              // name of Translation Memory
   PSZ         pszInFile,               // fully qualified name of input file
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  PSZ         pszUnused1,              // not in use, for future enhancements
+  PSZ         pszUnused2,              // not in use, for future enhancements
   LONG        lOptions                 // options for Translation Memory import
 );
 
@@ -264,7 +285,7 @@ USHORT FolFuncChangeFolProps
   PSZ         pszROMemories,           // list of read-only search memories or NULL
   PSZ         pszDescription,          // folder description or NULL
   PSZ         pszProfile,              // calculation profile name or NULL
-  PSZ         pszUnUsed2               // for future enhancements, currently NULL
+  PSZ         pszShipment              // shipment number or NULL
 );
 
 __declspec(dllexport)
@@ -272,6 +293,16 @@ USHORT FolFuncGetFolProps
 (
   PSZ         pszFolderName,           // name of the folder
   PEXTFOLPROP pExtFolProps             // structure to fill in folder properties
+);
+
+__declspec(dllexport)
+USHORT FolFuncGetFolPropEx
+(
+  PSZ         pszFolderName,           // mand: name of the folder to get the property value from
+  PSZ         pszKey,                  // mand: name of the requested value
+                                       //@: DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,PROFILE,SHIPMENT
+  PSZ         pszBuffer,               // mand: buffer for the returned value
+  int         iBufSize                 // mand: size of the buffer
 );
 
 
@@ -419,6 +450,7 @@ USHORT FolFuncImportFolder
   PSZ         pszFolderName,           // name of folder being imported
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
   LONG        lOptions                 // folder import options
 );
 
@@ -614,6 +646,7 @@ USHORT InternalImportFolder
   PSZ         pszFolderName,           // name of folder being imported
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
   LONG        lOptions                 // folder import options
 );
 

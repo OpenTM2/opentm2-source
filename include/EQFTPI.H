@@ -1,5 +1,5 @@
 /*! EQFTPI.H      Internal header file for Translation Processor functions
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 // allow support for hot-spot conversion within windows...
@@ -201,19 +201,22 @@ typedef enum _FUNCTION
    PROPMARKCOPY_FUNC,               // copy marked block from proposal
 
    NEXTMISSPELLED_FUNC,             // goto next misspelled word
-   SPELLAUTO_FUNC,                     // turn autospellcheck on
+   SPELLAUTO_FUNC,                  // turn autospellcheck on
    GOUPDSEGMENT_FUNC,
    VISIBLESPACE_FUNC,
    REDO_FUNC,
    WYSIWYG_FUNC,
    ALLEXACTPROPS_FUNC,
    DUMMY_009,
-   GOTOSEGMENT_FUNC,                   // goto segment..
+   GOTOSEGMENT_FUNC,                // goto segment..
    CFIND_FUNC,
    SEGPROP_FUNC,
-   DICTPFXDOWN_FUNC,                   // page down dict. prefixes
-   DICTPFXUP_FUNC,                     // page up dict. prefixes
-   LAST_FUNC                           // should always be last entry in enum
+   DICTPFXDOWN_FUNC,                // page down dict. prefixes
+   DICTPFXUP_FUNC,                  // page up dict. prefixes
+   TSEGNEXT_EXACT_FUNC,             // next untranslated segment with EXACT matches
+   TSEGNEXT_FUZZY_FUNC,             // next untranslated segment with FUZZY matches
+   TSEGNEXT_NONE_FUNC,              // next untranslated segment with NO matches
+   LAST_FUNC                        // should always be last entry in enum
 } FUNCTION;
 
 //+----------------------------------------------------------------------------+
@@ -290,6 +293,9 @@ typedef enum _FUNCTION
 #define POS_TOBE          0         // position at untranslated only
 #define POS_TOBEORDONE    1         // position at next untransl. or transl.
 #define POS_CURSOR        2         // position at cursor
+#define POS_TOBE_EXACT    3         // position at untranslated only with EXACT matches
+#define POS_TOBE_FUZZY    4         // position at untranslated only with FUZZY matches
+#define POS_TOBE_NONE     5         // position at untranslated only with NO matches
 
 #define MAXSTYLES         5            // max no of styles possible
 #define MAXLBITEMS       22           // max number of profile settings
@@ -995,6 +1001,12 @@ BOOL EQFBSaveSeg( PTBDOCUMENT );               // save current segment to tm
 __declspec(dllexport)
 VOID EQFBTSegNext ( PTBDOCUMENT      ) ;       // translate next segment
 __declspec(dllexport)
+VOID EQFBTSegNextExact ( PTBDOCUMENT ) ;       // translate next segment with EXACT matches
+__declspec(dllexport)
+VOID EQFBTSegNextFuzzy ( PTBDOCUMENT ) ;       // translate next segment with FUZZY matches
+__declspec(dllexport)
+VOID EQFBTSegNextNone ( PTBDOCUMENT  ) ;      // translate next segment with NO matches
+__declspec(dllexport)
 VOID EQFBMark    ( PTBDOCUMENT       ) ;       // mark the active segment
 __declspec(dllexport)
 VOID EQFBClearMark( PTBDOCUMENT      ) ;       // clear the marked segment
@@ -1146,7 +1158,7 @@ __declspec(dllexport)
  USHORT EQFBFilePrint( PTBDOCUMENT pDoc);                          // EQFBFILE.C
  __declspec(dllexport)
  SHORT  EQFBReadProfile( VOID );                                   // EQFBFILE.C
-
+ __declspec(dllexport)
  SHORT  EQFBWriteProfile( PTBDOCUMENT );                                  // EQFBFILE.C
 __declspec(dllexport)
  BOOL   EQFBFileExists( PSZ pszFile );                             // EQFBFILE.C
@@ -1229,6 +1241,7 @@ VOID EQFBChangeStyle ( PTBDOCUMENT, USHORT);     // selected style
 __declspec(dllexport)
 BOOL EQFBMapKey ( WINMSG, WPARAM, LPARAM, PUSHORT, PUCHAR , USHORT );
 BOOL EQFBConvKey ( WPARAM, PUCHAR, PUCHAR );
+__declspec(dllexport)
 BOOL EQFBKeyName ( PSZ pszBuffer, UCHAR ucCode, UCHAR ucState );
 void EQFBKeyNameW(wchar_t * pwszKeyName, UCHAR ucCode, UCHAR ucState);    // Add for R012027
 VOID EQFBLoadResource (VOID);
@@ -1241,6 +1254,8 @@ VOID EQFBAdaptKeyTable ( PKEYPROFTABLE pKeyList, PTBDOCUMENT pDoc );
 VOID EQFBExecuteKey ( PTBDOCUMENT, PKEYPROFTABLE );
 
 BOOL EQFBUtlSpell ( PSTEQFGEN );                 // check avail. of spell check
+__declspec(dllexport)
+BOOL EQFBCheckSpellLang ( PSZ pszLang );        // check avail. of spell check
 BOOL EQFBCheckTags ( PTBDOCUMENT );              // check for equal tags..
 BOOL EQFBDoTagCheck( PTBDOCUMENT );              // check for same tags ..
 VOID EQFBFuncDoLineWrap ( PTBDOCUMENT pDoc );              // do line wrap
@@ -1291,7 +1306,7 @@ __declspec(dllexport)
  BOOL EQFBCopyPropMatch( PTBDOCUMENT, USHORT, USHORT, BOOL);
  VOID EQFBDoNextTwo( PTBDOCUMENT, PULONG, USHORT );  // send next two segments
  VOID EQFBDocIsTranslated( PTBDOCUMENT ); // handling for document is xlat
- PTBSEGMENT EQFBFindNextSource( PTBDOCUMENT, PULONG, USHORT, PBOOL, PVOID *);
+ PTBSEGMENT EQFBFindNextSource( PTBDOCUMENT, PULONG, USHORT, PBOOL, BOOL, PVOID *);
 __declspec(dllexport)
  VOID SetScrollbar( PTBDOCUMENT );
  MRESULT EQFBFindClose( HWND, WPARAM, LPARAM );
@@ -1623,6 +1638,12 @@ INT_PTR CALLBACK EQFBTOCGOTODLGPROC( HWND, WINMSG, WPARAM, LPARAM );
 INT_PTR CALLBACK EQFBCFINDDLGPROC( HWND, WINMSG, WPARAM, LPARAM );
 INT_PTR CALLBACK EQFBCOMMENTDLGPROC( HWND hwndDlg, WINMSG msg, WPARAM mp1, LPARAM mp2 );
 
+// spellcheck dialog return codes
+#define SPELLCHECK_CLOSED_BY_USER  1    // dialog closed by user 
+#define SPELLCHECK_GO_TO_NEXT_DOC  2    // dialog closed to continue spellchecking of next document in the list
+#define SPELLCHECK_LAST_DOC_DONE   3    // dialog closed to complete spellchecking of a list of documents
+#define SPELLCHECK_CLOSED_BY_ERROR 0    // dialog closed because of errors
+
 BOOL EQFBShowSegmentComment
 (
   HWND        hwnd,                    // parent window handle
@@ -1637,158 +1658,161 @@ BOOL EQFBShowSegmentComment
 //+----------------------------------------------------------------------------+
 #if defined(INIT_TABLES)
 FUNCTIONTABLE FuncTab[] = {
-// Symbolic         Action   Entry point          Description
-//========================================================================
-{ ACTPROP_FUNC,     STARGET, EQFBActProp,         "" },
-{ DICTDOWN_FUNC,    STARGET, EQFBDictDown,        "" },
-{ DICTUP_FUNC,      STARGET, EQFBDictUp,          "" },
-{ BACKSPACE_FUNC,   ACTSEG,  EQFBFuncBackspace,   "" },
-{ BACKTAB_FUNC,         0,   EQFBFuncBacktab,     "" },
-{ BOTTOMDOC_FUNC,   OVERALL, EQFBFuncBottomDoc,   "" },
-{ DELETECHAR_FUNC,  STARGET, EQFBFuncDeleteChar,  "" },
-{ DOWN_FUNC,        OVERALL, EQFBFuncDown,        "" },
-{ ENDLINE_FUNC,     OVERALL, EQFBFuncEndLine,     "" },
-{ ENDSEG_FUNC,      STARGET, EQFBFuncEndSeg,      ""},
-{ ESCAPE_FUNC,          0,   EQFBFuncEscape,      "" },
-{ FILE_FUNC,            0,   EQFBFuncDoFile,      "" },
-{ INSTOGGLE_FUNC,   OVERALL, EQFBFuncInsToggle,   "" },
-{ INSERTLINE_FUNC,  ACTSEG,  EQFBFuncInsertLine,  "" },
-{ JOINLINE_FUNC,    ACTSEG,  EQFBFuncJoinLine,    "" },
-{ LEFT_FUNC,        OVERALL, EQFBFuncLeft,        "" },
-{ NEXTDOC_FUNC,     OVERALL, EQFBFuncNextDoc,     "" },
-{ NEXTWORD_FUNC,    OVERALL, EQFBFuncNextWord,    "" },
-{ NOTHING_FUNC,         0,   EQFBFuncNothing,     "" },
-{ PAGEDOWN_FUNC,    OVERALL, EQFBFuncPageDown,    "" },
-{ PAGEUP_FUNC,      OVERALL, EQFBFuncPageUp,      "" },
-{ PREVDOC_FUNC,     OVERALL, EQFBFuncPrevDoc,     "" },
-{ PREVWORD_FUNC,    OVERALL, EQFBFuncPrevWord,    "" },
-{ QUIT_FUNC,            0,   EQFBFuncDoQuit,      "" },
-{ RIGHT_FUNC,       OVERALL, EQFBFuncRight,       "" },
-{ SAVE_FUNC,            0,   EQFBFuncSave,        "" },
-{ SCROLLDOWN_FUNC,  OVERALL, EQFBCursorScrollDown,"" },
-{ SCROLLLEFT_FUNC,  OVERALL, EQFBFuncScrollLeft,  "" },
-{ SCROLLRIGHT_FUNC, OVERALL, EQFBFuncScrollRight, "" },
-{ SCROLLUP_FUNC,    OVERALL, EQFBCursorScrollUp,  "" },
-{ SPLITLINE_FUNC,   ACTSEG,  EQFBFuncSplitLine,   "" },
-{ STARTLINE_FUNC,   OVERALL, EQFBFuncStartLine,   "" },
-{ STARTSEG_FUNC,    STARGET, EQFBFuncStartSeg,    ""},
-{ TAB_FUNC,         OVERALL, EQFBFuncTab,         "" },
-{ TOPDOC_FUNC,      OVERALL, EQFBFuncTopDoc,      "" },
-{ TRUNCSEG_FUNC,    ACTSEG,  EQFBFuncTruncSeg,    "" },
-{ TRUNCATE_FUNC,    ACTSEG,  EQFBFuncTruncate,    "" },
-{ UNDO_FUNC,        ACTSEG,  EQFBFuncUndo,        "" },
-{ UP_FUNC,          OVERALL, EQFBFuncUp,          "" },
-{ GETDICTMATCH_FUNC,ACTSEG,  EQFBGetDictMatch,    "" },
-{ GETPROPMATCH_FUNC,ACTSEG,  EQFBGetPropMatch,    "" },
-{ PROPDOWN_FUNC,    STARGET, EQFBPropDown,        "" },
-{ PROPUP_FUNC,      STARGET, EQFBPropUp,          "" },
-{ TSEG_FUNC,        STARGET, EQFBTSeg,            "" },
-{ TSEGNEXT_FUNC,    STARGET, EQFBTSegNext,        "" },
-{ DICTLOOK_FUNC,    OVERALL, EQFBDictLook,        "" },
-{ ACTDIC_FUNC,      OVERALL, EQFBActDict,         "" },
-{ JOINSEG_FUNC,     ACTSEG,  EQFBJoinSeg,         "" },
-{ SPLITSEG_FUNC,    ACTSEG,  EQFBSplitSeg,        "" },
-{ MARKSEG_FUNC,     STARGET, EQFBMark,            "" },
-{ GOTOSEG_FUNC,     OVERALL, EQFBGotoActSegment,  "" },
-{ GOTOMARK_FUNC,    STARGET, EQFBFindMark,        "" },
-{ CLEARSEGMARK_FUNC,STARGET, EQFBClearMark,       "" },
-{ POSTEDIT_FUNC,    STARGET, EQFBSetPostEdit,     "" },
-{ AUTOTRANS_FUNC,   STARGET, EQFBAutoTranslate,   "" },
-{ FIND_FUNC,        OVERALL, EQFBFuncFind,        "" },
-{ RFIND_FUNC,       OVERALL, EQFBFuncNothing,     "" },
-{ RING_FUNC,        OVERALL, EQFBFuncNothing,     "" },
-{ OPEN_FUNC,        OVERALL, EQFBFuncOpen   ,     "" },
-{ CUT_FUNC,         OVERALL, EQFBFuncCutToClip,   "" },
-{ COPY_FUNC,        OVERALL, EQFBFuncCopyToClip,   "" },
-{ PASTE_FUNC,       STARGET, EQFBFuncPasteFromClip,"" },
-{ MARKNEXT_FUNC,    OVERALL, EQFBFuncMarkNextWord,"" },
-{ MARKPREV_FUNC,    OVERALL, EQFBFuncMarkPrevWord,"" },
-{ FONTS_FUNC,       OVERALL, EQFBFuncFonts,       "" },
-{ KEYS_FUNC,        OVERALL, EQFBFuncKeys,        "" },
-{ ADDFUZZY_FUNC,    STARGET, EQFBAddFuzzyMatch,   "" },
-{ DISPORG_FUNC,     OVERALL, EQFBFuncDispOrg,     "" },
-{ HIDE_FUNC,        OVERALL, EQFBFuncChangeToHide,"" },
-{ PROTECT_FUNC,     OVERALL, EQFBFuncChangeToProt,"" },
-{ UNPROTECT_FUNC,   OVERALL, EQFBFuncChangeToUnprot,"" },
-{ NEXTLINE_FUNC,    OVERALL, EQFBFuncNextLine,    "" },
-{ CHARACTER_FUNC,   STARGET, EQFBFuncCharacter,   "" },
-{ MARKBLOCK_FUNC,   OVERALL, EQFBFuncMarkBlock,   "" },
-{ MARKCLEAR_FUNC,   OVERALL, EQFBFuncMarkClear,   "" },
-{ MARKDELETE_FUNC,  STARGET, EQFBFuncMarkDelete,  ""},
-{ MARKCOPY_FUNC  ,  ACTSEG,  EQFBFuncMarkCopy,    ""  },
-{ MARKMOVE_FUNC  ,  ACTSEG,  EQFBFuncMarkMove,    ""  },
-{ MARKFIND_FUNC,    OVERALL, EQFBFuncMarkFind,    ""  },
-{ PRINT_FUNC,       OVERALL, EQFBDocPrint,        "" },
-{ MARKBLOCKSEG_FUNC,OVERALL, EQFBFuncMarkSegment, "" },
-{ MARKLEFT_FUNC,    OVERALL, EQFBFuncMarkLeftCUA, "" },
-{ MARKRIGHT_FUNC,   OVERALL, EQFBFuncMarkRightCUA,"" },
-{ MARKUP_FUNC,      OVERALL, EQFBFuncMarkUpCUA,   "" },
-{ MARKDOWN_FUNC,    OVERALL, EQFBFuncMarkDownCUA, "" },
-{ DELLINE_FUNC,     ACTSEG,  EQFBFuncDeleteLine,  "" },
-{ ENTRYSEN_FUNC,    STARGET, EQFBFuncEntry,       "" },
-{ UNTRANS_FUNC,     ACTSEG,  EQFBTUnTrans,        "" },
-{ LINEWRAP_FUNC,    ACTSEG,  EQFBFuncLineWrap,    "" },
-
-{ LRM_FUNC,         ACTSEG,  EQFBFuncLRM    ,     "" },
-{ FONTSIZE_FUNC,    OVERALL, EQFBFuncFontSize,    "" },
-//{ MARGINACT_FUNC,   STARGET, EQFBFuncMarginAct,   "" },
-{ MARGINACT_FUNC,   STARGET, EQFBFuncToggleLineWrap,   "" },
-{ SPELLSEG_FUNC,    STARGET, EQFBFuncSpellSeg,    "" },
-{ SPELLFILE_FUNC,   STARGET, EQFBFuncSpellFile,   "" },
-{ WORDMARK_FUNC,    OVERALL, EQFBFuncWordMark,    "" },
-{ WORDDEL_FUNC,     ACTSEG,  EQFBFuncWordDel,     "" },
-{ DELTILTAG_FUNC,   ACTSEG,  EQFBFuncDelTilTag,   "" },
-{ EMPTY_FUNC,       ACTSEG,  EQFBEmpty,           "" },
-{ COMMAND_FUNC,     OVERALL, EQFBCommand,         "" },
-{ SCRATCH_FUNC,     STARGET, EQFBFindScratch,     "" },
-{ PROPCPY_FUNC,     STARGET, EQFBFindCopy,        "" },
-{ CPYTYPED_FUNC,    STARGET, EQFBFindCpyTyped,    "" },
-{ EXPAND_FUNC,      ACTSEG,  EQFBExpandSeg,       "" },
-{ COMPRESS_FUNC,    ACTSEG,  EQFBCompressSeg,     "" },
-{ SETTINGS_FUNC,    OVERALL, EQFBSettings,        "" },
-{ GOTO_FUNC,        OVERALL, EQFBGotoLine,        "" },
-{ QUERYLINE_FUNC,   OVERALL, EQFBQueryLine,       "" },
-{ SHRINK_FUNC,      OVERALL, EQFBFuncChangeToShrink,  "" },
-{ COMPACT_FUNC,     OVERALL, EQFBFuncChangeToCompact, "" },
-{ SEGINSOSI_FUNC,   ACTSEG,  EQFBSegInsertSOSI,     "" },
-{ SEGDELSOSI_FUNC,  ACTSEG,  EQFBSegDeleteSOSI,     "" },
-{ DOCINSOSI_FUNC,   STARGET, EQFBFileInsertSOSI,    "" },
-{ DOCDELSOSI_FUNC,  STARGET, EQFBFileDeleteSOSI,  "" },
-{ ACTTRANS_FUNC,    OVERALL, EQFBActTrans,        "" },
-
-{ RLM_FUNC,         ACTSEG,  EQFBFuncRLM,         "" },
-
-{ SRCPROP_FUNC,     OVERALL, EQFBFuncDispSrcProp, "" },
-{ EDITTERM_FUNC,    OVERALL, EQFBFuncEditTerm,    "" },
-{ HOTPOPUP_FUNC,    OVERALL, EQFBFuncHotPopUp,    "" },
-{ SAVEAS_FUNC,            0, NULL,                "" },
-{ ADDABBREV_FUNC,   OVERALL, EQFBAddAbbrev,       "" },
-{ REIMPORT_FUNC,    STARGET, EQFBFuncReImportDoc,  ""  },
-{ EDITADD_FUNC,     OVERALL, EQFBEditAddenda,     "" },
-{ MARKSTART_FUNC,   OVERALL, EQFBFuncMarkStartCUA,"" },
-{ MARKEND_FUNC,     OVERALL, EQFBFuncMarkEndCUA,  "" },
-{ INITCAPS_FUNC,    ACTSEG,  EQFBFuncCaps,        "" },
-{ SHOWTRANS_FUNC,   STARGET, EQFBFuncShowTrans,   "" },
-{ MARKSEGSTART_FUNC, OVERALL,  EQFBFuncMarkSegStartCUA,  "" },
-{ MARKSEGEND_FUNC,   OVERALL,  EQFBFuncMarkSegEndCUA,    "" },
-{ OPENTRNOTE_FUNC,    STARGET, EQFBFuncOpenTRNote,  "" },
-{ TOCGOTO_FUNC,       STARGET, EQFBFuncTOCGoto,     "" },
-{ SHORTEN_FUNC,     OVERALL, EQFBFuncChangeToShorten, "" },
-{ PROPMARKCOPY_FUNC,    STARGET, EQFBFuncPropMarkCopy,     "" },
-{ NEXTMISSPELLED_FUNC,    STARGET, EQFBFuncNextMisspelled, "" },
-{ SPELLAUTO_FUNC,         STARGET, EQFBFuncSpellAuto,      "" },
-{ GOUPDSEGMENT_FUNC,       STARGET, EQFBFuncGoUpdSegment,  "" },
-{ VISIBLESPACE_FUNC,   OVERALL, EQFBFuncVisibleSpace,        "" },
-{ REDO_FUNC,           ACTSEG,  EQFBFuncRedo,                "" },
-{ WYSIWYG_FUNC,        OVERALL, EQFBFuncChangeToWYSIWYG,     "" },
-{ ALLEXACTPROPS_FUNC,  ACTSEG,  EQFBFuncDispAllExactProps,   "" },
-{ DUMMY_009,           0, NULL, "" },
-{ GOTOSEGMENT_FUNC,    OVERALL, EQFBGotoSegment,        "" },
-{ CFIND_FUNC,          OVERALL, EQFBFuncCFind,          "" },
-{ SEGPROP_FUNC,        OVERALL, EQFBFuncDispSegProp,    "" },
-{ DICTPFXDOWN_FUNC,    STARGET, EQFBDictPrefixDown,     "" },
-{ DICTPFXUP_FUNC,      STARGET, EQFBDictPrefixUp,       "" },
-{ LAST_FUNC,           ACTSEG, EQFBFuncInsertChar,   "" },
+// Symbolic            Action    Entry point                  Description
+//====================================================================================
+{ ACTPROP_FUNC,        STARGET,  EQFBActProp,                 "" },
+{ DICTDOWN_FUNC,       STARGET,  EQFBDictDown,                "" },
+{ DICTUP_FUNC,         STARGET,  EQFBDictUp,                  "" },
+{ BACKSPACE_FUNC,      ACTSEG,   EQFBFuncBackspace,           "" },
+{ BACKTAB_FUNC,        0,        EQFBFuncBacktab,             "" },
+{ BOTTOMDOC_FUNC,      OVERALL,  EQFBFuncBottomDoc,           "" },
+{ DELETECHAR_FUNC,     STARGET,  EQFBFuncDeleteChar,          "" },
+{ DOWN_FUNC,           OVERALL,  EQFBFuncDown,                "" },
+{ ENDLINE_FUNC,        OVERALL,  EQFBFuncEndLine,             "" },
+{ ENDSEG_FUNC,         STARGET,  EQFBFuncEndSeg,              "" },
+{ ESCAPE_FUNC,         0,        EQFBFuncEscape,              "" },
+{ FILE_FUNC,           0,        EQFBFuncDoFile,              "" },
+{ INSTOGGLE_FUNC,      OVERALL,  EQFBFuncInsToggle,           "" },
+{ INSERTLINE_FUNC,     ACTSEG,   EQFBFuncInsertLine,          "" },
+{ JOINLINE_FUNC,       ACTSEG,   EQFBFuncJoinLine,            "" },
+{ LEFT_FUNC,           OVERALL,  EQFBFuncLeft,                "" },
+{ NEXTDOC_FUNC,        OVERALL,  EQFBFuncNextDoc,             "" },
+{ NEXTWORD_FUNC,       OVERALL,  EQFBFuncNextWord,            "" },
+{ NOTHING_FUNC,        0,        EQFBFuncNothing,             "" },
+{ PAGEDOWN_FUNC,       OVERALL,  EQFBFuncPageDown,            "" },
+{ PAGEUP_FUNC,         OVERALL,  EQFBFuncPageUp,              "" },
+{ PREVDOC_FUNC,        OVERALL,  EQFBFuncPrevDoc,             "" },
+{ PREVWORD_FUNC,       OVERALL,  EQFBFuncPrevWord,            "" },
+{ QUIT_FUNC,           0,        EQFBFuncDoQuit,              "" },
+{ RIGHT_FUNC,          OVERALL,  EQFBFuncRight,               "" },
+{ SAVE_FUNC,           0,        EQFBFuncSave,                "" },
+{ SCROLLDOWN_FUNC,     OVERALL,  EQFBCursorScrollDown,        "" },
+{ SCROLLLEFT_FUNC,     OVERALL,  EQFBFuncScrollLeft,          "" },
+{ SCROLLRIGHT_FUNC,    OVERALL,  EQFBFuncScrollRight,         "" },
+{ SCROLLUP_FUNC,       OVERALL,  EQFBCursorScrollUp,          "" },
+{ SPLITLINE_FUNC,      ACTSEG,   EQFBFuncSplitLine,           "" },
+{ STARTLINE_FUNC,      OVERALL,  EQFBFuncStartLine,           "" },
+{ STARTSEG_FUNC,       STARGET,  EQFBFuncStartSeg,            "" },
+{ TAB_FUNC,            OVERALL,  EQFBFuncTab,                 "" },
+{ TOPDOC_FUNC,         OVERALL,  EQFBFuncTopDoc,              "" },
+{ TRUNCSEG_FUNC,       ACTSEG,   EQFBFuncTruncSeg,            "" },
+{ TRUNCATE_FUNC,       ACTSEG,   EQFBFuncTruncate,            "" },
+{ UNDO_FUNC,           ACTSEG,   EQFBFuncUndo,                "" },
+{ UP_FUNC,             OVERALL,  EQFBFuncUp,                  "" },
+{ GETDICTMATCH_FUNC,   ACTSEG,   EQFBGetDictMatch,            "" },
+{ GETPROPMATCH_FUNC,   ACTSEG,   EQFBGetPropMatch,            "" },
+{ PROPDOWN_FUNC,       STARGET,  EQFBPropDown,                "" },
+{ PROPUP_FUNC,         STARGET,  EQFBPropUp,                  "" },
+{ TSEG_FUNC,           STARGET,  EQFBTSeg,                    "" },
+{ TSEGNEXT_FUNC,       STARGET,  EQFBTSegNext,                "" },
+{ DICTLOOK_FUNC,       OVERALL,  EQFBDictLook,                "" },
+{ ACTDIC_FUNC,         OVERALL,  EQFBActDict,                 "" },
+{ JOINSEG_FUNC,        ACTSEG,   EQFBJoinSeg,                 "" },
+{ SPLITSEG_FUNC,       ACTSEG,   EQFBSplitSeg,                "" },
+{ MARKSEG_FUNC,        STARGET,  EQFBMark,                    "" },
+{ GOTOSEG_FUNC,        OVERALL,  EQFBGotoActSegment,          "" },
+{ GOTOMARK_FUNC,       STARGET,  EQFBFindMark,                "" },
+{ CLEARSEGMARK_FUNC,   STARGET,  EQFBClearMark,               "" },
+{ POSTEDIT_FUNC,       STARGET,  EQFBSetPostEdit,             "" },
+{ AUTOTRANS_FUNC,      STARGET,  EQFBAutoTranslate,           "" },
+{ FIND_FUNC,           OVERALL,  EQFBFuncFind,                "" },
+{ RFIND_FUNC,          OVERALL,  EQFBFuncNothing,             "" },
+{ RING_FUNC,           OVERALL,  EQFBFuncNothing,             "" },
+{ OPEN_FUNC,           OVERALL,  EQFBFuncOpen   ,             "" },
+{ CUT_FUNC,            OVERALL,  EQFBFuncCutToClip,           "" },
+{ COPY_FUNC,           OVERALL,  EQFBFuncCopyToClip,          "" },
+{ PASTE_FUNC,          STARGET,  EQFBFuncPasteFromClip,       "" },
+{ MARKNEXT_FUNC,       OVERALL,  EQFBFuncMarkNextWord,        "" },
+{ MARKPREV_FUNC,       OVERALL,  EQFBFuncMarkPrevWord,        "" },
+{ FONTS_FUNC,          OVERALL,  EQFBFuncFonts,               "" },
+{ KEYS_FUNC,           OVERALL,  EQFBFuncKeys,                "" },
+{ ADDFUZZY_FUNC,       STARGET,  EQFBAddFuzzyMatch,           "" },
+{ DISPORG_FUNC,        OVERALL,  EQFBFuncDispOrg,             "" },
+{ HIDE_FUNC,           OVERALL,  EQFBFuncChangeToHide,        "" },
+{ PROTECT_FUNC,        OVERALL,  EQFBFuncChangeToProt,        "" },
+{ UNPROTECT_FUNC,      OVERALL,  EQFBFuncChangeToUnprot,      "" },
+{ NEXTLINE_FUNC,       OVERALL,  EQFBFuncNextLine,            "" },
+{ CHARACTER_FUNC,      STARGET,  EQFBFuncCharacter,           "" },
+{ MARKBLOCK_FUNC,      OVERALL,  EQFBFuncMarkBlock,           "" },
+{ MARKCLEAR_FUNC,      OVERALL,  EQFBFuncMarkClear,           "" },
+{ MARKDELETE_FUNC,     STARGET,  EQFBFuncMarkDelete,          "" },
+{ MARKCOPY_FUNC  ,     ACTSEG,   EQFBFuncMarkCopy,            "" },
+{ MARKMOVE_FUNC  ,     ACTSEG,   EQFBFuncMarkMove,            "" },
+{ MARKFIND_FUNC,       OVERALL,  EQFBFuncMarkFind,            "" },
+{ PRINT_FUNC,          OVERALL,  EQFBDocPrint,                "" },
+{ MARKBLOCKSEG_FUNC,   OVERALL,  EQFBFuncMarkSegment,         "" },
+{ MARKLEFT_FUNC,       OVERALL,  EQFBFuncMarkLeftCUA,         "" },
+{ MARKRIGHT_FUNC,      OVERALL,  EQFBFuncMarkRightCUA,        "" },
+{ MARKUP_FUNC,         OVERALL,  EQFBFuncMarkUpCUA,           "" },
+{ MARKDOWN_FUNC,       OVERALL,  EQFBFuncMarkDownCUA,         "" },
+{ DELLINE_FUNC,        ACTSEG,   EQFBFuncDeleteLine,          "" },
+{ ENTRYSEN_FUNC,       STARGET,  EQFBFuncEntry,               "" },
+{ UNTRANS_FUNC,        ACTSEG,   EQFBTUnTrans,                "" },
+{ LINEWRAP_FUNC,       ACTSEG,   EQFBFuncLineWrap,            "" },
+                                                              
+{ LRM_FUNC,            ACTSEG,   EQFBFuncLRM    ,             "" },
+{ FONTSIZE_FUNC,       OVERALL,  EQFBFuncFontSize,            "" },
+//{ MARGINACT_FUNC,      STARGET,  EQFBFuncMarginAct,           "" },
+{ MARGINACT_FUNC,      STARGET,  EQFBFuncToggleLineWrap,      "" },
+{ SPELLSEG_FUNC,       STARGET,  EQFBFuncSpellSeg,            "" },
+{ SPELLFILE_FUNC,      STARGET,  EQFBFuncSpellFile,           "" },
+{ WORDMARK_FUNC,       OVERALL,  EQFBFuncWordMark,            "" },
+{ WORDDEL_FUNC,        ACTSEG,   EQFBFuncWordDel,             "" },
+{ DELTILTAG_FUNC,      ACTSEG,   EQFBFuncDelTilTag,           "" },
+{ EMPTY_FUNC,          ACTSEG,   EQFBEmpty,                   "" },
+{ COMMAND_FUNC,        OVERALL,  EQFBCommand,                 "" },
+{ SCRATCH_FUNC,        STARGET,  EQFBFindScratch,             "" },
+{ PROPCPY_FUNC,        STARGET,  EQFBFindCopy,                "" },
+{ CPYTYPED_FUNC,       STARGET,  EQFBFindCpyTyped,            "" },
+{ EXPAND_FUNC,         ACTSEG,   EQFBExpandSeg,               "" },
+{ COMPRESS_FUNC,       ACTSEG,   EQFBCompressSeg,             "" },
+{ SETTINGS_FUNC,       OVERALL,  EQFBSettings,                "" },
+{ GOTO_FUNC,           OVERALL,  EQFBGotoLine,                "" },
+{ QUERYLINE_FUNC,      OVERALL,  EQFBQueryLine,               "" },
+{ SHRINK_FUNC,         OVERALL,  EQFBFuncChangeToShrink,      "" },
+{ COMPACT_FUNC,        OVERALL,  EQFBFuncChangeToCompact,     "" },
+{ SEGINSOSI_FUNC,      ACTSEG,   EQFBSegInsertSOSI,           "" },
+{ SEGDELSOSI_FUNC,     ACTSEG,   EQFBSegDeleteSOSI,           "" },
+{ DOCINSOSI_FUNC,      STARGET,  EQFBFileInsertSOSI,          "" },
+{ DOCDELSOSI_FUNC,     STARGET,  EQFBFileDeleteSOSI,          "" },
+{ ACTTRANS_FUNC,       OVERALL,  EQFBActTrans,                "" },
+                                                              
+{ RLM_FUNC,            ACTSEG,   EQFBFuncRLM,                 "" },
+                                                              
+{ SRCPROP_FUNC,        OVERALL,  EQFBFuncDispSrcProp,         "" },
+{ EDITTERM_FUNC,       OVERALL,  EQFBFuncEditTerm,            "" },
+{ HOTPOPUP_FUNC,       OVERALL,  EQFBFuncHotPopUp,            "" },
+{ SAVEAS_FUNC,         0,        NULL,                        "" },
+{ ADDABBREV_FUNC,      OVERALL,  EQFBAddAbbrev,               "" },
+{ REIMPORT_FUNC,       STARGET,  EQFBFuncReImportDoc,         "" },
+{ EDITADD_FUNC,        OVERALL,  EQFBEditAddenda,             "" },
+{ MARKSTART_FUNC,      OVERALL,  EQFBFuncMarkStartCUA,        "" },
+{ MARKEND_FUNC,        OVERALL,  EQFBFuncMarkEndCUA,          "" },
+{ INITCAPS_FUNC,       ACTSEG,   EQFBFuncCaps,                "" },
+{ SHOWTRANS_FUNC,      STARGET,  EQFBFuncShowTrans,           "" },
+{ MARKSEGSTART_FUNC,   OVERALL,  EQFBFuncMarkSegStartCUA,     "" },
+{ MARKSEGEND_FUNC,     OVERALL,  EQFBFuncMarkSegEndCUA,       "" },
+{ OPENTRNOTE_FUNC,     STARGET,  EQFBFuncOpenTRNote,          "" },
+{ TOCGOTO_FUNC,        STARGET,  EQFBFuncTOCGoto,             "" },
+{ SHORTEN_FUNC,        OVERALL,  EQFBFuncChangeToShorten,     "" },
+{ PROPMARKCOPY_FUNC,   STARGET,  EQFBFuncPropMarkCopy,        "" },
+{ NEXTMISSPELLED_FUNC, STARGET,  EQFBFuncNextMisspelled,      "" },
+{ SPELLAUTO_FUNC,      STARGET,  EQFBFuncSpellAuto,           "" },
+{ GOUPDSEGMENT_FUNC,   STARGET,  EQFBFuncGoUpdSegment,        "" },
+{ VISIBLESPACE_FUNC,   OVERALL,  EQFBFuncVisibleSpace,        "" },
+{ REDO_FUNC,           ACTSEG,   EQFBFuncRedo,                "" },
+{ WYSIWYG_FUNC,        OVERALL,  EQFBFuncChangeToWYSIWYG,     "" },
+{ ALLEXACTPROPS_FUNC,  ACTSEG,   EQFBFuncDispAllExactProps,   "" },
+{ DUMMY_009,           0,        NULL,                        "" },
+{ GOTOSEGMENT_FUNC,    OVERALL,  EQFBGotoSegment,             "" },
+{ CFIND_FUNC,          OVERALL,  EQFBFuncCFind,               "" },
+{ SEGPROP_FUNC,        OVERALL,  EQFBFuncDispSegProp,         "" },
+{ DICTPFXDOWN_FUNC,    STARGET,  EQFBDictPrefixDown,          "" },
+{ DICTPFXUP_FUNC,      STARGET,  EQFBDictPrefixUp,            "" },
+{ TSEGNEXT_EXACT_FUNC, STARGET,  EQFBTSegNextExact,           "" },
+{ TSEGNEXT_FUZZY_FUNC, STARGET,  EQFBTSegNextFuzzy,           "" },
+{ TSEGNEXT_NONE_FUNC,  STARGET,  EQFBTSegNextNone,            "" },
+{ LAST_FUNC,           ACTSEG,   EQFBFuncInsertChar,          "" },
 // Add end
 };
 #else
@@ -1954,6 +1978,10 @@ KEYPROFTABLE DefKeyTable[LAST_FUNC+1]=
    { '\0',          0,        FALSE,  (EDIT_STANDARD | EDIT_RTF), 0, SEGPROP_FUNC },
    { VK_PAGEDOWN,   ST_VK | ST_ALT, FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, DICTPFXDOWN_FUNC },
    { VK_PAGEUP,     ST_VK | ST_ALT, FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, DICTPFXUP_FUNC },
+   { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_EXACT_FUNC },
+   { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_FUZZY_FUNC },
+   { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_NONE_FUNC },
+
    { '\0',          0,        FALSE,   0, 0, LAST_FUNC }
 };
 #else
@@ -2491,7 +2519,7 @@ __declspec(dllexport)
 MRESULT EQFBFuncRTFFunc( PTBDOCUMENT pDoc, USHORT usFunc,
                          HWND hwnd, WPARAM mp1, LPARAM mp2 );
 
-
+BOOL   EQFBAllSpellIgnoreCheck(PSPELLDATA);
 
   #ifdef RTF_DEBUG
     VOID RTFDEBUG( PTBDOCUMENT pDoc, PSZ_W p );

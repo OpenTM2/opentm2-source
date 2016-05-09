@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -32,7 +32,7 @@ OtmToolsLauncherPlugin::OtmToolsLauncherPlugin()
 {
     
     name        = "OtmToolsLauncherPlugin";
-    shortDesc   = "Launcher tools plugin";
+    shortDesc   = "ToolsLauncherPlugin";
     longDesc    = "This is a plugin to launcher OpenTM2 tools";
     version     = "1.0";
     supplier    = "International Business Machines Corporation";

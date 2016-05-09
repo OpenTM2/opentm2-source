@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 # OTMDLL.MAK - Makefile for Startup code and resource DLL
-# Copyright (c) 2015, International Business Machines
+# Copyright (c) 2016, International Business Machines
 # Corporation and others.  All rights reserved.
 #------------------------------------------------------------------------------
 
@@ -48,6 +48,7 @@ $(_OBJ)\EQFMEMLP.OBJ:	$(_SRC)\core\memory\EQFMEMLP.CPP
 $(_OBJ)\EQFMEMMD.OBJ:	$(_SRC)\core\memory\EQFMEMMD.CPP
 $(_OBJ)\EQFMEMMP.OBJ:	$(_SRC)\core\memory\EQFMEMMP.CPP
 $(_OBJ)\EQFMEMRP.OBJ:	$(_SRC)\core\memory\EQFMEMRP.CPP
+$(_OBJ)\EQFMEMAddMatchSegID :	$(_SRC)\core\memory\EQFMEMAddMatchSegID.CPP
 $(_OBJ)\EQFTMM.OBJ:		$(_SRC)\core\memory\EQFTMM.CPP
 $(_OBJ)\EQFTMMV.OBJ:	$(_SRC)\core\memory\EQFTMMV.CPP
 $(_OBJ)\EQFTMFUN.OBJ:		$(_SRC)\core\memory\EQFTMFUN.CPP
@@ -376,6 +377,7 @@ $(_DLL)\OTMDLL.DLL:		$(_OBJ)\EQFCOPYR.OBJ \
 						$(_OBJ)\EQFMEMLP.OBJ \
 						$(_OBJ)\EQFMEMMD.OBJ \
 						$(_OBJ)\EQFMEMMP.OBJ \
+						$(_OBJ)\EQFMEMAddMatchSegID.OBJ \
 						$(_OBJ)\EQFMEMRP.OBJ \
 						$(_OBJ)\EQFTMM.OBJ \
 						$(_OBJ)\EQFTMFUN.OBJ \
@@ -537,6 +539,7 @@ $(_DLL)\OTMDLL.DLL:
 						$(_OBJ)\EQFMEMMD.OBJ
 						$(_OBJ)\EQFMEMMP.OBJ
 						$(_OBJ)\EQFMEMRP.OBJ
+                                                $(_OBJ)\EQFMEMAddMatchSegID.OBJ
 						$(_OBJ)\EQFTMM.OBJ
 						$(_OBJ)\EQFTMMV.OBJ
 						$(_OBJ)\GenericTagReplace.OBJ 

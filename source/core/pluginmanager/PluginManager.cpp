@@ -42,6 +42,8 @@
 	uses the C++ standard libraries incl. the Standard Template Library (STL).
 */
 
+void StrcatName(const char * strName, const char * strSymbol, char * strOutput); // Add for P403138
+
 /** Initialize the static instance variable */
 PluginManager* PluginManager::instance = 0;
 
@@ -152,6 +154,74 @@ void PluginManager::processToolCommand( int iCommandID )
 {
   instance->pImpl->processToolCommand( iCommandID ) ;
 }
+
+// Add for P403138 start
+int PluginManager::ValidationCheck(char * strParam)
+{
+    int nRC = NO_ERROR;
+
+    // at least a memory plugin, a dictionary plugin and the markup table plugins
+    bool bHasMemory = false;
+    bool bHasDict   = false;
+    bool bHasMarkup = false;
+
+    for (int iInx = 0; iInx < instance->getPluginCount(); iInx++)
+    {
+        OtmPlugin * otmPlugin = instance->getPlugin(iInx);
+        OtmPlugin::ePluginType typePlugin = otmPlugin->getType();
+        if (typePlugin == OtmPlugin::eTranslationMemoryType)
+        {
+            bHasMemory = true;
+        }
+        else if (typePlugin == OtmPlugin::eMarkupType)
+        {
+            bHasMarkup = true;
+        }
+        else if (typePlugin == OtmPlugin::eDictionaryType)
+        {
+            bHasDict = true;
+        }
+        else if (typePlugin == OtmPlugin::eSharedTranslationMemoryType)
+        {
+            bHasMemory = true;
+        }
+    }
+
+    if (!bHasMemory)
+    {
+        nRC |= PLUGIN_MISS_MEMORY;
+        StrcatName(STR_MEMORY_PLUGIN, COMMA_STR, strParam);
+    }
+
+    if (!bHasMarkup)
+    {
+        nRC |= PLUGIN_MISS_MARKUP;
+        StrcatName(STR_MARKUP_PLUGIN, COMMA_STR, strParam);
+    }
+
+    if (!bHasDict)
+    {
+        nRC |= PLUGIN_MISS_DICT;
+        StrcatName(STR_DICT_PLUGIN, COMMA_STR, strParam);
+    }
+
+    return nRC;
+}
+
+void StrcatName(const char * strName, const char * strSymbol, char * strOutput)
+{
+    if ((NULL != strOutput) && (strlen(strOutput) != 0))
+    {
+        strcat(strOutput, strSymbol);
+        strcat(strOutput, " ");
+        strcat(strOutput, strName);
+    }
+    else
+    {
+        strcpy(strOutput, strName);
+    }
+}
+// Add end
 
 /*
 void PluginManager::destroy()

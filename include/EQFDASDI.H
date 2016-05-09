@@ -449,7 +449,7 @@ typedef struct _UCB                    // ASD user control block
   // BOOL     fWPEdit;                    // WordPerfect Edit control available
    BOOL      fDictPIDSelect;              // TRUE = select dict. by PID value
    BOOL      fDictPIDFieldsSet;           // TRUE = Field info has been set
-   CHAR      szDictPIDSelect[60];         // PID values to select
+   CHAR      szDictPIDSelect[MAX_DICTPID_VALUES]; // PID values to select
    USHORT    usDictPIDSelect[MAX_DICTS];  // Dict. field containing PID values 
 } UCB, *PUCB;
 

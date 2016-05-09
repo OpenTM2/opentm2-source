@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 package de.ibm.com.opentm2scripteride;
@@ -50,7 +50,7 @@ public class MainApp {
 	
 	static MainApp mInstance = null;
 	static private String mAppName = "openTM2Scripter GUI";
-	static private String mVersion = "1.01";
+	static private String mVersion = "1.3.0";
 	
 	
 	protected MainWindow mMainWindow;
@@ -197,7 +197,7 @@ public class MainApp {
 		try{
 			FileWriter writer = new FileWriter(filename ,false);
 			String editorText = mActiveEditor.getText();
-			writer.write(editorText);
+			writer.write(convertLFtoOSLF(editorText));
 	 		writer.flush();
 	 		writer.close();
 		}
@@ -292,8 +292,9 @@ public class MainApp {
 	    setActiveEditor(editor);
 	    
         // repaint
-		if(buffer != null)
-	        editor.setText(new String(buffer));
+		if(buffer != null) {
+	        editor.setText(convertCRLFtoLF(new String(buffer)));
+		}
 	    editor.repaint();
 	    editor.discardAllEdits();
 	    editor.addDocUndoableEditListener();
@@ -557,4 +558,17 @@ public class MainApp {
 	
 	   return bSuc;
     }
+	
+	private String convertCRLFtoLF(String input) {
+		return input.replaceAll("\r\n", "\n").replaceAll("\r", "\n");
+	}
+	
+	private String convertLFtoOSLF(String input) {
+		String lineSep = System.getProperty("line.separator");
+		
+		if(!lineSep.equals("\n"))
+		    return input.replaceAll("\n", lineSep);
+		
+		return input;
+	}
 }

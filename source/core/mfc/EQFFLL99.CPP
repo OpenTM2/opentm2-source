@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -221,6 +221,7 @@ BEGIN_MESSAGE_MAP(CFLLListView, CTreeView)
         ON_COMMAND(PID_FILE_MI_EXIT,           CListViewEx::OnExit)
         ON_COMMAND(PID_FILE_MI_EBUS,           OnEBus )
         ON_COMMAND(PID_FILE_MI_EBUS1,          OnEBus1 )
+        ON_COMMAND(PID_FILE_MI_TECHGUIDE,      OnTechGuide )
         ON_COMMAND(PID_FILE_MI_EBUS2,          OnEBus2 )
 
         ON_MESSAGE( WM_EQF_TERMINATE,          On_WM_EQF_TERMINATE)
@@ -606,6 +607,7 @@ void CFLLListView::OnToolbarActivate(CCmdUI* pCmdUI)
       case PID_WIND_MI_CASCADE:
       case PID_FILE_MI_EBUS:
       case PID_FILE_MI_EBUS1:
+      case PID_FILE_MI_TECHGUIDE:
       case PID_FILE_MI_EBUS2:
       case PID_FILE_MI_SYSPROP:
       case PID_FILE_MI_EXIT:
@@ -642,6 +644,7 @@ void CFLLListView::OnToolbarActivate(CCmdUI* pCmdUI)
       case PID_WIND_MI_CASCADE:
       case PID_FILE_MI_EBUS:
       case PID_FILE_MI_EBUS1:
+      case PID_FILE_MI_TECHGUIDE:
       case PID_FILE_MI_EBUS2:
       case PID_FILE_MI_SYSPROP:
       case PID_FILE_MI_EXIT:
@@ -708,6 +711,7 @@ void CFLLListView::OnToolbarActivate(CCmdUI* pCmdUI)
       case PID_FILE_MI_FINDCHANGE:
       case PID_FILE_MI_FUZZYSEARCH:
       case PID_UTILS_MI_DELETEDOCS:
+      case PID_FILE_MI_SPELLCHECK:
           fEnable = (hTreeItem != NULL);
           if ( fEnable )
           {
@@ -2305,6 +2309,7 @@ LRESULT CFLLListView::OnInitMenuPopup( WPARAM mp1, LPARAM mp2 )
       UtlMenuEnableItem( PID_UTILS_MI_DELETEDOCS );
       UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
       UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
+      UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
       UtlMenuEnableItem( PID_UTILS_MI_MT     );
     } /* endif */
 
@@ -2534,6 +2539,7 @@ BEGIN_MESSAGE_MAP(CFLLRightPaneView, CGenListView)
         ON_COMMAND(PID_FILE_MI_EXIT,           CListViewEx::OnExit)
         ON_COMMAND(PID_FILE_MI_EBUS,           OnEBus )
         ON_COMMAND(PID_FILE_MI_EBUS1,          OnEBus1 )
+        ON_COMMAND(PID_FILE_MI_TECHGUIDE,      OnTechGuide )
         ON_COMMAND(PID_FILE_MI_EBUS2,          OnEBus2 )
         ON_COMMAND(PID_VIEW_MI_SHRINKPATH,     CListViewEx::OnShrinkPath)   // use base ones
         ON_COMMAND(PID_VIEW_MI_HIDEPATH,       CListViewEx::OnHidePath)     // use base ones

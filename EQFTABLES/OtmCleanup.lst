@@ -2,7 +2,7 @@
 // 
 //	Copyright Notice:
 //
-//	Copyright (C) 1990-2015, International Business Machines
+//	Copyright (C) 1990-2016, International Business Machines
 //	Corporation and others. All rights reserved
 //
 // This file contains the list of temporary files which can be deleted using the OtmCleanupPlugin tool
@@ -26,5 +26,6 @@ mem\$CM*.*              // temporary memory files
 mem\$ORG*.*             // temporary memory files
 import*                 // files from incomplete folder imports
 mem\*.MEMINFO           // memory info files from incomplete folder exports
+table\*.MUTINFO          // markup table info files from incomplete folder exports
 win\*.REG               // system/user path backup files
 

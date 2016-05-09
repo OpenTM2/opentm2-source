@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1455,7 +1455,8 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 							  USHORT usCategory,
 							  PFINALFACTORS pFinalFactors,
 							  LONG lOptSecurity,
-							  BOOL bSingleShipment)
+							  BOOL bSingleShipment,
+                PSZ pszShipment )
 {
 	USHORT		usRC = NO_ERROR;
 	PRPT 		pRpt = NULL;
@@ -1681,7 +1682,7 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 	// retrieve documents to be analysed
 	if (!usRC)
 	{
-		if (pszDocuments == NULL)				// use all documents
+		if ( (pszDocuments == NULL) || (*pszDocuments == EOS) )				// use all documents
 		{
 			PSZ 	pszDocuments = NULL;
 			//USHORT 	usCnti = 0;
@@ -2148,6 +2149,23 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 	} // end if
 
 
+  // check any specified shipment value
+  if ( !usRC )
+  {
+    if ( (pszShipment != NULL) && (*pszShipment != EOS) )
+    {
+      if ( (stricmp( pszShipment, "Single Shipments" ) != 0) && (stricmp( pszShipment, "All Shipments" ) != 0) )
+      {
+        long lShipment = atol( pszShipment );
+        if ( (lShipment < 1) || (lShipment > 99) )
+        {
+          usRC = ERROR_INVALID_SHIPMENT_NUMBER;
+          pszParm = pszShipment;
+        } /* endif */
+      } /* endif */
+    } /* endif */
+  } /* endif */
+
 	if (!usRC)
 	{
 		// retrieve the output file format
@@ -2613,12 +2631,12 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 	} // end if
 
 
-	if (!usRC && pszProfile == NULL)
+	if (!usRC )
 	{
 		// folder shipment allways turned on
 		pRpt->usShipmentChk = 1;
 
-	    // if (pszProfile == NULL)
+	    if ( (pszShipment == NULL) || (*pszShipment == EOS) )
 	    {
 		    // shipment type
 		    if (bSingleShipment == TRUE)
@@ -2635,7 +2653,11 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 			    strcpy(szBuf, "pRepSettings->szShipmentChk");
 			    pszParm = szBuf;
 		    }
-        }
+      }
+      else
+      {
+        strcpy( pRpt->szShipmentChk, pszShipment );
+      } /* endif */
 	} // end if
 
 

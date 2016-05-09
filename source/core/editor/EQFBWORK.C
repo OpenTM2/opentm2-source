@@ -25,7 +25,6 @@ static VOID   EQFBFileSpellCheck ( PTBDOCUMENT );
 static BOOL   EQFBSegSpellCheck ( PTBDOCUMENT, ULONG, PSPELLDATA, PBOOL);
 static USHORT EQFDoProofSeg ( PTBDOCUMENT, PSZ_W, PSZ_W, PUSHORT );
 
-static BOOL   EQFBAllSpellIgnoreCheck(PSPELLDATA);
 static BOOL EQFBSegIsVisible ( PTBDOCUMENT, ULONG, ULONG );
 
 static VOID   EQFBThreadAutoSave ( PTBDOCUMENT );
@@ -938,7 +937,7 @@ EQFBFuncNextMisspelled
 		             0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
 		  UtlAlloc( (PVOID *) &(pSpellData->pSpellSeg),
                         0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
-          pSpellData->ulProofSeg = 0;
+          pSpellData->ulProofSeg = 1;
           pSpellData->pDoc = pDoc;
           pSpellData->FindData.fChange = FALSE;
           pSpellData->FindData.ulFirstSegNum = pDoc->TBCursor.ulSegNum;
@@ -1538,7 +1537,7 @@ EQFBSegSpellCheck
           EQFBMisspelledHLType(pDoc, pTBSeg, pSpellData->chProofData);
           pTBSeg->SegFlags.Spellchecked = TRUE;
         } /* endif */
-        pSpellData->ulProofSeg = 0;
+        pSpellData->ulProofSeg = 1;
         fUpdate = TRUE;
         DosSleep(0);
       }
@@ -1667,7 +1666,7 @@ EQFBTempAdd
 //                    endwhile                                                  
 //                    set EOS at end of output buffer                           
 //------------------------------------------------------------------------------
-static BOOL
+BOOL
 EQFBAllSpellIgnoreCheck
 (
    PSPELLDATA  pSpellData

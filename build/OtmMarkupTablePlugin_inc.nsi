@@ -1,4 +1,4 @@
-; Copyright (c) 2015, International Business Machines
+; Copyright (c) 2015,2016 International Business Machines
 ; Corporation and others.  All rights reserved.
 ;
 ; NSIS statements to include the OtmMarkupTablePlugin files.
@@ -13,6 +13,7 @@ ${SetOutPath} "$INSTDIR\PLUGINS\OtmMarkupTablePlugin\BIN"
 ${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMBMRI.DLL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMHTM32.DLL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMJDK11.DLL"
+${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMMSOFC.DLL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMQUOTE.DLL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMRTF.DLL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\BIN\" "OTMXML.DLL"
@@ -33,6 +34,7 @@ ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMASCII.TBL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMDQUOT.TBL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMHTM32.TBL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMJDK21.TBL"
+${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMMSOFC.TBL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMNJDK2.TBL"
 ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMOPNDC.XML"
 ${File} "PLUGINS\OtmMarkupTablePlugin\TABLE\" "OTMQUOTE.CHR"

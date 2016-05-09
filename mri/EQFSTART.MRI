@@ -3,8 +3,8 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-  |      Copyright (C) 1990-2015, International Business Machines           |
-  |      Corporation and others. All rights reserved                        |  
+  |      Copyright (C) 1990-2016, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
   +----------------------------------------------------------------------------+
 
   |  Description:                                                              |
@@ -119,6 +119,7 @@ Please re-install the system."
 #define STR_FILE_MI_DESELECTALL  "Dese&lect All"
 #define STR_FILE_MI_FINDCHANGE   "Global &Find and Replace..."
 #define STR_FILE_MI_FUZZYSEARCH  "Fuzzy Segment Search..."
+#define STR_FILE_MI_SPELLCHECK   "Spellcheck..."
 #define STR_FILE_MI_COPY         "Copy"
 #define STR_FILE_MI_CUT          "Cut"
 #define STR_FILE_MI_PASTE        "Paste"
@@ -135,8 +136,9 @@ Please re-install the system."
 #define STR_HELP_MI_HELPINDEX    "Help &Index..."
      #define STR_HELP_MI_TUTORIAL     "&Tutorial..."
 #define STR_FILE_MI_EBUS         "Home&page"
-#define STR_FILE_MI_EBUS1        "&Documentation (PDF)"
+#define STR_FILE_MI_EBUS1        "&Translator's Reference Guide (PDF)"
 #define STR_HELP_MI_PRODUCTINFO  "&Product Information..."
+#define STR_FILE_MI_TECHGUIDE    "&Technical Reference Guide (PDF)"
 
 
 //
@@ -261,7 +263,7 @@ Please re-install the system."
 
 #define STR_LOGO_COPYRIGHT2_LOGOS "(C) Copyright Logos Corp. 1998 - 2000"
 
-#define STR_LOGO_COPYRIGHT2 "Copyright (C) 1994 - 2015,"
+#define STR_LOGO_COPYRIGHT2 "Copyright (C) 1994 - 2016,"
 #define STR_LOGO_COPYRIGHT3 "International Business Machines"
 #define STR_LOGO_COPYRIGHT4 "Corporation and others."
 #define STR_LOGO_COPYRIGHT5 "All rights reserved."

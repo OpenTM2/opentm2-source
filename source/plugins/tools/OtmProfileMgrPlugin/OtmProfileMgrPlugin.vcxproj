@@ -22,10 +22,10 @@
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -39,7 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)$(ConfigurationName)</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -49,7 +49,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\mri;..\..\..\..\Packages\include;..\..\..\</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
@@ -58,40 +58,56 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\BIN-Debug;..\..\..\..\Packages\lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>PluginManager.lib;OtmBase.lib;OtmDll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PluginManager.lib;otmalloc.lib;OtmBase.lib;OtmDll.lib;xerces-c_3.lib;zlibwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;ZLIB_WINAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\..\include;..\..\..\..\mri;..\..\..\..\Packages\include;..\..\..\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\..\..\BIN-Debug;..\..\..\..\Packages\lib;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>PluginManager.lib;otmalloc.lib;OtmBase.lib;OtmDll.lib;xerces-c_3.lib;zlibwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="OtmProfileMgrPlugin.ico" />
     <None Include="ReadMe.txt" />
+    <None Include="resource.hm" />
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LastUsedVal.h" />
+    <ClInclude Include="OtmFileEncryptSet.h" />
+    <ClInclude Include="OtmLogWriterLoc.h" />
+    <ClInclude Include="OtmProfileMgrComm.h" />
     <ClInclude Include="OtmProfileMgrDlg.h" />
     <ClInclude Include="OtmProfileMgrPlugin.h" />
     <ClInclude Include="OtmProfileMgrStr.h" />
+    <ClInclude Include="ProfileConfXmlParser.h" />
+    <ClInclude Include="ProfileSetXmlParser.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LastUsedVal.cpp" />
+    <ClCompile Include="OtmFileEncryptSet.cpp" />
+    <ClCompile Include="OtmLogWriterLoc.cpp" />
+    <ClCompile Include="OtmProfileMgrComm.cpp" />
     <ClCompile Include="OtmProfileMgrDlg.cpp" />
     <ClCompile Include="OtmProfileMgrPlugin.cpp" />
+    <ClCompile Include="ProfileConfXmlParser.cpp" />
+    <ClCompile Include="ProfileSetXmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OtmProfileMgrPlugin.rc" />

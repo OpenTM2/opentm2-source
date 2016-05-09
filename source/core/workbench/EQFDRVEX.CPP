@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -1833,9 +1833,14 @@ SHORT sNotification                 // notification type
               {
                 int iRC = pFactory->connectToMemory( (char *)(*pIda->pvSharedPlugins)[iEntry]->getName(), hwndDlg, pIda->szBuffer, (*pIda->pvpvOptions)[iEntry] );
                 fOK = (iRC == 0);
+                // wlp begin
+				// delete add "!((*pIda->pvSharedPlugins)[iEntry]->isLocalMemoryUsed())" temporaly because it will cause connection crash
+				// because shared memory info return null
+				// to get shared memory info correctly, it need further considerration.
+				// wlp end
 
                 /* Broadcast the EQFN_CREATED message                */
-                if ( fOK )
+                if ( fOK && !((*pIda->pvSharedPlugins)[iEntry]->isLocalMemoryUsed()) )
                 {
                   strcpy( pIda->szObjName, (*pIda->pvSharedPlugins)[iEntry]->getName());
                   strcat( pIda->szObjName, ":" );
@@ -1851,6 +1856,7 @@ SHORT sNotification                 // notification type
                   EqfSend2AllHandlers( WM_EQFN_CREATED, MP1FROMSHORT( clsMEMORYDB ), MP2FROMP( pIda->szObjName ) );
                 } 
               }
+
             }
             else
             {

@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # EqfSharedMem.MAK    - Makefile for the shared memory plugin
-# Copyright (c) 2014, International Business Machines
+# Copyright (c) 2016, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -40,50 +40,13 @@ build:	$(_DLL)\MemoryWebServiceClient.DLL  $(_DLL)\EqfSharedMemPlugin.DLL  $(_BI
 # Dependencies
 #------------------------------------------------------------------------------
 
-
-$(_OBJ)\adb_bExistsDataSource.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_bExistsDataSource.c
-
-$(_OBJ)\adb_bExistsDataSourceResponse.obj: 	$(_SRC)\plugins\memory\SharedMem\adb_bExistsDataSourceResponse.c
-
-$(_OBJ)\adb_getDataSources.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_getDataSources.c
-
-$(_OBJ)\adb_getDataSourcesResponse.obj:		$(_SRC)\plugins\memory\SharedMem\adb_getDataSourcesResponse.c
-
-$(_OBJ)\adb_getLanguages.obj: 			$(_SRC)\plugins\memory\SharedMem\adb_getLanguages.c
-
-$(_OBJ)\adb_getLanguagesResponse.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_getLanguagesResponse.c
-
-$(_OBJ)\adb_getLogfile.obj: 			$(_SRC)\plugins\memory\SharedMem\adb_getLogfile.c
-
-$(_OBJ)\adb_getLogfileResponse.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_getLogfileResponse.c
-
-$(_OBJ)\adb_getMonolingualObject.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_getMonolingualObject.c
-
-$(_OBJ)\adb_getMonolingualObjectResponse.obj: 	$(_SRC)\plugins\memory\SharedMem\adb_getMonolingualObjectResponse.c
-
-$(_OBJ)\adb_getMultilingualObject.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_getMultilingualObject.c
-
-$(_OBJ)\adb_getMultilingualObjectResponse.obj: 	$(_SRC)\plugins\memory\SharedMem\adb_getMultilingualObjectResponse.c
-
-$(_OBJ)\adb_setLogfile.obj:		 	$(_SRC)\plugins\memory\SharedMem\adb_setLogfile.c
-
-$(_OBJ)\adb_setLogfileResponse.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_setLogfileResponse.c
-
-$(_OBJ)\adb_shutdown.obj: 			$(_SRC)\plugins\memory\SharedMem\adb_shutdown.c
-
-$(_OBJ)\adb_shutdownResponse.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_shutdownResponse.c
-
 $(_OBJ)\adb_synchronize.obj: 			$(_SRC)\plugins\memory\SharedMem\adb_synchronize.c
 
 $(_OBJ)\adb_synchronizeResponse.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_synchronizeResponse.c
 
-$(_OBJ)\adb_translate.obj: 			$(_SRC)\plugins\memory\SharedMem\adb_translate.c
-
-$(_OBJ)\adb_translateResponse.obj: 		$(_SRC)\plugins\memory\SharedMem\adb_translateResponse.c
-
 $(_OBJ)\axis2_extension_mapper.obj: 		$(_SRC)\plugins\memory\SharedMem\axis2_extension_mapper.c
 
-$(_OBJ)\axis2_stub_OpenTMSWebServiceImplementationService.obj: $(_SRC)\plugins\memory\SharedMem\axis2_stub_OpenTMSWebServiceImplementationService.c
+$(_OBJ)\axis2_stub_OtmTMServiceImplService.obj: $(_SRC)\plugins\memory\SharedMem\axis2_stub_OtmTMServiceImplService.c
 
 $(_OBJ)\EqfSharedMemory.OBJ:		$(_SRC)\plugins\memory\SharedMem\EqfSharedMemory.CPP $(_SRC)\plugins\memory\SharedMem\EqfSharedMemory.H
 
@@ -136,37 +99,14 @@ $(_DLL)\EqfSharedMemPlugin.DLL:		$(_OBJ)\EqfSharedMemoryPlugin.OBJ \
 # Build TestClient.EXE
 #------------------------------------------------------------------------------
 $(_BIN)\TestClient.EXE: $(_OBJ)\TestClient.OBJ $(_OBJ)\adb_synchronize.obj $(_OBJ)\adb_synchronizeResponse.obj \
-                        $(_OBJ)\axis2_stub_OpenTMSWebServiceImplementationService.obj \
-			$(_OBJ)\adb_bExistsDataSource.obj 	$(_OBJ)\adb_bExistsDataSourceResponse.obj $(_OBJ)\adb_getDataSources.obj \
-			$(_OBJ)\adb_getDataSourcesResponse.obj 	$(_OBJ)\adb_getLanguages.obj $(_OBJ)\adb_getLanguagesResponse.obj \
-			$(_OBJ)\adb_getLogfile.obj $(_OBJ)\adb_getLogfileResponse.obj $(_OBJ)\adb_getMonolingualObject.obj \
-			$(_OBJ)\adb_getMonolingualObjectResponse.obj $(_OBJ)\adb_getMultilingualObject.obj $(_OBJ)\adb_getMultilingualObjectResponse.obj \
-			$(_OBJ)\adb_setLogfile.obj $(_OBJ)\adb_setLogfileResponse.obj $(_OBJ)\adb_shutdown.obj $(_OBJ)\adb_shutdownResponse.obj \
-			$(_OBJ)\adb_translate.obj $(_OBJ)\adb_translateResponse.obj $(_OBJ)\axis2_extension_mapper.obj  
+                        $(_OBJ)\axis2_stub_OtmTMServiceImplService.obj $(_OBJ)\axis2_extension_mapper.obj  
     @echo ---- Linking $(_BIN)\TestClient.EXE
     @echo ---- Linking $(_BIN)\TestClient.EXE >>$(_ERR)
     $(_LINKER) @<<lnk.rsp >>$(_ERR)
 $(_OBJ)\TestClient.OBJ
 $(_OBJ)\adb_synchronize.obj
 $(_OBJ)\adb_synchronizeResponse.obj
-$(_OBJ)\axis2_stub_OpenTMSWebServiceImplementationService.obj
-$(_OBJ)\adb_bExistsDataSource.obj 	
-$(_OBJ)\adb_bExistsDataSourceResponse.obj 
-$(_OBJ)\adb_getDataSources.obj 
-$(_OBJ)\adb_getDataSourcesResponse.obj 	
-$(_OBJ)\adb_getLanguages.obj 
-$(_OBJ)\adb_getLanguagesResponse.obj 
-$(_OBJ)\adb_getLogfile.obj 
-$(_OBJ)\adb_getLogfileResponse.obj 
-$(_OBJ)\adb_getMonolingualObject.obj
-$(_OBJ)\adb_getMonolingualObjectResponse.obj 
-$(_OBJ)\adb_getMultilingualObject.obj 
-$(_OBJ)\adb_getMultilingualObjectResponse.obj
-$(_OBJ)\adb_setLogfile.obj 
-$(_OBJ)\adb_setLogfileResponse.obj 
-$(_OBJ)\adb_shutdown.obj $(_OBJ)\adb_shutdownResponse.obj
-$(_OBJ)\adb_translate.obj 
-$(_OBJ)\adb_translateResponse.obj 
+$(_OBJ)\axis2_stub_OtmTMServiceImplService.obj
 $(_OBJ)\axis2_extension_mapper.obj
 $(_LINK_OPTIONS) 
 /OUT:$(_BIN)\TestClient.EXE /pdb:"$(_BIN)\EQFD.pdb"
@@ -201,24 +141,7 @@ MEMWEBSERVICEOBJS= $(_OBJ)\MemoryWebServiceClient.OBJ \
     $(_OBJ)\LogWriter.OBJ \
 	$(_OBJ)\adb_synchronize.obj \
 	$(_OBJ)\adb_synchronizeResponse.obj \
-	$(_OBJ)\axis2_stub_OpenTMSWebServiceImplementationService.obj \
-	$(_OBJ)\adb_bExistsDataSource.obj 	 \
-	$(_OBJ)\adb_bExistsDataSourceResponse.obj  \
-	$(_OBJ)\adb_getDataSources.obj  \
-	$(_OBJ)\adb_getDataSourcesResponse.obj 	\
-	$(_OBJ)\adb_getLanguages.obj \
-	$(_OBJ)\adb_getLanguagesResponse.obj \
-	$(_OBJ)\adb_getLogfile.obj \
-	$(_OBJ)\adb_getLogfileResponse.obj \
-	$(_OBJ)\adb_getMonolingualObject.obj \
-	$(_OBJ)\adb_getMonolingualObjectResponse.obj \
-	$(_OBJ)\adb_getMultilingualObject.obj \
-	$(_OBJ)\adb_getMultilingualObjectResponse.obj \
-	$(_OBJ)\adb_setLogfile.obj  \
-	$(_OBJ)\adb_setLogfileResponse.obj \
-	$(_OBJ)\adb_shutdown.obj $(_OBJ)\adb_shutdownResponse.obj \
-	$(_OBJ)\adb_translate.obj \
-	$(_OBJ)\adb_translateResponse.obj \
+	$(_OBJ)\axis2_stub_OtmTMServiceImplService.obj \
 	$(_OBJ)\axis2_extension_mapper.obj	
 	
 $(_DLL)\MemoryWebServiceClient.DLL: $(MEMWEBSERVICEOBJS)
@@ -242,6 +165,14 @@ $(_LINK_LIB_CRT) Shell32.lib $(AXIS2C_HOME)\lib\axutil.lib $(AXIS2C_HOME)\lib\ax
 #------------------------------------------------------------------------------
 # Build Dependencies for OtmMemReplicator.EXE                                 -
 #------------------------------------------------------------------------------
+
+$(_OBJEXE)\ReplicatorDialog.RES:	$(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.rc \
+                                $(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.ico \
+								$(_SRC)\plugins\memory\SharedMem\resource.h
+	@echo ---- Compiling $(_RC_COMPILER)  /n /Fo $(_OBJEXE)\ReplicatorDialog.RES $(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.rc
+    @$(_RC_COMPILER)  /n /Fo $(_OBJEXE)\ReplicatorDialog.RES $(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.rc >>$(_ERR)
+	
+	
 $(_OBJEXE)\OtmMemReplicator.obj: 		$(_SRC)\plugins\memory\SharedMem\OtmMemReplicator.cpp
     @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP
     @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP >>$(_ERR)
@@ -251,7 +182,8 @@ OTMMEMREPOBJS= $(_OBJEXE)\OtmMemReplicator.OBJ \
 	$(_OBJEXE)\TransportThread.OBJ \
 	$(_OBJEXE)\LogWriter.OBJ \
 	$(_OBJEXE)\JSONFactory.OBJ \
-    $(_OBJEXE)\FifoQueue.OBJ 
+    $(_OBJEXE)\FifoQueue.OBJ  \
+	$(_OBJEXE)\ReplicatorDialog.RES
 
 $(_BIN)\OtmMemReplicator.EXE:	$(OTMMEMREPOBJS)
 

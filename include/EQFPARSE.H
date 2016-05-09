@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author:   R.Jornitz,  QSoft GmbH                                            |
@@ -181,8 +181,8 @@ typedef struct _PARSEDATAW
    HFILE       hSrcFile;               // file handle of opened source file
    PVOID       pPrivateData;           // ptr. to private data struct
    CHAR        szDocName[MAX_LONGFILESPEC]; // buffer for document name
-   CHAR_W      szLineBuf[1024];        // buffer for input line
-   CHAR_W      szTempLine[1024];       // buffer for temporary input line
+   CHAR_W      szLineBuf[4095];        // buffer for input line
+   CHAR_W      szTempLine[4096];       // buffer for temporary input line
    PSZ         pTermList;              // pointer to term list
    USHORT      usTermListSize;         // current term list size
    CHAR        szFolder[MAX_FNAME];    // folder of document

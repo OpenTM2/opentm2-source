@@ -278,7 +278,7 @@ public class CommandModel extends ArrayList<CommandModel> {
 		}
 		for (CommandModel cm : this) {
 			sb.append(cm.toText(indent + 1));
-			sb.append("\r\n");
+			sb.append("\n");
 		}
 		return sb.toString();
 	}

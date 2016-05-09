@@ -1,5 +1,5 @@
 /*! EQFTP.H       External header file for Translation Processor functions
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #include <richedit.h>
@@ -583,8 +583,9 @@ typedef struct _ACTSEGLOGENH
 
 // record layout in TM642++ (fixed part of the record)
 //   this fixed part is followed by ulSegLen bytes of the segment source text (UTF-16 encoded and 
-//   null-terminated) and ulPropSourceLen bytes of the proposol source (document name in ASCII), and
-//   ulMetaDataLen bytes of the MT proposal meta data (UTF-16 encoded and null-terminated) 
+//   null-terminated) and ulPropSourceLen bytes of the proposol source (document name in ASCII), 
+//   ulMetaDataLen bytes of the MT proposal meta data (UTF-16 encoded and null-terminated) and 
+//   ulPEDataLen bytes of the PE data area 
 
 #define ACTSEGLOG2_EYECATCHER 0xF3C4
 typedef struct _ACTSEGLOGENH2
@@ -622,11 +623,41 @@ typedef struct _ACTSEGLOGENH2
   ULONG    ulMetaDataLen;             // length of MT proposal meta data (in bytes), the meta data is stored behind the fixed part, the source text and any document name
   ULONG    ulThinkTime;               // time in 1/100 secs used for the translator think time (copy of proposal until first edit operations)
   MTLOGVERSIONINFONEW  VersionInfoNew;// new TM version info (use this if it is non-zero)
-  BYTE     bUnused[8];                // room for future enhancements
+  ULONG    ulPEDataLen;               // length of PE (Post Edit) data area (in bytes), the PE data is stored behind the fixed part, the source text, any document name and the MT meta data 
+  BYTE     bUnused[4];                // room for future enhancements
 } ACTSEGLOGENH2, *PACTSEGLOGENH2;
 
-VOID WriteMTLog( PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData );
-VOID WriteToMTLog( FILE *hMTLogFile, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData );
+// layout of the fixed part of the PE data area at the end of the MTLOG entry
+//   the fixed part is followed by a variable length part containing the various PE data strings
+
+typedef struct _PESEGLOGDATA
+{
+  ULONG      ulSize;                  // total size of PE data area (in bytes)
+  ULONG      ulTargetLen;             // length of the target text of the segment or 0 if not used (in bytes including the terminating zero character)
+  ULONG      ulTargetOffs;            // offset to the target text of the segment or 0 if not used (relativ to begin of data structure)
+  ULONG      ulMTTargetLen;           // length of the target text of the MT proposal or 0 if not used (in bytes including the terminating zero character)
+  ULONG      ulMTTargetOffs;          // offset to the target text of the MT proposal or 0 if not used (relativ to begin of the data structure )
+  ULONG      ulMTMatchIDLen;          // length of the match segment ID of the MT proposal or 0 if not used (in bytes including the terminating zero character)
+  ULONG      ulMTMatchIDOffs;         // offset to the match segment ID of the MT proposal or 0 if not used (relativ to begin of the data structure )
+  ULONG      ulCopiedTargetLen;       // length of the target text of the copied proposal or 0 if not used (in bytes including the terminating zero character)
+  ULONG      ulCopiedTargetOffs;      // offset to the target text of the copied proposal or 0 if not used (relativ to begin of the data structure )
+  ULONG      ulCopiedMatchIDLen;      // length of the match segment ID of the copied proposal or 0 if not used (in bytes including the terminating zero character)
+  ULONG      ulCopiedMatchIDOffs;     // offset to the match segment ID of the copied proposal or 0 if not used (relativ to begin of the data structure )
+} PESEGLOGDATA, *PPESEGLOGDATA;
+
+// structure containing buffers for the collected PE data
+typedef struct _PEDATABUFFER
+{
+  CHAR_W      szTarget[MAX_SEGMENT_SIZE+1];      // final translation of the segment 
+  CHAR_W      szCopiedTarget[MAX_SEGMENT_SIZE+1];// translation of the last copied proposal
+  CHAR_W      szCopiedMatchID[256];              // segment match ID of the last copied proposal
+  CHAR_W      szMTTarget[MAX_SEGMENT_SIZE+1];    // translation of the first available MT proposal
+  CHAR_W      szMTMatchID[256];                  // segment match ID of the first available MT proposal
+} PEDATABUFFER, *PPEDATABUFFER;
+
+
+VOID WriteMTLog( PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData, PPEDATABUFFER pPEData );
+VOID WriteToMTLog( FILE *hMTLogFile, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData, PPEDATABUFFER pPEData );
 
 typedef struct _tbdocument
 {
@@ -836,8 +867,11 @@ typedef struct _tbdocument
     BOOL        fSaveRunning;              // TRUE when document is currently saved to disk
 
     UCHAR        ucCode;            // character code or virtual key    // Add for R012027
+
+    PEDATABUFFER PEData;            // buffer to collect post edit data
+
     // Reserve left:
-    CHAR         chReserve[997];             
+    CHAR         chReserve[1000];             
  } TBDOCUMENT, *PTBDOCUMENT;
 
 VOID MTLogStartEditing( PTBDOCUMENT pDoc );

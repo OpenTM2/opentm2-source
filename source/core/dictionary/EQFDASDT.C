@@ -4,7 +4,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 
 //+----------------------------------------------------------------------------+
@@ -123,7 +123,7 @@ USHORT AsdTranslateW
    USHORT    usTransTerms;             // number of terms in translation list
    LONG      lTransBufUsed = 0;       // number of bytes used in translation list
    LONG      lTransBufSize = usOutBufSize; // number of bytes used in translation list
-   BOOL      fFirstTranslation;        // TRUE = no translations yet for term
+   BOOL      fFirstTranslation = TRUE; // TRUE = no translations yet for term
    USHORT    usOutTerms = 0;           // number of terms in output buffer
    PSZ_W     pucOutTerms[MAX_TRANSL_TERMS+1];    // list of terms added in output
    BOOL      fFieldStart;              // TRUE = position is on a field start
@@ -132,7 +132,7 @@ USHORT AsdTranslateW
    BOOL      fTermInBuffer = FALSE;    // TRUE = term is already in buffer
    PSZ_W     pCompound;                // ptr for compound processing
                                                                 /* 4@KIT0927A */
-   PSZ_W     pszStemTerm = NULL;              // ptr to current stem form term
+   PSZ_W     pszStemTerm = NULL;       // ptr to current stem form term
    CHAR_W    chEndOfList = EOS;        // end of term list buffer
    CHAR_W    chFirstChar;              // buffer for first character of term
                                                                 /* 2@KITxxxxA */
@@ -147,9 +147,15 @@ USHORT AsdTranslateW
    LONG      lLastHeadTermPos = 0;     // position of previous head term in output buffer
    LONG      lFirstTransTermPos = 0;   // position of first trans term for this head term
    LONG      lLastTransTermPos = 0;    // position of previous translated term in output buffer
-   CHAR_W    szPIDValues[60] ;         // Selected PID values to check against  
-   BOOL      fPIDRemoveLastHead = FALSE ;  // TRUE = Remove previous head term for PID selection
-   BOOL      fPIDRemoveLastTerm = FALSE ;  // TRUE = Remove previous term for PID selection
+   CHAR_W    szPIDValues[MAX_DICTPID_VALUES] ; // Selected PID values to check against  
+   BOOL      fPIDRemoveLastHead = FALSE;  // TRUE = Remove previous head term for PID selection
+   BOOL      fPIDRemoveLastTerm = FALSE;  // TRUE = Remove previous term for PID selection
+   BOOL      fSplitTerm;               // TRUE = Term contains dash or slash
+   BOOL      fPlural2Singular;         // TRUE = Try singular term not found in HUNSPELL dict.
+   CHAR_W    szFirstChar[2];
+   BOOL      fFirstLetterUppercase = FALSE; // TRUE = Term is first in segment and 1st letter uppercase
+   BOOL      fFirstLetterLowercase = FALSE; // TRUE = Processing lowercase term when 1st letter was uppercase
+   USHORT    usHeadTermExact = 0 ;     // 0=No head term, 1=head term exact, 2=head term not exact
 
 #ifdef ASDT_LOG_TERMLIST
    FILE *hfLog = NULL;
@@ -457,6 +463,23 @@ USHORT AsdTranslateW
        /*       form but not 'wichtig' which is the right form in most*/
        /*       cases.                                                */
        /***************************************************************/
+       /***************************************************************/
+       /* If "Term" was 1st term of segment and was found,            */
+       /* then still look for "term". Usage may be for lowercase word.*/
+       /* If lowercase word in not found in 1st dictionary, then      */
+       /* lowercase word will not be searched for in other dictionary.*/ 
+       /***************************************************************/
+       if ( (usNlpRC == LX_RC_OK_ASD) &&
+            (pszOrgTerm == pUCB->pszOrgTermList) )
+       {
+          szFirstChar[0] = *pszOrgTerm;
+          szFirstChar[1] = EOS;
+          UtlLowerW( szFirstChar );
+          if ( *pszOrgTerm != szFirstChar[0] )
+          {
+             fFirstLetterUppercase = TRUE ;
+          }
+       }
        if ( (usNlpRC == LX_WRD_NT_FND_ASD)       &&
             (pszOrgTerm == pUCB->pszOrgTermList) )
        {
@@ -468,6 +491,7 @@ USHORT AsdTranslateW
          UtlLowerW( pszOrgTerm );
          if ( *pszOrgTerm != chFirstChar )
          {
+           usNlpRC = LX_WRD_NT_FND_ASD;
            /*************************************************************/
            /* Get list of stem forms for term                           */
            /* Note: The term list used for the stem list is used also   */
@@ -650,8 +674,16 @@ USHORT AsdTranslateW
             {
                if ( UTF16strcmp( pucOutTerms[usI], pDCB->aucDummy ) == 0 )
                {
-                  usI = usOutTerms + 1;  // force end of loop
-                  fTermInBuffer = TRUE;
+                  if ( ( ! fFirstLetterLowercase ) ||
+                       ( UTF16strcmp( pucOutTerms[usI], pszOrgTerm ) == 0 ) )
+                  {
+                     usI = usOutTerms + 1;  // force end of loop
+                     fTermInBuffer = TRUE;
+                  } 
+                  else
+                  {
+                     usI++;            // try next term
+                  }
                }
                else
                {
@@ -661,10 +693,11 @@ USHORT AsdTranslateW
          } /* endif */
 
          /***************************************************************/
-         /* Retrieve data for term (from all dictionaries in list if    */
-         /* requested                                                   */
+         /* Retrieve data for term from all dictionaries in list (if    */
+         /* requested)                                                  */
          /***************************************************************/
          fFirstTranslation = TRUE;         // no translations yet
+         usHeadTermExact = 0;              // no head term yet
          chEntryLevelStyle = 0;            // style prefix on entry level, 0 = none
 
          while ( !fTermInBuffer && ASDOK(usNlpRC) && fTranslate)
@@ -882,12 +915,19 @@ USHORT AsdTranslateW
                                                             FALSE,
                                                             pTermDCB->usOpenNum);
                              }
+                             if ( usHeadTermExact == 0 ) {
+                                if ( UTF16strcmp( pszOrgTerm, pDCB->aucDummy ) == 0 )
+                                   usHeadTermExact = 1;
+                                else
+                                   usHeadTermExact = 2;
+                             }
 
                              fFirstTranslation = FALSE;
                           } /* endif */
 
                           if ( fPIDRemoveLastTerm ) {    // If last term did not match PID, then remove it 
                              fPIDRemoveLastTerm = FALSE ;
+                             memset( &pucOutBuf[lLastTransTermPos], 0, (lTransBufUsed-lLastTransTermPos)*sizeof(CHAR_W) ) ;
                              lTransBufUsed = lLastTransTermPos ;
                              usTransTermCount--;
                           }
@@ -1071,8 +1111,31 @@ USHORT AsdTranslateW
                     } /* endif */
                   } /* endwhile */
 
+
+                  // Handle remaining dictionary data, adding it to the last term
+                  if ( fDictData && (ASDOK(usNlpRC)) && usTransTermCount &&
+                       (*pszAddDictData != EOS) )
+                  {
+                    PSZ_W pszTemp = pszAddDictData;
+                    while ( (ASDOK(usNlpRC)) && (*pszTemp != EOS) )
+                    {
+                      usNlpRC =  AsdAddToTermList( pszTemp,
+                                                   (SHORT)UTF16strlenCHAR(pszTemp),
+                                                   &usTransTerms,
+                                                   &pucOutBuf,
+                                                   &lTransBufSize,
+                                                   &lTransBufUsed,
+                                                   FALSE,
+                                                   pTermDCB->usOpenNum);
+                      // continue with next data in buffer
+                      pszTemp += UTF16strlenCHAR(pszTemp) + 1;
+                    } /* endwhile */
+                    memset(&pszAddDictData[0], 0, ADDDICTDATASIZE * sizeof(CHAR_W));
+                  } /* endif */
+
                   if ( fPIDRemoveLastTerm ) {    /* If last term did not match PID, then remove it */
                      fPIDRemoveLastTerm = FALSE ;
+                     memset( &pucOutBuf[lLastTransTermPos], 0, (lTransBufUsed-lLastTransTermPos)*sizeof(CHAR_W) ) ;
                      lTransBufUsed = lLastTransTermPos ;
                      usTransTermCount--;
                      pucOutBuf[lTransBufUsed] = EOS ;
@@ -1083,6 +1146,7 @@ USHORT AsdTranslateW
                   }
                   if ( fPIDRemoveLastHead ) {    /* If head term has no trans terms, then remove head term */
               //     fPIDRemoveLastHead = FALSE ;
+                     memset( &pucOutBuf[lLastHeadTermPos], 0, (lTransBufUsed-lLastHeadTermPos)*sizeof(CHAR_W) ) ;
                      lTransBufUsed = lLastHeadTermPos ;
                      pucOutBuf[lTransBufUsed] = EOS ;
                      pucOutBuf[lTransBufUsed+1] = EOS ;
@@ -1113,7 +1177,9 @@ USHORT AsdTranslateW
               } /* endif */
             } /* endif */
 
-            // search remaining dictionaries (if requested)
+            /*****************************************************/
+            /* Search remaining dictionaries (if requested)      */
+            /*****************************************************/
             if ( ASDOK(usNlpRC) && fSearchAll )
             {
               DEBUGEVENT2( ASDTRANSLATE_LOC, STATE_EVENT, 14, DICT_GROUP, NULL );
@@ -1134,6 +1200,23 @@ USHORT AsdTranslateW
                                   &ulDataLength,  // length of entry data
                                   &usDictHandle,  // dictionary of match
                                   &usNlpRC );
+
+                  if ( ( usHeadTermExact == 1 ) &&
+                       ( UTF16strcmp( pszOrgTerm, pDCB->aucDummy ) != 0 ) ) {
+                     usNlpRC = LX_WRD_NT_FND_ASD;
+                  } else
+                  if ( ( usHeadTermExact == 2 ) &&
+                       ( ! fFirstLetterUppercase ) &&
+                       ( UTF16strcmp( pszOrgTerm, pDCB->aucDummy ) == 0 ) )
+                  {
+                     usHeadTermExact = 1;
+                     memset( &pucOutBuf[lLastHeadTermPos], 0, (lTransBufUsed-lLastHeadTermPos)*sizeof(CHAR_W) ) ;
+                     lTransBufUsed = lLastHeadTermPos ;
+                     pucOutBuf[lTransBufUsed] = EOS ;
+                     pucOutBuf[lTransBufUsed+1] = EOS ;
+                     fFirstTranslation = TRUE;
+                     usTransTermCount = 0 ;
+                  }
                 } /* endif */
               }
               while( usDictHandle && (usNlpRC == LX_WRD_NT_FND_ASD) ); /* endwhile */
@@ -1145,9 +1228,9 @@ USHORT AsdTranslateW
             } /* endif */
          } /* endwhile */
 
-         if ( ( fTranslate && !fFirstTranslation ) &&   // if terms added to buffer
-              ( ( ! pUCB->fDictPIDSelect ) || 
-                ( ( usTransTermCount ) && ( ! fPIDRemoveLastHead ) ) ) ) 
+         if ( ( fTranslate && !fFirstTranslation ) &&             // if terms added to buffer
+              ( ( ! pUCB->fDictPIDSelect ) ||                     // no PID processing
+                  ( ! fPIDRemoveLastHead ) ) )                   // Complete head not removed
          {
             // terminate list for current term
             usNlpRC =  AsdAddToTermList( EMPTY_STRINGW,
@@ -1202,16 +1285,83 @@ USHORT AsdTranslateW
        /***************************************************************/
        /* Reset return code if a term was not found                   */
        /***************************************************************/
+       fSplitTerm = FALSE ; 
+       fPlural2Singular = FALSE ; 
        if ( usNlpRC == LX_WRD_NT_FND_ASD )
        {
           usNlpRC = LX_RC_OK_ASD;
+
+          /***************************************************************/
+          /* Special cases when term was not found.                      */
+          /***************************************************************/
+          if ( ( ! fTranslate ) || 
+               ( fFirstTranslation ) ) {     
+             /************************************************************/
+             /* Split term if it contains a possible concatenation       */
+             /* character, like dash, slash, period, quote, etc.         */
+             /************************************************************/
+             if ( ( wcschr( pszOrgTerm+1, L'-'  ) ) ||
+                  ( wcschr( pszOrgTerm+1, L'/'  ) ) ||
+                  ( wcschr( pszOrgTerm+1, L'.'  ) ) ||
+                  ( wcschr( pszOrgTerm+1, L'\'' ) ) ) {
+                fSplitTerm = TRUE ; 
+                PSZ_W  ptrTemp ;
+                for( ptrTemp=pszOrgTerm+1 ; *ptrTemp ; ++ptrTemp ) {
+                   if ( wcschr( L"-/.\'", *ptrTemp ) ) {
+                      *ptrTemp = L'\0';
+                      if ( *(ptrTemp+1) ) /* Each term must be at least 1 char */
+                         ++ptrTemp;
+                   }
+                }
+                for( ptrTemp=pszDictTerm+1 ; *ptrTemp ; ++ptrTemp ) {
+                   if ( wcschr( L"-/.\'", *ptrTemp ) ) {
+                      *ptrTemp = L'\0';
+                      if ( *(ptrTemp+1) ) /* Each term must be at least 1 char */
+                         ++ptrTemp;
+                   }
+                }
+             }
+             else
+             {
+                /************************************************************/
+                /* If possible plural term which was not found in the       */
+                /* HunSpell dictionaries, try singular version of term.     */
+                /************************************************************/
+                int i = wcslen(pszOrgTerm);
+                if ( ( i > 4 ) &&
+                     ( ! fFirstLetterUppercase ) &&
+                     ( *(pszOrgTerm+i-1) == L's' ) &&
+                     ( *(pszOrgTerm+i-2) != L's' ) ) {
+                   fPlural2Singular = TRUE ;
+                   memmove( pszOrgTerm+1, pszOrgTerm, (i-1)*sizeof(WCHAR) ) ;
+                   memmove( pszDictTerm+1, pszDictTerm, (i-1)*sizeof(WCHAR) ) ;
+                   pszOrgTerm++;
+                   pszDictTerm++;
+                }
+             }
+          }
        } /* endif */
+
+       /***************************************************************/
+       /* Look for first term in segment with lowercase letter.       */
+       /***************************************************************/
+       fFirstLetterLowercase = FALSE;
+       if ( fFirstLetterUppercase ) {
+          fFirstLetterUppercase = FALSE;
+          fFirstLetterLowercase = TRUE;
+          UtlLowerW( pszOrgTerm );
+          UtlLowerW( pszDictTerm );
+       }
+       else
 
        /***************************************************************/
        /* Continue with next term                                     */
        /***************************************************************/
-       pszOrgTerm  += UTF16strlenCHAR(pszOrgTerm) + 1;
-       pszDictTerm += UTF16strlenCHAR(pszDictTerm) + 1;
+       if ( ( ! fSplitTerm ) &&
+            ( ! fPlural2Singular ) ) {
+          pszOrgTerm  += UTF16strlenCHAR(pszOrgTerm) + 1;
+          pszDictTerm += UTF16strlenCHAR(pszDictTerm) + 1;
+       }
      } /* endwhile */
    } /* endif */
 
@@ -1237,6 +1387,7 @@ USHORT AsdTranslateW
    {
      ERREVENT( ASDTRANSLATE_LOC, INTFUNCFAILED_EVENT, usNlpRC );
    } /* endif */
+
 
    /*******************************************************************/
    /* Remove duplicate translations for same term from list           */
@@ -2233,7 +2384,7 @@ static CHAR_W SearchAndEvaluateStyle( FIELDDATA *pStyleField, PSZ_W pucData, USH
 //
 static BOOL CheckPIDValue( PSZ_W pszProducts, PSZ_W pszValues ) 
 {
-  CHAR_W  szValues[60] ;
+  CHAR_W  szValues[MAX_DICTPID_VALUES] ;
   CHAR_W  *ptr ; 
   BOOL    fPIDMatch ;
 

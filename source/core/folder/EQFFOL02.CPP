@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -120,15 +120,17 @@ void FolImpImportPathChanged( HWND hwnd, PFOLIMPIDA pIda );
 
 USHORT FolFuncPrepImportFolder
 (
-PFCTDATA    pData,                   // function I/F session data
-PSZ         pszFolderName,           // name of folder being imported
-PSZ         pszFromPath,             // path containing the imported folder
-CHAR        chToDrive,               // target drive for folder
-LONG        lOptions                 // folder import options
+  PFCTDATA    pData,                   // function I/F session data
+  PSZ         pszFolderName,           // name of folder being imported
+  PSZ         pszFromPath,             // path containing the imported folder
+  CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
+  LONG        lOptions                 // folder import options
 );
+
 USHORT FolFuncImportFolderProcess
 (
-PFCTDATA    pData                    // function I/F session data
+  PFCTDATA    pData                    // function I/F session data
 );
 
 USHORT FolReadLogRecord
@@ -2440,8 +2442,9 @@ LPARAM           mp2                 // second message parameter
                 }
                 else
                 {
-                  UtlError( MESSAGE_FOLIMP_COMPLETED, MB_OK, 2, pszErrParm,
-                            EQF_INFO );
+                  USHORT usMsg;
+                  usMsg = ( pIda->fUserExitCopyPending ) ? MESSAGE_FOLIMP_COMPL_USEREXITINUSE : MESSAGE_FOLIMP_COMPLETED;
+                  UtlError( usMsg, MB_OK, 2, pszErrParm, EQF_INFO );
                 } /* endif */
 
                 ANSITOOEM(pIda->szLongFolName);
@@ -2487,13 +2490,14 @@ LPARAM           mp2                 // second message parameter
               } /* endif */           
               if ( !pIda->fNoMsg && (pIda->pDDEFolImp == NULL) )
               {
+                USHORT usMsg;
                 szErrValue[0] = pIda->chToDrive;
                 szErrValue[1] = EOS;
                 pszErrParm[0] = pIda->szLongFolName;
                 pszErrParm[1] = szErrValue;
                 OEMTOANSI(pIda->szLongFolName);
-                UtlError( MESSAGE_FOLIMP_TERMINATED, MB_CANCEL, 2, pszErrParm,
-                          EQF_ERROR );
+                usMsg = ( pIda->fUserExitCopyPending ) ? MESSAGE_FOLIMP_COMPL_USEREXITINUSE : MESSAGE_FOLIMP_TERMINATED;
+                UtlError( usMsg, MB_CANCEL, 2, pszErrParm, EQF_ERROR );
                 ANSITOOEM(pIda->szLongFolName);
               } /* endif */
               pIda->NextTask = CLEANUP;
@@ -2522,13 +2526,14 @@ LPARAM           mp2                 // second message parameter
         } /* endif */           
         if ( pIda->pDDEFolImp == NULL )
         {
+          USHORT usMsg;
           szErrValue[0] = pIda->chToDrive;
           szErrValue[1] = EOS;
           pszErrParm[0] = pIda->szLongFolName;
           pszErrParm[1] = szErrValue;
           OEMTOANSI(pIda->szLongFolName);
-          UtlError( MESSAGE_FOLIMP_TERMINATED, MB_CANCEL, 2, pszErrParm,
-                    EQF_ERROR );
+          usMsg = ( pIda->fUserExitCopyPending ) ? MESSAGE_FOLIMP_COMPL_USEREXITINUSE : MESSAGE_FOLIMP_TERMINATED;
+          UtlError( usMsg, MB_CANCEL, 2, pszErrParm, EQF_ERROR );
           ANSITOOEM(pIda->szLongFolName);
         }
         else
@@ -3086,6 +3091,9 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
         // remember fGlobalMemOptCheckRequired flag and reset it, set the flag at the end of the import
         pIda->fGlobalMemOptCheckRequired = pFolProp->fGlobalMemOptCheckRequired;
         pFolProp->fGlobalMemOptCheckRequired = FALSE;
+
+        if ( pIda->fUserExitCopyPending )
+           pFolProp->fDisabled_UserExitRefresh = TRUE ; 
 
         SaveProperties( hFolProp, &ErrorInfo);
       } /* endif */
@@ -3708,8 +3716,13 @@ BOOL FolImpProcessMarkupTableInfoFile( HWND hwnd, PFOLIMPIDA pIda, PSZ pszInfoFi
     } /* endfor */
 
     // call markup table plugin
-    pPlugin->updateFiles( (char *)strMarkupName.c_str(), (char *)strDescription.c_str(), (char *)strVersion.c_str(), (char *)strMarkupTable.c_str(), 
+    int iRC = pPlugin->updateFiles( (char *)strMarkupName.c_str(), (char *)strDescription.c_str(), (char *)strVersion.c_str(), (char *)strMarkupTable.c_str(), 
       (char *)strUserExit.c_str(), (char *)strAddFiles.c_str() );
+    if ( iRC == UPDATE_MARKUP_INUSE ) 
+    {
+       pIda->fUserExitCopyPending = TRUE ;
+    }
+
   } /* endif */
 
   return( fOK );
@@ -4551,7 +4564,7 @@ PFOLIMPIDA  pIda                     // ptr to folder import IDA
             memset( &SegLog, 0, sizeof(SegLog) );
             SegLog.ulEyeCatcher = ACTSEGLOG2_EYECATCHER;
             SegLog.AddFlags.ShipmentRec = TRUE;
-            WriteToMTLog( hMTLog, &SegLog, NULL, NULL, NULL );
+            WriteToMTLog( hMTLog, &SegLog, NULL, NULL, NULL, NULL );
             fclose( hMTLog );          
           } /* endif */             
         } /* endif */
@@ -7255,11 +7268,12 @@ HWND        hwnd                     // window to be used as parent for messages
 
 USHORT FolFuncImportFolder
 (
-PFCTDATA    pData,                   // function I/F session data
-PSZ         pszFolderName,           // name of folder being imported
-PSZ         pszFromPath,             // path containing the imported folder
-CHAR        chToDrive,               // target drive for folder
-LONG        lOptions                 // folder import options
+  PFCTDATA    pData,                   // function I/F session data
+  PSZ         pszFolderName,           // name of folder being imported
+  PSZ         pszFromPath,             // path containing the imported folder
+  CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
+  LONG        lOptions                 // folder import options
 )
 {
   USHORT      usRC = NO_ERROR;         // function return code
@@ -7270,7 +7284,7 @@ LONG        lOptions                 // folder import options
     // prepare a new analysis run
     pData->usProgress = 0;
     usRC = FolFuncPrepImportFolder( pData, pszFolderName, pszFromPath,
-                                    chToDrive, lOptions );
+                                    chToDrive, pszNewFolderName, lOptions );
   }
   else
   {
@@ -7282,11 +7296,12 @@ LONG        lOptions                 // folder import options
 
 USHORT FolFuncPrepImportFolder
 (
-PFCTDATA    pData,                   // function I/F session data
-PSZ         pszFolderName,           // name of folder being imported
-PSZ         pszFromPath,             // path containing the imported folder
-CHAR        chToDrive,               // target drive for folder
-LONG        lOptions                 // folder import options
+  PFCTDATA    pData,                   // function I/F session data
+  PSZ         pszFolderName,           // name of folder being imported
+  PSZ         pszFromPath,             // path containing the imported folder
+  CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
+  LONG        lOptions                 // folder import options
 )
 {
   PFOLIMPIDA      pIda = NULL;        // folder import dialog IDA
@@ -7378,6 +7393,17 @@ LONG        lOptions                 // folder import options
     } /* endif */
   } /* endif */
 
+  // check new folder name
+  if ( (pszNewFolderName != NULL) && (*pszNewFolderName != EOS) )
+  {
+    if ( !UtlCheckLongName( pszNewFolderName ) )
+    {
+      fOK = FALSE;
+      pszParm = pszNewFolderName;
+      UtlErrorHwnd( ERROR_INV_LONGNAME, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    } /* endif */
+  } /* endif */
+
   // check existence of package file                                 */
   if ( fOK )
   {
@@ -7412,12 +7438,12 @@ LONG        lOptions                 // folder import options
   // Fill IDA fields and prepare the package for import
   if ( fOK )
   {
+    BOOL        fIsNew = FALSE;
+
     pData->pvFolderImportIda = pIda;
 
     pIda->chFromDrive = pszFromPath[0];
     {
-      BOOL        fIsNew;
-
       ObjLongToShortName( pszFolderName, pIda->szSourceFolName, FOLDER_OBJECT, &fIsNew );
       strcpy( pIda->szLongFolName, pszFolderName );
     }
@@ -7425,9 +7451,16 @@ LONG        lOptions                 // folder import options
     strcat( pIda->szSourceFolder, EXT_FOLDER_MAIN );
     strcpy( pIda->szObjPath, pszFolderName );
     strcat( pIda->szObjPath, FOLDEREXPORT_EXT );
-    strcpy( pIda->szTargetFolName, pszFolderName );
+    if ( (pszNewFolderName != NULL) && (*pszNewFolderName != EOS) )
+    {
+      strcpy( pIda->szTargetFolName, pszNewFolderName );
+    }
+    else
+    {
+      strcpy( pIda->szTargetFolName, pszFolderName );
+    } /* endif */
     ANSITOOEM(pIda->szTargetFolName);
-    strcpy( pIda->szTargetShortFolName, pIda->szSourceFolName );
+    ObjLongToShortName( pIda->szTargetFolName, pIda->szTargetShortFolName, FOLDER_OBJECT, &fIsNew );
 
     if ( pIda->usImpMode == FOL_TMGR_FORMAT )
     {
@@ -7502,7 +7535,7 @@ LONG        lOptions                 // folder import options
       //UtlMakeEQFPath( pIda->szTargetFolObj, NULC, SYSTEM_PATH, NULL );
       UtlMakeEQFPath( pIda->szTargetFolObj, (CHAR)toupper(chToDrive), SYSTEM_PATH, NULL ); // changed 20032001 bt
       strcat( pIda->szTargetFolObj, BACKSLASH_STR );
-      strcpy( pIda->szTargetFolder, pIda->szSourceFolName );
+      strcpy( pIda->szTargetFolder, pIda->szTargetShortFolName );
       strcat( pIda->szTargetFolder, EXT_FOLDER_MAIN );
       strcat( pIda->szTargetFolObj, pIda->szTargetFolder );
       hFolProp = OpenProperties( pIda->szTargetFolObj, NULL,
@@ -11008,7 +11041,7 @@ int ListXLiffFolder
 
   typedef int (* __cdecl FOLXLIFFCHECKFILE_DCL)( PSZ, PSZ, HWND );
   FOLXLIFFCHECKFILE_DCL pfnFOLXLIFFCHECKFILE = NULL ;
-  HMODULE hXLIFF ;
+  HMODULE hXLIFF = NULL;
 
   hSearch = HDIR_CREATE;
   memset( &stFile, 0, sizeof(stFile) );
@@ -11088,7 +11121,7 @@ typedef struct _MTLOGDATA
   ACTSEGLOGOLD OldEntry;               // old format MT log entry
   ACTSEGLOGENH OldEnhEntry;            // fixed part of MT log entry
   ACTSEGLOGENH2 Entry;                 // fixed part of MT log entry
-  CHAR EntryBuffer[MAX_SEGMENT_SIZE+MAX_SEGMENT_SIZE+MAX_LONGFILESPEC+20+MAX_SEGMENT_SIZE+MAX_SEGMENT_SIZE]; // buffer for variable part of MT log entry
+  CHAR EntryBuffer[MAX_SEGMENT_SIZE+MAX_SEGMENT_SIZE+MAX_LONGFILESPEC+20+MAX_SEGMENT_SIZE+MAX_SEGMENT_SIZE+(5 * MAX_SEGMENT_SIZE * sizeof(CHAR_W)) ]; // buffer for variable part of MT log entry
 } MTLOGDATA, *PMTLOGDATA;
 
 // MTLOG merge data area

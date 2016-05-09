@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -77,6 +77,8 @@ EQFBFuncStart
    SHORT   sIDM;                       // for IDM_PROTECTED e.g.
    PTBDOCUMENT  pTgtDoc = NULL;
    EQFBBLOCK* pEQFBBlockMark = get_EQFBBlockMark();
+   BOOL            fStartSpellCheck = FALSE;
+
 
    memset(&LoadStruct, 0, sizeof(LOADSTRUCT));
    EQFBLoadResource ();                 // load all resources
@@ -115,9 +117,12 @@ EQFBFuncStart
          RECTL_YBOTTOM(LoadStruct.rclPos) = swpFrame.y;
 
          // move window one titlebar height down
-         RECTL_YTOP(LoadStruct.rclPos)    -= WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
-         RECTL_YBOTTOM(LoadStruct.rclPos) -= WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
-         EQFBValidatePositions( &LoadStruct.rclPos, STARGET_DOC );
+         if ( !pstEQFGen->fLoadedBySpellcheck )
+         {
+           RECTL_YTOP(LoadStruct.rclPos)    -= WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+           RECTL_YBOTTOM(LoadStruct.rclPos) -= WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
+           EQFBValidatePositions( &LoadStruct.rclPos, STARGET_DOC );
+         } /* endif */
        }
        else
        {
@@ -310,7 +315,37 @@ EQFBFuncStart
             /*********************************************************/
             if ( pOpenAndPos != NULL )
             {
-              if ( pOpenAndPos->ulSeg )
+              if ( pOpenAndPos->fSpellcheck )
+              {
+                PTBSEGMENT pTBSeg;                  //ptr to segment struct
+                ULONG ulStartSeg = 1;
+                ULONG ulSeg = 1;
+
+
+                fStartSpellCheck = TRUE;
+                pstEQFGen->pszCurSpellCheckDoc = pOpenAndPos->pszDocumentList;
+                pstEQFGen->pszSpellCheckDocList = pOpenAndPos->pszDocumentList;
+                pstEQFGen->fLoadedBySpellcheck = FALSE;
+
+                // start at default screen position
+                pstEQFGen->xSpellChecklDlg = 0;
+                pstEQFGen->ySpellChecklDlg = 0;
+
+                // position to first translated segment
+                pTBSeg = EQFBGetVisSeg( pDocument, &ulSeg );  
+                while ( pTBSeg && (pTBSeg->qStatus != QF_XLATED) && (pTBSeg->ulSegNum != ulStartSeg))
+                {
+                  ulSeg++;
+                  pTBSeg = EQFBGetVisSeg( pDocument, &ulSeg);
+                } /* endwhile */
+
+                fOk = EQFBSendNextSource( pDocument, &ulSeg, FALSE, POS_CURSOR ); 
+                if ( fOk )
+                {
+                  EQFBActivateSegm( pDocument, ulSeg );
+                } /* endif */
+              }
+              else if ( pOpenAndPos->ulSeg )
               {
                 fOk = EQFBSendNextSource( pDocument,   // pointer to document
                                 &(pOpenAndPos->ulSeg),   // ptr to new segment
@@ -353,6 +388,26 @@ EQFBFuncStart
                 EQFBTSeg ( pDocument );          // select first segment
               } /* endif */
               UtlAlloc(&pstEQFGen->pOpenAndPos, 0L, 0L, NOMSG );
+            }
+            else if ( pstEQFGen->fLoadedBySpellcheck )
+            {
+              PTBSEGMENT pTBSeg;                  //ptr to segment struct
+              ULONG ulStartSeg = 1;
+              ULONG ulSeg = 1;
+
+              // position to first translated segment
+              pTBSeg = EQFBGetVisSeg( pDocument, &ulSeg );  
+              while ( pTBSeg && (pTBSeg->qStatus != QF_XLATED) && (pTBSeg->ulSegNum != ulStartSeg))
+              {
+                ulSeg++;
+                pTBSeg = EQFBGetVisSeg( pDocument, &ulSeg);
+              } /* endwhile */
+
+              fOk = EQFBSendNextSource( pDocument, &ulSeg, FALSE, POS_CURSOR ); 
+              if ( fOk )
+              {
+                EQFBActivateSegm( pDocument, ulSeg );
+              } /* endif */
             }
             else
             {
@@ -414,9 +469,16 @@ EQFBFuncStart
      pDocAnchor->Redraw |= REDRAW_ALL;
   } /* endif */
 
+  if (fOk && pTgtDoc && pstEQFGen->fLoadedBySpellcheck )
+  {
+    pTgtDoc->pvSpellData = pstEQFGen->pvSpellData;
+  }
+
   if (fOk && pTgtDoc )
   {
     USEROPT* pEQFBUserOpt = get_EQFBUserOpt();
+
+
     if (pEQFBUserOpt->UserOptFlags.bAutoSpellCheck &&
         (pTgtDoc->docType==STARGET_DOC)
          && pTgtDoc->fSpellCheck   )
@@ -426,6 +488,22 @@ EQFBFuncStart
     } /* endif */
   } /* endif */
 
+  // start spellchecking when called with special open-and-pos spellcheck request or document has been opened by spellchecker
+  if ( fOk && pTgtDoc )
+  {
+    if ( fStartSpellCheck )
+    {
+      SendMessage( pstEQFGen->hwndTWBS, WM_EQF_SETFOCUS, 0, MP2FROMHWND( pDocument->hwndClient ));
+      PostMessage( pDocument->hwndClient, WM_COMMAND, MAKELONG( IDM_PROOFALL, 0), 0L );
+    }
+    else if ( pstEQFGen->fLoadedBySpellcheck )
+    {
+      SendMessage( pstEQFGen->hwndTWBS, WM_EQF_SETFOCUS, 0, MP2FROMHWND( pDocument->hwndClient ));
+      pstEQFGen->fLoadedBySpellcheck = FALSE; 
+      pstEQFGen->pNewSpellCheckDoc = pDocument;
+      //PostMessage( pDocument->hwndClient, WM_COMMAND, MAKELONG( IDM_PROOFALL, 0), 0L );
+    } /* endif */
+  } /* endif */
 
   return ( fOk );
 }/* endif */

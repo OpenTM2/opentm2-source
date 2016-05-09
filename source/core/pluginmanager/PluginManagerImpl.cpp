@@ -33,7 +33,6 @@ typedef unsigned short (__cdecl *PLUGINPROC) ();   // Modify for P402974
 
 // Add for P403115 start
 BOOL DllNameCheck(const char * strName);
-BOOL PluginNameCheck(const char * strPluginName, const char * strDll);
 // Add end
 
 PluginManagerImpl::PluginManagerImpl()
@@ -60,16 +59,6 @@ PluginManager::eRegRc PluginManagerImpl::registerPlugin(OtmPlugin* plugin)
 			if (!name.empty())
       {
         this->Log.writef( "   Registering plugin %s", name.c_str() );
-
-        // GQ 2015/12/02 Disabled PluginNameCheck as OtmSpellHSCheckPlugin is not the only plugin where DLL name and Plugin name are different
-        //// check the vadiation of the name (exclue OtmSpellHSCheckPlugin)
-        //if ((stricmp(name.c_str(), "OtmSpellHSCheckPlugin")) && 
-        //    !PluginNameCheck(name.c_str(), vLoadedPluginDLLs[iCurrentlyLoadedPluginDLL].strDll))
-        //{
-        //    this->Log.writef( "Error:   plugin's name %s is invalid.", vLoadedPluginDLLs[iCurrentlyLoadedPluginDLL].strDll );
-        //    eRc = PluginManager::eInvalidName;
-        //    return eRc;
-        //}
 
         // insert plugin into list of active plugins
 				PLUGINSET::iterator it;
@@ -721,73 +710,6 @@ BOOL DllNameCheck(const char * strName)
     }
 
     if (stricmp(strExt, ".DLL") != 0)
-    {
-        bValid = FALSE;
-    }
-
-    return bValid;
-}
-
-BOOL PluginNameCheck(const char * strPluginName, const char * strDll)
-{
-    // check the name correct
-    BOOL bValid = TRUE;
-
-    if ((NULL == strDll) || (strlen(strDll) == 0) ||
-        (NULL == strPluginName) || (strlen(strPluginName) == 0))
-    {
-        bValid = FALSE;
-        return bValid;
-    }
-
-    char strDiv[_MAX_DRIVE];
-    char strDir[_MAX_DIR];
-    char strFileName[_MAX_FNAME];
-    char strExt[_MAX_EXT];
-
-    _splitpath(strDll, strDiv, strDir, strFileName, strExt);
-
-    if ((NULL == strFileName) || (strlen(strFileName) == 0))
-    {
-        bValid = FALSE;
-        return bValid;
-    }
-
-    if (stricmp(strPluginName, strFileName))
-    {
-        bValid = FALSE;
-        return bValid;
-    }
-
-    // check the folder correct
-    char strCmpPath[MAX_PATH];
-    memset(strCmpPath, 0x00, sizeof(strCmpPath));
-    sprintf(strCmpPath, "%s%s", strDiv, strDir);
-
-    int nLastPos = strlen(strCmpPath) - 1;
-    if (strCmpPath[nLastPos] == '\\')
-    {
-        strCmpPath[nLastPos] = '\0';
-    }
-
-    char strPluginPath[MAX_EQF_PATH];
-    UtlMakeEQFPath(strPluginPath, NULC, PLUGIN_PATH, NULL);
-
-    if ((NULL == strPluginPath) || (strlen(strPluginPath) == 0))
-    {
-        return bValid;
-    }
-
-    if (!stricmp(strPluginPath, strCmpPath))
-    {
-        return bValid;
-    }
-
-    char strVitualPath[MAX_PATH];  // path suppose to be correct
-    memset(strVitualPath, 0x00, sizeof(strVitualPath));
-    sprintf(strVitualPath, "%s\\%s", strPluginPath, strFileName);
-
-    if (stricmp(strCmpPath, strVitualPath))
     {
         bValid = FALSE;
     }

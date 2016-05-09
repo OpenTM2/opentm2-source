@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -51,6 +51,8 @@ char szTempScriptFile[100];             // temporary script file
 long lOption;                           // buffer for option parameters
 char chNullParm = NULC;                 // empty character parameter
 EXTFOLPROP FolProps;                    // buffer for folder properties
+// buffer for single folder property values, the largest value will be the list of RO-Memories can reach MAX_NUM_OF_READONLY_MDB * MAX_LONGFILESPEC
+char szFolPropValue[MAX_NUM_OF_READONLY_MDB*MAX_LONGFILESPEC]; 
 
 
 // enumeration of symbolic command IDs
@@ -69,6 +71,7 @@ typedef enum _COMMANDID
     INTEND_ID,
     INTTESTRESULT_ID,
     INTDELETEFILE_ID,
+    INTCOPYFILE_ID,
     INTSETVALUE_ID,
     INTINCLUDE_ID,
     INTECHO_ID,
@@ -139,7 +142,13 @@ typedef enum _COMMANDID
   EQFCLEARMTFLAG_ID,
   EQFFILTERNOMATCHFILE_ID,
   EQFDELETEDICT_ID,
-  EQFGETVERSIONEX_ID
+  EQFGETVERSIONEX_ID,
+  EQFGETFOLDERPROPEX_ID,
+  EQFOPENDOCBYTRACK_ID,
+  EQFIMPORTMEMEX_ID,
+  EQFADDMATCHSEGID_ID,
+  EQFCREATECOUNTREPORTEX_ID,
+  EQFIMPORTFOLDERAS_ID,
 } COMMANDID;
 
 typedef enum _LOGLEVEL
@@ -259,9 +268,9 @@ typedef struct _COMMAND
 COMMAND aCommands[] =
 { // comand name        ID                   parms   parameter flags
     { "COMPAREWORDCOUNT",            INTCOMPWC_ID,                     2, "330000000000000000", "000000000000000000"},
-    { "ENDFOR",                        INTENDFOR_ID,                     0, "000000000000000000", "000000000000000000"},
+    { "ENDFOR",                     INTENDFOR_ID,                      0, "000000000000000000", "000000000000000000"},
     { "FOR",                        INTFOR_ID,                         4, "353300000000000000", "000000000000000000"},
-    { "COMPAREBINARY",                INTCOMPBINARY_ID,                 2, "330000000000000000", "000000000000000000"},
+    { "COMPAREBINARY",              INTCOMPBINARY_ID,                  2, "330000000000000000", "000000000000000000"},
     { "INC",                        INTINCREMENT_ID,                   1, "300000000000000000", "000000000000000000"},
     { "DEC",                        INTDECREMENT_ID,                   1, "300000000000000000", "000000000000000000"},
     { "ADD",                        INTADD_ID,                         2, "350000000000000000", "000000000000000000"},
@@ -270,13 +279,14 @@ COMMAND aCommands[] =
     { "END",                        INTEND_ID,                         0, "000000000000000000", "000000000000000000"},
     { "TESTRESULT",                 INTTESTRESULT_ID,                  2, "530000000000000000", "000000000000000000"},
     { "DELETEFILE",                 INTDELETEFILE_ID,                  1, "300000000000000000", "000000000000000000"},
-    { "SAVERETURNCODE",                INTSAVERETURNCODE_ID,             1, "300000000000000000", "000000000000000000"},
-    { "SETVALUE",                    INTSETVALUE_ID,                     1, "500000000000000000", "000000000000000000"},
-    { "INCLUDE",                    INTINCLUDE_ID,                     1,    "300000000000000000", "000000000000000000"},
-    { "ECHO",                        INTECHO_ID,                         1,    "300000000000000000", "000000000000000000"},
-    { "IF",                            INTIF_ID,                         1, "300000000000000000", "000000000000000000"},
-    { "ELSEIF",                        INTELSEIF_ID,                     1, "300000000000000000", "000000000000000000"},
-    { "ELSE",                        INTELSE_ID,                         0, "000000000000000000", "000000000000000000"},
+    { "COPYFILE",                   INTCOPYFILE_ID,                    3, "331000000000000000", "000000000000000000"},
+    { "SAVERETURNCODE",             INTSAVERETURNCODE_ID,              1, "300000000000000000", "000000000000000000"},
+    { "SETVALUE",                   INTSETVALUE_ID,                    1, "500000000000000000", "000000000000000000"},
+    { "INCLUDE",                    INTINCLUDE_ID,                     1, "300000000000000000", "000000000000000000"},
+    { "ECHO",                       INTECHO_ID,                        1, "300000000000000000", "000000000000000000"},
+    { "IF",                         INTIF_ID,                          1, "300000000000000000", "000000000000000000"},
+    { "ELSEIF",                     INTELSEIF_ID,                      1, "300000000000000000", "000000000000000000"},
+    { "ELSE",                       INTELSE_ID,                        0, "000000000000000000", "000000000000000000"},
     { "ENDIF",                        INTENDIF_ID,                     0, "000000000000000000", "000000000000000000"},
     { "DEFINE",                        INTDEFINE_ID,                     2, "330000000000000000", "000000000000000000"},
     { "GOTO",                        INTGOTO_ID,                         1, "300000000000000000", "000000000000000000"},
@@ -342,7 +352,13 @@ COMMAND aCommands[] =
     { "EQFCLEARMTFLAG",         EQFCLEARMTFLAG_ID,       2, "330000000000000000", "000000000000000000"},
     { "EQFFILTERNOMATCHFILE",   EQFFILTERNOMATCHFILE_ID, 7, "333333100000000000", "000000000000000000"},
     { "EQFDELETEDICT",          EQFDELETEDICT_ID,        1, "300000000000000000", "700000000000000000"},
-    { "EQFGETVERSIONEX",        EQFGETVERSIONEX_ID,        1, "000000000000000000", "000000000000000000"},
+    { "EQFGETVERSIONEX",        EQFGETVERSIONEX_ID,      1, "000000000000000000", "000000000000000000"},
+    { "EQFGETFOLDERPROPEX",     EQFGETFOLDERPROPEX_ID,   3, "333000000000000000", "000000000000000000"},
+    { "EQFOPENDOCBYTRACK",      EQFOPENDOCBYTRACK_ID,    2, "330000000000000000", "000000000000000000"},
+    { "EQFIMPORTMEMEX",         EQFIMPORTMEMEX_ID,       7, "333333100000000000", "020000000000000000"},
+    { "EQFADDMATCHSEGID",       EQFADDMATCHSEGID_ID,     4, "333100000000000",    "000000000000000000"},
+    { "EQFCREATECOUNTREPORTEX", EQFCREATECOUNTREPORTEX_ID, 10, "333333333100000000", "030000000000000000"},
+    { "EQFIMPORTFOLDERAS",      EQFIMPORTFOLDERAS_ID,    5, "332310000000000000", "000000000000000000"},
     { "",                       (COMMANDID)0,            0, "000000000000000000", "000000000000000000"}
 };
 
@@ -448,6 +464,11 @@ OPTION aOptions[] =
     { "WITHRELATIVEPATH_OPT",        WITHRELATIVEPATH_OPT },
     { "WITHOUTRELATIVEPATH_OPT",     WITHOUTRELATIVEPATH_OPT },
     { "OPENTM2FORMAT_OPT",           OPENTM2FORMAT_OPT },
+    { "WITHTRACKID_OPT",             WITHTRACKID_OPT },
+    { "FORCENEWMATCHID_OPT",         FORCENEWMATCHID_OPT },
+    { "CANCEL_UNKNOWN_MARKUP_OPT",   CANCEL_UNKNOWN_MARKUP_OPT },
+    { "SKIP_UNKNOWN_MARKUP_OPT",     SKIP_UNKNOWN_MARKUP_OPT },
+    { "GENERIC_UNKNOWN_MARKUP_OPT",  GENERIC_UNKNOWN_MARKUP_OPT },
     { "",                            0L}
 };
 
@@ -566,6 +587,7 @@ int IncVar(PSZ name, PVARIABLE *lastVariable,PFUNCTEST_OUTPUT Out);
 int DecVar(PSZ name, PVARIABLE *lastVariable,PFUNCTEST_OUTPUT Out);
 int AddToVar(char* name,  int toadd, PVARIABLE *lastVariable, PFUNCTEST_OUTPUT Out);
 USHORT deleteFile(const char* pFilePath);
+USHORT copyFile(const char* pSourceFilePath, const char* pTagetFilePath, LONG lOptions );
 
 //function prototypes for wildcard handling
 USHORT EscapeBackslash(char *pString);
@@ -1168,6 +1190,26 @@ int main
                         }
                         break;
 
+                        case INTCOPYFILE_ID:
+                        {
+                            if ( PreProcessParms( pCmd ) )
+                            {
+                                 if ( (apTokens[1]!=NULL) && (apTokens[2]!=NULL) )
+                                 {
+                                   usRC = copyFile(apTokens[1], apTokens[2], lOption );
+                                   if(usRC != 0)
+                                       OutputLog(LOG_ERROR, &Out,"\tERROR ==> %s can't be copied to %s, return code is %d\n",apTokens[1], apTokens[2], usRC);
+                                   else
+                                       OutputLog(LOG_INFO, &Out,"\tINFO ==> %s copied successfully to %s\n",apTokens[1], apTokens[2] );
+                                 }
+                                else
+                                 {
+                                      OutputLog(LOG_ERROR, &Out,"\tERROR ==> Not enougth parameters for this command. Line is ignored\n");
+                                 }
+                            }
+                        }
+                        break;
+
                         case INTSAVERETURNCODE_ID:
                         {
                             if ( PreProcessParms( pCmd ) )
@@ -1651,6 +1693,61 @@ int main
                         }                        
                         break;
                         
+                        case EQFIMPORTMEMEX_ID :
+                        {
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+                            {
+                                USHORT usProgress = 0;
+                                do
+                                {
+                                    usRC = EqfImportMemEx( hSession,           // Eqf session handle
+                                            apTokens[1],     // name of Translation Memory
+                                            apTokens[2],     // fully qualified name of input file
+                                            apTokens[3],     // translation memory ID
+                                            apTokens[4],     // ID for the origin of the translation memory
+                                            apTokens[5],     // unused
+                                            apTokens[6],     // unused
+                                            lOption );       // options for Translation Memory import
+                                    if ( hfLog )
+                                    {
+                                        USHORT usNewProgress;
+                                        EqfGetProgress( hSession, &usNewProgress );
+                                        if ( usNewProgress != usProgress )
+                                        {
+                                            usProgress = usNewProgress;
+                                            OutputLog(LOG_DEBUG, &Out, "\tProgress=%u\n", usProgress);
+                                        } /* endif */
+                                    } /* endif */
+                                } while ( usRC == CONTINUE_RC ); /* enddo */
+
+                                Out_RC( &Out, "EqfImportMemEx", usRC, hSession );
+
+                            } /* endif */
+                        }                        
+                        break;
+                        
+                        case EQFADDMATCHSEGID_ID :
+                        {
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+                            {
+                                USHORT usProgress = 0;
+                                do
+                                {
+                                    usRC = EqfAddMatchSegID( hSession,           // Eqf session handle
+                                            apTokens[1],     // name of Translation Memory
+                                            apTokens[2],     // translation memory ID
+                                            apTokens[3],     // ID for the origin of the translation memory
+                                            lOption );       // options for Translation Memory import
+                                } while ( usRC == CONTINUE_RC ); /* enddo */
+
+                                Out_RC( &Out, "EqfAddMatchSegID", usRC, hSession );
+
+                            } /* endif */
+                        }                        
+                        break;
+                        
                         case EQFEXPORTMEM_ID :
                         {
                             // preprocess parameters
@@ -1855,7 +1952,39 @@ int main
                                     } /* endif */
                                 } while ( usRC == CONTINUE_RC ); /* enddo */
 
-                                Out_RC( &Out, "EqfImportFolder", usRC,hSession );
+                                Out_RC( &Out, "EqfImportFolderFP", usRC,hSession );
+
+                            } /* endif */
+                        }
+                        break;
+
+                        case EQFIMPORTFOLDERAS_ID :
+                        {
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+                            {
+                                USHORT usProgress = 0;
+                                do
+                                {
+                                    usRC = EqfImportFolderAs( hSession,      // Eqf session handle
+                                            apTokens[1],     // name of folder
+                                            apTokens[2],     // path containing the imported folder
+                                            *(apTokens[3]),  // target drive for folder
+                                            apTokens[4],     // new folder name
+                                            lOption );       // options for the folder import
+                                    if ( hfLog )
+                                    {
+                                        USHORT usNewProgress;
+                                        EqfGetProgress( hSession, &usNewProgress );
+                                        if ( usNewProgress != usProgress )
+                                        {
+                                            usProgress = usNewProgress;
+                                            OutputLog(LOG_DEBUG, &Out, "\tProgress=%u\n", usProgress);
+                                        } /* endif */
+                                    } /* endif */
+                                } while ( usRC == CONTINUE_RC ); /* enddo */
+
+                                Out_RC( &Out, "EqfImportFolderAs", usRC,hSession );
 
                             } /* endif */
                         }
@@ -2625,6 +2754,51 @@ int main
                         }
                         break;
 
+                        case EQFCREATECOUNTREPORTEX_ID :
+                        {
+                            //setting the tmp_wc_path on the first Wildcard in the List
+                            tmp_wc_path = &first_wc_path;
+
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+                            {    
+                                //Return Value 1 means that everything there was no ERROR
+                                //Return Value 0 shouldn't happen here, because its only for 
+                                //Calls which should never include a Wildcard
+                                //Other Return Values mean that the path is wrong, or nothing was found, so we skip it
+                                if( GetWildCardList(tmp_wc_path, pCmd, &Out) == 1)
+                                {
+                                    while(tmp_wc_path->next != NULL) 
+                                    {
+                                        USHORT usReport = GetOption( apTokens[4], aReports );
+                                        USHORT usType   = GetOption( apTokens[5], aReportTypes );
+
+
+                                        usRC = EqfCreateCountReportEx( hSession,     // Eqf session handle
+                                                apTokens[1],  // name of folder containing the documents
+                                                tmp_wc_path->path,  // list of documents being counted
+                                                apTokens[3],  // fully qualified name of output file
+                                                usReport,     // ID of report being created
+                                                usType,       // type of report being created
+                                                apTokens[6],  // name of profile
+                                                apTokens[7],  // shipment
+                                                apTokens[8],  // unused
+                                                apTokens[9],  // unused
+                                                lOption );    // options
+
+                                        Out_RC( &Out, "EqfCreateCountReportEx", usRC ,hSession);
+                                        
+                                        //Shifting Pointer
+                                        tmp_wc_path = tmp_wc_path->next;
+                                    }     
+                                }
+                            }
+                            //Clearing List of Paths
+                            ClearList(&first_wc_path);
+                        }
+                        break;
+
+
                         case EQFRENAME_ID :
                         {
                             // preprocess parameters
@@ -2874,6 +3048,46 @@ int main
               }
               break;
 
+            case EQFGETFOLDERPROPEX_ID :
+              {
+                // preprocess parameters
+                if ( PreProcessParms( pCmd ) )
+                {
+
+                  usRC = EqfGetFolderPropEx( hSession,     // Eqf session handle
+                                             apTokens[1],  // folder name 
+                                             apTokens[2],  // key for requested value
+                                             szFolPropValue, // buffer for returned value
+                                             sizeof(szFolPropValue) );
+                  if ( usRC == 0 )
+                  {
+                    if ( (apTokens[3] != NULL) && (apTokens[3][0] != '\0') )
+                    {
+                      // as variables only save the pointer to the string but not its value we have to make a copy of the value string
+                      PSZ pszValue = (PSZ)malloc( max( strlen( szFolPropValue ), 10 ) );
+                      strcpy( pszValue, szFolPropValue );
+                      SaveValueToVar( apTokens[3], pszValue, &lastVariable, POINTERSTR );
+                    }
+                  } /* endif */                     
+                  Out_RC( &Out, "EqfGetFolderPropEx", usRC ,hSession);
+                } /* endif */
+              }
+              break;
+
+            case EQFOPENDOCBYTRACK_ID :
+              {
+                // preprocess parameters
+                if ( PreProcessParms( pCmd ) )
+                {
+
+                  usRC = EqfOpenDocByTrack( hSession,     // Eqf session handle
+                                             apTokens[1],  // folder name 
+                                             apTokens[2] );// track ID
+                  Out_RC( &Out, "EqfOpenDocByTrack", usRC ,hSession);
+                } /* endif */
+              }
+              break;
+
             case EQFCOUNTWORDWSINSTRING_ID :
               {
                 // preprocess parameters
@@ -3058,20 +3272,31 @@ int main
     if(Out.hfLog!= NULL && Out.szLogFile[0]!='\0')
     {
         char szCmd[1024+1] = {'\0'};
-        strcpy(szCmd,"java -jar ");
-        strcat(szCmd, getGlobalOpenTM2Path());
-        strcat(szCmd,"OpenTM2ScripterGUI\\OpenTM2ScripterGUI.jar -report ");
-        if(strchr(Out.szLogFile,'\\') == NULL)
-        {
-            char szCurDir[512+1] = {'\0'};
-            getcwd(szCurDir,512);
-            strcat(szCmd,szCurDir);
-            strcat(szCmd,"\\");
-        }
-        strcat(szCmd,Out.szLogFile);
-        int nRC = executeCommand(szCmd);
-        if(nRC==0)
-            OutputLog( LOG_INFO, &Out, "Html report created successfully\n");
+
+		char* pJavaHome = getenv("JAVA_HOME");
+		if(pJavaHome == NULL)
+		{
+			OutputLog( LOG_ERROR, &Out, "JAVA_HOME not configured in your system\n");
+		}
+		else 
+		{
+			strcpy(szCmd,pJavaHome);
+			strcat(szCmd,"\\bin\\");
+			strcat(szCmd,"java -jar ");
+			strcat(szCmd, getGlobalOpenTM2Path());
+			strcat(szCmd,"OpenTM2ScripterGUI\\OpenTM2ScripterGUI.jar -report ");
+			if(strchr(Out.szLogFile,'\\') == NULL)
+			{
+				char szCurDir[512+1] = {'\0'};
+				getcwd(szCurDir,512);
+				strcat(szCmd,szCurDir);
+				strcat(szCmd,"\\");
+			}
+			strcat(szCmd,Out.szLogFile);
+			int nRC = executeCommand(szCmd);
+			if(nRC==0)
+				OutputLog( LOG_INFO, &Out, "Html report created successfully\n");
+		}
     }
 
     if ( hfScript != NULL ) fclose( hfScript );
@@ -5711,7 +5936,20 @@ USHORT deleteFile(const char* pFilePath)
      BOOL bRes =  DeleteFile(TEXT(pFilePath));
      if(!bRes)
      {
-         return GetLastError();
+         return( (USHORT)GetLastError() );
+     }
+    return 0;
+}
+
+USHORT copyFile(const char* pSourceFilePath, const char* pTargetFilePath, LONG lOption  )
+{
+    if( (pSourceFilePath == NULL) || (pTargetFilePath == NULL) )
+        return 0;
+
+    BOOL bRes = CopyFile( pSourceFilePath, pTargetFilePath, (lOption & OVERWRITE_OPT) == 0 );
+     if(!bRes)
+     {
+         return( (USHORT)GetLastError() );
      }
     return 0;
 }

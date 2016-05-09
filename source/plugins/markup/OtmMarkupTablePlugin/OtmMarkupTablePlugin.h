@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -91,9 +91,9 @@ public:
 */
 	virtual const bool isProtected();
 
-/*! \brief Returns TRUE if the markup table files were updated
+/*! \brief Returns 1 if the markup table files were updated
 */
-	virtual const bool updateFiles(
+	virtual const int updateFiles(
        char   *pszMarkupName,
        char   *pszDescription,
        char   *pszVersion,

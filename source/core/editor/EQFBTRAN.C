@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1386,9 +1386,27 @@ BOOL EQFBTInitTrans
 //                     POS_TOBE
 //------------------------------------------------------------------------------
 VOID
-EQFBTSegNext ( PTBDOCUMENT pDoc     )         // pointer to document ida
+EQFBTSegNext ( PTBDOCUMENT pDoc )       // pointer to document ida
 {
-   EQFBTrans( pDoc, POS_TOBE );               // position at untranslated ones
+   EQFBTrans( pDoc, POS_TOBE ) ;        // position at untranslated ones
+   return ;
+}
+VOID
+EQFBTSegNextExact ( PTBDOCUMENT pDoc )  // pointer to document ida
+{
+   EQFBTrans( pDoc, POS_TOBE_EXACT ) ;  // position at untranslated ones with EXACT matches
+   return ;
+}
+VOID
+EQFBTSegNextFuzzy ( PTBDOCUMENT pDoc )  // pointer to document ida
+{
+   EQFBTrans( pDoc, POS_TOBE_FUZZY ) ;  // position at untranslated ones with FUZZY matches
+   return ;
+}
+VOID
+EQFBTSegNextNone ( PTBDOCUMENT pDoc )   // pointer to document ida
+{
+   EQFBTrans( pDoc, POS_TOBE_NONE ) ;   // position at untranslated ones with NO matches
    return ;
 }
 
@@ -2040,7 +2058,7 @@ EQFBSendNextSource( PTBDOCUMENT pDoc,     // pointer to document instance
    USHORT fsFlags = 0;                    // configuration flags
    PVOID  pvMetaData = NULL;
 
-   pTBSourceSeg = EQFBFindNextSource( pDoc, pulSegNum, usCond,&fEndReached, &pvMetaData );
+   pTBSourceSeg = EQFBFindNextSource( pDoc, pulSegNum, usCond, &fEndReached, fMode, &pvMetaData );
    fOK = (pTBSourceSeg != NULL);          // source segment found
 
    if ( ! fOK )
@@ -2105,6 +2123,41 @@ EQFBSendNextSource( PTBDOCUMENT pDoc,     // pointer to document instance
         ulEnd = pGlobInfoSeg->msecs;
         ulTime += (ulEnd - ulStart);
 #endif
+        // fill PE data area with results from memory lookup
+        memset( &pDoc->PEData, 0, sizeof(pDoc->PEData) );
+        if ( usRc == EQFRC_OK )     
+        {
+          USHORT usProposal = 0;
+          PDOCUMENT_IDA  pIdaDoc;                       // pointer to document struct.
+          PSTEQFSAB     pstEQFSab;                      // ptr to SAB element
+          PSTEQFGEN     pstEQFGen;                      // pointer to generic structure
+          pstEQFGen = (PSTEQFGEN)pDoc->pstEQFGen ;
+          pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
+          pstEQFSab = pIdaDoc->stEQFSab + pIdaDoc->usFI; // point to current element
+
+          // copy data of first available MT proposal
+          while ( usProposal < pstEQFSab->usPropCount )
+          {
+            if ( pstEQFSab->usMachineTrans[usProposal] & MACHINE_TRANS_PROP )
+            {
+              HADDDATAKEY hKey;
+
+              // copy MT proposal target
+              wcscpy( pDoc->PEData.szMTTarget, pstEQFSab->pszSortTargetSeg[usProposal] );
+
+              // get match segment ID of MT proposal
+              hKey = MADSearchKey( pstEQFSab->pszSortPropsData[usProposal], MATCHSEGID_KEY );
+              if ( hKey != NULL ) 
+              {
+                MADGetAttr( hKey, MATCHSEGID_ATTR, pDoc->PEData.szMTMatchID, sizeof(pDoc->PEData.szMTMatchID) / sizeof(CHAR_W), L"" );
+              } /* endif */
+
+              usProposal = pstEQFSab->usPropCount; // force end of while loop
+            } /* endif */
+            usProposal++;
+          } /* endwhile */
+        }
+
 
         if (usRc != EQFRC_OK )           // && usRc != EQFRC_SEG_NOT_FOUND)
         {
@@ -2171,6 +2224,7 @@ EQFBFindNextSource( PTBDOCUMENT pDoc,     // pointer to document structure
                     PULONG  pulSegNum,    // pointer to segment number
                     USHORT  usCond,       // search condition
                     PBOOL   pfEndReached, // TRUE if at end of file
+                    BOOL    fMode,        // mode of operation (foreground)
                     PVOID   *ppvMetaData) // callers metadata pointer
 {
    BOOL   fFound = FALSE;                 // no match found
@@ -2191,7 +2245,8 @@ EQFBFindNextSource( PTBDOCUMENT pDoc,     // pointer to document structure
 
    if ( usCond != POS_CURSOR )
    {
-      fUntrans = ( usCond == POS_TOBE );  // set search criteria
+//    fUntrans = ( usCond == POS_TOBE );  // set search criteria
+      fUntrans = ( usCond != POS_TOBEORDONE );  // set search criteria
       while ( pSeg && pSeg->pDataW && ! fFound)
       {
          switch ( pSeg->qStatus)
@@ -2202,7 +2257,49 @@ EQFBFindNextSource( PTBDOCUMENT pDoc,     // pointer to document structure
               break;
            case QF_ATTR:                           // attribute
            case QF_TOBE:                           // to be translated
-              fFound = TRUE;
+              if ( ( usCond == POS_TOBEORDONE ) ||
+                   ( usCond == POS_TOBE ) ||
+                   ( fMode == FALSE ) ) {          // Background
+                 fFound = TRUE;
+              } 
+              else                                 // Select based on memory matches
+              {
+                 PDOCUMENT_IDA  pIdaDoc;                       // pointer to document struct.
+                 PSTEQFSAB     pstEQFSab;                      // ptr to SAB element
+                 PSTEQFGEN     pstEQFGen;                      // pointer to generic structure
+
+                 pstEQFGen = (PSTEQFGEN)pDoc->pstEQFGen ;
+                 pstEQFGen->usRC = NO_ERROR;
+                 pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
+                 pstEQFSab = pIdaDoc->stEQFSab + pIdaDoc->usFI; // point to current element
+                 pstEQFSab->ulParm1 = ulSegNum;
+                 pstEQFSab->usPropCount = 0;
+                 wcscpy( pstEQFSab->pucSourceSeg, pSeg->pDataW ) ;
+                 memset(&pstEQFSab->pszSortTargetSeg[0], '\0', EQF_NPROP_TGTS*sizeof(PSZ_W));
+                 memset(&pstEQFSab->pszSortPropsSeg[0], '\0', EQF_NPROP_TGTS*sizeof(PSZ_W));
+                 memset(&pstEQFSab->usFuzzyPercents[0], '\0', EQF_NPROP_TGTS*sizeof(USHORT));
+                 memset(&pstEQFSab->fInvisible[0], '\0', EQF_NPROP_TGTS*sizeof(EQF_BOOL));
+                 memset(&pstEQFSab->pszSortPropsData[0], '\0', EQF_NPROP_TGTS*sizeof(PSZ_W));
+                 UTF16memset (pstEQFSab->pucTargetSegs, '\0', EQF_TGTLEN);
+                 UTF16memset (pstEQFSab->pucPropsSegs, '\0', EQF_TGTLEN);
+                 UTF16memset (pstEQFSab->pucPropAddData, '\0', EQF_TGTLEN);
+                 EQFTM (pIdaDoc, EQFCMD_TRANSSEGW, pstEQFSab);     // TRANSSEG to TM
+
+                 if ( (pstEQFGen->usRC == 0) || 
+                      (pstEQFGen->usRC==EQFRS_SEG_NOT_FOUND))
+                 {
+                    if ( ( ( usCond == POS_TOBE_EXACT ) &&        // found EXACT matches
+                           ( pstEQFSab->usFuzzyPercents[0] >= (SHORT)pstEQFGen->lExactMatchLevel ) ) ||
+                         ( ( usCond == POS_TOBE_FUZZY ) &&        // found FUZZY matches
+                           ( pstEQFSab->usPropCount > 0 ) &&
+                           ( pstEQFSab->usFuzzyPercents[0] < (SHORT)pstEQFGen->lExactMatchLevel ) ) ||
+                         ( ( usCond == POS_TOBE_NONE ) &&         // found NO matches 
+                           ( pstEQFSab->usPropCount == 0 ) ) ) { 
+                       fFound = TRUE ;           
+                    } 
+                 }
+
+              }
               break;
            case QF_NOP:                            // nop
               break;
@@ -2748,7 +2845,11 @@ BOOL  EQFBSaveSeg
            pTBSourceSeg = EQFBGetSegW(pDoc->twin, pDoc->ulWorkSeg);
            pDoc->ActSegLog.AddFlags.AutoSubst = (pDoc->pTBSeg->CountFlag.AnalAutoSubst || pDoc->pTBSeg->CountFlag.EditAutoSubst);
 
-           WriteMTLog( &(pDoc->ActSegLog), pTBSourceSeg->pDataW, pDoc->szProposalDocName, pDoc->szMetaData );
+           // fill PE data target field
+           wcscpy( pDoc->PEData.szTarget, pDoc->pTBSeg->pDataW );
+
+           // write MTLOG entry
+           WriteMTLog( &(pDoc->ActSegLog), pTBSourceSeg->pDataW, pDoc->szProposalDocName, pDoc->szMetaData, &pDoc->PEData );
          }
 
          if ( usRc != EQFRC_OK)
@@ -3239,6 +3340,8 @@ BOOL EQFBCopyPropMatch
       {
         // clear meta data buffer
         pDoc->szMetaData[0] = 0;
+        pDoc->PEData.szCopiedMatchID[0] = 0;
+        pDoc->PEData.szCopiedTarget[0] = 0;
 
          /*************************************************************/
          /* Extract the source-of-proposal-is-equal-to-source flag    */
@@ -3483,6 +3586,12 @@ BOOL EQFBCopyPropMatch
                           pDoc->ActSegLog.PropTypeCopied.GlobMem = TRUE;
                         } /* endif */                           
                       }
+                      else if ( usState & GLOBMEMFUZZY_TRANS_PROP )
+                      {
+            					  pDoc->pTBSeg->CountFlag.FuzzyCopy = TRUE;  
+                        pDoc->pTBSeg->CountFlag.GlobMemCopy = TRUE;
+                        pDoc->ActSegLog.PropTypeCopied.GlobMemFuzzy = TRUE;
+                      }
                       else if ( usState & REPLACE_PROP )
                       {
                         pDoc->pTBSeg->CountFlag.ReplCopy = TRUE;
@@ -3527,6 +3636,20 @@ BOOL EQFBCopyPropMatch
                   pDoc->ActSegLog.ulSegNum = pDoc->pTBSeg->ulSegNum;
 
                   MTLogProposalCopied( pDoc );
+
+                  // fill PE data field for copied proposal
+                  {
+                    HADDDATAKEY hKey;
+                    PSZ_W pszPropData = pData + (wcslen(pData) + 1);
+                    wcscpy( pDoc->PEData.szCopiedTarget, pData );
+
+                     // find any existing match segment ID
+                     hKey = MADSearchKey( pszPropData, MATCHSEGID_KEY );
+                     if ( hKey != NULL ) 
+                     {
+                       MADGetAttr( hKey, MATCHSEGID_ATTR, pDoc->PEData.szCopiedMatchID, sizeof(pDoc->PEData.szCopiedMatchID) / sizeof(CHAR_W), L"" );
+                     } /* endif */
+                  }
 
                   // MT proposals only: copy any MT data of copied proposal
                   if ( usState & MACHINE_TRANS_PROP )

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -93,7 +93,7 @@ public:
 
 /*! \brief Returns TRUE if the markup table files were updated
 */
-	virtual const bool updateFiles(
+	virtual const int updateFiles(
        char   *pszMarkupName,
        char   *pszDescription,
        char   *pszVersion,

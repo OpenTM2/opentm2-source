@@ -1,7 +1,7 @@
 //+----------------------------------------------------------------------------+
 //| MTEval.CPP                                                                 |
 //+----------------------------------------------------------------------------+
-//| Copyright (C) 2012-2015, International Business Machines                        |
+//| Copyright (C) 2012-2016, International Business Machines                        |
 //| Corporation and others.  All rights reserved.                              |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -138,6 +138,7 @@ protected:
   CHAR_W        m_szSegSource[MAX_SEGMENT_SIZE+1]; // segment source text
   CHAR_W        m_szMetaData[MAX_SEGMENT_SIZE+1]; // segment meta data
   char          m_szPropDoc[MAX_LONGFILESPEC];      // proposal document 
+  PEDATABUFFER  m_PEData;                          // PE data buffer
 };
 
 char *pszInFile = NULL;
@@ -335,6 +336,7 @@ int CMTEval::Evaluate
 
     m_xw->WriteStylesheet( "MTEVAL.XSL" );
     m_xw->WriteStartElement( "mtevaluation" );
+    m_xw->WriteAttributeString( "xmlns:PE", "http://www.ibm.com/PostEdit" );
     m_xw->WriteStartElement( "header" );
     m_xw->WriteElementString( "generator", "MTEVAL" );
     sprintf( szVersion, "%d.%d.%d.%d", EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD );
@@ -1198,13 +1200,13 @@ BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry  )
   if ( pEntry->ulEyeCatcher != ACTSEGLOG2_EYECATCHER ) return( FALSE );
 
   // test record length
-  ULONG ulMaxSize = sizeof(ACTSEGLOGENH2) + ((MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W)) + MAX_LONGFILESPEC;
+  ULONG ulMaxSize = sizeof(ACTSEGLOGENH2) + ((MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W)) + MAX_LONGFILESPEC + (5 * MAX_SEGMENT_SIZE * sizeof(CHAR_W));
   if ( pEntry->ulRecordLen > ulMaxSize ) return( FALSE );
 
-  // test check sum
+  // test check sum (which does not include the PE data section)
   ULONG ulTestCheckSum = 0;
   int i = 0;
-  int iLen = (int)pEntry->ulRecordLen - sizeof(pEntry->ulEyeCatcher) - sizeof(pEntry->ulCheckSum);
+  int iLen = (int)pEntry->ulRecordLen - sizeof(pEntry->ulEyeCatcher) - sizeof(pEntry->ulCheckSum) - pEntry->ulPEDataLen;
   PBYTE pbTest = (PBYTE)&(pEntry->ulRecordLen);
   while ( i < iLen ) ulTestCheckSum = ulTestCheckSum  + (ULONG)pbTest[i++];
 
@@ -1538,6 +1540,18 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
         if (pTemp->ulPropSourceLen != 0) strcpy( m_szPropDoc, (PSZ)((PBYTE)pTemp + sizeof(ACTSEGLOGENH2) + pTemp->ulSegLen) );
         m_szMetaData[0] = 0;
         if (pTemp->ulMetaDataLen != 0) wcscpy( m_szMetaData, (PSZ_W)((PBYTE)pTemp + sizeof(ACTSEGLOGENH2) + pTemp->ulSegLen + pTemp->ulPropSourceLen) );
+
+        memset( &m_PEData, 0, sizeof(m_PEData) );
+        if ( pTemp->ulPEDataLen != 0 )
+        {
+          PBYTE pbData = (PBYTE)pTemp + sizeof(ACTSEGLOGENH2) + pTemp->ulSegLen + pTemp->ulPropSourceLen + pTemp->ulMetaDataLen;
+          PPESEGLOGDATA pPEData = (PPESEGLOGDATA)pbData;
+          if ( pPEData->ulTargetLen != 0 ) wcscpy( m_PEData.szTarget, (PSZ_W)(pbData + pPEData->ulTargetOffs) );
+          if ( pPEData->ulMTTargetLen != 0 ) wcscpy( m_PEData.szMTTarget, (PSZ_W)(pbData + pPEData->ulMTTargetOffs) );
+          if ( pPEData->ulMTMatchIDLen != 0 ) wcscpy( m_PEData.szMTMatchID, (PSZ_W)(pbData + pPEData->ulMTMatchIDOffs) );
+          if ( pPEData->ulCopiedTargetLen != 0 ) wcscpy( m_PEData.szCopiedTarget, (PSZ_W)(pbData + pPEData->ulCopiedTargetOffs) );
+          if ( pPEData->ulCopiedMatchIDLen != 0 ) wcscpy( m_PEData.szCopiedMatchID, (PSZ_W)(pbData + pPEData->ulCopiedMatchIDOffs) );
+        } /* endif */
       }
       else if ( pTemp->ulEyeCatcher == ACTSEGLOG_EYECATCHER )
       {
@@ -1749,17 +1763,60 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
               *pszTarget = 0;
             }
 
-            m_xw->WriteString( m_szSegSource );
+            m_xw->WriteCDataString( m_szSegSource );
             m_xw->WriteEndElement(); // "source" 
           } /* endif */           
 
-          if ( m_ActSegLog.ulMetaDataLen != 0 )
+          if ( (m_ActSegLog.ulMetaDataLen != 0) || (m_ActSegLog.ulPEDataLen != 0))
           {
             m_xw->WriteStartElement( "metadata" );
-            m_xw->WriteString( " " );
 
-            // write MT metadata and ensure XML wellformedness ...
-            WriteMTMetaData( m_xw, m_szMetaData );
+            if ( m_ActSegLog.ulMetaDataLen != 0 )
+            {
+              m_xw->WriteString( " " );
+
+              // write MT metadata and ensure XML wellformedness ...
+              WriteMTMetaData( m_xw, m_szMetaData );
+            } /* endif */
+
+            // write new PE data (if avaliable)#
+            if ( m_PEData.szTarget[0] != 0 )
+            {
+              m_xw->WriteStartElement( "PE:tgt" );
+              m_xw->WriteCDataString( m_PEData.szTarget  );
+              m_xw->WriteEndElement(); // "PE:tgt" 
+            } /* endif */
+
+            if ( m_PEData.szCopiedTarget[0] != 0 )
+            {
+              m_xw->WriteStartElement( "PE:usedmatch" );
+
+              if ( m_PEData.szCopiedMatchID[0] != 0 )
+              {
+                m_xw->WriteStartAttribute( "PE:ID_usedmatch" );
+                m_xw->WriteString( m_PEData.szCopiedMatchID );
+                m_xw->WriteEndAttribute();
+              } /* endif */
+
+              m_xw->WriteCDataString( m_PEData.szCopiedTarget );
+              m_xw->WriteEndElement(); // "PE:usedmatch" 
+            } /* endif */
+
+
+            if ( m_PEData.szMTTarget[0] != 0 )
+            {
+              m_xw->WriteStartElement( "PE:mtmatch" );
+
+              if ( m_PEData.szMTMatchID[0] != 0 )
+              {
+                m_xw->WriteStartAttribute( "PE:ID_mtmatch" );
+                m_xw->WriteString( m_PEData.szMTMatchID );
+                m_xw->WriteEndAttribute();
+              } /* endif */
+
+              m_xw->WriteCDataString( m_PEData.szMTTarget );
+              m_xw->WriteEndElement(); // "PE:usedmatch" 
+            } /* endif */
 
             m_xw->WriteEndElement(); // "metadata" 
           } /* endif */           

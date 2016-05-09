@@ -1,5 +1,5 @@
 /*! EQFD.CPP
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 	Description:  MFC support in OpenTM2
 */
 
@@ -117,24 +117,13 @@ BEGIN_MESSAGE_MAP(CEQFDApp, CWinApp)
         ON_COMMAND( PID_HELP_FOR_HELP, OnHelpForHelp )
         ON_COMMAND( PID_FILE_MI_EBUS, OnEBus )
         ON_COMMAND( PID_FILE_MI_EBUS1, OnEBus1 )
-        ON_COMMAND( PID_FILE_MI_EBUS2, OnEBus2 )
+        ON_COMMAND( PID_FILE_MI_EBUS1, OnEBus1 )
+        ON_COMMAND( PID_FILE_MI_TECHGUIDE, OnTechGuide )
         ON_COMMAND( ID_HELP, OnHelp )
         ON_COMMAND( ID_CONTEXT_HELP, OnContextHelp )
         ON_COMMAND( ID_HELP_USING, OnHelpUsing )
         ON_COMMAND( ID_HELP_INDEX, OnHelpIndex )
         ON_COMMAND( ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup )
-
-#ifdef _TQM
-        ON_COMMAND(PID_TQM_MI_LOGON,          OnTQMLogon)
-        ON_COMMAND(PID_TQM_MI_LOGOFF,         OnTQMLogoff)
-        ON_COMMAND(PID_TQM_MI_USER,           OnTQMUser)
-        ON_COMMAND(PID_TQM_MI_EVALUATION,     OnTQMEvaluation)
-        ON_COMMAND(PID_TQM_MI_VENDOR,         OnTQMVendor)
-        ON_COMMAND(PID_TQM_MI_REPORTS,        OnTQMReports)
-        ON_COMMAND(PID_TQM_MI_SETTINGS,       OnTQMSettings)
-        ON_COMMAND(PID_TQM_MI_PROJECTS,       OnTQMProjects)
-        ON_COMMAND(PID_TQM_MI_ARCHIVE,        OnTQMArchive)
-#endif
 
                 // NOTE - the ClassWizard will add and remove mapping macros here.
                 //    DO NOT EDIT what you see in these blocks of generated code!
@@ -561,6 +550,16 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
 
 		PluginManager* thePluginManager = PluginManager::getInstance();
 		thePluginManager->loadPluginDlls(szPluginPath);
+        // Add for P403138
+        char strParam[MAX_BUF_SIZE];
+        memset(strParam, 0x00, sizeof(strParam));
+
+        if (thePluginManager->ValidationCheck(strParam))
+        {
+            PSZ pszParam = strParam;
+            UtlError(ERROR_PLUGIN_INVALID, MB_OK , 1, &pszParam, EQF_WARNING);
+        }
+        // Add end
 
 		InitTMPluginWrapper();
 		InitDictPluginWrapper();
@@ -858,6 +857,14 @@ void CEQFDApp::OnEBus1()
 
 }
 
+void CEQFDApp::OnTechGuide()
+{
+
+
+    StartBrowser("techguide");
+
+}
+
 void CEQFDApp::OnEBus2()
 {
 
@@ -1035,108 +1042,6 @@ VOID CEQFDApp::SetFontSize( PVOID pCWeb, LONG lSel )
   } /* endif */
 }
 
-#ifdef _TQM
-
-VOID CEQFDApp::OnTQMLogon()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_LOGON), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMLogoff()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_LOGOFF), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMUser()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_USER), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMEvaluation()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_EVALUATION), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMVendor()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_VENDOR), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMReports()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_REPORTS), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMSettings()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_SETTINGS), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMProjects()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_PROJECTS), 0L );
-  return;
-}
-
-VOID CEQFDApp::OnTQMArchive()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_ARCHIVE), 0L );
-  return;
-}
-
-VOID CEQFDApp::PrintHTML( HWND hwndParent, PSZ pszHtmlFile )
-{
-  CWebBrowser2 * pCWeb = new CWebBrowser2;
-  if ( pCWeb )
-  {
-    CRect rect;
-    rect.SetRect(0,0,2,2);
-    CWnd *pCWnd   = (CWnd::FromHandle(hwndParent));
-    pCWeb->Create( "", "PreView", WS_VISIBLE | WS_MAXIMIZE, rect,
-                   pCWnd, 4711, NULL);
-    if ( pCWeb->m_hWnd )
-    {
-      int i = 14;     // navNoHistory | navNoWriteToCache | navNoReadFromCache,
-      pCWeb->Navigate( pszHtmlFile, (VARIANT *) &i, NULL, NULL, NULL );
-      pCWeb->ExecWB( OLECMDID_PRINT, 0 /*OLECMDEXECOPT_DONTPROMPTUSER*/, NULL, NULL );
-      delete pCWeb;
-      pCWeb = NULL;
-    }
-    else
-    {
-      delete pCWeb;
-      pCWeb = NULL;
-    } /* endif */
-  }
-  else
-  {
-    delete pCWeb;
-    pCWeb = NULL;
-  } /* endif */
-
-  return;
-}
-#endif
-
-
-
-
 
 LONG CEQFDApp::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
 {
@@ -1183,7 +1088,7 @@ LONG CEQFDApp::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
 
 			// work out a good place for the dump file
       UtlMakeEQFPath( szDumpPath, NULC, SYSTEM_PATH, NULL );
-      strcat( szDumpPath, "\\OpenTM2-1.2.4.1.dmp" );
+      strcat( szDumpPath, "\\OpenTM2-1.3.0.dmp" );
 
 			{
 				// create the file

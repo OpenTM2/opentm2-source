@@ -4,7 +4,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1753,7 +1753,12 @@ BOOL EQFBFuncCharIn
   /********************************************************************/
   if ( !EQFBFuncDelSel( pDoc ))
   {
-    if ( pDoc->ulWorkSeg != pDoc->TBCursor.ulSegNum )
+    USHORT usStatus = EQFBCurrentState(pDoc);
+    if (usStatus == STARGET )
+    {
+      WinAlarm( HWND_DESKTOP, WA_WARNING );    // issue a beep
+    }
+    else if ( pDoc->ulWorkSeg != pDoc->TBCursor.ulSegNum )
     {
       /****************************************************************/
       /* we are outside our active worksegment                        */

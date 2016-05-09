@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -350,7 +350,7 @@ USHORT DocumentLoad( PDOCIMPIDA pIda, BOOL fWaitCursor )
           memset( &SegLog, 0, sizeof(SegLog) );
           SegLog.ulEyeCatcher = ACTSEGLOG_EYECATCHER;
           SegLog.AddFlags.ShipmentRec = TRUE;
-          WriteToMTLog( hMTLog, &SegLog, NULL, NULL, NULL );
+          WriteToMTLog( hMTLog, &SegLog, NULL, NULL, NULL, NULL );
           fclose( hMTLog );          
         } /* endif */             
       

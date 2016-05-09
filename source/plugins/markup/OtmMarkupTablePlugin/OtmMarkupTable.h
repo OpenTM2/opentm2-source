@@ -1,7 +1,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2013, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 #ifndef _OTMMARKUPTABLE_H_
@@ -59,6 +59,7 @@ class __declspec(dllexport) OtmMarkupTable: public OtmMarkup
      if ( pInfo->pszUserExit ) free( pInfo->pszUserExit ) ;
      if ( pInfo->pszFileList ) free( pInfo->pszFileList ) ;
   };
+
 	
 	/*! \brief Supplies the name of the markup table
 	
@@ -195,11 +196,12 @@ class __declspec(dllexport) OtmMarkupTable: public OtmMarkup
 	This method can update its internal table files with the files provided in the 
   comma separated update file list
 	
-	\returns TRUE when the markup table files have been updated and FALSE when the update is 
-  not possible
+	\returns  0 when the update failed
+              1 when the markup table files have been updated
+              2 when the update has been delayed and will occur at restart
 
 	*/
-	bool updateFiles( 
+	int updateFiles( 
            char   *pszMarkupName,
            char   *pszDescription,
            char   *pszVersion,

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -268,11 +268,12 @@ bool OtmMarkupTable::isProtected()
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
   \param pFileList   Pointer to other markup table files (with TABLE\ or BIN\ prefix) or NULL
 	
-	\returns TRUE when the markup table files have been updated and FALSE when the update is 
-  not possible
+	\returns  0 when the update failed          
+              1 when the markup table files have been updated
+              2 when the update has been delayed and will occur at restart
 
 	*/
-bool OtmMarkupTable::updateFiles(
+int OtmMarkupTable::updateFiles(
     char   *pszTableName,
     char   *pszDescription,
     char   *pszVersion,
@@ -281,7 +282,7 @@ bool OtmMarkupTable::updateFiles(
     char   *pszFileList )
 {
    bool    bNewMarkup = false ;
-   bool    bReturn = true ;
+   int     iReturn = UPDATE_MARKUP_OK ;
    
 
    if ( ( pszTableName ) &&
@@ -319,7 +320,7 @@ bool OtmMarkupTable::updateFiles(
       SaveValue2( &(pInfo->pszFileList), pszFileList ) ;
    }
 
-   return( bReturn ) ;
+   return( iReturn ) ;
 }
 
 

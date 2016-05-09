@@ -3,7 +3,7 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Copyright (C) 1990-2016, International Business Machines              |
   |      Corporation and others. All rights reserved                           |  
   +----------------------------------------------------------------------------+
 */
@@ -299,8 +299,6 @@
 #define PID_UTILS_MI_FOUNDTERMS ID_TWBM_AAB+47
 #define PID_UTILS_MI_ABBR       ID_TWBM_AAB+48
 #define PID_UTILS_MI_CONNECT    ID_TWBM_AAB+49
-#define PID_UTILS_MI_PLGINMGR   ID_TWBM_AAB+79  // new start
-#define PID_UTILS_MI_ATOVERUP   ID_TWBM_AAB+80  // new end
 
 #define PID_VIEW_MI_NAMES       ID_TWBM_AAB+50
 #define PID_VIEW_MI_DETAILS     ID_TWBM_AAB+51
@@ -341,6 +339,10 @@
 #define PID_UTILS_MI_DELETEDOCS ID_TWBM_AAB+76
 #define PID_UTILS_MI_RESTOREDOCS ID_TWBM_AAB+77
 #define PID_UTILS_MI_EXPORTSEGS  ID_TWBM_AAB+78
+#define PID_UTILS_MI_PLGINMGR   ID_TWBM_AAB+79  // new start
+#define PID_UTILS_MI_ATOVERUP   ID_TWBM_AAB+80  // new end
+#define PID_FILE_MI_TECHGUIDE   ID_TWBM_AAB+81
+
 
 #define PID_WIND_MI_TOP         ID_TWBM_AAB + 100 // top item in WINDOWS menu
 #define PID_WIND_MI_BOT         ID_TWBM_AAB + 250 // bottom item in WINDOWS menu
@@ -374,16 +376,15 @@
 #define PID_FILE_MI_RENAME      ID_TWBM_AAB+304
 #define PID_FILE_MI_SYSPROP     ID_TWBM_AAB+305
 
-#define PID_TQM_MI_PROJECTS     ID_TWBM_AAB + 306
-#define PID_TQM_MI_SETTINGS     ID_TWBM_AAB + 307
-#define PID_TQM_MI_ARCHIVE      ID_TWBM_AAB + 308
-#define PID_TQM_MI_NETWORK      ID_TWBM_AAB + 309
-
-#define PID_FILE_MI_FUZZYSEARCH ID_TWBM_AAB+310
+#define PID_FILE_MI_SPELLCHECK  ID_TWBM_AAB + 306
+#define PID_FILE_MI_FUZZYSEARCH ID_TWBM_AAB + 310
 
 #define PID_FILE_MI_ADDUSER     ID_TWBM_AAB+311
 #define PID_FILE_MI_REMOVEUSER  ID_TWBM_AAB+312
 #define PID_FILE_MI_LISTUSER    ID_TWBM_AAB+313
+
+#define PID_FILE_MI_UPLOADTOSERVER    ID_TWBM_AAB+314
+#define PID_FILE_MI_DOWNFROMSERVER    ID_TWBM_AAB+315
 
 // start ID for menu items added by tool plugins
 #define ID_TWBM_AAB_TOOLPLUGINS ID_TWBM_AAB+340

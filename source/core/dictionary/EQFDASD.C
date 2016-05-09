@@ -6,7 +6,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 
 //+----------------------------------------------------------------------------+
@@ -2012,7 +2012,6 @@ USHORT AsdBuild
    USHORT     usIndexLength;           // length of user data in index dictionary
    USHORT     usFeatMask;
    USHORT     usLangCode = 0;          // language code of source language
-   PSZ        pszLangCode;             // ptr to language code string
 
    pUCB = (PUCB) hUCB;                 // convert handle to pointer
 

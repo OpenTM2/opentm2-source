@@ -1,4 +1,4 @@
-// Copyright (c) 1992-2015, International Business Machines
+// Copyright (c) 1992-2016, International Business Machines
 // Corporation and others.  All rights reserved.
 //
 
@@ -7421,8 +7421,8 @@
 // Text:       The import of folder '%1' to drive '%2' has been completed.\n
 //             One or more of the markup tables could not be updated with newer versions
 //             as the markup tables were in use.\n
-//             Please restart TranslationManager
-//             before working with the imported folder. On restart TranslationManager will
+//             Please restart OpenTM2
+//             before working with the imported folder. On restart OpenTM2 will
 //             update the markup tables automatically.
 // HelpTitle:  OpenTM2 - Help
 // Help:       Either a stop or close request was issued, or another
@@ -7546,36 +7546,50 @@
 //             selected dictionaries define the "NL Product" field.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
+#define INFO_DICTPID_SELECTED                              671
+// Text:       The requested dictionary PID is already selected.
+// HelpTitle:  OpenTM2 - Help
+// Help:       The dictionary PID entries must be unique in the list
+//             of selected dictionary PID values.
+//             A previously selected
+//             dictionary PID value cannot be selected again.
+#define ERROR_DICTPID_MAXSELECTED                          672
+// Text:       The allowed maximum length (400) of dictionary PID values
+//             is already selected.
+// HelpTitle:  OpenTM2 - Help
+// Help:       The number of dictionary PID values that can be
+//             associated with a folder is limited to
+//             400 characters.
 
-#define FREE_0671_xxxxxxxxxxxxxxxxxxxxx                    671
-// Text:       !! No message text defined !!
+#define FUNC_ADDMATCHSEGID_NOIDSPECS                      673
+//* Define statement owner: XQG
+// Text:       Missing input specs for match segment ID creation
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0672_xxxxxxxxxxxxxxxxxxxxx                    672
-// Text:       !! No message text defined !!
+#define ERROR_DIFFERENT_TARGET_LANG                       674
+// Text:       The selected documents use different target languages ('%1' and '%2').
+//             Please ensure that only documents having the same target language 
+//             are selected before restarting the spellcheck function.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0673_xxxxxxxxxxxxxxxxxxxxx                    673
-// Text:       !! No message text defined !!
+#define ERROR_NO_SPELL_SUPPORT_FOR_TARGET_LANG             675
+// Text:       No spellcheck support for target language '%1' is available.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0674_xxxxxxxxxxxxxxxxxxxxx                    674
-// Text:       !! No message text defined !!
+#define ERROR_INVALID_SHIPMENT_NUMBER                      676
+//* Define statement owner: XQG
+// Text:       The shipment number "%1" is invalid.
+//             The shipment number is either a numeric value in the range from 1 to 99
+//             to select a specific shipment
+//             or one of the keywords "Single Shipments" or "All Shipments".
 // HelpTitle:  OpenTM2 - Help
-// Help:       !! No help text defined !!
-
-#define FREE_0675_xxxxxxxxxxxxxxxxxxxxx                    675
-// Text:       !! No message text defined !!
-// HelpTitle:  OpenTM2 - Help
-// Help:       !! No help text defined !!
-
-#define FREE_0676_xxxxxxxxxxxxxxxxxxxxx                    676
-// Text:       !! No message text defined !!
-// HelpTitle:  OpenTM2 - Help
-// Help:       !! No help text defined !!
+// Help:       The shipment number specified 
+//             is not a valid shipment number. Valid shipment
+//             numbers are numeric and in the range from 1 to 99 or 
+//             one of the keywords "Single Shipments" or "All Shipments".
 
 #define FREE_0677_xxxxxxxxxxxxxxxxxxxxx                    677
 // Text:       !! No message text defined !!
@@ -12121,3 +12135,16 @@
 // HelpTitle:  OpenTM2 - Help
 // Help:       The specified file containing the list of file names does
 //             not exist or could not be opened.
+
+#define ERROR_PLUGIN_EXPIRED                                   1088
+// Text:       Some plugin has expired.  Please reference the log file for details.
+// HelpTitle:  OpenTM2 - Help
+// Help:       Some plugin has expired.  It cannot be loaded by OpenTM2, and 
+//             plugin cannot be used.
+
+#define ERROR_PLUGIN_INVALID                                   1089
+// Text:       OpenTM2 needs at least a memory plugin, a dictionary plugin and a markup table plugin. \n The plugin(s) 
+//             '%1' is (are) missing. Please open "Utilities" -> "Plugin Mananger" and install the missing plugin(s).
+// HelpTitle:  OpenTM2 - Help
+// Help:       The tool need at least a memory plugin, a dictionary plugin and a markup table plugin, or the 
+//             tool cannot work.

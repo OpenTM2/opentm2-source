@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 2012-2015, International Business Machines              |
+//|      Copyright (C) 2012-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -93,6 +93,7 @@ typedef  enum _BATCHCMD
   BATCH_LINE,
   BATCH_SEARCH,
   BATCH_TRACKID,                       // Doc open: TVT track ID
+  BATCH_IMPORTAS,                      // folder import: import-as parameter
   BATCH_END                            // end of list indicator
 } BATCHCMD;
 
@@ -150,6 +151,7 @@ typedef struct _BATCHPARAMETER
   CHAR        szTranslatorMail[MAX_LONGFILESPEC];// buffer for translator email address
   CHAR        szProfile[MAX_LONGFILESPEC];       // buffer for profile name
   CHAR        szTaskList[MAX_LONGFILESPEC];      // buffer for task list name
+  CHAR        szImportAs[MAX_LONGFILESPEC];      // buffer for import as folder name
   PSZ         pszDicList;                        // list of dictionary names
   PSZ         pszDocList;                        // list of document names
   PSZ         pszMemList;                        // list of memory names
@@ -162,6 +164,13 @@ typedef struct _BATCHPARAMETER
   BOOL        fSwitch1;                          // switch 1 value
   BOOL        fSwitch2;                          // switch 2 value
   BOOL        fSwitch3;                          // switch 3 value
+  BOOL        fDescription;                      // description-has-been-specified flag
+  BOOL        fMemory;                           // memory-has-been-specified flag
+  BOOL        fDicList;                          // dictionary-list-has-been-specified flag
+  BOOL        fTargetLang;                       // target-language-has-been-specified flag
+  BOOL        fMemList;                          // memory-list-has-been-specified flag
+  BOOL        fShipment;                         // shipment-number-has-been-specified flag
+  BOOL        fProfile;                          // profile-name-has-been-specified flag
 } BATCHPARAMETER, *PBATCHPARAMETER;
 
 typedef struct _BATCHDATA
@@ -218,6 +227,7 @@ typedef struct _BATCHPARM
   LONG          lMaxLength;                      // max length: for NAME/LETTER: max number of characters
                                                  //             for ADDOPTION: number of option field to use as target
                                                  //             for NAMELIST: 1 = allow empty lists
+  PBOOL         pfUsed;                          // pointer to "parameter has been used" flag or NULL if not required
 } BATCHPARM, *PBATCHPARM;
 
 typedef struct _BATCHOPTION
@@ -326,6 +336,7 @@ static CMDLIST EQFCmdList[ BATCH_END + 1 ] =
   {BATCH_LINE,         "/LINE=",        "/LI=" },         // line number
   {BATCH_SEARCH,       "/SEARCH=",      "/SE=" },         // search string
   {BATCH_TRACKID,      "/TRACK=",       "/TRK=" },        // TVT track ID 
+  {BATCH_IMPORTAS,     "/IMPORTAS=",    "/AS=" },         // import as folder name
   {BATCH_END,          "",              ""       }        // end of list indicator
                 } ;
 
@@ -525,237 +536,241 @@ BATCHOPTION ArchiveMemOptions[] =
   // parameter handling lists
 BATCHPARM FolderCreateParms[] =
 {
-  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION },
-  { BATCH_MEM,        NAMELIST_PARMTYPE,  &(Parm.pszMemList),     0 },
-  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1 }, 
-  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME },
-  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME },
-  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     0 },
-  { BATCH_SRCLNG,     NAME_PARMTYPE,      Parm.szSourceLang,      MAX_LANG_LENGTH }, 
-  { BATCH_TGTLNG,     NAME_PARMTYPE,      Parm.szTargetLang,      MAX_LANG_LENGTH },
-  { BATCH_CONVERSION, NAME_PARMTYPE,      Parm.szConversion,      MAX_DESCRIPTION },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION, NULL },
+  { BATCH_MEM,        NAMELIST_PARMTYPE,  &(Parm.pszMemList),     0, NULL },
+  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1, NULL }, 
+  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME, NULL },
+  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME, NULL },
+  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     0, NULL },
+  { BATCH_SRCLNG,     NAME_PARMTYPE,      Parm.szSourceLang,      MAX_LANG_LENGTH, NULL }, 
+  { BATCH_TGTLNG,     NAME_PARMTYPE,      Parm.szTargetLang,      MAX_LANG_LENGTH, NULL },
+//  { BATCH_CONVERSION, NAME_PARMTYPE,      Parm.szConversion,      MAX_DESCRIPTION, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM AnalysisParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    AnalysisOptions,        0 }, 
-  { BATCH_MEM,        NAMELIST_PARMTYPE,  &(Parm.pszMemList),     0 },
-  { BATCH_PROFILE,    NAME_PARMTYPE,      Parm.szProfile,         40 },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    AnalysisOptions,        0, NULL }, 
+  { BATCH_MEM,        NAMELIST_PARMTYPE,  &(Parm.pszMemList),     0, NULL },
+  { BATCH_PROFILE,    NAME_PARMTYPE,      Parm.szProfile,         40, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM DocExportParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_STARTPATH,  NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DocExportOptions,       0 }, 
-  { BATCH_VAL,        ADDOPTION_PARMTYPE, DocExportValOptions,    1 }, 
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_STARTPATH,  NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DocExportOptions,       0, NULL }, 
+  { BATCH_VAL,        ADDOPTION_PARMTYPE, DocExportValOptions,    1, NULL }, 
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM DocImportParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_STARTPATH,  NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_ALIAS,      NAME_PARMTYPE,      Parm.szAlias,           MAX_LONGFILESPEC },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME },
-  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME },
-  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     0 },
-  { BATCH_CONVERSION, NAME_PARMTYPE,      Parm.szConversion,      MAX_DESCRIPTION },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_STARTPATH,  NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_ALIAS,      NAME_PARMTYPE,      Parm.szAlias,           MAX_LONGFILESPEC, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME, NULL },
+  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME, NULL },
+  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     0, NULL },
+//  { BATCH_CONVERSION, NAME_PARMTYPE,      Parm.szConversion,      MAX_DESCRIPTION, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM DocDeleteParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM FolderImportParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_FROMPATH,   NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_FROMDRIVE,  LETTER_PARMTYPE,    &(Parm.chFromDrive),    1 },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    FolderImportOptions,    0 }, 
-  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1 },
-  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME },
-  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_CONVERSION, NAME_PARMTYPE,      Parm.szConversion,      MAX_DESCRIPTION },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_FROMPATH,   NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FROMDRIVE,  LETTER_PARMTYPE,    &(Parm.chFromDrive),    1, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    FolderImportOptions,    0, NULL }, 
+  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1, NULL },
+  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME, NULL },
+  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+//  { BATCH_CONVERSION, NAME_PARMTYPE,      Parm.szConversion,      MAX_DESCRIPTION, NULL },
+  { BATCH_IMPORTAS,   NAME_PARMTYPE,      Parm.szImportAs,        MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM FolderExportParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1 },
-  { BATCH_TOPATH,     NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    FolderExportOptions,    0 }, 
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1, NULL },
+  { BATCH_TOPATH,     NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    FolderExportOptions,    0, NULL }, 
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM FolderDeleteParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM MemoryCreateParms[] =
 {
-  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION },
-  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1 }, 
-  { BATCH_SRCLNG,     NAME_PARMTYPE,      Parm.szSourceLang,      MAX_LANG_LENGTH }, 
-  { BATCH_TYPE,       OPTION_PARMTYPE,    MemoryCreateOptions,    0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION, NULL },
+  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1, NULL }, 
+  { BATCH_SRCLNG,     NAME_PARMTYPE,      Parm.szSourceLang,      MAX_LANG_LENGTH, NULL }, 
+  { BATCH_TYPE,       OPTION_PARMTYPE,    MemoryCreateOptions,    0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM MemoryDeleteParms[] =
 {
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM MemoryOrganizeParms[] =
 {
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM MemoryExportParms[] =
 {
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_TYPE,       OPTION_PARMTYPE,    MemoryExportOptions,    0 },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_TYPE,       OPTION_PARMTYPE,    MemoryExportOptions,    0, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM MemoryImportParms[] =
 {
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_TYPE,       OPTION_PARMTYPE,    MemoryImportOptions,    0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_TYPE,       OPTION_PARMTYPE,    MemoryImportOptions,    0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM WordCountParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    WordCountOptions,       0 },
-  { BATCH_FORMAT,     ADDOPTION_PARMTYPE, CountReportFormatOptions, 3 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    WordCountOptions,       0, NULL },
+  { BATCH_FORMAT,     ADDOPTION_PARMTYPE, CountReportFormatOptions, 3, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM CountReportParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_REPORT,     ADDOPTION_PARMTYPE, CountReportReportOptions, 1 },
-  { BATCH_TYPE,       ADDOPTION_PARMTYPE, CountReportTypeOptions, 2 },
-  { BATCH_FORMAT,     ADDOPTION_PARMTYPE, CountReportFormatOptions, 3 },
-  { BATCH_PROFILE,    NAME_PARMTYPE,      Parm.szProfile,         MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_REPORT,     ADDOPTION_PARMTYPE, CountReportReportOptions, 1, NULL },
+  { BATCH_TYPE,       ADDOPTION_PARMTYPE, CountReportTypeOptions, 2, NULL },
+  { BATCH_FORMAT,     ADDOPTION_PARMTYPE, CountReportFormatOptions, 3, NULL },
+  { BATCH_PROFILE,    NAME_PARMTYPE,      Parm.szProfile,         MAX_LONGFILESPEC, NULL },
+  { BATCH_SHIPMENT,   NAME_PARMTYPE,      Parm.szShipment,        MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM TaskListParms[] =
 {
-  { BATCH_TASKLIST,   NAME_PARMTYPE,      Parm.szTaskList,        MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_TASKLIST,   NAME_PARMTYPE,      Parm.szTaskList,        MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM CreateControlledFolderParms[] =
 {
-  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION },
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC },
-  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1 }, 
-  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME },
-  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME },
-  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     0 },
-  { BATCH_SRCLNG,     NAME_PARMTYPE,      Parm.szSourceLang,      MAX_LANG_LENGTH }, 
-  { BATCH_TGTLNG,     NAME_PARMTYPE,      Parm.szTargetLang,      MAX_LANG_LENGTH },
-  { BATCH_ROMEM,      NAMELIST_PARMTYPE,  &(Parm.pszMemList),     0 },
-  { BATCH_PASSWORD,   NAME_PARMTYPE,      Parm.szPassword,        MAX_FNAME },
-  { BATCH_SHIPMENT,   NAME_PARMTYPE,      Parm.szShipment,        MAX_LONGFILESPEC },
-  { BATCH_VERSION,    NAME_PARMTYPE,      Parm.szVersion,         MAX_LONGFILESPEC },
-  { BATCH_TRANSLATOR, NAME_PARMTYPE,      Parm.szTranslator,      MAX_LONGFILESPEC },
-  { BATCH_TMAIL,      NAME_PARMTYPE,      Parm.szTranslatorMail,  MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION, NULL },
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC, NULL },
+  { BATCH_TODRIVE,    LETTER_PARMTYPE,    &(Parm.chToDrive),      1, NULL }, 
+  { BATCH_MARKUP,     NAME_PARMTYPE,      Parm.szMarkup,          MAX_FNAME, NULL },
+  { BATCH_EDIT,       NAME_PARMTYPE,      Parm.szEdit,            MAX_FNAME, NULL },
+  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     0, NULL },
+  { BATCH_SRCLNG,     NAME_PARMTYPE,      Parm.szSourceLang,      MAX_LANG_LENGTH, NULL }, 
+  { BATCH_TGTLNG,     NAME_PARMTYPE,      Parm.szTargetLang,      MAX_LANG_LENGTH, NULL },
+  { BATCH_ROMEM,      NAMELIST_PARMTYPE,  &(Parm.pszMemList),     0, NULL },
+  { BATCH_PASSWORD,   NAME_PARMTYPE,      Parm.szPassword,        MAX_FNAME, NULL },
+  { BATCH_SHIPMENT,   NAME_PARMTYPE,      Parm.szShipment,        MAX_LONGFILESPEC, NULL },
+  { BATCH_VERSION,    NAME_PARMTYPE,      Parm.szVersion,         MAX_LONGFILESPEC, NULL },
+  { BATCH_TRANSLATOR, NAME_PARMTYPE,      Parm.szTranslator,      MAX_LONGFILESPEC, NULL },
+  { BATCH_TMAIL,      NAME_PARMTYPE,      Parm.szTranslatorMail,  MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM ArchiveMemoryParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0 },
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC },
-  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0 },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    ArchiveMemOptions,      0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC, NULL },
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    ArchiveMemOptions,      0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM DictionaryImportParms[] =
 {
-  { BATCH_DICT,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_FILES,      NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DictionaryImportOptions,0 },
-  { BATCH_PASSWORD,   NAME_PARMTYPE,      Parm.szPassword,        MAX_FNAME },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_DICT,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DictionaryImportOptions,0, NULL },
+  { BATCH_PASSWORD,   NAME_PARMTYPE,      Parm.szPassword,        MAX_FNAME, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM DictionaryExportParms[] =
 {
-  { BATCH_DICT,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_PASSWORD,   NAME_PARMTYPE,      Parm.szPassword,        MAX_FNAME },
-  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DictionaryExportOptions,0 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_DICT,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_PASSWORD,   NAME_PARMTYPE,      Parm.szPassword,        MAX_FNAME, NULL },
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DictionaryExportOptions,0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM RenameParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC },
-  { BATCH_DICT,       NAME_PARMTYPE,      Parm.szAlias,           MAX_LONGFILESPEC },
-  { BATCH_NEW,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_ADJUST,     SWITCH_PARMTYPE,    NULL,                   1 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC, NULL },
+  { BATCH_DICT,       NAME_PARMTYPE,      Parm.szAlias,           MAX_LONGFILESPEC, NULL },
+  { BATCH_NEW,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_ADJUST,     SWITCH_PARMTYPE,    NULL,                   1, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM DocOpenParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_SEGMENT,    LONG_PARMTYPE,      &(Parm.lAddOptions1),   0 },
-  { BATCH_LINE,       LONG_PARMTYPE,      &(Parm.lAddOptions2),   0 },
-  { BATCH_SEARCH,     NAME_PARMTYPE,      Parm.szAlias,           MAX_LONGFILESPEC },
-  { BATCH_TRACKID,    NAME_PARMTYPE,      Parm.szShipment,        MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_SEGMENT,    LONG_PARMTYPE,      &(Parm.lAddOptions1),   0, NULL },
+  { BATCH_LINE,       LONG_PARMTYPE,      &(Parm.lAddOptions2),   0, NULL },
+  { BATCH_SEARCH,     NAME_PARMTYPE,      Parm.szAlias,           MAX_LONGFILESPEC, NULL },
+  { BATCH_TRACKID,    NAME_PARMTYPE,      Parm.szShipment,        MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM RemoveDocsParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM RestoreDocsParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM FolderChangePropsParms[] =
 {
-  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION },
-  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC },
-  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     1 },
-  { BATCH_TGTLNG,     NAME_PARMTYPE,      Parm.szTargetLang,      MAX_LANG_LENGTH },
-  { BATCH_ROMEM,      NAMELIST_PARMTYPE,  &(Parm.pszMemList),     1 },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_DESC,       NAME_PARMTYPE,      Parm.szDescr,           MAX_DESCRIPTION, &(Parm.fDescription) },
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC, &(Parm.fMemory) },
+  { BATCH_DICT,       NAMELIST_PARMTYPE,  &(Parm.pszDicList),     1, &(Parm.fDicList) },
+  { BATCH_TGTLNG,     NAME_PARMTYPE,      Parm.szTargetLang,      MAX_LANG_LENGTH, &(Parm.fTargetLang) },
+  { BATCH_ROMEM,      NAMELIST_PARMTYPE,  &(Parm.pszMemList),     1, &(Parm.fMemList) },
+  { BATCH_SHIPMENT,   NAME_PARMTYPE,      Parm.szShipment,        sizeof(Parm.szShipment), &(Parm.fShipment) },
+  { BATCH_PROFILE,    NAME_PARMTYPE,      Parm.szProfile,         sizeof(Parm.szProfile), &(Parm.fProfile) },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 BATCHPARM MarkupCreateParms[] =                                        /* 2-19-14 */
 {
-  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC },
-  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC },
-  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0 } };
+  { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
 //+----------------------------------------------------------------------------+
 //| main                                                                       |
@@ -1479,7 +1494,14 @@ USHORT BatchImportFolder
       sprintf( pData->szPathBuffer, "%c:%s", Parm.chFromDrive, Parm.szPath );
       do
       {
-        usRC = EqfImportFolderFP( pData->hSession, Parm.szName, pData->szPathBuffer, Parm.chToDrive, Parm.lOptions );
+        if ( Parm.szImportAs[0] )
+        {
+          usRC = EqfImportFolderAs( pData->hSession, Parm.szName, pData->szPathBuffer, Parm.chToDrive, Parm.szImportAs, Parm.lOptions );
+        }
+        else
+        {
+          usRC = EqfImportFolderFP( pData->hSession, Parm.szName, pData->szPathBuffer, Parm.chToDrive, Parm.lOptions );
+        } /* endif */
       } while ( usRC == CONTINUE_RC );
     }
     else
@@ -1880,8 +1902,8 @@ USHORT BatchCountReport
   {        
     do
     {
-      usRC = EqfCreateCountReport( pData->hSession, Parm.szName, Parm.pszDocList, Parm.szPath, (USHORT)Parm.lAddOptions1,
-                                   (USHORT)Parm.lAddOptions2, Parm.szProfile, Parm.lOptions | Parm.lAddOptions3 );
+      usRC = EqfCreateCountReportEx( pData->hSession, Parm.szName, Parm.pszDocList, Parm.szPath, (USHORT)Parm.lAddOptions1,
+        (USHORT)Parm.lAddOptions2, Parm.szProfile, Parm.szShipment, NULL, NULL, Parm.lOptions | Parm.lAddOptions3 );
     } while ( usRC == CONTINUE_RC );
     if ( usRC ) BatchHandleAPIError( pData, usRC );
   } /* endif */
@@ -2161,8 +2183,14 @@ USHORT BatchChangeFolProps
   // call change folder propertiesfunction
   if ( !usRC )
   {
-    usRC = EqfChangeFolPropsEx( pData->hSession, Parm.szName, NULC, Parm.szTargetLang, Parm.szMemory,
-                                Parm.pszDicList, Parm.pszMemList, Parm.szDescr, NULL, NULL );
+    usRC = EqfChangeFolPropsEx( pData->hSession, Parm.szName, NULC, 
+                                Parm.fTargetLang ? Parm.szTargetLang : NULL, 
+                                Parm.fMemory ? Parm.szMemory : NULL,
+                                Parm.fDicList ? Parm.pszDicList : NULL, 
+                                Parm.fMemList ? Parm.pszMemList : NULL, 
+                                Parm.fDescription ? Parm.szDescr : NULL, 
+                                Parm.fProfile ? Parm.szProfile : NULL, 
+                                Parm.fShipment ? Parm.szShipment : NULL);
 
     if ( usRC )
     {
@@ -2328,6 +2356,8 @@ USHORT BatchGetParameters
 
                 if ( pCurrentParm->Type != DUMMY_PARMTYPE)
                 {
+                  if ( pCurrentParm->pfUsed != NULL ) *(pCurrentParm->pfUsed) = TRUE;
+
                   switch ( pCurrentParm->Type )
                   {
                     case OPTION_PARMTYPE:
@@ -2915,7 +2945,7 @@ void showHelp()
     printf("\n");
     printf( "                     or\n");
     
-    printf("                    OtmCmd /TASK=DOCIMP /FLD=fold /Files=doc(s) [/STartpath=startpath] [/ALIAS=alias] [/OVerwrite=[Yes|No]] [/QUIET] [/EDit=editor] [/MArkup=markup] [/CONV=conv]\n");
+    printf("                    OtmCmd /TASK=DOCIMP /FLD=fold /Files=doc(s) [/STartpath=startpath] [/ALIAS=alias] [/OVerwrite=[Yes|No]] [/QUIET] [/EDit=editor] [/MArkup=markup] \n");
     printf("\n");
     printf( "                     or\n");
     
@@ -2934,7 +2964,7 @@ void showHelp()
     printf("                    OtmCmd /TASK=FLDEXP /FLD=folder [/FRomdrive=drive] [/FromPath=path] /TOdrive=drive [/Files=doc(s)] [/OPtions=[DICT|MEM|ROMEM|DOCMEM|DELETE]] [/OVerwrite=[Yes|No]] [/QUIET]\n");
     printf( "                   \n or\n");
     
-    printf("                    OtmCmd /TASK=FLDIMP /FLD=folder /FRomdrive=drive [/FromPath=path] [/TOdrive=drive] [/OPtions=[DICT|MEM]] [/EDit=editor] [/QUIET] [/MArkup=markup] [/CONV=conv]\n");
+    printf("                    OtmCmd /TASK=FLDIMP /FLD=folder /FRomdrive=drive [/FromPath=path] [/TOdrive=drive] [/OPtions=[DICT|MEM]] [/EDit=editor] [/QUIET] [/MArkup=markup] [/IMPORTAS=newname]\n");
     printf("\n");
     printf( "                     or\n");
     
@@ -2995,7 +3025,7 @@ void showHelp()
     printf( "    /ALIAS        an alias name for the document to be processed\n" );
     printf( "    /EDit         Specifies the editor to be used\n" );
     printf( "    /MArkup       Specifies the markup table to be used\n" );
-    printf( "    /CONV         Specifies the conversion to be used\n" );
+    printf( "    /IMPORTAS     Specifies the new name of the folder after the import\n" );
     printf( "    /DEsc         specifies the description of the new object\n" );
     printf( "    /TOdrive      specifies the drive where the new object is to be placed\n" );
     printf( "    /DIct         specifies the name of a dictionary to be associated with\n" );

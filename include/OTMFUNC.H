@@ -5,7 +5,7 @@
 *
 *	Copyright Notice:
 *
-*	Copyright (C) 1990-2015, International Business Machines
+*	Copyright (C) 1990-2016, International Business Machines
 *	Corporation and others. All rights reserved
 **/
 
@@ -221,6 +221,8 @@ typedef struct _EXTFOLPROP
 #define SKIP_UNKNOWN_MARKUP_OPT        0x20000000L
 #define GENERIC_UNKNOWN_MARKUP_OPT     0x40000000L
 
+// option for EqfImportMemEx only: create a new segment match ID even if the match has one already
+#define FORCENEWMATCHID_OPT 0x00000004L
 
 // flags for document export in validation format
 
@@ -472,7 +474,7 @@ USHORT EqfChangeFolProps
   \param pszROMemories pointer to the buffer containing the new list of read-only Translation Memory databases or NULL for no change
   \param pszDescription pointer to the buffer containing the new folder description or NULL for no change
   \param pszProfile pointer to the buffer containing the new calculation profile name or NULL for no change
-  \param pszUnUsed2 parameter currently not in use and reserved for future enhancements, should be NULL
+  \param pszShipment pointer to the buffer containing the new folder shipment number or NULL for no change
   \returns 0 if successful or an error code in case of failures
   */
 /*@ADDTOSCRIPTER*/ 
@@ -488,7 +490,7 @@ USHORT EqfChangeFolPropsEx
   PSZ         pszROMemories,           // opt: list of read-only search memories or NULL
   PSZ         pszDescription,          // opt: folder description or NULL
   PSZ         pszProfile,              // opt: calculation profile name or NULL
-  PSZ         pszUnUsed2               // opt: for future enhancements, currently NULL
+  PSZ         pszShipment              // opt: new folder shipment number or NULL
   );
 /*! \brief Create a sub-folder
 	\param hSession the session handle returned by the EqfStartSession call
@@ -796,15 +798,14 @@ USHORT EqfExportDoc
 									   //                 VALFORMAT_DOC_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
 									   //                 VALFORMAT_ODT_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
 									   //                 VALFORMAT_HTML_OPT{VALFORMAT_COMBINE_OPT VALFORMAT_PROTSEGS_OPT},
-                                       //                 WITHTRACKID_OPT
                                        // @RelativePath: WITHRELATIVEPATH_OPT(default),WITHOUTRELATIVEPATH_OPT
-									   // @Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT}
+									   // @Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT,WITHTRACKID_OPT}
 );     
 
 
 /*! \brief Import a Translation Memory
   \param hSession the session handle returned by the EqfStartSession call
-  \param pszMemname name of the Translation Memory
+  \param pszMemName name of the Translation Memory
   \param pszInFile fully qualified name of the input file
   \param lOptions options for Translation Memory import
          one of the format options 
@@ -829,16 +830,61 @@ __declspec(dllexport)
 USHORT EqfImportMem
 (
   HSESSION    hSession,                // mand: Eqf session handle
-  PSZ         pszMemname,              // mand: name of Translation Memory
+  PSZ         pszMemName,              // mand: name of Translation Memory
   PSZ         pszInFile,               // mand: fully qualified name of input file
   LONG        lOptions                 // opt: options for Translation Memory import
                                        // @Import Mode: TMX_OPT{CLEANRTF_OPT}, XLIFF_MT_OPT,UTF16_OPT,ANSI_OPT,ASCII_OPT(default)
                                        // @Markup Table Handling: CANCEL_UNKNOWN_MARKUP_OPT(default), SKIP_UNKNOWN_MARKUP_OPT, GENERIC_UNKNOWN_MARKUP_OPT
 									                     // @Other: {CLEANRTF_OPT,IGNORE_OPT}
 );
+
+/*! \brief Import a Translation Memory (extended version)
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemName name of the Translation Memory
+  \param pszInFile fully qualified name of the input file
+  \param pszTM_ID translation memory ID or NULL if not used
+  \param pszStoreID ID for the origin of the translation memory or NULL if not used
+  \param pszUnused1 not in use, for future enhancements
+  \param pszUnused2 not in use, for future enhancements
+  \param lOptions options for Translation Memory import
+         one of the format options 
+         - TMX_OPT import in TMX format
+         - XLIFF_MT_OPT import in XLIFF format
+         - UTF16_OPT import in the EXP format (Unicode UTF-16 encoded)
+         - ANSI_OPT import in the EXP format (ANSI encoded)
+         - ASCII_OPT import in the EXP format (ASCII encoded)
+         .
+         and one of the markup table handling functions
+         - CANCEL_UNKNOWN_MARKUP_OPT stop import when an unknown markup is detected
+         - SKIP_UNKNOWN_MARKUP_OPT skip segments with unknown markup
+         - GENERIC_UNKNOWN_MARKUP_OPT use the default markup table for segments with unknown markup
+         .
+         additional options which can be used
+         - CLEANRTF_OPT to remove RTF inline tags (only in combination with TMX_OPT)
+         - IGNORE_OPT ignore invalid segments and continue the import 
+         - FORCENEWMATCHID_OPT create a new match segment ID even if the imported match already has one
+  \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfImportMemEx
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszMemName,              // mand: name of Translation Memory
+  PSZ         pszInFile,               // mand: fully qualified name of input file
+  PSZ         pszTM_ID,                // opt: translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // opt: ID for the origin of the translation memory or NULL if not used
+  PSZ         pszUnused1,              // opt: not in use, for future enhancements
+  PSZ         pszUnused2,              // opt: not in use, for future enhancements
+  LONG        lOptions                 // opt: options for Translation Memory import
+                                       // @Import Mode: TMX_OPT{CLEANRTF_OPT}, XLIFF_MT_OPT,UTF16_OPT,ANSI_OPT,ASCII_OPT(default)
+                                       // @Markup Table Handling: CANCEL_UNKNOWN_MARKUP_OPT(default), SKIP_UNKNOWN_MARKUP_OPT, GENERIC_UNKNOWN_MARKUP_OPT
+									                     // @Other: {CLEANRTF_OPT,IGNORE_OPT,FORCENEWMATCHID_OPT}
+);
+
 /*! \brief Export a Translation Memory
   \param hSession the session handle returned by the EqfStartSession call
-  \param pszMemname name of the Translation Memory
+  \param pszMemame name of the Translation Memory
   \param pszOutFile fully qualified name of the output file
   \param lOptions options for Translation Memory export
          - OVERWRITE_OPT to overwrite existing files
@@ -996,7 +1042,7 @@ USHORT EqfAnalyzeDoc
                                        //@:{TMMATCH_OPT,ADDTOMEM_OPT,AUTOSUBST_OPT,UNTRANSLATED_OPT,
 									   //   AUTOLAST_OPT,AUTOJOIN_OPT,AUTOCONTEXT_OPT,REDUNDCOUNT_OPT,
 									   //   OVERWRITE_OPT,IGNOREPATH_OPT,ADJUSTLEADWS_OPT,ADJUSTTRAILWS_OPT,
-									   //   NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,
+									   //   NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,SENDTOMT_OPT,
 									   //   RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}
 );
 
@@ -1113,6 +1159,34 @@ USHORT EqfImportFolderFP
 									   // @Other: {WITHDICT_OPT, WITHMEM_OPT}
 );
 
+/*! \brief Import a folder from the given directory
+    \param hSession the session handle returned by the EqfStartSession call
+    \param pszFolderName name of the folder being imported
+    \param pszFromPath the fully qualified path name of the directory containing the imported folder
+    \param chToDrive target drive for imported folder
+    \param pszNewFolderName new name for the folder after the import
+    \param lOptions folder import options
+           - XLIFF_OPT import a XLIFF folder (when not specified the import of a standard FXP folder is assumed)
+           - NOMARKUP_UPDATE_OPT do not import any markup tables contained in the exported folder
+           - WITHDICT_OPT import any dictionaries contained in the exported folder
+           - WITHMEM_OPT  import any Translation Memory databases contained in the exported folder
+    \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfImportFolderAs
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of folder being imported
+  PSZ         pszFromPath,             // mand: path containing the imported folder
+  CHAR        chToDrive,               // opt: target drive for folder
+  PSZ         pszNewFolderName,        // opt: new name for the folder after the import
+  LONG        lOptions                 // opt: folder import options
+                                       // @Import Mode: XLIFF_OPT
+									   // @Other: {WITHDICT_OPT, WITHMEM_OPT}
+);
+
+
 /*! \brief Delete a folder
     \param hSession the session handle returned by the EqfStartSession call
     \param pszFolderName name of the folder being deleted
@@ -1141,6 +1215,28 @@ USHORT EqfGetFolderProp
   PSZ         pszFolderName,           // mand: name of folder to get properties from
   PEXTFOLPROP pExtFolProp              // mand: structure of Folderproperties to be returned
 );
+
+/*! \brief Get a specific value from the properties of a folder
+    \param hSession the session handle returned by the EqfStartSession call
+    \param pszFolderName name of the folder to get the property value from
+    \param pszKey name of the value to be retrieved
+    \param pszBuffer pointer to a buffer area receiving the folder property value 
+    \param iBufSize size of the buffer in number of bytes
+    \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfGetFolderPropEx
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of the folder to get the property value from
+  PSZ         pszKey,                  // mand: name of the requested value
+                                       //@: DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,ANALYSISPROFILE,COUNTINGPROFILE,SHIPMENT
+  PSZ         pszBuffer,               // mand: buffer for the returned value / name of the variable receiving the requested value
+  int         iBufSize                 // /*@Ignore*/ mand: size of the buffer
+);
+
+
 /*! \brief Delete one or more documents
     \param hSession the session handle returned by the EqfStartSession call
     \param pszFolderName name of the folder containing the documents
@@ -1207,9 +1303,70 @@ USHORT EqfCreateCountReport
                                        // @Type:BASE_REPTYPE,BASE_SUMMARY_REPTYPE,BASE_SUMMARY_FACTSHEET_REPTYPE,SUMMARY_FACTSHEET_REPTYPE,FACTSHEET_REPTYPE
   PSZ         pszProfile,              // opt: name of profile
   LONG        lOptions                 // opt: output format
-                                       // @Output Foramt: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
+                                       // @Output Format: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
 									   // @Other: OVERWRITE_OPT
 );
+
+/*! \brief Create a counting report
+    \param hSession the session handle returned by the EqfStartSession call
+    \param pszFolderName name of the folder containing the documents
+    \param pszDocuments comma separeted list of documents being counted or NULL if all documents of the folder should be counted
+    \param pszOutFile fully qualified name of the output file
+    \param usReport ID of the report being created
+           - HISTORY_REP create a history report
+           - COUNTING_REP create a counting report
+           - CALCULATING_REP create a calculating report
+           - PREANALYSIS_REP create a pre-analysis report
+           - REDUNDANCY_REP create a redundancy report
+           - REDUNDANCYSEGMENT_REP create a redundant segment list
+    \param usType type of the report being created
+           valid for a history report are
+           - BRIEF_SORTBYDATE_REPTYPE create a brief report sorted by date
+           - BRIEF_SORTBYDOC_REPTYPE create a brief report sorted by documents
+           - DETAIL_REPTYPE create a detailed report
+           valid types for counting report
+           - WITHTOTALS_REPTYPE counting report with totals
+           - WITHOUTTOTALS_REPTYPE counting report without totals
+           valid types for calculating report, pre-analysis report, redundancy report, and redundant segment list
+           - BASE_REPTYPE only base 
+           - BASE_SUMMARY_REPTYPE only summary 
+           - BASE_SUMMARY_FACTSHEET_REPTYPE base, summary, and factsheet
+           - SUMMARY_FACTSHEET_REPTYPE only summary and factsheet
+           - FACTSHEET_REPTYPE only factsheet
+    \param pszProfile name of the counting report profile to be applied
+    \param pszShipment shipment number or one of the keywords "All Shipments" or "Single Shipments"
+    \param pszUnused1 for future enhancements, currently unused
+    \param pszUnused2 for future enhancements, currently unused
+    \param lOptions options for the counting report
+           - OVERWRITE_OPT overwrite any existing output file
+           .
+           one of the output format options
+           - TEXT_OUTPUT_OPT create a plain text report
+           - XML_OUTPUT_OPT create a XML report
+           - HTML_OUTPUT_OPT create a HTML report
+    \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfCreateCountReportEx
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of folder containing the documents
+  PSZ         pszDocuments,            // opt: list of documents being counted
+  PSZ         pszOutFile,              // mand: fully qualified name of output file
+  USHORT      usReport,                // mand: ID of report being created
+                                       // @Report ID:CALCULATING_REP,PREANALYSIS_REP,REDUNDANCY_REP,REDUNDANCYSEGMENT_REP
+  USHORT      usType,                  // mand: type of report being created
+                                       // @Type:BASE_REPTYPE,BASE_SUMMARY_REPTYPE,BASE_SUMMARY_FACTSHEET_REPTYPE,SUMMARY_FACTSHEET_REPTYPE,FACTSHEET_REPTYPE
+  PSZ         pszProfile,              // opt: name of profile
+  PSZ         pszShipment,             // opt: shipment number or one of the keywords "All Shipments" or "Single Shipments"
+  PSZ         pszUnused1,              // opt: for future enhancements, currently unused
+  PSZ         pszUnused2,              // opt: for future enhancements, currently unused
+  LONG        lOptions                 // opt: output format
+                                       // @Output Format: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
+									   // @Other: OVERWRITE_OPT
+);
+
 /*! \brief Create a archive memory from translated documents
     \param hSession the session handle returned by the EqfStartSession call
     \param pszFolderName name of the folder
@@ -1333,6 +1490,57 @@ USHORT EqfCreateCntReport
                                        // @Security:{PLAUS_OPT,LOST_OPT,LIST_OPT}
   BOOL        bSingleShipment          // opt: shipment handlign
 );
+
+/*! \brief Create a counting report (old interface, please use EqfCreateCountReport instead)
+    \param hSession the session handle returned by the EqfStartSession call
+    \param chDriveLetter drive letter of the folder location, not used anymore and should be empty
+    \param pszFolderName name of the folder
+    \param pszDocuments comma separated list of document names or NULL if complete folder should be counted
+    \param pReportType pointer to a REPORTTYPE structure containing the report type information
+    \param pszOutfileName fully qualified name of the output report file
+    \param pszFormat format of the output file
+           - "ASCII" for a plain text report
+           - "HTML" for a HTML report
+           - "RTF" for a RTF report
+           - "XML" for a XML report
+    \param pszProfile name of the calculation profile to be used, when specified the following parameters are not used and
+           all information is retrieved from the profile instead
+    \param pRepSettings pointer to a REPORTSETTINGS structure containing the report settings
+    \param pFactSheet pointer to a FACTSHEET structure containing the factsheet infos
+    \param usColumn number of columns to in the report
+    \param usCategory number of categories in the report
+    \param pFinalFactors pointer to a FINALFACTORS structure containing the payment factors
+    \param lOptSecurity security check level
+    \param pszShipment shipment number or one of the keywords "All Shipments" or "Single Shipments"
+    \param pszUnused1 for future enhancements, currently unused
+    \param pszUnused2 for future enhancements, currently unused
+    \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfCreateCntReportEx
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  CHAR        chDriveLetter,           // opt: target drive letter
+  PSZ         pszFolderName,           // mand: name of folder containing the documents
+  PSZ         pszDocuments,            // opt: list of documents being counted
+  PREPORTTYPE pReportType,             // mand: type of report
+  PSZ         pszOutfileName,              // mand: fully qualified name of output file
+  PSZ         pszFormat,               // mand: outpur format
+  PSZ         pszProfile,              // opt: name of profile
+  PREPORTSETTINGS pRepSettings,        // mand: report settings
+  PFACTSHEET pFactSheet,               // mand: factsheet settings
+  USHORT      usColumn,                // mand: column handling
+  USHORT      usCategory,              // mand: category setting
+  PFINALFACTORS pFinalFactors,         // mand: final factors
+  LONG        lOptSecurity,            // opt: security settings 
+                                       // @Security:{PLAUS_OPT,LOST_OPT,LIST_OPT}
+  PSZ pszShipment,                     // opt: shipment number or one of the keywords "All Shipments" or "Single Shipments"
+  PSZ pszUnused1,                      // opt: for future enhancements, currently unused
+  PSZ pszUnused2                       // opt: for future enhancements, currently unused
+);
+
+
+
 /*! \brief Load a segmented document into memory 
     \param hSession the session handle returned by the EqfStartSession call
     \param pszFullDocName fully qualified name of segmented document
@@ -1807,7 +2015,7 @@ USHORT EqfOpenDocByTrack
 (
   HSESSION    hSession,                // mand: Eqf session handle
   PSZ         pszFolderName,           // mand: name of the folder
-  PSZ         pszTrackID               // TVT tracking ID of segment to be activated
+  PSZ         pszTrackID               // mand: TVT tracking ID of segment to be activated
 );
 
 /*! \brief Delete the MT log files of a folder
@@ -2134,6 +2342,28 @@ USHORT EqfGetVersionEx
   PSZ  pszVersion,                    // mand: to retrieve version information
   int  length                         // /*@Ignore*/ mand: legnth of the retrive buffer  
 );
+
+/*! \brief Create match segment IDs for the entries of an internal memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemName name of the Translation Memory
+  \param pszTM_ID translation memory ID or NULL if not used
+  \param pszStoreID ID for the origin of the translation memory or NULL if not used
+  \param lOptions options for adding of match segment IDs
+         - FORCENEWMATCHID_OPT create a new match segment ID even if the match already has one
+  \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfAddMatchSegID
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszMemName,              // mand: name of Translation Memory
+  PSZ         pszTM_ID,                // opt: translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // opt: ID for the origin of the translation memory or NULL if not used
+  LONG        lOptions                 // opt: options for the add natch segment ID processing
+									                     // @Other: {FORCENEWMATCHID_OPT}
+);
+
 
 
 #ifdef __cplusplus

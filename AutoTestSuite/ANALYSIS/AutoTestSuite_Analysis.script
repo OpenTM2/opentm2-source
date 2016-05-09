@@ -1,0 +1,20 @@
+****************************************************************************************************
+** Script name...: AutoTestSuite_Analysis.script                                                  **
+** Purpose.......: Script including all analysis test scripts of the OpenTM2 Auto Test Suite      **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: December 14, 2015                                                              **
+** Update........: December 17, 2015                                                              **
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+* test the machine translation output
+INCLUDE MTOUTPUTTEST.script
+
+
+
+
+

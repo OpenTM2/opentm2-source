@@ -1,5 +1,5 @@
 //+----------------------------------------------------------------------------+
-//|OtmAutoVerUp.cpp     OTM Profile Manager function                           |
+//|OtmProfileMgrDlg.h   OTM Profile Manager dialog class                       |
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
@@ -22,15 +22,17 @@
 //|Internals:                                                                  |
 //|                                                                            |
 //+----------------------------------------------------------------------------+
-#include "Windows.h"
-#include "resource.h"
-#include <string>
-#include <vector>
-#include "EQF.H"
-#include "OtmProfileMgrStr.h"
 
-#define OPENTM2_APP_NAME_STR                                   "OpenTM2"
+#pragma once
+
+#include "resource.h"
+
+#include "ProfileSetXmlParser.h"
+#include "ProfileConfXmlParser.h"
+#include "OtmFileEncryptSet.h"
+
 #define MGR_SET_TAB_LEN                                        1
+#define FORMAT_XML_EXT                                         "*.xml"
 
 #pragma once
 class OtmProfileMgrDlg
@@ -38,6 +40,7 @@ class OtmProfileMgrDlg
 private:
     HWND m_hwndDlg;
     HWND m_hwndPages[MGR_SET_TAB_LEN];
+    int m_nMaxHistCnt;
 
 public:
     OtmProfileMgrDlg(void);
@@ -46,8 +49,22 @@ public:
 
 private:
     static INT_PTR CALLBACK OtmProfileMgrDlgProc(HWND hwndDlg, UINT msg, WPARAM mp1, LPARAM mp2);
+    static INT_PTR CALLBACK ProfileMgrTabFunc(HWND hwndTabDlg, UINT msg, WPARAM mp1, LPARAM mp2);
     BOOL OnInitDialog();
     LRESULT OtmProfileMgrDlgCmd(WPARAM mp1, LPARAM mp2);
-    BOOL ProfileMgrSheetLoad();
+    LRESULT ProfileMgrTabCmd(WPARAM mp1, LPARAM mp2);
+    BOOL ProfileMgrTabLoad();
+    void ProfileMgrTabInit(HWND hwndDlgSheet);
+    void SetEIBtnState(HWND hwndDlgSheet);
+    void OtmOpenFileDlg(HWND hwndDlgSheet);
+    int ProfileSetExecute(HWND hwndDlgSheet);
+    int ProfileSetExport(HWND hwndDlgSheet);
+    int ProfileSetImport(HWND hwndDlgSheet);
+    int GetTargetOption(HWND hwndDlgSheet, POPTIONSET pOptionSet);
+    void SetProfileChkSetState(HWND hwndDlgSheet);
+    void SetFileInfo(HWND hwndDlgSheet, const char * strFile, BOOL bAdd = TRUE);
+    int SaveProfileMgrTabSettings(HWND hwndDlgSheet);
+    void OtmAddToComboBox(HWND hWndComboBox, const char * strAddValue);
+    void SetChkAllBtnState(HWND hwndTabDlg, UINT nSubItmID);
 };
 

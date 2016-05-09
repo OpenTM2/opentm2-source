@@ -2,7 +2,7 @@
 <!-- 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines 
+	Copyright (C) 1990-2016, International Business Machines 
 	Corporation and others. All rights reserved
  -->
 <languages>
@@ -579,7 +579,7 @@
 	<comments/>
   </language>
   <language>
-    <name>Serbian (Cyrillic)</name>
+    <name>Serbian(Cyrillic)</name>
 	<cpASCII>855</cpASCII>
 	<cpANSI>1251</cpANSI>
 	<cpName>ISO-8859-5</cpName>
@@ -592,7 +592,7 @@
 	<comments/>
   </language>
   <language>
-    <name>Serbian (Latin)</name>
+    <name>Serbian(Latin)</name>
 	<cpASCII>852</cpASCII>
 	<cpANSI>1250</cpANSI>
 	<cpName>ISO-8859-5</cpName>

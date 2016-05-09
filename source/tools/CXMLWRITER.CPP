@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //| Copyright Notice:                                                          |
 //|                                                                            |
-//|          Copyright (C) 1990-2012, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -277,6 +277,34 @@ void CXmlWriter::WriteString( const char * text )
   this->AnsiToUnicode( text, &pUnicodeText );
   WriteString( pUnicodeText );
   free( pUnicodeText );
+}
+
+void CXmlWriter::WriteCDataString( const char * text )
+{
+  // convert to UTF16 and use UTF16 method
+  WCHAR *pUnicodeText;
+  this->AnsiToUnicode( text, &pUnicodeText );
+  WriteCDataString( pUnicodeText );
+  free( pUnicodeText );
+}
+
+void CXmlWriter::WriteCDataString( const WCHAR *text )
+{
+  // close any open tag
+  if ( GetCurElement() == CXmlWriter::Tag && m_fOpenTag )
+  {
+    WriteRaw( L">" );
+    m_fOpenTag = FALSE;
+  } /* endif */
+  
+  if ( GetCurElement() == CXmlWriter::Tag )
+  {
+    SetContentFlag();
+  } /* endif */
+  
+  WriteRaw( L"<![CDATA[" );
+  WriteRaw( text );
+  WriteRaw( L"]]>" );
 }
 
 

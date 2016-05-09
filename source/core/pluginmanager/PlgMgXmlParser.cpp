@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -929,6 +929,13 @@ int CPlgMgXmlParser::SearchPluginPaths(XercesDOMParser* pParser, const char * st
     int nRC = NO_ERROR;
     xercesc::DOMDocument* docPluginXml = pParser->getDocument();
     DOMElement* elementPluginRoot = docPluginXml->getDocumentElement();
+	if (NULL == elementPluginRoot)
+    {
+        m_logPlgMgXmlParser.writef("Error: empty xml.");
+        nRC = ERROR_EMPTY_FILE_A;
+        return nRC;
+    }
+
     DOMNodeList * nodeListPlugin;
     try
     {

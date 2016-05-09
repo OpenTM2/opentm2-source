@@ -3,24 +3,21 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
 // use only if we are dealing with MT
-#include "string"
-#include "vector"
 #include "core\PluginManager\PluginManager.h"
-#include "EqfSharedMemoryPlugin.h"
+//#include "EqfSharedMemoryPlugin.h"
 #include "EqfSharedMemory.h"
 #include "FifoQueue.h"
 #include "MemoryWebServiceClient.h"
 #include "TransportThread.h"
-#include <process.h>              /* _beginthread, _endthread */
 #include <time.h>
 #include "core\utilities\LogWriter.h"
 
-#define THREADWAITTIME  50
+#define THREADWAITTIME  5000
 
 // encryption password for properties data
 #define PROPERTIESPASSWORD "pasdf09n456)dv!lxseq3=.Ö@"
@@ -76,6 +73,51 @@ typedef struct _TRANSPORTTHREADDATA
 
 static PTRANSPORTTHREADDATA pThreadData = NULL;
 
+static CRITICAL_SECTION g_CS;
+void  initCriticalSection()
+{
+    InitializeCriticalSection(&g_CS);
+}
+void  deleteCrititalSection()
+{
+	DeleteCriticalSection(&g_CS);
+}
+
+static std::vector<std::string> g_SelectedMemories;
+void  getSelectedMemories(std::vector<std::string>& selMemories)
+{
+	EnterCriticalSection(&g_CS);
+	selMemories.clear();
+	for(std::vector<std::string>::iterator iter=g_SelectedMemories.begin();
+		iter!=g_SelectedMemories.end();
+		iter++)
+	{
+		selMemories.push_back(*iter+".SHP");
+	}
+    LeaveCriticalSection(&g_CS);
+
+}
+
+static int g_iRepInter;
+int getReplicatorInterval()
+{
+	return g_iRepInter;
+}
+
+void setReplicatorInterval(int rit)
+{
+	g_iRepInter = rit;
+}
+
+void setSelectedMemories(std::vector<std::string>& selMemories)
+{
+	EnterCriticalSection(&g_CS);
+	g_SelectedMemories.clear();
+	g_SelectedMemories.assign(selMemories.begin(),selMemories.end());
+    LeaveCriticalSection(&g_CS);
+}
+
+/*
 // make update counter file name using properties file name
 void MakeUpdateCounterFileName( std::string &strPropPath, std::string &strPropFile, std::string &strUpdateCounterFileName )
 {
@@ -83,7 +125,7 @@ void MakeUpdateCounterFileName( std::string &strPropPath, std::string &strPropFi
   strUpdateCounterFileName.erase( strUpdateCounterFileName.length() - 4  );
   strUpdateCounterFileName.append( ".UDC");
 }
-
+*/
 // function borrowed from EqfSharedMemoryPlugin
 /*! \brief Simple data decrypter/encrypter
   \param pbData pointer to data area being encrypter/decrypted
@@ -154,7 +196,7 @@ int LoadPropertyFile( const char *pszPropFile, EqfSharedMemoryPlugin::PSHAREDMEM
   return( 0 );
 }
 
-
+/*
 // load current update counter value
 void LoadUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter )
 {
@@ -189,15 +231,17 @@ void WriteUpdateCounter( std::string &strPropPath, std::string &strPropFileName,
 
   return;
 }
-
+*/
 
 // create list of existing shared memories (= check for property files)
 void ListMemoryProperties( PTRANSPORTTHREADDATA pData )
 {
   pData->ExistingPropFiles.clear();
+  getSelectedMemories(pData->ExistingPropFiles);
+  /*
   WIN32_FIND_DATA FindData;
   std::string strSearchPattern = pData->strPropertyPath + "\\*.SHP";
-  HDIR hDir = FindFirstFile( strSearchPattern.c_str(), &FindData );
+  HANDLE hDir = FindFirstFile( strSearchPattern.c_str(), &FindData );
   if ( hDir != INVALID_HANDLE_VALUE )
   {
     BOOL fMoreFiles = TRUE;
@@ -207,7 +251,8 @@ void ListMemoryProperties( PTRANSPORTTHREADDATA pData )
       fMoreFiles = FindNextFile( hDir, &FindData );
     } while ( fMoreFiles );
     FindClose( hDir );
-  } /* endif */
+  }
+  */
 }
 
 // add memories not contained in our list of memory property files
@@ -376,7 +421,7 @@ void ProcessCurrentMemory( PTRANSPORTTHREADDATA pData )
     {
       std::string strTMXProposal = "";
       std::string strUpdateCounter;
-      LoadUpdateCounter( pData->strPropertyPath, pEntry->strPropFileName, strUpdateCounter );
+      pData->pWebClient->loadUpdateCounter( pData->strPropertyPath, pEntry->strPropFileName, strUpdateCounter );
 
       // keep the old update conuter when download proposal
       std::string strNewUpdateCounter = strUpdateCounter;
@@ -392,30 +437,30 @@ void ProcessCurrentMemory( PTRANSPORTTHREADDATA pData )
           pThreadData->pLog->writef( "... Received proposal %s,mem=%s", strTMXProposal.c_str(),pEntry->Properties.szName);
           // only change the update counter when really changed
           strUpdateCounter = strNewUpdateCounter;
-          WriteUpdateCounter( pData->strPropertyPath, pEntry->strPropFileName, strUpdateCounter );		 
+          pData->pWebClient->writeUpdateCounter( pData->strPropertyPath, pEntry->strPropFileName, strUpdateCounter );		 
           
           pData->iDownloaded++;
 
           iRC = pEntry->outQueue.writeRecord( (void *)strTMXProposal.c_str(), strTMXProposal.length() + 1 );
+
+			// trigger the main process to read input queue of the memory
+			// use WM_COPYDATA for process communication
+			HWND hwnd = FindWindow( "OpenTM2" ,NULL);
+			if(hwnd != NULL)
+			{
+			  COPYDATASTRUCT cds;
+			  cds.dwData = 0;
+			  cds.cbData = sizeof(pEntry->Properties.szName);
+			  cds.lpData = pEntry->Properties.szName;
+			  SendMessage(hwnd,WM_COPYDATA, 0,(LPARAM)(LPVOID)&cds);
+			  Sleep(500);
+			}
         }
         else
         {
           // force end of loop for this memory
           iRC = -1;
         } /* end */           
-
-        // trigger the main process to read input queue of the memory
-        // use WM_COPYDATA for process communication
-        HWND hwnd = FindWindow( "OpenTM2" ,NULL);
-        if(hwnd != NULL)
-        {
-          COPYDATASTRUCT cds;
-          cds.dwData = 0;
-          cds.cbData = sizeof(pEntry->Properties.szName);
-          cds.lpData = pEntry->Properties.szName;
-          SendMessage(hwnd,WM_COPYDATA, 0,(LPARAM)(LPVOID)&cds);
-          Sleep(50);
-        }
 
       }/* end if ( iRC == 0 ) */
       else
@@ -510,17 +555,22 @@ void ProcessTransportThread
     {
       case ThreadTask_ListPropFiles:
         ListMemoryProperties( pData );
-        pData->Task = ThreadTask_RemoveDeletedMemories;
+		RemoveDeletedMemories( pData );
+		AddNewMemories( pData );
+        pData->Task = ThreadTask_ProcessMemory;
         break;
+/*	 
       case ThreadTask_RemoveDeletedMemories:
         RemoveDeletedMemories( pData );
         pData->Task = ThreadTask_AddNewMemories;
         break;
+		
       case ThreadTask_AddNewMemories:
         AddNewMemories( pData );
         pData->Task = ThreadTask_ProcessMemory;
         pData->iCurEntry = 0;
         break;
+*/		
       case ThreadTask_ProcessMemory:
         ProcessCurrentMemory( pData );
         pData->iCurEntry++;
@@ -538,7 +588,7 @@ void ProcessTransportThread
         // do nothing
         break;
     } /* endswitch */
-    Sleep( THREADWAITTIME );
+    Sleep( /*THREADWAITTIME*/g_iRepInter );
   } while( !pData->fKill );
 
 

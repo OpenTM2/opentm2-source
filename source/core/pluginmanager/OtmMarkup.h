@@ -1,9 +1,13 @@
-//	Copyright (C) 1990-2013, International Business Machines
+//	Copyright (C) 1990-2016, International Business Machines
 //	Corporation and others. All rights reserved
 #ifndef _OTMMARKUP_H_
 #define _OTMMARKUP_H_
 
 #include <string>
+
+#define  UPDATE_MARKUP_ERROR    0
+#define  UPDATE_MARKUP_OK       1
+#define  UPDATE_MARKUP_INUSE    2
 
 /*! \brief Abstract base-class for markup table objects
 */
@@ -189,11 +193,12 @@ public:
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
   \param pFileList   Pointer to other markup table files (with TABLE\ or BIN\ prefix) or NULL
 	
-	\returns TRUE when the markup table files have been updated and FALSE when the update is 
-  not possible
+	\returns  0 when the update failed
+              1 when the markup table files have been updated
+              2 when the update has been delayed and will occur at restart
 
 	*/
-	virtual bool updateFiles
+	virtual int updateFiles
   ( 
         char   *pszMarkupName,
         char   *pszDescription,

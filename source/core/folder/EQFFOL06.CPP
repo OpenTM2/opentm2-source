@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //  Copyright Notice:
 //
-//      Copyright (C) 1990-2014, International Business Machines
+//      Copyright (C) 1990-2016, International Business Machines
 //      Corporation and others. All rights reserved
 //------------------------------------------------------------------------------
 
@@ -2136,6 +2136,7 @@ BOOL             fOldVers            // TRUE = export in old format
     strcat( pIda->szMUTBuffer, pszFormat );
     strcat( pIda->szMUTBuffer, EXT_OF_TAGTABLEINFO );
     UtlPackAddFile( pIda->pPackCtrl, pIda->szMUTBuffer, TAGTABLE_INFO_FILE, FILE_STORE );
+
   } /* endif */
 
   return( fOK );
@@ -6366,6 +6367,35 @@ int FolExpCleanup( PFOLEXPIDA pIda )
       do
       {
         UtlMakeEQFPath( pIda->szInfoFileName, NULC, MEM_PATH, NULL );
+        strcat( pIda->szInfoFileName, BACKSLASH_STR );
+        strcat( pIda->szInfoFileName, FindData.cFileName );
+        UtlDelete( pIda->szInfoFileName, 0L, FALSE );
+
+        fMoreFiles = FindNextFile( hDir, &FindData );
+      } while ( fMoreFiles );
+      FindClose( hDir );
+    }
+  }
+
+  // delete any markup table info files of this folder export
+  {
+    WIN32_FIND_DATA FindData;
+
+    // setup search path
+    UtlMakeEQFPath( pIda->szInfoFileName, NULC, TABLE_PATH, NULL );
+    strcat( pIda->szInfoFileName, BACKSLASH_STR );
+    strcat( pIda->szInfoFileName, pIda->szFolName );
+    strcat( pIda->szInfoFileName, "-*" );
+    strcat( pIda->szInfoFileName, EXT_OF_TAGTABLEINFO );
+
+    // loop over all info files
+    BOOL fMoreFiles = FALSE;
+    HANDLE hDir = FindFirstFile( pIda->szInfoFileName, &FindData );
+    if ( hDir != INVALID_HANDLE_VALUE )
+    {
+      do
+      {
+        UtlMakeEQFPath( pIda->szInfoFileName, NULC, TABLE_PATH, NULL );
         strcat( pIda->szInfoFileName, BACKSLASH_STR );
         strcat( pIda->szInfoFileName, FindData.cFileName );
         UtlDelete( pIda->szInfoFileName, 0L, FALSE );

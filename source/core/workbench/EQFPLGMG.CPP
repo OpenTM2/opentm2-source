@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -32,8 +32,6 @@
 VOID UtlSetString(SHORT sID, PSZ pszString);
 static char gstrPluginPath[MAX_PATH];
 static char gstrAppPath[MAX_PATH];
-
-BOOL PluginNameCheck(const char * strPluginName, const char * strDll); // Add for P403115
 
 VOID AutoVerUpProps(BOOL bFromMenu)
 {
@@ -1203,6 +1201,9 @@ void AddItemToInstalledList(HWND plgMgList, int nLstInx, int nPluginInx, int nIm
     case OtmPlugin::eMorphType:
         lvItem.pszText = PLUGIN_TYPE_MORGH_STR;
         break;
+    case OtmPlugin::eToolType:
+        lvItem.pszText = PLUGIN_TYPE_TOOL_STR;
+        break;
     default:
         lvItem.pszText = PLUGIN_TYPE_UNDEFINED_STR;
         break;
@@ -2109,8 +2110,9 @@ void InstallSelectedPlugin(HWND hwndAvbTabDlg)
 
     // each task is divided to two parst: start and end, so the total count should multiply by 2
     nTotal = nTotal * 2;
-    // gOtmHttp = new COtmHttp();
-    gOtmSftp = new COtmSftp();
+	if(gOtmHttps != NULL)
+		delete gOtmHttps;
+    gOtmHttps = new COtmHttps();
     HINSTANCE hInst = (HINSTANCE) GetWindowLong(hwndAvbTabDlg, GWL_HINSTANCE);
     HWND ghwndPrgCtrlDlg;
     ghwndPrgCtrlDlg = CreateDialogParam(hInst,
@@ -2176,8 +2178,9 @@ void UpdateSelectedPlugin(HWND hwndUptTabDlg)
 
     // each task is divided to two parst: start and end, so the total count should multiply by 2
     nTotal = nTotal * 2;
-    // gOtmHttp = new COtmHttp();
-    gOtmSftp = new COtmSftp();
+	if(gOtmHttps != NULL)
+		delete gOtmHttps;
+    gOtmHttps = new COtmHttps();
     HINSTANCE hInst = (HINSTANCE) GetWindowLong(hwndUptTabDlg, GWL_HINSTANCE);
     HWND ghwndPrgCtrlDlg;
     ghwndPrgCtrlDlg = CreateDialogParam(hInst,
@@ -2232,9 +2235,7 @@ LPARAM mp2
         SendMessage(hwndPBTotal, PBM_SETSTEP, 1, 0);
         SendMessage(hwndPBTotal, PBM_STEPIT, 0, 0);
         SendMessage(hwndPBTotal, PBM_SETPOS, (WPARAM)0, (LPARAM)0);
-
-        // gOtmHttp->SetProcessDlg(hwndPrgCtrlDlg, IDC_PROGRESS_BAR);
-        gOtmSftp->SetProcessDlg(hwndPrgCtrlDlg, IDC_PROGRESS_BAR);
+        gOtmHttps->SetProcessDlg(hwndPrgCtrlDlg, IDC_PROGRESS_BAR);
         break;
 
     case WM_COMMAND:
@@ -2523,7 +2524,6 @@ int OtmDownloadFile(PDOWNLOADPARAM pDownloadParam)
 {
     int nRC = NO_ERROR;
     glogPlgMgr.writef("Download %s start.", pDownloadParam->strDLUrl);
-    COtmHttps * otmHttps = new COtmHttps();
 
     // update one component
     NETWORKPARAM networkParam;
@@ -2533,9 +2533,9 @@ int OtmDownloadFile(PDOWNLOADPARAM pDownloadParam)
     GetPrivateProfileString(APP_PLUGIN_MGR_NET_SET, KEY_PLUGIN_MGR_PROXY_PORT, EMPTY_STR, networkParam.strProxyPort, sizeof(networkParam.strProxyPort), gstrConfigPath);
     networkParam.nTimeout = GetPrivateProfileInt(APP_PLUGIN_MGR_NET_SET, KEY_PLUGIN_MGR_TIMEOUT, DEF_CONNECT_TIMEOUT, gstrConfigPath);
 
-    nRC = otmHttps->DownloadFile(pDownloadParam->strDLUrl, pDownloadParam->strDLFile, &networkParam);
+    nRC = gOtmHttps->DownloadFile(pDownloadParam->strDLUrl, pDownloadParam->strDLFile, &networkParam);
 
-    delete otmHttps;
+   
     if (nRC)
     {
         // if failed to download package, show error message and return
@@ -3359,10 +3359,15 @@ int HasNewVersion()
     {
         char * strPluginName = gplginParse->GetPluginName(iInx);
         glogPlgMgr.writef("Plugin name %s.", strPluginName);
-        if (isNewPlugin(strPluginName))
+        int nRC = isNewPlugin(strPluginName);
+        if (nRC == IS_NEW_PLUGIN)
         {
             nRC = VAL_HAS_NEW_VER;
             return nRC;
+        }
+        else if (nRC == PLUGIN_NOT_LOADED)
+        {
+            continue;
         }
 
         for (int jInx = 0; jInx < gplginParse->GetPluginMainCnt(iInx); jInx++)
@@ -3789,15 +3794,7 @@ BOOL IfPluginExists(const char * strStartDir, const char * strPluginDllName, con
         {
             if (!stricmp(otmFindData.cFileName, strPluginDllName))
             {
-                // GQ 2015/12/02 Disabled PluginNameCheck as OtmSpellHSCheckPlugin is not the only plugin where DLL name and Plugin name are different
-                //char strChkName[MAX_PATH];
-                //memset(strChkName, 0x00, sizeof(strTmpTgtDir));
-                //sprintf(strChkName, "%s\\%s", strTmpTgtDir, otmFindData.cFileName);
-                //if ((stricmp(strPluginName, "OtmSpellHSCheckPlugin")) && 
-                //    PluginNameCheck(strPluginName, strChkName))
-                {
-                    bExist = TRUE;
-                }
+                bExist = TRUE;
                 bFinished = TRUE;
                 break;
             }
@@ -3813,78 +3810,3 @@ BOOL IfPluginExists(const char * strStartDir, const char * strPluginDllName, con
 
     return bExist;
 }
-
-// Add for P403115 start
-BOOL PluginNameCheck(const char * strPluginName, const char * strDll)
-{
-    // check the name correct
-    BOOL bValid = TRUE;
-
-    if ((NULL == strDll) || (strlen(strDll) == 0) ||
-        (NULL == strPluginName) || (strlen(strPluginName) == 0))
-    {
-        bValid = FALSE;
-        return bValid;
-    }
-
-    char strDiv[_MAX_DRIVE];
-    char strDir[_MAX_DIR];
-    char strFileName[_MAX_FNAME];
-    char strExt[_MAX_EXT];
-
-    _splitpath(strDll, strDiv, strDir, strFileName, strExt);
-
-    if ((NULL == strFileName) || (strlen(strFileName) == 0))
-    {
-        bValid = FALSE;
-        return bValid;
-    }
-
-    if (stricmp(strPluginName, strFileName))
-    {
-        bValid = FALSE;
-        return bValid;
-    }
-
-    // check the folder correct
-    char strCmpPath[MAX_PATH];
-    memset(strCmpPath, 0x00, sizeof(strCmpPath));
-    sprintf(strCmpPath, "%s%s", strDiv, strDir);
-
-    int nLastPos = strlen(strCmpPath) - 1;
-    if (strCmpPath[nLastPos] == '\\')
-    {
-        strCmpPath[nLastPos] = '\0';
-        // check twice
-        nLastPos = strlen(strCmpPath) - 1;
-        if (strCmpPath[nLastPos] == '\\')
-        {
-            strCmpPath[nLastPos] = '\0';
-        }
-    }
-
-    char strPluginPath[MAX_EQF_PATH];
-    UtlMakeEQFPath(strPluginPath, NULC, PLUGIN_PATH, NULL);
-
-    if ((NULL == strPluginPath) || (strlen(strPluginPath) == 0))
-    {
-        return bValid;
-    }
-
-    if (!stricmp(strPluginPath, strCmpPath))
-    {
-        return bValid;
-    }
-
-    char strVitualPath[MAX_PATH];  // path suppose to be correct
-    memset(strVitualPath, 0x00, sizeof(strVitualPath));
-    sprintf(strVitualPath, "%s\\%s", strPluginPath, strFileName);
-
-    if (stricmp(strCmpPath, strVitualPath))
-    {
-        bValid = FALSE;
-    }
-
-    return bValid;
-}
-// Add end

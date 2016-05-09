@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2015, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -11,6 +11,18 @@
 #include "OtmPlugin.h"
 #include "OtmToolPlugin.h"
 #include "PluginListener.h"
+
+// Add for P403138 start
+#define PLUGIN_MISS_MARKUP        4        // missing markup
+#define PLUGIN_MISS_DICT          2        // missing dictionary
+#define PLUGIN_MISS_MEMORY        1        // missing memory
+
+#define STR_MEMORY_PLUGIN         "memory plugin"
+#define STR_DICT_PLUGIN           "dictionary plugin"
+#define STR_MARKUP_PLUGIN         "markup plugin"
+
+#define COMMA_STR                 ","
+// Add end
 
 class PluginManagerImpl;
 
@@ -158,6 +170,8 @@ public:
 	\param iCommandID ID of selected menu item
 */
   void processToolCommand( int iCommandID );
+
+  int ValidationCheck(char * strParam);  // Add for P403138
 
 private:
 

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -371,7 +371,16 @@ typedef struct _STEQFGEN                        // generic EQF structure
   RECTL         rclShowWndPos;                  // coordinates of show window pos.
   UCHAR         szLongName[EQF_LNAMELEN+1];     // long name of current file
   BYTE          bStatusBar[4];                  // status bar window indication
-  BYTE          bBuffer[196];                   // buffer area for later use ...
+
+  PSZ          pszCurSpellCheckDoc;             // points to current document in pszSpellCheckDocList or NULL if not in "spellcheck several documents" mode
+  PSZ          pszSpellCheckDocList;            // list of documents being checked for spelling or NULL if not in "spellcheck several documents" mode
+  BOOL         fLoadedBySpellcheck;             // TRUE = document is being loaded by spellchecker
+  PVOID        pNewSpellCheckDoc;               // new document openend for spellchecking
+  SHORT        xSpellChecklDlg;                 // last x position of spellcheck dialog
+  SHORT        ySpellChecklDlg;                 // last y position of spellcheck dialog
+  PVOID        pvSpellData;                     // spell data pointer when in "spellcheck several documents" mode
+
+  BYTE          bBuffer[172];                   // buffer area for later use ...
 } STEQFGEN;
 
 typedef STEQFGEN  *PSTEQFGEN;          // see struct typedefs

@@ -10,6 +10,7 @@
 package de.ibm.com.opentm2scripteride.gui.custom;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -55,6 +56,11 @@ public class ScriptSelectableGroup {
 				int endIdx = value.indexOf(']');
 				if( begIdx!=-1 && endIdx!=-1 ) {
 					String[] vals= value.substring(begIdx+1, endIdx).split(",");
+					
+					for(int iL=0; iL<vals.length; iL++)
+						vals[iL] = vals[iL].trim();
+					Arrays.sort(vals);
+
 					for(String v:vals)
 						XOR.add(v);
 				}
@@ -75,8 +81,13 @@ public class ScriptSelectableGroup {
 				
 				// Other normal Options
 				String[] vals = value.split(",");
+				
+				for(int iL=0; iL<vals.length; iL++)
+					vals[iL] = vals[iL].trim();
+				Arrays.sort(vals);
+
 				for(String val:vals) {
-					val = val.trim();
+					//val = val.trim();
 					// 1. default
 					int defaultIndex = val.indexOf("(default)");
 					boolean bDefault = false;

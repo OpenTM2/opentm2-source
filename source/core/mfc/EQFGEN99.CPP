@@ -1,5 +1,5 @@
 /*! EQFGen99.C - EQF Generic    Handler                                        
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #include "eqfmfc.h"
@@ -138,6 +138,7 @@ ON_MESSAGE( WM_INITMENUPOPUP, On_WM_INITMENUPOPUP )
 
 ON_COMMAND( PID_FILE_MI_EBUS, OnEBus )
 ON_COMMAND( PID_FILE_MI_EBUS1, OnEBus1 )
+ON_COMMAND( PID_FILE_MI_TECHGUIDE, OnTechGuide )
 ON_COMMAND( PID_FILE_MI_EBUS2, OnEBus2 )
 
 ON_MESSAGE( WM_EQF_INITIALIZE,                On_WM_EQF_INITIALIZE)
@@ -296,16 +297,6 @@ ON_COMMAND(PID_FILE_MI_SELECTALL,      CListViewEx::SelectAll)
 ON_COMMAND(PID_FILE_MI_DESELECTALL,    CListViewEx::DeSelectAll)
 ON_COMMAND(PID_FILE_MI_SYSPROP,        CListViewEx::OnSysProps)
 ON_COMMAND(PID_FILE_MI_EXIT,           CListViewEx::OnExit)
-
-ON_COMMAND(PID_TQM_MI_LOGON,          OnTQMLogon)
-ON_COMMAND(PID_TQM_MI_LOGOFF,         OnTQMLogoff)
-ON_COMMAND(PID_TQM_MI_USER,           OnTQMUser)
-ON_COMMAND(PID_TQM_MI_EVALUATION,     OnTQMEvaluation)
-ON_COMMAND(PID_TQM_MI_VENDOR,         OnTQMVendor)
-ON_COMMAND(PID_TQM_MI_REPORTS,        OnTQMReports)
-ON_COMMAND(PID_TQM_MI_SETTINGS,       OnTQMSettings)
-ON_COMMAND(PID_TQM_MI_PROJECTS,       OnTQMProjects)
-ON_COMMAND(PID_TQM_MI_ARCHIVE,        OnTQMArchive)
 
 ON_COMMAND(PID_WIND_MI_CASCADE ,       OnMDICascade )
 ON_COMMAND(PID_WIND_MI_TILE ,          OnMDITile )
@@ -508,6 +499,7 @@ void CGenListView::OnToolbarActivate(CCmdUI* pCmdUI)
         case PID_WIND_MI_CASCADE:
         case PID_FILE_MI_EBUS:
         case PID_FILE_MI_EBUS1:
+        case PID_FILE_MI_TECHGUIDE:
         case PID_FILE_MI_EBUS2:
         case PID_FILE_MI_SYSPROP:
         case PID_FILE_MI_EXIT:
@@ -1215,6 +1207,14 @@ void CGenListView::OnEBus1()
 
 }// OnEBus1
 
+void CGenListView::OnTechGuide()
+{
+
+
+    StartBrowser("techguide");
+
+}// 
+
 void CGenListView::OnEBus2()
 {
 
@@ -1337,69 +1337,4 @@ int LocalToBSTR(BSTR pWide, LPTSTR pLocal, DWORD dwChars)
 
     return lstrlenW(pWide);
 }
-
-VOID CGenListView::OnTQMLogon()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_LOGON), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMLogoff()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_LOGOFF), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMUser()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_USER), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMEvaluation()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_EVALUATION), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMVendor()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_VENDOR), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMReports()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_REPORTS), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMSettings()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_SETTINGS), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMProjects()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_PROJECTS), 0L );
-  return;
-}
-
-VOID CGenListView::OnTQMArchive()
-{
-  EqfSend2Handler( TQMLISTHANDLER, WM_EQF_COMMAND,
-                   MP1FROMSHORT(PID_TQM_MI_ARCHIVE), 0L );
-  return;
-}
-
-
 

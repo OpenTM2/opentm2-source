@@ -7672,6 +7672,18 @@ static BOOL TAUnSegmentW
          {
            PSZ pszBinary ;
            char szBinaryString[65];
+
+           // skip trailing newline characters in segment
+           int iNewline = 0;
+           for( int i=wcslen(pSegBuffer)-1 ; i>0 && iswspace(pSegBuffer[i]) ; --i ) {
+              if ( wcschr( L"\n\r", pSegBuffer[i] ) )
+                   iNewline = i;
+           }
+           if ( iNewline ) {
+              wcscpy( pConvBufferW, &pSegBuffer[iNewline] );
+              pSegBuffer[iNewline] = EOS;
+           }
+
            // make room in pSegBuffer for tracking info start identifier
            int iLen = wcslen(pSegBuffer);
            memmove( pSegBuffer + 1, pSegBuffer, iLen*sizeof(CHAR_W) );
@@ -7721,7 +7733,10 @@ static BOOL TAUnSegmentW
              }
              pszBinary++;
            }
-           pSegBuffer[iLen] = 0;
+           pSegBuffer[iLen] = EOS;
+           if ( iNewline ) {    /* Add stripped newline characters */
+              wcscat( pSegBuffer, pConvBufferW );
+           }
          }
        }
 

@@ -229,7 +229,16 @@ void EQFBWndProc_CommandRTF
         EQFBTransRTF( pDoc, POS_TOBEORDONE );         // pos at translated ones, too
         break;
      case IDM_TRANSNEW:                   // position at the next untransl.
-        EQFBTransRTF( pDoc, POS_TOBE );               // position at untranslated ones
+        EQFBTransRTF( pDoc, POS_TOBE );         
+        break;
+     case IDM_TRANSNEW_EXACT:             // position at the next untransl. with EXACT matches
+        EQFBTransRTF( pDoc, POS_TOBE_EXACT );             
+        break;
+     case IDM_TRANSNEW_FUZZY:             // position at the next untransl. with FUZZY matches
+        EQFBTransRTF( pDoc, POS_TOBE_FUZZY );             
+        break;
+     case IDM_TRANSNEW_NONE:              // position at the next untransl. with NO matches
+        EQFBTransRTF( pDoc, POS_TOBE_NONE );              
         break;
      case IDM_UNTRANS:                    // untranslate the active segment
         EQFBFuncRTFFunc( pDoc, UNTRANS_FUNC, hwnd, mp1, mp2 );

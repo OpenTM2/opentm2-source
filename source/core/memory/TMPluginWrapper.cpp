@@ -4,7 +4,7 @@
 
 Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -50,6 +50,8 @@ int AddMemToListBox( PVOID pvData, char *pszName, OtmMemoryPlugin::PMEMORYINFO p
 
   HWND hwndLB = (HWND)pvData;
 
+  pInfo;
+
   strcpy( szMemName, pszName );
   OEMTOANSI( szMemName );
   INSERTITEMHWND( hwndLB, szMemName );
@@ -66,8 +68,9 @@ USHORT FillMemoryListBox
 )
 
 {
-  USHORT            usItemRcCount = 0; // Number of items found
   BOOL              fOK = TRUE;      // Process return code
+
+  pCommArea;
 
   // Check whether object name is correct
   if ( _strcmpi((const char *) PVOIDFROMMP2(mp2), MEMORY_ALL) )
@@ -130,6 +133,8 @@ SHORT EQFNTMSign
    PUSHORT pusLen                      // length of user data
 )
 {
+  pBTIda; pUserData; pusLen;
+
 //	return theMemory->CPP_EQFNTMSign(  pBTIda,  pUserData,  pusLen);
     return( 1 );
 
@@ -140,6 +145,7 @@ USHORT NTMOrganizeIndexFile
   PTMX_CLB pTmClb               // ptr to control block,
 )
 {
+  pTmClb;
 //	return theMemory->CPP_NTMOrganizeIndexFile(  pTmClb);
     return( 1 );
 
@@ -158,6 +164,8 @@ USHORT TmUpdSegW
                                          //      FALSE: display no error message
 )
 {
+  htm; szMemPath; pstPutIn; ulUpdKey; usUpdTarget; usFlags; usMsgHandling;
+
 //	return theMemory->CPP_TmUpdSegW(  htm,  szMemPath,  pstPutIn,  ulUpdKey,  usUpdTarget,  usFlags,  usMsgHandling);
     return( 1 );
 
@@ -265,13 +273,81 @@ HADDDATAKEY MADSearchKey( PSZ_W pAddData, PSZ_W pszKey )
         }
         else
         {
-          pAddData += wcslen(pszKey);
+          pAddData++;
         } /* endif */
       } /* endif */
     } /* endwhile */
   } /* endif */
 
   return( pKey );
+}
+
+//
+// Delete a key with all its atttributes and data
+//
+BOOL MADDeleteKey( HADDDATAKEY pKey )
+{
+  PSZ_W pszCurPos = pKey;
+  BOOL fAttrAvailable = FALSE;
+  PSZ_W pszTagName = NULL;
+  PSZ_W pszTagNameEnd = NULL;
+
+  // check key parameter
+  if ( (pszCurPos == NULL) || (*pszCurPos == 0) )
+    return( FALSE );
+
+  // skip tag name
+  if ( *pszCurPos == L'<' ) pszCurPos++;
+  pszTagName = pszCurPos;
+  pszTagNameEnd = pszCurPos = MADSkipName( pszCurPos );
+  do
+  {
+    fAttrAvailable = MADNextAttr( &pszCurPos );
+  } while ( fAttrAvailable ); /* enddo */
+
+  // find end of key data
+  if ( (*pszCurPos == L'/') &&  (*(pszCurPos+1) == L'>') )
+  {
+    // a selfcontained tag... so remove everything up to end of the tag
+    PSZ_W pszSource = pszCurPos + 2;
+    PSZ_W pszTarget = pKey;
+    while ( *pszSource ) *pszTarget++ = *pszSource++;
+    *pszTarget = 0;
+    return( TRUE );
+  }
+
+  // find ending tag
+  // note: this is a very simple approach which only looks for the ending tag and does not interpret the data in any way...
+  while ( *pszCurPos != 0 )
+  {
+    // move to begin of next tag
+    while ( (*pszCurPos != 0) && (*pszCurPos != L'<') ) *pszCurPos++;
+
+    // check for end tag start
+    if ( (*pszCurPos == L'<') &&  (*(pszCurPos+1) == L'/') )
+    {
+      // check if we have the correct end tag
+      if ( MADCompareKey( pszCurPos + 2, pszTagName ) )
+      {
+        // end tag found, now skip end tag name and closing pointy brace
+        pszCurPos = MADSkipName( pszCurPos + 2 );
+        pszCurPos = MADSkipWhitespace( pszCurPos );
+        if ( *pszCurPos == L'>' ) pszCurPos++;
+
+        // remove all data between (and including) start tag and end tag
+        PSZ_W pszSource = pszCurPos;
+        PSZ_W pszTarget = pKey;
+        while ( *pszSource ) *pszTarget++ = *pszSource++;
+        *pszTarget = 0;
+
+        // removal of tag has been completed
+        return( TRUE );
+      } /* endif */
+    } /* endif */
+    pszCurPos++;
+  } /* endwhile */
+
+  return( FALSE );
 }
 
 //
@@ -301,6 +377,93 @@ BOOL MADGetAttr( HADDDATAKEY pKey, PSZ_W pszAttrName, PSZ_W pszBuffer, int iBufS
   if ( pszDefault != NULL ) wcscpy( pszBuffer, pszDefault );
   return( FALSE);
 }
+
+
+// Add a match segment ID to the additional data section
+BOOL MADAddMatchSegID( PSZ_W pszAddData, PSZ_W pszMatchIDPrefix, ULONG ulNum, BOOL fForce )
+{
+  HADDDATAKEY hKey;
+  BOOL fMatchIDAdded = FALSE;
+
+  // find any existing match segment ID
+  hKey = MADSearchKey( pszAddData, MATCHSEGID_KEY );
+  if ( (hKey != NULL) && fForce )
+  {
+    MADDeleteKey( hKey );
+    hKey = NULL;
+  } /* endif */
+
+  // add match segment ID if non exists or the existing has been deleted and there is enough room left in the AddInfo buffer
+  if ( hKey == NULL )
+  {
+    int iCurLen = wcslen(pszAddData);
+    if ( (wcslen(pszMatchIDPrefix) + iCurLen + 23) < MAX_SEGMENT_SIZE )
+    {
+      swprintf( pszAddData + iCurLen, L"<MatchSegID ID=\"%s%lu\"/>", pszMatchIDPrefix, ulNum );
+      fMatchIDAdded  = TRUE;
+    } /* endif */
+  } /* endif */
+  return( fMatchIDAdded );
+}
+
+// prepare the match segment ID prefix using the provided TM_ID and StoreID
+BOOL MADPrepareMatchSegIDPrefix( PSZ pszTM_ID, PSZ pszStoreID, PSZ pszMatchID )
+{
+  BOOL fMatchIDPrepared = FALSE;
+  if ( (pszTM_ID != NULL) && (*pszTM_ID != EOS) )
+  {
+    fMatchIDPrepared = TRUE;
+
+    while( *pszTM_ID != EOS )
+    {
+      if ( *pszTM_ID == '_' )
+      { 
+        *pszMatchID++ = '+';
+      }
+      else if ( (*pszTM_ID == '<') || (*pszTM_ID == '>') )
+      { 
+        *pszMatchID++ = '-';
+      }
+      else
+      {
+        *pszMatchID++ = *pszTM_ID;
+      } /* endif */
+      pszTM_ID++;
+    } /* endwhile */
+    *pszMatchID++ = '_';
+  } /* endif */
+
+  if ( (pszStoreID != NULL) && (*pszStoreID != EOS) )
+  {
+    fMatchIDPrepared = TRUE;
+
+    while( *pszStoreID != EOS )
+    {
+      if ( *pszStoreID == '_' )
+      { 
+        *pszMatchID++ = '+';
+      }
+      else if ( (*pszStoreID == '<') || (*pszStoreID == '>') )
+      { 
+        *pszMatchID++ = '-';
+      }
+      else
+      {
+        *pszMatchID++ = *pszStoreID;
+      } /* endif */
+      pszStoreID++;
+    } /* endwhile */
+    *pszMatchID++ = '_';
+  } /* endif */
+
+  *pszMatchID = EOS;
+
+  return( fMatchIDPrepared );
+} /* end of MADPrepareMatchSegIDPrefix */
+
+
+
+
 
 // ======== internal functions for Memory Additional Data processing
 

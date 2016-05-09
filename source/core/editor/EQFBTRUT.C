@@ -1516,7 +1516,7 @@ VOID EQFBFuncAutoTrans
       ulSegNum = (pDoc->TBCursor).ulSegNum;      // get segment number
       if ( pDoc->pUserSettings->fAutoStop )
       {
-        pSeg = EQFBFindNextSource( pDoc, &ulSegNum, POS_TOBE,&fEndReached, &pvMetaData );
+        pSeg = EQFBFindNextSource( pDoc, &ulSegNum, POS_TOBE,&fEndReached, TRUE, &pvMetaData );
       }
       else
       {

@@ -1,5 +1,5 @@
 //+----------------------------------------------------------------------------+
-//|OtmAutoVerUp.cpp     OTM Profile Manager function                           |
+//|OtmProfileMgrPlugin.h  OTM Profile Manager function                         |
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
@@ -23,14 +23,14 @@
 //|                                                                            |
 //+----------------------------------------------------------------------------+
 
+#pragma once
+
 #ifndef _OtmProfileMgrPlugin_H_
 #define _OtmProfileMgrPlugin_H_
 
 #include "core\pluginmanager\OtmToolPlugin.h"
 #include "core\PluginManager\PluginManager.h"
 #include "OtmProfileMgrDlg.h"
-
-#pragma once
 
 class OtmProfileMgrPlugin: public OtmToolPlugin
 {

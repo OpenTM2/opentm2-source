@@ -121,6 +121,10 @@
 #define  STR_TB_AAB_TTSEG           "&Translate Segment"
 /////  Translate Pulldown Item  Next Untranslated Segment
 #define  STR_TB_AAB_TTNEXTSEG       "&Next Untranslated Segment"
+#define  STR_TB_AAB_TTNEXTSEG_ANY   "&Any"
+#define  STR_TB_AAB_TTNEXTSEG_EXACT "With &EXACT match"
+#define  STR_TB_AAB_TTNEXTSEG_FUZZY "With &FUZZY match"
+#define  STR_TB_AAB_TTNEXTSEG_NONE  "With &NO match"
 /////  Translate Pulldown Item  Untranslate Segment
 #define  STR_TB_AAB_TTUNSEG         "&Untranslate Segment"
 /////  Translate Pulldown Item  Dictionary Lookup
@@ -906,7 +910,10 @@
 ///   Save current segment and activate next   -- length 40 chars
 #define  STR_TB_FUNC_TSEG         "Translate segment"
 ///   Save current segment and activate next untranslated   -- length 40 chars
-#define  STR_TB_FUNC_TSEGNEXT     "Next untranslated segment"
+#define  STR_TB_FUNC_TSEGNEXT        "Next untranslated segment  "
+#define  STR_TB_FUNC_TSEGNEXT_EXACT  "Next untranslated segment (EXACT match)"
+#define  STR_TB_FUNC_TSEGNEXT_FUZZY  "Next untranslated segment (FUZZY match)"
+#define  STR_TB_FUNC_TSEGNEXT_NONE   "Next untranslated segment (NO match)"
 ///   Start dictionary lookup             -- length 40 chars
 #define  STR_TB_FUNC_DICTLOOK     "Dictionary lookup"
 ///   Activate dictionary window          -- length 40 chars

@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -951,7 +951,29 @@ MRESULT APIENTRY TwbMainWP
         if ( !fInCloseProcessing )
         {
           fInCloseProcessing = TRUE;
-          fNoClose = TwbCloseCheck( );
+          // Add for Profile Setting Manage start
+          // for OpenTM2Starter start
+          char strPendingConf[MAX_PATH];
+          char strPluginPath[MAX_PATH];
+
+          UtlQueryString(QST_PLUGINPATH, strPluginPath, sizeof(strPluginPath));
+          UtlMakeEQFPath(strPluginPath, NULC, PLUGIN_PATH, NULL);
+
+          memset(strPendingConf, 0x00, sizeof(strPendingConf));
+          sprintf(strPendingConf, "%s\\PendingUpdates.conf", strPluginPath);
+          int nIsImport = GetPrivateProfileInt("Settings", "IsImport", 0,  strPendingConf);
+          // Add end
+          // Modify for Profile Setting Manage start
+          if (nIsImport)
+          {
+              fNoClose = FALSE;
+              WritePrivateProfileString("Settings", "IsImport", "0", strPendingConf);
+          }
+          else
+          {
+              fNoClose = TwbCloseCheck( );
+          }
+          // Modify end
           if ( !fNoClose )
           {
             fCloseCheckDone = TRUE;
@@ -1472,6 +1494,11 @@ MRESULT APIENTRY TwbMainWP
            case PID_FILE_MI_EBUS1:
 
               StartBrowser("docu");
+              break;
+
+           case PID_FILE_MI_TECHGUIDE:
+
+              StartBrowser("techguide");
               break;
 
            case PID_FILE_MI_EBUS2:
@@ -3663,9 +3690,14 @@ BOOL StartBrowser(PSZ content)
   else if ( !stricmp(content,"docu") )
   {
     UtlMakeEQFPath( CmdLine, NULC, SYSTEM_PATH, NULL );
-    strcat( CmdLine, "\\doc\\eqfr5mst.pdf" );
+    strcat( CmdLine, "\\doc\\Opentm2TranslatorsReference.pdf" );
       //GetStringFromRegistry( APPL_Name, "Documentation", szTMTitle, sizeof(szTMTitle ), "http://www.beo-doc.de/opentm2wiki/index.php/Main_Page" );
       //strcat(CmdLine,szTMTitle);
+  }
+  else if ( !stricmp(content,"techguide") )
+  {
+    UtlMakeEQFPath( CmdLine, NULC, SYSTEM_PATH, NULL );
+    strcat( CmdLine, "\\doc\\OpenTM2TechnicalReference.pdf" );
   }
   else
   {
@@ -3678,6 +3710,7 @@ BOOL StartBrowser(PSZ content)
 } // end of function start session
 
 // perform any pending updates on startup
+// 12-15-15 DAW  This should not longer be needed.  Function is in markup table plugin constructor.
 VOID PerformPendingUpdates()
 {
   FILEFINDBUF stFile;              // Output buffer of UtlFindFirst

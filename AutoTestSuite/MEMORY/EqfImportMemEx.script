@@ -1,0 +1,101 @@
+****************************************************************************************************
+** Script name...: EqfImportMemEx.script                                                          **
+** Purpose.......: Script to test the API call EqfImportMemEx                                     **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: February 15, 2016                                                              **
+** Update........: February 15, 2016                                                              **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 QSoft Gmbh for IBM Translation Technical Services                              **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+****************************************************************************************************
+* Define constants 
+****************************************************************************************************
+*define TestDataLocation,E:\OTMIBM\trunk\AUTOTESTSUITE\TESTDATA
+INCLUDE ..\AutoTestSuite_Settings.script
+
+define Data,%TestDataLocation%\MEMORY\IMPORTMEMEX
+
+****************************************************************************************************
+* Prepare test data ... 
+****************************************************************************************************
+EqfDeleteMem ImportMemExMem
+
+****************************************************************************************************
+* Test cases... 
+****************************************************************************************************
+TESTCASE EQFIMPORTMEMEX001,Call EqfImportMemEx API without any parameters specified
+  EqfImportMemEx 
+  TESTRESULT 29, EqfImportMemEx wrong return code when called without parameters
+End
+
+TESTCASE EQFIMPORTMEMEX002,Call EqfImportMemEx API with non-existing memory
+  EqfImportMemEx NotExistingMem,%Data%\IMPORTMEMEX.EXP,AAP001XXX,MTX,,,UTF16_OPT
+  TESTRESULT 133, EqfImportMemEx wrong return code when called with not existing memory
+End
+
+TESTCASE EQFIMPORTMEMEX003,Call EqfImportMemEx API without input file
+  EqfCreateMem ImportMemExMem, , , English(U.S.), 
+  EqfImportMemEx ImportMemExMem
+  TESTRESULT 43, EqfImportMemEx wrong return code when called without input file
+End
+
+TESTCASE EQFIMPORTMEMEX004,Call EqfImportMemEx API to import an EXP memory 
+  EqfDeleteMem ImportMemExMem
+  EqfCreateMem ImportMemExMem, , , English(U.S.), 
+  EqfImportMemEx ImportMemExMem,%Data%\IMPORTMEMEX.EXP,,,,,UTF16_OPT
+  EqfExportMem ImportMemExMem, %Data%\IMPORTMEMEX-Out4.EXP,UTF16_OPT+OVERWRITE_OPT+GENERIC_UNKNOWN_MARKUP_OPT
+  EqfDeleteMem ImportMemExMem
+  COMPAREBINARY %Data%\IMPORTMEMEX-Out4-Expected.EXP, %Data%\IMPORTMEMEX-Out4.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+TESTCASE EQFIMPORTMEMEX005,Call EqfImportMemEx API to import a TMX memory 
+  EqfCreateMem ImportMemExMem, , , English(U.S.), 
+  EqfImportMemEx ImportMemExMem,%Data%\IMPORTMEMEX.TMX,,,,,TMX_OPT
+  EqfExportMem ImportMemExMem, %Data%\IMPORTMEMEX-Out5.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem ImportMemExMem
+  COMPAREBINARY %Data%\IMPORTMEMEX-Out5-Expected.EXP, %Data%\IMPORTMEMEX-Out5.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+TESTCASE EQFIMPORTMEMEX006,Call EqfImportMemEx API to import an EXP memory and generate match segment IDs
+  EqfCreateMem ImportMemExMem, , , English(U.S.), 
+  EqfImportMemEx ImportMemExMem,%Data%\IMPORTMEMEX.EXP,AAP001XXX,MTX,,,UTF16_OPT
+  EqfExportMem ImportMemExMem, %Data%\IMPORTMEMEX-Out6.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem ImportMemExMem
+  COMPAREBINARY %Data%\IMPORTMEMEX-Out6-Expected.EXP, %Data%\IMPORTMEMEX-Out6.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+TESTCASE EQFIMPORTMEMEX007,Call EqfImportMemEx API to import an EXP memory and force the match segment ID generation
+  EqfCreateMem ImportMemExMem, , , English(U.S.), 
+  EqfImportMemEx ImportMemExMem,%Data%\IMPORTMEMEX.EXP,AAP001XXX,MTX,,,UTF16_OPT+FORCENEWMATCHID_OPT
+  EqfExportMem ImportMemExMem, %Data%\IMPORTMEMEX-Out7.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem ImportMemExMem
+  COMPAREBINARY %Data%\IMPORTMEMEX-Out7-Expected.EXP, %Data%\IMPORTMEMEX-Out7.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+TESTCASE EQFIMPORTMEMEX008,Test EqfImportMemEx API with special characters in TM_ID and StoreID
+  EqfCreateMem ImportMemExMem, , , English(U.S.), 
+  EqfImportMemEx ImportMemExMem,%Data%\IMPORTMEMEX.EXP,A_P001X_X,M<>X,,,UTF16_OPT
+  EqfExportMem ImportMemExMem, %Data%\IMPORTMEMEX-Out8.EXP,UTF16_OPT+OVERWRITE_OPT
+  EqfDeleteMem ImportMemExMem
+  COMPAREBINARY %Data%\IMPORTMEMEX-Out8-Expected.EXP, %Data%\IMPORTMEMEX-Out8.EXP
+  TESTRESULT 0, Exported EXP file does not match expected content
+End
+
+* Cleanup
+*
+DeleteFile %Data%\IMPORTMEMEX-Out5.EXP
+DeleteFile %Data%\IMPORTMEMEX-Out6.EXP
+DeleteFile %Data%\IMPORTMEMEX-Out7.EXP
+DeleteFile %Data%\IMPORTMEMEX-Out8.EXP
+DeleteFile %Data%\IMPORTMEMEX-Out4.EXP
+EqfDeleteMem ImportMemExMem
+
+

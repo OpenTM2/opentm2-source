@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015 International Business Machines          |
+//|          Copyright (C) 1990-2016 International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -1059,7 +1059,27 @@ BOOL  DDEDocUnLoadWork
       strcat( szTarget, szDocShortName );
       if ( UtlFileExist( szBuf ))
       {
-        fOK = EQFUnSeg( szBuf, szTarget, TADummyTag, &fGoOn, pFolder, pDocExpIda->fWithTrackID );
+
+        HPROP       hpropDocument;       // document properties
+        ULONG       ulErrorInfo;         // error indicator from PRHA
+        CHAR        szDocProp[MAX_EQF_PATH] ;
+        USHORT      usTrackDocNum = 0 ;
+
+        UtlMakeEQFPath( szDocProp, *pFolderObj, SYSTEM_PATH, pFolder );
+        strcat( szDocProp, BACKSLASH_STR );
+        strcat( szDocProp, szDocShortName );
+        if ( ( pDocExpIda->fWithTrackID ) &&
+             ( (hpropDocument = OpenProperties (szDocProp, NULL, PROP_ACCESS_READ, &ulErrorInfo))!= NULL) ) 
+        {
+          PPROPDOCUMENT ppropDocument;        // pointer to document properties
+          EQFINFO       ErrorInfo;            // error code of property handler calls
+     
+          ppropDocument = (PPROPDOCUMENT)MakePropPtrFromHnd( hpropDocument );
+          usTrackDocNum = ppropDocument->usTrackDocNum ;
+          CloseProperties(hpropDocument, PROP_QUIT, &ErrorInfo );
+        }
+
+        fOK = EQFUnSeg( szBuf, szTarget, TADummyTag, &fGoOn, pFolder, usTrackDocNum );
         if ( fOK )
         {
           usRC = DDECopyToTarget( pDocExpIda, szTarget, pExpFile, pActDocName );

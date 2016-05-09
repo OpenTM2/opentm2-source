@@ -1,5 +1,5 @@
 //+----------------------------------------------------------------------------+
-//|OtmAutoVerUp.cpp     OTM Profile Manager function                           |
+//|OtmProfileMgrPlugin.cpp     OTM Profile Manager function                    |
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
@@ -41,7 +41,7 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID)
 OtmProfileMgrPlugin::OtmProfileMgrPlugin()
 {
     name        = "OtmProfileMgrPlugin";
-    shortDesc   = "OtmProfileMgrPlugin";
+    shortDesc   = "ProfileSettingsManagementPlugin";
     longDesc    = "This is the plugin for profile settings management";
     version     = "1.0";
     supplier    = "International Business Machines Corporation";
@@ -93,7 +93,7 @@ bool OtmProfileMgrPlugin::stopPlugin( bool fForce  )
 
     // de-register plugin
     PluginManager *pPluginManager = PluginManager::getInstance();
-    pPluginManager->deregisterPlugin( (OtmPlugin *)this );
+    pPluginManager->deregisterPlugin((OtmPlugin *)this);
 
     return( true );
 }
@@ -119,11 +119,13 @@ void OtmProfileMgrPlugin::processCommand(int iCommandID)
 
 extern "C" {
     __declspec(dllexport)
-        void registerPlugins()
+    USHORT registerPlugins()
     {
         PluginManager::eRegRc eRc = PluginManager::eSuccess;
         PluginManager *manager = PluginManager::getInstance();
         OtmProfileMgrPlugin* plugin = new OtmProfileMgrPlugin();
         eRc = manager->registerPlugin((OtmPlugin*) plugin);
+        USHORT usRC = (USHORT) eRc;
+        return usRC;
     }
 }

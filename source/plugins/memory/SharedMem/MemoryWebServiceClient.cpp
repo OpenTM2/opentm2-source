@@ -1,14 +1,14 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 #define WIN32
 #define AXIS2_DECLARE_EXPORT
 
 
-#include "axis2_stub_OpenTMSWebServiceImplementationService.h"
+#include "axis2_stub_OtmTMServiceImplService.h"
 
 #include <stdio.h>
 #include <axiom.h>
@@ -22,6 +22,8 @@
 #include "MemoryWebServiceClient.h"
 #include "JSONFactory.h"
 #include "core\utilities\LogWriter.h"
+
+static std::string   RESPONSESTATUSMSG  ="status-msg";
 
 // private data area of Memory Web Service Client, this area will be 
 typedef struct _WEBCLIENTDATA
@@ -168,7 +170,7 @@ int MemoryWebServiceClient::createStub
       return( this->setError( "Error: AXIS2C_HOME environment variable not set", Error_Axis2CHome_notset ) );
     } /* end */       
 
-    pData->stub = axis2_stub_create_OpenTMSWebServiceImplementationService( pData->env, pData->client_home, pData->strEndPointURL.c_str() );
+    pData->stub = axis2_stub_create_OtmTMServiceImplService( pData->env, pData->client_home, pData->strEndPointURL.c_str() );
     if ( pData->stub == NULL )
     {
       pData->Log.write( "   axis2_stub_create_OpenTMSWebServiceImplementationService failed" );
@@ -216,102 +218,27 @@ int MemoryWebServiceClient::listMemories
     std::vector<std::string> &List
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
-  List.clear();
 
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "listallmemories"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  pszUser));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", pszPassword));
 
-  pData->Log.write( "processing listMemories method" );
+   std::string memoryList;
+   int iRC = doSyncCall(parameters,"memory-list",memoryList);
+   if(iRC!=0)
+	   return iRC;
 
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "query" );
-  factory->addParmToJSON( command, "user-id", pszUser );
-  factory->addParmToJSON( command, "password", pszPassword );
-  factory->addParmToJSON( command, "name", "" );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-  else
-  {
-    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
-  } /* endif */     
+   int iStart = 0;
+   do 
+   {
+     int iEnd = memoryList.find( ",", iStart );
+     int iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
+     List.push_back( memoryList.substr( iStart, iLen ) );
+     iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
+   } while( iStart != std::string::npos );
 
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    pData->Log.write( "   error processing response string" );
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string strErrorCode = "";
-  std::string strErrorMessage = "";
-  std::string strMemoryList = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "memory-list" ) == 0 )
-      {
-        strMemoryList = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-        strErrorMessage = value;
-      } /* endif */         
-    } /* endif */       
-  } /* endwhile */     
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */       
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */       
-
-  // fill caller's vector with the names of the memories
-  int iStart = 0;
-  do 
-  {
-    int iEnd = strMemoryList.find( ",", iStart );
-    int iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
-    List.push_back( strMemoryList.substr( iStart, iLen ) );
-    iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
-  } while( iStart != std::string::npos );
-
-  return( iRC );
+   return( iRC );
 }
 
 /* \brief Get details of a memory
@@ -441,94 +368,16 @@ int MemoryWebServiceClient::createMemory
     std::vector<std::string> *pvOptions
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
 
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
+  std::map<std::string,std::string> parameters;
+  parameters.insert(std::map<std::string,std::string>::value_type("method", "create"));
+  parameters.insert(std::map<std::string,std::string>::value_type("user-id",  (*pvOptions)[2]));
+  parameters.insert(std::map<std::string,std::string>::value_type("password", (*pvOptions)[3]));
+  parameters.insert(std::map<std::string,std::string>::value_type("name", (*pvOptions)[0]));
+  parameters.insert(std::map<std::string,std::string>::value_type("user-id-list", (*pvOptions)[4]));
 
-  pData->Log.write( "processing createMemory method" );
-
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "create" );
-  factory->addParmToJSON( command, "user-id", (*pvOptions)[2] );
-  factory->addParmToJSON( command, "password", (*pvOptions)[3] );
-  factory->addParmToJSON( command, "name", (*pvOptions)[0] );
-  std::string parameter = "dataSourceName=" + (*pvOptions)[4] + ";dataSourceGenericType=" + (*pvOptions)[5] + ";dataSourceType=" + (*pvOptions)[6] + 
-    ";dataSourceServer=" + (*pvOptions)[7] + ";dataSourcePort=" + (*pvOptions)[8] + ";dataSourceUser=" + (*pvOptions)[9] + ";dataSourcePassword=" + (*pvOptions)[10];
-  factory->addParmToJSON( command, "parameter", parameter );
-  factory->addParmToJSON( command, "user-id-list", (*pvOptions)[11] );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-  else
-  {
-    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
-  } /* endif */     
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string strErrorCode = "";
-  std::string strErrorMessage = "";
-  std::string strDescription = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "description" ) == 0 )
-      {
-        strDescription = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-        strErrorMessage = value;
-      } /* endif */         
-    } /* endif */       
-  } /* endwhile */     
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */       
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */       
-
-  return( iRC );
+  std::string notRequired;
+  return doSyncCall(parameters,"",notRequired);
 }
 
 
@@ -544,92 +393,14 @@ int MemoryWebServiceClient::deleteMemory
     std::vector<std::string> *pvOptions
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
-
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
-
-  pData->Log.write( "processing deleteMemory method" );
-
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "delete" );
-  factory->addParmToJSON( command, "user-id", (*pvOptions)[1] );
-  factory->addParmToJSON( command, "password", (*pvOptions)[2] );
-  factory->addParmToJSON( command, "name", (*pvOptions)[0] );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-  else
-  {
-    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
-  } /* endif */     
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-  
-  std::string strErrorMessage = "";
-  std::string strErrorCode = "";
-  std::string result = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-        strErrorMessage = value;
-      }
-      else if ( stricmp( name.c_str(), "result" ) == 0 )
-      {
-        result = value;
-      } 
-      
-    } /* endif */       
-  } /* endwhile */     
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */       
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "synchronize reported error %ld, message us %s", iRC, strErrorMessage.c_str() );
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */  
-  
-  return( iRC );
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "delete"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  (*pvOptions)[1]));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", (*pvOptions)[2]));
+   parameters.insert(std::map<std::string,std::string>::value_type("name", (*pvOptions)[0]));
+   
+   std::string notRequired;
+   return doSyncCall(parameters,"",notRequired);
 }
 
 /* \brief Upload proposal data
@@ -647,90 +418,17 @@ int MemoryWebServiceClient::uploadProposal
    std::string &strTMXProposal
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "upload"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  pszUserID));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", pszPassword));
+   parameters.insert(std::map<std::string,std::string>::value_type("name",pszName));
+   parameters.insert(std::map<std::string,std::string>::value_type("tmx-document",strTMXProposal));
+   parameters.insert(std::map<std::string,std::string>::value_type("encoding","UTF-8"));
 
+   std::string notRequired;
+   return doSyncCall(parameters,"",notRequired);
 
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
-
-  pData->Log.writef( "processing uploadProposal method, proposal is %s", strTMXProposal.c_str() );
-
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "upload" );
-  factory->addParmToJSON( command, "user-id", pszUserID );
-  factory->addParmToJSON( command, "password", pszPassword );
-  factory->addParmToJSON( command, "name", pszName );
-  factory->addParmToJSON( command, "parameter", "empty" );
-  factory->addParmToJSON( command, "tmx-document", strTMXProposal );
-  factory->addParmToJSON( command, "encoding", "UTF-8" );
-  factory->addParmToJSON( command, "update-counter", "" );
-  factory->terminateJSON( command );
-
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 ) 
-  {
-    pData->Log.writef( "synchronize failed with rc=%ld", iRC );
-    return( iRC  );
-  } 
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string strErrorCode = "";
-  std::string strErrorMessage = "";
-  std::string strDescription = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "description" ) == 0 )
-      {
-        strDescription = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-        strErrorMessage = value;
-      } /* endif */         
-    } /* endif */       
-  } /* endwhile */     
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */       
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */       
-
-  return( iRC );
 }
 
 /* \brief Download proposal data
@@ -787,9 +485,7 @@ int MemoryWebServiceClient::downloadProposal
     return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
   } /* end */       
 
-  std::string strErrorCode = "";
-  std::string strErrorMessage = "";
-  std::string strDescription = "";
+  std::string responseMsg = "";
   while ( iRC == 0 )
   {
     std::string name;
@@ -797,13 +493,9 @@ int MemoryWebServiceClient::downloadProposal
     iRC = factory->parseJSONGetNext( parseHandle, name, value );
     if ( iRC == 0 )
     {
-      if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
+      if (stricmp( name.c_str(), RESPONSESTATUSMSG.c_str()  ) == 0 )
       {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "description" ) == 0 )
-      {
-        strDescription = value;
+        responseMsg = value;
       } 
       else if ( stricmp( name.c_str(), "tmx-document" ) == 0 )
       {
@@ -818,37 +510,31 @@ int MemoryWebServiceClient::downloadProposal
             idx = value.find("\\\\",iStart);
         }
         strTMXProposal.append(value.substr(iStart,value.length()-iStart));
-
-        //strTMXProposal = value;
       } 
       else if ( stricmp( name.c_str(), "update-counter" ) == 0 )
       {
         strUpdateCounter = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-        strErrorMessage = value;
-      } /* endif */         
+      }       
     } /* endif */       
   } /* endwhile */     
   factory->parseJSONStop( parseHandle );
+
   if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
   {
     return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */       
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
+  }  
 
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
+  if ( responseMsg.empty() )
   {
-    pData->Log.writef( "synchronize reported error %ld, message us %s", iRC, strErrorMessage.c_str() );
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */       
+	  return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
+  }
+  else 
+  {
+	 if(responseMsg!="success")
+		return( setError( responseMsg.c_str(), 1 ) );
+	 else
+		iRC = 0;
+   }
 
   return( iRC );
 }
@@ -868,93 +554,13 @@ int MemoryWebServiceClient::getCreator
     std::string &creator
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
-
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
-
-  pData->Log.write( "processing getMemoryInfo method" );
-
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "getcreator" );
-  factory->addParmToJSON( command, "user-id", pszUser );
-  factory->addParmToJSON( command, "password", pszPassword );
-  factory->addParmToJSON( command, "name", pszMemory );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string result = "";
-  std::string strErrorCode = "";
-  std::string strErrorMessage = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "result" ) == 0 )
-      {
-        result = value;
-      } 
-	  else if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-	  else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-	  {
-		strErrorMessage = value;
-	  }
-      else if ( stricmp( name.c_str(), "creator" ) == 0 )
-      {
-        creator = value;
-      } 
-    } /* endif */       
-  } /* endwhile */  
-
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */     
-   
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "synchronize reported error %ld, message us %s", iRC, strErrorMessage.c_str() );
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  }
-
-  return( iRC );
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "getcreator"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  pszUser));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", pszPassword));
+   parameters.insert(std::map<std::string,std::string>::value_type("name", pszMemory));
+ 
+   return doSyncCall(parameters,"creator",creator);
 }
 
 /*! \brief Get the error message for the last error occured
@@ -1037,7 +643,7 @@ int MemoryWebServiceClient::callSynchronize
   adb_synchronize_set_parameters( synch, pData->env, strCommand.c_str() );
 
   // call the service 
-  response = axis2_stub_op_OpenTMSWebServiceImplementationService_synchronize( pData->stub, pData->env, synch );
+  response = axis2_stub_op_OtmTMServiceImplService_synchronize( pData->stub, pData->env, synch );
 
   // extract the response
   if( response == NULL )
@@ -1061,6 +667,105 @@ int MemoryWebServiceClient::callSynchronize
   return 0;
 }
 
+int MemoryWebServiceClient::doSyncCall(std::map<std::string,std::string> &parameters,const std::string requiredVal, std::string &retVal )
+{
+	PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
+	std::string response = "";
+	int iRC = 0;
+
+	if ( pData == NULL )
+	{
+	    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
+	}   
+
+	pData->Log.write( "processing "+parameters["method"]+" method" );
+
+	// prepare command
+	JSONFactory *factory = JSONFactory::getInstance();
+	std::string command = "";
+	factory->startJSON( command );
+
+	for(std::map<std::string,std::string>::iterator iter=parameters.begin(); iter!=parameters.end(); iter++) 
+	{
+		factory->addParmToJSON( command, iter->first, iter->second );
+	}
+
+	factory->terminateJSON( command );
+	pData->Log.writef( "   JSON string is %s", command.c_str() );
+  
+
+	// process command
+	iRC = this->callSynchronize( command, response );
+	if ( iRC != 0 )
+	{
+	    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
+	    return( iRC  );
+	}
+	else
+	{
+	    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
+	}
+
+	// extract some parameters from the response
+	void *parseHandle = factory->parseJSONStart( response );
+	if ( parseHandle == NULL )
+	{
+	    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
+	}
+
+	std::string responseMsg = "";
+	while ( iRC == 0 )
+	{
+		std::string name;
+		std::string value;
+		iRC = factory->parseJSONGetNext( parseHandle, name, value );
+		if ( iRC == 0 )
+		{
+			if ( stricmp( name.c_str(), RESPONSESTATUSMSG.c_str() ) == 0 )
+			{
+			    responseMsg = value;
+			} 
+			else if(requiredVal!="" && stricmp( name.c_str(), requiredVal.c_str())==0 ) 
+			{
+				retVal = value;
+			}
+		}
+	}
+	factory->parseJSONStop( parseHandle );
+
+
+	if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
+	{
+	    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
+	}
+
+	if ( responseMsg.empty() )
+	{
+	    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
+	}
+	else 
+	{
+		if(responseMsg!="success")
+			return( setError( responseMsg.c_str(), 1 ) );
+		else
+			iRC = 0;
+	}
+
+	return iRC;
+}
+
+void MemoryWebServiceClient::makeUpdateCounterFileName
+(
+  std::string &strPropPath, 
+  std::string &strPropFile, 
+  std::string &strUpdateCounterFileName 
+)
+{
+	 strUpdateCounterFileName = strPropPath + "\\" + strPropFile;
+     strUpdateCounterFileName.erase( strUpdateCounterFileName.length() - 4  );
+     strUpdateCounterFileName.append( ".UDC");
+}
+
 /* \brief add a new user to a shared memory user list
    \param pvOptions pointer to vector containing the  addUser option strings   
    \returns 0
@@ -1070,98 +775,15 @@ int MemoryWebServiceClient::addMemoryUser
     std::vector<std::string> *pvOptions
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "adduser"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  (*pvOptions)[1]));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", (*pvOptions)[2]));
+   parameters.insert(std::map<std::string,std::string>::value_type("name", (*pvOptions)[0]));
+   parameters.insert(std::map<std::string,std::string>::value_type("userToAdd", (*pvOptions)[4]));
 
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
-
-  pData->Log.write( "processing addUser method" );
-
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "adduser" );
-  factory->addParmToJSON( command, "user-id", (*pvOptions)[1] );
-  factory->addParmToJSON( command, "password", (*pvOptions)[2] );
-  factory->addParmToJSON( command, "name", (*pvOptions)[0] );
-  factory->addParmToJSON( command, "newuser", (*pvOptions)[4] );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-  else
-  {
-    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
-  } /* endif */     
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string strErrorMessage = "";
-  std::string strErrorCode = "";
-  std::string strUerList = "";
-  std::string result = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "result" ) == 0 )
-      {
-        result = value;
-      } 
-	  else if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-          strErrorMessage = value;
-      }
-      else if ( stricmp( name.c_str(), "userlist" ) == 0 )
-      {
-        strUerList = value;
-      }
-    } /* endif */       
-  } /* endwhile */   
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */ 
-
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "synchronize reported error %ld, message us %s", iRC, strErrorMessage.c_str() );
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */ 
-  
-  return( iRC );
+   std::string notRequired;
+   return doSyncCall(parameters,"",notRequired);
 }
 
 /* \brief delete a new user from a shared memory user list
@@ -1173,99 +795,16 @@ int MemoryWebServiceClient::removeMemoryUser
     std::vector<std::string> *pvOptions
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
 
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "removeuser"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  (*pvOptions)[1]));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", (*pvOptions)[2]));
+   parameters.insert(std::map<std::string,std::string>::value_type("name", (*pvOptions)[0]));
+   parameters.insert(std::map<std::string,std::string>::value_type("userToRemove", (*pvOptions)[4]));
 
-  pData->Log.write( "processing addUser method" );
-
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "removeuser" );
-  factory->addParmToJSON( command, "user-id", (*pvOptions)[1] );
-  factory->addParmToJSON( command, "password", (*pvOptions)[2] );
-  factory->addParmToJSON( command, "name", (*pvOptions)[0] );
-  factory->addParmToJSON( command, "removeuser", (*pvOptions)[4] );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-  else
-  {
-    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
-  } /* endif */     
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string strErrorMessage = "";
-  std::string strErrorCode = "";
-  std::string strUserList = "";
-  std::string result = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "result" ) == 0 )
-      {
-        result = value;
-      } 
-	  else if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if ( stricmp( name.c_str(), "errorstring" ) == 0 )
-      {
-        strErrorMessage = value;
-      }
-      else if ( stricmp( name.c_str(), "userlist" ) == 0 )
-      {
-        strUserList = value;
-      } 
-    } /* endif */       
-  } /* endwhile */ 
-
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */      
-
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "synchronize reported error %ld, message us %s", iRC, strErrorMessage.c_str() );
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */      
-
-  return( iRC );
+   std::string notRequired;
+   return doSyncCall(parameters,"",notRequired);
 }
 
 
@@ -1280,111 +819,64 @@ int MemoryWebServiceClient::listMemoryUsers
 	std::vector<std::string> &users
 )
 {
-  PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
-  std::string response = "";
-  int iRC = 0;
-  users.clear();
 
-  if ( pData == NULL )
-  {
-    return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
-  } /* endif */       
+   std::map<std::string,std::string> parameters;
+   parameters.insert(std::map<std::string,std::string>::value_type("method", "listuser"));
+   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  options[1]));
+   parameters.insert(std::map<std::string,std::string>::value_type("password", options[2]));
+   parameters.insert(std::map<std::string,std::string>::value_type("name", options[0]));
 
-  pData->Log.write( "processing listMemories method" );
+   std::string usersList;
+   int iRC = doSyncCall(parameters,"userIdList",usersList);
 
-  // prepare command
-  JSONFactory *factory = JSONFactory::getInstance();
-  std::string command = "";
-  factory->startJSON( command );
-  factory->addParmToJSON( command, "method", "listuser" );
-  factory->addParmToJSON( command, "user-id", options[1] );
-  factory->addParmToJSON( command, "password", options[2] );
-  factory->addParmToJSON( command, "name",options[0] );
-  factory->terminateJSON( command );
-  pData->Log.writef( "   JSON string is %s", command.c_str() );
-  
-  // process command
-  iRC = this->callSynchronize( command, response );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "   synchronize call failed with rc=%ld", iRC );
-    return( iRC  );
-  }
-  else
-  {
-    pData->Log.writef( "   synchronize call successful, response is %s", response.c_str() );
-  } /* endif */     
-
-  // extract some parameters from the response
-  void *parseHandle = factory->parseJSONStart( response );
-  if ( parseHandle == NULL )
-  {
-    pData->Log.write( "   error processing response string" );
-    return( setError( "Error: internal function failed (parseJSONStart)", Error_InternalFunction_failed ) );
-  } /* end */       
-
-  std::string strErrorMessage = "";
-  std::string strErrorCode = "";
-  std::string result = "";
-  std::string strUserList = "";
-  while ( iRC == 0 )
-  {
-    std::string name;
-    std::string value;
-    iRC = factory->parseJSONGetNext( parseHandle, name, value );
-    if ( iRC == 0 )
-    {
-      if ( stricmp( name.c_str(), "result" ) == 0 )
-      {
-        result = value;
-      } 
-	  else if ( stricmp( name.c_str(), "ErrorCode" ) == 0 )
-      {
-        strErrorCode = value;
-      } 
-      else if (stricmp(name.c_str(),"errorstring") == 0)
-      {
-        strErrorMessage = value;
-      }
-      else if ( stricmp( name.c_str(), "userlist" ) == 0 )
-      {
-        strUserList = value;
-      } 
-    } /* endif */       
-  } /* endwhile */  
-
-  factory->parseJSONStop( parseHandle );
-  if ( (iRC != 0) && (iRC != JSONFactory::INFO_ENDOFPARAMETERLISTREACHED) )
-  {
-    return( setError( "Error: internal function failed (parseJSONGetNext)", Error_InternalFunction_failed ) );
-  } /* end */   
-  if ( strErrorCode.empty() )
-  {
-    return( setError( "Error: incomplete response from web servive (ErrorCode is missing)", Error_IncompleteResponseFromWebService ) );
-  } /* end */       
-
-  // handle errors returned by web service
-  iRC = atol( strErrorCode.c_str() );
-  if ( iRC != 0 )
-  {
-    pData->Log.writef( "synchronize reported error %ld, message us %s", iRC, strErrorMessage.c_str() );
-    strErrorMessage.insert( 0, "WebServiceError: " );
-    return( setError( strErrorMessage.c_str(), iRC ) );
-  } /* end */     
-
-  if ( iRC == 0 )
-  {
+   if ( iRC == 0 )
+   {
      // fill caller's vector with the names of the memories
      int iStart = 0;
      do 
      {
-        int iEnd = strUserList.find( ",", iStart );
+        int iEnd = usersList.find( ",", iStart );
         int iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
-        users.push_back( strUserList.substr( iStart, iLen ) );
+        users.push_back( usersList.substr( iStart, iLen ) );
         iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
      } while( iStart != std::string::npos );
 
-  } /* end */       
+   }
 
   return( iRC );
+}
+
+// load current update counter value
+void MemoryWebServiceClient::loadUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter )
+{
+  strUpdateCounter = "0"; // set default
+
+  std::string strUpdateCounterFileName;
+  makeUpdateCounterFileName( strPropPath, strPropFileName, strUpdateCounterFileName );
+
+  FILE *hf = fopen( strUpdateCounterFileName.c_str(), "rb" );
+  if ( hf == NULL ) return;
+
+  char szBuffer[256];
+  memset( szBuffer, 0, sizeof(szBuffer) );
+  fread( szBuffer, sizeof(szBuffer), 1, hf );
+  fclose( hf );
+
+  strUpdateCounter = szBuffer;
+  return;
+}
+
+// write new update counter value
+void MemoryWebServiceClient::writeUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter )
+{
+  std::string strUpdateCounterFileName;
+  makeUpdateCounterFileName( strPropPath, strPropFileName, strUpdateCounterFileName );
+
+  FILE *hf = fopen( strUpdateCounterFileName.c_str(), "wb" );
+  if ( hf == NULL ) return;
+
+  fwrite( strUpdateCounter.c_str(), strUpdateCounter.length() + 1, 1, hf );
+  fclose( hf );
+
+  return;
 }

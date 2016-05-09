@@ -1,0 +1,514 @@
+/*! \file
+Description: Defines for Global Find and Replace (GFR) function
+
+Copyright Notice:
+
+Copyright (C) 1990-2016, International Business Machines
+Corporation and others. All rights reserved
+*/
+
+#include "OtmProfileMgrComm.h"
+#include "eqfdde.h"               // batch mode definitions
+#include "eqffol00.h"             // our .h stuff
+#include "eqffol.id"              // our ID file
+#include "eqftmi.h"               // TM internal definitions
+#include "EQFHLOG.H"            // Translation Processor priv. include file
+#include "eqflp.h"
+
+#include "eqfutmdi.h"           // MDI utilities
+#include "richedit.h"           // MDI utilities
+
+#include "OtmProposal.h"
+#include "core\memory\MemoryFactory.h"
+#include "cxmlwriter.h"
+
+#define NFLUENT_FILE_NAME                               "EQFNFLUENT.TRG"
+#define NFLUENT_FILE_NAME_TMP                           "EQFNFLUENT.TRG.tmp"
+
+// encryption password for access ata
+#define ACCESSPASSWORD "asdfru14qq@pa68s08=df0<!j"
+
+// encryption password for option data
+#define OPTIONSPASSWORD "poienmXCQM23Jiwpq?29jel"
+
+#define SHARE_MEM_ACCESS_LST_USED_FLE                   "EqfSharedMemoryAccess.LastUsed"
+#define SHARE_MEM_CREATE_LST_USED_FLE                   "EqfSharedMemoryCreate.LastUsed"
+
+/**********************************************************************/
+/* various sizes and other constant values                            */
+/**********************************************************************/
+// dummy character for "NONE" wildcard
+#define NONE_WILDCARD L'\xFFFF'
+
+// text to be shown for NONE wildcard
+static CHAR_W szNoneWildcard[] = L"NONE";
+
+// list of characters allowed for single and multiple substitution wildcards
+// the first character is the NONE dummy character
+static CHAR_W szWildCards[] = L"\xFFFF!§$^%&=?*+#~";
+
+// current character to be used for single and multiple substitution
+static CHAR_W chMultSubst;
+static CHAR_W chSingleSubst;
+
+// default wildcard characters
+#define DEFAULT_MULT_WILDCARD   L'*'
+#define DEFAULT_SINGLE_WILDCARD L'?'
+
+// names for last used value files
+#define FOLIMPEXPLASTUSEDDIR   "FOLDERIMPORTEXPORT"
+#define DOCEXPVALLASTUSED      "DOCEXPVALFORMAT"
+#define DOCEXPXMLLASTUSED      "DOCEXPPLAINXML"
+#define DOCEXPINTLASTUSED      "DOCEXPINTFORMAT"
+#define DOCEXPEXTLASTUSED      "DOCEXPEXTFORMAT"
+#define DOCEXPSOURCELASTUSED   "DOCEXPSOURCE"
+#define DOCEXPSNOMATCHLASTUSED "DOCEXPSNOMATCH"
+#define DOCIMPSTARTPATH        "DOCIMPSTARTPATH"
+
+
+// display column modes
+typedef enum _DISPLAY_COLUMNS_MODE { UNDEFINED_COLUMN_MODE = 0, ONLY_SOURCE_COLUMN_MODE, ONLY_TARGET_COLUMN_MODE, SOURCE_AND_TARGET_COLUMN_MODE } DISPLAY_COLUMNS_MODE;
+
+// fixed width of first two columns
+#define DOCNUM_COL_WIDTH 0x42
+#define SEGNUM_COL_WIDTH 0x42
+
+// ID of our timer
+#define FOLFINDTIMER 9876
+
+// result list export formats
+#define RESULTLIST_EXPORT_PLAINTEXT  1
+#define RESULTLIST_EXPORT_XML        2
+
+// filter for result list export formats (same sequence as result export format IDs required)
+#define RESULTLIST_EXPORT_FORMAT_FILTERS "Plain Text (*.TXT)\0*.TXT\0XML (*.XML)\0*.XML\0\0\0"
+
+// filter for batch find & replace list export and import format
+#define RBATCHLIST_EXPORT_FORMAT_FILTERS "Comma-separated values (*.CSV)\0*.CSV\0\0\0"
+
+// defines to be used with Global Find&Change (GFC) sSearchIn member of the FOLFINDLASTUSED structure:
+#define GFR_SEARCH_IN_TARGET 0
+#define GFR_SEARCH_IN_SOURCE 1
+#define GFR_SEARCH_IN_BOTH   2
+
+// name of the file containing the contents of the last used batch list
+#define LASTUSEDBATCHLIST "BatchList.LastUsed"
+
+// max number of displayed lines per entry
+#define MAX_LINES_PER_ITEM 100
+
+// data structure for inital and last used create options
+typedef struct _ACCESSOPTIONS
+{
+  char szWebServiceURL[256];
+  char szUserID[256];
+  char szPassword[256];
+} ACCESSOPTIONS, *PACCESSOPTIONS;
+
+// data structure for inital and last used create options
+typedef struct _CREATEOPTIONS
+{
+  char szWebServiceURL[256];
+  char szUserID[256];
+  char szPassword[256];
+  char szDSGenericType[256];
+  char szDSType[256];
+  char szDSServer[256];
+  char szDSPort[20];
+  char szDSUser[256];
+  char szDSPassword[256];
+  char szUserList[1024];
+} CREATEOPTIONS, *PCREATEOPTIONS;
+
+// text draw types
+typedef enum _DRAWTYPE { NORMALTEXT_DRAWTYPE, FOUND_DRAWTYPE, TOBECHANGED_DRAWTYPE, CHANGED_DRAWTYPE, CHANGETO_DRAWTYPE, CHANGEDTO_DRAWTYPE, ADDSEGMENTTEXT_DRAWTYPE } DRAWTYPE;
+
+/**********************************************************************/
+/* Tasks during find and change operations                            */
+/**********************************************************************/
+typedef enum _FINDTASK
+{
+    OPEN_DOC_TASK,
+    FIND_NEXT_TASK,
+    APPLY_CHANGE_TASK,
+    CLOSE_DOC_TASK,
+    NEXT_DOC_TASK,
+    STOP_TASK,
+    INITDLG_TASK,
+    SIZEDLG_TASK,
+    WAIT_TASK,
+    START_SEARCH_TASK,
+    SETFOCUS_TASK,
+} FINDTASK;
+
+// IDs for operands and operators in find expressions
+typedef enum _FF_OPERATOR
+{
+    FF_EMPTY_OP,
+    FF_STRING_OP,
+    FF_AND_OP,
+    FF_OR_OP,
+    FF_NOT_OP
+} FF_OPERATOR;
+
+// structure for the definition of find expression operators
+typedef struct _FOLFINDOPERATOR
+{
+    CHAR_W           szName[40];         // operator name
+    FF_OPERATOR      ID;                 // ID of operator
+} FOLFINDOPERATOR, *PFOLFINDOPERATOR;
+
+
+// max. number of find locations per segment
+#define MAX_FINDENTRIES 10
+
+// structure to collect find locations in active segment
+typedef struct _FOLFIND_FINDLIST
+{
+    int         iEntries;                          // number of used entries
+    int         aiStartPos[MAX_FINDENTRIES+1];     // array with start positions
+    int         aiEndPos[MAX_FINDENTRIES +1];      // array with end positions
+} FOLFIND_FINDLIST, *PFOLFIND_FINDLIST;
+
+typedef enum _FINDPOSTYPE 
+{ 
+    FOUND_TYPE,                // entry for a found string
+    CHANGETO_TYPE,             // entry for a found string which can be changed to the change-to string
+    CHANGED_TYPE,              // entry for a found string which has been changed to the change-to string by the user
+    AUTOCHANGED_TYPE           // entry for a found string which has been changed automatically (the offsets of following entries have to been adjusted because of the changed string)
+} FINDPOSTYPE;
+
+// entry for the position of a found text within a segment
+typedef struct _FOLFINDRESULTPOS
+{
+    BOOL   fTarget;            // TRUE = found string in target, FALSE = found string in source
+    FINDPOSTYPE Type;          // type of entry
+    USHORT usOffs;             // offset within segment
+    USHORT usLen;              // length of found string
+    USHORT usChangeOffs;       // offset of change-to string in changed texts (only for CHANGETO_TYPE, CHANGED_TYPE, and AUTOCHANGED_TYPE)
+} FOLFINDRESULTPOS, *PFOLFINDRESULTPOS;
+
+// enumeration for the text string table in the result entry structure
+enum RESULTTEXTID 
+{ 
+    SOURCE_TEXT = 0,           // source text of the segment containing the found string
+    TARGET_TEXT,               // target text of the segment containing the found string
+    PREV_SEG_SOURCE_TEXT0,     // source text of the previous segment 
+    PREV_SEG_SOURCE_TEXT1,     // source text of the segment before the previous segment  
+    PREV_SEG_TARGET_TEXT0,     // target text of the previous segment  
+    PREV_SEG_TARGET_TEXT1,     // target text of the sgment before the previous segment  
+    NEXT_SEG_SOURCE_TEXT0,     // source text of the next segment 
+    NEXT_SEG_SOURCE_TEXT1,     // source text of the segment following the next segment  
+    NEXT_SEG_TARGET_TEXT0,     // target text of the next segment   
+    NEXT_SEG_TARGET_TEXT1,     // target text of the segment following the next segment  
+    MAX_NUM_OF_TEXTS           // end of enumeration identifier 
+};
+// variable length entry for search results, the fixed part of the structure
+// is followed by the source and target stringsand iAllocatedEntries FOLFINDRESULTPOS entries
+typedef struct _FOLFINDRESULTENTRY
+{
+    int    iSize;              // size of entry (in number of bytes)
+    int    iDocIndex;          // index of document
+    ULONG  ulSegNum;           // segment number
+    BOOL   fTranslated;        // TRUE = segment has been translated
+    OBJNAME szDocObjName;      // document object name
+    int    iTextLen[MAX_NUM_OF_TEXTS]; // length of the various texts  (in number of bytes)
+    int    iTextOffs[MAX_NUM_OF_TEXTS]; // offset of the various texts  (relative to the begin of the FOLFINDRESULTENTRY structure)
+    int    iResultPosOffs;     // offset of the list of FOLFINDRESULTPOS entries (relative to the begin of the FOLFINDRESULTENTRY structure)
+    int    iAllocatedEntries;  // number of allocated FOLFINDRESULTPOS entries 
+    int    iUsedEntries;       // number of used FOLFINDRESULTPOS entries
+    int    iSourceLineBreaks[MAX_LINES_PER_ITEM]; // list of linebreak offsets within source text
+    int    iTargetLineBreaks[MAX_LINES_PER_ITEM]; // list of linebreak offsets within source text
+    int    iChangeToBufferUsed; // number of used bytes in change-to string buffer
+    int    iChangeToBufferSize; // number of used bytes in change-to string buffer
+    PSZ_W  pszChangeToBuffer;   // pointer to buffer with change-to strings
+} FOLFINDRESULTENTRY, *PFOLFINDRESULTENTRY;
+
+// variable length entry for batch change lists, the fixed part of the structure
+// is followed by the search in target string, the search in source string and the replacement string
+typedef struct _FOLFINDBATCHLISTENTRY
+{
+    int    iSize;              // size of entry (in number of bytes)
+    int    iTargetFindLen;     // length of the target find string (in number of bytes)
+    int    iTargetFindOffs;    // offset of the target find string (relative to the begin of the FOLFINDBATCHLISTENTRY structure)
+    int    iSourceFindLen;     // length of the source find string (in number of bytes)
+    int    iSourceFindOffs;    // offset of the source find string (relative to the begin of the FOLFINDBATCHLISTENTRY structure)
+    int    iTargetChangeLen;   // length of the target change string (in number of bytes)
+    int    iTargetChangeOffs;  // offset of the target change string (byte offset in change-to string buffer)
+} FOLFINDBATCHLISTENTRY, *PFOLFINDBATCHLISTENTRY;
+
+
+// structure containing the last used values of the global find and replace dialog
+typedef struct _FOLFINDLASTUSED
+{
+    SHORT     sSearchIn;                          // "search text in" identifier (0 = target, 1 = source, 2 = both)
+    EQF_BOOL  fShowSource;                        // state of "when found in TARGET, show SOURCE" checkbox
+    EQF_BOOL  fShowTarget;                        // state of "when found in SOURCE, show TARGET" checkbox
+    SHORT     sShowBeforeAfter;                   // number of segments to show before and after found text
+    USHORT    usResultListExpMode;                // result list export mode
+    CHAR      szResultListName[MAX_LONGPATH];     // name used for result list
+    CHAR      szResultListDir[MAX_LONGPATH];      // directory the result list is exported to
+    EQF_BOOL  fFolFindTranslTextOnly;             // translatable text only checkbox
+    EQF_SWP   swpFolFindSizePos;                  // dialog size and position
+    CHAR_W    szFolFind[MAX_FINDCHANGE_LEN+1];    // string being looked for
+    CHAR_W    szFolChangeTo[MAX_FINDCHANGE_LEN+1];// new value for string
+    EQF_BOOL  fFolFindWholeWordsOnly;             // LU: find whole words only
+    CHAR_W    chWildCardSingleChar;               // wildcard for single characters
+    CHAR_W    chWildCardMultChar;                 // wildcard for multiple characters
+    FINDNAME  szFindList[MAX_SEARCH_HIST];        // List of Last used find values in global find and change
+    FINDNAME  szReplaceList[MAX_SEARCH_HIST];     // List of Last used replace values
+    EQF_BOOL  fFolFindConfirm;                    // 'Confirm changes' checkbox flag
+    EQF_BOOL  fFolFindUpdateTM;                   // 'Update translation memory' checkbox flag
+    EQF_BOOL  fFolFindCaseRespect;                // 'Respect case' radiobutton state
+    CHAR      szBatchListName[MAX_LONGPATH];      // name used for batch list
+    CHAR      szBatchListDir[MAX_LONGPATH];       // directory the batch list is imported from or exported to
+    BOOL      fAndFindInSource;                   // TRUE = search additional string in source
+    FINDNAME  szAddFindList[MAX_SEARCH_HIST];     // List of Last used replace values
+    CHAR_W    szAndFindInSource[MAX_FINDCHANGE_LEN+1];// last used "and find in source" string
+    BOOL      fApplyBatchList;                    // true = apply a batch find/replace list
+    BOOL      fRespectLineFeeds;                  // TRUE = break lines at line feeds, FALSE = ignore line feeds and show text as a single block
+    CHAR      szFiller[6492];                     // room for future enhancements
+} FOLFINDLASTUSED, *PFOLFINDLASTUSED;
+
+// structure passed to/from batch list result dialog
+typedef struct _BATCHLISTENTRYDATA
+{
+    BOOL        fAddEntry;                        // TRUE = this entry is added, FALSE = an existing entry is being worked on
+    BOOL        fOK;                              // TRUE = entry is OK, FALSE = dialog was cancelled
+    CHAR_W      szTargetFind[MAX_SEGMENT_SIZE+1]; // find in TARGET string
+    CHAR_W      szSourceFind[MAX_SEGMENT_SIZE+1]; // find in SOURCE string
+    CHAR_W      szTargetChange[MAX_SEGMENT_SIZE+1]; // change to in target string
+} BATCHLISTENTRYDATA, *PBATCHLISTENTRYDATA;
+
+// number of pushbuttons at the bottom of the global find&replace window
+#define NUM_OF_GFR_BUTTONS 6
+
+/**********************************************************************/
+/* Instance data area (IDA) for find/change dialog                    */
+/**********************************************************************/
+// GQ: ensure that all elements of the data area are aligned on 4 byte boundaries (without it some Windows functions fail to access the data)
+#pragma pack(4)
+typedef struct _FOLFINDDATA
+{
+    HWND        hwnd;                    // handle of dialog window
+    OBJNAME     szObjName;               // object name of dialog
+    OBJNAME     szFolObjName;            // object name of folder
+    BOOL        fRegistered;             // 'dialog has been registered' flag
+    BOOL        fFromFolderList;         // 'dialog called from folder list' flag
+    BOOL        fFind;                   // TRUE = we are in find mode
+    BOOL        fTerminate;              // TRUE = dialog is being terminated
+    BOOL        fCaseIgnore;             // TRUE = ignore case
+    BOOL        fConfirm;                // TRUE = confirm on changes
+    BOOL        fUpdateTM;               // TRUE = update folder memory
+    CHAR_W      szFind[MAX_FINDCHANGE_LEN+1];     // string being looked for
+    CHAR_W      szFindUpr[MAX_FINDCHANGE_LEN+1];  // uppercase version of szFind
+    USHORT      usFindLen;               // length of found string
+    CHAR_W      szChangeTo[MAX_FINDCHANGE_LEN+1]; // new value for string
+    CHAR_W      szBuffer[1024];          // general purpose buffer
+    FINDTASK    CurTask;                 // currently performed task
+    int         iCurDocInd;              // index of current document (invisible document listbox)
+    int         iCurrentDocumentListboxItem;       // index of current document in visible document listbox
+    CHAR        szCurDoc[MAX_FILESPEC];  // name of currently processed document
+    PTBDOCUMENT pTargetDoc;              // ptr to loaded target document
+    PTBDOCUMENT pSourceDoc;              // ptr to loaded source document
+    ULONG       ulSegNum;                // number of active segment
+    USHORT      usOffs;                  // position within current segment
+    USHORT      usFoundOffs;             // position of found string within segment
+    USHORT      usLine;                  // current line number within document
+    CHAR_W      szTempSeg[MAX_SEGMENT_SIZE];       // buffer for current segment
+    HWND        hwndLB;                  // handle of listbox for document names
+    USHORT      usHits;                  // number of hits found
+    USHORT      usChanges;               // number of strings changed
+    USHORT      usMayBeChanged;          // number of found strings which can be changed
+    CHAR        szDocMemory[MAX_LONGFILESPEC]; // buffer for document TM name
+    CHAR        szDocFormat[MAX_FILESPEC]; // buffer for name of document markup table
+    CHAR        szDocSrcLng[MAX_LANG_LENGTH]; // buffer for document source lang
+    CHAR        szDocTgtLng[MAX_LANG_LENGTH]; // buffer for document target lang
+    OtmMemory   *pMem;                   // open TM object
+    BOOL        fTMUpdRequired;          // TRUE = TM update us required
+
+    unsigned    DocTime;                 // Update time of STARGET document
+    unsigned    DocDate;                 // Update date of STARGET document
+
+    BOOL        fDocOpenActive;          // TRUE if DocOpen has been activated
+    CHAR        szLongName[MAX_LONGFILESPEC];  // long name of current document
+    CHAR        szFolLongName[MAX_LONGFILESPEC];  // long name of current folder
+    CHAR        szAlias[MAX_LONGFILESPEC];  // alias for current document
+    CHAR        szShortAlias[MAX_FILESPEC]; // short alias for current document
+    CHAR        szDocObjName[MAX_EQF_PATH]; // buffer for document object names
+    BOOL        fUseThaiFont;               // use Thai font for our MLEs
+    BOOL        fTranslTextOnly;            // TRUE = search translatable text only
+    CHAR        chTokBufStartStop[MAX_SEGMENT_SIZE*4];// token buffer for start/stop table
+    SHORT       sBorderSize;                       // size of dialog border
+    HWND        hwndButton[NUM_OF_GFR_BUTTONS];    // handles of pushbuttons
+    SHORT       sButtonWidth[NUM_OF_GFR_BUTTONS];  // widths of pushbuttons
+    SHORT       sButtonHeight;                     // height of first pushbutton
+    CHAR_W      szFindOld[MAX_FINDCHANGE_LEN+1];   // previous find string
+    SWP         swpDlg;                            // dialog size and position
+    CHAR        szSubFolObjName[MAX_EQF_PATH];     // buffer for subfolder/folder object name
+    CHAR_W      szSearchPattern[MAX_FINDCHANGE_LEN+1]; // prepared search string for pattern matching
+    BOOL        fWholeWordsOnly;                   // search whole words only
+    BOOL        fLogicExpression;                  // TRUE = find string uses logical expression
+    CHAR_W      szExpression[2*MAX_FINDCHANGE_LEN];// buffer for find expression
+    FOLFIND_FINDLIST ActFindList;                  // list of find locations in current segment
+    FOLFIND_FINDLIST LastFindList;                 // list of find locations in current segment of previous find
+    ULONG       ulActFindSeg;                      // segment number of actual match
+    ULONG       ulLastFindSeg;                     // segment number of last match
+    CHAR_W      chWildCardSingleChar;              // wildcard for single characters
+    CHAR_W      chWildCardMultChar;                // wildcard for multiple characters
+    SHORT       sTgtLangID;                        // morph ID of document target language
+    SHORT       sSrcLangID;                        // morph ID of document source language
+    BOOL        fMultipleObjs;                     // TRUE: we are searchin in more than one folder
+    PSZ         pszObjList;                        // points to list of objects being searched
+    PSZ         pszActiveFolder;                   // currently searched folder in folder object list
+    CHAR        szNameBuffer[MAX_LONGFILESPEC*2];  // name buffer
+    DISPLAY_COLUMNS_MODE CurDisplayMode;           // current display mode
+    BOOL        fSearchInTarget;                   // search in target document (user setting)
+    BOOL        fSearchInSource;                   // search in source document (user setting)
+    BOOL        fCurrentSearchInSource;            // TRUE = use source document for current search , FALSE = use target document for current search
+    FINDTASK    ThreadTask;                        // currently performed task
+    BOOL        fProcessingTimerMessage;           // TRUE = currently processing WM_TIMER message
+    HWND        hStatus;                           // handle of status bar
+    HWND        hResultListBox;                    // handle of the result list box
+    int         aiListViewColWidth[10];            // current width of list view columns
+    int         aiBatchListColWidth[10];           // current width of batch list view columns
+    // list of results
+    int iResultListSize;                           // size of result list in number of entries
+    int iResultListUsed;                           // number of used entries in result list
+    PFOLFINDRESULTENTRY *ppResultList;              // pointer to a list of PFOLFINDRESULTENTRY pointers
+    int iResultsDisplayed;                         // number of result entries already shown in result area
+    CHAR        szResultListFile[MAX_LONGPATH];     // fully qualified file name of result list
+
+    // batch change list info
+    int iBatchListSize;                            // size of batch list in number of entries
+    int iBatchListUsed;                            // number of entries in batch list
+    PFOLFINDBATCHLISTENTRY *ppBatchList;           // pointer to a list of PFOLFINDBATCHLISTENTRY pointers
+
+    // thread communication and data area
+    BOOL        fThreadIsRunning;                  // TRUE = Thread is running
+    BOOL        fStopThread;                       // TRUE = thread should stop and terminate itself
+    BOOL        fThreadIsActive;                   // TRUE = thread is searching, FALSE = thread is waiting for work
+    BOOL        fStopSearch;                       // TRUE = stop current search (set by main window code)
+    BOOL        fStartSearch;                      // TRUE = start a new search (set by main window code, reset by thread) 
+    BOOL        fSearching;                        // TRUE = a search operation is performed by the thread
+    CHAR        szStatusLine[1024];                // status information                       
+    USHORT      usThreadError;                     // error number for errors detected by the thread
+
+    PFOLFINDLASTUSED pLastUsed;                    // points to area with the last used values
+
+    HWND        hwndTabCtrl;                       // handle of tab control
+    HWND        hwndPages[5];                      // handle of tab dialogs 
+
+    BATCHLISTENTRYDATA BatchEntryData;             // buffer for batchlist entry data
+    BOOL        fAndFindInSource;                // TRUE = search additional string in source
+    CHAR_W      szAndFindInSource[MAX_FINDCHANGE_LEN+1];   // additional string being looked for in source
+    CHAR_W      szAndFindInSourceUpr[MAX_FINDCHANGE_LEN+1];  // uppercase version of szAndFindInSource
+    CHAR_W      szAddSourceTempSeg[MAX_SEGMENT_SIZE]; // buffer for additional search in source segment
+    BOOL        fAndFindInSourceLogicExpression;  // TRUE = "and find in source" string uses logical expression
+    CHAR_W      szAndFindInExpression[2*MAX_FINDCHANGE_LEN];// buffer for find expression
+    BOOL        fApplyBatchList;                  // true = apply a batch find/replace list
+    int         iCurBatchEntry;                   // number of currently active entry in batch find/replace list
+    OBJNAME     szCurDocObjName;                  // object name of currently processed document
+    BOOL        fRespectLineFeeds;                // TRUE = break lines at line feeds, FALSE = ignore line feeds and show text as a single block
+    int         iMinDialogWidth;                  // minimum width of dialog window
+    int         iMinDialogHeight;                 // minimum heigth of dialog window
+    BOOL        fCollapsed;                       // TRUE = options region of dilaog is in collapsed state
+    SWP         swpLastValidSizePos;              // last valid dialog size and position
+    RECT        rcOrgOptsAndDocsGB;               // original size and position of options and document groupbox
+    RECT        rcOrgResultGB;                    // original size and position of results groupbox
+    CHAR_W      szColTextBuffer[MAX_SEGMENT_SIZE*8]; // buffer for the complete text of a column
+} FOLFINDDATA, *PFOLFINDDATA;
+
+// the data area for output in nFluent XML format
+typedef struct _NFLUENTDATA
+{
+    BOOL bMTLogging;                          // "MTLOGGING"
+    BOOL bNoMatch;                            // "NOMATCH"        : all segs without exact matches in memory
+    BOOL bAllSegs;                            // "ALLSEGS"        : all segs
+    BOOL bAllWMatch;                          // "ALLWMATCH"      : all segs with exact and fuzzy matches
+    BOOL bNoMatchExp;                         // "NOMATCHEXP"     : all segs without exact matches in memory in EXP format
+    BOOL bAllSegsExp;                         // "ALLSEGSEXP"     : all segs in EXP format
+    BOOL bAllWMatchSrc;                       // "ALLWMATCHSOURCE": all segs in XML format with matches and match source in XML
+    BOOL bNoProposal;                         // "NOPROPOSAL"     : all segs in XML format which have no match at all
+    BOOL bNoProposalExp;                      // "NOPROPOSALEXP"  : all segs in EXP format which have no match at all
+    BOOL bXliff;                              // "XLIFF"          : everything in XLIFF format
+    BOOL bIncWrdCnt;                          // "INCLUDEWORDCOUNT"
+    BOOL bNoMatchNoDuplic;                    // "NOMATCH_NODUPLICATE"
+    BOOL bNoMatchExpNoDuplic;                 // "NOMATCHEXP_NODUPLICATE"
+    BOOL bAllSegsNoDuplic;                    // "ALLSEGS_NODUPLICATE"
+    BOOL bAllSegsExpNoDuplic;                 // "ALLSEGSEXP_NODUPLICATE"
+    BOOL bAllWMatchNoDuplic;                  // "ALLWMATCH_NODUPLICATE"
+    BOOL bAllWMatchSrcNoDuplic;               // "ALLWMATCHSOURCE_NODUPLICATE"
+    BOOL bNoProposalNoDuplic;                 // "NOPROPOSAL_NODUPLICATE"
+    BOOL bNoProposalExpNoDuplic;              // "NOPROPOSALEXP_NODUPLICATE"
+
+    CHAR szFileName[MAX_LONGPATH];            // buffer for file names
+    BYTE bUTF8Buffer[16000];                  // buffer for strings converted to UTF-8 encoding
+
+} NFLUENTDATA, *PNFLUENTDATA;
+
+// functions
+int OtmGetSysProp(PPROPSYSTEM & pSystemProp);
+int OtmSaveSysProp(PPROPSYSTEM  & pSystemProp);
+
+// clear the batch list table
+BOOL GFR_ClearBatchList(PFOLFINDDATA pIda);
+
+// import a batch list
+BOOL GFR_ImportBatchList(PFOLFINDDATA pIda, PSZ pszListFile);
+// export a batch list
+BOOL GFR_ExportBatchList(PFOLFINDDATA pIda, PSZ pszListFile);
+
+// functions for batch list
+PFOLFINDBATCHLISTENTRY GFR_CreateBatchListEntry(PBATCHLISTENTRYDATA pData);
+BOOL GFR_AddBatchListEntry(PFOLFINDDATA pIda, PFOLFINDBATCHLISTENTRY pEntry, int iPos);
+
+// functions for global find last used value
+BOOL GFR_GetLastUsedValues(PFOLFINDDATA pIda);
+BOOL GFR_SaveLastUsedValues(PFOLFINDDATA pIda);
+
+/*! \brief Load memory properties file 
+\param pszName name of the property file
+\param pszPassword properties encryption password
+\param ppvProp adress of the pointer to the loaded properties file
+\param int iSize expected size of the loaded properties
+\returns 0 if successful or error return code
+*/
+int loadPropFile(
+    PSZ pszName,
+    PSZ pszPassword,
+    void **ppvProp,
+    int iSize
+    );
+
+/*! \brief Write memory properties file 
+\param pszName name of the property file
+\param pszPassword properties encryption password
+\param pvProp pointer to the properties file
+\param iPropSize size o fthe properties in number of bytes
+\returns 0 if successful or error return code
+*/
+int writePropFile(
+    PSZ pszName,
+    PSZ pszPassword,
+    void *pvProp,
+    int iPropSize
+    );
+
+/*! \brief Simple data decrypter/encrypter
+\param pbData pointer to data area being encrypter/decrypted
+\param iSize number of bytes in data area
+\param pszPassword password to be used for decryption/encryption
+\param fEncrypt true = encrypt, false = decrypt
+\returns 0
+*/
+int encrypt( PBYTE pbData, int iSize, PSZ pszPassword, BOOL fEncrypt );
+
+// get settings from trigger file
+BOOL GetTriggerFileSettings(PNFLUENTDATA pData);
+
+// save settings from trigger file
+BOOL SaveTriggerFileSettings(PNFLUENTDATA pData);
+
+// function used for list last used files
+void UtlMakeLUVFileName(const char * strFileName, char * strFilePath);

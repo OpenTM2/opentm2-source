@@ -1,5 +1,5 @@
 /*! \brief TMXFactory.H - Include file for the TMX factory class
-	Copyright (c) 1999-2013, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 	Description: This file contains the class definition for the JSONize helper class
 */
 
@@ -11,12 +11,15 @@
 #include "core\PluginManager\OtmMemory.h"
 #include "string"
 
+
 /*! \brief factory class for TMX related functions 
  
   This class is a singleton and provides functions for the conversion
   of OpenTM2 proposals to TMX and vice versa
 
 */
+
+
 class TMXFactory
 {
 
@@ -54,6 +57,14 @@ TMXFactory();
     OtmProposal &Proposal,
     std::string &strTMX
   ); 
+
+  int ProposalToTUString
+  (
+    OtmProposal &proposal,
+    std::string &strTU,
+	bool bWithHeader,
+	bool bWithTail
+  );
 
 /*! \brief Converts a TMX formatted string into an OtmProposal 
 
@@ -139,8 +150,8 @@ private:
   int init();
 
   static TMXFactory *instance;
-
   void *pvData;
 };
+
 
 #endif // ifndef _TMXFACTORY_H_

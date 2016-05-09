@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2012, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1934,9 +1934,23 @@ SHORT QDAMSplitNode_V2
         TYPE(newRecord) = (CHAR)(TYPE(*record) & ~ROOT_NODE);  // don't copy Root bit
 
         // Decide where to split the record
-        pParentKey = QDAMGetszKey_V2( *record, (SHORT)(OCCUPIED(*record)/2), pBT->usVersion );
+        SHORT sSplitNum = (SHORT)(OCCUPIED(*record)/2);
+        pParentKey = QDAMGetszKey_V2( *record, sSplitNum, pBT->usVersion );
         if ( pParentKey )
         {
+           // Find the first entry for this term (case insensitive)
+           PCHAR_W    pPrevKey;      
+           SHORT      sTempSplit; 
+           for (sTempSplit=sSplitNum-1 ; sTempSplit>0 ; sTempSplit-- ) {
+              pPrevKey = QDAMGetszKey_V2( *record, sTempSplit, pBT->usVersion );
+              if ( ( pPrevKey ) &&
+                   ( (*(pBT->compare))(pBTIda, pParentKey, pPrevKey) == 0 ) ) 
+              {
+                 sSplitNum = sTempSplit;
+                 pParentKey = pPrevKey ;
+              }
+           }
+
            fCompare = ((*(pBT->compare))(pBTIda, pParentKey, pKey) <= 0 ) ;
            /***********************************************************/
            /* check in which part we will lay                         */
@@ -1944,6 +1958,18 @@ SHORT QDAMSplitNode_V2
            if ( fCompare )
            {
               pParentKey = QDAMGetszKey_V2(*record, (SHORT)(OCCUPIED(*record)-MINFREEKEYS), pBT->usVersion);
+
+            PCHAR_W    pPrevKey;      
+            SHORT      sTempSplit; 
+            for (sTempSplit=sSplitNum-1 ; sTempSplit>0 ; sTempSplit-- ) {
+               pPrevKey = QDAMGetszKey_V2( *record, sTempSplit, pBT->usVersion );
+               if ( ( pPrevKey ) &&
+                    ( (*(pBT->compare))(pBTIda, pParentKey, pPrevKey) == 0 ) ) 
+               {
+                  sSplitNum = sTempSplit;
+                  pParentKey = pPrevKey ;
+               }
+            }
               fCompare = ((*(pBT->compare))(pBTIda, pParentKey, pKey) <= 0 ) ;
               if ( fCompare )
               {
@@ -1951,7 +1977,7 @@ SHORT QDAMSplitNode_V2
               }
               else
               {
-                usFreeKeys = OCCUPIED( *record )/2;
+                usFreeKeys = sSplitNum;
               } /* endif */
            }
            else
@@ -1960,7 +1986,7 @@ SHORT QDAMSplitNode_V2
               fCompare = ((*(pBT->compare))(pBTIda, pParentKey, pKey) <= 0 ) ;
               if ( fCompare )
               {
-                usFreeKeys = OCCUPIED( *record )/2;
+                usFreeKeys = sSplitNum;
               }
               else
               {
@@ -1981,6 +2007,25 @@ SHORT QDAMSplitNode_V2
         // ELSE case...
         if ( !sRc )
         {
+           i = OCCUPIED( *record );
+           j = usFreeKeys;
+           PCHAR_W    pBaseKey, pPrevKey;      
+           pBaseKey = QDAMGetszKey_V2( *record, i-j, pBT->usVersion);
+           if ( pBaseKey ) {
+              // Find the first entry for this term (case insensitive)
+              for (j+=1 ; j<i ; j++ ) {
+                 pPrevKey = QDAMGetszKey_V2( *record, i-j, pBT->usVersion );
+                 if ( ( pPrevKey ) &&
+                      ( (*(pBT->compare))(pBTIda, pParentKey, pPrevKey) == 0 ) ) 
+                 {
+                    pParentKey = pPrevKey ;  
+                    usFreeKeys++;
+                 } else {
+                    break;
+                 }
+                 
+              }
+           }
            i = (SHORT) (OCCUPIED( *record ) - usFreeKeys);
            j = 0;
            pusOffset = (PUSHORT) (*record)->contents.uchData;

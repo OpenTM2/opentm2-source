@@ -1,8 +1,8 @@
 * ==================================================================================================
 * Tool Name     : EqfNfluent.trg
-* Version       : V2.4
+* Version       : V2.5
 * Purpose       : Trigger file for the MT-output creation in various formats (especially for nFluent)
-* Copyright     : Copyright (c) 2012-2015, International Business Machines Corporation and others.  All rights reserved.
+* Copyright     : Copyright (c) 2012-2016, International Business Machines Corporation and others.  All rights reserved.
 * Author        : Gerhard Queck
 * Creation Date : 2010/01/01 (YYYY/MM/DD)
 * Updates       : Gerhard Fetz:  2012/04/30: Added new file header and more detailed descriptions
@@ -11,6 +11,8 @@
 *                 Gerhard Queck: 2013/07/12: Added new switches NOPROPOSALEXP and NOPROPOSALEXP_NODUPLICATES
 *                 David Walter:  2014/10/20: Added new switch XLIFF
 *                 Gerhard Queck: 2015/11/17: Some minor rework
+*                 Gerhard Queck: 2016/02/18: Added a small description text to NOPROPOSAL output switches
+*                 Gerhard Queck: 2016/03/01: Added new switch INCLUDEWORDCOUNT
 * ==================================================================================================
 *
 * INFORMATION: Place an asterisk (*) before any of the following switches to disable the output creation.
@@ -19,6 +21,15 @@
 * == PURPOSE: Switch to globally activate the MT-logging in the Translation Environment. ======================
 MTLOGGING
 *
+*
+* =============================================================================================================
+* == PURPOSE: Switch to add word count information to all XML and EXP output files.      ======================
+*INCLUDEWORDCOUNT
+*
+* Note: In the EXP formats the word count info is stored in the AddData section of each segment and the total 
+*       word count is stored in the description field of the EXP file.
+*       In the XML formats the word count is stored in words= attribute of the <s> elements and the total word
+*       count is stored in the <totalWords> element. 
 *
 * =============================================================================================================
 * == PURPOSE: Switch to create an XML-file which contains ALL source-segments but NO exact matches.          == 
@@ -91,7 +102,8 @@ NOMATCH
 * =============================================================================================================
 *
 * =============================================================================================================
-* == PURPOSE: Switch to create an XML-file which contains ALL source-segments which have no proposal at all. == 
+* == PURPOSE: Switch to create an XML-file which contains ALL source-segments which have no proposal at all  ==
+*             also ignoring FUZZY matches with a fuzziness below 50%.                                        == 
 *NOPROPOSAL
 *
 * PURPOSE: Same output as NOPROPOSAL but without duplicate segments                                          == 
@@ -103,6 +115,7 @@ NOMATCH
 *
 * =============================================================================================================
 * == PURPOSE: Switch to create an EXP-file which contains ALL source-segments which have no proposal at all. == 
+*             also ignoring FUZZY matches with a fuzziness below 50%.                                        == 
 *NOPROPOSALEXP
 *
 * PURPOSE: Same output as NOPROPOSAL but without duplicate segments                                          == 

@@ -1,0 +1,67 @@
+****************************************************************************************************
+** Script name...: FolderPropertyTest.script                                                      **
+** Purpose.......: Script doing a base test for all availabale API calls                          **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: February 3, 2016                                                               **
+** Update........: March 15, 2016                                                               **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+****************************************************************************************************
+* define the location for the test data and the target directories inside OpenTM2
+****************************************************************************************************
+define Data,%TestDataLocation%\ANALYSIS\MTOUTPUT
+define MTFilePath,\OTM\MT
+define PropPath,\OTM\PROPERTY
+
+****************************************************************************************************
+* Prepare test folder and test memories... 
+****************************************************************************************************
+EqfCreateMem FOLPROPTEST001, , , English(U.S.), 
+EqfCreateMem FOLPROPTEST002, , , English(U.S.), 
+EqfCreateMem FOLPROPTEST003, , , English(U.S.), 
+EqfCreateFolder FOLPROPTEST001, ThisIsTheDescription, , FOLPROPTEST001, EQFANSI, STANDARD, , English(U.S.), German(reform), , FOLPROPTEST002,FOLPROPTEST003
+
+* DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,PROFILE,SHIPMENT
+
+TESTCASE FOLPROPTEST001,use EqfGetFolderPropEx to query some folder properties
+  EQFGETFOLDERPROPEX FOLPROPTEST001,DRIVE,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for DRIVE keyword
+  ECHO Drive: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,SOURCELANGUAGE,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for SOURCELANGUAGE keyword
+  ECHO SourcetLanguage: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,TARGETLANGUAGE,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for TARGETLANGUAGE keyword
+  ECHO TargetLanguage: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,MEMORY,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for MEMORY keyword
+  ECHO Memory: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,DICTIONARIES,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for DICTIONARIES keyword
+  ECHO Dictionaries: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,ROMEMORIES,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for ROMEMORIES keyword
+  ECHO ReadOnlyMemories: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,DESCRIPTION,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for DESCRIPTION keyword
+  ECHO Description: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,PROFILE,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for PROFILE keyword
+  ECHO Profile: $value$ 
+  EQFGETFOLDERPROPEX FOLPROPTEST001,SHIPMENT,value
+  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for SHIPMENT keyword
+  ECHO Shipment: $value$ 
+End
+
+EqfDeleteFolder FOLPROPTEST001
+EqfDeleteMem FOLPROPTEST001
+EqfDeleteMem FOLPROPTEST002
+EqfDeleteMem FOLPROPTEST003
+

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -396,6 +396,11 @@ int removeMemoryUser(PSZ pszName, PSZ userName);
    \returns 0
 */
 int listMemoryUsers(PSZ pszName, std::vector<std::string> &users);
+
+int replicateWithServer(PSZ pszName,OtmMemory* pLocalMem, bool isUpload)
+{
+	return 0;
+}
 
 /*! \brief Stops the plugin. 
 	Terminating-function for the plugin, will be called directly before

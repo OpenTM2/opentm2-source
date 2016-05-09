@@ -3,176 +3,32 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-|      Copyright (C) 1990-2012, International Business Machines           |
-|      Corporation and others. All rights reserved                        |  
-  +----------------------------------------------------------------------------+
+  |      Copyright (C) 1990-2016, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+*/
 
-  |  Description:                                                              |
-  +----------------------------------------------------------------------------+
-  | PVCS Section                                                               |
-// 
-// $CMVC 
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 29 Sep 2004
-// --RJ: accessibility: add Select and Deselect pushbutton to allow keyboard de/select
-// 
-// 
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 26 Jun 2003
-//  -- New Release TM6.0.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 25 Jul 2002
-//  -- New Release TM6.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Aug 2001
-//  -- New Release TM2.7.2!!
-// 
-// 
-// 
-// $Revision: 1.2 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-// 
- *
- * $Header:   J:\DATA\EQFUTCLB.DVG   1.0   09 Jan 1996 10:12:30   BUILD  $
- *
- * $Log:   J:\DATA\EQFUTCLB.DVG  $
- * 
- *    Rev 1.0   09 Jan 1996 10:12:30   BUILD
- * Initial revision.
-  +----------------------------------------------------------------------------+
-*/
-
-ID_SELVIEW_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  17, 96, 223, 138
+ID_SELVIEW_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  17, 96, 323, 238
 STYLE DS_CONTEXTHELP | WS_VISIBLE | WS_SYSMENU | DS_MODALFRAME | WS_CAPTION 
 CAPTION STR_SELVIEW_TITLE_DLG
 FONT 8 "MS Sans Serif"
 BEGIN
-  CONTROL STR_SELVIEW_DETAILS, -1, 
-    STATIC,
-    SS_LEFT | WS_VISIBLE,
-    6, 7, 102, 9
+  CONTROL "Available view columns", -1,  STATIC, SS_LEFT | WS_VISIBLE, 6, 7, 102, 9
+  CONTROL "", ID_SELVIEW_AVAIL_LB, LISTBOX, LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE, 6, 17, 122, 187
+  CONTROL ">>", ID_SELVIEW_SELECT_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 130, 85, 15, 15
+  CONTROL "<<", ID_SELVIEW_DESELECT_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 130, 105, 15, 15  
+  CONTROL "Selected view columns", -1, STATIC, SS_LEFT | WS_VISIBLE, 165, 7, 102, 9
+/*  CONTROL "", ID_SELVIEW_SELECT_LB, LISTBOX, LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE, 165, 17, 102, 187*/
+  CONTROL "", ID_SELVIEW_SELECT_LB, LISTBOX, LBS_STANDARD | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE, 155, 17, 122, 187
+  CONTROL "^", ID_SELVIEW_UP_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 280, 85, 15, 15  
+  CONTROL "V", ID_SELVIEW_DOWN_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 280, 105, 15, 15  
 
-  CONTROL "", ID_SELVIEW_AVAIL_LB, 
-    LISTBOX,
-    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE,
-    6, 17, 102, 87
-  CONTROL STR_SELVIEW_SELECTED, -1, 
-    STATIC,
-    SS_LEFT | WS_VISIBLE,
-    115, 7, 102, 9
+  CONTROL "Load default list", ID_SELVIEW_LOADDEF_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 20, 200, 120, 15
+  CONTROL "Save as default list", ID_SELVIEW_SAVEDEF_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 160, 200, 120, 15
 
-  CONTROL "", ID_SELVIEW_SELECT_LB, 
-    LISTBOX,
-    LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE,
-    115, 17, 102, 87
-    
-  CONTROL "&Select", ID_SELVIEW_SELECT_PB,
-    BUTTON,
-    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
-    40, 95, 56, 15
-  
-  CONTROL "&Deselect", ID_SELVIEW_DESELECT_PB,
-    BUTTON,
-    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
-    120, 95, 56, 15  
-    
-  CONTROL STR_SELVIEW_CHANGE, ID_SELVIEW_VIEW_PB, 
-    BUTTON,
-    BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
-    4, 120, 56, 15
-  CONTROL STR_SELVIEW_CLEAR, ID_SELVIEW_CLEAR_PB, 
-    BUTTON,
-    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
-    68, 120, 56, 15
-  CONTROL STR_SELVIEW_CANCEL, ID_SELVIEW_CANCEL_PB, 
-    BUTTON,
-    BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
-    132, 120, 38, 15
-  CONTROL STR_SELVIEW_HELP, ID_SELVIEW_HELP_PB, 
-    EQFHELPBUTTON,
-    WS_TABSTOP | WS_VISIBLE,
-    179, 120, 38, 15
+  CONTROL STR_SELVIEW_CHANGE, ID_SELVIEW_VIEW_PB, BUTTON, BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP, 4, 220, 56, 15
+  CONTROL STR_SELVIEW_CLEAR, ID_SELVIEW_CLEAR_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 68, 220, 56, 15
+  CONTROL STR_SELVIEW_CANCEL, ID_SELVIEW_CANCEL_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 132, 220, 38, 15
+  CONTROL STR_SELVIEW_HELP, ID_SELVIEW_HELP_PB, EQFHELPBUTTON, WS_TABSTOP | WS_VISIBLE, 179, 220, 38, 15
 END
 
 

@@ -1,5 +1,5 @@
 /*! \brief OTMFUNC.C
-	Copyright (c) 1999-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #include <time.h>
@@ -21,6 +21,7 @@
 #include "eqfrpt.h"
 #include "eqfserno.h"
 #include "tools\common\InitPlugins.h"
+#include "core\PluginManager\PluginManager.h"    // Add for P403138
 
 
 //#define SESSIONLOG
@@ -245,7 +246,7 @@ USHORT EqfChangeFolPropsEx
   PSZ         pszROMemories,           // list of read-only search memories or NULL
   PSZ         pszDescription,          // folder description or NULL
   PSZ         pszProfile,              // calculation report name or NULL
-  PSZ         pszUnUsed2               // for future enhancements, currently NULL
+  PSZ         pszShipment              // folder shipment nuber or NULL
 )
 {
   USHORT      usRC = NO_ERROR;         // function return code
@@ -253,7 +254,7 @@ USHORT EqfChangeFolPropsEx
   LOGWRITE1( "==EQFChangeFolPropsEx==\n" );
 
   usRC = FolFuncChangeFolProps( pszFolderName, chTargetDrive, pszTargetLanguage, pszMemName, pszDictionaries, pszROMemories,
-                                pszDescription, pszProfile, pszUnUsed2 );
+                                pszDescription, pszProfile, pszShipment );
 
 
   LOGWRITE2( "  RC=%u\n", usRC );
@@ -825,7 +826,7 @@ USHORT EqfImportMem
   if ( usRC == NO_ERROR )
   {
     pData->sLastFunction = FCT_EQFIMPORTMEM;
-    usRC = MemFuncImportMem( pData, pszMemName, pszInFile, lOptions );
+    usRC = MemFuncImportMem( pData, pszMemName, pszInFile, NULL, NULL, NULL, NULL, lOptions );
   } /* endif */
 
   if ( (usRC == NO_ERROR) && !pData->fComplete )
@@ -842,6 +843,70 @@ USHORT EqfImportMem
 
   return( usRC );
 } /* end of function EqfImportMem */
+
+USHORT EqfImportMemEx
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszMemName,              // mand: name of Translation Memory
+  PSZ         pszInFile,               // mand: fully qualified name of input file
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  PSZ         pszUnused1,              // not in use, for future enhancements
+  PSZ         pszUnused2,              // not in use, for future enhancements
+  LONG        lOptions                 // opt: options for Translation Memory import
+                                       // @Import Mode: TMX_OPT{CLEANRTF_OPT}, XLIFF_MT_OPT,UTF16_OPT,ANSI_OPT,ASCII_OPT(default)
+                                       // @Markup Table Handling: CANCEL_UNKNOWN_MARKUP_OPT(default), SKIP_UNKNOWN_MARKUP_OPT, GENERIC_UNKNOWN_MARKUP_OPT
+									                     // @Other: {CLEANRTF_OPT,IGNORE_OPT,FORCENEWMATCHID_OPT}
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData && (pData->fComplete || (pData->sLastFunction != FCT_EQFIMPORTMEMEX)) )
+  {
+    LOGWRITE1( "==EQFImportMemEx==\n" );
+    LOGPARMSTRING("Memory", pszMemName );
+    LOGPARMSTRING("InFile", pszInFile );
+    LOGPARMSTRING("TM_ID", pszTM_ID );
+    LOGPARMSTRING("StoreID", pszStoreID );
+    LOGPARMOPTION("Options", lOptions );
+  } /* endif */
+
+
+  // check sequence of calls
+  if ( usRC == NO_ERROR )
+  {
+    if ( !pData->fComplete && (pData->sLastFunction != FCT_EQFIMPORTMEMEX) )
+    {
+      usRC = LASTTASK_INCOMPLETE_RC;
+    } /* endif */
+  } /* endif */
+
+  // call TM import
+  if ( usRC == NO_ERROR )
+  {
+    pData->sLastFunction = FCT_EQFIMPORTMEMEX;
+    usRC = MemFuncImportMem( pData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
+  } /* endif */
+
+  if ( (usRC == NO_ERROR) && !pData->fComplete )
+  {
+    usRC = CONTINUE_RC;
+  } /* endif */
+
+  if ( !usRC )
+  {
+      SetSharingFlag( EQF_REFR_MEMLIST );
+  }
+
+  if ( pData && pData->fComplete ) LOGWRITE2( "  RC=%u\n", usRC );
+
+  return( usRC );
+} /* end of function EqfImportMemEx */
 
 
 // export a Translation Memory
@@ -936,6 +1001,50 @@ USHORT EqfOrganizeMem
 
   return( usRC );
 } /* end of function EqfExportMem */
+
+
+// add match segment IDs to an existing Translation Memory
+USHORT EqfAddMatchSegID
+(
+  HSESSION    hSession,                // Eqf session handle
+  PSZ         pszMemName,               // name of Translation Memory
+  PSZ         pszTM_ID,                // translation memory ID or NULL if not used
+  PSZ         pszStoreID,              // ID for the origin of the translation memory or NULL if not used
+  LONG        lOptions                 // opt: options for Translation Memory import
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  LOGWRITE1( "==EQFAddmatchSegID==\n" );
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  // check sequence of calls
+  //if ( usRC == NO_ERROR )
+  //{
+  //  if ( !pData->fComplete && (pData->sLastFunction != FCT_EQFADDMATCHSEGID) )
+  //  {
+  //    usRC = LASTTASK_INCOMPLETE_RC;
+  //  } /* endif */
+  //} /* endif */
+
+  // call add match segment ID process function
+  if ( usRC == NO_ERROR )
+  {
+    pData->sLastFunction = FCT_EQFADDMATCHSEGID;
+    do
+    {
+      usRC = MemFuncAddMatchSegID( pData, pszMemName, pszTM_ID, pszStoreID, lOptions);
+    } while( (usRC == NO_ERROR) && !pData->fComplete );
+  } /* endif */
+
+  LOGWRITE2( "  RC=%u\n", usRC );
+
+  return( usRC );
+} /* end of function EqfAddMatchSegID */
+
 
 
 
@@ -1187,7 +1296,7 @@ USHORT EqfImportFolder
      return (usRC);
   }
 
-  usRC = InternalImportFolder(hSession, pszFolderName, chTempPath, chToDrive, lOptions);
+  usRC = InternalImportFolder(hSession, pszFolderName, chTempPath, chToDrive, NULL, lOptions);
 
   if ( !usRC )
   {
@@ -1234,7 +1343,7 @@ USHORT EqfImportFolderFP
   } /* endif */
 
 
-  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, lOptions);
+  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, NULL, lOptions);
 
   if ( !usRC )
   {
@@ -1256,12 +1365,63 @@ USHORT EqfImportFolderFP
   return( usRC );
 } /* end of function EqfImportFolderFP */
 
+USHORT EqfImportFolderAs
+(
+  HSESSION    hSession,                // Eqf session handle
+  PSZ         pszFolderName,           // name of folder being imported
+  PSZ         pszFromPath,             // path containing the imported folder
+  CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
+  LONG        lOptions                 // folder import options
+)
+{
+  USHORT usRC = NO_ERROR;
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData && (pData->fComplete || (pData->sLastFunction != FCT_EQFIMPORTFOLDER)) )
+  {
+    LOGWRITE1( "==EQFImportFolderAs==\n" );
+    LOGPARMSTRING( "Folder", pszFolderName );
+    LOGPARMSTRING( "FromPath", pszFromPath );
+    LOGPARMCHAR( "ToDrive", chToDrive );
+    LOGPARMSTRING( "NewName", pszNewFolderName );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+
+  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, lOptions);
+
+  if ( !usRC )
+  {
+      ULONG ulSetOpt = EQF_REFR_FOLLIST;
+      if (lOptions & WITHMEM_OPT)
+      {
+          ulSetOpt |= EQF_REFR_MEMLIST;
+      }
+      if (lOptions & WITHDICT_OPT)
+      {
+          ulSetOpt |= EQF_REFR_DICLIST;
+      }
+      SetSharingFlag( ulSetOpt );
+  }
+
+
+  if ( pData && pData->fComplete ) LOGWRITE2( "  RC=%u\n", usRC );
+
+  return( usRC );
+} /* end of function EqfImportFolderAs */
+
+
 USHORT InternalImportFolder
 (
   HSESSION    hSession,                // Eqf session handle
   PSZ         pszFolderName,           // name of folder being imported
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
   LONG        lOptions                 // folder import options
 )
 {
@@ -1284,8 +1444,7 @@ USHORT InternalImportFolder
   if ( usRC == NO_ERROR )
   {
     pData->sLastFunction = FCT_EQFIMPORTFOLDER;
-    usRC = FolFuncImportFolder( pData, pszFolderName, pszFromPath,
-                                chToDrive, lOptions );
+    usRC = FolFuncImportFolder( pData, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, lOptions );
   } /* endif */
 
   if ( (usRC == NO_ERROR) && !pData->fComplete )
@@ -1353,6 +1512,36 @@ USHORT EqfGetFolderProp
 
   return( usRC );
 } /* end of function EqfDeleteFolder */
+
+USHORT EqfGetFolderPropEx
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of the folder to get the property value from
+  PSZ         pszKey,                  // mand: name of the requested value
+                                       //@: DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,PROFILE,SHIPMENT
+  PSZ         pszBuffer,               // mand: buffer for the returned value
+  int         iBufSize                 // mand: size of the buffer
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  LOGWRITE1( "==EQFGetFolderPropEx==\n" );
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  // call folder delete function
+  if ( usRC == NO_ERROR )
+  {
+    usRC = FolFuncGetFolPropEx( pszFolderName, pszKey, pszBuffer, iBufSize );
+  } /* endif */
+
+  LOGWRITE2( "  RC=%u\n", usRC );
+
+  return( usRC );
+} /* end of function EqfGetFolderPropEx */
+
 
 USHORT EqfDeleteDoc
 (
@@ -1746,6 +1935,31 @@ USHORT EqfStartSession
     char szPluginPath[MAX_EQF_PATH];
     UtlMakeEQFPath( szPluginPath, NULC, PLUGIN_PATH, NULL );
 		usRC = InitializePlugins( szPluginPath );    // add return value for P402974
+        // Add for P403115;
+        if (usRC != PluginManager::ePluginExpired)
+        {
+            // Add for P403138
+            char strParam[1024];
+            memset(strParam, 0x00, sizeof(strParam));
+
+            PluginManager* thePluginManager = PluginManager::getInstance();
+            if (!thePluginManager->ValidationCheck(strParam))
+            {
+                usRC = NO_ERROR;
+            }
+            else
+            {
+                usRC = ERROR_PLUGIN_INVALID;
+                PSZ pszParam = strParam;
+                UtlError(ERROR_PLUGIN_INVALID, MB_OK , 1, &pszParam, EQF_WARNING);
+            }
+            // Add end
+        }
+        else
+        {
+            usRC = ERROR_PLUGIN_EXPIRED;
+        }
+        // Add end
   }
 
     LOGWRITE1( "   ...Plugins have been started\n" );
@@ -2021,7 +2235,8 @@ USHORT EqfCreateCntReport(HSESSION hSession,
                                       usCategory,
                                                                   pFinalFactors,
                                                                   lOptSecurity,
-                                                                  bSingleShipment);
+                                                                  bSingleShipment,
+                                                                  NULL );
 
     pData->fComplete = TRUE;   // one-shot function are always complete
   } // endif
@@ -2030,6 +2245,65 @@ USHORT EqfCreateCntReport(HSESSION hSession,
 
   return usRC;
 } // end of EqfCreateCntReport
+
+USHORT EqfCreateCntReport(HSESSION hSession,
+                          CHAR chDriveLetter,
+                                          PSZ pszFolderName,
+                                                  PSZ pszDocuments,
+                                                  PREPORTTYPE pReportType,
+                                                  PSZ pszOutfileName,
+                                                  PSZ pszFormat,
+                                                  PSZ pszProfile,
+                                                  PREPORTSETTINGS pRepSettings,
+                                                  PFACTSHEET pFactSheet,
+                              USHORT usColumn,
+                              USHORT usCategory,
+                                                  PFINALFACTORS pFinalFactors,
+                                                  LONG lOptSecurity,
+  PSZ pszShipment,                     // opt: shipment number or one of the keywords "All Shipments" or "Single Shipments"
+  PSZ pszUnused1,                      // opt: for future enhancements, currently unused
+  PSZ pszUnused2                       // opt: for future enhancements, currently unused
+  )
+{
+  USHORT          usRC = NO_ERROR;
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  pszUnused1; pszUnused2;
+
+  LOGWRITE1( "==EQFCreateCntReportt==\n" );
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  // call TM create function
+  if (usRC == NO_ERROR)
+  {
+        usRC = MemFuncCreateCntReport(hSession,
+                                  chDriveLetter,
+                                                                  pszFolderName,
+                                                                  pszDocuments,
+                                                                  pReportType,
+                                                                  pszOutfileName,
+                                                                  pszFormat,
+                                                                  pszProfile,
+                                                                  pRepSettings,
+                                                                  pFactSheet,
+                                      usColumn,
+                                      usCategory,
+                                                                  pFinalFactors,
+                                                                  lOptSecurity,
+                                                                  FALSE,
+                                                                  pszShipment );
+
+    pData->fComplete = TRUE;   // one-shot function are always complete
+  } // endif
+
+  LOGWRITE2( "  RC=%u\n", usRC );
+
+  return usRC;
+} // end of EqfCreateCntReportEx
+
+
 
 USHORT EqfCreateCountReport
 (
@@ -2101,7 +2375,87 @@ USHORT EqfCreateCountReport
                                    NULL, /* no factsheet */
                                    1 /* dummy value for usColumn */, 1 /* dummy value for usCategory */, 
                                    NULL, /* no final factors */
-                                   0, FALSE ); /* no lOptSecurity, no bSingleShipment */
+                                   0, FALSE, NULL ); /* no lOptSecurity, no bSingleShipment, no shipment string */
+  } /* endif */
+  return( usRC );
+}
+
+USHORT EqfCreateCountReportEx
+(
+  HSESSION    hSession,                // Eqf session handle
+  PSZ         pszFolderName,           // name of folder containing the documents
+  PSZ         pszDocuments,            // list of documents being counted
+  PSZ         pszOutFile,              // fully qualified name of output file
+  USHORT      usReport,                // ID of report being created
+  USHORT      usType,                  // type of report being created
+  PSZ         pszProfile,              // name of profile
+  PSZ         pszShipment,             // opt: shipment number or one of the keywords "All Shipments" or "Single Shipments"
+  PSZ         pszUnused1,              // opt: for future enhancements, currently unused
+  PSZ         pszUnused2,              // opt: for future enhancements, currently unused
+  LONG        lOptions                 // OVERWRITE_OPT or 0L
+)
+{
+  USHORT          usRC = NO_ERROR;
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  pszUnused1; pszUnused2;
+
+  LOGWRITE1( "==EQFCreateCountReportEx==\n" );
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  // call report creation code
+  if (usRC == NO_ERROR)
+  {
+    REPORTTYPE RepType;
+    REPORTSETTINGS RepSettings;
+    PSZ pszFormat = "ASCII";
+
+    memset( &RepType, 0, sizeof(RepType) );
+    switch ( usReport )
+    {
+      case CALCULATING_REP       : RepType.pszReport = "Calculating Report"; break;
+      case HISTORY_REP           : RepType.pszReport = "History Report"; break; 
+      case COUNTING_REP          : RepType.pszReport = "Counting Report"; break;
+      case PREANALYSIS_REP       : RepType.pszReport = "Pre-Analysis Report"; break;
+      case REDUNDANCY_REP        : RepType.pszReport = "Redundancy Report"; break;
+      case REDUNDANCYSEGMENT_REP : RepType.pszReport = "Redundant Segment List"; break;
+      default:
+        break;
+    } /*endswitch */
+
+    switch ( usType )
+    {
+      case BASE_REPTYPE                   : RepType.lRepType = BASE_TYP;                      break;
+      case BASE_SUMMARY_REPTYPE           : RepType.lRepType = BASE_TYP | SUM_TYP;            break;
+      case BASE_SUMMARY_FACTSHEET_REPTYPE : RepType.lRepType = BASE_TYP | SUM_TYP | FACT_TYP; break;
+      case SUMMARY_FACTSHEET_REPTYPE      : RepType.lRepType = SUM_TYP | FACT_TYP;            break;
+      case FACTSHEET_REPTYPE              : RepType.lRepType = FACT_TYP;                      break;
+    } /*endswitch */
+
+    memset( &RepSettings, 0, sizeof(RepSettings) );
+    RepSettings.pszCountType = "Source Words";
+
+    if ( lOptions & HTML_OUTPUT_OPT )
+    {
+      pszFormat = "HTML";
+    }
+    else if ( lOptions & XML_OUTPUT_OPT )
+    {
+      pszFormat = "XML";
+    }
+    else  /* TEXT_OUTPUT_OPT or any other */
+    {
+      pszFormat = "ASCII";
+    } /* endif */
+
+    usRC = MemFuncCreateCntReport( hSession, EOS, pszFolderName, pszDocuments, &RepType,
+                                   pszOutFile, pszFormat, pszProfile, &RepSettings, 
+                                   NULL, /* no factsheet */
+                                   1 /* dummy value for usColumn */, 1 /* dummy value for usCategory */, 
+                                   NULL, /* no final factors */
+                                   0, FALSE, pszShipment ); /* no lOptSecurity, no bSingleShipment */
   } /* endif */
   return( usRC );
 }

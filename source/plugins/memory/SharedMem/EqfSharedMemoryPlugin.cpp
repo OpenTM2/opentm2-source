@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -10,6 +10,7 @@
 #include "core\PluginManager\PluginManager.h"
 #include "EqfSharedMemoryPlugin.h"
 #include "EqfSharedMemory.h"
+#include "TMXFactory.h"
 #include "eqftmi.h"
 #include "MemoryWebServiceClient.h"
 #include <TlHelp32.h>
@@ -29,6 +30,7 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 // encryption password for access ata
 #define ACCESSPASSWORD "asdfru14qq@pa68s08=df0<!j"
 
+static const int BATCHSIZE = 2*1024*1024;
 
 // data structure for inital and last used create options
 typedef struct _CREATEOPTIONS
@@ -86,11 +88,21 @@ EqfSharedMemoryPlugin::EqfSharedMemoryPlugin()
 	longDesc = "This is the standard shared Translation-Memory implementation";
 	version = "1.0";
 	supplier = "International Business Machines Corporation";
-  descrType = "Shared Translation Memory (OpenTMS based)";
+    descrType = "Shared Translation Memory (Web based)";
 	pluginType = OtmPlugin::eSharedTranslationMemoryType;
 	usableState = OtmPlugin::eUsable;
 
-  // setup option fields for the memory create function
+    initCreationDatas();
+
+  // start logging
+  //this->Log.open( "EqfSharedMemoryPlugin" );
+
+  this->fReplicatorIsRunning = false;
+}
+
+void EqfSharedMemoryPlugin::initCreationDatas()
+{
+	 // setup option fields for the memory create function
   this->vCreateLabels.resize( 12 );
   this->vCreateFieldData.resize( 12 );
   this->vCreateFieldDescr.resize( 12 );
@@ -131,13 +143,7 @@ EqfSharedMemoryPlugin::EqfSharedMemoryPlugin()
   this->vAccessFieldDescr[1] = "(User for the access to the memory)";
   this->vAccessLabels[2] = "@Password";
   this->vAccessFieldDescr[2] = "(Password for the user ID - Note: the password will not be displayed)";
-
-  // start logging
-  //this->Log.open( "EqfSharedMemoryPlugin" );
-
-  this->fReplicatorIsRunning = false;
 }
-
 
 EqfSharedMemoryPlugin::~EqfSharedMemoryPlugin()
 {
@@ -692,23 +698,10 @@ int EqfSharedMemoryPlugin::deleteMemory(
     options.push_back(pszName);//dataSourceName
 
     this->WebService.setEndpointUrl(pProp->szWebServiceURL);
-    // only the memory creator could delete the shared memory on server
-    std::string creator;
-    iRC = this->WebService.getCreator(pProp->szUserID, pProp->szPassword, pszName, creator);
+	iRC = this->WebService.deleteMemory(&options);
     if(iRC == 0)
     {
-	   this->Log.writef( "success when get creator for %s, creator name is %s\n", pszName,creator.c_str());
-	   // if the user are just the creator, then could delete the shared memory on server
-       int maxlen = creator.length()>strlen(pProp->szUserID)?creator.length():strlen(pProp->szUserID);
-       if (strncmp(creator.c_str(),pProp->szUserID,maxlen) == 0)
-       {
-         iRC = this->WebService.deleteMemory(&options);
-         if ( iRC != 0 )
-         {
-           this->iLastError = this->WebService.getLastError( this->strLastError );
-           this->Log.writef( "   WebService method deleteMemory, WebService returned %s", this->strLastError.c_str() );
-         }  
-       }
+	   this->Log.writef( "%s is deleted successfully",pszName);
     }
     else // get last error information
     {
@@ -779,6 +772,8 @@ int EqfSharedMemoryPlugin::getCreateOptionFields(
   long *plHandle
 )
 {
+   initCreationDatas();
+
   *ppLabels = &(this->vCreateLabels);
   *ppFieldData = &(this->vCreateFieldData);
   *ppFieldDescr = &(this->vCreateFieldDescr);
@@ -828,6 +823,25 @@ int EqfSharedMemoryPlugin::getCreateOptionFields(
   *ppfnCheckCallback = (PFN_OPTIONSDIALOGCHECKDATA)CheckCreateData;
 
   *plHandle = (long)this;
+
+  // remove unnecessay in new tms {4,5,6,7,8,9,10};
+  {
+	  std::vector<std::string> tempDataVec(this->vCreateFieldData);
+	  std::vector<std::string> tempDescVec(this->vCreateFieldDescr);
+	  std::vector<std::string> tempLabelVec(this->vCreateLabels);
+	  this->vCreateFieldData.clear();
+	  this->vCreateFieldDescr.clear();
+	  this->vCreateLabels.clear();
+
+	  for(int i=0; i<tempDataVec.size(); i++)
+	  {
+		  if(i>=4 && i<=10)
+			  continue;
+		  this->vCreateFieldData.push_back(tempDataVec[i]);
+		  this->vCreateFieldDescr.push_back(tempDescVec[i]);
+		  this->vCreateLabels.push_back(tempLabelVec[i]);
+	  }
+  }
 
   return( 0 );
 }
@@ -1036,68 +1050,68 @@ BOOL APIENTRY CheckCreateData( std::vector<std::string>&vFieldData, int *piIndex
   } /* end */     
 
   // check data source name (should not be empty)
-  if ( fOK && vFieldData[4].empty() )
-  {
-    strncpy( pszErrorBuffer, "Data source name is required", iBufSize );
-    *piIndex = 4;
-    fOK = FALSE;
-  } /* end */     
+  //if ( fOK && vFieldData[4].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source name is required", iBufSize );
+  //  *piIndex = 4;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check generic type (should not be empty)
-  if ( fOK && vFieldData[5].empty() )
-  {
-    strncpy( pszErrorBuffer, "Data source generic type is required", iBufSize );
-    *piIndex = 5;
-    fOK = FALSE;
-  } /* end */     
+  //// check generic type (should not be empty)
+  //if ( fOK && vFieldData[5].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source generic type is required", iBufSize );
+  //  *piIndex = 5;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check generic type (should not be empty)
-  if ( fOK && vFieldData[6].empty() )
-  {
-    strncpy( pszErrorBuffer, "Data source type is required", iBufSize );
-    *piIndex = 6;
-    fOK = FALSE;
-  } /* end */     
+  //// check generic type (should not be empty)
+  //if ( fOK && vFieldData[6].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source type is required", iBufSize );
+  //  *piIndex = 6;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check generic type (should not be empty)
-  if ( fOK && vFieldData[7].empty() )
-  {
-    strncpy( pszErrorBuffer, "Data source server is required", iBufSize );
-    *piIndex = 7;
-    fOK = FALSE;
-  } /* end */     
+  //// check generic type (should not be empty)
+  //if ( fOK && vFieldData[7].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source server is required", iBufSize );
+  //  *piIndex = 7;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check port (should not be empty)
-  if ( fOK && vFieldData[8].empty() )
-  {
-    strncpy( pszErrorBuffer, "Data source port is required", iBufSize );
-    *piIndex = 8;
-    fOK = FALSE;
-  } /* end */     
+  //// check port (should not be empty)
+  //if ( fOK && vFieldData[8].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source port is required", iBufSize );
+  //  *piIndex = 8;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check port (should be numeric)
-  if ( fOK && (vFieldData[8].find_first_not_of( "0123456789" ) != std::string::npos) )
-  {
-    strncpy( pszErrorBuffer, "Data source port has to be numeric", iBufSize );
-    *piIndex = 8;
-    fOK = FALSE;
-  } /* end */     
+  //// check port (should be numeric)
+  //if ( fOK && (vFieldData[8].find_first_not_of( "0123456789" ) != std::string::npos) )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source port has to be numeric", iBufSize );
+  //  *piIndex = 8;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check data source user ID (should not be empty)
-  if ( fOK && vFieldData[9].empty() )
-  {
-    strncpy( pszErrorBuffer, "Data source user ID is required", iBufSize );
-    *piIndex = 9;
-    fOK = FALSE;
-  } /* end */     
+  //// check data source user ID (should not be empty)
+  //if ( fOK && vFieldData[9].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Data source user ID is required", iBufSize );
+  //  *piIndex = 9;
+  //  fOK = FALSE;
+  //} /* end */     
 
-  // check data source user ID password (should not be empty)
-  if ( fOK && vFieldData[10].empty() )
-  {
-    strncpy( pszErrorBuffer, "Password for data source user ID is required", iBufSize );
-    *piIndex = 10;
-    fOK = FALSE;
-  } /* end */     
+  //// check data source user ID password (should not be empty)
+  //if ( fOK && vFieldData[10].empty() )
+  //{
+  //  strncpy( pszErrorBuffer, "Password for data source user ID is required", iBufSize );
+  //  *piIndex = 10;
+  //  fOK = FALSE;
+  //} /* end */     
 
   // save current values as last last-used values
   pPlugin->writeLastUsedCreateValues( &vFieldData );
@@ -1169,13 +1183,14 @@ int EqfSharedMemoryPlugin::writeLastUsedCreateValues( std::vector<std::string> *
     strcpy( pOptions->szWebServiceURL, (*pvOptions)[1].c_str() );
     strcpy( pOptions->szUserID,        (*pvOptions)[2].c_str() );
     strcpy( pOptions->szPassword,      (*pvOptions)[3].c_str() );
-    strcpy( pOptions->szDSGenericType, (*pvOptions)[5].c_str() );
-    strcpy( pOptions->szDSType,        (*pvOptions)[6].c_str() );
-    strcpy( pOptions->szDSServer,      (*pvOptions)[7].c_str() );
-    strcpy( pOptions->szDSPort,        (*pvOptions)[8].c_str() );
-    strcpy( pOptions->szDSUser,        (*pvOptions)[9].c_str() );
-    strcpy( pOptions->szDSPassword,    (*pvOptions)[10].c_str() );
-    strcpy( pOptions->szUserList,      (*pvOptions)[11].c_str() );
+
+    strcpy( pOptions->szDSGenericType, "" );
+    strcpy( pOptions->szDSType,        "" );
+    strcpy( pOptions->szDSServer,     "" );
+    strcpy( pOptions->szDSPort,       "" );
+    strcpy( pOptions->szDSUser,        "" );
+    strcpy( pOptions->szDSPassword,   "" );
+    strcpy( pOptions->szUserList,      (*pvOptions)[4].c_str() );
     this->writePropFile( "EqfSharedMemoryCreate.LastUsed", OPTIONSPASSWORD, (void *)pOptions, sizeof(CREATEOPTIONS) );
     UtlAlloc( (void **)&pOptions, 0, 0, NOMSG );    
   } /* endif */     
@@ -1497,6 +1512,64 @@ int EqfSharedMemoryPlugin::listMemoryUsers(
   return iRC;
 }
 
+// direction 1:upload,0:download
+int EqfSharedMemoryPlugin::replicateWithServer
+(
+  PSZ pszName,
+  OtmMemory* pLocalMem, 
+  bool isUpload
+)
+{
+  if(pLocalMem == NULL)
+	  return 1;
+
+  int iRC;
+  std::vector<std::string> vMemList;
+  std::vector<std::string> options;
+  PSHAREDMEMPROP pProp = NULL;
+  TMXFactory *pTMXFactory = TMXFactory::getInstance();
+
+  this->Log.writef( "Load the shared memory %s", pszName );
+
+  // load properties
+  iRC = this->loadProperties( pszName, &pProp );
+  if ( iRC != 0 )
+  {
+    this->iLastError = ERROR_WRITE_FAULT;
+    this->strLastError = "Error loading shared memory properties";
+    this->Log.writef( "   Load of properties failed, error is %s", this->strLastError.c_str() );
+
+    if (pProp != NULL) 
+      UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
+
+    return( ERROR_WRITE_FAULT );
+  } 
+ 
+  this->WebService.setEndpointUrl(pProp->szWebServiceURL);
+
+  // from here to upload/download proposals to server
+  if(isUpload)
+  {
+      iRC = batchUpload(pszName,pProp->szUserID, pProp->szPassword,pLocalMem);
+  }
+  else
+  {
+	  iRC = batchDownload(pszName,pProp->szUserID, pProp->szPassword,pLocalMem);
+  }
+ 
+  if ( iRC != 0 )
+  {
+    this->iLastError = this->WebService.getLastError( this->strLastError );
+    iRC = this->iLastError;
+    this->Log.writef( "   Web service client reported an error, error is %s", this->strLastError.c_str() );
+  }
+
+  if (pProp != NULL) UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
+
+  return iRC;
+}
+
+
 bool EqfSharedMemoryPlugin::stopPlugin( bool fForce  )
 {
 
@@ -1616,5 +1689,88 @@ int EqfSharedMemoryPlugin::replaceMemory( PSZ pszReplace, PSZ pszReplaceWith )
 {
     // the setting of owner is not supported in this plugin
   return OtmMemoryPlugin::eNotSupported;
+}
+
+int EqfSharedMemoryPlugin::batchUpload( PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem)
+{
+  std::string strTmx;
+  std::string strOneTU;
+  OtmProposal proposal;
+  TMXFactory *pTMXFactory = TMXFactory::getInstance();
+  int iRes = 0;
+  int iMemRC = pLocalMem->getFirstProposal( proposal );
+  if ( iMemRC == NO_ERROR )
+  {
+	iRes = pTMXFactory->ProposalToTUString(proposal, strTmx,true,false);
+	proposal.clear();
+	iMemRC = pLocalMem->getNextProposal( proposal );
+  }
+
+  int iRC = 0;
+
+  while(iMemRC==NO_ERROR && iRes==0)
+  {   
+	strOneTU.erase(strOneTU.begin(),strOneTU.end());
+	iRes = pTMXFactory->ProposalToTUString(proposal, strOneTU,false,false);
+	if(iRes==0 && strOneTU.size()+strTmx.size()<BATCHSIZE)
+	{
+		strTmx += strOneTU;
+	}
+	else if(iRes==0)
+	{
+		strTmx += "</body></tmx>";
+		iRC = this->WebService.uploadProposal( pszName, userID, password,strTmx );
+		if(iRC != 0)
+			break;
+
+		strTmx.erase(strTmx.begin(),strTmx.end());
+		iRes = pTMXFactory->ProposalToTUString(proposal, strTmx,true,false);
+	}
+	proposal.clear();
+	iMemRC = pLocalMem->getNextProposal( proposal );
+  }
+
+  if(strTmx.size()>0 && iRC==0)
+  {
+    strTmx += "</body></tmx>";
+	iRC = this->WebService.uploadProposal( pszName, userID, password,strTmx );
+  }
+
+  return iRC;
+}
+
+int EqfSharedMemoryPlugin::batchDownload(PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem)
+{
+  TMXFactory *pTMXFactory = TMXFactory::getInstance();
+  
+  char szPropPath[MAX_LONGPATH];
+  UtlMakeEQFPath( szPropPath, NULC, PROPERTY_PATH, NULL );
+
+  std::string strUpdateCounter = "0";
+  this->WebService.loadUpdateCounter( std::string(szPropPath), std::string(pszName)+".SHP", strUpdateCounter );
+
+
+  std::string strTmx;
+  int iRC = this->WebService.downloadProposal( pszName, userID, password,strTmx, strUpdateCounter );
+  while(iRC==0 && strTmx.find("<tu ")!=std::string::npos)
+  {
+	  std::vector<OtmProposal* > proposals;
+	  iRC = pTMXFactory->TMX2Proposal( strTmx, proposals );
+	  if(iRC != 0 || proposals.size()==0)
+		  break;
+
+	  for(std::vector<OtmProposal* >::iterator iter=proposals.begin();
+		  iter != proposals.end();
+		  iter++)
+	  {
+	      pLocalMem->putProposal(**iter);
+	  }
+
+	  iRC = this->WebService.downloadProposal( pszName, userID, password,strTmx, strUpdateCounter );
+  }
+
+  this->WebService.writeUpdateCounter( std::string(szPropPath), std::string(pszName)+".SHP", strUpdateCounter );
+
+  return 0;
 }
 

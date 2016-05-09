@@ -5,7 +5,7 @@
   
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -429,9 +429,11 @@ BOOL MUUpdateMarkupTableFiles(
         OtmMarkupPlugin* curPlugin = (*pluginList)[i];
         if ( ( ! strcmp( curPlugin->getName(), pszPluginName ) ) ||
              ( ! strcmp( curPlugin->getShortName(), pszPluginName ) ) ) {
-           bReturn = curPlugin->updateFiles( pszMarkupTableName,
-                      pszDescription, pszMarkupTableVersion, pszTableFileName,
-                      pszUserExitFilename, pszFileList ) ;
+           int iReturn = curPlugin->updateFiles( pszMarkupTableName,
+                         pszDescription, pszMarkupTableVersion, pszTableFileName,
+                         pszUserExitFilename, pszFileList ) ;
+           if ( iReturn != UPDATE_MARKUP_ERROR ) 
+              bReturn = true;
         }
      }
   }

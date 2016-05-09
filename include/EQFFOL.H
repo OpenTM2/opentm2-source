@@ -287,7 +287,7 @@ typedef struct _SELECTDLGIDA
   int         iDialogID;                         // ID to use for dialog
   CHAR        szTitleBar[1024];                  // titlebar text
   PVOID       pFolPropIda;                       // pointer to folder properties dialog IDA (only used for dicts)
-  BOOL        fPIDSel;                           // TRUE = Dictionary PID selection
+  BOOL        fDictPIDSel;                       // TRUE = Dictionary PID selection
   //------------ temporary buffers used by dialog --------------------------------------
   CHAR        szBuffer[1024];                    // general purpose buffer used by dialog itself
   CHAR        szBuffer2[1024];                   // general purpose buffer used by dialog itself

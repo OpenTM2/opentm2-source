@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 
 //+----------------------------------------------------------------------------+
@@ -704,6 +704,7 @@ LPARAM           mp2
                   UtlMenuEnableItem( PID_UTILS_MI_DELETEDOCS );
                   UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
                   UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
+                  UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
                 } /* endif */
               }
               else
@@ -854,6 +855,7 @@ LPARAM           mp2
  
         case PID_FILE_MI_FINDCHANGE:
         case PID_FILE_MI_FUZZYSEARCH:
+        case PID_FILE_MI_SPELLCHECK:
         case PID_FILE_MI_DELETE:
           {
             SHORT sItem = QUERYSELECTIONHWND( pCommArea->hwndLB );
@@ -1181,6 +1183,40 @@ LPARAM           mp2
                 if ( pszObj != NULL )
                 {
                   FolFuzzySearch( pszObj, TRUE, FALSE );
+                } /* endif */
+              } /* endif */
+            } /* endif */
+          }
+          break;
+
+        case PID_FILE_MI_SPELLCHECK:
+          {
+            PSZ pszObj;
+            if ( message == WM_EQF_FLLTREE_COMMAND )
+            {
+              pszObj = (PSZ) mp2;
+              if ( !FolIsFolderDisabled( pszObj ) )
+              {
+                FolSpellcheck( pszObj, TRUE, FALSE );
+              } /* endif */                     }
+            else
+            {
+              int iSelItems = SendMessage( pCommArea->hwndLB, LB_GETSELCOUNT, 0, 0 );
+              if ( iSelItems  > 1 )
+              {
+                PSZ pszSelObjList = NULL;
+                FolBuildSelItemslist( pCommArea, &pszSelObjList );
+                if ( pszSelObjList )
+                {
+                  FolSpellcheck( pszSelObjList, TRUE, TRUE );
+                } /* endif */
+              }
+              else
+              {
+                pszObj = QuerySelFolderName( pCommArea, TRUE  );
+                if ( pszObj != NULL )
+                {
+                  FolSpellcheck( pszObj, TRUE, FALSE );
                 } /* endif */
               } /* endif */
             } /* endif */

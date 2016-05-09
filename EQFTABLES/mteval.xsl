@@ -1,5 +1,5 @@
 ﻿<!--
-    Copyright (c) 1999-2014, International Business Machines
+    Copyright (c) 1999-2016, International Business Machines
     Corporation and others.  All rights reserved.
 -->
 
@@ -11,14 +11,14 @@
 		<!ENTITY nbsp "&#160;">
 	]>
 
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format"  xmlns:PE="http://www.ibm.com/PostEdit" >
     <xsl:variable name="base" select="'words'" />
 
 <!-- =========================================================================================== --> 	
 <!-- == Date of Stylesheet (original): January 01, 2005                                       == -->
 <!-- == Created by                   : Gerhard Queck                                          == -->
-<!-- == Date of Stylesheet (update)  : September 09, 2014                                     == -->
-<!-- == Updated by                   : Gerhard Fetz                                           == -->
+<!-- == Date of Stylesheet (update)  : March 2, 2016                                     == -->
+<!-- == Updated by                   : Gerhard Queck                                           == -->
 <!-- == Purpose                      : Display the content of a MT log in a browser           == -->
 <!-- == Version                      : 3.6                                                    == -->
 <!-- =========================================================================================== -->
@@ -159,7 +159,7 @@
 	<TABLE border="1">
 	   <TBODY>
 		    <TR>
-		    <TD  valign="top" bgcolor="#d3d3d3" align="center" colspan="14" >Document <xsl:value-of select="./@name"/></TD>
+		    <TD  valign="top" bgcolor="#d3d3d3" align="center" colspan="19" >Document <xsl:value-of select="./@name"/></TD>
 		  </TR>
 		  <TR>
 			 <TD width="80"  valign="top" bgcolor="#d3d3d3" align="center">Segment ID</TD>
@@ -175,8 +175,14 @@
 			 <TD width="60"  valign="top" bgcolor="#d3d3d3" align="center">AutoSubst</TD>
 			 <TD width="200"  valign="top" bgcolor="#d3d3d3" align="center">Time Stamp</TD>
 			 <TD width="460"  valign="top" bgcolor="#d3d3d3" align="center">Segment source</TD>
-		  <TD width="200"  valign="top" bgcolor="#d3d3d3" align="center">MT metadata</TD></TR>
-		<xsl:call-template name="showdocumentdetail">
+			 <TD width="200"  valign="top" bgcolor="#d3d3d3" align="center">MT metadata</TD>
+			 <TD width="460"  valign="top" bgcolor="#d3d3d3" align="center">Segment target</TD>
+			 <TD width="100"  valign="top" bgcolor="#d3d3d3" align="center">Used match ID</TD>
+			 <TD width="460"  valign="top" bgcolor="#d3d3d3" align="center">Used match target</TD>
+			 <TD width="100"  valign="top" bgcolor="#d3d3d3" align="center">MT match ID</TD>
+			 <TD width="460"  valign="top" bgcolor="#d3d3d3" align="center">MT match target</TD>
+		  </TR>
+      <xsl:call-template name="showdocumentdetail">
 		      <xsl:with-param name="document" select="." />
 			  <xsl:with-param name="base" select="$base" />
 		   </xsl:call-template>
@@ -222,7 +228,7 @@
    <xsl:variable name="rowspan" select="count($document/counts[@base=$base])"/>
    <xsl:for-each select="$document/segmentList"> 
       <tr align="left" bgcolor="white">
-       <td align="left" colspan="14">Shipment <xsl:value-of select="./@shipment" /></td>
+       <td align="left" colspan="19">Shipment <xsl:value-of select="./@shipment" /></td>
       </tr>
   	  	<xsl:for-each select="./segment"> 
       <tr>
@@ -386,6 +392,11 @@
 		    <xsl:with-param name="value"><xsl:value-of select="$segment/metadata/MT/@MT-Fields" /></xsl:with-param>
          </xsl:call-template>
     &nbsp;</td>
+    <td align="left"><xsl:value-of select="$segment/metadata/PE:tgt" />&nbsp;</td>
+    <td align="left"><xsl:value-of select="$segment/metadata/PE:usedmatch/@PE:ID_usedmatch" />&nbsp;</td>
+    <td align="left"><xsl:value-of select="$segment/metadata/PE:usedmatch" />&nbsp;</td>
+    <td align="left"><xsl:value-of select="$segment/metadata/PE:mtmatch/@PE:ID_mtmatch" />&nbsp;</td>
+    <td align="left"><xsl:value-of select="$segment/metadata/PE:mtmatch" />&nbsp;</td>
 </xsl:template>
 
 <!-- =========================================================================================== --> 	

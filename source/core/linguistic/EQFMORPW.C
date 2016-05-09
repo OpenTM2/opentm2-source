@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2012, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -236,7 +236,7 @@ USHORT MorphWordRecognitionW
    BOOL          fInclNotFoundTerms,        // TRUE = include not found terms
                                             //                        /* 2@KIT0969A */
    PUSHORT       pusOrgRC,                  // ptr to buffer for original return code
-   USHORT        eqfMWTMode                 // Multi Word Termns
+   USHORT        eqfMWTMode                 // Multi Word Terms
 )
 {
   USHORT    usRC = MORPH_OK;           // function return code
@@ -511,6 +511,25 @@ USHORT MorphWordRecognitionW
          /*************************************************************/
          usRC = MorphGetStemForm( sLanguageID, pucTerm,
                                   &usStemListSize, &pStemList, ulOemCP );
+  if ( ( usRC == MORPH_NOT_FOUND ) &&
+       ( wcschr(pucTerm,'-') ) ) {
+     WCHAR szTemp[500] ;
+     WCHAR *pChar ;
+     wcscpy( szTemp, pucTerm ) ;
+     pChar = wcschr(szTemp,'-');
+     *pChar = NULL ;
+
+     usRC = MorphGetStemForm( sLanguageID, szTemp,
+                              &usStemListSize, &pStemList, ulOemCP );
+     if ( usRC == MORPH_NOT_FOUND ) {
+        wcscpy( szTemp, pucTerm ) ;
+        pChar = wcschr(szTemp,'-');
+        memcpy( pChar, pChar+1, (wcslen(pChar+1)+1)*sizeof(WCHAR)) ;
+
+        usRC = MorphGetStemForm( sLanguageID, szTemp,
+                                 &usStemListSize, &pStemList, ulOemCP );
+     }
+  }
 
          /*************************************************************/
          /* restore end character of current term                     */
@@ -899,7 +918,7 @@ USHORT MorphWordRecognitionW
                    !memicmp( pucTerm, pucMWT, ulMWTLength *sizeof(CHAR_W)) &&
                    (!pucIsText[pucTerm[ulMWTLength]] || fDBCSLang) )
               {
-                // only use this match as best math if its length is larger than any
+                // only use this match as best match if its length is larger than any
                 // existing best match
                 int iBestMatchLen = 0;
                 if ( pucBestMatch )
@@ -920,6 +939,52 @@ USHORT MorphWordRecognitionW
                 pucMWTHeadword = pucMWT;
                 pucLookupTerm = pucMWT;
                 ulLookupLength = ulMWTLength;
+              }
+              else if ( ( wcschr( pucTerm, L'-' ) ) ||
+                        ( wcschr( pucMWT,  L'-' ) ) ) 
+              {
+                // If term contains a hyphen, then check if everything else is the same. 
+                // If the same, then handle it as a match.        2-17-16
+                BOOL  bMatch=TRUE ;
+                CHAR_W  *cKey1 = (CHAR_W*) pucTerm;
+                CHAR_W  *cKey2 = (CHAR_W*) pucMWT;
+                while ( bMatch && 
+                        ( ( *cKey1 != NULL ) && 
+                          ( *cKey2 != NULL ) ) )
+                {
+                  while ( wcschr( L" -", *cKey1 ) ) { cKey1++; } 
+                  while ( wcschr( L" -", *cKey2 ) ) { cKey2++; }
+                  if ( *cKey1 == *cKey2 ) {
+                    cKey1++;
+                    cKey2++;
+                  } else {
+                    bMatch=FALSE;
+                  } /* endif */
+                } /* endwhile */
+                if ( ( bMatch ) &&
+                     ( ( *cKey1 == NULL ) ||
+                       ( ( *cKey1 == L' ' ) &&
+                         ( *(cKey1+1) == NULL) ) ) &&
+                     ( *cKey2 == NULL ) )
+                {
+                   // only use this match as best match if its length is larger than any
+                   // existing best match
+                   int iBestMatchLen = 0;
+                   if ( pucBestMatch )
+                   {
+                     iBestMatchLen = UTF16strlenCHAR( pucBestMatch );
+                   } /* endif */
+                   if ( UTF16strlenCHAR( pucMWT ) > iBestMatchLen )
+                   {
+                     pucBestMatch = pucMWT;
+                   } /* endif */
+                   pucMWT = pucNextMWT;        // test next MWT
+                   usMWTTerms--;
+                } else {
+                   // we have to try the next MWT
+                   pucMWT = pucNextMWT;        // test next MWT
+                   usMWTTerms--;
+                }
               }
               else
               {
@@ -1039,6 +1104,52 @@ USHORT MorphWordRecognitionW
                    {
                      pucLookupTerm = pucMWTHeadword;
                      ulLookupLength = UTF16strlenCHAR(pucMWTHeadword);
+                   }
+                   else if ( ( wcschr( pucTermInStemSeg, L'-' ) ) ||
+                             ( wcschr( pucMWT, L'-' ) ) ) 
+                   {
+                      // If term contains a hyphen, then check if everything else is the same. 
+                      // If the same, then handle it as a match.        2-17-16
+                     BOOL  bMatch=TRUE ;
+                     CHAR_W  *cKey1 = (CHAR_W*) pucTermInStemSeg;
+                     CHAR_W  *cKey2 = (CHAR_W*) pucMWT;
+                     while ( bMatch && 
+                             ( ( *cKey1 != NULL ) && 
+                               ( *cKey2 != NULL ) ) )
+                     {
+                       while ( wcschr( L" -", *cKey1 ) ) { cKey1++; } 
+                       while ( wcschr( L" -", *cKey2 ) ) { cKey2++; }
+                       if ( *cKey1 == *cKey2 ) {
+                         cKey1++;
+                         cKey2++;
+                       } else {
+                         bMatch=FALSE;
+                       } /* endif */
+                     } /* endwhile */
+                     if ( ( bMatch ) &&
+                          ( ( *cKey1 == NULL ) ||
+                            ( ( *cKey1 == L' ' ) &&
+                              ( *(cKey1+1) == NULL) ) ) &&
+                          ( *cKey2 == NULL ) )
+                     {
+                        // only use this match as best match if its length is larger than any
+                        // existing best match
+                        int iBestMatchLen = 0;
+                        if ( pucBestMatch )
+                        {
+                          iBestMatchLen = UTF16strlenCHAR( pucBestMatch );
+                        } /* endif */
+                        if ( UTF16strlenCHAR( pucMWT ) > iBestMatchLen )
+                        {
+                          pucBestMatch = pucMWTHeadword;
+                        } /* endif */
+                        pucMWT = pucNextMWT;        // test next MWT
+                        if ( usMWTTerms ) usMWTTerms--;
+                     } else {
+                        // we have to try the next MWT
+                        pucMWT = pucNextMWT;        // test next MWT
+                        if ( usMWTTerms ) usMWTTerms--;
+                     }
                    }
                    else
                    {

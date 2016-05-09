@@ -535,10 +535,34 @@ USHORT TmtXGet
           }
           else
           {
+            BOOL fCheckForFuzzyMatches = FALSE;
+
             // check if the overlap is good enough...
-            if (( usOverlaps * 100 >=
-                 pSentence->usActVote * pTmGetIn->stTmGet.usMatchThreshold )
-                 || (pSentence->usActVote <= 8))
+
+
+            // GQ 2016/04/05: new approach: (tentative fix for P403177)
+            //   sentences with up to 8 (and incl) votes: always check fuzzyness
+            //   sentences from 9 up to 12 votes: check fuzziness when 20% of votes are matching
+            //   sentences with 12 or more votes: check fuzziness when pTmGetIn->stTmGet.usMatchThreshold (=33%) of votes are matching
+
+            // old code:
+            //  if (( usOverlaps * 100 >= pSentence->usActVote * pTmGetIn->stTmGet.usMatchThreshold ) || (pSentence->usActVote <= 8))
+
+            // GQ 2016/05/12: disabled new approach as it causes a 12% decrease in the overall analysis performance 
+            if ( pSentence->usActVote <= 8 )
+            {
+              fCheckForFuzzyMatches = TRUE;
+            }
+            //else if ( pSentence->usActVote < 18 )
+            //{
+            //  fCheckForFuzzyMatches = (usOverlaps * 100) >= (pSentence->usActVote * 20);
+            //}
+            else 
+            {
+              fCheckForFuzzyMatches = (usOverlaps * 100) >= (pSentence->usActVote * pTmGetIn->stTmGet.usMatchThreshold);
+            } /* endif */
+
+            if ( fCheckForFuzzyMatches )
             {
               LOGPRINTF3( L"TmtXGet: usOverlaps=%u, usActVote=%u, usMatchThreshold=%u\r\n", usOverlaps, pSentence->usActVote, pTmGetIn->stTmGet.usMatchThreshold );
 

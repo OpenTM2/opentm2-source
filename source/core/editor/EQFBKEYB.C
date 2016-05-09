@@ -1271,6 +1271,9 @@ VOID EQFBInitMenu
         // correct key names displayed in menu
         EQFBSetKeyName( hwndMenu, IDM_TRANSSEG, TSEG_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_TRANSNEW, TSEGNEXT_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_EXACT, TSEGNEXT_EXACT_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_FUZZY, TSEGNEXT_FUZZY_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_NONE,  TSEGNEXT_NONE_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_DICTLOOK, DICTLOOK_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_EDITTERM, EDITTERM_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_ADDABBREV,ADDABBREV_FUNC );
@@ -1297,6 +1300,9 @@ VOID EQFBInitMenu
                BOOL fXLIFF = (strcmp( pTable->szName, "EQFXLIFF" ) == 0 );
 
               SETAABITEM( hwndMenu, IDM_TRANSNEW, ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_EXACT, ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_FUZZY, ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_NONE,  ! pDoc->fXlated);
 
                                               // Disable Goto Mark if no mark availab.
 
@@ -1339,6 +1345,9 @@ VOID EQFBInitMenu
              SETAABITEM( hwndMenu, IDM_GOTO, ! pDocTarget->EQFBFlags.PostEdit);
              SETAABITEM( hwndMenu, IDM_TRANSSEG, FALSE );
              SETAABITEM( hwndMenu, IDM_TRANSNEW, FALSE );
+             SETAABITEM( hwndMenu, IDM_TRANSNEW_EXACT, FALSE );
+             SETAABITEM( hwndMenu, IDM_TRANSNEW_FUZZY, FALSE );
+             SETAABITEM( hwndMenu, IDM_TRANSNEW_NONE, FALSE );
              SETAABITEM( hwndMenu, IDM_MARKSEG, FALSE );
              SETAABITEM( hwndMenu, IDM_GOTOMARK, FALSE );
              SETAABITEM( hwndMenu, IDM_CLEARMARK, FALSE );
@@ -1355,6 +1364,9 @@ VOID EQFBInitMenu
              SETAABITEM( hwndMenu, IDM_GOTO, FALSE );
              SETAABITEM( hwndMenu, IDM_TRANSSEG, FALSE );
              SETAABITEM( hwndMenu, IDM_TRANSNEW, FALSE );
+             SETAABITEM( hwndMenu, IDM_TRANSNEW_EXACT, FALSE );
+             SETAABITEM( hwndMenu, IDM_TRANSNEW_FUZZY, FALSE );
+             SETAABITEM( hwndMenu, IDM_TRANSNEW_NONE, FALSE );
              SETAABITEM( hwndMenu, IDM_MARKSEG, FALSE );
              SETAABITEM( hwndMenu, IDM_GOTOMARK, FALSE );
              SETAABITEM( hwndMenu, IDM_CLEARMARK, FALSE );
@@ -1732,6 +1744,9 @@ BOOL EQFBEnableToolbarItem
           fEnabled = (pDoc->pfnShowTrans != NULL );
           break;
         case IDM_TRANSNEW:
+        case IDM_TRANSNEW_EXACT:
+        case IDM_TRANSNEW_FUZZY:
+        case IDM_TRANSNEW_NONE:
           fEnabled = !pDoc->fXlated;
           break;
         case IDM_GOTOMARK:
@@ -1842,6 +1857,9 @@ BOOL EQFBEnableToolbarItem
         case IDM_FILE_MENU:
         case IDM_TRANSSEG:
         case IDM_TRANSNEW:
+        case IDM_TRANSNEW_EXACT:
+        case IDM_TRANSNEW_FUZZY:
+        case IDM_TRANSNEW_NONE:
         case IDM_MARKSEG:
         case IDM_GOTOMARK:
         case IDM_CLEARMARK:

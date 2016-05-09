@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -398,6 +398,8 @@ int removeMemoryUser(PSZ pszName, PSZ userName);
 */
 int listMemoryUsers(PSZ pszName, std::vector<std::string> &users);
 
+int replicateWithServer(PSZ pszName,OtmMemory* pLocalMem, bool isUpload);
+
 /*! \brief Stops the plugin. 
 	Terminating-function for the plugin, will be called directly before
 	the DLL containing the plugin will be unloaded.\n
@@ -536,6 +538,10 @@ BOOL stopReplicator();
 	\returns true when successful 
 */
 BOOL startReplicator();
+
+void initCreationDatas();
+int batchUpload(PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem);
+int batchDownload(PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem);
 
 };
 

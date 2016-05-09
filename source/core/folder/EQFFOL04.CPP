@@ -4055,6 +4055,7 @@ BOOL GFR_AddFindPosToResultList( PFOLFINDDATA pIda, PFOLFINDRESULTENTRY *ppEntry
       strcpy( pIda->szStatusLine, ERROR_MEMORY_STRING );
       return( FALSE );
     }
+    (*ppEntry)->iSize = iNewLen;
     (*ppEntry)->iAllocatedEntries += 10;
   }
 

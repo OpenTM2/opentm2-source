@@ -1,7 +1,7 @@
 //+----------------------------------------------------------------------------+
 //| SHOWFXP.C                                                                  |
 //+----------------------------------------------------------------------------+
-// Copyright (C) 2012-2015, International Business Machines
+// Copyright (C) 2012-2016, International Business Machines
 // Corporation and others.  All rights reserved.
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -86,7 +86,7 @@ char szLongDocName[512];               // buffer for long document names
 char szFolMarkup[MAX_FILESPEC];        // markup as defined in folder
 char szInFile[1024];                   // buffer for input file name
 char szDate[128];
-char szBuffer[8096];
+char szBuffer[32000];
 char szName[512];
 
 BYTE bPropBuffer[60000];               // buffer for property files
@@ -895,14 +895,33 @@ int main
               }
               else if ( pFileEntry->usFileType == MEMORY_INFO_FILE )
               {
-                // info file name consists of foldername + ".F00" + "-" + memoryshortname + ".INFO"
-                PSZ pszNamePos = UtlGetFnameFromPath( pFileEntry->pszName );
-                pszNamePos = strchr( pszNamePos, '-' );
-                if ( pszNamePos != NULL )
+                PSZ pszName = NULL;
+                // GQ: show memory long name using the info from the .INFO file
+                memset( szBuffer, 0, sizeof(szBuffer) );
+                GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
+                pszName = strstr( szBuffer, "Name=" );
+                if ( pszName == NULL )
                 {
-                  Utlstrccpy( szName, pszNamePos + 1, DOT );
+                  // no name info found, show short name instead
+                  PSZ pszNamePos = UtlGetFnameFromPath( pFileEntry->pszName );
+                  pszNamePos = strchr( pszNamePos, '-' );
+                  if ( pszNamePos != NULL )
+                  {
+                    Utlstrccpy( szName, pszNamePos + 1, DOT );
+                    printf( "   %s\n", szName );
+                  } /* endif */
+                }
+                else
+                {
+                  // find end of name entry
+                  PSZ pszEnd = strchr( pszName, '\r' );
+                  if ( pszEnd == NULL ) pszEnd = strchr( pszName, '\n' );
+                  if ( pszEnd != NULL ) *pszEnd = EOS;
+                  strcpy( szName, pszName + 5 );
                   printf( "   %s\n", szName );
                 } /* endif */
+
+                //// info file name consists of foldername + ".F00" + "-" + memoryshortname + ".INFO"
               } /* endif */
               ulNoOfEntries--;            // skip to next entry in file list
               pFileEntry++;
@@ -938,9 +957,23 @@ int main
             pFileEntry    = FileList.pEntries;
             while ( fOK && ulNoOfEntries )
             {
-              if (pFileEntry->usFileType == DICTIONARY_DATA_FILE)
+              if (pFileEntry->usFileType == DICTIONARY_PROP_FILE)
               {
-                Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
+                PPROPDICTIONARY pProp;
+
+                // GQ: show dictionary long name using the info from the dictionary property file
+                memset( szBuffer, 0, sizeof(szBuffer) );
+                GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
+                pProp = (PPROPDICTIONARY)szBuffer;
+                if ( pProp->szLongName[0] != EOS )
+                {
+                  strcpy( szName, pProp->szLongName );
+                }
+                else
+                {
+                  Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
+                } /* endif */
+
                 printf( "   %s\n", szName );
               } /* endif */
               ulNoOfEntries--;            // skip to next entry in file list

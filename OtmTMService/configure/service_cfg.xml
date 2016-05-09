@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+        
+<service_cfg>
+    
+	<url name="service_url">http://localhost:8085/tmservice</url>
+	
+	<downloadsize name="maxsize_per_time">3</downloadsize>
+	
+	<db>
+	    <property name="driver_class">com.mysql.jdbc.Driver</property>
+	    <property name="user_name">OtmAdmin</property>
+	    <property name="user_password">OtmAdmin</property>
+	    <property name="server_ip">localhost</property>
+	    <property name="server_port">3306</property>
+	</db>
+	
+</service_cfg>
+

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2013, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 
@@ -180,6 +180,7 @@ protected:
 
         afx_msg VOID    OnEBus()  { StartBrowser("home"); } // Start the homepage
         afx_msg VOID    OnEBus1() { StartBrowser("docu"); } // Start the Online Docu
+        afx_msg VOID    OnTechGuide() { StartBrowser("techguide"); } // Start the Online Docu
         afx_msg VOID    OnEBus2() { StartBrowser("docuHTML"); } // Start the Online Docu
         afx_msg LRESULT OnFillFolderTree( WPARAM mp1, LPARAM mp2 );
         afx_msg LRESULT OnDriveChanged(WPARAM mp1, LPARAM mp2);
@@ -249,6 +250,7 @@ protected:
         afx_msg LRESULT On_WM_EQF_TERMINATE( WPARAM mp1, LPARAM mp2 ) ;
         afx_msg VOID OnEBus()  { StartBrowser("home"); }  // Start the homepage
         afx_msg VOID OnEBus1() { StartBrowser("docu"); }  // Start the Online Docu
+        afx_msg VOID OnTechGuide() { StartBrowser("techguide"); }  // Start the Online Docu
         afx_msg VOID OnEBus2() { StartBrowser("docuHTML"); }  // Start the Online Docu
 
         //}}AFX_MSG

@@ -1,5 +1,5 @@
 @ECHO OFF
-rem Copyright (c) 2013,2014 International Business Machines
+rem Copyright (c) 2013,2016 International Business Machines
 rem Corporation and others.  All rights reserved.
 
 call my-config.bat
@@ -9,6 +9,8 @@ set RELEASE_DIR=%_DRIVE%\%_DEVDIR%\RELEASE
 
 rem directory for OpenTM2 Scripter GUI
 set SCRIPTERGUI_DIR=%_DRIVE%\%_DEVDIR%\openTM2ScripterGUI
+rem directory for OtmTMService
+set OTMTMSERVICE_DIR=%_DRIVE%\%_DEVDIR%\OtmTMService
 rem folder containing the sample data
 set SAMPLEDATADIR=%_DRIVE%\%_DEVDIR%\SAMPLEDATA
 
@@ -83,7 +85,7 @@ rem set _CL_WARNINGS=/W4 /wd4201 /wd4214 /wd4238
 
 rem base compiler options used for all compiles
 set _CL_OPT_BASE=/nologo /c /Zp1 /EHsc %_CL_WARNINGS% /D_WINDOWS /DWIN32BIT /D_WIN32 /D_LNG_JAP  /D_MT /D_WINDLL /DKOREA /D_CRT_SECURE_NO_WARNINGS /D_USE_32BIT_TIME_T /D ZLIB_WINAPI
-set _CL_OPT_BASE=%_CL_OPT_BASE% /TP /DCPPTEST
+set _CL_OPT_BASE=%_CL_OPT_BASE% /TP /DCPPTEST 
 
 rem compile options C files for executables - debug/nodebug
 set _CL_OPTIONS_EXE_DEBUG=%_CL_OPT_BASE% /Zi /Od /Ob2 /FR /GA -Od -Zi /D_DEBUG /DDEBUGLOG /DSHOWDEBUGTITLEBARTEXT

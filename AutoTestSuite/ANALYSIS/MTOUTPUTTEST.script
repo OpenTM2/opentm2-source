@@ -1,0 +1,174 @@
+****************************************************************************************************
+** Script name...: MTOUTPUTTEST.script                                                            **
+** Purpose.......: Script testing the various MT output files created during analysis             **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: November 30, 2015                                                              **
+** Update........: December 16, 2015                                                              **
+** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+****************************************************************************************************
+* define the location for the test data and the target directories inside OpenTM2
+****************************************************************************************************
+define Data,%TestDataLocation%\ANALYSIS\MTOUTPUT
+define MTFilePath,\OTM\MT
+define PropPath,\OTM\PROPERTY
+
+****************************************************************************************************
+* Prepare test data and cleanup any files left over from previous runs... 
+****************************************************************************************************
+DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+DeleteFile %MTFilePath%\MTOUTPUT.allsegs.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.allsegs.XML
+DeleteFile %MTFilePath%\MTOUTPUT.nomatch.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.nomatch.XML
+DeleteFile %MTFilePath%\MTOUTPUT.noproposal.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.noproposal.XML
+DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.XML
+DeleteFile %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+EqfDeleteFolder MTOUTPUT
+EqfDeleteMem MTOUTPUT
+EqfImportFolderFP MTOUTPUT, %DATA%, , WITHMEM_OPT
+
+****************************************************************************************************
+* Make a backup copy of the original MT output trigger file 
+****************************************************************************************************
+CopyFile %PropPath%\EQFNFLUENT.TRG, %PropPath%\EQFNFLUENT.TRG-MTOUTPUTTESTCASE.BAK, OVERWRITE_OPT
+
+TESTCASE ANA_MTOUTPUT_001,Test the creation of the MT output files in EXP format
+  CopyFile %DATA%\EQFNFLUENT-EXPOUTPUT.TRG, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+  EqfAnalyzeDoc MTOUTPUT, , , (TMMATCH_OPT,AUTOSUBST_OPT,SENDTOMT_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfAnalyzeDoc for MTOUTPUT test folder failed
+  COMPAREBINARY %DATA%\ALLSEGS.EXP, %MTFilePath%\MTOUTPUT.allsegs.EXP
+  TESTRESULT 0, ALLSEGS.EXP output does not match expected content
+  COMPAREBINARY %DATA%\NOMATCH.EXP, %MTFilePath%\MTOUTPUT.nomatch.EXP
+  TESTRESULT 0, NOMATCH.EXP output does not match expected content
+  COMPAREBINARY %DATA%\NOPROPOSAL.EXP, %MTFilePath%\MTOUTPUT.noproposal.EXP
+  TESTRESULT 0, NOPROPOSAL.EXP output does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUT.allsegs.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.nomatch.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.noproposal.EXP
+End
+
+TESTCASE ANA_MTOUTPUT_002,Test the creation of the MT output files in EXP format with no duplicate option
+  CopyFile %DATA%\EQFNFLUENT-EXPOUTPUT-NODUPS.TRG, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+  EqfAnalyzeDoc MTOUTPUT, , , (TMMATCH_OPT,AUTOSUBST_OPT,SENDTOMT_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfAnalyzeDoc for MTOUTPUT test folder failed
+  COMPAREBINARY %DATA%\ALLSEGS-NODUP.EXP, %MTFilePath%\MTOUTPUT.allsegs.EXP
+  TESTRESULT 0, ALLSEGS.EXP output with no duplicates does not match expected content
+  COMPAREBINARY %DATA%\NOMATCH-NODUP.EXP, %MTFilePath%\MTOUTPUT.nomatch.EXP
+  TESTRESULT 0, NOMATCH.EXP output with no duplicates does not match expected content
+  COMPAREBINARY %DATA%\NOPROPOSAL-NODUP.EXP, %MTFilePath%\MTOUTPUT.noproposal.EXP
+  TESTRESULT 0, NOPROPOSAL.EXP output with no duplicates does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUT.allsegs.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.nomatch.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.noproposal.EXP
+End
+
+TESTCASE ANA_MTOUTPUT_003,Test the creation of the MT output files in XML format
+  CopyFile %DATA%\EQFNFLUENT-XMLOUTPUT.TRG, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+  EqfAnalyzeDoc MTOUTPUT, , , (TMMATCH_OPT,AUTOSUBST_OPT,SENDTOMT_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfAnalyzeDoc for MTOUTPUT test folder failed
+  COMPAREBINARY %DATA%\ALLSEGS.XML, %MTFilePath%\MTOUTPUT.allsegs.XML
+  TESTRESULT 0, ALLSEGS.XML output does not match expected content
+  COMPAREBINARY %DATA%\NOMATCH.XML, %MTFilePath%\MTOUTPUT.nomatch.XML
+  TESTRESULT 0, NOMATCH.XML output does not match expected content
+  COMPAREBINARY %DATA%\NOPROPOSAL.XML, %MTFilePath%\MTOUTPUT.noproposal.XML
+  TESTRESULT 0, NOPROPOSAL.XML output does not match expected content
+  COMPAREBINARY %DATA%\ALLWMATCH.XML, %MTFilePath%\MTOUTPUT.allwmatch.XML
+  TESTRESULT 0, ALLWMATCH.XML output does not match expected content
+  COMPAREBINARY %DATA%\ALLWMATCHSOURCE.XML, %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+  TESTRESULT 0, ALLWMATCHSOURCE.XML output does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUT.allsegs.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.nomatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.noproposal.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+End
+
+TESTCASE ANA_MTOUTPUT_004,Test the creation of the MT output files in XML format with no duplicate option
+  CopyFile %DATA%\EQFNFLUENT-XMLOUTPUT-NODUPS.TRG, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+  EqfAnalyzeDoc MTOUTPUT, , , (TMMATCH_OPT,AUTOSUBST_OPT,SENDTOMT_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfAnalyzeDoc for MTOUTPUT test folder failed
+  COMPAREBINARY %DATA%\ALLSEGS-NODUP.XML, %MTFilePath%\MTOUTPUT.allsegs.XML
+  TESTRESULT 0, ALLSEGS.XML output  with no duplicates does not match expected content
+  COMPAREBINARY %DATA%\NOMATCH-NODUP.XML, %MTFilePath%\MTOUTPUT.nomatch.XML
+  TESTRESULT 0, NOMATCH.XML output  with no duplicates does not match expected content
+  COMPAREBINARY %DATA%\NOPROPOSAL-NODUP.XML, %MTFilePath%\MTOUTPUT.noproposal.XML
+  TESTRESULT 0, NOPROPOSAL.XML output  with no duplicates does not match expected content
+  COMPAREBINARY %DATA%\ALLWMATCH-NODUP.XML, %MTFilePath%\MTOUTPUT.allwmatch.XML
+  TESTRESULT 0, ALLWMATCH.XML output  with no duplicates does not match expected content
+  COMPAREBINARY %DATA%\ALLWMATCHSOURCE-NODUP.XML, %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+  TESTRESULT 0, ALLWMATCHSOURCE.XML output with no duplicates does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUT.allsegs.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.nomatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.noproposal.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+End
+
+TESTCASE ANA_MTOUTPUT_005,Test the creation of all MT output files with word count information
+  CopyFile %DATA%\EQFNFLUENT-WORDCOUNT.TRG, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+  EqfAnalyzeDoc MTOUTPUT, , , (TMMATCH_OPT,AUTOSUBST_OPT,SENDTOMT_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfAnalyzeDoc for MTOUTPUT test folder failed
+  COMPAREBINARY %DATA%\ALLSEGS-WCNT.XML, %MTFilePath%\MTOUTPUT.allsegs.XML
+  TESTRESULT 0, ALLSEGS.XML output  with word count information does not match expected content
+  COMPAREBINARY %DATA%\NOMATCH-WCNT.XML, %MTFilePath%\MTOUTPUT.nomatch.XML
+  TESTRESULT 0, NOMATCH.XML output with word count information does not match expected content
+  COMPAREBINARY %DATA%\NOPROPOSAL-WCNT.XML, %MTFilePath%\MTOUTPUT.noproposal.XML
+  TESTRESULT 0, NOPROPOSAL.XML output with word count information does not match expected content
+  COMPAREBINARY %DATA%\ALLSEGS-WCNT.XML, %MTFilePath%\MTOUTPUT.allsegs.XML
+  TESTRESULT 0, ALLSEGS.XML output with word count information does not match expected content
+  COMPAREBINARY %DATA%\NOMATCH-WCNT.XML, %MTFilePath%\MTOUTPUT.nomatch.XML
+  TESTRESULT 0, NOMATCH.XML output with word count information does not match expected content
+  COMPAREBINARY %DATA%\NOPROPOSAL-WCNT.XML, %MTFilePath%\MTOUTPUT.noproposal.XML
+  TESTRESULT 0, NOPROPOSAL.XML output with word count information not match expected content
+  COMPAREBINARY %DATA%\ALLWMATCH-WCNT.XML, %MTFilePath%\MTOUTPUT.allwmatch.XML
+  TESTRESULT 0, ALLWMATCH.XML output with word count information does not match expected content
+  COMPAREBINARY %DATA%\ALLWMATCHSOURCE-WCNT.XML, %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+  TESTRESULT 0, ALLWMATCHSOURCE.XML output with word count information does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUT.allsegs.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.nomatch.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.noproposal.EXP
+  DeleteFile %MTFilePath%\MTOUTPUT.allsegs.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.nomatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.noproposal.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+End
+
+TESTCASE ANA_MTOUTPUT_006,Test the creation of the XLIFF MT output file
+  CopyFile %DATA%\EQFNFLUENT-XLIFF.TRG, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+  EqfAnalyzeDoc MTOUTPUT, , , (TMMATCH_OPT,AUTOSUBST_OPT,SENDTOMT_OPT,OVERWRITE_OPT)
+  TESTRESULT 0, EqfAnalyzeDoc for MTOUTPUT test folder failed
+  COMPAREBINARY %DATA%\ALL.XLF, %MTFilePath%\MTOUTPUT.all.XLF
+  TESTRESULT 0, ALL.XLF outputdoes not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+End
+
+
+* general testcase cleanup
+DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+DeleteFile %MTFilePath%\MTOUTPUT.allsegs.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.allsegs.XML
+DeleteFile %MTFilePath%\MTOUTPUT.nomatch.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.nomatch.XML
+DeleteFile %MTFilePath%\MTOUTPUT.noproposal.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.noproposal.XML
+DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.EXP
+DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.XML
+DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+EqfDeleteFolder MTOUTPUT
+EqfDeleteMem MTOUTPUT
+* restore original MT output triger file
+CopyFile %PropPath%\EQFNFLUENT.TRG-MTOUTPUTTESTCASE.BAK, %PropPath%\EQFNFLUENT.TRG, OVERWRITE_OPT
+DeleteFile %PropPath%\EQFNFLUENT.TRG-MTOUTPUTTESTCASE.BAK
+
+

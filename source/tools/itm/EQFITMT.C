@@ -5,7 +5,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -2605,6 +2605,10 @@ void ITMCommand
 
    case PID_FILE_MI_EBUS1:
 	  StartBrowser("docu");
+	  break;
+
+   case PID_FILE_MI_TECHGUIDE:
+	  StartBrowser("techguide");
 	  break;
 
    case PID_FILE_MI_EBUS2:

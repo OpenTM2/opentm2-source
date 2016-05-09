@@ -1,5 +1,5 @@
 /*! EQF.H - General .H file 
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 
 	Include Files:
 	without any special defines the following files are included
@@ -1925,6 +1925,7 @@ USHORT    ObjBroadcast( WINMSG msg, SHORT sClass, PSZ pszObjName );
                                       // area of redundancy log
 #define MAX_SEARCH_HIST         5     // max number of search history
 #define MAX_FILELIST            8096  // max length of non-dde filelist buffer
+#define MAX_DICTPID_VALUES      400   // max. length of dict. PID values
 
 /*********************************************************************/
 /* defines of CLB colum widths                                       */
@@ -2551,6 +2552,8 @@ typedef struct _OPENANDPOS
   USHORT     usLen;                    // length of string
   CHAR_W     chFind[MAX_FINDCHANGE_LEN+1]; // buffer for find string
   ULONG      ulLine;                    // line in document to find (ulSeg has to be 0)
+  BOOL       fSpellcheck;               // TRUE = start spellchecking after opening of documents
+  PSZ        pszDocumentList;           // list of document object names to be spellchecked
 } OPENANDPOS, *POPENANDPOS;
 
 /**********************************************************************/
@@ -6252,15 +6255,17 @@ typedef struct _PROPFOLDER
 
    // dictionary selection by PID value            
    EQF_BOOL  fDictPIDSelect;                 // TRUE = select dict. by PID value
-   CHAR      szDictPIDSelect[60];            // PID values to select
+   CHAR      szDictPIDSelect1[60];           // PID values to select (Old value)
 
    // TVT tracking info
    USHORT    usLastAssignedDocNum ;         // Last used document number in folder
    EQF_BOOL  fSavedDlgFExpoWithTrackID;     // selection of with TVT tracking ID button
 
+   CHAR      szDictPIDSelect2[MAX_DICTPID_VALUES]; // PID values to select
+
 
    //----------------Reserve -------------------------------------------------
-   CHAR      CHRESERVE[789];          // RESERVE SPACE/FILLER (FILLS PROPS TO 32kB)
+   CHAR      CHRESERVE[389];          // RESERVE SPACE/FILLER (FILLS PROPS TO 32kB)
 
 } PROPFOLDER, *PPROPFOLDER;
 
@@ -7367,6 +7372,11 @@ BOOL WriteStringToRegistry( PSZ pszAppl, PSZ pszKey, PSZ pszValue );
 __declspec(dllexport)
 BOOL WriteIntToRegistry( PSZ pszAppl, PSZ pszKey, int iValue );
 
+
+// some prefefined key for usage within the additional data section
+#define MATCHSEGID_KEY L"MatchSegID" 
+#define MATCHSEGID_ATTR L"ID" 
+
 // utility functions for the processing of proposal additional data
 
 // functions and defines for the access to additional data of proposals
@@ -7383,6 +7393,17 @@ BOOL MDAGetValueForKey( HADDDATAKEY pKey, PSZ_W pszBuffer, int iBufSize, PSZ_W p
 // get the value for a specific attribute
 __declspec(dllexport)
 BOOL MADGetAttr( HADDDATAKEY pKey, PSZ_W pszAttrName, PSZ_W pszBuffer, int iBufSize, PSZ_W pszDefault );
+
+// delete a key and its associated data
+__declspec(dllexport)
+BOOL MADDeleteKey( HADDDATAKEY pKey );
+
+// Add a match segment ID to the additional data section
+BOOL MADAddMatchSegID( PSZ_W pszAddData, PSZ_W pszMatchIDPrefix, ULONG ulNum, BOOL fForce );
+
+// prepare the match segment ID prefix using the provided TM_ID and StoreID
+BOOL MADPrepareMatchSegIDPrefix( PSZ pszTM_ID, PSZ pszStoreID, PSZ pszMatchID );
+
 
 __declspec(dllexport)
 VOID    CloseFile( HFILE * );

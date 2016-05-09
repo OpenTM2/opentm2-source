@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
   #define NOEXTRESMOD
@@ -2574,8 +2574,10 @@ void HandlePopupMenu( HWND hwnd, POINT point, SHORT sMenuID )
        AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_ADDUSER, "Add User");
        AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_REMOVEUSER, "Remove User");
        AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_LISTUSER, "List User");
+	   AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_UPLOADTOSERVER, "Batch upload");
+	   AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_DOWNFROMSERVER, "Batch download");
      } 
-
+	
   }  
 
   /* Convert the mouse point to screen coordinates since that is what

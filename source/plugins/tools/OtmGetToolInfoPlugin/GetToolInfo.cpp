@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -385,7 +385,11 @@ int GetToolInfo::ShowPluginsInfo()
     PluginManager* thePluginManager = PluginManager::getInstance();
     OtmPlugin*     otmPlugin;
 
-    thePluginManager->loadPluginDlls(m_strPluginPath);
+    nRC = thePluginManager->loadPluginDlls(m_strPluginPath);
+    if (nRC)
+    {
+        return nRC;
+    }
 
     int nCnt = thePluginManager->getPluginCount();
     // first add removable plugin

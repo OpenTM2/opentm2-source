@@ -1,4 +1,4 @@
-//	Copyright (C) 1990-2013, International Business Machines
+//	Copyright (C) 1990-2016, International Business Machines
 //	Corporation and others. All rights reserved
 #ifndef _OTMMARKUPPLUGIN_H_
 #define _OTMMARKUPPLUGIN_H_
@@ -46,7 +46,7 @@ public:
 
 	virtual const char* getSupplier() = 0;
 
-	virtual const bool updateFiles(
+	virtual const int updateFiles(
        char   *pszMarkupName,
        char   *pszDescription,
        char   *pszVersion,

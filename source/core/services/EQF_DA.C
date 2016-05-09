@@ -467,7 +467,8 @@ VOID EQFDAEntries
      pUCB->fDictPIDSelect = ppropFolder->fDictPIDSelect ;
      if ( ( pUCB->fDictPIDSelect      ) &&
           ( ! pUCB->fDictPIDFieldsSet ) ) {
-        strcpy( pUCB->szDictPIDSelect, ppropFolder->szDictPIDSelect ) ;
+        strcpy( pUCB->szDictPIDSelect, ppropFolder->szDictPIDSelect1 ) ;
+        strcat( pUCB->szDictPIDSelect, ppropFolder->szDictPIDSelect2 ) ;
         pUCB->fDictPIDFieldsSet = TRUE ; 
 
         HPROP            hDicProp;               // dictionary properties handle

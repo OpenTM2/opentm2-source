@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |      Copyright (C) 1990-2015, International Business Machines              |
+# |      Copyright (C) 1990-2016, International Business Machines              |
 # |      Corporation and others. All rights reserved                           |
 # +----------------------------------------------------------------------------+
 
@@ -39,17 +39,18 @@
 !include $(_BLD)\tools.mak
 !include $(_BLD)\OpenTM2Scripter.mak
 !include $(_BLD)\OpenTM2ScripterGUI.mak
+!include $(_BLD)\OtmTMService.mak
 !include $(_BLD)\eqfmkmsg.mak
 !include $(_BLD)\standard.mak
 !include $(_BLD)\rtfedit.mak
 !include $(_BLD)\OtmDocumentation.mak
 !include $(_BLD)\OtmMarkupTablePlugin.MAK
 !include $(_BLD)\UserMarkupTablePlugin.MAK
- 
 !include $(_BLD)\OtmCleanupPlugin.mak
 !include $(_BLD)\OtmToolsLauncherPlugin.mak
 !include $(_BLD)\OpenTM2ToolsLauncher.mak
 !include $(_BLD)\OtmGetToolInfo.mak
 !include $(_BLD)\OtmSetToolPathEnv.mak
+!include $(_BLD)\OtmProfileMgrPlugin.mak
 !include $(_BLD)\BUILDRELEASE.MAK
 

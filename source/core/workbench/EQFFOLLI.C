@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -775,6 +775,7 @@ LPARAM           mp2
               UtlMenuEnableItem( PID_FILE_MI_HTMLPROPS );
               UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
               UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
+              UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
             }
             else if ( iDocs == 0 )
             {
@@ -798,6 +799,7 @@ LPARAM           mp2
               UtlMenuEnableItem( PID_UTILS_MI_EXPORTSEGS );
               UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
               UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
+              UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
             }
             else
             {
@@ -810,6 +812,7 @@ LPARAM           mp2
               UtlMenuEnableItem( PID_UTILS_MI_EXPORTSEGS );
               UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
               UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
+              UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
             } /* endif */
           } /* endif */
           if (!fAFCFolderRestrict) UtlMenuEnableItem( PID_FILE_MI_DELETE );
@@ -856,6 +859,8 @@ LPARAM           mp2
     case PID_FILE_MI_HTMLPROPS:
     case PID_FILE_MI_FINDCHANGE:
     case PID_FILE_MI_FUZZYSEARCH:
+    case PID_FILE_MI_SPELLCHECK:
+
       {
         SHORT sItem = QUERYNEXTSELECTIONHWND( pCommArea->hwndLB, LIT_FIRST );
         if ( sItem != LIT_NONE )
@@ -889,6 +894,7 @@ LPARAM           mp2
               case PID_FILE_MI_PROPERTIES:
               case PID_FILE_MI_FINDCHANGE:
               case PID_FILE_MI_FUZZYSEARCH:
+              case PID_FILE_MI_SPELLCHECK:
                 mResult = WinSendMsg( pCommArea->hwndLB, LM_EQF_QUERYITEMSTATE,
                                       MP1FROMSHORT(sItem), 0L );
                 break;
@@ -916,6 +922,7 @@ LPARAM           mp2
               case PID_FILE_MI_PROPERTIES:
               case PID_FILE_MI_FINDCHANGE:
               case PID_FILE_MI_FUZZYSEARCH:
+              case PID_FILE_MI_SPELLCHECK:
                 mResult = WinSendMsg( pCommArea->hwndLB, LM_EQF_QUERYITEMSTATE,
                                       MP1FROMSHORT(sItem), 0L );
                 break;
@@ -1563,6 +1570,10 @@ LPARAM           mp2
 
     case PID_FILE_MI_FUZZYSEARCH:
       FolFuzzySearch( pCommArea->szObjName, FALSE, FALSE );
+      break;
+
+    case PID_FILE_MI_SPELLCHECK:
+      FolSpellcheck( pCommArea->szObjName, FALSE, FALSE );
       break;
 
     case PID_FILE_MI_PRINTLIST:

@@ -1,4 +1,4 @@
-// Copyright (c) 1996-2012, International Business Machines
+// Copyright (c) 1996-2016, International Business Machines
 // Corporation and others.  All rights reserved.
 //
 
@@ -76,6 +76,7 @@ BEGIN
     MENUITEM SEPARATOR
     MENUITEM STR_FILE_MI_EBUS, PID_FILE_MI_EBUS
     MENUITEM STR_FILE_MI_EBUS1, PID_FILE_MI_EBUS1
+    MENUITEM STR_FILE_MI_TECHGUIDE, PID_FILE_MI_TECHGUIDE
     MENUITEM SEPARATOR
     MENUITEM STR_HELP_MI_PRODUCTINFO, PID_HELP_MI_PRODUCTINFO
   END

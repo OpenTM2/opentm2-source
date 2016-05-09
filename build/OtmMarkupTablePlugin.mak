@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------------
 # OtmMarkupTablePlugin.mak    - Makefile for the OTM markup table plugin DLL
 #                               and the related markup table user exits 
-# Copyright (c) 2013,2014 International Business Machines
+# Copyright (c) 2013,2016 International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -22,6 +22,7 @@ build:    $(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL \
           $(_OTMMARKUP_DLL)\OTMQUOTE.DLL    \
           $(_OTMMARKUP_DLL)\OTMHTM32.DLL    \
           $(_OTMMARKUP_DLL)\OTMJDK11.DLL    \
+          $(_OTMMARKUP_DLL)\OTMMSOFC.DLL    \
           $(_OTMMARKUP_DLL)\OTMXML.DLL      \
           $(_OTMMARKUP_DLL)\OTMXMODC.DLL 
 
@@ -124,6 +125,13 @@ $(_OTMMARKUP_RELEASE_DIR)\TABLE\OtmMarkupTablePlugin.XML:
 #------------------------------------------------------------------------------
 #   @nmake $(_MAKEOPT) $(_OTMMARKUP_SRC)\otmjdk21\otmjdk21.mak
 !INCLUDE $(_OTMMARKUP_SRC)\otmjdk21\otmjdk21.mak
+
+
+#------------------------------------------------------------------------------
+# OTMMSOFC.  Build markup table.
+#------------------------------------------------------------------------------
+#   @nmake $(_MAKEOPT) $(_OTMMARKUP_SRC)\otmmsofc\otmmsofc.mak
+!INCLUDE $(_OTMMARKUP_SRC)\otmmsofc\otmmsofc.mak
 
 
 #------------------------------------------------------------------------------

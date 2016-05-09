@@ -1,4 +1,4 @@
-; Copyright (c) 2015, International Business Machines
+; Copyright (c) 2016, International Business Machines
 ; Corporation and others.  All rights reserved.
 
 ;NSIS Source for OpenTM2 installer  
@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.2.4.1-Community-Edition"
+!define PRODUCT_VERSION "1.3.0-Community-Edition"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -400,7 +400,8 @@ ${File} "MSG\" "EQFWE.HLP"
 
 ${SetOutPath} "$INSTDIR\DOC"
 ${File} "DOC\" "PluginManager.chm"
-${File} "DOC\" "eqfr5mst.pdf"
+${File} "DOC\" "Opentm2TechnicalReference.pdf"
+${File} "DOC\" "Opentm2TranslatorsReference.pdf"
 ${File} "DOC\" "OpenTM2APICalls.pdf"
 
 SetOverwrite ifnewer
@@ -497,6 +498,9 @@ ${File} "TABLE\" "VALDOC3HTML.XSL"
 ${File} "TABLE\" "TMXNAMES.LST"
 ${File} "TABLE\" "OtmCleanup.lst"
 ${File} "TABLE\" "languages.xml"
+IfFileExists "$INSTDIR\DOC\eqfr5mst.PDF" 0 NoOldDocFile
+Delete "$INSTDIR\DOC\eqfr5mst.PDF"
+NoOldDocFile:
 IfFileExists "$INSTDIR\TABLE\PROPERTY.LNG" 0 NoPropertyLng
 Rename "$INSTDIR\TABLE\PROPERTY.LNG" "$INSTDIR\TABLE\PROPERTY.LNG.DONOTUSE"
 NoPropertyLng:
@@ -609,6 +613,8 @@ ${File} "PLUGINS\" "OtmCleanupPlugin.DLL"
 
 ${File} "PLUGINS\" "OtmToolsLauncherPlugin.DLL"
 
+${File} "PLUGINS\" "OtmProfileMgrPlugin.Dll"
+
 ${SetOutPath} "$INSTDIR\PLUGINS\OtmSpellHSPlugin"
 ${File} "PLUGINS\OtmSpellHSPlugin\" "OtmSpellHSPlugin.DLL"
 ${File} "PLUGINS\OtmSpellHSPlugin\" "LanguageConfig.lng"
@@ -619,15 +625,22 @@ ${File} "PLUGINS\UserMarkupTablePlugin\" "UserMarkupTablePlugin.DLL"
 
 !include ..\..\build\OtmMarkupTablePlugin_inc.nsi
 
- 
-${if} $MultiUser.InstallMode == "CurrentUser"
-     
-   
-${else}
-   
-     
-${endif}
 
+${SetOutPath} "$INSTDIR\OtmTMService"
+${File} "OtmTMService\" "OtmTMService.jar"
+${SetOutPath} "$INSTDIR\OtmTMService\configure"
+${File} "OtmTMService\configure\" "service_cfg.xml"
+${File} "OtmTMService\configure\" "log4j.properties"
+${SetOutPath} "$INSTDIR\OtmTMService\lib"
+${File} "OtmTMService\lib\" "c3p0-0.9.2.jar"
+${File} "OtmTMService\lib\" "dom4j-1.6.1.jar"
+${File} "OtmTMService\lib\" "flexjson-2.1.jar"
+${File} "OtmTMService\lib\" "jdom-1.1.3.jar"
+${File} "OtmTMService\lib\" "log4j-1.2.15.jar"
+${File} "OtmTMService\lib\" "mchange-commons-java-0.2.3.3.jar"
+${File} "OtmTMService\lib\" "mysql-connector-java-5.1.7-bin.jar"
+${SetOutPath} "$INSTDIR\OtmTMService\MANIFEST"
+${File} "OtmTMService\MANIFEST\" "MANIFEST.MF"
 
 ${SetOutPath} "$INSTDIR\OpenTM2ScripterGUI"
 ${File} "OpenTM2ScripterGUI\" "OpenTM2ScripterGUI.jar"
@@ -792,6 +805,10 @@ ${CreateShortCut} "$QUICKLAUNCH\OpenTM2.lnk" "$INSTDIR\WIN\OpenTM2Starter.exe"
 ${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\Initial Translation Memory.lnk" "$INSTDIR\WIN\OtmItm.exe"
 ${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\PluginManager Documentation.lnk" "$INSTDIR\DOC\PluginManager.chm"
 ${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\OpenTM2 API Call Reference.lnk" "$INSTDIR\DOC\OpenTM2APICalls.PDF"
+;Add for P403213 start
+${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\OpenTM2 Translator's Reference.lnk" "$INSTDIR\DOC\Opentm2TranslatorsReference.pdf"
+${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\OpenTM2 Technical Reference.lnk" "$INSTDIR\DOC\Opentm2TechnicalReference.pdf"
+;Add end
 ${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\OpenTM2 Official WebSite.lnk" "https://sites.google.com/site/opentm2/home"
 ${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\OpenTM2 Wiki.lnk" "http://www.beo-doc.de/opentm2wiki/index.php/Main_Page"
 ${CreateShortCut} "$SMPROGRAMS\$StartMenuFolder\OpenTM2 SVN Repository.lnk" "http://145.253.107.23/svn/opentm2/"

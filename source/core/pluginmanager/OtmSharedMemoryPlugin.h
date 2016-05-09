@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -308,6 +308,13 @@ virtual int importFromMemoryFiles
       PSZ pszName,
       std::vector<std::string> &users
     ) = 0;
+
+
+  virtual int replicateWithServer(
+	   PSZ pszName,
+	   OtmMemory* pLocalMem, 
+	   bool isUpload
+	   ) = 0;
 
 /* \brief add a new memory information to memory list
     \param pszName memory name

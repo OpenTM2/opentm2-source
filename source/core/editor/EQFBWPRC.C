@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -938,6 +938,15 @@ void EQFBWndProc_Command
      case IDM_TRANSNEW:                   // position at the next untransl.
         EQFBTSegNext( pDoc );
         break;
+     case IDM_TRANSNEW_EXACT:             // position at the next untransl. with EXACT matches
+        EQFBTSegNextExact( pDoc );
+        break;
+     case IDM_TRANSNEW_FUZZY:             // position at the next untransl. with FUZZY matches
+        EQFBTSegNextFuzzy( pDoc );
+        break;
+     case IDM_TRANSNEW_NONE:              // position at the next untransl. with NO matches
+        EQFBTSegNextNone( pDoc );
+        break;
      case IDM_UNTRANS:                    // untranslate the active segment
         EQFBTUnTrans( pDoc );
         break;
@@ -1009,6 +1018,7 @@ void EQFBWndProc_Command
         break;
      case IDM_PROOFALL:                   // spellcheck for file
         EQFBFuncSpellFile(pDoc);
+        fUpdate = FALSE;
         break;
      case IDM_AUTOSPELL:                   // autospellcheck on/off
         EQFBFuncSpellAuto(pDoc);
@@ -1646,6 +1656,7 @@ BOOL EQFBDocWndCreate ( PTBDOCUMENT pNewdoc,   // pointer to document structure
     CHAR      chDesc[ MAX_DESCRIPTION+1 ];        // title text
     USHORT    usWinId = 0;                    // window help id/resource id
     PDOCUMENT_IDA  pIda = NULL;               // pointer to document struct.
+    PSTEQFGEN pstEQFGen = NULL;               // generic structure
 
    hab = WinQueryAnchorBlock( pNewdoc->hwndClient );
                                           // prepare title bar for windows
@@ -1710,7 +1721,8 @@ BOOL EQFBDocWndCreate ( PTBDOCUMENT pNewdoc,   // pointer to document structure
      /* do special handling for some of the languages like Thai, Bidi  */
      /******************************************************************/
      pNewdoc->docType = pLoad->docType;
-     pIda = (PDOCUMENT_IDA)(((PSTEQFGEN)pNewdoc->pstEQFGen)->pDoc);
+     pstEQFGen = (PSTEQFGEN)pNewdoc->pstEQFGen;
+     pIda = (PDOCUMENT_IDA)(pstEQFGen->pDoc);
      EQFBDocSetCodePage(pNewdoc, pIda);
 
      if (IS_RTL(pNewdoc))
@@ -1771,7 +1783,7 @@ BOOL EQFBDocWndCreate ( PTBDOCUMENT pNewdoc,   // pointer to document structure
        /*********************************************************/
        /* init temp spellcheck buffer - if allocated   @KAT35 ??*/
        /*********************************************************/
-       if ( pSpellData )
+       if ( pSpellData && pSpellData->pIgnoreData &&  !pstEQFGen->fLoadedBySpellcheck ) 
        {
          pSpellData->pIgnoreNextFree = pSpellData->pIgnoreData;
          memset( pSpellData->pIgnoreData, 0, pSpellData->usIgnoreLen * sizeof(CHAR_W));
@@ -3053,6 +3065,11 @@ VOID EQFBFuncSpellSeg
 
   if (pDoc->docType == STARGET_DOC)
   {
+    if ( pDoc->pvSpellData )
+    {
+      pSpellData = (PSPELLDATA)pDoc->pvSpellData;
+    }
+
      pTBSeg = EQFBGetVisSeg(pDoc, &(pDoc->TBCursor.ulSegNum));
      fOK=((pDoc->EQFBFlags.PostEdit && pTBSeg->qStatus == QF_XLATED)
          || (!pDoc->EQFBFlags.PostEdit && pTBSeg->qStatus == QF_CURRENT));
@@ -3126,6 +3143,11 @@ VOID EQFBFuncSpellFile
 
   if (pDoc->docType == STARGET_DOC)
   {
+    if ( pDoc->pvSpellData )
+    {
+      pSpellData = (PSPELLDATA)pDoc->pvSpellData;
+    }
+
      if (!pSpellData)
      {
         UtlAlloc( (PVOID *) &pSpellData, 0L, (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
@@ -3144,24 +3166,101 @@ VOID EQFBFuncSpellFile
                         0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
         } /* endif */
      } /* endif */
+
      if ( pSpellData )
      {
         pSpellData->pDoc = pDoc;
         pSpellData->fSegOnly = FALSE;
 
-        DIALOGBOX( pDoc->hwndClient, EQFBSPELLDLGPROC, hResMod,
-                   ID_TB_SPELL_DLG, pSpellData, iRc );
+        DIALOGBOX( pDoc->hwndClient, EQFBSPELLDLGPROC, hResMod, ID_TB_SPELL_DLG, pSpellData, iRc );
 
         if ( iRc == DID_ERROR )
         {
           UtlError( ERROR_DIALOG_LOAD_FAILED, MB_CANCEL, 0 , NULL, EQF_ERROR );
+        }
+        else if ( iRc == SPELLCHECK_GO_TO_NEXT_DOC )   // current document has been processed completeley, go to the next document in the list
+        {
+           PCHAR_W pSavedIgnoreNextFree = NULL;         // saved ptr next free pos in IgnoreData
+           PCHAR_W pSavedIgnoreData = NULL;             // saved temp addenda buffer
+           USHORT  usSavedIgnoreLen = 0;                // saved length of allocated ignore data
+
+          USHORT usI = 0;
+          PSTEQFGEN pstEQFGen = (PSTEQFGEN)pDoc->pstEQFGen;
+
+          // save spelldata pointer in pstEqfGen structure
+          pstEQFGen->pvSpellData = pDoc->pvSpellData;
+
+          // load the next document
+          if ( EQF_XDOCINLIST( pstEQFGen, pstEQFGen->pszCurSpellCheckDoc, &usI ) != 0)
+          {
+            pstEQFGen->fLoadedBySpellcheck = TRUE; 
+            int iRc = EQF_XDOCADD( pstEQFGen, pstEQFGen->pszCurSpellCheckDoc );
+            if (iRc == 0)
+            {
+              PDOCUMENT_IDA pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
+              iRc = EQFBTenvStart ( pDoc, pstEQFGen->pszCurSpellCheckDoc, pstEQFGen );
+
+              UtlDispatch(); // process all start messages
+
+              // update titlebar and object name
+              //SetDocWindowText( pIdaDoc, pIdaDoc->hwnd, pstEQFGen->pszCurSpellCheckDoc );
+              //EqfChangeObjectName( pDoc->hwnd, pszNewDoc );
+            } /* endif */
+          }
+          else
+          {
+            int iRc = 0;
+
+            // activate it
+            pstEQFGen->fLoadedBySpellcheck = TRUE; 
+            iRc =  EQF_XDOCNUM( pstEQFGen, usI, (PSZ)pDoc->pInBuf );
+            if ( !iRc && *pDoc->pInBuf )
+            {
+              iRc = EQFBTenvStart( pDoc, (PSZ)pDoc->pInBuf, pstEQFGen );
+            } /* endif */
+          }
+
+
+          // save and close the current document
+          EQFBFuncFile( pDoc );
+          UtlDispatch(); 
+
+          // start spellchecking of next document
+          if ( pstEQFGen->pNewSpellCheckDoc != NULL ) 
+          {
+            // restore any saved tem. addendum data
+            if ( pSavedIgnoreData != NULL )
+            {
+              PTBDOCUMENT pNewDoc = (PTBDOCUMENT)pstEQFGen->pNewSpellCheckDoc;
+
+
+              //if ( pNewDoc->pvSpellData != NULL )
+              //{
+              //  pSavedIgnoreNextFree = pSpellData->pIgnoreNextFree;
+              //  pSavedIgnoreData = pSpellData->pIgnoreData;
+              //  usSavedIgnoreLen = pSpellData->usIgnoreLen;
+              //} /* endif */
+            } /* endif */
+
+            PostMessage( ((PTBDOCUMENT)(pstEQFGen->pNewSpellCheckDoc))->hwndClient, WM_COMMAND, MAKELONG( IDM_PROOFALL, 0), 0L );
+          } /* endif */
+
+        }
+        else if ( iRc == SPELLCHECK_LAST_DOC_DONE  )   // the current document has been processed and no more document is following
+        {
+          // save and close the current document
+          PostMessage( pDoc->hwndClient, WM_COMMAND, MAKELONG( IDM_FILE, 0), 0L );
+        }
+        else
+        {
+          if (pDoc->fAutoSpellCheck && pDoc->pvSpellData )
+    		  { 
+            // force that thread recalcs pusHLType
+		        PSPELLDATA pSpellData = (PSPELLDATA) pDoc->pvSpellData;
+		        pSpellData->TBFirstLine.ulSegNum = 0;
+		        pSpellData->TBFirstLine.usSegOffset = (USHORT)-1; // cannot be segoffs
+  	      }
         } /* endif */
-        if (pDoc->fAutoSpellCheck && pDoc->pvSpellData )
-		{ // force that thread recalcs pusHLType
-		    PSPELLDATA pSpellData = (PSPELLDATA) pDoc->pvSpellData;
-		    pSpellData->TBFirstLine.ulSegNum = 0;
-		    pSpellData->TBFirstLine.usSegOffset = (USHORT)-1; // cannot be segoffs
-	    }
      } /* endif */
   }
   else

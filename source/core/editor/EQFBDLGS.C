@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author:   R.Jornitz                                                         |
@@ -11,222 +11,6 @@
 //+----------------------------------------------------------------------------+
 //|Description:  Spellchecking dialog within Translation Processor             |
 //|                                                                            |
-//+----------------------------------------------------------------------------+
-//|Entry Points:                                                               |
-//|                                                                            |
-//|                                                                           |
-//|+-- status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          |
-//|            "Q"=Quick-and-dirty )                                           |
-//+----------------------------------------------------------------------------+
-//|Externals:                                                                  |
-//|                                                                            |
-//+----------------------------------------------------------------------------+
-//|Internals:                                                                  |
-//|                                                                            |
-//|                                                                           |
-//|+-- status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          |
-//|            "Q"=Quick-and-dirty )                                           |
-//+----------------------------------------------------------------------------+
-//|To be done / known limitations / caveats:                                   |
-//|                                                                            |
-//+----------------------------------------------------------------------------+
-//| PVCS Section                                                               |
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 25 Mar 2008
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 7 Sep 2004
-// --RJ: Accessibility: SpellDlg: support Enter on Help PB
-// -- Spell Dlg: delete unused #ifdef WINDOWS compiler define
-// 
-//
-// $Revision: 1.1 $ ----------- 30 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-//
-//
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-//
-//
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-//
-//
-// $Revision: 1.2 $ ----------- 9 Sep 2003
-// --RJ: P016951: RTFEditor: EQFBMisspelled: force highlight misspelled word
-//
-//
-// $Revision: 1.1 $ ----------- 27 Jun 2003
-//  -- New Release TM6.0.2!!
-//
-//
-// $Revision: 1.2 $ ----------- 24 Feb 2003
-// --RJ: delete obsolete code and remove (if possible)compiler warnings
-//
-//
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jul 2002
-//  -- New Release TM6.0!!
-//
-//
-// $Revision: 1.5 $ ----------- 15 Jul 2002
-// --RJ: use strncpy instead of strcpy to assure that no overtyping happens
-//
-//
-// $Revision: 1.4 $ ----------- 6 Feb 2002
-// --RJ: KBT1179: re-position spellcheck window
-//
-//
-// $Revision: 1.3 $ ----------- 26 Nov 2001
-// --RJ: fix error in Spellaid: use InsertItemW, QUERYITEMTEXTW
-//
-//
-// $Revision: 1.2 $ ----------- 3 Sep 2001
-// -- RJ: Unicode enablement
-//
-//
-// $Revision: 1.1 $ ----------- 16 Aug 2001
-//  -- New Release TM2.7.2!!
-//
-//
-// $Revision: 1.5 $ ----------- 7 May 2001
-// -- RJ: replace AnsiToOem by EQFAnsiToOem
-//
-//
-// $Revision: 1.4 $ ----------- 14 Feb 2001
-// -- Thai: use CONDOEMTOANSI in spellcheck dialog
-//
-//
-// $Revision: 1.3 $ ----------- 25 Sep 2000
-// -- add support for more than 64k segments
-//
-//
-//
-// $Revision: 1.2 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-//
-/*
- * $Header:   K:\DATA\EQFBDLGS.CV_   1.14   31 May 1999 10:48:10   BUILD  $
- *
- * $Log:   K:\DATA\EQFBDLGS.CV_  $
- *
- *    Rev 1.14   31 May 1999 10:48:10   BUILD
- * -- KBT0510: redraw screen and reset pusHLType after spellcheck on filedlg
- *
- *    Rev 1.13   11 May 1999 10:40:40   BUILD
- * -- update marking of misspelled words after change/ ignore / addenda
- *
- *    Rev 1.12   03 May 1999 09:14:24   BUILD
- * -- R004357_HLMISSPELLED: highlight misspelled words; make EQFBSpellIgnoreCheck
- *    accessible
- *
- *    Rev 1.11   15 Feb 1999 08:11:36   BUILD
- * -- KBT0422: avoid trap if Spellcheck temp add is full
- *
- *    Rev 1.10   08 Feb 1999 09:10:54   BUILD
- * -- KBT0446: Spellcheck should highlight word: set pBlock->usEndSegNum
- *
- *    Rev 1.9   12 Oct 1998 10:06:48   BUILD
- * - clear IME when EF looses input focus
- *
- *    Rev 1.8   18 May 1998 13:34:34   BUILD
- * -- KBT0306: Spellcheck highlighting: EQFBSpellMisspelled:
- *             call EQFBGotoSeg prior to setting pBlock, because EQFBGotoSeg
- *             resets the blockmarking to zero
- *
- *    Rev 1.7   08 May 1998 13:58:16   BUILD
- * - Win32: fixed 'double-click in listbox does nothing' problem
- *
- *    Rev 1.6   14 Jan 1998 16:11:46   BUILD
- * - migrated to Win32 environment
- *
- *    Rev 1.5   11 Nov 1996 09:46:48   BUILD
- * -- add additional checking for UtlDispatch()
- *
- *    Rev 1.4   01 Apr 1996 08:29:52   BUILD
- * -- force correct conversion for optimized version
- *
- *    Rev 1.3   04 Mar 1996 10:52:46   BUILD
- * -- KWT0407: allow for dynamic allocation of temp addenda...
- *
- *    Rev 1.2   26 Feb 1996 15:45:24   BUILD
- * -- KWT0087: check for starting segment in case of Spell-Check file, too
- *
- *    Rev 1.1   12 Feb 1996 10:44:04   BUILD
- * -- KWT0305: position spellcheck dialog at bottom of screen
- *
- *    Rev 1.0   09 Jan 1996 09:01:12   BUILD
- * Initial revision.
-*/
 //+----------------------------------------------------------------------------+
 #define INCL_EQF_TP               // public translation processor functions
 #define INCL_EQF_PRINT            // print functions
@@ -326,7 +110,7 @@ INT_PTR CALLBACK EQFBSPELLDLGPROC
              /*********************************************************/
              /* highlight all misspelled words in current segment     */
              /*********************************************************/
-
+             EQFBAllSpellIgnoreCheck(pSpellData);
              EQFBMisspelledHLType(pSpellData->pDoc,
                                   pTBSeg, pData);
 
@@ -340,14 +124,14 @@ INT_PTR CALLBACK EQFBSPELLDLGPROC
              }
              else
              {
-               POSTEQFCLOSE( hwndDlg, FALSE );
+               POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_ERROR );
              } /* endif */
            }
            else
            {
               //display error msg (area too small, no correct dict )
               UtlError( TB_ERRSPELLCHECK, MB_CANCEL, 0, NULL, EQF_ERROR );
-              POSTEQFCLOSE( hwndDlg, FALSE );
+              POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_ERROR );
            } /* endif */
          } /* endif */
          break;
@@ -482,11 +266,20 @@ MRESULT EQFBSpellInit
      // set read only for field with misspelled word
      WinSendDlgItemMsg ( hwndDlg, ID_TB_SPELL_WRONG_EF, EM_SETREADONLY, 0 , 0L );
 
+     // test if spellchecking for document is available
+     if ( !pSpellData->pDoc->fSpellCheck ) 
+     {
+       // no spellchecking for this document available, skip to next document
+       WinPostMsg( hwndDlg, WM_EQF_MISSPELLED, 0L, 0L );
+       return ( mResult );
+     } /* endif */
+
       // activate proofreading for 1st segment
       // if fSegOnly: error, else: set pWord=NULL
       // and   activate EQF_MISSPELLED
 
       pTBSeg = EQFBGetVisSeg(pSpellData->pDoc, &(pSpellData->ulProofSeg));
+
       if (pTBSeg &&
           ((pTBSeg->qStatus == QF_XLATED || pTBSeg->qStatus == QF_CURRENT) ||
           ((pSpellData->ulStartSeg == pSpellData->ulProofSeg) && (pTBSeg->qStatus == QF_TOBE) )))
@@ -498,12 +291,23 @@ MRESULT EQFBSpellInit
         *(pSpellData->chProofData) = EOS;
         WinPostMsg (hwndDlg, WM_EQF_MISSPELLED, 0L, pSpellData->chProofData);
       } /* endif */
+
       // position the dialog window
-      WinSetWindowPos( hwndDlg, HWND_TOP, 100, 50, 0, 0, EQF_SWP_MOVE );
+      {
+        PSTEQFGEN pstEQFGEN = (PSTEQFGEN)pSpellData->pDoc->pstEQFGen;
+        if ( (pstEQFGEN->xSpellChecklDlg != 0) || (pstEQFGEN->ySpellChecklDlg != 0) )
+        {
+          WinSetWindowPos( hwndDlg, HWND_TOP, pstEQFGEN->xSpellChecklDlg, pstEQFGEN->ySpellChecklDlg, 0, 0, EQF_SWP_MOVE );
+        }
+        else
+        {
+          WinSetWindowPos( hwndDlg, HWND_TOP, 100, 50, 0, 0, EQF_SWP_MOVE );
+        } /* endif */
+      }
    }
    else                         //close in not OK
    {
-     POSTEQFCLOSE( hwndDlg, FALSE );
+     POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_ERROR );
    } /* endif */
    return ( mResult );
 } /* end of EQFBSpellInit */
@@ -578,9 +382,45 @@ MRESULT EQFBSpellMisspelled
 //         update of file and dialog
      mp1;
      pSpellData = ACCESSDLGIDA(hwndDlg, PSPELLDATA);
+
+    // special mode for non-spellcheck documents
+    if ( !pSpellData->pDoc->fSpellCheck ) 
+    {
+      PSTEQFGEN pstEQFGen = (PSTEQFGEN)pSpellData->pDoc->pstEQFGen;
+
+      // document does not support spellchecking, continue with next one
+      if ( (pstEQFGen->pszSpellCheckDocList != NULL) && (pstEQFGen->pszCurSpellCheckDoc != NULL) )
+      {
+        // move to next document in the list
+        pstEQFGen->pszCurSpellCheckDoc += strlen(pstEQFGen->pszCurSpellCheckDoc) + 1;
+        if ( *pstEQFGen->pszCurSpellCheckDoc == EOS )
+        {
+          //display ending message
+          UtlError( TB_ENDSPELLCHECK, MB_CANCEL, 0, NULL, EQF_WARNING );
+              
+          //  close the dialog
+          POSTEQFCLOSE( hwndDlg, SPELLCHECK_LAST_DOC_DONE ); // close dialog and tell caller that the document is not valid anymore
+        }
+        else
+        {
+          // terminate spellchecking for this document
+          POSTEQFCLOSE( hwndDlg, SPELLCHECK_GO_TO_NEXT_DOC ); // close dialog and tell caller that the document is not valid anymore
+        } /* endif */
+      }
+      else
+      {
+        //display ending message
+        UtlError( TB_ENDSPELLCHECK, MB_CANCEL, 0, NULL, EQF_WARNING );
+        POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_USER );
+      } /* endif */
+      return ( mResult );
+    }
+
+
+
      // find next word in proofdata list
      pWord = (PSZ_W) mp2;
-     if (*pWord)
+     if ( pWord && *pWord)
      {
         fIgnore = EQFBSpellIgnoreCheck(pSpellData);
      } /* endif */
@@ -681,14 +521,13 @@ MRESULT EQFBSpellMisspelled
         } /* endif */
      }
      else
-     {                                 // end of listing
-                                       //next segment possible?
+     { 
        if (pSpellData->fSegOnly)
        {
           //display ending message
          UtlError( TB_ENDSPELLCHECK, MB_CANCEL, 0, NULL, EQF_WARNING );
 
-         POSTEQFCLOSE( hwndDlg, FALSE );
+         POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_USER );
        }
        else
        {
@@ -723,13 +562,38 @@ MRESULT EQFBSpellMisspelled
           //determine if full cycle done already
           if (pSpellData->ulProofSeg == pSpellData->ulStartSeg)
           {
+            PSTEQFGEN pstEQFGen = (PSTEQFGEN)pSpellData->pDoc->pstEQFGen;
+
             /**********************************************************/
             /* position cursor at segment where we started...         */
             /**********************************************************/
             pSpellData->pDoc->TBCursor.ulSegNum = pSpellData->ulStartSeg;
-             //display ending message
-            UtlError( TB_ENDSPELLCHECK, MB_CANCEL, 0, NULL, EQF_WARNING );
-            POSTEQFCLOSE( hwndDlg, FALSE );
+
+            // check if there are more documents waiting for spellchecking
+            if ( (pstEQFGen->pszSpellCheckDocList != NULL) && (pstEQFGen->pszCurSpellCheckDoc != NULL) )
+            {
+              // move to next document in the list
+              pstEQFGen->pszCurSpellCheckDoc += strlen(pstEQFGen->pszCurSpellCheckDoc) + 1;
+              if ( *pstEQFGen->pszCurSpellCheckDoc == EOS )
+              {
+                //display ending message
+                UtlError( TB_ENDSPELLCHECK, MB_CANCEL, 0, NULL, EQF_WARNING );
+
+                // close the dialog
+                POSTEQFCLOSE( hwndDlg, SPELLCHECK_LAST_DOC_DONE ); // close dialog and tell caller that the document is not valid anymore
+              }
+              else
+              {
+                // terminate spellchecking for this document
+                POSTEQFCLOSE( hwndDlg, SPELLCHECK_GO_TO_NEXT_DOC ); // close dialog and tell caller that the document is not valid anymore
+              } /* endif */
+            }
+            else
+            {
+              //display ending message
+              UtlError( TB_ENDSPELLCHECK, MB_CANCEL, 0, NULL, EQF_WARNING );
+              POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_USER );
+            } /* endif */
           }
           else
           {   //proofread next segment
@@ -852,7 +716,7 @@ MRESULT EQFBSpellCommand
       case DID_CANCEL:
 
          pSpellData->pDoc->Redraw = REDRAW_ALL;
-         POSTEQFCLOSE( hwndDlg, FALSE );
+         POSTEQFCLOSE( hwndDlg, SPELLCHECK_CLOSED_BY_USER );
          break;
 
       case ID_TB_SPELL_PROOFAID_LB:
@@ -917,40 +781,62 @@ MRESULT EQFBSpellClose
 
    pSpellData = ACCESSDLGIDA(hwndDlg, PSPELLDATA);
 
-   mp1;                          // supress 'unreferenced parameter' msg
    mp2;                          // supress 'unreferenced parameter' msg
 
-   /****************************************************************/
-   /* restore the position of the block and force repaint of screen*/
-   /* -- we might have to update some areas...                     */
-   /****************************************************************/
-   memcpy( pSpellData->pDoc->pBlockMark,
-           &pSpellData->FindData.MarkedBlock,
-           sizeof( pSpellData->FindData.MarkedBlock ));
-
-   pDoc = pSpellData->pDoc;
-   if (!pSpellData->fSegOnly && !pSpellData->fPostEditOld)
+   if ( mp1 == SPELLCHECK_GO_TO_NEXT_DOC )
    {
-      EQFBTempPostEdit( pSpellData->pDoc );
+     // we are in spellcheck-a-list-of-documents mode, so do not touch the document anymore but remember dialog position
+     PSTEQFGEN pstEQFGEN = (PSTEQFGEN)pSpellData->pDoc->pstEQFGen;
+     SWP swp;
+
+     WinQueryWindowPos( hwndDlg, &swp );
+     pstEQFGEN->xSpellChecklDlg = swp.x;
+     pstEQFGEN->ySpellChecklDlg = swp.y;
+   }
+   else if ( mp1 == SPELLCHECK_LAST_DOC_DONE )
+   {
+     // we are in spellcheck-a-list-of-documents mode and the last document has been processed so clean spell check related fields in STEQFGEN structure
+     PSTEQFGEN pstEQFGen = (PSTEQFGEN)pSpellData->pDoc->pstEQFGen;
+     if ( pstEQFGen->pszSpellCheckDocList ) UtlAlloc( (PVOID *)&(pstEQFGen->pszSpellCheckDocList), 0, 0, NOMSG );
+     pstEQFGen->pszSpellCheckDocList = NULL;
+     pstEQFGen->fLoadedBySpellcheck = FALSE;
+     pstEQFGen->pNewSpellCheckDoc = NULL;
+     pstEQFGen->pszCurSpellCheckDoc = NULL;
+     pstEQFGen->xSpellChecklDlg = 0;
+     pstEQFGen->ySpellChecklDlg = 0;
+     pstEQFGen->pvSpellData = NULL; 
+   }
+   else
+   {
+     // restore the position of the block and force repaint of screen we might have to update some areas...                     */
+     memcpy( pSpellData->pDoc->pBlockMark,
+             &pSpellData->FindData.MarkedBlock,
+             sizeof( pSpellData->FindData.MarkedBlock ));
+
+     pDoc = pSpellData->pDoc;
+     if (!pSpellData->fSegOnly && !pSpellData->fPostEditOld)
+     {
+        EQFBTempPostEdit( pSpellData->pDoc );
+     } /* endif */
+
+      ulSegNum = 1;
+      pSeg = EQFBGetSegW(pDoc, ulSegNum);
+
+      while (pSeg && (ulSegNum < pDoc->ulMaxSeg) )
+      {
+        if (pSeg->pusHLType )
+        {
+          UtlAlloc((PVOID *)&(pSeg->pusHLType) ,0L ,0L , NOMSG);
+        } /* endif */
+        pSeg->SegFlags.Spellchecked = FALSE;
+        ulSegNum++;
+        pSeg = EQFBGetSegW(pDoc, ulSegNum);
+      } /* endwhile */
+      pDoc->Redraw |= REDRAW_ALL;
    } /* endif */
 
-    ulSegNum = 1;
-    pSeg = EQFBGetSegW(pDoc, ulSegNum);
-
-    while (pSeg && (ulSegNum < pDoc->ulMaxSeg) )
-    {
-      if (pSeg->pusHLType )
-      {
-        UtlAlloc((PVOID *)&(pSeg->pusHLType) ,0L ,0L , NOMSG);
-      } /* endif */
-      pSeg->SegFlags.Spellchecked = FALSE;
-      ulSegNum++;
-      pSeg = EQFBGetSegW(pDoc, ulSegNum);
-    } /* endwhile */
-    pDoc->Redraw |= REDRAW_ALL;
-
    //--- get rid off dialog ---
-   DISMISSDLG( hwndDlg, TRUE );
+   DISMISSDLG( hwndDlg, mp1 );
 
    return( mResult );
 } /* end of EQFBSpellClose */

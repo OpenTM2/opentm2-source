@@ -1,5 +1,5 @@
 /*! EQFFOL00.H - Internal header file for the EQF FolderHandler
-	Copyright (c) 1990-2014, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 #ifndef INCL_EQFFOL00
 #define INCL_EQFFOL00
@@ -604,6 +604,13 @@ BOOL FolGlobFindChange
 );
 
 BOOL FolFuzzySearch
+(
+  PSZ              pszFolObjName,      // folder object name
+  BOOL             fFromFolderList,    // TRUE = called from folder list
+  BOOL             fMultipleObjs       // TRUE = called with a list of folder object names
+);
+
+BOOL FolSpellcheck
 (
   PSZ              pszFolObjName,      // folder object name
   BOOL             fFromFolderList,    // TRUE = called from folder list

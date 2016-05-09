@@ -3158,6 +3158,33 @@ MRESULT EQFBFuncRTFFunc( PTBDOCUMENT pDoc, USHORT usFunction,
         mResult = TRUE;
       }
       break;
+    case TSEGNEXT_EXACT_FUNC:
+      {
+        BOOL   fLock;
+        LOCKRICHEDIT( pDoc, fLock );
+        EQFBTransRTF( pDoc, POS_TOBE_EXACT );         // position at untranslated ones with EXACT matches
+        UNLOCKRICHEDIT_TRUE( pDoc, fLock );
+        mResult = TRUE;
+      }
+      break;
+    case TSEGNEXT_FUZZY_FUNC:
+      {
+        BOOL   fLock;
+        LOCKRICHEDIT( pDoc, fLock );
+        EQFBTransRTF( pDoc, POS_TOBE_FUZZY );         // position at untranslated ones with FUZZY matches
+        UNLOCKRICHEDIT_TRUE( pDoc, fLock );
+        mResult = TRUE;
+      }
+      break;
+    case TSEGNEXT_NONE_FUNC:
+      {
+        BOOL   fLock;
+        LOCKRICHEDIT( pDoc, fLock );
+        EQFBTransRTF( pDoc, POS_TOBE_NONE );          // position at untranslated ones with NO matches
+        UNLOCKRICHEDIT_TRUE( pDoc, fLock );
+        mResult = TRUE;
+      }
+      break;
     case ENDSEG_FUNC:
       EQFBFuncEndSeg ( pDoc );             // move to the end of segment
       mResult = TRUE;

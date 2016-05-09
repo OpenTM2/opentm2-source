@@ -17,12 +17,6 @@ USHORT InitializePlugins( char *szPluginPath )
     USHORT usRC = NO_ERROR;         // function return code (add for P402974)
 	PluginManager* thePluginManager = PluginManager::getInstance();
 	usRC = thePluginManager->loadPluginDlls(szPluginPath);   // add for P402974
-    // Add for R403115
-    if (usRC != PluginManager::ePluginExpired)
-    {
-        usRC = NO_ERROR;
-    }
-    // Add end
 	InitTMPluginWrapper();
 	InitDictPluginWrapper();
 	InitMarkupPluginMapper();

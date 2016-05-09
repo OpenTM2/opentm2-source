@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -908,12 +908,14 @@ BOOL WriteTMSegment
    ULONG ulControlLength;              // length of control data
    PTAINSTDATA pInD;                   // pointer to instance data
    PSZ         pSegData = NULL;
+   PSZ_W       pszSegTempBuffer = NULL;
    ULONG       ulSegBufLen = 0;
 
    pInD = pTAInput->pInD ;  // store pointer to instance data temp.
 
    ulSegBufLen = 4 * MAX_SEGMENT_SIZE;
    fOK = UtlAlloc( (PVOID *) &pSegData, 0L, (LONG)ulSegBufLen, ERROR_STORAGE );
+   if ( fOK ) fOK = UtlAlloc( (PVOID *) &pszSegTempBuffer, 0L, (LONG)(sizeof(CHAR_W)*(MAX_SEGMENT_SIZE+2)), ERROR_STORAGE );
 
    // prepare control data
    {
@@ -956,164 +958,121 @@ BOOL WriteTMSegment
                         pTemp );
    }
 
-   if ( sFormat == WRITETMSEGMENT_UTF16 )
+
+   // prepare segment data
+#ifdef FORCE_CRLF_IN_MEMORY_OUTPUT
+   if ( fOK )
    {
-      CHAR_W chTag [ 80 ];                 // space to create tag
+      PSZ_W pszSource = pszSegment;
+      PSZ_W pszTarget = pszSegTempBuffer;
 
-      // write segment start data                                        
-      ulLength = swprintf( chTag, L"%s%10.10ld\r\n", MEM_SEGMENT_BEGIN_TAGW, ulSegNum );
-      fOK = (UtlBufWriteW( pBuffer, chTag, ulLength*sizeof(CHAR_W) , TRUE ) == NO_ERROR );
-
-      // Write control start tag
-      if ( fOK )
+      while( (ulSegLength != 0) && *pszSource )
       {
-        fOK = (UtlBufWriteW( pBuffer, MEM_CONTROL_BEGIN_TAGW, UTF16strlenBYTE(MEM_CONTROL_BEGIN_TAGW) , TRUE ) == NO_ERROR );
-      } /* endif */
-
-      // Write control data                                             
-      if ( fOK )
-      {
-        ASCII2Unicode( pTAInput->chControlInfo, pTAInput->chControlInfoW, 0 );
-        fOK = (UtlBufWriteW( pBuffer, pTAInput->chControlInfoW, ulControlLength * sizeof(CHAR_W), TRUE ) == NO_ERROR );
-      } /* endif */
-
-      // Write control end tag and source start tag                      
-      if ( fOK )
-      {
-        wcscpy( chTag, MEM_CONTROL_END_TAGW );
-        wcscat( chTag, MEM_SOURCE_BEGIN_TAGW );
-        ulLength = UTF16strlenBYTE( chTag );
-        fOK = (UtlBufWriteW( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
-      } /* endif */
-
-      // Write source segment                                            
-      if ( fOK ) 
-      {
-        fOK = (UtlBufWriteW( pBuffer, pszSegment, ulSegLength*sizeof(CHAR_W), TRUE ) == NO_ERROR );
-      }
-
-      // write end source segment tag, empty target segment data and end segment tag
-      if ( fOK )
-      {
-        wcscpy( chTag, MEM_SOURCE_END_TAGW );
-        wcscat( chTag, MEM_TARGET_BEGIN_TAGW );
-        wcscat( chTag, MEM_TARGET_END_TAGW );
-        wcscat( chTag, MEM_SEGMENT_END_TAGW );
-        ulLength = UTF16strlenBYTE( chTag );
-        fOK = (UtlBufWriteW( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
-      } /* endif */
-   }
-   else if ( sFormat == WRITETMSEGMENT_UTF8 )
-   {
-      CHAR chTag [ 80 ];                 // space to create tag
-
-      // write segment start data                                        
-      ulLength = sprintf( chTag, "%s%10.10ld\r\n", MEM_SEGMENT_BEGIN_TAG, ulSegNum );
-      fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
-
-      // Write control start tag
-      if ( fOK )
-      {
-        fOK = (UtlBufWrite( pBuffer, MEM_CONTROL_BEGIN_TAG, strlen(MEM_CONTROL_BEGIN_TAG) , TRUE ) == NO_ERROR );
-      } /* endif */
-
-      // Write control data                                             
-      if ( fOK )
-      {
-        LONG lRc = 0;
-        ASCII2Unicode( pTAInput->chControlInfo, pTAInput->chControlInfoW, 0 );
-	      ulLength = Unicode2UTF8BufEx( pTAInput->chControlInfoW, pTAInput->chControlInfo, UTF16strlenCHAR(pTAInput->chControlInfoW),
-	                                    sizeof(pTAInput->chControlInfo), FALSE, &lRc);
-        fOK = (UtlBufWrite( pBuffer, pTAInput->chControlInfo, ulLength, TRUE ) == NO_ERROR );
-      } /* endif */
-
-      // Write control end tag and source start tag                      
-      if ( fOK )
-      {
-        strcpy( chTag, MEM_CONTROL_END_TAG );
-        strcat( chTag, MEM_SOURCE_BEGIN_TAG );
-        ulLength = strlen( chTag );
-        fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
-      } /* endif */
-
-      // Write source segment                                            
-      if ( fOK ) 
-      {
-        LONG lRc = 0;
-	      ulLength = Unicode2UTF8BufEx( pszSegment, pSegData, UTF16strlenCHAR(pszSegment), 
-	                                    ulSegBufLen, FALSE, &lRc);
-
-        fOK = (UtlBufWrite( pBuffer, pSegData, ulLength, TRUE ) == NO_ERROR );
-      }
-
-      // write end source segment tag, empty target segment data and end segment tag
-      if ( fOK )
-      {
-        strcpy( chTag, MEM_SOURCE_END_TAG );
-        strcat( chTag, MEM_TARGET_BEGIN_TAG );
-        strcat( chTag, MEM_TARGET_END_TAG );
-        strcat( chTag, MEM_SEGMENT_END_TAG );
-        ulLength = strlen( chTag );
-        fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
-      } /* endif */
-   }
-   else
-   {
-      CHAR chTag [ 80 ];                 // space to create tag
-
-      if ( sFormat == WRITETMSEGMENT_ANSI )
-      {
-        if ( pInD)
+        if ( *pszSource == L'\r' )
         {
-          // use CP of doc source language (ASCII CP required for Ansi!!!)
-          UtlDirectUnicode2Ansi(pszSegment, pSegData, pInD->TolstControl.ulAnsiCP);
+          // ignore carriage return
+          pszSource++;
+          ulSegLength--;
+        }
+        else if ( *pszSource == L'\n' )
+        {
+          // convert to CRLF
+          pszSource++;
+          ulSegLength--;
+          *pszTarget++ = L'\r';
+          *pszTarget++ = L'\n';
         }
         else
         {
-          UtlDirectUnicode2Ansi(pszSegment, pSegData, 0L);      // use system pref.lang
+          // copy as-is
+          *pszTarget++ = *pszSource++;
+          ulSegLength--;
         } /* endif */
-      }
-      else
-      {
-        if ( pInD)
-        {
-          // use CP of doc source language
-          Unicode2ASCII(pszSegment, pSegData, pInD->TolstControl.ulOemCP);
-        }
-        else
-        {
-          Unicode2ASCII(pszSegment, pSegData, 0L);      // use system pref.lang
-        } /* endif */
-      } /* endif */
+      } /* endwhile */
+      *pszTarget = 0;
+      ulSegLength = wcslen( pszSegTempBuffer );
+   } /* endif */
+#else
+   if ( fOK )
+   {
+     wcscpy( pszSegTempBuffer, pszSegment );
+   } /* endif */
+#endif
 
-      if (fOK)
-      {
-        /*******************************************************************/
-        /* Write segment start data                                        */
-        /*******************************************************************/
+   if ( fOK )
+   {
+     if ( sFormat == WRITETMSEGMENT_UTF16 )
+     {
+        CHAR_W chTag [ 80 ];                 // space to create tag
+
+        // write segment start data                                        
+        ulLength = swprintf( chTag, L"%s%10.10ld\r\n", MEM_SEGMENT_BEGIN_TAGW, ulSegNum );
+        fOK = (UtlBufWriteW( pBuffer, chTag, ulLength*sizeof(CHAR_W) , TRUE ) == NO_ERROR );
+
+        // Write control start tag
+        if ( fOK )
+        {
+          fOK = (UtlBufWriteW( pBuffer, MEM_CONTROL_BEGIN_TAGW, UTF16strlenBYTE(MEM_CONTROL_BEGIN_TAGW) , TRUE ) == NO_ERROR );
+        } /* endif */
+
+        // Write control data                                             
+        if ( fOK )
+        {
+          ASCII2Unicode( pTAInput->chControlInfo, pTAInput->chControlInfoW, 0 );
+          fOK = (UtlBufWriteW( pBuffer, pTAInput->chControlInfoW, ulControlLength * sizeof(CHAR_W), TRUE ) == NO_ERROR );
+        } /* endif */
+
+        // Write control end tag and source start tag                      
+        if ( fOK )
+        {
+          wcscpy( chTag, MEM_CONTROL_END_TAGW );
+          wcscat( chTag, MEM_SOURCE_BEGIN_TAGW );
+          ulLength = UTF16strlenBYTE( chTag );
+          fOK = (UtlBufWriteW( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
+        } /* endif */
+
+        // Write source segment                                            
+        if ( fOK ) 
+        {
+          fOK = (UtlBufWriteW( pBuffer, pszSegTempBuffer, ulSegLength*sizeof(CHAR_W), TRUE ) == NO_ERROR );
+        }
+
+        // write end source segment tag, empty target segment data and end segment tag
+        if ( fOK )
+        {
+          wcscpy( chTag, MEM_SOURCE_END_TAGW );
+          wcscat( chTag, MEM_TARGET_BEGIN_TAGW );
+          wcscat( chTag, MEM_TARGET_END_TAGW );
+          wcscat( chTag, MEM_SEGMENT_END_TAGW );
+          ulLength = UTF16strlenBYTE( chTag );
+          fOK = (UtlBufWriteW( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
+        } /* endif */
+     }
+     else if ( sFormat == WRITETMSEGMENT_UTF8 )
+     {
+        CHAR chTag [ 80 ];                 // space to create tag
+
+        // write segment start data                                        
         ulLength = sprintf( chTag, "%s%10.10ld\r\n", MEM_SEGMENT_BEGIN_TAG, ulSegNum );
         fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
 
-        /*******************************************************************/
-        /* Write control start tag                                         */
-        /*******************************************************************/
+        // Write control start tag
         if ( fOK )
         {
-          fOK = (UtlBufWrite( pBuffer, MEM_CONTROL_BEGIN_TAG,
-                              strlen(MEM_CONTROL_BEGIN_TAG) , TRUE ) == NO_ERROR );
+          fOK = (UtlBufWrite( pBuffer, MEM_CONTROL_BEGIN_TAG, strlen(MEM_CONTROL_BEGIN_TAG) , TRUE ) == NO_ERROR );
         } /* endif */
 
-        /*******************************************************************/
-        /* Write control data                                              */
-        /*******************************************************************/
+        // Write control data                                             
         if ( fOK )
         {
-          fOK = (UtlBufWrite( pBuffer, pTAInput->chControlInfo, ulControlLength, TRUE ) == NO_ERROR );
+          LONG lRc = 0;
+          ASCII2Unicode( pTAInput->chControlInfo, pTAInput->chControlInfoW, 0 );
+	        ulLength = Unicode2UTF8BufEx( pTAInput->chControlInfoW, pTAInput->chControlInfo, UTF16strlenCHAR(pTAInput->chControlInfoW),
+	                                      sizeof(pTAInput->chControlInfo), FALSE, &lRc);
+          fOK = (UtlBufWrite( pBuffer, pTAInput->chControlInfo, ulLength, TRUE ) == NO_ERROR );
         } /* endif */
 
-        /*******************************************************************/
-        /* Write control end tag and source start tag                      */
-        /*******************************************************************/
+        // Write control end tag and source start tag                      
         if ( fOK )
         {
           strcpy( chTag, MEM_CONTROL_END_TAG );
@@ -1122,18 +1081,17 @@ BOOL WriteTMSegment
           fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
         } /* endif */
 
-        /*******************************************************************/
-        /* Write source segment                                            */
-        /*******************************************************************/
-        if ( fOK )                                      // fill in segment
+        // Write source segment                                            
+        if ( fOK ) 
         {
-          fOK = (UtlBufWrite( pBuffer, pSegData, ulSegLength, TRUE ) == NO_ERROR );
+          LONG lRc = 0;
+	        ulLength = Unicode2UTF8BufEx( pszSegTempBuffer, pSegData, UTF16strlenCHAR(pszSegTempBuffer), 
+	                                      ulSegBufLen, FALSE, &lRc);
+
+          fOK = (UtlBufWrite( pBuffer, pSegData, ulLength, TRUE ) == NO_ERROR );
         }
 
-        /*******************************************************************/
-        /* write end source segment tag, empty target segment data and     */
-        /* end segment tag                                                 */
-        /*******************************************************************/
+        // write end source segment tag, empty target segment data and end segment tag
         if ( fOK )
         {
           strcpy( chTag, MEM_SOURCE_END_TAG );
@@ -1143,10 +1101,99 @@ BOOL WriteTMSegment
           ulLength = strlen( chTag );
           fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
         } /* endif */
-      }
+     }
+     else
+     {
+        CHAR chTag [ 80 ];                 // space to create tag
+
+        if ( sFormat == WRITETMSEGMENT_ANSI )
+        {
+          if ( pInD)
+          {
+            // use CP of doc source language (ASCII CP required for Ansi!!!)
+            UtlDirectUnicode2Ansi(pszSegTempBuffer, pSegData, pInD->TolstControl.ulAnsiCP);
+          }
+          else
+          {
+            UtlDirectUnicode2Ansi(pszSegTempBuffer, pSegData, 0L);      // use system pref.lang
+          } /* endif */
+        }
+        else
+        {
+          if ( pInD)
+          {
+            // use CP of doc source language
+            Unicode2ASCII(pszSegTempBuffer, pSegData, pInD->TolstControl.ulOemCP);
+          }
+          else
+          {
+            Unicode2ASCII(pszSegTempBuffer, pSegData, 0L);      // use system pref.lang
+          } /* endif */
+        } /* endif */
+
+        if (fOK)
+        {
+          /*******************************************************************/
+          /* Write segment start data                                        */
+          /*******************************************************************/
+          ulLength = sprintf( chTag, "%s%10.10ld\r\n", MEM_SEGMENT_BEGIN_TAG, ulSegNum );
+          fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
+
+          /*******************************************************************/
+          /* Write control start tag                                         */
+          /*******************************************************************/
+          if ( fOK )
+          {
+            fOK = (UtlBufWrite( pBuffer, MEM_CONTROL_BEGIN_TAG,
+                                strlen(MEM_CONTROL_BEGIN_TAG) , TRUE ) == NO_ERROR );
+          } /* endif */
+
+          /*******************************************************************/
+          /* Write control data                                              */
+          /*******************************************************************/
+          if ( fOK )
+          {
+            fOK = (UtlBufWrite( pBuffer, pTAInput->chControlInfo, ulControlLength, TRUE ) == NO_ERROR );
+          } /* endif */
+
+          /*******************************************************************/
+          /* Write control end tag and source start tag                      */
+          /*******************************************************************/
+          if ( fOK )
+          {
+            strcpy( chTag, MEM_CONTROL_END_TAG );
+            strcat( chTag, MEM_SOURCE_BEGIN_TAG );
+            ulLength = strlen( chTag );
+            fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
+          } /* endif */
+
+          /*******************************************************************/
+          /* Write source segment                                            */
+          /*******************************************************************/
+          if ( fOK )                                      // fill in segment
+          {
+            fOK = (UtlBufWrite( pBuffer, pSegData, ulSegLength, TRUE ) == NO_ERROR );
+          }
+
+          /*******************************************************************/
+          /* write end source segment tag, empty target segment data and     */
+          /* end segment tag                                                 */
+          /*******************************************************************/
+          if ( fOK )
+          {
+            strcpy( chTag, MEM_SOURCE_END_TAG );
+            strcat( chTag, MEM_TARGET_BEGIN_TAG );
+            strcat( chTag, MEM_TARGET_END_TAG );
+            strcat( chTag, MEM_SEGMENT_END_TAG );
+            ulLength = strlen( chTag );
+            fOK = (UtlBufWrite( pBuffer, chTag, ulLength, TRUE ) == NO_ERROR );
+          } /* endif */
+        }
+     } /* endif */
    } /* endif */
 
    if (pSegData) UtlAlloc((PVOID *)&pSegData, 0L, 0L, NOMSG);
+   if (pszSegTempBuffer) UtlAlloc((PVOID *)&pszSegTempBuffer, 0L, 0L, NOMSG);
 
    return (fOK);
 } /* end of WriteTMSegment */

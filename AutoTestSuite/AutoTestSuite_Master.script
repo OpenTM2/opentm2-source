@@ -1,7 +1,7 @@
 ****************************************************************************************************
 ** Script name...: AutoTestSuite_Master.script                                                    **
 ** Purpose.......: Master script file of the OpenTM2 Auto Test Suite                              **
-** Copyright.....: Copyright (C) 1990-2015, International Business Machines Corporation           **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
 **                 and others. All rights reserved                                                **
 ** Version.......: 1.0.0                                                                          **
 ** Creation Date.: December 1, 2014                                                               **
@@ -17,11 +17,15 @@ EqfGetVersionEx versioninfo
 
 INCLUDE GENERAL\AutoTestSuite_General.script
 
-*INCLUDE FOLDER\AutoTestSuite_Folder.script
+INCLUDE FOLDER\AutoTestSuite_Folder.script
 
 INCLUDE MEMORY\AutoTestSuite_Memory.script
 
 INCLUDE DICTIONARY\AutoTestSuite_Dictionary.script
+
+INCLUDE ANALYSIS\AutoTestSuite_Analysis.script
+
+
 
 
 

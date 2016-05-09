@@ -1,5 +1,5 @@
 /*! \brief TMXFactory.CPP - Module with TMX format related functions
-	Copyright (c) 1999-2013, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 	Description: This module contains functions to wrap parameters in the JSON format and to retrieve parameters from JSON strings
 */
 
@@ -8,6 +8,7 @@
 #include <vector>
 /** Initialize the static instance variable */
 TMXFactory* TMXFactory::instance = 0;
+
 
 class CNameList
 {
@@ -20,6 +21,22 @@ class CNameList
     PSZ m_pList;                       // points to list data buffer
     int m_iListSize;                   // size of list in # of bytes
 };
+
+class SimpleBase64 
+{
+private:
+    unsigned char* DECODETABLE;
+	unsigned char *pDataEncoded;
+	unsigned char* pDataDecoded;
+
+public:
+	SimpleBase64();
+	~SimpleBase64();
+	wchar_t*  SimpleBase64::decode(wchar_t* encodedStr);
+};
+
+SimpleBase64 g_sb64;
+
 
 // the Win32 Xerces build requires the default structure packing...
 #pragma pack( push )
@@ -120,6 +137,7 @@ typedef struct _TMXELEMENT
 } TMXELEMENT, *PTMXELEMENT;
 
 
+
 //
 // class for our SAX handler
 //
@@ -172,6 +190,8 @@ private:
   int GetDaysOfMonth( const int iMonth, const int iYear );
   int GetDaysOfYear( const int iYear );
   int GetYearDay( const int iDay, const int iMonth, const int iYear );
+
+  CHAR_W* TMXParseHandler::replace2NewLine(CHAR_W *pIn);
 
   // name list for name conversions
   CNameList *pLangTmx2Tmgr;
@@ -321,6 +341,17 @@ int TMXFactory::ProposalToTMX
   std::string &strTMX
 )
 {
+    return ProposalToTUString(Proposal,strTMX,true,true);
+}
+
+int TMXFactory::ProposalToTUString
+(
+    OtmProposal &Proposal, 
+	std::string &strTU, 
+	bool bWithHeader, 
+	bool bWithTail
+)
+{
   int iRC = 0;
   char szTMXLang[20];                  // buffer for TMX language name
   char szDataType[20];                 // buffer for TMX data type
@@ -367,15 +398,28 @@ int TMXFactory::ProposalToTMX
   //ltoa(getCurrentMillions(),str,10);
 
   // combine TMX string
-  wchar_t *pCurrent = this->copyString( L"<?xml version=\"1.0\" encoding=\"UTF-8\"?><tmx version=\"1.4\"><header srclang=\"", pData->szTMXBuffer );
   szTMXLang[0] = EOS;
   pData->LangTmgr2Tmx.FindName( pData->szSourceLanguage, szTMXLang, sizeof(szTMXLang) );
-  pCurrent = this->copyString( szTMXLang, pCurrent );
-  pCurrent = this->copyString( L"\" datatype=\"", pCurrent );
-  pCurrent = this->copyString( szDataType, pCurrent );
-  pCurrent = this->copyString( L"\"></header><body><tu tuid=\"1\" datatype=\"", pCurrent );
-  pCurrent = this->copyString( szDataType, pCurrent );
-  pCurrent = this->copyString( L"\" creationdate=\"", pCurrent );
+
+  wchar_t *pCurrent = NULL;
+  if(bWithHeader) 
+  {
+	  pCurrent = this->copyString( L"<?xml version=\"1.0\" encoding=\"UTF-8\"?><tmx version=\"1.4\"><header srclang=\"", pData->szTMXBuffer );
+	  pCurrent = this->copyString( szTMXLang, pCurrent );
+      pCurrent = this->copyString( L"\" datatype=\"", pCurrent );
+      pCurrent = this->copyString( szDataType, pCurrent );
+      pCurrent = this->copyString( L"\"></header><body>",pCurrent);
+  }
+  else
+  {
+	  pCurrent = this->copyString( L"", pData->szTMXBuffer );
+  }
+
+ 
+  //pCurrent = this->copyString(L"<tu tuid=\"1\" datatype=\"", pCurrent );
+  //pCurrent = this->copyString( szDataType, pCurrent );
+  pCurrent = this->copyString(L"<tu tuid=\"1\" ", pCurrent );
+  pCurrent = this->copyString( L"creationdate=\"", pCurrent );
   pCurrent = this->copyString( szTMXTime, pCurrent );
   pCurrent = this->copyString( L"\"><prop type=\"tmgr-segNum\">", pCurrent );
   _ltow( Proposal.getSegmentNum(), pData->szUnicodeBuffer, 10 );
@@ -454,11 +498,15 @@ int TMXFactory::ProposalToTMX
     pOutBuffer = NULL;
   }
 
-  pCurrent = this->copyString( L"</seg></tuv></tu></body></tmx>", pCurrent );
+  pCurrent = this->copyString( L"</seg></tuv></tu>",pCurrent);
+
+  if(bWithTail)
+      pCurrent = this->copyString(L"</body></tmx>", pCurrent );
+
   *pCurrent = 0;
 
   WideCharToMultiByte( CP_UTF8, 0, pData->szTMXBuffer, -1, pData->szUTF8Buffer, sizeof(pData->szUTF8Buffer), NULL, NULL );
-  strTMX.assign( pData->szUTF8Buffer );
+  strTU.assign( pData->szUTF8Buffer );
 
   return( iRC );
 }
@@ -752,8 +800,8 @@ int TMXFactory::xmlFormat(wchar_t *pSrc, wchar_t *pOut,size_t outCapcity)
 {
   if(pSrc==NULL || pOut==NULL)
     return -1;
-  wchar_t  srcCh[] = {L'<', L'>', L'"', L'\''};
-  wchar_t  *replStr[] = {L"&lt;", L"&gt;", L"&quot;", L"&apos;"};
+  wchar_t  srcCh[] = {L'<', L'>', L'"', L'\'',L'\r',L'\n'};
+  wchar_t  *replStr[] = {L"&lt;", L"&gt;", L"&quot;", L"&apos;",L"",L"@@"};
 
   wchar_t *pOutCurrent = pOut;
 
@@ -1335,17 +1383,10 @@ void TMXParseHandler::fillSegmentInfo
   {
     pProposal->setSourceLanguage( pSource->szLang );
 
-    // replace '#' with '\n', because it's replaced when upload proposal
-    CHAR_W *pTemp = pSource->szText;
-    CHAR_W *ptr = wcschr(pTemp,'#');
-    while(ptr != NULL)
-    {
-        *ptr = '\n';
-        pTemp = ptr+1;
-        ptr = wcschr(pTemp,'#');
-    }
+	wchar_t* pDecoded = g_sb64.decode(pSource->szText);
+	replace2NewLine(pDecoded);
 
-    pProposal->setSource( pSource->szText );
+    pProposal->setSource( pDecoded );
   } /* endif */
 
   // target info
@@ -1353,17 +1394,10 @@ void TMXParseHandler::fillSegmentInfo
   {
     pProposal->setTargetLanguage( pTarget->szLang );
 
-	// replace '#' with '\n', because it's replaced when upload proposal
-	CHAR_W *pTemp = pTarget->szText;
-	CHAR_W *ptr = wcschr(pTemp,'#');
-	while(ptr != NULL)
-	{
-		*ptr = '\n';
-		pTemp = ptr+1;
-		ptr = wcschr(pTemp,'#');
-	}
+	wchar_t*  pDecoded =  g_sb64.decode(pTarget->szText);
+	replace2NewLine(pDecoded);
 
-    pProposal->setTarget( pTarget->szText );
+    pProposal->setTarget( pDecoded );
 
 	// use target time to set updatetime
 	char timeInSecs[10+1]={0};
@@ -1872,6 +1906,45 @@ void TMXParseHandler::GetErrorText( char *pszTextBuffer, int iBufSize )
   } /* endif */
 }
 
+CHAR_W* TMXParseHandler::replace2NewLine(CHAR_W *pIn)
+{
+	if(pIn == NULL)
+		return NULL;
+	
+	CHAR_W *ptrCur = pIn;
+	CHAR_W *ptrKept = pIn;
+	while(*(ptrCur+1) != '\0')
+	{
+		if(*ptrCur=='@' &&  *(ptrCur+1)=='@' )
+		{
+			*ptrKept = '\n';
+			ptrKept++;
+			ptrCur += 2;
+			if(*ptrCur == '\0')
+				break;
+		}
+		else
+		{
+			if(ptrCur == ptrKept )
+			{
+			    ptrCur++;
+			    ptrKept++;
+			}
+			else
+			{
+				*ptrKept++ = *ptrCur++ ;
+			}
+		}
+	}
+
+	if(ptrCur!=ptrKept && ptrKept!= NULL)
+	{
+		*ptrKept++ = *ptrCur++;
+		*ptrKept = '\0';
+	}
+	return pIn;
+}
+
 std::vector<OtmProposal*>&  TMXParseHandler::getProposals()
 {
 	return this->proposals;
@@ -1886,4 +1959,83 @@ void TMXParseHandler::clearProposals()
     delete (*iter);
   }
   this->proposals.clear();
+}
+
+SimpleBase64::SimpleBase64()
+{
+	pDataEncoded = new unsigned char[DATABUFFERSIZE];
+	pDataDecoded = new unsigned char[DATABUFFERSIZE];
+
+	if(pDataEncoded!=NULL && pDataDecoded!=NULL )
+	{
+		DECODETABLE = new unsigned char[256];
+
+		for (int i = 0; i < 256; i++)
+			DECODETABLE[i] = 255;
+		for (int i = 'A'; i <= 'Z'; i++)
+			DECODETABLE[i] = (unsigned char) (i - 'A');
+		for (int i = 'a'; i <= 'z'; i++)
+			DECODETABLE[i] = (unsigned char) (26 + i - 'a');
+		for (int i = '0'; i <= '9'; i++)
+			DECODETABLE[i] = (unsigned char) (52 + i - '0');
+		DECODETABLE['+'] = 62;
+		DECODETABLE['/'] = 63;
+	}
+}
+
+SimpleBase64::~SimpleBase64()
+{
+	if(pDataEncoded != NULL)
+		delete []pDataEncoded;
+
+	if(pDataDecoded != NULL)
+		delete []pDataDecoded;
+
+	pDataDecoded = NULL;
+	pDataEncoded = NULL;
+}
+
+	
+wchar_t* SimpleBase64::decode(wchar_t* encodedStr)
+{
+	memset(pDataEncoded,0,DATABUFFERSIZE*sizeof(unsigned char));
+	int cnt = WideCharToMultiByte( CP_UTF8, 0, encodedStr, wcslen(encodedStr)+1,(LPSTR)(pDataEncoded), DATABUFFERSIZE*sizeof(unsigned char), NULL, NULL ) ;
+	if(cnt == 0)
+	{
+		return encodedStr;
+	}
+	unsigned char *data = pDataEncoded;
+
+	int orgLen = strlen((char*)data);
+	int len = ((orgLen + 3) / 4) * 3;
+	if (orgLen>0 && data[orgLen-1]=='=')
+		--len;
+	if (orgLen>1 && data[orgLen-2]=='=')
+		--len;
+	
+	memset(pDataDecoded,0,DATABUFFERSIZE*sizeof(unsigned char));
+
+	int shift = 0;
+	int accum = 0;
+	int index = 0;
+	for (int ix = 0; ix < orgLen; ix++)
+	{
+		int value = DECODETABLE[data[ix] & 0xFF];
+		if (value != 255) 
+		{
+			accum <<= 6;
+			shift += 6;
+			accum |= value;
+			if (shift >= 8) 
+			{
+				shift -= 8;
+				pDataDecoded[index++] =  (unsigned char) ((accum >> shift) & 0xff);
+			}
+		}
+	}
+	
+	memset(encodedStr,0,DATABUFFERSIZE*sizeof(wchar_t));
+	MultiByteToWideChar( CP_UTF8, 0, (LPSTR)pDataDecoded, -1, encodedStr, DATABUFFERSIZE*sizeof(wchar_t) );
+
+	return encodedStr;
 }

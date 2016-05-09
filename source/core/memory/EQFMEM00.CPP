@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //  Copyright Notice:
 //
-//      Copyright (C) 1990-2015, International Business Machines
+//      Copyright (C) 1990-2016, International Business Machines
 //      Corporation and others. All rights reserved
 
 
@@ -280,6 +280,8 @@ MRESULT MemListHandlerCallBack
         case PID_FILE_MI_ADDUSER:
         case PID_FILE_MI_REMOVEUSER:
         case PID_FILE_MI_LISTUSER:
+		case PID_FILE_MI_UPLOADTOSERVER:
+		case PID_FILE_MI_DOWNFROMSERVER:
           mResult = WinSendMsg( EqfQueryObject( NULL, clsMEMORY, OBJ_ACTIVE ),
                                 WM_EQF_PROCESSTASK, mp1, mp2 );
           break;
@@ -299,7 +301,7 @@ MRESULT MemListHandlerCallBack
       {
         int iRC = 0;
         MemoryFactory *pFactory = MemoryFactory::getInstance();
-        OtmMemory *pMemory = pFactory->openMemory( NULL, (PSZ)PVOIDFROMMP2(mp2), EXCLUSIVE, &iRC );
+        OtmMemory *pMemory = pFactory->openMemory( NULL, (PSZ)PVOIDFROMMP2(mp2), NONEXCLUSIVE, &iRC );
         if(pMemory != NULL)
         {
           // use an empty proposal to trigger updating
@@ -443,6 +445,8 @@ MRESULT MemListCallBack
           DeleteMenu( hMenu, PID_FILE_MI_ADDUSER, MF_BYCOMMAND );
           DeleteMenu( hMenu, PID_FILE_MI_REMOVEUSER, MF_BYCOMMAND );
           DeleteMenu( hMenu, PID_FILE_MI_LISTUSER, MF_BYCOMMAND );
+		  DeleteMenu( hMenu, PID_FILE_MI_UPLOADTOSERVER, MF_BYCOMMAND );
+		  DeleteMenu( hMenu, PID_FILE_MI_DOWNFROMSERVER, MF_BYCOMMAND );
         }
 		
         if ( iSelItems > 1 )
@@ -482,7 +486,9 @@ MRESULT MemListCallBack
             UtlMenuEnableItem( PID_FILE_MI_HTMLPROPS );
             // disable rename menu item
             if(!isSharedMem)
+			{
               UtlMenuEnableItem( PID_FILE_MI_RENAME );
+			}
             else
             {
               // add menu items, add/remove/list users
@@ -491,6 +497,9 @@ MRESULT MemListCallBack
                 InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_ADDUSER, "Add User");
                 InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_REMOVEUSER, "Remove User");
                 InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_LISTUSER, "List User");
+				InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_UPLOADTOSERVER, "Batch upload");
+				InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_DOWNFROMSERVER, "Batch download");
+				
               }
               else
               {
@@ -540,6 +549,8 @@ MRESULT MemListCallBack
         case PID_FILE_MI_ADDUSER:
         case PID_FILE_MI_REMOVEUSER:
         case PID_FILE_MI_LISTUSER:
+		case PID_FILE_MI_UPLOADTOSERVER:
+		case PID_FILE_MI_DOWNFROMSERVER:
         {
           SHORT sItem = QUERYSELECTIONHWND( pCommArea->hwndLB );
           if ( sItem != LIT_NONE )
@@ -643,6 +654,8 @@ MRESULT MemListCallBack
         case PID_FILE_MI_ADDUSER:
         case PID_FILE_MI_REMOVEUSER:
         case PID_FILE_MI_LISTUSER:
+		case PID_FILE_MI_UPLOADTOSERVER:
+		case PID_FILE_MI_DOWNFROMSERVER:
           mResult = (MRESULT) MemListCommands( pCommArea, hwnd,
                                                SHORT1FROMMP1( mp1 ) );
           break;
@@ -1428,6 +1441,29 @@ MRESULT MemListCommands
         case PID_FILE_MI_LISTUSER:
           UtlListUserDlg(pIDA->szMemName, clsMEMORY);
           break;
+
+		case PID_FILE_MI_UPLOADTOSERVER: 
+		case PID_FILE_MI_DOWNFROMSERVER:
+			{
+				MemoryFactory *pFactory = MemoryFactory::getInstance();
+				int iRC = 0;
+				OtmMemory *pMem = pFactory->openMemory(NULL,pIDA->szMemName,0,&iRC);
+				if(pMem != NULL)
+				{
+					bool isUpload = false;
+					if(usMenuItem == PID_FILE_MI_UPLOADTOSERVER)
+						isUpload = true;
+
+					OtmSharedMemoryPlugin *pPlugin = NULL;
+					pFactory->isSharedMemory(pIDA->szMemName,&pPlugin);
+					if(pPlugin != NULL)
+					    pPlugin->replicateWithServer(pIDA->szMemName,pMem,isUpload);
+					pFactory->closeMemory(pMem);
+				}
+			}
+			
+			break;
+
 
         default:
         {

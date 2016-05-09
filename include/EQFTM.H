@@ -1,5 +1,5 @@
 /*! EQFTM.H       External header file for Translation Memory functions
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #ifndef _OTMFUNC_H_INCLUDED
@@ -1200,7 +1200,7 @@ typedef struct _TMX_TARGET_CLB
 // max size of additional data area
 // (currently 2 * MAX_SEGMENT_SIZE for context and additional info
 // plus size of three identifierrs (USHORT) and two size fields (USHORT) )
-#define MAX_ADD_DATA_LEN ((2 * MAX_SEGMENT_SIZE) + (5 * sizeof(USHORT)))
+#define MAX_ADD_DATA_LEN ((2 * MAX_SEGMENT_SIZE)*sizeof(WCHAR) + (5 * sizeof(USHORT)))
 
 // identifier for additional info data in additional data area
 #define ADDDATA_ADDINFO_ID 1

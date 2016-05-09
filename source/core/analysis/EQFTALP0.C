@@ -1979,4 +1979,4 @@ BOOL UtlSysCheck       (
 
    return (*pTermination == TERM_NONE);
 }
-
+

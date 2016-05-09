@@ -1,7 +1,7 @@
 /*! EQF Startup Utility functions header file
 	Description:       This is header file contains the function prototypes
 					and type definitions used by the EQFDRVEX.C module.
-	Copyright (c) 1999-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 */
 #ifndef CPPTEST
 extern "C"
@@ -92,8 +92,7 @@ typedef struct _DOWNLOADPARAM
 } DOWNLOADPARAM, *PDOWNLOADPARAM;
 
 static CPlgMgXmlParser * gplginParse;
-// static COtmHttp * gOtmHttp;
-static COtmSftp * gOtmSftp;
+static COtmHttps * gOtmHttps = NULL;
 static HWND ghwndDlg;
 static LogWriter glogPlgMgr;
 static BOOL gbLogOpened;

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -1742,23 +1742,24 @@ USHORT UtlCopyHwnd2
         {
           HPOINTER hPtr = GETCURSOR();
 
-          if ( usRetCode == ERROR_NOT_READY     ||
-               usRetCode == ERROR_WRITE_PROTECT ||
-               usRetCode == ERROR_DISK_CHANGE   ||
-               usRetCode == ERROR_DISK_FULL     ||
-               usRetCode == ERROR_FILE_EXISTS   ||
-               usRetCode == ERROR_ACCESS_DENIED ||
-               usRetCode == ERROR_ACCESS_DENIED ||
-               usRetCode == ERROR_PATH_NOT_FOUND ||
-               usRetCode == ERROR_DIRECTORY ||
+          if ( usRetCode == ERROR_NOT_READY         ||
+               usRetCode == ERROR_WRITE_PROTECT     ||
+               usRetCode == ERROR_DISK_CHANGE       ||
+               usRetCode == ERROR_DISK_FULL         ||
+               usRetCode == ERROR_FILE_EXISTS       ||
+               usRetCode == ERROR_ACCESS_DENIED     ||
+               usRetCode == ERROR_SHARING_VIOLATION ||
+               usRetCode == ERROR_PATH_NOT_FOUND    ||
+               usRetCode == ERROR_DIRECTORY         ||
                usRetCode == ERROR_INVALID_DRIVE          )
           {
             /************************************************************/
             /* error occured in target drive                            */
             /************************************************************/
-            if ( usRetCode == ERROR_NOT_READY   ||
-                 usRetCode == ERROR_PATH_NOT_FOUND ||
-                 usRetCode == ERROR_ACCESS_DENIED    )           /*(PTM KIT0840)*/
+            if ( usRetCode == ERROR_NOT_READY         ||
+                 usRetCode == ERROR_PATH_NOT_FOUND    ||
+                 usRetCode == ERROR_ACCESS_DENIED     || /*(PTM KIT0840)*/
+                 usRetCode == ERROR_SHARING_VIOLATION )  
             {
               hDirHandle = HDIR_CREATE;
               usRcCode = UtlFindFirstHwnd( pszSrc, &hDirHandle, FILE_NORMAL,

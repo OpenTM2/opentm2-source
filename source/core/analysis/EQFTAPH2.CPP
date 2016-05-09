@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------\*
 |                                                                              |
-|                Copyright (C) 1990-2015, International Business Machines      |
+|                Copyright (C) 1990-2016, International Business Machines      |
 |                Corporation and others. All rights reserved                   |
 |                                                                              |
 |   EQFTAPH2.C                                                                 |
@@ -5284,6 +5284,41 @@ BOOL TAWriteInUTF8( PXMLOUTDATA pData, FILE *hfOut, PSZ_W pszUTF16 )
   return( fOK );
 }
 
+// prepare segment text for writing in EXP format
+//   - LF is changed to CRLF
+void TAPrepareSegmentText( PSZ_W pszSegmentIn, PSZ_W pszSegmentOut )
+{
+#ifdef FORCE_CRLF_IN_MEMORY_OUTPUT
+  PSZ_W pszSource = pszSegmentIn;
+  PSZ_W pszTarget = pszSegmentOut;
+
+  while( *pszSource )
+  {
+    if ( *pszSource == L'\r' )
+    {
+      // ignore carriage return
+      pszSource++;
+    }
+    else if ( *pszSource == L'\n' )
+    {
+      // convert to CRLF
+      pszSource++;
+      *pszTarget++ = L'\r';
+      *pszTarget++ = L'\n';
+    }
+    else
+    {
+      // copy as-is
+      *pszTarget++ = *pszSource++;
+    } /* endif */
+  } /* endwhile */
+  *pszTarget = 0;
+#else
+  wcscpy( pszSegmentOut, pszSegmentIn );
+#endif
+}
+
+
 // escape characters in segment data to form valid XML 
 void TAEscapeChars( PSZ_W pszText, PSZ_W pszBuffer )
 {
@@ -5954,7 +5989,9 @@ BOOL TAWriteMTSegmentToExpFile( PTAINPUT pTAInput, FILE *hfOut, PSZ_W pszData, U
   } /* endif */
 
   fputws( MEM_SOURCE_BEGIN_TAGW, hfOut );
-  fputws( pszData, hfOut );
+  PXMLOUTDATA pData = (PXMLOUTDATA)pTAInput->pInD->pCBMachTransFile;
+  TAPrepareSegmentText( pszData, pData->szUTF16Buffer );
+  fputws( pData->szUTF16Buffer , hfOut );
   fputws( MEM_SOURCE_END_TAGW, hfOut );
   fputws( MEM_TARGET_BEGIN_TAGW, hfOut );
   fputws( MEM_TARGET_END_TAGW, hfOut );
@@ -6268,7 +6305,7 @@ BOOL TAWriteMTSegment( PTAINPUT pTAInput, ULONG ulLength, PSZ_W pszData, ULONG u
 
   if ( fOK && pData->fFormat7 ) 
   {
-    if ( (iMatchesFound == 0) && (!pData->fNoDups7 || !fIsDuplicate) )
+    if ( (usFuzzy < 50) && (!pData->fNoDups7 || !fIsDuplicate) )
     {
       fOK = TAWriteMTSegmentToXmlFile( pData, pData->hfOut7, pData->szCurDoc7, ulLength, pszData, ulSegNum, 1, pData->iCurSeg7 );
       pData->ulTotal7 += ulSourceWords;
@@ -6278,7 +6315,7 @@ BOOL TAWriteMTSegment( PTAINPUT pTAInput, ULONG ulLength, PSZ_W pszData, ULONG u
 	
   if ( fOK && pData->fFormat8 ) 
   {
-    if ( (iMatchesFound == 0) && (!pData->fNoDups8 || !fIsDuplicate) )
+    if ( (usFuzzy < 50) && (!pData->fNoDups8 || !fIsDuplicate) )
     {
       fOK = TAWriteMTSegmentToExpFile( pTAInput, pData->hfOut8, pszData, ulSegNum, pData->iCurSeg8, pData->fIncludeWordCountInfo, ulSourceWords );
       pData->ulTotal8 += ulSourceWords;

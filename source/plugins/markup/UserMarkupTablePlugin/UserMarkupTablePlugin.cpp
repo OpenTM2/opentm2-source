@@ -4,7 +4,7 @@
 
   \section COPYRIGHT Copyright Notice
 
-  Copyright (C) 1990-2015, International Business Machines
+  Copyright (C) 1990-2016, International Business Machines
   Corporation and others. All rights reserved
 
   \section DESCRIPTION
@@ -90,13 +90,19 @@ static  char *PluginControlFile           = "UserMarkupTablePlugin.xml" ;
 void      GetControlNode( char *, char *, char * ) ;
 void      SaveValue( char **, char * ) ;
 BOOL      CheckFilesExist( char *, char *, char * ) ;
-int       CopyMarkupFiles( char *, char *, char *, char *, char * ) ;
-int       CopyMarkupFile( char *, char * ) ;
+int       CopyMarkupFiles( char *, char *, char *, char *, char *, BOOL ) ;
+int       CopyMarkupFile( char *, char *, BOOL ) ;
+void      PerformPendingUpdates( char * ) ;
 
 
 // number of markups
 #define MAX_NUM_MARKUPS  300
 
+
+#define COPY_MARKUP_NOCHANGE     0
+#define COPY_MARKUP_COPIED       1
+#define COPY_MARKUP_INUSE        2
+#define COPY_MARKUP_ERROR        3
 
 
 MARKUPINFO  *ptrMarkupInfo ;
@@ -117,7 +123,7 @@ UserMarkupTablePlugin::UserMarkupTablePlugin()
     char      szContent[512] ;
     char      szErrMsg[MAX_FILELIST] ;
     int       i ;
-    BOOL      bLogOpen ;
+    BOOL      bLogOpen = FALSE ;
 
   pszFileList = NULL;
   pszLongDescription = NULL;
@@ -348,6 +354,10 @@ UserMarkupTablePlugin::UserMarkupTablePlugin()
   if ( fControl ) 
      fclose( fControl ) ;
 
+
+  PerformPendingUpdates( pszUserExitPath ) ;
+
+
 #ifdef MARKUPTABLE_LOGGING
   this->Log.write( "Load completed." );
   if ( bLogOpen ) this->Log.close();
@@ -355,108 +365,6 @@ UserMarkupTablePlugin::UserMarkupTablePlugin()
 }
 
 
-
-
-///FILE *fdaw;
-///  FILEFINDBUF ResultBuf;               // DOS file find struct
-///  CHAR        chTempName[MAX_EQF_PATH]; // buffer for file names
-///  USHORT      usCount = 1;
-///  HDIR        hDirHandle = HDIR_CREATE;    // DosFind routine handle
-///  USHORT      usDosRC;                     // return code of Dos... alias Utl...
-///
-///  USHORT    usOpenAction;    
-///
-///	pszName = "UserMarkupTablePlugin";
-///	pszShortDescription = "User Markup Table Plugin";
-///	pszLongDescription = "This is the markup table plugin for the user\'s markup tables";
-///	pszVersion = "V1.0";
-///	pszSupplier = "User";
-///	pluginType = OtmPlugin::eMarkupType;
-///	usableState = OtmPlugin::eUsable;
-///    bDeletable = TRUE ;
-///    bExportable = TRUE ;
-///    bImportable = TRUE ;
-///    bProtected = FALSE ;
-///
-///  // get the path to our plugin data
-///    szBasePath[0] = '\0';
-///    ::GetModuleFileName((HINSTANCE)&__ImageBase, szBasePath, sizeof(szBasePath)-1 );
-///    char *pszPathEnd = strrchr( szBasePath, '\\' );
-///    if ( pszPathEnd != NULL )
-///    {
-///      *pszPathEnd = '\0';
-///    } /* end */       
-///  }
-///
-///
-///
-///  strcpy( chTempName, szBasePath );
-///  strcat( chTempName, "\\TABLE\\*" ) ;
-///  strcat( chTempName, EXT_OF_FORMAT ) ;
-///  MarkupObjectList[0] = NULL ;
-///  iMarkupCount = 0 ;
-///
-///  usDosRC = UtlFindFirst( chTempName, &hDirHandle, FILE_NORMAL,
-///                       &ResultBuf, sizeof( ResultBuf),
-///                       &usCount, 0L, FALSE );
-///
-///fdaw=fopen("C:\\daw.daw","a");
-///fprintf(fdaw,"First:  rc=%d\n",usDosRC);
-///if ( usDosRC == 0 ) {
-///fprintf(fdaw,"        count=%d\n",usCount);
-///if ( usCount>=0 ) {
-///fprintf(fdaw,"        name=%s\n",ResultBuf.cFileName);
-///}
-///}
-///fclose(fdaw);
-///  int i = 0;
-///  while ( usCount && (usDosRC == 0 ) ) 
-///  {
-///     ptrMarkupInfo = (MARKUPINFO*)malloc( sizeof(MARKUPINFO) ) ;
-///     strcpy( chTempName, ResultBuf.cFileName );
-///     char *ptr = strrchr( chTempName, '.' );
-///     if ( ptr != NULL )
-///       *ptr = '\0';
-///     ptrMarkupInfo->pszName = (char*)malloc( strlen(chTempName) + 1 ) ;
-///     strcpy( ptrMarkupInfo->pszName, chTempName ) ;
-///     ptrMarkupInfo->pszShortDescription = (char*)malloc( 5 ) ;
-///     strcpy( ptrMarkupInfo->pszShortDescription, "User" ) ;
-///     ptrMarkupInfo->pszLongDescription = ptrMarkupInfo->pszShortDescription ;
-///     ptrMarkupInfo->pszVersion = (char*)malloc( 4 ) ;
-///     strcpy( ptrMarkupInfo->pszVersion, "1.0" );
-///     sprintf( chTempName, "TABLE\\%s",ResultBuf.cFileName ) ;
-///     ptrMarkupInfo->pszTable = (char*)malloc( strlen(chTempName) + 1 ) ;
-///     strcpy( ptrMarkupInfo->pszTable, chTempName ) ;
-///     ptrMarkupInfo->pszUserExit = (char*)malloc( 1 ) ;
-///     strcpy( ptrMarkupInfo->pszUserExit, "" ) ;
-///     ptrMarkupInfo->pszFileList = (char*)malloc( 1 ) ;
-///     strcpy( ptrMarkupInfo->pszFileList, "" ) ;
-///     MarkupObjectList[i++] = new UserMarkupTable( ptrMarkupInfo, szBasePath );
-///     MarkupObjectList[i] = NULL ;
-///fdaw=fopen("C:\\daw.daw","a");
-///fprintf(fdaw,"ALLOC:  0=%lx  1=%lx  2=%lx  3-%lx  4-%lx  5=%lx  6=%lx  7=%lx\n",
-///        ptrMarkupInfo,ptrMarkupInfo->pszName,ptrMarkupInfo->pszShortDescription,ptrMarkupInfo->pszLongDescription,ptrMarkupInfo->pszVersion,ptrMarkupInfo->pszTable,ptrMarkupInfo->pszUserExit,ptrMarkupInfo->pszFileList);
-///fclose(fdaw);
-///
-///     usDosRC = UtlFindNext( hDirHandle, &ResultBuf,
-///                         sizeof( ResultBuf), &usCount, FALSE );
-///fdaw=fopen("C:\\daw.daw","a");
-///fprintf(fdaw,"Next:  rc=%d\n",usDosRC);
-///if ( usDosRC == 0 ) {
-///fprintf(fdaw,"        count=%d\n",usCount);
-///if ( usCount>=0 ) {
-///fprintf(fdaw,"        name=%s\n",ResultBuf.cFileName);
-///}
-///}
-///fclose(fdaw);
-///  } /* endwhile */
-///
-///  // close search file handle
-///  if ( fControl ) 
-///     fclose( fControl ) ;
-///
-///  this->Log.write( "Load completed." );
-///  if ( bLogOpen ) this->Log.close();
 
 
 /* -------------------------------------------------------------- */
@@ -678,9 +586,11 @@ const bool UserMarkupTablePlugin::isProtected()
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
   \param pFileList   Pointer to other markup table files (with TABLE\ or BIN\ prefix) or NULL
   
-	\returns TRUE if files were updated successfully.
+	\returns  0 when the update failed
+              1 when the markup table files have been updated
+              2 when the update has been delayed and will occur at restart
 */
-const bool UserMarkupTablePlugin::updateFiles(
+const int UserMarkupTablePlugin::updateFiles(
    char   *pszMarkupName,
    char   *pszDescription,
    char   *pszVersion,
@@ -715,18 +625,8 @@ const bool UserMarkupTablePlugin::updateFiles(
      bool   bFileChanged = FALSE ;
      bool   bNewMarkup = FALSE ;
      bool   bUpdateMarkup = FALSE ;
-     bool   bLogOpen ;
-     bool   bReturn = FALSE ;
-//FILE *fdaw;
-//fdaw=fopen("C:\\daw.daw","a");
-//fprintf(fdaw,"Updating...  %s\n",pszMarkupName);
-//if ( pszDescription ) 
-//fprintf(fdaw,"       D:[%s]\n",pszDescription);
-//if ( pszTableFileName )
-//fprintf(fdaw,"       T:[%s]\n",pszTableFileName);
-//if ( pszUserExitFileName )
-//fprintf(fdaw,"       U:[%s]\n",pszUserExitFileName);
-//fclose(fdaw);
+     bool   bLogOpen = FALSE ;
+     int    iReturn = UPDATE_MARKUP_ERROR ;
 
      /* ------------------------------------------------------------------- */
      /*  Initialization.                                                    */
@@ -842,7 +742,7 @@ const bool UserMarkupTablePlugin::updateFiles(
      /*  Process this request.                                              */
      /* ------------------------------------------------------------------- */
      if ( markup != NULL ) {
-        bReturn = TRUE ;
+        iReturn = UPDATE_MARKUP_OK ;
 
         /* ------------------------------------------------------------------- */
         /*  If no description was provided, get the text from the TBL file.    */
@@ -886,12 +786,12 @@ const bool UserMarkupTablePlugin::updateFiles(
            if ( ! stricmp( pszTableFileName, szTemp ) ) {
               bUpdateMarkup = TRUE ; 
            } else {
-              iRC = CopyMarkupFile( pszTableFileName, szTemp  ) ;
-              if ( iRC ) {
-                 if ( iRC == 1 )  {
+              iRC = CopyMarkupFile( pszTableFileName, szTemp, FALSE ) ;
+              if ( iRC != COPY_MARKUP_NOCHANGE ) {
+                 if ( iRC == COPY_MARKUP_COPIED ) {
                     bUpdateMarkup = TRUE ; 
                  } else {
-                    bReturn = FALSE ;
+                    iReturn = UPDATE_MARKUP_ERROR ;
 #ifdef MARKUPTABLE_LOGGING
                     this->Log.writef( "  Copy file failed: %s -> %s",pszTableFileName,szTemp);
 #endif
@@ -899,7 +799,7 @@ const bool UserMarkupTablePlugin::updateFiles(
               }
            }
         }
-        if ( ( bReturn ) &&
+        if ( ( iReturn == UPDATE_MARKUP_OK ) &&
              ( pszUserExitFileName ) &&
              ( *pszUserExitFileName != NULL ) &&
              ( *(pszUserExitFileName+1) == ':' ) ) {
@@ -907,13 +807,17 @@ const bool UserMarkupTablePlugin::updateFiles(
            if ( ! stricmp( pszUserExitFileName, szTemp ) ) {
               bUpdateMarkup = TRUE ; 
            } else {
-              iRC = CopyMarkupFile( pszUserExitFileName, szTemp ) ;
-              if ( iRC ) {
-                 if ( iRC == 1 )  {
+              iRC = CopyMarkupFile( pszUserExitFileName, szTemp, TRUE ) ;
+              if ( iRC != COPY_MARKUP_NOCHANGE ) {
+                 if ( iRC == COPY_MARKUP_COPIED ) {
                     bUpdateMarkup = TRUE ; 
+                 } else
+                 if ( iRC == COPY_MARKUP_INUSE ) {
+                    bUpdateMarkup = TRUE ; 
+                    iReturn = iRC ;
                  } else {
                     if ( ! bNewMarkup ) {
-                       bReturn = FALSE ;
+                       iReturn = UPDATE_MARKUP_ERROR ;
 #ifdef MARKUPTABLE_LOGGING
                        this->Log.writef( "  Copy file failed: %s -> %s",pszUserExitFileName,szTemp);
 #endif
@@ -922,17 +826,21 @@ const bool UserMarkupTablePlugin::updateFiles(
               }
            }
         }
-        if ( ( bReturn ) &&
+        if ( ( iReturn == UPDATE_MARKUP_OK ) &&
              ( pszFileList ) &&
              ( *pszFileList != NULL ) ) {
            markup->getAllFiles( szTemp, sizeof(szTemp) ) ;
-           iRC = CopyMarkupFiles( pszFileList, szTemp, szBasePath, pszTableDirectory, pszUserExitDirectory ) ;
-           if ( iRC ) {
-              if ( iRC == 1 )  {
+           iRC = CopyMarkupFiles( pszFileList, szTemp, szBasePath, pszTableDirectory, pszUserExitDirectory, TRUE ) ;
+           if ( iRC != COPY_MARKUP_NOCHANGE ) {
+              if ( iRC == COPY_MARKUP_COPIED )  {
                  bUpdateMarkup = TRUE ; 
+              } else
+              if ( iRC == COPY_MARKUP_INUSE ) {
+                 bUpdateMarkup = TRUE ; 
+                 iReturn = iRC ;
               } else {
                  if ( ! bNewMarkup ) {
-                    bReturn = FALSE ;
+                    iReturn = UPDATE_MARKUP_ERROR ;
 #ifdef MARKUPTABLE_LOGGING
                     this->Log.writef( "  Copy file failed: %s -> %s",pszFileList,szTemp);
 #endif
@@ -945,7 +853,7 @@ const bool UserMarkupTablePlugin::updateFiles(
         /* ------------------------------------------------------------------- */
         /*  Update the markup table object with this new information.          */
         /* ------------------------------------------------------------------- */
-        if ( ( bReturn ) &&
+        if ( ( iReturn == UPDATE_MARKUP_OK ) &&
              ( ( bNewMarkup ) ||
                ( ( bUpdateMarkup ) &&
                  ( markup->updateFiles( szMarkupName, szDescription, szVersion,
@@ -1082,7 +990,7 @@ const bool UserMarkupTablePlugin::updateFiles(
 #ifdef MARKUPTABLE_LOGGING
               this->Log.write( "  Update failed for control file." );
 #endif
-              bReturn = false ;
+              iReturn = UPDATE_MARKUP_ERROR ;
            }
            if ( fInControl ) 
               fclose( fInControl ) ;
@@ -1090,27 +998,25 @@ const bool UserMarkupTablePlugin::updateFiles(
               fclose( fOutControl ) ;
            if ( bFileChanged ) {
               if ( UtlCopy( szNewFile, szOldFile, 1, 0L, TRUE ) ) {
-                 bReturn = false ;
+                 iReturn = UPDATE_MARKUP_ERROR ;
 #ifdef MARKUPTABLE_LOGGING
                  this->Log.write( "Copy failed for control file." );
 #endif
               }
-              UtlDelete( szNewFile, 0L, FALSE ) ;
            }
+           UtlDelete( szNewFile, 0L, FALSE ) ;
 
 #ifdef MARKUPTABLE_LOGGING
            this->Log.write( "Update completed." );
-           if ( bLogOpen ) this->Log.close();
 #endif
         }
-        bReturn = true ;
      } 
 
 #ifdef MARKUPTABLE_LOGGING
      if ( bLogOpen ) this->Log.close();
 #endif
 
-     return( bReturn ) ;
+     return( iReturn ) ;
   }
 
 
@@ -1145,7 +1051,6 @@ const bool UserMarkupTablePlugin::deleteMarkup(
      bool   bFileChanged = FALSE ;
      bool   bLogOpen;
      bool   bReturn = FALSE ;
-//FILE *fdaw;
 
      /* ------------------------------------------------------------------- */
      /*  Initialization.                                                    */
@@ -1287,9 +1192,9 @@ const bool UserMarkupTablePlugin::deleteMarkup(
 
 
 /* -------------------------------------------------------------- */
-/*   stopPlugin.                                                  */
+/*   stopPlugin                                                   */
 /* -------------------------------------------------------------- */
-/*!     \brief Stop the markup table plugin 
+/*!     \brief Stop the markup table plugin
 */
 bool UserMarkupTablePlugin::stopPlugin( bool fForce  )
 {
@@ -1338,14 +1243,12 @@ bool UserMarkupTablePlugin::stopPlugin( bool fForce  )
   if ( bLogOpen ) this->Log.close();
 #endif
 
-
   // de-register plugin
 	PluginManager *pPluginManager = PluginManager::getInstance();
 	pPluginManager->deregisterPlugin( (OtmPlugin *)this );
 
   return( true );
 }
-
 
 /* -------------------------------------------------------------- */
 /*   registerPlugin.                                              */
@@ -1481,7 +1384,8 @@ BOOL  CheckFilesExist( char *pszFile, char *pszBasePath, char *pszErrMsg  )
 /*                                                                */
 /*   Returns:   0 = File not changed and not copied.              */
 /*              1 = File new/change and was copied.               */
-/*              2 = Unsuccessful.                                 */
+/*              2 = File in use, not copied, sharing violation.   */
+/*              3 = Unsuccessful.                                 */
 /* -------------------------------------------------------------- */
 /*! 
   \brief Copy a set of files when newer than old files
@@ -1490,27 +1394,29 @@ BOOL  CheckFilesExist( char *pszFile, char *pszBasePath, char *pszErrMsg  )
   \param pszBasePath   Base path containing old files
   \param pszTableDirectory  Directory containing TBL files (TABLE)
   \param pszUserExitDirectory  Directory containing user exit DLL files (BIN)
+  \param bSaveInUse  TRUE=Save file if in use
   \returns 0 = File has not changed and was not copied
            1 = File is new/changed and was copied
-           2 = Unsuccessful copy
+           2 = File in use, not copied, sharing violation. 
+           3 = Unsuccessful copy
 */
 
 int  CopyMarkupFiles( char *pszNewFile, char *pszOldFile, 
                       char *pszBasePath, char *pszTableDirectory,
-                      char *pszUserExitDirectory ) 
+                      char *pszUserExitDirectory, BOOL bSaveInUse ) 
 {
    char    szTemp[8096];
    char    szTemp2[8096];
    char    *ptrNewFile, *ptrOldFile ;
    char    *ptrChar, *ptrChar2 ; 
    int     iRC ;
-   int     iReturn = 0 ;
+   int     iReturn = COPY_MARKUP_NOCHANGE ;
 
 
    strcpy( szTemp2, pszNewFile ) ;
    ptrNewFile = strtok( szTemp2, " ," ) ;
    while( ( ptrNewFile ) &&
-          ( iReturn != 2 ) ) {
+          ( iReturn != COPY_MARKUP_ERROR ) ) {
       ptrChar = strrchr( ptrNewFile, '\\' ) ;
       if ( ptrChar ) {
          strcpy( szTemp, pszOldFile ) ;
@@ -1532,13 +1438,13 @@ int  CopyMarkupFiles( char *pszNewFile, char *pszOldFile,
                sprintf( szTemp, "%s\\%s\\%s", pszBasePath, pszTableDirectory, ptrChar+1 ) ;
             ptrOldFile = szTemp ;
          }
-         iRC = CopyMarkupFile( ptrNewFile, ptrOldFile ) ;
-         if ( iRC ) { 
-            if ( iRC == 1 ) {
-               iReturn = 1 ;
-            } else {
-               iReturn = 2 ;
-            }
+
+         iRC = CopyMarkupFile( ptrNewFile, ptrOldFile, bSaveInUse ) ;
+         if ( ( iRC == COPY_MARKUP_INUSE ) ||
+              ( iRC == COPY_MARKUP_ERROR ) ||
+              ( ( iRC == COPY_MARKUP_COPIED ) &&
+                ( iReturn != COPY_MARKUP_INUSE ) ) ) {
+            iReturn = iRC ;
          }
       }
       ptrNewFile = strtok( NULL, " ," ) ;
@@ -1553,40 +1459,164 @@ int  CopyMarkupFiles( char *pszNewFile, char *pszOldFile,
 /*                                                                */
 /*   Returns:   0 = File not changed and not copied.              */
 /*              1 = File new/change and was copied.               */
-/*              2 = Unsuccessful.                                 */
+/*              2 = File in use, not copied, sharing violation.   */
+/*              3 = Unsuccessful.                                 */
 /* -------------------------------------------------------------- */
 /*! 
   \brief Copy a single file when newer than old file
   \param pszNewFile   Fully qualified new file to copy from
   \param pszMarkupFile   Fully qualified current file to copy to
+  \param bSaveInUse  TRUE=Save file if in use
   \returns 0 = File has not changed and was not copied
            1 = File is new/changed and was copied
-           2 = Unsuccessful copy
+           2 = File in use, sharing violation
+           3 = Unsuccessful copy
 */
 
-int  CopyMarkupFile( char *pszNewFile, char *pszMarkupFile  ) 
+int  CopyMarkupFile( char *pszNewFile, char *pszMarkupFile,
+                     BOOL bSaveInUse )
 {
+   char    szTemp[MAX_LONGFILESPEC];
+   char    *ptrChar ; 
    short   sResult ;
-   int     iReturn = 0 ;
+   int     iReturn = COPY_MARKUP_NOCHANGE ;
 
 
    if ( UtlFileExist( pszNewFile ) ) {
       if ( UtlFileExist( pszMarkupFile ) ) {
          if ( ( UtlCompFDates( pszNewFile, pszMarkupFile, &sResult, FALSE ) == 0 ) &&
               ( sResult > 0 ) ) {
-            if ( ! UtlCopy( pszNewFile, pszMarkupFile, 1, 0L, TRUE ) ) 
-               iReturn = 1 ;
+            sResult = UtlCopy( pszNewFile, pszMarkupFile, 1, 0L, FALSE ); 
+            if ( ( bSaveInUse ) &&
+                 ( sResult == ERROR_SHARING_VIOLATION ) ) {
+               iReturn = COPY_MARKUP_INUSE ;
+
+               // copy markup table file to "copy pending user exit" directory
+               strcpy( szTemp, pszMarkupFile ) ;
+               ptrChar = strrchr( szTemp, BACKSLASH ) ; 
+               if ( ptrChar ) {
+                  int iLen = strlen(PENDINGEXITS_DIR) ;
+                  memmove( ptrChar+iLen+1, ptrChar, strlen(ptrChar)+1 ) ;
+                  *ptrChar = BACKSLASH ;
+                  strncpy( ptrChar+1, PENDINGEXITS_DIR, iLen ) ;
+                  ptrChar += iLen + 1 ;
+                  *ptrChar = 0 ;
+                  UtlMkDir( szTemp, 0, FALSE );
+                  *ptrChar = BACKSLASH ;
+                  iLen = CopyMarkupFile( pszNewFile, szTemp, FALSE ) ;
+                  if ( iLen == COPY_MARKUP_ERROR ) {
+                     iReturn = iLen ; 
+                  }
+               } else {
+                  iReturn = COPY_MARKUP_ERROR ;
+               }
+            }
             else
-               iReturn = 2 ;
+            if ( ! sResult ) {
+               iReturn = COPY_MARKUP_COPIED ;
+            } else {
+               iReturn = COPY_MARKUP_ERROR ;
+            }
          }
       } else {
-         if ( ! UtlCopy( pszNewFile, pszMarkupFile, 1, 0L, TRUE ) ) 
-            iReturn = 1 ;
+         sResult = UtlCopy( pszNewFile, pszMarkupFile, 1, 0L, TRUE );
+         if ( ! sResult ) 
+            iReturn = COPY_MARKUP_COPIED ;
          else
-            iReturn = 2 ;
+            iReturn = COPY_MARKUP_ERROR ;
       }
    } else {
-      iReturn = 2 ;
+      iReturn = COPY_MARKUP_ERROR ;
    }
    return( iReturn ) ;
 }
+
+
+// perform any pending updates on startup
+void PerformPendingUpdates( char *pszBasePath )
+{
+  FILEFINDBUF stFile;              // Output buffer of UtlFindFirst
+  USHORT usCount;                  // For UtlFindFirst
+  HDIR hSearch = HDIR_CREATE;      // Directory handle for UtlFindFirst
+  USHORT usRC;
+  CHAR szPending[MAX_EQF_PATH];    // buffer for directory with pending DLLs
+  CHAR szSearch[MAX_EQF_PATH];     // buffer for search pattern
+  CHAR szSource[MAX_EQF_PATH];     // buffer for source file
+  CHAR szTarget[MAX_EQF_PATH];     // buffer for target file
+  BOOL fUserExitsMoved = FALSE;    // TRUE = user exits have been moved
+
+  //
+  // copy any user exits
+  //
+
+  // setup search path
+  strcpy( szPending, pszBasePath ) ;
+  strcat( szPending, BACKSLASH_STR );
+  strcat( szPending, PENDINGEXITS_DIR );
+  strcat( szPending, BACKSLASH_STR );
+
+  strcpy( szSearch, szPending ) ;
+  strcat( szSearch, DEFAULT_PATTERN_NAME );
+  strcat( szSearch, EXT_OF_DLL );
+
+  // loop over all user exit DLLs in  'pending user exit copy' directory
+  memset( &stFile, 0, sizeof(stFile) );
+  usCount = 1;
+  usRC = UtlFindFirst( szSearch, &hSearch, 0, &stFile, sizeof(stFile), &usCount, 0L, FALSE );
+  while ( (usRC == NO_ERROR) && usCount )
+  {
+    // setup source and target path names
+    strcpy( szSource, szPending );
+    strcat( szSource, RESBUFNAME(stFile) );
+    strcpy( szTarget, pszBasePath );
+    strcat( szTarget, BACKSLASH_STR );
+    strcat( szTarget, RESBUFNAME(stFile) );
+
+    // move user exit
+    UtlDelete( szTarget, 0L, FALSE );
+    UtlMove( szSource, szTarget, 0L, FALSE );
+    fUserExitsMoved = TRUE;
+
+    // next user exit DLL
+    usRC = UtlFindNext( hSearch, &stFile, sizeof(stFile), &usCount, FALSE );
+  } /* endwhile */
+  if ( hSearch != HDIR_CREATE ) UtlFindClose( hSearch, FALSE );
+
+  // reset folder-is-disabled flags in folder properties
+  if ( fUserExitsMoved )
+  {
+    UtlRemoveDir( szPending, FALSE );
+
+    // loop over all folder properties and reset flag if required
+    hSearch = HDIR_CREATE;      
+    UtlMakeEQFPath( szSearch, NULC, PROPERTY_PATH, NULL );
+    strcat( szSearch, BACKSLASH_STR );
+    strcat( szSearch, DEFAULT_PATTERN_NAME );
+    strcat( szSearch, EXT_FOLDER_MAIN );
+    memset( &stFile, 0, sizeof(stFile) );
+    usCount = 1;
+    usRC = UtlFindFirst( szSearch, &hSearch, 0, &stFile, sizeof(stFile), &usCount, 0L, FALSE );
+    while ( (usRC == NO_ERROR) && usCount )
+    {
+      PPROPFOLDER pProp = NULL;
+      ULONG       ulSize = 0;
+
+      UtlMakeEQFPath( szSource, NULC, PROPERTY_PATH, NULL );
+      strcat( szSource, BACKSLASH_STR );
+      strcat( szSource, RESBUFNAME(stFile) );
+      if ( UtlLoadFileL( szSource, (PVOID *)&pProp, &ulSize, FALSE, FALSE ) )
+      {
+        if ( pProp->fDisabled_UserExitRefresh )
+        {
+          pProp->fDisabled_UserExitRefresh = FALSE;
+          UtlWriteFileL( szSource, ulSize, pProp, FALSE );
+        } /* endif */           
+        UtlAlloc( (PVOID *)&pProp, 0, 0, NOMSG );
+      } /* endif */     
+
+      // next property file
+      usRC = UtlFindNext( hSearch, &stFile, sizeof(stFile), &usCount, FALSE );
+    } /* endwhile */
+    if ( hSearch != HDIR_CREATE ) UtlFindClose( hSearch, FALSE );
+  } /* endif */     
+} /* end of function PerformPendingUpdates */

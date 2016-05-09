@@ -1,10 +1,9 @@
 //+----------------------------------------------------------------------------+
-//|Copyright Notice:                                                           |
+//|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
-
 
         #ifndef ADB_SYNCHRONIZERESPONSE_H
         #define ADB_SYNCHRONIZERESPONSE_H
@@ -13,7 +12,7 @@
         * adb_synchronizeResponse.h
         *
         * This file was auto-generated from WSDL
-        * by the Apache Axis2/Java version: 1.6.1  Built on : Aug 31, 2011 (12:23:23 CEST)
+        * by the Apache Axis2/Java version: 1.6.4  Built on : Dec 28, 2015 (10:04:10 GMT)
         */
 
        /**

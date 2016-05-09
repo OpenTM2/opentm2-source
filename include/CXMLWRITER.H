@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2012, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -123,6 +123,10 @@ public:
   // write string, escape characters
   void WriteString( const char * text );
   void WriteString( const WCHAR *text );
+
+  // write string, enclose in CDATA section
+  void WriteCDataString( const char * text );
+  void WriteCDataString( const WCHAR *text );
 
   // write integer value as string
   void WriteInt( int iValue );

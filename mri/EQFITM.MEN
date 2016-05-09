@@ -1,176 +1,12 @@
-//ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
-//³EQFITM.MEN                                                                  ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³Copyright Notice:                                                           ³
-//³                                                                            ³
-//³      Copyright (C) 1990-2010, International Business Machines              ³
-//³      Corporation and others. All rights reserved                           ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³Author:       R.Jornitz                                                     ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³Description:  Actionbar settings of visITM                                  ³
-//³              Text of AAB items will be set in the MRI file                 ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³Entry Points:                                                               ³
-//³                                                                            ³
-//³                                                                           ³
-//³ÀÄÄ status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          ³
-//³            "Q"=Quick-and-dirty )                                           ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³Externals:                                                                  ³
-//³                                                                            ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³Internals:                                                                  ³
-//³                                                                            ³
-//³                                                                           ³
-//³ÀÄÄ status ("H"=Header,"D"=Design,"C"=Code,"T"=Test, " "=complete,          ³
-//³            "Q"=Quick-and-dirty )                                           ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³To be done / known limitations / caveats:                                   ³
-//³                                                                            ³
-//ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
-//³ PVCS Section                                                               ³
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 10 Nov 2004
-// --RJ: S606015: delete obsolute compiler ifdefs; add Homepage and DOcumentation items in Help Pulldown
-// 
-// 
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 26 Jun 2003
-//  -- New Release TM6.0.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 25 Jul 2002
-//  -- New Release TM6.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Aug 2001
-//  -- New Release TM2.7.2!!
-// 
-// 
-// $Revision: 1.6 $ ----------- 9 Oct 2000
-// -- differentiate menu for OS/2 and WINDOWS
-// 
-//
-// $Revision: 1.5 $ ----------- 5 Oct 2000
-// -- add menuitems for edit ITM target doc
-//
-//
-// $Revision: 1.4 $ ----------- 25 Sep 2000
-// -- add Bookmark items
-//
-//
-// $Revision: 1.3 $ ----------- 18 Sep 2000
-// -- add FIND to ITM
-//
-//
-//
-// $Revision: 1.2 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-//
-/*
- * $Header:   J:\DATA\EQFITM.MVN   1.4   08 Sep 1997 10:37:44   BUILD  $
- *
- * $Log:   J:\DATA\EQFITM.MVN  $
- *
- *    Rev 1.4   08 Sep 1997 10:37:44   BUILD
- * -- A50: add automatic linewrap to ITM
- *
- *    Rev 1.3   23 Jun 1997 10:09:16   BUILD
- * -- A57: ITM "Goto next /prev irregular": add menuitem
- *
- *    Rev 1.2   14 Mar 1996 11:31:10   BUILD
- * - KWT0467: changes for ITM visual
- *
- *    Rev 1.1   12 Feb 1996 10:38:28   BUILD
- * - add changes in Visual ITM pulldowns
- *
- *    Rev 1.0   09 Jan 1996 10:08:10   BUILD
- * Initial revision.
+/*+----------------------------------------------------------------------------+
+  |  EQFITM.MEN - Menu template for ITM window                                 |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2016, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
 */
-//ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
-
 ID_ITM_WINDOW MENU PRELOAD 
 BEGIN
   POPUP STR_ITM_AAB_FILE
@@ -266,6 +102,7 @@ BEGIN
     MENUITEM SEPARATOR
     MENUITEM STR_FILE_MI_EBUS, PID_FILE_MI_EBUS
     MENUITEM STR_FILE_MI_EBUS1, PID_FILE_MI_EBUS1
+    MENUITEM STR_FILE_MI_TECHGUIDE, PID_FILE_MI_TECHGUIDE
     MENUITEM SEPARATOR
     MENUITEM STR_HELP_MI_PRODUCTINFO, PID_HELP_MI_PRODUCTINFO
   END

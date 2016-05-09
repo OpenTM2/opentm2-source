@@ -1,10 +1,10 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
-#include "axis2_stub_OpenTMSWebServiceImplementationService.h"
+#include "axis2_stub_OtmTMServiceImplService.h"
 
 #include <stdio.h>
 #include <axiom.h>
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     // use default url if non given
     if ( szUrl[0] == '\0' )
     {
-      strcpy( szUrl, "http://localhost:8090/openTMS" );
+      strcpy( szUrl, "http://localhost:8085/tmservice" );
       printf( "Info: Using devault endpoint URL %s\n", szUrl );
     } /* endif */
 
@@ -135,7 +135,7 @@ int main(int argc, char **argv)
       if ( hfLog ) fprintf( hfLog, "    AXIS2C_HOME is set to %s\n", client_home );
     } /* end */       
 
-    stub = axis2_stub_create_OpenTMSWebServiceImplementationService(env, client_home, endpoint_uri);
+    stub = axis2_stub_create_OtmTMServiceImplService(env, client_home, endpoint_uri);
     if ( stub == NULL )
     {
       if ( hfLog ) fprintf( hfLog, "Error: could not create OpenTMSWebService stuff\n", "" );
@@ -193,7 +193,7 @@ int synchronize_test(const axutil_env_t *env, axis2_stub_t *stub, char *pszComma
 
     /* Finished building the request, time to call the service */
     if ( hfLog ) fprintf( hfLog, "Sending command to web service\ncmd=%s\n", pszCommand );
-    response = axis2_stub_op_OpenTMSWebServiceImplementationService_synchronize( stub, env, synch );
+    response = axis2_stub_op_OtmTMServiceImplService_synchronize( stub, env, synch );
 
     /* Extract the response */
     if(response)

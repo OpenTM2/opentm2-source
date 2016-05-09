@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -62,6 +62,7 @@
 #define PLUGIN_TYPE_UNDEFINED_STR                     "Undefined"
 #define PLUGIN_TYPE_SPELL_STR                         "Spell Check"
 #define PLUGIN_TYPE_MORGH_STR                         "Morphologic Functionality"
+#define PLUGIN_TYPE_TOOL_STR                          "Tools"
 #define TITLE_SET_KEEK_PKG_STR                        "Keep the downloaded package in \\OTM\\PLUGINS\\Downloads"
 #define YES_STR                                       "Yes"
 

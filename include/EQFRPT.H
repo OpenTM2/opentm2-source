@@ -1,6 +1,6 @@
 /*! EQFRPT.H
 	Description: Public include file for Counting Report handler
-	Copyright (c) 1990-2013, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #ifndef _OTMFUNC_H_INCLUDED
@@ -103,7 +103,8 @@ USHORT MemFuncCreateCntReport
   USHORT usCategory,
   PFINALFACTORS pFinalFactors,
   LONG lOptSecurity,
-  BOOL bSingleShipment
+	BOOL bSingleShipment,
+  PSZ pszShipment 
 );
 
 

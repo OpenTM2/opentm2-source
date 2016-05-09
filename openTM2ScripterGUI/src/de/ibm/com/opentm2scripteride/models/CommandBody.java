@@ -135,7 +135,7 @@ public class CommandBody implements Comparable<CommandBody>, Serializable {
 		//check if we have an end
 		String end = mFrame.getEnd();
 		if (!end.isEmpty()) {
-			sb.append("\r\n");
+			sb.append("\n");
 			sb.append(end);
 		}
 

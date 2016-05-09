@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -64,9 +64,7 @@ static HWND ghwndPrgCtrlDlg;
 static HWND ghwndPages[AUTO_VER_UP_TAL_LEN];
 static COtmXmlParser * gOtmParser;
 //static COtmHttp * gOtmHttp;
-//static COtmHttps * gOtmHttps;
-static COtmSftp * gOtmSftp;
-
+static COtmHttps * gOtmHttps;
 static LogWriter glogAutoVerUp;
 static BOOL gbLogOpened;
 
