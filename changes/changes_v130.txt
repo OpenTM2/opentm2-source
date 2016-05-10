@@ -52,3 +52,4 @@ List of requirements and fixes in OpenTM2 release v1.3.0:
      P403256: PE:ID_mtmatch is incorrect.
      P403260: MT log file should not scape characters.
      P403277: A copied HAMSTER-FUZZY match is not "registered" as "Used" in the MT-LOG file.
+ 
