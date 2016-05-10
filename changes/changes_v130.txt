@@ -1,0 +1,54 @@
+Changes in OpenTM2 v1.3.0
+
+List of requirements and fixes in OpenTM2 release v1.3.0:
+  (A) Requirements:
+     R008998: Shortcut keys for Exact2/Fuzzy Match/No Match segment.
+     R012194: Streamlined spellcheck of multiple files (contains R008423 -> Allow spell-check on folder level).
+     R012456: Add Match metadata into PE Logs for G11n-WLT: Analytical Feedback Loop.
+     R012457: Provide API to add MatchSegID to each segment when importing memories into folder.
+	 -------: New Markup Table OTMMSOFC to support Office 2007 (and above) file formats in OpenTM2 Community Edition (*.DOCX, *.PPTX, *.XSLX)
+
+  (B) Fixes:	 
+	 P402426: Fuzzy search in OTM dictionary of IBMot does not produce same results as intranet version.
+     P402720: Updating markup table DLL when importing a folder fails.
+     P402806: Slash not recognized as a dictionary term delimiter.
+     P402808: Auto lookup does not reduce plural terms to their singular form.
+     P402884: Problem with lookup a term and mixed case terms (Virtual Appliance).
+     P402889: Dictionary: Handling of first word in segment with leading uppercase letter.
+     P402894: "Submit" is displayed in lookup function even if the sentence contains a lowercase "submit".
+     P402900: Problem with case sensitiveness in dictionary lookup function.
+     P403045: Wordcount for MT memory.
+     P403105: OpenTM2ScripterGUI: missing option "SENDTOMT_OPT" is options of API-call "EqfAnalyzeDoc" and "EqfAnalyzeDocEx".
+     P403118: Protected text can be deleted in post-editing mode.
+     P403120: Selecting PID of glossary terms does not work.
+     P403124: TVT tracking ID is added to "non UNICODE" files too.
+     P403127: OpenTM2ScripterGUI: adding a new line creates a LF (x'0a') instead of x'0d'x'0a'.
+     P403132: OpenTM2Scripter shows different version No.
+     P403135: Limitation of characters in PID filter.
+     P403137: API: missing option "pszShipmentNumber" in API-call "EqfChangeFolPropsEx".
+     P403138: Avoid Invalid OpenTM2 PLUGIN DLL to be loaded in OTM and some enhancement.
+     P403139: Folder import/export process doesn't delete \otm\tables\*.mutinfo files.
+     P403141: Language name was changed.
+     P403145: Not proper message appears when there is no new or updated plugins is available.
+     P403148: OTM abends when Global Find and Replace function tries to replace a specific string without 'Confirm on replace' option.
+     P403152: Need a plugin to backup/restore important OpenTM2 settings.
+     P403154: Wrong translations in the dictionary window.
+     P403168: Entry display issues in dictionary.
+     P403169: OtmExp2Tmx.exe doesn't convert MT Total wordcount.
+     P403172: Need API-call that corresponds to EqfChangeFolPropsEx to READ ALL elements in the folder properties.
+     P403176: EXP files produced by the NOPROPOSALEXP_NODUPLICATE option miss some segments that should be there.
+     P403179: OpenTM2 documentation: split into "Translator's Reference" and "Technical Reference".
+     P403180: OpenSSL: we need to upgrade from v1.0.1p to v1.0.1r.
+     P403184: API-call "EqfOpenDocByTrack" is not properly build into the OpenTM2Scripter.
+     P403185: A set of APIs is not contained in the API description.
+     P403189: Memory export error.
+     P403190: The API calls "EqfCreateCountReport" and "EqfCreateCntReport" are missing the option to count SHIPMENTS separately.
+     P403194: The API calls "EqfImportFolder" and "EqfImportFolderFP" are missing the option to rename the imported folder ("Import folder as").
+     P403195: Correct typo in openTM2ScripterGUI, API-call "EqfCreateCountReport".
+     P403213: The OpenTM2 folder on the windows desktop doesn't contain the links to 2 PDF.
+     P403216: Is it possible to make OtmShowFxp.exe display full memory names?.
+     P403238: Cumbersome "Change View Details" panel.
+     P403250: OtmExp2Tmx return RC=60 (part 1 of 2).
+     P403256: PE:ID_mtmatch is incorrect.
+     P403260: MT log file should not scape characters.
+     P403277: A copied HAMSTER-FUZZY match is not "registered" as "Used" in the MT-LOG file.
