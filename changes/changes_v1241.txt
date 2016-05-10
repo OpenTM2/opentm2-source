@@ -1,0 +1,58 @@
+Changes in OpenTM2 releases
+
+List of requirements and fixes in OpenTM2 release v1.2.4.1:
+  (A) Requirements:
+     R011845 - Support SmartTVT project by providing a unique Segment-ID.
+     R012102 - Reload file button.
+     R012248 - Add selected folder name to the "Folder List" title bar.
+     R012261 - Allow selecting PID of glossary terms to be displayed during editing.
+     R012395 - Add Bosnian to the supported languages in OTM2.
+
+  (B) Fixes:	 
+     P402247 - Cannot restore window position using DOCOPEN command of OtmBatch.
+     P402337 - OpenTM2 hangs when importing several folders at the same time on certain workstations
+     P402802 - OTMBATCH DICIMP does not import dictionary
+     P402825 - Line breaks missing in gerenated "noproposal" XML file
+     P402940 - EQFPPT: PPT file can't be analyzed properly
+     P402942 - The Auto Substitution function doesn't work correctly
+     P402945 - OtmMtEval.exe deletes part of element "xxxxx"
+     P402956 - Superfluous FOLDER EXPORT options to be removed
+     P402957 - OpenTM2ToolsLauncher: LOG-section should show an indicator that the selected process started
+     P402964 - Remove "IBMmarkuptable" strings from OpenTM2ScripterGUI and OpenTM2ToolsLauncher source code
+     P402966 - Find button active in GFR while Search is running
+     P402971 - OtmGetToolInfo.exe: missing section about physical RAM installed on users PC
+     P402973 - GF&R: extreme amounts of data can crash OpenTM2 when running the REPLACE process
+     P402975 - Correct memory cannot be imported into version 1.2.3.1
+     P402978 - OtmExp2Tmx: Cannot process memories exported from TMB when they are concatenated
+     P402980 - Cannot export translation memory
+     P402981 - Global find/replace window should indicate the folder name
+     P402983 - Hamster returned memory can't been imported into OTM
+     P402989 - FXP folder import problem
+     P402990 - GF&R: size of the panel "decides" about max amount of search (and replace) characters
+     P403003 - Imported memory has been damaged by otmbatch command
+     P403004 - An archived translation memory has been damaged
+     P403008 - Missing "Serbian(Cyrillic)" in "Display language List"
+     P403010 - OpenTM2 HELP SYSTEM: doesn't work and should be de-activated until further notice
+     P403017 - Export of an OpenTM2 internal memory into TMX format adds OLD attributes to it
+     P403018 - OTM accessing TM2 memories
+     P403021 - Menu item "Tools..." should be more descriptive
+     P403022 - Plugin Manager. Once OTMToolsLauncherPlugin is removed, it cannot be reinstalled
+     P403026 - Global F&R fatal error when replacing to a specific string without 'Confirm on replace' option
+     P403028 - OpenTM2ScripterGUI: does EqfCleanMemory support the option "OVERWRITE_OPT"?
+     P403033 - Import memory into OTM with exception message "The dictionary or Translation Memory '' needs to be organized; it is either damaged or it was created with an older version of OpenTM2"
+     P403034 - Auto Version Upgrade doesn't support fixpack which requires restart
+     P403037 - OtmGetToolInfo: Should list contents of \OTM\PLUGINS\ directory
+     P403038 - Combine all *.LNG into LANGUAGES.XML, and remove old *.LNG files
+     P403041 - PluginManager. Install IBMMarkupTablePlugin fixpack behaves differently from normal plugin install
+     P403048 - The folder have not been imported after the EqfImportFolderFP returned success
+     P403054 - A sentence delimiter followed by a double quote is not properly handled
+     P403059 - The EQF0454 and EQF1083 error occured during file copy past operation
+     P403070 - IBMUCSV: Exported files have corrupted characters
+     P403072 - Plugin Manager. Fix Packs cannot be re-installed if plugin is deleted and reinstalled
+     P403076 - Not sure if plugin manager is updating installation
+     P403090 - Folder import with empty memory causes severe error in nFluent MT environment (Memory in use)
+     P403099 - XLATEWIN: Bidi menus settings are not correct with archived memory
+     P403112 - The Context-match segment have been removed after using the EqfCleanMem API.
+     P403114 - Font Issue in OTM 1.2.4.
+     P403115 - Invalid OpenTM2 PLUGIN DLL makes OpenTM2 failing to start up.
+     P403128 - Defect segments in the NOPROPOSAL.XML generated during analyzing with OTM.
