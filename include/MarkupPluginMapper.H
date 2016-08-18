@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2013, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 
@@ -18,6 +18,10 @@
 // find a markup table object by markup table name
 __declspec(dllexport)
  OtmMarkup *GetMarkupObject( char *pszMarkup, char *pszPlugin );
+
+// find a markup table plugin object by plugin name
+__declspec(dllexport)
+ OtmMarkupPlugin *GetMarkupPluginObject( char *pszPlugin );
 
 // get the markup table plugin providing a specific markup table 
 __declspec(dllexport)

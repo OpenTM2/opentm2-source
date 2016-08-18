@@ -651,3 +651,13 @@ USHORT InternalImportFolder
 );
 
 
+// fuzzy semgnet search function
+USHORT FolFuncFuzzySearch
+(
+  PSZ              pszFolderName,      // name of folder
+  PSZ              pszDocuments,       // list of documents or NULL 
+  PSZ              pszOutputFile,      // fully qualified name of output file
+  int              iSearchMode,        // search mode
+  int              iClass,             // searched class
+  LONG             lOptions            // processing options
+);

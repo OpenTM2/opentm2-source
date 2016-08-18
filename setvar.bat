@@ -85,7 +85,7 @@ rem set _CL_WARNINGS=/W4 /wd4201 /wd4214 /wd4238
 
 rem base compiler options used for all compiles
 set _CL_OPT_BASE=/nologo /c /Zp1 /EHsc %_CL_WARNINGS% /D_WINDOWS /DWIN32BIT /D_WIN32 /D_LNG_JAP  /D_MT /D_WINDLL /DKOREA /D_CRT_SECURE_NO_WARNINGS /D_USE_32BIT_TIME_T /D ZLIB_WINAPI
-set _CL_OPT_BASE=%_CL_OPT_BASE% /TP /DCPPTEST 
+set _CL_OPT_BASE=%_CL_OPT_BASE% /TP /DCPPTEST
 
 rem compile options C files for executables - debug/nodebug
 set _CL_OPTIONS_EXE_DEBUG=%_CL_OPT_BASE% /Zi /Od /Ob2 /FR /GA -Od -Zi /D_DEBUG /DDEBUGLOG /DSHOWDEBUGTITLEBARTEXT
@@ -148,7 +148,6 @@ SET _TOCNAME=Contents
 SET _IPFDBCS=N
 
 call setvar_otmmarkup.bat
-
 call setvar_usermarkup.bat
 
 PROMPT [OpenTM2]$p$g

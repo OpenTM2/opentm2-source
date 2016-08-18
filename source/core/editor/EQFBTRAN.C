@@ -1409,6 +1409,18 @@ EQFBTSegNextNone ( PTBDOCUMENT pDoc )   // pointer to document ida
    EQFBTrans( pDoc, POS_TOBE_NONE ) ;   // position at untranslated ones with NO matches
    return ;
 }
+VOID
+EQFBTSegNextMT ( PTBDOCUMENT pDoc )   // pointer to document ida
+{
+   EQFBTrans( pDoc, POS_TOBE_MT ) ;   // position at untranslated ones with MT matches
+   return ;
+}
+VOID
+EQFBTSegNextGlobal ( PTBDOCUMENT pDoc )   // pointer to document ida
+{
+   EQFBTrans( pDoc, POS_TOBE_GLOBAL ) ;   // position at untranslated ones with GLOBAL MEMORY matches
+   return ;
+}
 
 //------------------------------------------------------------------------------
 // External function
@@ -2288,13 +2300,29 @@ EQFBFindNextSource( PTBDOCUMENT pDoc,     // pointer to document structure
                  if ( (pstEQFGen->usRC == 0) || 
                       (pstEQFGen->usRC==EQFRS_SEG_NOT_FOUND))
                  {
-                    if ( ( ( usCond == POS_TOBE_EXACT ) &&        // found EXACT matches
-                           ( pstEQFSab->usFuzzyPercents[0] >= (SHORT)pstEQFGen->lExactMatchLevel ) ) ||
-                         ( ( usCond == POS_TOBE_FUZZY ) &&        // found FUZZY matches
+                    if ( ( ( usCond == POS_TOBE_EXACT  ) ||       // look for EXACT match
+                           ( usCond == POS_TOBE_MT     ) ||       // look for MT match
+                           ( usCond == POS_TOBE_GLOBAL ) ) &&     // look for GLOBAL MEMORY match
+                         ( pstEQFSab->usPropCount > 0 ) &&
+                         ( pstEQFSab->usFuzzyPercents[0] >= (SHORT)pstEQFGen->lExactMatchLevel ) ) {
+                       for( int i=0 ; i<pstEQFSab->usPropCount ; ++i ) {
+                          if ( ( ( usCond == POS_TOBE_EXACT ) &&      // found EXACT match
+                                 ( pstEQFSab->usMachineTrans[i] == EXACT_PROP ) ) ||
+                               ( ( usCond == POS_TOBE_MT ) &&         // found MT match 
+                                 ( pstEQFSab->usMachineTrans[i] == MACHINE_TRANS_PROP ) ) ||
+                               ( ( usCond == POS_TOBE_GLOBAL ) &&     // found GLOBAL MEMORY match 
+                                 ( ( pstEQFSab->usMachineTrans[i] == GLOBMEM_TRANS_PROP     ) ||
+                                   ( pstEQFSab->usMachineTrans[i] == GLOBMEMSTAR_TRANS_PROP ) ) ) ) {
+                             fFound = TRUE ; 
+                             break ;
+                          }
+                       }
+                    } else
+                    if ( ( ( usCond == POS_TOBE_FUZZY ) &&        // found FUZZY match
                            ( pstEQFSab->usPropCount > 0 ) &&
                            ( pstEQFSab->usFuzzyPercents[0] < (SHORT)pstEQFGen->lExactMatchLevel ) ) ||
                          ( ( usCond == POS_TOBE_NONE ) &&         // found NO matches 
-                           ( pstEQFSab->usPropCount == 0 ) ) ) { 
+                           ( pstEQFSab->usPropCount == 0 ) ) ) {
                        fFound = TRUE ;           
                     } 
                  }

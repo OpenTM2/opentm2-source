@@ -53,6 +53,8 @@ public:
   int Evaluate( const char *szFileSpec, const char *strOutFile );
   void SetTestMode( BOOL fTest );
   void SetDetailsMode( BOOL fDetails );
+  int GetNumOfProcessedDocs();
+  int GetNumOfCorruptedDocs();
 protected:
   // private data types 
   typedef enum { LONGFOLDERNAME, SHORTFOLDERNAME, EXPORTEDFOLDER, DIRECTORY, INVFILESPEC, SEARCHPATTERN } InputFileMode;
@@ -74,15 +76,16 @@ protected:
   int WriteTimePerCategory( const char *pszName, const char *type, ULONG ulCounts[3] );
   int AddNumbers( ULONG ulCountSum[3], ULONG ulCountAdd[3] );
   int CopyNumbers( ULONG ulCountTo[3], ULONG ulCountFrom[3] );
+  int CopyAndClean( PSZ_W pszTarget, PSZ_W pszSource  );
   int ClearNumbers( ULONG ulCount[3] );
   int AddFolderNumbersToTotal( void );
   int WriteFolderNumbers( void );
   int WriteTotals( void );
   int WriteMTMetaData( CXmlWriter *pWriter, PSZ_W pszMetaData );
-  BOOL CheckNewRecord( PACTSEGLOGENH pEntry  );
-  BOOL CheckNewRecord2( PACTSEGLOGENH2 pEntry  );
-  BOOL CheckOldRecord( PACTSEGLOGOLD pEntry  );
-  int CheckRecords( PVOID pvMTLog, int iLogFileSize );
+  BOOL CheckNewRecord( PACTSEGLOGENH pEntry, int iRemaining   );
+  BOOL CheckNewRecord2( PACTSEGLOGENH2 pEntry, int iRemaining   );
+  BOOL CheckOldRecord( PACTSEGLOGOLD pEntry, int iRemaining   );
+  int CheckRecords( PVOID pvMTLog, int iLogFileSize, PBOOL pfCorrupted );
   // protected instance data
   InputFileMode m_InpFileMode ;
   char m_szFolderShortName[1024];
@@ -92,6 +95,8 @@ protected:
   char m_szPathBuffer[256];            // buffer for temporary file names
   char m_szBuffer[1024];               // general purpose buffer
   CXmlWriter *m_xw;                    // XML writer instance
+  int m_iNumOfDocs;
+  int m_iNumOfCorruptedDocs;
 
   // counts of current folder
   ULONG m_ulFolMTTotalSegs[3];
@@ -246,6 +251,19 @@ int main
     evaluator->SetTestMode( fLog );
     evaluator->SetDetailsMode( fDetails );
     iRC = evaluator->Evaluate( pszInFile, pszOutFile );
+
+    int iDocNum = evaluator->GetNumOfProcessedDocs();
+    int iCorruptedDocNum = evaluator->GetNumOfCorruptedDocs();
+
+    if ( iCorruptedDocNum  == 0)
+    {
+      printf( "Done. %ld documents have been processed.\n", iDocNum );
+    }
+    else
+    {
+      printf( "Done. %ld documents have been processed, %ld document(s) had corrupted history log information.\n", iDocNum, iCorruptedDocNum );
+    } /* endif */
+
   } /* endif */
 
   return( iRC );
@@ -259,6 +277,8 @@ CMTEval::CMTEval()
   m_iRecords = 0; 
   m_iAllocatedPointers = 0;
   m_pRecords = NULL;
+  m_iNumOfDocs = 0;
+  m_iNumOfCorruptedDocs = 0;
 }
 
 // destructor
@@ -284,6 +304,18 @@ void CMTEval::SetDetailsMode( BOOL fDetails )
   m_fDetails = fDetails;
 }
 
+int CMTEval::GetNumOfProcessedDocs()
+{
+  return( m_iNumOfDocs );
+}
+
+int CMTEval::GetNumOfCorruptedDocs()
+{
+  return( m_iNumOfCorruptedDocs );
+}
+
+
+// Get number of processed documents
 // MT info evaluation
 int CMTEval::Evaluate
 ( 
@@ -1173,7 +1205,7 @@ int CMTEval::EvaluateFolderProps( PPROPFOLDER pProp )
 } /* end of CMTEval::EvaluateFolderProps */
 
 // check MT log record in the new format
-BOOL CMTEval::CheckNewRecord( PACTSEGLOGENH pEntry  )
+BOOL CMTEval::CheckNewRecord( PACTSEGLOGENH pEntry, int iRemaining   )
 {
   // test eye catcher
   if ( pEntry->ulEyeCatcher != ACTSEGLOG_EYECATCHER ) return( FALSE );
@@ -1181,6 +1213,7 @@ BOOL CMTEval::CheckNewRecord( PACTSEGLOGENH pEntry  )
   // test record length
   ULONG ulMaxSize = sizeof(ACTSEGLOGENH) + ((MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W)) + MAX_LONGFILESPEC;
   if ( pEntry->ulRecordLen > ulMaxSize ) return( FALSE );
+  if ( pEntry->ulRecordLen > (ULONG)iRemaining )  return( FALSE );
 
   // test check sum
   ULONG ulTestCheckSum = 0;
@@ -1194,7 +1227,7 @@ BOOL CMTEval::CheckNewRecord( PACTSEGLOGENH pEntry  )
 } /* end of CMTEval::CheckNewRecord */
 
 // check MT log record in the new format version 2
-BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry  )
+BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry, int iRemaining )
 {
   // test eye catcher
   if ( pEntry->ulEyeCatcher != ACTSEGLOG2_EYECATCHER ) return( FALSE );
@@ -1202,6 +1235,7 @@ BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry  )
   // test record length
   ULONG ulMaxSize = sizeof(ACTSEGLOGENH2) + ((MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W)) + MAX_LONGFILESPEC + (5 * MAX_SEGMENT_SIZE * sizeof(CHAR_W));
   if ( pEntry->ulRecordLen > ulMaxSize ) return( FALSE );
+  if ( pEntry->ulRecordLen > (ULONG)iRemaining )  return( FALSE );
 
   // test check sum (which does not include the PE data section)
   ULONG ulTestCheckSum = 0;
@@ -1209,15 +1243,33 @@ BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry  )
   int iLen = (int)pEntry->ulRecordLen - sizeof(pEntry->ulEyeCatcher) - sizeof(pEntry->ulCheckSum) - pEntry->ulPEDataLen;
   PBYTE pbTest = (PBYTE)&(pEntry->ulRecordLen);
   while ( i < iLen ) ulTestCheckSum = ulTestCheckSum  + (ULONG)pbTest[i++];
+  if ( ulTestCheckSum != pEntry->ulCheckSum ) return( FALSE );
 
-  return( ulTestCheckSum == pEntry->ulCheckSum );
+  // test any PE data
+  ULONG ulBaseRecSize = sizeof(ACTSEGLOGENH2) + pEntry->ulSegLen + pEntry->ulPropSourceLen + pEntry->ulMetaDataLen;
+  if ( ulBaseRecSize > pEntry->ulRecordLen ) return( FALSE );
+  if ( (pEntry->ulPEDataLen + ulBaseRecSize) > pEntry->ulRecordLen  ) return( FALSE );
+  if ( pEntry->ulPEDataLen != 0 )
+  {
+    PBYTE pbData = (PBYTE)pEntry + ulBaseRecSize;
+    PPESEGLOGDATA pPEData = (PPESEGLOGDATA)pbData;
+    if ( pPEData->ulTargetLen > MAX_SEGMENT_SIZE ) return( FALSE );
+    if ( pPEData->ulMTTargetLen > MAX_SEGMENT_SIZE ) return( FALSE );
+    if ( pPEData->ulMTMatchIDLen > MAX_SEGMENT_SIZE ) return( FALSE );
+    if ( pPEData->ulCopiedTargetLen > MAX_SEGMENT_SIZE ) return( FALSE );
+    if ( pPEData->ulCopiedMatchIDLen > MAX_SEGMENT_SIZE ) return( FALSE );
+  } /* endif */
+
+  return( TRUE );
 
 } /* end of CMTEval::CheckNewRecord */
 
 // check MT log record in the old format
-BOOL CMTEval::CheckOldRecord( PACTSEGLOGOLD pEntry  )
+BOOL CMTEval::CheckOldRecord( PACTSEGLOGOLD pEntry, int iRemaining   )
 {
   if ( pEntry->usNumTyped > 8000 ) return( FALSE );
+
+  if ( (int)sizeof(ACTSEGLOGOLD) > iRemaining )  return( FALSE );
 
   //if ( pEntry->ulTime > 0x7FFFF ) return( FALSE );
 
@@ -1228,14 +1280,15 @@ BOOL CMTEval::CheckOldRecord( PACTSEGLOGOLD pEntry  )
 
 
 // check records in MT log, setup array of record pointers
-int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize )
+int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize, PBOOL pfCorrupted  )
 {
   BOOL fNewRecordsFound = FALSE;                  // TRUE = new records found, do not check anymore for old ones
   ACTSEGLOGENH2 *pActSegLog = (ACTSEGLOGENH2 *)pvMTLog;
   int iRemaining = iLogFileSize;
+  *pfCorrupted = FALSE;
 
   // skip first dummy record in old format
-  if ( (iRemaining >= sizeof(ACTSEGLOGOLD)) && (pActSegLog->ulEyeCatcher != ACTSEGLOG_EYECATCHER) && (pActSegLog->ulEyeCatcher != ACTSEGLOG2_EYECATCHER) )
+  if ( (iRemaining >= (int)sizeof(ACTSEGLOGOLD)) && (pActSegLog->ulEyeCatcher != ACTSEGLOG_EYECATCHER) && (pActSegLog->ulEyeCatcher != ACTSEGLOG2_EYECATCHER) )
   {
     iRemaining -= sizeof(ACTSEGLOGOLD);
     pActSegLog = (PACTSEGLOGENH2)((PBYTE)pActSegLog + sizeof(ACTSEGLOGOLD));
@@ -1243,7 +1296,7 @@ int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize )
 
   m_iRecords = 0;
 
-  while ( iRemaining >= sizeof(ACTSEGLOGOLD) )
+  while ( (iRemaining >= (int)sizeof(ACTSEGLOGOLD)) )
   {
     BOOL fValid = FALSE;                         // TRUE = the current record seems to be valid
 
@@ -1251,20 +1304,20 @@ int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize )
     {
       // a record in the new format version 2
       fNewRecordsFound = TRUE;
-      fValid = CheckNewRecord2( pActSegLog );
+      fValid = CheckNewRecord2( pActSegLog, iRemaining );
     }
     else if ( pActSegLog->ulEyeCatcher == ACTSEGLOG_EYECATCHER )
     {
       // a record in the new format
       fNewRecordsFound = TRUE;
-      fValid = CheckNewRecord( (PACTSEGLOGENH)pActSegLog );
+      fValid = CheckNewRecord( (PACTSEGLOGENH)pActSegLog, iRemaining  );
     }
     else
     {
       // old type record or garbage
       if ( !fNewRecordsFound )
       {
-        fValid = CheckOldRecord( (PACTSEGLOGOLD)pActSegLog );
+        fValid = CheckOldRecord( (PACTSEGLOGOLD)pActSegLog, iRemaining  );
       } /* endif */       
     } /* endif */     
 
@@ -1283,6 +1336,7 @@ int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize )
     }
     else
     {
+      *pfCorrupted = TRUE;
       if ( m_hfTest ) 
       {
         int iOffset = (PBYTE)pActSegLog - (PBYTE)pvMTLog;
@@ -1312,13 +1366,13 @@ int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize )
     else
     {
       int iSkipped = 0;
-      if ( !fNewRecordsFound )
+      if ( (iRemaining > 0) && !fNewRecordsFound )
       {
         pActSegLog = (PACTSEGLOGENH2)((PBYTE)pActSegLog + 1 );
         iRemaining--;
         iSkipped++;
       }
-      else
+      else 
       {
         // search the next eye catcher in the data stream
         do
@@ -1326,7 +1380,7 @@ int CMTEval::CheckRecords( PVOID pvMTLog, int iLogFileSize )
           pActSegLog = (PACTSEGLOGENH2)((PBYTE)pActSegLog + 1 );
           iRemaining--;
           iSkipped++;
-        } while ( (iRemaining > sizeof(ACTSEGLOGENH))  && (pActSegLog->ulEyeCatcher != ACTSEGLOG_EYECATCHER) && (pActSegLog->ulEyeCatcher != ACTSEGLOG2_EYECATCHER)); /* enddo */         
+        } while ( (iRemaining > (int)sizeof(ACTSEGLOGENH))  && (pActSegLog->ulEyeCatcher != ACTSEGLOG_EYECATCHER) && (pActSegLog->ulEyeCatcher != ACTSEGLOG2_EYECATCHER)); /* enddo */         
       } /* endif */       
       if ( m_hfTest ) fprintf( m_hfTest, "Searching for next valid record, skipped %ld bytes\n", iSkipped );
 
@@ -1343,6 +1397,9 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
   ULONG ulMTUsedSegs[3], ulMTUsedWords[3];   // array for used MT proposals
   ULONG ulMTSegs[3], ulMTTime[3];            // arrays for number of segmens and time
   int iShipment = 1;
+  BOOL fCorrupted = FALSE;
+
+  m_iNumOfDocs += 1;
 
   // use document short name if no long name exists
   if ( !pProp->szLongName[0] )
@@ -1351,7 +1408,7 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
   } /* endif */
 
   // check records and setup record pointer array
-  CheckRecords( pvMTLog, iLogFileSize );
+  CheckRecords( pvMTLog, iLogFileSize, &fCorrupted );
 
   // debug/test output
   if ( m_hfTest ) 
@@ -1503,6 +1560,11 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
   
   m_xw->WriteStartElement( "document" );
   m_xw->WriteAttributeString( "name", pProp->szLongName );
+  if ( fCorrupted )
+  {
+    m_iNumOfCorruptedDocs += 1;
+    m_xw->WriteAttributeString( "error", "History log information is corrupted" );
+  } /* endif */
 
   // we always start with shipment 1
   iShipment = 1;
@@ -1546,10 +1608,32 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
         {
           PBYTE pbData = (PBYTE)pTemp + sizeof(ACTSEGLOGENH2) + pTemp->ulSegLen + pTemp->ulPropSourceLen + pTemp->ulMetaDataLen;
           PPESEGLOGDATA pPEData = (PPESEGLOGDATA)pbData;
-          if ( pPEData->ulTargetLen != 0 ) wcscpy( m_PEData.szTarget, (PSZ_W)(pbData + pPEData->ulTargetOffs) );
-          if ( pPEData->ulMTTargetLen != 0 ) wcscpy( m_PEData.szMTTarget, (PSZ_W)(pbData + pPEData->ulMTTargetOffs) );
+
+          // GQ 2016/06/02: auto-correct entries from the 1.3.0 test driver: here the sequence of the data did not match the sequence of the computed offsets
+          //                the offsets were computed in the sequence: CopiedTarget, CopiedTargetID, MTTarget, MTTargetID thereas the
+          //                actual data sequence was MTTarget, MTTargetID, CopiedTarget, CopiedTargetID
+          if ( (pPEData->ulMTTargetLen != 0) && (pPEData->ulCopiedTargetLen != 0) && (pPEData->ulMTTargetOffs > pPEData->ulCopiedTargetOffs) )
+          {
+            ULONG ulCurOffs = pPEData->ulTargetOffs + pPEData->ulTargetLen;
+            pPEData->ulMTTargetOffs = ulCurOffs;
+            ulCurOffs += pPEData->ulMTTargetLen;
+            if ( pPEData->ulMTMatchIDLen != 0 )
+            {
+              pPEData->ulMTMatchIDOffs = ulCurOffs;
+              ulCurOffs += pPEData->ulMTMatchIDLen;
+            } /* endif */
+            pPEData->ulCopiedTargetOffs = ulCurOffs;
+            ulCurOffs += pPEData->ulCopiedTargetLen;
+            if ( pPEData->ulCopiedMatchIDLen != 0 )
+            {
+              pPEData->ulCopiedMatchIDOffs = ulCurOffs;
+            } /* endif */
+          } /* endif */
+
+          if ( pPEData->ulTargetLen != 0 ) CopyAndClean( m_PEData.szTarget, (PSZ_W)(pbData + pPEData->ulTargetOffs) );
+          if ( pPEData->ulMTTargetLen != 0 ) CopyAndClean( m_PEData.szMTTarget, (PSZ_W)(pbData + pPEData->ulMTTargetOffs) );
           if ( pPEData->ulMTMatchIDLen != 0 ) wcscpy( m_PEData.szMTMatchID, (PSZ_W)(pbData + pPEData->ulMTMatchIDOffs) );
-          if ( pPEData->ulCopiedTargetLen != 0 ) wcscpy( m_PEData.szCopiedTarget, (PSZ_W)(pbData + pPEData->ulCopiedTargetOffs) );
+          if ( pPEData->ulCopiedTargetLen != 0 ) CopyAndClean( m_PEData.szCopiedTarget, (PSZ_W)(pbData + pPEData->ulCopiedTargetOffs) );
           if ( pPEData->ulCopiedMatchIDLen != 0 ) wcscpy( m_PEData.szCopiedMatchID, (PSZ_W)(pbData + pPEData->ulCopiedMatchIDOffs) );
         } /* endif */
       }
@@ -2344,6 +2428,28 @@ int CMTEval::WriteMTMetaData( CXmlWriter *pWriter, PSZ_W pszMetaData )
     iOpenElements--;
   }
   return( 0 );
+}
+
+// copy segment string and do any required cleanup
+int CMTEval::CopyAndClean( PSZ_W pszTarget, PSZ_W pszSource  )
+{
+  int iCharsCopied = 0;
+
+  while( *pszSource != 0 )
+  {
+    if ( *pszSource == SOFTLF_CHAR )
+    {
+      pszSource++;
+    } 
+    else
+    {
+      *pszTarget++ = *pszSource++;
+      iCharsCopied++;
+    } /* endif */
+  } /* endwhile */
+  *pszTarget = 0;
+
+  return( iCharsCopied );
 }
 
 void showHelp()

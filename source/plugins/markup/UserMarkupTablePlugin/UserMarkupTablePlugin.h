@@ -47,6 +47,10 @@ public:
 */
 	virtual const char* getLongDescription();
 
+/*! \brief Returns plugin directory name
+*/
+  	virtual const char* getPluginDirectory();
+
 /*! \brief Returns markup table TBL directory name
 */
   	virtual const char* getTableDirectory();
@@ -91,16 +95,31 @@ public:
 */
 	virtual const bool isProtected();
 
-/*! \brief Returns TRUE if the markup table files were updated
+/*! \brief Returns TRUE if the markup table is expired
+*/
+	virtual const bool isExpired();
+
+/*! \brief Returns 1 if the markup table files were updated
 */
 	virtual const int updateFiles(
        char   *pszMarkupName,
-       char   *pszDescription,
+       char   *pszShortDescription,
+       char   *pszLongDescription,
        char   *pszVersion,
        char   *pszTableFileName,
        char   *pszUserExitFileName,
        char   *pszFileList
     );
+
+/*! \brief Returns 1 if the markup table information was updated
+*/
+	virtual const int updateInfo( 
+       char   *pszMarkupName,
+       char   *pszShortDescription,
+       char   *pszLongDescription,
+       char   *pszVersion,
+       char   *pszUserExitFileName
+	);
 
 /*! \brief Returns TRUE if the markup table was deleted
 */
@@ -160,6 +179,7 @@ private:
     bool bDeletable;
     bool bExportable;
     bool bImportable;
+    bool bExpired;
     int  iMarkupCount;
 
   // base path of the plugin DLL

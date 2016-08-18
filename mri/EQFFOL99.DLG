@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author: Michael Sekinger                                                    |
@@ -1283,31 +1283,57 @@ CAPTION "Search Segments With Fuzzy Matches"
 FONT 8 "MS Sans Serif"
 BEGIN
 
-  CONTROL "Search fuzzy matches up to class:", -1,
-    STATIC,
-    SS_LEFT | WS_GROUP | WS_VISIBLE,
-    6, 21, 90, 9
+  CONTROL "Search Options", ID_FUZZYSEARCH_OPTIONS_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    9, 4, 300, 38
+
+  CONTROL "Search fuzzy matches:", -1,
+      STATIC,
+      SS_LEFT | WS_VISIBLE,
+      14, 14, 80, 8
+
+  CONTROL "", ID_FUZZYSEARCH_MODE_CB,
+    COMBOBOX,
+    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
+    100, 12, 160, 80
+
+  CONTROL "Fuzzy search class:", -1,
+      STATIC,
+      SS_LEFT | WS_VISIBLE,
+      14, 28, 80, 8
 
   CONTROL "", ID_FUZZYSEARCH_CLASS_CB,
     COMBOBOX,
     CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
-    102, 21, 190, 57
+    100, 26, 160, 80
+
+  CONTROL "Display and export options", ID_FUZZYSEARCH_DISPLAYOPT_GB,
+    BUTTON,
+    BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
+    280, 12, 200, 26
+
+  CONTROL "Show and export differences in search results", ID_FUZZYSEARCH_SHOWDIFF_CHK,
+    BUTTON,
+    BS_AUTOCHECKBOX | WS_VISIBLE| WS_TABSTOP ,
+    284, 24, 140, 12
+
 
   CONTROL "Documents being searched", ID_FUZZYSEARCH_DOCS_GB,
     BUTTON,
     BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
-    9, 36, 300, 98
+    9, 46, 300, 88
 
   CONTROL "", ID_FUZZYSEARCH_DOCS_LB,
     LISTBOX,
     WS_BORDER | LBS_NOTIFY | LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL | WS_VISIBLE,
-    11, 44, 290, 91
+    10, 54, 290, 81
 
 
   CONTROL "Search results", ID_FUZZYSEARCH_RESULT_GB,
     BUTTON,
     BS_GROUPBOX | WS_GROUP | WS_VISIBLE,
-    9, 154, 259, 69
+    9, 154, 300, 69
 
   // invisible label for result LB
   CONTROL "Found fuzzy matches:", -1,
@@ -1317,7 +1343,7 @@ BEGIN
 
   CONTROL "", ID_FUZZYSEARCH_RESULT_LB,
     LISTBOX,
-    WS_BORDER | LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOTIFY | WS_VSCROLL | WS_HSCROLL | WS_VISIBLE,
+    WS_BORDER | LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOTIFY | WS_VSCROLL | WS_HSCROLL | WS_VISIBLE| WS_TABSTOP ,
     10, 167, 257, 42
 
   CONTROL "", ID_FUZZYSEARCH_STATUS_TEXT,
@@ -1336,11 +1362,15 @@ BEGIN
   CONTROL "&Open document", ID_FUZZYSEARCH_OPEN_PB,
     BUTTON,
     BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
-    124, 217, 56, 15
+    80, 217, 56, 15
+  CONTROL "&Export results", ID_FUZZYSEARCH_EXPORT_PB,
+    BUTTON,
+    BS_PUSHBUTTON | WS_TABSTOP | WS_TABSTOP | WS_VISIBLE | WS_GROUP,
+    134, 217, 56, 15
   CONTROL "&Cancel", ID_FUZZYSEARCH_CANCEL_PB,
     BUTTON,
     BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE,
-    184, 217, 38, 15
+    194, 217, 38, 15
   CONTROL "Help", ID_FUZZYSEARCH_HELP_PB,
     EQFHELPBUTTON,
     WS_TABSTOP | WS_VISIBLE,

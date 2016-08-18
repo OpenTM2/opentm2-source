@@ -1,177 +1,72 @@
-// Copyright (c) 2001-2011, International Business Machines
+// Copyright (c) 2001-2016, International Business Machines
 // Corporation and others.  All rights reserved.
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 28 Sep 2004
-// GQ: - accessibility: corrected tab order of controls
-// 
-//
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-//
-//
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-//
-//
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-//
-//
-// $Revision: 1.3 $ ----------- 20 Oct 2003
-// --RJ: P018279: change wording to "Allow CRLF changes"
-//
-//
-// $Revision: 1.2 $ ----------- 8 Oct 2003
-// --RJ: P018279: add reflow CB in general mu-property page
-//
-//
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jun 2003
-//  -- New Release TM6.0.2!!
-//
-//
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jul 2002
-//  -- New Release TM6.0!!
-//
-//
-// $Revision: 1.3 $ ----------- 3 Dec 2001
-// GQ: - Fixed SVT132: truncated text in pages of markup table properties
-//
-//
-// $Revision: 1.2 $ ----------- 12 Nov 2001
-// GQ: - Minor rework of dialog layout
-//
-//
-//
-// $Revision: 1.1 $ ----------- 3 Sep 2001
-// GQ: Added and reworked dialog templates for markup table properties
 //
 //////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-ID_MUPROP_DLG DIALOG DISCARDABLE  0, 0, 334, 218
+ID_MUPROP_DLG DIALOG DISCARDABLE  0, 0, 334, 253
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Markup Table Properties"
 FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "Tab1",ID_MUPROP_TABCTRL,"SysTabControl32",0x0,7,7,320,
                     184
-    DEFPUSHBUTTON   "Save",ID_MUPROP_OK,8,196,50,14
-    PUSHBUTTON      "Protect",ID_MUPROP_PROTECT_PB,97,196,50,14
-    PUSHBUTTON      "Cancel",ID_MUPROP_CANCEL_PB,186,196,50,14
-    PUSHBUTTON      "Help",ID_MUPROP_HELP_PB,275,196,50,14
+    DEFPUSHBUTTON   "Save",ID_MUPROP_OK,8,241,50,14
+    PUSHBUTTON      "Protect",ID_MUPROP_PROTECT_PB,97,241,50,14
+    PUSHBUTTON      "Cancel",ID_MUPROP_CANCEL_PB,186,241,50,14
+    PUSHBUTTON      "Help",ID_MUPROP_HELP_PB,275,241,50,14
 END
 
-ID_MUPROP_GENERAL_PAGE DIALOG DISCARDABLE  0, 0, 334, 212
+ID_MUPROP_GENERAL_PAGE DIALOG DISCARDABLE  0, 0, 334, 257
 STYLE WS_CHILD | WS_DISABLED | WS_CAPTION
 CAPTION "General"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "Name:",IDC_STATIC,5,9,62,8
-    EDITTEXT        ID_MUPROP_GEN_NAME_EF,101,5,50,14,ES_AUTOHSCROLL
-    LTEXT           "Description:",IDC_STATIC,5,24,68,8
-    EDITTEXT        ID_MUPROP_GEN_DESCR_EF,101,21,225,14,ES_AUTOHSCROLL
-    LTEXT           "Descriptive name:",IDC_STATIC,5,39,80,8
-    EDITTEXT        ID_MUPROP_GEN_DESCRNAME_EF,101,37,225,14,ES_AUTOHSCROLL
+    EDITTEXT        ID_MUPROP_GEN_NAME_EF,101,6,50,14,ES_AUTOHSCROLL
+    LTEXT           "Descriptive name:",IDC_STATIC,5,24,80,8
+    EDITTEXT        ID_MUPROP_GEN_DESCRNAME_EF,101,21,225,14,ES_AUTOHSCROLL
+    EDITTEXT        ID_MUPROP_GEN_SHORTDESCR_EF,101,21,225,14,ES_AUTOHSCROLL
+    LTEXT           "Description:",IDC_STATIC,5,39,68,8
+    EDITTEXT        ID_MUPROP_GEN_DESCR_EF,101,37,225,14,ES_AUTOHSCROLL
+    EDITTEXT        ID_MUPROP_GEN_LONGDESCR_EF,101,37,225,14,ES_AUTOHSCROLL 
     LTEXT           "User exit:",IDC_STATIC,5,54,68,8
-    EDITTEXT        ID_MUPROP_GEN_EXIT_EF,101,53,74,14,ES_AUTOHSCROLL
+    EDITTEXT        ID_MUPROP_GEN_EXIT_EF,101,51,74,14,ES_AUTOHSCROLL
     LTEXT           "Characterset:",IDC_STATIC,5,69,41,8
-    COMBOBOX        ID_MUPROP_GEN_CHARSET_CB,101,69,225,70,CBS_DROPDOWNLIST |
+    COMBOBOX        ID_MUPROP_GEN_CHARSET_CB,101,66,74,70,CBS_DROPDOWNLIST |
                     CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Single substitution char.:",IDC_STATIC,5,84,94,8
-    EDITTEXT        ID_MUPROP_GEN_SINGLESUBSTCHAR_EF,101,83,17,14,
+    EDITTEXT        ID_MUPROP_GEN_SINGLESUBSTCHAR_EF,101,81,17,14,
                     ES_AUTOHSCROLL
     LTEXT           "Multiple substitution char.:",IDC_STATIC,5,99,94,8
-    EDITTEXT        ID_MUPROP_GEN_MULTSUBSTCHAR_EF,101,99,17,14,
+    EDITTEXT        ID_MUPROP_GEN_MULTSUBSTCHAR_EF,101,96,17,14,
                     ES_AUTOHSCROLL
 
     LTEXT           "Allow CRLF change:",IDC_STATIC,5,114,94,8
-    COMBOBOX        ID_MUPROP_GEN_REFLOW_CB,101,114,50,70,CBS_DROPDOWNLIST |
+    COMBOBOX        ID_MUPROP_GEN_REFLOW_CB,101,111,50,70,CBS_DROPDOWNLIST |
                     CBS_SORT | WS_VSCROLL | WS_TABSTOP
 
-    GROUPBOX        "Translator notes",IDC_STATIC,5,129 /*121*/,324,77
-    LTEXT           "Start tag:",IDC_STATIC,10,141 /*133*/,88,8
-    EDITTEXT        ID_MUPROP_GEN_TRNOTESTART_EF,101, 136 /*128*/,225,14,
+    LTEXT           "Plugin:",IDC_STATIC,5,129,68,8
+    EDITTEXT        ID_MUPROP_GEN_PLUGIN_EF,101,126,225,14,ES_AUTOHSCROLL
+    LTEXT           "Supplier:",IDC_STATIC,5,144,68,8
+    EDITTEXT        ID_MUPROP_GEN_SUPPLIER_EF,101,141,225,14,ES_AUTOHSCROLL
+    LTEXT           "Version:",IDC_STATIC,5,159,68,8
+    EDITTEXT        ID_MUPROP_GEN_VERSION_EF,101,156,225,14,ES_AUTOHSCROLL
+
+    GROUPBOX        "Translator notes",IDC_STATIC,5,174 /*121*/,324,77
+    LTEXT           "Start tag:",IDC_STATIC,10,185 /*133*/,88,8
+    EDITTEXT        ID_MUPROP_GEN_TRNOTESTART_EF,101, 182 /*128*/,225,14,
                     ES_AUTOHSCROLL
-    LTEXT           "Level 1 Note:",IDC_STATIC,10,157 /*149*/,88,8
-    EDITTEXT        ID_MUPROP_GEN_TRNOTELEV1_EF,101,153 /*145*/,225,14,
+    LTEXT           "Level 1 Note:",IDC_STATIC,10,200 /*149*/,88,8
+    EDITTEXT        ID_MUPROP_GEN_TRNOTELEV1_EF,101,197 /*145*/,225,14,
                     ES_AUTOHSCROLL
-    LTEXT           "Level 2 note:",IDC_STATIC,10,173 /*165*/,88,8
-    EDITTEXT        ID_MUPROP_GEN_TRNOTELEV2_EF,101,170 /*162*/,225,14,
+    LTEXT           "Level 2 note:",IDC_STATIC,10,215 /*165*/,88,8
+    EDITTEXT        ID_MUPROP_GEN_TRNOTELEV2_EF,101,212 /*162*/,225,14,
                     ES_AUTOHSCROLL
-    LTEXT           "End tag:",IDC_STATIC,10,189 /*181*/,88,8
-    EDITTEXT        ID_MUPROP_GEN_TRNOTEEND_EF,101,187 /*179*/,225,14,ES_AUTOHSCROLL
+    LTEXT           "End tag:",IDC_STATIC,10,230 /*181*/,88,8
+    EDITTEXT        ID_MUPROP_GEN_TRNOTEEND_EF,101,227 /*179*/,225,14,ES_AUTOHSCROLL
 END
 
 ID_MUPROP_TAGS_PAGE DIALOG DISCARDABLE  0, 0, 334, 212

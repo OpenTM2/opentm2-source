@@ -222,9 +222,9 @@ USHORT EXPTOTMX
   PSZ              pszOutMem,           // fully qualified name of output (TMX) memory
   PSZ              pszInMode,           // input mode "ANSI"/"ASCII"/"UTF16" or a codepage number
   LONG             lOutMode,            // output mode UTF16/UTF8
-  PLONG            plSegs,              // number of written segments,
+  PLONG            plSegs,              // number of written (=valid) segments
   PSZ              pszMsgBuffer,        // buffer for error messages
-  BOOL             fSkip,               // TRUE = skip invalid segments but continue with processing
+  PLONG            plInvalidSegs,       // number of skipped segments
   FILE             *hfLog               // handle of log file or NULL if no logging of invalid segments is to be done
 );
 

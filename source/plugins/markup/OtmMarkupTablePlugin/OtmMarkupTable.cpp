@@ -262,7 +262,8 @@ bool OtmMarkupTable::isProtected()
   comma separated update file list
 
   \param pszTableName   Pointer to name of markup table
-  \param pszDescription   Pointer to markup table description or NULL
+  \param pszShortDescription   Pointer to markup table short description or NULL
+  \param pszLongDescription   Pointer to markup table long description or NULL
   \param pszVersion   Pointer to version of markup table or NULL
   \param pTableFileName   Pointer to name of TBL file
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
@@ -275,7 +276,8 @@ bool OtmMarkupTable::isProtected()
 	*/
 int OtmMarkupTable::updateFiles(
     char   *pszTableName,
-    char   *pszDescription,
+    char   *pszShortDescription,
+    char   *pszLongDescription,
     char   *pszVersion,
     char   *pszTableFileName,
     char   *pszUserExitFileName,
@@ -290,11 +292,15 @@ int OtmMarkupTable::updateFiles(
       bNewMarkup = true ;
       SaveValue2( &(pInfo->pszName), pszTableName ) ;
    }
-   if ( pszDescription ) {
-      if ( ! pInfo->pszShortDescription ) 
-         SaveValue2( &(pInfo->pszShortDescription), pszDescription ) ;
-      if ( ! pInfo->pszLongDescription ) 
-         SaveValue2( &(pInfo->pszLongDescription), pszDescription ) ;
+   if ( pszShortDescription ) {
+      if ( ( ! pInfo->pszShortDescription ) ||
+           ( strcmp( pszShortDescription, pInfo->pszShortDescription ) >= 0 ) )
+         SaveValue2( &(pInfo->pszShortDescription), pszShortDescription ) ;
+   }
+   if ( pszLongDescription ) {
+      if ( ( ! pInfo->pszLongDescription ) ||
+           ( strcmp( pszLongDescription, pInfo->pszLongDescription ) >= 0 ) )
+         SaveValue2( &(pInfo->pszLongDescription), pszLongDescription ) ;
    }
    if ( ( pszVersion ) &&
         ( ( ! pInfo->pszVersion ) ||
@@ -321,6 +327,34 @@ int OtmMarkupTable::updateFiles(
    }
 
    return( iReturn ) ;
+}
+
+
+    /*! \brief Update XML information for the markup table
+
+	This method can update the internal XML control file within new
+  information about this markup tables.
+
+  \param pszMarkupName   Pointer to name of markup table (input only)
+  \param pszShortDescription   Pointer to markup table description or NULL
+  \param pszLongDescription   Pointer to markup table description or NULL
+  \param pszVersion   Pointer to version of markup table or NULL
+  \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
+	
+	\returns  0 when the update failed
+              1 when the markup table information has been updated
+
+	*/
+int OtmMarkupTable::updateInfo(
+   char   *pszMarkupName,
+   char   *pszShortDescription,
+   char   *pszLongDescription,
+   char   *pszVersion,
+   char   *pszUserExitFileName ) 
+{
+   pszMarkupName; pszShortDescription; pszLongDescription; pszVersion; pszUserExitFileName;
+
+   return( UPDATE_MARKUP_ERROR ) ;
 }
 
 

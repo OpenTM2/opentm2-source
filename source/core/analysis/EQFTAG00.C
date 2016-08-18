@@ -1,5 +1,5 @@
 /*! \brief EQFTAG00.C - EQF Tag Table Handler
-         Copyright (C) 1990-2014, International Business Machines          |
+         Copyright (C) 1990-2016, International Business Machines          |
          Corporation and others. All rights reserved                       |
 */
 
@@ -8,6 +8,7 @@
 #include "eqftag00.h"             // tag table handler defines
 #include "eqftag00.id"            // tag table handler window IDs
 #include "eqfcolw.id"             // column width IDs
+#include "MarkupPluginMapper.H"
 
 
   static SHORT sLastUsedView[MAX_VIEW+1] = { TAG_NAME_IND, CLBLISTEND };
@@ -426,6 +427,11 @@ MRESULT TagListCallBack
               *pszTemp = NULL ;
         } else {
            pszPlugin = NULL ;
+        }
+        if ( ! pszPlugin ) {
+           OtmMarkupPlugin *plugin = GetMarkupPlugin( pszMarkup );
+           if ( plugin ) 
+              pszPlugin = (PSZ) plugin->getName();
         }
         TagMakeListItem( pszMarkup, pszPlugin, pCommArea->szBuffer, sizeof(pCommArea->szBuffer) );
         mResult = MRFROMSHORT( TRUE );

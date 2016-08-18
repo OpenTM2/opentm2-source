@@ -36,8 +36,6 @@
 #ifdef _DEBUG
 #endif
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 ///  CleanMemory API
@@ -78,7 +76,7 @@ typedef struct _EXP2TMX_DATA
   CHAR        szOutMode[200];                    // buffer for output mode
   CHAR        szUtf8Buffer[16000];               // buffer for UTF8 conversion
   CHAR_W      szOutBuffer[16000];                // output buffer 
-  CHAR_W      szEscapeBuffer[16000];             // buffer for character escaping 
+  CHAR_W      szEscapeBuffer[32000];             // buffer for character escaping and to save EXP segment
   BOOL        fNoCRLF;                           // true = remove linebreaks from segment data
 
   //-- segment data --
@@ -97,7 +95,6 @@ typedef struct _EXP2TMX_DATA
   CHAR_W      szTargetLang[100];                 // TM target language
   CHAR_W      szTime[100];                       // segment creation time in TMX format
 
-
   // - statistics --
   ULONG       ulSegments;                        // number of segments written to output memory
 
@@ -108,6 +105,8 @@ typedef struct _EXP2TMX_DATA
   CHAR         szMsgBuffer[2048];                // buffer for message texts
   BOOL         fLog;                             // true = write messages to log file
   CHAR         szErrorMsgBuffer[4000];           // buffer for error messages
+  CHAR         szLogFile[MAX_LONGFILESPEC];      // fully qualified name of log file (if not specified name of input memory is used as log)
+  FILE        *hfLogFile;                        // log file handle 
 } EXP2TMX_DATA, *PEXP2TMX_DATA;
 
 
@@ -174,6 +173,7 @@ int main( int argc, char *argv[], char *envp[] )
     printf( "Error: Memory allocation error, program terminated" );
     return( -1 );
   } /* endif */
+  pData->fLog = TRUE;
 
   // skip program name
   argc--;
@@ -193,9 +193,23 @@ int main( int argc, char *argv[], char *envp[] )
         strncpy( pData->szInSpec, pszValue, len);
         pData->szInSpec[len] = 0;
       }
+      else if ( strnicmp( pszParm+1, "in=", 3 ) == 0 )
+      {
+        PSZ pszValue = pszParm + 4;
+        int len = sizeof(pData->szInSpec)/sizeof(pData->szInSpec[0])-1;
+        strncpy( pData->szInSpec, pszValue, len);
+        pData->szInSpec[len] = 0;
+      }
       else  if ( strnicmp( pszParm+1, "outputmem=", 10 ) == 0 )
       {
         PSZ pszValue = pszParm + 11;
+        int len = sizeof(pData->szOutSpec)/sizeof(pData->szOutSpec[0])-1;
+        strncpy( pData->szOutSpec, pszValue, len);
+        pData->szOutSpec[len] = 0;
+      }
+      else  if ( strnicmp( pszParm+1, "out=", 4 ) == 0 )
+      {
+        PSZ pszValue = pszParm + 5;
         int len = sizeof(pData->szOutSpec)/sizeof(pData->szOutSpec[0])-1;
         strncpy( pData->szOutSpec, pszValue, len);
         pData->szOutSpec[len] = 0;
@@ -262,9 +276,17 @@ int main( int argc, char *argv[], char *envp[] )
           } /* endif */
         } /* endif */
       }
-      else if ( stricmp( pszParm+1, "log" ) == 0 )
+      else if ( strnicmp( pszParm+1, "LOG=", 4 ) == 0 )
       {
         pData->fLog = TRUE;
+        PSZ pszValue = pszParm + 5;
+        strcpy( pData->szLogFile, pszValue );
+      }
+      else if ( stricmp( pszParm+1, "NOLOG" ) == 0 )
+      {
+        pData->fLog = FALSE;
+        PSZ pszValue = pszParm + 5;
+        strcpy( pData->szOutMode, pszValue );
       }
       else if ( strnicmp( pszParm+1, "outmode=", 8 ) == 0 )
       {
@@ -352,6 +374,19 @@ int main( int argc, char *argv[], char *envp[] )
   // convert the memory and handle wildcards in input memory name
   if ( usRC == NO_ERROR )
   {
+    // open any user specified log file 
+    if ( pData->fLog && (pData->szLogFile[0] != EOS) )
+    {
+      pData->hfLogFile = fopen( pData->szLogFile, "wb" );
+      if ( pData->hfLogFile )
+      {
+        fwrite( UNICODEFILEPREFIX, 2, 1, pData->hfLogFile );
+        fwprintf( pData->hfLogFile, L"OtmExp2Tmx Log File\r\n\r\n" );
+        fwprintf( pData->hfLogFile, L"Specified input memory : %S\r\n", pData->szInSpec );
+        fwprintf( pData->hfLogFile, L"Specified output memory: %S\r\n\r\n", pData->szOutSpec );
+      } /* endif */
+    } /* endif */
+
     if ( (strchr( pData->szInSpec, '?' ) != NULL) || (strchr( pData->szInSpec, '*' ) != NULL) )
     {
       HDIR hdir;
@@ -366,6 +401,7 @@ int main( int argc, char *argv[], char *envp[] )
       else
       {
         BOOL fMoreFiles = TRUE;
+
 
         while ( !usRC && fMoreFiles )
         {
@@ -416,6 +452,12 @@ int main( int argc, char *argv[], char *envp[] )
     } /* endif */
   } /* endif */
 
+  // open any user specified log file 
+  if ( pData->hfLogFile )
+  {
+    fclose( pData->hfLogFile );
+  } /* endif */
+
   if ( hSession != 0L )
   {
     EqfEndSession( hSession );
@@ -441,24 +483,48 @@ USHORT ConvertSingleMemory
 {
   USHORT      usRC = NO_ERROR;         // function return code
   LONG        lOutMode = 0;
-  
+  BOOL        fMemoryLogFile = FALSE;
+
   LONG lSegments = 0;
+  LONG lInvalidSegments = 0;
 
   usRC = CheckExistence( pData, pszInMemory );
 
   // generate output memory name if not specified
   if ( usRC == NO_ERROR) usRC = CheckOutputName( pData, pszInMemory, pszOutMemory );
 
+  if ( (usRC == NO_ERROR) && pData->fLog )
+  {
+    if ( pData->hfLogFile == NULL )
+    {
+      // create memory specifiy log file
+      strcpy( pData->szBuffer, pszInMemory );
+      strcat( pData->szBuffer, ".log" );
+      pData->hfLogFile = fopen( pData->szBuffer, "wb" );
+      if ( pData->hfLogFile )
+      {
+        fMemoryLogFile = TRUE;
+        fwrite( UNICODEFILEPREFIX, 2, 1, pData->hfLogFile );
+        fwprintf( pData->hfLogFile, L"OtmExp2Tmx Log File\r\n\r\n" );
+        fwprintf( pData->hfLogFile, L"Converting EXP memory %S into TMX memory %S\r\n\r\n", pszInMemory, pszOutMemory );
+      } /* endif */
+    }
+    else
+    {
+      fwprintf( pData->hfLogFile, L"Converting EXP memory %S into TMX memory %S\r\n\r\n", pszInMemory, pszOutMemory );
+    } /* endif */
+  } /* endif */
+
   lOutMode = (stricmp( pData->szOutMode, "UTF16" ) == 0 ) ? TMX_UTF16_OPT : TMX_UTF8_OPT;
   if ( pData->fNoCRLF ) lOutMode = lOutMode | TMX_NOCRLF_OPT; 
 
   pData->szErrorMsgBuffer[0] = EOS;
-  usRC = EXPTOTMX( pszInMemory, pData->szOutMemory, pData->szInMode, lOutMode, &lSegments, pData->szErrorMsgBuffer, FALSE, NULL ); 
+  usRC = EXPTOTMX( pszInMemory, pData->szOutMemory, pData->szInMode, lOutMode, &lSegments, pData->szErrorMsgBuffer, &lInvalidSegments, pData->hfLogFile ); 
 
   if ( usRC == NO_ERROR)
   {
-    sprintf( pData->szUtf8Buffer, "Memory %s converted into TMX memory %s, %ld segments processed.",
-      pszInMemory, pData->szOutMemory, lSegments ); 
+    sprintf( pData->szUtf8Buffer, "Memory %s converted into TMX memory %s\n   %ld segments written to TMX file\n   %ld segments skipped.",
+      pszInMemory, pData->szOutMemory, lSegments, lInvalidSegments ); 
     ShowInfo( pData, "%s", pData->szUtf8Buffer );
   }
   else
@@ -471,6 +537,14 @@ USHORT ConvertSingleMemory
       ShowInfo( pData, "%s", pData->szErrorMsgBuffer );
     } /* endif */
   } /* endif */
+
+  // close any local log file
+  if ( fMemoryLogFile )
+  {
+    fclose( pData->hfLogFile );
+    pData->hfLogFile = NULL;
+  } /* endif */
+
   return( usRC );
 } /* end of function ConvertSingleMemory */
 
@@ -532,14 +606,9 @@ USHORT ShowError( PEXP2TMX_DATA pData, PSZ pszMsg, PSZ pszParm )
 
   printf( "Error: %s\n\n", pData->szMsgBuffer );
 
-  if ( pData->fLog )
+  if ( pData->hfLogFile )
   {
-    FILE *hfLog = fopen( "EXP2TMX.LOG", "a" );
-    if ( hfLog )
-    {
-      fprintf( hfLog, "Error: %s\n\n", pData->szMsgBuffer );
-      fclose( hfLog );
-    } /* endif */
+    fwprintf( pData->hfLogFile, L"Error: %S\r\n\r\n", pData->szMsgBuffer );
   } /* endif */
   return( usRC );
 } /* end of function ShowError */
@@ -552,14 +621,9 @@ USHORT ShowInfo( PEXP2TMX_DATA pData, PSZ pszMsg, PSZ pszParm )
 
   printf( "Info: %s\n\n", pData->szMsgBuffer );
 
-  if ( pData->fLog )
+  if ( pData->hfLogFile )
   {
-    FILE *hfLog = fopen( "EXP2TMX.LOG", "a" );
-    if ( hfLog )
-    {
-      fprintf( hfLog, "Info: %s\n\n", pData->szMsgBuffer );
-      fclose( hfLog );
-    } /* endif */
+    fwprintf( pData->hfLogFile, L"Info: %S\r\n\r\n", pData->szMsgBuffer );
   } /* endif */
   return( usRC );
 } /* end of function ShowInfo */
@@ -575,15 +639,19 @@ PSZ SplitFnameFromPath( PSZ pszPath )
 void showHelp()
 {
     printf( "OtmExp2Tmx.EXE        : EXP to TMX convertor\n" );
-    printf( "Version               : %s\n", STR_DRIVER_LEVEL_NUMBER );
+    printf( "Version               : %s\n", "1.3.0.1" /*STR_DRIVER_LEVEL_NUMBER*/ );
     printf( "Copyright             : %s\n",STR_COPYRIGHT);
     printf( "Purpose               : Converts a memory from the EXP format into the TMX format\n" );
-    printf( "Syntax format         : OtmExp2Tmx /INPUTMEM=inputmem [/OUTPUTMEM=outputmem] [/INMODE=inmode] [/OUTMODE=outmode] [/NOCRLF]\n" );
+    printf( "Syntax format         : OtmExp2Tmx /INPUTMEM=inputmem [/OUTPUTMEM=outputmem] [/INMODE=inmode] [/OUTMODE=outmode] [/NOCRLF] [/NOLOG] [LOG=logfile]\n" );
     printf( "Options and parameters:\n" );
-    printf( "   /INPUTMEM    the fully qualified name of the input memory\n       (this name can contain wildcards)\n" );
-    printf( "   /OUTPUTMEM   the fully qualified name of the output memory\n       (if not specified the input memory name\n" ); 
-    printf( "   /INMODE      the input mode and can be UTF16, ASCII, ANSI or \n       the number of the codepage\n" );
-    printf( "                this parameter is only required for non-UTF16 memories without\n       <codepage> tag\n" );
-    printf( "   /OUTMODE     selects the output format of the TMX memory and can be\n       UTF8 or UTF16 (UTF8 is the default)\n" );
+    printf( "   /INPUTMEM or /IN   the fully qualified name of the input memory\n       (this name can contain wildcards)\n" );
+    printf( "   /OUTPUTMEM or /OUT the fully qualified name of the output memory\n       (if not specified the input memory name\n" ); 
+    printf( "   /INMODE or /IM     the input mode and can be UTF16, ASCII, ANSI or \n       the number of the codepage\n" );
+    printf( "                      this parameter is only required for non-UTF16 memories without\n       <codepage> tag\n" );
+    printf( "   /OUTMODE           selects the output format of the TMX memory and can be\n       UTF8 or UTF16 (UTF8 is the default)\n" );
+    printf( "   /NOCRLF            suppress any line breaks within the segment data\n" );
+    printf( "   /NOLOG             do not write additional info and error data to a log file\n" );
+    printf( "   /LOG=              the fully qualified name of the log file\n" );
+    printf( "                      when no log file is specified, the name of the input memory suffixed with .log is used as log file name\n" );
 }
 

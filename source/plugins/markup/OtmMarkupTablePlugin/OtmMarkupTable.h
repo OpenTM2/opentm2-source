@@ -203,12 +203,32 @@ class __declspec(dllexport) OtmMarkupTable: public OtmMarkup
 	*/
 	int updateFiles( 
            char   *pszMarkupName,
-           char   *pszDescription,
+           char   *pszShortDescription,
+           char   *pszLongDescription,
            char   *pszVersion,
            char   *pszTableFileName,
            char   *pszUserExitFileName,
            char   *pszFileList
     );
+
+
+
+    /*! \brief Update XML information for the markup table
+
+	This method can update the internal XML control file within new
+  information about this markup tables.
+
+	\returns  0 when the update failed
+              1 when the markup table information has been updated
+
+	*/
+	int updateInfo( 
+        char   *pszMarkupName,
+        char   *pszShortDescription,
+        char   *pszLongDescription,
+        char   *pszVersion,
+        char   *pszUserExitFileName
+	);
 
 
 /*!     \brief Delete a markup table

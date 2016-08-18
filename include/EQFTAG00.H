@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2013, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|  Description:                                                              |
@@ -189,7 +189,7 @@ __declspec(dllexport)
 BOOL MUGetUserExitFileName( char *pszMarkup, char *pszPlugin, char *pszBuffer, int iBufSize );
 
 __declspec(dllexport)
-BOOL MUUpdateMarkupTableFiles( char *pszMarkup, char *pszPlugin, char *pszDescription, char *pszVersion, char *pszTableFile, char *pszUserExitFile, char *pszMarkupFiles );
+BOOL MUUpdateMarkupTableFiles( char *pszMarkup, char *pszPlugin, char *pszShortDescription, char *pszLongDescription, char *pszVersion, char *pszTableFile, char *pszUserExitFile, char *pszMarkupFiles );
 
 __declspec(dllexport)
 BOOL MUDeleteMarkupTable( char *pszMarkup, char *pszPlugin );

@@ -5391,24 +5391,16 @@ SHORT EQFBReadProfile( VOID )
                bReadKeys = TRUE;                    // Add for R012027
                memcpy( pKeyTable, pData, min( ProfHead.usSize, sizeof(KEYPROFTABLE) * (LAST_FUNC+1)) );
 
-               // older tables will have a wrong end indicator(s) which are now valid function codes
-               // so we remove all entries which do not have any editor flags
+               // older tables will have a wrong end indicator which is now a valid function code
+               // so we change the function code of the last entry in the table to LAST_FUNC to ensure that
+               // the entry is not misinterpreted as a valid entry
                {
-                 int iEntries = ProfHead.usSize / sizeof(KEYPROFTABLE);
-                 int i = 0;
-                 while ( i < iEntries )
-                 {
-                   if ( pKeyTable->bEditor == 0 )
-                   {
-                     memset( pKeyTable, 0, sizeof(KEYPROFTABLE) );
-                   } /* endif */
-                   i++;
-				   pKeyTable++;
-                 } /*endwhile */
+                 int iLastEntry = (ProfHead.usSize / sizeof(KEYPROFTABLE)) - 1;
+                 pKeyTable[iLastEntry].Function = LAST_FUNC;
                }
 
                // ensure that table has an end element
-			   pKeyTable = get_KeyTable();
+               pKeyTable = get_KeyTable();
                (pKeyTable+LAST_FUNC)->Function = LAST_FUNC;
 
                // add any missing new functions to the key table to allow key assignment
@@ -5419,6 +5411,8 @@ SHORT EQFBReadProfile( VOID )
                EQFBAddFunction( TSEGNEXT_EXACT_FUNC, pKeyTable, pDefKeyTable );
                EQFBAddFunction( TSEGNEXT_FUZZY_FUNC, pKeyTable, pDefKeyTable );
                EQFBAddFunction( TSEGNEXT_NONE_FUNC, pKeyTable, pDefKeyTable );
+               EQFBAddFunction( TSEGNEXT_MT_FUNC, pKeyTable, pDefKeyTable );
+               EQFBAddFunction( TSEGNEXT_GLOBAL_FUNC, pKeyTable, pDefKeyTable );
 
                afValue[ProfHead.usType] = TRUE;
                break;

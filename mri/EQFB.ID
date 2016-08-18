@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 #ifndef _INCL_EQFB_ID
@@ -129,11 +129,13 @@
 /* ID_TP_MAIN_WINDOW + 100 ...128 free since IDM_DICTCPY moved        */
 /**********************************************************************/
 
-#define IDM_GOTOSEG       (ID_TP_MAIN_WINDOW + 101)
-#define IDM_CFIND          (ID_TP_MAIN_WINDOW + 102)
-#define IDM_TRANSNEW_EXACT (ID_TP_MAIN_WINDOW + 103)
-#define IDM_TRANSNEW_FUZZY (ID_TP_MAIN_WINDOW + 104)
-#define IDM_TRANSNEW_NONE  (ID_TP_MAIN_WINDOW + 105)
+#define IDM_GOTOSEG         (ID_TP_MAIN_WINDOW + 101)
+#define IDM_CFIND           (ID_TP_MAIN_WINDOW + 102)
+#define IDM_TRANSNEW_EXACT  (ID_TP_MAIN_WINDOW + 103)
+#define IDM_TRANSNEW_FUZZY  (ID_TP_MAIN_WINDOW + 104)
+#define IDM_TRANSNEW_NONE   (ID_TP_MAIN_WINDOW + 105)
+#define IDM_TRANSNEW_MT     (ID_TP_MAIN_WINDOW + 106)
+#define IDM_TRANSNEW_GLOBAL (ID_TP_MAIN_WINDOW + 107)
 
 
 #define ID_MAINSERVICES   4711
@@ -631,9 +633,11 @@
 #define IDS_TB_FUNC_TSEGNEXT_EXACT   ID_TB_KEYS_DLG + 145
 #define IDS_TB_FUNC_TSEGNEXT_FUZZY   ID_TB_KEYS_DLG + 146
 #define IDS_TB_FUNC_TSEGNEXT_NONE    ID_TB_KEYS_DLG + 147
+#define IDS_TB_FUNC_TSEGNEXT_MT      ID_TB_KEYS_DLG + 148
+#define IDS_TB_FUNC_TSEGNEXT_GLOBAL  ID_TB_KEYS_DLG + 149
 
 // Add for R012027
-#define IDS_TB_FUNC_INSERTCHAR       ID_TB_KEYS_DLG + 148
+#define IDS_TB_FUNC_INSERTCHAR       ID_TB_KEYS_DLG + 150
 // Add end
 
 /////////////////////////////////////////////////////////////

@@ -6263,7 +6263,7 @@
 #define INFO_FS_DOC_NO_HIT                                572
 //* Define statement owner: XQG, NEW
 // Text:       Search complete. No segments with fuzzy matches
-//             up to the selected class found.
+//             matching the selected class(es) were found.
 // HelpTitle:  OpenTM2 - Help
 // Help:       There were no fuzzy matches with the selected 
 //             number of different words.
@@ -6287,10 +6287,8 @@
 #define INFO_FS_SEARCH_COMPLETE                           574
 //* Define statement owner: XQG, NEW
 // Text:       Search complete. %1 segments with fuzzy matches
-//             up to the selected class have been found.
+//             matching the selected class(es) have been found.
 // HelpTitle:  OpenTM2 - Help
-// Help:       There were no fuzzy matches with the selected 
-//             number of different words.
 
 
 
@@ -7591,28 +7589,46 @@
 //             numbers are numeric and in the range from 1 to 99 or 
 //             one of the keywords "Single Shipments" or "All Shipments".
 
-#define FREE_0677_xxxxxxxxxxxxxxxxxxxxx                    677
-// Text:       !! No message text defined !!
+#define WARNING_DOCEXP_WITHTRACKID                         677
+//* Define statement owner: DAW
+// Text:       Exporting a document with TVT tracking IDs should only be done
+//             when the document will be used to build the product for use
+//             in a SmartTVT testing environment.  Extra zero-length Unicode
+//             characters are added around the translatable text in the exported
+//             file.\n
+//             \nThis option should -ONLY- be used when you are instructed to use this option.\n
+//             \nSelect "OK" to add tracking IDs to the exported file.
+//             \nSelect "Cancel" to cancel exporting these documents.
+// HelpTitle:  OpenTM2 - Help
+// Help:       Exporting a document with TVT tracking IDs should only be done
+//             when the document will be used to build the product for use
+//             in a SmartTVT testing environment.  Extra zero-length Unicode
+//             characters are added around the translatable text in the exported
+//             file.
+//             .br
+//             This option should -ONLY- be used when you are instructed to use this option.
+
+#define INFO_FS_EXPORT_COMPLETE                           678
+//* Define statement owner: XQG, NEW
+// Text:       The search results have been exported to file %1.
+// HelpTitle:  OpenTM2 - Help
+
+#define ERROR_FS_INVALID_CLASS                              679
+// Text:       The specified search class %1 is not valid. Only the numbers from 0 to 6 are valid.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0678_xxxxxxxxxxxxxxxxxxxxx                    678
-// Text:       !! No message text defined !!
+#define ERROR_FS_INVALID_MODE                               680
+// Text:       The specified search mode %1 is not valid. 
+//             \nValid modes are 
+//             \n  0 (for up to and including seleced class)
+//             \n  1 (for seleced class and higher)
+//             \n  2 (for only selected class)
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0679_xxxxxxxxxxxxxxxxxxxxx                    679
-// Text:       !! No message text defined !!
-// HelpTitle:  OpenTM2 - Help
-// Help:       !! No help text defined !!
-
-#define FREE_0680_xxxxxxxxxxxxxxxxxxxxx                    680
-// Text:       !! No message text defined !!
-// HelpTitle:  OpenTM2 - Help
-// Help:       !! No help text defined !!
-
-#define FREE_0681_xxxxxxxxxxxxxxxxxxxxx                    681
-// Text:       !! No message text defined !!
+#define ERROR_FS_MISSING_OUTPUT_NAME                       681
+// Text:       No output file name has been specified.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 

@@ -2642,6 +2642,15 @@ SHORT sNotification                 // notification type
         pIda->fSNoMatch = QUERYCHECK( hwnd, ID_DOCEXP_SNOMATCH_CHK );
         pIda->fWithRevMark = QUERYCHECK( hwnd, ID_DOCEXP_REVMARK_CHK ) && pIda->fTarget;
         pIda->fWithTrackID = QUERYCHECK( hwnd, ID_DOCEXP_TRACKID_CHK ) && pIda->fTarget;
+        if ( pIda->fWithTrackID ) {                                    /* 6-3-16 */
+           USHORT usReply = UtlError( WARNING_DOCEXP_WITHTRACKID,
+                               MB_OKCANCEL | MB_DEFBUTTON2, 0, NULL, EQF_QUERY );
+           if ( usReply != MBID_OK )
+           {
+             sFocusID = ID_DOCEXP_TRACKID_CHK;
+             fOK = FALSE ;
+           } /* endif */
+        }
         pIda->szConversion[0] = EOS;  // QUERYTEXT( hwnd, ID_DOCEXP_CONV_CB, pIda->szConversion );
 
         // if no checkbox for external format is checked
@@ -4080,8 +4089,8 @@ static MRESULT DocExpInit( HWND hwnd, WPARAM mp1, LPARAM mp2 )
       // select last used setting of TVT tracking ID checkbox
       if ( ppropImex->fSavedDlgFExpoWithTrackID )
       {
-        SETCHECK_TRUE( hwnd, ID_DOCEXP_TRACKID_CHK );
-        DocExpControl( hwnd, ID_DOCEXP_TRACKID_CHK, BN_CLICKED );
+//      SETCHECK_TRUE( hwnd, ID_DOCEXP_TRACKID_CHK );     6-3-16
+//      DocExpControl( hwnd, ID_DOCEXP_TRACKID_CHK, BN_CLICKED );
       } /* endif */
 
       if ( ppropImex->fSavedDlgFExpoOriginal )
@@ -7211,24 +7220,31 @@ LONG        lOptions                 // options for document export
       usRC = TA_MANDFOLDER;
       UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
     }
-    else if ( !SubFolNameToObjectName( pszFolderName,  pDocImpExp->szBuffer ) )
+    else 
     {
-      PSZ pszParm = pszFolderName;
-      fOK = FALSE;
-      usRC = ERROR_XLATE_FOLDER_NOT_EXIST;
-      UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
-    }
-    else if ( QUERYSYMBOL( pDocImpExp->szBuffer  ) != -1 )
-    {
-      PSZ pszParm = pszFolderName;
-      fOK = FALSE;
-      usRC = ERROR_FOLDER_LOCKED;
-      UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
-    }
-    else
-    {
-      // get subfolder/folder ID
-      pDocImpExp->ulSubFolderID = FolGetSubFolderIdFromObjName( pDocImpExp->szBuffer );
+      // SubFolNameToObjectName expects the folder name to be in ASCII encoding...
+      strcpy( pDocImpExp->chFldName, pszFolderName );
+      ANSITOOEM( pDocImpExp->chFldName );
+
+      if ( !SubFolNameToObjectName( pDocImpExp->chFldName,  pDocImpExp->szBuffer ) )
+      {
+        PSZ pszParm = pszFolderName;
+        fOK = FALSE;
+        usRC = ERROR_XLATE_FOLDER_NOT_EXIST;
+        UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      }
+      else if ( QUERYSYMBOL( pDocImpExp->szBuffer  ) != -1 )
+      {
+        PSZ pszParm = pszFolderName;
+        fOK = FALSE;
+        usRC = ERROR_FOLDER_LOCKED;
+        UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      }
+      else
+      {
+        // get subfolder/folder ID
+        pDocImpExp->ulSubFolderID = FolGetSubFolderIdFromObjName( pDocImpExp->szBuffer );
+      } /* endif */
     } /* endif */
   } /* endif */
 
@@ -7522,6 +7538,7 @@ PFCTDATA    pData                    // function I/F session data
       pszDelimiter = strchr( pDocExpIda->szBuffer, BACKSLASH );
       if ( pszDelimiter ) *pszDelimiter = EOS;
 
+      ANSITOOEM( pDocExpIda->szBuffer );
       ObjLongToShortName( pDocExpIda->szBuffer, szShortName, FOLDER_OBJECT, &fIsNew );
       UtlMakeEQFPath( szFolderBuf, NULC, SYSTEM_PATH, szShortName );
     }

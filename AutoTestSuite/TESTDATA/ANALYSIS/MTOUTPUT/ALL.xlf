@@ -3,7 +3,7 @@
   xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0"
   xmlns:mtc="urn:oasis:names:tc:xliff:matches:2.0">
 <mda:metadata><mda:metagroup category="otm">
- <mda:meta type="OpenTM2">1.3.0</mda:meta>
+ <mda:meta type="OpenTM2">1.3.1</mda:meta>
  <mda:meta type="folder">MTOUTPUT</mda:meta>
  <mda:meta type="srclang">English(U.S.)</mda:meta>
  <mda:meta type="tgtlang">German(reform)</mda:meta>

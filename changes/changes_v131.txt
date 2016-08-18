@@ -1,0 +1,36 @@
+Changes in OpenTM2 releases
+
+List of requirements and fixes in OpenTM2 release v1.3.1:
+  (A) Requirements:
+     R010936: Improvement requests for the "Fuzzy Segment Search" function.
+	 
+  (B) Fixes:	 
+     P403200: OpenTM2ScripterGUI: Allow different parameters in OpenTM2Scripter and API call.
+     P403255: OtmExp2Tmx return RC=60 (part 2 of 2).
+     P403261: Function "Next Untranslated Segment" should offer "MT" and "GLOBAL MEMORY" (= HAMSTER) matches too.
+     P403264: OTMBATCH. Folder/document names with national characters cannot be exported.
+     P403268: OTM does not start-up after MUT update.
+     P403296: OpenTM2 community edition 1.2.4.1 can't be upgrade automatically.
+     P403297: New option INCLUDEWORDCOUNT produces XML file with a syntax error.
+     P403301: Make OpenTM2ScripterGUI version keep the same with OpenTM2 version automatically.
+     P403304: USER Markup Table "Properties" page does not fully function.
+     P403308: Imported MT TMX files do no longer show translated segments.
+     P403318: OTM2MTeval can not process a folder.
+     P403332: Truncated information in log file (PE:MTMATCH).
+     P403334: Document export with option "With TVT tracking ID" needs to be updated.
+     P403353: IBMUMKDW: Exported file is still missing blanks with markup 1.0.19 installed.
+     P403356: IBMUMKDW: Need to ignore HTML comments when analyzing file.
+     P403365: IBMXMECM - max length issue.
+     P403368: OpenSSL: we need to upgrade from v1.0.1s to v1.0.1t.
+     P403371: Dictionary export skips some head terms.
+     P403377: Add sub menu item for tool plugin failed.
+     P403385: IBMQMFMH: TM hangs when saving segment.
+     P403389: IBMXMODC: File cannot be analyzed because of wrong format.
+     P403394: IBMXMECM: Korean packages cannot be returned for maxlength chkpii errors inconsistent with OTM.
+     P403395: IBMXMECM: WCM16 marketplace #27 for cafr maxlength error on video segment.
+     P403396: IBMXMECM: WCM16 marketplace #29 has no OTM erorr but is chkpii uncompliant.
+     P403399: IBMXMECM: Do not allow to save too long text if only one segment.
+     P403400: IBMUHM3: Internal markup table tagging is not removed in exported file.
+	 
+     S131002: R010936 Ref. to #2 is not implemented yet.
+     S131004: Resize-issue in panel "Search Segments With Fuzzy Matches".	   

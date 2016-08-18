@@ -13,7 +13,7 @@ rem
 rem Drive of OpenTM2 source
 set _DRIVE=E:
 rem OpenTM2 source root directory
-set _DEVDIR=OtmIBM\trunk
+set _DEVDIR=Opentm2Community\trunk
 rem Drive letter of VisualStudio and Windows SDK installation
 set _COMP=C:
 

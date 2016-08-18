@@ -1,6 +1,6 @@
 // *************************** Prolog *********************************
 //
-//               Copyright (C) 1990-2014, International Business Machines      
+//               Copyright (C) 1990-2016, International Business Machines      
 //               Corporation and others. All rights reserved         
 //
 //  Short description: TagTable Import
@@ -678,7 +678,7 @@ BOOL TagImpProcess( HWND hwnd, PTAGIMPORT pTagImport)
            *(pszMarkupName) = NULL ;
            if ( ! MUUpdateMarkupTableFiles( pTagImport->szWork,
                              "UserMarkupTablePlugin", 
-                             pTagImport->szDescription, NULL, 
+                             pTagImport->szDescription, pTagImport->szDescription, NULL, 
                              pTagImport->szTargetName, pTagImport->szSegmentExit, NULL ) ) {
               fOK = FALSE ;
            }

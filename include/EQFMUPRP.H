@@ -3,133 +3,8 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
-//+----------------------------------------------------------------------------+
-//| PVCS Section                                                               |
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 28 Sep 2004
-// GQ: - added OnHelp method for protect and unprotect dialog
-// 
-// 
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 8 Oct 2003
-// --RJ: =018279: add m_fReflow to CMUPropGeneralPage
-// 
-//
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-//
-//
-// $Revision: 1.1 $ ----------- 27 Jun 2003
-//  -- New Release TM6.0.2!!
-//
-//
-// $Revision: 1.2 $ ----------- 24 Feb 2003
-// -- RJ: .NET adaptation
-//
-//
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jul 2002
-//  -- New Release TM6.0!!
-//
-//
-// $Revision: 1.4 $ ----------- 19 Dec 2001
-// GQ: - Added m_fPageInitialized to CMUPropTestPage class
-//
-//
-// $Revision: 1.3 $ ----------- 19 Nov 2001
-// GQ: - Added m_fPageInitialized to tags and attributes property page
-//
-//
-// $Revision: 1.2 $ ----------- 3 Sep 2001
-// GQ: Continued work on markup table property sheet
-//
-//
-// $Revision: 1.1 $ ----------- 17 Aug 2001
-//  -- New Release TM2.7.2!!
-//
-//
-// $Revision: 1.1 $ ----------- 25 Jun 2001
-// GQ: Initial put
-//
-//
 //+----------------------------------------------------------------------------+
 
 #include "eqf.id"
@@ -141,6 +16,7 @@
 #define MUPROP_TESTTABLE "$$MU$$"
 #define MUPROP_TESTLANG  "English(U.S.)"
 #define MUPROP_TESTDOC   "MUTEST.DOC"
+#define MAX_SHORTLONG_DESCRIPTION   150
 
 // tag data structure as used in the markup table property dialog
 typedef struct _MUPRPTAG
@@ -223,6 +99,11 @@ public:
         CHAR m_szTrNoteLevel1[MAX_TRNOTE_DESC];  // translators note level 1
         CHAR m_szTrNoteLevel2[MAX_TRNOTE_DESC];  // translators note level 2
         CHAR m_szTrNoteEnd[MAX_TRNOTE_DESC];     // translators note end tag
+        CHAR m_szLongDescription[MAX_SHORTLONG_DESCRIPTION];   // long description
+        CHAR m_szShortDescription[MAX_SHORTLONG_DESCRIPTION];  // short description
+        CHAR m_szPlugin[MAX_DESCRIPTION];        // plugin name
+        CHAR m_szSupplier[MAX_DESCRIPTION];      // supplier
+        CHAR m_szVersion[MAX_DESCRIPTION];       // version
         BOOL m_fUseUnicodeForSegFile;            // use Unicode for segmented file
         BOOL m_fNewTagTable;                     // TRUE = this is a new tag table
         BOOL m_fModified;                        // TRUE = data has been modified

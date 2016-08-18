@@ -3,7 +3,7 @@
 # Description:
 #
 # Copyright Notice:
-#	Copyright (C) 1990-2015, International Business Machines
+#	Copyright (C) 1990-2016, International Business Machines
 #   Corporation and others. All rights reserved
 #
 
@@ -136,9 +136,31 @@ def parseParameter(line):
     name = parts[1][0:-1] if parts[1][-1] == "," else parts[1]
     comment = ["maned", ""]
     if len(parts) > 2 and parts[2][:2] == "//":
-        comment = parts[2][2:].strip().split(":", 1)
-        if parts[2][2:].strip().find("@Ignore") != -1:
+        if parts[2][2:].strip().lower().find("@ignore") != -1:
             return None
+        
+        #### For @API and @Scripter Begin
+        desc = parts[2][2:]
+        api_index = parts[2].strip().lower().find('@api:')
+        scrip_index = parts[2].strip().lower().find('@scripter:')
+        if api_index!=-1 and scrip_index!=-1:
+            if api_index < scrip_index:
+                desc = ''.join([ parts[2][2:api_index].rstrip(),
+                                  parts[2][scrip_index+len('@scripter:'):].lstrip()
+                                 ]  )         
+            else:
+                desc = ''.join([ parts[2][2:scrip_index].rstrip(),  
+                                  parts[2][scrip_index+len('@scripter:'):api_index].lstrip()
+                                 ]  )  
+        elif api_index!=-1:
+            return None       
+        elif scrip_index!=-1:
+            desc = ''.join([ parts[2][2:scrip_index].rstrip(),  
+                             parts[2][scrip_index+len('@scripter:'):].lstrip()  
+                            ]  )  
+        ### For @API and @Scripter End
+        
+        comment = desc.strip().split(":", 1)
         if len(comment) < 2:
             print "Malformed comment \"%s\"" % comment
             return None
@@ -165,9 +187,26 @@ def removeTextNodes(mainnode):
       cmp=lambda x, y: cmp(skey(y), skey(x)))
     return mainnode
       
-      
 
+def getOpenTM2Version():
+    fin = open(r'..\include\EQFSERNO.H','r')
+    for line in fin:
+        if line.find('#define STR_DRIVER_LEVEL_NUMBER') != -1:
+            items = line.strip('\n').split(' ')
+            totalItems = len(items)
+            if totalItems<3:
+			    continue
+            version = items[totalItems-1].strip('"')
+            print version
+            fout = open(r'..\openTM2ScripterGUI\resources\OpenTM2Version.info','w')
+            fout.writelines(version)
+            fout.close()
+    fin.close()
+	
 if __name__ == "__main__":
+    # get OpenTM2 version
+    getOpenTM2Version()
+	# run parse commands
     if len(sys.argv) < 3:
         print "Usage: %s [COMMANDS_XML] [HEADER_FILE]" % sys.argv[0]
         sys.exit()

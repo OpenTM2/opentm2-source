@@ -3,7 +3,7 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Copyright (C) 1990-2016, International Business Machines              |
   |      Corporation and others. All rights reserved                           |  
   +----------------------------------------------------------------------------+
 */
@@ -413,6 +413,11 @@
 #define ID_FUZZYSEARCH_DOCS_GB             ID_FUZZYSEARCH_DLG + 9
 #define ID_FUZZYSEARCH_STOP_PB             ID_FUZZYSEARCH_DLG + 10
 #define ID_FUZZYSEARCH_STATUS_TEXT         ID_FUZZYSEARCH_DLG + 11
+#define ID_FUZZYSEARCH_EXPORT_PB           ID_FUZZYSEARCH_DLG + 12
+#define ID_FUZZYSEARCH_MODE_CB             ID_FUZZYSEARCH_DLG + 13 
+#define ID_FUZZYSEARCH_SHOWDIFF_CHK        ID_FUZZYSEARCH_DLG + 14
+#define ID_FUZZYSEARCH_DISPLAYOPT_GB       ID_FUZZYSEARCH_DLG + 15
+#define ID_FUZZYSEARCH_OPTIONS_GB          ID_FUZZYSEARCH_DLG + 16
 
 /**********************************************************************/
 /* IDs for Document Processing Options dialog                         */

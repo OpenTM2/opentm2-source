@@ -1,0 +1,32 @@
+****************************************************************************************************
+** Script name...: TermsWithHyphens.script                                                        **
+** Purpose.......: Script testing the handling of terms containing hyphens                        **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: April, 22, 2016                                                                **
+** Update........: April, 22, 2016                                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+define Data,%TestDataLocation%\DICTIONARY\TermsWithHyphens
+
+
+TESTCASE TERMSWITHHYPHENS001,Import/Export dictionary containg terms with hyphens
+  EqfDeleteDict TermsWithHyphens
+  EqfImportDict %DATA%\TermsWithHyphens.SGM, TermsWithHyphens, , (UTF16_OPT,COMBINE_OPT)
+  TESTRESULT 0, Import of test dictionary failed
+  EqfExportDict TermsWithHyphens, (UTF16_OPT,OVERWRITE_OPT), %DATA%\TermsWithHyphens-out.SGM
+  TESTRESULT 0, Export of test dictionary failed
+  COMPAREBINARY %DATA%\TermsWithHyphens-out.SGM, %DATA%\TermsWithHyphens.SGM
+  TESTRESULT 0, Exported dictionary does not match expected output
+  DELETEFILE %DATA%\TermsWithHyphens-out.SGM
+End
+
+
+
+

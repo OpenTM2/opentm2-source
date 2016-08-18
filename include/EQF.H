@@ -5926,9 +5926,13 @@ typedef struct _PROPFOLDERLIST
    USHORT    usFolImpFormat;                     // LU: format of folder import
    EQF_SWP   swpTEnvCFindSizePos;                // LU: TranslationEnvironment concordance search dialog size and position
    EQF_SWP   swpFSearchSizePos;                  // LU: fuzzy search dialog size and position
+   
    int       iFSLastUsedClass;                   // LU: class selected in fuzzy search dialog
+   int       iFSLastUsedMode;                    // LU: mode selected in fuzzy search dialog: 0 = up to selected class, 1 = only selected class, 2 = selected class and higher
 
-   CHAR chReserve[162];                          // reserve space/filler (fills props to 4K)
+   CHAR      szFSLastExportFile[MAX_LONGFILESPEC];// LU: last used file name for the export of the fuzzy segment search results
+   BOOL      fFSWithMarks;                        // LU: last used state of with marks checkbox
+   CHAR chReserve[3994];                          // reserve space/filler
 
 } PROPFOLDERLIST, *PPROPFOLDERLIST;
 

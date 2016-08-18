@@ -46,6 +46,10 @@
       <parameter id="variable" name="variable" type="variable"/>
       <parameter id="errormsg" name="errormsg" type="variable"/>
     </command>
+    <command command="TESTVALUE" id="testvalue" name="TestValue">
+      <parameter id="firstvar" name="firstvar" type="variable"/>
+      <parameter id="secondvar" name="secondvar" type="variable"/>
+    </command>
     <command command="DELETEFILE" id="deletefile" name="DeleteFile">
       <parameter id="variable" name="variable" type="variable"/>
     </command>
@@ -145,7 +149,7 @@
       <parameter description="list of read-only search memories or NULL" id="pszromemories" name="pszROMemories" optional="true"/>
       <parameter description="folder description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
       <parameter description="calculation profile name or NULL" id="pszprofile" name="pszProfile" optional="true"/>
-      <parameter description="for future enhancements, currently NULL" id="pszunused2" name="pszUnUsed2" optional="true"/>
+      <parameter description="new folder shipment number or NULL" id="pszshipment" name="pszShipment" optional="true"/>
     </command>
     <command command="EqfCreateSubFolder" description="" id="eqfcreatesubfolder" name="EqfCreateSubFolder">
       <parameter description="name of parent (sub)folder" id="pszparentfolder" name="pszParentFolder"/>
@@ -232,21 +236,33 @@ SOURCE_OPT, TARGET_OPT(default), DUPLICATE_OPT, DUPMEMMATCH_OPT
       <parameter description="list of documents with path information" id="pszfiles" name="pszFiles"/>
       <parameter description="optional start path" id="pszstartpath" name="pszStartPath" optional="true"/>
       <parameter description="options for document export
-@GROUP: [Exoprt File,Export Format]
-@Exoprt File: SOURCE_OPT,TARGET_OPT(default),SNOMATCH_OPT
-@Export Format: PLAINXML_OPT,
+@Export Format: SOURCE_OPT,TARGET_OPT(default),SNOMATCH_OPT, PLAINXML_OPT, OPENTM2FORMAT_OPT,
 VALFORMAT_XML_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
 VALFORMAT_DOC_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
 VALFORMAT_ODT_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
-VALFORMAT_HTML_OPT{VALFORMAT_COMBINE_OPT VALFORMAT_PROTSEGS_OPT}
-@Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+VALFORMAT_HTML_OPT{VALFORMAT_COMBINE_OPT VALFORMAT_PROTSEGS_OPT},
+@RelativePath: WITHRELATIVEPATH_OPT(default),WITHOUTRELATIVEPATH_OPT
+@Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT,WITHTRACKID_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
     <command command="EqfImportMem" description="" id="eqfimportmem" name="EqfImportMem">
-      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemname"/>
+      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemName"/>
       <parameter description="fully qualified name of input file" id="pszinfile" name="pszInFile"/>
       <parameter description="options for Translation Memory import
 @Import Mode: TMX_OPT{CLEANRTF_OPT}, XLIFF_MT_OPT,UTF16_OPT,ANSI_OPT,ASCII_OPT(default)
+@Markup Table Handling: CANCEL_UNKNOWN_MARKUP_OPT(default), SKIP_UNKNOWN_MARKUP_OPT, GENERIC_UNKNOWN_MARKUP_OPT
 @Other: {CLEANRTF_OPT,IGNORE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfImportMemEx" description="" id="eqfimportmemex" name="EqfImportMemEx">
+      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemName"/>
+      <parameter description="fully qualified name of input file" id="pszinfile" name="pszInFile"/>
+      <parameter description="translation memory ID or NULL if not used" id="psztm_id" name="pszTM_ID" optional="true"/>
+      <parameter description="ID for the origin of the translation memory or NULL if not used" id="pszstoreid" name="pszStoreID" optional="true"/>
+      <parameter description="not in use, for future enhancements" id="pszunused1" name="pszUnused1" optional="true"/>
+      <parameter description="not in use, for future enhancements" id="pszunused2" name="pszUnused2" optional="true"/>
+      <parameter description="options for Translation Memory import
+@Import Mode: TMX_OPT{CLEANRTF_OPT}, XLIFF_MT_OPT,UTF16_OPT,ANSI_OPT,ASCII_OPT(default)
+@Markup Table Handling: CANCEL_UNKNOWN_MARKUP_OPT(default), SKIP_UNKNOWN_MARKUP_OPT, GENERIC_UNKNOWN_MARKUP_OPT
+@Other: {CLEANRTF_OPT,IGNORE_OPT,FORCENEWMATCHID_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
     <command command="EqfExportMem" description="" id="eqfexportmem" name="EqfExportMem">
       <parameter description="name of Translation Memory" id="pszmemname" name="pszMemname"/>
@@ -291,7 +307,7 @@ VALFORMAT_HTML_OPT{VALFORMAT_COMBINE_OPT VALFORMAT_PROTSEGS_OPT}
 @:{TMMATCH_OPT,ADDTOMEM_OPT,AUTOSUBST_OPT,UNTRANSLATED_OPT,
 AUTOLAST_OPT,AUTOJOIN_OPT,AUTOCONTEXT_OPT,REDUNDCOUNT_OPT,
 OVERWRITE_OPT,IGNOREPATH_OPT,ADJUSTLEADWS_OPT,ADJUSTTRAILWS_OPT,
-NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,
+NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,SENDTOMT_OPT,
 RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
     <command command="EqfAnalyzeDocEx" description="" id="eqfanalyzedocex" name="EqfAnalyzeDocEx">
@@ -304,7 +320,7 @@ RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="l
 @:{TMMATCH_OPT,ADDTOMEM_OPT,AUTOSUBST_OPT,UNTRANSLATED_OPT,
 AUTOLAST_OPT,AUTOJOIN_OPT,AUTOCONTEXT_OPT,REDUNDCOUNT_OPT,
 OVERWRITE_OPT,IGNOREPATH_OPT,ADJUSTLEADWS_OPT,ADJUSTTRAILWS_OPT,
-NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,
+NOBLANKATSEGEND_OPT,NOSUBSTIFIDENTICAL_OPT,PROTECTXMPSCREEN_OPT,SENDTOMT_OPT,
 RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
     <command command="EqfDeleteMem" description="" id="eqfdeletemem" name="EqfDeleteMem">
@@ -326,12 +342,27 @@ RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="l
 @Import Mode: XLIFF_OPT
 @Other: {WITHDICT_OPT, WITHMEM_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
+    <command command="EqfImportFolderAs" description="" id="eqfimportfolderas" name="EqfImportFolderAs">
+      <parameter description="name of folder being imported" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="path containing the imported folder" id="pszfrompath" name="pszFromPath"/>
+      <parameter description="target drive for folder" id="chtodrive" name="chToDrive" optional="true" type="char"/>
+      <parameter description="new name for the folder after the import" id="psznewfoldername" name="pszNewFolderName" optional="true"/>
+      <parameter description="folder import options
+@Import Mode: XLIFF_OPT
+@Other: {WITHDICT_OPT, WITHMEM_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
     <command command="EqfDeleteFolder" description="" id="eqfdeletefolder" name="EqfDeleteFolder">
       <parameter description="name of folder being deleted" id="pszfoldername" name="pszFolderName"/>
     </command>
     <command command="EqfGetFolderProp" description="" id="eqfgetfolderprop" name="EqfGetFolderProp">
       <parameter description="name of folder to get properties from" id="pszfoldername" name="pszFolderName"/>
       <parameter description="structure of Folderproperties to be returned" id="pextfolprop" name="pExtFolProp" type="pextfolprop"/>
+    </command>
+    <command command="EqfGetFolderPropEx" description="" id="eqfgetfolderpropex" name="EqfGetFolderPropEx">
+      <parameter description="name of the folder to get the property value from" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="name of the requested value
+@: DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,ANALYSISPROFILE,COUNTINGPROFILE,SHIPMENT" id="pszkey" name="pszKey"/>
+      <parameter description="name of the variable receiving the requested value" id="pszbuffer" name="pszBuffer"/>
     </command>
     <command command="EqfDeleteDoc" description="" id="eqfdeletedoc" name="EqfDeleteDoc">
       <parameter description="name of folder containing the documents" id="pszfoldername" name="pszFolderName"/>
@@ -347,7 +378,23 @@ RESPECTCRLF_OPT,STOPATFIRSTEXACT_OPT,IGNORECOMMENTED_OPT}" id="loptions" name="l
 @Type:BASE_REPTYPE,BASE_SUMMARY_REPTYPE,BASE_SUMMARY_FACTSHEET_REPTYPE,SUMMARY_FACTSHEET_REPTYPE,FACTSHEET_REPTYPE" id="ustype" name="usType" type="ushort"/>
       <parameter description="name of profile" id="pszprofile" name="pszProfile" optional="true"/>
       <parameter description="output format
-@Output Foramt: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
+@Output Format: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
+@Other: OVERWRITE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfCreateCountReportEx" description="" id="eqfcreatecountreportex" name="EqfCreateCountReportEx">
+      <parameter description="name of folder containing the documents" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents being counted" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="fully qualified name of output file" id="pszoutfile" name="pszOutFile"/>
+      <parameter description="ID of report being created
+@Report ID:CALCULATING_REP,PREANALYSIS_REP,REDUNDANCY_REP,REDUNDANCYSEGMENT_REP" id="usreport" name="usReport" type="ushort"/>
+      <parameter description="type of report being created
+@Type:BASE_REPTYPE,BASE_SUMMARY_REPTYPE,BASE_SUMMARY_FACTSHEET_REPTYPE,SUMMARY_FACTSHEET_REPTYPE,FACTSHEET_REPTYPE" id="ustype" name="usType" type="ushort"/>
+      <parameter description="name of profile" id="pszprofile" name="pszProfile" optional="true"/>
+      <parameter description="shipment number or one of the keywords &quot;All Shipments&quot; or &quot;Single Shipments&quot;" id="pszshipment" name="pszShipment" optional="true"/>
+      <parameter description="for future enhancements, currently unused" id="pszunused1" name="pszUnused1" optional="true"/>
+      <parameter description="for future enhancements, currently unused" id="pszunused2" name="pszUnused2" optional="true"/>
+      <parameter description="output format
+@Output Format: HTML_OUTPUT_OPT, XML_OUTPUT_OPT,TEXT_OUTPUT_OPT(default)
 @Other: OVERWRITE_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
     <command command="EqfArchiveTM" description="" id="eqfarchivetm" name="EqfArchiveTM">
@@ -402,7 +449,8 @@ must have a size of at least 60 characters" id="pszsegfile" name="pszSegFile"/>
       <parameter description="fully qualified name of external input memory (encoding: UTF-16)" id="pszinmemory" name="pszInMemory"/>
       <parameter description="name of internal output memory or fully qualified name of external output memory" id="pszoutmemory" name="pszOutMemory"/>
       <parameter description="options for processing
-@Options:CLEANMEM_INTERNAL_MEMORY_OPT,CLEANMEM_EXTERNAL_MEMORY_OPT" id="loptions" name="lOptions" optional="true" type="long"/>
+@Output:CLEANMEM_INTERNAL_MEMORY_OPT,CLEANMEM_EXTERNAL_MEMORY_OPT
+@Other: {CLEANMEM_LOGGING_OPT, CLEANMEM_BESTMATCH_OPT, CLEANMEM_MERGE_OPT, CLEANMEM_KEEP_DUPS_OPT,COMPLETE_IN_ONE_CALL_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
     <command command="EqfRename" description="" id="eqfrename" name="EqfRename">
       <parameter description="rename mode:
@@ -448,6 +496,10 @@ must have a size of at least 60 characters" id="pszsegfile" name="pszSegFile"/>
       <parameter description="segment number of segment to be activated" id="ulsegnum" name="ulSegNum" optional="true" type="ulong"/>
       <parameter description="line to be activated (ulSegNum has to be 0)" id="ulline" name="ulLine" optional="true" type="ulong"/>
       <parameter description="UTF-16 search string (ulSegNum and ulLine have to be 0)" id="pszsearch" name="pszSearch" optional="true" type="wchar_t*"/>
+    </command>
+    <command command="EqfOpenDocByTrack" description="" id="eqfopendocbytrack" name="EqfOpenDocByTrack">
+      <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="TVT tracking ID of segment to be activated" id="psztrackid" name="pszTrackID"/>
     </command>
     <command command="EqfDeleteMTLog" description="" id="eqfdeletemtlog" name="EqfDeleteMTLog">
       <parameter description="name of the folder" id="pszfoldername" name="pszFolderName"/>
@@ -526,6 +578,24 @@ use a colon between folder-name and document-name as &quot;folder-name:document-
     </command>
     <command command="EqfGetVersionEx" description="" id="eqfgetversionex" name="EqfGetVersionEx">
       <parameter description="to retrieve version information" id="pszversion" name="pszVersion"/>
+    </command>
+    <command command="EqfAddMatchSegID" description="" id="eqfaddmatchsegid" name="EqfAddMatchSegID">
+      <parameter description="name of Translation Memory" id="pszmemname" name="pszMemName"/>
+      <parameter description="translation memory ID or NULL if not used" id="psztm_id" name="pszTM_ID" optional="true"/>
+      <parameter description="ID for the origin of the translation memory or NULL if not used" id="pszstoreid" name="pszStoreID" optional="true"/>
+      <parameter description="options for the add natch segment ID processing
+@Other: {FORCENEWMATCHID_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfSearchFuzzySegments" description="" id="eqfsearchfuzzysegments" name="EqfSearchFuzzySegments">
+      <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
+      <parameter description="fully qualified name of output file" id="pszoutputfile" name="pszOutputFile"/>
+      <parameter description="search mode
+@Modes: UPTOSELECTEDCLASS_MODE,SELECTEDCLASSANDHIGHER_MODE(default),ONLYSELECTEDCLASS_MODE" id="isearchmode" name="iSearchMode" type="int"/>
+      <parameter description="searched class
+@Classes: 0(default),1,2,3,4,5,6" id="iclass" name="iClass" type="int"/>
+      <parameter description="processing options
+@Other: {OVERWRITE_OPT,MARKDIFFERENCES_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
     </command>
   </api>
 </commands>

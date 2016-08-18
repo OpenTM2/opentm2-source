@@ -1,4 +1,4 @@
-// Copyright (c) 1990-2015, International Business Machines
+// Copyright (c) 1990-2016, International Business Machines
 // Corporation and others.  All rights reserved.
 //
 
@@ -311,7 +311,7 @@ BEGIN
   CONTROL STR_DOCEXP_WITHTRACKID, ID_DOCEXP_TRACKID_CHK,
     BUTTON,
     BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    21, 150, 191, 12
+    21, 150, 250, 12
 
 
   //

@@ -26,38 +26,50 @@ define PropPath,\OTM\PROPERTY
 EqfCreateMem FOLPROPTEST001, , , English(U.S.), 
 EqfCreateMem FOLPROPTEST002, , , English(U.S.), 
 EqfCreateMem FOLPROPTEST003, , , English(U.S.), 
-EqfCreateFolder FOLPROPTEST001, ThisIsTheDescription, , FOLPROPTEST001, EQFANSI, STANDARD, , English(U.S.), German(reform), , FOLPROPTEST002,FOLPROPTEST003
+EqfCreateFolder FOLPROPTEST001, ThisIsTheDescription, , FOLPROPTEST001, EQFANSI, STANDARD, , English(U.S.), German(reform), , FOLPROPTEST002
+EqfChangeFolPropsEx FOLPROPTEST001, , , , , , , PUB20184, 1
 
 * DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,PROFILE,SHIPMENT
 
 TESTCASE FOLPROPTEST001,use EqfGetFolderPropEx to query some folder properties
   EQFGETFOLDERPROPEX FOLPROPTEST001,DRIVE,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for DRIVE keyword
-  ECHO Drive: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving folder drive
   EQFGETFOLDERPROPEX FOLPROPTEST001,SOURCELANGUAGE,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for SOURCELANGUAGE keyword
-  ECHO SourcetLanguage: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving source language
+  TESTVALUE $value$X,English(U.S.)X
+  TESTRESULT 1, Invalid value $value$ (expected English(U.S.)) returned as folder source language
   EQFGETFOLDERPROPEX FOLPROPTEST001,TARGETLANGUAGE,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for TARGETLANGUAGE keyword
-  ECHO TargetLanguage: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving target language
+  TESTVALUE $value$X,German(reform)X
+  TESTRESULT 1, Invalid value $value$ (expected German(reform)) returned as folder target language
   EQFGETFOLDERPROPEX FOLPROPTEST001,MEMORY,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for MEMORY keyword
-  ECHO Memory: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving folder memory
+  TESTVALUE $value$X,FOLPROPTEST001X
+  TESTRESULT 1, Invalid value $value$ (expected FOLPROPTEST001) returned as folder memory
   EQFGETFOLDERPROPEX FOLPROPTEST001,DICTIONARIES,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for DICTIONARIES keyword
-  ECHO Dictionaries: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving folder dictionaries
+  TESTVALUE $value$X,X
+  TESTRESULT 1, Invalid value $value$ (expected empty string) returned as folder dictionaries
   EQFGETFOLDERPROPEX FOLPROPTEST001,ROMEMORIES,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for ROMEMORIES keyword
-  ECHO ReadOnlyMemories: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving folder r/o memories
+  TESTVALUE $value$X,FOLPROPTEST002X
+  TESTRESULT 1, Invalid value $value$ (expected FOLPROPTEST002) returned as folder r/o memories
   EQFGETFOLDERPROPEX FOLPROPTEST001,DESCRIPTION,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for DESCRIPTION keyword
-  ECHO Description: $value$ 
-  EQFGETFOLDERPROPEX FOLPROPTEST001,PROFILE,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for PROFILE keyword
-  ECHO Profile: $value$ 
-  EQFGETFOLDERPROPEX FOLPROPTEST001,SHIPMENT,value
-  TESTRESULT 0, EqfGetFolderPropEx returned wrong value for SHIPMENT keyword
-  ECHO Shipment: $value$ 
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving folder description
+  TESTVALUE $value$X,ThisIsTheDescriptionX
+  TESTRESULT 1, Invalid value $value$ (expected ThisIsTheDescription) returned as folder description
+  EqfGetFolderPropEx FOLPROPTEST001, ANALYSISPROFILE, value
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving analysis profile
+  TESTVALUE $value$X,X
+  TESTRESULT 1, Invalid value $value$ (expected empty string) returned as analysis profile
+  EqfGetFolderPropEx FOLPROPTEST001, COUNTINGPROFILE, value
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving counting profile
+  TESTVALUE $value$X,PUB20184X
+  TESTRESULT 1, Invalid value $value$ (expected PUB20184) returned as counting profile
+  EqfGetFolderPropEx FOLPROPTEST001, SHIPMENT, value
+  TESTRESULT 0, EqfGetFolderPropEx wrong return code when retrieving folder shipment
+  TESTVALUE $value$X,1X
+  TESTRESULT 1, Invalid value $value$ (expected 1) returned as folder shipment
 End
 
 EqfDeleteFolder FOLPROPTEST001

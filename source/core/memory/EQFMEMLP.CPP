@@ -595,7 +595,9 @@ VOID EQFMemLoadProcess ( PPROCESSCOMMAREA pCommArea,
                 BOOL  fOk = TRUE;   // local OK flag
 
                 // prepare import of next TM
-                Utlstrccpy( pLoadData->szMemName, pLoadData->pszActFile, DOT );
+                strcpy( pLoadData->szMemName, pLoadData->pszActFile );
+                PSZ pszExt = strrchr( pLoadData->szMemName, DOT );
+                if ( pszExt != NULL ) *pszExt = EOS;
                 UtlSplitFnameFromPath( pLoadData->szFilePath );
                 strcat( pLoadData->szFilePath, BACKSLASH_STR );
                 strcat( pLoadData->szFilePath, pLoadData->pszActFile );

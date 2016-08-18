@@ -322,3 +322,4 @@
 {$(_RES)}.RES{$(_OBJ)}.RBJ:
     CVTRES /NOLOGO /OUT:$(_OBJ)\$(*B).RBJ $(_RES)\$(*B).RES >>$(_ERR)
 
+

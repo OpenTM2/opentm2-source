@@ -2937,7 +2937,7 @@ USHORT AsdListIndex
    HDCB     hDCB,                      // dictionary control block handle
    PSZ_W    pucTerm,                   // term to lookup
    USHORT   usTermType,                // type of requested list
-   PSZ_W   *ppucTermList,             // buffer for returned terms
+   PSZ_W   *ppucTermList,              // buffer for returned terms
    PLONG    plUsed,                    // used size of buffer
    PLONG    plSize,                    // actual size of buffer
    PUSHORT  pusTerms,                  // number of terms in buffer
@@ -5002,11 +5002,11 @@ USHORT AsdGetIndexEntry
    //
    if ( ASDOK(usNlpRC) )
    {
-         NlpRetEntryAsdW( usDictHandle,           // dictionary handle
+         NlpRetEntryAsdW( usDictHandle,          // dictionary handle
                          pUCB->usUser,           // ASD user handle
                          pDCB->aucDummy,         // term for this entry
                          &ulTermNumber,          // number of term
-                         (PBYTE)*ppucData,              // entry data
+                         (PBYTE)*ppucData,       // entry data
                          &ulDataLength,          // data length in # of bytes
                          &usDictHandle,          // dictionary of term
                          &usNlpRC );

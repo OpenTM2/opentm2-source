@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -655,14 +655,16 @@ VOID UtlGetMsgTxt
                                      *(pMsgText+1) == LF  ) ) // linefeed /*@N4A*/
            {
               pMsgText++;              // ... skip it and
-              *(pBuffer-1) = LF;       // replace backslash with linefeed
+//            *(pBuffer-1) = LF;       // replace backslash with linefeed
+              *(pBuffer-1) = '\n';     // replace backslash with '\n'   6-7-16
            } /* endif */
            break;
         case CR:
            pMsgText++;                 // ignore carriage return
            break;
         case LF:
-           *pBuffer++ = ' ';           // replace linefeed with space
+//         *pBuffer++ = ' ';           // replace linefeed with space
+           *pBuffer++ = '\n';          // replace linefeed with '\n'    6-7-16
            pMsgText++;
            break;
         default:

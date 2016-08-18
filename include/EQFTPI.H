@@ -216,6 +216,8 @@ typedef enum _FUNCTION
    TSEGNEXT_EXACT_FUNC,             // next untranslated segment with EXACT matches
    TSEGNEXT_FUZZY_FUNC,             // next untranslated segment with FUZZY matches
    TSEGNEXT_NONE_FUNC,              // next untranslated segment with NO matches
+   TSEGNEXT_MT_FUNC,                // next untranslated segment with MT matches
+   TSEGNEXT_GLOBAL_FUNC,            // next untranslated segment with GLOBAL MEMORY matches
    LAST_FUNC                        // should always be last entry in enum
 } FUNCTION;
 
@@ -276,10 +278,10 @@ typedef enum _FUNCTION
 #define  CHANGE_MARKONLY      3           //              to change
 
 #define CHARACTERS_TYPED  4            // number of characters typed after checking for line wrap
-#define RMARGIN_DEFAULT 70             // default right margin
+#define AUTOSIZE        999            // size indicates AUTO if saved in Profile
+#define RMARGIN_DEFAULT AUTOSIZE       // default right margin
 #define MINMARGIN       10             // minimum margin allowed
 
-#define AUTOSIZE        999            // size indicates AUTO if saved in Profile
 
 #define RMARGIN_LENGTH  20             // length of entry field for rmargin
 #define MAXMARGIN       950            // maximum margin allowed
@@ -296,8 +298,10 @@ typedef enum _FUNCTION
 #define POS_TOBE_EXACT    3         // position at untranslated only with EXACT matches
 #define POS_TOBE_FUZZY    4         // position at untranslated only with FUZZY matches
 #define POS_TOBE_NONE     5         // position at untranslated only with NO matches
+#define POS_TOBE_MT       6         // position at untranslated only with MT matches
+#define POS_TOBE_GLOBAL   7         // position at untranslated only with GLOBAL MEMORY matches
 
-#define MAXSTYLES         5            // max no of styles possible
+#define MAXSTYLES         7            // max no of styles possible
 #define MAXLBITEMS       22           // max number of profile settings
 
 /**********************************************************************/
@@ -1005,7 +1009,11 @@ VOID EQFBTSegNextExact ( PTBDOCUMENT ) ;       // translate next segment with EX
 __declspec(dllexport)
 VOID EQFBTSegNextFuzzy ( PTBDOCUMENT ) ;       // translate next segment with FUZZY matches
 __declspec(dllexport)
-VOID EQFBTSegNextNone ( PTBDOCUMENT  ) ;      // translate next segment with NO matches
+VOID EQFBTSegNextNone ( PTBDOCUMENT  ) ;       // translate next segment with NO matches
+__declspec(dllexport)
+VOID EQFBTSegNextMT ( PTBDOCUMENT  ) ;         // translate next segment with MT matches
+__declspec(dllexport)
+VOID EQFBTSegNextGlobal ( PTBDOCUMENT  ) ;     // translate next segment with GLOBAL MEMORY matches
 __declspec(dllexport)
 VOID EQFBMark    ( PTBDOCUMENT       ) ;       // mark the active segment
 __declspec(dllexport)
@@ -1812,6 +1820,8 @@ FUNCTIONTABLE FuncTab[] = {
 { TSEGNEXT_EXACT_FUNC, STARGET,  EQFBTSegNextExact,           "" },
 { TSEGNEXT_FUZZY_FUNC, STARGET,  EQFBTSegNextFuzzy,           "" },
 { TSEGNEXT_NONE_FUNC,  STARGET,  EQFBTSegNextNone,            "" },
+{ TSEGNEXT_MT_FUNC,    STARGET,  EQFBTSegNextMT,              "" },
+{ TSEGNEXT_GLOBAL_FUNC,STARGET,  EQFBTSegNextGlobal,          "" },
 { LAST_FUNC,           ACTSEG,   EQFBFuncInsertChar,          "" },
 // Add end
 };
@@ -1981,6 +1991,8 @@ KEYPROFTABLE DefKeyTable[LAST_FUNC+1]=
    { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_EXACT_FUNC },
    { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_FUZZY_FUNC },
    { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_NONE_FUNC },
+   { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_MT_FUNC },
+   { '\0',          0,        FALSE,  (EDIT_STANDARD |EDIT_RTF), 0, TSEGNEXT_GLOBAL_FUNC },
 
    { '\0',          0,        FALSE,   0, 0, LAST_FUNC }
 };

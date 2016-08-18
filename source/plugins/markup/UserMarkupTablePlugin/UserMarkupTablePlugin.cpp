@@ -59,7 +59,7 @@ static  char *szContentEmpty = "";
 
 #define  MAX_DEFAULTCONTROL_LINES 22
 static char *szDefaultControl[MAX_DEFAULTCONTROL_LINES] = {
-               "<?xml version=\"1.0\" encoding=\"utf-8\">\n",
+               "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n",
                " <!--\n", 
                "	Copyright Notice:\n",
                "	Copyright (C) 2014, International Business Machines\n",
@@ -92,7 +92,9 @@ void      SaveValue( char **, char * ) ;
 BOOL      CheckFilesExist( char *, char *, char * ) ;
 int       CopyMarkupFiles( char *, char *, char *, char *, char *, BOOL ) ;
 int       CopyMarkupFile( char *, char *, BOOL ) ;
+BOOL      UpdateXMLControlFile( char *, char *, char *, char *, char *, char *, char *, char *, BOOL );
 void      PerformPendingUpdates( char * ) ;
+void      ConvertAnsi2UTF8( char *, char *, int ) ;
 
 
 // number of markups
@@ -138,6 +140,7 @@ UserMarkupTablePlugin::UserMarkupTablePlugin()
   pszVersion = NULL;
 
   bDeletable = TRUE ;
+  bExpired = FALSE ;
   bExportable = TRUE ;
   bImportable = TRUE ;
   bProtected = FALSE ;
@@ -416,11 +419,19 @@ const char* UserMarkupTablePlugin::getSupplier()
 }
 
 /* -------------------------------------------------------------- */
+/*   getPluginDirectory.                                          */
+/* -------------------------------------------------------------- */
+const char* UserMarkupTablePlugin::getPluginDirectory()
+{
+	return szBasePath; 
+}
+
+/* -------------------------------------------------------------- */
 /*   getTableDirectory.                                           */
 /* -------------------------------------------------------------- */
 const char* UserMarkupTablePlugin::getTableDirectory()
 {
-	return pszTableDirectory; 
+    return pszTableDirectory; 
 }
 
 /* -------------------------------------------------------------- */
@@ -551,6 +562,18 @@ const bool UserMarkupTablePlugin::isDeletable()
 
 
 /* -------------------------------------------------------------- */
+/*   isExpired.                                                   */
+/* -------------------------------------------------------------- */
+/*! 	\brief Is this markup table expired?      
+	\returns TRUE if markup table can be expired.
+*/
+const bool UserMarkupTablePlugin::isExpired()
+  {
+     return bExpired ;
+  }
+
+
+/* -------------------------------------------------------------- */
 /*   isExportable.                                                */
 /* -------------------------------------------------------------- */
 /*! 	\brief Can this markup table be exported?
@@ -580,7 +603,8 @@ const bool UserMarkupTablePlugin::isProtected()
 /*! 	\brief Update the files contained in this markup table       
 
   \param pszMarkupName   Pointer to name of markup table
-  \param pszDescription   Pointer to markup table description or NULL
+  \param pszShortDescription  Pointer to markup table short description or NULL
+  \param pszLongDescription   Pointer to markup table long description or NULL
   \param pszVersion   Pointer to version of markup table or NULL
   \param pTableFileName   Pointer to name of TBL file
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
@@ -592,7 +616,8 @@ const bool UserMarkupTablePlugin::isProtected()
 */
 const int UserMarkupTablePlugin::updateFiles(
    char   *pszMarkupName,
-   char   *pszDescription,
+   char   *pszShortDescription,
+   char   *pszLongDescription,
    char   *pszVersion,
    char   *pszTableFileName,
    char   *pszUserExitFileName,
@@ -600,17 +625,14 @@ const int UserMarkupTablePlugin::updateFiles(
   {
 
      PTAGTABLE  m_pTagTable;
-     FILE   *fInControl, *fOutControl  ;
 
-     char   szNewFile[512] ;
-     char   szOldFile[512] ;
      char   szInLine[512] ;
-     char   szOutLine[512] ;
      char   szNode[512] ;
      char   szContent[512] ;
 
      char   szMarkupName[512] ;
-     char   szDescription[512] ;
+     char   szShortDescription[512] ;
+     char   szLongDescription[512] ;
      char   szVersion[512] ;
      char   szTableDirFileName[512] ;
      char   szTableFileName[512] ;                /* xxx.TBL         */
@@ -622,7 +644,6 @@ const int UserMarkupTablePlugin::updateFiles(
      char   *ptrChar, *ptrChar2, *ptrChar3 ;
 
      int    iRC ;
-     bool   bFileChanged = FALSE ;
      bool   bNewMarkup = FALSE ;
      bool   bUpdateMarkup = FALSE ;
      bool   bLogOpen = FALSE ;
@@ -633,11 +654,9 @@ const int UserMarkupTablePlugin::updateFiles(
      /* ------------------------------------------------------------------- */
      strcpy( szMarkupName, pszMarkupName ) ;
      strupr( szMarkupName ) ;
-//   szDescription[0] = '\0' ;
-     strcpy( szDescription, "-" ) ;
+     strcpy( szShortDescription, "-" ) ;
+     strcpy( szLongDescription, "-" ) ;
      strcpy( szVersion, "1.0" ) ;
-     sprintf( szTableFileName, "%s.TBL", szMarkupName ) ;
-     sprintf( szTableDirFileName, "%s\\%s", pszTableDirectory, szTableFileName ) ;
      sprintf( szTableFileName, "%s.TBL", szMarkupName ) ;
      sprintf( szTableDirFileName, "%s\\%s", pszTableDirectory, szTableFileName ) ;
      szUserExitFileName[0] = '\0' ;
@@ -645,9 +664,13 @@ const int UserMarkupTablePlugin::updateFiles(
      szFileList[0] = '\0' ;
      bLogOpen = FALSE ;
 
-     if ( ( pszDescription  ) &&
-          ( *pszDescription ) ) {
-        strcpy( szDescription, pszDescription ) ;
+     if ( ( pszShortDescription  ) &&
+          ( *pszShortDescription ) ) {
+        strcpy( szShortDescription, pszShortDescription ) ;
+     }
+     if ( ( pszLongDescription  ) &&
+          ( *pszLongDescription ) ) {
+        strcpy( szLongDescription, pszLongDescription ) ;
      }
      if ( ( pszVersion  ) &&
           ( *pszVersion ) ) {
@@ -711,6 +734,16 @@ const int UserMarkupTablePlugin::updateFiles(
      strupr( szUserExitFileName ) ;
      strupr( szUserExitDirFileName ) ;
 
+     ConvertAnsi2UTF8( szMarkupName, NULL, sizeof(szMarkupName) ) ;
+     ConvertAnsi2UTF8( szShortDescription, NULL, sizeof(szShortDescription) ) ;
+     ConvertAnsi2UTF8( szLongDescription, NULL, sizeof(szLongDescription) ) ;
+     ConvertAnsi2UTF8( szVersion, NULL, sizeof(szVersion) ) ;
+     ConvertAnsi2UTF8( szTableFileName, NULL, sizeof(szTableFileName) ) ;
+     ConvertAnsi2UTF8( szUserExitFileName, NULL, sizeof(szUserExitFileName) ) ;
+     ConvertAnsi2UTF8( szFileList, NULL, sizeof(szFileList) ) ;
+     ConvertAnsi2UTF8( szTableDirFileName, NULL, sizeof(szTableDirFileName) ) ;
+     ConvertAnsi2UTF8( szUserExitDirFileName, NULL, sizeof(szUserExitDirFileName) ) ;
+
 
 #ifdef MARKUPTABLE_LOGGING
      if ( !this->Log.isOpen() ) {
@@ -747,13 +780,13 @@ const int UserMarkupTablePlugin::updateFiles(
         /* ------------------------------------------------------------------- */
         /*  If no description was provided, get the text from the TBL file.    */
         /* ------------------------------------------------------------------- */
-        if ( ( szDescription[0] == NULL ) &&
+        if ( ( szShortDescription[0] == NULL ) &&
              ( szTableFileName[0] != NULL ) &&
              ( UtlFileExist( pszTableFileName ) ) ) {
            UtlAlloc( (PVOID *)&m_pTagTable, 0L, sizeof(PTAGTABLE), NOMSG );
            ULONG ulRead = 0;
            if ( UtlLoadFileL( pszTableFileName, (PVOID *)&(m_pTagTable), &ulRead, FALSE, TRUE ) ) {
-              strcpy( szDescription, m_pTagTable->szDescription ) ;
+              strcpy( szShortDescription, m_pTagTable->szDescription ) ;
            }
            UtlAlloc( (PVOID *)&m_pTagTable, 0L, 0L, NOMSG );   /* Free */
         }
@@ -762,7 +795,8 @@ const int UserMarkupTablePlugin::updateFiles(
         /*  Log that this markup table is being updated.                       */
         /* ------------------------------------------------------------------- */
 #ifdef MARKUPTABLE_LOGGING
-        if ( pszDescription )      this->Log.writef( "  Dsc:    [%s]",pszDescription);
+        if ( pszShortDescription   this->Log.writef( "  SDs:    [%s]",pszShortDescription);
+        if ( pszLongDescription )  this->Log.writef( "  LDs:    [%s]",pszLongDescription);
         if ( pszVersion )          this->Log.writef( "  Ver:    [%s]",pszVersion);
         if ( pszTableFileName )    this->Log.writef( "  TBL:    [%s]",pszTableFileName);
         if ( pszUserExitFileName ) this->Log.writef( "  DLL:    [%s]",pszUserExitFileName);
@@ -774,7 +808,7 @@ const int UserMarkupTablePlugin::updateFiles(
         /* ------------------------------------------------------------------- */
 
         if ( bNewMarkup ) {
-           markup->updateFiles( szMarkupName, szDescription, szVersion,
+           markup->updateFiles( szMarkupName, szShortDescription, szLongDescription, szVersion,
                        szTableDirFileName, szUserExitDirFileName, szFileList ) ;
         }
 
@@ -856,155 +890,163 @@ const int UserMarkupTablePlugin::updateFiles(
         if ( ( iReturn == UPDATE_MARKUP_OK ) &&
              ( ( bNewMarkup ) ||
                ( ( bUpdateMarkup ) &&
-                 ( markup->updateFiles( szMarkupName, szDescription, szVersion,
-                             szTableDirFileName, szUserExitDirFileName,
+                 ( markup->updateFiles( szMarkupName, szShortDescription, szLongDescription,
+                             szVersion, szTableDirFileName, szUserExitDirFileName,
                              szFileList ) ) ) ) ) {
 
-           /* ------------------------------------------------------------------- */
-           /*  Update control XML file with new information.                      */
-           /* ------------------------------------------------------------------- */
-
-           strcpy( szOldFile, szBasePath ) ;
-           strcat( szOldFile, "\\" ) ;
-           strcat( szOldFile, PluginControlFile ) ;
-           strcpy( szNewFile, szOldFile ) ;
-           strcat( szNewFile, ".NEW" ) ;
-
-           fInControl  = fopen( szOldFile, "r" ) ;
-           fOutControl = fopen( szNewFile, "w" ) ;
-           if ( fInControl && fOutControl ) {
-              bool bInMarkups = FALSE ;
-              bool bInMarkup  = FALSE ;
-              bUpdateMarkup = FALSE ;
-             
-              while(  fgets( szInLine, sizeof(szInLine), fInControl ) != NULL ) {
-             
-                 strcpy( szOutLine, szInLine ) ;
-                 GetControlNode( szInLine, szNode, szContent ) ;
-
-                 if ( szNode[0] ) {
-                    if ( ! strcmp( szNode, szXml_Markups ) ) {
-                       bInMarkups = TRUE ;
-                    } else
-                    if ( bInMarkups ) {
-                       if ( ( szNode[0] == '/' ) &&
-                            ( ! strcmp( &szNode[1], szXml_Markups ) ) ) {
-                          bInMarkups = FALSE ;
-                          if ( bNewMarkup ) {
-                             bFileChanged = TRUE ;
-                             fprintf( fOutControl, "<%s>\n", szXml_Markup ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_Name, szMarkupName, szXml_Name ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_ShortDescription, szDescription, szXml_ShortDescription ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_LongDescription, szDescription, szXml_LongDescription ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_Version, szVersion, szXml_Version ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_Table, szTableFileName, szXml_Table ) ;
-                             if ( szUserExitFileName[0] ) 
-                                fprintf( fOutControl, szXml_NewRecord, szXml_UserExit, szUserExitFileName, szXml_UserExit ) ;
-                             else 
-                                fprintf( fOutControl, szXml_NewRecord, szXml_UserExit, szXml_none, szXml_UserExit ) ;
-                             if ( szFileList[0] ) 
-                                fprintf( fOutControl, szXml_NewRecord, szXml_Files, szFileList, szXml_Files ) ;
-                             else
-                                fprintf( fOutControl, szXml_NewRecord, szXml_Files, szXml_none, szXml_Files ) ;
-                             fprintf( fOutControl, "</%s>\n", szXml_Markup ) ;
-                          }
-                          bUpdateMarkup = FALSE ;
-                       } else 
-                       if ( ! strcmp( szNode, szXml_Markup ) ) {
-                          bInMarkup = TRUE ;
-                       } else
-                       if ( bInMarkup ) {
-                          if ( ( szNode[0] == '/' ) &&
-                               ( ! strcmp( &szNode[1], szXml_Markup ) ) ) {
-                             bInMarkup = FALSE ;
-                             bUpdateMarkup = FALSE ;
-                          } else 
-                          if ( ! strcmp( szNode, szXml_Name ) ) {
-                             if ( ! stricmp( szContent, szMarkupName ) ) {
-                                bUpdateMarkup = TRUE ;
+           iReturn = UpdateXMLControlFile( szMarkupName, szShortDescription, 
+                                           szLongDescription, szVersion, 
+                                           szTableFileName, szUserExitFileName,
+                                           szFileList, szBasePath, bNewMarkup ) ;
 #ifdef MARKUPTABLE_LOGGING
-                                this->Log.writef( "   Updating:  %s",szContent );
-#endif
-                             }
-                          } else
-                          if ( bUpdateMarkup ) {
-                             if ( ! stricmp( szNode, szXml_Files ) ) {
-                                if ( szFileList[0] ) {
-                                   if ( stricmp( szContent, szFileList ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_Files, szFileList, szXml_Files ) ;
-                                   }
-                                } else {
-                                   if ( stricmp( szContent, szXml_NONE ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_Files, szXml_none, szXml_Files ) ;
-                                   }
-                                }
-                             } else
-                             if ( ! strcmp( szNode, szXml_LongDescription ) ) {
-                                if ( szDescription[0] ) {
-                                   if ( stricmp( szContent, szDescription ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_LongDescription, szDescription, szXml_LongDescription ) ;
-                                   }
-                                }
-                             } else
-                             if ( ! strcmp( szNode, szXml_ShortDescription ) ) {
-                                if ( szDescription[0] ) {
-                                   if ( stricmp( szContent, szDescription ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_ShortDescription, szDescription, szXml_ShortDescription ) ;
-                                   }
-                                }
-                             } else
-                             if ( ! strcmp( szNode, szXml_Table ) ) {
-                             } else
-                             if ( ! strcmp( szNode, szXml_UserExit ) ) {
-                                if ( szUserExitFileName[0] ) {
-                                   if ( stricmp( szContent, szUserExitFileName ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_UserExit, szUserExitFileName, szXml_UserExit ) ;
-                                   }
-                                } else {
-                                   if ( stricmp( szContent, szXml_NONE ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_UserExit, szXml_none, szXml_UserExit ) ;
-                                   }
-                                }
-                             } else
-                             if ( ! strcmp( szNode, szXml_Version ) ) {
-                                if ( szVersion[0] ) {
-                                   if ( stricmp( szContent, szVersion ) ) {
-                                      bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_Version, szVersion, szXml_Version ) ;
-                                   }
-                                }
-                             } 
-                          }
-                       }
-                    }
-                 }
-                 fputs( szOutLine, fOutControl ) ;
-              }
+           if ( iReturn == UPATE_MARKUP_OK ) {
+              this->Log.write( "  Update control file failed: %s",szMarkupName );
            } else {
-#ifdef MARKUPTABLE_LOGGING
-              this->Log.write( "  Update failed for control file." );
-#endif
-              iReturn = UPDATE_MARKUP_ERROR ;
+              this->Log.write( "  Update control file OK: %s",szMarkupName );
            }
-           if ( fInControl ) 
-              fclose( fInControl ) ;
-           if ( fOutControl ) 
-              fclose( fOutControl ) ;
-           if ( bFileChanged ) {
-              if ( UtlCopy( szNewFile, szOldFile, 1, 0L, TRUE ) ) {
-                 iReturn = UPDATE_MARKUP_ERROR ;
-#ifdef MARKUPTABLE_LOGGING
-                 this->Log.write( "Copy failed for control file." );
 #endif
-              }
-           }
-           UtlDelete( szNewFile, 0L, FALSE ) ;
+
+//           strcpy( szOldFile, szBasePath ) ;
+//           strcat( szOldFile, "\\" ) ;
+//           strcat( szOldFile, PluginControlFile ) ;
+//           strcpy( szNewFile, szOldFile ) ;
+//           strcat( szNewFile, ".NEW" ) ;
+//
+//           fInControl  = fopen( szOldFile, "r" ) ;
+//           fOutControl = fopen( szNewFile, "w" ) ;
+//           if ( fInControl && fOutControl ) {
+//              bool bInMarkups = FALSE ;
+//              bool bInMarkup  = FALSE ;
+//              bUpdateMarkup = FALSE ;
+//             
+//              while(  fgets( szInLine, sizeof(szInLine), fInControl ) != NULL ) {
+//             
+//                 strcpy( szOutLine, szInLine ) ;
+//                 GetControlNode( szInLine, szNode, szContent ) ;
+//
+//                 if ( szNode[0] ) {
+//                    if ( ! strcmp( szNode, szXml_Markups ) ) {
+//                       bInMarkups = TRUE ;
+//                    } else
+//                    if ( bInMarkups ) {
+//                       if ( ( szNode[0] == '/' ) &&
+//                            ( ! strcmp( &szNode[1], szXml_Markups ) ) ) {
+//                          bInMarkups = FALSE ;
+//                          if ( bNewMarkup ) {
+//                             bFileChanged = TRUE ;
+//                             fprintf( fOutControl, "<%s>\n", szXml_Markup ) ;
+//                             fprintf( fOutControl, szXml_NewRecord, szXml_Name, szMarkupName, szXml_Name ) ;
+//                             fprintf( fOutControl, szXml_NewRecord, szXml_ShortDescription, szDescription, szXml_ShortDescription ) ;
+//                             fprintf( fOutControl, szXml_NewRecord, szXml_LongDescription, szDescription, szXml_LongDescription ) ;
+//                             fprintf( fOutControl, szXml_NewRecord, szXml_Version, szVersion, szXml_Version ) ;
+//                             fprintf( fOutControl, szXml_NewRecord, szXml_Table, szTableFileName, szXml_Table ) ;
+//                             if ( szUserExitFileName[0] ) 
+//                                fprintf( fOutControl, szXml_NewRecord, szXml_UserExit, szUserExitFileName, szXml_UserExit ) ;
+//                             else 
+//                                fprintf( fOutControl, szXml_NewRecord, szXml_UserExit, szXml_none, szXml_UserExit ) ;
+//                             if ( szFileList[0] ) 
+//                                fprintf( fOutControl, szXml_NewRecord, szXml_Files, szFileList, szXml_Files ) ;
+//                             else
+//                                fprintf( fOutControl, szXml_NewRecord, szXml_Files, szXml_none, szXml_Files ) ;
+//                             fprintf( fOutControl, "</%s>\n", szXml_Markup ) ;
+//                          }
+//                          bUpdateMarkup = FALSE ;
+//                       } else 
+//                       if ( ! strcmp( szNode, szXml_Markup ) ) {
+//                          bInMarkup = TRUE ;
+//                       } else
+//                       if ( bInMarkup ) {
+//                          if ( ( szNode[0] == '/' ) &&
+//                               ( ! strcmp( &szNode[1], szXml_Markup ) ) ) {
+//                             bInMarkup = FALSE ;
+//                             bUpdateMarkup = FALSE ;
+//                          } else 
+//                          if ( ! strcmp( szNode, szXml_Name ) ) {
+//                             if ( ! stricmp( szContent, szMarkupName ) ) {
+//                                bUpdateMarkup = TRUE ;
+//#ifdef MARKUPTABLE_LOGGING
+//                                this->Log.writef( "   Updating:  %s",szContent );
+//#endif
+//                             }
+//                          } else
+//                          if ( bUpdateMarkup ) {
+//                             if ( ! stricmp( szNode, szXml_Files ) ) {
+//                                if ( szFileList[0] ) {
+//                                   if ( stricmp( szContent, szFileList ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_Files, szFileList, szXml_Files ) ;
+//                                   }
+//                                } else {
+//                                   if ( stricmp( szContent, szXml_NONE ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_Files, szXml_none, szXml_Files ) ;
+//                                   }
+//                                }
+//                             } else
+//                             if ( ! strcmp( szNode, szXml_LongDescription ) ) {
+//                                if ( szDescription[0] ) {
+//                                   if ( stricmp( szContent, szDescription ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_LongDescription, szDescription, szXml_LongDescription ) ;
+//                                   }
+//                                }
+//                             } else
+//                             if ( ! strcmp( szNode, szXml_ShortDescription ) ) {
+//                                if ( szDescription[0] ) {
+//                                   if ( stricmp( szContent, szDescription ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_ShortDescription, szDescription, szXml_ShortDescription ) ;
+//                                   }
+//                                }
+//                             } else
+//                             if ( ! strcmp( szNode, szXml_Table ) ) {
+//                             } else
+//                             if ( ! strcmp( szNode, szXml_UserExit ) ) {
+//                                if ( szUserExitFileName[0] ) {
+//                                   if ( stricmp( szContent, szUserExitFileName ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_UserExit, szUserExitFileName, szXml_UserExit ) ;
+//                                   }
+//                                } else {
+//                                   if ( stricmp( szContent, szXml_NONE ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_UserExit, szXml_none, szXml_UserExit ) ;
+//                                   }
+//                                }
+//                             } else
+//                             if ( ! strcmp( szNode, szXml_Version ) ) {
+//                                if ( szVersion[0] ) {
+//                                   if ( stricmp( szContent, szVersion ) ) {
+//                                      bFileChanged = TRUE ;
+//                                      sprintf( szOutLine, szXml_NewRecord, szXml_Version, szVersion, szXml_Version ) ;
+//                                   }
+//                                }
+//                             } 
+//                          }
+//                       }
+//                    }
+//                 }
+//                 fputs( szOutLine, fOutControl ) ;
+//              }
+//           } else {
+//#ifdef MARKUPTABLE_LOGGING
+//              this->Log.write( "  Update failed for control file." );
+//#endif
+//              iReturn = UPDATE_MARKUP_ERROR ;
+//           }
+//           if ( fInControl ) 
+//              fclose( fInControl ) ;
+//           if ( fOutControl ) 
+//              fclose( fOutControl ) ;
+//           if ( bFileChanged ) {
+//              if ( UtlCopy( szNewFile, szOldFile, 1, 0L, TRUE ) ) {
+//                 iReturn = UPDATE_MARKUP_ERROR ;
+//#ifdef MARKUPTABLE_LOGGING
+//                 this->Log.write( "Copy failed for control file." );
+//#endif
+//              }
+//           }
+//           UtlDelete( szNewFile, 0L, FALSE ) ;
 
 #ifdef MARKUPTABLE_LOGGING
            this->Log.write( "Update completed." );
@@ -1018,6 +1060,53 @@ const int UserMarkupTablePlugin::updateFiles(
 
      return( iReturn ) ;
   }
+
+
+/* -------------------------------------------------------------- */
+/*   updateInfo.                                                  */
+/* -------------------------------------------------------------- */
+/*! \brief Update XML information for the markup table
+
+  \param pszMarkupName   Pointer to name of markup table (input only)
+  \param pszShortDescription   Pointer to markup table short description or NULL
+  \param pszLongDescription   Pointer to markup table long description or NULL
+  \param pszVersion   Pointer to version of markup table or NULL
+  \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
+
+    \returns  0 when the update failed
+              1 when the markup table information has been updated
+
+*/
+const int UserMarkupTablePlugin::updateInfo(
+   char   *pszMarkupName,
+   char   *pszShortDescription,
+   char   *pszLongDescription,
+   char   *pszVersion,
+   char   *pszUserExitFileName )
+{
+   char   szMarkupName[512] ;
+   char   szShortDescription[512] ;
+   char   szLongDescription[512] ;
+   char   szVersion[512] ;
+   char   szUserExitFileName[512] ;        
+   int    iReturn ;
+
+   strcpy( szMarkupName, pszMarkupName ) ;
+   strupr( szMarkupName ) ;
+
+   ConvertAnsi2UTF8( szMarkupName, NULL, sizeof(szMarkupName) ) ;
+   ConvertAnsi2UTF8( pszShortDescription, szShortDescription, sizeof(szShortDescription) ) ;
+   ConvertAnsi2UTF8( pszLongDescription, szLongDescription, sizeof(szLongDescription) ) ;
+   ConvertAnsi2UTF8( pszVersion, szVersion, sizeof(szVersion) ) ;
+   ConvertAnsi2UTF8( pszUserExitFileName, szUserExitFileName, sizeof(szUserExitFileName) ) ;
+
+   iReturn = UpdateXMLControlFile( szMarkupName, szShortDescription, 
+                                   szLongDescription, szVersion, 
+                                   NULL, szUserExitFileName,
+                                   NULL, szBasePath, FALSE ) ;
+
+   return( iReturn ) ;
+}
 
 
 /* -------------------------------------------------------------- */
@@ -1070,8 +1159,8 @@ const bool UserMarkupTablePlugin::deleteMarkup(
 #endif
      
      /* ------------------------------------------------------------------- */
-     /*  Get markup table object.  If it does not exist, then this is a     */
-     /*  brand new markup table.                                            */
+     /*  Get markup table object.  If it does not exist, then there is      */
+     /*  nothing to do.                                                     */
      /* ------------------------------------------------------------------- */
      OtmMarkup *markup = getMarkup( szMarkupName );
      if ( markup != NULL ) {
@@ -1287,30 +1376,33 @@ USHORT registerPlugins()
 
 void  GetControlNode( char *pszLine, char *pszNode, char *pszContent )
 {
+   CHAR_W  szTempW[150] ;
    char *ptrChar, *ptrChar2 ;
 
    pszNode[0] = 0 ;
    pszContent[0] = 0 ;
 
-   for( ptrChar=pszLine ; *ptrChar && isspace(*ptrChar) ; ++ptrChar ) ;
+   for( ptrChar=pszLine ; *ptrChar && strchr(" \t\r\n", *ptrChar) ; ++ptrChar ) ;
    /*  Line must start with an XML element.   */
    ptrChar = strchr( ptrChar, '<' ) ;  
    if ( ptrChar ) {
-      for( ++ptrChar ; *ptrChar && isspace(*ptrChar) ; ++ptrChar ) ;
+      for( ++ptrChar ; *ptrChar && strchr(" \t\r\n", *ptrChar) ; ++ptrChar ) ;
       ptrChar2 = strchr( ptrChar+1, '>' ) ;
       if ( ptrChar2 ) {
-         for( --ptrChar2 ; ptrChar2>ptrChar && isspace(*ptrChar2) ; --ptrChar2 ) ;
+         for( --ptrChar2 ; ptrChar2>ptrChar && strchr(" \t\r\n", *ptrChar2) ; --ptrChar2 ) ;
          *(++ptrChar2) = 0 ;
          strcpy( pszNode, ptrChar ) ;
 
          ptrChar = ptrChar2 + 1 ;
-         for( ptrChar ; *ptrChar && isspace(*ptrChar) ; ++ptrChar ) ;
+         for( ptrChar ; *ptrChar && strchr(" \t\r\n", *ptrChar) ; ++ptrChar ) ;
          /*  Line must end with an XML element.   */
          ptrChar2 = strstr( ptrChar+1, "</" ) ; 
          if ( ptrChar2 ) {
-            for( --ptrChar2 ; ptrChar2>ptrChar && isspace(*ptrChar2) ; --ptrChar2 ) ;
+            for( --ptrChar2 ; ptrChar2>ptrChar && strchr(" \t\r\n", *ptrChar2) ; --ptrChar2 ) ;
             *(++ptrChar2) = 0 ;
             strcpy( pszContent, ptrChar ) ;
+            MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pszContent, -1, (LPWSTR)szTempW, sizeof(szTempW) );
+            WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)szTempW, -1, (LPSTR)pszContent, 150, NULL, NULL );
          }
       }
    }
@@ -1532,7 +1624,234 @@ int  CopyMarkupFile( char *pszNewFile, char *pszMarkupFile,
 }
 
 
-// perform any pending updates on startup
+/* -------------------------------------------------------------- */
+/*   UpdateXMLControlFile                                         */
+/*                                                                */
+/*   Update the markup table information in the control file.     */
+/*                                                                */
+/*     <markups>                                                  */
+/*      <markup>                                                  */
+/*       <name>IBMJDK11</name>                                    */
+/*       <shortDescription>Java ResourceBundle</shortDescription> */
+/*       <longDescription>Markup for Java RB</longDescription>    */
+/*       <version>1.0.0</version>                                 */
+/*       <table>IBMJDK11.TBL</table>                              */
+/*       <userExit>IBMJDK11.DLL</userExit>                        */
+/*       <files>none</files>                                      */
+/*      </markup>                                                 */
+/*     <markups>                                                  */
+/* -------------------------------------------------------------- */
+BOOL UpdateXMLControlFile( char   *pszMarkupName,
+                           char   *pszShortDescription,
+                           char   *pszLongDescription,
+                           char   *pszVersion,
+                           char   *pszTableFileName,
+                           char   *pszUserExitFileName,
+                           char   *pszFileList,
+                           char   *pszBasePath,
+                           BOOL   bNewMarkup
+                           )
+{
+   FILE   *fInControl, *fOutControl  ;
+
+   char   szNewFile[512] ;
+   char   szOldFile[512] ;
+   char   szInLine[512] ;
+   char   szOutLine[512] ;
+   char   szNode[512] ;
+   char   szContent[512] ;
+
+   ULONG   ulPrevMarkupNode = 0 ;
+
+   bool   bFileChanged = FALSE ;
+   bool   bUpdateMarkup = FALSE ;
+   int    iReturn = UPDATE_MARKUP_ERROR ;
+
+   /* ------------------------------------------------------------------- */
+   /*  Update control XML file with new information.                      */
+   /* ------------------------------------------------------------------- */
+
+   strcpy( szOldFile, pszBasePath ) ;
+   strcat( szOldFile, "\\" ) ;
+   strcat( szOldFile, PluginControlFile ) ;
+   strcpy( szNewFile, szOldFile ) ;
+   strcat( szNewFile, ".NEW" ) ;
+
+   fInControl  = fopen( szOldFile, "r" ) ;
+   fOutControl = fopen( szNewFile, "w" ) ;
+   if ( fInControl && fOutControl ) {
+      bool bInMarkups = FALSE ;
+      bool bInMarkup  = FALSE ;
+      bUpdateMarkup = FALSE ;
+
+      while(  fgets( szInLine, sizeof(szInLine), fInControl ) != NULL ) {
+
+         strcpy( szOutLine, szInLine ) ;
+         GetControlNode( szInLine, szNode, szContent ) ;
+
+         if ( szNode[0] ) {
+            if ( ! strcmp( szNode, szXml_Markups ) ) {              /* Found <markups> tag */
+               bInMarkups = TRUE ;
+            } else
+            if ( bInMarkups ) {
+               if ( ( szNode[0] == '/' ) &&
+                    ( ! strcmp( &szNode[1], szXml_Markups ) ) ) {   /* Found </markups> tag */
+                  bInMarkups = FALSE ;
+                  bUpdateMarkup = FALSE ;
+
+                  /* ------------------------------------------------------------------- */
+                  /*  Add information for this new markup table.                         */
+                  /* ------------------------------------------------------------------- */
+                  if ( bNewMarkup ) {
+                     bFileChanged = TRUE ;
+                     iReturn = UPDATE_MARKUP_OK ;
+                     fprintf( fOutControl, "<%s>\n", szXml_Markup ) ;
+                     fprintf( fOutControl, szXml_NewRecord, szXml_Name, pszMarkupName, szXml_Name ) ;
+                     fprintf( fOutControl, szXml_NewRecord, szXml_ShortDescription, pszShortDescription, szXml_ShortDescription ) ;
+                     fprintf( fOutControl, szXml_NewRecord, szXml_LongDescription, pszLongDescription, szXml_LongDescription ) ;
+                     fprintf( fOutControl, szXml_NewRecord, szXml_Version, pszVersion, szXml_Version ) ;
+                     fprintf( fOutControl, szXml_NewRecord, szXml_Table, pszTableFileName, szXml_Table ) ;
+                     if ( *pszUserExitFileName ) 
+                        fprintf( fOutControl, szXml_NewRecord, szXml_UserExit, pszUserExitFileName, szXml_UserExit ) ;
+                     else 
+                        fprintf( fOutControl, szXml_NewRecord, szXml_UserExit, szXml_none, szXml_UserExit ) ;
+                     if ( *pszFileList ) 
+                        fprintf( fOutControl, szXml_NewRecord, szXml_Files, pszFileList, szXml_Files ) ;
+                     else
+                        fprintf( fOutControl, szXml_NewRecord, szXml_Files, szXml_none, szXml_Files ) ;
+                     fprintf( fOutControl, "</%s>\n", szXml_Markup ) ;
+                  }
+
+               } else 
+
+               if ( ! strcmp( szNode, szXml_Markup ) ) {               /* Found <markup> tag */
+                  bInMarkup = TRUE ;
+                  if ( bNewMarkup ) 
+                     ulPrevMarkupNode = ftell( fOutControl ) ;
+               } else
+
+               if ( bInMarkup ) {
+                  if ( ( szNode[0] == '/' ) &&
+                       ( ! strcmp( &szNode[1], szXml_Markup ) ) ) {    /* Found </markup> tag */
+                     bInMarkup = FALSE ;
+                     bUpdateMarkup = FALSE ;
+                  } else 
+
+                  if ( ! strcmp( szNode, szXml_Name ) ) {              /* Found <name> tag */
+                     if ( ! stricmp( szContent, pszMarkupName ) ) {
+                        bUpdateMarkup = TRUE ;
+                     }
+                  } else
+
+                  /* ------------------------------------------------------------------- */
+                  /*  Update this markup table with new information.                     */
+                  /* ------------------------------------------------------------------- */
+                  if ( bUpdateMarkup ) {
+                     iReturn = UPDATE_MARKUP_OK ;
+                     if ( ( ! stricmp( szNode, szXml_Files ) ) &&            /* Found <files> tag */
+                          ( pszFileList ) ) {
+                        if ( *pszFileList ) {
+                           if ( stricmp( szContent, pszFileList ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_Files, pszFileList, szXml_Files ) ;
+                           }
+                        } else {
+                           if ( stricmp( szContent, szXml_NONE ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_Files, szXml_none, szXml_Files ) ;
+                           }
+                        }
+                     } else
+
+                     if ( ( ! strcmp( szNode, szXml_LongDescription ) ) &&   /* Found <longDescription> tag */
+                          ( pszLongDescription ) ) {
+                        if ( *pszLongDescription ) {
+                           if ( stricmp( szContent, pszLongDescription ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_LongDescription, pszLongDescription, szXml_LongDescription ) ;
+                           }
+                        }
+                     } else
+
+                     if ( ( ! strcmp( szNode, szXml_ShortDescription ) ) &&  /* Found <shortDescription> tag */
+                          ( pszShortDescription ) ) {
+                        if ( *pszShortDescription ) {
+                           if ( stricmp( szContent, pszShortDescription ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_ShortDescription, pszShortDescription, szXml_ShortDescription ) ;
+                           }
+                        }
+                     } else
+
+                     if ( ! strcmp( szNode, szXml_Table ) ) {                /* Found <table> tag */
+                     } else
+
+                     if ( ( ! strcmp( szNode, szXml_UserExit ) ) &&
+                          ( pszUserExitFileName)  ) {
+                        if ( *pszUserExitFileName ) {
+                           if ( stricmp( szContent, pszUserExitFileName ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_UserExit, pszUserExitFileName, szXml_UserExit ) ;
+                           }
+                        } else {
+                           if ( stricmp( szContent, szXml_NONE ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_UserExit, szXml_none, szXml_UserExit ) ;
+                           }
+                        }
+                     } else
+
+                     if ( ( ! strcmp( szNode, szXml_Version ) ) &&           /* Found <version> tag */
+                          ( pszVersion ) ) {
+                        if ( *pszVersion ) {
+                           if ( stricmp( szContent, pszVersion ) ) {
+                              bFileChanged = TRUE ;
+                              sprintf( szOutLine, szXml_NewRecord, szXml_Version, pszVersion, szXml_Version ) ;
+                           }
+                        }
+                     } 
+                  }
+
+                  /* ------------------------------------------------------------------- */
+                  /*  If new markup table, then there should be no existing records.     */
+                  /*  Remove these records if they exist.                                */
+                  /* ------------------------------------------------------------------- */
+                  if ( ( bUpdateMarkup ) &&
+                       ( bNewMarkup    ) ) {
+                     if ( ulPrevMarkupNode ) {
+                        fseek( fOutControl, ulPrevMarkupNode, 0 ) ;
+                        ulPrevMarkupNode = 0 ;
+                     }
+                     continue ;
+                  }
+               }
+            }
+         }
+         fputs( szOutLine, fOutControl ) ;
+      }
+   } else {
+      iReturn = UPDATE_MARKUP_ERROR ;
+   }
+   if ( fInControl ) 
+      fclose( fInControl ) ;
+   if ( fOutControl ) 
+      fclose( fOutControl ) ;
+   if ( bFileChanged ) {
+      if ( UtlCopy( szNewFile, szOldFile, 1, 0L, TRUE ) ) {
+         iReturn = UPDATE_MARKUP_ERROR ;
+      }
+   }
+   UtlDelete( szNewFile, 0L, FALSE ) ;
+
+   return( iReturn ) ;
+} /* end of function UpdateXMLControlFile */
+
+
+/* -------------------------------------------------------------- */
+/*   PerformPendingUpdate                                         */
+/*                                                                */
+/*   Perform any pending markup table updates during startup.     */
+/* -------------------------------------------------------------- */
 void PerformPendingUpdates( char *pszBasePath )
 {
   FILEFINDBUF stFile;              // Output buffer of UtlFindFirst
@@ -1620,3 +1939,18 @@ void PerformPendingUpdates( char *pszBasePath )
     if ( hSearch != HDIR_CREATE ) UtlFindClose( hSearch, FALSE );
   } /* endif */     
 } /* end of function PerformPendingUpdates */
+
+
+void  ConvertAnsi2UTF8( char *pszInput, char *pszOutput, int iOutLen ) 
+{
+   CHAR_W  szTempW[150] ;
+   char    *pszOut ;
+
+   if ( pszOutput )
+      pszOut = pszOutput ;
+   else
+      pszOut = pszInput ;
+
+   MultiByteToWideChar( CP_ACP, 0, (LPCSTR)pszInput, -1, (LPWSTR)szTempW, sizeof(szTempW) );
+   WideCharToMultiByte( CP_UTF8, 0, (LPWSTR)szTempW, -1, (LPSTR)pszOut, iOutLen, NULL, NULL );
+}

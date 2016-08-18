@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author:  Markus Conrad, Stefan Doersam                                      |
@@ -916,7 +916,9 @@ static MRESULT MemLoadCommand( HWND   hwnd, SHORT sID )
               // if multiple import files were selected use name of first selected file as TM name
               if ( pLIDA->pszList )
               {
-                Utlstrccpy( pLIDA->szMemName, pLIDA->pszList, DOT );
+                strcpy( pLIDA->szMemName, pLIDA->pszList );
+                PSZ pszExt = strrchr( pLIDA->szMemName, DOT );
+                if ( pszExt != NULL ) *pszExt = EOS;
                 SETTEXT( hwnd, DID_LD_TO, pLIDA->szMemName );
                 UtlSplitFnameFromPath( pLIDA->ControlsIda.szPathContent );
                 strcat( pLIDA->ControlsIda.szPathContent, BACKSLASH_STR );
@@ -1391,18 +1393,20 @@ UINT_PTR CALLBACK MemOpenFileHook
 
               if ( pLIDA->ControlsIda.szSelectedName[0] )
               {
-                // use file name up to DOT as memory name
+                // use file name up to last DOT as memory name
                 if ( pLIDA->ControlsIda.szSelectedName[0] == '\"' )
                 {
-                  PSZ pszSource = pLIDA->ControlsIda.szSelectedName + 1;
-                  PSZ pszTarget = pLIDA->szMemName;
-                  while ( *pszSource && (*pszSource != DOT) && (*pszSource != '\"') ) *pszTarget++ = *pszSource++;
-                  *pszTarget = EOS;
+                  // copy first name to memory name field and remove file extension
+                  Utlstrccpy( pLIDA->szMemName , pLIDA->ControlsIda.szSelectedName + 1, '\"' );
+                  PSZ pszExt = strrchr( pLIDA->szMemName, DOT );
+                  if ( pszExt != NULL ) *pszExt = EOS;
 
                   // check if there are more names to follow
-                  while ( *pszSource && (*pszSource != '\"') ) pszSource++;
-                  while ( *pszSource && (*pszSource != '\"') ) pszSource++;
-                  if ( *pszSource == '\"' )
+                  PSZ pszNextName = pLIDA->ControlsIda.szSelectedName + 1; 
+                  while ( *pszNextName && (*pszNextName != '\"') ) pszNextName++;
+                  if ( *pszNextName == '\"' ) pszNextName++;
+                  while ( *pszNextName && (*pszNextName != '\"') ) pszNextName++;
+                  if ( *pszNextName == '\"' )
                   {
                     iItems = 2; //  2 or more files selected
                   }
@@ -1414,7 +1418,9 @@ UINT_PTR CALLBACK MemOpenFileHook
                 }
                 else
                 {
-                  Utlstrccpy( pLIDA->szMemName, pLIDA->ControlsIda.szSelectedName, DOT );
+                  strcpy( pLIDA->szMemName, pLIDA->ControlsIda.szSelectedName );
+                  PSZ pszExt = strrchr( pLIDA->szMemName, DOT );
+                  if ( pszExt != NULL ) *pszExt = EOS;
                   iItems = 1;
                 } /* endif */
               } /* endif */
@@ -1506,7 +1512,9 @@ UINT_PTR CALLBACK MemOpenFileHook
               // if multiple import files were selected use name of first selected file as TM name
               if ( pLIDA->pszList )
               {
-                Utlstrccpy( pLIDA->szMemName, pLIDA->pszList, DOT );
+                strcpy( pLIDA->szMemName, pLIDA->pszList );
+                PSZ pszExt = strrchr( pLIDA->szMemName, DOT );
+                if ( pszExt != NULL ) *pszExt = EOS;
                 SETTEXTHWND( pLIDA->hwndToCombo, pLIDA->szMemName );
                 UtlSplitFnameFromPath( pLIDA->ControlsIda.szPathContent );
                 strcat( pLIDA->ControlsIda.szPathContent, BACKSLASH_STR );

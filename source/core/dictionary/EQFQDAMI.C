@@ -2334,17 +2334,19 @@ SHORT QDAMLocateKey_V2
                      }
                      else if (UTF16strcmp( szKey, pKey2 ))
                      {
-                        if ( QDAMCaseCompare( pBTIda, szKey, pKey2, TRUE ) == 0 )
-                        {
-                          // match but punctuation differs
-                          // so remember match if we have no other yet and
-                          // look for better ones...
-                          if ( BestKeyMatch == NOMATCH_KEY )
-                          {
-                            BestKeyMatch = PUNCTDIFF_KEY;
-                            sBestKey = sMid;
-                          } /* endif */
-                        } /* endif */
+  // Backed out 7-29-16.  P403371.  Import merges incorrect entries
+  //     This code is needed when similar terms to be shown as one in editor.
+  //                    if ( QDAMCaseCompare( pBTIda, szKey, pKey2, TRUE ) == 0 )
+  //                    {
+  //                      // match but punctuation differs
+  //                      // so remember match if we have no other yet and
+  //                      // look for better ones...
+  //                      if ( BestKeyMatch == NOMATCH_KEY )
+  //                      {
+  //                        BestKeyMatch = PUNCTDIFF_KEY;
+  //                        sBestKey = sMid;
+  //                      } /* endif */
+  //                    } /* endif */
                        sMid ++;
                      }
                      else

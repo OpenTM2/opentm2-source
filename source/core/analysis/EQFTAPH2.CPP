@@ -6593,7 +6593,7 @@ BOOL TAWriteXmlEnd( PXMLOUTDATA pData, FILE *hfOut, BOOL fIncludeWordCountInfo, 
     if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"   <summary>\r\n" );
     swprintf( pData->szUTF16Buffer, L"      <totalWords>%lu</totalWords>\r\n", ulTotalWords );
     if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
-    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"   <summary>\r\n" );
+    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"   </summary>\r\n" );
   } /* endif */
   if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"</rqt>\r\n" );
   return( fOK );

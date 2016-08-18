@@ -36,6 +36,8 @@ public:
 
 	virtual const char* getVersion() = 0;
 
+	virtual const char* getPluginDirectory() = 0;
+
 	virtual const char* getTableDirectory() = 0;
 
 	virtual const char* getUserExitDirectory() = 0;
@@ -48,12 +50,21 @@ public:
 
 	virtual const int updateFiles(
        char   *pszMarkupName,
-       char   *pszDescription,
+       char   *pszShortDescription,
+       char   *pszLongDescription,
        char   *pszVersion,
        char   *pszTableFileName,
        char   *pszUserExitFileName,
        char   *pszFileList
     ) = 0;
+
+	virtual const int updateInfo( 
+       char   *pszMarkupName,
+       char   *pszShortDescription,
+       char   *pszLongDescription,
+       char   *pszVersion,
+       char   *pszUserExitFileName
+	) = 0;
 
 	virtual const bool deleteMarkup(
        char   *pszMarkupName
@@ -77,7 +88,7 @@ public:
 /*! 	\brief Get the markup table object for a markup table
 	\param pszMarkup Name of the markup table
 	\returns Pointer to the requested markup table object or NULL when markup table does
-	Not belong to this markup table pkugin
+	not belong to this markup table plugin
 */
 	virtual OtmMarkup* getMarkup
   (

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -38,29 +38,17 @@
 
 #include "OtmProposal.h"
 #include "core\memory\MemoryFactory.h"
+#include "cxmlwriter.h"
+#include "core\utilities\LogWriter.h"
 
-
-// logging functions and defines
-#ifdef _DEBUG
-  static FILE *hfLog = NULL;
-  #define LOGSTART() { char p[60]; UtlMakeEQFPath( p, NULC, SYSTEM_PATH, NULL ); strcat( p, "\\LOGS" ); UtlMkDir( p, 0, FALSE ); strcat( p, "\\GLOBALFR.LOG" ); hfLog = fopen( p, "a" ); }
-  #define LOGEND() { if ( hfLog ) fclose( hfLog ); } 
-  #define LOGWRITESTRING( s ) { if ( hfLog ) fprintf( hfLog, "%s\n", s ); }
-  #define LOGWRITESTRINGANDSTRING( s1, s2 ) { if ( hfLog ) fprintf( hfLog, "%s%s\n", s1, s2 ); }
-  #define LOGWRITESTRINGANDINT( s, i ) { if ( hfLog ) fprintf( hfLog, "%s%ld\n", s, i ); }
-
-#else
-  #define LOGSTART() 
-  #define LOGEND() 
-  #define LOGWRITESTRING( s )
-  #define LOGWRITESTRINGANDSTRING( s1, s2 ) 
-  #define LOGWRITESTRINGANDINT( s, i ) 
-#endif
 
 // activate this define to show debug info in text area
 #ifdef _DEBUG
 //  #define SHOWDEBUG_INFO 
 #endif
+
+// activate the following define to active logging
+//#define FUZZYSEGMENTSEARCHLOGGING
 
 
 /**********************************************************************/
@@ -86,6 +74,8 @@ static CHAR_W chSingleSubst;
 #define DEFAULT_MULT_WILDCARD   L'*'
 #define DEFAULT_SINGLE_WILDCARD L'?'
 
+
+
 /**********************************************************************/
 /* Tasks during find and change operations                            */
 /**********************************************************************/
@@ -98,7 +88,8 @@ typedef enum _FINDTASK
   NEXT_DOC_TASK,
   STOP_TASK,
   INITDLG_TASK,
-  SETFOCUS_TASK
+  SETFOCUS_TASK,
+  RESIZE_DIALOG_TASK
 } FINDTASK;
 
 
@@ -117,6 +108,7 @@ typedef struct _FS_STARTSTOP
 // structure containing a found fuzzy match
 typedef struct _FOUNDFUZZYMATCH
 {
+  int         iWords;                            // number of words in segment source (w/o tags)
   int         iDiffWords;                        // number of different words (segment vs source w/o tags)
   int         iFolderID;                         // ID of document containing the segment
   int         iDocumentID;                       // ID of document containing the segment
@@ -179,7 +171,10 @@ void StringBuffer_Destroy( STRINGBUFFERHANDLE hBuffer );
 /**********************************************************************/
 /* Instance data area (IDA) for find/change dialog                    */
 /**********************************************************************/
-typedef struct _FSEARCHIDA
+#pragma pack(4)
+
+
+typedef struct _FSEARCHIDAX
 {
   HWND        hwnd;                    // handle of dialog window
   HWND        hwndErrMsg;              // parent for error messages
@@ -202,15 +197,19 @@ typedef struct _FSEARCHIDA
   PSZ         pTMIn;                   // input space for translation memory
   PSZ         pTMOut;                  // output space for translation memory
   BOOL        fTMUpdRequired;          // TRUE = TM update us required
-  BOOL        fDocOpenActive;          // TRUE if DocOpen has been activated
-  BOOL        fUseThaiFont;               // use Thai font for our MLEs
-  BOOL        fSearching;                 // TRUE = we are in search or change mode
-  BOOL        fTranslTextOnly;            // TRUE = search translatable text only
+  BOOL        fDocOpenActive;                    // TRUE if DocOpen has been activated
+  BOOL        fSetFocusToResult;                 // TRUE force input focus to result listbox
+  BOOL        fUseThaiFont;                      // use Thai font for our MLEs
+  BOOL        fSearching;                        // TRUE = we are in search or change mode
+  BOOL        fTranslTextOnly;                   // TRUE = search translatable text only
   SHORT       sBorderSize;                       // size of dialog border
-  HWND        hwndButton[5];                     // handles of pushbuttons
-  SHORT       sButtonWidth[5];                   // widths of pushbuttons
+  HWND        hwndButton[10];                    // handles of pushbuttons
+  SHORT       sButtonWidth[10];                  // widths of pushbuttons
   SHORT       sButtonHeight;                     // height of first pushbutton
   SWP         swpDlg;                            // dialog size and position
+  LONG        lMinWidth;                         // minimum dialog width
+  LONG        lMinHeight;                        // minimum dialog height
+  BOOL        fInitCompleted;                    // TRUE = dialog initalization has been completed
   ULONG       ulActFindSeg;                      // segment number of actual match
   ULONG       ulLastFindSeg;                     // segment number of last match
   CHAR_W      chWildCardSingleChar;              // wildcard for single characters
@@ -220,8 +219,10 @@ typedef struct _FSEARCHIDA
   BOOL        fStopSearch;                       // TRUE = stop current search
   BOOL        fStoppedByUser;                    // TRUE = search stopped by user
   BOOL        fStoppedByError;                   // TRUE = search stopped by error message
+  BOOL        fWithMarks;                        // TRUE = mark differencs in result list and exported list
  
   int         iSearchClass;                      // class of currently searched fuzzy matches
+  int         iSearchMode;                       // currently selected search mode
   LONG        lItemHeight;                       // height of listbox items
 
   // fields containing info and data of currently active folder
@@ -282,30 +283,35 @@ typedef struct _FSEARCHIDA
   CHAR        szNameBuffer[MAX_LONGFILESPEC];    // name buffer
   CHAR_W      szBestMatchSource[MAX_SEGMENT_SIZE];// buffer for source of best mathc
   CHAR_W      szBestMatchTarget[MAX_SEGMENT_SIZE];// buffer for taregt of best mathc
-} FSEARCHIDA, *PFSEARCHIDA;
+  CHAR        szExportFileName[MAX_LONGFILESPEC]; // file name for the export of the result list
+
+  // logging
+  LogWriter   *pLogWriter;                        // log writer object
+} FSEARCHIDAX, *PFSEARCHIDAX;
+
 
 /**********************************************************************/
 /* Prototype section                                                  */
 /**********************************************************************/
 MRESULT EXPENTRY FSearchDlgProc( HWND, WINMSG, WPARAM, LPARAM );
 MRESULT FSearchControl( HWND, SHORT, SHORT );
-VOID FS_FreeDoc( PFSEARCHIDA pIda, PVOID pvDoc );
-BOOL FS_SearchFuzzy( PTBDOCUMENT pDoc, PFSEARCHIDA pIda );
+VOID FS_FreeDoc( PFSEARCHIDAX pIda, PVOID pvDoc );
+BOOL FS_SearchFuzzy( PTBDOCUMENT pDoc, PFSEARCHIDAX pIda );
 
 BOOL FS_CloseDoc
 (
-  PFSEARCHIDA pIda,
+  PFSEARCHIDAX pIda,
   BOOL        fFreeDoc
 );
 BOOL FS_CheckForChangedDoc
 (
-  PFSEARCHIDA pIda,
+  PFSEARCHIDAX pIda,
   PBOOL       pfRefreshed              // document-has-been-refreshed flag
 );
 
 BOOL FS_LoadDoc
 (
-  PFSEARCHIDA pIda,
+  PFSEARCHIDAX pIda,
   BOOL fCheckLock,                     // check for locking
   BOOL fStartSearch,                   // start searching
   BOOL fContinueNext                   // continue with nect doc flag
@@ -313,7 +319,7 @@ BOOL FS_LoadDoc
 USHORT FS_FillDocListbox
 (
   HWND        hwnd,                    // dialog window handle
-  PFSEARCHIDA pIda                     // dialog IDA
+  PFSEARCHIDAX pIda                     // dialog IDA
 );
 SHORT FolNLFCmp
 (
@@ -331,22 +337,24 @@ void FSearch_SetColor
   COLORREF    colorBackground          // background color
 );
 
-BOOL FS_PrepFolderSearch( PFSEARCHIDA pIda );
-void FS_ClearResults( PFSEARCHIDA pIda );
-void FS_InitResults( PFSEARCHIDA pIda );
-int FS_AddToResultList( PFSEARCHIDA pIda, PFOUNDFUZZYMATCH pMatch );
+BOOL FS_PrepFolderSearch( PFSEARCHIDAX pIda );
+void FS_ClearResults( PFSEARCHIDAX pIda );
+void FS_InitResults( PFSEARCHIDAX pIda );
+int FS_AddToResultList( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch );
 int FS_GetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBufer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords );
-void FS_ShowResult( PFSEARCHIDA pIda, int iMatch );
+void FS_ShowResult( PFSEARCHIDAX pIda, int iMatch );
 void FS_MeasureItem( HWND hwnd, LONG lParam );
-BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam );
+BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam );
 int FS_ComputeItemHeight( HWND hwndDlg, int iControlID );
-void FS_OpenDocInTenv( PFSEARCHIDA pIda, PFOUNDFUZZYMATCH pMatch );
-static SHORT FS_CloseFolderMemory( PFSEARCHIDA pIda );
+void FS_OpenDocInTenv( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch );
+static SHORT FS_CloseFolderMemory( PFSEARCHIDAX pIda );
 USHORT FS_RemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PVOID pbTokBuf, LONG lTokBufSize, ULONG ulCP );
 int FS_GetProposalDiffs( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBuffer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, 
                          PFS_STARTSTOP pSegmentChangesList, PLONG plSegmentChangesListLen, PFS_STARTSTOP pProposalChangesList, PLONG plProposalChangesListLen,
                          PBOOL fBelowThreshold );
-int FS_DrawDifferences( HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor );
+int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor );
+BOOL FS_ExportResults( PFSEARCHIDAX pIda );
+void FS_SelectSearchMode( HWND hwnd, int iMode );
 
 //+----------------------------------------------------------------------------+
 //|External function                                                           |
@@ -361,14 +369,12 @@ BOOL FolFuzzySearch
 )
 {
   BOOL        fOK = TRUE;              // internal O.K. flag
-  PFSEARCHIDA pIda;                    // ptr to IDA of dialog
+  PFSEARCHIDAX pIda;                    // ptr to IDA of dialog
   HWND        hwndFSearchDlg;          // handle of global-find-and-change dialog
 
-  /********************************************************************/
-  /* Allocate IDA of Global Find and Change dialog                    */
-  /********************************************************************/
-  size_t iSize = sizeof(FSEARCHIDA);
-  pIda = (PFSEARCHIDA)malloc( iSize );
+  // Allocate IDA of fuzzy search dialog
+  size_t iSize = sizeof(FSEARCHIDAX);
+  pIda = (PFSEARCHIDAX)malloc( iSize );
   if ( pIda != NULL )
   {
     memset( pIda, 0, iSize );
@@ -379,9 +385,7 @@ BOOL FolFuzzySearch
     fOK = FALSE;
   } /* end */     
 
-  /********************************************************************/
-  /* Fill-in IDA fields                                               */
-  /********************************************************************/
+  // Fill-in IDA fields                                               
   if ( fOK )
   {
     pIda->fFromFolderList = fFromFolderList;
@@ -412,9 +416,7 @@ BOOL FolFuzzySearch
     } /* endif */
   } /* endif */
 
-  /********************************************************************/
-  /* Start Global Find and Change dialog                              */
-  /********************************************************************/
+  // Start fuzzy search dialog
   if ( fOK )
   {
       hwndFSearchDlg = CreateMDIDialogParam( hResMod, MAKEINTRESOURCE(ID_FUZZYSEARCH_DLG),
@@ -444,7 +446,7 @@ MRESULT EXPENTRY FSearchDlgProc
   LPARAM mp2
 )
 {
-  PFSEARCHIDA pIda = NULL;             // ptr to IDA of dialog
+  PFSEARCHIDAX pIda = NULL;             // ptr to IDA of dialog
   BOOL        fOK;                     // internal O.K. flag
   BOOL        fStopProcess;            // stop current process flag
 
@@ -459,15 +461,14 @@ MRESULT EXPENTRY FSearchDlgProc
 
         fOK = TRUE;
 
-        LOGSTART();
-        LOGWRITESTRING( "*** Init Dialog ***" );
+
 
         /**************************************************************/
         /* Anchor IDA and register dialog                             */
         /**************************************************************/
         if ( fOK )
         {
-          pIda = (PFSEARCHIDA)PVOIDFROMMP2(mp2);
+          pIda = (PFSEARCHIDAX)PVOIDFROMMP2(mp2);
 
           // get dialog position and size
           WinQueryWindowPos( hwnd, &pIda->swpDlg );
@@ -482,6 +483,15 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->fRegistered = TRUE;
 
           UtlRegisterModelessDlg( hwnd );
+
+#ifdef FUZZYSEGMENTSEARCHLOGGING
+          LogWriter::registerLogFile( "FuzzySearch", "Fuzzy segment search processing log" );
+          pIda->pLogWriter = new LogWriter();
+          pIda->pLogWriter->write( "Info: processing WM_INITDLG" );
+#else
+          pIda->pLogWriter = NULL;
+#endif
+
         } /* endif */
 
 
@@ -501,12 +511,29 @@ MRESULT EXPENTRY FSearchDlgProc
           CBSELECTITEM( hwnd, ID_FUZZYSEARCH_CLASS_CB, 0 );
         }
 
+        // fill mode combobox
+        {
+          PSZ pszModeNames[] = { "With selected class or higher", "Having the selected class only", "Up to and including the selected class", NULL };
+          int aiModeValues[] = { SELECTEDCLASSANDHIGHER_MODE, ONLYSELECTEDCLASS_MODE, UPTOSELECTEDCLASS_MODE, 0 };
+
+          int i = 0;
+          while ( pszModeNames[i] != NULL )
+          {
+            int iItem = CBINSERTITEMEND( hwnd, ID_FUZZYSEARCH_MODE_CB, pszModeNames[i] );
+            CBSETITEMHANDLE( hwnd, ID_FUZZYSEARCH_MODE_CB, iItem, aiModeValues[i] );
+            i++;
+          } /* endwhile */             
+          CBSELECTITEM( hwnd, ID_FUZZYSEARCH_MODE_CB, 0 );
+        }
+        
+
         /**************************************************************/
         /* Set initial state of dialog controls                       */
         /**************************************************************/
         if ( fOK )
         {
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_OPEN_PB,          FALSE );
+          ENABLECTRL( hwnd, ID_FUZZYSEARCH_EXPORT_PB,          FALSE );
         } /* endif */
 
          if ( fOK )
@@ -526,7 +553,7 @@ MRESULT EXPENTRY FSearchDlgProc
 
             // use remembered size and position (if any available
             {
-              SWP swpMLE, swpButton;
+              SWP swpMLE, swpButton, swpDispOptions;
               RECT rect;
               LONG lMinSize;
 
@@ -548,14 +575,16 @@ MRESULT EXPENTRY FSearchDlgProc
               GetWindowRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_DOCS_GB ), &rect );
               MapWindowPoints( HWND_DESKTOP, hwnd, (LPPOINT)&rect, 2 );
 
+              WinQueryWindowPos( GetDlgItem( hwnd, ID_FUZZYSEARCH_DISPLAYOPT_GB ), &swpDispOptions );
+
               // ensure dialog size falls not below its minimum
-              lMinSize = swpMLE.x + swpMLE.cx + 5;
+              pIda->lMinWidth = lMinSize = swpDispOptions.x + swpDispOptions.cx + 5;
               if ( pIda->swpDlg.cx < lMinSize )
               {
                 pIda->swpDlg.cx = (SHORT)lMinSize;
               } /* endif */
 
-              lMinSize = rect.bottom + swpMLE.cy + swpButton.cx + 10;
+              pIda->lMinHeight = lMinSize = rect.bottom + swpMLE.cy + swpButton.cx + 10;
               if ( pIda->swpDlg.cy < lMinSize )
               {
                 pIda->swpDlg.cy = (SHORT)lMinSize;
@@ -563,9 +592,12 @@ MRESULT EXPENTRY FSearchDlgProc
 
             }
 
-            // select last used class
+            // select last used values
+            FS_SelectSearchMode( hwnd, pFllProp->iFSLastUsedMode );
             CBSELECTITEM( hwnd, ID_FUZZYSEARCH_CLASS_CB, pFllProp->iFSLastUsedClass );
-            
+            strcpy( pIda->szExportFileName, pFllProp->szFSLastExportFile );
+            if ( pFllProp->fFSWithMarks ) SETCHECK_TRUE( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK );
+
 
             CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
           } /* endif */
@@ -585,9 +617,10 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->hwndButton[0] = GetDlgItem( hwnd, ID_FUZZYSEARCH_FIND_PB );
           pIda->hwndButton[1] = GetDlgItem( hwnd, ID_FUZZYSEARCH_STOP_PB );
           pIda->hwndButton[2] = GetDlgItem( hwnd, ID_FUZZYSEARCH_OPEN_PB );
-          pIda->hwndButton[3] = GetDlgItem( hwnd, ID_FUZZYSEARCH_CANCEL_PB );
-          pIda->hwndButton[4] = GetDlgItem( hwnd, ID_FUZZYSEARCH_HELP_PB );
-          for ( i = 0; i < 5; i++ )
+          pIda->hwndButton[3] = GetDlgItem( hwnd, ID_FUZZYSEARCH_EXPORT_PB );
+          pIda->hwndButton[4] = GetDlgItem( hwnd, ID_FUZZYSEARCH_CANCEL_PB );
+          pIda->hwndButton[5] = GetDlgItem( hwnd, ID_FUZZYSEARCH_HELP_PB );
+          for ( i = 0; i < 6; i++ )
           {
             RECT rect;
             GetWindowRect( pIda->hwndButton[i], &rect );
@@ -600,6 +633,7 @@ MRESULT EXPENTRY FSearchDlgProc
         {
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_STOP_PB, FALSE );
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_OPEN_PB, FALSE );
+          ENABLECTRL( hwnd, ID_FUZZYSEARCH_EXPORT_PB, FALSE );
         } /* endif */
 
         // Show the dialog window                                     
@@ -638,10 +672,57 @@ MRESULT EXPENTRY FSearchDlgProc
 
       return MRFROMSHORT(TRUE);
 
+
+ //case WM_SETFOCUS:
+ //   {
+ //     pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
+ //     if ( pIda != NULL )
+ //     {
+ //       if ( pIda->fSetFocusToResult )
+ //       {
+ //         pIda->fSetFocusToResult = FALSE;
+ //         SETFOCUS( hwnd, ID_FUZZYSEARCH_RESULT_LB );
+ //         //WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(SETFOCUS_TASK), 0L );
+ //         return(TRUE);
+ //       } /* endif */;                 
+ //     } /* endif */
+ //   }
+ //   return WinDefDlgProc( hwnd, msg, mp1, mp2 );
+ //   break;
+
     case WM_COMMAND:
-      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
       switch ( WMCOMMANDID( mp1, mp2 ) )
       {
+        case ID_FUZZYSEARCH_MODE_CB:
+          {
+            SHORT sCommand = WMCOMMANDCMD( mp1, mp2 );
+            if ( sCommand == CBN_SETFOCUS )
+            {
+              if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Input focus is on mode combo box" );
+              if ( pIda->fSetFocusToResult )
+              {
+                if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Posting SETFOCUS_TASK in order to pass focus to result listbox" );
+                pIda->fSetFocusToResult = FALSE;
+                //SETFOCUS( hwnd, ID_FUZZYSEARCH_RESULT_LB );
+                WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(SETFOCUS_TASK), 0L );
+                return(TRUE);
+              } /* endif */;                 
+            } /* endif */
+          }
+          break;
+
+        case ID_FUZZYSEARCH_SHOWDIFF_CHK:
+          {
+            BOOL fNewState = QUERYCHECK( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK );
+            if ( fNewState != pIda->fWithMarks )
+            {
+              pIda->fWithMarks = fNewState;
+              InvalidateRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_RESULT_LB ), NULL, FALSE ); 
+            } /* endif */
+          }
+          break;
+
         case ID_FUZZYSEARCH_RESULT_LB:
           {
             SHORT sCommand = WMCOMMANDCMD( mp1, mp2 );
@@ -683,6 +764,14 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->fStoppedByUser = TRUE;
           break;
 
+        case ID_FUZZYSEARCH_EXPORT_PB:
+          if ( pIda->fSearching )
+          {
+            break;
+          } /* endif */
+          FS_ExportResults( pIda );
+          break;
+
         case ID_FUZZYSEARCH_FIND_PB:
           fOK = TRUE;
  
@@ -692,7 +781,7 @@ MRESULT EXPENTRY FSearchDlgProc
             break;
           } /* endif */
 
-          LOGWRITESTRING( "Starting search..." );
+          if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Starting search..." );
 
           // compute listbox item height if not done yet
           if ( pIda->lItemHeight == 0 )
@@ -706,6 +795,14 @@ MRESULT EXPENTRY FSearchDlgProc
             pIda->iSearchClass = CBQUERYITEMHANDLE( hwnd, ID_FUZZYSEARCH_CLASS_CB, iSelectedItem );
           }
 
+          // get currently selected search mode
+          {
+            int iSelectedItem = CBQUERYSELECTION( hwnd, ID_FUZZYSEARCH_MODE_CB );
+            pIda->iSearchMode = CBQUERYITEMHANDLE( hwnd, ID_FUZZYSEARCH_MODE_CB, iSelectedItem );
+          }
+
+          pIda->fWithMarks = QUERYCHECK( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK );
+
           FS_ClearResults( pIda );
           FS_InitResults( pIda );
           pIda->iMaxExtent = 0;
@@ -716,6 +813,7 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->fStoppedByError = FALSE; 
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_FIND_PB, FALSE );
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_OPEN_PB, FALSE );
+          ENABLECTRL( hwnd, ID_FUZZYSEARCH_EXPORT_PB, FALSE );
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_STOP_PB, TRUE );
           SETTEXT( hwnd, ID_FUZZYSEARCH_STATUS_TEXT, "Starting search..." );
           pIda->sDocCount =  QUERYITEMCOUNT( hwnd, ID_FUZZYSEARCH_DOCS_LB );
@@ -728,12 +826,15 @@ MRESULT EXPENTRY FSearchDlgProc
             if ( sSelected >= 0 )
             {
               int iMatch = QUERYITEMHANDLE( hwnd, ID_FUZZYSEARCH_RESULT_LB, sSelected );
+
+              SETFOCUS( hwnd, ID_FUZZYSEARCH_RESULT_LB );
+              pIda->fSetFocusToResult = TRUE;
               FS_OpenDocInTenv( pIda, &(pIda->pMatchList[iMatch]) );
               sSelected += 1;
               if ( sSelected < QUERYITEMCOUNT( hwnd, ID_FUZZYSEARCH_RESULT_LB ) )
               {
                 SELECTITEM( hwnd, ID_FUZZYSEARCH_RESULT_LB, sSelected );
-                WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(SETFOCUS_TASK), 0L );
+                //WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(SETFOCUS_TASK), 0L );
               } /* endif */                   
             } /* endif */               
           }
@@ -743,7 +844,7 @@ MRESULT EXPENTRY FSearchDlgProc
       return 0;
 
     case WM_EQF_PROCESSTASK:
-      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
       fOK = TRUE;
       if ( (pIda != NULL) && (!pIda->fTerminate) )
       {
@@ -754,11 +855,12 @@ MRESULT EXPENTRY FSearchDlgProc
               HWND hwndFrame = GetParent( hwnd );
               WinSetWindowPos( hwndFrame, HWND_TOP, pIda->swpDlg.x, pIda->swpDlg.y, pIda->swpDlg.cx, pIda->swpDlg.cy,
                                EQF_SWP_SIZE | EQF_SWP_MOVE | EQF_SWP_SHOW | EQF_SWP_ACTIVATE );
+              pIda->fInitCompleted = TRUE;
             }
             break;
 
           case OPEN_DOC_TASK :
-            LOGWRITESTRING( "Processing task: OPEN_DOC_TASK" );
+            if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Processing task: OPEN_DOC_TASK" );
             fOK = FS_LoadDoc( pIda, TRUE, TRUE, TRUE );
             break;
 
@@ -766,11 +868,11 @@ MRESULT EXPENTRY FSearchDlgProc
             // search fuzzy matches
             {
               BOOL fDocIsDone = FALSE;
-              LOGWRITESTRING( "Processing task: SEARCH_FUZZY_TASK" );
+              if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Processing task: SEARCH_FUZZY_TASK" );
               fDocIsDone = FS_SearchFuzzy( pIda->pTBDoc, pIda );
 
               UtlDispatch();
-              pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+              pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
               if ( (pIda != NULL) && !pIda->fTerminate )
               {
                 if ( fDocIsDone || pIda->fStopSearch )
@@ -790,7 +892,8 @@ MRESULT EXPENTRY FSearchDlgProc
             /**********************************************************/
             /* Close current doc (and save document if necessary)     */
             /**********************************************************/
-            LOGWRITESTRING( "Processing task: CLOSE_DOC_TASK" );
+            if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Processing task: CLOSE_DOC_TASK" );
+
             fStopProcess = FS_CloseDoc( pIda, TRUE );
 
             if ( fStopProcess || pIda->fStopSearch )
@@ -800,7 +903,7 @@ MRESULT EXPENTRY FSearchDlgProc
             else
             {
               UtlDispatch();
-              pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+              pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
               if ( (pIda != NULL) && !pIda->fTerminate )
               {
                 DELETEITEM( hwnd, ID_FUZZYSEARCH_DOCS_LB, 0 );
@@ -816,7 +919,7 @@ MRESULT EXPENTRY FSearchDlgProc
               /**********************************************************/
               /* Get next document from listbox                         */
               /**********************************************************/
-              LOGWRITESTRING( "Processing task: NEXT_DOC_TASK" );
+              if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Processing task: NEXT_DOC_TASK" );
               sDocsInLB = QUERYITEMCOUNT( hwnd, ID_FUZZYSEARCH_DOCS_LB );
               if ( sDocsInLB > 0 )
               {
@@ -829,7 +932,7 @@ MRESULT EXPENTRY FSearchDlgProc
                   if ( sIndex >= 0 )
                   {
                     QUERYITEMTEXTHWND( pIda->hwndLB, sIndex, pIda->szCurDoc );
-                    LOGWRITESTRINGANDSTRING( "Next document is ", pIda->szCurDoc );
+                    if ( pIda->pLogWriter ) pIda->pLogWriter->writef( "Info: Next document is %s", pIda->szCurDoc  );
                     SELECTITEM( hwnd, ID_FUZZYSEARCH_DOCS_LB, 0 );
                     if ( pIda->fMultipleObjs )
                     {
@@ -862,7 +965,7 @@ MRESULT EXPENTRY FSearchDlgProc
                 /* Start next step                                      */
                 /********************************************************/
                 UtlDispatch();
-                pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+                pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
                 if ( (pIda != NULL) && !pIda->fTerminate )
                 {
                   WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(sNextTask), 0L );
@@ -874,7 +977,7 @@ MRESULT EXPENTRY FSearchDlgProc
                 /* no more documents in listbox                         */
                 /********************************************************/
 
-                LOGWRITESTRING( "No more documents in listbox" );
+                if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: No more documents in listbox" );
                 /********************************************************/
                 /* Inform user about end of search                      */
                 /********************************************************/
@@ -896,7 +999,7 @@ MRESULT EXPENTRY FSearchDlgProc
                 /* continue with stop operation task                    */
                 /********************************************************/
                 UtlDispatch();
-                pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+                pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
                 if ( (pIda != NULL) && !pIda->fTerminate )
                 {
                   WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(STOP_TASK), 0L );
@@ -906,8 +1009,9 @@ MRESULT EXPENTRY FSearchDlgProc
             break;
 
           case STOP_TASK :
-            LOGWRITESTRING( "Processing task: STOP_TASK" );
+            if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Processing task: STOP_TASK" );
             pIda->fSearching = FALSE;
+
 
             if ( pIda->fStoppedByUser )
             {
@@ -941,12 +1045,28 @@ MRESULT EXPENTRY FSearchDlgProc
               pFactory->closeMemory( pIda->pDocMem );
               pIda->pDocMem = NULL;
             } /* endif */               
+            if ( pIda->ulNumOfMatches != 0 )
+            {
+              ENABLECTRL( hwnd, ID_FUZZYSEARCH_EXPORT_PB, TRUE );
+            } /* endif */
             pIda->usHits = 0;
             pIda->usChanges = 0;
             break;
 
           case SETFOCUS_TASK :
+            if ( pIda->pLogWriter ) pIda->pLogWriter->write( "Info: Processing task: SETFOCUS_TASK" );
             SETFOCUS( hwnd, ID_FUZZYSEARCH_RESULT_LB );
+            PostMessage( hwnd, WM_NEXTDLGCTL, (WPARAM)GetDlgItem( hwnd, ID_FUZZYSEARCH_RESULT_LB ), TRUE );
+            break;
+
+          case RESIZE_DIALOG_TASK:
+            {
+             SHORT sWidth = SHORT1FROMMP2(mp2);
+             SHORT sHeight = SHORT2FROMMP2(mp2);
+
+             HWND hwndFrame = GetParent( hwnd );
+             WinSetWindowPos( hwndFrame, HWND_TOP, 0, 0, sWidth, sHeight, EQF_SWP_SIZE );
+            }
             break;
 
         } /* endswitch */
@@ -955,7 +1075,7 @@ MRESULT EXPENTRY FSearchDlgProc
       break;
 
     case WM_CLOSE:
-      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
       pIda->fTerminate = TRUE;
       FS_CloseDoc( pIda, TRUE );
        
@@ -979,9 +1099,12 @@ MRESULT EXPENTRY FSearchDlgProc
 
             UtlSaveWindowPos( GetParent( hwnd ), &(pFllProp->swpFSearchSizePos) );
 
-            // save last used class
+            // save last used values
+            pFllProp->fFSWithMarks = QUERYCHECK( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK );
             pFllProp->iFSLastUsedClass = CBQUERYSELECTION( hwnd, ID_FUZZYSEARCH_CLASS_CB );
-
+            int iSelected = CBQUERYSELECTION( hwnd, ID_FUZZYSEARCH_MODE_CB );
+            if ( iSelected != LIT_NONE ) pFllProp->iFSLastUsedMode = CBQUERYITEMHANDLE( hwnd, ID_FUZZYSEARCH_MODE_CB, iSelected );
+            strcpy( pFllProp->szFSLastExportFile, pIda->szExportFileName );
             SaveProperties( hFllProp, &ErrorInfo);
           } /* endif */
           CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
@@ -1010,7 +1133,7 @@ MRESULT EXPENTRY FSearchDlgProc
       break;
 
     case WM_DESTROY:
-      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+      pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
       if (pIda)
       {
         if ( pIda->hwndLB )
@@ -1023,16 +1146,22 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->fRegistered = FALSE;
         } /* endif */
 
+        if ( pIda->pLogWriter ) 
+        {
+          pIda->pLogWriter->write( "Info: Ending fuzzy sement search" );
+          pIda->pLogWriter->close();
+          delete pIda->pLogWriter;
+          pIda->pLogWriter = NULL;
+        } /* endif */
+
         free( pIda );
         pIda = NULL;
       } /* endif */
-      LOGWRITESTRING( "*** Ending Dialog ***" );
-      LOGEND();
       UtlUnregisterModelessDlg( hwnd );
       break;
 
    case WM_SIZE :
-     pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+     pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
 
      // resize inner window only if normal sizing request...
      if ( (pIda != NULL) && ((mp1 == SIZENORMAL) || (mp1 == SIZEFULLSCREEN)) )
@@ -1061,16 +1190,16 @@ MRESULT EXPENTRY FSearchDlgProc
            HDWP hdwp = BeginDeferWindowPos( 11 );
 
            // re-arrange pushbuttons
-           for ( i = 0; i < 5; i++ )
+           for ( i = 0; i < 6; i++ )
            {
              lTotSize += pIda->sButtonWidth[i];
            } /* endfor */
 
            lTotGaps = (cxAvail > lTotSize) ? (cxAvail - lTotSize) : 0;
-           lGap = lTotGaps / 5;
-           lCorrect = (cxAvail > lTotSize) ? ((cxAvail - (lGap * 5) - lTotSize) / 2) : 0;
+           lGap = lTotGaps / 6;
+           lCorrect = (cxAvail > lTotSize) ? ((cxAvail - (lGap * 6) - lTotSize) / 2) : 0;
            lXPos    = pIda->sBorderSize;
-           for ( i = 0; (i < 5) && (hdwp != NULL); i++ )
+           for ( i = 0; (i < 6) && (hdwp != NULL); i++ )
            {
              lXPos += i ? (pIda->sButtonWidth[i-1] + lGap) : ((lGap / 2) + lCorrect);
              hdwp = DeferWindowPos( hdwp, pIda->hwndButton[i], HWND_TOP, lXPos,
@@ -1083,6 +1212,16 @@ MRESULT EXPENTRY FSearchDlgProc
            // resize documents listbox and groupbox
            {
              RECT rect;
+
+             GetWindowRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_OPTIONS_GB ), &rect );
+             MapWindowPoints( HWND_DESKTOP, hwnd, (LPPOINT)&rect, 2 );
+             lLeftBorder = rect.left;
+             lGroupBoxWidth = (cxAvail > (rect.left + 3)) ? (cxAvail - rect.left - 3) : 0;
+             hdwp = DeferWindowPos( hdwp, GetDlgItem( hwnd, ID_FUZZYSEARCH_OPTIONS_GB ),
+                                    HWND_TOP, 0, 0,
+                                    lGroupBoxWidth,
+                                    rect.bottom - rect.top,
+                                    SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER );
 
              GetWindowRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_DOCS_GB ), &rect );
              MapWindowPoints( HWND_DESKTOP, hwnd, (LPPOINT)&rect, 2 );
@@ -1097,11 +1236,12 @@ MRESULT EXPENTRY FSearchDlgProc
 
              GetWindowRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_DOCS_LB ), &rect );
              MapWindowPoints( HWND_DESKTOP, hwnd, (LPPOINT)&rect, 2 );
+             rect.left = lLeftBorder + 4;
              hdwp = DeferWindowPos( hdwp, GetDlgItem( hwnd, ID_FUZZYSEARCH_DOCS_LB ),
-                                    HWND_TOP, 0, 0,
-                                    lGroupBoxWidth - 4,
+                                    HWND_TOP, rect.left, rect.top,
+                                    lGroupBoxWidth - 8,
                                     rect.bottom - rect.top,
-                                    SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER );
+                                    SWP_NOACTIVATE | SWP_NOZORDER );
            }
 
            // set y position for result listbox
@@ -1164,6 +1304,40 @@ MRESULT EXPENTRY FSearchDlgProc
                                      rectStatus.bottom - rectStatus.top,
                                      SWP_NOACTIVATE | SWP_NOZORDER );
              }
+
+             // resize find and display options groupbox
+             GetWindowRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_DISPLAYOPT_GB ), &rect );
+             MapWindowPoints( HWND_DESKTOP, hwnd, (LPPOINT)&rect, 2 );
+             rect.right = lLeftBorder + lGroupBoxWidth - 4;
+             if ( rect.right <= rect.left )
+             {
+               rect.right = rect.left + 1;
+             } /* endif */
+             lXPos = rect.right;
+             hdwp = DeferWindowPos( hdwp, GetDlgItem( hwnd, ID_FUZZYSEARCH_DISPLAYOPT_GB ),
+                                    HWND_TOP,
+                                    rect.left, rect.top,
+                                    rect.right - rect.left,
+                                    rect.bottom - rect.top,
+                                    SWP_NOACTIVATE | SWP_NOZORDER );
+
+             // resize find and display options groupbox
+             GetWindowRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK ), &rect );
+             MapWindowPoints( HWND_DESKTOP, hwnd, (LPPOINT)&rect, 2 );
+             rect.right = lXPos - 4;
+             if ( rect.right <= rect.left )
+             {
+               rect.right = rect.left + 1;
+             } /* endif */
+             hdwp = DeferWindowPos( hdwp, GetDlgItem( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK ),
+                                    HWND_TOP,
+                                    rect.left, rect.top,
+                                    rect.right - rect.left,
+                                    rect.bottom - rect.top,
+                                    SWP_NOACTIVATE | SWP_NOZORDER );
+
+
+
            }
 
            // do actual dialog control re-positioning
@@ -1173,6 +1347,29 @@ MRESULT EXPENTRY FSearchDlgProc
            } /* endif */
          }
        }
+
+       // restore dialog to minimum width and height when it is getting too small
+       // GQ 2017(08/04: disabled the code below as it tends to create endless dialog resizing loops...
+       //if ( pIda->fInitCompleted )
+       //{
+       //  SHORT sMinWidth = (SHORT)pIda->lMinWidth;
+       //  SHORT sMinHeight = (SHORT)pIda->lMinHeight;
+       //  BOOL fResize = FALSE;
+       //  if ( (sWidth + 10) < sMinWidth )
+       //  {
+       //    sWidth = sMinWidth;
+       //    fResize = TRUE;
+       //  }
+       //  if ( (sHeight + 10) < sMinHeight )
+       //  {
+       //    fResize = TRUE;
+       //    sHeight = sMinHeight;
+       //  } 
+       //  if ( fResize )
+       //  {
+       //    WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(RESIZE_DIALOG_TASK), MP2FROM2SHORT( sWidth, sHeight ) );
+       //  } /* endif */
+       //} /* endif */
      } /* endif */
      break;
 
@@ -1182,7 +1379,7 @@ MRESULT EXPENTRY FSearchDlgProc
      break;
 
    case WM_DRAWITEM:
-     pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+     pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
      return ( FS_DrawItem( pIda, mp2 ) );
      break;
 
@@ -1203,12 +1400,12 @@ MRESULT FSearchControl
   SHORT  sNotification                // notification
 )
 {
-  PFSEARCHIDA pIda;                    // ptr to IDA of dialog
+  PFSEARCHIDAX pIda;                    // ptr to IDA of dialog
   MRESULT mResult = MRFROMSHORT(FALSE);
 
   sNotification; sId;
 
-  pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+  pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
   //switch ( sId )
   //{
   //} /* endswitch sID */
@@ -1251,7 +1448,7 @@ void FS_RemoveLF( PSZ_W pszData, ULONG ulOemCP )
 //
 //  close the memory DBs associated with the folder
 //
-static SHORT FS_CloseFolderMemory( PFSEARCHIDA pIda )
+static SHORT FS_CloseFolderMemory( PFSEARCHIDAX pIda )
 {
   SHORT       sRc = 0;
   MemoryFactory *pFactory = MemoryFactory::getInstance();
@@ -1283,7 +1480,7 @@ static SHORT FS_CloseFolderMemory( PFSEARCHIDA pIda )
 //
 static SHORT FS_OpenDocMemory
 ( 
-  PFSEARCHIDA     pIda,                 // control block
+  PFSEARCHIDAX     pIda,                 // control block
   PSZ         pszDocMem                // name of document memory
 )
 {
@@ -1338,7 +1535,7 @@ static SHORT FS_OpenDocMemory
 //
 static SHORT FS_OpenFolderMemory
 ( 
-  PFSEARCHIDA     pIda                  // control block
+  PFSEARCHIDAX     pIda                  // control block
 )
 {
   SHORT       sRc = 0;
@@ -1353,8 +1550,6 @@ static SHORT FS_OpenFolderMemory
   hProp = OpenProperties( pIda->szSubFolObjName, NULL, PROP_ACCESS_READ, &ulErrorInfo );
   if ( hProp )
   {
-    BOOL fIsNew = FALSE;
-
     PPROPFOLDER pProp = (PPROPFOLDER)MakePropPtrFromHnd( hProp );
 
     // add folder main memory to list
@@ -1425,7 +1620,7 @@ static SHORT FS_OpenFolderMemory
 
 
 // lookup segment in a single memory
-USHORT FS_LookupInMemory( PFSEARCHIDA pIda, PTBSEGMENT pSeg, OtmMemory *pMem, std::vector<OtmProposal *> &vResults )
+USHORT FS_LookupInMemory( PFSEARCHIDAX pIda, PTBSEGMENT pSeg, OtmMemory *pMem, std::vector<OtmProposal *> &vResults )
 {
   USHORT      usMatch = 0;
   OtmProposal SearchKey;
@@ -1442,14 +1637,14 @@ USHORT FS_LookupInMemory( PFSEARCHIDA pIda, PTBSEGMENT pSeg, OtmMemory *pMem, st
 
   if ( OtmProposal::getNumOfProposals( vResults ) != 0 )
   {
-    usMatch = vResults[0]->getFuzziness();
+    usMatch = (USHORT)vResults[0]->getFuzziness();
   } /* endif */
 
   return( usMatch );
 } /* end of function FS_LookupInMemory */
 
 // lookup segment in all folder and document memories
-USHORT FS_LookupInAllMems( PFSEARCHIDA pIda, PTBSEGMENT pSeg )
+USHORT FS_LookupInAllMems( PFSEARCHIDAX pIda, PTBSEGMENT pSeg )
 {
   USHORT      usMatch = 0;
   int         iMemIndex = 0;
@@ -1497,7 +1692,7 @@ USHORT FS_LookupInAllMems( PFSEARCHIDA pIda, PTBSEGMENT pSeg )
 BOOL FS_SearchFuzzy
 (
   PTBDOCUMENT pDoc,                  //ptr to doc instance
-  PFSEARCHIDA pIda
+  PFSEARCHIDAX pIda
 )
 {
   BOOL fDone     = FALSE;              // we-are-through flag
@@ -1534,6 +1729,7 @@ BOOL FS_SearchFuzzy
         LONG lSegmentChangesListLen = 0;
         LONG lProposalChangesListLen = 0;
         int iClass = 0;
+        USHORT usWords = 0;
 
         UTF16strcpy( pIda->szTempSeg, pSeg->pDataW );
         FS_RemoveLF( pIda->szTempSeg, pIda->ulSourceOemCP );
@@ -1542,8 +1738,10 @@ BOOL FS_SearchFuzzy
         FS_RemoveLF( pIda->szTempProp, pIda->ulSourceOemCP );
 
         iClass = FS_GetProposalClass( pIda->szTempSeg, pIda->szTempProp, (PLOADEDTABLE)pDoc->pDocTagTable, 
-                                            pDoc->pInBuf, pDoc->pTokBuf, pIda->sSrcLangID, pIda->ulSourceOemCP, NULL );
-        if ( iClass <= pIda->iSearchClass )
+                                            pDoc->pInBuf, pDoc->pTokBuf, pIda->sSrcLangID, pIda->ulSourceOemCP, &usWords );
+        if ( ( (pIda->iSearchMode == UPTOSELECTEDCLASS_MODE ) && (iClass <= pIda->iSearchClass) ) ||
+             ( (pIda->iSearchMode == ONLYSELECTEDCLASS_MODE ) && (iClass == pIda->iSearchClass) ) ||
+             ( (pIda->iSearchMode == SELECTEDCLASSANDHIGHER_MODE ) && (iClass >= pIda->iSearchClass) ) )
         {
           int iMatchIndex = 0;
           BOOL fBelowThreshold = FALSE;
@@ -1558,6 +1756,7 @@ BOOL FS_SearchFuzzy
           if ( !fBelowThreshold )
           {
             memset( &(pIda->CurMatch),0, sizeof(pIda->CurMatch) );
+            pIda->CurMatch.iWords = (int)usWords;
             pIda->CurMatch.iDiffWords = iClass;
             pIda->CurMatch.iDocumentID = NameList_AddName( pIda->pNameList, pIda->szLongName );
             pIda->CurMatch.iFolderID = NameList_AddName( pIda->pNameList, pIda->szFolLongName );
@@ -1576,7 +1775,7 @@ BOOL FS_SearchFuzzy
             iMatchIndex = FS_AddToResultList( pIda, &(pIda->CurMatch) );
 
             // show fuzzy match in result listbox
-            FS_ShowResult( pIda, iMatchIndex );
+            if ( pIda->hwnd != HWND_FUNCIF ) FS_ShowResult( pIda, iMatchIndex );
           } /* endif */             
         } /* endif */           
       } /* endif */         
@@ -1587,7 +1786,7 @@ BOOL FS_SearchFuzzy
 }
 
 
-VOID FS_FreeDoc( PFSEARCHIDA pIda, PVOID pvDoc )
+VOID FS_FreeDoc( PFSEARCHIDAX pIda, PVOID pvDoc )
 {
   PTBDOCUMENT     pDoc = (PTBDOCUMENT)pvDoc;
 
@@ -1616,7 +1815,7 @@ VOID FS_FreeDoc( PFSEARCHIDA pIda, PVOID pvDoc )
 
 BOOL FS_CloseDoc
 (
-  PFSEARCHIDA pIda,
+  PFSEARCHIDAX pIda,
   BOOL        fFreeDoc
 )
 {
@@ -1647,8 +1846,8 @@ BOOL FS_CloseDoc
       {
         PSZ    pszParm = pIda->szCurDoc;
         if ( pIda->szLongName[0] != EOS ) pszParm = pIda->szLongName;
-        if ( UtlError( ERROR_FOLFIND_SAVE_SEGFILE, MB_OKCANCEL,
-                       1, &pszParm, EQF_QUERY ) != MBID_OK )
+        if ( UtlErrorHwnd( ERROR_FOLFIND_SAVE_SEGFILE, MB_OKCANCEL,
+                       1, &pszParm, EQF_QUERY, pIda->hwnd  ) != MBID_OK )
         {
           fStopProcess = TRUE;
         } /* endif */
@@ -1706,7 +1905,7 @@ BOOL FS_CloseDoc
 /**********************************************************************/
 BOOL FS_CheckForChangedDoc
 (
-  PFSEARCHIDA pIda,
+  PFSEARCHIDAX pIda,
   PBOOL       pfRefreshed              // document-has-been-refreshed flag
 )
 {
@@ -1794,7 +1993,7 @@ BOOL FS_CheckForChangedDoc
 USHORT FS_FillDocListbox
 (
   HWND        hwnd,                    // dialog window handle
-  PFSEARCHIDA pIda                     // dialog IDA
+  PFSEARCHIDAX pIda                     // dialog IDA
 )
 {
   SHORT sItemCount = QUERYITEMCOUNTHWND( pIda->hwndLB );
@@ -1896,7 +2095,7 @@ void FSearch_SetColor
 // prepare search for a folder
 BOOL FS_PrepFolderSearch
 (
-  PFSEARCHIDA pIda
+  PFSEARCHIDAX pIda
 )
 {
   BOOL fOK = TRUE;
@@ -1995,7 +2194,7 @@ BOOL FS_PrepFolderSearch
 //
 // add match to table
 //
-BOOL FS_AddMatch( PFSEARCHIDA pIda, PFOUNDFUZZYMATCH pNewMatch )
+BOOL FS_AddMatch( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pNewMatch )
 {
   BOOL        fOK = TRUE;
 
@@ -2280,7 +2479,7 @@ void StringBuffer_Destroy( STRINGBUFFERHANDLE hBuffer )
 
 BOOL FS_LoadDoc
 (
-  PFSEARCHIDA pIda,
+  PFSEARCHIDAX pIda,
   BOOL fCheckLock,                     // check for locking
   BOOL fStartSearch,                   // start searching
   BOOL fContinueNext                   // continue with nect doc flag
@@ -2327,7 +2526,7 @@ BOOL FS_LoadDoc
       PSZ    pszErrParm = pIda->szCurDoc;
 
       if ( pIda->szLongName[0] != EOS ) pszErrParm = pIda->szLongName;
-      usMBRC = UtlError( ERROR_FOLFIND_DOC_INUSE, MB_YESNO, 1, &pszErrParm, EQF_QUERY );
+      usMBRC = UtlErrorHwnd( ERROR_FOLFIND_DOC_INUSE, MB_YESNO, 1, &pszErrParm, EQF_QUERY, pIda->hwnd );
       if ( usMBRC == MBID_NO )
       {
         fStopProcess = TRUE;
@@ -2368,7 +2567,7 @@ BOOL FS_LoadDoc
   /**********************************************************/
   if ( fOK )
   {
-    fOK = UtlAlloc( (PVOID *)&pIda->pTBDoc, 0L, (LONG)sizeof(TBDOCUMENT), ERROR_STORAGE );
+    fOK = UtlAllocHwnd( (PVOID *)&pIda->pTBDoc, 0L, (LONG)sizeof(TBDOCUMENT), ERROR_STORAGE, pIda->hwnd );
     if ( !fOK )
     {
       fStopProcess = TRUE;
@@ -2382,7 +2581,7 @@ BOOL FS_LoadDoc
   {
     SHORT  sRc;
 
-    sRc = TALoadTagTable( DEFAULT_QFTAG_TABLE, (PLOADEDTABLE *)&pIda->pTBDoc->pQFTagTable, TRUE, TRUE );       
+    sRc = TALoadTagTable( DEFAULT_QFTAG_TABLE, (PLOADEDTABLE *)&pIda->pTBDoc->pQFTagTable, TRUE, (pIda->hwnd != HWND_FUNCIF) );       
     fOK = (sRc == NO_ERROR);
   } /* endif */
 
@@ -2393,7 +2592,7 @@ BOOL FS_LoadDoc
 
     sRc = TALoadTagTableExHwnd( pIda->szDocFormat,
                                 (PLOADEDTABLE *)&pIda->pTBDoc->pDocTagTable, FALSE, TALOADPROTTABLEFUNC | TALOADUSEREXIT,
-                                TRUE, NULLHANDLE ); 
+                                TRUE, pIda->hwnd  ); 
     fOK = (sRc == NO_ERROR);
   } /* endif */
 
@@ -2504,21 +2703,21 @@ BOOL FS_LoadDoc
   /**********************************************************/
   if ( fStopProcess )
   {
-    WinPostMsg( pIda->hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(STOP_TASK), 0L );
+    if ( pIda->hwnd != HWND_FUNCIF ) WinPostMsg( pIda->hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(STOP_TASK), 0L );
   }
   else if ( fOK )
   {
     pIda->fTMUpdRequired = FALSE;
+    pIda->ulSegNum = 1;
+    pIda->usOffs   = 0;
+    pIda->usLine   = 1;
+    pIda->ulAddSegNum = 1;
+    pIda->ulActiveTable = STANDARDTABLE;
+
     if ( fStartSearch )
     {
-      pIda->ulSegNum = 1;
-      pIda->usOffs   = 0;
-      pIda->usLine   = 1;
-      pIda->ulAddSegNum = 1;
-      pIda->ulActiveTable = STANDARDTABLE;
-
       UtlDispatch();
-      pIda = ACCESSDLGIDA( pIda->hwnd, PFSEARCHIDA );
+      pIda = ACCESSDLGIDA( pIda->hwnd, PFSEARCHIDAX );
       if ( (pIda != NULL) && !pIda->fTerminate )
       {
         WinPostMsg( pIda->hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(SEARCH_FUZZY_TASK), 0L );
@@ -2543,7 +2742,7 @@ BOOL FS_LoadDoc
     if ( fContinueNext )
     {
       UtlDispatch();
-      pIda = ACCESSDLGIDA( pIda->hwnd, PFSEARCHIDA );
+      pIda = ACCESSDLGIDA( pIda->hwnd, PFSEARCHIDAX );
       if ( (pIda != NULL) && !pIda->fTerminate )
       {
         DELETEITEM( pIda->hwnd, ID_FUZZYSEARCH_DOCS_LB, 0 );
@@ -2627,6 +2826,8 @@ int FS_GetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTabl
 
   if ( pusWords != NULL ) *pusWords = usWords;
 
+  if ( usDiff > 6 ) usDiff = 6;
+
   return  ( fOK ? usDiff : -1 );
 
 } /* end of function FS_GetProposalClass */
@@ -2702,7 +2903,7 @@ int FS_GetProposalDiffs( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTabl
 // clear any search results
 void FS_ClearResults
 (
-  PFSEARCHIDA pIda
+  PFSEARCHIDAX pIda
 )
 {
   if ( pIda->pMatchList != NULL )
@@ -2726,18 +2927,18 @@ void FS_ClearResults
 // initialize search results
 void FS_InitResults
 (
-  PFSEARCHIDA pIda
+  PFSEARCHIDAX pIda
 )
 {
   pIda->ulNumOfMatches = 0;
   pIda->ulMatchTableSize = 0;
   pIda->pNameList = NameList_Create();
   pIda->pvStringBuffer = StringBuffer_Create( );
-  DELETEALL( pIda->hwnd, ID_FUZZYSEARCH_RESULT_LB );
+  if ( pIda->hwnd != HWND_FUNCIF ) DELETEALL( pIda->hwnd, ID_FUZZYSEARCH_RESULT_LB );
 }
 
 // add a match to the result list
-int FS_AddToResultList( PFSEARCHIDA pIda, PFOUNDFUZZYMATCH pMatch )
+int FS_AddToResultList( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch )
 {
   // enlarge result table when necessary
   if ( pIda->ulNumOfMatches >= pIda->ulMatchTableSize  )
@@ -2763,7 +2964,7 @@ int FS_AddToResultList( PFSEARCHIDA pIda, PFOUNDFUZZYMATCH pMatch )
 }
 
 // show a fuzzy match in the result listbox
-void FS_ShowResult( PFSEARCHIDA pIda, int iMatch )
+void FS_ShowResult( PFSEARCHIDAX pIda, int iMatch )
 {
   int iItem = 0;
   PFOUNDFUZZYMATCH pResult = pIda->pMatchList + iMatch;
@@ -2778,7 +2979,7 @@ void FS_MeasureItem( HWND hwnd, LONG lParam )
 {
   LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT) lParam; 
 
-  PFSEARCHIDA pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDA );
+  PFSEARCHIDAX pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
 
   if ( pIda != NULL )
   {
@@ -2798,7 +2999,7 @@ void FS_MeasureItem( HWND hwnd, LONG lParam )
 }
 
 // output text with difference coloring
-int FS_DrawDifferences( HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor )
+int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor )
 {
   POINT pt;
 
@@ -2813,14 +3014,30 @@ int FS_DrawDifferences( HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD 
         break;
 
       case 'I' :
-        SetTextColor( hdc, RGB(0,0,200) );
-        SetBkColor( hdc, RGB(210,210,210) );
+        if ( pIda->fWithMarks )
+        {
+          SetTextColor( hdc, RGB(0,0,200) );
+          SetBkColor( hdc, RGB(210,210,210) );
+        }
+        else
+        {
+          SetTextColor( hdc, RGB(0,0,0) );
+          SetBkColor( hdc, dwBackColor );
+        } /* endif */
         TextOutW( hdc, 1, 1, pszText + pStartStop->usStart, pStartStop->usStop - pStartStop->usStart + 1 ); 						
         break;
 
       case 'M' :
-        SetTextColor( hdc, RGB(0,0,200) );
-        SetBkColor( hdc, RGB(210,210,210) );
+        if ( pIda->fWithMarks )
+        {
+          SetTextColor( hdc, RGB(0,50,50) );
+          SetBkColor( hdc, RGB(210,210,210) );
+        }
+        else
+        {
+          SetTextColor( hdc, RGB(0,0,0) );
+          SetBkColor( hdc, dwBackColor );
+        } /* endif */
         TextOutW( hdc, 1, 1, pszText + pStartStop->usStart, pStartStop->usStop - pStartStop->usStart + 1 ); 						
         break;
 
@@ -2862,7 +3079,7 @@ int FS_ComputeItemHeight( HWND hwndDlg, int iControlID )
 }
 
 // handle WM_DRAWITEM message for our ownerdrawn listbox
-BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam )
+BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
 {
   TEXTMETRIC tm; 
   int y; 
@@ -2917,11 +3134,18 @@ BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam )
           }              
           else if ( lpdis->itemState & ODS_SELECTED ) 
           {
-            dwBackColor = RGB(250,250,5);
+            if ( lpdis->itemState & ODS_FOCUS ) 
+            {
+              dwBackColor = RGB(250,250,5);
+            }
+            else
+            {
+              dwBackColor = RGB(190,190,190);
+            }
           }              
           else if ( pMatch->fUsed ) 
           {
-            dwBackColor = RGB(200,200,200);
+            dwBackColor = RGB(240,240,240);
           } /* endif */             
 
           SetBkColor( lpdis->hDC, dwBackColor );
@@ -2951,8 +3175,8 @@ BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam )
 
           // show folder and document info
           MoveToEx( lpdis->hDC, lpdis->rcItem.left + 4, lpdis->rcItem.top + 4, NULL );
-          sprintf( pIda->szBuffer, "Folder: %s   Document: %s(%lu)", NameList_GetName( pIda->pNameList, pMatch->iFolderID ), 
-                   NameList_GetName( pIda->pNameList, pMatch->iDocumentID ), pMatch->ulSegNum );
+          sprintf( pIda->szBuffer, "Folder: %s   Class: %ld   Word count: %ld   Document: %s(%lu)", NameList_GetName( pIda->pNameList, pMatch->iFolderID ), 
+            pMatch->iDiffWords, pMatch->iWords, NameList_GetName( pIda->pNameList, pMatch->iDocumentID ), pMatch->ulSegNum );
           TextOut( lpdis->hDC, lpdis->rcItem.left + 4, lpdis->rcItem.top + 4, pIda->szBuffer, strlen(pIda->szBuffer) ); 						
 
           // show segment and proposal prefix
@@ -2968,7 +3192,7 @@ BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam )
 
           // show segment and proposal text
           MoveToEx( lpdis->hDC, xPos + 10, lpdis->rcItem.top + 4 + 1 * (tm.tmHeight + 4), NULL );
-          extent = FS_DrawDifferences( lpdis->hDC, pMatch->pszSegment, pMatch->pSegmentChanges, dwBackColor );
+          extent = FS_DrawDifferences( pIda, lpdis->hDC, pMatch->pszSegment, pMatch->pSegmentChanges, dwBackColor );
           if ( extent > pIda->iMaxExtent )
           {
             pIda->iMaxExtent = extent;
@@ -2976,7 +3200,7 @@ BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam )
           } /* endif */             
 
           MoveToEx( lpdis->hDC, xPos + 10, lpdis->rcItem.top + 4 + 2*(tm.tmHeight + 4), NULL );
-          extent = FS_DrawDifferences( lpdis->hDC, pMatch->pszSource, pMatch->pProposalChanges, dwBackColor );
+          extent = FS_DrawDifferences( pIda, lpdis->hDC, pMatch->pszSource, pMatch->pProposalChanges, dwBackColor );
           if ( extent > pIda->iMaxExtent )
           {
             pIda->iMaxExtent = extent;
@@ -3006,7 +3230,7 @@ BOOL FS_DrawItem( PFSEARCHIDA pIda, LONG lParam )
 } 
 
 // open current fuzzy match in translation environment
-void FS_OpenDocInTenv( PFSEARCHIDA pIda, PFOUNDFUZZYMATCH pMatch )
+void FS_OpenDocInTenv( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch )
 {
   POPENANDPOS pOpen;
 
@@ -3069,4 +3293,547 @@ USHORT FS_RemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PV
   UtlAlloc( (PVOID *)&pStartStop, 0L, 0L, NOMSG );
 
   return( usRC );
+}
+
+void FSWriteSegmentWithDiffs( PFSEARCHIDAX pIda, CXmlWriter *xw, PSZ_W pszText, PFS_STARTSTOP pStartStop )
+{
+  int iLen = 0;
+  xw->WriteString( "" );      // ensure that the start tag is terminated properly before writing text using WriteRaw()
+
+  while ( pStartStop->usType != 0 )
+  {
+    switch ( pStartStop->usType )
+    {
+      case 'D' :
+        break;
+
+      case 'I' :
+        if ( pIda->fWithMarks ) xw->WriteRaw( L"<hp1>" );
+        iLen = (int)(pStartStop->usStop - pStartStop->usStart + 1);
+        wcsncpy( pIda->szBufferW, pszText + pStartStop->usStart, iLen );
+        pIda->szBufferW[iLen] = 0;
+        xw->WriteString( pIda->szBufferW );
+        if ( pIda->fWithMarks ) xw->WriteRaw( L"</hp1>" );
+        break;
+
+      case 'M' :
+        if ( pIda->fWithMarks ) xw->WriteRaw( L"<hp2>" );
+        iLen = (int)(pStartStop->usStop - pStartStop->usStart + 1);
+        wcsncpy( pIda->szBufferW, pszText + pStartStop->usStart, iLen );
+        pIda->szBufferW[iLen] = 0;
+        xw->WriteString( pIda->szBufferW );
+        if ( pIda->fWithMarks ) xw->WriteRaw( L"</hp2>" );
+        break;
+
+      default:
+        iLen = (int)(pStartStop->usStop - pStartStop->usStart + 1);
+        wcsncpy( pIda->szBufferW, pszText + pStartStop->usStart, iLen );
+        pIda->szBufferW[iLen] = 0;
+        xw->WriteString( pIda->szBufferW );
+        break;
+    } /* endswitch */       
+
+    pStartStop++;
+  } /* endwhile */             
+}
+
+BOOL FS_WriteResultsToFile( PFSEARCHIDAX pIda, PSZ pszFileName )
+{
+  CXmlWriter *xw = new CXmlWriter( pszFileName );
+  xw->Formatting = CXmlWriter::Indented;
+  xw->Encoding = CXmlWriter::UTF8;
+  xw->Indention = 2;
+  if ( xw->WriteStartDocument() )
+  {
+    xw->WriteStartElement( "FuzzySegmentSearchResults" );
+    // xw->WriteStylesheet( VALXMLTOHTML_TRANSONLY_STYLESHEET );
+    xw->WriteStartElement( "Header" );
+    xw->WriteElementString( "Folder", pIda->szFolLongName );
+    xw->WriteStartElement( "NumOfDocs" );
+    xw->WriteInt( pIda->sDocCount );
+    xw->WriteEndElement(); // "NumOfDocs"
+    if ( pIda->iSearchMode == UPTOSELECTEDCLASS_MODE )
+    {
+      sprintf( pIda->szBuffer, "Up to and including class %ld", pIda->iSearchClass );
+    }
+    else if ( pIda->iSearchMode == ONLYSELECTEDCLASS_MODE )
+    {
+      sprintf( pIda->szBuffer, "Only class %ld", pIda->iSearchClass );
+    }
+    else
+    {
+      sprintf( pIda->szBuffer, "Class %ld and higher", pIda->iSearchClass );
+    } /* endif */
+    xw->WriteElementString( "Filter", pIda->szBuffer );
+    xw->WriteEndElement(); // "Header"
+    if ( pIda->ulNumOfMatches != 0 )
+    {
+      xw->WriteStartElement( "SegmentList" );
+      for( ULONG ulI = 0; ulI < pIda->ulNumOfMatches; ulI++ )
+      {
+        PFOUNDFUZZYMATCH pMatch = pIda->pMatchList + ulI;
+        pMatch->iDiffWords;
+        xw->WriteStartElement( "Segment" );
+        xw->WriteStartAttribute( "Class" );
+        xw->WriteInt( pMatch->iDiffWords );
+        xw->WriteEndAttribute(); // "Class"
+        xw->WriteStartAttribute( "WordCount" );
+        xw->WriteInt( pMatch->iWords );
+        xw->WriteEndAttribute(); // "WordCount"
+        xw->WriteAttributeString( "Document", NameList_GetName( pIda->pNameList, pMatch->iDocumentID ) );
+        xw->WriteEndAttribute(); // "Class"
+        xw->WriteStartAttribute( "SegmentNum" );
+        xw->WriteInt( (int)pMatch->ulSegNum);
+        xw->WriteEndAttribute(); // "SegmentNum"
+        xw->WriteStartElement( "Source" );
+        FSWriteSegmentWithDiffs( pIda, xw, pMatch->pszSegment, pMatch->pSegmentChanges );
+        xw->WriteEndElement(); // "Source" 
+
+        xw->WriteStartElement( "ProposalSource" );
+        FSWriteSegmentWithDiffs( pIda, xw, pMatch->pszSource, pMatch->pProposalChanges );
+        xw->WriteEndElement(); // "ProposalSource" 
+        xw->WriteEndElement(); //  "Segment"
+      } /* endfor */
+      xw->WriteEndElement(); // "SegmentList"
+    } /* endif */
+    xw->WriteEndElement(); // "FuzzySegmentSearchResults"
+    xw->WriteEndDocument();
+    xw->Close();
+    delete xw;
+  }  
+  return( TRUE );
+}
+
+BOOL FS_ExportResults( PFSEARCHIDAX pIda )
+{
+  BOOL fOK = TRUE;
+  OPENFILENAME OpenFileName;
+
+  memset( &OpenFileName, 0, sizeof(OpenFileName) );
+  OpenFileName.lStructSize        = sizeof(OpenFileName);
+  OpenFileName.hwndOwner          = pIda->hwnd;
+  OpenFileName.hInstance          = NULLHANDLE;
+  OpenFileName.lpstrFilter        = "XML\0*.XML\0\0\0";
+  OpenFileName.lpstrCustomFilter  = NULL;
+  OpenFileName.nMaxCustFilter     = 0;
+  OpenFileName.nFilterIndex       = 0;
+  OpenFileName.lpstrFile          = pIda->szExportFileName;
+  OpenFileName.nMaxFile           = sizeof(pIda->szExportFileName);
+  OpenFileName.lpstrFileTitle     = NULL;
+  OpenFileName.nMaxFileTitle      = 0;
+  OpenFileName.lpstrInitialDir    = NULL;
+  OpenFileName.lpstrTitle         = "Export current result list";
+  OpenFileName.Flags              = OFN_ENABLESIZING | OFN_EXPLORER | OFN_LONGNAMES | OFN_NODEREFERENCELINKS |
+                                    OFN_NOTESTFILECREATE | OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+  OpenFileName.nFileOffset        = 0;
+  OpenFileName.nFileExtension     = 0;
+  OpenFileName.lpstrDefExt        = "XML";
+  OpenFileName.lCustData          = 0L;
+  OpenFileName.lpfnHook           = NULL;
+  OpenFileName.lpTemplateName     = NULL;
+
+  fOK = GetSaveFileName( &OpenFileName ) != 0;
+  if ( fOK )
+  {
+    fOK = FS_WriteResultsToFile( pIda, pIda->szExportFileName );
+    if ( fOK )
+    {
+      PSZ pszParm = pIda->szExportFileName;
+      UtlErrorHwnd( INFO_FS_EXPORT_COMPLETE, MB_OK, 1, &pszParm, EQF_INFO, pIda->hwnd );
+    } /* endif */
+  } /* endif */
+  return( fOK );
+} /* end of */
+
+// helper functions to check specified parameters
+BOOL FolFuncCheckFolderName
+( 
+  PSZ pszFolderName,         // IN: folder name
+  PUSHORT pusRC,             // IN: pointer to caller's return code field (can be NULL when no return code is needed)
+  PSZ     pszFolderShortName // IN: pointer to caller's buffer for the folder short name (can be NULL when no short name is needed)
+)
+{
+  BOOL        fOK = TRUE;                // O.K. flag
+  USHORT      usRC = 0;                  // error return code    
+  CHAR        szShortName[MAX_FILESPEC]; // bufer for folder short name
+
+  szShortName[0] = EOS;
+  if ( (pszFolderName == NULL) || (*pszFolderName == EOS) )
+  {
+    fOK = FALSE;
+    usRC = TA_MANDFOLDER;
+    UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+  }
+  else
+  {
+    BOOL fIsNew = FALSE;
+    ObjLongToShortName( pszFolderName, szShortName, FOLDER_OBJECT, &fIsNew);
+    if ( fIsNew )
+    {
+      fOK = FALSE;
+      PSZ pszParm = pszFolderName;
+      usRC = ERROR_XLATE_FOLDER_NOT_EXIST;
+      UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    } /* endif */
+  } /* endif */
+
+  if ( pusRC != NULL ) *pusRC = usRC;
+  if ( pszFolderShortName != NULL ) strcpy( pszFolderShortName, szShortName );
+  
+  return( fOK );
+} /* endif */
+
+BOOL FolFuncBuildFolderObjName
+( 
+  PSZ pszFolderShortName,    // IN: folder short name
+  PSZ pszFlderObjName        // IN: caller's buffer for the folder object name
+)
+{
+  BOOL        fOK = TRUE;                // O.K. flag
+    
+  // build folder object name and fill IDA fields
+  if ( fOK )
+  {
+    UtlMakeEQFPath( pszFlderObjName, NULC, SYSTEM_PATH, NULL );
+    strcat( pszFlderObjName, BACKSLASH_STR );
+    strcat( pszFlderObjName, pszFolderShortName );
+    strcat( pszFlderObjName, EXT_FOLDER_MAIN );
+  } /* endif */
+
+  // get folder drive to complete the folder object name
+  if ( fOK )
+  {
+    EQFINFO     ErrorInfo;           // error code of property handler calls
+    PPROPFOLDER pFolProp;            // ptr to folder properties
+    PVOID       hFolProp;            // handle of folder properties
+
+    hFolProp = OpenProperties( pszFlderObjName, NULL, PROP_ACCESS_READ, &ErrorInfo);
+    if ( hFolProp )
+    {
+      pFolProp = (PPROPFOLDER)MakePropPtrFromHnd( hFolProp );
+      pszFlderObjName[0] = pFolProp->chDrive;
+      CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo );
+    } /* endif */
+  } /* endif */
+
+  return( fOK );
+} /* end of FolFuncBuildFolderObjName */
+
+BOOL FolFuncCheckDocumentList
+( 
+  PSZ pszFolderObjName,      // IN: folder object name
+  PSZ pszDocuments,          // IN: list of documents (when empty all documents of the folder are added to the document name buffer)
+  PUSHORT pusRC,             // IN: pointer to caller's return code field (can be NULL when no return code is needed)
+  PSZ     *ppDocNameBuffer,  // IN: pointer to pointer for the document name buffer, this buffer is allocated automatically
+  PULONG  pulNumOfDocs       // IN: pointer to caller's number of documents variable
+)
+{
+  LONG lBufferSize = 0;
+  LONG lBufferUsed = 0;
+  PSZ pDocNameBuffer = NULL;
+  USHORT usRC = 0;
+  BOOL        fOK = TRUE;                // O.K. flag
+  ULONG ulDocuments = 0;
+
+  *ppDocNameBuffer = NULL;
+
+  // check if documents exist
+  if ( fOK && (pszDocuments != NULL) && (*pszDocuments != EOS))
+  {
+    PSZ    pszTemp = pszDocuments;    // ptr for document list processing
+    PSZ    pszDocNameStart;           // ptr for document list processing
+    CHAR   chTemp;                    // buffer for current character
+
+    // isolate current document name
+    pszDocNameStart = pszDocuments;
+    while ( fOK && (*pszDocNameStart != EOS) )
+    {
+      BOOL fIsNew = FALSE;
+
+      // isolate current document name
+      {
+        // skip leading whitespace and seperators
+        while ( (*pszDocNameStart == ' ') || (*pszDocNameStart == COMMA) )
+        {
+          pszDocNameStart++;
+        } /* endwhile */
+
+        // find end of document name
+        if ( *pszDocNameStart == DOUBLEQUOTE)
+        {
+          pszDocNameStart += 1;
+          pszTemp = pszDocNameStart;
+          while ( *pszTemp && (*pszTemp != DOUBLEQUOTE) )
+          {
+            pszTemp++;
+          } /* endwhile */
+          chTemp = *pszTemp;
+          *pszTemp = EOS;
+        }
+        else
+        {
+          pszTemp = pszDocNameStart;
+          while ( *pszTemp && (*pszTemp != COMMA) )
+          {
+            pszTemp++;
+          } /* endwhile */
+          chTemp = *pszTemp;
+          *pszTemp = EOS;
+        } /* endif */
+      }
+
+      if ( *pszDocNameStart != EOS)
+      {
+        CHAR szDocShortName[MAX_FILESPEC];
+
+        FolLongToShortDocName( pszFolderObjName, pszDocNameStart, szDocShortName, &fIsNew );
+
+        if ( fIsNew )
+        {
+          fOK = FALSE;
+          PSZ pszParm = pszDocNameStart;
+          usRC = ERROR_TA_SOURCEFILE;
+          UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+        }
+        else
+        {
+          // add document short name to document name buffer
+          LONG lAddLen = strlen(szDocShortName) + 1;
+          if ( lBufferSize < (lBufferUsed + lAddLen + 1) )
+          {
+            UtlAllocHwnd( (PVOID *)&pDocNameBuffer, lBufferSize,
+                          lBufferSize + 8096L, ERROR_STORAGE, HWND_FUNCIF );
+            lBufferSize += 8096L;
+          } /* endif */
+
+          if ( pDocNameBuffer != NULL )
+          {
+            strcpy( pDocNameBuffer + lBufferUsed, szDocShortName );
+            lBufferUsed += lAddLen;
+            ulDocuments++;
+          } /* endif */
+        } /* endif */
+      } /* endif */
+
+      // next document name
+      if ( chTemp == DOUBLEQUOTE )
+      {
+        *pszTemp = chTemp;
+        pszDocNameStart = pszTemp + 1;
+      }
+      else
+      {
+        *pszTemp = chTemp;
+        pszDocNameStart = pszTemp;
+      } /* endif */
+    } /* endwhile */
+    if ( pDocNameBuffer != NULL )
+    {
+      pDocNameBuffer[lBufferUsed] = EOS; // terminate document name buffer
+    } /* endif */
+  }
+  else
+  {
+    // build list of all folder documents
+    ulDocuments = LoadDocumentNames( pszFolderObjName, HWND_FUNCIF, LOADDOCNAMES_INCLSUBFOLDERS, (PSZ)&pDocNameBuffer );
+  } /* endif */
+
+  if ( pusRC != NULL ) *pusRC = usRC;
+  if ( pulNumOfDocs != NULL ) *pulNumOfDocs = ulDocuments;
+  if ( ppDocNameBuffer != NULL ) *ppDocNameBuffer = pDocNameBuffer;
+
+  return( fOK );
+} /* end of FolFuncCheckDocumentList */
+
+// check the specified output file name
+BOOL FolFuncCheckOutputFile( PUSHORT pusRC, PSZ pszOutputFile, LONG lOptions )
+{
+  USHORT usRC = 0;
+  BOOL        fOK = TRUE;                // O.K. flag
+
+  if ( (pszOutputFile == NULL) || (*pszOutputFile == EOS) )
+  {
+    fOK = FALSE;
+    usRC = ERROR_FS_MISSING_OUTPUT_NAME;
+    UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+  } 
+  else if ( !(lOptions & OVERWRITE_OPT) && UtlFileExist( pszOutputFile ) )
+  {
+    fOK = FALSE;
+    PSZ pszParm = pszOutputFile;
+    usRC = ERROR_FILE_EXISTS_ALREADY_BATCH;
+    UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+  } /* endif */
+
+  if ( pusRC != NULL ) *pusRC = usRC;
+  return( fOK );
+}
+
+// check the specified search class
+BOOL FolFuncCheckClass( PUSHORT pusRC, int iClass )
+{
+  USHORT usRC = 0;
+  BOOL        fOK = TRUE;                // O.K. flag
+
+  if ( (iClass < 0) || (iClass > 6) )
+  {
+    CHAR szClass[10];
+    PSZ pszParm = szClass;
+    ltoa( iClass, szClass, 10 );
+    fOK = FALSE;
+    usRC = ERROR_FS_INVALID_CLASS;
+    UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+  } /* endif */
+
+  if ( pusRC != NULL ) *pusRC = usRC;
+  return( fOK );
+}
+
+// check the specified search class
+BOOL FolFuncCheckMode( PUSHORT pusRC, int iMode )
+{
+  USHORT usRC = 0;
+  BOOL        fOK = TRUE;                // O.K. flag
+
+  if ( (iMode != UPTOSELECTEDCLASS_MODE) && (iMode != SELECTEDCLASSANDHIGHER_MODE) && (iMode != ONLYSELECTEDCLASS_MODE) )
+  {
+    CHAR szMode[10];
+    PSZ pszParm = szMode;
+    ltoa( iMode, szMode, 10 );
+    fOK = FALSE;
+    usRC = ERROR_FS_INVALID_MODE;
+    UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+  } /* endif */
+
+  if ( pusRC != NULL ) *pusRC = usRC;
+  return( fOK );
+}
+
+
+__declspec(dllexport)
+USHORT FolFuncFuzzySearch
+(
+  PSZ              pszFolderName,      // name of folder
+  PSZ              pszDocuments,       // list of documents or NULL 
+  PSZ              pszOutputFile,      // fully qualified name of output file
+  int              iSearchMode,        // search mode
+  int              iClass,             // searched class
+  LONG             lOptions            // processing options
+)
+{
+  BOOL        fOK = TRUE;              // internal O.K. flag
+  PFSEARCHIDAX pIda;                    // ptr to IDA of dialog
+  HWND        hwndFSearchDlg;          // handle of global-find-and-change dialog
+  USHORT usRC = 0;
+  PSZ         pDocNameBuffer = NULL;
+  ULONG       ulNumOfDocs = 0;
+  
+  // Allocate IDA of fuzzy search funtions
+  size_t iSize = sizeof(FSEARCHIDAX);
+  pIda = (PFSEARCHIDAX)malloc( iSize );
+  if ( pIda != NULL )
+  {
+    memset( pIda, 0, iSize );
+  }
+  else
+  {
+    UtlErrorHwnd( ERROR_NOT_ENOUGH_MEMORY, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    fOK = FALSE;
+  } /* end */     
+
+   PFSEARCHIDAX pIdaX = (PFSEARCHIDAX)pIda; 
+
+
+
+  // check provided parameters
+  if ( fOK ) fOK = FolFuncCheckFolderName( pszFolderName, &usRC, pIda->szSubFolObjName );
+  if ( fOK ) fOK = FolFuncBuildFolderObjName( pIda->szSubFolObjName, pIda->szFolObjName );
+  if ( fOK ) fOK = FolFuncCheckDocumentList( pIda->szFolObjName, pszDocuments, &usRC, &pDocNameBuffer, &ulNumOfDocs );
+  if ( fOK ) fOK = FolFuncCheckOutputFile( &usRC, pszOutputFile, lOptions );
+  if ( fOK ) fOK = FolFuncCheckMode( &usRC, iSearchMode );
+  if ( fOK ) fOK = FolFuncCheckClass( &usRC, iClass );
+
+  // Fill-in IDA fields                                               
+  if ( fOK )
+  {
+    pIda->fFromFolderList = FALSE;
+    pIda->fMultipleObjs = FALSE;
+    strcpy( pIda->szSubFolObjName, pIda->szFolObjName );
+
+    if ( FolIsSubFolderObject( pIda->szSubFolObjName ) )
+    {
+      // convert pszFolObjName to folder object name by cutting the
+      // subfolder part and property part from the name
+      strcpy( pIda->szFolObjName, pIda->szSubFolObjName );
+      UtlSplitFnameFromPath( pIda->szFolObjName );
+      UtlSplitFnameFromPath( pIda->szFolObjName );
+    }
+    else
+    {
+      // pszFolObjName contains the folder object name already
+      strcpy( pIda->szFolObjName, pIda->szSubFolObjName );
+    } /* endif */
+
+    pIda->iSearchClass = iClass;
+    pIda->iSearchMode = iSearchMode;
+    strcpy( pIda->szExportFileName, pszOutputFile );
+    pIda->fWithMarks = lOptions & MARKDIFFERENCES_OPT;
+    pIda->hwnd = HWND_FUNCIF;
+    pIda->sDocCount = (SHORT)ulNumOfDocs;
+  } /* endif */
+
+  // loop over all documents and search for fuzzy segments
+  if ( fOK )
+  {
+    PSZ pszCurDoc = pDocNameBuffer;
+    strcpy( pIda->szCurFolObjName, pIda->szFolObjName );
+    FS_InitResults( pIda );
+
+    while ( fOK && (*pszCurDoc != EOS) )
+    {
+      BOOL fDocIsDone = FALSE;
+      strcpy( pIda->szCurDoc, pszCurDoc );
+      pIda->fStopSearch = FALSE;
+
+      fOK = FS_LoadDoc( pIda, TRUE, FALSE, FALSE );
+
+      while( fOK && !fDocIsDone )
+      {
+        fDocIsDone = FS_SearchFuzzy( pIda->pTBDoc, pIda );
+      } /* endwhile */
+
+      FS_CloseDoc( pIda, TRUE );
+
+      // next document
+      pszCurDoc += strlen(pszCurDoc) + 1;
+    } /* endwhile */
+  } /* endif */
+
+  // export found fuzzy matches
+  if ( fOK )
+  {
+    fOK = FS_WriteResultsToFile( pIda, pszOutputFile );
+  } /* endif */
+
+  // cleanup
+  if ( pIda ) FS_ClearResults( pIda );
+  if ( pDocNameBuffer ) UtlAlloc( (PVOID *)&pDocNameBuffer, 0, 0, NOMSG );;
+  if ( pIda ) free( pIda );
+
+  return( usRC );
+} /* end of function FolFuncFuzzySearch */
+
+// select a specific search mode in the search mode drop down list
+void FS_SelectSearchMode( HWND hwnd, int iMode )
+{
+  int iItems = CBQUERYITEMCOUNT( hwnd, ID_FUZZYSEARCH_MODE_CB );
+  for( int i = 0; i < iItems; i++ )
+  {
+    int iItemMode = CBQUERYITEMHANDLE( hwnd, ID_FUZZYSEARCH_MODE_CB, i );
+    if ( iItemMode == iMode )
+    {
+      CBSELECTITEM( hwnd, ID_FUZZYSEARCH_MODE_CB, i );
+      break;
+    } /* endif */
+  } /* endfor */
 }

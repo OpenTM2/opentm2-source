@@ -11,11 +11,13 @@ package de.ibm.com.opentm2scripteride;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Timer;
@@ -49,7 +51,7 @@ public class MainApp {
 	public static final int MAXTABSALLOWED = 20;
 	
 	static MainApp mInstance = null;
-	static private String mAppName = "openTM2Scripter GUI";
+	static private String mAppName = "OpenTM2Scripter GUI";
 	static private String mVersion = "1.3.0";
 	
 	
@@ -315,7 +317,18 @@ public class MainApp {
 	 * Returns the version of the application
 	 * @return The current version as a string
 	 */
-	public String getVersion(){
+	public String getVersion() throws IOException{
+		BufferedReader br =null;
+		try {
+			br = new BufferedReader(new FileReader("resources/OpenTM2Version.info"));
+			String line = br.readLine();
+			if(line!=null && !line.isEmpty()){
+				mVersion = line;
+			}
+		} finally {
+			if(br != null)
+		        br.close();
+		}
 		return mVersion;
 	}
 

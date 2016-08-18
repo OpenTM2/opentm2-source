@@ -7,6 +7,6 @@
 StartFirst=1
 Frequency=0
 [Networks]
-URL=http://www.beo-doc.de/opentm2/updates
+URL=http://community.opentm2.org/display/GEN/OpenTM2+Installer
 ProxyAddress=
 ProxyPort=

@@ -37,12 +37,12 @@ public:
 		int iBufSize
 	) = 0;
 
-	/*! \brief Supplies the descriptive name of the markup table
+	/*! \brief Supplies the short description (descriptive name) of the markup table
 	
-	The descriptive name is the name of the markup table 
-	as it is displayed to the user
+	The short description of the markup table.  It is displayed to the user
+    as the descriptive name.
 	
-  \param pszBuffer Pointer to buffer receiving the descriptive name
+  \param pszBuffer Pointer to buffer receiving the short description
   \param iBufSize Size of the buffer in number of characters
 	\returns Number of characters copied to pszBuffer including the terminating null character
 
@@ -53,12 +53,12 @@ public:
 		int iBufSize
 	) = 0;
 	
-	/*! \brief Supplies the description of the markup table
+	/*! \brief Supplies the long description of the markup table
 
-	The markup table description gives some information on
-	the markup table and the supported file formats					 
+	The long description gives some information on the markup table and 
+    the supported file formats					 
 	
-  \param pszBuffer Pointer to buffer receiving the description
+  \param pszBuffer Pointer to buffer receiving the long description
   \param iBufSize Size of the buffer in number of characters
 	\returns Number of characters copied to pszBuffer including the terminating null character
 
@@ -69,6 +69,36 @@ public:
 		int iBufSize
 	) = 0;
 	
+	/*! \brief Supplies the name of the supplier of the markup table
+
+	This supplier gives information about who supplied this markup table.
+	
+  \param pszBuffer Pointer to buffer receiving the supplier name
+  \param iBufSize Size of the buffer in number of characters
+	\returns Number of characters copied to pszBuffer including the terminating null character
+
+	*/
+	virtual int getSupplier
+  (
+		char *pszBuffer,
+		int iBufSize
+	) = 0;
+
+	/*! \brief Supplies the version of the markup table
+
+	This method supplies the version of the markup
+	
+  \param pszBuffer Pointer to buffer receiving the version string
+  \param iBufSize Size of the buffer in number of characters
+	\returns Number of characters copied to pszBuffer including the terminating null character
+
+	*/
+	virtual int getVersion
+  (
+		char *pszBuffer,
+		int iBufSize
+	) = 0;
+
 	/*! \brief Supplies the fully qualified name of the .TBL file
 
 	This method supplies the fully qualified file name of the
@@ -122,21 +152,6 @@ public:
 		int iBufSize
 	) = 0;
 	
-	/*! \brief Supplies the version of the markup table
-
-	This method supplies the version of the markup
-	
-  \param pszBuffer Pointer to buffer receiving the version string
-  \param iBufSize Size of the buffer in number of characters
-	\returns Number of characters copied to pszBuffer including the terminating null character
-
-	*/
-	virtual int getVersion
-  (
-		char *pszBuffer,
-		int iBufSize
-	) = 0;
-
   /*! \brief Checks if markup table may be exported
 
 	This method checks if this markup table may be exported in external format
@@ -187,7 +202,8 @@ public:
   comma separated update file list
 
   \param pszMarkupName   Pointer to name of markup table
-  \param pszDescription   Pointer to markup table description or NULL
+  \param pszShortDescription   Pointer to markup table short description or NULL
+  \param pszLongDescription   Pointer to markup table long description or NULL
   \param pszVersion   Pointer to version of markup table or NULL
   \param pTableFileName   Pointer to name of TBL file
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
@@ -201,11 +217,36 @@ public:
 	virtual int updateFiles
   ( 
         char   *pszMarkupName,
-        char   *pszDescription,
+        char   *pszShortDescription,
+        char   *pszLongDescription,
         char   *pszVersion,
         char   *pszTableFileName,
         char   *pszUserExitFileName,
         char   *pszFileList
+	) = 0;
+
+    /*! \brief Update XML information for the markup table
+
+	This method can update the internal XML control file with new
+  information about this markup tables.
+
+  \param pszMarkupName   Pointer to name of markup table (input only)
+  \param pszShortDescription   Pointer to markup table description or NULL
+  \param pszLongDescription   Pointer to markup table description or NULL
+  \param pszVersion   Pointer to version of markup table or NULL
+  \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
+	
+	\returns  0 when the update failed
+              1 when the markup table information has been updated
+
+	*/
+	virtual int updateInfo
+  ( 
+        char   *pszMarkupName,
+        char   *pszShortDescription,
+        char   *pszLongDescription,
+        char   *pszVersion,
+        char   *pszUserExitFileName
 	) = 0;
 
     /*! \brief Delete a markup table

@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2012, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1271,9 +1271,11 @@ VOID EQFBInitMenu
         // correct key names displayed in menu
         EQFBSetKeyName( hwndMenu, IDM_TRANSSEG, TSEG_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_TRANSNEW, TSEGNEXT_FUNC );
-        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_EXACT, TSEGNEXT_EXACT_FUNC );
-        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_FUZZY, TSEGNEXT_FUZZY_FUNC );
-        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_NONE,  TSEGNEXT_NONE_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_EXACT,  TSEGNEXT_EXACT_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_FUZZY,  TSEGNEXT_FUZZY_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_NONE,   TSEGNEXT_NONE_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_MT,     TSEGNEXT_MT_FUNC );
+        EQFBSetKeyName( hwndMenu, IDM_TRANSNEW_GLOBAL, TSEGNEXT_GLOBAL_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_DICTLOOK, DICTLOOK_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_EDITTERM, EDITTERM_FUNC );
         EQFBSetKeyName( hwndMenu, IDM_ADDABBREV,ADDABBREV_FUNC );
@@ -1300,9 +1302,11 @@ VOID EQFBInitMenu
                BOOL fXLIFF = (strcmp( pTable->szName, "EQFXLIFF" ) == 0 );
 
               SETAABITEM( hwndMenu, IDM_TRANSNEW, ! pDoc->fXlated);
-              SETAABITEM( hwndMenu, IDM_TRANSNEW_EXACT, ! pDoc->fXlated);
-              SETAABITEM( hwndMenu, IDM_TRANSNEW_FUZZY, ! pDoc->fXlated);
-              SETAABITEM( hwndMenu, IDM_TRANSNEW_NONE,  ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_EXACT,  ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_FUZZY,  ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_NONE,   ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_MT,     ! pDoc->fXlated);
+              SETAABITEM( hwndMenu, IDM_TRANSNEW_GLOBAL, ! pDoc->fXlated);
 
                                               // Disable Goto Mark if no mark availab.
 

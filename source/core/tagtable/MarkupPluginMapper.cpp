@@ -176,6 +176,24 @@ __declspec(dllexport)
   return( NULL );
 }
 
+// find a markup table plugin object by plugin name
+__declspec(dllexport)
+ OtmMarkupPlugin *GetMarkupPluginObject( char *pszPlugin )
+{
+  OtmMarkup *pMarkup = NULL;
+
+  // loop through all markup table plugins 
+  for( int i = 0; i < (int)pluginList->size(); i++) {
+     OtmMarkupPlugin* curPlugin = (*pluginList)[i];
+     if ( ( ! stricmp( curPlugin->getName(), pszPlugin ) ) ||
+          ( ! stricmp( curPlugin->getShortName(), pszPlugin ) ) ) 
+     { 
+        return( curPlugin );
+     }
+  }
+  return( NULL );
+}
+
 // get the markup table plugin providing a specific markup table 
 __declspec(dllexport)
 OtmMarkupPlugin *GetMarkupPlugin( char *pszMarkupName )
@@ -246,15 +264,24 @@ __declspec(dllexport)
 BOOL TagMakeListItem( PSZ pszMarkup, PSZ pszPlugin, PSZ pszBuffer, int iBufSize )
 {
   OtmMarkupPlugin *curPlugin = NULL ;
+  PSZ      pMarkup = pszMarkup ;
+  PSZ      pPlugin = pszPlugin ;
   int i ;
 
-  OtmMarkup *markup = GetMarkupObject( pszMarkup, pszPlugin );
+  if ( strchr( pszMarkup, ':' ) ) {
+     strcpy( pszBuffer, pszMarkup ) ;
+     pPlugin = pszBuffer ;
+     pMarkup = strchr( pPlugin, ':' ) ;
+     *pMarkup++ = '\0' ; 
+  } 
+
+  OtmMarkup *markup = GetMarkupObject( pMarkup, pPlugin );
   if ( markup != NULL  ) {
-     if ( pszPlugin ) {
+     if ( pPlugin ) {
         for( i = 0; i < (int)pluginList->size(); i++) {
            curPlugin = (*pluginList)[i];
-           if ( ( ! stricmp( curPlugin->getName(), pszPlugin ) ) ||
-                ( ! stricmp( curPlugin->getShortName(), pszPlugin ) ) ) { 
+           if ( ( ! stricmp( curPlugin->getName(), pPlugin ) ) ||
+                ( ! stricmp( curPlugin->getShortName(), pPlugin ) ) ) { 
               break;
            }
         }
@@ -289,11 +316,11 @@ BOOL MUMakeCLBListItem( OtmMarkupPlugin *plugin, OtmMarkup *markup, char *pszBuf
   iUsed += markup->getName( pszBuffer + iUsed, iBufSize - iUsed ) - 1;
   strcpy( pszBuffer + iUsed++, X15_STR );
 
-  // descriptive name 
+  // short description 
   iUsed += markup->getShortDescription( pszBuffer + iUsed, iBufSize - iUsed ) - 1;
   strcpy( pszBuffer + iUsed++, X15_STR );
 
-  // description
+  // long description
   iUsed += markup->getLongDescription( pszBuffer + iUsed, iBufSize - iUsed ) - 1;
   strcpy( pszBuffer + iUsed++, X15_STR );
 
@@ -411,7 +438,8 @@ __declspec(dllexport)
 BOOL MUUpdateMarkupTableFiles( 
        char   *pszMarkupTableName,
        char   *pszPluginName,
-       char   *pszDescription,
+       char   *pszShortDescription,
+       char   *pszLongDescription,
        char   *pszMarkupTableVersion,
        char   *pszTableFileName,
        char   *pszUserExitFilename,
@@ -430,10 +458,18 @@ BOOL MUUpdateMarkupTableFiles(
         if ( ( ! strcmp( curPlugin->getName(), pszPluginName ) ) ||
              ( ! strcmp( curPlugin->getShortName(), pszPluginName ) ) ) {
            int iReturn = curPlugin->updateFiles( pszMarkupTableName,
-                         pszDescription, pszMarkupTableVersion, pszTableFileName,
+                         pszShortDescription, pszLongDescription, 
+                         pszMarkupTableVersion, pszTableFileName,
                          pszUserExitFilename, pszFileList ) ;
-           if ( iReturn != UPDATE_MARKUP_ERROR ) 
+           if ( iReturn != UPDATE_MARKUP_ERROR ) {
               bReturn = true;
+       //     OtmMarkup *markup = curPlugin->getMarkup( pszMarkupTableName );
+       //     if ( markup ) {
+       //        markup->updateInfo( pszMarkupTableName,
+       //                            pszShortDescription, pszLongDescription,
+       //                            NULL, pszUserExitFilename ) ;
+       //     }
+           }
         }
      }
   }

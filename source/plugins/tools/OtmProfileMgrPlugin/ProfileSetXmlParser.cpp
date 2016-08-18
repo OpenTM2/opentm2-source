@@ -468,6 +468,8 @@ int CProfileSetXmlParser::KeyInfoExport(xercesc::DOMDocument* pExportXmlDoc, DOM
         KEYPROFTABLE* pKeyTable = get_KeyTable();
         while (pKeyTable->Function != LAST_FUNC)
         {
+          if ( pKeyTable->bEditor != 0 ) // GQ 2016/04/26: suppress not-customizable keys 
+          {
             // set function node
             DOMElement*  pFunctionEle = pExportXmlDoc->createElement(XMLString::transcode(KEY_FUNCTION));
             if (NULL == pFunctionEle)
@@ -502,8 +504,8 @@ int CProfileSetXmlParser::KeyInfoExport(xercesc::DOMDocument* pExportXmlDoc, DOM
             memset(strValue, 0x00, sizeof(strValue));
             sprintf(strValue, "%d", pKeyTable->ucState);
             pFunctionEle->setAttribute(XMLString::transcode(KEY_USTATE), XMLString::transcode(strValue));
-
-            pKeyTable++;
+          }
+          pKeyTable++;
         }
 
         // export speical char

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2015, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author:                                                                     |
@@ -355,6 +355,8 @@ BEGIN
  IDS_TB_FUNC_TSEGNEXT_EXACT,   STR_TB_FUNC_TSEGNEXT_EXACT
  IDS_TB_FUNC_TSEGNEXT_FUZZY,   STR_TB_FUNC_TSEGNEXT_FUZZY
  IDS_TB_FUNC_TSEGNEXT_NONE,    STR_TB_FUNC_TSEGNEXT_NONE
+ IDS_TB_FUNC_TSEGNEXT_MT,      STR_TB_FUNC_TSEGNEXT_MT  
+ IDS_TB_FUNC_TSEGNEXT_GLOBAL,  STR_TB_FUNC_TSEGNEXT_GLOBAL
 // Add end
 
 END

@@ -4,7 +4,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -239,6 +239,12 @@ void EQFBWndProc_CommandRTF
         break;
      case IDM_TRANSNEW_NONE:              // position at the next untransl. with NO matches
         EQFBTransRTF( pDoc, POS_TOBE_NONE );              
+        break;
+     case IDM_TRANSNEW_MT:                // position at the next untransl. with MT matches
+        EQFBTransRTF( pDoc, POS_TOBE_MT );              
+        break;
+     case IDM_TRANSNEW_GLOBAL:            // position at the next untransl. with GLOBAL MEMORY matches
+        EQFBTransRTF( pDoc, POS_TOBE_GLOBAL );              
         break;
      case IDM_UNTRANS:                    // untranslate the active segment
         EQFBFuncRTFFunc( pDoc, UNTRANS_FUNC, hwnd, mp1, mp2 );

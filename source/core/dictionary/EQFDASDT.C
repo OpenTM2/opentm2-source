@@ -466,7 +466,7 @@ USHORT AsdTranslateW
        /***************************************************************/
        /* If "Term" was 1st term of segment and was found,            */
        /* then still look for "term". Usage may be for lowercase word.*/
-       /* If lowercase word in not found in 1st dictionary, then      */
+       /* If lowercase word is not found in 1st dictionary, then      */
        /* lowercase word will not be searched for in other dictionary.*/ 
        /***************************************************************/
        if ( (usNlpRC == LX_RC_OK_ASD) &&

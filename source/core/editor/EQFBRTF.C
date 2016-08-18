@@ -4,7 +4,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 #define INCL_EQF_TP               // public translation processor functions
@@ -3181,6 +3181,24 @@ MRESULT EQFBFuncRTFFunc( PTBDOCUMENT pDoc, USHORT usFunction,
         BOOL   fLock;
         LOCKRICHEDIT( pDoc, fLock );
         EQFBTransRTF( pDoc, POS_TOBE_NONE );          // position at untranslated ones with NO matches
+        UNLOCKRICHEDIT_TRUE( pDoc, fLock );
+        mResult = TRUE;
+      }
+      break;
+    case TSEGNEXT_MT_FUNC:
+      {
+        BOOL   fLock;
+        LOCKRICHEDIT( pDoc, fLock );
+        EQFBTransRTF( pDoc, POS_TOBE_MT );            // position at untranslated ones with MT matches
+        UNLOCKRICHEDIT_TRUE( pDoc, fLock );
+        mResult = TRUE;
+      }
+      break;
+    case TSEGNEXT_GLOBAL_FUNC:
+      {
+        BOOL   fLock;
+        LOCKRICHEDIT( pDoc, fLock );
+        EQFBTransRTF( pDoc, POS_TOBE_GLOBAL );        // position at untranslated ones with GLOBAL MEMORY matches
         UNLOCKRICHEDIT_TRUE( pDoc, fLock );
         mResult = TRUE;
       }

@@ -15,9 +15,11 @@ import java.awt.Color;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
+
 import java.awt.Dimension;
 
 import de.ibm.com.opentm2scripteride.MainApp;
+
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.text.StyleContext;
@@ -26,7 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
 import java.awt.FlowLayout;
-
+import java.io.IOException;
 
 import javax.swing.text.StyleConstants;
 
@@ -96,16 +98,24 @@ public class AboutWindow extends JDialog {
 						"(c)Copyright IBM Corporation 2012, IBM Translation Technical Services\n"+
 						"IBM Authorized Use Only";*/
 
-		StringBuilder sbAbout = new StringBuilder();
-		sbAbout.append("\n     OpenTM2Scripter GUI, a graphical user interface to\n")
-		       .append("     create and run OpenTM2 scripts.\n\n")
-		       .append("     Copyright(C) 2012-2016,\n")
-		       .append("     International Business Machines Corporation and others.\n")
-		       .append("     All rights reserved.\n")
-		       .append("     Version ").append(MainApp.getInstance().getVersion()).append("\n\n")
-		       .append("     This product includes icons from:\n")
-		       .append("     famfam.com/lab/icons.silk/");
-		return sbAbout.toString();			
+		try {
+			String version = MainApp.getInstance().getVersion();
+			
+			StringBuilder sbAbout = new StringBuilder();
+			sbAbout.append("\n     OpenTM2Scripter GUI, a graphical user interface to\n")
+			       .append("     create and run OpenTM2 scripts.\n\n")
+			       .append("     Copyright(C) 2012-2016,\n")
+			       .append("     International Business Machines Corporation and others.\n")
+			       .append("     All rights reserved.\n")
+			       .append("     Version ").append(version).append("\n\n")
+			       .append("     This product includes icons from:\n")
+			       .append("     famfam.com/lab/icons.silk/");
+			return sbAbout.toString();			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "";
 	}
 	
 

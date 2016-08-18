@@ -12,15 +12,6 @@
 #ifndef _OTMFUNC_H_INCLUDED
 #define _OTMFUNC_H_INCLUDED
 
-// include EQFPAPI.H for segment definitions
-#ifndef _EQFPAPI_H_INCLUDED
-  #include "EQFPAPI.h"
-#endif 
-
-#ifdef __cplusplus
-  extern "C" {
-#endif
-
 #ifndef _EQF_H_INCLUDED
   typedef long LONG;
   typedef unsigned short USHORT;
@@ -32,6 +23,15 @@
   #define NUM_OF_FOLDER_DICS        10   // number of dictionaries per folder
   #define MAX_NUM_OF_READONLY_MDB   25   // folder's R/O memory dbs
   #define MAX_FILESPEC              13   // max length of file name + extension
+#endif
+
+// include EQFPAPI.H for segment definitions
+#ifndef _EQFPAPI_H_INCLUDED
+  #include "EQFPAPI.h"
+#endif 
+
+#ifdef __cplusplus
+  extern "C" {
 #endif
 
 typedef LONG HSESSION;
@@ -309,6 +309,13 @@ typedef struct _EXTFOLPROP
 #define LOST_OPT    2             // (Lost Data: Force new shipment)
 #define LIST_OPT    4             // (List of Documents)
 
+// option for fuzzy segment search to mark the differences in the output file
+#define MARKDIFFERENCES_OPT 0x08000000L
+
+// fuyy segment search modes
+#define UPTOSELECTEDCLASS_MODE 0
+#define SELECTEDCLASSANDHIGHER_MODE 1
+#define ONLYSELECTEDCLASS_MODE 2
 
 // return when all activitiy has been completed (instead of iterative processing)
 #define COMPLETE_IN_ONE_CALL_OPT 0x01000000
@@ -1232,7 +1239,7 @@ USHORT EqfGetFolderPropEx
   PSZ         pszFolderName,           // mand: name of the folder to get the property value from
   PSZ         pszKey,                  // mand: name of the requested value
                                        //@: DRIVE,TARGETLANGUAGE,SOURCELANGUAGE,MEMORY,DICTIONARIES,ROMEMORIES,DESCRIPTION,ANALYSISPROFILE,COUNTINGPROFILE,SHIPMENT
-  PSZ         pszBuffer,               // mand: buffer for the returned value / name of the variable receiving the requested value
+  PSZ         pszBuffer,               // mand: @API: buffer for the returned value @Scripter: name of the variable receiving the requested value
   int         iBufSize                 // /*@Ignore*/ mand: size of the buffer
 );
 
@@ -2362,6 +2369,34 @@ USHORT EqfAddMatchSegID
   PSZ         pszStoreID,              // opt: ID for the origin of the translation memory or NULL if not used
   LONG        lOptions                 // opt: options for the add natch segment ID processing
 									                     // @Other: {FORCENEWMATCHID_OPT}
+);
+
+/*! \brief Search segments having fuzzy memory proposals
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszFolderName name of the folder containing the searched documents
+  \param pszDocuments list of documents being searched or NULL to search all documents of the folder
+  \param pszOutputFile fully qualified of the file receiving the list of segments having fuzzy proposals
+  \param iSearchMode search mode, one of the values UPTOSELECTEDCLASS_MODE, SELECTEDCLASSANDHIGHER_MODE, and ONLYSELECTEDCLASS_MODE
+  \param iClass search class, a value from 0 to 6
+  \param lOptions options for searching fuzzy segments
+         - OVERWRITE_OPT overwrite any existing output file
+         - MARKDIFFERENCES_OPT mark the differences between segment source and fuzzy proposal in teh output
+  \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfSearchFuzzySegments
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of folder
+  PSZ         pszDocuments,            // opt: list of documents or NULL 
+  PSZ         pszOutputFile,           // mand: fully qualified name of output file
+  int         iSearchMode,             // mand: search mode
+                                       // @Modes: UPTOSELECTEDCLASS_MODE,SELECTEDCLASSANDHIGHER_MODE(default),ONLYSELECTEDCLASS_MODE
+  int         iClass,                  // mand: searched class
+                                       // @Classes: 0(default),1,2,3,4,5,6
+  LONG        lOptions                 // opt: processing options
+									                     // @Other: {OVERWRITE_OPT,MARKDIFFERENCES_OPT}
 );
 
 

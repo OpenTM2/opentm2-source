@@ -262,7 +262,8 @@ bool UserMarkupTable::isProtected()
   comma separated update file list
 
   \param pszTableName   Pointer to name of markup table
-  \param pszDescription   Pointer to markup table description or NULL
+  \param pszShortDescription   Pointer to markup table short description or NULL
+  \param pszLongDescription   Pointer to markup table long description or NULL
   \param pszVersion   Pointer to version of markup table or NULL
   \param pTableFileName   Pointer to name of TBL file
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
@@ -275,12 +276,14 @@ bool UserMarkupTable::isProtected()
 	*/
 int UserMarkupTable::updateFiles(
     char   *pszTableName,
-    char   *pszDescription,
+    char   *pszShortDescription,
+    char   *pszLongDescription,
     char   *pszVersion,
     char   *pszTableFileName,
     char   *pszUserExitFileName,
     char   *pszFileList )
 {
+   char    szTemp[512] ;
    bool    bNewMarkup = false ;
    int     iReturn = UPDATE_MARKUP_OK ;
    
@@ -290,11 +293,15 @@ int UserMarkupTable::updateFiles(
       bNewMarkup = true ;
       SaveValue2( &(pInfo->pszName), pszTableName ) ;
    }
-   if ( pszDescription ) {
-      if ( ! pInfo->pszShortDescription ) 
-         SaveValue2( &(pInfo->pszShortDescription), pszDescription ) ;
-      if ( ! pInfo->pszLongDescription ) 
-         SaveValue2( &(pInfo->pszLongDescription), pszDescription ) ;
+   if ( pszShortDescription ) {
+      if ( ( ! pInfo->pszShortDescription ) ||
+           ( strcmp( pszShortDescription, pInfo->pszShortDescription ) >= 0 ) )
+         SaveValue2( &(pInfo->pszShortDescription), pszShortDescription ) ;
+   }
+   if ( pszLongDescription ) {
+      if ( ( ! pInfo->pszLongDescription ) ||
+           ( strcmp( pszLongDescription, pInfo->pszLongDescription ) >= 0 ) )
+         SaveValue2( &(pInfo->pszLongDescription), pszLongDescription ) ;
    }
    if ( ( pszVersion ) &&
         ( ( ! pInfo->pszVersion ) ||
@@ -305,12 +312,24 @@ int UserMarkupTable::updateFiles(
         ( ! pInfo->pszTable ) ) {
       SaveValue2( &(pInfo->pszTable), pszTableFileName ) ;
    }
+
+   if ( pszUserExitFileName ) {
+      strcpy( szTemp, pszUserExitFileName ) ;
+      if ( *pszUserExitFileName ) {
+         if ( ! strrchr( pszUserExitFileName, '\\' ) ) 
+            sprintf( szTemp, "BIN\\%s", pszUserExitFileName ) ;
+         if ( ! strrchr( pszUserExitFileName, '.' ) ) 
+            strcat( szTemp, ".DLL" ) ;
+      }
+   } else {
+      szTemp[0] = 0 ;
+   }
    if ( ( ( pszUserExitFileName ) &&
           ( ( ! pInfo->pszUserExit ) ||
-            ( stricmp( pszUserExitFileName, pInfo->pszUserExit ) ) ) ) ||
+            ( stricmp( szTemp, pInfo->pszUserExit ) ) ) ) ||
         ( ( ! pszUserExitFileName ) &&
           ( pInfo->pszUserExit ) ) ) {
-      SaveValue2( &(pInfo->pszUserExit), pszUserExitFileName ) ;
+      SaveValue2( &(pInfo->pszUserExit), szTemp ) ;
    }
    if ( ( ( pszFileList ) &&
           ( ( ! pInfo->pszFileList ) ||
@@ -318,6 +337,71 @@ int UserMarkupTable::updateFiles(
         ( ( ! pszFileList ) &&
           ( pInfo->pszFileList ) ) ) {
       SaveValue2( &(pInfo->pszFileList), pszFileList ) ;
+   }
+
+   return( iReturn ) ;
+}
+
+
+    /*! \brief Update XML information for the markup table
+
+	This method can update the internal XML control file within new
+  information about this markup tables.
+
+  \param pszMarkupName   Pointer to name of markup table (input only)
+  \param pszShortDescription   Pointer to markup table description or NULL
+  \param pszLongDescription   Pointer to markup table description or NULL
+  \param pszVersion   Pointer to version of markup table or NULL
+  \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
+	
+	\returns  0 when the update failed
+              1 when the markup table information has been updated
+
+	*/
+int UserMarkupTable::updateInfo(
+   char   *pszMarkupName,
+   char   *pszShortDescription,
+   char   *pszLongDescription,
+   char   *pszVersion,
+   char   *pszUserExitFileName ) 
+{
+   char    szTemp[512] ;
+   int     iReturn = UPDATE_MARKUP_OK ;
+   
+   pszMarkupName;
+
+   if ( pszShortDescription ) {
+      if ( ( ! pInfo->pszShortDescription ) ||
+           ( strcmp( pszShortDescription, pInfo->pszShortDescription ) != 0 ) )
+         SaveValue2( &(pInfo->pszShortDescription), pszShortDescription ) ;
+   }
+   if ( pszLongDescription ) {
+      if ( ( ! pInfo->pszLongDescription ) ||
+           ( strcmp( pszLongDescription, pInfo->pszLongDescription ) != 0 ) )
+         SaveValue2( &(pInfo->pszLongDescription), pszLongDescription ) ;
+   }
+   if ( ( pszVersion ) &&
+        ( ( ! pInfo->pszVersion ) ||
+          ( stricmp( pszVersion, pInfo->pszVersion ) != 0 ) ) ) {
+      SaveValue2( &(pInfo->pszVersion), pszVersion ) ;
+   }
+   if ( pszUserExitFileName ) {
+      strcpy( szTemp, pszUserExitFileName ) ;
+      if ( *pszUserExitFileName ) {
+         if ( ! strrchr( pszUserExitFileName, '\\' ) ) 
+            sprintf( szTemp, "BIN\\%s", pszUserExitFileName ) ;
+         if ( ! strrchr( pszUserExitFileName, '.' ) ) 
+            strcat( szTemp, ".DLL" ) ;
+      }
+   } else {
+      szTemp[0] = 0 ;
+   }
+   if ( ( ( pszUserExitFileName ) &&
+          ( ( ! pInfo->pszUserExit ) ||
+            ( stricmp( szTemp, pInfo->pszUserExit ) ) ) ) ||
+        ( ( ! pszUserExitFileName ) &&
+          ( pInfo->pszUserExit ) ) ) {
+      SaveValue2( &(pInfo->pszUserExit), szTemp ) ;
    }
 
    return( iReturn ) ;

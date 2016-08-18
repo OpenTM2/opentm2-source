@@ -4,7 +4,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 
@@ -384,6 +384,11 @@ PPROPCNTL LoadPropFile( PPROP_IDA pIda, PSZ pszName, PSZ pszPath, USHORT usAcc)
           // OS/2 version which omitted the filler at the end of the
           // property structure
           // so continue ...
+        }
+        else if ( (prophead.usClass == PROP_CLASS_FOLDERLIST) &&
+             (sizread >= 2000) )
+        {
+          // smaller property files from old versions are allowed...
         }
         else
         {

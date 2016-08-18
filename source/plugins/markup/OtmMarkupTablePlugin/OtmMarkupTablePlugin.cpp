@@ -111,6 +111,7 @@ OtmMarkupTablePlugin::OtmMarkupTablePlugin()
   pszVersion = NULL;
 
   bDeletable = TRUE;
+  bExpired = FALSE ;
   bExportable = TRUE;
   bImportable = TRUE;
   bProtected = FALSE;
@@ -368,6 +369,14 @@ const char* OtmMarkupTablePlugin::getSupplier()
 }
 
 /* -------------------------------------------------------------- */
+/*   getPluginDirectory.                                          */
+/* -------------------------------------------------------------- */
+const char* OtmMarkupTablePlugin::getPluginDirectory()
+{
+	return szBasePath; 
+}
+
+/* -------------------------------------------------------------- */
 /*   getTableDirectory.                                           */
 /* -------------------------------------------------------------- */
 const char* OtmMarkupTablePlugin::getTableDirectory()
@@ -503,6 +512,18 @@ const bool OtmMarkupTablePlugin::isDeletable()
 
 
 /* -------------------------------------------------------------- */
+/*   isExpired.                                                   */
+/* -------------------------------------------------------------- */
+/*! 	\brief Is this markup table expired?      
+	\returns TRUE if markup table can be expired.
+*/
+const bool OtmMarkupTablePlugin::isExpired()
+  {
+     return bExpired ;
+  }
+
+
+/* -------------------------------------------------------------- */
 /*   isExportable.                                                */
 /* -------------------------------------------------------------- */
 /*! 	\brief Can this markup table be exported?
@@ -532,7 +553,8 @@ const bool OtmMarkupTablePlugin::isProtected()
 /*! 	\brief Update the files contained in this markup table       
 
   \param pszMarkupName   Pointer to name of markup table
-  \param pszDescription   Pointer to markup table description or NULL
+  \param pszShortDescription  Pointer to markup table short description or NULL
+  \param pszLongDescription   Pointer to markup table long description or NULL
   \param pszVersion   Pointer to version of markup table or NULL
   \param pTableFileName   Pointer to name of TBL file
   \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
@@ -544,7 +566,8 @@ const bool OtmMarkupTablePlugin::isProtected()
 */
 const int OtmMarkupTablePlugin::updateFiles(
    char   *pszMarkupName,
-   char   *pszDescription,
+   char   *pszShortDescription,
+   char   *pszLongDescription,
    char   *pszVersion,
    char   *pszTableFileName,
    char   *pszUserExitFileName,
@@ -562,7 +585,8 @@ const int OtmMarkupTablePlugin::updateFiles(
      char   szContent[512] ;
 
      char   szMarkupName[512] ;
-     char   szDescription[512] ;
+     char   szShortDescription[512] ;
+     char   szLongDescription[512] ;
      char   szVersion[512] ;
      char   szTableDirFileName[512] ;
      char   szTableFileName[512] ;                /* xxx.TBL         */
@@ -586,7 +610,8 @@ const int OtmMarkupTablePlugin::updateFiles(
      strcpy( szMarkupName, pszMarkupName ) ;
      strupr( szMarkupName ) ;
 //   szDescription[0] = '\0' ;
-     strcpy( szDescription, "-" ) ;
+     strcpy( szShortDescription, "-" ) ;
+     strcpy( szLongDescription, "-" ) ;
      strcpy( szVersion, "0.0" ) ;
      sprintf( szTableFileName, "%s.TBL", szMarkupName ) ;
      sprintf( szTableDirFileName, "%s\\%s", pszTableDirectory, szTableFileName ) ;
@@ -597,9 +622,13 @@ const int OtmMarkupTablePlugin::updateFiles(
      szFileList[0] = '\0' ;
      bLogOpen = FALSE ;
 
-     if ( ( pszDescription  ) &&
-          ( *pszDescription ) ) {
-        strcpy( szDescription, pszDescription ) ;
+     if ( ( pszShortDescription  ) &&
+          ( *pszShortDescription ) ) {
+        strcpy( szShortDescription, pszShortDescription ) ;
+     }
+     if ( ( pszLongDescription  ) &&
+          ( *pszLongDescription ) ) {
+        strcpy( szLongDescription, pszLongDescription ) ;
      }
      if ( ( pszVersion  ) &&
           ( *pszVersion ) ) {
@@ -699,13 +728,13 @@ const int OtmMarkupTablePlugin::updateFiles(
         /* ------------------------------------------------------------------- */
         /*  If no description was provided, get the text from the TBL file.    */
         /* ------------------------------------------------------------------- */
-        if ( ( szDescription[0] == NULL ) &&
+        if ( ( szShortDescription[0] == NULL ) &&
              ( szTableFileName[0] != NULL ) &&
              ( UtlFileExist( pszTableFileName ) ) ) {
            UtlAlloc( (PVOID *)&m_pTagTable, 0L, sizeof(PTAGTABLE), NOMSG );
            ULONG ulRead = 0;
            if ( UtlLoadFileL( pszTableFileName, (PVOID *)&(m_pTagTable), &ulRead, FALSE, TRUE ) ) {
-              strcpy( szDescription, m_pTagTable->szDescription ) ;
+              strcpy( szShortDescription, m_pTagTable->szDescription ) ;
            }
            UtlAlloc( (PVOID *)&m_pTagTable, 0L, 0L, NOMSG );   /* Free */
         }
@@ -714,7 +743,8 @@ const int OtmMarkupTablePlugin::updateFiles(
         /*  Log that this markup table is being updated.                       */
         /* ------------------------------------------------------------------- */
 #ifdef MARKUPTABLE_LOGGING
-        if ( pszDescription )      this->Log.writef( "  Dsc:    [%s]",pszDescription);
+        if ( pszShortDescription   this->Log.writef( "  SDs:    [%s]",pszShortDescription);
+        if ( pszLongDescription )  this->Log.writef( "  LDs:    [%s]",pszLongDescription);
         if ( pszVersion )          this->Log.writef( "  Ver:    [%s]",pszVersion);
         if ( pszTableFileName )    this->Log.writef( "  TBL:    [%s]",pszTableFileName);
         if ( pszUserExitFileName ) this->Log.writef( "  DLL:    [%s]",pszUserExitFileName);
@@ -726,7 +756,7 @@ const int OtmMarkupTablePlugin::updateFiles(
         /* ------------------------------------------------------------------- */
 
         if ( bNewMarkup ) {
-           markup->updateFiles( szMarkupName, szDescription, szVersion,
+           markup->updateFiles( szMarkupName, szShortDescription, szLongDescription, szVersion,
                        szTableDirFileName, szUserExitDirFileName, szFileList ) ;
         }
 
@@ -808,7 +838,7 @@ const int OtmMarkupTablePlugin::updateFiles(
         if ( ( iReturn != UPDATE_MARKUP_ERROR ) &&
              ( ( bNewMarkup ) ||
                ( ( bUpdateMarkup ) &&
-                 ( markup->updateFiles( szMarkupName, szDescription, szVersion,
+                 ( markup->updateFiles( szMarkupName, szShortDescription, szLongDescription, szVersion,
                              szTableDirFileName, szUserExitDirFileName,
                              szFileList ) ) ) ) ) {
 
@@ -846,8 +876,8 @@ const int OtmMarkupTablePlugin::updateFiles(
                              bFileChanged = TRUE ;
                              fprintf( fOutControl, "<%s>\n", szXml_Markup ) ;
                              fprintf( fOutControl, szXml_NewRecord, szXml_Name, szMarkupName, szXml_Name ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_ShortDescription, szDescription, szXml_ShortDescription ) ;
-                             fprintf( fOutControl, szXml_NewRecord, szXml_LongDescription, szDescription, szXml_LongDescription ) ;
+                             fprintf( fOutControl, szXml_NewRecord, szXml_ShortDescription, szShortDescription, szXml_ShortDescription ) ;
+                             fprintf( fOutControl, szXml_NewRecord, szXml_LongDescription, szLongDescription, szXml_LongDescription ) ;
                              fprintf( fOutControl, szXml_NewRecord, szXml_Version, szVersion, szXml_Version ) ;
                              fprintf( fOutControl, szXml_NewRecord, szXml_Table, szTableFileName, szXml_Table ) ;
                              if ( szUserExitFileName[0] ) 
@@ -894,18 +924,18 @@ const int OtmMarkupTablePlugin::updateFiles(
                                 }
                              } else
                              if ( ! strcmp( szNode, szXml_LongDescription ) ) {
-                                if ( szDescription[0] ) {
-                                   if ( stricmp( szContent, szDescription ) ) {
+                                if ( szLongDescription[0] ) {
+                                   if ( stricmp( szContent, szLongDescription ) ) {
                                       bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_LongDescription, szDescription, szXml_LongDescription ) ;
+                                      sprintf( szOutLine, szXml_NewRecord, szXml_LongDescription, szLongDescription, szXml_LongDescription ) ;
                                    }
                                 }
                              } else
                              if ( ! strcmp( szNode, szXml_ShortDescription ) ) {
-                                if ( szDescription[0] ) {
-                                   if ( stricmp( szContent, szDescription ) ) {
+                                if ( szShortDescription[0] ) {
+                                   if ( stricmp( szContent, szShortDescription ) ) {
                                       bFileChanged = TRUE ;
-                                      sprintf( szOutLine, szXml_NewRecord, szXml_ShortDescription, szDescription, szXml_ShortDescription ) ;
+                                      sprintf( szOutLine, szXml_NewRecord, szXml_ShortDescription, szShortDescription, szXml_ShortDescription ) ;
                                    }
                                 }
                              } else
@@ -970,6 +1000,34 @@ const int OtmMarkupTablePlugin::updateFiles(
 
      return( iReturn ) ;
   }
+
+
+/* -------------------------------------------------------------- */
+/*   updateInfo.                                                  */
+/* -------------------------------------------------------------- */
+/*! \brief Update XML information for the markup table
+
+  \param pszMarkupName   Pointer to name of markup table (input only)
+  \param pszShortDescription   Pointer to markup table description or NULL
+  \param pszLongDescription   Pointer to markup table description or NULL
+  \param pszVersion   Pointer to version of markup table or NULL
+  \param pUserExitFileName   Pointer to name of user exit DLL file or NULL
+
+    \returns  0 when the update failed
+              1 when the markup table information has been updated
+
+*/
+const int OtmMarkupTablePlugin::updateInfo(
+   char   *pszMarkupName,
+   char   *pszShortDescription,
+   char   *pszLongDescription,
+   char   *pszVersion,
+   char   *pszUserExitFileName )
+{
+   pszMarkupName; pszShortDescription; pszLongDescription; pszVersion; pszUserExitFileName;
+
+   return( UPDATE_MARKUP_ERROR ) ;
+}
 
 
 /* -------------------------------------------------------------- */
@@ -1089,30 +1147,33 @@ USHORT registerPlugins()
 
 void  GetControlNode( char *pszLine, char *pszNode, char *pszContent )
 {
+   CHAR_W  szTempW[150] ;
    char *ptrChar, *ptrChar2 ;
 
    pszNode[0] = 0 ;
    pszContent[0] = 0 ;
 
-   for( ptrChar=pszLine ; *ptrChar && isspace(*ptrChar) ; ++ptrChar ) ;
+   for( ptrChar=pszLine ; *ptrChar && strchr(" \t\r\n", *ptrChar) ; ++ptrChar ) ;
    /*  Line must start with an XML element.   */
    ptrChar = strchr( ptrChar, '<' ) ;  
    if ( ptrChar ) {
-      for( ++ptrChar ; *ptrChar && isspace(*ptrChar) ; ++ptrChar ) ;
+      for( ++ptrChar ; *ptrChar && strchr(" \t\r\n", *ptrChar) ; ++ptrChar ) ;
       ptrChar2 = strchr( ptrChar+1, '>' ) ;
       if ( ptrChar2 ) {
-         for( --ptrChar2 ; ptrChar2>ptrChar && isspace(*ptrChar2) ; --ptrChar2 ) ;
+         for( --ptrChar2 ; ptrChar2>ptrChar && strchr(" \t\r\n", *ptrChar2) ; --ptrChar2 ) ;
          *(++ptrChar2) = 0 ;
          strcpy( pszNode, ptrChar ) ;
 
          ptrChar = ptrChar2 + 1 ;
-         for( ptrChar ; *ptrChar && isspace(*ptrChar) ; ++ptrChar ) ;
+         for( ptrChar ; *ptrChar && strchr(" \t\r\n", *ptrChar) ; ++ptrChar ) ;
          /*  Line must end with an XML element.   */
          ptrChar2 = strstr( ptrChar+1, "</" ) ; 
          if ( ptrChar2 ) {
-            for( --ptrChar2 ; ptrChar2>ptrChar && isspace(*ptrChar2) ; --ptrChar2 ) ;
+            for( --ptrChar2 ; ptrChar2>ptrChar && strchr(" \t\r\n", *ptrChar2) ; --ptrChar2 ) ;
             *(++ptrChar2) = 0 ;
             strcpy( pszContent, ptrChar ) ;
+            MultiByteToWideChar( CP_UTF8, 0, (LPCSTR)pszContent, -1, (LPWSTR)szTempW, sizeof(szTempW) );
+            WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)szTempW, -1, (LPSTR)pszContent, 150, NULL, NULL );
          }
       }
    }

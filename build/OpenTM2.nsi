@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.3.0-Community-Edition"
+!define PRODUCT_VERSION "1.3.1"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -626,6 +626,7 @@ ${File} "PLUGINS\UserMarkupTablePlugin\" "UserMarkupTablePlugin.DLL"
 !include ..\..\build\OtmMarkupTablePlugin_inc.nsi
 
 
+
 ${SetOutPath} "$INSTDIR\OtmTMService"
 ${File} "OtmTMService\" "OtmTMService.jar"
 ${SetOutPath} "$INSTDIR\OtmTMService\configure"
@@ -653,6 +654,7 @@ ${SetOutPath} "$INSTDIR\OpenTM2ScripterGUI\MANIFEST"
 ${File} "OpenTM2ScripterGUI\MANIFEST\" "MANIFEST.MF"
 ${SetOutPath} "$INSTDIR\OpenTM2ScripterGUI\resources"
 ${File} "OpenTM2ScripterGUI\resources\" "commands.xml"
+${File} "OpenTM2ScripterGUI\resources\" "OpenTM2Version.info"
 ${SetOutPath} "$INSTDIR\OpenTM2ScripterGUI\resources\icons"
 ${File} "OpenTM2ScripterGUI\resources\icons\" "apicall.png"
 ${File} "OpenTM2ScripterGUI\resources\icons\" "arrow-down.png"

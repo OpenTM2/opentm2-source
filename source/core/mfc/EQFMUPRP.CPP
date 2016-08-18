@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -35,6 +35,11 @@ extern "C"
 
 #include "EQF.ID"
 #include "eqfmuprp.h"                  // our class definitions
+
+#include "core\pluginmanager\PluginManager.h"
+#include "core\pluginmanager\OtmMarkup.h"
+#include "core\pluginmanager\OtmMarkupPlugin.h"
+#include "MarkupPluginMapper.h"
 
 
 // arrays with styles and corresponding string ID, arrays must be terminated by two zeroes
@@ -300,6 +305,33 @@ BOOL CMUPropSheet::OnInitDialog()
         OEMTOANSI( m_generalPage.m_szTrNoteLevel2 );
         strcpy( m_generalPage.m_szTrNoteEnd, m_pTagTable->chEndText );
         OEMTOANSI( m_generalPage.m_szTrNoteEnd );
+
+
+        OtmMarkup *markup = GetMarkupObject( m_szTagTableName, NULL );
+        if ( markup != NULL )
+        {
+          markup->getLongDescription( m_generalPage.m_szLongDescription, sizeof(m_generalPage.m_szLongDescription)-1 );
+          markup->getShortDescription( m_generalPage.m_szShortDescription, sizeof(m_generalPage.m_szShortDescription)-1 );
+          m_generalPage.m_szPlugin[0] = EOS ;
+          OtmMarkupPlugin *plugin = GetMarkupPlugin( m_szTagTableName );
+          if ( plugin != NULL ) {
+             strncpy( m_generalPage.m_szPlugin, plugin->getShortName(), sizeof(m_generalPage.m_szPlugin) );
+             m_generalPage.m_szPlugin[sizeof(m_generalPage.m_szPlugin)-1] = EOS;
+             strncpy( m_generalPage.m_szSupplier, plugin->getSupplier(), sizeof(m_generalPage.m_szSupplier) );
+             m_generalPage.m_szSupplier[sizeof(m_generalPage.m_szSupplier)-1] = EOS;
+          } else {
+             m_generalPage.m_szPlugin[0] = EOS ;
+             m_generalPage.m_szSupplier[0] = EOS ;
+          }
+          markup->getVersion( m_generalPage.m_szVersion, sizeof(m_generalPage.m_szVersion)-1 );
+        } else {
+           strcpy( m_generalPage.m_szLongDescription, m_pTagTable->szDescription );
+           strcpy( m_generalPage.m_szShortDescription, m_pTagTable->szDescription );
+           m_generalPage.m_szPlugin[0] = EOS ;
+           m_generalPage.m_szSupplier[0] = EOS ;
+           m_generalPage.m_szVersion[0] = EOS ;
+        }
+
       } /* endif */
 
       // fill Tags property page
@@ -485,7 +517,12 @@ void CMUPropSheet::OnOKPB()
     // for new tables only: build tag table object name
     if ( m_fNewTagTable )
     {
-      UtlMakeEQFPath( m_szTagTableFileName, NULC, TABLE_PATH, NULL );
+      OtmMarkupPlugin *plugin = GetMarkupPluginObject( "UserMarkupTablePlugin" ) ;
+      if ( plugin != NULL ) {
+         strncpy( m_szTagTableFileName, plugin->getTablePath(), sizeof(m_szTagTableFileName) );
+      } else {
+         UtlMakeEQFPath( m_szTagTableFileName, NULC, TABLE_PATH, NULL );
+      }
       strcat( m_szTagTableFileName, BACKSLASH_STR );
       strcat( m_szTagTableFileName, m_generalPage.m_szTableName );
       strcat( m_szTagTableFileName, EXT_OF_FORMAT );
@@ -493,6 +530,26 @@ void CMUPropSheet::OnOKPB()
     } /* endif */
 
     fOK = (UtlWriteFile( m_szTagTableFileName, m_pTagTable->uLength, m_pTagTable, TRUE ) == NO_ERROR );
+
+    // if OK update control information for this markup table update.
+    if ( fOK )
+    {
+       char szUserExitDLL[MAX_FILESPEC];
+       strcpy( szUserExitDLL, m_generalPage.m_szUserExit );
+       if ( szUserExitDLL[0] ) {
+          strcat( szUserExitDLL, ".DLL" );
+          strupr( szUserExitDLL );
+       }
+       if ( ! MUUpdateMarkupTableFiles( m_szTagTableName,
+                         "UserMarkupTablePlugin", 
+                         m_generalPage.m_szShortDescription,
+                         m_generalPage.m_szLongDescription,
+                         m_generalPage.m_szVersion,
+                         m_szTagTableFileName,
+                         szUserExitDLL, NULL ) ) {
+          fOK = FALSE ;
+       }
+    }
   } /* endif */
 
   // broadcast new/changed tag table properties
@@ -506,9 +563,9 @@ void CMUPropSheet::OnOKPB()
      else
      {
        EqfSend2AllHandlers( WM_EQFN_PROPERTIESCHANGED,
-//                            MP1FROMSHORT( clsTAGIMP ),
-                            MP1FROMSHORT( PROP_CLASS_TAGTABLE  ),
-                            MP2FROMP( m_szTagTableObjName ) );
+                            MP1FROMSHORT( clsTAGIMP ),
+//                            MP1FROMSHORT( PROP_CLASS_TAGTABLE  ),
+                            MP2FROMP( m_szTagTableFileName ) );
      } /* endif */
   } /* endif */
 
@@ -892,6 +949,7 @@ BOOL CMUPropSheet::BuildTagTableFromProperties()
     m_pTagTable = pNewTable;
   } /* endif */
 
+
   return( fOK );
 }
 
@@ -920,6 +978,11 @@ CMUPropGeneralPage::CMUPropGeneralPage()
   m_fPageInitialized = FALSE;
   m_fProtected = FALSE;
   m_fReflow = TAGREFLOW_NOTSPECIFIED;
+  m_szLongDescription[0] = EOS;
+  m_szShortDescription[0] = EOS;
+  m_szPlugin[0] = EOS;
+  m_szSupplier[0] = EOS;
+  m_szVersion[0] = EOS;
 }
 
 BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
@@ -935,27 +998,27 @@ BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
     // no check for name field, will be done in save code
     if ( fOK )
     {
-      GetDlgItemText( ID_MUPROP_GEN_NAME_EF, m_szTableName, sizeof(m_szTableName) - 1 );
+      GetDlgItemText( ID_MUPROP_GEN_NAME_EF, m_szTableName, sizeof(m_szTableName) /*- 1*/ );
       UtlStripBlanks( m_szTableName );
     } /* endif */
 
     // get and check descriptive name
     if ( fOK )
     {
-      char szMarkup[MAX_LONGFILESPEC];
-      GetDlgItemText( ID_MUPROP_GEN_DESCRNAME_EF, m_szDescrName, sizeof(m_szDescrName) - 1 );
+      GetDlgItemText( ID_MUPROP_GEN_DESCRNAME_EF, m_szDescrName, sizeof(m_szDescrName) /*- 1*/ );
       UtlStripBlanks( m_szDescrName );
       if ( (m_szDescrName[0] != EOS) )
       {
-        if ( stricmp( szMarkup, m_szTableName ) != 0 )
+        if ( stricmp( m_szDescrName, m_szTableName ) != 0 )
         {
-          PSZ pszParms[2];
-          pszParms[0] = m_szDescrName;
-          pszParms[1] = szMarkup;
-          UtlError( ERROR_MUPROP_DESCRNAME_INUSE, MB_CANCEL, 2, pszParms, EQF_ERROR );
-          ActivatePage();
-          SetDlgItemFocus( ID_MUPROP_GEN_DESCRNAME_EF );
-          fOK = FALSE;
+          strcpy( m_szDescrName, m_szTableName ); /* Name must be same as markup table name */
+//        PSZ pszParms[2];
+//        pszParms[0] = m_szDescrName;
+//        pszParms[1] = m_szTableName;
+//        UtlError( ERROR_MUPROP_DESCRNAME_INUSE, MB_CANCEL, 2, pszParms, EQF_ERROR );
+//        ActivatePage();
+//        SetDlgItemFocus( ID_MUPROP_GEN_DESCRNAME_EF );
+//        fOK = FALSE;
         } /* endif */
       } /* endif */
     } /* endif */
@@ -969,7 +1032,7 @@ BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
     // get and check user exit
     if ( fOK )
     {
-      GetDlgItemText( ID_MUPROP_GEN_EXIT_EF, m_szUserExit, sizeof(m_szUserExit) - 1 );
+      GetDlgItemText( ID_MUPROP_GEN_EXIT_EF, m_szUserExit, sizeof(m_szUserExit) /*- 1*/ );
 
       // check if name is valid
       {
@@ -1010,10 +1073,20 @@ BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
       // check if user exit can be loaded
       if ( fOK && (m_szUserExit[0] != EOS) )
       {
-        CHAR  szExit[MAX_FILESPEC];        // buffer for library name
+        CHAR  szExit[MAX_LONGFILESPEC];        // buffer for library name
         HINSTANCE hModule;
 
-        strcpy( szExit, m_szUserExit );
+        OtmMarkupPlugin *plugin = GetMarkupPlugin( m_szTableName );
+        if ( plugin != NULL )
+        {
+          strcpy( szExit, plugin->getPluginDirectory() ) ;
+          strcat( szExit, "\\" );
+          strcat( szExit, plugin->getUserExitDirectory() ) ;
+          strcat( szExit, "\\" );
+          strcat( szExit, m_szUserExit );
+        } else {
+           strcpy( szExit, m_szUserExit );
+        }
         strcat( szExit, EXT_OF_DLL );
 
         hModule = LoadLibrary( szExit );
@@ -1073,10 +1146,10 @@ BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
     // get and check translator note strings
     if ( fOK )
     {
-      GetDlgItemText( ID_MUPROP_GEN_TRNOTESTART_EF, m_szTrNoteStart, sizeof(m_szTrNoteStart) - 1 );
-      GetDlgItemText( ID_MUPROP_GEN_TRNOTELEV1_EF, m_szTrNoteLevel1, sizeof(m_szTrNoteLevel1) - 1 );
-      GetDlgItemText( ID_MUPROP_GEN_TRNOTELEV2_EF, m_szTrNoteLevel2, sizeof(m_szTrNoteLevel2) - 1 );
-      GetDlgItemText( ID_MUPROP_GEN_TRNOTEEND_EF, m_szTrNoteEnd, sizeof(m_szTrNoteEnd) - 1 );
+      GetDlgItemText( ID_MUPROP_GEN_TRNOTESTART_EF, m_szTrNoteStart, sizeof(m_szTrNoteStart) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_TRNOTELEV1_EF, m_szTrNoteLevel1, sizeof(m_szTrNoteLevel1) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_TRNOTELEV2_EF, m_szTrNoteLevel2, sizeof(m_szTrNoteLevel2) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_TRNOTEEND_EF, m_szTrNoteEnd, sizeof(m_szTrNoteEnd) /*- 1*/ );
     } /* endif */
 
     // get the active characterset
@@ -1100,6 +1173,15 @@ BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
 	  int iValue = GetSelectedValue( ID_MUPROP_GEN_REFLOW_CB  );
 	  m_fReflow = (USHORT)iValue;
     } /* endif */
+
+	if ( fOK )
+	{
+      GetDlgItemText( ID_MUPROP_GEN_LONGDESCR_EF, m_szLongDescription, sizeof(m_szLongDescription) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_SHORTDESCR_EF, m_szShortDescription, sizeof(m_szShortDescription) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_PLUGIN_EF, m_szPlugin, sizeof(m_szPlugin) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_SUPPLIER_EF, m_szSupplier, sizeof(m_szSupplier) /*- 1*/ );
+      GetDlgItemText( ID_MUPROP_GEN_VERSION_EF, m_szVersion, sizeof(m_szVersion) /*- 1*/ );
+    }
   }
   else
   {
@@ -1125,6 +1207,12 @@ BOOL CMUPropGeneralPage::UpdateData( BOOL bSaveAndValidate )
     // select the active characterset
     SearchSelectValue( ID_MUPROP_GEN_CHARSET_CB, m_usCharSet );
     SearchSelectValue( ID_MUPROP_GEN_REFLOW_CB, (USHORT)m_fReflow );
+
+    SetEditTextAndTextLimit( ID_MUPROP_GEN_LONGDESCR_EF, m_szLongDescription, sizeof(m_szLongDescription) - 1 );
+    SetEditTextAndTextLimit( ID_MUPROP_GEN_SHORTDESCR_EF, m_szShortDescription, sizeof(m_szShortDescription) - 1 );
+    SetEditTextAndTextLimit( ID_MUPROP_GEN_PLUGIN_EF, m_szPlugin, sizeof(m_szPlugin) - 1 );
+    SetEditTextAndTextLimit( ID_MUPROP_GEN_SUPPLIER_EF, m_szSupplier, sizeof(m_szSupplier) - 1 );
+    SetEditTextAndTextLimit( ID_MUPROP_GEN_VERSION_EF, m_szVersion, sizeof(m_szVersion) - 1 );
   }
   return( fOK );
 }
@@ -1147,11 +1235,18 @@ BOOL CMUPropGeneralPage::OnInitDialog()
 
   // fill dialog controls
   UpdateData( FALSE );
+  CWnd *pTextGB = GetDlgItem( ID_MUPROP_GEN_DESCR_EF );
+  pTextGB->ShowWindow( SW_HIDE );
+  pTextGB = GetDlgItem( ID_MUPROP_GEN_DESCRNAME_EF );
+  pTextGB->ShowWindow( SW_HIDE );
 
   // protect name field for existing tag tables
   if ( !m_fNewTagTable )
   {
     EnableDlgItem( ID_MUPROP_GEN_NAME_EF, FALSE );
+    EnableDlgItem( ID_MUPROP_GEN_DESCRNAME_EF, FALSE );
+    EnableDlgItem( ID_MUPROP_GEN_PLUGIN_EF, FALSE );
+    EnableDlgItem( ID_MUPROP_GEN_SUPPLIER_EF, FALSE );
     SetDlgItemFocus( ID_MUPROP_GEN_DESCR_EF );
   } /* endif */
 
@@ -1173,7 +1268,7 @@ void CMUPropGeneralPage::Protect( BOOL fProtect )
   if ( m_fPageInitialized )
   {
     EnableDlgItem( ID_MUPROP_GEN_NAME_EF, fEnable && m_fNewTagTable );
-    EnableDlgItem( ID_MUPROP_GEN_DESCRNAME_EF, fEnable );
+    EnableDlgItem( ID_MUPROP_GEN_DESCRNAME_EF, fEnable && m_fNewTagTable );
     EnableDlgItem( ID_MUPROP_GEN_DESCR_EF, fEnable );
     EnableDlgItem( ID_MUPROP_GEN_EXIT_EF, fEnable );
     EnableDlgItem( ID_MUPROP_GEN_SINGLESUBSTCHAR_EF, fEnable );
@@ -1184,6 +1279,11 @@ void CMUPropGeneralPage::Protect( BOOL fProtect )
     EnableDlgItem( ID_MUPROP_GEN_TRNOTEEND_EF, fEnable );
     EnableDlgItem( ID_MUPROP_GEN_CHARSET_CB, fEnable );
     EnableDlgItem( ID_MUPROP_GEN_REFLOW_CB, fEnable );
+    EnableDlgItem( ID_MUPROP_GEN_LONGDESCR_EF, fEnable );
+    EnableDlgItem( ID_MUPROP_GEN_SHORTDESCR_EF, fEnable );
+    EnableDlgItem( ID_MUPROP_GEN_PLUGIN_EF, fEnable );
+    EnableDlgItem( ID_MUPROP_GEN_SUPPLIER_EF, fEnable );
+    EnableDlgItem( ID_MUPROP_GEN_VERSION_EF, fEnable );
   } /* endif */
 }
 
@@ -1257,7 +1357,7 @@ void CMUPropTagsPage::OnEditchangeTagNameEf()
   if ( !m_fUpdateByDialog && this->m_pSelectedTag )
   {
     // get new tag name and update tag info structure
-    GetDlgItemText( ID_MUPROP_TAG_NAME_EF, m_pSelectedTag->szName, sizeof(m_pSelectedTag->szName)-1 );
+    GetDlgItemText( ID_MUPROP_TAG_NAME_EF, m_pSelectedTag->szName, sizeof(m_pSelectedTag->szName)/*-1*/ );
 
     // update tag in tag listbox
     CListBox *pListBox = (CListBox *)GetDlgItem( ID_MUPROP_TAG_TAGS_LB );
@@ -1440,7 +1540,7 @@ void CMUPropTagsPage::OnEditchangeDelimEf()
   if ( !m_fUpdateByDialog && this->m_pSelectedTag )
   {
     GetDlgItemText( ID_MUPROP_TAG_DELIM_EF, m_pSelectedTag->szEndDelim,
-                    sizeof(m_pSelectedTag->szEndDelim)-1 );
+                    sizeof(m_pSelectedTag->szEndDelim)/*-1*/ );
   } /* endif */
 }
 
@@ -2084,7 +2184,7 @@ void CMUPropAttrPage::OnEditchangeAttrNameEf()
   if ( !m_fUpdateByDialog && this->m_pSelectedAttr )
   {
     // get new tag name and update tag info structure
-    GetDlgItemText( ID_MUPROP_ATTR_NAME_EF, m_pSelectedAttr->szName, sizeof(m_pSelectedAttr->szName)-1 );
+    GetDlgItemText( ID_MUPROP_ATTR_NAME_EF, m_pSelectedAttr->szName, sizeof(m_pSelectedAttr->szName)/*-1*/ );
 
     // update tag in tag listbox
     CListBox *pListBox = (CListBox *)GetDlgItem( ID_MUPROP_ATTR_ATTR_LB );
@@ -2127,7 +2227,7 @@ void CMUPropAttrPage::OnEditchangeDelimEf()
   if ( !m_fUpdateByDialog && this->m_pSelectedAttr )
   {
     GetDlgItemText( ID_MUPROP_ATTR_DELIM_EF, m_pSelectedAttr->szEndDelim,
-                    sizeof(m_pSelectedAttr->szEndDelim)-1 );
+                    sizeof(m_pSelectedAttr->szEndDelim)/*-1*/ );
   } /* endif */
 }
 

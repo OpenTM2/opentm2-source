@@ -947,6 +947,12 @@ void EQFBWndProc_Command
      case IDM_TRANSNEW_NONE:              // position at the next untransl. with NO matches
         EQFBTSegNextNone( pDoc );
         break;
+     case IDM_TRANSNEW_MT:                // position at the next untransl. with MT matches
+        EQFBTSegNextMT( pDoc );
+        break;
+     case IDM_TRANSNEW_GLOBAL:            // position at the next untransl. with GLOBAL MEMORY matches
+        EQFBTSegNextGlobal( pDoc );
+        break;
      case IDM_UNTRANS:                    // untranslate the active segment
         EQFBTUnTrans( pDoc );
         break;

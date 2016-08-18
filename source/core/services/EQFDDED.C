@@ -893,7 +893,7 @@ BOOL  DDEDocUnLoadWork
   PDDERETURN   pDDEReturn = &pDocExpIda->DDEReturn;
   CHAR         szOutBuf[ MAX_FULLPATH ];
   CHAR         szDocShortName[MAX_FILESPEC]; // buffer for document short name
-  static CHAR  szLongName[MAX_LONGFILESPEC]; // buffer for document long name
+  //static CHAR  szLongName[MAX_LONGFILESPEC]; // buffer for document long name
 
   pFolder = UtlGetFnameFromPath( pFolderObj );
 
@@ -938,8 +938,7 @@ BOOL  DDEDocUnLoadWork
       /************************************************************/
       fOK = FALSE;
       usRC = UTL_PARAM_TOO_LONG;
-      UtlErrorHwnd( usRC, MB_CANCEL, 1,
-                    &pExpFile, EQF_ERROR, pDocExpIda->hwndErrMsg );
+      UtlErrorHwnd( usRC, MB_CANCEL, 1, &pExpFile, EQF_ERROR, pDocExpIda->hwndErrMsg );
     }
     else
     {
@@ -961,8 +960,7 @@ BOOL  DDEDocUnLoadWork
     {
       fOK = FALSE;
       usRC = DDE_FILE_NO_OVERWRITE;
-      UtlErrorHwnd( usRC, MB_CANCEL, 1, &pExpFile,
-                    EQF_ERROR, pDocExpIda->hwndErrMsg  );
+      UtlErrorHwnd( usRC, MB_CANCEL, 1, &pExpFile, EQF_ERROR, pDocExpIda->hwndErrMsg  );
     } /* endif */
   } /* endif */
 
@@ -973,7 +971,6 @@ BOOL  DDEDocUnLoadWork
   if ( fOK )
   {
     BOOL fIsNew = FALSE;
-    OEMTOANSI( pFile );
     FolLongToShortDocName( pFolderObj, pActDocName, szDocShortName, &fIsNew );
     if ( fIsNew )
     {
@@ -989,13 +986,12 @@ BOOL  DDEDocUnLoadWork
     else
     {
       // get actual document long name (may have been corrupted by EQFCMD)
-      szLongName[0] = EOS;
-      UtlMakeEQFPath( szBuf, *pFolderObj,
-                      SYSTEM_PATH, pFolder );
-      strcat( szBuf, BACKSLASH_STR );
-      strcat( szBuf, szDocShortName );
-      DocQueryInfo2( szBuf, NULL, NULL, NULL, NULL,
-                     szLongName, NULL, NULL, FALSE );
+      // GQ 2016/04/26: disabled the code below as the szLongName variable is never used
+      //szLongName[0] = EOS;
+      //UtlMakeEQFPath( szBuf, *pFolderObj, SYSTEM_PATH, pFolder );
+      //strcat( szBuf, BACKSLASH_STR );
+      //strcat( szBuf, szDocShortName );
+      //DocQueryInfo2( szBuf, NULL, NULL, NULL, NULL, szLongName, NULL, NULL, FALSE );
     } /* endif */
   } /* endif */
 
@@ -1009,8 +1005,7 @@ BOOL  DDEDocUnLoadWork
   {
     if ( pDocExpIda->fSource )
     {
-      UtlMakeEQFPath( szBuf, *pFolderObj,
-                      DIRSOURCEDOC_PATH, pFolder );
+      UtlMakeEQFPath( szBuf, *pFolderObj, DIRSOURCEDOC_PATH, pFolder );
       strcat( szBuf, BACKSLASH_STR );
       strcat( szBuf, szDocShortName );
       if ( UtlFileExist( szBuf ))
@@ -1022,8 +1017,7 @@ BOOL  DDEDocUnLoadWork
       {
         fOK = FALSE;
         usRC = FILE_NOT_EXISTS;
-        UtlErrorHwnd( FILE_NOT_EXISTS, MB_CANCEL, 1, &pFile,
-                      EQF_ERROR, pDocExpIda->hwndErrMsg );
+        UtlErrorHwnd( FILE_NOT_EXISTS, MB_CANCEL, 1, &pFile, EQF_ERROR, pDocExpIda->hwndErrMsg );
       } /* endif */
     }
     else

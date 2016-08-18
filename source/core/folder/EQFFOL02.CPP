@@ -3716,8 +3716,8 @@ BOOL FolImpProcessMarkupTableInfoFile( HWND hwnd, PFOLIMPIDA pIda, PSZ pszInfoFi
     } /* endfor */
 
     // call markup table plugin
-    int iRC = pPlugin->updateFiles( (char *)strMarkupName.c_str(), (char *)strDescription.c_str(), (char *)strVersion.c_str(), (char *)strMarkupTable.c_str(), 
-      (char *)strUserExit.c_str(), (char *)strAddFiles.c_str() );
+    int iRC = pPlugin->updateFiles( (char *)strMarkupName.c_str(), (char *)strDescription.c_str(), (char *)strDescription.c_str(), 
+      (char *)strVersion.c_str(), (char *)strMarkupTable.c_str(), (char *)strUserExit.c_str(), (char *)strAddFiles.c_str() );
     if ( iRC == UPDATE_MARKUP_INUSE ) 
     {
        pIda->fUserExitCopyPending = TRUE ;

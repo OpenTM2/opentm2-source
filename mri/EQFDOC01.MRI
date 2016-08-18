@@ -3,7 +3,7 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-  |      Copyright (C) 1990-2015, International Business Machines              |
+  |      Copyright (C) 1990-2016, International Business Machines              |
   |      Corporation and others. All rights reserved                           |  
   +----------------------------------------------------------------------------+
   |  Description:                                                              |
@@ -148,7 +148,7 @@
 #define STR_DOCEXP_REVEDIT "E&dit..."
 
 // name of 'with tracking IDs' checkbox
-#define STR_DOCEXP_WITHTRACKID "With TVT tracking IDs"
+#define STR_DOCEXP_WITHTRACKID "With TVT tracking IDs (use only when testing in a SmartTVT environment)"
 
 // name of original checkbox
 #define STR_DOCEXP_ORIGINAL   "Original"

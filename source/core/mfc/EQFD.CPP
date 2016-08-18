@@ -1088,7 +1088,7 @@ LONG CEQFDApp::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
 
 			// work out a good place for the dump file
       UtlMakeEQFPath( szDumpPath, NULC, SYSTEM_PATH, NULL );
-      strcat( szDumpPath, "\\OpenTM2-1.3.0.dmp" );
+      strcat( szDumpPath, "\\OpenTM2-1.3.1.dmp" );
 
 			{
 				// create the file

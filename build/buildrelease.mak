@@ -54,7 +54,7 @@ build:
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\MANIFEST\*.mf $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\MANIFEST /Y >>$(_ERR)
     @echo ---- copying resources---- 
     @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources
-    @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\resources\commands.xml $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources /Y >>$(_ERR)
+    @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\resources\* $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources /Y >>$(_ERR)
     @if not exist $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources\icons md $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources\icons
     @copy $(_DRIVE)\$(_DEVDIR)\OpenTM2ScripterGUI\resources\icons\*.png $(RELEASE_DIR)\OTM\OpenTM2ScripterGUI\resources\icons /Y >>$(_ERR)
     @echo ---- copying OtmTMService ---- 

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -68,7 +68,7 @@ PluginManager::eRegRc PluginManagerImpl::registerPlugin(OtmPlugin* plugin)
 					if (tmpName == name)
 					{
 						eRc = PluginManager::eAlreadyRegistered;
-                        this->Log.writef( "Error:   The plguing %s is already registered.", name.c_str() ); // Add for 403115
+                        this->Log.writef( "Error:   The plugin %s is already registered.", name.c_str() ); // Add for 403115
 					}
 				}
 
@@ -368,7 +368,17 @@ USHORT PluginManagerImpl::loadPluginDll(const char* pszName)
       {
           // if register dll error, just remove the dll from the group
           this->Log.writef( "Error: register plugin %s failed %d.", pszName, usRC);
-          vLoadedPluginDLLs.pop_back();
+         
+		  // FOR P403268 beigin
+		  // if it's already in pluginSet, also erase it
+		  // vLoadedPluginDLLs.pop_back();
+		  LoadedPluginDLL lpdll = vLoadedPluginDLLs.back();
+		  OtmPlugin *pToDel = lpdll.vPluginList.back();
+		  if(pToDel != NULL)
+			  pluginSet->erase(pToDel);
+		  vLoadedPluginDLLs.pop_back();
+		  // FOR P403268 end
+
           FreeLibrary(hMod);
       }
       // Add end

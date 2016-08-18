@@ -582,7 +582,7 @@ USHORT CTMXExportImport::WriteHeader
 
   m_xw.WriteStartElement( "header" );
   char szVersion[20];
-  sprintf( szVersion, "%d.%d.%d.%d", EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD );
+  sprintf( szVersion, "%d.%d.%d.%d", 1,3,0,1 /*EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD*/ );
   m_xw.WriteAttributeString( "creationtoolversion", szVersion ); 
   m_xw.WriteAttributeString( "segtype", "sentence" ); 
   m_xw.WriteAttributeString( "adminlang", "en-us" ); 
@@ -2080,7 +2080,30 @@ void TMXParseHandler::endElement(const XMLCh* const name )
           pCurrentTuv = pTuvArray;
           while ( iCurrent < iCurTuv )
           {
-            if ( pCurrentTuv != pSourceTuv )
+            BOOL fSkipTuv = FALSE;
+
+            if ( pCurrentTuv == pSourceTuv )
+            {
+              fSkipTuv = TRUE; // skip this TUV as it contains the source text
+            } /* endif */
+
+            // GQ 2016-05-13 (fix for P403308): for empty TUVS only: check if there is another TUV for the same language and which contains some data ans skip empty tuv in such a case
+            if ( !fSkipTuv && (wcslen( pCurrentTuv->szText ) == 0) )
+            {
+              PTMXTUV pTestTuv = pCurrentTuv + 1;
+              int iTestTuv = iCurrent + 1;
+              while ( !fSkipTuv && (iTestTuv < iCurTuv) )
+              {
+                if ( (strcmp( pTestTuv->szLang, pCurrentTuv->szLang ) == 0) && (wcslen( pTestTuv->szText ) != 0) )
+                {
+                  fSkipTuv = TRUE; // skip this TUV as there is another tuv for the same language having text information
+                } /* endif */
+                iTestTuv++;
+                pTestTuv++;
+              } /* endwhile */
+            } /* endif */
+
+            if ( !fSkipTuv )
             {
               // do any tag removal if requested
               if ( m_pMemInfo->fCleanRTF )
@@ -2166,9 +2189,9 @@ void TMXParseHandler::endElement(const XMLCh* const name )
                 else
                 {
                   if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "EQFASCII" );
-                pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
+                  pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
+                } /* endif */
               } /* endif */
-            } /* endif */
             } /* endif */
 
             // continue with next tuv
@@ -2889,7 +2912,7 @@ typedef struct _CONVERTERDATA
   BOOL        fUnicode;                          // TRUE = input memory is in UTF-16 format
   FILE        *hInFile;                          // handle of input file
   CHAR_W      szLine[4096];                      // buffer for input line
-  BYTE        bReadBuffer[16000];                // file read/write buffer (must be large enough to contain complete memory segment)
+  CHAR_W      szSegBuffer[32000];                // buffer for EXP segment (from <segment ..> up to </segment>)
   CHAR_W      chInBufW[BUF_SIZE];                // data buffer for read of Unicode data
   CHAR        chInBuf[BUF_SIZE];                 // data buffer for read of ANSI data
   int         iInBufProcessed;                   // number of processed characters in chInBuf
@@ -2899,6 +2922,9 @@ typedef struct _CONVERTERDATA
   CHAR        szInMode[200];                     // buffer for input mode
   CHAR_W      szDescription[1024];               // buffer for memory description
   int         iLineNum;                          // current line number
+  int         iSegBufferUsed;                    // number of characters used in szSegBuffer
+  int         iSegBufferFree;                    // number of character free in szSegBuffer
+  BOOL        fSegBufferFull;                    // TRUE = the segment buffer is full
 
   //-- data for output memory processing --
   CHAR        szOutMemory[MAX_LONGFILESPEC];     // fully qualified name of current output memory
@@ -3159,9 +3185,9 @@ USHORT EXPTOTMX
   PSZ              pszOutMem,           // fully qualified name of output (TMX) memory
   PSZ              pszInMode,           // input mode "ANSI"/"ASCII"/"UTF16" or a codepage number
   LONG             lOutMode,            // output mode UTF16/UTF8
-  PLONG            plSegs,              // number of written segments
+  PLONG            plSegs,              // number of written (=valid) segments
   PSZ              pszMsgBuffer,        // buffer for error messages
-  BOOL             fSkip,               // TRUE = skip invalid segments but continue with processing
+  PLONG            plInvalidSegs,       // number of skipped segments
   FILE             *hfLog               // handle of log file or NULL if no logging of invalid segments is to be done
 )
 {
@@ -3169,6 +3195,7 @@ USHORT EXPTOTMX
   LONG             lHandle = 0;        // import handle
   PCONVERTERDATA   pData = NULL;
   BOOL             fSegmentAvailable = FALSE;
+  BOOL             fEOFReached = FALSE;
 
   if ( !UtlAlloc( (PVOID *)&pData, 0, sizeof(CONVERTERDATA), ERROR_STORAGE  ) )
   {
@@ -3184,6 +3211,7 @@ USHORT EXPTOTMX
     // prepare output memory
   if ( usRC == NO_ERROR) 
   {
+    pData->hfLog = hfLog;
     pData->MemInfo.fUTF16 = (lOutMode & TMX_UTF16_OPT) != 0;
     pData->MemInfo.fNoCRLF = (lOutMode & TMX_NOCRLF_OPT) != 0;
     WideCharToMultiByte( CP_ACP, 0, pData->szDescription, -1, pData->MemInfo.szDescription, sizeof(pData->MemInfo.szDescription), NULL, NULL );
@@ -3191,18 +3219,34 @@ USHORT EXPTOTMX
     usRC = EXTMEMEXPORTSTART( &lHandle, pszOutMem, &(pData->MemInfo) );
   } /* endif */
 
-  // extract next segment from input memory
-  if ( usRC == NO_ERROR) usRC = GetNextSegment( pData, &fSegmentAvailable );
-
   // until not end of input memory...
-  while ( (usRC == NO_ERROR) && fSegmentAvailable )
+  fSegmentAvailable = TRUE;
+  while ( (usRC == NO_ERROR) && !fEOFReached )
   {
-    // write segment to output memory
-    usRC = EXTMEMEXPORTPROCESS( lHandle, &(pData->Segment) );
-    if ( usRC == NO_ERROR) pData->ulSegments++;
-
     // extract next segment from input memory
-    if ( usRC == NO_ERROR) usRC = GetNextSegment( pData, &fSegmentAvailable );
+    usRC = GetNextSegment( pData, &fSegmentAvailable );
+
+    // handle any error in input data
+    if ( usRC != NO_ERROR )
+    {
+      usRC = 0;
+      pData->lSkippedSegsCounter++;
+    }
+    else if ( !fSegmentAvailable )
+    {
+      // no error, but no segment available ==> we reached the end of the input file
+      fEOFReached = TRUE;
+    } /* endif */
+
+    // write segment to output memory
+    if ( fSegmentAvailable )
+    {
+      usRC = EXTMEMEXPORTPROCESS( lHandle, &(pData->Segment) );
+      if ( usRC == NO_ERROR)
+      {
+        pData->ulSegments++;
+      } /* endif */
+    } /* endif */
   } /*endwhile */
 
   // close input memory
@@ -3211,6 +3255,7 @@ USHORT EXPTOTMX
   if ( lHandle ) EXTMEMEXPORTEND( lHandle );
 
   if ( plSegs ) *plSegs = (LONG)pData->ulSegments;
+  if ( plInvalidSegs ) *plInvalidSegs = (LONG)pData->lSkippedSegsCounter;
 
   // pass any error message text to caller in case of errors
   if ( usRC && (pData->szErrorText[0] != EOS) )
@@ -3525,6 +3570,40 @@ USHORT GetEncodingEx( PCONVERTERDATA pData, PSZ pszInMemory, PSZ pszInMode, PSZ 
   return( usRC );
 } /* end of function GetEncodingEx */
 
+// clear the segment buffer
+void ClearSegBuffer( PCONVERTERDATA pData )
+{
+  pData->iSegBufferUsed = 0;
+  pData->iSegBufferFree = sizeof(pData->szSegBuffer)/sizeof(CHAR_W);
+  pData->fSegBufferFull = FALSE;
+}
+
+// add the current line to the segment buffer
+void AddLineToSegBuffer( PCONVERTERDATA pData )
+{
+  if ( !pData->fSegBufferFull )
+  {
+    int iAddLen = wcslen( pData->szLine );
+    if ( (iAddLen + 5) < pData->iSegBufferFree )// always leave room for "..." and CRLF at the end of the buffer
+    {
+      wcscpy( pData->szSegBuffer + pData->iSegBufferUsed, pData->szLine );
+      pData->iSegBufferUsed += iAddLen;
+      pData->iSegBufferFree -= iAddLen;
+
+      wcscpy( pData->szSegBuffer + pData->iSegBufferUsed, L"\r\n" );
+      pData->iSegBufferUsed += 2;
+      pData->iSegBufferFree -= 2;
+    }
+    else
+    {
+      wcscpy( pData->szSegBuffer + pData->iSegBufferUsed, L"...\r\n" );
+      pData->iSegBufferUsed += 5;
+      pData->fSegBufferFull = TRUE;
+      pData->iSegBufferFree = 0;
+    } /* endif */
+  } /* endif */
+}
+
 // concatenate segment data and ensure that size limit is not exceeded
 USHORT ConcatenateSegData( PSZ_W pszSegment, PSZ_W pszNewData, int iMaxSize)
 {
@@ -3545,13 +3624,25 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
   USHORT      usRC = NO_ERROR;         // function return code
   BOOL        fEOF = FALSE;
 
+  BOOL fControlString = FALSE;
+
   *pfSegmentAvailable = FALSE;
+
+  // skip any lines until the start of a new segment is detected
+  while ( !usRC && !fEOF && _wcsnicmp( pData->szLine, L"<segment>", 9 ) != 0 ) 
+  {
+    GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
+  } /* enwhile */
 
   // read data until segment is complete
   if ( _wcsnicmp( pData->szLine, L"<segment>", 9 ) == 0 ) 
   {
     int iStartLine = pData->iLineNum;
     PSZ pszError = "";
+
+    // copy all lines of the segment to our segment buffer (for logging in cas of errors)
+    ClearSegBuffer( pData );
+    AddLineToSegBuffer( pData );
 
     // reset segment data
     pData->Segment.szSource[0] = 0;
@@ -3563,17 +3654,28 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
     while ( !usRC && !fEOF && _wcsnicmp( pData->szLine, L"</segment>", 10 ) != 0 ) 
     {
       GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
+      AddLineToSegBuffer( pData );
 
       if ( _wcsnicmp( pData->szLine, L"<control>", 9 ) == 0 )
       {
+        fControlString = TRUE;
+
         // get the control string
-        GetLine( pData, pData->szControl, sizeof(pData->szControl), pData->fUnicode, &fEOF );
+        GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
+        AddLineToSegBuffer( pData );
+        wcscpy( pData->szControl, pData->szLine );
 
         if ( fEOF )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
           pszError = "Incomplete segment control string";
+        }
+        else if ( _wcsnicmp( pData->szLine, L"</control>", 10 ) == 0 )
+        {
+          // missing control string
+          usRC = ERROR_INVALID_SEGMENT;
+          pszError = "Missing control string";
         }
         else
         {
@@ -3603,6 +3705,14 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
 
           // get contol string end tag and check it
           GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF  );
+          AddLineToSegBuffer( pData );
+          if ( _wcsnicmp( pData->szLine, L"</control>", 10 ) != 0 )
+          {
+            // missing end control string
+            usRC = ERROR_INVALID_SEGMENT;
+            pszError = "Missing end control tag";
+          }
+
         } /* endif */
 
       }
@@ -3615,18 +3725,31 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
         while ( !usRC && !fEnd && !fEOF )
         {
           usRC = ConcatenateSegData( pData->Segment.szSource, L"\n", MAX_SEGMENT_SIZE );
-          GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
-          fEnd = StripTag( pData->szLine, L"</source>" );
-          if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
+          if ( usRC )
           {
-            usRC = ConcatenateSegData( pData->Segment.szSource, pData->szLine, sizeof(pData->Segment.szSource)/sizeof(CHAR_W) );
+            pszError = "Segment source text too long";
+          } /* endif */
+          GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
+          AddLineToSegBuffer( pData );
+          if (_wcsnicmp( pData->szLine, L"</segment>", 10 ) == 0 ) 
+          {
+            usRC = ERROR_INVALID_SEGMENT;
+            pszError = "Missing </source> tag";
+          }
+          else
+          {
+            fEnd = StripTag( pData->szLine, L"</source>" );
+            if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
+            {
+              usRC = ConcatenateSegData( pData->Segment.szSource, pData->szLine, sizeof(pData->Segment.szSource)/sizeof(CHAR_W) );
+              if ( usRC )
+              {
+                pszError = "Segment source text too long";
+              } /* endif */
+            } /* endif */
           } /* endif */
         } /*endwhile */
-        if ( usRC )
-        {
-          pszError = "Segment source text too long";
-        }
-        else if ( !fEnd )
+        if ( !usRC && !fEnd )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
@@ -3642,18 +3765,31 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
         while ( !usRC && !fEnd && !fEOF )
         {
           usRC = ConcatenateSegData( pData->Segment.szTarget, L"\n", MAX_SEGMENT_SIZE );
-          GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
-          fEnd = StripTag( pData->szLine, L"</target>" );
-          if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
+          if ( usRC )
           {
-            usRC = ConcatenateSegData( pData->Segment.szTarget, pData->szLine, sizeof(pData->Segment.szTarget)/sizeof(CHAR_W) );
+            pszError = "Segment target text too long";
+          } /* endif */
+          GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
+          AddLineToSegBuffer( pData );
+          if (_wcsnicmp( pData->szLine, L"</segment>", 10 ) == 0 ) 
+          {
+            usRC = ERROR_INVALID_SEGMENT;
+            pszError = "Missing </target> tag";
+          }
+          else
+          {
+            fEnd = StripTag( pData->szLine, L"</target>" );
+            if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
+            {
+              usRC = ConcatenateSegData( pData->Segment.szTarget, pData->szLine, sizeof(pData->Segment.szTarget)/sizeof(CHAR_W) );
+              if ( usRC )
+              {
+                pszError = "Segment target text too long";
+              } /* endif */
+            } /* endif */
           } /* endif */
         } /*endwhile */
-        if ( usRC )
-        {
-          pszError = "Segment target text too long";
-        }
-        else if ( !fEnd )
+        if ( !usRC && !fEnd )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
@@ -3669,18 +3805,31 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
         while ( !usRC && !fEnd && !fEOF )
         {
           usRC = ConcatenateSegData( pData->Segment.szAddInfo, L"\r\n", MAX_SEGMENT_SIZE );
-          GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
-          fEnd = StripTag( pData->szLine, L"</adddata>" );
-          if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
+          if ( usRC )
           {
-            usRC = ConcatenateSegData( pData->Segment.szAddInfo, pData->szLine, MAX_SEGMENT_SIZE );
+            pszError = "Segment additional data text too long";
+          } /* endif */
+          GetLine( pData, pData->szLine, sizeof(pData->szLine), pData->fUnicode, &fEOF );
+          AddLineToSegBuffer( pData );
+          if (_wcsnicmp( pData->szLine, L"</segment>", 10 ) == 0 ) 
+          {
+            usRC = ERROR_INVALID_SEGMENT;
+            pszError = "Missing </adddata> tag";
+          }
+          else
+          {
+            fEnd = StripTag( pData->szLine, L"</adddata>" );
+            if ( !usRC && !fEnd || (pData->szLine[0] != 0) )
+            {
+              usRC = ConcatenateSegData( pData->Segment.szAddInfo, pData->szLine, sizeof(pData->Segment.szAddInfo)/sizeof(CHAR_W) );
+              if ( usRC )
+              {
+                pszError = "Segment additional data text too long";
+              } /* endif */
+            } /* endif */
           } /* endif */
         } /*endwhile */
-        if ( usRC )
-        {
-          pszError = "Segment additional data text too long";
-        }
-        else if ( !fEnd )
+        if ( !usRC && !fEnd )
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
@@ -3697,7 +3846,13 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
     {
       int iSourceLen = wcslen( pData->Segment.szSource );
       int iTargetLen = wcslen( pData->Segment.szTarget );
-      if ( iSourceLen >= MAX_SEGMENT_SIZE )
+
+      if ( !fControlString )
+      {
+        pszError = "Missing <control>...</control> section";
+        usRC = ERROR_INVALID_SEGMENT;
+      }
+      else if ( iSourceLen >= MAX_SEGMENT_SIZE )
       {
         pszError = "Segment source text is too long";
         usRC = ERROR_INVALID_SEGMENT;
@@ -3717,6 +3872,14 @@ USHORT GetNextSegment( PCONVERTERDATA pData, PBOOL pfSegmentAvailable )
     if ( usRC )
     {
       sprintf( pData->szErrorText, "The segment beginning in line %ld is invalid, the reason is \"%s\".", iStartLine, pszError );
+
+      if ( pData->hfLog != NULL )
+      {
+        fwprintf( pData->hfLog, L"The segment beginning in line %ld is invalid, the reason is \"%S\".\r\n", iStartLine, pszError );
+        fwprintf( pData->hfLog, L"Segment data:\r\n" );
+        fwrite( pData->szSegBuffer, sizeof(CHAR_W), pData->iSegBufferUsed, pData->hfLog );
+        fwprintf( pData->hfLog, L"\r\n" );
+      } /* endif */
     }
     else
     {

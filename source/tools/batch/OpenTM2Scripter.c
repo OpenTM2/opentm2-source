@@ -70,6 +70,7 @@ typedef enum _COMMANDID
     INTTESTCASE_ID,
     INTEND_ID,
     INTTESTRESULT_ID,
+	INTTESTVALUE_ID,
     INTDELETEFILE_ID,
     INTCOPYFILE_ID,
     INTSETVALUE_ID,
@@ -149,6 +150,7 @@ typedef enum _COMMANDID
   EQFADDMATCHSEGID_ID,
   EQFCREATECOUNTREPORTEX_ID,
   EQFIMPORTFOLDERAS_ID,
+  EQFSEARCHFUZZYSEGMENTS_ID
 } COMMANDID;
 
 typedef enum _LOGLEVEL
@@ -278,6 +280,7 @@ COMMAND aCommands[] =
     { "TESTCASE",                   INTTESTCASE_ID,                    2, "330000000000000000", "000000000000000000"},
     { "END",                        INTEND_ID,                         0, "000000000000000000", "000000000000000000"},
     { "TESTRESULT",                 INTTESTRESULT_ID,                  2, "530000000000000000", "000000000000000000"},
+	{ "TESTVALUE",                  INTTESTVALUE_ID,                   2, "330000000000000000", "000000000000000000"},
     { "DELETEFILE",                 INTDELETEFILE_ID,                  1, "300000000000000000", "000000000000000000"},
     { "COPYFILE",                   INTCOPYFILE_ID,                    3, "331000000000000000", "000000000000000000"},
     { "SAVERETURNCODE",             INTSAVERETURNCODE_ID,              1, "300000000000000000", "000000000000000000"},
@@ -332,7 +335,7 @@ COMMAND aCommands[] =
     { "EQFANALYZEDOCEX",        EQFANALYZEDOCEX_ID,      6, "333331000000000000", "030000000000000000"},
     { "EQFPROCESSNOMATCH",      EQFPROCESSNOMATCH_ID,    8, "333333310000000000", "000000000000000000"},
     { "EQFOPENDOC",             EQFOPENDOC_ID,           4, "335500000000000000", "000000000000000000"},
-    { "EQFCHANGEFOLPROPSEX",    EQFCHANGEFOLPROPSEX_ID,  6, "323333333000000000", "000076000000000000"},
+    { "EQFCHANGEFOLPROPSEX",    EQFCHANGEFOLPROPSEX_ID,  9, "323333333000000000", "000076000000000000"},
     { "EQFDELETEMTLOG",         EQFDELETEMTLOG_ID,       1, "300000000000000000", "400000000000000000"},
     { "EQFGETSHORTNAME",        EQFGETSHORTNAME_ID,      2, "330000000000000000", "000000000000000000"},
     { "EQFREMOVEDOCS",          EQFREMOVEDOCS_ID,        2, "330000000000000000", "000000000000000000"},
@@ -359,6 +362,7 @@ COMMAND aCommands[] =
     { "EQFADDMATCHSEGID",       EQFADDMATCHSEGID_ID,     4, "333100000000000",    "000000000000000000"},
     { "EQFCREATECOUNTREPORTEX", EQFCREATECOUNTREPORTEX_ID, 10, "333333333100000000", "030000000000000000"},
     { "EQFIMPORTFOLDERAS",      EQFIMPORTFOLDERAS_ID,    5, "332310000000000000", "000000000000000000"},
+    { "EQFSEARCHFUZZYSEGMENTS", EQFSEARCHFUZZYSEGMENTS_ID, 6, "333331000000000000", "030000000000000000"},
     { "",                       (COMMANDID)0,            0, "000000000000000000", "000000000000000000"}
 };
 
@@ -517,6 +521,28 @@ OPTION aReportTypes[] =
     { "",                                0L}
 };
 
+// fuzzy search modes
+OPTION aFuzzySearchModes[] =
+{
+  { "UPTOSELECTEDCLASS_MODE",          UPTOSELECTEDCLASS_MODE },
+  { "SELECTEDCLASSANDHIGHER_MODE",     SELECTEDCLASSANDHIGHER_MODE },
+  { "ONLYSELECTEDCLASS_MODE",          ONLYSELECTEDCLASS_MODE },
+  { "",                                0L}
+};
+
+// fuzzy search classes
+OPTION aFuzzySearchClasses[] =
+{
+  { "0",                               0 },
+  { "1",                               1 },
+  { "2",                               2 },
+  { "3",                               3 },
+  { "4",                               4 },
+  { "5",                               5 },
+  { "6",                               6 },
+  { "",                                0L}
+};
+
 // token array and number of current tokens
 char *apTokens[100];
 int  iTokens;
@@ -604,8 +630,17 @@ int GetDictionaryNames(PWCPATH p_first_wc_path, char *DictionaryName, PFUNCTEST_
 int GetFilePaths(PWCPATH p_first_wc_path, char *FileName, PFUNCTEST_OUTPUT Out);
 
 //function prototypes for checking if-conditions
-char CheckSingleCondition(char*);
-char ParseExp(char*);
+//char CheckSingleCondition(char*);
+//char ParseExp(char*);
+
+// used to parse checking if-conditions
+int   expressionValue(char**);
+int   termValue(char**);
+char* factorValue(char**); 
+char* skipSpace(char*);
+int   isDigits(const char*);
+int   cmpIgnoreQuotes(char*,char*);
+
 
 //function for printing a Description for the parameters (help)
 void Out_Help(PFUNCTEST_OUTPUT Out);
@@ -1209,8 +1244,29 @@ int main
                             }
                         }
                         break;
-
-                        case INTSAVERETURNCODE_ID:
+					    
+						// For P403200 Begin
+						case INTTESTVALUE_ID:
+						{
+							if ( PreProcessParms( pCmd ) )
+							{
+								if ( (apTokens[1]!=NULL) && (apTokens[2]!=NULL) )
+								{
+									 int res = strcmp(apTokens[1], apTokens[2]);
+									 usRC = (res==0?1:0);
+                                     OutputLog(LOG_INFO, &Out,"\tINFO ==> %s compare with %s euqal %d\n",apTokens[1], apTokens[2],res );
+									 
+								}
+								else
+								{
+									 OutputLog(LOG_ERROR, &Out,"\tERROR ==> Not enougth parameters for this command. Line is ignored\n");
+								}
+							}
+						}
+						break;
+						// For P403200 End
+                        
+						case INTSAVERETURNCODE_ID:
                         {
                             if ( PreProcessParms( pCmd ) )
                             {
@@ -1230,8 +1286,20 @@ int main
                             if ( PreProcessParms( pCmd ) )
                             {
                                 if (apTokens[1]!=NULL){
-                                    int setVal = atoi(apTokens[2]);
-                                    SaveValueToVar(apTokens[1],&setVal,&lastVariable);
+
+									if(isDigits(apTokens[2])){
+                                       int setVal = atoi(apTokens[2]);
+                                       SaveValueToVar(apTokens[1],&setVal,&lastVariable);
+									} else{
+										// For P403200 Begin
+										PSZ pszValue = (PSZ)malloc( strlen(apTokens[2])+1);
+                                        if(pszValue != NULL){
+											strncpy( pszValue, apTokens[2],strlen(apTokens[2])+1 );
+                                            SaveValueToVar(apTokens[1],pszValue,&lastVariable,POINTERSTR);
+										}
+										// For P403200 End
+									}
+
                                 }
                                 else{
                                       OutputLog(LOG_ERROR,&Out,"\tERROR ==> Not enougth parameters for this command. Line is ignored");
@@ -1279,7 +1347,9 @@ int main
                             if ( PreProcessParms( pCmd) )
                             {
                                 if (apTokens[2]!=NULL){
-                                    if ( (*apTokens[1]=='!' && ParseExp(apTokens[1]+1)==0) || (*apTokens[1]!='!' && ParseExp(apTokens[1]) ) )
+									char* expv1 = apTokens[1]+1;
+									char* expv = apTokens[1];
+                                    if ( (*apTokens[1]=='!' && expressionValue(&expv1)==0) || (*apTokens[1]!='!' && expressionValue(&expv) ) )
                                     {
                                         if(apTokens[1][0] ==  '!') 
                                         {
@@ -1732,7 +1802,6 @@ int main
                             // preprocess parameters
                             if ( PreProcessParms( pCmd ) )
                             {
-                                USHORT usProgress = 0;
                                 do
                                 {
                                     usRC = EqfAddMatchSegID( hSession,           // Eqf session handle
@@ -2179,16 +2248,21 @@ int main
                                 {
                                     do
                                     {
-                                        usRC = EqfChangeFolPropsEx( hSession,    // Eqf session handle
+                                      // GQ 2016/06/10: only change values which really have been specified, 
+                                      //                we have to find a way how to distinguish unused parameters from intentionally left blank parameters in the script...
+                                      PSZ pszDictionary = ( tmp_wc_path->path[0] != EOS ) ? tmp_wc_path->path : NULL;
+                                      PSZ pszROMem = ( tmp_wc_path->next->path[0] != EOS ) ? tmp_wc_path->next->path : NULL;
+
+                                      usRC = EqfChangeFolPropsEx( hSession,    // Eqf session handle
                                                 apTokens[1], // folder name
                                                 *(apTokens[2]), // target drive
                                                 apTokens[3], // target language
                                                 apTokens[4], // memory name
-                                                tmp_wc_path->path, // dictionary name
-                                                tmp_wc_path->next->path, // read-only memory name
-                        apTokens[7], // description
-                        apTokens[8], // profile name
-                        apTokens[9]); // unused 2
+                                                pszDictionary, // dictionary name
+                                                pszROMem, // read-only memory name
+                                                apTokens[7], // description
+                                                apTokens[8], // profile name
+                                                apTokens[9]); // unused 2
 
                                     } while ( usRC == CONTINUE_RC ); /* enddo */
                                     Out_RC( &Out, "EqfChangeFolPropsEx", usRC,hSession );
@@ -3247,6 +3321,45 @@ int main
                                   OutputLog( LOG_INFO, &Out,  "\tINFO ==>OTM Version     %s\n", szVersion );
                                }
                             }
+                        }
+                        break;
+
+                        case EQFSEARCHFUZZYSEGMENTS_ID :
+                        {
+                            //setting the tmp_wc_path on the first Wildcard in the List
+                            tmp_wc_path = &first_wc_path;
+
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+                            {    
+                                int iMode = GetOption( apTokens[4], aFuzzySearchModes);
+                                int iClass = GetOption( apTokens[5], aFuzzySearchClasses );
+
+                                //Return Value 1 means that everything there was no ERROR
+                                //Return Value 0 shouldn't happen here, because its only for 
+                                //Calls which should never include a Wildcard
+                                //Other Return Values mean that the path is wrong, or nothing was found, so we skip it
+                                if( GetWildCardList(tmp_wc_path, pCmd, &Out) == 1)
+                                {
+                                    while(tmp_wc_path->next != NULL) 
+                                    {
+                                        usRC = EqfSearchFuzzySegments( hSession,          // Eqf session handle
+                                                apTokens[1],     // name of folder
+                                                tmp_wc_path->path,     // list with document names
+                                                apTokens[3],     // output file name
+                                                iMode,
+                                                iClass,
+                                                lOption );       // options for fuzzy segment search
+
+                                        Out_RC( &Out, "EqfSearchFuzzySegments", usRC,hSession );
+
+                                        //Shifting Pointer
+                                        tmp_wc_path = tmp_wc_path->next;
+                                    }     
+                                }
+                            }
+                            //Clearing List of Paths
+                            ClearList(&first_wc_path);
                         }
                         break;
 
@@ -4542,116 +4655,7 @@ int IsWildcard(char *TempLine){
     return 0;
 }
 
-/*
- * Function for parse an expression/condition from an if, elseif or gotocond command
- * Allowed operators are &,|,<,>,==,!=,(,)
- * @param exp pointer to the first character of the condition as c
- * @return false the condition is false or invalid
- * @return true the condition is true
- */
-char ParseExp(char* exp){
-    char* temp;
-    int bracecount=0;
-    temp=exp;
-    //jump over brace at the beginnig of expression
-    if (*temp=='(') temp++;
 
-    //Go to first Operator in expression string
-    while (*temp!='&' && *temp!='|' && *temp!=')' && *temp!='(' && *temp!=NULC){
-        temp++;
-    }
-
-    //Hadle the Commands
-    if (*temp=='&'){
-        //
-        *temp=NULC;
-        temp++;
-        if (exp[0]=='(') return ( CheckSingleCondition(exp+1) && ParseExp(temp) );
-        else return ( CheckSingleCondition(exp) && ParseExp(temp) );
-    }
-    else if (*temp=='|'){
-        *temp=NULC;
-        temp++;
-        if (exp[0]=='(') return ( CheckSingleCondition(exp+1) || ParseExp(temp) );
-        else return ( CheckSingleCondition(exp) || ParseExp(temp) );
-    }
-    else if (*temp==')'){
-        *temp=NULC;
-        if (exp[0]=='(') return CheckSingleCondition(exp+1);
-        else return CheckSingleCondition(exp);
-    }
-    else if (*temp=='('){
-        bracecount=1;
-        temp++;
-        while (bracecount!=0){
-            if (*temp=='(') bracecount++;
-            else if (*temp==')') bracecount--;
-            temp++;
-        }
-        *(temp-1)=NULC;
-        if (*temp=='|') return ( ParseExp(exp+1) || ParseExp(temp+1) );
-        else if (*temp=='&') return ( ParseExp(exp+1) && ParseExp(temp+1) );
-    }
-    else if (*temp=='\0'){
-        return CheckSingleCondition(exp);
-    }
-    return 0;
-}
-
-/*
- * Function for checking a single condition like 5>4 or 4!=5
- * Allowed operators are >,<,==,!=
- * Function compares integervalues only
- * @param cond condition as pointer to the first character as char*
- * @return false condition is false or invalid
- * @return true condition is true
- */
-char CheckSingleCondition(char* cond){
-    char* temp;
-    temp=cond;
-    //Go to the operator in condition
-    while (*temp!='=' && *temp!='<' && *temp!='>' && *temp!='!' && *temp!=NULC){
-        temp++;
-    }
-    //Return false if there is no operator in condition
-    if (*temp==NULC) return NULC; //ERROR
-    //Handle < operator
-    else if (*temp=='<'){
-        *temp=NULC;
-        temp++;
-        return (atoi(cond)<atoi(temp));
-    }
-    //Handle > operator
-    else if (*temp=='>'){
-        *temp=NULC;
-        temp++;
-        return (atoi(cond)>atoi(temp));
-    }
-    //Handle != operator
-    else if (*temp=='!'){
-        *temp=NULC;
-        temp+=2;
-        return (atoi(cond)!=atoi(temp));
-    }
-    //Handle == operator
-    else if (*temp=='='){
-        *temp=NULC;
-        temp+=2;
-        return (atoi(cond)==atoi(temp));
-    }
-    //in other case return NULC (Some compiler need this statement)
-    return NULC;
-}
-
-/*
- * Save a marker in the markerlist
- * @param tmpmarker temporary to an marker as PMARKER
- * @param pfirst_marker pointer to the first marker in the markerlist (if there is no marker in list to NULL) as PMARKER
- * @param targetScript filepointer to the created temporary source script from preprcessing as FILE*
- * @param Out Outbuffer from the main as PFUNCTEST_OUTPUT
- * @param sCurLine Curren position in the source script (linenumer) as int
- * @param markername pointer to the first character of the markername as char*
- */
 void SaveMarker(PMARKER pfirst_marker, FILE* targetScript, PFUNCTEST_OUTPUT Out, USHORT sCurLine, char* markername){
     //create a copy of pfirst_marker in tmpmarker
     PMARKER tmpmarker=pfirst_marker;
@@ -6055,4 +6059,273 @@ int executeCommand(const char* pszCmd)
     
     return nRC;
 }
+int expressionValue(char** expIn)
+{
+	char* exp = *expIn;
+	exp = skipSpace(exp);
+	int val = termValue(&exp);
+	exp = skipSpace(exp);
+    
+	while( strlen(exp)>0 && (*exp=='&'||*exp=='|') )
+	{
+		char op = *exp++;
+        if(strlen(exp)==0)
+			break;
+
+        int nextVal = termValue(&exp);
+        if (op == '&')
+            val = val&&nextVal;
+        else
+            val = val||nextVal;
+        exp = skipSpace(exp);
+	}
+	*expIn = exp;
+	return val;
+}
+
+int termValue(char** expIn) 
+{
+	int bRes = -1;
+	char* exp = *expIn;
+	char* nextVal = NULL;
+    exp = skipSpace(exp);
+    char* val = factorValue(&exp);
+    exp = skipSpace(exp);
+    
+	bRes = atoi(val);
+
+    while ( strlen(exp)>0 &&
+		    ( *exp=='>' ||  *exp=='<'|| *exp=='=' || *exp=='!') ) 
+	{
+        	
+        char op = *exp++;
+            
+        if (op == '>')
+		{
+            nextVal = factorValue(&exp);
+			*expIn = exp;
+			if( !isDigits(val) &&
+				!isDigits(nextVal))
+			{
+				bRes = (cmpIgnoreQuotes(val,nextVal)>0);
+			}
+			else
+			{
+				bRes = (atoi(val)>atoi(nextVal));
+			}
+        }
+        else if(op=='<')
+		{
+            nextVal = factorValue(&exp);
+			*expIn = exp;
+			if( !isDigits(val) &&
+				!isDigits(nextVal))
+			{
+				bRes = (cmpIgnoreQuotes(val,nextVal)<0);
+			}
+			else
+			{
+				bRes = (atoi(val)<atoi(nextVal));
+			}
+        }
+        else if(op=='=')
+		{
+			exp++;
+            nextVal = factorValue(&exp);
+			*expIn = exp;
+			if( !isDigits(val) &&
+				!isDigits(nextVal))
+			{
+				bRes = (cmpIgnoreQuotes(val,nextVal)==0);
+			}
+			else
+			{
+				bRes = (atoi(val)==atoi(nextVal));
+			}
+        }
+        else if(op=='!')
+		{
+			exp++;
+            nextVal = factorValue(&exp);
+			*expIn = exp;
+			if( !isDigits(val) &&
+				!isDigits(nextVal))
+			{
+				bRes = (cmpIgnoreQuotes(val,nextVal)!=0);
+			}
+			else
+			{
+			    bRes = (atoi(val)!=atoi(nextVal));
+			}
+        }
+        
+		if(bRes != -1)
+		{
+			if(val != NULL)
+			{
+				free(val);
+				val = NULL;
+			}
+			if(nextVal != NULL)
+			{
+				free(nextVal);
+				nextVal = NULL;
+			}
+			return bRes;
+		}
+
+		exp = skipSpace(exp);
+    }
+	*expIn = exp;
+	if(val != NULL)
+	    free(val);
+	return bRes;
+}
+
+
+char* factorValue(char** expIn) 
+{
+	char* exp = *expIn;
+    exp = skipSpace(exp);
+    char ch = *exp++;
+    
+    if( isdigit(ch) || isalpha(ch) || ch=='"' ) 
+	{
+		int bracecnt = 0;
+		int idx = 0;
+		PSZ pszValue = (PSZ)malloc( strlen(exp)+2);
+		if(pszValue == NULL)
+		{
+			*expIn = exp;
+			return NULL;
+		}
+
+		pszValue[idx++] = ch;
+
+        char tch = *exp;
+        while(  strlen(exp)>0 &&
+        		tch!='=' &&
+        		tch!='!'&&
+        		tch!='<'&&
+        		tch!='>'&&
+        		tch!='&'&&
+        		tch!='|' &&
+        		tch!=' ') 
+		{
+        	if(tch=='(')
+        		bracecnt++;
+        	else if(tch==')')
+			{
+        		bracecnt--;
+        		if(bracecnt<0)
+				{
+        		    exp++;
+        			break;
+        		}
+        	}
+			pszValue[idx++] = tch;
+        	exp++;
+        	if(strlen(exp) == 0)
+        		break;
+        	tch = *exp;
+        }
+        
+		*expIn = exp;
+        pszValue[idx] = '\0';
+		return pszValue;
+    } 
+    else if(ch=='(') 
+	{
+        int val = expressionValue(&exp);
+        exp = skipSpace(exp);
+        *expIn = exp;
+
+        if (strlen(exp)>0 && *exp!=')' )
+            return NULL;
+        else if( strlen(exp)>0 && *exp==')')
+		{
+            exp++;
+			*expIn = exp;
+		}
+
+		PSZ pValue = (PSZ)malloc(30);
+		if(pValue == NULL)
+		{
+			return NULL;
+		}
+		return itoa(val,pValue,10);
+    }
+	return NULL;
+}
+
+char* skipSpace(char* exp)
+{
+	while(*exp!='\0' && *exp==' ')
+		exp++;
+
+	return exp;
+}
+
+int isDigits(const char* pIn)
+{
+	int res = 1;
+	const char* pTemp = pIn;
+	// skip begin space and symbol
+	while( (*pTemp==' ' || 
+		    *pTemp=='+' ||
+			*pTemp=='-') && *pTemp!='\0')
+		pTemp++;
+	if(*pTemp=='\0'|| *pTemp=='.')
+		res = 0;
+
+	// process normal
+	int dotcnts = 0;
+	while(*pTemp!='\0' && res!=0)
+	{
+		if( *pTemp=='.' || (*pTemp>='0'&&*pTemp<='9') )
+		{
+			// only one dot allowed for double or float numbers
+			if(*pTemp=='.')
+			{
+				dotcnts++;
+				if(dotcnts>1)
+                    res = 0;
+			}
+
+			pTemp++;
+		}
+		else
+		{
+			res = 0;
+		}
+	}
+	return res;
+}
+
+int cmpIgnoreQuotes(char* pOrg,char* pTgt)
+{
+	if(pOrg==NULL || pTgt==NULL)
+		return 0;
+    
+	if(*pTgt=='"' && *pOrg!='"')
+	{
+	    PSZ pszValue = (PSZ)malloc( strlen(pTgt)+1);
+		if(pszValue != NULL)
+		{
+			pTgt++;
+			strncpy(pszValue,pTgt,strlen(pTgt)-1);
+			*(pszValue+strlen(pTgt)-1) = '\0';
+			int bres = strcmp(pOrg,pszValue);
+			free(pszValue);
+			return bres;
+		}
+	}
+	else
+	{
+		return strcmp(pOrg,pTgt);
+	}
+  return 0;
+}
+
+
 

@@ -4169,3 +4169,62 @@ USHORT EqfGetVersionEx(PSZ  pszVersion, int length)
     return 0 ;
 }
 
+/*! \brief Search segments having fuzzy memory proposals
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszFolderName name of the folder containing the searched documents
+  \param pszDocuments list of documents being searched or NULL to search all documents of the folder
+  \param pszOutputFile fully qualified of the file receiving the list of segments having fuzzy proposals
+  \param iSearchMode search mode, one of the values UPTOSELECTEDCLASS_MODE, SELECTEDCLASSANDHIGHER_MODE, and ONLYSELECTEDCLASS_MODE
+  \param iClass search class, a value from 0 to 6
+  \param lOptions options for searching fuzzy segments
+         - OVERWRITE_OPT overwrite any existing output file
+         - MARKDIFFERENCES_OPT mark the differences between segment source and fuzzy proposal in teh output
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfSearchFuzzySegments
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of folder
+  PSZ         pszDocuments,            // opt: list of documents or NULL 
+  PSZ         pszOutputFile,           // mand: fully qualified name of output file
+  int         iSearchMode,             // mand: search mode
+                                       // @Modes: {UPTOSELECTEDCLASS_MODE,SELECTEDCLASSANDHIGHER_MODE,ONLYSELECTEDCLASS_MODE}
+  int         iClass,                  // mand: searched class
+                                       // @Classes: {0,1,2,3,4,5,6}
+  LONG        lOptions                 // opt: processing options
+									                     // @Other: {OVERWRITE_OPT,MARKDIFFERENCES_OPT}
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfSearchFuzzySegments==\n" );
+    LOGPARMSTRING( "Folder", pszFolderName );
+    LOGPARMSTRING( "Documents", pszDocuments );
+    LOGPARMSTRING( "OutputFile", pszOutputFile );
+    LOGPARMOPTION( "SearchMode", iSearchMode );
+    LOGPARMOPTION( "SearchClass", iClass );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call clean the processing function
+  if ( usRC == NO_ERROR )
+  {
+    usRC = FolFuncFuzzySearch( pszFolderName, pszDocuments, pszOutputFile, iSearchMode, iClass, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+
+}
