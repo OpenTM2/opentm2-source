@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -175,7 +175,7 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
             // add list of folders
             PSZ pszFolObjName = pIda->pszObjList;
             strcat( pIda->szStatusLine, " [folders: " );
-            int iRoomLeft = sizeof(pIda->szStatusLine) - strlen(pIda->szStatusLine) - 6;
+            int iRoomLeft = min( sizeof(pIda->szStatusLine), 160 ) - strlen(pIda->szStatusLine) - 6;
             BOOL fFirstFolder = TRUE;
             while ( iRoomLeft && *pszFolObjName )
             {

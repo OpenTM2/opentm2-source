@@ -170,7 +170,7 @@ USHORT TAFuncAnalyzeDoc
   PSZ         pszDocuments,            // list with document names or NULL
   PSZ         pszMemName,              // Translation Memory for analysis
   PSZ         pszProfile,              // analyiss profile name or NULL
-  PVOID       pvReserved,              // reserved for futurre enhancements
+  PSZ         pszMTOutputOptions,      // MT output options
   LONG        lOptions                 // options for analysis
 );
 USHORT TAFuncAnalysisProcess
@@ -184,7 +184,7 @@ USHORT TAFuncPrepAnalysis
   PSZ         pszDocuments,            // list with document names or NULL
   PSZ         pszMemName,              // Translation Memory for analysis
   PSZ         pszProfile,              // analyiss profile name or NULL
-  PVOID       pvReserved,              // reserved for futurre enhancements
+  PSZ         pszMTOutputOptions,      // MT output options
   LONG        lOptions                 // options for analysis
 );
 

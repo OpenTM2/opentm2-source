@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -388,9 +388,13 @@ int PendingUpdatesPlugin(const char * strPendingName, PMAINTHREADINFO pMainTdInf
     const char * strDLType  = NULL;
     const char * strMethod  = NULL;
 
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "start to find the pos %s", strPendingName);
+#endif
     nRC = FindPluginPos(strPendingName, pPlgMgXmlLocParser, pMainTdInfo);
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "find the pos end(%d)", nRC);
+#endif
 
     if (nRC)
     {
@@ -427,8 +431,9 @@ int PendingUpdatesPlugin(const char * strPendingName, PMAINTHREADINFO pMainTdInf
     char strPkgPath[MAX_PATH];
     memset(strPkgPath, 0x00, sizeof(strPkgPath));
     sprintf(strPkgPath, "%s\\%s\\%s\\%s", gstrOtmPath, OPENTM2_PLUGIN_FOLDER_STR, OPENTM2_PENDING_FOLDER_STR, strPkgName);
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "find the package %s", strPkgPath);
-
+#endif
     OTMGRPSTING strUnzipFiles;
     strUnzipFiles.clear();
 
@@ -451,15 +456,21 @@ int PendingUpdatesPlugin(const char * strPendingName, PMAINTHREADINFO pMainTdInf
 
             // zip method
             sprintf(strDestPath, "%s\\%s\\%s", gstrOtmPath, OPENTM2_PLUGIN_FOLDER_STR, OPENTM2_PENDING_FOLDER_STR);
+#ifdef _DEBUG
             glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "unzip the package %s start", strPkgPath);
+#endif
             nRC = OtmUnCompress(strPkgPath, NULL, NULL, strDestPath, &strUnzipFiles);
+#ifdef _DEBUG
             glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "unzip the package end(%d)", nRC);
+#endif
 
             // check whether is installer, if is, do the installation
             for (size_t iInx = 0; iInx < strUnzipFiles.size(); iInx++)
             {
                 // install the package
+#ifdef _DEBUG
                 glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "execute command (%s)", strUnzipFiles[iInx].c_str());
+#endif
                 nRC = OtmExecuteCommand((char *)strUnzipFiles[iInx].c_str(), NULL, TRUE);
                 // if success, delete the unzip file
                 if (!nRC)
@@ -483,7 +494,9 @@ int PendingUpdatesPlugin(const char * strPendingName, PMAINTHREADINFO pMainTdInf
                 // Add log info
                 for (size_t iInx = 0; iInx < strUnzipFiles.size(); iInx++)
                 {
+#ifdef _DEBUG
                     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "unzip file (%s)", strUnzipFiles[iInx].c_str());
+#endif
                 }
             }
         }
@@ -495,7 +508,9 @@ int PendingUpdatesPlugin(const char * strPendingName, PMAINTHREADINFO pMainTdInf
 
     if (!nRC && pMainTdInfo->bFixpack)
     {
+#ifdef _DEBUG
         glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "For %s installed successfully, set install state.", strPendingName);
+#endif
         SetFixpackState(pMainTdInfo, STATE_INSTALLED, FALSE);
     }
 
@@ -532,9 +547,13 @@ int PendingUpdatesAVU(const char * strPendingName, PMAINTHREADINFO pMainTdInfo)
     const char * strDLType  = NULL;
     const char * strMethod  = NULL;
 
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "start to find the pos %s", strPendingName);
+#endif
     nRC = FindAutoVerUpPos(strPendingName, pOtmXmlLocParser, pMainTdInfo);
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "find the pos end(%d)", nRC);
+#endif
 
     if (nRC)
     {
@@ -569,7 +588,9 @@ int PendingUpdatesAVU(const char * strPendingName, PMAINTHREADINFO pMainTdInfo)
     char strPkgPath[MAX_PATH];
     memset(strPkgPath, 0x00, sizeof(strPkgPath));
     sprintf(strPkgPath, "%s\\%s\\%s", gstrOtmPath, OPENTM2_PENDING_FOLDER_STR, strPkgName);
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "find the package %s", strPkgPath);
+#endif
 
     // set check status for check box
     char strConfigPath[MAX_PATH];
@@ -589,10 +610,14 @@ int PendingUpdatesAVU(const char * strPendingName, PMAINTHREADINFO pMainTdInfo)
 
         COTMCOPIES defPathCopyies;
         GetDefPathCopies(&defPathCopyies);
+#ifdef _DEBUG
         glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "unzip the package %s start", strPkgPath);
+#endif
         // unzip the package
         nRC = OtmUnCompress(strPkgPath, &defPathCopyies, &compCopyies, gstrOtmPath, &strUnzipFiles);
+#ifdef _DEBUG
         glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "unzip the package end(%d)", nRC);
+#endif
 
         if (!nRC && (!stricmp(METHOD_INSTALL, strMethod) || !stricmp(METHOD_OPEN, strMethod)))
         {
@@ -619,7 +644,9 @@ int PendingUpdatesAVU(const char * strPendingName, PMAINTHREADINFO pMainTdInfo)
 
     if (!nRC && pMainTdInfo->bFixpack)
     {
+#ifdef _DEBUG
         glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "For %s installed successfully, set install state.", strPendingName);
+#endif
         SetFixpackState(pMainTdInfo, STATE_INSTALLED, FALSE);
     }
 
@@ -636,11 +663,15 @@ int FindPluginPos(const char * strPendingName, CPlgMgXmlLocParser * pPlgMgXmlLoc
 {
     int nRC = NO_ERROR;
 
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "split plugin name %s", strPendingName);
+#endif
     SplitPluginName(strPendingName, pMainTdInfo);
 
     nRC = pPlgMgXmlLocParser->GetPluginPos(pMainTdInfo);
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "get position %d", nRC);
+#endif
 
     return nRC;
 }
@@ -649,11 +680,15 @@ int FindAutoVerUpPos(const char * strPendingName, COtmXmlLocParser * pOtmXmlLocP
 {
     int nRC = NO_ERROR;
 
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "split component name %s", strPendingName);
+#endif
     SplitCompName(strPendingName, pMainTdInfo);
 
     nRC = pOtmXmlLocParser->GetComponentPos(pMainTdInfo);
+#ifdef _DEBUG
     glogOpenTM2Starter.writef(LOG_OPENTM2_STARTER_NAME, "get position %d", nRC);
+#endif
 
     return nRC;
 }

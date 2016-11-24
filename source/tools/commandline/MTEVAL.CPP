@@ -1237,6 +1237,11 @@ BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry, int iRemaining )
   if ( pEntry->ulRecordLen > ulMaxSize ) return( FALSE );
   if ( pEntry->ulRecordLen > (ULONG)iRemaining )  return( FALSE );
 
+  // test PE data length
+  ulMaxSize = 5 * MAX_SEGMENT_SIZE * sizeof(CHAR_W);
+  if ( pEntry->ulPEDataLen > ulMaxSize ) return( FALSE );
+  if ( pEntry->ulPEDataLen > pEntry->ulRecordLen ) return( FALSE );
+
   // test check sum (which does not include the PE data section)
   ULONG ulTestCheckSum = 0;
   int i = 0;

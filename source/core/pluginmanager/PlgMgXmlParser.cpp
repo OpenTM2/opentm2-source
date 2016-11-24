@@ -1739,11 +1739,13 @@ CPlgMgXmlParser::CPlgMgXmlParser(void)
 {
     // setting for log
     this->m_bLogOpened = FALSE;
+#ifdef _DEBUG
     if (!this->m_logPlgMgXmlParser.isOpen())
     {
         this->m_logPlgMgXmlParser.open(LOG_PLUGIN_MGR_PARSER_NAME);
         m_bLogOpened = TRUE;
     }
+#endif
 }
 
 CPlgMgXmlParser::~CPlgMgXmlParser(void)

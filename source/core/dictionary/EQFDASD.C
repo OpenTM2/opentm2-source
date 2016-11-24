@@ -1657,7 +1657,8 @@ USHORT AsdRepEntry
                       &ulTermNumber,             // number of term found
                       &ulDataLength,             // length of entry data in bytes
                       &usDictHandle,             // dictionary of match
-                      &usNlpRC );
+                      &usNlpRC,
+                      pUCB->usDictSearchSubType );
    } /* endif */
 
    //
@@ -1858,7 +1859,8 @@ USHORT AsdDelEntry
                       &ulTermNumber,             // number of term found
                       &ulDataLength,             // length of entry data # of bytes
                       &usDictHandle,             // dictionary of match
-                      &usNlpRC );
+                      &usNlpRC, 
+                      pUCB->usDictSearchSubType );
    } /* endif */
 
    //
@@ -2444,7 +2446,8 @@ USHORT AsdFndMatch
                       pulTermNumber,            // term number
                       &ulDataLenBytes,          // entry data length in # of bytes
                       &usDictHandle,            // dictionary of match
-                      &usNlpRC );               // return code
+                      &usNlpRC,                 // return code
+                      pUCB->usDictSearchSubType );
      * pulDataLength = ulDataLenBytes / sizeof(CHAR_W);
    } /* endif */
 
@@ -4971,11 +4974,12 @@ USHORT AsdGetIndexEntry
       NlpFndMatchAsdW( pDCB->aucDummy,            // term we are looking for
                       pDCB->usIndexHandle,       // dictionary handle
                       pUCB->usUser,              // ASD user handle
-                      (PBYTE) pDCB->aucDummy,            // matching term found
+                      (PBYTE) pDCB->aucDummy,    // matching term found
                       &ulTermNumber,             // number of term found
                       &ulDataLength,             // length of entry data in # of bytes
                       &usDictHandle,             // dictionary of match
-                      &usNlpRC );
+                      &usNlpRC,
+                      pUCB->usDictSearchSubType ); // special hyphenation lookup flag
    } /* endif */
 
    //
@@ -6035,7 +6039,7 @@ USHORT AsdGetField
 //+----------------------------------------------------------------------------+
 //|Function flow:     Compare base part of MWT and segment                     |
 //+----------------------------------------------------------------------------+
-BOOL AsdMWTMatch
+BOOL AsdMWTMatch                       // Routine is not used  8-17-16
 (
   USHORT    usMWTLength,               // length of MWT
   PSZ_W     pucMWT,                    // data of MWT

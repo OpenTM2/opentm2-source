@@ -821,7 +821,7 @@ EQFNTMGet
 
       ulLength = *pulLength;
       pBT->fCorrupted = FALSE;
-      sRc = QDAMDictExactLocal( (PBTREE) pBTIda,(PSZ_W) &ulKey, (PBYTE)pchBuffer, &ulLength );
+      sRc = QDAMDictExactLocal( (PBTREE) pBTIda,(PSZ_W) &ulKey, (PBYTE)pchBuffer, &ulLength, FEXACT );
       pBT->fCorrupted = fCorrupted;
 
       if ( sRc == BTREE_IN_USE )

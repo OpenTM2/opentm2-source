@@ -1378,7 +1378,9 @@ static USHORT  MemLoadStart( PVOID *ppIda,
        UtlMakeEQFPath( pLIDA->szSegLog, NULC, LOG_PATH, NULL );
        UtlMkDir( pLIDA->szSegLog, 0, FALSE );
        strcat( pLIDA->szSegLog, "\\MEMIMPORT.LOG" );
+#ifdef _DEBUG
        pLIDA->hSegLog = fopen( pLIDA->szSegLog, "wb" );
+#endif
        if ( pLIDA->hSegLog )
        {
          fwrite( UNICODEFILEPREFIX, 1, 2, pLIDA->hSegLog );
@@ -1462,7 +1464,9 @@ static USHORT  MemLoadStart( PVOID *ppIda,
        UtlMakeEQFPath( pLIDA->szSegLog, NULC, LOG_PATH, NULL );
        UtlMkDir( pLIDA->szSegLog, 0, FALSE );
        strcat( pLIDA->szSegLog, "\\MEMIMPORT.LOG" );
+#ifdef _DEBUG
        pLIDA->hSegLog = fopen( pLIDA->szSegLog, "wb" );
+#endif
        if ( pLIDA->hSegLog )
        {
          fwrite( UNICODEFILEPREFIX, 1, 2, pLIDA->hSegLog );

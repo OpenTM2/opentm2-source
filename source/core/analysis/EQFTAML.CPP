@@ -1,5 +1,5 @@
 /*! \brief EQFTAML.CPP
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 	Description: XML Output related functions of TranslationManager
 */
 
@@ -943,6 +943,7 @@ typedef struct _DOCEXPVALFORMATDATA
   BOOL        fOverwrite;                        // TRUE = overwrite existing files
   BOOL        fCreateAllDirs;                    // TRUE = create all directories without asking for permission
   BOOL        fTransOnly;                        // TRUE = Output translatable text only
+  BOOL        fThai;                             // TRUE = Handling Thai text               
   //
   PVALDOCREPLACEMU pReplaceList;                 // active tag replace list for current markup or NULL if none
   BOOL        isTag[MAX_SEGMENT_SIZE*2];                // buffer for segment text processing
@@ -1429,6 +1430,13 @@ static int ConvertHtml2Doc
   {
     OleInitialize( NULL );
     fOleInit = TRUE;
+
+//  AfxOleInit();
+//  COleMessageFilter *pFilter;
+//  pFilter = AfxOleGetMessageFilter();
+//  ASSERT_VALID(pFilter);
+//  pFilter->EnableBusyDialog(FALSE);
+//  pFilter->EnableNotRespondingDialog(FALSE);
 
     // Get CLSID for our server...
     hr = CLSIDFromProgID( L"Word.Application", &clsid );
@@ -1963,7 +1971,13 @@ static int WriteTextAndInsertSoftHyphens
       }
       else if ( EQFIsDBCSChar( *pszTemp, pData->ulCP ) )
       {
-        // found DBCS character, data can be splitted here
+        // found DBCS character, data can be split here
+        iWordLen = 0;
+      }
+      else if ( ( pData->fThai) &&
+                ( *pszTemp >= 0x00FF ) )  
+      {
+        // found Thai character, data can be split here
         iWordLen = 0;
       }
       else if ( (iWordLen > 20) && (iWordLen < 30) )
@@ -2920,6 +2934,7 @@ int DocExpValProcess
 )
 {
   int         iRC = 0;
+  ULONG       ulSrcCP, ulTgtCP ;
   PDOCEXPVALFORMATDATA pData = (PDOCEXPVALFORMATDATA)lHandle;
   PPROPDOCUMENT pProp = NULL;
 
@@ -2941,6 +2956,12 @@ int DocExpValProcess
     DocQueryInfo2Hwnd( pszDocObjName, NULL, pData->szDocFormat, pData->szDocSourceLang, pData->szDocTargetLang,
                        pData->szDocName, NULL, NULL, pData->fMsg, pData->hwndParent );
     strcpy( pData->szDocName, pProp->szLongName[0] ? pProp->szLongName : pProp->PropHead.szName );
+
+    ulSrcCP =  GetLangAnsiCP( pData->szDocSourceLang );
+    ulTgtCP =  GetLangAnsiCP( pData->szDocTargetLang );
+    if ( ( ulSrcCP == 874 ) ||   /* Set Thai processing */
+         ( ulTgtCP == 874 ) ) 
+       pData->fThai = TRUE;
   } /* endif */
 
   // get tag replacement list for current markup
@@ -3016,7 +3037,7 @@ int DocExpValPreScan
 {
   int         iRC = 0;
   PDOCEXPVALFORMATDATA pData = (PDOCEXPVALFORMATDATA)lHandle;
-  PPROPDOCUMENT pProp = NULL;
+  //PPROPDOCUMENT pProp = NULL;
 
   // get document info
   if ( !iRC )
@@ -3466,7 +3487,7 @@ int TABalanceList
 
     xw->WriteStartElement( "Header" );
 
-    xw->WriteElementString( "Generator", "TranslationManager" );
+    xw->WriteElementString( "Generator", "OpenTM2" );
 
     sprintf( pData->szBuffer, "%d.%d.%d", EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE );
     xw->WriteElementString( "GeneratorVersion", pData->szBuffer );

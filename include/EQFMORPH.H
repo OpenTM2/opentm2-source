@@ -1,6 +1,6 @@
 /*! EQFMORPH.H                                                                   
 	Description:    Include file for the Morphological Functions Module          
-	Copyright (c) 1990-2013, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 /**********************************************************************/
@@ -192,8 +192,9 @@ USHORT MorphTokenizeW
 );
 
 
-#define ABBREV_DICT   1                // dictionary type: abbreviation dict.
+#define ABBREV_DICT   1                // dictionary type: user abbreviation dict.
 #define ADDENDA_DICT  2                // dictionary type: addenda dictionary
+#define ABBREV_SYSTEM_DICT   3         // dictionary type: system abbreviation dict.
 
 USHORT MorphListDict
 (

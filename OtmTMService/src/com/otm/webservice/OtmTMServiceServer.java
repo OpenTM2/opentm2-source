@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Endpoint;
 import javax.xml.ws.Service;
@@ -16,6 +17,7 @@ import javax.xml.ws.Service;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import com.otm.gui.ConfigureWindow;
 import com.otm.log.ServiceLogger;
 import com.otm.util.CfgUtil;
 import com.otm.util.ServerComponentsControl;
@@ -31,10 +33,12 @@ public class OtmTMServiceServer {
 	}
 	
 	public OtmTMService start() throws MalformedURLException {
-		// start mysql and apache firstly
-		//System.out.println("Starting Apache server and Mysql...");
-		mLogger.info("Starting Apache server and Mysql...");
-		ServerComponentsControl.startApacheMysql();
+		// start mysql
+		mLogger.info("Starting Mysql...");
+		boolean bMsqlStarted = ServerComponentsControl.startMysql();
+		if(!bMsqlStarted) {
+			return null;
+		}
 		
 	    mEndpoint = Endpoint.publish(mStrUrl, new OtmTMServiceImpl());
           
@@ -47,6 +51,7 @@ public class OtmTMServiceServer {
 	public void stop() {			
 		if(mEndpoint != null)
 		    mEndpoint.stop();
+		    System.exit(0);
 	}
 	
 
@@ -56,13 +61,41 @@ public class OtmTMServiceServer {
 	   // start point
 	   OtmTMServiceServer server = null;
 	   try {
+		   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		   
-		   // after this, webservice begin to work
+		   // set configure for the first time
+		   if( CfgUtil.getInstance().getDbCfg().get("root_password")==null ||
+			   CfgUtil.getInstance().getDbCfg().get("db_installed_dir")==null){
+			   ConfigureWindow.show();
+		   } else {
+			   // if not the first time, ask the user whether want to pop up configure dialog
+			   int n = JOptionPane.showConfirmDialog(null, "Do you want to change the configuration now ?", "OtmTmService", JOptionPane.YES_NO_OPTION);
+			   if(n == 0) {
+				   ConfigureWindow.show();
+			   }
+		   }  
+		   
+		   // after this, web service begin to work
 		   // synchronize function receive messages to process
 			server = new OtmTMServiceServer();
-			server.start();
-			JOptionPane.showMessageDialog(null, "Server running...\n"+server.getUrl(), "OtmTMService", JOptionPane.INFORMATION_MESSAGE);
-			server.stop();
+			if( server.start() != null ) {
+				System.out.println(server.getUrl());
+			    //JOptionPane.showMessageDialog(null, "Server running...\n"+server.getUrl(), "OtmTMService", JOptionPane.INFORMATION_MESSAGE);
+			    Object[] options = {"Stop"};
+				JOptionPane.showOptionDialog(null,
+						                            "Server running...\n"+server.getUrl(),
+													"OtmTMService",
+													JOptionPane.OK_OPTION,
+													JOptionPane.INFORMATION_MESSAGE,
+													null,
+													options,
+													options[0]);
+			    server.stop();
+			} else {
+				 JOptionPane.showMessageDialog(null, "MySql can't be started!", "OtmTMService", JOptionPane.INFORMATION_MESSAGE);
+			}
+			
+			
 			//System.out.println("Server running, input any character and press 'Enter' to stop the server");
 			/*try {
 				System.in.read(new byte[1], 0, 1);
@@ -72,7 +105,7 @@ public class OtmTMServiceServer {
 			}
 			*/
 			
-	   }catch (MalformedURLException e) {
+	   }catch (Exception e) {
 		   e.printStackTrace();
 	   }
 

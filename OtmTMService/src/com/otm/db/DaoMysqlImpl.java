@@ -999,10 +999,12 @@ while(!bSuccess) {
 			
 // it's called before initialize ConnectionPool
 // So use raw connection here
-Class.forName("com.mysql.jdbc.Driver");
+String dbClass = CfgUtil.getInstance().getDbCfg().get("driver_class");
+Class.forName(dbClass);
 StringBuilder sbUrl = new StringBuilder();
 sbUrl.append("jdbc:mysql://localhost:").append(port);
-conn = DriverManager.getConnection(sbUrl.toString(), "root", "");
+String rootPassword =  CfgUtil.getInstance().getDbCfg().get("root_password");
+conn = DriverManager.getConnection(sbUrl.toString(), "root", rootPassword);
 if(!"localhost".equals(IP) && !"127.0.0.1".equals(IP))
 	IP = "%";
 

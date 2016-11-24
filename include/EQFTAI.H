@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Copyright Notice:                                                           /
 //                                                                             /
-//       Copyright (C) 1990-2015, International Business Machines              |
+//       Copyright (C) 1990-2016, International Business Machines              |
 //       Corporation and others. All rights reserved                           |
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -890,6 +890,7 @@ typedef struct _TAINPUTPARAM
    EQF_BOOL     fProtMeta;               // protect Meta sections flag
    EQF_BOOL     fProtScreen;             // protect Screen sections flag
    EQF_BOOL     fProtCodeBlock;          // protect CodeBlock sections flag
+   CHAR         szMtOptions[8096];       // buffer for specified MT output file options
 } TAINPUT, * PTAINPUT;
 
 

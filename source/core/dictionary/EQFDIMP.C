@@ -7501,9 +7501,15 @@ UINT_PTR CALLBACK DicOpenFileHook
                     {
                       USHORT usResult;
                       PSZ pszMsgTable[3];
+                      PSZ  pszTemp ;
 
                       pszMsgTable[0] = pDimpIda->szNewDictName;
                       pszMsgTable[1] = pDimpIda->szPatternName;
+                      if ( ! pDimpIda->szPatternName[0] ) {
+                         pszTemp = strrchr( pDimpIda->Controls.szPathContent, BACKSLASH ) ;
+                         if ( pszTemp ) 
+                            pszMsgTable[1] = pszTemp + 1 ;
+                      }
                       usResult = UtlErrorHwnd( MERGE_DICTIONARIES, MB_YESNO, 2, pszMsgTable, EQF_QUERY, hdlg );
 
                       //if user wants to create new dict then place focus on combo box entry field and delete contents

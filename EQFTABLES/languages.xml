@@ -131,7 +131,7 @@
 	<iso>da-DK</iso>
 	<icu>da-DK</icu>
 	<preferred>no</preferred>
-	<group/>
+    <group>Danish</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
 	<comments>Danish</comments>
@@ -326,7 +326,7 @@
 	<iso>is-IS</iso>
 	<icu>is-IS</icu>
 	<preferred>no</preferred>
-	<group/>
+    <group>Icelandic</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
 	<comments/>

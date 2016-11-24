@@ -1,4 +1,4 @@
-// Copyright (c) 2012, International Business Machines
+// Copyright (c) 2012-2016, International Business Machines
 // Corporation and others.  All rights reserved.
 //
 
@@ -651,7 +651,8 @@ NlpFndMatchAsdW
   PULONG  pulNumber,
   PULONG  pulLen,           // # of bytes
   PUSHORT pusDict,
-  PUSHORT pusRc
+  PUSHORT pusRc,
+   USHORT usSearchSubType   // special hyphenation lookup flag
 )
 {
   ULONG   ulLen;
@@ -677,7 +678,7 @@ NlpFndMatchAsdW
    while ( !fFound )
    {
       *pusRc = DamBTreeRc( QDAMDictExact( DamRec[usHandle].pDamBTree,
-                                          pTerm, NULL, &ulLen) );
+                                          pTerm, NULL, &ulLen, usSearchSubType ) );
       if ( (*pusRc == LX_WRD_NT_FND_ASD) &&
            DamRec[usHandle].usNextHandle &&
            fAssoc )

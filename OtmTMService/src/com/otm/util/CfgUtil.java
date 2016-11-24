@@ -7,11 +7,21 @@
 package com.otm.util;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -37,6 +47,14 @@ public class CfgUtil {
 	}
 	
 	public String getUrl() {
+		String ipAddress = dbCfg.get("server_ip");
+		if(null!=ipAddress && !ipAddress.isEmpty()) {
+			StringBuilder sbURL = new StringBuilder();
+			sbURL.append("http://")
+			     .append(ipAddress)
+			     .append(":8085/tmservice");
+			url = sbURL.toString();
+		}
 		return url;
 	}
 	
@@ -103,17 +121,10 @@ public class CfgUtil {
 				dbCfg.put(ch.getAttribute("name").getValue(), ch.getValue());
 			}
 		}
+
 		
-		// url
-		List<?> urls = root.getChildren("url");		
-		for(Object obj:urls) {
-			Element element = (Element)obj;
-			if(element == null)
-				continue;
-			System.out.println(element.getValue());
-			url =  element.getValue();
-//System.out.println(url);				
-		}
+		//<url name="service_url">http://127.0.0.1:8085/tmservice</url>
+		getUrl();
 		
 		// download_size
 		List<?> downloads = root.getChildren("downloadsize");		
@@ -122,10 +133,49 @@ public class CfgUtil {
 			if(element == null)
 				continue;
 			String dwdsize = element.getValue();
-			downloadsize = Integer.valueOf(dwdsize)*1024*1024;
-//System.out.println(dwdsize);	
+			downloadsize = Integer.valueOf(dwdsize)*1024*1024;	
 		}
 		
+	}
+	
+	public boolean saveToXml() {
+		org.dom4j.Document doc = DocumentHelper.createDocument();
+		org.dom4j.Element root = doc.addElement("service_cfg");
+		
+		root.addElement("downloadsize")
+			.addAttribute("name", "maxsize_per_time")
+			.addText(String.valueOf(downloadsize/(1024*1024)));
+		
+		org.dom4j.Element dbElement = root.addElement("db");
+		
+		ArrayList<Entry<String, String>> dbCfgItems = new ArrayList<Entry<String, String>>(dbCfg.entrySet());
+		Collections.sort(dbCfgItems, new Comparator<Entry<String, String>>(){
+			@Override
+			public int compare(Entry<String, String> o1,
+					Entry<String, String> o2) {
+				return o1.getKey().compareTo(o2.getKey());
+			}
+			
+		});
+		Iterator<Entry<String, String>> iter =  dbCfgItems.iterator();
+	    while(iter.hasNext()) {
+	    	Entry<String,String> entry = iter.next();
+	    	dbElement.addElement("property")
+                      .addAttribute("name", entry.getKey())
+                      .addText(entry.getValue());
+	    }
+	    
+	    
+	    try {  
+	    	OutputFormat format = OutputFormat.createPrettyPrint();  
+            XMLWriter writer = new XMLWriter(new FileWriter("./configure/service_cfg.xml"),format);  
+            writer.write(doc);  
+            writer.close();  
+        } catch (IOException e) {
+            e.printStackTrace();  
+            return false;
+        }  
+	    return true;
 	}
 	
 }

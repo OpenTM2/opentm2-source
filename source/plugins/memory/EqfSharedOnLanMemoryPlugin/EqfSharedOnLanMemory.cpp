@@ -1154,7 +1154,7 @@ int EqfSharedOnLanMemory::MatchToOtmProposal
       break;
     case 101: 
       pProposal->setFuzziness( 100 ); 
-      pProposal->setMatchType( OtmProposal::emtExactContext ); 
+      pProposal->setMatchType( OtmProposal::emtExactSameDoc ); 
       break;
     case 100: 
       pProposal->setFuzziness( 100 ); 

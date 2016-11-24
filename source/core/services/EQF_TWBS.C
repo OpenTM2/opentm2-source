@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 #define INCL_EQF_ASD              // dictionary functions
@@ -3473,6 +3473,7 @@ VOID InsertProposal
          /* check if we have to add the number of available proposals */
          /* into the prefix string                                    */
          /*************************************************************/
+         lMaxPrefixLen = sizeof(pDoc->stTWBS.szPrefix)/ sizeof(CHAR_W);
          if ( pTBDoc->pUserSettings->fNumProp )
          {
            CHAR  chNum[10];
@@ -3494,13 +3495,13 @@ VOID InsertProposal
            UTF16strcat (pPrefix, pDoc->chEndFlag);
 
            lCurLen = UTF16strlenCHAR(pPrefix);
-           lMaxPrefixLen = (sizeof(pDoc->stTWBS.szPrefix)/ sizeof(CHAR_W)) - (lCurLen + 10);
+           lMaxPrefixLen -= lCurLen + 10;
            if ((pDoc->stEQFSab + pDoc->usFI)->usPropCount > 0)
 		   {
 			  lMaxPrefixLen = lMaxPrefixLen / (pDoc->stEQFSab + pDoc->usFI)->usPropCount;
 		   }
-		   lMaxPrefixLen -= 36;    // some bytes info around filename!
          } /* endif */
+         lMaxPrefixLen -= 36;    // some bytes info around filename!
        } /* endif */
 
        if ((usPropNum == 0 ) ||

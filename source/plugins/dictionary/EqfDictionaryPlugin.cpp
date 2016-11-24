@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -16,13 +16,21 @@ extern "C" {
 }
 #endif
 
+// the static plugin infos
+static char *pszPluginName = "EqfDictionaryPlugin";
+static char *pszShortDescription = "EqfDictionaryPlugin";
+static char *pszLongDescription	= "This is the standard (EQF) dictionary implementation";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
+
 EqfDictionaryPlugin::EqfDictionaryPlugin()
 {
-	name = "EqfDictionaryPlugin";
-	shortDesc = "EqfDictionaryPlugin";
-	longDesc = "This is the standard (EQF) dictionary implementation";
-	version = "1.0";
-	supplier = "International Business Machines Corporation";
+	name = pszPluginName;
+	shortDesc = pszShortDescription;
+	longDesc = pszLongDescription;
+	version = pszVersion;
+	supplier = pszSupplier;
 	pluginType = OtmPlugin::eDictionaryType;
 	usableState = OtmPlugin::eUsable;
 }
@@ -102,14 +110,30 @@ bool EqfDictionaryPlugin::stopPlugin( bool fForce  )
 }
 
 extern "C" {
-__declspec(dllexport)
-USHORT registerPlugins()
-{
-	PluginManager::eRegRc eRc = PluginManager::eSuccess;
-	PluginManager *manager = PluginManager::getInstance();
-	EqfDictionaryPlugin* plugin = new EqfDictionaryPlugin();
-	eRc = manager->registerPlugin((OtmPlugin*) plugin);
-    USHORT usRC = (USHORT) eRc;
-    return usRC;
+  __declspec(dllexport)
+  USHORT registerPlugins()
+  {
+	  PluginManager::eRegRc eRc = PluginManager::eSuccess;
+	  PluginManager *manager = PluginManager::getInstance();
+	  EqfDictionaryPlugin* plugin = new EqfDictionaryPlugin();
+	  eRc = manager->registerPlugin((OtmPlugin*) plugin);
+      USHORT usRC = (USHORT) eRc;
+      return usRC;
+  }
 }
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+	  pPluginInfo->eType = OtmPlugin::eDictionaryType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version = -1;
+    return( 0 );
+  }
 }

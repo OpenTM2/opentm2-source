@@ -582,7 +582,7 @@ USHORT CTMXExportImport::WriteHeader
 
   m_xw.WriteStartElement( "header" );
   char szVersion[20];
-  sprintf( szVersion, "%d.%d.%d.%d", 1,3,0,1 /*EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD*/ );
+  sprintf( szVersion, "%d.%d.%d.%d", EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD );
   m_xw.WriteAttributeString( "creationtoolversion", szVersion ); 
   m_xw.WriteAttributeString( "segtype", "sentence" ); 
   m_xw.WriteAttributeString( "adminlang", "en-us" ); 

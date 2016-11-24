@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 
 //+----------------------------------------------------------------------------+
@@ -321,7 +321,8 @@ USHORT AsdMergeEntry
                       &ulTermNumber,            // term number
                       &ulTargetLen,             // entry data length in bytes
                       &usDictHandle,            // dictionary of match
-                      &usNlpRC );               // return code
+                      &usNlpRC,                 // return code
+                      pIda->pUCB->usDictSearchSubType );
 
      if ( usNlpRC == LX_WRD_NT_FND_ASD )
      {

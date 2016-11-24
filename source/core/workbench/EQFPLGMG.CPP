@@ -37,11 +37,13 @@ VOID AutoVerUpProps(BOOL bFromMenu)
 {
     // setting for log
     gbLogOpened = FALSE;
+#ifdef _DEBUG
     if (!glogPlgMgr.isOpen())
     {
        glogPlgMgr.open(LOG_PLUGIN_MGR_GUI_NAME);
        gbLogOpened = TRUE;
     }
+#endif
 
     // start our replicator program if it is not active yet
     if (!IsProgramRunning(AUTO_VERUP_EXE))
@@ -130,11 +132,13 @@ int PluginManagerGUIStart()
     int nRC = NO_ERROR;
 
     gbLogOpened = FALSE;
+#ifdef _DEBUG
     if (!glogPlgMgr.isOpen())
     {
         glogPlgMgr.open(LOG_PLUGIN_MGR_GUI_NAME);
         gbLogOpened = TRUE;
     }
+#endif
 
     // Initial path of plugin
     HWND hwndMain = EqfQueryTwbClient();

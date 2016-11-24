@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 # OtmGetToolInfo.MAK - Makefile for Startup code and resource DLL
-# Copyright (c) 2014, International Business Machines
+# Copyright (c) 2016, International Business Machines
 # Corporation and others.  All rights reserved.
 #------------------------------------------------------------------------------
 
@@ -62,9 +62,10 @@ $(_OBJEXE)\OtmGetToolInfo.exe:
     $(GETTOOLINFOROBJS) 
 	$(_LINK_OPTIONS_EXE) /subsystem:console /entry:WinMainCRTStartup /STACK:"2000000"
 /OUT:$(_OBJEXE)\OtmGetToolInfo.exe
-    $(_LINK_LIB_EXE) $(_LIB)\OtmBase.lib $(_LIB)\PluginManager.lib $(_LIB)\PluginMgrAssist.lib version.lib
+    $(_LINK_LIB_EXE) version.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\WIN\ md $(RELEASE_DIR)\OTM\WIN
     @copy $(_OBJEXE)\OtmGetToolInfo.exe $(RELEASE_DIR)\OTM\WIN /Y>$(_ERR)
 
 
+#  $(_LINK_LIB_EXE) $(_LIB)\OtmBase.lib $(_LIB)\PluginManager.lib $(_LIB)\PluginMgrAssist.lib version.lib

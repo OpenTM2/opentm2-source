@@ -4478,7 +4478,7 @@ EQFBActTrans
   /* function is only active if not in TARGET_DOCUMENT                */
   /********************************************************************/
 
-  if ( pDoc->docType != STARGET_DOC )
+//if ( pDoc->docType != STARGET_DOC )
   {
     pDocTemp = pDoc;
     while ( pDocTemp->docType != STARGET_DOC )
@@ -4493,10 +4493,10 @@ EQFBActTrans
     WinSendMsg( ((PSTEQFGEN)pDoc->pstEQFGen)->hwndTWBS,
                   WM_EQF_SETFOCUS, 0, MP2FROMHWND(pDoc->hwndFrame));
   }
-  else
-  {
-     WinAlarm( HWND_DESKTOP, WA_WARNING ); // beep if nothing changed
-  } /* endif */
+//else
+//{
+//   WinAlarm( HWND_DESKTOP, WA_WARNING ); // beep if nothing changed
+//} /* endif */
 
 } /* end of function EQFBActTrans */
 

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -16,14 +16,21 @@
 
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
+// the static plugin infos
+static char *pszPluginName = "EqfSharedOnLanMemoryPlugin";
+static char *pszShortDescription = "SharedMemoryPlugin using LAN drives";
+static char *pszLongDescription	= "Translation-Memory plugin sharing Translation Memory databases using LAN drives";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
 EqfSharedOnLanMemoryPlugin::EqfSharedOnLanMemoryPlugin()
 {
     
-    name        = "EqfSharedOnLanMemoryPlugin";
-    shortDesc   = "SharedMemoryPlugin using LAN drives";
-    longDesc    = "Translation-Memory plugin sharing Translation Memory databases using LAN drives";
-    version     = "1.0";
-    supplier    = "International Business Machines Corporation";
+	  name = pszPluginName;
+	  shortDesc = pszShortDescription;
+	  longDesc = pszLongDescription;
+	  version = pszVersion;
+	  supplier = pszSupplier;
     descrType   = "Shared Translation Memory (MS Win LAN based)";
 
     iLastError  = 0;
@@ -2706,3 +2713,20 @@ int EqfSharedOnLanMemoryPlugin::getShortName
 
   return( iResult );
 } /* end of method GetShortName */
+
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+    pPluginInfo->eType = OtmPlugin::eSharedTranslationMemoryType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version= -1;
+    return( 0 );
+  }
+}

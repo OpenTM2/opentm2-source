@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -9,14 +9,22 @@
 #include "OtmSpellHS.h"
 #include "core\PluginManager\PluginManager.h"
 
+// the static plugin infos
+static char *pszPluginName = "OtmSpellHSCheckPlugin";
+static char *pszShortDescription = "SpellCheckPlugin";
+static char *pszLongDescription	= "This is the standard Spell checking implementation";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
+
 /*! \brief constructor	 */
 OtmSpellHSPlugin::OtmSpellHSPlugin(void)
 {
-	strName = "OtmSpellHSCheckPlugin";
-	strShortDesc = "SpellCheckPlugin";
-	strLongDesc = "This is the standard Spell checking implementation";
-	strVersion = "1.0";
-	strSupplier = "International Business Machines Corporation";
+	strName = pszPluginName;
+	strShortDesc = pszShortDescription;
+	strLongDesc = pszLongDescription;
+	strVersion = pszVersion;
+	strSupplier = pszSupplier;
 	pluginType = OtmPlugin::eSpellType;
 	usableState = OtmPlugin::eUsable;
 }
@@ -196,4 +204,22 @@ extern "C" {
         USHORT usRC = (USHORT) eRc;
         return usRC;
 	}
+}
+
+
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+    pPluginInfo->eType = OtmPlugin::eSpellType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version= -1;
+    return( 0 );
+  }
 }

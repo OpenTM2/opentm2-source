@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2014, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -502,24 +502,143 @@ LONG FAR PASCAL ComboBoxSubclassProc
 
   switch ( msg )
   {
-    case WM_KEYDOWN:
-      switch ( mp1 )
-      {
-        case VK_ESC:
-//            PostMessage( hwndDlg, WM_EQF_COMMAND, MP1FROMSHORT(LOOKUP_PUBO_OK), 0L );
-//          return();
-//      MessageBox( hwndDlg, "Escape has been pressed", "Info", MB_OK );
-  	break;
+  case WM_KEYDOWN:
 
+     void (*function)( PTBDOCUMENT ); 
+     PTBDOCUMENT pKeyDoc ;
+     UCHAR uState;
+     USHORT usFunction = 0;
+     USHORT usStatus = 0 ;
+     USHORT usAction = 0 ;
 
-          break;
-
+     if ( pMDData->pDoc )
+     {
+        pKeyDoc = pMDData->pDoc ;
+    
+        if ( EQFBMapKey( msg, mp1, mp2, &usFunction, &pKeyDoc->ucState, TPRO_MAPKEY) )
+        {
+           pKeyDoc->usChar      = (USHORT)mp1;
+           pKeyDoc->usDBCS2Char = 0;
+           if ( (pKeyDoc->ucState & ST_CTRL) && 
+                (pKeyDoc->ucState & ST_SHIFT) &&
+                ('A' <= pKeyDoc->usChar) && 
+                (pKeyDoc->usChar <= 'Z') )
+           {
+             pKeyDoc->usChar = pKeyDoc->usChar + 'a' - 'A';
+           } /* endif */
+       
+           EQFBKeyState((USHORT) mp1, &pKeyDoc->ucCode, &uState);
+       
+           PFUNCTIONTABLE pFuncTab = get_FuncTab();
+           usAction = (pFuncTab + usFunction)->usAction;
+           function = (pFuncTab + usFunction)->function;
+           usStatus = EQFBCurrentState( pKeyDoc );
+           if ((usStatus & usAction) == usAction )
+           {
+              (*function)( pKeyDoc );           // execute the function
+              /****************************************************/
+              /* check if it is a function where pDoc will be     */
+              /* freed and therefore is invalid furthermore       */
+              /****************************************************/
+              if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
+                   && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+              {
+                EQFBRefreshScreen( pKeyDoc );  // refresh the screen
+              } /* endif */
+              else
+              {
+                 EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+              } /* endif */
+           }
+        }
+        break;
+    
       } /* endswitch */
       break;
 
   } /* endswitch */
+  WinDefDlgProc( hwnd, msg, mp1, mp2 );
   return( CallWindowProc( (WNDPROC)pfnOrgComboBoxProc, hwnd, msg, mp1, mp2 ) );
 } /* end of function ComboBoxSubclassProc */
+
+
+static FARPROC pfnOrgMLEProc;        // original MLE window procedure
+
+//
+// Subclass procedure for our MLE
+//
+LONG FAR PASCAL MLESubclassProc
+(
+  HWND hwnd,
+  WINMSG msg,
+  WPARAM mp1,
+  LPARAM mp2
+)
+{
+  //MRESULT mResult;
+  //HWND    hwndDlg;
+
+  switch ( msg )
+  {
+  case WM_KEYDOWN:
+
+     void (*function)( PTBDOCUMENT ); 
+     PTBDOCUMENT pKeyDoc ;
+     UCHAR uState;
+     USHORT usFunction = 0;
+     USHORT usStatus = 0 ;
+     USHORT usAction = 0 ;
+
+     if ( pMDData->pDoc )
+     {
+        pKeyDoc = pMDData->pDoc ;
+    
+        if ( EQFBMapKey( msg, mp1, mp2, &usFunction, &pKeyDoc->ucState, TPRO_MAPKEY) )
+        {
+           pKeyDoc->usChar      = (USHORT)mp1;
+           pKeyDoc->usDBCS2Char = 0;
+           if ( (pKeyDoc->ucState & ST_CTRL) && 
+                (pKeyDoc->ucState & ST_SHIFT) &&
+                ('A' <= pKeyDoc->usChar) && 
+                (pKeyDoc->usChar <= 'Z') )
+           {
+             pKeyDoc->usChar = pKeyDoc->usChar + 'a' - 'A';
+           } /* endif */
+       
+           EQFBKeyState((USHORT) mp1, &pKeyDoc->ucCode, &uState);
+       
+           PFUNCTIONTABLE pFuncTab = get_FuncTab();
+           usAction     = (pFuncTab + usFunction)->usAction;
+           function     = (pFuncTab + usFunction)->function;
+           usStatus = EQFBCurrentState( pKeyDoc );
+           if ((usStatus & usAction) == usAction )
+           {
+       
+              (*function)( pKeyDoc );           // execute the function
+              /****************************************************/
+              /* check if it is a function where pDoc will be     */
+              /* freed and therefore is invalid furthermore       */
+              /****************************************************/
+              if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
+                   && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+              {
+                EQFBRefreshScreen( pKeyDoc );  // refresh the screen
+              } /* endif */
+              else
+              {
+                 EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+              } /* endif */
+           }
+        }
+        break;
+    
+      } /* endswitch */
+      break;
+
+  } /* endswitch */
+  WinDefDlgProc( hwnd, msg, mp1, mp2 );
+  return( CallWindowProc( (WNDPROC)pfnOrgMLEProc, hwnd, msg, mp1, mp2 ) );
+} /* end of function MLESubclassProc */
 
 
 
@@ -573,15 +692,16 @@ MRESULT APIENTRY METADATADIALOG
 
     }
 
-    // subclass combobox edit field to catch escape key
+    // subclass combobox edit field and MLE edit field to catch escape key and shortcut keys
     {
       POINT pt;
-      //char szBuf[80];
       HWND hwndCombo;
-      HWND hwndEdit;
-
+      HWND hwndComboEdit;
+      HWND hwndMLE;
+      HWND hwndMLEEdit;
+   
       pt.x = 1; pt.y = 1;
-      hwndCombo = GetDlgItem( hwndDlg, ID_TB_MD_STYLE_CBS );
+      //hwndCombo = GetDlgItem( hwndDlg, ID_TB_MD_STYLE_CBS );
       //sprintf( szBuf, "hwndCombo is %lu", (ULONG)hwndCombo );
       //MessageBox( hwndDlg, szBuf, "Info", MB_OK );
       //hwndEdit = GetWindow( hwndCombo, GW_CHILD );
@@ -590,11 +710,17 @@ MRESULT APIENTRY METADATADIALOG
       //hwndEdit = FindWindowEx( hwndCombo, NULL, "Edit", NULL);
       //sprintf( szBuf, "hwndEdit using FindWindowEx(..., EDIT) is %lu", (ULONG)hwndEdit );
       //MessageBox( hwndDlg, szBuf, "Info", MB_OK );
-      hwndEdit = ChildWindowFromPoint( hwndCombo, pt );
+      //hwndComboEdit = ChildWindowFromPoint( hwndCombo, pt );
       //sprintf( szBuf, "hwndEdit using ChildWindowFromPoint(...) is %lu", (ULONG)hwndEdit );
       //MessageBox( hwndDlg, szBuf, "Info", MB_OK );
 
-      pfnOrgComboBoxProc = (FARPROC)SetWindowLong( hwndEdit, GWL_WNDPROC, (LONG)ComboBoxSubclassProc );
+      hwndCombo = GetDlgItem( hwndDlg, ID_TB_MD_STYLE_CBS );
+      hwndComboEdit = ChildWindowFromPoint( hwndCombo, pt );
+      pfnOrgComboBoxProc = (FARPROC)SetWindowLong( hwndComboEdit, GWL_WNDPROC, (LONG)ComboBoxSubclassProc );
+
+      hwndMLE = GetDlgItem( hwndDlg, ID_TB_MD_COMMENT_MLE );
+      hwndMLEEdit = ChildWindowFromPoint( hwndMLE, pt );
+      pfnOrgMLEProc = (FARPROC)SetWindowLong( hwndMLEEdit, GWL_WNDPROC, (LONG)MLESubclassProc );
      }
     break;
 
@@ -694,19 +820,66 @@ MRESULT APIENTRY METADATADIALOG
       default:
         break;
     } /*endswitch */
+    break;                          /* 10-13-16 */
 
   case WM_COMMAND:
     mResult = MDDialogCommand( hwndDlg, mp1, mp2 );
     break;
 
+  case WM_SYSCHAR:
+  case WM_SYSKEYDOWN:
   case WM_CHAR:
     {
+      void (*function)( PTBDOCUMENT ); 
+      PTBDOCUMENT pKeyDoc ;
+      UCHAR uState;
       USHORT usFunction = 0;
-      UCHAR ucState = 0;
+      USHORT usStatus = 0 ;
+      USHORT usAction = 0 ;
 
-      if ( EQFBMapKey( msg, mp1, mp2, &usFunction, &ucState, TPRO_MAPKEY) )
+      if ( pMDData->pDoc )
       {
-      } /* endif */
+         pKeyDoc = pMDData->pDoc ;
+
+         if ( EQFBMapKey( msg, mp1, mp2, &usFunction, &pKeyDoc->ucState, TPRO_MAPKEY) )
+         {
+            pKeyDoc->usChar      = (USHORT)mp1;
+            pKeyDoc->usDBCS2Char = 0;
+            if ( (pKeyDoc->ucState & ST_CTRL) && 
+                 (pKeyDoc->ucState & ST_SHIFT) &&
+                 ('A' <= pKeyDoc->usChar) && 
+                 (pKeyDoc->usChar <= 'Z') )
+            {
+              pKeyDoc->usChar = pKeyDoc->usChar + 'a' - 'A';
+            } /* endif */
+
+            EQFBKeyState((USHORT) mp1, &pKeyDoc->ucCode, &uState);
+
+            PFUNCTIONTABLE pFuncTab = get_FuncTab();
+            usAction     = (pFuncTab + usFunction)->usAction;
+            function     = (pFuncTab + usFunction)->function;
+            usStatus = EQFBCurrentState( pKeyDoc );
+            if ((usStatus & usAction) == usAction )
+            {
+               (*function)( pKeyDoc );           // execute the function
+               /****************************************************/
+               /* check if it is a function where pDoc will be     */
+               /* freed and therefore is invalid furthermore       */
+               /****************************************************/
+               if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
+                    && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+               {
+                 EQFBRefreshScreen( pKeyDoc );  // refresh the screen
+               } /* endif */
+               else
+               {
+                  EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+               } /* endif */
+            }
+         }
+         break;
+
+       } /* endswitch */
     }
     break;
 
@@ -1125,11 +1298,15 @@ MRESULT MDDialogCommand
 
 
 
- // case ID_TB_FIND_CANCEL_PB:
- // case DID_CANCEL:
- //   EQFBFindFill ( hwndDlg, pMDData);      // get data from dialog
- //   POSTCLOSE( hwndDlg, FALSE );
- //   break;
+//  case ID_TB_FIND_CANCEL_PB:
+//  case DID_CANCEL:
+//     EQFBFindFill ( hwndDlg, pMDData);      // get data from dialog
+//     POSTCLOSE( hwndDlg, FALSE );
+//     break;
+
+  case DID_CANCEL:                         /* 10-13-16 */
+    POSTCLOSE( hwndDlg, FALSE );
+    break;
 
 
   default:
@@ -1260,7 +1437,7 @@ MRESULT MDDialogClose
 
   mp1; mp2; 
 
-  // force repain of screen, we might have to update some areas...
+  // force repaint of screen, we might have to update some areas...
   if (pDoc )
   {
     pDoc->Redraw = REDRAW_ALL;

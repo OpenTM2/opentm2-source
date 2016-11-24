@@ -1467,7 +1467,7 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 
     BOOL fIsNew;
     CHAR szTargetShortFolName[10];
-    CHAR szTargetLongFolName[100];
+    CHAR szTargetLongFolName[MAX_LONGFILESPEC];
     CHAR szProfile[MAX_FILESPEC];
 
     BOOL fSubFolder = FALSE;
@@ -1561,7 +1561,9 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 	  if ( !usRC && (chDriveLetter == EOS) )
     {
       OBJNAME ObjName;
-      if ( SubFolNameToObjectName( pszFolderName, ObjName ) )
+      // GQ 2016/05/24 copy folder name to a temporary buffer as SubFolNameToObjectName tends to overwrite the folder long name and the caller's long name buffer should not be touched
+      strcpy( szTargetLongFolName, pszFolderName ); 
+      if ( SubFolNameToObjectName( szTargetLongFolName, ObjName ) )
       {
         chDriveLetter = ObjName[0];
       } /* endif */
@@ -1945,6 +1947,8 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
         {
            ppropFolder = (PPROPFOLDER) MakePropPtrFromHnd(hpropFolder);
 
+           strcpy( pRpt->szTargetLang, ppropFolder->szTargetLang );
+
            // use folder report only if none has been specified
            if ( pReportType->pszReport == NULL )
            {
@@ -2262,7 +2266,6 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
               pRpt->usCurrency    =  ppropFolder->usCurrency ;
               strcpy(pRpt->szShipment, ppropFolder->szShipment);
               pRpt->usShipmentChk = ppropFolder->usShipmentChk;
-              strcpy( pRpt->szTargetLang, ppropFolder->szTargetLang );
 
               for (i=0;i<MAX_PAYREPORT_COLUMNS;i++)
               {
@@ -2673,7 +2676,7 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
     {
 		pRpt->usRptStatus = RPT_ACTIVE;
 		pRpt->fBatch = TRUE;
-		pRpt->hwndShipmentLB = NULL;
+    pRpt->iShipmentsUsed = 0;
 		pRpt->hHTMLControl = NULL;
 	}
 

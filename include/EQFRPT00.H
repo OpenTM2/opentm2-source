@@ -1,6 +1,6 @@
 /*! EQFRPT00.H
 	Description: Private include file for Counting Report
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 // defines
@@ -555,7 +555,9 @@ typedef struct _rpt
   PDDECNTRPT    pDDECntRpt;                    // Ida
   BOOL          fErrorPosted;               // ERROR Message posted
   CHAR          szLongFolderName[MAX_LONGFILESPEC]; // long folder name
-  HWND          hwndShipmentLB;         // listbox containing translator list
+  //HWND          hwndShipmentLB;         // listbox containing translator list
+  CHAR          aszShipments[100][MAX_DESCRIPTION]; // array of shipments
+  int           iShipmentsUsed;        // number of used entries in aszShipment array
   OBJNAME       szParentObjName;            // parent (sub)folder object name
   LONG          lSmallFuzzLevel;       // fuzzines level for small segments
   LONG          lMediumFuzzLevel;      // fuzzines level for medium sized segments

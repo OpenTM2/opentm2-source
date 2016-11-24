@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -13,14 +13,21 @@
 #include "string"
 #include "vector"
 
+// some constant values
+static char *pszPluginName = "EqfMemoryPlugin";
+static char *pszShortDescription = "TranslationMemoryPlugin";
+static char *pszLongDescription	= "This is the standard Translation-Memory implementation";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
 EqfMemoryPlugin::EqfMemoryPlugin()
 {
     
-    name        = "EqfMemoryPlugin";
-    shortDesc   = "TranslationMemoryPlugin";
-    longDesc    = "This is the standard Translation-Memory implementation";
-    version     = "1.0";
-    supplier    = "International Business Machines Corporation";
+	  name = pszPluginName;
+	  shortDesc = pszShortDescription;
+	  longDesc = pszLongDescription;
+	  version = pszVersion;
+	  supplier = pszSupplier;
     descrType   = "Local Standard Translation Memory";
 
     iLastError  = 0;
@@ -1729,3 +1736,18 @@ int EqfMemoryPlugin::replaceMemory( PSZ pszReplace, PSZ pszReplaceWith )
   return( 0 );
 }
 
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+    pPluginInfo->eType = OtmPlugin::eTranslationMemoryType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version = -1;
+    return( 0 );
+  }
+}

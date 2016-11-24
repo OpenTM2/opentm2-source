@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -2412,6 +2412,134 @@ LPARAM mp2
                 /******************************************************/
                 if ( pszTermBuf ) UtlAlloc( (PVOID *) &pszTermBuf, 0L, 0L, NOMSG );
               } /* endif */
+
+
+              /******************************************************/
+              /* Get system abbreviation list.                      */
+              /******************************************************/
+              if ( ( !usMorphRC ) &&
+                   ( pIda->usListType == ABR_TYPE ) ) {
+                 RECT rect ;
+                 HWND hwndMLE;
+                 hwndMLE = GetDlgItem( hwnd, ID_LISTEDIT_TERM_MLE ) ;
+                 GetWindowRect(hwndMLE,&rect) ;
+                 SetWindowPos( hwndMLE, HWND_TOP, 0, 0,
+                               (rect.right-rect.left)/2,
+                               (rect.bottom-rect.top),
+                               SWP_NOMOVE | SWP_NOZORDER | SWP_SHOWWINDOW ) ;
+                 SHOWCONTROL( hwnd, ID_LISTEDIT_TERM_MLE2 );
+                 LOADSTRING( NULLHANDLE, hResMod, SID_LISTEDIT_TEXT_ABBREV1, pIda->szBuffer );
+                 SETTEXTHWND( GetDlgItem(hwnd,ID_LISTEDIT_TERM_TEXT), pIda->szBuffer );
+                 LOADSTRING( NULLHANDLE, hResMod, SID_LISTEDIT_TEXT_ABBREV2, pIda->szBuffer );
+                 SETTEXTHWND( GetDlgItem(hwnd,ID_LISTEDIT_TERM_TEXT2), pIda->szBuffer );
+
+                 usTermListSize = 0 ;
+                 usMorphRC = MorphListDict( pIda->sLangID,
+                                            (USHORT)ABBREV_SYSTEM_DICT,
+                                            &usTermListSize,
+                                            (PVOID *)&pTermList,
+                                            MORPH_LARGE_ZTERMLIST );
+
+                 // handle errors returned by Morph... functions
+                 if ( usMorphRC )
+                 {
+                   PSZ    pszLanguage = pIda->szListName;
+                   UtlError( EQFRS_NOMORPH_DICT, MB_CANCEL, 1, &pszLanguage, EQF_ERROR );
+                   fOK = FALSE;
+                 } /* endif */
+                
+                 /********************************************************/
+                 /* Setup buffer for MLE import and do MLE import        */
+                 /********************************************************/
+                 if ( !usMorphRC )
+                 {
+                   ULONG ulSize = MAX_ALLOC;   // size of buffer
+                   ULONG ulRest = MAX_ALLOC - 100L;   // room left in buffer
+                
+                   /******************************************************/
+                   /* Allocate buffer for term import (initial size)     */
+                   /******************************************************/
+                   pszTermBuf = NULL;
+                   fOK = UtlAlloc( (PVOID *) &pszTermBuf, 0L, ulSize * sizeof(CHAR_W),
+                                   ERROR_STORAGE );
+                
+                   /******************************************************/
+                   /* Fill term buffer with terms from term list         */
+                   /******************************************************/
+                   if ( fOK )
+                   {
+                     pszTarget = pszTermBuf;
+                     do
+                     {
+                       /******************************************************/
+                       /* Add terms to term buffer                           */
+                       /******************************************************/
+                       //PSZ pszTerm = (PSZ)pTermList + sizeof(PSZ);
+                       PSZ_W pszTerm = (PSZ_W)pTermList;
+                
+                       while ( fOK && *pszTerm )
+                       {
+                         ULONG ulTermLen = wcslen(pszTerm);
+                
+                         /****************************************************/
+                         /* Check if we have enough space left in our buffer */
+                         /* to add the current term                          */
+                         /****************************************************/
+                         if ( (ulTermLen + 2) > ulRest )
+                         {
+                           ULONG ulOffset = pszTarget - pszTermBuf;
+                
+                           /**********************************************/
+                           /* not enough space left, enlarge buffer      */
+                           /**********************************************/
+                           fOK = UtlAlloc( (PVOID *) &pszTermBuf, ulSize,
+                                           (LONG)((ulSize + MAX_ALLOC) * sizeof(CHAR_W)),
+                                           ERROR_STORAGE );
+                           if ( fOK )
+                           {
+                             pszTarget = pszTermBuf + ulOffset;
+                             ulSize += MAX_ALLOC,
+                             ulRest += MAX_ALLOC;
+                           } /* endif */
+                         } /* endif */
+                
+                         /************************************************/
+                         /* Add term to buffer                           */
+                         /************************************************/
+                         if ( fOK )
+                         {
+                           //ULONG ulUnicode = ASCII2UnicodeBuf(pszTerm, pszTarget, ulTermLen, ulOemCP);
+                           wcsncpy(pszTarget,pszTerm,ulTermLen);
+                           pszTarget   += ulTermLen;
+                           pszTerm     += ulTermLen + 1;
+                           *pszTarget++ = CR;
+                           *pszTarget++ = LF;
+                           ulRest -= (ulTermLen + 3);
+                         } /* endif */
+                       } /* endwhile */
+                
+                       // continue with next block if any
+                       if ( fOK )
+                       {
+                         UtlAlloc( (PVOID *) &pTermList, 0L, 0L, NOMSG );
+                         //pTermList = pszNext;
+                         pTermList = NULL;
+                       }
+                     } while ( fOK && (pTermList != NULL) ); /* enddo */
+                     *pszTarget++ = EOS;
+                   } /* endif */
+                
+                   /******************************************************/
+                   /* Set text of entry field                            */
+                   /******************************************************/
+                   SetDlgItemTextW( hwnd, ID_LISTEDIT_TERM_MLE2, pszTermBuf );
+
+                   /******************************************************/
+                   /* Cleanup                                            */
+                   /******************************************************/
+                   if ( pszTermBuf ) UtlAlloc( (PVOID *) &pszTermBuf, 0L, 0L, NOMSG );
+                }
+              }
             }
             break;
 

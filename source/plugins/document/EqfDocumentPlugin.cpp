@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -9,14 +9,21 @@
 #include "EqfDocumentPlugin.h"
 #include "EqfDocument.h"
 
+// some constant values
+static char *pszPluginName = "EqfDocumentPlugin";
+static char *pszShortDescription = "DocumentPlugin";
+static char *pszLongDescription	= "This is the standard document implementation";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
 EqfDocumentPlugin::EqfDocumentPlugin()
 {
-	name = "EqfDocumentPlugin";
-	shortDesc = "DocumentPlugin";
-	longDesc = "This is the standard document implementation";
-	version = "1.0";
-	supplier = "International Business Machines Corporation";
-	pluginType = OtmPlugin::eDocumentType;
+	name = pszPluginName;
+	shortDesc = pszShortDescription;
+	longDesc = pszLongDescription;
+	version = pszVersion;
+	supplier = pszSupplier;
+  pluginType = OtmPlugin::eDocumentType;
 	usableState = OtmPlugin::eUsable;
 }
 
@@ -96,6 +103,7 @@ bool EqfDocumentPlugin::stopPlugin( bool fForce  )
   return( true );
 }
 
+
 extern "C" {
 __declspec(dllexport)
 USHORT registerPlugins()
@@ -107,4 +115,21 @@ USHORT registerPlugins()
     USHORT usRC = (USHORT) eRc;
     return usRC;
 }
+}
+
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+    pPluginInfo->eType = OtmPlugin::eDocumentType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version= -1;
+    return( 0 );
+  }
 }

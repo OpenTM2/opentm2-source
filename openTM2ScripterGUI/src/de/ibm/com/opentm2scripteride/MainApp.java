@@ -10,16 +10,17 @@ package de.ibm.com.opentm2scripteride;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -197,11 +198,20 @@ public class MainApp {
 	public boolean saveFile(File filename) {
 		//try to write the editors content to the specified file
 		try{
-			FileWriter writer = new FileWriter(filename ,false);
-			String editorText = mActiveEditor.getText();
-			writer.write(convertLFtoOSLF(editorText));
-	 		writer.flush();
-	 		writer.close();
+//			FileWriter writer = new FileWriter(filename ,false);
+//			String editorText = mActiveEditor.getText();
+//			writer.write(convertLFtoOSLF(editorText));
+//	 		writer.flush();
+//	 		writer.close();
+	 		
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"));
+	 			try {
+	 				String editorText = mActiveEditor.getText();
+	 			    out.write(convertLFtoOSLF(editorText));
+	 			    out.flush();
+	 			} finally {
+	 			    out.close();
+	 			}
 		}
 		catch(IOException e){
 			ErrorHandler.getInstance().handleError(ErrorHandler.ERROR, 
@@ -251,7 +261,8 @@ public class MainApp {
 			return null;
 		}
 		
-		byte[] buffer = null;
+		//byte[] buffer = null;
+		StringBuilder sbText = new StringBuilder();
 	   	if(file != null)
 	   	{	  		
 	   		//check if the file already opened
@@ -264,13 +275,21 @@ public class MainApp {
 			}
 			
 			//
-		    buffer = new byte[(int) file.length()];
-		    BufferedInputStream f = null;
+		    //buffer = new byte[(int) file.length()];
+		    //BufferedInputStream f = null;
+            BufferedReader br = null;
+           
 		    try {
-		        f = new BufferedInputStream(new FileInputStream(file));	        
-		        f.read(buffer);
+		        //f = new BufferedInputStream(new FileInputStream(file));	     
+		        br = new BufferedReader( new InputStreamReader(new FileInputStream(file),"UTF-8") );
+		        String tempLine = null;
+		        while( (tempLine=br.readLine())!=null ) {
+		        	sbText.append(tempLine);
+		        	sbText.append(System.lineSeparator());
+		        }
+		    	//f.read(buffer);
 		    } finally {
-		        if (f != null) try { f.close(); } catch (IOException ignored) {}
+		        if (br != null) try { br.close(); } catch (IOException ignored) {}
 		    }
 	   	}
 	   	
@@ -294,8 +313,8 @@ public class MainApp {
 	    setActiveEditor(editor);
 	    
         // repaint
-		if(buffer != null) {
-	        editor.setText(convertCRLFtoLF(new String(buffer)));
+		if(sbText.length()!=0) {
+	        editor.setText(convertCRLFtoLF(sbText.toString()));
 		}
 	    editor.repaint();
 	    editor.discardAllEdits();

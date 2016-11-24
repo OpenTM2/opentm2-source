@@ -25,6 +25,210 @@
 #include "StdAfx.h"
 #include "GetToolInfo.h"
 
+/*! \typedef PLUGINPROC
+	Prototype for the registerPlugins() function
+*/
+typedef unsigned short (__cdecl *PLUGINPROC) ();   
+
+/*! \typedef PLUGININFOPROC
+	Prototype for the GetPluginInfo() function
+*/
+typedef unsigned short (__cdecl *PLUGININFOPROC) ( POTMPLUGININFO pInfo );  
+
+//
+// GQ: The functions below have been borrowed from the OtmBase DLL in order to create a stand-alone version of the OtmGetToolInfo tool
+//
+
+void OtmCenterWindow(HWND hWnd)
+{
+    HWND hParentOrOwner;
+    RECT rcParent, rcWnd;
+    int x, y;
+    if ((hParentOrOwner = GetParent(hWnd)) == NULL)
+    {
+        SystemParametersInfo(SPI_GETWORKAREA, 0, &rcParent, 0);
+    }
+    else
+    {
+        GetWindowRect(hParentOrOwner, &rcParent);
+    }
+    GetWindowRect(hWnd, &rcWnd);
+    x = ((rcParent.right-rcParent.left) - (rcWnd.right-rcWnd.left)) / 2 + rcParent.left;
+    y = ((rcParent.bottom-rcParent.top) - (rcWnd.bottom-rcWnd.top)) / 2 + rcParent.top;
+    SetWindowPos(hWnd, HWND_TOP, x, y, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+}
+
+USHORT APIENTRY DosLoadModule
+ (
+    PSZ pszFailName,                    // object name buffer
+    USHORT cbFileName,                  // length of object name buffer
+    PSZ pszModName,                     // dynamic link module name string
+    PHMODULE phMod                      // module handle (returned)
+ )
+ {
+   USHORT usRc = 0;                     // success indicator
+   HINSTANCE hmod;
+
+   pszFailName; cbFileName;
+   DosError(0);                         // avoid error popup...
+   hmod = LoadLibrary(pszModName );
+   DosError(1);
+   if ( hmod == NULL)
+   {
+     usRc = (USHORT)GetLastError();
+     *phMod = (HMODULE) NULL;
+   }
+   else
+   {
+     *phMod = hmod;
+   } /* endif */
+   return usRc;
+ }
+
+USHORT APIENTRY DosError
+ (
+   USHORT fEnable                       // action flag (bit field)
+ )
+ {
+   switch ( fEnable )
+   {
+     case 0:
+       SetErrorMode( SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX );
+       break;
+     case 1:
+       SetErrorMode(0);
+       break;
+   } /* endswitch */
+   return 0;
+ }
+
+USHORT EqfDriveType(USHORT iDrive)
+{
+    USHORT   iType;
+
+    //Validate possible drive indices
+    if (0 > iDrive  || 25 < iDrive)
+        return 0xFFFF;
+
+        {
+      CHAR szRoot[4] = "A:\\";
+      szRoot[0] = (CHAR)('A' + iDrive);
+      iType=(USHORT)GetDriveType(szRoot);
+        }
+    /*
+     * Under Windows NT, GetDriveType returns complete information
+     * not provided under Windows 3.x which we now get through other
+     * means.
+     */
+    return iType;
+}
+
+SHORT UtlDriveType( CHAR chDrive )
+{
+  SHORT   sDriveID;                    // numeric ID (index) of drive
+
+  toupper( chDrive );
+
+  /********************************************************************/
+  /* Check for valid drive chars                                      */
+  /********************************************************************/
+  if ( (chDrive < 'A') || (chDrive > 'Z') )
+  {
+    return( -1 );
+  } /* endif */
+
+  /********************************************************************/
+  /* Get index of drive                                               */
+  /********************************************************************/
+  sDriveID = chDrive - 'A';
+
+  /********************************************************************/
+  /* Get type of drive                                                */
+  /********************************************************************/
+  return ( (SHORT)EqfDriveType( sDriveID ) );
+} /* end of function UtlDriveType */
+
+BYTE UtlQCurDisk()
+{
+    static CHAR szCurDir[MAX_PATH+100];
+
+    DosError(0);
+    if ( GetCurrentDirectory( sizeof(szCurDir), szCurDir ) == 0 )
+    {
+      szCurDir[0] = EOS;
+    } /* endif */
+    DosError(1);
+
+    return (BYTE)szCurDir[0];
+}
+
+USHORT UtlGetDriveList( BYTE *szList)
+{
+    BYTE   bDrive;                     // currently logged drive
+    WORD   wReturn;                    // return value from GetDriveType
+    register int i;
+
+    for (i=0, wReturn=0; i<26;i++)
+    {
+      CHAR szRoot[4] = "C:\\";
+      szRoot[0] = (CHAR)('A' + i);
+      wReturn = (WORD)GetDriveType( szRoot );
+      switch ( wReturn )
+      {
+        case DRIVE_REMOVABLE :
+        case DRIVE_FIXED   :
+        case DRIVE_REMOTE  :
+        case DRIVE_CDROM   :
+        case DRIVE_RAMDISK :
+          *szList++ = (BYTE) ('A' + i);
+          break;
+
+        case DRIVE_UNKNOWN :
+        case DRIVE_NO_ROOT_DIR :
+        default:
+          break;
+      } /* endswitch */
+    } /* endfor */
+
+    *szList = '\0';
+
+    bDrive = UtlQCurDisk();
+    return( (USHORT) (bDrive - 'A' + 1));   // set index relative to 0
+}
+
+USHORT UtlGetLANDriveList( PBYTE pszList )
+{
+  PBYTE pSource, pTarget;              // pointer for drive list processing
+  SHORT sDriveType;                    // type of currently tested drive
+  USHORT usRC;
+
+  usRC = UtlGetDriveList( pszList);    // get all available drives
+
+  pSource = pTarget = pszList;         // start at begin of drive list
+
+  while ( *pSource != NULC )           // while not end of list ....
+  {
+    sDriveType = UtlDriveType( *pSource );
+    switch ( sDriveType )
+    {
+      case DRIVE_FIXED  :              
+        pSource++;                     // ignore drive
+        break;
+
+      case DRIVE_REMOTE :
+        *pTarget++ = *pSource++;       // leave drive in list
+        break;
+
+      default :
+        pSource++;                     // ignore drive
+        break;
+    } /* endswitch */
+  } /* endwhile */
+  *pTarget = NULC;                     // terminate new drive list
+
+  return( usRC );
+} /* end of function UtlGetLANDriveList */
+
 int GetToolInfo::ShowToolInfo()
 {
     int nRC = NO_ERROR;
@@ -162,11 +366,6 @@ int GetToolInfo::ShowToolRelatedInfo()
 
     // Show plugins info
     nRC = ShowPluginsInfo();
-    // do not return if failed to get plugin info P403115
-    /*if (nRC)
-    {
-        return nRC;
-    }*/
 
     // Show all files in WIN folder
     nRC = ShowOtmWinFolder();
@@ -373,6 +572,150 @@ int GetToolInfo::ShowDrivesInfo()
     return nRC;
 }
 
+BOOL GetToolInfo::CheckDllName(const char * strFullName)
+{
+    BOOL bValid = TRUE;
+    static char strExt[_MAX_EXT];
+
+    _splitpath( strFullName, NULL, NULL, NULL, strExt);
+
+    if ( strlen(strExt) == 0 )
+    {
+        bValid = FALSE;
+        return bValid;
+    }
+
+    if (stricmp( strExt, ".DLL") != 0 )
+    {
+        bValid = FALSE;
+    }
+
+    return bValid;
+}
+
+int GetToolInfo::ShowPluginInfo(const char* pszName)
+{
+  int nRC = NO_ERROR;
+  static OTMPLUGININFO PluginInfo;
+  char strShowMsg[MAX_LEN_MSG];
+  int i = 1;
+
+
+  SetErrorMode(  SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX  );
+	HMODULE hMod = LoadLibrary(pszName);
+  SetErrorMode(0);
+  if ( hMod == 0 )
+  {
+    // get error message text
+    LPTSTR errorText = NULL;
+    DWORD dwError = GetLastError();
+    FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, dwError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&errorText, 0, NULL);   
+    if ( NULL != errorText )
+    {
+       // ... do something with the string `errorText` - log it, display it to the user, etc.
+
+       // release memory allocated by FormatMessage()
+       LocalFree(errorText);
+       errorText = NULL;
+    }
+  }
+	if ( hMod != 0 )
+	{
+		PLUGINPROC pFunc = (PLUGINPROC) GetProcAddress(hMod, "registerPlugins");
+		if ( pFunc != 0 )
+		{
+      // get plugin info (when provided)
+		  PLUGININFOPROC pInfoFunc = (PLUGININFOPROC) GetProcAddress(hMod, "getPluginInfo");
+      memset( &PluginInfo, 0, sizeof(PluginInfo) );
+      if ( pInfoFunc != NULL )
+      {
+        // use plugin info function to retrieve the plugin information
+        memset( &PluginInfo, 0, sizeof(PluginInfo) );
+        pInfoFunc( &PluginInfo );
+      }
+
+      // use DLL name as plugin name when no info is available
+      if ( PluginInfo.szName[0] == 0 )
+      {
+        _splitpath( pszName, NULL, NULL, PluginInfo.szName, NULL );
+        strcpy( PluginInfo.szVersion, "n/a (pre-Otm1.3.2 plugin)" );
+      }
+
+      memset(strShowMsg, 0x00, sizeof(strShowMsg));
+      sprintf(strShowMsg, "      (%2d) %-39s%s\n", i++, PluginInfo.szName, PluginInfo.szVersion );
+      ShowInfoMsg(strShowMsg);
+    }
+    FreeLibrary(hMod);
+  }
+  return nRC;
+}
+
+int GetToolInfo::ScanPluginDir( const char *pszPluginDir, int iDepth )
+{
+  int nRC = NO_ERROR;
+	std::string strFileSpec(pszPluginDir);
+	BOOL fMoreFiles = TRUE;
+	HANDLE hDir = HDIR_CREATE;
+	WIN32_FIND_DATA ffb;
+
+
+  // check the depths of the cycle
+  if ( iDepth > 1)
+  {
+      return nRC;
+  }
+
+	strFileSpec += "\\*.dll";
+
+  // scan all DLLs located in current directory
+	hDir = FindFirstFile( strFileSpec.c_str(), &ffb );
+  if ( hDir != INVALID_HANDLE_VALUE )
+  {
+    fMoreFiles = TRUE;
+	  while ( fMoreFiles )
+	  {
+		  std::string strDll(pszPluginDir);
+		  strDll += '\\';
+		  strDll += ffb.cFileName;
+
+      if ( CheckDllName(strDll.c_str()) )
+      {
+        ShowPluginInfo( strDll.c_str() );
+      }
+
+		  fMoreFiles= FindNextFile( hDir, &ffb );
+	  } /* endwhile */
+    FindClose( hDir );
+  } /* endif */     
+
+  // scan all subdirectories
+  if ( iDepth < 1 )
+  {
+	  strFileSpec = pszPluginDir;
+	  strFileSpec += "\\*";
+	  hDir = FindFirstFile( strFileSpec.c_str(), &ffb );
+    if ( hDir != INVALID_HANDLE_VALUE )
+    {
+      fMoreFiles = TRUE;
+
+	    while ( fMoreFiles )
+	    {
+        if ( (ffb.cFileName[0] != '.') && (ffb.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+		    {
+			    std::string strSubdir(pszPluginDir);
+			    strSubdir += '\\';
+			    strSubdir += ffb.cFileName;
+          nRC = ScanPluginDir( strSubdir.c_str(), iDepth + 1 );
+		    }
+		    fMoreFiles= FindNextFile( hDir, &ffb );
+	    }
+      FindClose( hDir );
+    } /* endif */     
+  }
+
+  return nRC;     
+}
+
 int GetToolInfo::ShowPluginsInfo()
 {
     int nRC = NO_ERROR;
@@ -380,26 +723,7 @@ int GetToolInfo::ShowPluginsInfo()
     ShowInfoMsg(LINE_BREAK_STR);
     ShowInfoMsg(PLUGIN_INFO_STR);
 
-    char strShowMsg[MAX_LEN_MSG];
-    memset(strShowMsg, 0x00, sizeof(strShowMsg));
-    PluginManager* thePluginManager = PluginManager::getInstance();
-    OtmPlugin*     otmPlugin;
-
-    nRC = thePluginManager->loadPluginDlls(m_strPluginPath);
-    if (nRC)
-    {
-        return nRC;
-    }
-
-    int nCnt = thePluginManager->getPluginCount();
-    // first add removable plugin
-    for (int iInx = 0; iInx < nCnt; iInx++)
-    {
-        otmPlugin = thePluginManager->getPlugin(iInx);
-        memset(strShowMsg, 0x00, sizeof(strShowMsg));
-        sprintf(strShowMsg, "      (%2d) %-39s%s\n", iInx + 1, otmPlugin->getName(), otmPlugin->getVersion());
-        ShowInfoMsg(strShowMsg);
-    }
+    nRC = ScanPluginDir( m_strPluginPath, 0 );
 
     return nRC;
 }
@@ -985,77 +1309,77 @@ void GetToolInfo::GetModuleAppPath(const char * strModule)
 
 }
 
-BOOL GetToolInfo::SetupUtils( HAB hab, PSZ  pMsgFile )
-{
-    BOOL   fOK;                          // success indicator
-    CHAR   szDrive[MAX_DRIVE];           // buffer for drive list
-    CHAR   szLanDrive[2];                // buffer for LAN drive
-    CHAR   EqfSystemMsgFile[MAX_EQF_PATH];  // global message file
-    CHAR   EqfSystemHlpFile[MAX_EQF_PATH];  // global help file
-    CHAR   szEqfSysLanguage[MAX_EQF_PATH];  // system language
-    CHAR   szEqfResFile[MAX_EQF_PATH];      // resource
-
-    UtlSetULong( QL_HAB, (ULONG) hab );
-
-    UtlSetULong( QL_TWBFRAME, (ULONG) HWND_DESKTOP );
-    UtlSetULong( QL_TWBCLIENT, (ULONG) HWND_DESKTOP );
-
-    GetStringFromRegistry( APPL_Name, KEY_Drive, szDrive, sizeof( szDrive  ), "" );
-    strupr( szDrive );
-
-    GetStringFromRegistry( APPL_Name, KEY_LanDrive, szLanDrive, sizeof( szLanDrive  ), "" );
-    strupr( szLanDrive );
-
-    // Get name of current language
-    GetStringFromRegistry( APPL_Name, KEY_SYSLANGUAGE, szEqfSysLanguage, sizeof( szEqfSysLanguage ), DEFAULT_SYSTEM_LANGUAGE );
-
-    // Set name of resource, help file and message file for selected language
-    fOK = UtlQuerySysLangFile( szEqfSysLanguage, szEqfResFile, EqfSystemHlpFile, EqfSystemMsgFile );
-
-    UtlSetString( QST_PRIMARYDRIVE, szDrive );
-    UtlSetString( QST_LANDRIVE,     szLanDrive );
-    UtlSetString( QST_PROPDIR,      "PROPERTY" );
-    UtlSetString( QST_CONTROLDIR,   "CTRL" );
-    UtlSetString( QST_PROGRAMDIR,   "PGM" );
-    UtlSetString( QST_DICDIR,       "DICT" );
-    UtlSetString( QST_MEMDIR,       "MEM" );
-    UtlSetString( QST_TABLEDIR,     "TABLE" );
-    UtlSetString( QST_LISTDIR,      "LIST" );
-    UtlSetString( QST_DLLDIR,       "DLL" );
-    UtlSetString( QST_MSGDIR,       "MSG" );
-    UtlSetString( QST_EXPORTDIR,    "EXPORT" );
-    UtlSetString( QST_IMPORTDIR,    "IMPORT" );
-    UtlSetString( QST_SYSTEMDIR,    "OTM" );
-    UtlSetString( QST_SOURCEDIR,    "SOURCE" );
-    UtlSetString( QST_TARGETDIR,    "TARGET" );
-    UtlSetString( QST_SEGSOURCEDIR, "SSOURCE" );
-    UtlSetString( QST_SEGTARGETDIR, "STARGET" );
-    UtlSetString( QST_DIRSEGNOMATCHDIR, "SNOMATCH" );
-    UtlSetString( QST_MTLOGPATH,    "MTLOG" );
-    UtlSetString( QST_DIRSEGMTDIR, "MT" );
-    UtlSetString( QST_DIRSEGRTFDIR, "RTF" );
-    UtlSetString( QST_LOGPATH,           "LOGS" );
-    UtlSetString( QST_XLIFFPATH,         "XLIFF" );
-    UtlSetString( QST_METADATAPATH,      "METADATA" );
-    UtlSetString( QST_JAVAPATH,          "JAVA" );
-    UtlSetString( QST_ENTITY,            "ENTITY" );
-    UtlSetString( QST_REMOVEDDOCDIR,     "REMOVED" );
-    UtlSetString( QST_MSGFILE,       EqfSystemMsgFile );
-    UtlSetString( QST_HLPFILE,       EqfSystemHlpFile );
-    UtlSetString( QST_PLUGINPATH,     "PLUGINS" );
-
-    UtlSetString( QST_RESFILE,       szEqfResFile );
-
-    /********************************************************************/
-    /* return message file name - if requested                          */
-    /********************************************************************/
-    if ( pMsgFile )
-    {
-        strcpy( pMsgFile, EqfSystemMsgFile );
-    } /* endif */
-
-    return fOK;
-} /* end of SetupUtils */
+//BOOL GetToolInfo::SetupUtils( HAB hab, PSZ  pMsgFile )
+//{
+//    BOOL   fOK;                          // success indicator
+//    CHAR   szDrive[MAX_DRIVE];           // buffer for drive list
+//    CHAR   szLanDrive[2];                // buffer for LAN drive
+//    CHAR   EqfSystemMsgFile[MAX_EQF_PATH];  // global message file
+//    CHAR   EqfSystemHlpFile[MAX_EQF_PATH];  // global help file
+//    CHAR   szEqfSysLanguage[MAX_EQF_PATH];  // system language
+//    CHAR   szEqfResFile[MAX_EQF_PATH];      // resource
+//
+//    UtlSetULong( QL_HAB, (ULONG) hab );
+//
+//    UtlSetULong( QL_TWBFRAME, (ULONG) HWND_DESKTOP );
+//    UtlSetULong( QL_TWBCLIENT, (ULONG) HWND_DESKTOP );
+//
+//    GetStringFromRegistry( APPL_Name, KEY_Drive, szDrive, sizeof( szDrive  ), "" );
+//    strupr( szDrive );
+//
+//    GetStringFromRegistry( APPL_Name, KEY_LanDrive, szLanDrive, sizeof( szLanDrive  ), "" );
+//    strupr( szLanDrive );
+//
+//    // Get name of current language
+//    GetStringFromRegistry( APPL_Name, KEY_SYSLANGUAGE, szEqfSysLanguage, sizeof( szEqfSysLanguage ), DEFAULT_SYSTEM_LANGUAGE );
+//
+//    // Set name of resource, help file and message file for selected language
+//    fOK = UtlQuerySysLangFile( szEqfSysLanguage, szEqfResFile, EqfSystemHlpFile, EqfSystemMsgFile );
+//
+//    UtlSetString( QST_PRIMARYDRIVE, szDrive );
+//    UtlSetString( QST_LANDRIVE,     szLanDrive );
+//    UtlSetString( QST_PROPDIR,      "PROPERTY" );
+//    UtlSetString( QST_CONTROLDIR,   "CTRL" );
+//    UtlSetString( QST_PROGRAMDIR,   "PGM" );
+//    UtlSetString( QST_DICDIR,       "DICT" );
+//    UtlSetString( QST_MEMDIR,       "MEM" );
+//    UtlSetString( QST_TABLEDIR,     "TABLE" );
+//    UtlSetString( QST_LISTDIR,      "LIST" );
+//    UtlSetString( QST_DLLDIR,       "DLL" );
+//    UtlSetString( QST_MSGDIR,       "MSG" );
+//    UtlSetString( QST_EXPORTDIR,    "EXPORT" );
+//    UtlSetString( QST_IMPORTDIR,    "IMPORT" );
+//    UtlSetString( QST_SYSTEMDIR,    "OTM" );
+//    UtlSetString( QST_SOURCEDIR,    "SOURCE" );
+//    UtlSetString( QST_TARGETDIR,    "TARGET" );
+//    UtlSetString( QST_SEGSOURCEDIR, "SSOURCE" );
+//    UtlSetString( QST_SEGTARGETDIR, "STARGET" );
+//    UtlSetString( QST_DIRSEGNOMATCHDIR, "SNOMATCH" );
+//    UtlSetString( QST_MTLOGPATH,    "MTLOG" );
+//    UtlSetString( QST_DIRSEGMTDIR, "MT" );
+//    UtlSetString( QST_DIRSEGRTFDIR, "RTF" );
+//    UtlSetString( QST_LOGPATH,           "LOGS" );
+//    UtlSetString( QST_XLIFFPATH,         "XLIFF" );
+//    UtlSetString( QST_METADATAPATH,      "METADATA" );
+//    UtlSetString( QST_JAVAPATH,          "JAVA" );
+//    UtlSetString( QST_ENTITY,            "ENTITY" );
+//    UtlSetString( QST_REMOVEDDOCDIR,     "REMOVED" );
+//    UtlSetString( QST_MSGFILE,       EqfSystemMsgFile );
+//    UtlSetString( QST_HLPFILE,       EqfSystemHlpFile );
+//    UtlSetString( QST_PLUGINPATH,     "PLUGINS" );
+//
+//    UtlSetString( QST_RESFILE,       szEqfResFile );
+//
+//    /********************************************************************/
+//    /* return message file name - if requested                          */
+//    /********************************************************************/
+//    if ( pMsgFile )
+//    {
+//        strcpy( pMsgFile, EqfSystemMsgFile );
+//    } /* endif */
+//
+//    return fOK;
+//} /* end of SetupUtils */
 
 int GetToolInfo::GetValFromReg(HKEY hStartKey, const char * strSubKey, const char * strKey, char * strValue)
 {
@@ -1217,7 +1541,7 @@ int GetToolInfo::DoInitialize()
 
     HAB  hAB = NULL;
 
-    SetupUtils(hAB, m_strMsgFile);
+    //SetupUtils(hAB, m_strMsgFile);
     return nRC;
 }
 

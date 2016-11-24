@@ -280,9 +280,9 @@ VOID SetAvailFlags( PTMX_GET_OUT_W pTmGetOut, USHORT usMatchesFound)
 // get match type 
 OtmProposal::eMatchType GetMatchTypeFromMatchLevel( USHORT usMatchLevel )
 {
-  if ( usMatchLevel == 100) return ( OtmProposal::emtExact );
-  if ( usMatchLevel == 101 ) return ( OtmProposal::emtExactContext );
-  if ( usMatchLevel == 102 ) return ( OtmProposal::emtExactExact );
+  if ( usMatchLevel == 101 ) return( OtmProposal::emtExactSameDoc );; 
+  if ( usMatchLevel == 100 ) return( OtmProposal::emtExact );
+  if ( usMatchLevel == 102 ) return( OtmProposal::emtExactExact );
   return ( OtmProposal::emtFuzzy );
 }
 
@@ -1184,9 +1184,9 @@ USHORT ExactTest
             {
               ULONG ulLeftClbLen;      // left CLB entries in CLB list
               PTMX_TARGET_CLB pClb;    // pointer for CLB list processing
-              #define SAME_SEG_AND_DOC_MATCH  7
-              #define DOC_AND_CONTEXT_MATCH   6
-              #define CONTEXT_MATCH           5
+              #define DOC_AND_CONTEXT_MATCH   7
+              #define CONTEXT_MATCH           6
+              #define SAME_SEG_AND_DOC_MATCH  5
               #define SAME_DOC_MATCH          4
               #define MULT_DOC_MATCH          3
               #define NORMAL_MATCH            2
@@ -1271,15 +1271,7 @@ USHORT ExactTest
                     sCurMatch = IGNORE_MATCH;
                   } /* endif */                     
                 }
-                else if ( fMatchingDocName && (pClb->ulSegmId >= (pGetIn->ulSegmentId - 1)) && (pClb->ulSegmId <= (pGetIn->ulSegmentId + 1)) )
-                {
-                  // same segment from same document available
-                  sCurMatch = SAME_SEG_AND_DOC_MATCH;
-                  pTMXTargetClb = pClb;          // use this target CLB for match
-                  usContextRanking = usCurContextRanking;
-                  usTargetTranslationFlag = usTranslationFlag;
-                }
-                else if ( usCurContextRanking > 0  )
+                else if ( usCurContextRanking == 100  )
                 {
                   if ( fMatchingDocName )
                   {
@@ -1350,6 +1342,14 @@ USHORT ExactTest
                       } /* endif */
                     } /* endif */
                   } /* endif */                     
+                }
+                else if ( fMatchingDocName && (pClb->ulSegmId >= (pGetIn->ulSegmentId - 1)) && (pClb->ulSegmId <= (pGetIn->ulSegmentId + 1)) )
+                {
+                  // same segment from same document available
+                  sCurMatch = SAME_SEG_AND_DOC_MATCH;
+                  pTMXTargetClb = pClb;          // use this target CLB for match
+                  usContextRanking = usCurContextRanking;
+                  usTargetTranslationFlag = usTranslationFlag;
                 }
                 else if ( fMatchingDocName )
                 {
@@ -1440,7 +1440,8 @@ USHORT ExactTest
                     {
                       // GQ 2015/05/09: treat 100% context matches as normal exact context matches
                       // usMatchLevel = fNormalMatch ? usEqual+2 : usEqual-1;
-                      usMatchLevel = fNormalMatch ? usEqual+1 : usEqual-1;
+                      // GQ 2016/10/24: treat 100% context matches as normal exact matches
+                      usMatchLevel = fNormalMatch ? usEqual : usEqual-1;
                     }
                     else
                     {
@@ -1944,10 +1945,10 @@ USHORT FillMatchTable( PTMX_CLB pTmClb,         //ptr to ctl block struct
     {
       BOOL fEndOfTable = (usCurrentEntry + 1) >= MAX_MATCHES;
 
-      int iMatchSortKey = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( pstMatchTable->usMatchLevel ), GetProposalTypeFromFlag( pstMatchTable->usTranslationFlag ), 
-          (int)pstMatchTable->usMatchLevel , -1, pstMatchTable->usContextRanking, fEndOfTable );
+      int iMatchSortKey = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( pstMatchTable->usMatchLevel ), GetProposalTypeFromFlag( pstMatchTable->usTranslationFlag ), (int)pstMatchTable->usMatchLevel , -1, 
+                          pstMatchTable->usContextRanking, fEndOfTable );
       int iNewMatchSortKey = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( *pusMatchLevel ), GetProposalTypeFromFlag( usTranslationFlag ), 
-          (int)*pusMatchLevel, -1, usContextRanking, fEndOfTable );
+                             (int)*pusMatchLevel, -1, usContextRanking, fEndOfTable );
 
 
       if ( iMatchSortKey  > iNewMatchSortKey  )
@@ -1997,10 +1998,15 @@ USHORT FillMatchTable( PTMX_CLB pTmClb,         //ptr to ctl block struct
           /* otherwise put in our match, it's coming from same source   */
           /* document                                                   */
           /**************************************************************/
-          if ( (pstMatchTable->lTargetTime > pTMXTargetClb->lTime) &&
-               NTMDocMatch( pstMatchTable->szFileName, pstMatchTable->szLongName,
-                            pSrcFileName, pSrcLongName ) )
+          if ( NTMDocMatch( pstMatchTable->szFileName, pstMatchTable->szLongName, pSrcFileName, pSrcLongName ) )
           {
+            // match from match table is from same document, so skip to next position
+            pstMatchTable++;
+            usCurrentEntry++;
+          }
+          else if ( pstMatchTable->lTargetTime > pTMXTargetClb->lTime )
+          {
+            // match from match table is newer
             pstMatchTable++;
             usCurrentEntry++;
           }
@@ -2226,11 +2232,9 @@ USHORT FillMatchTable( PTMX_CLB pTmClb,         //ptr to ctl block struct
             {
               PTMX_MATCH_TABLE_W pstMatchTableTemp = pstMatchTable-1;
               BOOL fEndOfTable = FALSE;
-              int iMatchSortKey = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( pstMatchTable->usMatchLevel ), 
-                   GetProposalTypeFromFlag( pstMatchTable->usTranslationFlag ), 
+              int iMatchSortKey = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( pstMatchTable->usMatchLevel ), GetProposalTypeFromFlag( pstMatchTable->usTranslationFlag ), 
                   (int)pstMatchTable->usMatchLevel , -1, pstMatchTable->usContextRanking, fEndOfTable );
-              int iMatchSortKeyTemp = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( pstMatchTableTemp->usMatchLevel ), 
-                  GetProposalTypeFromFlag( pstMatchTableTemp->usTranslationFlag ), 
+              int iMatchSortKeyTemp = pFactory->getProposalSortKey( GetMatchTypeFromMatchLevel( pstMatchTableTemp->usMatchLevel ), GetProposalTypeFromFlag( pstMatchTableTemp->usTranslationFlag ), 
                   (int)pstMatchTableTemp->usMatchLevel, -1, pstMatchTableTemp->usContextRanking, fEndOfTable );
 
               if ((iMatchSortKeyTemp <  iMatchSortKey) ||

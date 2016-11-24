@@ -4598,6 +4598,9 @@ __declspec(dllexport)
 PSZ     UtlLower ( PSZ  pData );
 __declspec(dllexport)
 PSZ_W   UtlLowerW( PSZ_W  pData );
+BYTE    UtlToLower (BYTE c);
+__declspec(dllexport)
+CHAR_W  UtlToLowerW(CHAR_W c);
 __declspec(dllexport)
 BOOL UtlIsWhiteSpaceW( CHAR_W c );
 __declspec(dllexport)

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author: Gerhard Queck (QSoft)                                               |
@@ -15,122 +15,6 @@
 //+----------------------------------------------------------------------------+
 //|To be done / known limitations / caveats:                                   |
 //|                                                                            |
-//+----------------------------------------------------------------------------+
-//| PVCS Section                                                               |
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 26 Jun 2003
-//  -- New Release TM6.0.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 25 Jul 2002
-//  -- New Release TM6.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Aug 2001
-//  -- New Release TM2.7.2!!
-// 
-// 
-// $Revision: 1.3 $ ----------- 14 Feb 2001
-// - added IDs for list import/export format comboboxes
-// 
-//
-//
-// $Revision: 1.2 $ ----------- 7 Dec 1999
-//  -- Initial Revision!!
-//
-/*
- * $Header:   J:\DATA\EQFLIST.IV_   1.1   10 Jan 1996 19:38:04   BUILD  $
- *
- * $Log:   J:\DATA\EQFLIST.IV_  $
- *
- *    Rev 1.1   10 Jan 1996 19:38:04   BUILD
- * - added IDs for edit addenda dict dialog
- *
- *    Rev 1.0   09 Jan 1996 10:08:30   BUILD
- * Initial revision.
-*/
 //+----------------------------------------------------------------------------+
 
 /**********************************************************************/
@@ -218,15 +102,17 @@
 #define SID_LISTEDIT_NAME_TEXT      ID_LIST_STRINGS + 35
 #define SID_LISTEDIT_SAVE_TEXT      ID_LIST_STRINGS + 36
 #define SID_LISTEDIT_CREATE_TEXT    ID_LIST_STRINGS + 37
+#define SID_LISTEDIT_TEXT_ABBREV1   ID_LIST_STRINGS + 38
+#define SID_LISTEDIT_TEXT_ABBREV2   ID_LIST_STRINGS + 39
 
-#define SID_LST_EXCL_TITLE          ID_LIST_STRINGS + 38
-#define SID_LST_NTL_TITLE           ID_LIST_STRINGS + 39
-#define SID_LST_NOISE_TITLE         ID_LIST_STRINGS + 40
-#define SID_LST_FTL_TITLE           ID_LIST_STRINGS + 41
-#define SID_LST_ABR_TITLE           ID_LIST_STRINGS + 42
-#define SID_LSTEDIT_ABRTITLE_TEXT   ID_LIST_STRINGS + 43
-#define SID_LST_ADD_TITLE           ID_LIST_STRINGS + 44
-#define SID_LSTEDIT_ADDTITLE_TEXT   ID_LIST_STRINGS + 45
+#define SID_LST_EXCL_TITLE          ID_LIST_STRINGS + 40
+#define SID_LST_NTL_TITLE           ID_LIST_STRINGS + 41
+#define SID_LST_NOISE_TITLE         ID_LIST_STRINGS + 42
+#define SID_LST_FTL_TITLE           ID_LIST_STRINGS + 43
+#define SID_LST_ABR_TITLE           ID_LIST_STRINGS + 44
+#define SID_LSTEDIT_ABRTITLE_TEXT   ID_LIST_STRINGS + 45
+#define SID_LST_ADD_TITLE           ID_LIST_STRINGS + 46
+#define SID_LSTEDIT_ADDTITLE_TEXT   ID_LIST_STRINGS + 47
 
 /**********************************************************************/
 /* IDs for List Edit Dialog (LISTEDIT)                                */
@@ -237,6 +123,9 @@
 #define ID_LISTEDIT_CANCEL_PB   ID_LISTEDIT_NEW_NOIS_DLG + 4
 #define ID_LISTEDIT_HELP_PB     ID_LISTEDIT_NEW_NOIS_DLG + 5
 #define ID_LISTEDIT_SAVETO_TEXT ID_LISTEDIT_NEW_NOIS_DLG + 6
+#define ID_LISTEDIT_TERM_MLE2   ID_LISTEDIT_NEW_NOIS_DLG + 7
+#define ID_LISTEDIT_TERM_TEXT   ID_LISTEDIT_NEW_NOIS_DLG + 8
+#define ID_LISTEDIT_TERM_TEXT2  ID_LISTEDIT_NEW_NOIS_DLG + 9
 
 /**********************************************************************/
 /* IDs for List Export Dialog (LISTEXP)                               */

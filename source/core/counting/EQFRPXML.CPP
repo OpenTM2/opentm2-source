@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //+----------------------------------------------------------------------------+
@@ -2389,13 +2389,14 @@ BOOL RptMakeOutputFile( PRPT pRpt, PSZ pszXMLFile )
   USHORT  usOrgFormat = pRpt->usFormat;
 
   // for nonDDE API: always use XML format but select approbriate stylesheet for original format
-  if ( (pRpt->fBatch) && ((pRpt->hwndErrMsg == HWND_FUNCIF) || (pRpt->hwndErrMsg == NULLHANDLE)) )
-  {
-    if ( UtlQueryUShort( QS_PROGRAMID ) != BATCHUTIL_PROGID )
-    {
-      pRpt->usFormat = XMLFILEFORMAT;
-    } /* endif */
-  } /* endif */
+  // GQ: 2016/08/08: fix for P403281: Keep original selected output format
+  //if ( (pRpt->fBatch) && ((pRpt->hwndErrMsg == HWND_FUNCIF) || (pRpt->hwndErrMsg == NULLHANDLE)) )
+  //{
+  //  if ( UtlQueryUShort( QS_PROGRAMID ) != BATCHUTIL_PROGID )
+  //  {
+  //    pRpt->usFormat = XMLFILEFORMAT;
+  //  } /* endif */
+  //} /* endif */
 
   switch ( pRpt->usFormat )
   {
@@ -3056,12 +3057,20 @@ BOOL RptCalcReport( PRPT pRpt, CXmlWriter *xw )
   SHORT          iEndShipm=0;
   SHORT          iRunShipm;
 
+  // SHIPMENT HANDLER
+  if (!strcmp(pRpt->szShipmentChk, "Single Shipments"))
+  {
+    iEndShipm = pRpt->iShipmentsUsed - 1 ;
+  }// end if
+
 
   if (fOK)
   {
     ppCalcInfoFieldTmp = pRpt->ppCalcInfoField;  // set tmp pointer to PCALCINFOs
     pOutputMris = pRpt->pOutputMris;             // set pointer to OUTMRI
   }
+
+
 
 
   for (iRunShipm=0; iRunShipm <= iEndShipm; iRunShipm++)
@@ -3077,6 +3086,12 @@ BOOL RptCalcReport( PRPT pRpt, CXmlWriter *xw )
     lRunningNo = 0;
     ulIndex = 0;
     strcpy(szActName," ");
+
+    if (iEndShipm > 0)
+    {
+      strcpy( pRpt->szShipmentChk, pRpt->aszShipments[iRunShipm] );
+    }
+
 
 
     // security
@@ -4761,17 +4776,15 @@ BOOL RptMakeCalculationRecordsX (PRPT pRpt)
     memset( pDocInfoAnalBase, 0, sizeof( DOCSAVEHISTEX )  );
 
   } /* endif */
+
+
   if ( fOK )
   {
     pRpt->ppCalcInfoField = (PPCALCINFO)pArray;  // store memory address in RPT
     ppCalcInfoFieldTmp = (PPCALCINFO)pArray;     // set tmp pointer to PCALCINFOs
     ppAllInfoFieldTmp = pRpt->ppAllInfoField;    // set tmp pointer to PALLINFOs
     pAllInfoFieldTmp = *ppAllInfoFieldTmp;                 // set tmp pointer to ALLINFOs
-
-
-
   } // end if
-
 
   if ( fOK )
   {
@@ -5009,25 +5022,50 @@ BOOL RptMakeCalculationRecordsX (PRPT pRpt)
                     pDocImport2->szShipment);
 
 
-            //if ( SEARCHITEMHWND( pRpt->hwndShipmentLB, pDocImport2->szShipment )== LIT_NONE )
-            //{
-            //  char szBuffer[100];
-            //  SHORT sInsertItem;
-            //  strcpy(szBuffer, pDocImport2->szShipment);
-            //  OEMTOANSI(szBuffer);
-            //  sInsertItem = INSERTITEMHWND( pRpt->hwndShipmentLB, szBuffer );
-            //}//end if
+            // search shipment in the shipment array
+            int i = 0;
+            BOOL fFound = FALSE;
+            while ( !fFound && (i < pRpt->iShipmentsUsed) )
+            {
+              int iResult = stricmp( pDocImport2->szShipment, pRpt->aszShipments[i] );
+              if ( iResult == 0 ) 
+              {
+                // nothing to do, this shipment number is already contained in the table
+                fFound = TRUE;
+              }
+              else if ( iResult < 0 ) 
+              {
+                // correct place to insert new shipment string has been found
 
+                // make room at current location
+                for( int j = pRpt->iShipmentsUsed - 1; j > i; j-- )
+                {
+                  strcpy( pRpt->aszShipments[j + 1], pRpt->aszShipments[j] );
+                } /* endfor */
 
+                // add the shipment
+                strcpy( pRpt->aszShipments[i], pDocImport2->szShipment );
+                pRpt->iShipmentsUsed += 1;
+                fFound = TRUE;
+              }
+              else
+              {
+                // try next entry
+                i++;
+              } /* endif */
+            } /* endwhile */
+
+            // add entry to end of table if not found (and not inserted)
+            if ( !fFound )
+            {
+              strcpy( pRpt->aszShipments[pRpt->iShipmentsUsed], pDocImport2->szShipment );
+              pRpt->iShipmentsUsed += 1;
+            } /* endif */
           }
           else
           {
-            strcpy (pRpt->szShipment,
-                    "NA");
-            strcpy (pCalcInfoTmp->szShipment,
-                    "NA");
-
-
+            strcpy (pRpt->szShipment, "NA");
+            strcpy (pCalcInfoTmp->szShipment, "NA");
           } // end if
 
 

@@ -1364,7 +1364,7 @@ BEGIN
 
 681 "No output file name has been specified."
 
-682 "!! No message text defined !!"
+682 "MT output options error:\012 %1"
 
 683 "!! No message text defined !!"
 

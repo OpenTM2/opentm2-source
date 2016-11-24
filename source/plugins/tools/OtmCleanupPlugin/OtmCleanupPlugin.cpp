@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -19,6 +19,15 @@
 
 #define CONTROLFILENAME  "OtmCleanup.lst"     // name of control file containing the list of removable temp files
 #define PENDINGDELETESFILE "OtmCleanupPendingDeletes.lst" // name of file containing the list of pending deletes
+
+// the static plugin infos
+static char *pszPluginName = "OtmCleanupPlugin";
+static char *pszShortDescription = "Cleanup plugin";
+static char *pszLongDescription	= "This is a plugin to remove superfluous and temporary OpenTM2 files";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
+
 
 typedef struct _FILETODELETE
 {
@@ -65,12 +74,11 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID)
 
 OtmCleanupPlugin::OtmCleanupPlugin()
 {
-    
-    name        = "OtmCleanupPlugin";
-    shortDesc   = "Cleanup plugin";
-    longDesc    = "This is a plugin to remove superfluous and temporary OpenTM2 files";
-    version     = "1.0";
-    supplier    = "International Business Machines Corporation";
+	  name = pszPluginName;
+	  shortDesc = pszShortDescription;
+	  longDesc = pszLongDescription;
+	  version = pszVersion;
+	  supplier = pszSupplier;
     pluginType  = OtmPlugin::eToolType;
     usableState = OtmPlugin::eUsable;
 }
@@ -670,3 +678,20 @@ boolean ProcessPendingDeletes()
 
   return( true );
 }
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+    pPluginInfo->eType = OtmPlugin::eToolType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version= -1;
+    return( 0 );
+  }
+}
+

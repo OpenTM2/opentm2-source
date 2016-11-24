@@ -81,6 +81,10 @@ FILE     *hOutput = NULL;              // output file handle
 PACKHEADER2 PackageHeader;
 PACKHEADER OldPackHead;
 BOOL fDetails = FALSE;
+BOOL fFileOutput = FALSE;              // TRUE = write output to a file
+BOOL fXMLOutput = FALSE;               // TRUE = write output in XML format, FALSE = write output as plain text
+FILE *hfOut = NULL;                    // output file handle
+BOOL fOldHeaderFormat = FALSE;         // TRUE = header was in old format
 
 char szLongDocName[512];               // buffer for long document names
 char szFolMarkup[MAX_FILESPEC];        // markup as defined in folder
@@ -88,6 +92,7 @@ char szInFile[1024];                   // buffer for input file name
 char szDate[128];
 char szBuffer[32000];
 char szName[512];
+char szOutFile[MAX_LONGFILESPEC];      // name of output file
 
 BYTE bPropBuffer[60000];               // buffer for property files
 PROPFOLDER FolProp;
@@ -106,6 +111,10 @@ BOOL fAllDocsCompleted = TRUE;         // all documents are completely translate
 BOOL fTotalCountValid = TRUE;          // total word count is valid
 int  iTotalCount = 0;                  // total word count
 
+
+static BOOL WriteInUTF8W( FILE *hfOut, PSZ_W pszUTF16 );
+static BOOL WriteInUTF8( FILE *hfOut, PSZ pszASCII );
+static void PrintfInUtf8W( FILE *hfOut, const CHAR_W *pszFormat, ... );
 
 
 USHORT ShowFile( PFILELISTENTRY pEntry );
@@ -219,10 +228,49 @@ int main
       {
         fDetails = TRUE;
       }
+      else if ( strnicmp( pszArg + 1, "OUTFILE=", 8 ) == 0 )
+      {
+        strcpy( szOutFile, pszArg + 9 );
+        fFileOutput = TRUE;
+      }
+      else if ( strnicmp( pszArg + 1, "OUT=", 4 ) == 0 )
+      {
+        strcpy( szOutFile, pszArg + 5 );
+        fFileOutput = TRUE;
+      }
+      else if ( strnicmp( pszArg + 1, "FORMAT=", 7 ) == 0 )
+      {
+        if ( stricmp( pszArg + 8, "TEXT" ) == 0 )
+        {
+          fXMLOutput = FALSE;
+        }
+        else if ( stricmp( pszArg + 8, "XML" ) == 0 )
+        {
+          fXMLOutput = TRUE;
+        }
+        else 
+        {
+          printf( "Warning: Unknown output format '%s' is ignored.\n", pszArg + 8 );
+        }
+      }
+      else if ( strnicmp( pszArg + 1, "FO=", 3 ) == 0 )
+      {
+        if ( stricmp( pszArg + 4, "TEXT" ) == 0 )
+        {
+          fXMLOutput = FALSE;
+        }
+        else if ( stricmp( pszArg + 4, "XML" ) == 0 )
+        {
+          fXMLOutput = TRUE;
+        }
+        else 
+        {
+          printf( "Warning: Unknown output format '%s' is ignored.\n", pszArg + 4 );
+        }
+      }
       else
       {
-        printf( "Warning: Unknown commandline switch '%s' is ignored.\n",
-                pszArg );
+        printf( "Warning: Unknown commandline switch '%s' is ignored.\n", pszArg );
       } /* endif */
     }
     else
@@ -239,8 +287,7 @@ int main
         /**************************************************************/
         /* Invalid option or superfluous file name ...                */
         /**************************************************************/
-        printf( "Warning: Superfluous commandline value '%s' is ignored.\n",
-                pszArg );
+        printf( "Warning: Superfluous commandline value '%s' is ignored.\n", pszArg );
       } /* endif */
     } /* endif */
     argc--;
@@ -253,6 +300,38 @@ int main
     printf( "Error: Missing file name of exported folder.\n\n" );
     showHelp();
     fOK = FALSE;
+  } /* endif */
+
+  // open/prepare any output file
+  if ( fOK )
+  {
+    if ( fFileOutput )
+    {
+      if ( fXMLOutput )
+      {
+        hfOut = fopen( szOutFile, "wb" );
+        if ( hfOut != NULL )
+        {
+          fwrite( UTF8FILEPREFIX, strlen(UTF8FILEPREFIX), 1, hfOut );
+          WriteInUTF8W( hfOut, L"<?xml version=\'1.0\'?>\r\n" );
+          WriteInUTF8W( hfOut, L"<ExportedFolderInfo>\r\n" );
+        } /* endif */
+      } 
+      else
+      {
+        hfOut = fopen( szOutFile, "w" );
+      } /* endif */
+      if ( hfOut == NULL )
+      {
+        printf( "Error: could not open output file \'%s\' for writing.\n\n", szOutFile );
+        fOK = FALSE;
+      } /* endif */
+    }
+    else
+    {
+      fXMLOutput = FALSE;
+      hfOut = stdout;
+    } /* endif */
   } /* endif */
 
   /********************************************************************/
@@ -285,7 +364,6 @@ int main
     else
     {
       ulLength = _filelength( _fileno(hInput) );
-      printf( "Listing contents of exported folder package %s\n\n", szInFile );
     } /* endif */
   } /* endif */
 
@@ -307,7 +385,12 @@ int main
     if ( (memcmp( PackageHeader.bPackID, PACKHEADID, 4 ) == 0) ||
          (memcmp( PackageHeader.bPackID, PACKHEAD2ID, 4 ) == 0) )
     {
-      if ( fDetails ) printf( "Info: Header has old format\n" );
+      if ( fDetails ) 
+      {
+        if ( !fXMLOutput ) fprintf( hfOut, "Info: Header has old format\n" );
+        fOldHeaderFormat = TRUE;
+      } /* endif */
+
       // old format header
 
 
@@ -362,21 +445,44 @@ int main
       pszOrigin = "TM2";
       fTMFolder = TRUE;
     }
-    printf( "Origin of folder       : %s\n", pszOrigin );
+    if ( !fXMLOutput )
+    {
+      fprintf( hfOut, "Listing contents of exported folder package %s\n\n", szInFile );
+
+      fprintf( hfOut, "Origin of folder       : %s\n", pszOrigin );
+    } /* endif */
 
 
     LongToDateTime( PackageHeader.ulPackDate, szDate );
     if ( fDetails )
     {
-      printf( "\nPackage header info\n" );
-      printf( "   Internal version    : %u\n", PackageHeader.usVersion );
-      printf( "   Date                : %s\n" , szDate );
-      printf( "   Sequence            : %u\n", PackageHeader.usSequence );
-      printf( "   Complete            : %s\n", ( PackageHeader.fCompleted ) ? "True" : "False" );
-      printf( "   User header size    : %lu\n", PackageHeader.ulUserHeaderSize );
-      printf( "   File list size      : %lu\n", PackageHeader.ulFileListSize );
-      printf( "   File list entries   : %lu\n", PackageHeader.ulFileListEntries );
-      printf( "   Name buffer size    : %lu\n", PackageHeader.ulFileNameBufferSize );
+      if ( fXMLOutput )
+      {
+        WriteInUTF8W( hfOut, L"  <PackageHeader>\r\n" );
+        PrintfInUtf8W( hfOut, L"    <PackageName>%S</PackageName>\r\n", szInFile );
+        PrintfInUtf8W( hfOut, L"    <Version>%u</Version>\r\n", PackageHeader.usVersion );
+        PrintfInUtf8W( hfOut, L"    <Origin>%S</Origin>\r\n", pszOrigin );
+        PrintfInUtf8W( hfOut, L"    <Date>%S</Date>\r\n", szDate );
+        PrintfInUtf8W( hfOut, L"    <Sequence>%u</Sequence>\r\n", PackageHeader.usSequence );
+        PrintfInUtf8W( hfOut, L"    <Complete>%S</Complete>\r\n", ( PackageHeader.fCompleted ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <UserHeaderSize>%lu</UserHeaderSize>\r\n", PackageHeader.ulUserHeaderSize );
+        PrintfInUtf8W( hfOut, L"    <FileListSize>%lu</FileListSize>\r\n", PackageHeader.ulFileListSize );
+        PrintfInUtf8W( hfOut, L"    <FileListEntries>%lu</FileListEntries>\r\n", PackageHeader.ulFileListEntries );
+        PrintfInUtf8W( hfOut, L"    <NameBufferSize>%lu</NameBufferSize>\r\n", PackageHeader.ulFileNameBufferSize );
+        WriteInUTF8W( hfOut, L"  </PackageHeader>\r\n" );
+      }
+      else
+      {
+        fprintf( hfOut, "\nPackage header info\n" );
+        fprintf( hfOut, "   Internal version    : %u\n", PackageHeader.usVersion );
+        fprintf( hfOut, "   Date                : %s\n" , szDate );
+        fprintf( hfOut, "   Sequence            : %u\n", PackageHeader.usSequence );
+        fprintf( hfOut, "   Complete            : %s\n", ( PackageHeader.fCompleted ) ? "True" : "False" );
+        fprintf( hfOut, "   User header size    : %lu\n", PackageHeader.ulUserHeaderSize );
+        fprintf( hfOut, "   File list size      : %lu\n", PackageHeader.ulFileListSize );
+        fprintf( hfOut, "   File list entries   : %lu\n", PackageHeader.ulFileListEntries );
+        fprintf( hfOut, "   Name buffer size    : %lu\n", PackageHeader.ulFileNameBufferSize );
+      }
     }
     else
     {
@@ -432,48 +538,87 @@ int main
 
     if ( fDetails )
     {
-      printf( "\nUser header info\n" );
-      printf( "   Version             : %s\n", ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER ) ? "Rel0" : "Rel1" );
-      printf( "   Date of export      : %s\n" , szDate );
-      printf( "   ContainsDict        : %s\n", ( pFolderHeader->fContainsDict ) ? "True" : "False" );
-      printf( "   ContainsMem         : %s\n", ( pFolderHeader->BitFlags.fContainsMem ) ? "True" : "False" );
-      printf( "   SelectedDocs        : %s\n", ( pFolderHeader->BitFlags.fSelectedDocs ) ? "True" : "False" );
-      printf( "   OldVersion          : %s\n", ( pFolderHeader->BitFlags.fOldVers ) ? "True" : "False" );
-      printf( "   Deleted             : %s\n", ( pFolderHeader->BitFlags.fDeleted ) ? "True" : "False" );
-      printf( "   OverWrite           : %s\n", ( pFolderHeader->BitFlags.fOverWrite ) ? "True" : "False" );
-      printf( "   WithNote            : %s\n", ( pFolderHeader->BitFlags.fWithNote ) ? "True" : "False" );
-      printf( "   DocNameTable        : %s\n", ( pFolderHeader->BitFlags.fDocNameTable ) ? "True" : "False" );
-      printf( "   WithDocTMs          : %s\n", ( pFolderHeader->BitFlags.fWithDocTMs ) ? "True" : "False" );
-      printf( "   NonUnicode          : %s\n", ( pFolderHeader->BitFlags.fNonUnicode ) ? "True" : "False" );
-
-
-      if ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER )
+      if ( fXMLOutput )
       {
-        printf( "   Description         : \"%s\"\n", pFolderHeader->Head.Rel0.szDescription );
-        printf( "   Memory              : %s\n", pFolderHeader->Head.Rel0.szMemory );
-        printf( "   Format              : %s\n", pFolderHeader->Head.Rel0.szFormat );
-        printf( "   Dicts               : %s\n", pFolderHeader->Head.Rel0.DicTbl );
-        printf( "   NoteSize            : %u\n", pFolderHeader->Head.Rel0.usNoteSize );
-        if ( pFolderHeader->Head.Rel0.usNoteSize > 1 )
+        WriteInUTF8W( hfOut, L"  <UserHeader>\r\n" );
+        PrintfInUtf8W( hfOut, L"    <Version>%S</Version>\r\n", ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER ) ? "Rel0" : "Rel1" );
+        PrintfInUtf8W( hfOut, L"    <ExportDate>%S</ExportDate>\r\n" , szDate );
+        PrintfInUtf8W( hfOut, L"    <ContainsDict>%S</ContainsDict>\r\n", ( pFolderHeader->fContainsDict ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <ContainsMem>%S</ContainsMem>\r\n", ( pFolderHeader->BitFlags.fContainsMem ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <SelectedDocs>%S</SelectedDocs>\r\n", ( pFolderHeader->BitFlags.fSelectedDocs ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <OldVersion>%S</OldVersion>\r\n", ( pFolderHeader->BitFlags.fOldVers ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <Deleted>%S</Deleted>\r\n", ( pFolderHeader->BitFlags.fDeleted ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <OverWrite>%S</OverWrite>\r\n", ( pFolderHeader->BitFlags.fOverWrite ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <WithNote>%S</WithNote>\r\n", ( pFolderHeader->BitFlags.fWithNote ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <DocNameTable>%S</DocNameTable>\r\n", ( pFolderHeader->BitFlags.fDocNameTable ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <WithDocTMs>%S</WithDocTMs>\r\n", ( pFolderHeader->BitFlags.fWithDocTMs ) ? "True" : "False" );
+        PrintfInUtf8W( hfOut, L"    <NonUnicode>%S</NonUnicode>\r\n", ( pFolderHeader->BitFlags.fNonUnicode ) ? "True" : "False" );
+        if ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER )
         {
-          printf( "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel0.szNoteBuffer );
+          PrintfInUtf8W( hfOut, L"    <Description>%S</Description>\r\n", pFolderHeader->Head.Rel0.szDescription );
+          PrintfInUtf8W( hfOut, L"    <Memory>%S</Memory>\r\n", pFolderHeader->Head.Rel0.szMemory );
+          PrintfInUtf8W( hfOut, L"    <Format>%S</Format>\r\n", pFolderHeader->Head.Rel0.szFormat );
+          PrintfInUtf8W( hfOut, L"    <Dicts>%S</Dicts>\r\n", pFolderHeader->Head.Rel0.DicTbl );
+          PrintfInUtf8W( hfOut, L"    <NoteSize>%u</NoteSize>\r\n", pFolderHeader->Head.Rel0.usNoteSize );
+          if ( pFolderHeader->Head.Rel0.usNoteSize > 1 )
+          {
+            PrintfInUtf8W( hfOut, L"    <Note>%S</Note>\r\n", pFolderHeader->Head.Rel0.szNoteBuffer );
+          } /* endif */
+        }
+        else
+        {
+          PrintfInUtf8W( hfOut, L"    <Description>%S</Description>\r\n", pFolderHeader->Head.Rel1.szDescription );
+          PrintfInUtf8W( hfOut, L"    <Format>%S</Format>\r\n", pFolderHeader->Head.Rel1.szFormat );
+          PrintfInUtf8W( hfOut, L"    <NoteSize>%u</NoteSize>\r\n", pFolderHeader->Head.Rel1.usNoteSize );
+          if ( pFolderHeader->Head.Rel1.usNoteSize > 1)
+          {
+            PrintfInUtf8W( hfOut, L"    <Note>%S</Note>\r\n", pFolderHeader->Head.Rel1.szNoteBuffer );
+          } /* endif */
         } /* endif */
+        WriteInUTF8W( hfOut, L"  </UserHeader>\r\n" );
       }
       else
       {
-        printf( "   Description         : \"%s\"\n", pFolderHeader->Head.Rel1.szDescription );
-        printf( "   Format              : %s\n", pFolderHeader->Head.Rel1.szFormat );
-        printf( "   NoteSize            : %u\n", pFolderHeader->Head.Rel1.usNoteSize );
-        if ( pFolderHeader->Head.Rel1.usNoteSize > 1)
+        fprintf( hfOut, "\nUser header info\n" );
+        fprintf( hfOut, "   Version             : %s\n", ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER ) ? "Rel0" : "Rel1" );
+        fprintf( hfOut, "   Date of export      : %s\n" , szDate );
+        fprintf( hfOut, "   ContainsDict        : %s\n", ( pFolderHeader->fContainsDict ) ? "True" : "False" );
+        fprintf( hfOut, "   ContainsMem         : %s\n", ( pFolderHeader->BitFlags.fContainsMem ) ? "True" : "False" );
+        fprintf( hfOut, "   SelectedDocs        : %s\n", ( pFolderHeader->BitFlags.fSelectedDocs ) ? "True" : "False" );
+        fprintf( hfOut, "   OldVersion          : %s\n", ( pFolderHeader->BitFlags.fOldVers ) ? "True" : "False" );
+        fprintf( hfOut, "   Deleted             : %s\n", ( pFolderHeader->BitFlags.fDeleted ) ? "True" : "False" );
+        fprintf( hfOut, "   OverWrite           : %s\n", ( pFolderHeader->BitFlags.fOverWrite ) ? "True" : "False" );
+        fprintf( hfOut, "   WithNote            : %s\n", ( pFolderHeader->BitFlags.fWithNote ) ? "True" : "False" );
+        fprintf( hfOut, "   DocNameTable        : %s\n", ( pFolderHeader->BitFlags.fDocNameTable ) ? "True" : "False" );
+        fprintf( hfOut, "   WithDocTMs          : %s\n", ( pFolderHeader->BitFlags.fWithDocTMs ) ? "True" : "False" );
+        fprintf( hfOut, "   NonUnicode          : %s\n", ( pFolderHeader->BitFlags.fNonUnicode ) ? "True" : "False" );
+        if ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER )
         {
-          printf( "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel1.szNoteBuffer );
+          fprintf( hfOut, "   Description         : \"%s\"\n", pFolderHeader->Head.Rel0.szDescription );
+          fprintf( hfOut, "   Memory              : %s\n", pFolderHeader->Head.Rel0.szMemory );
+          fprintf( hfOut, "   Format              : %s\n", pFolderHeader->Head.Rel0.szFormat );
+          fprintf( hfOut, "   Dicts               : %s\n", pFolderHeader->Head.Rel0.DicTbl );
+          fprintf( hfOut, "   NoteSize            : %u\n", pFolderHeader->Head.Rel0.usNoteSize );
+          if ( pFolderHeader->Head.Rel0.usNoteSize > 1 )
+          {
+            fprintf( hfOut, "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel0.szNoteBuffer );
+          } /* endif */
+        }
+        else
+        {
+          fprintf( hfOut, "   Description         : \"%s\"\n", pFolderHeader->Head.Rel1.szDescription );
+          fprintf( hfOut, "   Format              : %s\n", pFolderHeader->Head.Rel1.szFormat );
+          fprintf( hfOut, "   NoteSize            : %u\n", pFolderHeader->Head.Rel1.usNoteSize );
+          if ( pFolderHeader->Head.Rel1.usNoteSize > 1)
+          {
+            fprintf( hfOut, "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel1.szNoteBuffer );
+          } /* endif */
         } /* endif */
-      } /* endif */
+      }
+
     }
     else
     {
-      printf( "Date of export         : %s\n", szDate );
-
       szBuffer[0] = EOS;
       if ( pFolderHeader->fContainsDict )
         strcat( szBuffer, "With_Dictionaries " );
@@ -487,25 +632,58 @@ int main
         strcat( szBuffer, "With_Document_Memories " );
       if ( pFolderHeader->BitFlags.fNonUnicode )
         strcat( szBuffer, "In_nonUnicode_Format " );
-      if ( szBuffer[0] != EOS )
-        printf( "Export options         : %s\n", szBuffer );
 
-      if ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER )
+      if ( fXMLOutput )
       {
-        printf( "Description            : %s\n", pFolderHeader->Head.Rel0.szDescription );
-        printf( "Format                 : %s\n", pFolderHeader->Head.Rel0.szFormat );
-        if ( pFolderHeader->Head.Rel0.usNoteSize > 1)
+        WriteInUTF8W( hfOut, L"  <ExportDetails>\r\n" );
+        PrintfInUtf8W( hfOut, L"    <ExportDate>%S</ExportDate>\r\n", szDate );
+        if ( szBuffer[0] != EOS )
+          PrintfInUtf8W( hfOut, L"    <Exportoptions>%S</Exportoptions>\r\n", szBuffer );
+
+        if ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER )
         {
-          printf( "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel0.szNoteBuffer );
+          PrintfInUtf8W( hfOut, L"    <Description>%S</Description>\r\n", pFolderHeader->Head.Rel0.szDescription );
+          PrintfInUtf8W( hfOut, L"    <Format>%S</Format>\r\n", pFolderHeader->Head.Rel0.szFormat );
+          if ( pFolderHeader->Head.Rel0.usNoteSize > 1)
+          {
+            PrintfInUtf8W( hfOut, L"    <Note>%S</Note>\r\n", pFolderHeader->Head.Rel0.szNoteBuffer );
+          } /* endif */
+        }
+        else
+        {
+          PrintfInUtf8W( hfOut, L"    <Description>%S</Description>\r\n", pFolderHeader->Head.Rel1.szDescription );
+          PrintfInUtf8W( hfOut, L"    <Format>%S</Format>\r\n", pFolderHeader->Head.Rel1.szFormat );
+          if ( pFolderHeader->Head.Rel1.usNoteSize > 1 )
+          {
+            PrintfInUtf8W( hfOut, L"    <Note>%S</Note>\r\n", pFolderHeader->Head.Rel1.szNoteBuffer );
+          } /* endif */
         } /* endif */
+        WriteInUTF8W( hfOut, L"  </ExportDetails>\r\n" );
       }
       else
       {
-        printf( "Description            : %s\n", pFolderHeader->Head.Rel1.szDescription );
-        printf( "Format                 : %s\n", pFolderHeader->Head.Rel1.szFormat );
-        if ( pFolderHeader->Head.Rel1.usNoteSize > 1 )
+        fprintf( hfOut, "Date of export         : %s\n", szDate );
+
+        if ( szBuffer[0] != EOS )
+          fprintf( hfOut, "Export options         : %s\n", szBuffer );
+
+        if ( pFolderHeader->BitFlags.fHeaderType == RELEASE0_HEADER )
         {
-          printf( "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel1.szNoteBuffer );
+          fprintf( hfOut, "Description            : %s\n", pFolderHeader->Head.Rel0.szDescription );
+          fprintf( hfOut, "Format                 : %s\n", pFolderHeader->Head.Rel0.szFormat );
+          if ( pFolderHeader->Head.Rel0.usNoteSize > 1)
+          {
+            fprintf( hfOut, "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel0.szNoteBuffer );
+          } /* endif */
+        }
+        else
+        {
+          fprintf( hfOut, "Description            : %s\n", pFolderHeader->Head.Rel1.szDescription );
+          fprintf( hfOut, "Format                 : %s\n", pFolderHeader->Head.Rel1.szFormat );
+          if ( pFolderHeader->Head.Rel1.usNoteSize > 1 )
+          {
+            fprintf( hfOut, "<<< Note >>>\n%s\n<< End of Note >>>\n", pFolderHeader->Head.Rel1.szNoteBuffer );
+          } /* endif */
         } /* endif */
       } /* endif */
     } /* endif */
@@ -588,6 +766,7 @@ int main
   {
     ULONG ulI = 0;
     PFILELISTENTRY pFileEntry = FileList.pEntries;
+    PSZ pszFolderType = NULL;
 
     memset( &FolProp, 0, sizeof(FolProp) );
 
@@ -601,20 +780,32 @@ int main
       pFileEntry++;
     } /* endfor */
 
-    printf( "Folder source language : %s\n", FolProp.szSourceLang );
-    printf( "Folder target language : %s\n", FolProp.szTargetLang );
-
     if ( pFolderHeader->BitFlags.fMasterFolder )
     {
-      printf( "Folder type            : Master folder\n" );
+      pszFolderType = "Master folder";
     }
     else if ( FolProp.fAFCFolder )
     {
-      printf( "Folder type            : Child folder\n" );
+      pszFolderType = "Child folder";
     }
     else
     {
-      printf( "Folder type            : Standard folder\n" );
+      pszFolderType = "Standard folder";
+    } /* endif */
+
+    if ( fXMLOutput )
+    {
+       WriteInUTF8W( hfOut, L"  <FolderInfo>\r\n" );
+       PrintfInUtf8W( hfOut, L"    <SourceLanguage>%S</SourceLanguage>\r\n", FolProp.szSourceLang );
+       PrintfInUtf8W( hfOut, L"    <TargetLanguage>%S</TargetLanguage>\r\n", FolProp.szTargetLang );
+       PrintfInUtf8W( hfOut, L"    <Type>%S</Type>\r\n", pszFolderType );
+    }
+    else
+    {
+      fprintf( hfOut, "\n   Folder information\n" );
+      fprintf( hfOut, "Folder source language : %s\n", FolProp.szSourceLang );
+      fprintf( hfOut, "Folder target language : %s\n", FolProp.szTargetLang );
+      fprintf( hfOut, "Folder type            : %s\n", pszFolderType );
     } /* endif */
   } /* endif */
 
@@ -632,34 +823,67 @@ int main
       BOOL fFirst = TRUE;
       PSZ pszCurMarkup;
 
-      printf( "Number of documents    : %ld\n", iDocuments );
-      if ( !fAllDocsCompleted )
+      if ( fXMLOutput )
       {
-        printf( "All documents completed: No!\n" );
-      } /* endif */
-      if ( fTotalCountValid )
-      {
-        printf( "Total word count       : %ld\n", iTotalCount );
-      }
-      else
-      {
-        printf( "Total word count       : n/a (not all documents have been analyzed)\n" );
-      } /* endif */
-
-      pszCurMarkup = MarkupList.pszStrings;
-      for( ulI = 0; ulI < MarkupList.ulEntries; ulI++ )
-      {
-        if ( fFirst )
+        PrintfInUtf8W( hfOut, L"    <NumberOfDocuments>%ld</NumberOfDocuments>\r\n", iDocuments );
+        PrintfInUtf8W( hfOut, L"    <AllDocumentsCompleted>%S</AllDocumentsCompleted>\r\n", fAllDocsCompleted ? "yes" : "no" );
+        if ( fTotalCountValid )
         {
-          printf( "Markups of documents   : %s\n", pszCurMarkup );
-          fFirst = FALSE;
+          PrintfInUtf8W( hfOut, L"    <TotalWordCount>%ld</TotalWordCount>\r\n", iTotalCount );
         }
         else
         {
-          printf( "                         %s\n", pszCurMarkup );
+          PrintfInUtf8W( hfOut, L"    <TotalWordCount>n/a</TotalWordCount>\r\n" );
         } /* endif */
-        pszCurMarkup += strlen(pszCurMarkup) + 1;
-      } /* endfor */
+
+        pszCurMarkup = MarkupList.pszStrings;
+        for( ulI = 0; ulI < MarkupList.ulEntries; ulI++ )
+        {
+          if ( fFirst )
+          {
+            PrintfInUtf8W( hfOut, L"    <Markups>%S", pszCurMarkup );
+            fFirst = FALSE;
+          }
+          else
+          {
+            PrintfInUtf8W( hfOut, L",%S", pszCurMarkup );
+          } /* endif */
+          pszCurMarkup += strlen(pszCurMarkup) + 1;
+        } /* endfor */
+        PrintfInUtf8W( hfOut, L"</Markups>\r\n" );
+        WriteInUTF8W( hfOut, L"  </FolderInfo>\r\n" );
+      }
+      else
+      {
+        fprintf( hfOut, "Number of documents    : %ld\n", iDocuments );
+        if ( !fAllDocsCompleted )
+        {
+          fprintf( hfOut, "All documents completed: No!\n" );
+        } /* endif */
+        if ( fTotalCountValid )
+        {
+          fprintf( hfOut, "Total word count       : %ld\n", iTotalCount );
+        }
+        else
+        {
+          fprintf( hfOut, "Total word count       : n/a (not all documents have been analyzed)\n" );
+        } /* endif */
+
+        pszCurMarkup = MarkupList.pszStrings;
+        for( ulI = 0; ulI < MarkupList.ulEntries; ulI++ )
+        {
+          if ( fFirst )
+          {
+            fprintf( hfOut, "Markups of documents   : %s\n", pszCurMarkup );
+            fFirst = FALSE;
+          }
+          else
+          {
+            fprintf( hfOut, "                         %s\n", pszCurMarkup );
+          } /* endif */
+          pszCurMarkup += strlen(pszCurMarkup) + 1;
+        } /* endfor */
+      } /* endif */
     } /* endif */
   }
 
@@ -695,139 +919,153 @@ int main
         } /* endfor */
       } /* endif */
 
-      printf( "\nFiles contained in package:\n" );
-
-      fFirst = TRUE;
-      pFileEntry = FileList.pEntries;
-      for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+      if ( fXMLOutput )
       {
-        if ( ( pFileEntry->usFileType == FOLDER_PROP_FILE ) ||
-             ( pFileEntry->usFileType == HISTLOG_DATA_FILE ) ||
-             ( pFileEntry->usFileType == REDSEGMENT_DATA_FILE ) ||
-             ( pFileEntry->usFileType == BINCALCREPORT_FILE ) ||
-             ( pFileEntry->usFileType == GLOBALMEMORYFILTER_FILE ) ||
-             ( pFileEntry->usFileType == SUBFOLDER_PROP_FILE ) )
+        pFileEntry = FileList.pEntries;
+        WriteInUTF8W( hfOut, L"  <PackageFiles>\r\n" );
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
         {
-          if ( fFirst )
-          {
-            printf( "\n   Folder files\n" );
-            fFirst = FALSE;
-          } /* endif */
           ShowFile( pFileEntry );
-          pFileEntry->usProcessFlags = 1;
-        } /* endif */
-        pFileEntry++;
-      } /* endfor */
-
-      fFirst = TRUE;
-      pFileEntry = FileList.pEntries;
-      for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+          pFileEntry++;
+        } /* endfor */
+        WriteInUTF8W( hfOut, L"  </PackageFiles>\r\n" );
+      }
+      else
       {
-        if ( ( pFileEntry->usFileType == DOCUMENT_PROP_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_SEGTGT_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_SEGSRC_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_EADATA_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_MTLOG_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_XLIFF_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_METADATA_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_MISC_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_ENTITY_FILE ) ||
-             ( pFileEntry->usFileType == DOCUMENT_SRC_FILE ) )
-        {
-          if ( fFirst )
-          {
-            printf( "\n   Document files\n" );
-            fFirst = FALSE;
-          } /* endif */
-          ShowFile( pFileEntry );
-          pFileEntry->usProcessFlags = 1;
-        } /* endif */
-        pFileEntry++;
-      } /* endfor */
+        fprintf( hfOut, "\nFiles contained in package:\n" );
 
-      fFirst = TRUE;
-      pFileEntry = FileList.pEntries;
-      for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-      {
-        if ( ( pFileEntry->usFileType == MEMORY_PROP_FILE ) ||
-              ( pFileEntry->usFileType == MEMORY_DATA_FILE ) ||
-              ( pFileEntry->usFileType == MEMORY_TABLE_FILE ) ||
-              ( pFileEntry->usFileType == MEMORY_INFO_FILE ) ||
-              ( pFileEntry->usFileType == PLUGINMEMORY_DATA_FILE ) ||
-              ( pFileEntry->usFileType == NTMMEMORY_INDEX_FILE ) ||
-              ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE ) ||
-              ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE_INDEX ) ||
-              ( pFileEntry->usFileType == NTMMEMORY_DATA_FILE ) )
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
         {
-          if ( fFirst )
+          if ( ( pFileEntry->usFileType == FOLDER_PROP_FILE ) ||
+               ( pFileEntry->usFileType == HISTLOG_DATA_FILE ) ||
+               ( pFileEntry->usFileType == REDSEGMENT_DATA_FILE ) ||
+               ( pFileEntry->usFileType == BINCALCREPORT_FILE ) ||
+               ( pFileEntry->usFileType == GLOBALMEMORYFILTER_FILE ) ||
+               ( pFileEntry->usFileType == SUBFOLDER_PROP_FILE ) )
           {
-            printf( "\n   Memory files\n" );
-            fFirst = FALSE;
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Folder files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
           } /* endif */
-          ShowFile( pFileEntry );
-          pFileEntry->usProcessFlags = 1;
-        } /* endif */
-        pFileEntry++;
-      } /* endfor */
+          pFileEntry++;
+        } /* endfor */
 
-      fFirst = TRUE;
-      pFileEntry = FileList.pEntries;
-      for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-      {
-        if ( ( pFileEntry->usFileType == DICTIONARY_PROP_FILE ) ||
-             ( pFileEntry->usFileType == DICTIONARY_DATA_FILE ) ||
-             ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE ) ||
-             ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE_INDEX ) ||
-             ( pFileEntry->usFileType == DICTIONARY_INDEX_FILE ) )
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
         {
-          if ( fFirst )
+          if ( ( pFileEntry->usFileType == DOCUMENT_PROP_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_SEGTGT_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_SEGSRC_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_EADATA_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_MTLOG_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_XLIFF_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_METADATA_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_MISC_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_ENTITY_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_SRC_FILE ) )
           {
-            printf( "\n   Dictionary files\n" );
-            fFirst = FALSE;
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Document files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
           } /* endif */
-          ShowFile( pFileEntry );
-          pFileEntry->usProcessFlags = 1;
-        } /* endif */
-        pFileEntry++;
-      } /* endfor */
+          pFileEntry++;
+        } /* endfor */
 
-      fFirst = TRUE;
-      pFileEntry = FileList.pEntries;
-      for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-      {
-        if ( ( pFileEntry->usFileType == TAGTABLE_DATA_FILE ) ||
-             ( pFileEntry->usFileType == TAGTABLE_USEREXIT_FILE ) ||
-             ( pFileEntry->usFileType == TAGTABLE_USEREXITWIN_FILE ) ||
-             ( pFileEntry->usFileType == TAGTABLE_SETTINGS_FILE ) )
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
         {
-          if ( fFirst )
+          if ( ( pFileEntry->usFileType == MEMORY_PROP_FILE ) ||
+                ( pFileEntry->usFileType == MEMORY_DATA_FILE ) ||
+                ( pFileEntry->usFileType == MEMORY_TABLE_FILE ) ||
+                ( pFileEntry->usFileType == MEMORY_INFO_FILE ) ||
+                ( pFileEntry->usFileType == PLUGINMEMORY_DATA_FILE ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_INDEX_FILE ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE_INDEX ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_DATA_FILE ) )
           {
-            printf( "\n   Markup table files\n" );
-            fFirst = FALSE;
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Memory files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
           } /* endif */
-          ShowFile( pFileEntry );
-          pFileEntry->usProcessFlags = 1;
-        } /* endif */
-        pFileEntry++;
-      } /* endfor */
+          pFileEntry++;
+        } /* endfor */
 
-      fFirst = TRUE;
-      pFileEntry = FileList.pEntries;
-      for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-      {
-        if ( pFileEntry->usProcessFlags == 0 )
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
         {
-          if ( fFirst )
+          if ( ( pFileEntry->usFileType == DICTIONARY_PROP_FILE ) ||
+               ( pFileEntry->usFileType == DICTIONARY_DATA_FILE ) ||
+               ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE ) ||
+               ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE_INDEX ) ||
+               ( pFileEntry->usFileType == DICTIONARY_INDEX_FILE ) )
           {
-            printf( "\n   Files of unknown type\n" );
-            fFirst = FALSE;
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Dictionary files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
           } /* endif */
-          ShowFile( pFileEntry );
-          pFileEntry->usProcessFlags = 1;
-        } /* endif */
-        pFileEntry++;
-      } /* endfor */
+          pFileEntry++;
+        } /* endfor */
 
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( ( pFileEntry->usFileType == TAGTABLE_DATA_FILE ) ||
+               ( pFileEntry->usFileType == TAGTABLE_USEREXIT_FILE ) ||
+               ( pFileEntry->usFileType == TAGTABLE_USEREXITWIN_FILE ) ||
+               ( pFileEntry->usFileType == TAGTABLE_SETTINGS_FILE ) )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Markup table files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( pFileEntry->usProcessFlags == 0 )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Files of unknown type\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+      } /* endif */
     }
     else
     {
@@ -841,147 +1079,286 @@ int main
       PSZ pszCurLUDate = DocLUDate.pszStrings;
       PSZ pszCurMarkup = DocMarkups.pszStrings;
 
-      printf("\nDocuments:\n" );
-      printf("Name                                      Source Words Compl.  Last Modified        Markup Table\n" );
-      for( ulI = 0; ulI < DocNames.ulEntries; ulI++ )
+      if ( fXMLOutput )
       {
-        ulDate = atol(pszCurLUDate);
-        if ( ulDate )
+        WriteInUTF8W( hfOut, L"  <DocumentList>\r\n" );
+        for( ulI = 0; ulI < DocNames.ulEntries; ulI++ )
         {
-          LongToDateTime( ulDate, szDate );
-        }
-        else
-        {
-          szDate[0] = EOS;
-        } /* endif */
-
-        if ( strlen(pszCurDoc) > 40 )
-        {
-          printf( "%s\n", pszCurDoc );
-          printf( "%-40s  %12s %3s%%    %-20s %s\n", " ", pszCurWords, pszCurComplete, szDate, pszCurMarkup );
-        }
-        else
-        {
-          printf( "%-40s  %12s %3s%%    %-20s %s\n", pszCurDoc, pszCurWords, pszCurComplete, szDate, pszCurMarkup );
-        } /* endif */
-
-        pszCurDoc      = pszCurDoc + strlen(pszCurDoc) + 1;
-        pszCurWords    = pszCurWords + strlen(pszCurWords) + 1;
-        pszCurComplete = pszCurComplete + strlen(pszCurComplete) + 1;
-        pszCurLUDate   = pszCurLUDate + strlen(pszCurLUDate) + 1;
-        pszCurMarkup   = pszCurMarkup + strlen(pszCurMarkup) + 1;
-      } /* endfor */
-
-
-      printf("\nTranslationMemory databases:\n" );
-      switch ( pFolderHeader->BitFlags.fHeaderType )
-      {
-        case RELEASE0_HEADER:
-          // get memory file name from memory name variable in header
-          printf( pFolderHeader->Head.Rel0.szMemory );
-          break;
-        case RELEASE1_HEADER:
-          // get memory file name from list of packaged files
+          ulDate = atol(pszCurLUDate);
+          if ( ulDate )
           {
-            ulNoOfEntries = FileList.ulListUsed;
-            pFileEntry    = FileList.pEntries;
-            while ( ulNoOfEntries )
-            {
-              if ((pFileEntry->usFileType == MEMORY_DATA_FILE) ||
-                  (pFileEntry->usFileType == NTMMEMORY_DATA_FILE) )
-              {
-                Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
-                printf( "   %s\n", szName );
-              }
-              else if ( pFileEntry->usFileType == MEMORY_INFO_FILE )
-              {
-                PSZ pszName = NULL;
-                // GQ: show memory long name using the info from the .INFO file
-                memset( szBuffer, 0, sizeof(szBuffer) );
-                GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
-                pszName = strstr( szBuffer, "Name=" );
-                if ( pszName == NULL )
-                {
-                  // no name info found, show short name instead
-                  PSZ pszNamePos = UtlGetFnameFromPath( pFileEntry->pszName );
-                  pszNamePos = strchr( pszNamePos, '-' );
-                  if ( pszNamePos != NULL )
-                  {
-                    Utlstrccpy( szName, pszNamePos + 1, DOT );
-                    printf( "   %s\n", szName );
-                  } /* endif */
-                }
-                else
-                {
-                  // find end of name entry
-                  PSZ pszEnd = strchr( pszName, '\r' );
-                  if ( pszEnd == NULL ) pszEnd = strchr( pszName, '\n' );
-                  if ( pszEnd != NULL ) *pszEnd = EOS;
-                  strcpy( szName, pszName + 5 );
-                  printf( "   %s\n", szName );
-                } /* endif */
-
-                //// info file name consists of foldername + ".F00" + "-" + memoryshortname + ".INFO"
-              } /* endif */
-              ulNoOfEntries--;            // skip to next entry in file list
-              pFileEntry++;
-            } /* endwhile */
+            LongToDateTime( ulDate, szDate );
           }
-          break;
-      } /* endswitch */
-
-      printf( "\nDictionaries:\n" );
-      switch ( pFolderHeader->BitFlags.fHeaderType )
-      {
-        case RELEASE0_HEADER:
+          else
           {
-            PSZ pszItem;
-            // get dictionary names from dictionary table in header
-            pszItem = pFolderHeader->Head.Rel0.DicTbl;
-            if ( *pszItem )
-            {
-              while ( pszItem )
-              {
-                Utlstrccpy( szName, pszItem, X15 );
-                printf( "   %s\n", szName );
-                pszItem = strchr( pszItem, X15 );
-                if ( pszItem ) pszItem++;
-              } /* endwhile */
-            } /* endif */
-          }
-          break;
-        case RELEASE1_HEADER:
-          // get dictionary names from list of packaged files
-          {
-            ulNoOfEntries = FileList.ulListUsed;
-            pFileEntry    = FileList.pEntries;
-            while ( fOK && ulNoOfEntries )
-            {
-              if (pFileEntry->usFileType == DICTIONARY_PROP_FILE)
-              {
-                PPROPDICTIONARY pProp;
+            szDate[0] = EOS;
+          } /* endif */
+          PrintfInUtf8W( hfOut, L"    <Document Name=\"%S\" SourceWords=\"%S\" Complete=\"%S\" LastModified=\"%S\" MarkupTable=\"%S\"/>\r\n", pszCurDoc, pszCurWords, pszCurComplete, szDate, pszCurMarkup );
+          pszCurDoc      = pszCurDoc + strlen(pszCurDoc) + 1;
+          pszCurWords    = pszCurWords + strlen(pszCurWords) + 1;
+          pszCurComplete = pszCurComplete + strlen(pszCurComplete) + 1;
+          pszCurLUDate   = pszCurLUDate + strlen(pszCurLUDate) + 1;
+          pszCurMarkup   = pszCurMarkup + strlen(pszCurMarkup) + 1;
+        } /* endfor */
+        WriteInUTF8W( hfOut, L"  </DocumentList>\r\n" );
 
-                // GQ: show dictionary long name using the info from the dictionary property file
-                memset( szBuffer, 0, sizeof(szBuffer) );
-                GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
-                pProp = (PPROPDICTIONARY)szBuffer;
-                if ( pProp->szLongName[0] != EOS )
-                {
-                  strcpy( szName, pProp->szLongName );
-                }
-                else
+        WriteInUTF8W( hfOut, L"  <MemoryList>\r\n" );
+        switch ( pFolderHeader->BitFlags.fHeaderType )
+        {
+          case RELEASE0_HEADER:
+            // get memory file name from memory name variable in header
+            PrintfInUtf8W( hfOut, L"    <Memory Name=\"%S\"/>\r\n", pFolderHeader->Head.Rel0.szMemory );
+            break;
+          case RELEASE1_HEADER:
+            // get memory file name from list of packaged files
+            {
+              ulNoOfEntries = FileList.ulListUsed;
+              pFileEntry    = FileList.pEntries;
+              while ( ulNoOfEntries )
+              {
+                if ((pFileEntry->usFileType == MEMORY_DATA_FILE) ||
+                    (pFileEntry->usFileType == NTMMEMORY_DATA_FILE) )
                 {
                   Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
-                } /* endif */
+                  PrintfInUtf8W( hfOut, L"    <Memory Name=\"%S\"/>\r\n", szName );
+                }
+                else if ( pFileEntry->usFileType == MEMORY_INFO_FILE )
+                {
+                  PSZ pszName = NULL;
+                  // GQ: show memory long name using the info from the .INFO file
+                  memset( szBuffer, 0, sizeof(szBuffer) );
+                  GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
+                  pszName = strstr( szBuffer, "Name=" );
+                  if ( pszName == NULL )
+                  {
+                    // no name info found, show short name instead
+                    PSZ pszNamePos = UtlGetFnameFromPath( pFileEntry->pszName );
+                    pszNamePos = strchr( pszNamePos, '-' );
+                    if ( pszNamePos != NULL )
+                    {
+                      Utlstrccpy( szName, pszNamePos + 1, DOT );
+                      PrintfInUtf8W( hfOut, L"    <Memory Name=\"%S\"/>\r\n", szName );
+                    } /* endif */
+                  }
+                  else
+                  {
+                    // find end of name entry
+                    PSZ pszEnd = strchr( pszName, '\r' );
+                    if ( pszEnd == NULL ) pszEnd = strchr( pszName, '\n' );
+                    if ( pszEnd != NULL ) *pszEnd = EOS;
+                    strcpy( szName, pszName + 5 );
+                    PrintfInUtf8W( hfOut, L"    <Memory Name=\"%S\"/>\r\n", szName );
+                  } /* endif */
 
-                printf( "   %s\n", szName );
+                  //// info file name consists of foldername + ".F00" + "-" + memoryshortname + ".INFO"
+                } /* endif */
+                ulNoOfEntries--;            // skip to next entry in file list
+                pFileEntry++;
+              } /* endwhile */
+            }
+            break;
+        } /* endswitch */
+        WriteInUTF8W( hfOut, L"  </MemoryList>\r\n" );
+
+        WriteInUTF8W( hfOut, L"  <DictionaryList>\r\n" );
+        switch ( pFolderHeader->BitFlags.fHeaderType )
+        {
+          case RELEASE0_HEADER:
+            {
+              PSZ pszItem;
+              // get dictionary names from dictionary table in header
+              pszItem = pFolderHeader->Head.Rel0.DicTbl;
+              if ( *pszItem )
+              {
+                while ( pszItem )
+                {
+                  Utlstrccpy( szName, pszItem, X15 );
+                  PrintfInUtf8W( hfOut, L"    <Dictionary Name=\"%S\"/>\r\n", szName );
+                  pszItem = strchr( pszItem, X15 );
+                  if ( pszItem ) pszItem++;
+                } /* endwhile */
               } /* endif */
-              ulNoOfEntries--;            // skip to next entry in file list
-              pFileEntry++;
-            } /* endwhile */
+            }
+            break;
+          case RELEASE1_HEADER:
+            // get dictionary names from list of packaged files
+            {
+              ulNoOfEntries = FileList.ulListUsed;
+              pFileEntry    = FileList.pEntries;
+              while ( fOK && ulNoOfEntries )
+              {
+                if (pFileEntry->usFileType == DICTIONARY_PROP_FILE)
+                {
+                  PPROPDICTIONARY pProp;
+
+                  // GQ: show dictionary long name using the info from the dictionary property file
+                  memset( szBuffer, 0, sizeof(szBuffer) );
+                  GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
+                  pProp = (PPROPDICTIONARY)szBuffer;
+                  if ( pProp->szLongName[0] != EOS )
+                  {
+                    strcpy( szName, pProp->szLongName );
+                  }
+                  else
+                  {
+                    Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
+                  } /* endif */
+
+                  PrintfInUtf8W( hfOut, L"    <Dictionary Name=\"%S\"/>\r\n", szName );
+                } /* endif */
+                ulNoOfEntries--;            // skip to next entry in file list
+                pFileEntry++;
+              } /* endwhile */
+            }
+            break;
+        } /* endswitch */
+        WriteInUTF8W( hfOut, L"  </DictionaryList>\r\n" );
+
+      }
+      else
+      {
+        fprintf( hfOut, "\nDocuments:\n" );
+        fprintf( hfOut, "Name                                      Source Words Compl.  Last Modified        Markup Table\n" );
+        for( ulI = 0; ulI < DocNames.ulEntries; ulI++ )
+        {
+          ulDate = atol(pszCurLUDate);
+          if ( ulDate )
+          {
+            LongToDateTime( ulDate, szDate );
           }
-          break;
-      } /* endswitch */
+          else
+          {
+            szDate[0] = EOS;
+          } /* endif */
+
+          if ( strlen(pszCurDoc) > 40 )
+          {
+            fprintf( hfOut, "%s\n", pszCurDoc );
+            fprintf( hfOut, "%-40s  %12s %3s%%    %-20s %s\n", " ", pszCurWords, pszCurComplete, szDate, pszCurMarkup );
+          }
+          else
+          {
+            fprintf( hfOut, "%-40s  %12s %3s%%    %-20s %s\n", pszCurDoc, pszCurWords, pszCurComplete, szDate, pszCurMarkup );
+          } /* endif */
+
+          pszCurDoc      = pszCurDoc + strlen(pszCurDoc) + 1;
+          pszCurWords    = pszCurWords + strlen(pszCurWords) + 1;
+          pszCurComplete = pszCurComplete + strlen(pszCurComplete) + 1;
+          pszCurLUDate   = pszCurLUDate + strlen(pszCurLUDate) + 1;
+          pszCurMarkup   = pszCurMarkup + strlen(pszCurMarkup) + 1;
+        } /* endfor */
+
+
+        fprintf( hfOut, "\nTranslationMemory databases:\n" );
+        switch ( pFolderHeader->BitFlags.fHeaderType )
+        {
+          case RELEASE0_HEADER:
+            // get memory file name from memory name variable in header
+            printf( pFolderHeader->Head.Rel0.szMemory );
+            break;
+          case RELEASE1_HEADER:
+            // get memory file name from list of packaged files
+            {
+              ulNoOfEntries = FileList.ulListUsed;
+              pFileEntry    = FileList.pEntries;
+              while ( ulNoOfEntries )
+              {
+                if ((pFileEntry->usFileType == MEMORY_DATA_FILE) ||
+                    (pFileEntry->usFileType == NTMMEMORY_DATA_FILE) )
+                {
+                  Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
+                  fprintf( hfOut, "   %s\n", szName );
+                }
+                else if ( pFileEntry->usFileType == MEMORY_INFO_FILE )
+                {
+                  PSZ pszName = NULL;
+                  // GQ: show memory long name using the info from the .INFO file
+                  memset( szBuffer, 0, sizeof(szBuffer) );
+                  GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
+                  pszName = strstr( szBuffer, "Name=" );
+                  if ( pszName == NULL )
+                  {
+                    // no name info found, show short name instead
+                    PSZ pszNamePos = UtlGetFnameFromPath( pFileEntry->pszName );
+                    pszNamePos = strchr( pszNamePos, '-' );
+                    if ( pszNamePos != NULL )
+                    {
+                      Utlstrccpy( szName, pszNamePos + 1, DOT );
+                      fprintf( hfOut, "   %s\n", szName );
+                    } /* endif */
+                  }
+                  else
+                  {
+                    // find end of name entry
+                    PSZ pszEnd = strchr( pszName, '\r' );
+                    if ( pszEnd == NULL ) pszEnd = strchr( pszName, '\n' );
+                    if ( pszEnd != NULL ) *pszEnd = EOS;
+                    strcpy( szName, pszName + 5 );
+                    fprintf( hfOut, "   %s\n", szName );
+                  } /* endif */
+
+                  //// info file name consists of foldername + ".F00" + "-" + memoryshortname + ".INFO"
+                } /* endif */
+                ulNoOfEntries--;            // skip to next entry in file list
+                pFileEntry++;
+              } /* endwhile */
+            }
+            break;
+        } /* endswitch */
+
+        fprintf( hfOut, "\nDictionaries:\n" );
+        switch ( pFolderHeader->BitFlags.fHeaderType )
+        {
+          case RELEASE0_HEADER:
+            {
+              PSZ pszItem;
+              // get dictionary names from dictionary table in header
+              pszItem = pFolderHeader->Head.Rel0.DicTbl;
+              if ( *pszItem )
+              {
+                while ( pszItem )
+                {
+                  Utlstrccpy( szName, pszItem, X15 );
+                  fprintf( hfOut, "   %s\n", szName );
+                  pszItem = strchr( pszItem, X15 );
+                  if ( pszItem ) pszItem++;
+                } /* endwhile */
+              } /* endif */
+            }
+            break;
+          case RELEASE1_HEADER:
+            // get dictionary names from list of packaged files
+            {
+              ulNoOfEntries = FileList.ulListUsed;
+              pFileEntry    = FileList.pEntries;
+              while ( fOK && ulNoOfEntries )
+              {
+                if (pFileEntry->usFileType == DICTIONARY_PROP_FILE)
+                {
+                  PPROPDICTIONARY pProp;
+
+                  // GQ: show dictionary long name using the info from the dictionary property file
+                  memset( szBuffer, 0, sizeof(szBuffer) );
+                  GetPackFile( hInput, pFileEntry, (PBYTE)szBuffer, sizeof(szBuffer) );
+                  pProp = (PPROPDICTIONARY)szBuffer;
+                  if ( pProp->szLongName[0] != EOS )
+                  {
+                    strcpy( szName, pProp->szLongName );
+                  }
+                  else
+                  {
+                    Utlstrccpy( szName, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
+                  } /* endif */
+
+                  fprintf( hfOut, "   %s\n", szName );
+                } /* endif */
+                ulNoOfEntries--;            // skip to next entry in file list
+                pFileEntry++;
+              } /* endwhile */
+            }
+            break;
+        } /* endswitch */
+      } /* endif */
     } /* endif */
   } /* endif */
 
@@ -994,6 +1371,16 @@ int main
   FreeList( &DocLUDate );
 
   if ( hInput )        fclose( hInput );
+  if ( fFileOutput )
+  {
+    printf( "The exported folder information has been written to file %s in %s format\n\n", szOutFile, fXMLOutput ? "XML" : "plain text" );
+    if ( fXMLOutput )
+    {
+      WriteInUTF8W( hfOut, L"</ExportedFolderInfo>\r\n" );
+    } /* endif */
+    fclose( hfOut );
+  } /* endif */
+
   if ( pFolderHeader ) free( pFolderHeader );
   if ( FileList.pEntries ) free( FileList.pEntries );
   if ( FileList.pBuffer ) free( FileList.pBuffer );
@@ -1045,11 +1432,20 @@ USHORT ShowFile( PFILELISTENTRY pEntry )
     default:                                 pszType = "Unknown"; break;
   } /* endswitch */
 
-    printf( "      %-50s %4.4ld/%2.2d/%2.2d %2.2d:%2.2d:%2.2d %14lu %-30s\n", pEntry->pszName,
+  if ( fXMLOutput )
+  {
+    PrintfInUtf8W( hfOut, L"    <File Name=\"%S\" Date=\"%4.4ld/%2.2d/%2.2d %2.2d:%2.2d:%2.2d\" Size=\"%lu\" Type=\"%S\" />\r\n", pEntry->pszName,
       pEntry->stFileDate.year + 1980, pEntry->stFileDate.month, pEntry->stFileDate.day,
       pEntry->stFileTime.hours, pEntry->stFileTime.minutes, pEntry->stFileTime.twosecs << 1,
       pEntry->ulFileSize, pszType );
-
+  }
+  else
+  {
+    fprintf( hfOut, "      %-50s %4.4ld/%2.2d/%2.2d %2.2d:%2.2d:%2.2d %14lu %-30s\n", pEntry->pszName,
+      pEntry->stFileDate.year + 1980, pEntry->stFileDate.month, pEntry->stFileDate.day,
+      pEntry->stFileTime.hours, pEntry->stFileTime.minutes, pEntry->stFileTime.twosecs << 1,
+      pEntry->ulFileSize, pszType );
+  } /* endif */
   return( 0 );
 }
 
@@ -1235,9 +1631,54 @@ void showHelp()
     printf( "Version          : %s\n",STR_DRIVER_LEVEL_NUMBER );
     printf( "Copyright        : %s\n",STR_COPYRIGHT );
     printf( "Purpose          : Show information about a exported folder\n" );
-    printf( "Syntax format    : OtmShowFxp folderfile [/DETAILS]\n" );
+    printf( "Syntax format    : OtmShowFxp folderfile [/DETAILS] [/OUTfile=outputfile] [/FOrmat=[TEXT|XML]]\n" );
     printf( "Options and parameters:\n" );
     printf( "    folderfile    the fully qualified name of an exported folder\n" );
     printf( "                  if no file extension is given \".FXP\" is assumed\n" );
     printf( "    /DETAILS      shows the output in greater details\n" );
+    printf( "    /OUTfile=     specifies the output file name\n" );
+    printf( "    /FORMAT=      specifies the output file format and may be TEXT for plain text or XML (the default is TEXT)\n" );
 }
+
+static char szUtf8Buffer[2000];
+static CHAR_W szUtf16Buffer[2000];
+
+// write UTF16 string in UTF8
+static BOOL WriteInUTF8W( FILE *hfOut, PSZ_W pszUTF16 )
+{
+  BOOL fOK = TRUE;
+
+  // convert to UTF-8
+  int iOutLen = WideCharToMultiByte( CP_UTF8, 0, pszUTF16, -1, (LPSTR)szUtf8Buffer, sizeof(szUtf8Buffer), NULL, NULL );
+
+  // write UTF-8 string to output file
+  fwrite( szUtf8Buffer, iOutLen - 1, 1, hfOut );
+
+  return( fOK );
+}
+
+// write ASCII string in UTF8
+static BOOL WriteInUTF8( FILE *hfOut, PSZ pszASCII )
+{
+  BOOL fOK = TRUE;
+
+  // convert to UTF-16
+  int iOutLen = MultiByteToWideChar( CP_ACP, 0, pszASCII, -1, szUtf16Buffer, sizeof(szUtf16Buffer)/sizeof(CHAR_W) - 2 );
+  szUtf16Buffer[iOutLen] = 0;
+
+  // write UTF-16 string 
+  WriteInUTF8W( hfOut, szUtf16Buffer );
+
+  return( fOK );
+}
+
+static void PrintfInUtf8W( FILE *hfOut, const CHAR_W *pszFormat, ... )
+{
+  va_list vArgs;
+
+  va_start( vArgs, pszFormat );
+  vswprintf( szUtf16Buffer, pszFormat, vArgs );
+  va_end( vArgs );
+
+  WriteInUTF8W( hfOut, szUtf16Buffer );
+} /* end of function PrintfInUtf8W */

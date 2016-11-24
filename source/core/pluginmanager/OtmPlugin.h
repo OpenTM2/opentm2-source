@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -123,6 +123,32 @@ extern "C" {
 	plugin.
 */
 	__declspec(dllexport) unsigned short registerPlugins();   // add return value for P402974
+}
+
+/*! Structure for plugin infomation
+*/
+typedef struct _OTMPLUGININFO
+{
+  char szName[256];                    // buffer for the plugin name
+  char szShortDescription[256];        // buffer for the short description of the plugin
+  char szLongDescription[1024];        // buffer for the long description of the plugin
+  OtmPlugin::ePluginType eType;    // buffer for the type of the plugin
+  char szVersion[256];                 // buffer for the plugin version
+  char szSupplier[256];                // buffer for the name of the plugin supplier
+  char szDependencies[1024];           // buffer for the list of dependencies (required other plugins and/or other packages)
+  int iMinOpenTM2Version;              // minimum OpenTM2 version reqired for this plugin (the number is decimal; e.g. 1.3.1 is stored as 10301, -1 = n/a)
+  char szForFutureEnhancements[8096];  // currently unused area for future enhancements
+} OTMPLUGININFO, *POTMPLUGININFO;
+
+
+extern "C" {
+/*! \relates OtmPlugin
+	Retrieve static information about the plugin contained in this plugin DLL w/o the need to actually create a plugin object
+  \param pPluginInfo points to a OTMPLUGINFO structure which receives the plugin information
+	\returns 0 if suucessful or an error code
+*/
+__declspec(dllexport) unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo );
+
 
 }
 

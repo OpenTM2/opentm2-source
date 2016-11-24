@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.3.1"
+!define PRODUCT_VERSION "1.3.2"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -268,7 +268,7 @@ SectionEnd
    Caption "OpenTM2 ${PRODUCT_VERSION} Setup"
  
    ;OutFile "OpenTM2 ${PRODUCT_VERSION} Setup-${MyTIMESTAMP}.exe"
-   OutFile "OpenTM2-${PRODUCT_VERSION}-Setup.exe"  
+   OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition-Setup.exe"  
   
   ;Default installation folder
 
@@ -460,6 +460,7 @@ SetOverwrite on
 ${File} "PROPERTY\" "EQFNFLUENT.TRG"
 Continue7:
 ;End control trigger file
+SetOverwrite on
 
 ${SetOutPath} "$INSTDIR\PRTFORM"
 ${File} "PRTFORM\" "FORMAT1.FRM"
@@ -600,6 +601,8 @@ ${File} "PLUGINS\" "OtmMorphICUPlugin.DLL"
 ${File} "PLUGINS\" "PluginManager.conf.sample"
 ; merge sample file's value to local config file
 IfFileExists "$INSTDIR\PLUGINS\PluginManager.conf" 0 EndCheck1
+ReadIniStr $7 '$INSTDIR\PLUGINS\PluginManager.conf.sample' 'Networks' 'URL'
+WriteIniStr '$INSTDIR\PLUGINS\PluginManager.conf' 'Networks' 'URL' $7
 ReadIniStr $7 '$INSTDIR\PLUGINS\PluginManager.conf.sample' 'BasicPlugins' 'Name'
 WriteIniStr '$INSTDIR\PLUGINS\PluginManager.conf' 'BasicPlugins' 'Name' $7
 ReadIniStr $7 '$INSTDIR\PLUGINS\PluginManager.conf.sample' 'BasicPlugins' 'MinCnt'
@@ -608,6 +611,11 @@ ReadIniStr $7 '$INSTDIR\PLUGINS\PluginManager.conf.sample' 'NonRemovablePlugins'
 WriteIniStr '$INSTDIR\PLUGINS\PluginManager.conf' 'NonRemovablePlugins' 'Name' $7
 EndCheck1:
 ${File} "PLUGINS\" "AutoVersionUp.conf.sample"
+; merge sample file's URL to local config file
+IfFileExists "$INSTDIR\PLUGINS\AutoVersionUp.conf" 0 EndCheckAutoVersionUp
+ReadIniStr $7 '$INSTDIR\PLUGINS\AutoVersionUp.conf.sample' 'Networks' 'URL'
+WriteIniStr '$INSTDIR\PLUGINS\AutoVersionUp.conf' 'Networks' 'URL' $7
+EndCheckAutoVersionUp:
 ${File} "PLUGINS\" "PendingUpdates.conf.sample"
 ${File} "PLUGINS\" "OtmCleanupPlugin.DLL"
 
@@ -624,7 +632,6 @@ ${SetOutPath} "$INSTDIR\PLUGINS\UserMarkupTablePlugin"
 ${File} "PLUGINS\UserMarkupTablePlugin\" "UserMarkupTablePlugin.DLL"
 
 !include ..\..\build\OtmMarkupTablePlugin_inc.nsi
-
 
 
 ${SetOutPath} "$INSTDIR\OtmTMService"
@@ -788,7 +795,33 @@ ${File} "PLUGINS\OtmMorphICUPlugin\Rules\" "english-otm-rules.txt"
 ${File} "PLUGINS\OtmMorphICUPlugin\Rules\" "english-otm-rules.brk"
 
 ${SetOutPath} "$INSTDIR\PLUGINS\OtmMorphICUPlugin\AbbrevLists"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Catalan_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Czech_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Danish_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Dutch(permissive)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Dutch(restrictive)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "English(U.K.)_abbrev.dic"
 ${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "English(U.S.)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Finnish_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "French(Canadian)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "French(national)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "German(DPAnat)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "German(reform)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "German(Swiss)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Greek_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Hebrew_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Italian_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Norwegian(Bokmal)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Norwegian(Nynorsk)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Polish_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Portuguese(Br.New)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Portuguese(Brasil)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Portuguese(nat.)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Portuguese(nt.New)_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Russian_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Spanish_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Swedish_abbrev.dic"
+${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Thai_abbrev.dic"
 
 ;Store installation folder
 WriteRegStr HKCU "Software\OpenTM2" "" $INSTDIR

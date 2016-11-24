@@ -3145,7 +3145,7 @@ BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
           }              
           else if ( pMatch->fUsed ) 
           {
-            dwBackColor = RGB(240,240,240);
+            dwBackColor = RGB(140,240,140);
           } /* endif */             
 
           SetBkColor( lpdis->hDC, dwBackColor );

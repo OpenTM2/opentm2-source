@@ -2,7 +2,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2014, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -56,6 +56,48 @@ int WINAPI WinMain(HINSTANCE hInstance,
     getToolInfo.ShowToolInfo();
 
     return 0;
+}
+
+void OtmGetKeyValue(const char * strParam, char * strKey, char * strVal, char cBreak, BOOL bKeepBreak)
+{
+    if ((NULL == strParam) || (strlen(strParam) == 0))
+    {
+        return;
+    }
+
+    int nLen = (int) strlen(strParam);
+    int nKeyInx = 0;
+    int nValInx = 0;
+
+    BOOL bValStart = FALSE;
+    for (int iInx = 0; iInx <= nLen; iInx++)
+    {
+        if ((cBreak == strParam[iInx]) && !bValStart)
+        {
+            bValStart = TRUE;
+            if (bKeepBreak)
+            {
+                strKey[nKeyInx] = strParam[iInx];
+                nKeyInx++;
+            }
+            continue;
+        }
+        else if (!bValStart)
+        {
+            strKey[nKeyInx] = strParam[iInx];
+            nKeyInx++;
+            continue;
+        }
+        else
+        {
+            strVal[nValInx] = strParam[iInx];
+            nValInx++;
+            continue;
+        }
+    }
+
+    strKey[nKeyInx] = '\0';
+    strVal[nValInx] = '\0';
 }
 
 int ProcessParameter(char * strParameter, PCMDPARAM pCmdParam)

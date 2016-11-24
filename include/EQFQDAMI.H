@@ -1,6 +1,6 @@
 /*! EQFQDAMI.H
 	Description: internal header file for QDAM
-	Copyright (c) 1990-2012, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #define BTREE_REC_SIZE_V2  (4096)          // record size V2
@@ -102,7 +102,8 @@ typedef enum _SEARCHTYPE
 {
   FEXACT,                  // exact match requested
   FSUBSTR,                 // only substring match
-  FEQUIV                   // equivalent match
+  FEQUIV,                  // equivalent match
+  FEXACT_EQUIV             // editor: exact match then equivalent
 } SEARCHTYPE;
 
   typedef struct _RECPARAM
@@ -722,7 +723,8 @@ SHORT QDAMDictExact
    PBTREE   pBT,                         // pointer to btree struct
    PCHAR_W  pKey,                        // key to be searched for
    PBYTE    pchBuffer,                   // space for user data
-   PULONG   pulLength                    // in/out length of returned user data
+   PULONG   pulLength,                   // in/out length of returned user data
+   USHORT   usSeachSubType  
 );
 
 
@@ -1226,7 +1228,7 @@ __declspec(dllexport)
 __declspec(dllexport)
  SHORT QDAMDictEquivLocal  ( PBTREE, PCHAR_W, PBYTE, PULONG,  PBYTE,PULONG );
 __declspec(dllexport)
- SHORT QDAMDictExactLocal  ( PBTREE, PCHAR_W, PBYTE, PULONG  );
+ SHORT QDAMDictExactLocal  ( PBTREE, PCHAR_W, PBYTE, PULONG, USHORT );
 __declspec(dllexport)
  SHORT QDAMDictNextLocal   ( PBTREE, PCHAR_W, PULONG,  PBYTE, PULONG  );
 __declspec(dllexport)
@@ -1255,7 +1257,7 @@ __declspec(dllexport)
 
  SHORT QDAMFindChild_V2 ( PBTREE, PCHAR_W, USHORT, PBTREEBUFFER_V2 * );
  SHORT QDAMFindChild_V3 ( PBTREE, PCHAR_W, USHORT, PBTREEBUFFER_V3 * );
- SHORT QDAMLocateKey_V2(PBTREE, PBTREEBUFFER_V2, PCHAR_W, PSHORT, SEARCHTYPE, PSHORT);
+ SHORT QDAMLocateKey_V2(PBTREE, PBTREEBUFFER_V2, PCHAR_W, PSHORT, SEARCHTYPE, PSHORT, USHORT);
  SHORT QDAMLocateKey_V3(PBTREE, PBTREEBUFFER_V3, PCHAR_W, PSHORT, SEARCHTYPE, PSHORT);
  SHORT QDAMFreeRecord_V2 ( PBTREE, PBTREEBUFFER_V2, RECTYPE );
  SHORT QDAMFreeRecord_V3 ( PBTREE, PBTREEBUFFER_V3, RECTYPE );
@@ -1505,7 +1507,8 @@ void DAMLINK
                  PULONG,            /* out - term number         */
                  PULONG,            /* out - entry data length in bytes*/
                  PUSHORT,           /* out - dictionary of match */
-                 PUSHORT);          /* out - return code         */
+                 PUSHORT,           /* out - return code         */
+                 USHORT);           /* in  - search subtype      */
 
 __declspec(dllexport)
 void DAMLINK

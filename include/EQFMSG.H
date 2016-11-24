@@ -7632,10 +7632,12 @@
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0682_xxxxxxxxxxxxxxxxxxxxx                    682
-// Text:       !! No message text defined !!
+#define ERROR_TA_MTOPTIONS                                682
+// Text:       MT output options error:\n
+//             %1
 // HelpTitle:  OpenTM2 - Help
-// Help:       !! No help text defined !!
+// Help:       There was an error in the specified MT output options. Please correct
+//             the error and retry.
 
 #define FREE_0683_xxxxxxxxxxxxxxxxxxxxx                    683
 // Text:       !! No message text defined !!

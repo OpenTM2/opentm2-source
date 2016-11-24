@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|  Description:                                                              |
@@ -451,6 +451,7 @@ typedef struct _UCB                    // ASD user control block
    BOOL      fDictPIDFieldsSet;           // TRUE = Field info has been set
    CHAR      szDictPIDSelect[MAX_DICTPID_VALUES]; // PID values to select
    USHORT    usDictPIDSelect[MAX_DICTS];  // Dict. field containing PID values 
+   USHORT    usDictSearchSubType;         // Dict. search subtype (editor lookup)
 } UCB, *PUCB;
 
 //+----------------------------------------------------------------------------+

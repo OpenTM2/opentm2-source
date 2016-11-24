@@ -49,7 +49,7 @@
 	<!-- create report header -->
 	<xsl:template name="reportheader">
 		<h2>History Report - <xsl:value-of select="/tmhistory/description/report/@layout"/>
-			<br/>TranslationManager : <xsl:value-of select="/tmhistory/description/translationManager/@version"/>
+			<br/>OpenTM2 : <xsl:value-of select="/tmhistory/description/translationManager/@version"/>
 			<xsl:text>.</xsl:text>
 			<xsl:value-of select="/tmhistory/description/translationManager/@release"/>
 		    <xsl:text>&nbsp;Build </xsl:text><xsl:value-of select="/tmhistory/description/translationManager/@build"/>

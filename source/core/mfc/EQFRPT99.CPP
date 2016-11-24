@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -694,13 +694,30 @@ void CRPTProcDoc::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-/////////////////////////////////////////////////////////////////////////////
-// CGenListView message handlers
+VOID RptOutputToHTMLControlClose( PRPT pRPT ){
 
+  if ( pRPT->hHTMLControl )
+  {
+    UtlClose( pRPT->hHTMLControl, FALSE );
+    pRPT->hHTMLControl = 0;
+  } /* endif */
+  UtlDelete( pRPT->chHTMLControl, 0L, FALSE );
+}
 
+BOOL RptOutputToHTMLControlOpen( PRPT pRPT ){
+  BOOL fOK = TRUE;
+  USHORT usAction;             // file action performed by DosOpen
 
+  sprintf( pRPT->chHTMLControl, "%s\\RPT.HTML", pRPT->szFolderObjName );
 
+  fOK = ! UtlOpen( pRPT->chHTMLControl,
+                   &pRPT->hHTMLControl,
+                   &usAction,
+                   0L,
+                   FILE_NORMAL,
+                   FILE_TRUNCATE | FILE_CREATE,
+                   OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE,
+                   0L,
+                   TRUE );
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CRPTProcDoc
+  return fOK;}

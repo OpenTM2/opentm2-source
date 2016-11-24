@@ -47,6 +47,7 @@
 !include $(_BLD)\OtmMarkupTablePlugin.MAK
 !include $(_BLD)\UserMarkupTablePlugin.MAK
 !include $(_BLD)\OtmCleanupPlugin.mak
+!include $(_BLD)\S2TMfcBasedExe.mak
 !include $(_BLD)\OtmToolsLauncherPlugin.mak
 !include $(_BLD)\OpenTM2ToolsLauncher.mak
 !include $(_BLD)\OtmGetToolInfo.mak

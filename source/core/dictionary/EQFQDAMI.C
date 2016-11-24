@@ -2136,11 +2136,12 @@ SHORT QDAMFindParent_V3
 SHORT QDAMLocateKey_V2
 (
    PBTREE pBTIda,                         // pointer to btree structure
-   PBTREEBUFFER_V2 pRecord,                  // record to be dealt with
+   PBTREEBUFFER_V2 pRecord,               // record to be dealt with
    PCHAR_W pKey,                          // key to be searched
    PSHORT  psKeyPos,                      // located key
    SEARCHTYPE  searchType,                // search type
-   PSHORT  psNearPos                      // near position
+   PSHORT  psNearPos,                     // near position
+   USHORT  searchSubType                  // search subtype for hyphenation
 )
 {
   SHORT  sLow;                             // low value
@@ -2153,7 +2154,8 @@ SHORT QDAMLocateKey_V2
   SHORT    sCheckVariants=0;
   BOOL   fFound = FALSE;
   PBTREEGLOB    pBT = pBTIda->pBTree;
-  CHAR_W  szKey[500];
+  CHAR_W  szKey[512];
+  SHORT   sKeyLen = 512 ;
 
   *psKeyPos = -1;                         // key not found
   if ( pRecord )
@@ -2162,10 +2164,12 @@ SHORT QDAMLocateKey_V2
     sHigh = (SHORT) OCCUPIED( pRecord) -1 ;      // counting starts at zero
     sLow = 0;                                    // start here
 
-    wcscpy( szKey, pKey ) ;
+    wcsncpy( szKey, pKey, sKeyLen ) ;
+    szKey[sKeyLen-1] = NULL ;
     pHyphen = wcschr(szKey, L'-') ;
-    if ( pHyphen ) {
-       sCheckVariants = 1 ;             // 3 variations when term contains hyphen, temporary -> 1
+    if ( ( pHyphen ) &&
+         ( searchSubType == FEXACT_EQUIV ) ) { // special hyphenation lookup
+       sCheckVariants = 3 ;             // 3 variations when term contains hyphen
     }  else {
        sCheckVariants = 1 ;
     }
@@ -2334,19 +2338,20 @@ SHORT QDAMLocateKey_V2
                      }
                      else if (UTF16strcmp( szKey, pKey2 ))
                      {
-  // Backed out 7-29-16.  P403371.  Import merges incorrect entries
-  //     This code is needed when similar terms to be shown as one in editor.
-  //                    if ( QDAMCaseCompare( pBTIda, szKey, pKey2, TRUE ) == 0 )
-  //                    {
-  //                      // match but punctuation differs
-  //                      // so remember match if we have no other yet and
-  //                      // look for better ones...
-  //                      if ( BestKeyMatch == NOMATCH_KEY )
-  //                      {
-  //                        BestKeyMatch = PUNCTDIFF_KEY;
-  //                        sBestKey = sMid;
-  //                      } /* endif */
-  //                    } /* endif */
+                       // show similar terms as one in document edidtor
+                       if ( searchSubType == FEXACT_EQUIV ) {
+                          if ( QDAMCaseCompare( pBTIda, szKey, pKey2, TRUE ) == 0 )
+                          {
+                            // match but punctuation differs
+                            // so remember match if we have no other yet and
+                            // look for better ones...
+                            if ( BestKeyMatch == NOMATCH_KEY )
+                            {
+                              BestKeyMatch = PUNCTDIFF_KEY;
+                              sBestKey = sMid;
+                            } /* endif */
+                          } /* endif */
+                       }
                        sMid ++;
                      }
                      else
@@ -2396,11 +2401,13 @@ SHORT QDAMLocateKey_V2
          sHigh = (SHORT) OCCUPIED( pRecord) -1 ; // counting restarts at zero
          sLow = 0;                               // start here
          if ( sCheckVariants == 2 ) {            // 1st hyphen variant
-           wcscpy( szKey, pKey ) ;               // Replace hyphen with blank
+           wcsncpy( szKey, pKey, sKeyLen ) ;     // Replace hyphen with blank 
+           szKey[sKeyLen-1] = NULL ;
            *pHyphen = NULL ;
          } else
          if ( sCheckVariants == 1 ) {            // 2nd hyphen variant
-           wcscpy( szKey, pKey ) ;               // Remove hyphen and concatenate words
+           wcsncpy( szKey, pKey, sKeyLen ) ;     // Remove hyphen and concatenate words 
+           szKey[sKeyLen-1] = NULL ;
            memmove( pHyphen, pHyphen+1, (wcslen(pHyphen+1)+1)*sizeof(WCHAR) ) ;
          } else {
             sCheckVariants = 0 ;
@@ -2730,7 +2737,7 @@ SHORT QDAMLocSubstr_V2
   RECPARAM recData;
   PBTREEGLOB    pBT = pBTIda->pBTree;
 
-  sRc = QDAMLocateKey_V2(pBTIda, pRecord, pKey, &i, FSUBSTR, &sNearKey);
+  sRc = QDAMLocateKey_V2(pBTIda, pRecord, pKey, &i, FSUBSTR, &sNearKey, FSUBSTR );
   if ( !sRc )
   {
      if ( i != -1 )

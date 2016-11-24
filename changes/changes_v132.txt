@@ -1,0 +1,33 @@
+Changes in OpenTM2 releases
+
+List of requirements and fixes in OpenTM2 release v1.3.2:
+  (A) Requirements:
+     R012561: OTM support to external MT process.
+	 
+  (B) Fixes:	 
+     P402205: "Display fuzzy match" command does not work.
+     P402736: How to export abbreviation list in plain format.
+     P403044: Analyzed NLV files shows 100% while there are still a lot not translated segments.
+     P403221: Translation editor: Editor Profile Settings slightly mess up displayed segment information.
+     P403232: Document validation export gets "system busy" popup for PGMP project.
+     P403276: Overlapping Vowel for Thai on OTM2.
+     P403281: API EqfCreateCountReportEx generates only XML-output.
+     P403328: OtmShowFxp: need output capabilities (e.g. XML).
+     P403330: Source and Target file can't be aligned when use OtmItm to create memory.
+     P403331: OpenTM2 Crash when Clicking "Prepare Replace" during Searching.
+     P403377: Add sub menu item for tool plugin failed.
+     P403403: Show hyphenated terms better in editor dictionary window.
+     P403414: Dictionary: Entry shown twice for first term uppercase and plural.
+     P403430: OpenTM2Scripter.exe: output doesn't contain the TARGET LANGUAGE information.
+     P403436: OTM editor default for "right margin" should be "Auto" rather than "70".
+     P403452: Fuzzy Segment Search: please change background color of opened segments.
+     P403460: OtmMemoryTool.exe has stopped working.
+     P403462: English abbreviation list should be updated.
+     P403467: Group language is missing for Danish and Icelandic.
+     P403473: User interface of Segment properties window.
+     P403474: About some description on the PDF manual.
+     P403486: OTM abends when dictionaries were added.
+     P403488: Editor freezes when a word is not found in the document.
+     P403492: Unknown dictionary terms shown in editor.
+     P403515: Old string "TranslationManager" in "History Report".
+ 

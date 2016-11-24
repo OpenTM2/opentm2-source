@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2013, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -27,7 +27,7 @@ VOID EQFBKeysFillListbox( HWND hwndDlg, USHORT id,
                           PKEYPROFTABLE pKey, PFUNCTIONTABLE pFunc,
                           BYTE bEditor );
 static VOID EQFBKeysPrint ( HWND );
-static MRESULT DrawKeysFuncList ( LPARAM mp2, BOOL fDifColor );
+static MRESULT DrawKeysFuncList ( HWND hwndDlg, LPARAM mp2, BOOL fDifColor );
 
 BOOL EQFBCheckForMnemonic( PKEYSIDA, WPARAM, LPARAM);
 VOID EQFBLeaveCaptMode( HWND, PKEYSIDA );
@@ -159,7 +159,7 @@ INT_PTR CALLBACK EQFBKEYSDLGPROC
          break;
 
       case WM_DRAWITEM:
-         mResult = DrawKeysFuncList( mp2, TRUE );
+         mResult = DrawKeysFuncList( hwndDlg, mp2, TRUE );
          break;
 
       case WM_EQF_CLOSE:
@@ -247,6 +247,7 @@ MRESULT APIENTRY EQFBKeysAssignSubProc
 static
 MRESULT DrawKeysFuncList
 (
+  HWND hwndDlg,
   LPARAM mp2,                       // pointer to item structure
   BOOL   fDifColor                  // force display in different colors ...
 )
@@ -264,6 +265,33 @@ MRESULT DrawKeysFuncList
     LPDRAWITEMSTRUCT lpDisp = (LPDRAWITEMSTRUCT)mp2;
     if ( (lpDisp->itemID != -1) )
     {
+     // Query extent required to draw the function strings (if not done yet)
+     if ( ulEQFBLineWidth == 0L )
+     {
+       PKEYSIDA pIda = ACCESSDLGIDA( hwndDlg, PKEYSIDA );
+       PFUNCTIONTABLE  pFuncList = get_FuncTab();
+       PKEYPROFTABLE pKeyTemp = get_KeyTable(); 
+       BYTE bEditor = (pIda->pDoc->hwndRichEdit) ? EDIT_RTF : EDIT_STANDARD;
+
+       while ( pKeyTemp->Function != LAST_FUNC )
+       {
+         PSZ pszFuncName = (pFuncList + pKeyTemp->Function)->szDescription;
+
+         USHORT usFuncValid = (bEditor & pKeyTemp->bEditor) ? 1 : 0;
+
+         if ( (*pszFuncName) && usFuncValid)
+         {
+           LONG lCX, lCY;
+           TEXTSIZE( lpDisp->hDC, pszFuncName, lCX, lCY );
+           ulEQFBLineWidth = max( ulEQFBLineWidth, ((ULONG)lCX+2L) );
+         } /* endif */
+         pKeyTemp++;
+       } /* endwhile */
+       ulEQFBLineWidth += 2 * UtlQueryULong(QL_AVECHARWIDTH);
+     }
+
+
+
       if ( lpDisp->itemAction & (ODA_DRAWENTIRE | ODA_SELECT) )
       {
 		fHighContrast = UtlIsHighContrast();    // test for High Contrast
@@ -274,8 +302,7 @@ MRESULT DrawKeysFuncList
 			  dwRGB_WINDOWTEXT = GetSysColor(COLOR_WINDOWTEXT);
 		}
         // Modify for R012027 start
-        SendMessage( lpDisp->hwndItem, LB_GETTEXT, lpDisp->itemID,
-                     (LPARAM) (LPCSTR) chWork );
+        SendMessage( lpDisp->hwndItem, LB_GETTEXT, lpDisp->itemID, (LPARAM) (LPCSTR) chWork );
 
         if (strnicmp(chWork, STR_INSERT_CHAR, strlen(STR_INSERT_CHAR)) != 0)
         {
@@ -297,29 +324,29 @@ MRESULT DrawKeysFuncList
 
         if (  !(lpDisp->itemState & ODS_SELECTED)  )
         { // draw not selected items
-			FillRect(lpDisp->hDC, &(lpDisp->rcItem), (HBRUSH) (COLOR_WINDOW+1));
-			lpDisp->rcItem.left += 2; // provide a small left border
+			    FillRect(lpDisp->hDC, &(lpDisp->rcItem), (HBRUSH) (COLOR_WINDOW+1));
+			    lpDisp->rcItem.left += 2; // provide a small left border
 
-			DRAWTEXT(lpDisp->hDC, chWork, lpDisp->rcItem, dwRGB_WINDOWTEXT,
-					 dwRGB_WINDOW, DT_LEFT);
-			lpDisp->rcItem.left -= 2;
+			    DRAWTEXT(lpDisp->hDC, chWork, lpDisp->rcItem, dwRGB_WINDOWTEXT,
+					     dwRGB_WINDOW, DT_LEFT);
+			    lpDisp->rcItem.left -= 2;
 
-			lpDisp->rcItem.left += LOWORD(ulEQFBLineWidth); // KEYNAME_OFFSET;
-			if (!fHighContrast)
-			{
-			  DRAWTEXT(lpDisp->hDC, pszKey, lpDisp->rcItem,
-					 (pFunc->fChange && fDifColor) ? CLR_RED : CLR_BLACK,
-					 dwRGB_WINDOW, DT_LEFT);
-		    }
-		    else
-		    {
-			  DRAWTEXT(lpDisp->hDC, pszKey, lpDisp->rcItem,
-					  dwRGB_WINDOWTEXT ,
-					  dwRGB_WINDOW, DT_LEFT);
-		    }
-			lpDisp->rcItem.left -= LOWORD(ulEQFBLineWidth);    //KEYNAME_OFFSET;
-	    }
-	    else
+			    lpDisp->rcItem.left += LOWORD(ulEQFBLineWidth); // KEYNAME_OFFSET;
+			    if (!fHighContrast)
+			    {
+			      DRAWTEXT(lpDisp->hDC, pszKey, lpDisp->rcItem,
+					     (pFunc->fChange && fDifColor) ? CLR_RED : CLR_BLACK,
+					     dwRGB_WINDOW, DT_LEFT);
+		        }
+		        else
+		        {
+			      DRAWTEXT(lpDisp->hDC, pszKey, lpDisp->rcItem,
+					      dwRGB_WINDOWTEXT ,
+					      dwRGB_WINDOW, DT_LEFT);
+		        }
+			    lpDisp->rcItem.left -= LOWORD(ulEQFBLineWidth);    //KEYNAME_OFFSET;
+	      }
+	      else
 		{ // draw selected item
 			FillRect(lpDisp->hDC, &(lpDisp->rcItem), (HBRUSH) (COLOR_HIGHLIGHT+1));
 			lpDisp->rcItem.left += 2; // provide a small left border
@@ -1401,46 +1428,6 @@ VOID EQFBKeysFillListbox
          pKeyTemp++;
       }
    } /* endif */
-
-   /*******************************************************************/
-   /* Query extent required to draw the function strings (if not done */
-   /* yet)                                                            */
-   /*******************************************************************/
-   if ( ulEQFBLineWidth == 0L )
-   {
-     HWND     hwndLB;                  // handle of listbox
-     HPS      hpsLB;                   // listbox presentation space handle
-     hwndLB = WinWindowFromID( hwndDlg, usId );
-     hpsLB = GETPS( hwndLB );
-
-     pKeyTemp = pKey;
-     while ( pKeyTemp->Function != LAST_FUNC )
-     {
-       pszFuncName = (pFuncList + pKeyTemp->Function)->szDescription;
-
-       if (bEditor & pKeyTemp->bEditor )
-       {
-         usFuncValid = 1;
-       }
-       else
-       {
-         usFuncValid = 0;
-       } /* endif */
-
-//     if ( *pszFuncName )              // if not empty ...
-       if ( (*pszFuncName) && usFuncValid)
-       {
-         LONG lCX, lCY;
-
-         TEXTSIZE( hpsLB, pszFuncName, lCX, lCY );
-         ulEQFBLineWidth = max( ulEQFBLineWidth, ((ULONG)lCX+2L) );
-       } /* endif */
-       pKeyTemp++;
-     } /* endwhile */
-
-     RELEASEPS( hwndLB, hpsLB );
-     ulEQFBLineWidth += 2 * UtlQueryULong(QL_AVECHARWIDTH);
-   }
 
    while ( pKey->Function != LAST_FUNC )        // while not end of key list
    {
@@ -3186,7 +3173,7 @@ INT_PTR CALLBACK EQFBCOMMANDDLGPROC
          break;
 
       case WM_DRAWITEM:
-         mResult = DrawKeysFuncList( mp2, FALSE );
+         mResult = DrawKeysFuncList( hwndDlg, mp2, FALSE );
          break;
 
       default:

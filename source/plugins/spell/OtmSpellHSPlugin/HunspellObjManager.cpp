@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 #include <eqf.h>                  // General Translation Manager include file
@@ -14,8 +14,9 @@ HunspellObjManager* HunspellObjManager::pInstance = NULL;
 HunspellObjManager::HunspellObjManager(void)
 {
 	getDirectory();
-	
+#ifdef _DEBUG
 	hunspellObjManagerLog.open("HunspellObjManager");
+#endif
 
  	if(readLanguageConfig() > 0)
  		hunspellObjManagerLog.writef("read language configuration file success!");

@@ -13,7 +13,7 @@
 				  searched both sequentially and via a key.
 	Copyright Notice:
 
-	Copyright (C) 1990-2012, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -914,7 +914,8 @@ SHORT QDAMDictExactLocal
    PBTREE pBTIda,                      // pointer to btree struct
    PCHAR_W pKey,                       // key to be searched for
    PBYTE  pchBuffer,                   // space for user data
-   PULONG pulLength                    // in/out length of returned user data
+   PULONG pulLength,                   // in/out length of returned user data
+   USHORT usSearchSubType              // special hyphenation lookup flag
 )
 {
   SHORT    i;
@@ -1027,7 +1028,7 @@ SHORT QDAMDictExactLocal
 
           if ( !sRc )
           {
-            sRc = QDAMLocateKey_V2(pBTIda, pRecord, pKey, &i, FEXACT, &sNearKey);
+            sRc = QDAMLocateKey_V2(pBTIda, pRecord, pKey, &i, FEXACT, &sNearKey, usSearchSubType );
             if ( !sRc )
             {
                if ( i != -1 )
@@ -1494,7 +1495,7 @@ SHORT QDAMDictEquivLocal
 
            if ( !sRc )
            {
-             sRc = QDAMLocateKey_V2(pBTIda, pRecord, pKey, &i, FEQUIV, &sNearKey );
+             sRc = QDAMLocateKey_V2(pBTIda, pRecord, pKey, &i, FEQUIV, &sNearKey, FEQUIV );
              if ( !sRc )
              {
                 if ( i != -1 )

@@ -932,13 +932,33 @@ std::string& MemoryFactory::getLastError( OtmMemory *pMemory, int& iLastError, s
   inserted on their relevance
   \param iMaxProposals maximum number of proposals to be filled in TargetProposals
   When there are more proposals available proposals with lesser relevance will be replaced
-  \param iMTDisplayFactor factor for the placement of machine matches within the table
 */
 void MemoryFactory::copyBestMatches(
   std::vector<OtmProposal *> &SourceProposals,
   std::vector<OtmProposal *> &TargetProposals,
-  int iMaxProposals,
-  int iMTDisplayFactor
+  int iMaxProposals
+)
+{
+  copyBestMatches( SourceProposals, TargetProposals, iMaxProposals, -1, FALSE );
+}
+
+/*! \brief Copy best matches from one proposal vector into another
+  and sort the proposals
+  \param SourceProposals refernce to a vector containing the source proposals
+  \param TargetProposals reference to a vector receiving the copied proposals
+  the vector may already contain proposals. The proposals are
+  inserted on their relevance
+  \param iMaxProposals maximum number of proposals to be filled in TargetProposals
+  When there are more proposals available proposals with lesser relevance will be replaced
+  \param iMTDisplayFactor factor for the placement of machine matches within the table
+  \param fExactAndFuzzies switch to control the handling of fuzzy matches when exact matches exist, TRUE = keep fuzzy matches even when exact matches exist
+*/
+void MemoryFactory::copyBestMatches(
+  std::vector<OtmProposal *> &SourceProposals,
+  std::vector<OtmProposal *> &TargetProposals,
+  int iMaxProposals, 
+  int iMTDisplayFactor,
+  BOOL fExactAndFuzzies
 )
 {
   iMTDisplayFactor; 
@@ -951,29 +971,35 @@ void MemoryFactory::copyBestMatches(
     } /* end */       
   } /* end */     
 
-  // ignore all fuzzy matches when there are exact matchegetVs available
-  if ( (TargetProposals.size() > 1) && TargetProposals[0]->isExactMatch()  )
+  // ignore all fuzzy matches when there are exact matches available
+  if ( !fExactAndFuzzies )
   {
-    for ( std::size_t i = 0; i < TargetProposals.size(); i++ )
+    if ( (TargetProposals.size() > 1) && TargetProposals[0]->isExactMatch()  )
     {
-      if ( !TargetProposals[i]->isEmpty() && !TargetProposals[i]->isExactMatch() )
+      for ( std::size_t i = 0; i < TargetProposals.size(); i++ )
       {
-        TargetProposals[i]->clear();
-      } /* end */       
-    } /* end */     
-  } /* end */
+        if ( !TargetProposals[i]->isEmpty() && !TargetProposals[i]->isExactMatch() )
+        {
+          TargetProposals[i]->clear();
+        } /* end */       
+      } /* end */     
+    } /* end */
+  } /* endif */
 
   // ignore all normal exact matches when there are exact-exact matches available
-  if ( (TargetProposals.size() > 1) && (TargetProposals[1]->getMatchType() == OtmProposal::emtExactExact)  )
+  if ( !fExactAndFuzzies )
   {
-    for ( std::size_t i = 0; i < TargetProposals.size(); i++ )
+    if ( (TargetProposals.size() > 1) && (TargetProposals[1]->getMatchType() == OtmProposal::emtExactExact)  )
     {
-      if ( !TargetProposals[i]->isEmpty() && !(TargetProposals[i]->getMatchType() == OtmProposal::emtExactExact) )
+      for ( std::size_t i = 0; i < TargetProposals.size(); i++ )
       {
-        TargetProposals[i]->clear();
-      } /* end */       
-    } /* end */     
-  } /* end */
+        if ( !TargetProposals[i]->isEmpty() && !(TargetProposals[i]->getMatchType() == OtmProposal::emtExactExact) )
+        {
+          TargetProposals[i]->clear();
+        } /* end */       
+      } /* end */     
+    } /* end */
+  } /* endif */
 }
 
 /*! \brief Insert proposal into proposal vector at the correct position and
@@ -1096,16 +1122,17 @@ int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal )
 
  the current order is: Exact-Exact -> Exact -> Global memory(Exact) -> Replace -> Fuzzy -> Machine
  We use the folloging sort key values
- - Exact-Exact = 1200
- - Exact-ContextSameDoc =  1000
- - Exact-Context     =  900-999
- - Exact-SameDoc     =  801
- - Exact             =  800
- - Global memory (Exact)    =  700
- - Global memory Star(Exact)= 600
- - Fuzzy             =  301-399
- - Machine           =  200 (400 at the end of the table)
- - empty entry       =  0
+ - Exact-ContextSameDoc       = 1400
+ - Exact-Context              = 1300
+ - Exact-Exact                = 1200
+ - Exact-Context(Context<100) =  900-999
+ - Exact-SameDoc              =  801
+ - Exact                      =  800
+ - Global memory (Exact)      =  700
+ - Global memory Star(Exact)  =  600
+ - Fuzzy                      =  301-399
+ - Machine                    =  200 (400 at the end of the table)
+ - empty entry                =  0
 
   Special handling for MT display factor (if given):
   - 0%  Machine =  200
@@ -1128,6 +1155,11 @@ int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal )
 */
 int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable )
 {
+  // when no context value is given, use context ranking of proposal
+  if ( usContextRanking == 0 )
+  {
+    usContextRanking = Proposal.getContextRanking();
+  } /* endif */
   return( getProposalSortKey( Proposal.getMatchType(), Proposal.getType(), Proposal.getFuzziness(), iMTDisplayFactor, usContextRanking, fEndOfTable ) ); 
 }
 
@@ -1163,10 +1195,17 @@ int MemoryFactory::getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmPr
     // exact matches with correct context have the highest priority
     if ( (usContextRanking == 100) && 
          ( (MatchType == OtmProposal::emtExact) || 
-           (MatchType == OtmProposal::emtExactContext) ||
+           (MatchType == OtmProposal::emtExactSameDoc) ||
            (MatchType == OtmProposal::emtExactExact) ) )
     {
-      return( 1300 );
+      if ( (MatchType == OtmProposal::emtExactSameDoc) ||  (MatchType == OtmProposal::emtExactExact) )
+      {
+        return( 1400 ); // context match from same document
+      }
+      else
+      {
+        return( 1300 ); // context match from a different document
+      }
     }
     else if ( (usContextRanking > 0) && (usContextRanking < 100) )
     {
@@ -1174,7 +1213,7 @@ int MemoryFactory::getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmPr
       {
         return( 1200 );  
       } /* endif */  
-      if ( MatchType == OtmProposal::emtExactContext )
+      if ( MatchType == OtmProposal::emtExactSameDoc )
       {
         return( 900 + usContextRanking  );  
       } /* endif */  
@@ -1195,7 +1234,7 @@ int MemoryFactory::getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmPr
       {
         return( 1200 );  
       } /* endif */  
-      if ( MatchType == OtmProposal::emtExactContext )
+      if ( MatchType == OtmProposal::emtExactSameDoc )
       {
         return( 801 );  
       } /* endif */  

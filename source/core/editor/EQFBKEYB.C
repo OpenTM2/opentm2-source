@@ -1981,6 +1981,7 @@ VOID EQFBTPROWndNames
   EQFBSetKeyName( hwndMenu, IDM_TMWND, ACTPROP_FUNC );
   EQFBSetKeyName( hwndMenu, IDM_DISPORG, DISPORG_FUNC );
   EQFBSetKeyName( hwndMenu, IDM_SRCPROPWND, SRCPROP_FUNC );
+  EQFBSetKeyName( hwndMenu, IDM_SEGPROPWND, SEGPROP_FUNC );
   /**************************************************************/
   /* get ptr to target document                                 */
   /**************************************************************/

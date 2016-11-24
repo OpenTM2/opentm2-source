@@ -2,7 +2,7 @@
 	Description: Program to create initial translation memories
 
 	Copyright Notice:
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 
 	The algorithm used is two folded.
@@ -3195,7 +3195,33 @@ MakeHashValue
 // Function flow:     check if still is space in list - if not allocate chunk
 //                    add this element to our list
 //------------------------------------------------------------------------------
+int filterSpace(wchar_t* pInData)
+{
+	if(pInData == NULL)
+		return 0;
 
+	wchar_t *pTemp = pInData;
+	wchar_t *pPos = pInData;
+	while(*pTemp != L'\0')
+	{
+		if(*pTemp==L' ' || *pTemp==L'\t')
+		{
+			pTemp++;
+		}
+		else
+		{
+			if(pPos == pTemp)
+				pPos++,pTemp++;
+			else
+				*pPos++ = *pTemp++;
+		}
+		   
+	}
+	if(pPos != pTemp)
+	    *pPos = L'\0';
+
+	return (pTemp-pPos);
+}
 static
 BOOL AddToHashBlock
 (
@@ -3242,9 +3268,18 @@ BOOL AddToHashBlock
 
     pToken = &(pITMNopSegs->pTokenList[pITMNopSegs->ulUsed]);
     pToken->ulHash = ulHash;
-    pToken->pData  = pData ;
+
+	// Fix P403330 begin
+	int spaces = filterSpace(pData);
+	pToken->pData = pData;
+	// Fix P403330 end
+
     pToken->usStart= 0;
-    pToken->usStop = (USHORT)(ulLength - 1 );
+
+	// Fix P403330 begin
+    pToken->usStop = (USHORT)(ulLength - 1 - spaces );
+	// Fix P403330 end
+
     /******************************************************************/
     /* dummy setting for sType, just use MARK_DELETED                 */
     /******************************************************************/

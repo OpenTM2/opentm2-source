@@ -4,7 +4,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 
@@ -985,6 +985,26 @@ UtlLowerW
   return pData;
 } /* end of function UtlLower */
 
+
+BYTE
+UtlToLower
+(
+  BYTE d                               // input character
+)
+{
+  return chEQFLower[d];
+} /* end of function UtltoLower */
+
+CHAR_W
+UtlToLowerW
+(
+  CHAR_W d                               // input character
+)
+{
+   DWORD  dw = MAKELONG( d, 0 );
+   return(LOWORD(CharLowerW( (PSZ_W)dw )));
+ } /* end of function UtlToLowerW */
+
 //------------------------------------------------------------------------------
 // Function name:     UtlUpper                                                  
 //------------------------------------------------------------------------------
@@ -1035,7 +1055,7 @@ UtlToUpper
 )
 {
   return chEQFUpper[d];
-} /* end of function UtlUpper */
+} /* end of function UtlToUpper */
 
 CHAR_W
 UtlToUpperW
@@ -1045,7 +1065,7 @@ UtlToUpperW
 {
    DWORD  dw = MAKELONG( d, 0 );
    return(LOWORD(CharUpperW( (PSZ_W)dw )));
- } /* end of function UtlUpper */
+ } /* end of function UtlToUpperW */
 
 
 //------------------------------------------------------------------------------

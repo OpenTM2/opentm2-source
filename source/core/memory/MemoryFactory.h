@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -370,13 +370,30 @@ std::string& MemoryFactory::getLastError(
   inserted on their relevance
   \param iMaxProposals maximum number of proposals to be filled in TargetProposals
   When there are more proposals available proposals with lesser relevance will be replaced
+*/
+void copyBestMatches(
+  std::vector<OtmProposal *> &SourceProposals,
+  std::vector<OtmProposal *> &TargetProposals,
+  int iMaxProposals
+);
+
+/*! \brief Copy best matches from one proposal vector into another
+  and sort the proposals
+  \param SourceProposals refernce to a vector containing the source proposals
+  \param TargetProposals reference to a vector receiving the copied proposals
+  the vector may already contain proposals. The proposals are
+  inserted on their relevance
+  \param iMaxProposals maximum number of proposals to be filled in TargetProposals
+  When there are more proposals available proposals with lesser relevance will be replaced
   \param iMTDisplayFactor factor for the placement of machine matches within the table
+  \param fExactAndFuzzies switch to control the handling of fuzzy matches when exact matches exist, TRUE = keep fuzzy matches even when exact matches exist
 */
 void copyBestMatches(
   std::vector<OtmProposal *> &SourceProposals,
   std::vector<OtmProposal *> &TargetProposals,
   int iMaxProposals, 
-  int iMTDisplayFactor = -1
+  int iMTDisplayFactor,
+  BOOL fExactAndFuzzies
 );
 
 /*! \brief Insert proposal into proposal vector at the correct position and

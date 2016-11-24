@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -28,12 +28,16 @@
 int CPlgMgXmlLocParser::XmlParser(const char * strXml)
 {
     int nRC = NO_ERROR;
+#ifdef _DEBUG
     m_logPlgMgXmlParser.writef(LOG_PLUGIN_MGR_LOC_XML_NAME, "Parse start %s", strXml);
+#endif
 
     // check whether the xml exists or not
     if (OTM_NOT_FOUND == access(strXml, 0))
     {
+#ifdef _DEBUG
         m_logPlgMgXmlParser.writef(LOG_PLUGIN_MGR_LOC_XML_NAME, "Error: not find the xml file %s.", strXml);
+#endif
         nRC = ERROR_OTM_FILE_NOT_FIND_A;
         return nRC;
     }
@@ -46,7 +50,9 @@ int CPlgMgXmlLocParser::XmlParser(const char * strXml)
     }
     catch (const XMLException& toCatch)
     {
+#ifdef _DEBUG
         m_logPlgMgXmlParser.writef(LOG_PLUGIN_MGR_LOC_XML_NAME, "Error=%d, %s", ERROR_OTM_XERCESC_INITIAL_A, toCatch.getMessage());
+#endif
         return ERROR_OTM_XERCESC_INITIAL_A;
     }
 
@@ -65,7 +71,9 @@ int CPlgMgXmlLocParser::XmlParser(const char * strXml)
 
     XMLPlatformUtils::Terminate();
 
+#ifdef _DEBUG
     m_logPlgMgXmlParser.writef(LOG_PLUGIN_MGR_LOC_XML_NAME, "Parse end");
+#endif
     return nRC;
 }
 
@@ -85,7 +93,9 @@ void CPlgMgXmlLocParser::OtmParseFromRoot(DOMNode* elementOtmRoot)
             m_gPlugins.push_back(onePlugin);
         }
     }
+#ifdef _DEBUG
     m_logPlgMgXmlParser.writef(LOG_PLUGIN_MGR_LOC_XML_NAME, "Parse from root end.");
+#endif
 }
 
 void CPlgMgXmlLocParser::OtmParseFromNode(DOMNode* elementNode, PCPLUGIN pOnePlugin)

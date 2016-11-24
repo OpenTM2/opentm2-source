@@ -20,62 +20,45 @@ public class ServerComponentsControl {
 	private static Logger mLogger = Logger.getLogger(ServiceLogger.class
 			.getName());
 
-	public static void stopApacheMysql() {
-		File xampp = new File("C:/xampp");
-		if (!xampp.exists()) {
-			JOptionPane.showMessageDialog(null,
-					"Please install XAMPP into C:/xampp directory.");
-			return;
-		}
-
+	public static boolean startMysql() {
 		try {
-
-			new ProcessBuilder("C:/xampp/mysql_stop.bat").start();
-			new ProcessBuilder("C:/xampp/apache_stop.bat").start();
-			Thread.sleep(500);
-
-		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void startApacheMysql() {
-		try {
-			if (ListWindowsProcess.isMysqlApacheRunning()) {
-				mLogger.info("Apache and Mysql already start");
-				return;
+			if (ListWindowsProcess.isMysqlRunning()) {
+				mLogger.info("Mysql already start");
+				return true;
 			}
 			
-			File xampp = new File("C:/xampp");
+			String dbDir = CfgUtil.getInstance().getDbCfg().get("db_installed_dir");
+			File xampp = new File(dbDir);
 			if (!xampp.exists()) {
 				JOptionPane.showMessageDialog(null,
-						"Please install XAMPP into C:/xampp directory.");
-				return;
+						"Please install MariaDB into "+dbDir);
+				return false;
 			}
 
-			new ProcessBuilder("C:/xampp/mysql_start.bat").start();
-			new ProcessBuilder("C:/xampp/apache_start.bat").start();
-
+			new ProcessBuilder(dbDir+"/bin/mysqld.exe","-u root").start();
+	        
 			TimeUnit.MILLISECONDS.sleep(1000);
-			boolean bRuning = ListWindowsProcess.isMysqlApacheRunning();
+			boolean bRuning = ListWindowsProcess.isMysqlRunning();
+			int retryCnts = 0;
 			while (!bRuning) {
 				TimeUnit.MILLISECONDS.sleep(1000);
-				bRuning = ListWindowsProcess.isMysqlApacheRunning();
-				mLogger.info("Checking Apache and Mysql status...");
+				bRuning = ListWindowsProcess.isMysqlRunning();
+				mLogger.info("Checking Mysql status...");
+				retryCnts++;
+				if(retryCnts == 10) {
+					mLogger.info("MySql can't be started...");
+					return false;
+				}
 			}
 		
 			if(bRuning) {
-				mLogger.info("Apache and Mysql start");
+				mLogger.info("Mysql start");
 			}
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	public static void main(String[] args) {
-		ServerComponentsControl.startApacheMysql();
-		// ServerComponentsControl.stopApacheMysql();
+        
+		return true;
 	}
 
 }

@@ -152,6 +152,8 @@ USHORT AsdTranslateW
    BOOL      fPIDRemoveLastTerm = FALSE;  // TRUE = Remove previous term for PID selection
    BOOL      fSplitTerm;               // TRUE = Term contains dash or slash
    BOOL      fPlural2Singular;         // TRUE = Try singular term not found in HUNSPELL dict.
+   BOOL      fPlural2SingularUpper;    // TRUE = Try singular uppercase term not found in HUNSPELL dict.
+   USHORT    usEDSuffix = 0 ;          // "ED" suffix.  1=remove "D", 2=remove "ED"
    CHAR_W    szFirstChar[2];
    BOOL      fFirstLetterUppercase = FALSE; // TRUE = Term is first in segment and 1st letter uppercase
    BOOL      fFirstLetterLowercase = FALSE; // TRUE = Processing lowercase term when 1st letter was uppercase
@@ -271,6 +273,7 @@ USHORT AsdTranslateW
    //
    if ( usNlpRC == LX_RC_OK_ASD )
    {                                                           /* 14@KIT0969C */
+     pUCB->usDictSearchSubType = FEXACT_EQUIV ;     // special hyphenation lookup
      DEBUGEVENT2( ASDTRANSLATE_LOC, STATE_EVENT, 2, DICT_GROUP, NULL );
      usMorphRC = MorphWordRecognitionW( pDCB->sLangID, // language ID
                                      pucSegment,    // pointer to input segment
@@ -284,6 +287,7 @@ USHORT AsdTranslateW
                                      &usNlpRC,
                                        0 );
      DEBUGEVENT2( ASDTRANSLATE_LOC, STATE_EVENT, 3, DICT_GROUP, NULL );
+     pUCB->usDictSearchSubType = FEXACT ;           // reset value
      if ( usMorphRC != MORPH_ASD_ERROR )
      {
        usNlpRC = AsdMorphRCToNlp( usMorphRC );
@@ -573,7 +577,7 @@ USHORT AsdTranslateW
          {
            case MORPH_FUNC_NOT_SUPPORTED :
              /*********************************************************/
-             /* Language does not support compound seperation so      */
+             /* Language does not support compound separation so      */
              /* set fNoCompounds flag in user control block           */
              /*********************************************************/
              pUCB->fNoCompounds = TRUE;
@@ -674,16 +678,17 @@ USHORT AsdTranslateW
             {
                if ( UTF16strcmp( pucOutTerms[usI], pDCB->aucDummy ) == 0 )
                {
-                  if ( ( ! fFirstLetterLowercase ) ||
-                       ( UTF16strcmp( pucOutTerms[usI], pszOrgTerm ) == 0 ) )
-                  {
+       //    Removed 8-15-16 P403414 (showing plurals for 1st letter uppercase term)
+       //         if ( ( ! fFirstLetterLowercase ) ||
+       //              ( UTF16strcmp( pucOutTerms[usI], pszOrgTerm ) == 0 ) )
+       //         {
                      usI = usOutTerms + 1;  // force end of loop
                      fTermInBuffer = TRUE;
-                  } 
-                  else
-                  {
-                     usI++;            // try next term
-                  }
+       //         } 
+       //         else
+       //         {
+       //            usI++;            // try next term
+       //         }
                }
                else
                {
@@ -1287,6 +1292,7 @@ USHORT AsdTranslateW
        /***************************************************************/
        fSplitTerm = FALSE ; 
        fPlural2Singular = FALSE ; 
+       fPlural2SingularUpper = FALSE ; 
        if ( usNlpRC == LX_WRD_NT_FND_ASD )
        {
           usNlpRC = LX_RC_OK_ASD;
@@ -1337,8 +1343,34 @@ USHORT AsdTranslateW
                    memmove( pszDictTerm+1, pszDictTerm, (i-1)*sizeof(WCHAR) ) ;
                    pszOrgTerm++;
                    pszDictTerm++;
+                   if ( fFirstLetterLowercase ) 
+                      fPlural2SingularUpper = TRUE ;
+                   else
+                      fPlural2SingularUpper = FALSE ;
+                }
+                else
+                if ( ( i > 4 ) &&                                /* 9-13-16 */
+                     ( ! fFirstLetterUppercase ) &&
+                     ( ! wcsncmp((pszOrgTerm+i-2), L"ed", 2 ) ) ) {
+                   usEDSuffix = 2 ;            /* Remove 'D', stored->store */
+                   memmove( pszOrgTerm+1, pszOrgTerm, (i-1)*sizeof(WCHAR) ) ;
+                   memmove( pszDictTerm+1, pszDictTerm, (i-1)*sizeof(WCHAR) ) ;
+                   pszOrgTerm++;
+                   pszDictTerm++;
+                }
+                else
+                if ( usEDSuffix ) {
+                   --usEDSuffix ;
+                   if ( usEDSuffix ) {         /* Remove "ED", constructed->contruct */
+                      memmove( pszOrgTerm+1, pszOrgTerm, (i-1)*sizeof(WCHAR) ) ;
+                      memmove( pszDictTerm+1, pszDictTerm, (i-1)*sizeof(WCHAR) ) ;
+                      pszOrgTerm++;
+                      pszDictTerm++;
+                   }
                 }
              }
+          } else {
+             usEDSuffix = 0 ;
           }
        } /* endif */
 
@@ -1349,8 +1381,8 @@ USHORT AsdTranslateW
        if ( fFirstLetterUppercase ) {
           fFirstLetterUppercase = FALSE;
           fFirstLetterLowercase = TRUE;
-          UtlLowerW( pszOrgTerm );
-          UtlLowerW( pszDictTerm );
+          *pszOrgTerm = UtlToLowerW( (CHAR_W)*pszOrgTerm );
+          *pszDictTerm = UtlToLowerW( (CHAR_W)*pszDictTerm );
        }
        else
 
@@ -1358,9 +1390,18 @@ USHORT AsdTranslateW
        /* Continue with next term                                     */
        /***************************************************************/
        if ( ( ! fSplitTerm ) &&
-            ( ! fPlural2Singular ) ) {
+            ( ! fPlural2Singular ) &&
+            ( usEDSuffix == 0 ) ) {
           pszOrgTerm  += UTF16strlenCHAR(pszOrgTerm) + 1;
           pszDictTerm += UTF16strlenCHAR(pszDictTerm) + 1;
+       }
+       else
+
+       if ( ( fPlural2Singular ) &&
+            ( fPlural2SingularUpper ) ) {
+          fFirstLetterUppercase = TRUE ;
+          *pszOrgTerm = UtlToUpperW( (CHAR_W)*pszOrgTerm );
+          *pszDictTerm = UtlToUpperW( (CHAR_W)*pszDictTerm );
        }
      } /* endwhile */
    } /* endif */
@@ -2433,6 +2474,7 @@ static BOOL CheckPIDValue( PSZ_W pszProducts, PSZ_W pszValues )
     } 
     else if ( pszTerm[0] == STYLEPREFIX_UNDEFINED )
     {
+      fwprintf( hfLog, L"[U]" ) ;
       pszTerm++;
     } /* endif */       
     fwprintf( hfLog, L"%s\n", pszTerm );

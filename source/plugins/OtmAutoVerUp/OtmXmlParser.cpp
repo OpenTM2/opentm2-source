@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -1027,11 +1027,13 @@ COtmXmlParser::COtmXmlParser(void)
 {
     // setting for log
     this->m_bLogOpened = FALSE;
+#ifdef _DEBUG
     if (!this->m_logAutoVerUpParser.isOpen())
     {
         this->m_logAutoVerUpParser.open(LOG_AUTO_VER_UP_PARSER_NAME);
         m_bLogOpened = TRUE;
     }
+#endif
 }
 
 COtmXmlParser::~COtmXmlParser(void)

@@ -2397,7 +2397,7 @@ SHORT QDAMInsertKey_V2
 
   recKey;                              // get rid of compiler warnings
   //  check if key is already there -- duplicates will not be supported
-  sRc = QDAMLocateKey_V2( pBTIda, pRecord, pKey, &sKeyFound, FEXACT, &sNearKey);
+  sRc = QDAMLocateKey_V2( pBTIda, pRecord, pKey, &sKeyFound, FEXACT, &sNearKey, FEXACT );
   BTREELOCKRECORD( pRecord );
   fRecLocked = TRUE;
   if ( !sRc )
@@ -2839,7 +2839,7 @@ SHORT QDAMChangeKey_V2
     {
        // get the key description and insert the new key
        recKey.usNum = pNewRecord->contents.header.usNum;
-       sRc = QDAMLocateKey_V2(pBTIda, pNewRecord, pNewKey, &i, FEXACT, &sNearKey);
+       sRc = QDAMLocateKey_V2(pBTIda, pNewRecord, pNewKey, &i, FEXACT, &sNearKey, FEXACT );
        if ( !sRc && i != -1 )
        {
           recKey.usOffset = i;
@@ -2849,7 +2849,7 @@ SHORT QDAMChangeKey_V2
     } /* endif */
     if ( !sRc )
     {
-       sRc = QDAMLocateKey_V2( pBTIda, pRecord, pOldKey, &i, FEXACT, &sNearKey);
+       sRc = QDAMLocateKey_V2( pBTIda, pRecord, pOldKey, &i, FEXACT, &sNearKey, FEXACT );
     } /* endif */
 
     if (!sRc && i!= -1)
@@ -4247,7 +4247,7 @@ SHORT QDAMDictUpdateLocal
       if ( !sRc )
       {
         //  find the key
-        sRc = QDAMLocateKey_V2( pBTIda, pRecord, pKey, &i, FEXACT, &sNearKey ) ;
+        sRc = QDAMLocateKey_V2( pBTIda, pRecord, pKey, &i, FEXACT, &sNearKey, FEXACT ) ;
         if ( !sRc )
         {
             if ( i != -1)
@@ -4561,7 +4561,7 @@ SHORT QDAMReduceNode_V2
              pKey = QDAMGetszKey_V2( pRecord, 0, pBT->usVersion );
              if ( pKey )
              {
-               sRc = QDAMLocateKey_V2( pBTIda, pParent, pKey, &sKeyFound, FEXACT, &sNearKey);
+               sRc = QDAMLocateKey_V2( pBTIda, pParent, pKey, &sKeyFound, FEXACT, &sNearKey, FEXACT );
                BTREELOCKRECORD( pParent );
              }
              else
@@ -4627,7 +4627,7 @@ SHORT QDAMReduceNode_V2
                 pKey = QDAMGetszKey_V2( pRecord, 0, pBT->usVersion );
                 if ( pKey )
                 {
-                  sRc = QDAMLocateKey_V2( pBTIda, pParent, pKey, &sKeyFound, FEXACT, &sNearKey);
+                  sRc = QDAMLocateKey_V2( pBTIda, pParent, pKey, &sKeyFound, FEXACT, &sNearKey, FEXACT );
                   BTREELOCKRECORD( pParent );
                 }
                 else
@@ -5402,7 +5402,7 @@ SHORT QDAMDictDeleteLocal
       // locate the key
       if ( !sRc )
       {
-        sRc = QDAMLocateKey_V2( pBTIda, pRecord, pKey, &sKeyFound, FEXACT, &sNearKey);
+        sRc = QDAMLocateKey_V2( pBTIda, pRecord, pKey, &sKeyFound, FEXACT, &sNearKey, FEXACT );
         if ( !sRc )
         {
             BTREELOCKRECORD( pRecord );

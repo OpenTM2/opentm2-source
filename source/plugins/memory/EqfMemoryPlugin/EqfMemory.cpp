@@ -5,7 +5,7 @@ Description: Implementation of the abstract OtmMemory class
 
 Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1160,7 +1160,7 @@ int EqfMemory::MatchToOtmProposal
       break;
     case 101: 
       pProposal->setFuzziness( 100 ); 
-      pProposal->setMatchType( OtmProposal::emtExactContext ); 
+      pProposal->setMatchType( OtmProposal::emtExactSameDoc ); 
       break;
     case 100: 
       pProposal->setFuzziness( 100 ); 

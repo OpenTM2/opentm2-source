@@ -1,7 +1,7 @@
 ﻿//+----------------------------------------------------------------------------+
 //| OtmMemoryTool.cpp                                                          |
 //+----------------------------------------------------------------------------+
-//| Copyright (C) 2012-2015, International Business Machines                        |
+//| Copyright (C) 2012-2016, International Business Machines                   |
 //| Corporation and others.  All rights reserved.                              |
 //+----------------------------------------------------------------------------+
 //| Author: liping                                                             |
@@ -25,7 +25,7 @@
 static bool CheckCmdLine (int iArgc,char** ppArgv, OtmMemoryTool** ppMemTool);
 static bool getTask(char * pCh, std::string& strTaskName);
 static void showHelp();
-static int MTListCompare( const void *p1, const void *p2 );
+//static int MTListCompare( const void *p1, const void *p2 );
 static bool isFileExisted(std::string dir, std::string fileName);
 
 /*******************************************************************************************************/
@@ -80,7 +80,7 @@ int main( int argc, char *argv[], char *envp[] )
             }
             else 
             {    
-                if(pMemTool->getLastErrorMsg().empty())
+                if( pMemTool==NULL || pMemTool->getLastErrorMsg().empty() )
                 {
                     printf("\nCommand line error, please check the help information:\n\n");
                     showHelp();
@@ -117,13 +117,15 @@ int main( int argc, char *argv[], char *envp[] )
   if(!fOK)
   {    
       usRC = 1;
-      std::string errorMsg = pMemTool->getLastErrorMsg();
-      if(!errorMsg.empty())
-      {   
-          if( pMemTool!=NULL && !pMemTool->getConfirmFlag() )
-              MessageBox(NULL,(char*)errorMsg.c_str(), "Error", MB_OK);
-          else
-              printf("%s\n",(char*)errorMsg.c_str());
+      if ( pMemTool ) { 
+          std::string errorMsg = pMemTool->getLastErrorMsg();
+          if(!errorMsg.empty())
+          {   
+              if( !pMemTool->getConfirmFlag() )
+                  MessageBox(NULL,(char*)errorMsg.c_str(), "Error", MB_OK);
+              else
+                  printf("%s\n",(char*)errorMsg.c_str());
+          }
       }
   }
 
@@ -273,13 +275,13 @@ void showHelp()
 }
 
 
-int MTListCompare( const void *p1, const void *p2 )
-{
-  PSZ psz1 = *((PSZ *)p1);
-  PSZ psz2 = *((PSZ *)p2);
-
-  return( strcmp( psz1, psz2 ) );
-}
+//int MTListCompare( const void *p1, const void *p2 )
+//{
+//  PSZ psz1 = *((PSZ *)p1);
+//  PSZ psz2 = *((PSZ *)p2);
+//
+//  return( strcmp( psz1, psz2 ) );
+//}
 
 
 bool isFileExisted(std::string dir, std::string fileName)
@@ -483,7 +485,7 @@ int ReverseMemory::openTask()
     OtmMemory *pTempMem = pFactory->openMemory( NULL, (char*)m_strTgtMemName.c_str(), EXCLUSIVE, &iRC );
     if ( iRC != 0 )
     {
-        char *pCh = (char*)m_strTgtMemName.c_str();
+//      char *pCh = (char*)m_strTgtMemName.c_str();
         int iLastError = 0;
         pFactory->getLastError(NULL,iLastError,m_strLastError);
     }
@@ -611,6 +613,7 @@ bool DeleteMtProposal::doExecute(OtmProposal& proposal)
 
 bool DeleteMtProposal::checkParameter(std::string& param, const BATCHCMD& cmd, bool  bEnd)
 {
+    param; cmd; bEnd;
     return false;
 }
 
@@ -654,7 +657,7 @@ int DeleteIdenticalProposal::openTask()
     OtmMemory *pTempMem = pFactory->openMemory( NULL, (char*)m_strTgtMemName.c_str(), EXCLUSIVE, &iRC );
     if ( iRC != 0 )
     {
-        char *pCh = (char*)m_strTgtMemName.c_str();
+//      char *pCh = (char*)m_strTgtMemName.c_str();
         int iLastError = 0;
         pFactory->getLastError(NULL,iLastError,m_strLastError);
     }
@@ -712,6 +715,7 @@ bool DeleteIdenticalProposal::doExecute(OtmProposal& proposal)
 
 bool DeleteIdenticalProposal::checkParameter(std::string& param, const BATCHCMD& cmd, bool  bEnd)
 {
+    bEnd;
     switch(cmd)
     {
     case BATCH_MEM:
@@ -926,6 +930,7 @@ bool ChgProposalMeta::checkParameter(std::string& param, const BATCHCMD& cmd, bo
 {
     bool fOK = true;
 
+    bEnd;
     switch(cmd)
     {
     case BATCH_MEM:

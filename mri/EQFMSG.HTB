@@ -686,7 +686,7 @@
     ERROR_FS_INVALID_CLASS         , id_msg_subtable , ERROR_FS_INVALID_CLASS         ,
     ERROR_FS_INVALID_MODE          , id_msg_subtable , ERROR_FS_INVALID_MODE          ,
     ERROR_FS_MISSING_OUTPUT_NAME   , id_msg_subtable , ERROR_FS_MISSING_OUTPUT_NAME   ,
-    FREE_0682_xxxxxxxxxxxxxxxxxxxxx, id_msg_subtable , FREE_0682_xxxxxxxxxxxxxxxxxxxxx,
+    ERROR_TA_MTOPTIONS             , id_msg_subtable , ERROR_TA_MTOPTIONS             ,
     FREE_0683_xxxxxxxxxxxxxxxxxxxxx, id_msg_subtable , FREE_0683_xxxxxxxxxxxxxxxxxxxxx,
     FREE_0684_xxxxxxxxxxxxxxxxxxxxx, id_msg_subtable , FREE_0684_xxxxxxxxxxxxxxxxxxxxx,
     ERROR_FOLDER_FILES_EXIST       , id_msg_subtable , ERROR_FOLDER_FILES_EXIST       ,

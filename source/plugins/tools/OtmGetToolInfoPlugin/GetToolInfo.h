@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -135,5 +135,8 @@ private:
     int ShowPluginPaths(const char * strStartPath);
     int ShowPluginPath(const char * strStartPath, STRINGGRP & vecSubDir);
     int ShowFileDetails(const char * strStartPath);
+    int ShowPluginInfo(const char* pszName);
+    BOOL CheckDllName(const char * strFullName );
+    int ScanPluginDir( const char *pszPluginDir, int iDepth );
 };
 

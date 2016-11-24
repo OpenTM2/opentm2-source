@@ -224,7 +224,7 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     SetupMAT( (HAB)0, m_pszHelpFilePath[0], "", ' ' );
   } /* endif */
 
-  //COleMessageFilter *pFilter;
+  COleMessageFilter *pFilter;
 
   m_hTM_TQMSem = INVALID_HANDLE_VALUE;
 
@@ -325,9 +325,13 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     return FALSE;
   }
 
-  //pFilter = AfxOleGetMessageFilter();
-  //ASSERT_VALID(pFilter);
-  //pFilter->EnableBusyDialog(FALSE);
+  // Disable "system busy" popup when using OLE automation to
+  // invoke MS Word during document validation export.   9-22-16
+  pFilter = AfxOleGetMessageFilter();
+  ASSERT_VALID(pFilter);
+  pFilter->EnableBusyDialog(FALSE);
+  pFilter->EnableNotRespondingDialog(FALSE);
+//pFilter->SetMessagePendingDelay(120000);
 
 
   // Standard initialization
@@ -1088,7 +1092,7 @@ LONG CEQFDApp::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
 
 			// work out a good place for the dump file
       UtlMakeEQFPath( szDumpPath, NULC, SYSTEM_PATH, NULL );
-      strcat( szDumpPath, "\\OpenTM2-1.3.1.dmp" );
+      strcat( szDumpPath, "\\OpenTM2-1.3.2.dmp" );
 
 			{
 				// create the file

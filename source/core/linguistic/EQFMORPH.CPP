@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -1238,7 +1238,8 @@ USHORT ListDict
 
   usListType; 
 
-	if (ABBREV_DICT != usDictType && ADDENDA_DICT != usDictType)
+	if (ABBREV_DICT != usDictType && ABBREV_SYSTEM_DICT != usDictType &&
+        ADDENDA_DICT != usDictType)
 	{
 		return MORPH_NOT_FOUND;
 	}
@@ -1259,7 +1260,18 @@ USHORT ListDict
 		  return MORPH_NOT_FOUND;
 	  }
 
-    tMorphInstance->listTerms( tTermList, true );
+    tMorphInstance->listTerms( tTermList, true ); /* User abbrev. */
+  }
+  else
+  if ( ABBREV_SYSTEM_DICT == usDictType )
+  {
+    OtmMorph* tMorphInstance = tPLangCB->m_MorphInstance;
+	  if (NULL == tMorphInstance)
+	  {
+		  return MORPH_NOT_FOUND;
+	  }
+
+    tMorphInstance->listTerms( tTermList, false ); /* System abbrev. */
   }
   else
   {
@@ -5631,7 +5643,7 @@ USHORT MorphAddTermToList2W
           *pulUsed += usLength;
           ulByteUsedInList += usLength * sizeof(CHAR_W);
         } /* endif */
-        *(pList + ((*pulUsed) * sizeof(CHAR_W))) = EOS;
+        *((PSZ_W)(pList + ((*pulUsed) * sizeof(CHAR_W)))) = EOS;        /* 10-11-16 */
         *pulUsed += 1;
         ulByteUsedInList += sizeof(CHAR_W);
         break;
@@ -5662,7 +5674,7 @@ USHORT MorphAddTermToList2W
           *pulUsed += usLength;
           ulByteUsedInList += usLength * sizeof(CHAR_W);
         } /* endif */
-        *(pList + ulByteUsedInList) = EOS;
+        *((PSZ_W)(pList + ulByteUsedInList)) = EOS;     /* 10-11-16 */
         *pulUsed += 1;
         break;
 

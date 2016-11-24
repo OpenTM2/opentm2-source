@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -812,7 +812,7 @@ USHORT  TlmGet
 	    	 j = EQF_NPROP_NOTALL_TGTS;
   	  } /* endif */
 
-      pFactory->copyBestMatches( pMemData->FoundProposals, pMemData->BestProposals, j );
+      pFactory->copyBestMatches( pMemData->FoundProposals, pMemData->BestProposals, j, -1, pDoc->fsConfig & EQFF_EXACTANDFUZZY  );
 
       i++;
     } /* endif */
@@ -1767,7 +1767,7 @@ static OtmProposal::eProposalType GetProposalTypeFromFlag( USHORT usMachineFlag 
 static OtmProposal::eMatchType GetMatchType( USHORT usFuzziness )
 {
   if ( usFuzziness == 100) return ( OtmProposal::emtExact );
-  if ( usFuzziness == 101 ) return ( OtmProposal::emtExactContext );
+  if ( usFuzziness == 101 ) return ( OtmProposal::emtExactSameDoc );
   if ( usFuzziness == 102 ) return ( OtmProposal::emtExactExact );
   return ( OtmProposal::emtFuzzy );
 }

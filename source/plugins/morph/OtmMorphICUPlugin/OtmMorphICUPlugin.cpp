@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -9,14 +9,21 @@
 #include "OtmMorphICU.h"
 #include "core\PluginManager\PluginManager.h"
 
+// the static plugin infos
+static char *pszPluginName = "OtmMorphICUPlugin";
+static char *pszShortDescription = "MorphICUPlugin";
+static char *pszLongDescription	= "This is the standard morphology functionality implementation using ICU";
+static char *pszVersion = STR_DRIVER_LEVEL_NUMBER;
+static char *pszSupplier = "International Business Machines Corporation";
+
 /*! \brief constructor	 */
 OtmMorphICUPlugin::OtmMorphICUPlugin(void)
 {
-	strName = "OtmMorphICUPlugin";
-	strShortDesc = "MorphICUPlugin";
-	strLongDesc = "This is the standard morphology functionality implementation using ICU";
-	strVersion = STR_DRIVER_LEVEL_NUMBER;
-	strSupplier = "International Business Machines Corporation";
+	strName = pszPluginName;
+	strShortDesc = pszShortDescription;
+	strLongDesc = pszLongDescription;
+	strVersion = pszVersion;
+	strSupplier = pszSupplier;
 	pluginType = OtmPlugin::eMorphType;
 	usableState = OtmPlugin::eUsable;
 }
@@ -172,4 +179,21 @@ extern "C" {
         USHORT usRC = (USHORT) eRc;
         return usRC;
 	}
+}
+
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+    pPluginInfo->eType = OtmPlugin::eMorphType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version= -1;
+    return( 0 );
+  }
 }

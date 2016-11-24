@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -43,7 +43,9 @@ MorphFactory* MorphFactory::getInstance()
 	{
 		pMorphInstance = new MorphFactory();
 		pMorphInstance->refreshPluginList();
+#ifdef _DEBUG
 		pMorphInstance->Log.open("MorphFactory");
+#endif
 		pMorphInstance->Log.writef("Get instance of MorphFactory!\n");
 	}
 	return pMorphInstance;

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2012, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -46,7 +46,7 @@ public:
 		emtUndefined,			/*!< match type has not been set or is not available */
 		emtExact,	    		/*!< proposal is an exact match */
 		emtExactExact,		/*!< proposal is an exact match, document name and segment number are exact also */
-		emtExactContext,	/*!< proposal is an exact match from the same document */
+		emtExactSameDoc,	/*!< proposal is an exact match from the same document */
 		emtFuzzy,	    		/*!< proposal is a fuzzy match */
 		emtReplace 	    	/*!< proposal is a replace match */
 	};

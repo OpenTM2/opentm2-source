@@ -1096,7 +1096,9 @@ USHORT EqfAnalyzeDocEx
   PSZ         pszDocuments,            // opt: list with document names or NULL
   PSZ         pszMemname,              // opt: Translation Memory for analysis
   PSZ         pszProfile,              // opt: analyis profile name or NULL
-  PVOID       pvReserved,              // opt: reserved for future enhancements, has to be NULL
+  PSZ         pszMTOutputOptions,      // opt: MT output file options, this parameter consists of a list of MT output file names (NOMATCH,ALLSEGS,ALLWMATCH,ALLWMATCHSOURCE,NOPROPOSAL,XLIFF) followed
+                                       //  by the options in parenthesis, format options: TMX, EXP, XML, filter options: HAMSTER, NOHAMSTER, MACHINEMATCH, NOMACHINEMATCH, NOFUZZYABOVE=n, duplicates options: DUPLICATES,
+                                       //  NODUPLICATES, word count options: WORDCOUNT, NOWORDCOUNT 
   LONG        lOptions                 // opt: options for analysis
                                        //@:{TMMATCH_OPT,ADDTOMEM_OPT,AUTOSUBST_OPT,UNTRANSLATED_OPT,
 									   //   AUTOLAST_OPT,AUTOJOIN_OPT,AUTOCONTEXT_OPT,REDUNDCOUNT_OPT,

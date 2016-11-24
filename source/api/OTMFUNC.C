@@ -1162,7 +1162,7 @@ USHORT EqfAnalyzeDocEx
   PSZ         pszDocuments,            // list with document names or NULL
   PSZ         pszMemName,              // Translation Memory for analysis
   PSZ         pszProfile,              // name of an analyis profile or NULL
-  PVOID       pvReserved,              // for future enhancements, must be NULL
+  PSZ         pszMTOutputOptions,      // MT output file options
   LONG        lOptions                 // options for analysis
 )
 {
@@ -1195,7 +1195,7 @@ USHORT EqfAnalyzeDocEx
   if ( usRC == NO_ERROR )
   {
     pData->sLastFunction = FCT_EQFANALYZEDOC;
-    usRC = TAFuncAnalyzeDoc( pData, pszFolderName, pszDocuments, pszMemName, pszProfile, pvReserved,
+    usRC = TAFuncAnalyzeDoc( pData, pszFolderName, pszDocuments, pszMemName, pszProfile, pszMTOutputOptions,
                              lOptions );
   } /* endif */
 

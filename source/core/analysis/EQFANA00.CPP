@@ -1,6 +1,6 @@
 
 /*! \brief EQFANA00.CPP  Analysis Handler
-	Copyright (c) 1999-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 */
 
 #define INCL_EQF_TM               // general Transl. Memory functions
@@ -1184,7 +1184,7 @@ USHORT TAFuncAnalyzeDoc
   PSZ         pszDocuments,            // list with document names or NULL
   PSZ         pszMemName,              // Translation Memory for analysis
   PSZ         pszProfile,              // analyiss profile name or NULL
-  PVOID       pvReserved,              // reserved for futurre enhancements
+  PSZ         pszMTOutputOptions,      // MT output options
   LONG        lOptions                 // options for analysis
 )
 {
@@ -1195,7 +1195,7 @@ USHORT TAFuncAnalyzeDoc
   {
     // prepare a new analysis run
     pData->usProgress = 0;
-    usRC = TAFuncPrepAnalysis( pData, pszFolderName, pszDocuments, pszMemName, pszProfile, pvReserved, lOptions );
+    usRC = TAFuncPrepAnalysis( pData, pszFolderName, pszDocuments, pszMemName, pszProfile, pszMTOutputOptions, lOptions );
   }
   else
   {
@@ -1213,7 +1213,7 @@ USHORT TAFuncPrepAnalysis
   PSZ         pszDocuments,            // list with document names or NULL
   PSZ         pszMemName,              // Translation Memory for analysis
   PSZ         pszProfile,              // analyiss profile name or NULL
-  PVOID       pvReserved,              // reserved for futurre enhancements
+  PSZ         pszMTOutputOptions,      // MT output options
   LONG        lOptions                 // options for analysis
 )
 {
@@ -1233,7 +1233,6 @@ USHORT TAFuncPrepAnalysis
 
   pszStart = NULL;
   pszAct = NULL;
-  pvReserved;
 
   UtlSetUShort( QS_LASTERRORMSGID, 0 );
 
@@ -1537,6 +1536,8 @@ USHORT TAFuncPrepAnalysis
        strcpy( pTAInput->szProfile, pszProfile );
        pTAInput->fProfile = TRUE;
      } /* endif */
+
+     if ( pszMTOutputOptions != NULL ) strcpy( pTAInput->szMtOptions, pszMTOutputOptions );
 
      if ( pTAInput->stSourcefiles.usNumber == 0 )  //no files in analysis LB
      {

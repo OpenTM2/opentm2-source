@@ -164,7 +164,6 @@ $(_OBJ)\EQFCNT00.OBJ:	$(_SRC)\core\counting\EQFCNT00.C
 $(_OBJ)\EQFCNT01.OBJ:	$(_SRC)\core\counting\EQFCNT01.C
 $(_OBJ)\EQFRPT.OBJ:		$(_SRC)\core\counting\EQFRPT.C
 $(_OBJ)\EQFRPT00.OBJ:	$(_SRC)\core\counting\EQFRPT00.C
-$(_OBJ)\EQFRPT01.OBJ:	$(_SRC)\core\counting\EQFRPT01.C
 $(_OBJ)\EQFWCNT.OBJ: 	$(_SRC)\core\counting\EQFWCNT.CPP
 
 # source\core\folder
@@ -313,7 +312,6 @@ $(_DLL)\OTMDLL.DLL:		$(_OBJ)\EQFCOPYR.OBJ \
 						$(_OBJ)\EQFQDPRU.OBJ \
 						$(_OBJ)\EQFRPT.OBJ   \
 						$(_OBJ)\EQFRPT00.OBJ \
-						$(_OBJ)\EQFRPT01.OBJ \
 						$(_OBJ)\EQFRDICS.OBJ \
 						$(_OBJ)\EQFSDICS.OBJ \
 						$(_OBJ)\EQFQLDB.OBJ \
@@ -476,7 +474,6 @@ $(_DLL)\OTMDLL.DLL:
 						$(_OBJ)\EQFQDPRU.OBJ
 						$(_OBJ)\EQFRPT.OBJ
 						$(_OBJ)\EQFRPT00.OBJ
-						$(_OBJ)\EQFRPT01.OBJ
 						$(_OBJ)\EQFRDICS.OBJ
 						$(_OBJ)\EQFSDICS.OBJ
 						$(_OBJ)\EQFQLDB.OBJ

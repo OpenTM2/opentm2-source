@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -49,6 +49,7 @@ OtmMorphICU::~OtmMorphICU(void)
  */
 int OtmMorphICU::compisol( const char* pszTerm, STRINGLIST& vResult )
 {
+    pszTerm; vResult;
 	return OtmMorph::ERROR_NO_SUPPORT;
 }
 
@@ -59,6 +60,7 @@ int OtmMorphICU::compisol( const char* pszTerm, STRINGLIST& vResult )
  */
 int OtmMorphICU::getPOS( const char* pszTerm, int* piResult )
 {
+    pszTerm; piResult;
 	return OtmMorph::ERROR_NO_SUPPORT;
 }
 
@@ -73,6 +75,7 @@ int OtmMorphICU::stem( const wchar_t * pszTerm, vector<std::wstring>& vResult )
      * Just return ERROR_NO_SUPPORT for now.
      */
 	
+    pszTerm; vResult;
 	return OtmMorph::ERROR_NO_SUPPORT;
 }
 
@@ -95,6 +98,12 @@ int OtmMorphICU::tokenizeByTerm(const wchar_t* pText, TERMLIST& vResult)
 
 	pWordBoundary->setText(pText);
 	getResultFromIterator(pWordBoundary, vResult);
+
+    /* Force maximum length to 511, since temp buffers are 512  10-6-16 */
+    for (auto it = begin (vResult); it != end (vResult); ++it) 
+    {
+      if ( it->iLength > 511 ) it->iLength=511;
+    }
 
 #ifdef TOKENIZELOG 
   Log.write( "results:" );
@@ -927,6 +936,7 @@ int OtmMorphICU::checkWordBoundary(UnicodeString text, int start, int &end) {
     int index = (end - 1);
     int length = text.length();
 
+    start; newline_count;
     if ((index + 2) < length) {
         if (iswalnum(text[index]) && IS_WORD_CONCATENATION_SYMBOL(text[index + 1]) && iswalnum(text[index + 2])) {
             // alphanumbers-symbols-alphanumbers should be treated as one word

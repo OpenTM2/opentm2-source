@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2013, International Business Machines          |
+//|          Copyright (C) 1990-2016, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -116,6 +116,7 @@ PFINDDATA pFindData                // ptr to FindData
   BOOL   fSegend;                     //TRUE if end of segment, else FALSE
   ULONG  ulSegNum;                    //store TBCUrsor
   USHORT usSegOffset;                 //store TBCursor
+  USHORT usWrapCount = 0 ;            //Count # of times restart at segment 1
   PTBSEGMENT pSeg;                    //ptr to segment
   CHAR_W chChar;                      //temporarily store current char
   CHAR_W c;                           //temporarily hold *pData
@@ -302,8 +303,10 @@ PFINDDATA pFindData                // ptr to FindData
               {
                 ulSegNum = 1;
                 usSegOffset = 0;
-                if ((ulSegNum == pFindData->ulFirstSegNum) &&
-                    (usSegOffset == pFindData->usFirstSegOffset) )
+                usWrapCount++;
+                if ( ( (ulSegNum == pFindData->ulFirstSegNum) &&
+                       (usSegOffset == pFindData->usFirstSegOffset) ) ||
+                     ( usWrapCount > 1 ) ) 
                 {
                   sRc = WARN_NOMATCH;
                 } /* endif */

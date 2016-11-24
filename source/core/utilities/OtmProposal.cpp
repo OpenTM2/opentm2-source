@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2014, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -644,7 +644,7 @@ long OtmProposal::getReplacementList()
 bool OtmProposal::isExactMatch()
 {
   POTMPROPOSALDATA pData = (POTMPROPOSALDATA)this->pvProposalData;
-  return( (pData->eType == eptManual) && ((pData->eMatch == emtExact) || (pData->eMatch == emtExactContext) || (pData->eMatch == emtExactExact)) );
+  return( (pData->eType == eptManual) && ((pData->eMatch == emtExact) || (pData->eMatch == emtExactSameDoc) || (pData->eMatch == emtExactExact)) );
 }
 
 /* \brief check if proposal is empty (i.e. has not been used)

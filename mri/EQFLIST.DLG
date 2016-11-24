@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2016, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|Author: Gerhard Queck (QSoft)                                               |
@@ -168,15 +168,24 @@ STYLE DS_CONTEXTHELP | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU | 
 CAPTION ""
 FONT 8 "MS Sans Serif"
 BEGIN
-   CONTROL "List of terms", -1,
+   CONTROL "List of terms", ID_LISTEDIT_TERM_TEXT,
     STATIC,
     SS_LEFT | WS_VISIBLE,
     6, 6, 102, 9
-
   CONTROL "", ID_LISTEDIT_TERM_MLE,
     EDIT,
     ES_MULTILINE | ES_WANTRETURN | ES_NOHIDESEL | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_VISIBLE,
-    6, 16, 211, 90
+    6, 16, 211, 100
+
+   CONTROL "", ID_LISTEDIT_TERM_TEXT2,
+    STATIC,
+    SS_LEFT | WS_VISIBLE,
+    120, 6, 102, 9
+  CONTROL "", ID_LISTEDIT_TERM_MLE2,
+    EDIT,
+    ES_MULTILINE | ES_READONLY | WS_BORDER | ES_AUTOVSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP | NOT WS_VISIBLE,
+    120, 16, 100, 100
+
   CONTROL STR_LISTEDIT_SAVETO_TEXT, ID_LISTEDIT_SAVETO_TEXT,
     STATIC,
     SS_LEFT | WS_GROUP | WS_VISIBLE,

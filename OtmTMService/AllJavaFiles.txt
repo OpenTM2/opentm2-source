@@ -5,6 +5,7 @@
 ..\OtmTMService\src\com\otm\db\DaoMysqlImpl.java
 ..\OtmTMService\src\com\otm\db\TU.java
 ..\OtmTMService\src\com\otm\db\TUV.java
+..\OtmTMService\src\com\otm\gui\ConfigureWindow.java
 ..\OtmTMService\src\com\otm\log\ServiceLogger.java
 ..\OtmTMService\src\com\otm\test\DbTest.java
 ..\OtmTMService\src\com\otm\test\SyncTest.java

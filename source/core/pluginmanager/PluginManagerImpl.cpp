@@ -213,12 +213,14 @@ USHORT PluginManagerImpl::loadPluginDlls(const char* pszPluginDir)
 
   BOOL fLogHasBeenOpened = FALSE;
 
+#ifdef _DEBUG
   if ( !this->Log.isOpen() )
   {
-      this->Log.open( "PluginManager" );
+    this->Log.open( "PluginManager" );
       fLogHasBeenOpened = TRUE;
   } /* end */     
   this->Log.writef( "Loading plugin DLLs from directory %s...", pszPluginDir );
+#endif
 
   // check the depths of the cycle
   if (IsDepthOvered( pszPluginDir ))
@@ -423,10 +425,12 @@ bool PluginManagerImpl::stopPlugin( OtmPlugin* pPlugin, bool fForce )
   OtmPlugin::ePluginType eType = pPlugin->getType();
   std::string strName = pPlugin->getName();
   const char* strNameC = pPlugin->getName();
+#ifdef _DEBUG
   if ( !this->Log.isOpen() ) {
      this->Log.open( "PluginManager" );
      fLogHasBeenOpened = TRUE;
   }
+#endif
   this->Log.writef( "Stopping plugin: %s ", strNameC );
 
   // find DLL entry containing this plugin
@@ -485,11 +489,13 @@ bool PluginManagerImpl::stopAllPlugins()
   size_t i = 0;
   BOOL fLogHasBeenOpened = FALSE;
 
+#ifdef _DEBUG
   if ( !this->Log.isOpen() ) {
     this->Log.open( "PluginManager" );
     fLogHasBeenOpened = TRUE;
   } /* end */     
   this->Log.writef( "Stopping all plugins...");
+#endif
 
   while ( i < vLoadedPluginDLLs.size() )
   {
@@ -612,11 +618,12 @@ bool PluginManagerImpl::addMenuItem( OtmToolPlugin *pToolPlugin, char *pszMenuNa
   if ( (pToolPlugin == NULL) || (pszMenuName == NULL) || (pszMenuItem == NULL) ) return( false );
 
   // Add for P402792 start
-  if (!m_ToolPluginMenuItems.empty())
+ if (!m_ToolPluginMenuItems.empty())
   {
       for (size_t iInx = 0; iInx < m_ToolPluginMenuItems.size(); iInx++)
       {
-          if (m_ToolPluginMenuItems[iInx].pPlugin == pToolPlugin)
+          if (m_ToolPluginMenuItems[iInx].pPlugin == pToolPlugin &&
+			  m_ToolPluginMenuItems[iInx].iCommandID == iCommandID )
           {
               fOk = true;
               return fOk;
@@ -651,6 +658,18 @@ bool PluginManagerImpl::addMenuItem( OtmToolPlugin *pToolPlugin, char *pszMenuNa
 bool PluginManagerImpl::addSubMenu( OtmToolPlugin *pToolPlugin, char *pszMenuName, char *pszSubMenu )
 {
   if ( (pToolPlugin == NULL) || (pszMenuName == NULL) || (pszSubMenu == NULL) ) return( false );
+
+  // Don't add sub menu for a plugin more than one time
+  if (!m_ToolPluginMenuItems.empty())
+  {
+      for (size_t iInx = 0; iInx < m_ToolPluginMenuItems.size(); iInx++)
+      {
+          if (m_ToolPluginMenuItems[iInx].pPlugin == pToolPlugin)
+          {
+              return true;
+          }
+      }
+  }
 
   BOOL fOk = UtlAddMenuItem( pszMenuName, pszSubMenu,  m_iNextCommandID, TRUE );
 

@@ -793,6 +793,7 @@ USHORT TASegOpenFiles (PTAINPUT pTAInput)
    USHORT         fOK = TRUE;                // flag for operation
    USHORT         usReturn;                  //
    PSZ             pszErrParm;               // ptr to parms for calls to UtlError
+   BOOL           fMsgShown = FALSE;         // TRUE = error message already has been shown
 
    pInD = pTAInput->pInD;
 
@@ -1124,13 +1125,19 @@ USHORT TASegOpenFiles (PTAINPUT pTAInput)
      pInD->fMachTransFileStarted = TRUE;         // file has been started
 
      fOK = (USHORT)TAOpenMTFile( pTAInput, pInD->pszCurSourceFile );
+     if ( !fOK ) fMsgShown = TRUE; // TAOpenMTFile does error handling
    } /* endif pTAInput->fMatchTrans */
 
    if (!fOK)
    {
-      // allocation okay - so definitely something wrong with the file
-      if ( pInD->pDoc )
+      if ( fMsgShown )
       {
+        pTAInput->fKill = TRUE; // go to stop processing
+      }
+      else if ( pInD->pDoc )
+      {
+        // allocation okay - so definitely something wrong with the file
+
          // opening of source or target file failed
          //pop up message box and ask user whether to continue
          PSZ pszDoc;
@@ -2189,7 +2196,7 @@ static USHORT TASegTMProc
                        } 
                        else if ( pInD->usAnnotationDataCopyMode == 1 ) // copy annotation data for exact context matches
                        {
-                         fCopyAnnotationData = ( (MatchType == OtmProposal::emtExactContext) || (MatchType == OtmProposal::emtExactExact) );
+                         fCopyAnnotationData = ( (MatchType == OtmProposal::emtExactSameDoc) || (MatchType == OtmProposal::emtExactExact) );
                        } 
                        else if ( pInD->usAnnotationDataCopyMode == 2 ) // copy annotation data for exact-exact matches
                        {
@@ -2825,6 +2832,7 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
    USHORT    usBestFuzzy = 0;
    BOOL      fDone = FALSE;
    ULONG ulOptions = 0;
+   PSZ pszLongName = NULL; // long document name
 
    *pMatchType = NO_MATCH;             // initialize match type
 
@@ -2847,7 +2855,7 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
 
 
    {
-     PSZ pszLongName = pTAIn->apszAlias[pInD->usCurNumSourceFile-1];
+     pszLongName = pTAIn->apszAlias[pInD->usCurNumSourceFile-1];
 
      if ( (pszLongName != NULL) && (pszLongName[0] != EOS) )
      {
@@ -2965,6 +2973,10 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
            if ( pLookupData->FoundProposals[0]->getType() == OtmProposal::eptMachine )
            {
              *pMatchType = MACHINE_MATCH;
+           } 
+           else if ( (pLookupData->FoundProposals[0]->getType() == OtmProposal::eptGlobalMemory) || (pLookupData->FoundProposals[0]->getType()== OtmProposal::eptGlobalMemoryStar) )
+           { 
+             *pMatchType = GLOBMEM_MATCH;
            } /* endif */
 
            // check if one of our matches is a replace match
@@ -3026,7 +3038,7 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
        OtmProposal::eMatchType MatchType = pLookupData->BestProposals[0]->getMatchType();
        OtmProposal::eProposalType PropType = pLookupData->BestProposals[0]->getType();
        if (  ( (MatchType == OtmProposal::emtExact) || 
-               (MatchType == OtmProposal::emtExactContext) || 
+               (MatchType == OtmProposal::emtExactSameDoc) || 
                (MatchType == OtmProposal::emtExactExact) ) && (PropType != OtmProposal::eptGlobalMemory) && (PropType != OtmProposal::eptGlobalMemoryStar) )
        {
          // we have an exact match, ignore matches from other memories
@@ -3048,12 +3060,18 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
 
         if ( iProposals > 1 )
         {
+          OtmProposal::eProposalType eptProp0Type = pLookupData->BestProposals[0]->getType();
+          OtmProposal::eProposalType eptProp1Type = pLookupData->BestProposals[1]->getType();
+          OtmProposal::eMatchType emtProp0Match = pLookupData->BestProposals[0]->getMatchType();
+          OtmProposal::eMatchType emtProp1Match = pLookupData->BestProposals[1]->getMatchType();
+          USHORT usContext0 = pLookupData->BestProposals[0]->getContextRanking();
+          USHORT usContext1 = pLookupData->BestProposals[1]->getContextRanking();
+
           // when second match is a global memory match treat normal exact match as EXACTONE_MATCH to allow autosubstitution
-          if ( (pLookupData->BestProposals[0]->getType() == OtmProposal::eptManual)  && 
-		       ( (pLookupData->BestProposals[1]->getType() == OtmProposal::eptGlobalMemory) || 
-		         (pLookupData->BestProposals[1]->getType() == OtmProposal::eptGlobalMemoryStar) ) )
+          if ( (eptProp0Type == OtmProposal::eptManual)  && 
+		           ( (eptProp1Type == OtmProposal::eptGlobalMemory) || (eptProp1Type == OtmProposal::eptGlobalMemoryStar) ) )
           {
-            if ( pLookupData->BestProposals[0]->getMatchType() == OtmProposal::emtExactExact ) 
+            if ( emtProp0Match == OtmProposal::emtExactExact ) 
             {
               *pMatchType = EXACTEXACT_MATCH;
             }
@@ -3063,17 +3081,37 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
             } /* endif */               
           }
           // new approach: 100% context matches are treated as exact-exact matches (but only if next match in list is not a 100% context match as well
-          else if ( ((pLookupData->BestProposals[0]->getType() == OtmProposal::eptManual) &&
-                     pLookupData->BestProposals[0]->isExactMatch() &&
-                     (pLookupData->BestProposals[0]->getContextRanking() == 100) ) &&
-                    !( (pLookupData->BestProposals[1]->getType() == OtmProposal::eptManual) &&
-                       pLookupData->BestProposals[1]->isExactMatch() &&
-                       (pLookupData->BestProposals[1]->getContextRanking() == 100)) )
+          else if ( (eptProp0Type == OtmProposal::eptManual) && pLookupData->BestProposals[0]->isExactMatch() && (pLookupData->BestProposals[0]->getContextRanking() == 100) )
           {
-            *pMatchType = EXACTEXACT_MATCH;
+            // if next match is a 100% context match as well, compare the document names
+            if ( (eptProp1Type == OtmProposal::eptManual) && pLookupData->BestProposals[1]->isExactMatch() && (pLookupData->BestProposals[1]->getContextRanking() == 100))
+            {
+              BOOL fProp0DocNameMatch = FALSE;
+              BOOL fProp1DocNameMatch = FALSE;
+              
+              pLookupData->BestProposals[0]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
+              fProp0DocNameMatch = stricmp( pLookupData->szNameBuffer, pszLongName ) == 0;
+              pLookupData->BestProposals[1]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
+              fProp1DocNameMatch = stricmp( pLookupData->szNameBuffer, pszLongName ) == 0;
+
+              if ( fProp0DocNameMatch && !fProp1DocNameMatch )
+              {
+                // only document name of first proposal matches so treat this proposal as exact-exact match
+                *pMatchType = EXACTEXACT_MATCH;
+              }
+              else
+              {
+                // document names of first two proposal matches so treat these proposals as multiple exact match
+                *pMatchType = EXACTMORE_MATCH;
+              } /* endif */
+            }
+            else
+            {
+              *pMatchType = EXACTEXACT_MATCH;
+            } /* endif */
           }
           // treat multiple exact-exact matches as EXACTMORE_MATCH
-          else if ( (pLookupData->BestProposals[0]->getMatchType() == OtmProposal::emtExactExact) && (pLookupData->BestProposals[1]->getMatchType() != OtmProposal::emtExactExact) )
+          else if ( (emtProp0Match == OtmProposal::emtExactExact) && (emtProp1Match != OtmProposal::emtExactExact) )
           {
             *pMatchType = EXACTEXACT_MATCH;
           }
@@ -3124,8 +3162,8 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
         if ( (!*pfExactMatch) &&  pInD->fExactContextTMMatch  )
         {
           // only use for substitution when this proposal (but not the next one) is from the same document
-          if ( (pLookupData->BestProposals[0]->getMatchType() == OtmProposal::emtExactContext) &&  
-                (pLookupData->BestProposals[1]->getMatchType() != OtmProposal::emtExactContext) )
+          if ( (pLookupData->BestProposals[0]->getMatchType() == OtmProposal::emtExactSameDoc) &&  
+                (pLookupData->BestProposals[1]->getMatchType() != OtmProposal::emtExactSameDoc) )
           {
             *pfExactMatch = TRUE;
           }
@@ -3156,6 +3194,13 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
           // use machine match
           *pusFuzzy   = (USHORT)pLookupData->BestProposals[0]->getFuzziness();
           *pMatchType = MACHINE_MATCH;
+        }
+        else if ( (pLookupData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemory) || 
+                  (pLookupData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemoryStar)	)
+        {
+          // use Hamster match
+          *pusFuzzy   = (USHORT)pLookupData->BestProposals[0]->getFuzziness();
+          *pMatchType = GLOBMEM_MATCH;
         }
         else
         {
@@ -5149,29 +5194,63 @@ TM2ISOLANG TmToIsoLang[] = {
 { "Ukrainian", "uk" },
 { "", "en-US" } };
 
-// the data area for output in nFluent XML format
-typedef struct _XMLOUTDATA
+// available formats for MT output files
+typedef enum _MTOUTPUTFORMAT { EXP_FORMAT, XML_FORMAT, TMX_FORMAT, XLIFF_FORMAT } MTOUTPUTFORMAT; 
+
+
+// options for a single MT output file
+typedef struct _MTOUTFILE
 {
-  BOOL fFormat1;                                 // output in format 1 (switch "NOMATCH")        : all segs without exact matches in memory
-  BOOL fFormat2;                                 // output in format 2 (switch "ALLSEGS")        : all segs
-  BOOL fFormat3;                                 // output in format 3 (switch "ALLWMATCH")      : all segs with exact and fuzzy matches
-  BOOL fFormat4;                                 // output in format 4 (switch "NOMATCHEXP")     : all segs without exact matches in memory in EXP format
-  BOOL fFormat5;                                 // output in format 5 (switch "ALLSEGSEXP")     : all segs in EXP format
-  BOOL fFormat6;                                 // output in format 6 (switch "ALLWMATCHSOURCE"): all segs in XML format with matches and match source in XML
-  BOOL fFormat7;                                 // output in format 7 (switch "NOPROPOSAL")     : all segs in XML format which have no match at all
-  BOOL fFormat8;                                 // output in format 8 (switch "NOPROPOSALEXP")  : all segs in EXP format which have no match at all
-  BOOL fFormat9;                                 // output in format 9 (switch "XLIFF")          : everything in XLIFF format
+  // fields filled with processing options
+  char szName[MAX_LONGFILESPEC];                // name of the output file w/o extension
+  MTOUTPUTFORMAT eFormat;                       // format of the output file (is used for the file extension as well)
+  BOOL fNoDuplicates;                           // TRUE = suppress duplicate segments in output file
+  BOOL fNoExact;                                // TRUE = suppress segments having exact memory proposals
+  BOOL fNoMachine;                              // TRUE = suppress segments having machine translation proposals
+  BOOL fNoHamster;                              // TRUE = suppress segments having Hamster proposals
+  USHORT usNoFuzzyAbove;                        // suppress segments having fuzzy proposals with a fuzziness above the given value
+  BOOL fIncludeWordCountInfo;                   // TRUE = add word count info to output file
+  BOOL fWithMatch;                              // TRUE = include available memory proposals in output file (only supperted for XML)
+  BOOL fWithMatchAndSource;                     // TRUE = include available memory proposals and the source of this proposals in output file (only supperted for XML)
 
-  BOOL fNoDups1;                                 // no duplicates switch in format 1 (switch "NOMATCH")        : all segs without exact matches in memory
-  BOOL fNoDups2;                                 // no duplicates switch in format 2 (switch "ALLSEGS")        : all segs
-  BOOL fNoDups3;                                 // no duplicates switch in format 3 (switch "ALLWMATCH")      : all segs with exact and fuzzy matches
-  BOOL fNoDups4;                                 // no duplicates switch in format 4 (switch "NOMATCHEXP")     : all segs without exact matches in memory in EXP format
-  BOOL fNoDups5;                                 // no duplicates switch in format 5 (switch "ALLSEGSEXP")     : all segs in EXP format
-  BOOL fNoDups6;                                 // no duplicates switch in format 6 (switch "ALLWMATCHSOURCE"): all segs in XML format with matches and match source in XML
-  BOOL fNoDups7;                                 // no duplicates switch in format 7 (switch "NOPROPOSAL")     : all segs in XML format which have no match at all
-  BOOL fNoDups8;                                 // no duplicates switch in format 9 (switch "NOPROPOSALEXP")  : all segs in EXP format which have no match at all
+  // fields used during processing
+  CHAR szOutFile[MAX_LONGPATH];                 // buffer for output file name 
+  CHAR szOutFuzzy[MAX_LONGPATH];                // buffer for output file name for fuzzy matches
+  CHAR szCurDoc[MAX_LONGPATH];                  // name of current document
+  int  iCurPar;                                 // current paragraph ID
+  int  iCurSeg;                                 // current sentence/segment ID
+  FILE *hfOut;                                  // output file handle
+  FILE *hfOutFuzzy;                             // output file handle fuzzy matches
+  ULONG ulTotal;                                // total number of words written to a specific output file
+  ULONG ulCountPos;                             // position of the word count area in the output file (only used for EXP files)
+} MTOUTFILE, *PMTOUTFILE;
 
-  BOOL fNoDupsProcessing;                        // general "no duplicates" processing switch
+// the data area for the MT output files
+typedef struct _MTOUTDATA
+{
+  int iNumOfOutFiles;                            // number of used output files in OutFile array
+  MTOUTFILE OutFile[10];                         // array with output file specifications and the variables used for the output processing
+
+  //BOOL fFormat1;                                 // output in format 1 (switch "NOMATCH")        : all segs without exact matches in memory
+  //BOOL fFormat2;                                 // output in format 2 (switch "ALLSEGS")        : all segs
+  //BOOL fFormat3;                                 // output in format 3 (switch "ALLWMATCH")      : all segs with exact and fuzzy matches
+  //BOOL fFormat4;                                 // output in format 4 (switch "NOMATCHEXP")     : all segs without exact matches in memory in EXP format
+  //BOOL fFormat5;                                 // output in format 5 (switch "ALLSEGSEXP")     : all segs in EXP format
+  //BOOL fFormat6;                                 // output in format 6 (switch "ALLWMATCHSOURCE"): all segs in XML format with matches and match source in XML
+  //BOOL fFormat7;                                 // output in format 7 (switch "NOPROPOSAL")     : all segs in XML format which have no match at all
+  //BOOL fFormat8;                                 // output in format 8 (switch "NOPROPOSALEXP")  : all segs in EXP format which have no match at all
+  //BOOL fFormat9;                                 // output in format 9 (switch "XLIFF")          : everything in XLIFF format
+
+  //BOOL fNoDups1;                                 // no duplicates switch in format 1 (switch "NOMATCH")        : all segs without exact matches in memory
+  //BOOL fNoDups2;                                 // no duplicates switch in format 2 (switch "ALLSEGS")        : all segs
+  //BOOL fNoDups3;                                 // no duplicates switch in format 3 (switch "ALLWMATCH")      : all segs with exact and fuzzy matches
+  //BOOL fNoDups4;                                 // no duplicates switch in format 4 (switch "NOMATCHEXP")     : all segs without exact matches in memory in EXP format
+  //BOOL fNoDups5;                                 // no duplicates switch in format 5 (switch "ALLSEGSEXP")     : all segs in EXP format
+  //BOOL fNoDups6;                                 // no duplicates switch in format 6 (switch "ALLWMATCHSOURCE"): all segs in XML format with matches and match source in XML
+  //BOOL fNoDups7;                                 // no duplicates switch in format 7 (switch "NOPROPOSAL")     : all segs in XML format which have no match at all
+  //BOOL fNoDups8;                                 // no duplicates switch in format 9 (switch "NOPROPOSALEXP")  : all segs in EXP format which have no match at all
+
+  //BOOL fNoDupsProcessing;                        // general "no duplicates" processing switch
   CHAR szDupTM[MAX_EQF_PATH];                    // name of temporary memory for duplicates recognition
   LHANDLE hDupTM;                                // handle of temporary memory for duplicates recognition
   TMX_PUT_IN_W       stPutIn;                    // put in structure
@@ -5179,79 +5258,408 @@ typedef struct _XMLOUTDATA
   TMX_GET_IN_W       stGetIn;
   TMX_GET_OUT_W      stGetOut;
 
-  CHAR szFileName[MAX_LONGPATH];                 // buffer for file names
-  CHAR szOutFile1[MAX_LONGPATH];                 // buffer for output file name type 1
-  CHAR szOutFile2[MAX_LONGPATH];                 // buffer for output file name type 2
-  CHAR szOutFile3[MAX_LONGPATH];                 // buffer for output file name type 3
-  CHAR szOutFile4[MAX_LONGPATH];                 // buffer for output file name type 4
-  CHAR szOutFile5[MAX_LONGPATH];                 // buffer for output file name type 5
-  CHAR szOutFile6[MAX_LONGPATH];                 // buffer for output file name type 6
-  CHAR szOutFile7[MAX_LONGPATH];                 // buffer for output file name type 7
-  CHAR szOutFile8[MAX_LONGPATH];                 // buffer for output file name type 8
-  CHAR szOutFile9[MAX_LONGPATH];                 // buffer for output file name type 9
-  CHAR szOutFuzzy[MAX_LONGPATH];                 // buffer for output file name for fuzzy matches
-  CHAR szOutFuzzy6[MAX_LONGPATH];                // buffer for output file name for fuzzy matches of report 6
-  CHAR szOutExact[MAX_LONGPATH];                 // buffer for output file name for exact matches
-  CHAR szCurDoc[MAX_LONGPATH];                   // name of current document
-  CHAR szCurDoc1[MAX_LONGPATH];                  // name of current document
-  CHAR szCurDoc2[MAX_LONGPATH];                  // name of current document
-  CHAR szCurDoc3[MAX_LONGPATH];                  // name of current document
-  CHAR szCurDoc6[MAX_LONGPATH];                  // name of current document
-  CHAR szCurDoc7[MAX_LONGPATH];                  // name of current document
-  CHAR szCurDoc9[MAX_LONGPATH];                  // name of current document
-  int  iCurPar1;                                 // current paragraph ID
-  int  iCurSeg1;                                 // current sentence/segment ID
-  int  iCurPar2;                                 // current paragraph ID
-  int  iCurSeg2;                                 // current sentence/segment ID
-  int  iCurPar3;                                 // current paragraph ID
-  int  iCurSeg3;                                 // current sentence/segment ID
-  int  iCurSeg4;                                 // current sentence/segment ID
-  int  iCurSeg5;                                 // current sentence/segment ID
-  int  iCurPar6;                                 // current paragraph ID
-  int  iCurSeg6;                                 // current sentence/segment ID
-  int  iCurPar7;                                 // current paragraph ID
-  int  iCurSeg7;                                 // current sentence/segment ID
-  int  iCurPar8;                                 // current paragraph ID
-  int  iCurSeg8;                                 // current sentence/segment ID
-  int  iCurPar9;                                 // current paragraph ID
-  int  iCurSeg9;                                 // current sentence/segment ID
-  FILE *hfOut1;                                  // output file handle format 1
-  FILE *hfOut2;                                  // output file handle format 2
-  FILE *hfOut3;                                  // output file handle format 3
-  FILE *hfOut4;                                  // output file handle format 4
-  FILE *hfOut5;                                  // output file handle format 5
-  FILE *hfOut6;                                  // output file handle format 6
-  FILE *hfOut7;                                  // output file handle format 7
-  FILE *hfOut8;                                  // output file handle format 8
-  FILE *hfOut9;                                  // output file handle format 9
-  FILE *hfOutFuzzy;                              // output file handle fuzzy matches
-  FILE *hfOutFuzzy6;                             // output file handle mattches and match source*
-  FILE *hfOutExact;                              // output file handle exact matches
+  CHAR szFileName[4096];                         // buffer for file names
+  //CHAR szOutFile1[MAX_LONGPATH];                 // buffer for output file name type 1
+  //CHAR szOutFile2[MAX_LONGPATH];                 // buffer for output file name type 2
+  //CHAR szOutFile3[MAX_LONGPATH];                 // buffer for output file name type 3
+  //CHAR szOutFile4[MAX_LONGPATH];                 // buffer for output file name type 4
+  //CHAR szOutFile5[MAX_LONGPATH];                 // buffer for output file name type 5
+  //CHAR szOutFile6[MAX_LONGPATH];                 // buffer for output file name type 6
+  //CHAR szOutFile7[MAX_LONGPATH];                 // buffer for output file name type 7
+  //CHAR szOutFile8[MAX_LONGPATH];                 // buffer for output file name type 8
+  //CHAR szOutFile9[MAX_LONGPATH];                 // buffer for output file name type 9
+  //CHAR szOutFuzzy[MAX_LONGPATH];                 // buffer for output file name for fuzzy matches
+  //CHAR szOutFuzzy6[MAX_LONGPATH];                // buffer for output file name for fuzzy matches of report 6
+  //CHAR szOutExact[MAX_LONGPATH];                 // buffer for output file name for exact matches
+  CHAR szCurDoc[MAX_LONGPATH];                     // name of current document
+  //CHAR szCurDoc1[MAX_LONGPATH];                  // name of current document
+  //CHAR szCurDoc2[MAX_LONGPATH];                  // name of current document
+  //CHAR szCurDoc3[MAX_LONGPATH];                  // name of current document
+  //CHAR szCurDoc6[MAX_LONGPATH];                  // name of current document
+  //CHAR szCurDoc7[MAX_LONGPATH];                  // name of current document
+  //CHAR szCurDoc9[MAX_LONGPATH];                  // name of current document
+  //int  iCurPar1;                                 // current paragraph ID
+  //int  iCurSeg1;                                 // current sentence/segment ID
+  //int  iCurPar2;                                 // current paragraph ID
+  //int  iCurSeg2;                                 // current sentence/segment ID
+  //int  iCurPar3;                                 // current paragraph ID
+  //int  iCurSeg3;                                 // current sentence/segment ID
+  //int  iCurSeg4;                                 // current sentence/segment ID
+  //int  iCurSeg5;                                 // current sentence/segment ID
+  //int  iCurPar6;                                 // current paragraph ID
+  //int  iCurSeg6;                                 // current sentence/segment ID
+  //int  iCurPar7;                                 // current paragraph ID
+  //int  iCurSeg7;                                 // current sentence/segment ID
+  //int  iCurPar8;                                 // current paragraph ID
+  //int  iCurSeg8;                                 // current sentence/segment ID
+  //int  iCurPar9;                                 // current paragraph ID
+  //int  iCurSeg9;                                 // current sentence/segment ID
+  //FILE *hfOut1;                                  // output file handle format 1
+  //FILE *hfOut2;                                  // output file handle format 2
+  //FILE *hfOut3;                                  // output file handle format 3
+  //FILE *hfOut4;                                  // output file handle format 4
+  //FILE *hfOut5;                                  // output file handle format 5
+  //FILE *hfOut6;                                  // output file handle format 6
+  //FILE *hfOut7;                                  // output file handle format 7
+  //FILE *hfOut8;                                  // output file handle format 8
+  //FILE *hfOut9;                                  // output file handle format 9
+  //FILE *hfOutFuzzy;                              // output file handle fuzzy matches
+  //FILE *hfOutFuzzy6;                             // output file handle mattches and match source*
+  //FILE *hfOutExact;                              // output file handle exact matches
   BYTE bUTF8Buffer[16000];                       // buffer for strings converted to UTF-8 encoding
   CHAR_W szUTF16Buffer[16000];                   // buffer for UTF16 strings
   CHAR szSourceLang[80];                         // buffer for document source language
   CHAR szTargetLang[80];                         // buffer for document target language
   CHAR szMarkup[80];                             // buffer for document markup
-  BOOL fIncludeWordCountInfo;                    // TRUE = add word count info to output files
+  //BOOL fIncludeWordCountInfo;                    // TRUE = add word count info to output files
   ULONG ulSegSourceWords;                        // number of source words in current segment
-  ULONG ulTotal1;                                // total number of words written to a specific output file
-  ULONG ulTotal2;                                // total number of words written to a specific output file
-  ULONG ulTotal3;                                // total number of words written to a specific output file
-  ULONG ulTotal4;                                // total number of words written to a specific output file
-  ULONG ulTotal5;                                // total number of words written to a specific output file
-  ULONG ulTotal6;                                // total number of words written to a specific output file
-  ULONG ulTotal7;                                // total number of words written to a specific output file
-  ULONG ulTotal8;                                // total number of words written to a specific output file
-  ULONG ulTotal9;                                // total number of words written to a specific output file
-  ULONG ulCountPos1;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos2;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos3;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos4;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos5;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos6;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos7;                             // position of the word count area in the output file (only used for EXP files)
-  ULONG ulCountPos8;                             // position of the word count area in the output file (only used for EXP files)
-} XMLOUTDATA, *PXMLOUTDATA;
+  //ULONG ulTotal1;                                // total number of words written to a specific output file
+  //ULONG ulTotal2;                                // total number of words written to a specific output file
+  //ULONG ulTotal3;                                // total number of words written to a specific output file
+  //ULONG ulTotal4;                                // total number of words written to a specific output file
+  //ULONG ulTotal5;                                // total number of words written to a specific output file
+  //ULONG ulTotal6;                                // total number of words written to a specific output file
+  //ULONG ulTotal7;                                // total number of words written to a specific output file
+  //ULONG ulTotal8;                                // total number of words written to a specific output file
+  //ULONG ulTotal9;                                // total number of words written to a specific output file
+  //ULONG ulCountPos1;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos2;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos3;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos4;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos5;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos6;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos7;                             // position of the word count area in the output file (only used for EXP files)
+  //ULONG ulCountPos8;                             // position of the word count area in the output file (only used for EXP files)
+  CHAR    szError[4096];                           // bufer for error messages
+} MTOUTDATA, *PMTOUTDATA;
+
+// names and defaults for the various MT output files and flags if a specific option can be changed by the user
+typedef struct _MTOUTPUTFILEDEFAULT
+{
+  char szName[MAX_LONGFILESPEC];                // name of the MT output file identifier
+  BOOL fUserFormat;                             // TRUE format can be specified by the user
+  MTOUTPUTFORMAT eFormat;                       // format of the output file (is used for the file extension as well)
+  BOOL fUserNoDuplicates;                       // TRUE no duplicates can be specified by the user
+  BOOL fNoDuplicates;                           // TRUE = suppress duplicate segments in output file
+  BOOL fUserExact;                              // TRUE no exact can be specified by the user
+  BOOL fNoExact;                                // TRUE = suppress segments having exact memory proposals
+  BOOL fUserNoMachine;                          // TRUE no machine can be specified by the user
+  BOOL fNoMachine;                              // TRUE = suppress segments having machine translation proposals
+  BOOL fUserNoHamster;                          // TRUE no Hamster can be specified by the user
+  BOOL fNoHamster;                              // TRUE = suppress segments having Hamster proposals
+  BOOL fUserNoFuzzyAbove;                       // TRUE no fuzzy above can be specified by the user
+  USHORT usNoFuzzyAbove;                        // suppress segments having fuzzy proposals with a fuzziness above the given value
+  BOOL fUserWordCount;                          // TRUE = word count flags can be specified by the user
+  BOOL fIncludeWordCountInfo;                   // TRUE = include word count information into the output file
+  BOOL fWithMatch;                              // TRUE = include available memory proposals in output file (only supperted for XML)
+  BOOL fWithMatchAndSource;                     // TRUE = include available memory proposals and the source of this proposals in output file (only supperted for XML)
+} MTOUTPUTFILEDEFAULT, *PMTOUTPUTFILEDEFAULT;
+
+MTOUTPUTFILEDEFAULT MTOutputFilesDefaults[] =
+{ // NAME              UserFormat?  Format         UserDups? NoDups    UserExact? NoExact UserMT?  NoMT    UserHamster? NoHamster UserFuzzy? NoFuzzyAbove UserWordCount? WordCountInfo  WithMatch WithMatchAndSource  
+  { "NOMATCH",         TRUE,        XML_FORMAT,    TRUE,     FALSE,    FALSE,     TRUE,   TRUE,    TRUE,   TRUE,        TRUE,     TRUE,      49,          TRUE,          FALSE,         FALSE,    FALSE },
+  { "ALLSEGS",         TRUE,        XML_FORMAT,    TRUE,     FALSE,    FALSE,     FALSE,  FALSE,   FALSE,  FALSE,       FALSE,    FALSE,     99,          TRUE,          FALSE,         FALSE,    FALSE },
+  { "ALLWMATCH",       FALSE,       XML_FORMAT,    TRUE,     FALSE,    FALSE,     FALSE,  FALSE,   FALSE,  FALSE,       FALSE,    FALSE,     99,          TRUE,          FALSE,         TRUE,     FALSE },
+  { "ALLWMATCHSOURCE", FALSE,       XML_FORMAT,    TRUE,     FALSE,    FALSE,     FALSE,  FALSE,   FALSE,  FALSE,       FALSE,    FALSE,     99,          TRUE,          FALSE,         FALSE,    TRUE },
+  { "NOPROPOSAL",      TRUE,        XML_FORMAT,    TRUE,     FALSE,    FALSE,     TRUE,   TRUE,    TRUE,   TRUE,        TRUE,     TRUE,      49,          TRUE,          FALSE,         FALSE,    FALSE },
+  { "XLIFF",           FALSE,       XLIFF_FORMAT,  TRUE,     FALSE,    FALSE,     TRUE,   TRUE,    TRUE,   TRUE,        TRUE,     TRUE,      49,          FALSE,         FALSE,         FALSE,    FALSE },
+  { "" },  // end-of-list indicator
+};
+
+// add an output file to the MT output file array using the specified name the options
+BOOL TAAddMTOutFile( PMTOUTDATA pData, PSZ pszOutFile )
+{
+  MTOUTFILE NewOutputFile;
+
+  memset( &NewOutputFile, 0, sizeof(NewOutputFile) );
+
+  // test parameters
+  if ( pszOutFile == NULL )
+  {
+    strcpy( pData->szError, "Missing MT output file specification" );
+    return( FALSE );
+  } /* endif */
+
+  // prepare MT output file specification
+  strcpy( pData->szFileName, pszOutFile );
+  UtlStripBlanks( pData->szFileName );
+  UtlUpper( pData->szFileName );
+
+  // find start of options 
+  PSZ pszOptions = strchr( pData->szFileName, '(' );
+  if ( pszOptions != NULL )
+  {
+    *pszOptions++ = EOS;
+    UtlStripBlanks( pData->szFileName );
+  }
+
+  // check file name against our valid file name list
+  int i = 0;
+  while ( MTOutputFilesDefaults[i].szName[0] != EOS )
+  {
+    if ( strcmp( MTOutputFilesDefaults[i].szName, pData->szFileName ) == 0 )
+    {
+      break;
+    } /* endif */
+    i++;
+  } /* endwhile */
+  if ( MTOutputFilesDefaults[i].szName[0] == EOS )
+  {
+    sprintf( pData->szError, "\"%s\" is no valid MT output file identifier", pData->szFileName );
+    return( FALSE );
+  } /* endif */
+
+  // get default settings for selected output file
+  PMTOUTPUTFILEDEFAULT pDefaults = MTOutputFilesDefaults + i;
+  NewOutputFile.eFormat = pDefaults->eFormat;
+  NewOutputFile.fNoDuplicates = pDefaults->fNoDuplicates;
+  NewOutputFile.fNoExact = pDefaults->fNoExact;
+  NewOutputFile.fNoHamster = pDefaults->fNoHamster;
+  NewOutputFile.fNoMachine = pDefaults->fNoMachine;
+  NewOutputFile.usNoFuzzyAbove = pDefaults->usNoFuzzyAbove;
+  strcpy( NewOutputFile.szName, pDefaults->szName );
+  NewOutputFile.fIncludeWordCountInfo = pDefaults->fIncludeWordCountInfo;
+  NewOutputFile.fWithMatch = pDefaults->fWithMatch;
+  NewOutputFile.fWithMatchAndSource = pDefaults->fWithMatchAndSource;
+
+  // process any specified options
+  if ( pszOptions != NULL )
+  {
+    // prepare options
+    PSZ pszEnd = strchr( pszOptions, ')' );
+    if ( pszEnd != NULL ) *pszEnd = EOS;
+    UtlStripBlanks( pszOptions );
+    while ( (pszOptions != NULL) && (*pszOptions != EOS) )
+    {
+      PSZ pszEnd = strchr( pszOptions, ',' );
+      if ( pszEnd != NULL ) *pszEnd++ = EOS;
+      UtlStripBlanks( pszOptions );
+
+      if ( strcmp( pszOptions, "EXP" ) == 0 )
+      {
+        if ( pDefaults->fUserFormat )
+        {
+          NewOutputFile.eFormat = EXP_FORMAT;
+        }
+        else
+        {
+          sprintf( pData->szError, "Format \"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "XML" ) == 0 )
+      {
+        if ( pDefaults->fUserFormat )
+        {
+          NewOutputFile.eFormat = XML_FORMAT;
+        }
+        else
+        {
+          sprintf( pData->szError, "Format \"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "TMX" ) == 0 )
+      {
+        if ( pDefaults->fUserFormat )
+        {
+          NewOutputFile.eFormat = TMX_FORMAT;
+        }
+        else
+        {
+          sprintf( pData->szError, "Format \"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "DUPLICATES" ) == 0 )
+      {
+        if ( pDefaults->fUserNoDuplicates )
+        {
+          NewOutputFile.fNoDuplicates = FALSE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "NODUPLICATES" ) == 0 )
+      {
+        if ( pDefaults->fUserNoDuplicates )
+        {
+          NewOutputFile.fNoDuplicates = TRUE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "HAMSTER" ) == 0 )
+      {
+        if ( pDefaults->fUserNoHamster )
+        {
+          NewOutputFile.fNoHamster = FALSE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "NOHAMSTER" ) == 0 )
+      {
+        if ( pDefaults->fUserNoHamster )
+        {
+          NewOutputFile.fNoHamster = TRUE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "MACHINEMATCH" ) == 0 )
+      {
+        if ( pDefaults->fUserNoMachine )
+        {
+          NewOutputFile.fNoMachine = FALSE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "NOMACHINEMATCH" ) == 0 )
+      {
+        if ( pDefaults->fUserNoMachine )
+        {
+          NewOutputFile.fNoMachine = TRUE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strncmp( pszOptions, "NOFUZZYABOVE=", 13 ) == 0 )
+      {
+        if ( pDefaults->fUserNoFuzzyAbove )
+        {
+          PSZ pszNumber = pszOptions + 13;
+          while ( *pszNumber != EOS )
+          {
+            if ( !isdigit(*pszNumber) )
+            {
+              sprintf( pData->szError, "\"%s\" is no valid number for the fuzziness, valid are numbers in the range from 0 up to 99", pszOptions + 13 );
+              return( FALSE );
+            } /* endif */
+            pszNumber++;
+          } /* endwhile */
+          NewOutputFile.usNoFuzzyAbove = (USHORT)atoi( pszOptions + 13 );
+          if ( NewOutputFile.usNoFuzzyAbove > 99 )
+          {
+            sprintf( pData->szError, "\"%s\" is no valid number for the fuzziness, valid are numbers in the range from 0 up to 99", pszOptions + 13 );
+            return( FALSE );
+          } /* endif */
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "WORDCOUNT" ) == 0 )
+      {
+        if ( pDefaults->fUserWordCount )
+        {
+          NewOutputFile.fIncludeWordCountInfo = TRUE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else if ( strcmp( pszOptions, "NOWORDCOUNT" ) == 0 )
+      {
+        if ( pDefaults->fUserWordCount )
+        {
+          NewOutputFile.fIncludeWordCountInfo = FALSE;
+        }
+        else
+        {
+          sprintf( pData->szError, "\"%s\" can not be specified for output file %s", pszOptions, pDefaults->szName );
+          return( FALSE );
+        } /* endif */
+      }
+      else
+      {
+        sprintf( pData->szError, "\"%s\" is no valid option for output file %s", pszOptions, pDefaults->szName );
+        return( FALSE );
+      } /* endif */
+      pszOptions = pszEnd;
+    } /* endwhile */
+  } /* endif */
+
+  // check if maximum of output files has been reached
+  if ( (pData->iNumOfOutFiles + 1) > sizeof(pData->OutFile)/sizeof(pData->OutFile[0]) )
+  {
+    sprintf( pData->szError, "\"%s\" is no valid option for output file %s", pszOptions, pDefaults->szName );
+    return( FALSE );
+  } /* endif */
+
+  // add new output file to output file table
+  memcpy( &(pData->OutFile[pData->iNumOfOutFiles]), &NewOutputFile, sizeof(pData->OutFile[pData->iNumOfOutFiles]) ); 
+  pData->iNumOfOutFiles += 1;
+
+  return( TRUE );
+} /* end of TAAddMTOutFile */
+
+// evaluate the specified MT output options
+BOOL TAAddEvaluateMTOptions( PMTOUTDATA pData, PSZ pszOptions )
+{
+  BOOL fOK = TRUE;
+
+  // copy specified options to a buffer area (here we use the UTF8 buffer so we need some type conversions...)
+  strcpy( (PSZ)pData->bUTF8Buffer, pszOptions );
+  PSZ pszEnd = (PSZ)pData->bUTF8Buffer;
+
+  // remove any leading and trailing parenthesis
+  UtlStripBlanks( pszEnd );
+  if ( *pszEnd == '(' ) 
+  {
+    pszEnd += 1;
+    if ( (*pszEnd != EOS) && (pszEnd[strlen(pszEnd)-1] == ')') ) pszEnd[strlen(pszEnd)-1] = EOS;
+  } /* endif */
+  UtlStripBlanks( pszEnd );
+
+  do
+  {
+    PSZ pszCurFile = pszEnd;
+
+    // prepare next MT output file name
+    while ( (*pszEnd != EOS) && (*pszEnd != ',') )
+    {
+      if ( *pszEnd == '(' )
+      {
+        // skip options for the current file
+        while ( (*pszEnd != EOS) && (*pszEnd != ')') ) pszEnd++;
+      }
+      else
+      {
+        pszEnd++;
+      } /* endif */
+    } /* endwhile */
+    if ( *pszEnd == EOS ) pszEnd = NULL;
+    if ( pszEnd != NULL ) *pszEnd++ = EOS;
+
+    fOK = TAAddMTOutFile( pData, pszCurFile );
+  } while ( fOK && (pszEnd != NULL) );
+
+  return( fOK );
+} /* end of function TAAddEvaluateMTOptions */
 
 // get ISO language ID for TMlanguage name
 BOOL TAGetIsoLang( PSZ pszTmLang, PSZ pszIsoLang )
@@ -5271,7 +5679,7 @@ BOOL TAGetIsoLang( PSZ pszTmLang, PSZ pszIsoLang )
 }
 
 // write UTF16 string in UTF8
-BOOL TAWriteInUTF8( PXMLOUTDATA pData, FILE *hfOut, PSZ_W pszUTF16 )
+BOOL TAWriteInUTF8( PMTOUTDATA pData, FILE *hfOut, PSZ_W pszUTF16 )
 {
   BOOL fOK = TRUE;
 
@@ -5426,9 +5834,10 @@ void TAEscapeXliffChars( PSZ_W pszText, PSZ_W pszBuffer )
   *pszBuffer = 0;
 }
 // get settings from trigger file
-BOOL TAGetTriggerFileSettings( PXMLOUTDATA pData )
+BOOL TAGetTriggerFileSettings( PMTOUTDATA pData )
 {
   FILE *hfTrigger = NULL;
+  BOOL fIncludeWordCountInfo = FALSE;
 
   // setup trigger file name
   UtlMakeEQFPath( pData->szFileName, NULC, PROPERTY_PATH, NULL );
@@ -5446,142 +5855,75 @@ BOOL TAGetTriggerFileSettings( PXMLOUTDATA pData )
       {
         if ( _strnicmp( pszLine, "INCLUDEWORDCOUNT", 16 ) == 0 )
         {
-          pData->fIncludeWordCountInfo = TRUE;
+          fIncludeWordCountInfo = TRUE;
         }
         else if ( _strnicmp( pszLine, "NOMATCHEXP_NODUPLICATE", 22 ) == 0 )
         {
-          if ( !pData->fFormat4 ) 
-          {
-            pData->fFormat4 = TRUE;
-            pData->fNoDups4 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOMATCH(EXP,NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "NOMATCHEXP", 10 ) == 0 )
         {
-          if ( !pData->fFormat4 ) 
-          {
-            pData->fFormat4 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOMATCH(EXP)" );
         }
         else if ( _strnicmp( pszLine, "NOMATCH_NODUPLICATE", 19 ) == 0 )
         {
-          if ( !pData->fFormat1 ) 
-          {
-            pData->fFormat1 = TRUE;
-            pData->fNoDups1 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOMATCH(XML,NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "NOMATCH", 7 ) == 0 )
         {
-          if ( !pData->fFormat1 ) 
-          {
-            pData->fFormat1 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOMATCH(XML)" );
         }
         else if ( _strnicmp( pszLine, "ALLSEGSEXP_NODUPLICATE", 22 ) == 0 )
         {
-          if ( !pData->fFormat5 ) 
-          {
-            pData->fFormat5 = TRUE;
-            pData->fNoDups5 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLSEGS(EXP,NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "ALLSEGSEXP", 10 ) == 0 )
         {
-          if ( !pData->fFormat5 ) 
-          {
-            pData->fFormat5 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLSEGS(EXP)" );
         }
         else if ( _strnicmp( pszLine, "ALLSEGS_NODUPLICATE", 19 ) == 0 )
         {
-          if ( !pData->fFormat2 ) 
-          {
-            pData->fFormat2 = TRUE;
-            pData->fNoDups2 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLSEGS(XML,NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "ALLSEGS", 7 ) == 0 )
         {
-          if ( !pData->fFormat2 ) 
-          {
-            pData->fFormat2 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLSEGS(XML)" );
         }
         else if ( _strnicmp( pszLine, "ALLWMATCHSOURCE_NODUPLICATE", 27 ) == 0 )
         {
-          if ( !pData->fFormat6 ) 
-          {
-            pData->fFormat6 = TRUE;
-            pData->fNoDups6 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLWMATCHSOURCE(NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "ALLWMATCHSOURCE", 15 ) == 0 )
         {
-          if ( !pData->fFormat6 ) 
-          {
-            pData->fFormat6 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLWMATCHSOURCE" );
         }
         else if ( _strnicmp( pszLine, "ALLWMATCH_NODUPLICATE", 21 ) == 0 )
         {
-          if ( !pData->fFormat3 ) 
-          {
-            pData->fFormat3 = TRUE;
-            pData->fNoDups3 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLWMATCH(NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "ALLWMATCH", 9 ) == 0 )
         {
-          if ( !pData->fFormat3 ) 
-          {
-            pData->fFormat3 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "ALLWMATCH" );
         }
         else if ( _strnicmp( pszLine, "NOPROPOSALEXP_NODUPLICATE", 25 ) == 0 )
         {
-          if ( !pData->fFormat8 ) 
-          {
-            pData->fFormat8 = TRUE;
-            pData->fNoDups8 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOPROPOSAL(EXP,NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "NOPROPOSALEXP", 13 ) == 0 )
         {
-          if ( !pData->fFormat8 ) 
-          {
-            pData->fFormat8 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOPROPOSAL(EXP)" );
         }
         else if ( _strnicmp( pszLine, "NOPROPOSAL_NODUPLICATE", 22 ) == 0 )
         {
-          if ( !pData->fFormat7 ) 
-          {
-            pData->fFormat7 = TRUE;
-            pData->fNoDups7 = TRUE;
-            pData->fNoDupsProcessing = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOPROPOSAL(XML,NODUPLICATES)" );
         }
         else if ( _strnicmp( pszLine, "NOPROPOSAL", 9 ) == 0 )
         {
-          if ( !pData->fFormat7 ) 
-          {
-            pData->fFormat7 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "NOPROPOSAL(XML)" );
         }
         else if ( _strnicmp( pszLine, "XLIFF", 5 ) == 0 )
         {
-          if ( !pData->fFormat9 ) 
-          {
-            pData->fFormat9 = TRUE;
-          } /* endif */
+          TAAddMTOutFile( pData, "XLIFF" );
         }
         else
         {
@@ -5593,12 +5935,22 @@ BOOL TAGetTriggerFileSettings( PXMLOUTDATA pData )
     } /*endwhile */
     fclose( hfTrigger );
   } /* endif */
+
+  // apply global flag INCLUDEWORDCOUNT to all output files
+  if ( fIncludeWordCountInfo && (pData->iNumOfOutFiles != 0) )
+  {
+    for( int i = 0; i < pData->iNumOfOutFiles; i++ )
+    {
+      pData->OutFile[i].fIncludeWordCountInfo = fIncludeWordCountInfo;
+    } /* endfor */
+  } /* endif */
+
   return( TRUE );
 } /* end of function TAGetTriggerFileSettings */
 
 
 // write XML prefix
-BOOL TAWriteXMLPrefix( PXMLOUTDATA pData, FILE *hfOut, PSZ pszTargetLang, BOOL fWriteBom )
+BOOL TAWriteXMLPrefix( PMTOUTDATA pData, FILE *hfOut, PSZ pszTargetLang, BOOL fWriteBom )
 {
   BOOL fOK = TRUE;
   CHAR szIso[20];
@@ -5614,8 +5966,32 @@ BOOL TAWriteXMLPrefix( PXMLOUTDATA pData, FILE *hfOut, PSZ pszTargetLang, BOOL f
   return( fOK );
 } /* end of function TAWriteXMLPrefix */
 
+// write TMX prefix
+BOOL TAWriteTMXPrefix( PMTOUTDATA pData, FILE *hfOut, PSZ pszSourceLang, BOOL fWriteBom )
+{
+  BOOL fOK = TRUE;
+  CHAR szIso[20];
+
+  fWriteBom;
+
+  fwrite( UTF8FILEPREFIX, strlen(UTF8FILEPREFIX), 1, hfOut );
+  fOK = TAWriteInUTF8( pData, hfOut, L"<?xml version=\'1.0\' encoding=\"UTF-8\"?>\r\n" );
+  fOK = TAWriteInUTF8( pData, hfOut, L"<tmx version=\"1.4\">\r\n" );
+
+  TAGetIsoLang( pszSourceLang, szIso );
+
+  char szVersion[20];
+  sprintf( szVersion, "%d.%d.%d.%d", EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD );
+  swprintf( pData->szUTF16Buffer, L"<header creationtoolversion=\"%S\" segtype=\"sentence\" adminlang=\"en-us\" srclang=\"%S\" o-tmf=\"OpenTM2\" creationtool=\"OpenTM2\" datatype=\"rtf\" />\r\n",
+    szVersion, szIso );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"   <body>\r\n" );
+  return( fOK );
+} /* end of function TAWriteXMLPrefix */
+
+
 // write EXP prefix
-BOOL TAWriteEXPPrefix( PXMLOUTDATA pData, FILE *hfOut, BOOL fWordCountInfo, PULONG pulWordCountPos )
+BOOL TAWriteEXPPrefix( PMTOUTDATA pData, FILE *hfOut, BOOL fWordCountInfo, PULONG pulWordCountPos )
 {
   BOOL fOK = TRUE;
 
@@ -5639,7 +6015,7 @@ BOOL TAWriteEXPPrefix( PXMLOUTDATA pData, FILE *hfOut, BOOL fWordCountInfo, PULO
 } /* end of function TAWriteEXPPrefix */
 
 // write XLIFF prefix
-BOOL TAWriteXLIFFPrefix( PXMLOUTDATA pData, FILE *hfOut, PSZ pszFolder, PSZ pszSourceLang, PSZ pszTargetLang, BOOL fWriteBom )
+BOOL TAWriteXLIFFPrefix( PMTOUTDATA pData, FILE *hfOut, PSZ pszFolder, PSZ pszSourceLang, PSZ pszTargetLang, BOOL fWriteBom )
 {
   BOOL fOK = TRUE;
   CHAR szSrcIso[20];
@@ -5681,27 +6057,44 @@ BOOL TAWriteXLIFFPrefix( PXMLOUTDATA pData, FILE *hfOut, PSZ pszFolder, PSZ pszS
 BOOL TAOpenMTFile( PTAINPUT pTAInput, PSZ pszFileName )
 {
   BOOL fOK = TRUE;
-  PXMLOUTDATA pData = NULL;
+  PMTOUTDATA pData = NULL;
 
   pszFileName;
 
   // allocate our data area
-  fOK = UtlAlloc( (PVOID *)&(pTAInput->pInD->pCBMachTransFile), 0L, sizeof(XMLOUTDATA), ERROR_STORAGE );
-  pData = (PXMLOUTDATA)pTAInput->pInD->pCBMachTransFile;
+  fOK = UtlAlloc( (PVOID *)&(pTAInput->pInD->pCBMachTransFile), 0L, sizeof(MTOUTDATA), ERROR_STORAGE );
+  pData = (PMTOUTDATA)pTAInput->pInD->pCBMachTransFile;
+
+  // use provided MT options or get settings from trigger file if no options are provided
   if ( fOK )
   {
-     pData->iCurPar1 = pData->iCurPar2 = pData->iCurPar3 = pData->iCurPar6 = 1;
-     pData->iCurSeg1 = pData->iCurSeg2 = pData->iCurSeg3 = pData->iCurSeg4 = pData->iCurSeg5 = pData->iCurSeg6 = 1;
+    if ( pTAInput->szMtOptions[0] != EOS )
+    {
+      fOK = TAAddEvaluateMTOptions( pData, pTAInput->szMtOptions );
+      if ( !fOK )
+      {
+        PSZ pszParm = pData->szError;
+        UtlErrorHwnd( ERROR_TA_MTOPTIONS, MB_CANCEL, 1, &pszParm, EQF_ERROR,  pTAInput->hwndErrMsg );
+      } /* endif */
+    }
+    else
+    {
+      fOK = TAGetTriggerFileSettings( pData );
+    } /* endif */
   } /* endif */
 
-  // get settings from trigger file
-  if ( fOK )
+  // initialize some output file fields
+  if ( fOK && (pData->iNumOfOutFiles != 0) )
   {
-    fOK = TAGetTriggerFileSettings( pData );
+    for( int i = 0; i < pData->iNumOfOutFiles; i++ )
+    {
+      pData->OutFile[i].iCurPar = 1;
+      pData->OutFile[i].iCurSeg = 1;
+    } /* endfor */
   } /* endif */
 
   // setup output file name(s)
-  if ( fOK )
+  if ( fOK && (pData->iNumOfOutFiles != 0) )
   {
     CHAR szFolShortName[MAX_FILESPEC];
 
@@ -5711,134 +6104,126 @@ BOOL TAOpenMTFile( PTAINPUT pTAInput, PSZ pszFileName )
     Utlstrccpy( szFolShortName, UtlGetFnameFromPath( pTAInput->szFolder ), DOT );
     ObjShortToLongName( szFolShortName, pData->szFileName + strlen(pData->szFileName), FOLDER_OBJECT );
 
-    strcpy( pData->szOutFile1, pData->szFileName );
-    strcat( pData->szOutFile1, ".nomatch.xml" );
+    for( int i = 0; i < pData->iNumOfOutFiles; i++ )
+    {
+      strcpy( pData->OutFile[i].szOutFile, pData->szFileName );
 
-    strcpy( pData->szOutFile2, pData->szFileName );
-    strcat( pData->szOutFile2, ".allsegs.xml" );
+      if ( strcmp( pData->OutFile[i].szName, "NOMATCH" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".nomatch" );
+      }
+      else if ( strcmp( pData->OutFile[i].szName, "ALLSEGS" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".allsegs" );
+      }
+      else if ( strcmp( pData->OutFile[i].szName, "ALLWMATCH" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".allwmatch" );
+        strcpy( pData->OutFile[i].szOutFuzzy, pData->szFileName );
+        strcat( pData->OutFile[i].szOutFuzzy, ".fuzzy.xml" );
+      }
+      else if ( strcmp( pData->OutFile[i].szName, "ALLWMATCHSOURCE" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".allwmatchsource" );
+        strcpy( pData->OutFile[i].szOutFuzzy, pData->szFileName );
+        strcat( pData->OutFile[i].szOutFuzzy, ".fuzzy-source.xml" );
+      }
+      else if ( strcmp( pData->OutFile[i].szName, "NOMATCH" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".nomatch" );
+      }
+      else if ( strcmp( pData->OutFile[i].szName, "NOPROPOSAL" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".noproposal" );
+      }
+      else if ( strcmp( pData->OutFile[i].szName, "XLIFF" ) == 0 )
+      {
+        strcat( pData->OutFile[i].szOutFile, ".all" );
+      } /* endif */
 
-    strcpy( pData->szOutFile3, pData->szFileName );
-    strcat( pData->szOutFile3, ".allwmatch.xml" );
-
-    strcpy( pData->szOutExact, pData->szFileName );
-    strcat( pData->szOutExact, ".exact.xml" );
-
-    strcpy( pData->szOutFuzzy, pData->szFileName );
-    strcat( pData->szOutFuzzy, ".fuzzy.xml" );
-
-    strcpy( pData->szOutFuzzy6, pData->szFileName );
-    strcat( pData->szOutFuzzy6, ".fuzzy-source.xml" );
-
-    strcpy( pData->szOutFile4, pData->szFileName );
-    strcat( pData->szOutFile4, ".nomatch.exp" );
-
-    strcpy( pData->szOutFile5, pData->szFileName );
-    strcat( pData->szOutFile5, ".allsegs.exp" );
-
-    strcpy( pData->szOutFile6, pData->szFileName );
-    strcat( pData->szOutFile6, ".allwmatchsource.xml" );
-
-    strcpy( pData->szOutFile7, pData->szFileName );
-    strcat( pData->szOutFile7, ".noproposal.xml" );
-	
-    strcpy( pData->szOutFile8, pData->szFileName );
-    strcat( pData->szOutFile8, ".noproposal.exp" );
-	
-    strcpy( pData->szOutFile9, pData->szFileName );
-    strcat( pData->szOutFile9, ".all.xlf" );
-	
+      switch( pData->OutFile[i].eFormat )
+      {
+        case XML_FORMAT: strcat( pData->OutFile[i].szOutFile, ".xml" ); break;
+        case EXP_FORMAT: strcat( pData->OutFile[i].szOutFile, ".exp" ); break;
+        case TMX_FORMAT: strcat( pData->OutFile[i].szOutFile, ".tmx" ); break;
+        case XLIFF_FORMAT: strcat( pData->OutFile[i].szOutFile, ".xlf" ); break;
+      } /* endswitch */
+    } /* endfor */
   } /* endif */
 
   // open output file(s)
-  if ( fOK )
+  if ( fOK && (pData->iNumOfOutFiles != 0) )
   {
-    if ( fOK && pData->fFormat1 )
-    {
-      fOK = ((pData->hfOut1 = fopen( pData->szOutFile1, "wb" )) != NULL);
-    } /* endif */
-    if ( fOK && pData->fFormat2 )
-    {
-      fOK = ((pData->hfOut2 = fopen( pData->szOutFile2, "wb" )) != NULL);
-    } /* endif */
-    if ( fOK && pData->fFormat3 )
-    {
-      fOK = ((pData->hfOut3 = fopen( pData->szOutFile3, "wb" )) != NULL);
-    } /* endif */
-    if ( fOK && pData->fFormat4 )
-    {
-      fOK = ((pData->hfOut4 = fopen( pData->szOutFile4, "wb" )) != NULL);
-    } /* endif */
-    if ( fOK && pData->fFormat5 )
-    {
-      fOK = ((pData->hfOut5 = fopen( pData->szOutFile5, "wb" )) != NULL);
-    } /* endif */
-    if ( fOK && pData->fFormat6 )
-    {
-      fOK = ((pData->hfOut6 = fopen( pData->szOutFile6, "wb" )) != NULL);
-    } /* endif */
-    if ( fOK && pData->fFormat7 )
-    {
-      fOK = ((pData->hfOut7 = fopen( pData->szOutFile7, "wb" )) != NULL);
-    } /* endif */
+    CHAR szFolShortName[MAX_FILESPEC];
 
-    if ( fOK && pData->fFormat8 )
-    {
-      fOK = ((pData->hfOut8 = fopen( pData->szOutFile8, "wb" )) != NULL);
-    } /* endif */
+    UtlMakeEQFPath( pData->szFileName, NULC, DIRSEGMT_PATH, NULL );
+    UtlMkDir( pData->szFileName, 0L, FALSE );
+    strcat( pData->szFileName, BACKSLASH_STR );
+    Utlstrccpy( szFolShortName, UtlGetFnameFromPath( pTAInput->szFolder ), DOT );
+    ObjShortToLongName( szFolShortName, pData->szFileName + strlen(pData->szFileName), FOLDER_OBJECT );
 
-    if ( fOK && pData->fFormat9 )
+    for( int i = 0; fOK && (i < pData->iNumOfOutFiles); i++ )
     {
-      fOK = ((pData->hfOut9 = fopen( pData->szOutFile9, "wb" )) != NULL);
-    } /* endif */
-	
+      fOK = ((pData->OutFile[i].hfOut = fopen( pData->OutFile[i].szOutFile, "wb" )) != NULL);
+    } /* endfor */
   } /* endif */
 
-  // write XML prefix
-  if ( fOK )
+  // write output file prefix
+  if ( fOK && (pData->iNumOfOutFiles != 0) )
   {
-    if ( fOK && pData->fFormat1 ) TAWriteXMLPrefix( pData, pData->hfOut1, pTAInput->pInD->szDocTargetLang, FALSE );
-    if ( fOK && pData->fFormat2 ) TAWriteXMLPrefix( pData, pData->hfOut2, pTAInput->pInD->szDocTargetLang, FALSE );
-    if ( fOK && pData->fFormat3 ) TAWriteXMLPrefix( pData, pData->hfOut3, pTAInput->pInD->szDocTargetLang, FALSE );
-    if ( fOK && pData->fFormat4 ) TAWriteEXPPrefix( pData, pData->hfOut4, pData->fIncludeWordCountInfo, &(pData->ulCountPos4) );
-    if ( fOK && pData->fFormat5 ) TAWriteEXPPrefix( pData, pData->hfOut5, pData->fIncludeWordCountInfo, &(pData->ulCountPos5) );
-    if ( fOK && pData->fFormat6 ) TAWriteXMLPrefix( pData, pData->hfOut6, pTAInput->pInD->szDocTargetLang, TRUE );
-    if ( fOK && pData->fFormat7 ) TAWriteXMLPrefix( pData, pData->hfOut7, pTAInput->pInD->szDocTargetLang, FALSE );
-    if ( fOK && pData->fFormat8 ) TAWriteEXPPrefix( pData, pData->hfOut8, pData->fIncludeWordCountInfo, &(pData->ulCountPos8) );
-    if ( fOK && pData->fFormat9 ) TAWriteXLIFFPrefix( pData, pData->hfOut9, pTAInput->szFolder,
-        pTAInput->pInD->szDocSourceLang, pTAInput->pInD->szDocTargetLang, FALSE );
+    for( int i = 0; fOK && (i < pData->iNumOfOutFiles); i++ )
+    {
+      switch( pData->OutFile[i].eFormat )
+      {
+        case XML_FORMAT: TAWriteXMLPrefix( pData, pData->OutFile[i].hfOut, pTAInput->pInD->szDocTargetLang, FALSE ); break;
+        case EXP_FORMAT: TAWriteEXPPrefix( pData, pData->OutFile[i].hfOut, pData->OutFile[i].fIncludeWordCountInfo, &(pData->OutFile[i].ulCountPos) ); break;
+        case TMX_FORMAT: TAWriteTMXPrefix( pData, pData->OutFile[i].hfOut, pTAInput->pInD->szDocSourceLang, FALSE ); break;
+        case XLIFF_FORMAT: TAWriteXLIFFPrefix( pData, pData->OutFile[i].hfOut, pTAInput->szFolder, pTAInput->pInD->szDocSourceLang, pTAInput->pInD->szDocTargetLang, FALSE ); break;
+      } /* endswitch */
+    } /* endfor */
   } /* endif */
 
    // create temporary memory for "no duplicates" processing
-  if ( fOK && pData->fNoDupsProcessing )
+  if ( fOK && (pData->iNumOfOutFiles != 0) )
   {
-    PTAINSTDATA  pInD = pTAInput->pInD;   
-    PANALYSISMEMLOOKUPDATA pLookupData = (PANALYSISMEMLOOKUPDATA)pInD->pvMemoryLookupData;
+    BOOL fNoDuplicates = FALSE;
 
-    // get folder source language
-    FolQueryInfo( pTAInput->szFolder, NULL, NULL, pData->szSourceLang, NULL, TRUE );
-
-    // create the temporary translation Memory
+    // check if no duplicates processing is required for any of the output files
+    for( int i = 0; i < pData->iNumOfOutFiles; i++ )
     {
-      MemoryFactory *pFactory = MemoryFactory::getInstance();    
-      char szTempMemory[MAX_LONGFILESPEC]; 
-      pLookupData->pDupMem = pFactory->createTempMemory( "$DM", szTempMemory, pData->szSourceLang );
-      if ( pLookupData->pDupMem == NULL )
+      fNoDuplicates |= pData->OutFile[i].fNoDuplicates;
+    } /* endfor */
+
+    if ( fNoDuplicates )
+    {
+      PTAINSTDATA  pInD = pTAInput->pInD;   
+      PANALYSISMEMLOOKUPDATA pLookupData = (PANALYSISMEMLOOKUPDATA)pInD->pvMemoryLookupData;
+
+      // get folder source language
+      FolQueryInfo( pTAInput->szFolder, NULL, NULL, pData->szSourceLang, NULL, TRUE );
+
+      // create the temporary translation Memory
       {
-        fOK = FALSE;
-      } /* endif */
-    }
-    // prepare vector for memory lokup results
-    for ( int i = 0; i < 3; i++ )
-    {
-      pLookupData->DupSearchProposals.push_back( new OtmProposal );
-    } /* endfor */     
-
+        MemoryFactory *pFactory = MemoryFactory::getInstance();    
+        char szTempMemory[MAX_LONGFILESPEC]; 
+        pLookupData->pDupMem = pFactory->createTempMemory( "$DM", szTempMemory, pData->szSourceLang );
+        if ( pLookupData->pDupMem == NULL )
+        {
+          fOK = FALSE;
+        } /* endif */
+      }
+      // prepare vector for memory lokup results
+      for ( int i = 0; i < 3; i++ )
+      {
+        pLookupData->DupSearchProposals.push_back( new OtmProposal );
+      } /* endfor */     
+    } /* endif */
   } /* endif */     
 
   return( fOK );
 }
 
-BOOL TAAppendFile( PXMLOUTDATA pData, FILE *hfOut, PSZ pszAppendFile )
+BOOL TAAppendFile( PMTOUTDATA pData, FILE *hfOut, PSZ pszAppendFile )
 {
   BOOL fOK = TRUE;
   FILE *hfAppend = fopen( pszAppendFile, "rb" );
@@ -5857,41 +6242,29 @@ BOOL TAAppendFile( PXMLOUTDATA pData, FILE *hfOut, PSZ pszAppendFile )
   return( fOK );
 } /*end of function TAAppendFile */
 
-BOOL TAWriteDocXmlEnd( PXMLOUTDATA pData, FILE *hfOut, int iReport)
+BOOL TAWriteDocXmlEnd( PMTOUTDATA pData, PMTOUTFILE pOutFile )
 {
   BOOL fOK = TRUE;
-  if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"      </p>\r\n" );
-  if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"    </d>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"      </p>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"    </d>\r\n" );
 
-  if ( iReport == 3 )
+  if ( pOutFile->fWithMatch || pOutFile->fWithMatchAndSource )
   {
-    // append fuzzy matches to file
-    if ( pData->hfOutFuzzy )
+    // append matches to file
+    if ( pOutFile->hfOutFuzzy )
     {
-      TAWriteInUTF8( pData, pData->hfOutFuzzy, L"    </d>\r\n" );
-      fclose( pData->hfOutFuzzy );
-      TAAppendFile( pData, hfOut, pData->szOutFuzzy );
-      UtlDelete( pData->szOutFuzzy, 0, FALSE  );
-      pData->hfOutFuzzy = NULL;
-    } /* endif */
-  }
-  else if ( iReport == 6 )
-  {
-    // append fuzzy matches to file
-    if ( pData->hfOutFuzzy6 )
-    {
-      TAWriteInUTF8( pData, pData->hfOutFuzzy6, L"    </d>\r\n" );
-      fclose( pData->hfOutFuzzy6 );
-      TAAppendFile( pData, hfOut, pData->szOutFuzzy6 );
-      UtlDelete( pData->szOutFuzzy6, 0, FALSE  );
-      pData->hfOutFuzzy6 = NULL;
+      TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"    </d>\r\n" );
+      fclose( pOutFile->hfOutFuzzy );
+      TAAppendFile( pData, pOutFile->hfOut, pOutFile->szOutFuzzy );
+      UtlDelete( pOutFile->szOutFuzzy, 0, FALSE  );
+      pOutFile->hfOutFuzzy = NULL;
     } /* endif */
   } /* endif */
 
   return( fOK );
 } /* end of function TAWriteDocXmlEnd */
 
-BOOL TAWriteDocXliffEnd( PXMLOUTDATA pData, FILE *hfOut, int iReport)
+BOOL TAWriteDocXliffEnd( PMTOUTDATA pData, FILE *hfOut, int iReport)
 {
   BOOL fOK = TRUE;
 
@@ -5902,23 +6275,22 @@ BOOL TAWriteDocXliffEnd( PXMLOUTDATA pData, FILE *hfOut, int iReport)
   return( fOK );
 } /* end of function TAWriteDocXliffEnd */
 
-BOOL TAWriteMTSegmentToXmlFile( PXMLOUTDATA pData, FILE *hfOut, PSZ pszCurDoc, ULONG ulLength, PSZ_W pszData, ULONG ulSegNum, int iReport, int iCurSeg  )
+BOOL TAWriteMTSegmentToXmlFile( PMTOUTDATA pData, PMTOUTFILE pOutFile, ULONG ulLength, PSZ_W pszData, ULONG ulSegNum )
 {
   BOOL fOK = TRUE;
 
   ulLength;
 
-
   // write doc start if this is a new document
-  if ( strcmp( pData->szCurDoc, pszCurDoc ) != 0 )
+  if ( strcmp( pData->szCurDoc, pOutFile->szCurDoc ) != 0 )
   {
     // end current doc (if any) 
-    if ( pszCurDoc[0] )
+    if ( pOutFile->szCurDoc[0] )
     {
-      fOK = TAWriteDocXmlEnd( pData, hfOut, iReport );
+      fOK = TAWriteDocXmlEnd( pData, pOutFile );
     } /* endif */
 
-    strcpy( pszCurDoc, pData->szCurDoc );
+    strcpy( pOutFile->szCurDoc, pData->szCurDoc );
 
     // write start of new document
     if ( fOK )
@@ -5928,79 +6300,123 @@ BOOL TAWriteMTSegmentToXmlFile( PXMLOUTDATA pData, FILE *hfOut, PSZ pszCurDoc, U
  
       // write d element up to document name
       swprintf ( pData->szUTF16Buffer, L"    <d lang=\"%S\" dt=\"ndoc\" url=\"", szIso );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
       
       // escape and write document name (use UTF8 buffer as temporary storage)
       MultiByteToWideChar( CP_ACP, 0, pData->szCurDoc, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
       TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
 
      // write rest of d element data
       swprintf ( pData->szUTF16Buffer, L"\" markup=\"%S\">\r\n", pData->szMarkup );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
-      swprintf ( pData->szUTF16Buffer, L"      <p pid=\"%ld\">\r\n", pData->iCurPar1 );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+      swprintf ( pData->szUTF16Buffer, L"      <p pid=\"%ld\">\r\n", pOutFile->iCurPar );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
     } /* endif */
   } /* endif */
 
   // write segment data
   if ( fOK )
   {
-    if ( pData->fIncludeWordCountInfo )
+    if ( pOutFile->fIncludeWordCountInfo )
     {
-      swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\" seg=\"%lu\" words=\"%lu\"><t tid=\"1\" tt=\"orig\">", iCurSeg, ulSegNum, pData->ulSegSourceWords );
+      swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\" seg=\"%lu\" words=\"%lu\"><t tid=\"1\" tt=\"orig\">", pOutFile->iCurSeg, ulSegNum, pData->ulSegSourceWords );
     }
     else
     {
-      swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\" seg=\"%lu\"><t tid=\"1\" tt=\"orig\">", iCurSeg, ulSegNum );
+      swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\" seg=\"%lu\"><t tid=\"1\" tt=\"orig\">", pOutFile->iCurSeg, ulSegNum );
     } /* endif */
-    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
 
     TAEscapeChars( pszData, pData->szUTF16Buffer );
-    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
 
-    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"</t></s>\r\n" );
+    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"</t></s>\r\n" );
   } /* endif */
 
   return( fOK );
 } /* end of function TAWriteMTSegmentToXmlFile */
 
-BOOL TAWriteMTSegmentToExpFile( PTAINPUT pTAInput, FILE *hfOut, PSZ_W pszData, ULONG ulSegNum, int iCurSeg, BOOL fIncludeWordCountInfo, ULONG ulSegSourceWords )
+BOOL TAWriteMTSegmentToTmxFile( PTAINPUT pTAInput, PMTOUTDATA pData, PMTOUTFILE pOutFile, PSZ_W pszData, ULONG ulSegNum )
+{
+  BOOL fOK = TRUE;
+
+  SYSTEMTIME systime;
+  GetSystemTime(&systime);
+  swprintf ( pData->szUTF16Buffer, L"      <tu tuid=\"%ld\" datatype=\"rtf\" creationdate=\"%4.4d%2.2d%2.2dT%2.2d%2.2d%2.2dZ\">\r\n",
+    pOutFile->iCurSeg, systime.wYear, systime.wMonth, systime.wDay, systime.wHour, systime.wMinute, systime.wSecond );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+
+  swprintf ( pData->szUTF16Buffer, L"      <prop type=\"tmgr:segNum\">%lu</prop>\r\n", ulSegNum );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  swprintf ( pData->szUTF16Buffer, L"      <prop type=\"tmgr:markup\">%S</prop>\r\n", pTAInput->pInD->szDocFormat );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  swprintf ( pData->szUTF16Buffer, L"      <prop type=\"tmgr:docname\">%S</prop>\r\n", pTAInput->pInD->pszCurSourceFile );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+
+  CHAR szIso[20];
+  TAGetIsoLang( pTAInput->pInD->szDocSourceLang, szIso );
+  swprintf ( pData->szUTF16Buffer, L"      <tuv xml:lang=\"%S\">\r\n", szIso );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  swprintf ( pData->szUTF16Buffer, L"        <prop type=\"tmgr:language\">%S</prop>\r\n", pTAInput->pInD->szDocSourceLang );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"        <seg>" );
+  TAEscapeChars( pszData, pData->szUTF16Buffer );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"</seg>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"      </tuv>\r\n" );
+
+  TAGetIsoLang( pTAInput->pInD->szDocTargetLang, szIso );
+  swprintf ( pData->szUTF16Buffer, L"      <tuv xml:lang=\"%S\">\r\n", szIso );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  swprintf ( pData->szUTF16Buffer, L"        <prop type=\"tmgr:language\">%S</prop>\r\n", pTAInput->pInD->szDocTargetLang );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"        <seg></seg>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"      </tuv>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"    </tu>\r\n" );
+
+
+  return( fOK );
+} /* end of function TAWriteMTSegmentToTmxFile */
+
+
+BOOL TAWriteMTSegmentToExpFile( PTAINPUT pTAInput, PMTOUTFILE pOutFile, PSZ_W pszData, ULONG ulSegNum, ULONG ulSegSourceWords )
 {
   BOOL fOK = TRUE;
   PSZ pTemp = (stricmp( pTAInput->pInD->pszCurSourceFile, pTAInput->apszLongNames[pTAInput->pInD->usCurNumSourceFile-1]) == 0) ?
             "": pTAInput->apszLongNames[pTAInput->pInD->usCurNumSourceFile-1];
 
 
-  fputws( MEM_SEGMENT_BEGIN_TAGW, hfOut );
-  fwprintf( hfOut, L"%ld\r\n", iCurSeg );
-  fputws( MEM_CONTROL_BEGIN_TAGW, hfOut );
+  fputws( MEM_SEGMENT_BEGIN_TAGW, pOutFile->hfOut );
+  fwprintf( pOutFile->hfOut, L"%ld\r\n", pOutFile->iCurSeg );
+  fputws( MEM_CONTROL_BEGIN_TAGW, pOutFile->hfOut );
 
-  fwprintf( hfOut, L"%06hu%s%c%s%016lu%s%S%s%S%s%S%s%S%s%S%s%S", ulSegNum, X15_STRW, L'0', X15_STRW,
+  fwprintf( pOutFile->hfOut, L"%06hu%s%c%s%016lu%s%S%s%S%s%S%s%S%s%S%s%S", ulSegNum, X15_STRW, L'0', X15_STRW,
                         0L, X15_STRW, pTAInput->pInD->szDocSourceLang, X15_STRW,
                         pTAInput->pInD->szDocTargetLang, X15_STRW, "", X15_STRW,
                         pTAInput->pInD->szDocFormat, X15_STRW, pTAInput->pInD->pszCurSourceFile, X15_STRW, pTemp );
-  fputws( MEM_CONTROL_END_TAGW, hfOut );
-  if ( fIncludeWordCountInfo )
+  fputws( MEM_CONTROL_END_TAGW, pOutFile->hfOut );
+  if ( pOutFile->fIncludeWordCountInfo )
   {
-    fputws( MEM_ADDINFO_BEGIN_TAGW, hfOut );
-    fwprintf( hfOut, L"<wcnt words=\"%lu\"></wcnt>", ulSegSourceWords );
-    fputws( MEM_ADDINFO_END_TAGW, hfOut );
+    fputws( MEM_ADDINFO_BEGIN_TAGW, pOutFile->hfOut );
+    fwprintf( pOutFile->hfOut, L"<wcnt words=\"%lu\"></wcnt>", ulSegSourceWords );
+    fputws( MEM_ADDINFO_END_TAGW, pOutFile->hfOut );
   } /* endif */
 
-  fputws( MEM_SOURCE_BEGIN_TAGW, hfOut );
-  PXMLOUTDATA pData = (PXMLOUTDATA)pTAInput->pInD->pCBMachTransFile;
+  fputws( MEM_SOURCE_BEGIN_TAGW, pOutFile->hfOut );
+  PMTOUTDATA pData = (PMTOUTDATA)pTAInput->pInD->pCBMachTransFile;
   TAPrepareSegmentText( pszData, pData->szUTF16Buffer );
-  fputws( pData->szUTF16Buffer , hfOut );
-  fputws( MEM_SOURCE_END_TAGW, hfOut );
-  fputws( MEM_TARGET_BEGIN_TAGW, hfOut );
-  fputws( MEM_TARGET_END_TAGW, hfOut );
-  fputws( MEM_SEGMENT_END_TAGW, hfOut );
+  fputws( pData->szUTF16Buffer , pOutFile->hfOut );
+  fputws( MEM_SOURCE_END_TAGW, pOutFile->hfOut );
+  fputws( MEM_TARGET_BEGIN_TAGW, pOutFile->hfOut );
+  fputws( MEM_TARGET_END_TAGW, pOutFile->hfOut );
+  fputws( MEM_SEGMENT_END_TAGW, pOutFile->hfOut );
   return( fOK );
 
 } /* end of function TAWriteMTSegmentExpToFile */
 
-BOOL TAWriteMTSegmentToXliffFile( PTAINPUT pTAInput, PXMLOUTDATA pData, FILE *hfOut, PSZ pszCurDoc, 
+BOOL TAWriteMTSegmentToXliffFile( PTAINPUT pTAInput, PMTOUTDATA pData, PMTOUTFILE pOutFile, PSZ pszCurDoc, 
                                   ULONG ulLength, PSZ_W pszData, ULONG ulSegNum, int iReport, int iCurSeg  )
 {
   BOOL fOK = TRUE;
@@ -6013,7 +6429,7 @@ BOOL TAWriteMTSegmentToXliffFile( PTAINPUT pTAInput, PXMLOUTDATA pData, FILE *hf
     // end current doc (if any) 
     if ( pszCurDoc[0] )
     {
-      fOK = TAWriteDocXliffEnd( pData, hfOut, iReport );
+      fOK = TAWriteDocXliffEnd( pData, pOutFile->hfOut, iReport );
     } /* endif */
 
     strcpy( pszCurDoc, pData->szCurDoc );
@@ -6028,28 +6444,28 @@ BOOL TAWriteMTSegmentToXliffFile( PTAINPUT pTAInput, PXMLOUTDATA pData, FILE *hf
  
       // write d element up to document name
       swprintf ( pData->szUTF16Buffer, L"\r\n<file original=\"" );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
-      pData->iCurSeg9 = 1;
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+      pOutFile->iCurSeg = 1;
       iCurSeg = 1;
       
       // escape and write document name (use UTF8 buffer as temporary storage)
       MultiByteToWideChar( CP_ACP, 0, pData->szCurDoc, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
       TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"\">\r\n" );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"\">\r\n" );
 
      // write meta data for this file
       wchar_t *szMDA_META = L" <mda:meta type=\"%s\">%S</mda:meta>\r\n" ;
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"<mda:metadata><mda:metagroup category=\"otm\">\r\n" );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"<mda:metadata><mda:metagroup category=\"otm\">\r\n" );
 //    swprintf ( pData->szUTF16Buffer, szMDA_META, L"shortname", pTAInput->pInD->pszCurSourceFile );
-//    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+//    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
       swprintf ( pData->szUTF16Buffer, szMDA_META, L"markup", pData->szMarkup );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
       swprintf ( pData->szUTF16Buffer, szMDA_META, L"srclang", pData->szSourceLang );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
       swprintf ( pData->szUTF16Buffer, szMDA_META, L"tgtlang", pData->szTargetLang );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"</mda:metagroup></mda:metadata>\r\n" );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"</mda:metagroup></mda:metadata>\r\n" );
     } /* endif */
   } /* endif */
 
@@ -6057,27 +6473,150 @@ BOOL TAWriteMTSegmentToXliffFile( PTAINPUT pTAInput, PXMLOUTDATA pData, FILE *hf
   if ( fOK )
   {
     swprintf ( pData->szUTF16Buffer, L"<unit id=\"%ld\" name=\"%ld\">\r\n", iCurSeg, ulSegNum );
-    if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, pData->szUTF16Buffer );
+    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
   } /* endif */
 
   return( fOK );
 } /* end of function TAWriteMTSegmentToXliffFile */
 
+BOOL TAWriteProposalsToXML( PTAINPUT pTAInput, PANALYSISMEMLOOKUPDATA pLookupData, PMTOUTDATA pData, PMTOUTFILE pOutFile, int iMatchesFound )
+{
+	int i = 0;
+	SHORT sTId = 1;
+  BOOL fOK = TRUE;
+
+	// create proposal file if not done yet
+  if ( pOutFile->fWithMatch || pOutFile->fWithMatchAndSource )
+  {
+	  if ( pOutFile->hfOutFuzzy == NULL  )
+	  {
+	    pOutFile->hfOutFuzzy = fopen( pOutFile->szOutFuzzy, "wb" ); 
+	    fOK = (pOutFile->hfOutFuzzy != NULL); 
+	    if ( fOK )
+	    {
+		    CHAR szIso[20];
+		    TAGetIsoLang( pTAInput->pInD->szDocTargetLang , szIso );
+
+        swprintf ( pData->szUTF16Buffer, L"    <d lang=\"%S\" dt=\"sdoc\" url=\"", szIso );
+        if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+        // escape and write document name (use UTF8 buffer as temporary storage)
+        MultiByteToWideChar( CP_ACP, 0, pData->szCurDoc, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
+        TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
+        if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+        // write rest of d element data
+        swprintf ( pData->szUTF16Buffer, L"\" markup=\"%S\">\r\n", pData->szMarkup );
+        if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+		    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+	    } /* endif */
+	  } /* endif */
+  } /* endif */
+
+  if ( pOutFile->fWithMatch )
+  {
+		swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\" >", pOutFile->iCurSeg );
+		if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+		while ( i < iMatchesFound )
+		{
+			pLookupData->BestProposals[i]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
+			swprintf ( pData->szUTF16Buffer, L"<t tid=\"%d\" tt=\"fm\" sc=\"%ld\" seg=\"%ld\" url=\"", sTId++, 
+				pLookupData->BestProposals[i]->getFuzziness(), pLookupData->BestProposals[i]->getSegmentNum() );
+			if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+      // escape and write document name (use UTF8 buffer as temporary storage)
+      MultiByteToWideChar( CP_ACP, 0, pLookupData->szNameBuffer, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
+      TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+      // write rest of element 
+      wcscpy( pData->szUTF16Buffer, L"\">" );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+			if ( fOK )
+			{
+				pLookupData->BestProposals[i]->getTarget( pLookupData->szSegmentBuffer, MAX_SEGMENT_SIZE );
+				TAEscapeChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
+				if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+				if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"</t>" );
+			} /* endif */
+			i++;
+		} /*endwhile */
+		if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"</s>\r\n" );
+  }
+  else if ( pOutFile->fWithMatchAndSource )
+  {
+    swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\">\r\n           <tgt>\r\n", pOutFile->iCurSeg );
+	  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+	  while ( i < iMatchesFound )
+	  {
+		  pLookupData->BestProposals[i]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
+		  swprintf ( pData->szUTF16Buffer, L"<t tid=\"%d\" tt=\"fm\" sc=\"%ld\" seg=\"%ld\" url=\"", sTId++, 
+			  pLookupData->BestProposals[i]->getFuzziness(), pLookupData->BestProposals[i]->getSegmentNum() );
+		  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+      // escape and write document name (use UTF8 buffer as temporary storage)
+      MultiByteToWideChar( CP_ACP, 0, pLookupData->szNameBuffer, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
+      TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+      // write rest of element 
+      wcscpy( pData->szUTF16Buffer, L"\">" );
+      if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+	    if ( fOK )
+	    {
+		    pLookupData->BestProposals[i]->getTarget( pLookupData->szSegmentBuffer, sizeof(pLookupData->szSegmentBuffer)/sizeof(CHAR_W)  );
+		    TAEscapeChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
+		    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+		    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"</t>\r\n" );
+	    } /* endif */
+	    i++;
+	  } /*endwhile */
+
+	  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"           </tgt>\r\n           <src>\r\n" );
+
+	  i = 0;
+	  sTId = 1;
+	  while ( i < iMatchesFound )
+	  {
+	    pLookupData->BestProposals[i]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
+	    swprintf ( pData->szUTF16Buffer, L"              <t tid=\"%d\" tt=\"fm\" sc=\"%u\" seg=\"%lu\" url=\"%S\">", sTId++, 
+		    pLookupData->BestProposals[i]->getFuzziness(), pLookupData->BestProposals[i]->getSegmentNum(), 
+		    pLookupData->szNameBuffer );
+	    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+
+	    if ( fOK )
+	    {
+		    pLookupData->BestProposals[i]->getSource( pLookupData->szSegmentBuffer, sizeof(pLookupData->szSegmentBuffer)/sizeof(CHAR_W)  );
+		    TAEscapeChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
+		    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, pData->szUTF16Buffer );
+		    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"</t>\r\n" );
+	    } /* endif */
+	    i++;
+	  } /*endwhile */
+
+	  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOutFuzzy, L"           </src>\r\n        </s>\r\n" );
+  } /* endif */
+
+  return( fOK );
+} /* end of function TAWriteProposalsToXML */
+
 
 BOOL TAWriteMTSegment( PTAINPUT pTAInput, ULONG ulLength, PSZ_W pszData, ULONG ulSegNum, USHORT usFuzzy, MATCHTYPE MatchType, PTBSEGMENT pSeg, ULONG ulSourceWords )
 {
   BOOL fOK = TRUE;
-  PXMLOUTDATA pData = (PXMLOUTDATA)pTAInput->pInD->pCBMachTransFile;
+  PMTOUTDATA pData = (PMTOUTDATA)pTAInput->pInD->pCBMachTransFile;
   PTAINSTDATA pInD = (PTAINSTDATA) pTAInput->pInD;
   PANALYSISMEMLOOKUPDATA pLookupData = (PANALYSISMEMLOOKUPDATA)pInD->pvMemoryLookupData;
   BOOL fIsDuplicate = FALSE;
   
   MatchType;
 
-  pData->ulSegSourceWords = ulSourceWords;
-
   // check if segment is a duplicate one
-  if ( pData->fNoDupsProcessing )
+  if ( pData->hDupTM != NULL )
   {
     OtmProposal SearchKey;
     SearchKey.setSource( pszData );
@@ -6098,7 +6637,7 @@ BOOL TAWriteMTSegment( PTAINPUT pTAInput, ULONG ulLength, PSZ_W pszData, ULONG u
     fIsDuplicate = pLookupData->DupSearchProposals[0]->isExactMatch();
   } /* endif */     
 
-     
+  pData->ulSegSourceWords = ulSourceWords;
   int iMatchesFound = OtmProposal::getNumOfProposals( pLookupData->BestProposals );
 
   // check if this is a new document
@@ -6110,461 +6649,337 @@ BOOL TAWriteMTSegment( PTAINPUT pTAInput, ULONG ulLength, PSZ_W pszData, ULONG u
     strcpy( pData->szCurDoc, pTAInput->apszLongNames[pTAInput->pInD->usCurNumSourceFile-1] );
   } /* endif */
 
-
-  // write segment data
-  if ( fOK && pData->fFormat1 ) 
+  // write segment to all output files
+  for( int i = 0; i < pData->iNumOfOutFiles; i++ )
   {
-    if ( (usFuzzy < 100) && (!pData->fNoDups1 || !fIsDuplicate) )
+    PMTOUTFILE pOutFile = pData->OutFile + i;
+    BOOL fAddToOutput = TRUE;
+
+    // check against filter criteria
+    if ( pOutFile->fNoDuplicates && fIsDuplicate )
     {
-      fOK = TAWriteMTSegmentToXmlFile( pData, pData->hfOut1, pData->szCurDoc1, ulLength, pszData, ulSegNum, 1, pData->iCurSeg1 );
-      pData->ulTotal1 += ulSourceWords;
-      pData->iCurSeg1 += 1;
-    } /* endif */
-  } /* endif */
-
-  if ( fOK && pData->fFormat2 ) 
-  {
-    if ( !pData->fNoDups2 || !fIsDuplicate )
-    {
-      fOK = TAWriteMTSegmentToXmlFile( pData, pData->hfOut2, pData->szCurDoc2, ulLength, pszData, ulSegNum, 2, pData->iCurSeg2 );
-      pData->ulTotal2 += ulSourceWords;
-      pData->iCurSeg2 += 1;
-    } /* endif */       
-  } /* endif */
-
-  if ( fOK && pData->fFormat3 ) 
-  {
-    if ( !pData->fNoDups3 || !fIsDuplicate )
-    {
-		fOK = TAWriteMTSegmentToXmlFile( pData, pData->hfOut3, pData->szCurDoc3, ulLength, pszData, ulSegNum, 3, pData->iCurSeg3 );
-    pData->ulTotal3 += ulSourceWords;
-
-		// write any fuzzy and exact matches
-		{
-		  if ( iMatchesFound != 0 )
-		  {
-			int i = 0;
-			SHORT sTId = 1;
-
-			// create fuzzy file if none yet
-			if ( pData->hfOutFuzzy == NULL  )
-			{
-			  pData->hfOutFuzzy = fopen( pData->szOutFuzzy, "wb" ); 
-			  fOK = (pData->hfOutFuzzy != NULL); 
-			  if ( fOK )
-			  {
-				  CHAR szIso[20];
-				  TAGetIsoLang( pTAInput->pInD->szDocTargetLang , szIso );
-
-          swprintf ( pData->szUTF16Buffer, L"    <d lang=\"%S\" dt=\"sdoc\" url=\"", szIso );
-          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-
-          // escape and write document name (use UTF8 buffer as temporary storage)
-          MultiByteToWideChar( CP_ACP, 0, pData->szCurDoc, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
-          TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
-          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-
-          // write rest of d element data
-          swprintf ( pData->szUTF16Buffer, L"\" markup=\"%S\">\r\n", pData->szMarkup );
-          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-			  } /* endif */
-			} /* endif */
-
-			swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\" >", pData->iCurSeg3 );
-			if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-
-			while ( i < iMatchesFound )
-			{
-			  pLookupData->BestProposals[i]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
-			  swprintf ( pData->szUTF16Buffer, L"<t tid=\"%d\" tt=\"fm\" sc=\"%ld\" seg=\"%ld\" url=\"", sTId++, 
-				  pLookupData->BestProposals[i]->getFuzziness(), pLookupData->BestProposals[i]->getSegmentNum() );
-			  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-
-        // escape and write document name (use UTF8 buffer as temporary storage)
-        MultiByteToWideChar( CP_ACP, 0, pLookupData->szNameBuffer, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
-        TAEscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
-        if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-
-        // write rest of element 
-        wcscpy( pData->szUTF16Buffer, L"\">" );
-        if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-
-			  if ( fOK )
-			  {
-				  pLookupData->BestProposals[i]->getTarget( pLookupData->szSegmentBuffer, MAX_SEGMENT_SIZE );
-				  TAEscapeChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
-				  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, pData->szUTF16Buffer );
-				  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, L"</t>" );
-			  } /* endif */
-			  i++;
-			} /*endwhile */
-			if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy, L"</s>\r\n" );
-		  } /* endif */
-		} /* endif */
-		pData->iCurSeg3 += 1;
-    } /* endif */    
- } /* endif */
-
-  if ( fOK && pData->fFormat4 ) 
-  {
-    if ( (usFuzzy < 100) && (!pData->fNoDups4 || !fIsDuplicate) )
-    {
-      fOK = TAWriteMTSegmentToExpFile( pTAInput, pData->hfOut4, pszData, ulSegNum, pData->iCurSeg4, pData->fIncludeWordCountInfo, ulSourceWords );
-      pData->ulTotal4 += ulSourceWords;
-      pData->iCurSeg4 += 1;
-    } /* endif */
-  } /* endif */
-
-  if ( fOK && pData->fFormat5 ) 
-  {
-    if ( !pData->fNoDups5 || !fIsDuplicate )
-    {
-      fOK = TAWriteMTSegmentToExpFile( pTAInput, pData->hfOut5, pszData, ulSegNum, pData->iCurSeg5, pData->fIncludeWordCountInfo, ulSourceWords );
-      pData->ulTotal5 += ulSourceWords;
-      pData->iCurSeg5 += 1;
-    } /* endif */       
-  } /* endif */
-
-  if ( fOK && pData->fFormat6 ) 
-  {
-    if ( !pData->fNoDups6 || !fIsDuplicate )
-    {
-		fOK = TAWriteMTSegmentToXmlFile( pData, pData->hfOut6, pData->szCurDoc6, ulLength, pszData, ulSegNum, 6, pData->iCurSeg6 );
-    pData->ulTotal6 += ulSourceWords;
-
-		// write any fuzzy and exact matches and match source 
-		if ( iMatchesFound != 0 )
-		{
-		  int i = 0;
-		  SHORT sTId = 1;
-
-		  // create fuzzy file if none yet
-		  if ( pData->hfOutFuzzy6 == NULL  )
-		  {
-			pData->hfOutFuzzy6 = fopen( pData->szOutFuzzy6, "wb" ); 
-			fOK = (pData->hfOutFuzzy6 != NULL); 
-			if ( fOK )
-			{
-			  CHAR szIso[20];
-			  TAGetIsoLang( pTAInput->pInD->szDocTargetLang , szIso );
-			  swprintf ( pData->szUTF16Buffer, L"    <d lang=\"%S\" dt=\"sdoc\" url=\"%S\" markup=\"%S\">\r\n", szIso, pData->szCurDoc,
-				pData->szMarkup );
-			  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, pData->szUTF16Buffer );
-			} /* endif */
-		  } /* endif */
-
-		  swprintf ( pData->szUTF16Buffer, L"        <s sid=\"%ld\">\r\n           <tgt>\r\n", pData->iCurSeg6 );
-		  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, pData->szUTF16Buffer );
-
-		  while ( i < iMatchesFound )
-		  {
-			pLookupData->BestProposals[i]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
-			swprintf ( pData->szUTF16Buffer, L"              <t tid=\"%d\" tt=\"fm\" sc=\"%u\" seg=\"%lu\" url=\"%S\">", sTId++, 
-				pLookupData->BestProposals[i]->getFuzziness(), pLookupData->BestProposals[i]->getSegmentNum(), pLookupData->szNameBuffer );
-			if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, pData->szUTF16Buffer );
-
-			if ( fOK )
-			{
-			  pLookupData->BestProposals[i]->getTarget( pLookupData->szSegmentBuffer, sizeof(pLookupData->szSegmentBuffer)/sizeof(CHAR_W)  );
-				TAEscapeChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
-			  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, pData->szUTF16Buffer );
-			  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, L"</t>\r\n" );
-			} /* endif */
-			i++;
-		  } /*endwhile */
-
-		  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, L"           </tgt>\r\n           <src>\r\n" );
-
-		  i = 0;
-		  sTId = 1;
-		  while ( i < iMatchesFound )
-		  {
-			pLookupData->BestProposals[i]->getDocName( pLookupData->szNameBuffer, sizeof(pLookupData->szNameBuffer) );
-			swprintf ( pData->szUTF16Buffer, L"              <t tid=\"%d\" tt=\"fm\" sc=\"%u\" seg=\"%lu\" url=\"%S\">", sTId++, 
-			  pLookupData->BestProposals[i]->getFuzziness(), pLookupData->BestProposals[i]->getSegmentNum(), 
-			  pLookupData->szNameBuffer );
-			if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, pData->szUTF16Buffer );
-
-			if ( fOK )
-			{
-			  pLookupData->BestProposals[i]->getSource( pLookupData->szSegmentBuffer, sizeof(pLookupData->szSegmentBuffer)/sizeof(CHAR_W)  );
-			  TAEscapeChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
-			  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, pData->szUTF16Buffer );
-			  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, L"</t>\r\n" );
-			} /* endif */
-			i++;
-		  } /*endwhile */
-
-		  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOutFuzzy6, L"           </src>\r\n        </s>\r\n" );
-
-
-		} /* endif */
-		pData->iCurSeg6 += 1;
-    } /* endif */
-  } /* endif */
-
-  if ( fOK && pData->fFormat7 ) 
-  {
-    if ( (usFuzzy < 50) && (!pData->fNoDups7 || !fIsDuplicate) )
-    {
-      fOK = TAWriteMTSegmentToXmlFile( pData, pData->hfOut7, pData->szCurDoc7, ulLength, pszData, ulSegNum, 1, pData->iCurSeg7 );
-      pData->ulTotal7 += ulSourceWords;
-      pData->iCurSeg7 += 1;
-    } /* endif */
-  } /* endif */
-	
-  if ( fOK && pData->fFormat8 ) 
-  {
-    if ( (usFuzzy < 50) && (!pData->fNoDups8 || !fIsDuplicate) )
-    {
-      fOK = TAWriteMTSegmentToExpFile( pTAInput, pData->hfOut8, pszData, ulSegNum, pData->iCurSeg8, pData->fIncludeWordCountInfo, ulSourceWords );
-      pData->ulTotal8 += ulSourceWords;
-      pData->iCurSeg8 += 1;
-    } /* endif */
-  } /* endif */
-
-  if ( fOK && pData->fFormat9 ) 
-  {
-    BOOL fIsTranslated = FALSE;
-
-    fOK = TAWriteMTSegmentToXliffFile( pTAInput, pData, pData->hfOut9, pData->szCurDoc9, ulLength, pszData, ulSegNum, 1, pData->iCurSeg9 );
-    pData->ulTotal9 += ulSourceWords;
-    pData->iCurSeg9 += 1;
-
-    if ( pSeg && pSeg->pDataW && *(pSeg->pDataW) && (pSeg->qStatus == QF_XLATED) ) 
-      fIsTranslated = TRUE ;
-
-
-    // write meta data for this segment
-    {
-       wchar_t *szMDA_META = L"  <mda:meta type=\"%s\">%s</mda:meta>\r\n" ;
-       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L" <mda:metadata><mda:metagroup category=\"otm\">\r\n" );
-       swprintf( (wchar_t*)pData->bUTF8Buffer, L"%ld", ulSegNum ) ;
-       swprintf ( pData->szUTF16Buffer, szMDA_META, L"segnum", (wchar_t*)pData->bUTF8Buffer );
-       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-       if ( pTAInput->pInD->szContext[0] ) {
-          TAEscapeXliffChars( pTAInput->pInD->szContext, (wchar_t*)pData->bUTF8Buffer );
-          swprintf ( pData->szUTF16Buffer, szMDA_META, L"context", (wchar_t*)pData->bUTF8Buffer );
-          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-       }
-       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L" </mda:metagroup></mda:metadata>\r\n" );
+      // skip duplicate ones
+      fAddToOutput = FALSE;
     }
-
-    // write any fuzzy and exact matches
+    else if ( iMatchesFound == 0 )
     {
-      if ( iMatchesFound != 0 )
+      // no match for this proposal, so add it to output file
+      fAddToOutput = TRUE;
+    }
+    else if ( usFuzzy < 100) 
+    {
+      // check a segment having a fuzzy proposal
+
+        // add segment with fuzzy proposal when its fuzziness is below the specified threshhold
+      fAddToOutput = (usFuzzy <= pOutFile->usNoFuzzyAbove);
+    }
+    else
+    {
+      // check segments having an exact match
+
+      OtmProposal::eProposalType eType = pLookupData->BestProposals[0]->getType();
+      if ( pOutFile->fNoHamster && ((eType == OtmProposal::eptGlobalMemory) || (eType == OtmProposal::eptGlobalMemoryStar)) )
       {
-        int i = 0;
-        int iFuzziness ;
-        SHORT sMatchId = 1;
-        wchar_t  szMatchType[8];
-        wchar_t  szOrigin[15];
-        wchar_t *szINDENT2 = L"  ";
-        wchar_t *szINDENT3 = L"   ";
-        wchar_t *szINDENT4 = L"    ";
-        wchar_t *szMDA_META  = L"%s<mda:meta type=\"%s\">%S</mda:meta>\r\n" ;
-        wchar_t *szMDA_METAs = L"%s<mda:meta type=\"%s\">%s</mda:meta>\r\n" ;
-        int iAddInfoLen;
-        HADDDATAKEY hKey;
-
-        swprintf ( pData->szUTF16Buffer, L" <mtc:matches>\r\n" );
-        if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-
-        while ( i < iMatchesFound )
-        {
-          iFuzziness = pLookupData->BestProposals[i]->getFuzziness();
-          wcscpy( szMatchType, L"tm" ) ;
-          wcscpy( szOrigin, L"OpenTM2" ) ;
-          if ( iFuzziness == 100 ) 
-          {
-             if ( pLookupData->BestProposals[i]->getMatchType() == OtmProposal::emtExactExact) {
-                wcscpy( szMatchType, L"idm" ) ; 
-             } else
-             if ( pLookupData->BestProposals[i]->getMatchType() == OtmProposal::emtExactContext) {
-                wcscpy( szMatchType, L"icm" ) ; 
-             } else
-             if ( pLookupData->BestProposals[i]->getType() == OtmProposal::eptMachine ) {
-                wcscpy( szMatchType, L"mt" ) ; 
-             }
-          }
-
-          iAddInfoLen = pLookupData->BestProposals[i]->getAddInfoLen();
-          if ( fOK && (iAddInfoLen != 0) ) {
-            pLookupData->BestProposals[i]->getAddInfo( pLookupData->szAddInfoBuffer, sizeof(pLookupData->szAddInfoBuffer) / sizeof(wchar_t) );
-            hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"HAMSTER" );
-            if ( hKey ) {
-               wcscpy( szOrigin, L"Hamster" ) ;
-            }
-          }
-
-          swprintf ( pData->szUTF16Buffer, L"%s<mtc:match id=\"%d\" origin=\"%s\" matchQuality=\"%d\" type=\"%s\">\r\n",
-                     szINDENT2, sMatchId++, szOrigin, iFuzziness, szMatchType );
-          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-
-
-          // write meta data for this match   
-          {
-            swprintf ( pData->szUTF16Buffer, L"%s<mda:metadata><mda:metagroup category=\"otm\">\r\n", szINDENT3 );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-      //    pLookupData->BestProposals[i]->getID( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
-      //    swprintf ( pData->szUTF16Buffer, L"            <mda:meta type=\"otm:memnum\">%S</mda:meta>\r\n", (CHAR*)pData->bUTF8Buffer ); 
-      //    if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-      //    swprintf ( pData->szUTF16Buffer, L"            <mda:meta type=\"otm:memnum\">%ld</mda:meta>\r\n", pLookupData->BestProposals[i]->getMemoryIndex() ); 
-      //    if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            swprintf ( pData->szUTF16Buffer, L"%s<mda:meta type=\"docsegnum\">%ld</mda:meta>\r\n", szINDENT4, pLookupData->BestProposals[i]->getSegmentNum() ); 
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            pLookupData->BestProposals[i]->getDocName( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
-            if ( ! pData->bUTF8Buffer[0] ) 
-               pLookupData->BestProposals[i]->getDocShortName( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
-            swprintf ( pData->szUTF16Buffer, szMDA_META, szINDENT4, L"docname", (CHAR*)pData->bUTF8Buffer ); 
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            pLookupData->BestProposals[i]->getDocShortName( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
-//          swprintf ( pData->szUTF16Buffer, szMDA_META, szINDENT4, L"docshortname", (CHAR*)pData->bUTF8Buffer ); 
-//          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            pLookupData->BestProposals[i]->getMarkup( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
-            swprintf ( pData->szUTF16Buffer, szMDA_META, szINDENT4, L"markup", (CHAR*)pData->bUTF8Buffer );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            swprintf ( pData->szUTF16Buffer, L"%s<mda:meta type=\"datetime\">%016lu</mda:meta>\r\n", szINDENT4, pLookupData->BestProposals[i]->getUpdateTime() );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            pLookupData->BestProposals[i]->getContext( pData->szUTF16Buffer, MAX_SEGMENT_SIZE );
-            if ( pData->szUTF16Buffer[0] ) {
-               TAEscapeXliffChars( pData->szUTF16Buffer, (wchar_t*)pData->bUTF8Buffer );
-               swprintf ( pData->szUTF16Buffer, L"%s<mda:meta type=\"context\">%s</mda:meta>\r\n", szINDENT4, (wchar_t*)pData->bUTF8Buffer );
-               if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            }
-           
-            // handle any annotation data of the match
-            {
-              if ( fOK && (iAddInfoLen != 0) )
-              {
-                  pLookupData->BestProposals[i]->getAddInfo( pLookupData->szAddInfoBuffer, sizeof(pLookupData->szAddInfoBuffer) / sizeof(wchar_t) );
-                  hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"Note" );
-                  if ( hKey != NULL )
-                  {
-                    MADGetAttr( hKey, L"style", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"notestyle", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                    MDAGetValueForKey( hKey, (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"note", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                  } /* endif */
-           
-                  hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"MT" );
-                  if ( hKey != NULL )
-                  {
-                    MADGetAttr( hKey, L"TM:MatchType", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"MatchType", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                    MADGetAttr( hKey, L"MT:ServiceID", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"ServiceID", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                    MADGetAttr( hKey, L"MT:MetricName", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"MetricName", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                    MADGetAttr( hKey, L"MT:MetricValue", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"MetricValue", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                    MADGetAttr( hKey, L"PE:EditDistanceChars", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                    if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                       swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"EditDistance", (wchar_t*)pData->bUTF8Buffer ) ;
-                       if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    }
-                //  MADGetAttr( hKey, L"PE:EditDistanceWords", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                //  if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                //     swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"EditDistanceWords", (wchar_t*)pData->bUTF8Buffer ) ;
-                //     if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                //  }
-                  } /* endif */
-           
-                  hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"HAMSTER" );
-                  if ( hKey != NULL )
-                  {
-                //  swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"ServiceID", L"Hamster" ) ;
-                //  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                    hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"CTID" );
-                    if ( hKey != NULL ) {
-                       MDAGetValueForKey( hKey, (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
-                       if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
-                          swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"ctid", (wchar_t*)pData->bUTF8Buffer ) ;
-                          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-                       }
-                    }
-                  } /* endif */
-           
-              } /* endif */                      
-            }
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"   </mda:metagroup></mda:metadata>\r\n" );
-          }
-
-          if ( fOK )
-          {
-            swprintf ( pData->szUTF16Buffer, L"   <source>" );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            pLookupData->BestProposals[i]->getSource( pLookupData->szSegmentBuffer, MAX_SEGMENT_SIZE );
-            TAEscapeXliffChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            swprintf ( pData->szUTF16Buffer, L"</source>\r\n" );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-
-            swprintf ( pData->szUTF16Buffer, L"   <target>" );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            pLookupData->BestProposals[i]->getTarget( pLookupData->szSegmentBuffer, MAX_SEGMENT_SIZE );
-            TAEscapeXliffChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-            swprintf ( pData->szUTF16Buffer, L"</target>\r\n" );
-            if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-          } /* endif */
-
-          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"  </mtc:match>\r\n" );
-
-          i++;
-        } /*endwhile */
-        if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L" </mtc:matches>\r\n" );
+        // do no add Hamster match
+        fAddToOutput = FALSE;
+      }
+      else if ( pOutFile->fNoMachine && (eType == OtmProposal::eptMachine) )
+      {
+        // do no add MT match
+        fAddToOutput = FALSE;
+      }
+      else if ( pOutFile->fNoExact && (eType == OtmProposal::eptManual) )
+      {
+        // do no add normal (=manual) exact match
+        fAddToOutput = FALSE;
+      }
+      else
+      {
+        // add segment as no filter criteria matches this segment
+        fAddToOutput = TRUE;
       } /* endif */
     } /* endif */
 
-    // write source text
+    // write segment to output file
+    if ( fAddToOutput )
     {
-      if ( fIsTranslated ) 
-        swprintf ( pData->szUTF16Buffer, L" <segment state=\"translated\">\r\n" );
-      else
-        swprintf ( pData->szUTF16Buffer, L" <segment state=\"initial\">\r\n" );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"  <source>" );
-      TAEscapeXliffChars( pszData, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-      if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"</source>\r\n" );
-    }
+      switch( pOutFile->eFormat )
+      {
+        case XML_FORMAT: 
+          {
+            fOK = TAWriteMTSegmentToXmlFile( pData, pOutFile, ulLength, pszData, ulSegNum );
+            pOutFile->ulTotal += ulSourceWords;
 
-    // write target text
-    {
-      if ( fIsTranslated ) {
-         if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"  <target>" );
-         TAEscapeXliffChars( pSeg->pDataW, pData->szUTF16Buffer );
-         if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
-         if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"</target>\r\n" );
-      }
-    }
+            if ( pOutFile->fWithMatch || pOutFile->fWithMatchAndSource )
+            {
+              fOK = TAWriteProposalsToXML( pTAInput, pLookupData, pData, pOutFile, iMatchesFound );
+            } /* endif */
+            pOutFile->iCurSeg += 1;
+            break;
+          }
 
-    if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L" </segment>\r\n" );
+        case EXP_FORMAT: 
+          {
+            fOK = TAWriteMTSegmentToExpFile( pTAInput, pOutFile, pszData, ulSegNum, ulSourceWords );
+            pOutFile->ulTotal += ulSourceWords;
+            pOutFile->iCurSeg += 1;
+            break;
+          }
 
-    if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, L"</unit>\r\n" );
-  }
+        case TMX_FORMAT: 
+          {
+            fOK = TAWriteMTSegmentToTmxFile( pTAInput, pData, pOutFile, pszData, ulSegNum );
+            pOutFile->ulTotal += ulSourceWords;
+            pOutFile->iCurSeg += 1;
+            break;
+          }
 
-    // add segment to temporary memory
-  if ( pData->fNoDupsProcessing )
+        case XLIFF_FORMAT: 
+          {
+            BOOL fIsTranslated = FALSE;
+
+            fOK = TAWriteMTSegmentToXliffFile( pTAInput, pData, pOutFile, pOutFile->szCurDoc, ulLength, pszData, ulSegNum, 1, pOutFile->iCurSeg );
+            pOutFile->ulTotal += ulSourceWords;
+            pOutFile->iCurSeg += 1;
+
+            if ( pSeg && pSeg->pDataW && *(pSeg->pDataW) && (pSeg->qStatus == QF_XLATED) ) 
+              fIsTranslated = TRUE ;
+
+
+            // write meta data for this segment
+            {
+               wchar_t *szMDA_META = L"  <mda:meta type=\"%s\">%s</mda:meta>\r\n" ;
+               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L" <mda:metadata><mda:metagroup category=\"otm\">\r\n" );
+               swprintf( (wchar_t*)pData->bUTF8Buffer, L"%ld", ulSegNum ) ;
+               swprintf ( pData->szUTF16Buffer, szMDA_META, L"segnum", (wchar_t*)pData->bUTF8Buffer );
+               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+               if ( pTAInput->pInD->szContext[0] ) {
+                  TAEscapeXliffChars( pTAInput->pInD->szContext, (wchar_t*)pData->bUTF8Buffer );
+                  swprintf ( pData->szUTF16Buffer, szMDA_META, L"context", (wchar_t*)pData->bUTF8Buffer );
+                  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+               }
+               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L" </mda:metagroup></mda:metadata>\r\n" );
+            }
+
+            // write any fuzzy and exact matches
+            {
+              if ( iMatchesFound != 0 )
+              {
+                int i = 0;
+                int iFuzziness ;
+                SHORT sMatchId = 1;
+                wchar_t  szMatchType[8];
+                wchar_t  szOrigin[15];
+                wchar_t *szINDENT2 = L"  ";
+                wchar_t *szINDENT3 = L"   ";
+                wchar_t *szINDENT4 = L"    ";
+                wchar_t *szMDA_META  = L"%s<mda:meta type=\"%s\">%S</mda:meta>\r\n" ;
+                wchar_t *szMDA_METAs = L"%s<mda:meta type=\"%s\">%s</mda:meta>\r\n" ;
+                int iAddInfoLen;
+                HADDDATAKEY hKey;
+
+                swprintf ( pData->szUTF16Buffer, L" <mtc:matches>\r\n" );
+                if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+
+                while ( i < iMatchesFound )
+                {
+                  iFuzziness = pLookupData->BestProposals[i]->getFuzziness();
+                  wcscpy( szMatchType, L"tm" ) ;
+                  wcscpy( szOrigin, L"OpenTM2" ) ;
+                  if ( iFuzziness == 100 ) 
+                  {
+                     if ( pLookupData->BestProposals[i]->getMatchType() == OtmProposal::emtExactExact) {
+                        wcscpy( szMatchType, L"idm" ) ; 
+                     } else
+                     if ( pLookupData->BestProposals[i]->getMatchType() == OtmProposal::emtExactSameDoc) {
+                        wcscpy( szMatchType, L"icm" ) ; 
+                     } else
+                     if ( pLookupData->BestProposals[i]->getType() == OtmProposal::eptMachine ) {
+                        wcscpy( szMatchType, L"mt" ) ; 
+                     }
+                  }
+
+                  iAddInfoLen = pLookupData->BestProposals[i]->getAddInfoLen();
+                  if ( fOK && (iAddInfoLen != 0) ) {
+                    pLookupData->BestProposals[i]->getAddInfo( pLookupData->szAddInfoBuffer, sizeof(pLookupData->szAddInfoBuffer) / sizeof(wchar_t) );
+                    hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"HAMSTER" );
+                    if ( hKey ) {
+                       wcscpy( szOrigin, L"Hamster" ) ;
+                    }
+                  }
+
+                  swprintf ( pData->szUTF16Buffer, L"%s<mtc:match id=\"%d\" origin=\"%s\" matchQuality=\"%d\" type=\"%s\">\r\n",
+                             szINDENT2, sMatchId++, szOrigin, iFuzziness, szMatchType );
+                  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+
+
+                  // write meta data for this match   
+                  {
+                    swprintf ( pData->szUTF16Buffer, L"%s<mda:metadata><mda:metagroup category=\"otm\">\r\n", szINDENT3 );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+              //    pLookupData->BestProposals[i]->getID( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
+              //    swprintf ( pData->szUTF16Buffer, L"            <mda:meta type=\"otm:memnum\">%S</mda:meta>\r\n", (CHAR*)pData->bUTF8Buffer ); 
+              //    if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
+              //    swprintf ( pData->szUTF16Buffer, L"            <mda:meta type=\"otm:memnum\">%ld</mda:meta>\r\n", pLookupData->BestProposals[i]->getMemoryIndex() ); 
+              //    if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
+                    swprintf ( pData->szUTF16Buffer, L"%s<mda:meta type=\"docsegnum\">%ld</mda:meta>\r\n", szINDENT4, pLookupData->BestProposals[i]->getSegmentNum() ); 
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    pLookupData->BestProposals[i]->getDocName( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
+                    if ( ! pData->bUTF8Buffer[0] ) 
+                       pLookupData->BestProposals[i]->getDocShortName( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
+                    swprintf ( pData->szUTF16Buffer, szMDA_META, szINDENT4, L"docname", (CHAR*)pData->bUTF8Buffer ); 
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    pLookupData->BestProposals[i]->getDocShortName( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
+        //          swprintf ( pData->szUTF16Buffer, szMDA_META, szINDENT4, L"docshortname", (CHAR*)pData->bUTF8Buffer ); 
+        //          if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
+                    pLookupData->BestProposals[i]->getMarkup( (CHAR*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE );
+                    swprintf ( pData->szUTF16Buffer, szMDA_META, szINDENT4, L"markup", (CHAR*)pData->bUTF8Buffer );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    swprintf ( pData->szUTF16Buffer, L"%s<mda:meta type=\"datetime\">%016lu</mda:meta>\r\n", szINDENT4, pLookupData->BestProposals[i]->getUpdateTime() );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    pLookupData->BestProposals[i]->getContext( pData->szUTF16Buffer, MAX_SEGMENT_SIZE );
+                    if ( pData->szUTF16Buffer[0] ) {
+                       TAEscapeXliffChars( pData->szUTF16Buffer, (wchar_t*)pData->bUTF8Buffer );
+                       swprintf ( pData->szUTF16Buffer, L"%s<mda:meta type=\"context\">%s</mda:meta>\r\n", szINDENT4, (wchar_t*)pData->bUTF8Buffer );
+                       if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    }
+           
+                    // handle any annotation data of the match
+                    {
+                      if ( fOK && (iAddInfoLen != 0) )
+                      {
+                          pLookupData->BestProposals[i]->getAddInfo( pLookupData->szAddInfoBuffer, sizeof(pLookupData->szAddInfoBuffer) / sizeof(wchar_t) );
+                          hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"Note" );
+                          if ( hKey != NULL )
+                          {
+                            MADGetAttr( hKey, L"style", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"notestyle", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                            MDAGetValueForKey( hKey, (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"note", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                          } /* endif */
+           
+                          hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"MT" );
+                          if ( hKey != NULL )
+                          {
+                            MADGetAttr( hKey, L"TM:MatchType", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"MatchType", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                            MADGetAttr( hKey, L"MT:ServiceID", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"ServiceID", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                            MADGetAttr( hKey, L"MT:MetricName", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"MetricName", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                            MADGetAttr( hKey, L"MT:MetricValue", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"MetricValue", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                            MADGetAttr( hKey, L"PE:EditDistanceChars", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                            if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                               swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"EditDistance", (wchar_t*)pData->bUTF8Buffer ) ;
+                               if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                            }
+                        //  MADGetAttr( hKey, L"PE:EditDistanceWords", (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                        //  if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                        //     swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"EditDistanceWords", (wchar_t*)pData->bUTF8Buffer ) ;
+                        //     if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
+                        //  }
+                          } /* endif */
+           
+                          hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"HAMSTER" );
+                          if ( hKey != NULL )
+                          {
+                        //  swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"ServiceID", L"Hamster" ) ;
+                        //  if ( fOK ) fOK = TAWriteInUTF8( pData, pData->hfOut9, pData->szUTF16Buffer );
+                            hKey = MADSearchKey( pLookupData->szAddInfoBuffer, L"CTID" );
+                            if ( hKey != NULL ) {
+                               MDAGetValueForKey( hKey, (wchar_t*)pData->bUTF8Buffer, MAX_SEGMENT_SIZE, L"" );
+                               if ( (wchar_t*)pData->bUTF8Buffer[0] ) {
+                                  swprintf ( pData->szUTF16Buffer, szMDA_METAs, szINDENT4, L"ctid", (wchar_t*)pData->bUTF8Buffer ) ;
+                                  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                               }
+                            }
+                          } /* endif */
+           
+                      } /* endif */                      
+                    }
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"   </mda:metagroup></mda:metadata>\r\n" );
+                  }
+
+                  if ( fOK )
+                  {
+                    swprintf ( pData->szUTF16Buffer, L"   <source>" );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    pLookupData->BestProposals[i]->getSource( pLookupData->szSegmentBuffer, MAX_SEGMENT_SIZE );
+                    TAEscapeXliffChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    swprintf ( pData->szUTF16Buffer, L"</source>\r\n" );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+
+                    swprintf ( pData->szUTF16Buffer, L"   <target>" );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    pLookupData->BestProposals[i]->getTarget( pLookupData->szSegmentBuffer, MAX_SEGMENT_SIZE );
+                    TAEscapeXliffChars( pLookupData->szSegmentBuffer, pData->szUTF16Buffer );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                    swprintf ( pData->szUTF16Buffer, L"</target>\r\n" );
+                    if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                  } /* endif */
+
+                  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"  </mtc:match>\r\n" );
+
+                  i++;
+                } /*endwhile */
+                if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L" </mtc:matches>\r\n" );
+              } /* endif */
+            } /* endif */
+
+            // write source text
+            {
+              if ( fIsTranslated ) 
+                swprintf ( pData->szUTF16Buffer, L" <segment state=\"translated\">\r\n" );
+              else
+                swprintf ( pData->szUTF16Buffer, L" <segment state=\"initial\">\r\n" );
+              if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+              if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"  <source>" );
+              TAEscapeXliffChars( pszData, pData->szUTF16Buffer );
+              if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+              if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"</source>\r\n" );
+            }
+
+            // write target text
+            {
+              if ( fIsTranslated ) {
+                 if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"  <target>" );
+                 TAEscapeXliffChars( pSeg->pDataW, pData->szUTF16Buffer );
+                 if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+                 if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"</target>\r\n" );
+              }
+            }
+
+            if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L" </segment>\r\n" );
+
+            if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, L"</unit>\r\n" );
+          }
+          break;
+      } /* endswitch */
+    } /* endif */
+  } /* endfor */
+
+  // add segment to temporary memory
+  if ( pData->hDupTM != NULL )
   {
     OtmProposal PropData;
     PANALYSISMEMLOOKUPDATA pLookupData = (PANALYSISMEMLOOKUPDATA)pInD->pvMemoryLookupData;
@@ -6584,7 +6999,7 @@ BOOL TAWriteMTSegment( PTAINPUT pTAInput, ULONG ulLength, PSZ_W pszData, ULONG u
 }
 
 
-BOOL TAWriteXmlEnd( PXMLOUTDATA pData, FILE *hfOut, BOOL fIncludeWordCountInfo, ULONG ulTotalWords )
+BOOL TAWriteXmlEnd( PMTOUTDATA pData, FILE *hfOut, BOOL fIncludeWordCountInfo, ULONG ulTotalWords )
 {
   BOOL fOK = TRUE;
   if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"   </docs>\r\n" );
@@ -6612,7 +7027,18 @@ BOOL TAWriteExpEnd( FILE *hfOut, BOOL fIncludeWordCountInfo, ULONG ulTotalWords,
   return( fOK );
 } /* end of function TAWriteExpEnd */
 
-BOOL TAWriteXliffEnd( PXMLOUTDATA pData, FILE *hfOut )
+BOOL TAWriteTmxEnd( PMTOUTDATA pData, FILE *hfOut, BOOL fIncludeWordCountInfo, ULONG ulTotalWords )
+{
+  BOOL fOK = TRUE;
+
+  fIncludeWordCountInfo; ulTotalWords;
+
+  if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"    </body>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L"</tmx>\r\n" );
+  return( fOK );
+} /* end of function TAWriteTmxEnd */
+
+BOOL TAWriteXliffEnd( PMTOUTDATA pData, FILE *hfOut )
 {
   BOOL fOK = TRUE;
   if ( fOK ) fOK = TAWriteInUTF8( pData, hfOut, L" </file>\r\n" );
@@ -6623,42 +7049,46 @@ BOOL TAWriteXliffEnd( PXMLOUTDATA pData, FILE *hfOut )
 BOOL TACloseMTFile( PTAINPUT pTAInput )
 {
   BOOL fOK = TRUE;
-  PXMLOUTDATA pData = (PXMLOUTDATA)pTAInput->pInD->pCBMachTransFile;
+  PMTOUTDATA pData = (PMTOUTDATA)pTAInput->pInD->pCBMachTransFile;
 
-  // end current doc (if any) 
+  if ( pData == NULL ) return( TRUE );
+
+  // end current doc for XML type output files
   if ( pData->szCurDoc[0] != 0  )
   {
-    if ( fOK && pData->fFormat1 ) fOK = TAWriteDocXmlEnd( pData, pData->hfOut1, 1 );
-    if ( fOK && pData->fFormat2 ) fOK = TAWriteDocXmlEnd( pData, pData->hfOut2, 2 );
-    if ( fOK && pData->fFormat3 ) fOK = TAWriteDocXmlEnd( pData, pData->hfOut3, 3 );
-    if ( fOK && pData->fFormat6 ) fOK = TAWriteDocXmlEnd( pData, pData->hfOut6, 6 );
-    if ( fOK && pData->fFormat7 ) fOK = TAWriteDocXmlEnd( pData, pData->hfOut7, 7 );
+    for( int i = 0; fOK && (i < pData->iNumOfOutFiles); i++ )
+    {
+      if ( (pData->OutFile[i].eFormat == XML_FORMAT) && (pData->OutFile[i].hfOut != NULL) )
+      {
+        fOK = TAWriteDocXmlEnd( pData, pData->OutFile + i );
+      } /* endif */
+    } /* endfor */
   } /* endif */
 
-  // write XML end
-  if ( fOK && pData->fFormat1 ) fOK = TAWriteXmlEnd( pData, pData->hfOut1, pData->fIncludeWordCountInfo, pData->ulTotal1 );
-  if ( fOK && pData->fFormat2 ) fOK = TAWriteXmlEnd( pData, pData->hfOut2, pData->fIncludeWordCountInfo, pData->ulTotal2 );
-  if ( fOK && pData->fFormat3 ) fOK = TAWriteXmlEnd( pData, pData->hfOut3, pData->fIncludeWordCountInfo, pData->ulTotal3 );
-  if ( fOK && pData->fFormat4 ) fOK = TAWriteExpEnd( pData->hfOut4, pData->fIncludeWordCountInfo, pData->ulTotal4, pData->ulCountPos4 );
-  if ( fOK && pData->fFormat5 ) fOK = TAWriteExpEnd( pData->hfOut5, pData->fIncludeWordCountInfo, pData->ulTotal5, pData->ulCountPos5  );
-  if ( fOK && pData->fFormat6 ) fOK = TAWriteXmlEnd( pData, pData->hfOut6, pData->fIncludeWordCountInfo, pData->ulTotal6 );
-  if ( fOK && pData->fFormat7 ) fOK = TAWriteXmlEnd( pData, pData->hfOut7, pData->fIncludeWordCountInfo, pData->ulTotal7 );
-  if ( fOK && pData->fFormat8 ) fOK = TAWriteExpEnd( pData->hfOut8, pData->fIncludeWordCountInfo, pData->ulTotal8, pData->ulCountPos8  );
-  if ( fOK && pData->fFormat9 ) fOK = TAWriteXliffEnd( pData, pData->hfOut9 );
+  // write file end data
+  for( int i = 0; fOK && (i < pData->iNumOfOutFiles); i++ )
+  {
+    PMTOUTFILE pOutFile = pData->OutFile + i;
+    if (  pData->OutFile[i].hfOut != NULL ) 
+    {
+      switch ( pOutFile->eFormat )
+      {
+        case XML_FORMAT: fOK = TAWriteXmlEnd( pData, pOutFile->hfOut, pOutFile->fIncludeWordCountInfo, pOutFile->ulTotal ); break;
+        case EXP_FORMAT: fOK = TAWriteExpEnd( pOutFile->hfOut, pOutFile->fIncludeWordCountInfo, pOutFile->ulTotal, pOutFile->ulCountPos ); break;
+        case TMX_FORMAT: fOK = TAWriteTmxEnd( pData, pOutFile->hfOut, pOutFile->fIncludeWordCountInfo, pOutFile->ulTotal ); break;
+        case XLIFF_FORMAT: fOK = TAWriteXliffEnd( pData, pOutFile->hfOut ); break;
+      } /* endswitch */
+    } /* endif */
+  } /* endfor */
 
-  // close files 
-  if ( pData && pData->hfOut1 ) fclose( pData->hfOut1 );
-  if ( pData && pData->hfOut2 ) fclose( pData->hfOut2 );
-  if ( pData && pData->hfOut3 ) fclose( pData->hfOut3 );
-  if ( pData && pData->hfOut4 ) fclose( pData->hfOut4 );
-  if ( pData && pData->hfOut5 ) fclose( pData->hfOut5 );
-  if ( pData && pData->hfOut6 ) fclose( pData->hfOut6 );
-  if ( pData && pData->hfOut7 ) fclose( pData->hfOut7 );
-  if ( pData && pData->hfOut8 ) fclose( pData->hfOut8 );
-  if ( pData && pData->hfOut9 ) fclose( pData->hfOut9 );
-
+  // close output files
+  for( int i = 0; i < pData->iNumOfOutFiles; i++ )
+  {
+    if ( pData->OutFile[i].hfOut ) fclose( pData->OutFile[i].hfOut );
+  } /* endfor */
+  
   // close and delete temporary memory
-  if ( pData->fNoDupsProcessing )
+  if ( pData->hDupTM )
   {
       MemoryFactory *pFactory = MemoryFactory::getInstance();
       PTAINSTDATA pInD = (PTAINSTDATA) pTAInput->pInD;

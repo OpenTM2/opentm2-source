@@ -486,6 +486,75 @@ BOOL TAReadBlock (PTAINPUT pTAInput)
  } /* end of TAReadBlock */
 
 
+// count translatable and not translated segments in a STARGET document
+static USHORT TACountTranslatableSegments
+(
+  PSZ    pszFolObjName,                // folder object name
+  PSZ    pszDocShortName,              // document short name
+  PULONG pulTranslatableSegments,      // ptr to buffer receiving number of translatable segments
+  PULONG pulTranslatedSegments,        // ptr to buffer receiving number of translated segments
+  PULONG pulNotTranslatedSegments      // ptr to buffer receiving number of not translatable segments
+)
+{
+   USHORT      usRC = NO_ERROR;
+   PTBDOCUMENT pDoc = NULL;
+   ULONG       ulSegNum = 1;
+   PTBSEGMENT  pSeg = NULL;
+   CHAR   szTargetDoc[MAX_LONGFILESPEC];
+
+   // setup name of segmented target document
+   UtlMakeEQFPath( szTargetDoc, pszFolObjName[0], DIRSEGTARGETDOC_PATH, UtlGetFnameFromPath( pszFolObjName ) );
+   strcat( szTargetDoc, "\\" );
+   strcat( szTargetDoc, pszDocShortName );
+
+   // return ASAP if there there is no segmented target document
+   if ( !UtlFileExist( szTargetDoc ) )
+   {
+     return( 0 );
+   } /* endif */
+
+   // initalize result fields
+   if ( pulTranslatableSegments != NULL ) *pulTranslatableSegments = 0;
+   if ( pulTranslatedSegments != NULL ) *pulTranslatedSegments = 0;
+   if ( pulNotTranslatedSegments != NULL ) *pulNotTranslatedSegments = 0;
+
+   // allocate buffer areas
+   if ( !usRC ) if ( !UtlAlloc( (PVOID *)&pDoc, 0L, (LONG) sizeof(TBDOCUMENT), ERROR_STORAGE ) )usRC = ERROR_NOT_ENOUGH_MEMORY;
+   if ( !usRC ) usRC = TALoadTagTable( DEFAULT_QFTAG_TABLE, (PLOADEDTABLE *)&pDoc->pQFTagTable, TRUE, TRUE );
+
+   // load segmented file
+   if ( !usRC )
+   {
+     usRC = EQFBFileReadExW( szTargetDoc, pDoc, 0L );
+   } /* endif */
+
+   while ( !usRC && (ulSegNum < pDoc->ulMaxSeg) )
+   {
+     pSeg = EQFBGetSegW( pDoc, ulSegNum );
+     if ( pSeg && !pSeg->SegFlags.Joined )
+     {
+       if ( pSeg->qStatus != QF_NOP )
+       {
+         if ( pulTranslatableSegments != NULL ) *pulTranslatableSegments += 1;
+         if ( pSeg->qStatus != QF_XLATED )
+         {
+           if ( pulNotTranslatedSegments != NULL ) *pulNotTranslatedSegments += 1;
+         }
+         else
+         {
+           if ( pulTranslatedSegments != NULL ) *pulTranslatedSegments += 1;
+         } /* endif not translated segment */
+       } /* endif translatable segment */
+     } /* endif */
+     ulSegNum++;
+   } /* endwhile */
+
+   // cleanup
+   TAFreeDoc((PVOID *) &pDoc);
+
+   return( usRC == NO_ERROR );
+} /* end of function TACountTranslatableSegments */
+
 //+----------------------------------------------------------------------------+
 //|External function                                                           |
 //+----------------------------------------------------------------------------+
@@ -623,6 +692,12 @@ BOOL SetSegDate
       pPropDocument->lLargeFuzzLevel  = (LONG)UtlQueryULong( QL_LARGELOOKUPFUZZLEVEL );
       pPropDocument->lMediumFuzzLevel = (LONG)UtlQueryULong( QL_MEDIUMLOOKUPFUZZLEVEL );
       pPropDocument->lSmallFuzzLevel  = (LONG)UtlQueryULong( QL_SMALLLOOKUPFUZZLEVEL );
+
+      // GQ 2016/10/28: count number of translatable segments and not-translated segments when these values have not been set already
+      if ( (pInD->ulTotalSegs == 0) || (pPropDocument->ulNotTranslated == 0) )
+      {
+        TACountTranslatableSegments( pTAInput->szFolder, pInD->pszCurSourceFile, &(pInD->ulTotalSegs), &(pInD->ulSegsReplaced), &(pInD->ulSegsNotReplaced) );
+      } /* endif */
 
 
       /************************************************************** 17@20A  */

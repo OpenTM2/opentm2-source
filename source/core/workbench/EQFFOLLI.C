@@ -771,6 +771,7 @@ LPARAM           mp2
               UtlMenuEnableItem( PID_UTILS_MI_REPORT );
               UtlMenuEnableItem( PID_UTILS_MI_ARCHTM );
               UtlMenuEnableItem( PID_UTILS_MI_EXPORTSEGS );
+              UtlMenuEnableItem( PID_UTILS_MI_DELETEDOCS );
               UtlMenuEnableItem( PID_FILE_MI_PROPERTIES );
               UtlMenuEnableItem( PID_FILE_MI_HTMLPROPS );
               UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
@@ -797,6 +798,7 @@ LPARAM           mp2
               UtlMenuEnableItem( PID_UTILS_MI_MT );
               UtlMenuEnableItem( PID_UTILS_MI_ARCHTM );
               UtlMenuEnableItem( PID_UTILS_MI_EXPORTSEGS );
+              UtlMenuEnableItem( PID_UTILS_MI_DELETEDOCS );
               UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
               UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
               UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
@@ -810,6 +812,7 @@ LPARAM           mp2
               UtlMenuEnableItem( PID_UTILS_MI_MT );
               UtlMenuEnableItem( PID_UTILS_MI_ARCHTM );
               UtlMenuEnableItem( PID_UTILS_MI_EXPORTSEGS );
+              UtlMenuEnableItem( PID_UTILS_MI_DELETEDOCS );
               UtlMenuEnableItem( PID_FILE_MI_FINDCHANGE );
               UtlMenuEnableItem( PID_FILE_MI_FUZZYSEARCH );
               UtlMenuEnableItem( PID_FILE_MI_SPELLCHECK );
@@ -855,6 +858,7 @@ LPARAM           mp2
     case PID_UTILS_MI_REPORT:
     case PID_UTILS_MI_ARCHTM:
     case PID_UTILS_MI_EXPORTSEGS:
+    case PID_UTILS_MI_DELETEDOCS:
     case PID_FILE_MI_PROPERTIES:
     case PID_FILE_MI_HTMLPROPS:
     case PID_FILE_MI_FINDCHANGE:
@@ -891,6 +895,7 @@ LPARAM           mp2
               case PID_UTILS_MI_REPORT:
               case PID_UTILS_MI_ARCHTM:
               case PID_UTILS_MI_EXPORTSEGS:
+              case PID_UTILS_MI_DELETEDOCS:
               case PID_FILE_MI_PROPERTIES:
               case PID_FILE_MI_FINDCHANGE:
               case PID_FILE_MI_FUZZYSEARCH:
@@ -917,6 +922,7 @@ LPARAM           mp2
               case PID_FILE_MI_ANALYZE:
               case PID_UTILS_MI_COUNT:
               case PID_UTILS_MI_REPORT:
+              case PID_UTILS_MI_DELETEDOCS:
               case PID_UTILS_MI_ARCHTM:
               case PID_UTILS_MI_EXPORTSEGS:
               case PID_FILE_MI_PROPERTIES:

@@ -116,12 +116,13 @@ int AutoVesrionUpProps(HINSTANCE hInstance, char * szOtmPath, LPTSTR lpCmdLine)
 void AutoVerUpStart(const char * szOtmPath)
 {
     gbLogOpened = FALSE;
+#ifdef _DEBUG
     if (!glogAutoVerUp.isOpen())
     {
         glogAutoVerUp.open(LOG_AUTO_VER_UP_NAME);
         gbLogOpened = TRUE;
     }
-
+#endif
     memset(gstrgConfigFile, 0x00, sizeof(gstrgConfigFile));
     memset(gstrgOtmPath,    0x00, sizeof(gstrgOtmPath));
 

@@ -1,5 +1,5 @@
 /*! \brief EQFTSEGM.C - TextSegmentation Module
-	Copyright (c) 1999-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
 	Description: This module contains the modules needed for text segmentation
 */
 
@@ -3885,7 +3885,7 @@ BOOL EQFSegDeterminate
 #ifdef TSEGM_SEGLOGGING
      if ( hSegLog )
      {
-       fwprintf( hSegLog, L"Seg=%d   %d   %d\n",sTokenid,sSegState,pTag[sTokenid].Segbreak);
+       fwprintf( hSegLog, L"Seg=%d,%d   %d   %d\n",sTokenid,pInD->pLoadedTable->pTagTable->uNumTags,sSegState,pTag[sTokenid].Segbreak);
      } /* endif */
 #endif
          if (sSegState == ON)
@@ -3945,6 +3945,12 @@ BOOL EQFSegDeterminate
       } /* endif token is tag */
       pSegTokenEntry->SegType = SegType;                        /* 1@KIT1110C */
       sTokenid = (++pSegTokenEntry)->sTokenid;
+#ifdef TSEGM_SEGLOGGING
+     if ( hSegLog )
+     {
+       fwprintf( hSegLog, L"Next Seg=%d,%d\n",sTokenid,pInD->pLoadedTable->pTagTable->uNumTags);
+     } /* endif */
+#endif
    } /* endwhile for all tokens */
 
    if (fOK)
