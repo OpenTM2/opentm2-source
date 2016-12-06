@@ -1,0 +1,7 @@
+BIN-Debug/*.*
+OBJ-Debug/*.*
+MAPWIN/*.*
+VS-projects
+Debug
+TEMP
+my-config.bat
