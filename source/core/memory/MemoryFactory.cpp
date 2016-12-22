@@ -53,6 +53,7 @@ MemoryFactory* MemoryFactory::getInstance()
 		instance = new MemoryFactory();
     instance->pluginList = NULL;
     instance->pSharedMemPluginList = NULL;
+    instance->pHandleToMemoryList = new std::vector<OtmMemory *>;;
     instance->refreshPluginList();
 #ifdef LOGGING
     instance->Log.open( "MemoryFactory" );
@@ -2267,3 +2268,493 @@ int MemoryFactory::replaceMemory
   return( iRC );
 }
 
+/*! \brief process the API call: EqfImportMemInInternalFormat and import a memory using the internal memory files
+  \param pszMemory name of the memory being imported
+  \param pszMemoryPackage name of a ZIP archive containing the memory files
+  \param lOptions options for searching fuzzy segments
+          - OVERWRITE_OPT overwrite any existing memory with the given name
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIImportMemInInternalFormat
+(
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+)
+{
+  lOptions;
+
+  if ( (pszMemoryName == NULL) || (*pszMemoryName == EOS) )
+  {
+    UtlErrorHwnd( TA_MANDTM, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( TA_MANDTM );
+  } /* endif */
+
+  if ( (pszMemoryPackage == NULL) || (*pszMemoryPackage == EOS) )
+  {
+    UtlErrorHwnd( FUNC_MANDINFILE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_MANDINFILE );
+  } /* endif */
+
+  // unpzip the package
+
+  // call memory plugin to process the files
+
+  return( 0 );
+}
+
+/*! \brief process the API call: EqfOpenMem and open the specified translation memory
+  \param pszMemory name of the memory being opened
+  \param plHandle buffer to a long value receiving the handle of the opened memory or -1 in case of failures
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIOpenMem
+(
+  PSZ         pszMemoryName, 
+  LONG        *plHandle,
+  LONG        lOptions 
+)
+{
+  if ( (pszMemoryName == NULL) || (*pszMemoryName == EOS) )
+  {
+    UtlErrorHwnd( TA_MANDTM, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( TA_MANDTM );
+  } /* endif */
+
+  if ( plHandle == NULL )
+  {
+    UtlErrorHwnd( EEA_MANDCMDLINE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( EEA_MANDCMDLINE );
+  } /* endif */
+
+  int iRC = 0;
+  OtmMemory *pMem = this->openMemory( NULL, pszMemoryName, 0, &iRC );
+  if ( pMem == NULL )
+  {
+    this->showLastError( NULL, pszMemoryName, NULL, HWND_FUNCIF );
+    return( (USHORT)iRC );
+  } /* endif */
+
+
+  // find an empty slot in our handle-to-memory-object table
+  LONG lIndex = 0;
+  while( (lIndex < pHandleToMemoryList->size()) && ((*pHandleToMemoryList)[lIndex] != NULL) ) lIndex++;
+
+  // add new entry to list if no free slot is available
+  if ( lIndex >= pHandleToMemoryList->size() )
+  {
+    pHandleToMemoryList->resize( lIndex + 10, NULL );
+  } /* endif */
+
+  (*pHandleToMemoryList)[lIndex] = pMem;
+
+  *plHandle = createHandle( lIndex, pMem );
+
+  return( 0 );
+}
+
+
+/*! \brief process the API call: EqfCloseMem and close the translation memory referred by the handle
+  \param lHandle handle of a previously opened memory
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APICloseMem
+(
+  LONG        lHandle,
+  LONG        lOptions 
+)
+{
+  USHORT usRC = 0;
+
+  lOptions;
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    return( INVALIDFILEHANDLE_RC );
+  } /* endif */
+
+  usRC = (USHORT)this->closeMemory( pMem );
+
+  return( usRC );
+}
+
+/*! \brief process the API call: EqfQueryMem and lookup a segment in the memory
+  \param lHandle handle of a previously opened memory
+  \param pvSearchKey pointer to an OtmProposal object containing the searched segment
+  \param pvProposals pointer to a vector of OtmProposal objects receiving the search results
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIQueryMem
+(
+  LONG        lHandle,          
+  void       *pvSearchKey, 
+  void       *pvProposals, 
+  LONG        lOptions     
+)
+{
+  USHORT usRC = 0;
+  OtmProposal *pSearchKey = (OtmProposal *)pvSearchKey;
+  std::vector<OtmProposal *> *pProposals = (std::vector<OtmProposal *> *)pvProposals;
+
+  if ( (pvSearchKey == NULL) || (pvProposals == NULL) )
+  {
+    return( WRONG_OPTIONS_RC );
+  } /* endif */
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    return( INVALIDFILEHANDLE_RC );
+  } /* endif */
+
+  usRC = (USHORT)pMem->searchProposal( *pSearchKey, *pProposals, lOptions );
+
+  return( usRC );
+}
+
+
+/*! \brief process the API call: EqfSearchMem and search the given text string in the memory
+  \param lHandle handle of a previously opened memory
+  \param pszSearchString pointer to the search string (in UTF-16 encoding)
+  \param pszStartPosition pointer to a buffer (min size = 20 charachters) containing the start position, on completion this buffer is filled with the next search position
+  \param pvProposal pointer to an OtmProposal object receiving the next matching segment
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APISearchMem
+(
+  LONG        lHandle,                 
+  __wchar_t  *pszSearchString,
+  PSZ         pszStartPosition,
+  void       *pvProposal,
+  LONG        lOptions
+)
+{
+  USHORT usRC = 0;
+  int iRC = 0;                         // code returned from memory object methods
+  BOOL fFound = FALSE;                 // found-a-matching-memory-proposal flag
+  BOOL fEndOfMemory = FALSE;           // end-of-memory-reached flag
+
+  OtmProposal *pProposal = (OtmProposal *)pvProposal;
+
+  if ( (pszSearchString == NULL) || (*pszSearchString  == EOS) || (pszStartPosition == NULL) || (pvProposal == NULL) )
+  {
+    return( WRONG_OPTIONS_RC );
+  } /* endif */
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    return( INVALIDFILEHANDLE_RC );
+  } /* endif */
+
+  // get first or next proposal
+  if ( *pszStartPosition == EOS )
+  {
+    iRC = pMem->getFirstProposal( *pProposal );
+  }
+  else
+  {
+    pMem->setSequentialAccessKey( pszStartPosition );
+    iRC = pMem->getNextProposal( *pProposal );
+  } /* endif */
+
+  while( !fFound && (iRC == 0) ) 
+  {
+    fFound = searchInProposal( pProposal, pszSearchString, /*SEARCH_SOURCE | */ SEARCH_TARGET /* | SEARCH_CASEINSENSITIVE | SEARCH_WHITESPACETOLERANT */ );
+    if ( !fFound ) iRC = pMem->getNextProposal( *pProposal );
+  } /* endwhile */
+
+  // search given string in proposal
+  if ( fFound )
+  {
+    pMem->getSequentialAccessKey( pszStartPosition, 20 );
+  } /* endif */
+
+  return( usRC );
+}
+
+
+
+/*! \brief process the API call: EqfUpdateMem and update a segment in the memory
+  \param lHandle handle of a previously opened memory
+  \param pvNewProposal pointer to an OtmProposal object containing the segment data
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIUpdateMem
+(
+  LONG        lHandle, 
+  void        *pvNewProposal,
+  LONG        lOptions
+)
+{
+  OtmProposal *pProposal = (OtmProposal *)pvNewProposal;
+
+  if ( (pvNewProposal == NULL) )
+  {
+    return( WRONG_OPTIONS_RC );
+  } /* endif */
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    return( INVALIDFILEHANDLE_RC );
+  } /* endif */
+
+  return( (USHORT)pMem->updateProposal( *pProposal, 0 ) );
+}
+
+/*! \brief get the index into the memory object table from a memory handle
+  \param lHandle handle of a previously opened memory
+  \returns index into the memory object table
+*/
+LONG MemoryFactory::getIndexFromHandle
+(
+  LONG        lHandle
+)
+{
+  return( lHandle & 0x00007FF );
+}
+
+/*! \brief get the checksum from a memory handle
+  \param lHandle handle of a previously opened memory
+  \returns checksum of the memory object
+*/
+LONG MemoryFactory::getCheckSumFromHandle
+(
+  LONG        lHandle
+)
+{
+  return( lHandle & 0xFFFF800FF );
+}
+
+/*! \brief compute the checksum for a memory object
+  \param pMemory pointer to a memory object
+  \returns memory object checksum
+*/
+LONG MemoryFactory::computeMemoryObjectChecksum
+(
+  OtmMemory *pMemory
+)
+{
+  // compute checksum based on the individual byte values of the memory object pointer
+  LONG lCheckSum = 0;
+  _int64 iPointerValue = (_int64)pMemory;  // use int64 value to enable code for 64bit pointers
+  int iSize = sizeof(*pMemory);
+  while( iSize > 0 )
+  {
+    lCheckSum += (LONG)((iPointerValue  & 0x0000000F) * iSize);
+    iPointerValue = iPointerValue >> 4;
+    iSize--;
+  } /* endwhile */
+
+  // make room at end of checksum for the 11 bit value of the index
+  lCheckSum = lCheckSum << 11;
+
+  return( lCheckSum );
+}
+
+/*! \brief compute the checksum for a memory object
+  \param lHandle handel referring to the memory object
+  \returns memory object pointer or NULL if the given handle is invalid
+*/
+OtmMemory *MemoryFactory::handleToMemoryObject
+(
+  LONG lHandle
+)
+{
+  LONG lCheckSum = getCheckSumFromHandle( lHandle );
+  LONG lIndex = getIndexFromHandle( lHandle );
+
+  if ( (lIndex < 0) || (lIndex >= pHandleToMemoryList->size()) )
+  {
+    return( NULL );
+  } /* endif */
+
+  if ( (*pHandleToMemoryList)[lIndex] == NULL  )
+  {
+    return( NULL );
+  } /* endif */
+
+  LONG lElementCheckSum = computeMemoryObjectChecksum( (*pHandleToMemoryList)[lIndex] );
+  if ( lCheckSum  != lElementCheckSum )
+  {
+    return( NULL );
+  } /* endif */
+
+  return( (*pHandleToMemoryList)[lIndex] );
+}
+
+/*! \brief convert a memory object and the index into the memory oject table to a memory handle
+  \param lIndex index into the memory object table
+  \param pMemory pointer to a memory object
+  \returns index into the memory object table
+*/
+LONG MemoryFactory::createHandle
+(
+  LONG        lIndex,
+  OtmMemory   *pMemory
+)
+{
+  LONG lCheckSum = computeMemoryObjectChecksum( pMemory );
+
+  return( lCheckSum | lIndex );
+}
+
+/*! \brief search a string in a proposal
+  \param pProposal pointer to the proposal 
+  \param pszSearch pointer to the search string (when fIngoreCase is being used, this strign has to be in uppercase)
+  \param lSearchOptions combination of search options
+  \returns TRUE if the proposal contains the searched string otherwise FALSE is returned
+*/
+BOOL MemoryFactory::searchInProposal
+( 
+  OtmProposal *pProposal,
+  PSZ_W pszSearch,
+  LONG lSearchOptions
+)
+{
+  USHORT usRC = 0;
+  CHAR_W chChar;
+  CHAR_W c;
+  BOOL   fFound = FALSE;
+  BOOL   fSegEnd = FALSE;
+  int iOffs = 0;
+  int iLen = 0;
+
+  if ( !fFound && (lSearchOptions & SEARCH_SOURCE) )
+  {
+    pProposal->getSource( m_szSegmentText, sizeof(m_szSegmentText)/sizeof(CHAR_W) );
+    if ( lSearchOptions & SEARCH_CASEINSENSITIVE ) _wcsupr( m_szSegmentText );
+    if ( lSearchOptions & SEARCH_WHITESPACETOLERANT ) normalizeWhiteSpace( m_szSegmentText );
+    fFound = findString( m_szSegmentText, pszSearch );
+  }
+
+  if ( !fFound && (lSearchOptions & SEARCH_TARGET)  )
+  {
+    pProposal->getTarget( m_szSegmentText, sizeof(m_szSegmentText)/sizeof(CHAR_W) );
+    if ( lSearchOptions & SEARCH_CASEINSENSITIVE ) _wcsupr( m_szSegmentText );
+    if ( lSearchOptions & SEARCH_WHITESPACETOLERANT ) normalizeWhiteSpace( m_szSegmentText );
+    fFound = findString( m_szSegmentText, pszSearch );
+  }
+
+  return( fFound );
+}
+
+
+/*! \brief find the given string in the provided data
+  \param pszData pointer to the data being searched
+  \param pszSearch pointer to the search string
+  \returns TRUE if the data contains the searched string otherwise FALSE is returned
+*/
+BOOL MemoryFactory::findString
+( 
+  PSZ_W pszData,
+  PSZ_W pszSearch
+)
+{
+  USHORT usRC = 0;
+  CHAR_W chChar;
+  CHAR_W c;
+  BOOL   fFound = FALSE;
+  BOOL   fEnd = FALSE;
+  int iOffs = 0;
+  int iLen = 0;
+
+  while ( !fFound && !fEnd )
+  {
+    // Scan for the 1st letter of the target string don't use strchr, it is too slow                   
+    chChar = *pszSearch;
+    while ( ((c = *pszData) != 0) && (chChar != c) ) pszData++;
+
+    if ( *pszData == 0 )
+    {
+      fEnd = TRUE;
+    }
+    else
+    {
+      // check for complete match
+      if ( compareString( pszData, pszSearch ) == 0)
+      {
+        fFound = TRUE;
+      }
+      else         // no match; go on if possible
+      {
+        pszData++;
+      } /* endif */
+    } /* endif */
+  } /* endwhile */
+  return( fFound );
+}
+
+/*! \brief check if search string matches current data
+  \param pData pointer to current position in data area
+  \param pSearch pointer to search string
+  \returns 0 if search string matches data
+*/
+SHORT MemoryFactory::compareString
+(
+  PSZ_W   pData,
+  PSZ_W   pSearch
+)
+{
+  SHORT  sRc = 0;                               // init strings are equal
+  CHAR_W c, d;
+  while (((d = *pSearch) != NULC) && ((c = *pData) != NULC) )
+  {
+    if ( c == d )
+    {
+      pData++; pSearch++;
+    }
+    else
+    {
+      sRc = c-d;
+      break;
+    } /* endif */
+  } /* endwhile */
+  if (*pSearch )
+  {
+    sRc = -1;
+  } /* endif */
+  return sRc;
+}
+
+/*! \brief normalize white space within a string by replacing single or multiple white space occurences to a single blank
+  \param pszString pointer to the string being normalized
+  \returns 0 in any case
+*/
+SHORT MemoryFactory::normalizeWhiteSpace
+(
+  PSZ_W   pszData
+)
+{
+  PSZ_W pszTarget = pszData;
+  while ( *pszData )
+  {
+    CHAR_W c = *pszData;
+    if ( (c == BLANK) || (c == LF) || (c == CR) || (c == 0x09) )
+    {
+      do
+      {
+        pszData++;
+        c = *pszData;
+      } while ( (c == BLANK) || (c == LF) || (c == CR) || (c == 0x09) );
+      *pszTarget++ = BLANK;
+    } 
+    else
+    {
+      *pszTarget++ = *pszData++;
+    } /* endif */
+  } /* endwhile */
+  *pszTarget = 0;
+  return 0;
+}

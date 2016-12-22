@@ -95,8 +95,6 @@ if not exist %_HLP% mkdir %_HLP%
 echo Preparing OTM Markup Table Plugin
 call m_otmmarkup.bat
 echo Preparing IBM Markup Table Plugin
-call m_ibmmarkup.bat
-echo Preparing User Markup Table Plugin
 call m_usermarkup.bat
 
 set BUILD_FAIL=0

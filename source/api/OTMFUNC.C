@@ -22,6 +22,7 @@
 #include "eqfserno.h"
 #include "tools\common\InitPlugins.h"
 #include "core\PluginManager\PluginManager.h"    // Add for P403138
+#include "core\memory\MemoryFactory.h"
 
 
 //#define SESSIONLOG
@@ -81,6 +82,12 @@
 #endif
 
 #ifdef DEBUGAPI
+  #define LOGPARMSTRINGW( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %S=\"%s\"\n", name, (value) ? value : "<NULL>" ); LOGFORCEWRITE(); } }
+#else
+  #define LOGPARMSTRINGW( name, value )
+#endif
+
+#ifdef DEBUGAPI
   #define LOGPARMCHAR( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %s=\'%c\'\n", name, (value) ? value : ' ' ); LOGFORCEWRITE(); } }
 #else
   #define LOGPARMCHAR( name, value )
@@ -96,6 +103,12 @@
   #define LOGPARMUSHORT( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %s=%u\n", name, value ); LOGFORCEWRITE(); }}
 #else
   #define LOGPARMUSHORT( name, value )
+#endif
+
+#ifdef DEBUGAPI
+  #define LOGPARMLONG( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %s=%ld\n", name, value ); LOGFORCEWRITE(); }}
+#else
+  #define LOGPARMLONG( name, value )
 #endif
 
 
@@ -2090,6 +2103,31 @@ USHORT EqfGetLastError
   return( usRC );
 } /* end of function EqfGetLastError */
 
+USHORT EqfGetLastErrorW
+(
+  HSESSION    hSession,                // Eqf session handle
+  PUSHORT     pusRC,                   // ptr to buffer for last return code
+  wchar_t    *pszMsgBuffer,            // ptr to buffer receiving the message
+  USHORT      usBufSize                // size of message buffer in bytes
+)
+{
+  PFCTDATA    pData = NULL;            // ptr to function data area
+  USHORT      usRC = NO_ERROR;         // function return code
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( usRC == NO_ERROR )
+  {
+    *pusRC = (USHORT)pData->LastMessage.sErrNumber;
+    MultiByteToWideChar( CP_OEMCP, 0, pData->LastMessage.chMsgText, -1, pszMsgBuffer, usBufSize );
+
+    pData->LastMessage.sErrNumber = 0;
+    pData->LastMessage.chMsgText[0] = EOS;
+  } /* endif */
+
+  return( usRC );
+} /* end of function EqfGetLastErrorW */
 
 
 
@@ -4228,3 +4266,293 @@ USHORT EqfSearchFuzzySegments
   return( usRC );
 
 }
+
+/*! \brief Import a memory using the internal memory files
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being imported
+  \param pszMemoryPackage name of a ZIP archive containing the memory files
+  \param lOptions options for searching fuzzy segments
+         - OVERWRITE_OPT overwrite any existing memory with the given name
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfImportMemInInternalFormat
+(
+  HSESSION    hSession, 
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfImportMemInInternalFormat==\n" );
+    LOGPARMSTRING( "Memory", pszMemoryName );
+    LOGPARMSTRING( "Package", pszMemoryPackage );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIImportMemInInternalFormat( pszMemoryName, pszMemoryPackage, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Open the specified translation memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being opened
+  \param plHandle buffer to a long value receiving the handle of the opened memory or -1 in case of failures
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfOpenMem
+(
+  HSESSION    hSession,
+  PSZ         pszMemoryName, 
+  LONG        *plHandle,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfOpenMem==\n" );
+    LOGPARMSTRING( "Memory", pszMemoryName );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIOpenMem( pszMemoryName, plHandle, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Close the translation memory referred by the handle
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfCloseMem
+(
+  HSESSION    hSession, 
+  LONG        lHandle,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfCloseMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APICloseMem( lHandle, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+/*! \brief Lookup a segment in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pvSearchKey pointer to an OtmProposal object containing the searched segment
+  \param pvProposals pointer to a vector of OtmProposal objects receiving the search results
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfQueryMem
+(
+  HSESSION    hSession,    
+  LONG        lHandle,          
+  PVOID       pvSearchKey, 
+  PVOID       pvProposals, 
+  LONG        lOptions     
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfQueryMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIQueryMem( lHandle, pvSearchKey, pvProposals, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+
+/*! \brief Search the given text string in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pszSearchString pointer to the search string (in UTF-16 encoding)
+  \param pszStartPosition pointer to a buffer (min size = 20 charachters) containing the start position, on completion this buffer is filled with the next search position
+  \param pvProposal pointer to an OtmProposal object receiving the next matching segment
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfSearchMem
+(
+  HSESSION    hSession,                
+  LONG        lHandle,                 
+  CHAR_W      *pszSearchString,
+  PSZ         pszStartPosition,
+  PVOID       pvProposal,
+  LONG        lOptions
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfSearchMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMSTRINGW( "SearchString", pszSearchString );
+    LOGPARMSTRING( "StartPosition", pszStartPosition );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APISearchMem( lHandle, pszSearchString, pszStartPosition, pvProposal, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Update a segment in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pvNewProposal pointer to an OtmProposal object containing the segment data
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfUpdateMem
+(
+  HSESSION    hSession,
+  LONG        lHandle, 
+  PVOID       pvNewProposal,
+  LONG        lOptions
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfUpdateMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIUpdateMem( lHandle, pvNewProposal, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    CHAR szRC[10];
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+

@@ -17,6 +17,7 @@
   typedef unsigned short USHORT;
   typedef unsigned short *PUSHORT;
   typedef char * PSZ;
+  typedef wchar_t CHAR_W;
   typedef char CHAR;
   #define MAX_LANG_LENGTH           20   // length of the name of a language
   #define MAX_LONGFILESPEC         256   // max length of long file name + extension
@@ -316,6 +317,10 @@ typedef struct _EXTFOLPROP
 #define UPTOSELECTEDCLASS_MODE 0
 #define SELECTEDCLASSANDHIGHER_MODE 1
 #define ONLYSELECTEDCLASS_MODE 2
+
+// concordance search modes
+#define SEARCH_IN_SOURCE_OPT  0x00020000L
+#define SEARCH_IN_TARGET_OPT  0x00040000L
 
 // return when all activitiy has been completed (instead of iterative processing)
 #define COMPLETE_IN_ONE_CALL_OPT 0x01000000
@@ -1453,6 +1458,22 @@ USHORT EqfGetLastError
   PSZ         pszMsgBuffer,            // ptr to buffer receiving the message
   USHORT      usBufSize                // size of message buffer in bytes
 );
+/*! \brief Get information about the last occured error (in UTF16 encoding)
+    \param hSession the session handle returned by the EqfStartSession call
+    \param pusRC pointer to the buffer for last return code
+    \param pszMsgBuffer pointer to a buffer receiving the error message text (
+    \param usBufSize size of message buffer in number of characters
+    \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfGetLastErrorW
+(
+  HSESSION    hSession,                // Eqf session handle
+  PUSHORT     pusRC,                   // ptr to buffer for last return code
+  wchar_t    *pszMsgBuffer,            // ptr to buffer receiving the message
+  USHORT      usBufSize                // size of message buffer in bytes
+);
+
 
 // 
 /*! \brief Create a counting report (old interface, please use EqfCreateCountReport instead)
@@ -2401,6 +2422,108 @@ USHORT EqfSearchFuzzySegments
 									                     // @Other: {OVERWRITE_OPT,MARKDIFFERENCES_OPT}
 );
 
+/*! \brief Import a memory using the internal memory files
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being imported
+  \param pszMemoryPackage name of a ZIP archive containing the memory files
+  \param lOptions options for searching fuzzy segments
+         - OVERWRITE_OPT overwrite any existing memory with the given name
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfImportMemInInternalFormat
+(
+  HSESSION    hSession, 
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+);
+
+/*! \brief Open the specified translation memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being opened
+  \param plHandle buffer to a long value receiving the handle of the opened memory or -1 in case of failures
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfOpenMem
+(
+  HSESSION    hSession,
+  PSZ         pszMemoryName, 
+  LONG        *plHandle,
+  LONG        lOptions 
+);
+
+/*! \brief Close the translation memory referred by the handle
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfCloseMem
+(
+  HSESSION    hSession, 
+  LONG        lHandle,
+  LONG        lOptions 
+);
+
+/*! \brief Lookup a segment in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pvSearchKey pointer to an OtmProposal object containing the searched segment
+  \param pvProposals pointer to a vector of OtmProposal objects receiving the search results
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfQueryMem
+(
+  HSESSION    hSession,    
+  LONG        lHandle,          
+  PVOID       pvSearchKey, 
+  PVOID       pvProposals, 
+  LONG        lOptions     
+);
+
+/*! \brief Search the given text string in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pszSearchString pointer to the search string (in UTF-16 encoding)
+  \param pszStartPosition pointer to a buffer (min size = 20 charachters) containing the start position, on completion this buffer is filled with the next search position
+  \param pvProposal pointer to an OtmProposal object receiving the next matching segment
+  \param lOptions processing options 
+     SEARCH_IN_SOURCE_OPT  search in source
+     SEARCH_IN_TARGET_OPT  search in target
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfSearchMem
+(
+  HSESSION    hSession,                
+  LONG        lHandle,                 
+  CHAR_W      *pszSearchString,
+  PSZ         pszStartPosition,
+  PVOID       pvProposal,
+  LONG        lOptions
+);
+
+/*! \brief Update a segment in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pvNewProposal pointer to an OtmProposal object containing the segment data
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfUpdateMem
+(
+  HSESSION    hSession,
+  LONG        lHandle, 
+  PVOID       pvNewProposal,
+  LONG        lOptions
+);
 
 
 #ifdef __cplusplus
