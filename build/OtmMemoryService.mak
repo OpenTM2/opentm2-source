@@ -6,7 +6,7 @@
 #------------------------------------------------------------------------------
 # Target                                                                      -
 #------------------------------------------------------------------------------
-build:    $(_DLL)\OTMMemoryService.DLL
+build:    $(_DLL)\OTMMemoryService.DLL  $(_BIN)\OtmMemoryServiceTester.EXE 
 
 #------------------------------------------------------------------------------
 # Rules                                                                       -
@@ -29,6 +29,8 @@ build:    $(_DLL)\OTMMemoryService.DLL
 $(_OBJ)\OtmMemoryService.OBJ:	$(_SRC)\plugins\OtmMemoryService\OtmMemoryService.CPP $(_SRC)\plugins\OtmMemoryService\JSONFactory.H $(_INC)\OTMFUNC.H
 $(_OBJ)\JSONFactory.OBJ:	$(_SRC)\plugins\OtmMemoryService\JSONFactory.CPP $(_SRC)\plugins\OtmMemoryService\JSONFactory.H
 $(_DLL)\OTMMemoryService.DLL: $(_OBJ)\OtmMemoryService.OBJ $(_OBJ)\JSONFactory.OBJ $(_LIB)\OtmFunc.lib
+$(_OBJ)\OTMMemoryServiceTester.OBJ:	$(_SRC)\plugins\OtmMemoryService\OTMMemoryServiceTester.CPP $(_SRC)\plugins\OtmMemoryService\OtmMemoryService.H
+$(_BIN)\OtmMemoryServiceTester.EXE: $(_OBJ)\OtmMemoryServiceTester.OBJ $(_LIB)\OtmMemoryService.lib
 
 
 
@@ -42,7 +44,18 @@ $(_DLL)\OTMMemoryService.DLL:
 	$(_OBJ)\OTMMemoryService.OBJ
 	$(_OBJ)\JSONFactory.OBJ
 /OUT:$(_DLL)\OTMMemoryService.DLL
-/MAP:$(_MAP)\OTMMemoryService.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmFunc.lib
+$(_LINK_OPTIONS) /DLL 
+$(_LINK_LIB_CRT) $(_LIB)\OtmFunc.lib $(_LIB)\OtmBase.lib
 <<
+
+$(_BIN)\OtmMemoryServiceTester.EXE: 
+    @echo ---- Linking $(_BIN)\$(_BIN)\OtmMemoryServiceTester.EXE
+    @echo ---- Linking $(_BIN)\$(_BIN)\OtmMemoryServiceTester.EXE >>$(_ERR)
+    @$(_LINKER) >>$(_ERR) @<<lnk.rsp
+$(_OBJ)\OtmMemoryServiceTester.obj
+/OUT:$(_BIN)\OtmMemoryServiceTester.EXE
+$(_LINK_OPTIONS)
+$(_LINK_LIB_EXE) $(_LIB)\OtmMemoryService.lib
+<<
+
 

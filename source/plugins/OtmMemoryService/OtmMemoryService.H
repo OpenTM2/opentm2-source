@@ -14,7 +14,8 @@
 #include <locale>
 #include <codecvt>
 #include <string>
-//#include <vector>
+#include <vector>
+#include "OTMFUNC.H"
 
 /*! \brief constant defining the maximum number of opened memories
 */
@@ -158,6 +159,19 @@ public:
     std::wstring &strOutputParms
   );
 
+  /*! \brief Write a memory proposal to a TM 
+    \param strInputParms input parameters in JSON format
+       Sample: { "Memory": "TestMemory", "Proposal":                  { "Source": "This is the source text", "Target": "This is the translated text", "Segment": 231, "DocumentName":"Anothertest.txt",
+                   "SourceLanguage":"en-US", "TargetLanguage":"de-de", "Type":"Manual", "Author":"A.Nonymous",
+                   "DateTime":"20161013T152948Z", "Markup":"EQFHTML3", "Context":"", "AddInfo":"" } }    \param strOutParms on return filled with the output parameters in JSON format 
+       Sample: { "ReturnValue":0, "ErrorMsg":"" }    \returns 0 if successful or an error code in case of failures
+  */
+  int updateMemory
+  (
+    std::wstring strInputParms,
+    std::wstring &strOutputParms
+  );
+
 private:
   
   /*! \brief Verify OpenTM2 API session
@@ -211,6 +225,21 @@ private:
     \returns 0 
   */
   int convertTimeToTMX( LONG lTime, char *pszDateTime );
+
+  /*! \brief convert a TMX time value to a OpenTM2 long time value 
+      \param pszDateTime buffer containing the TMX date and time
+      \param plTime pointer to a long buffer receiving the converted time 
+    \returns 0 
+  */
+  int convertTMXTimeToLong( char *pszDateTime, PLONG plTime );
+
+  /*! \brief extract a numeric value from a string
+      \param pszString string containing the numeric value
+      \param iLen number of digits to be processed
+      \param piResult pointer to a int value receiving the extracted value
+    \returns TRUE if successful and FALSE in case of errors
+  */
+  BOOL getValue( PSZ pszString, int iLen, int *piResult );
 
   /*! \brief Info structure for an open translation memory
   */

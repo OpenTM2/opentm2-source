@@ -15,7 +15,6 @@
 #include <time.h>
 #include <stdarg.h>
 #include <windows.h>
-#include "OTMFUNC.H"
 #include "core\utilities\LanguageFactory.h"
 #include "OtmProposal.h"
 #include "JSONFactory.h"
@@ -49,9 +48,7 @@ typedef struct _IMPORTMEMORYFROMPACKAGEDATA
 
 /*! \brief Import a memory using the internal memory files
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory", "Files":"C:/FileArea/MyTestMemory.ZIP" } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"" } 
   \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::importMemoryFromPackage
@@ -128,9 +125,7 @@ typedef struct _DELETEMEMORYDATA
 
 /*! \brief Delete a memory (the memory is closed automatically before the delete)
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory" } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"" } 
   \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::deleteMemory
@@ -200,9 +195,7 @@ typedef struct _CREATEMEMORYDATA
 
 /*! \brief Create a new memory
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory", "SourceLanguage":"en-US" } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"" } 
   \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::createMemory
@@ -284,9 +277,7 @@ typedef struct _IMPORTMEMORYDATA
 
 /*! \brief Import a memory from a TMX file
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory", "TMXFile":"C:/FileArea/MyTstMemory.TMX" } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"" } 
   \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::importMemory
@@ -364,9 +355,7 @@ typedef struct _OPENMEMORYDATA
 
 /*! \brief Open a memory 
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory" } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"" } 
   \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::openMemory
@@ -492,12 +481,13 @@ int OtmMemoryService::closeMemory
   return( iRC );
 }
 
-/*! \brief Data area for the processing of the lookupInMemory function
+/*! \brief Data area for the processing of the lookupInMemory function (also used by searchMemory and updateMemory)
 */
 typedef struct _LOOKUPINMEMORYDATA
 {
   char szMemory[260];
   wchar_t szSource[2050];
+  wchar_t szTarget[2050];
   char szIsoSourceLang[40];
   char szIsoTargetLang[40];
   char szOtmSourceLang[40];
@@ -506,20 +496,20 @@ typedef struct _LOOKUPINMEMORYDATA
   char szDocName[260];
   char szMarkup[128];
   wchar_t szContext[2050];
+  wchar_t szAddInfo[2050];
   wchar_t szError[512];
+  char szType[256];
+  char szAuthor[80];
+  char szDateTime[40];
+  char szSearchMode[40];
+  char szSearchPos[80];
 } LOOKUPINMEMORYDATA, *PLOOKUPINMEMORYDATA;
 
 
 /*! \brief Get matches from a TM
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory", "SearchCriteria":{ "Source": "This is the source text", "Segment": 231, "DocumentName":"Anothertest.txt", 
-                "SourceLanguage":"en-US", "TargetLanguage":"de-de", "Markup":"EQFHTML3", "Context":null } } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"", "NumOfFoundProposals": 2, "FoundProposals":                 [ { "Source": "This is the source text", "Target": "This is the translated text", "Segment": 231, "ID":"identifier", "DocumentName":"Anothertest.txt",
-                    "DocumentShortName":"ANOTHERT.001", "SourceLanguage":"en-US", "TargetLanguage":"de-de", "Type":"Manual", "Match":"Exact", "Author":"A.Nonymous",
-                    "DateTime":"20161013T152948Z", "Fuzziness":100, "Markup":"EQFHTML3", "Context":null, "AddInfo":null },                  { "Source": "This is the source text", "Target": "This is another translated text", "Segment": 15, "ID":"identifier", "DocumentName":"OtherDoc.txt",
-                    "DocumentShortName":"OTHERD.001", "SourceLanguage":"en-US", "TargetLanguage":"de-de", "Type":"Manual", "Match":"Exact", "Author":"",
-                    "DateTime":"20161004T110214Z", "Fuzziness":100, "Markup":"EQFHTML3", "Context":null, "AddInfo":null } ] }   \returns 0 if successful or an error code in case of failures
+  \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::lookupInMemory
 (
@@ -735,33 +725,10 @@ int OtmMemoryService::lookupInMemory
   return( iRC );
 }
 
-/*! \brief Data area for the processing of the createMemory function
-*/
-typedef struct _SEARCHMEMORYDATA
-{
-  char szMemory[260];
-  wchar_t szSource[2050];
-  char szSearchMode[40];
-  char szSearchPos[80];
-  char szIsoSourceLang[40];
-  char szIsoTargetLang[40];
-  char szOtmSourceLang[40];
-  char szOtmTargetLang[40];
-  int lSegmentNum;
-  char szDocName[260];
-  char szMarkup[128];
-  wchar_t szContext[2050];
-  wchar_t szError[512];
-} SEARCHMEMORYDATA, *PSEARCHMEMORYDATA;
-
-
 /*! \brief Search in a TM (Concordance search)
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory": "TestMemory", "SearchString": "this is the search string", "Search":"Source", "SearchPosition":"" }
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"", "NewSearchPosition":"254:43", "FoundProposal":                 { "Source": "This is the source text", "Target": "This is the translated text", "Segment": 231, "ID":"identifier", "DocumentName":"Anothertest.txt",
-                  "DocumentShortName":"ANOTHERT.001", "SourceLanguage":"en-US", "TargetLanguage":"de-de", "Type":"Manual", "Match":"Exact", "Author":"A.Nonymous",
-                  "DateTime":"20161013T152948Z", "Fuzziness":100, "Markup":"EQFHTML3", "Context":null, "AddInfo":null } }  \returns 0 if successful or an error code in case of failures
+  \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::searchMemory
 (
@@ -777,8 +744,8 @@ int OtmMemoryService::searchMemory
   } /* endif */
 
   // parse input parameters
-  PSEARCHMEMORYDATA pData = new( SEARCHMEMORYDATA );
-  memset( pData, 0, sizeof(SEARCHMEMORYDATA) );
+  PLOOKUPINMEMORYDATA pData = new( LOOKUPINMEMORYDATA );
+  memset( pData, 0, sizeof(LOOKUPINMEMORYDATA) );
   JSONFactory *factory = JSONFactory::getInstance();
   JSONFactory::JSONPARSECONTROL parseControl[] = { { L"Memory",         JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szMemory), sizeof(pData->szMemory) },
                                                    { L"SearchString",   JSONFactory::UTF16_STRING_PARM_TYPE, &(pData->szSource), sizeof(pData->szSource)/sizeof(pData->szSource[0]) },
@@ -943,6 +910,160 @@ int OtmMemoryService::searchMemory
   return( iRC );
 }
 
+/*! \brief Write a memory proposal to a TM 
+  \param strInputParms input parameters in JSON format
+  \param strOutParms on return filled with the output parameters in JSON format 
+  \returns 0 if successful or an error code in case of failures
+*/
+int OtmMemoryService::updateMemory
+(
+  std::wstring strInputParms,
+  std::wstring &strOutputParms
+)
+{
+  int iRC = verifyAPISession();
+  if ( iRC != 0 )
+  {
+    buildErrorReturn( iRC, this->szLastError, strOutputParms );
+    return( iRC );
+  } /* endif */
+
+  // parse input parameters
+  PLOOKUPINMEMORYDATA pData = new( LOOKUPINMEMORYDATA );
+  memset( pData, 0, sizeof(LOOKUPINMEMORYDATA) );
+  JSONFactory *factory = JSONFactory::getInstance();
+  JSONFactory::JSONPARSECONTROL parseControl[] = { { L"Memory",         JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szMemory), sizeof(pData->szMemory) },
+                                                   { L"Source",         JSONFactory::UTF16_STRING_PARM_TYPE, &(pData->szSource), sizeof(pData->szSource)/sizeof(pData->szSource[0]) },
+                                                   { L"Target",         JSONFactory::UTF16_STRING_PARM_TYPE, &(pData->szTarget), sizeof(pData->szTarget)/sizeof(pData->szTarget[0]) },
+                                                   { L"Segment",        JSONFactory::INT_PARM_TYPE,          &(pData->lSegmentNum), 0 },
+                                                   { L"DocumentName",   JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szDocName), sizeof(pData->szDocName) },
+                                                   { L"SourceLanguage", JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szIsoSourceLang), sizeof(pData->szIsoSourceLang) },
+                                                   { L"TargetLanguage", JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szIsoTargetLang), sizeof(pData->szIsoTargetLang) },
+                                                   { L"Type",           JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szType), sizeof(pData->szType) },
+                                                   { L"Author",         JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szAuthor), sizeof(pData->szAuthor) },
+                                                   { L"Markup",         JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szMarkup), sizeof(pData->szMarkup) },
+                                                   { L"Context",        JSONFactory::UTF16_STRING_PARM_TYPE, &(pData->szContext), sizeof(pData->szContext)/sizeof(pData->szContext[0]) },
+                                                   { L"DateTime",       JSONFactory::ASCII_STRING_PARM_TYPE, &(pData->szDateTime), sizeof(pData->szDateTime) },
+                                                   { L"AddInfo",        JSONFactory::UTF16_STRING_PARM_TYPE, &(pData->szAddInfo), sizeof(pData->szAddInfo)/sizeof(pData->szAddInfo[0]) },
+                                                   { L"",               JSONFactory::ASCII_STRING_PARM_TYPE, NULL, 0 } };
+
+  iRC = factory->parseJSON( strInputParms, parseControl );
+  if ( iRC != 0 ) 
+  {
+    iRC = ERROR_INTERNALFUNCTION_FAILED;
+    buildErrorReturn( iRC, L"Error: Parsing of input parameters failed", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+
+  if ( pData->szMemory[0] == 0  )
+  {
+    iRC = ERROR_INPUT_PARMS_INVALID;
+    buildErrorReturn( iRC, L"Error: Missing memory parameter", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+  if ( pData->szSource[0] == 0  )
+  {
+    iRC = ERROR_INPUT_PARMS_INVALID;
+    buildErrorReturn( iRC, L"Error: Missing proposal source text parameter", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+  if ( pData->szTarget[0] == 0  )
+  {
+    iRC = ERROR_INPUT_PARMS_INVALID;
+    buildErrorReturn( iRC, L"Error: Missing proposal target text parameter", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+  if ( pData->szIsoSourceLang[0] == 0  )
+  {
+    iRC = ERROR_INPUT_PARMS_INVALID;
+    buildErrorReturn( iRC, L"Error: Missing proposal source language parameter", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+  if ( pData->szIsoTargetLang[0] == 0  )
+  {
+    iRC = ERROR_INPUT_PARMS_INVALID;
+    buildErrorReturn( iRC, L"Error: Missing proposal target language parameter", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+  if ( pData->szMarkup[0] == 0  )
+  {
+    iRC = ERROR_INPUT_PARMS_INVALID;
+    buildErrorReturn( iRC, L"Error: Missing proposal markup parameter", strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* end */       
+
+  // get the handle of the memory 
+  long lHandle = 0;
+  iRC = this->getMemoryHandle( pData->szMemory, &lHandle, pData->szError, sizeof(pData->szError)/sizeof(pData->szError[0]) );
+  if ( iRC != 0 )
+  {
+    buildErrorReturn( iRC, pData->szError, strOutputParms );
+    delete pData;
+    return( iRC );
+  } /* endif */
+
+  // prepare the proposal data
+  OtmProposal Proposal;
+  Proposal.setSource( pData->szSource );
+  Proposal.setTarget( pData->szTarget );
+  Proposal.setSegmentNum( pData->lSegmentNum );
+  Proposal.setDocName( pData->szDocName );
+  LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+  pLangFactory->getOpenTM2NameFromISO( pData->szIsoSourceLang, pData->szOtmSourceLang );
+  pLangFactory->getOpenTM2NameFromISO( pData->szIsoTargetLang, pData->szOtmTargetLang );
+  Proposal.setSourceLanguage( pData->szOtmSourceLang );
+  Proposal.setTargetLanguage( pData->szOtmTargetLang );
+  if ( stricmp( pData->szType, "GlobalMemory" ) == 0 )
+  {
+    Proposal.setType( OtmProposal::eptGlobalMemory );
+  }
+  else if ( stricmp( pData->szType, "GlobalMemoryStar" ) == 0 )
+  {
+    Proposal.setType( OtmProposal::eptGlobalMemoryStar );
+  }
+  else if ( stricmp( pData->szType, "MachineTranslation" ) == 0 )
+  {
+    Proposal.setType( OtmProposal::eptMachine );
+  }
+  else if ( stricmp( pData->szType, "Manual" ) == 0 )
+  {
+    Proposal.setType( OtmProposal::eptManual );
+  } /* endif */
+  Proposal.setAuthor( pData->szAuthor);
+  Proposal.setMarkup( pData->szMarkup );
+  Proposal.setContext( pData->szContext );
+  LONG lTime = 0;
+  convertTMXTimeToLong( pData->szDateTime, &lTime );
+  Proposal.setUpdateTime( lTime );
+  Proposal.setAddInfo( pData->szAddInfo );
+
+  // update the memory
+  iRC = EqfUpdateMem( this->hSession, lHandle, (void *)&Proposal, 0);
+  if ( iRC == 0 )
+  {
+    pData->szError[0] = 0;
+  }
+  else
+  {
+    unsigned short usRC = 0;
+    EqfGetLastErrorW( this->hSession, &usRC, pData->szError, sizeof(pData->szError)/sizeof(pData->szError[0]) );
+  } /* endif */
+  buildErrorReturn( iRC, pData->szError, strOutputParms );
+
+  delete pData;
+
+  return( iRC );
+}
+
+
+
   /*! \brief Verify OpenTM2 API session
     \returns 0 if successful or an error code in case of failures
   */
@@ -971,10 +1092,15 @@ int OtmMemoryService::buildErrorReturn
 )
 {
   JSONFactory *factory = JSONFactory::getInstance();
+  int i = strErrorReturn.size();
   factory->startJSONW( strErrorReturn );
+  i = strErrorReturn.size();
   factory->addParmToJSONW( strErrorReturn, L"ReturnValue", iRC );
+  i = strErrorReturn.size();
   factory->addParmToJSONW( strErrorReturn, L"ErrorMsg", pszErrorMsg );
+  i = strErrorReturn.size();
   factory->terminateJSONW( strErrorReturn );
+  i = strErrorReturn.size();
   return( 0 );
 }
 
@@ -984,7 +1110,7 @@ int OtmMemoryService::buildErrorReturn
 */
 int OtmMemoryService::findMemoryInList( char *pszMemory )
 {
-  for( int i = 0; i < this->vMemoryList.size(); i++ )
+  for( int i = 0; i < (int)this->vMemoryList.size(); i++ )
   {
     if ( stricmp( this->vMemoryList[i].szName, pszMemory ) == 0 )
     {
@@ -1000,7 +1126,7 @@ int OtmMemoryService::findMemoryInList( char *pszMemory )
 int OtmMemoryService::getFreeSlot()
 {
   // first look for a free slot in the existing list
-  for( int i = 0; i < this->vMemoryList.size(); i++ )
+  for( int i = 0; i < (int)this->vMemoryList.size(); i++ )
   {
     if ( this->vMemoryList[i].szName[0] == 0 )
     {
@@ -1010,12 +1136,17 @@ int OtmMemoryService::getFreeSlot()
 
   // add a new entry when the maximum list size has not been reached yet
   if ( this->vMemoryList.size() < OTMMEMSERVICE_MAX_NUMBER_OF_OPEN_MEMORIES )
+  {
+    OtmMemoryService::OPENEDMEMORY NewEntry;
+    memset( &NewEntry, 0, sizeof(NewEntry) );
+    this->vMemoryList.push_back( NewEntry );
+    return( this->vMemoryList.size() - 1 );
+  } /* endif */
 
-  OPENEDMEMORY NewEntry;
-  memset( &NewEntry, 0, sizeof(NewEntry) );
-  this->vMemoryList.push_back( NewEntry );
   return( -1 );
 }
+
+
 
 /*! \brief close any memories which haven't been used for a long time
   \returns 0
@@ -1027,7 +1158,7 @@ int OtmMemoryService::cleanupMemoryList()
   time( &curTime );
 
   // close any memory in the list which hasn't been used for a long time
-  for( int i = 0; i < this->vMemoryList.size(); i++ )
+  for( int i = 0; i < (int)this->vMemoryList.size(); i++ )
   {
     if ( this->vMemoryList[i].szName[0] == 0 )
     {
@@ -1080,7 +1211,8 @@ int OtmMemoryService::getMemoryHandle( char *pszMemory, PLONG plHandle, wchar_t 
   if ( iRC != 0 )
   {
     unsigned short usRC = 0;
-    EqfGetLastErrorW( this->hSession, &usRC, pszError, iErrorBufSize );
+    EqfGetLastErrorW( this->hSession, &usRC, pszError, (unsigned short)iErrorBufSize );
+    return( iRC );
   } /* endif */
 
   // add opened memory to the memory list
@@ -1116,3 +1248,79 @@ int OtmMemoryService::convertTimeToTMX( LONG lTime, char *pszDateTime )
 
   return( 0 );
 }
+
+/*! \brief convert a TMX time value to a OpenTM2 long time value 
+    \param pszDateTime buffer containing the TMX date and time
+    \param plTime pointer to a long buffer receiving the converted time 
+  \returns 0 
+*/
+int OtmMemoryService::convertTMXTimeToLong( char *pszDateTime, PLONG plTime )
+{
+  *plTime = 0;
+
+  // we currently support only dates in the form YYYYMMDDThhmmssZ
+  if ( (pszDateTime != NULL) && (strlen(pszDateTime) == 16) )
+  {
+    int iYear = 0, iMonth = 0, iDay = 0, iHour = 0, iMin = 0, iSec = 0;
+
+    // split string into date/time parts
+    BOOL fOK = getValue( pszDateTime, 4, &iYear );
+    if ( fOK ) fOK = getValue( pszDateTime + 4, 2, &iMonth );
+    if ( fOK ) fOK = getValue( pszDateTime + 6, 2, &iDay );
+    if ( fOK ) fOK = getValue( pszDateTime + 9, 2, &iHour );
+    if ( fOK ) fOK = getValue( pszDateTime + 11, 2, &iMin );
+    if ( fOK ) fOK = getValue( pszDateTime + 13, 2, &iSec );
+
+    if ( fOK )
+    {
+      struct tm timeStruct;
+      memset( &timeStruct, 0, sizeof(timeStruct) );
+      timeStruct.tm_hour = iHour;
+      timeStruct.tm_min = iMin;
+      timeStruct.tm_sec = iSec;
+      timeStruct.tm_mday = iDay;
+      timeStruct.tm_mon = iMonth - 1;
+      timeStruct.tm_year = iYear - 1900;
+
+      *plTime = mktime( &timeStruct );
+    } /* endif */
+  } /* endif */
+  return( 0 );
+}
+
+/*! \brief extract a numeric value from a string
+    \param pszString string containing the numeric value
+    \param iLen number of digits to be processed
+    \param piResult pointer to a int value receiving the extracted value
+  \returns TRUE if successful and FALSE in case of errors
+*/
+BOOL OtmMemoryService::getValue( PSZ pszString, int iLen, int *piResult )
+{
+  BOOL fOK = TRUE;
+  char szNumber[10];
+  char *pszNumber = szNumber;
+
+  *piResult = 0;
+
+  while ( iLen && fOK )
+  {
+    if ( isdigit(*pszString) )
+    {
+      *pszNumber++ = *pszString++;
+      iLen--;
+    }
+    else
+    {
+      fOK = FALSE;
+    } /* endif */
+  } /*endwhile */
+
+  if ( fOK )
+  {
+    *pszNumber = '\0';
+    *piResult = atoi( szNumber );
+  } /* endif */
+
+  return( fOK );
+} 
+

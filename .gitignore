@@ -1,7 +1,15 @@
-BIN-Debug/*.*
-OBJ-Debug/*.*
+BIN-Debug
+BIN
+Doc/PluginManager
 MAPWIN/*.*
 VS-projects
 Debug
 TEMP
 my-config.bat
+Release
+OBJ-EXE-Debug
+OBJ-Debug
+OBJ
+MAPWIN
+openTM2ScripterGUI/OpenTM2ScripterGUI.jar
+copydebug.bat

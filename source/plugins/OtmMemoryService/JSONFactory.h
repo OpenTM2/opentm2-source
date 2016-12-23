@@ -31,6 +31,7 @@ public:
   static const int INFO_ENDOFPARAMETERLISTREACHED   = 2002;
   static const int ERROR_INVALIDJSONSYNTAX          = 2003;
   static const int ERROR_STARTPARSINGFAILED         = 2004;
+  static const int INFO_BEGINOFELEMENTDETECTED      = 2005;
 
 /*! \brief Starts a JSON string
 
