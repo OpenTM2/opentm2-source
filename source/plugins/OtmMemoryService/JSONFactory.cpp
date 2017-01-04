@@ -835,7 +835,7 @@ int JSONFactory::addDelimiterW
   while ( (iEnd > 0) && (JSONString[iEnd-1] == L' ') ) iEnd--;
   if ( iEnd > 0 )
   {
-    if ( (JSONString[iEnd-1] != L'{') && (JSONString[iEnd-1] != L'[') && (JSONString[iEnd-1] == L':'))
+    if ( (JSONString[iEnd-1] != L'{') && (JSONString[iEnd-1] != L'[') && (JSONString[iEnd-1] != L':'))
     {
       JSONString.append( L"," );
     } /* endif */

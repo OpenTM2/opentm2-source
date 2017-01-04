@@ -165,6 +165,14 @@ int OtmMemoryService::deleteMemory
     return( iRC );
   } /* end */       
 
+  // close the memory if it is open
+  int iIndex = this->findMemoryInList( pData->szMemory );
+  if ( iIndex != -1 )
+  {
+    // close the memory and remove it from our list
+    removeFromMemoryList( iIndex );
+  } /* endif */
+
   // call the OpenTM2 API function
   iRC = (int) EqfDeleteMem( this->hSession, pData->szMemory );
   if ( iRC != 0 )
@@ -416,9 +424,7 @@ typedef struct _CLOSEMEMORYDATA
 
 /*! \brief Close a memory 
   \param strInputParms input parameters in JSON format
-      Sample: { "Memory":"MyTestMemory" } 
   \param strOutParms on return filled with the output parameters in JSON format 
-      Sample: { "ReturnValue":0, "ErrorMsg":"" } 
   \returns 0 if successful or an error code in case of failures
 */
 int OtmMemoryService::closeMemory
@@ -467,11 +473,8 @@ int OtmMemoryService::closeMemory
   }
   else
   {
-    // close the memory
-    EqfCloseMem( this->hSession, this->vMemoryList[iIndex].lHandle, 0 );
-    this->vMemoryList[iIndex].lHandle = 0;
-    this->vMemoryList[iIndex].tLastAccessTime = 0;
-    this->vMemoryList[iIndex].szName[0] = 0;
+    // close the memory and remove it from our list
+    removeFromMemoryList( iIndex );
     pData->szError[0] = 0;
   } /* endif */
   buildErrorReturn( iRC, pData->szError, strOutputParms );
@@ -1164,10 +1167,7 @@ int OtmMemoryService::cleanupMemoryList()
     {
       if ( (curTime - this->vMemoryList[i].tLastAccessTime) > OTMMEMSERVICE_MEMORY_TIMEOUT )
       {
-        EqfCloseMem( this->hSession, this->vMemoryList[i].lHandle, 0 );
-        this->vMemoryList[i].lHandle = 0;
-        this->vMemoryList[i].tLastAccessTime = 0;
-        this->vMemoryList[i].szName[0] = 0;
+        removeFromMemoryList( i );
       }
     } /* endif */
   } /* endfor */
@@ -1216,9 +1216,10 @@ int OtmMemoryService::getMemoryHandle( char *pszMemory, PLONG plHandle, wchar_t 
   } /* endif */
 
   // add opened memory to the memory list
-  this->vMemoryList[iIndex].lHandle = lHandle,
+  this->vMemoryList[iIndex].lHandle = lHandle;
   strcpy( this->vMemoryList[iIndex].szName, pszMemory );
   time( &(this->vMemoryList[iIndex].tLastAccessTime) );
+  *plHandle = lHandle;
 
   return( 0 );
 }
@@ -1324,3 +1325,21 @@ BOOL OtmMemoryService::getValue( PSZ pszString, int iLen, int *piResult )
   return( fOK );
 } 
 
+/*! \brief close a memory and remove it from the open list
+    \param iIndex index of memory in the open list
+  \returns 0 
+*/
+int OtmMemoryService::removeFromMemoryList( int iIndex )
+{
+  LONG lHandle = this->vMemoryList[iIndex].lHandle;
+
+  // remove the memory from the list
+  this->vMemoryList[iIndex].lHandle = 0;
+  this->vMemoryList[iIndex].tLastAccessTime = 0;
+  this->vMemoryList[iIndex].szName[0] = 0;
+
+  // close the memory
+  EqfCloseMem( this->hSession, lHandle, 0 );
+
+  return( 0 );
+} 

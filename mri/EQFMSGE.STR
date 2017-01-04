@@ -1366,7 +1366,7 @@ BEGIN
 
 682 "MT output options error:\012 %1"
 
-683 "!! No message text defined !!"
+683 "The specified memory handle is not invalid."
 
 684 "!! No message text defined !!"
 

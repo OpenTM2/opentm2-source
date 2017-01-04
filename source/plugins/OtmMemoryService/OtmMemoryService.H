@@ -241,6 +241,12 @@ private:
   */
   BOOL getValue( PSZ pszString, int iLen, int *piResult );
 
+  /*! \brief close a memory and remove it from the open list
+      \param iIndex index of memory in the open list
+      \returns 0 
+  */
+  int removeFromMemoryList( int iIndex );
+
   /*! \brief Info structure for an open translation memory
   */
 	typedef struct _OPENEDMEMORY

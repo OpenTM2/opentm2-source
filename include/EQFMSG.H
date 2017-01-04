@@ -7639,8 +7639,8 @@
 // Help:       There was an error in the specified MT output options. Please correct
 //             the error and retry.
 
-#define FREE_0683_xxxxxxxxxxxxxxxxxxxxx                    683
-// Text:       !! No message text defined !!
+#define FUNC_INVALID_MEMORY_HANDLE  683
+// Text:       The specified memory handle is not invalid.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 

@@ -2324,8 +2324,9 @@ USHORT MemoryFactory::APIOpenMem
 
   if ( plHandle == NULL )
   {
-    UtlErrorHwnd( EEA_MANDCMDLINE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
-    return( EEA_MANDCMDLINE );
+    PSZ pszParm = "pointer to memory handle";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
   } /* endif */
 
   int iRC = 0;
@@ -2374,7 +2375,8 @@ USHORT MemoryFactory::APICloseMem
 
   if ( pMem == NULL )
   {
-    return( INVALIDFILEHANDLE_RC );
+    UtlErrorHwnd( FUNC_INVALID_MEMORY_HANDLE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_INVALID_MEMORY_HANDLE );
   } /* endif */
 
   usRC = (USHORT)this->closeMemory( pMem );
@@ -2401,16 +2403,26 @@ USHORT MemoryFactory::APIQueryMem
   OtmProposal *pSearchKey = (OtmProposal *)pvSearchKey;
   std::vector<OtmProposal *> *pProposals = (std::vector<OtmProposal *> *)pvProposals;
 
-  if ( (pvSearchKey == NULL) || (pvProposals == NULL) )
+  if ( pvSearchKey == NULL )
   {
-    return( WRONG_OPTIONS_RC );
+    PSZ pszParm = "pointer to search key";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  if ( pvProposals == NULL )
+  {
+    PSZ pszParm = "pointer to proposal vector";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
   } /* endif */
 
   OtmMemory *pMem = handleToMemoryObject( lHandle );
 
   if ( pMem == NULL )
   {
-    return( INVALIDFILEHANDLE_RC );
+    UtlErrorHwnd( FUNC_INVALID_MEMORY_HANDLE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_INVALID_MEMORY_HANDLE );
   } /* endif */
 
   usRC = (USHORT)pMem->searchProposal( *pSearchKey, *pProposals, lOptions );
@@ -2443,16 +2455,33 @@ USHORT MemoryFactory::APISearchMem
 
   OtmProposal *pProposal = (OtmProposal *)pvProposal;
 
-  if ( (pszSearchString == NULL) || (*pszSearchString  == EOS) || (pszStartPosition == NULL) || (pvProposal == NULL) )
+  if ( (pszSearchString == NULL) || (*pszSearchString  == EOS)  )
   {
-    return( WRONG_OPTIONS_RC );
+    PSZ pszParm = "Search string";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  if ( pszStartPosition == NULL ) 
+  {
+    PSZ pszParm = "pointer to start position";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  if ( pvProposal == NULL )
+  {
+    PSZ pszParm = "pointer to proposal";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
   } /* endif */
 
   OtmMemory *pMem = handleToMemoryObject( lHandle );
 
   if ( pMem == NULL )
   {
-    return( INVALIDFILEHANDLE_RC );
+    UtlErrorHwnd( FUNC_INVALID_MEMORY_HANDLE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_INVALID_MEMORY_HANDLE );
   } /* endif */
 
   // get first or next proposal
@@ -2500,7 +2529,9 @@ USHORT MemoryFactory::APIUpdateMem
 
   if ( (pvNewProposal == NULL) )
   {
-    return( WRONG_OPTIONS_RC );
+    PSZ pszParm = "pointer to proposal";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
   } /* endif */
 
   OtmMemory *pMem = handleToMemoryObject( lHandle );
@@ -2510,7 +2541,7 @@ USHORT MemoryFactory::APIUpdateMem
     return( INVALIDFILEHANDLE_RC );
   } /* endif */
 
-  return( (USHORT)pMem->updateProposal( *pProposal, 0 ) );
+  return( (USHORT)pMem->putProposal( *pProposal ) );
 }
 
 /*! \brief get the index into the memory object table from a memory handle
@@ -2522,7 +2553,7 @@ LONG MemoryFactory::getIndexFromHandle
   LONG        lHandle
 )
 {
-  return( lHandle & 0x00007FF );
+  return( lHandle & 0x000007FF );
 }
 
 /*! \brief get the checksum from a memory handle
@@ -2534,7 +2565,7 @@ LONG MemoryFactory::getCheckSumFromHandle
   LONG        lHandle
 )
 {
-  return( lHandle & 0xFFFF800FF );
+  return( lHandle & 0xFFFFF800 );
 }
 
 /*! \brief compute the checksum for a memory object
@@ -2546,7 +2577,7 @@ LONG MemoryFactory::computeMemoryObjectChecksum
   OtmMemory *pMemory
 )
 {
-  // compute checksum based on the individual byte values of the memory object pointer
+  // compute checksum based on t3he individual byte values of the memory object pointer
   LONG lCheckSum = 0;
   _int64 iPointerValue = (_int64)pMemory;  // use int64 value to enable code for 64bit pointers
   int iSize = sizeof(*pMemory);

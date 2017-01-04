@@ -13,3 +13,5 @@ OBJ
 MAPWIN
 openTM2ScripterGUI/OpenTM2ScripterGUI.jar
 copydebug.bat
+*.IPF
+*.HTB
