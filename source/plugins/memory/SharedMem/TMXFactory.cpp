@@ -1262,7 +1262,7 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
           }
           else
           {
-            strcpy( CurElement.szTMMarkup, "EQFASCII" );
+            strcpy( CurElement.szTMMarkup, "OTMANSI" );
             fWithTagging = FALSE;
           } /* endif */
         }

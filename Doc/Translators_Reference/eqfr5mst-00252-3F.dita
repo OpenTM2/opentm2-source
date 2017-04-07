@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-3F" rev="GF_07122015">
+  <title>Batch Processing WEB-based Shared Translation Memory Content</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This processing supports the upload and download of <q>masses</q> of segments in one <q>batch</q>. 
+       E.g. uploading (importing) several thousands of segments contained in a *.TMX translation memory 
+       would be rather time-consuming using the standard <q>memory import</q> process.</p>
+<!-- ==================================================================================================== -->
+    <section>
+    <b><u>The Batch upload</u></b>:
+      <p>In case there is a large external translation memory (either *.EXP or *.TMX) that needs to be shared 
+         across team members, and that must be stored into a WEB-based Shared Translation Memory, follow these steps
+         (import the external memory into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> by applying 
+         the standard translation memory import functionality):
+         <ul>
+           <li>Right mouse click into the <q>Translation Memory</q> list window.</li>
+           <li>From the context menu, select <q>Import…</q>.</li>
+           <li>Within the dialog window <q>Memory Import</q>, navigate to the directory, where the external translation memory 
+               is located in, and select the translation memory you want to import. Click on the button <q>Import</q>.</li>
+           <li>In panel <q>New Translation Memory</q>, and from <q>Type:</q>, select <q><b>Shared Translation Memory (Web based)</b></q>
+             (this is the important step that must take place to generate a WEB-based Shared Translation Memory).
+             <fig id="SharedMemoryNew" expanse="column">
+               <title>The panel <q>New Translation Memory</q>.</title>
+               <image placement="break" href="SharedMemoryNew.gif">
+                 <alt>The panel New Translation Memory.</alt>
+               </image>
+             </fig>
+           </li>
+
+           <li>Click the button <q>Create</q>. The panel <q>Create a shared memory</q> appears. See that all fields are already filled with data.
+             <fig id="SharedMemoryCreate" expanse="column">
+               <title>The panel <q>Create a Shared Memory</q>.</title>
+               <image placement="break" href="SharedMemoryCreate.gif">
+                 <alt>The panel Create a Shared Memory.</alt>
+               </image>
+             </fig>           
+           </li>
+           <li>Click the button <q>OK</q> to finish the memory creation.</li>
+           <li>See the message panel that confirms that the translation memory was created successfully.  
+           <fig id="EQF0064_MessagePanel" expanse="column">
+               <title>The message panel <q>EQF0064</q>.</title>
+               <image placement="break" href="EQF0064_MessagePanel.gif">
+                 <alt>The message panel EQF0064.</alt>
+               </image>
+             </fig>
+           </li>
+           <li>Click the button <q>OK</q> to finish the memory creation, and wait until the import process completed.
+             <fig id="EQF0063_MessagePanel" expanse="column">
+               <title>The message panel <q>EQF0063</q>.</title>
+               <image placement="break" href="EQF0063_MessagePanel.gif">
+                 <alt>The message panel EQF0063.</alt>
+               </image>
+             </fig>
+           </li>
+           <li>Click on button <q>OK</q> and the message window gets closed.</li>
+           <li>Begin the batch upload by right-mouse clicking on the newly imported translation memory.</li>
+           <li>From the context menu, select <q>Batch upload</q>.</li>
+           <li>Wait until the uploading has completed.
+             <fig id="SharedMemoryBatchUpload" expanse="column">
+               <title>The context menu <q>Batch upload</q>.</title>
+               <image placement="break" href="SharedMemoryBatchUpload.gif">
+                 <alt>The context menu Batch upload.</alt>
+               </image>
+             </fig>
+           </li>
+           <li><b><u>Important</u></b>: In the panel <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator</q>, 
+             and when uploading and downloading a translation memory in the batch-mode, make sure that the traslation memory is 
+             not contained in <q>Selected</q>.
+             <fig id="SharedMemoryReplicator2" expanse="column">
+               <title>The panel <q>OpenTM2 Memory Replicator</q>.</title>
+               <image placement="break" href="SharedMemoryReplicator2.gif">
+                 <alt>The panel OpenTM2 Memory Replicator.</alt>
+               </image>
+             </fig>
+           </li>
+        </ul>
+      </p>
+    </section>
+<!-- ==================================================================================================== -->    
+    <section>
+      <p><b><u>The Batch download</u></b>:</p>
+      <p>If there are large memories on the Web-based Shared Memory Server, and you want to download it to the local client, follow these steps:
+        <ul>
+          <li>Connect to the server as described in section <q>4.2 - Connecting to a Web-based Shared Translation Memory</q>.</li>
+          <li>Panel <q>Connect Shared Translation Memory databases</q> opens.</li>
+          <li>In windows <q>Available</q> select the memory you want to download, and move it to the <q>Selected</q> window. 
+              Then click on the button <q>Connect</q>.
+            <fig id="ConnectSharedMemory2" expanse="column">
+              <title>The panel <q>Connect Shared Translation Memory databases</q></title>
+              <image placement="break" href="ConnectSharedMemory2.gif">
+                <alt>The panel Connect Shared Translation Memory databases</alt>
+              </image>
+            </fig>
+          </li>
+          <li>Right-mouse click the translation memory, and select “Batch download”.</li>
+          <li>Wait until the download has completed.
+            <fig id="SharedMemoryBatchDownload" expanse="column">
+              <title>The context menu <q>Batch download</q>.</title>
+              <image placement="break" href="SharedMemoryBatchDownload.gif">
+                <alt>The context menu Batch download.</alt>
+              </image>
+            </fig>
+          </li>
+          <li><b><u>Important</u></b>: In the panel <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator</q>, 
+            and when uploading and downloading a translation memory in the batch-mode, make sure that the traslation memory is 
+            not contained in <q>Selected</q>.</li>
+        </ul>
+      </p>
+    </section>
+<!-- ==================================================================================================== -->    
+  </body>
+</topic>

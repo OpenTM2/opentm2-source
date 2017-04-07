@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00510">
+<title>EqfOrganizeMem</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfOrganizeMem</indexterm><indexterm>programming interface calls<indexterm>EqfOrganizeMem</indexterm></indexterm>
+<p><i>EqfOrganizeMem</i> organizes the specified <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+<p>This function performs the organization in small units. Call it
+repetitively until it returns a return code other than CONTINUE_RC.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfOrganizeMem</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszMemName</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszMemName</entry>
+<entry colname="col3">The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be organized.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">CONTINUE_RC</entry>
+<entry colname="col2">The organization of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> has not completed
+yet. Call <i>EqfOrganizeMem</i> again.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2"><ph otherprops="print">Error code (EQF message number).
+Use <i>EqfGetLastError</i> (see <ph otherprops="print">page <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></ph><xref otherprops="display" href="eqfr5mst-00492.dita#eqfr5mst-00492"/>) to retrieve the complete
+error information.</ph><ph otherprops="display">Error code (EQF message
+number). Use <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/> to retrieve the complete
+error information.</ph></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // organize the Translation Memory MEMDB1
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfOrganizeMem( hSession, "MEMDB1" );
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

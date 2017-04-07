@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="sgmxlm2">
+<title>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> format</title>
+<prolog><metadata><keywords>
+
+<indexterm>external
+format<indexterm>example of Translation Memory format</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following shows part of an SGML-based <keyword conref="common-symbols.dita#common-symbols/xlmem"/> containing two
+segments. The separator in the segment control information is indicated
+by the symbol •. The combination of the <i>carriage
+return</i> and the <i>line feed</i> characters (<keyword conref="common-symbols.dita#common-symbols/crlf"/>)
+is not shown in this example.  
+<codeblock>&lt;NTMemoryDb&gt;
+&lt;Description&gt;
+This is a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> sample
+&lt;/Description&gt;
+⋮
+&lt;Segment&gt;0000000001
+&lt;Control&gt;
+000015•0•0000000668798940•English(U.S.)•German(national)••EQFBOOK•DEMO.SCR
+&lt;/Control&gt;
+&lt;Source&gt;The amount of data that you wish to process
+&lt;/Source&gt;
+&lt;Target&gt;Die Datenmenge, die verarbeitet werden soll
+&lt;/Target&gt;
+&lt;/Segment&gt;
+⋮
+&lt;Segment&gt;0000000043
+&lt;Control&gt;
+000003•0•0000000668798783•English(U.S.)•German(national)•EVS•EQFBOOK•DEMO.SCR
+&lt;/Control&gt;
+&lt;Source&gt;The IBM 9370 system includes a processor, I/O devices and the appropriate
+software to fulfill your data processing requirements. &lt;/Source&gt;
+&lt;Target&gt;Das System IBM 9370 umfaßt den Prozessor, E/A Geräte sowie die
+entsprechende Software, um den Ansprüchen bei der Informationsverarbeitung
+gerecht zu werden. &lt;/Target&gt;
+&lt;/Segment&gt;
+⋮
+&lt;/NTMemoryDb&gt;</codeblock> </p>
+</body></topic>

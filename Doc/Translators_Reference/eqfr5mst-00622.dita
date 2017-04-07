@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00622">
+  <title>Automatic font conversion for translated RTF documents</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>RTF documents<indexterm>automatic font conversion</indexterm></indexterm>
+        <indexterm>automatic font conversion<indexterm>RTF documents</indexterm></indexterm>
+        <indexterm>font conversion<indexterm>automatic, RTF documents</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports the automatic font
+      conversion for translated RTF documents. You can see the conversion when postediting your
+      translation (provided that all the required fonts are installed), or after exporting the
+      translated document.</p>
+    <p>The specifications for the automatic font substitution are in the language-specific sections
+      of file <codeph>..\otm\table\eqfrtf.chr</codeph>. If you want to change the specifications,
+      you need to change the parameters following the keywords <codeph>CHANGEFONT</codeph> or
+        <codeph>DEFCHGFONT</codeph>.</p>
+    <p>If you want to add specifications for another language, follow the layout of the already
+      existing specifications in this file.</p>
+    <ul>
+      <li><codeph>CHANGEFONT</codeph> specifies one or more one-to-one font substitutions. <p>The
+          general structure of an entry is:
+          <codeblock>CHANGEFONT="[<i>source font name</i>]=<i>RTF font spec. for target font</i>" \
+             (...)
+           "[<i>last entry</i>]=..."</codeblock>where
+          substitutions are enclosed in double quote pairs, and separated by backslash
+          characters.</p>
+        <p>The following example:
+          <codeblock>CHANGEFONT="[Times New Roman]={\f%1\froman\fprq2\fcharset2\fprq2 Arial;}" \
+           "[Courier]={\f%1\froman\fprq2\fcharset2\fprq2 Garamond;}"
+</codeblock>specifies
+          font substitution from <q>Times New Roman</q> to <q>Arial</q> and from <q>Courier</q> to
+            <q>Garamond</q>. The other characters in the <i>RTF font spec. for target font</i>
+          specify special characteristics of the substitution.</p></li>
+      <li><codeph>DEFCHGFONT</codeph> specifies font family substitution. <p>The general structure
+          of an entry is:
+          <codeblock>DEFCHGFONT="[<i>source font family</i>]=<i>RTF font spec. for target font family</i>" \
+             (...)
+           "[<i>last entry</i>]=..."</codeblock>where
+          substitutions are enclosed in double quote pairs, and separated by backslash
+          characters.</p>
+        <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports the following font
+          families as <i>RTF font spec. for target font family</i>:<indexterm>font
+              family<indexterm>for automatic font substitution</indexterm></indexterm>
+          <table>
+            <title>RTF font specification for the target font family</title>
+            <tgroup cols="3">
+              <colspec colname="col1" colwidth="56*"/>
+              <colspec colname="col2" colwidth="138*"/>
+              <colspec colname="col3" colwidth="101*"/>
+              <thead>
+                <row>
+                  <entry colname="col1" valign="top">Font family</entry>
+                  <entry colname="col2" valign="top">Characteristics</entry>
+                  <entry colname="col3" valign="top">Examples</entry></row>
+              </thead>
+              <tbody>
+                <row>
+                  <entry colname="col1">\froman</entry>
+                  <entry colname="col2">Roman, proportionally spaced serif fonts</entry>
+                  <entry colname="col3">Times New Roman, Palatino</entry></row>
+                <row>
+                  <entry colname="col1">\fswiss</entry>
+                  <entry colname="col2">Swiss, proportionally spaced sans serif fonts</entry>
+                  <entry colname="col3">Arial</entry></row>
+                <row>
+                  <entry colname="col1">\fmodern</entry>
+                  <entry colname="col2">Fixed-pitch serif and sans serif fonts</entry>
+                  <entry colname="col3">Courier New, Pica</entry></row>
+                <row>
+                  <entry colname="col1">\fscript</entry>
+                  <entry colname="col2">Script fonts</entry>
+                  <entry colname="col3">Cursive</entry></row>
+                <row>
+                  <entry colname="col1">\fdecor</entry>
+                  <entry colname="col2">Decorative fonts</entry>
+                  <entry colname="col3">Old English, ITC Zapf Chancery</entry></row>
+                <row>
+                  <entry colname="col1">\ftech</entry>
+                  <entry colname="col2">Technical, symbol, and mathematical fonts</entry>
+                  <entry colname="col3">Symbol</entry></row>
+                <row>
+                  <entry colname="col1">\fbidi</entry>
+                  <entry colname="col2">Arabic, Hebrew, or other bidirectional font</entry>
+                  <entry colname="col3">Miriam</entry></row>
+              </tbody>
+            </tgroup>
+          </table></p></li>
+    </ul>
+    <note>If you use both keywords in a language section, and specify identical source fonts, the
+      one-to-one font substitution takes precedence.</note>
+  </body>
+</topic>

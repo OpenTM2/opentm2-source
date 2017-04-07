@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00262">
+<title>What you can do with dictionaries</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers several lookup functions for terms in dictionaries and their
+data: 
+<ul>
+<li>You can search for terms using general search criteria and filters defined
+by yourself (Look up a Term function).</li>
+<li>You can display all data of a dictionary entry or parts of it (Lookup
+Entry function).</li>
+<li>You can add and change dictionary entries (Edit an Entry function).</li>
+</ul></p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> dictionaries can be printed to a printer or to a file. You can select
+the entry fields to be printed and how to arrange them in the printout. This
+layout is defined in a print format file. You can also use filters to print
+selected entries only.</p>
+<p>A dictionary can be shared with other users by means of the dictionary <i>export</i> function, or if it has been defined to reside on
+a shared disk when it was created. <indexterm>dictionary<indexterm>sharing</indexterm></indexterm><indexterm>sharing<indexterm>dictionaries</indexterm></indexterm>If you receive
+an exported dictionary, you can <i>import</i> it into your
+system.</p>
+<p>During import, you can also <i>merge</i> the contents
+of one dictionary into another. In addition, you can create dictionaries tailored
+to suit your own needs. <indexterm>dictionary<indexterm>personal</indexterm></indexterm>To
+create a new dictionary, you must determine the <i>dictionary
+structure</i>, this means, which data elements in a dictionary are important
+to you. You can start using the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> default structure or using other existing
+dictionary structures that you can subsequently change.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> dictionaries can be protected with a password against unauthorized
+changes if necessary.</p>
+<p>Most of the processing functions <keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers for dictionaries can be
+started from the <q>Dictionary List</q> window.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The dictionary must exist (except if you import a dictionary).</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <q>Dictionary List</q> window in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main window.</li>
+<li>A dictionary with which you want to work.Skip this step when
+importing or creating.</li>
+<li>An action from the <b>File</b> menu.</li>
+</ol></p>
+<p>The <q>Dictionary List</q> window is displayed.</p>
+<p>This window displays a list of the existing dictionaries. When you select
+a command from one of the menus, you are taken to another window where you
+can specify processing options.</p>
+</section></refbody></reference>

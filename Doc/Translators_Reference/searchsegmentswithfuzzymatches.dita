@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="searchsegmentswithfuzzymatches">
+  <title><!--rev=ws03012010-->Search segments with fuzzy matches</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a Search Segments with
+        Fuzzy Matches function, which works across all or some documents of a folder or across a
+        group of folders.</p>
+      <p>This function might be helpful in the pre-translation process to identify segments which
+        can be easily translated by using a fuzzy memory proposal and change some tagging or a few
+        words.</p>
+      <p>Note that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches and replaces
+        only pieces of text that can be translated. Markup tags cannot be changed. You can control
+        whether <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches in protected
+        text areas, like inline tags, for translatable text. This is helpful if you want to include
+        markup tag attribute values in the search process.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The folder must exist, and its documents must have been analyzed.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>You can start this function from a <q>Folder List</q> window or from a <q>Document List</q>
+        window. Here the start from the <q>Document List</q>window is described.</p>
+      <p>Select: <ol>
+          <li>One or more documents you want to have searched through from the <q>Document List</q>
+            window</li>
+          <li>from the menu</li>
+        </ol></p>
+      <p>The <q>Search Segments With Fuzzy matches</q> window is displayed (see <xref
+          href="#searchsegmentswithfuzzymatches"/>).
+              <required-cleanup><indexterm>windows<indexterm>Search Segments With Fuzzy
+              matches</indexterm></indexterm></required-cleanup><fig id="fuzzysearch" expanse="column">
+          <title>Search Segments With Fuzzy matches window</title><image placement="break"
+            href="fuzzysearch.gif"><alt>Figure shows Search Segments With Fuzzy matches
+            window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Search fuzzy matches up to </pt>
+          <pd>select here the class of the segments with fuzzy matches being searched. <p>The class
+              is the number of different words between the segment and the memory proposal.</p>
+            <p>Differences in white spaces and inline tagging are ignored.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Search results </pt>
+          <pd>In this area the results of the search are displayed. <p>For each entry the folder
+              name, the document name, the segment number, the segment data and the source of the
+              memory proposal is shown. </p>
+            <p>The differences between the segment text and the memory proposal are
+            highlighted.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Start search </pt>
+          <pd>Starts the search for segments with fuzzy matches. <p>The segments which match the
+              selected class are displayed in the result area.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Stop search </pt>
+          <pd>Stops the current search. </pd>
+        </plentry>
+        <plentry>
+          <pt>Open document </pt>
+          <pd>Opens the document which contains the selected segment and makes the segment the
+            active one. Opens the document which contains the selected segment and makes the segment
+            the active one. <p>You can also open the document and position to the segment by
+              double-clicking the entry in the result list. </p></pd>
+        </plentry>
+        <plentry>
+          <pt>Cancel </pt>
+          <pd>Stops the search and the interaction with this window and returns you to the starting
+            point. <p>Help Gives information to help you interact with this window. </p></pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The segments matching the selected class are displayed in the result area.</p>
+      <p>Results displayed in the Search Segments With Fuzzy matches window (see <xref
+          href="#searchsegmentswithfuzzymatches"/>).
+              <required-cleanup><indexterm>windows<indexterm>Search Segments With Fuzzy matches
+                window</indexterm></indexterm></required-cleanup><fig id="fuzzysearchresult" expanse="column">
+          <title>Search Segments With Fuzzy matches window</title><image placement="break"
+            href="fuzzysearchresult.gif"><alt>Search Segments With Fuzzy matches
+            window</alt></image></fig>
+      </p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00411">
+  <title>Converting SGML memory databases into TMX format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> allows to turn a *.EXP translation 
+         memory (an SGML-based <keyword conref="common-symbols.dita#common-symbols/tm4w"/> translation memory)
+         into the *.TMX translation memory format. This conversion is done using the DOS line command utility OTMEXP2TMX.</p>
+<!--      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to remove inline
+        tagging from the segments in an external (= exported memory). For security reasons the
+        segments are not updated inplace but a new memory is created containing the processed
+        segments.</p>-->
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMEXP2TMX</indexterm>
+      <indexterm>commands<indexterm>OTMEXP2TMX</indexterm></indexterm>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OTMEXP2TMX</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>INMEM</kwd>
+          <oper>=</oper>
+          <var>inmem</var>
+        </groupseq>
+        <!--        <groupseq>
+          <kwd>InMEm</kwd>
+        </groupseq>-->
+<!--        <groupseq>
+          <kwd>-</kwd>
+        </groupseq>-->
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>OUTMEM</kwd>
+            <oper>=</oper>
+            <var>outmem</var>
+          </groupseq>
+        </groupchoice>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>INMODE</kwd>
+            <oper>=</oper>
+            <var>im</var>
+          </groupseq>
+        </groupchoice>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>OUTMODE</kwd>
+            <oper>=</oper>
+            <var>om</var>
+          </groupseq>
+        </groupchoice>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/INMEM =<i>inmem</i></pt>
+          <pd><i>inmem</i> is the fully qualified file name of the input memory in SGML format (This name can contain wildcard characters)</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTMEM =<i>outmem</i></pt>
+          <pd><i>outmem</i> is the fully qualified file name of the output memory in TMX format. When no output memory name is specified, 
+              the input memory name is used as output memory name with the extension changed to TMX</pd>
+        </plentry>
+        <plentry>
+          <pt>/INMODE =<i>im</i></pt>
+          <pd><i>im</i> specifies the encoding of the input memory and can be UTF16, ASCII, ANSI or the number of a codepage. 
+              The input mode has to be specified only when the memory is not encoded in UTF16 and does not contain the 
+              &lt;codepage&gt; tag in the header</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTMODE=<i>om</i></pt>
+          <pd><i>om</i> specifies the encoding of the output memory and can be UTF8 or UTF16. When not specified UTF8 is used as default</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. 
+            You may not use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p> The following example show how to use the OTMEXP2TMX command.</p>
+      <p>Enter the OTMEXP2TMX command as follows:</p>
+        <section>
+          <title>Example</title>
+          <codeblock>otmexp2tmx c:\MyMemory\*.EXP</codeblock>
+        </section>
+      <p>In this example all *.EXP memory databases located in folder c:\MyMemory are converted into
+         the TMX format. The output memory name will be the input memory name with an extension of
+         TMX, and the encoding of the output memory will be UTF8.</p>
+    </example>
+  </refbody>
+</reference>

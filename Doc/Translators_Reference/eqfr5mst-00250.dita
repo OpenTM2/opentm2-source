@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00250">
+<title>Revising external Translation Memory databases</title>
+<prolog><metadata><keywords>
+
+<indexterm>revising<indexterm>external Translation Memory databases</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>An external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> contains segments in their original sequence.
+That is, the segments are placed in an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in the sequence
+in which they occur in the documents.</p>
+<p>You can edit the external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> with an editor of your choice
+as follows: 
+<ol>
+<li>Remove all segments that have no corresponding source or target
+segment.</li>
+<li>To show that a segment pair has been checked for correctness by
+a human translator and that it is no longer a machine-generated match,
+change the character that indicates machine translation in the external <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+To see where this character is located in the segment control information
+of the external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and how to change it, refer to <xref href="eqfr5mst-00223.dita#eqfr5mst-00223"/>.</li>
+</ol></p>
+</body></topic>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00076">
+  <title>Searching for terms in Translation Memory databases</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Searching for terms in Translation Memory database</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The function <b>Concordance search</b> allows to search through one or more Translation Memory databases for terms. This function is 
+      useful to search for other translations of the given term or to verify the context of translations.</p>
+    <p>The concordance search is activated from the <b>Edit</b> pulldown menu of the Translation Environment.</p>
+    <p>The concordance search window is a modeless window which can be opened parallel to the other windows of the Translation Environment; 
+      i.e. you can work in the translation window without having to close the concordance search window.</p>
+    <p>The window can be positioned everywhere on the desktop and its size is customizable.</p>
+    <parml>
+      <plentry>
+        <pt>Prerequisites</pt>
+        <pd>The <q>Translation Environment</q> is active.</pd>
+      </plentry>
+      <plentry>
+        <pt>Calling sequence</pt>
+        <pd>Select: <p><b>Concordance Search</b>… from the <b>Edit</b> menu</p>
+          <p>The <q>Concordance Search</q> window is displayed (see <xref  href="#eqfr5mst-00076/concordancesearch"/>) 
+            <fig id="concordancesearch" expanse="column">
+              <title>Concordance Search window </title>
+              <image placement="break" href="concordancesearch.gif">
+                <alt>Figure shows Concordance Search window</alt>
+              </image>
+            </fig>
+          </p>
+          <p><b>Options and parameters</b></p></pd>
+      </plentry>
+      <plentry>
+        <pt>Term(s)</pt>
+        <pd>Enter here the term being searched for. This field is preset with the contents of the clipboard. The term is exactly searched 
+          like it has been specified in this field.</pd>
+      </plentry>
+      <plentry>
+        <pt>Source</pt>
+        <pd>When selected the search is done in the source of the memory proposals.</pd>
+      </plentry>
+      <plentry>
+        <pt>Target</pt>
+        <pd>When selected the search is done in the target of the memory proposals.</pd>
+      </plentry>
+      <plentry>
+        <pt>Primary memory</pt>
+        <pd>Check this option to search the primary memory. The primary memory is the memory active for the current document. The name of the 
+          primary memory is displayed in parenthesis following the text <q>Primary memory</q>.</pd>
+      </plentry>
+      <plentry>
+        <pt>Additional Memories</pt>
+        <pd>Check this option to select other memory databases. When this option has been active additional memory databases can be selected 
+          by pressing the <q>Change</q> button.</pd>
+      </plentry>
+      <plentry>
+        <pt>Change</pt>
+        <pd>Press this button to activate the memory selection dialog and select one or more memory databases for the search.</pd>
+      </plentry>
+      <plentry>
+        <pt>Ignore case</pt>
+        <pd>When selected the search is performed case insensitive otherwise is it performed case sensitive. </pd>
+      </plentry>
+      <plentry>
+        <pt>Results</pt>
+        <pd>The search results are shown in this area. Each found proposal starts with a delimiter line containing the document and segment 
+          number of the memory proposal followed by the source of the proposal and the target of the proposal. The matching portions of the 
+          text are colored in yellow.</pd>
+      </plentry>
+      <plentry>
+        <pt>Find in result area</pt>
+        <pd>Enter here the text which is to be searched in the result area.</pd>
+      </plentry>
+      <plentry>
+        <pt>Find</pt>
+        <pd>Press this button to start the search for the entered text. Each time the button is pressed the next occurrence of the text (if any) 
+          is selected. At the end of the result area the search restarts at the beginning of the result area.</pd>
+      </plentry>
+      <plentry>
+        <pt>Search</pt>
+        <pd>Press this button to start the search. The button is only active when some text has been entered in the Term(s) field and when at 
+          least one search memory has been selected. The button becomes inactive while the search is performed.</pd>
+      </plentry>
+      <plentry>
+        <pt>Stop search</pt>
+        <pd>This button is only active while a search is running. Press the button to stop the current search and to enter the search criteria 
+          for a new search.</pd>
+      </plentry>
+      <plentry>
+        <pt>Cancel</pt>
+        <pd>Press this button at any time to close the concordance search window. </pd>
+      </plentry>
+    </parml>
+  </body>
+</topic>

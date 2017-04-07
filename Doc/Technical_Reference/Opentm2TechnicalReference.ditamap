@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ibmbook PUBLIC "-//IBM//DTD DITA IBM BookMap//EN" "ibmbook.dtd">
+<ibmbook>
+  <!-- ********************************************************************************************** -->
+  <ibmbooktitle>
+    <ibmbooklibrary>OpenTM2 for Windows</ibmbooklibrary>
+    <ibmmainbooktitle>Technical Reference</ibmmainbooktitle>
+    <ibmshorttitle>Technical Reference</ibmshorttitle>
+  </ibmbooktitle>
+  <!-- ********************************************************************************************** -->
+  <bookmeta>
+    <critdates>
+      <created date="REQTEXT"/>
+      <!--REQTEXT-->
+    </critdates>
+    <prodinfo>
+      <prodname>OpenTM2 for Windows</prodname>
+      <vrmlist>
+        <vrm version="Version 1.4.0"/>
+      </vrmlist>
+    </prodinfo>
+    <bookrights>
+      <copyrfirst>
+        <year>2016</year>
+      </copyrfirst>
+      <copyrlast>
+        <year>2017</year>
+      </copyrlast>
+      <bookowner>
+        <organization>IBM and Others</organization>
+      </bookowner>
+    </bookrights>
+  </bookmeta>
+  <!-- ********************************************************************************************** -->
+  <ibmfrontmatter>
+    <specialnotices href="eqfr5mst02.dita"> </specialnotices>
+    <editionnotices href="eqfr5mst03.dita" navtitle="Fourth Edition, April 2017"> </editionnotices>
+    <frontbooklists>
+      <toc/>
+    </frontbooklists>
+    <preface href="preface.dita" navtitle="About this book">
+      <topicref href="eqfr5mst-00001.dita" navtitle="Related information"> </topicref>
+    </preface>
+    <topicref href="SummaryOfChanges.dita" navtitle="Summary of changes"> </topicref>
+    <topicref href="eqfr5mst-NF130.dita"   navtitle="New APIs in OpenTM2 v1.3.0"></topicref> 
+    <topicref href="eqfr5mst-NF131.dita"   navtitle="New and Updated APIs in OpenTM2 v1.3.1"></topicref>
+    <topicref href="eqfr5mst-NF132.dita"   navtitle="New and Updated APIs in OpenTM2 v1.3.2"></topicref>
+    <topicref href="eqfr5mst-NF140.dita"   navtitle="New APIs in OpenTM2 v1.4.0"></topicref>
+  </ibmfrontmatter>
+  <!-- ********************************************************************************************** -->
+  <part href="eqfr5mst09.dita" navtitle="Programming interfaces">
+    <!-- ********************************************************************************************** -->
+    <!-- ** API for ADDING EDITORS ******************************************************************** -->
+    <!-- ********************************************************************************************** -->
+    <chapter href="eqfr5mst-00424.dita" navtitle="Application programming interface for adding editors">
+      <topicref href="eqfr5mst-00425.dita" navtitle="Data types"> </topicref>
+      <topicref href="eqfr5mst-00426.dita" navtitle="Return codes"> </topicref>
+      <topicref href="eqfr5mst-00427.dita" navtitle="API calls">
+        <topicref href="eqfr5mst-00428.dita" navtitle="EQFADJUSTCOUNTINFO"> </topicref>
+        <topicref href="eqfr5mst-00429.dita" navtitle="EQFCLEAR"> </topicref>
+        <topicref href="eqfr5mst-00430.dita" navtitle="EQFCLOSE"> </topicref>
+        <topicref href="eqfr5mst-00431.dita" navtitle="EQFCONVERTFILENAMES"> </topicref>
+        <topicref href="eqfr5mst-00432.dita" navtitle="EQFDELSEG"> </topicref>
+        <topicref href="eqfr5mst-00433.dita" navtitle="EQFDICTLOOK"> </topicref>
+        <topicref href="eqfr5mst-00434.dita" navtitle="EQFFILECONVERSIONEX"> </topicref>
+        <topicref href="eqfr5mst-00435.dita" navtitle="EQFGETDICT"> </topicref>
+        <topicref href="eqfr5mst-00436.dita" navtitle="EQFGETDOCFORMAT"> </topicref>
+        <topicref href="eqfr5mst-00437.dita" navtitle="EQFGETPROP"> </topicref>
+        <topicref href="eqfr5mst-00438.dita" navtitle="EQFGETSEGNUM"> </topicref>
+        <topicref href="eqfr5mst-00439.dita" navtitle="EQFGETSOURCELANG"> </topicref>
+        <topicref href="eqfr5mst-00440.dita" navtitle="EQFGETTARGETLANG"> </topicref>
+        <topicref href="eqfr5mst-00441.dita" navtitle="EQFINIT"> </topicref>
+        <topicref href="eqfr5mst-00442.dita" navtitle="EQFQUERYEXITINFO"> </topicref>
+        <topicref href="eqfr5mst-00443.dita" navtitle="EQFSAVESEG"> </topicref>
+        <topicref href="eqfr5mst-00444.dita" navtitle="EQFSEGFILECONVERTASCII2UNICODE"> </topicref>
+        <topicref href="eqfr5mst-00445.dita" navtitle="EQFSEGFILECONVERTUNICODE2ASCII"> </topicref>
+        <topicref href="eqfr5mst-00446.dita" navtitle="EQFTRANSSEG"> </topicref>
+        <topicref href="eqfr5mst-00447.dita" navtitle="EQFWORDCNTPERSEG"> </topicref>
+        <topicref href="eqfr5mst-00448.dita" navtitle="EQFWRITEHISTLOG"> </topicref>
+      </topicref>
+    </chapter>
+    <!-- ********************************************************************************************** -->
+    <!-- ** General APIs ****************************************************************************** -->
+    <!-- ********************************************************************************************** -->    
+    <chapter href="eqfr5mst-00449.dita" navtitle="The general application programming interface">
+      <topicref href="eqfr5mst-00450.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="eqfr5mst-00451.dita" navtitle="Data types"> </topicref>
+      <topicref href="eqfr5mst-00452.dita" navtitle="Sample code"> </topicref>
+      <topicref href="eqfr5mst-00453.dita" navtitle="Calling interface reference">
+        <topicref href="eqfr5mst-00454.dita" navtitle="EqfAddCTIDList"> </topicref>
+        <topicref href="eqfr5mst-00454-A.dita" navtitle="EqfAddMatchSegID"> </topicref>
+        <topicref href="eqfr5mst-00455.dita" navtitle="EqfAnalyzeDoc"> </topicref>
+        <topicref href="eqfr5mst-00456.dita" navtitle="EqfAnalyzeDocEx"> </topicref>
+        <topicref href="eqfr5mst-00457.dita" navtitle="EqfArchiveTM"> </topicref>
+        <topicref href="eqfr5mst-00458.dita" navtitle="EqfBuildSegDocName"> </topicref>
+        <topicref href="eqfr5mst-00459.dita" navtitle="EqfChangeFolProps"> </topicref>
+        <topicref href="eqfr5mst-00460.dita" navtitle="EqfChangeFolPropsEx"> </topicref>
+        <topicref href="eqfr5mst-00461.dita" navtitle="EqfChangeMFlag"> </topicref>
+        <topicref href="eqfr5mst-00462.dita" navtitle="EqfCleanMemory"> </topicref>
+        <topicref href="eqfr5mst-00462-A.dita" navtitle="EqfClearMTFlag"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00462-B.dita" navtitle="EqfCloseMem"> </topicref>
+        <topicref href="eqfr5mst-00463.dita" navtitle="EqfCountWords"> </topicref>
+        <topicref href="eqfr5mst-00463-A.dita" navtitle="EqfCountWordsInString"> </topicref>
+        <topicref href="eqfr5mst-00464.dita" navtitle="EqfCreateCntReport">
+          <topicref href="eqfr5mst-00465.dita" navtitle="Parameters for structReportType"> </topicref>
+          <topicref href="eqfr5mst-00466.dita" navtitle="Parameters for structRepSettings"> </topicref>
+          <topicref href="eqfr5mst-00467.dita" navtitle="Parameters for structFactSheet"> </topicref>
+          <topicref href="eqfr5mst-00468.dita" navtitle="Parameters for structFinalFactors"> </topicref>
+        </topicref>
+        <topicref href="eqfr5mst-00464-A.dita" navtitle="EqfCreateCntReportEx">
+          <topicref href="eqfr5mst-00464-B.dita" navtitle="Parameters for structReportType"> </topicref>
+          <topicref href="eqfr5mst-00464-C.dita" navtitle="Parameters for structRepSettings"> </topicref>
+          <topicref href="eqfr5mst-00464-D.dita" navtitle="Parameters for structFactSheet"> </topicref>
+          <topicref href="eqfr5mst-00464-E.dita" navtitle="Parameters for structFinalFactors"> </topicref>
+        </topicref> 
+        <topicref href="eqfr5mst-00469.dita" navtitle="EqfCreateCountReport"> </topicref>
+        <topicref href="eqfr5mst-00469-A.dita" navtitle="EqfCreateCountReportEx"> </topicref> 
+        <topicref href="eqfr5mst-00470.dita" navtitle="EqfCreateControlledFolder"> </topicref>
+        <topicref href="eqfr5mst-00471.dita" navtitle="EqfCreateFolder"> </topicref>
+        <topicref href="eqfr5mst-00472.dita" navtitle="EqfCreateITM"> </topicref>
+        <topicref href="eqfr5mst-00472-A.dita" navtitle="EqfCreateMarkup"> </topicref>
+        <topicref href="eqfr5mst-00473.dita" navtitle="EqfCreateMem"> </topicref>
+        <topicref href="eqfr5mst-00474.dita" navtitle="EqfCreateSubFolder"> </topicref>
+        <topicref href="eqfr5mst-00474-A.dita" navtitle="EqfDeleteDict"> </topicref>
+        <topicref href="eqfr5mst-00475.dita" navtitle="EqfDeleteDoc"> </topicref>
+        <topicref href="eqfr5mst-00476.dita" navtitle="EqfDeleteFolder"> </topicref>
+        <topicref href="eqfr5mst-00478.dita" navtitle="EqfDeleteMem"> </topicref>
+        <topicref href="eqfr5mst-00478-A.dita" navtitle="EqfDeleteMTLog"> </topicref>
+        <topicref href="eqfr5mst-00479.dita" navtitle="EqfDictionaryExists"> </topicref>
+        <topicref href="eqfr5mst-00480.dita" navtitle="EqfDocumentExists"> </topicref>
+        <topicref href="eqfr5mst-00481.dita" navtitle="EqfExportDict"> </topicref>
+        <topicref href="eqfr5mst-00482.dita" navtitle="EqfExportDoc"> </topicref>
+        <topicref href="eqfr5mst-00483.dita" navtitle="EqfExportFolder"> </topicref>
+        <topicref href="eqfr5mst-00484.dita" navtitle="EqfExportFolderFP"> </topicref>
+        <topicref href="eqfr5mst-00485.dita" navtitle="EqfExportFolderFPas"> </topicref>
+        <topicref href="eqfr5mst-00486.dita" navtitle="EqfExportMem"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00486-A.dita" navtitle="EqfExportMemInInternalFormat"> </topicref>
+        <topicref href="eqfr5mst-00487.dita" navtitle="EqfExportSegs"> </topicref>
+        <topicref href="eqfr5mst-00487-A.dita" navtitle="EqfFilterNoMatchFile"> </topicref>
+        <topicref href="eqfr5mst-00488.dita" navtitle="EqfFolderExists"> </topicref>
+        <topicref href="eqfr5mst-00489.dita" navtitle="EqfFreeSegFile"> </topicref>
+        <topicref href="eqfr5mst-00490.dita" navtitle="EqfGetFolderProp">
+          <topicref href="eqfr5mst-00490-A.dita" navtitle="Parameters for structExtFolProp"> </topicref>
+        </topicref>
+        <topicref href="eqfr5mst-00491.dita" navtitle="EqfGetFolderPropEx"></topicref>
+        <topicref href="eqfr5mst-00492.dita" navtitle="EqfGetLastError"> </topicref>
+        <topicref href="eqfr5mst-00493.dita" navtitle="EqfGetMatchLevel"> </topicref>
+        <topicref href="eqfr5mst-00494.dita" navtitle="EqfGetProgress"> </topicref>
+        <topicref href="eqfr5mst-00495.dita" navtitle="EqfGetSegNum"> </topicref>
+        <topicref href="eqfr5mst-00496.dita" navtitle="EqfGetSegW"> </topicref>
+        <topicref href="eqfr5mst-00497.dita" navtitle="EqfGetSegmentNumber"> </topicref>
+        <topicref href="eqfr5mst-00497-A.dita" navtitle="EqfGetShortName"> </topicref>
+        <topicref href="eqfr5mst-00498.dita" navtitle="EqfGetSourceLine"> </topicref>
+        <topicref href="eqfr5mst-00499.dita" navtitle="EqfGetSysLanguage"> </topicref>
+        <topicref href="eqfr5mst-00500.dita" navtitle="EqfGetVersion"> </topicref>
+        <topicref href="eqfr5mst-00500-A.dita" navtitle="EqfGetVersionEx"> </topicref>
+        <topicref href="eqfr5mst-00501.dita" navtitle="EqfImportDoc"> </topicref>
+        <topicref href="eqfr5mst-00502.dita" navtitle="EqfImportDict"> </topicref>
+        <topicref href="eqfr5mst-00503.dita" navtitle="EqfImportFolder"> </topicref>
+        <topicref href="eqfr5mst-00504.dita" navtitle="EqfImportFolderFP"> </topicref>
+        <topicref href="eqfr5mst-00504-A.dita" navtitle="EqfImportFolderAs"> </topicref>
+        <topicref href="eqfr5mst-00505.dita" navtitle="EqfImportMem"> </topicref>
+        <topicref href="eqfr5mst-00505-A.dita" navtitle="EqfImportMemEx"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00505-B.dita" navtitle="EqfImportMemInInternalFormat"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00505-C.dita" navtitle="EqfListMem"> </topicref>        
+        <topicref href="eqfr5mst-00506.dita" navtitle="EqfLoadSegFile"> </topicref>
+        <topicref href="eqfr5mst-00507.dita" navtitle="EqfMemoryExists"> </topicref>
+        <topicref href="eqfr5mst-00508.dita" navtitle="EqfOpenDoc"> </topicref>
+        <topicref href="eqfr5mst-00508-A.dita" navtitle="EqfOpenDocByTrack"> </topicref>
+        <topicref href="eqfr5mst-00509.dita" navtitle="EqfOpenDocEx"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00509-A.dita" navtitle="EqfOpenMem"> </topicref>
+        <topicref href="eqfr5mst-00510.dita" navtitle="EqfOrganizeMem"> </topicref>
+        <topicref href="eqfr5mst-00511.dita" navtitle="EqfProcessNomatch"> </topicref>
+        <topicref href="eqfr5mst-00512.dita" navtitle="EqfProcessNomatchEx"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00512-B.dita" navtitle="EqfQueryMem"> </topicref>
+        <topicref href="eqfr5mst-00512-A.dita" navtitle="EqfReduceToStemForm"> </topicref>
+        <topicref href="eqfr5mst-00513.dita" navtitle="EqfRemoveDocs"> </topicref>
+        <topicref href="eqfr5mst-00514.dita" navtitle="EqfRestoreDocs"> </topicref>
+        <topicref href="eqfr5mst-00515.dita" navtitle="EqfRename"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00515-A.dita" navtitle="EqfSearchMem"> </topicref>
+        <topicref href="eqfr5mst-00516.dita" navtitle="EqfSetSysLanguage"> </topicref>
+        <topicref href="eqfr5mst-00517.dita" navtitle="EqfStartSession"> </topicref>
+<!-- NEW --><topicref href="eqfr5mst-00517-A.dita" navtitle="EqfUpdateMem"> </topicref>        
+        <topicref href="eqfr5mst-00518.dita" navtitle="EqfUpdateSegW"> </topicref>
+        <topicref href="eqfr5mst-00519.dita" navtitle="EqfWriteSegFile"> </topicref>
+      </topicref>
+    </chapter>
+    <!-- ********************************************************************************************** -->
+    <!-- ** External MARKUP TABLES ******************************************************************** -->
+    <!-- ********************************************************************************************** -->
+    <chapter href="eqfr5mst-00520.dita" navtitle="Working with external markup tables">
+      <topicref href="eqfr5mst-00521.dita" navtitle="Creating new markup tables">
+        <topicref href="eqfr5mst-00522.dita" navtitle="Layout and content of a markup table"> </topicref>
+        <topicref href="eqfr5mst-00523.dita" navtitle="Substitution characters in a markup table"> </topicref>
+        <topicref href="eqfr5mst-00524.dita" navtitle="SGML tags for markup table header"> </topicref>
+        <topicref href="eqfr5mst-00525.dita" navtitle="SGML tags for markup tags and markup attributes"> </topicref>
+        <topicref href="eqfr5mst-00526.dita" navtitle="Examples of markup data and corresponding markup tags"> </topicref>
+      </topicref>
+      <topicref href="eqfr5mst-00527.dita" navtitle="Creating user exits for markup tables"> </topicref>
+      <topicref href="eqfr5mst-00528.dita" navtitle="General user exit entry points">
+        <topicref href="eqfr5mst-00529.dita" navtitle="EQFPRESEG2"> </topicref>
+        <topicref href="eqfr5mst-00530.dita" navtitle="EQFPRESEGEX"> </topicref>
+        <topicref href="eqfr5mst-00531.dita" navtitle="EQFPOSTSEGW"> </topicref>
+        <topicref href="eqfr5mst-00532.dita" navtitle="EQFPOSTSEGWEX"> </topicref>
+        <topicref href="eqfr5mst-00533.dita" navtitle="EQFPOSTTMW"> </topicref>
+        <topicref href="eqfr5mst-00534.dita" navtitle="EQFCHECKSEGW"> </topicref>
+        <topicref href="eqfr5mst-00535.dita" navtitle="EQFCHECKSEGEXW"> </topicref>
+        <topicref href="eqfr5mst-00536.dita" navtitle="EQFSHOW"> </topicref>
+        <topicref href="eqfr5mst-00537.dita" navtitle="EQFGETCURSEG"> </topicref>
+        <topicref href="eqfr5mst-00538.dita" navtitle="EQFGETCURSEGW"> </topicref>
+        <topicref href="eqfr5mst-00539.dita" navtitle="EQFGETNEXTSEG"> </topicref>
+        <topicref href="eqfr5mst-00540.dita" navtitle="EQFGETNEXTSEGW"> </topicref>
+        <topicref href="eqfr5mst-00541.dita" navtitle="EQFGETPREVSEG"> </topicref>
+        <topicref href="eqfr5mst-00542.dita" navtitle="EQFGETPREVSEGW"> </topicref>
+        <topicref href="eqfr5mst-00543.dita" navtitle="EQFBUILDDOCPATH"> </topicref>
+        <topicref href="eqfr5mst-00544.dita" navtitle="EQFGETINFO"> </topicref>
+        <topicref href="eqfr5mst-00545.dita" navtitle="EQFPREUNSEGW"> </topicref>
+        <topicref href="eqfr5mst-00546.dita" navtitle="EQFPOSTUNSEGW"> </topicref>
+        <topicref href="eqfr5mst-00547.dita" navtitle="EQFPOSTUNSEG2"> </topicref>
+      </topicref>
+      <topicref href="eqfr5mst-00548.dita" navtitle="API calls for user exits">
+        <topicref href="eqfr5mst-00549.dita" navtitle="EQFGETTAOPTIONS"> </topicref>
+        <topicref href="eqfr5mst-00550.dita" navtitle="EQFSETTAOPTIONS"> </topicref>
+        <topicref href="eqfr5mst-00551.dita" navtitle="EQFTAOPTIONS"> </topicref>
+      </topicref>
+      <topicref href="eqfr5mst-00552.dita" navtitle="User exit entry points for context-dependent translations">
+        <topicref href="eqfr5mst-00553.dita" navtitle="EQFGETCONTEXTINFO"> </topicref>
+        <topicref href="eqfr5mst-00554.dita" navtitle="EQFGETSEGCONTEXT"> </topicref>
+        <topicref href="eqfr5mst-00555.dita" navtitle="EQFUPDATECONTEXT"> </topicref>
+        <topicref href="eqfr5mst-00556.dita" navtitle="EQFCOMPARECONTEXT"> </topicref>
+      </topicref>
+      <topicref href="eqfr5mst-00557.dita" navtitle="Parser application programming interface">
+        <topicref href="eqfr5mst-00558.dita" navtitle="ParsInitialize"> </topicref>
+        <topicref href="eqfr5mst-00559.dita" navtitle="ParsBuildTempName"> </topicref>
+        <topicref href="eqfr5mst-00560.dita" navtitle="ParsLoadSegFile"> </topicref>
+        <topicref href="eqfr5mst-00561.dita" navtitle="ParsGetSegNum"> </topicref>
+        <topicref href="eqfr5mst-00562.dita" navtitle="ParsGetSeg"> </topicref>
+        <topicref href="eqfr5mst-00563.dita" navtitle="ParsGetSegW"> </topicref>
+        <topicref href="eqfr5mst-00564.dita" navtitle="ParsUpdateSeg"> </topicref>
+        <topicref href="eqfr5mst-00565.dita" navtitle="ParsUpdateSegW"> </topicref>
+        <topicref href="eqfr5mst-00566.dita" navtitle="ParsWriteSegFile"> </topicref>
+        <topicref href="eqfr5mst-00567.dita" navtitle="ParsMakeSGMLSegment"> </topicref>
+        <topicref href="eqfr5mst-00568.dita" navtitle="ParsMakeSGMLSegmentW"> </topicref>
+        <topicref href="eqfr5mst-00569.dita" navtitle="ParsConvert"> </topicref>
+        <topicref href="eqfr5mst-00570.dita" navtitle="ParsGetDocName"> </topicref>
+        <topicref href="eqfr5mst-00571.dita" navtitle="ParsGetDocLang"> </topicref>
+        <topicref href="eqfr5mst-00572.dita" navtitle="ParsSplitSeg"> </topicref>
+        <topicref href="eqfr5mst-00573.dita" navtitle="ParsSplitSegW"> </topicref>
+        <topicref href="eqfr5mst-00574.dita" navtitle="ParsFreeSegFile"> </topicref>
+        <topicref href="eqfr5mst-00575.dita" navtitle="ParsLoadMarkup"> </topicref>
+        <topicref href="eqfr5mst-00576.dita" navtitle="ParsTokenize"> </topicref>
+        <topicref href="eqfr5mst-00577.dita" navtitle="ParsTokenizeW"> </topicref>
+        <topicref href="eqfr5mst-00578.dita" navtitle="ParsGetNextToken">
+          <topicref href="eqfr5mst-00579.dita" navtitle="The PARSTOKEN structure"> </topicref>
+        </topicref>
+        <topicref href="eqfr5mst-00580.dita" navtitle="ParsFreeMarkup"> </topicref>
+        <topicref href="eqfr5mst-00581.dita" navtitle="ParsTerminate"> </topicref>
+      </topicref>
+    </chapter>
+    <!-- ********************************************************************************************** -->
+  </part>
+  <!-- ********************************************************************************************** -->
+  <appendix href="eqfr5mst-00653.dita" navtitle="Notices">
+    <topicref href="eqfr5mst-00654.dita" navtitle="Trademarks"> </topicref>
+  </appendix>
+  <!-- ********************************************************************************************** -->
+  <ibmbackmatter>
+    <backbooklists>
+      <glossarylist href="glossary.dita" navtitle="Glossary of terms and abbreviations"/>
+    </backbooklists>
+    <backbooklists>
+      <indexlist/>
+    </backbooklists>
+  </ibmbackmatter>
+  <!-- ********************************************************************************************** -->
+</ibmbook>

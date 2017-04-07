@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00192">
+  <title>Translator's notes in the Translation Environment</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><indexterm>&lt;TRNOTE&gt; (translator's note) markup</indexterm>A note in a document is
+      referred to by <b>&lt;TRNOTE&gt;</b> in the Translation Environment. You can view all
+      translator's notes contained in the currently displayed document in one of the following ways: <ul>
+        <li><indexterm>translator's notes<indexterm>ways to
+              view</indexterm></indexterm><indexterm>viewing<indexterm>translator's
+              notes</indexterm></indexterm>Double-click <b>&lt;TRNOTE&gt;</b>.</li>
+        <li>Select <b>Commands...</b> from the <b>Options</b> menu, select the <b>TRNote window</b>
+          entry, and then press <b>Run</b>.</li>
+        <li>Use the keys that you assigned to this command using the <b>Keys</b> dialog.</li>
+        <li>Select the <b>Translator’s note</b> entry from the <b>File</b> menu.</li>
+      </ul></p>
+    <p>You then get the <q>Translator’s Note</q> window containing all notes available in your
+      current document. When you double-click a note in this window, the input focus is set on the
+      segment next to the note.</p>
+    <p><b>&lt;TRNOTE&gt;</b> is treated like any markup tag in <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>: <ul>
+        <li><indexterm>&lt;TRNOTE&gt; (translator's note)
+              markup<indexterm>hiding</indexterm><indexterm>shrinking</indexterm><indexterm>changing
+              name</indexterm><indexterm>changing color</indexterm><indexterm>changing
+              font</indexterm></indexterm>You can hide it or display it in shrink
+              mode.<indexterm>hiding<indexterm>&lt;TRNOTE&gt; (translator's note)
+            markup</indexterm></indexterm></li>
+        <li>You can change its name in the <b>Note</b> field on the <q>Display</q> page of the
+            <q>Customize Translation Functions</q> window (see <xref
+            href="eqfr5mst-00092.dita#eqfr5mst-00092"/>). This changes the term
+            <b>&lt;TRNOTE&gt;</b> in the Translation Environment, but has no effect on how
+          translator's notes are marked up in a source document. <indexterm>changing<indexterm>name
+              of &lt;TRNOTE&gt; (translator's note) markup</indexterm></indexterm></li>
+        <li>You can change its foreground and background colors. The defaults are black
+          and cyan, respectively. You might want to change them if you work with documents that
+          contain many translator's notes, or notes that are difficult to perceive in context. See
+            <xref href="eqfr5mst-00089.dita#eqfr5mst-00089"/> for
+              details.<indexterm>changing<indexterm>color of &lt;TRNOTE&gt; (translator's note)
+              markup</indexterm></indexterm></li>
+        <li>You can change its font, style, and size (if you work with the RTFEdit
+          editor) to differentiate it from surrounding text. See <xref
+            href="eqfr5mst-00089.dita#eqfr5mst-00089"/> for
+              details.<indexterm>changing<indexterm>font of &lt;TRNOTE&gt; (translator's note)
+              markup</indexterm></indexterm><indexterm>RTFEdit editor<indexterm>changing font of
+              &lt;TRNOTE&gt; markup</indexterm></indexterm></li>
+      </ul>
+    </p>
+  </body>
+</topic>

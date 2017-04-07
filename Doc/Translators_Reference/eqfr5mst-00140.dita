@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00140" rev="GF_18112016">
+  <title>Maintaining abbreviation lists</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>abbreviation list<indexterm>maintaining </indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> uses language-specific
+        abbreviation lists to identify correct endings of a sentence. This prevents that the period
+        after an abbreviation is interpreted as the end of a sentence during analysis, for example
+        in a sentence like <codeph>For details see books, films, magazines, etc. and keep the subject in mind.</codeph>. 
+        The period after <codeph>etc.</codeph> is not considered to be the end of the sentence.</p>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides <b>default</b> abbreviation
+        lists for each source language supported. Since the <b>system</b> abbreviation lists (the default abbreviation list)
+        can not be changed by the users, users can add <b>new</b> abbreviations (or delete or modify existing user 
+        abbreviations) by using the <b>User abbreviation lists</b>. 
+      </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The <q>Language List</q> window must be active (from the <b>Utilities</b> drop-down menu, select 
+          <b>Display Language List</b>).</li>
+        <li>The language you want to work with must be in active state (select it by clicking on it, the background color changes).</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: 
+        <ol>
+          <li>An active language</li>
+          <li>From the <b>File</b> menu select <b>Open</b> or double-click the name of the language (e.g. double click on <q>English(U.S.)</q></li>
+        </ol>
+      </p>
+      <p>The panel <q>Edit User Abbreviations for: language</q> is displayed. 
+         The <q>User abbreviations</q> are listed in the left hand pane of the panel, and the <q>System abbreviations</q> 
+         (the default abbreviations) are listed in the right hand pane of the panel. The entries in <q>System abbreviations</q> 
+         can not be changed. To <b>add</b> an entry in <q>User abbreviations</q>, put the cursor into the pane, and type in the 
+         abbreviation (e.g. type in <q>Info.</q>). To <b>delete</b> an entry in the <q>User abbreviations</q>, mark the abreviation 
+         term in the pane, and delete the abbreviation (e.g. delete the abbreviation <q>Info.</q>). Finally press the button 
+         <b>Save</b> to save all changes.
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>User abbreviation lists</pt>
+          <pd>To <b>update</b> an existing user abbreviation, just overtype it. To <b>add</b> a new abbreviation, put the cursor 
+            before or behind any existing entry, switch to the cursor <b>Insert mode</b>, and press the Enter. Type in the new 
+            abbreviation. To <b>delete</b> an abbreviation, use the Backspace key. Note that you need to end any abbreviation with 
+            a full stop.</pd>
+        </plentry>
+        <plentry>
+          <pt>Save</pt>
+          <pd>To save any changes and close this window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Cancel</pt>
+          <pd>To close this window without saving any changes.</pd>
+        </plentry>
+        <plentry>
+          <pt>Help</pt>
+          <pd>To get information on how to interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The language-specific list of user-abbreviations is updated and will be used for subsequent analysis runs. 
+         Depending on the selected language, abbreviations have been changed, added, or removed from the user abbreviation 
+         list for this specific language.</p>
+    </section>
+  </refbody>
+</reference>

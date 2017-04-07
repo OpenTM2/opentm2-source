@@ -2016,10 +2016,10 @@
 
 #define ERROR_DIMP_NOTINMAP                                189
 //* Define statement owner: DKS, LEE
-// Text:       Some dictionary entries contain fields that
-//             do not correspond to the dictionary structure. Data in
-//             these fields will be lost.\n
-//             Do you want to continue?
+// Text:       The dictionary field "%1" with a value of "%2" does not correspond 
+//             to the dictionary structure. Data in
+//             this field will be lost.\n
+//             Do you want to ignore this error and continue?
 // HelpTitle:  OpenTM2 - Help
 // Help:       The dictionary entry contains a field that is not included
 //             in the dictionary structure and so it cannot be added to the
@@ -7639,8 +7639,8 @@
 // Help:       There was an error in the specified MT output options. Please correct
 //             the error and retry.
 
-#define FREE_0683_xxxxxxxxxxxxxxxxxxxxx                    683
-// Text:       !! No message text defined !!
+#define FUNC_INVALID_MEMORY_HANDLE  683
+// Text:       The specified memory handle is not invalid.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 

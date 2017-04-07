@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00474-A" rev="GF_07122015">
+  <title>EqfDeleteDict</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+<!-- xxx  -->
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfDeleteDict</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfDeleteDict</indexterm></indexterm>
+      <p>The API call <i>EqfDeleteDict</i> deletes the given dictionary.</p>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->    
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfDeleteDict</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszDict</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colnamea="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDict</entry>
+              <entry colname="col3">The name of the dictionary to be deleted.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The dictionary has been deleted successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> 
+                (see page <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/>) to retrieve the complete error information.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{
+  USHORT usRC = 0; 
+  HSESSION hSession = 0L;
+  // start the OpenTM2 API session 
+  usRC = EqfStartSession( &amp;hSession );
+  if ( !usRC ) 
+  {
+    // Delete the dictionary MySuperfluousDict
+    usRC = EqfDeleteDic( hSession, "MySuperfluousDict" ); 
+  } /* endif */
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+<!-- xxx  -->
+
+  </refbody>
+</reference>

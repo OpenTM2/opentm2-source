@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="xlmnew1">
+  <title>Creating a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>creating<indexterm><keyword conref="common-symbols.dita#common-symbols/xlmem"/> databases</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>creating</indexterm></indexterm>
+      <p>Before you can use a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, it must be initialized. To initialize 
+         a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, you need to specify values for a number of parameters.</p>
+      <p>The procedure described here creates an empty <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. This can 
+         subsequently be filled by translating in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, by copying
+         segments from other <keyword conref="common-symbols.dita#common-symbols/xlmems"/> during analysis, or by importing 
+         external <keyword conref="common-symbols.dita#common-symbols/xlmems"/>.</p>
+      <p>For a description of the other methods of creating and filling a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, 
+         see: 
+        <ul>
+          <li><xref href="xlmnew3.dita#xlmnew3"/></li>
+          <li><xref href=""/></li>
+          <li><xref href="xlmmrg.dita#xlmmrg"/></li>
+        </ul></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>At least one language-support file must be installed.</p>
+    </section>
+
+    <section rev="GF_07122015">
+      <title>Calling sequence</title>
+      <p>Select:
+        <ol>
+          <li>The <q>Translation Memory List</q> window in the main window.</li>
+          <li><b>New…</b> from the <b>File</b> menu.</li>
+        </ol>
+      </p>
+      <p>The <q>New Translation Memory</q> window (see <xref href="#xlmnew1/xlmnew"/>) is displayed.
+         <required-cleanup><indexterm>windows<indexterm>New Translation Memory</indexterm></indexterm></required-cleanup>
+         <fig id="xlmnew" expanse="column">
+           <title>New <keyword conref="common-symbols.dita#common-symbols/xlmem"/> window</title>
+           <image placement="break" href="TranslMemNew.gif"><alt>Figure shows New window</alt></image>
+         </fig>
+      </p>
+    </section>
+
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Type the name for the new <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>Type a description of the new <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. 
+              This description can be up to 40 alphanumeric characters long. It is for your personal use 
+              and is not used by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+
+<!--        <plentry>
+          <pt>Location of <keyword conref="common-symbols.dita#common-symbols/xlmem"/></pt>
+          <pd>Specify where you want the new <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to reside. 
+              You can keep it on a local disk drive (only you can use it) or on a shared disk drive (several translators 
+              can work with it simultaneously). See <xref href="shtm.dita#shtm"/> to learn about the
+              benefits of Translation Memory databases residing on a shared disk drive. 
+              <b>Local</b> is the default selection. Note that a LAN drive is also considered as local drive.</pd>
+        </plentry>-->
+
+        <plentry rev="GF_07122015">
+          <pt>Type</pt>
+          <pd><p>Specify where you want the new <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to reside on.
+              You can keep it on a local disk drive (only you can use it) or on a shared disk drive (several translators 
+              can work with it simultaneously). See <xref href="shtm.dita#shtm"/> to learn about the
+              benefits of Translation Memory databases residing on a shared disk drive.</p>
+              <p>There are three options to choose from:</p>
+              <ol>
+                <li>Local Standard Translation Memory</li>
+                <li>Shared Translation Memory (MS Win LAN based)</li>
+                <li>Shared Translation Memory (Web based)</li>
+              </ol>  
+            <p><b>Local Standard Translation Memory</b> is the default selection.</p> 
+                 <!--Note that a LAN drive is also considered as local drive.-->
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Disk drive</pt>
+          <pd>Shows local or shared disk drives. Select one of the available disk drives as the
+              drive on which you want the new <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to reside. 
+              Remember that a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> grows in size over time,
+              so ensure that the drive you select has sufficient free space.</pd>
+        </plentry>
+        <plentry>
+          <pt>Source language</pt>
+          <pd>Select the source language from the list of languages displayed.</pd>
+        </plentry>
+      </parml>
+      <p>Click the button <b>Create</b> to create the new <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+    </section>
+
+    <section>
+      <title>Results</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is created, but is still empty. 
+         You can now begin to fill it by translating text or by actions such as import, merge, or analysis.</p>
+    </section>
+  </refbody>
+</reference>

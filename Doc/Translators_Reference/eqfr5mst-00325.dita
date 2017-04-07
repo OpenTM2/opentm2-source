@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00325">
+<title>What you can do with language-support files</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>Language-support files can be installed, extended, or deleted. For a list
+of supported source languages see <xref href="eqfr5mst-00021.dita#eqfr5mst-00021"/>.</p>
+</body></topic>

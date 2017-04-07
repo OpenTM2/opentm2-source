@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00526">
+<title><!--rev=ng025-->Examples of markup data and corresponding markup
+tags</title>
+<prolog><metadata><keywords>
+
+<indexterm>markup
+tables<indexterm>example of syntax</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>If a document contains, for example, <codeph>[soft
+line feed]</codeph> as markup data, it is usually meant as a so-called
+inline tag, which means that it is contained in the segment. It has
+no influence on the segmentation of the document. The corresponding
+markup tag definition in a markup table looks as follows:
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[soft line feed]&lt;/STRING&gt;
+ &lt;LENGTH&gt;16&lt;/LENGTH&gt;
+ &lt;TYPE&gt;STNEUTRAL&lt;/TYPE&gt;
+ &lt;SEGINFO&gt;SEGNEUTRAL&lt;/SEGINFO&gt;
+&lt;/TAG&gt;</codeblock><codeph>&lt;STRING&gt;</codeph>… defines the markup string,
+and <codeph>&lt;LENGTH&gt;</codeph>… specifies its length. Because the
+length is specified, no <codeph>ENDDELIM</codeph> tag is required. <codeph>&lt;TYPE&gt;STNEUTRAL&lt;</codeph>…
+defines that this markup string has no influence on segmentation.
+All other markup table SGML tags will be set to the default and therefore
+need not be specified.</p>
+<p>Assumed that such markup tag causes segmentation, we define this
+as follows: 
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[soft line feed]&lt;/STRING&gt;
+ &lt;LENGTH&gt;16&lt;/LENGTH&gt;
+ &lt;TYPE&gt;STDEL&lt;/TYPE&gt;
+ &lt;SEGINFO&gt;SEGNEUTRAL&lt;/SEGINFO&gt;
+&lt;/TAG&gt;</codeblock></p>
+<p>The following table lists some imaginary markup data with a description. </p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="3*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Markup data</entry>
+<entry valign="top" rowsep="1">Definition</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">[bold]<i>text</i>[⁄bold]</entry>
+<entry valign="top">The text following this tag (until the end tag)
+is printed bold; this tag is part of the segment and has no influence
+on segmenting. </entry></row>
+<row>
+<entry valign="top">[Heading <i>x</i>]<i>text</i></entry>
+<entry valign="top">This tag describes a heading; the heading text
+must follow on the same line; <i>x</i> is the level
+of heading and goes from 1 to 9; this tag ends the previous segment
+and starts a new segment. </entry></row>
+<row>
+<entry valign="top">[page: even]</entry>
+<entry valign="top">A page break; the following text starts on an
+even page; this tag always starts on the first column and has no text
+following in the same line; a blank must separate the attribute <i>even</i> from the tag. </entry></row>
+<row>
+<entry valign="top">[page: odd]</entry>
+<entry valign="top">A page break; the following text starts on an
+odd page; this tag always starts on the first column and has no text
+following in the same line; a blank must separate the attribute <i>odd</i> from the tag.</entry></row>
+<row>
+<entry valign="top">[paragraph]</entry>
+<entry valign="top">A paragraph; this tag ends the previous segment
+and starts a new segment; the tag occurs at the end of the previous
+paragraph.</entry></row>
+<row>
+<entry valign="top">%</entry>
+<entry valign="top">Stands for any number of characters. For example,
+in <codeph>b%</codeph>, <codeph>%</codeph> stands for the characters <codeph>old</codeph>.</entry></row>
+<row>
+<entry valign="top">[break]</entry>
+<entry valign="top">Starts a new segment. You use this tag to split
+an existing segment into two or more segments.</entry></row>
+<row>
+<entry valign="top">[*%]</entry>
+<entry valign="top">* indicates the start of a comment and <codeph>%</codeph> stands
+for the comment text.</entry></row>
+</tbody>
+</tgroup>
+</table>
+<p>This markup data would lead to the following markup table definitions.
+The defaults will not be shown.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Markup definition</entry>
+<entry valign="top" rowsep="1">Explanation</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[bold]&lt;/STRING&gt;
+ &lt;LENGTH&gt;6&lt;/LENGTH&gt;
+ &lt;TYPE&gt;STNEUTRAL&lt;/TYPE&gt;
+&lt;/TAG&gt;</codeblock> or 
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[bold&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;]&lt;/ENDDELIM&gt;
+ &lt;TYPE&gt;STNEUTRAL&lt;/TYPE&gt;
+&lt;/TAG&gt;</codeblock> or 
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[b%&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;]&lt;/ENDDELIM&gt;
+ &lt;TYPE&gt;STNEUTRAL&lt;/TYPE&gt;
+&lt;/TAG&gt;</codeblock></entry>
+<entry valign="top">The markup tag should be part of the
+segment, therefore STNEUTRAL is used. All examples have the same result,
+you can specify this markup tag by its length or end delimiter. You
+can also substitute part of the inline tag by %.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[Heading ?&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;]&lt;/ENDDELIM&gt;
+ &lt;SEGINFO&gt;SEGRESET&lt;/SEGINFO&gt;
+ &lt;ASSTEXT&gt;TSL&lt;/ASSTEXT&gt;
+ &lt;TRANSLATEINFO&gt;YES&lt;/TRANSLATEINFO&gt;
+&lt;/TAG&gt;</codeblock></entry>
+<entry valign="top">Single substitution is used for the heading level;
+the end of the tag is ]; the heading requires the reset of segmenting
+with SEGRESET; the text associated with the tag occurs on the same
+line; the text associated with the tag is translatable. </entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[page:&lt;/STRING&gt;
+ &lt;ENDDELIM&gt; &lt;/ENDDELIM&gt;
+ &lt;ATTRINFO&gt;YES&lt;/ATTRINFO&gt;
+ &lt;COLPOSITION&gt;1&lt;/COLPOSITION&gt;
+&lt;/TAG&gt;</codeblock></entry>
+<entry valign="top">The markup tag ends with a blank; attributes may
+follow; the tag always starts at the first column in a line. </entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[paragraph&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;]&lt;/ENDDELIM&gt;
+ &lt;TYPE&gt;ENDDEL&lt;/TYPE&gt;
+&lt;/TAG&gt;</codeblock> or 
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[paragraph]&lt;/STRING&gt;
+ &lt;LENGTH&gt;11&lt;/LENGTH&gt;
+ &lt;TYPE&gt;ENDDEL&lt;/TYPE&gt;
+&lt;/TAG&gt;</codeblock></entry>
+<entry valign="top">The tag ends with ] or is defined by its
+length; the tag should end the previous segment, therefore ENDDEL
+is used.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;ATTRIBUTE&gt;
+ &lt;STRING&gt;even&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;]&lt;/ENDDELIM&gt;
+&lt;/ATTRIBUTE&gt;</codeblock></entry>
+<entry valign="top">This is an attribute; it ends with ].</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;ATTRIBUTE&gt;
+ &lt;STRING&gt;odd&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;]&lt;/ENDDELIM&gt;
+&lt;/ATTRIBUTE&gt;</codeblock></entry>
+<entry valign="top">This is an attribute; it ends with ].</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[break]&lt;/STRING&gt;
+ &lt;LENGTH&gt;7&lt;/LENGTH&gt;
+ &lt;TYPE&gt;STDEL&lt;/TYPE&gt;
+&lt;/TAG&gt;</codeblock></entry>
+<entry valign="top">Indicates that a new segment starts.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;*%&lt;/STRING&gt;
+ &lt;ENDDELIM&gt;\r\n/ENDDELIM&gt;
+ &lt;COLPOSITION&gt;1&lt;/COLPOSITION&gt;
+&lt;/TAG&gt;</codeblock></entry>
+<entry valign="top">Indicates a comment that ends at the end of the
+line. COLPOSITION defines that the asterisk is only recognized as
+the start of a comment if it appears in the first column of a line.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

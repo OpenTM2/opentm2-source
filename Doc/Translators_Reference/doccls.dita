@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doccls">
+<title>Closing a document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>document<indexterm>closing</indexterm></indexterm><indexterm>stop translating</indexterm><indexterm>ending translations</indexterm><indexterm>saving translations</indexterm><indexterm>leaving the <keyword conref="common-symbols.dita#common-symbols/xlenv"/></indexterm><indexterm>returning<indexterm>to the main window</indexterm></indexterm>
+<p>To translate a document, you must open it so that the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> for
+this document is displayed.</p>
+<p>Closing a document means to stop translating a document and to
+leave the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select <b>Close</b> from the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> system menu.</p>
+<p>This takes you back to the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main window. </p>
+</section>
+<section><title>Results</title>
+<p>The translation document, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, and the dictionaries used
+are saved in their current status. You can start any other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> task.
+The translation of this document can be continued at any time. </p>
+</section></refbody></reference>

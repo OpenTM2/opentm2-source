@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="otherdocs">
+<title>Viewing other documents while translating</title>
+<prolog><metadata><keywords>
+
+<indexterm>document<indexterm>displaying other documents while translating</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>If you wish to view another document while translating, select <b>Open...</b> from the <b>File</b> menu.</p>
+<p>For a document already imported in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can
+specify whether you want to browse the translation or the original.
+Then select the folder that contains the document from the <b>Folders</b> list. In the <b>Documents</b> list
+select the requested document and click <b>Open</b>.</p>
+<p>For an external text file, first select the drive where this file
+is stored and the respective directory from the <b>Directories</b> list.
+In the <b>Files</b> list select the requested file
+and click <b>Open</b> to view it.</p>
+<p>To leave this window, click <b>Cancel</b>. </p>
+</body></topic>

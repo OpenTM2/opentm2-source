@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00601">
+<title>FORMAT3.FRM</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>FORMAT3.FRM</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>This format file prints all templates for each entry.</p>
+<p>It is designed to be formatted with <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> outside <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+before you print it. If you print the file without <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm>, you
+see a mixture of dictionary entry data and <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> tags. Formatting with <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> produces
+a printout resembling entries in printed dictionaries.</p>
+<p>The tags used in this format file are described in <xref href="eqfr5mst-00604.dita#eqfr5mst-00604"/>. You must use them in the same sequence as listed there.</p>
+</body></topic>

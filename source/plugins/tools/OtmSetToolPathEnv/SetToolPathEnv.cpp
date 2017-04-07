@@ -194,7 +194,7 @@ DWORD SetToolPathEnv::GetEnvPathValue(HKEY hKey, LPDWORD pdwDataSize, LPDWORD pd
     DWORD dwRet = ERROR_SUCCESS;
 
     DWORD dwBuffSize = MAX_STR_SIZE;
-    DWORD dwRestrictType = RRF_RT_REG_EXPAND_SZ | RRF_NOEXPAND;
+    //DWORD dwRestrictType = RRF_RT_REG_EXPAND_SZ | RRF_NOEXPAND;
 
     lpValData = (LPTSTR) malloc (dwBuffSize);
     memset(lpValData, 0x00, sizeof(lpValData));
@@ -205,15 +205,17 @@ DWORD SetToolPathEnv::GetEnvPathValue(HKEY hKey, LPDWORD pdwDataSize, LPDWORD pd
     }
 
     *pdwDataSize = dwBuffSize;
-    dwRet = RegGetValue(hKey, NULL, "PATH", dwRestrictType, pdwDataType, lpValData, pdwDataSize);
+    // GQ 2016/11/23: replaced RegGetValue with ReqQueryValueEX as RegGetValue is not supported by WinXP
+    dwRet = RegQueryValueEx( hKey, "PATH", NULL, pdwDataType, (LPBYTE)lpValData, pdwDataSize );
+    //dwRet = RegGetValue(hKey, NULL, "PATH", dwRestrictType, pdwDataType, lpValData, pdwDataSize);
 
-    // add for type not support start
-    if (ERROR_UNSUPPORTED_TYPE == dwRet)
-    {
-        dwRestrictType = RRF_RT_REG_SZ;
-        dwRet = RegGetValue(hKey, NULL, "PATH", dwRestrictType, pdwDataType, lpValData, pdwDataSize);
-    }
-    // add end
+    //// add for type not support start
+    //if (ERROR_UNSUPPORTED_TYPE == dwRet)
+    //{
+    //    dwRestrictType = RRF_RT_REG_SZ;
+    //    dwRet = RegGetValue(hKey, NULL, "PATH", dwRestrictType, pdwDataType, lpValData, pdwDataSize);
+    //}
+    //// add end
 
     while (ERROR_MORE_DATA == dwRet)
     {
@@ -228,7 +230,8 @@ DWORD SetToolPathEnv::GetEnvPathValue(HKEY hKey, LPDWORD pdwDataSize, LPDWORD pd
         }
 
         *pdwDataSize = dwBuffSize;
-        dwRet = RegGetValue(hKey, NULL, "PATH", dwRestrictType, pdwDataType, lpValData, pdwDataSize);
+        //dwRet = RegGetValue(hKey, NULL, "PATH", dwRestrictType, pdwDataType, lpValData, pdwDataSize);
+        dwRet = RegQueryValueEx( hKey, "PATH", NULL, pdwDataType, (LPBYTE)lpValData, pdwDataSize );
     }
 
     return dwRet;

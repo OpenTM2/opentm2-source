@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00187">
+  <title>Viewing the properties of a document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <indexterm>document<indexterm>displaying properties</indexterm></indexterm>
+      <indexterm>document<indexterm>properties</indexterm></indexterm>
+      <indexterm>document<indexterm>properties</indexterm></indexterm>
+      <p>The main properties of a document are: <dl>
+          <dlentry><dt><keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            </dt>
+            <dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be used for the
+              translation of the document.</dd></dlentry>
+          <dlentry><dt>Source language</dt>
+            <dd>The language of the original document.</dd></dlentry>
+          <dlentry><dt>Target language</dt>
+            <dd>The language of the translated document.</dd></dlentry>
+          <dlentry><dt>Editor</dt>
+            <dd>The editor associated with the document.</dd></dlentry>
+          <dlentry><dt>Markup table</dt>
+            <dd>The markup table associated to the document. The markup table is used during
+              analysis and translation of the document.</dd></dlentry>
+        </dl></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The document must be in a folder.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>A document from the <q>Document List</q> window</li>
+          <li><b>Properties Summary…</b> from the <b>File</b> menu</li>
+        </ol></p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>A document in HTML format is displayed containing a summary of the document properties (see
+          <xref href="#eqfr5mst-00187/docprop1win"/>). <fig id="docprop1win" expanse="column">
+          <title>Document Properties document</title><image placement="break"
+            href="docpropertywindow.gif"><alt>Figure shows Document Properties
+            document</alt></image></fig></p>
+      <p>If you want to view more properties or change the properties of a document, refer to <xref
+          href="eqfr5mst-00188.dita#eqfr5mst-00188"/>.</p>
+    </section>
+  </refbody>
+</reference>

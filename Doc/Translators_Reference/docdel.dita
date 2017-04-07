@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="docdel">
+<title>Deleting a document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>deleting<indexterm>documents</indexterm></indexterm><indexterm>document<indexterm>deleting</indexterm></indexterm><indexterm>erasing translations</indexterm>
+<p>When you delete a document, you also delete the translated version
+of the document. However, segments you have translated are preserved
+in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder containing the document must be open.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>One or more documents from the <q>Document List</q> window of
+the appropriate folder. To delete all documents in a folder, choose <b>Select all</b> from the <b>File</b> menu.</li>
+<li><b>Delete</b> from the <b>File</b> menu.</li>
+</ol></p>
+<p>You must confirm that you want to delete each selected document.</p>
+</section>
+<section><title>Results</title>
+<p>The documents are deleted.</p>
+</section></refbody></reference>

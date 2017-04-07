@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-gen17">
+  <title>Using Find and Replace</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>finding and replacing terms</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can use the <b>Find and Replace</b> function in the Translation Environment with one
+      exception: the <b>Case Respect</b> and <b>Case Ignore</b> options can be selected, but have no
+      effect for the Thai language.</p>
+    <fig id="thai_find_replace" expanse="column">
+      <title>Using the Find and Replace window with Thai scripts</title>
+      <image placement="break" href="eqfb7s03h.gif">
+        <alt>Figure shows Using the Find and Replace window with Thai scripts</alt>
+      </image>
+    </fig>
+    <p>The <b>Global Find and Replace</b> function also works properly with Thai documents. When
+      using this function with Thai text, ensure that the "Whole words only" option is not selected.
+      The following example shows a search for a Thai character in Thai source files.</p>
+    <fig id="thai_global_find_replace" expanse="column">
+      <title>Using the Global Find and Replace window with Thai scripts</title>
+      <image placement="break" href="eqfb7s03i.gif">
+        <alt>Figure shows Using the Global Find and Replace window with Thai scripts</alt>
+      </image>
+    </fig>
+  </body>
+</topic>

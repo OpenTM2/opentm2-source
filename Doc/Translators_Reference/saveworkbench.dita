@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="saveworkbench">
+<title>Saving the Workbench</title>
+<prolog><metadata><keywords>
+
+<indexterm>translation workbench<indexterm>saving</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>When you have tailored the Workbench layout, defined
+the view details, and arranged the column widths as appropriate, you
+can save these modifications.</p>
+<p>When you leave <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you are asked if you want to
+save the current Workbench. If you confirm this, you get the same
+window layout on the Workbench the next time you start <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p>This saves you from rearranging windows for each <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+session.</p>
+</body></topic>

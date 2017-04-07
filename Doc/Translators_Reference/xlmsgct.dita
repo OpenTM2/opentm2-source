@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="xlmsgct">
+<title>Control information of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> segment</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>The control information for each segment consists of several pieces
+of information, each of a specific length. The maximum length of each
+data element is contained in square brackets. The data elements must
+be separated by a character with the ASCII code 21 (<ph>X'15'</ph>),
+represented by the symbol §.</p>
+<p>The control information has the following layout:</p>
+<parml>
+<plentry><pt>Segment number [6]</pt>
+<pd>The segment number forms a number (with leading zeros if required)
+representing the position of the segment within the document file
+from which it originates. If you do not know this number, specify
+a number that is unique within this <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. The segment number is
+used by the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to rank segments with an identical source. </pd></plentry>
+<plentry><pt>Translation indicator [1]</pt>
+<pd>This character can be 0 or 1: 
+<dl>
+<dlentry><dt>0</dt>
+<dd>Indicates that the translation is a manual translation.</dd></dlentry>
+<dlentry><dt>1</dt>
+<dd>Indicates that the translation of this segment originates from
+a machine translation system and has not been post-edited by a translator.
+If more than one exact translation match is available in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> ranks
+the human translation higher than the machine translation.</dd></dlentry>
+</dl></pd></plentry>
+<plentry><pt>Time stamp [16]</pt>
+<pd>In exported <keyword conref="common-symbols.dita#common-symbols/xlmems"/>, this data element contains a time stamp
+in internal format. In <keyword conref="common-symbols.dita#common-symbols/xlmems"/> created outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, use a value
+of 0. </pd></plentry>
+<plentry><pt>Source language [20]</pt>
+<pd>Any language from the list of supported source languages. </pd></plentry>
+<plentry><pt>Target language [20]</pt>
+<pd>Any language from the list of supported target languages. </pd></plentry>
+<plentry><pt>Author [15]</pt>
+<pd>Contains the name of the translator as the author of the translation
+of this original segment. It is the only field that is optional.</pd></plentry>
+<plentry><pt>Markup table [8]</pt>
+<pd>Any of the markup tables available.</pd></plentry>
+<plentry><pt>File name [12]</pt>
+<pd>Contains the name of the source file from which this segment
+originates. If you do not know the file name, put any other identification
+in this field. The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> uses the file name to rank segments originating
+from the same source. This means if a document with the name XYZ is
+translated and several exact translation matches are found for a specific
+segment, then the exact translation with the file name XYZ (if available)
+is ranked higher. The file name must be immediately followed by <keyword conref="common-symbols.dita#common-symbols/crlf"/>.</pd></plentry>
+</parml>
+</body></topic>

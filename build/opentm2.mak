@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |      Copyright (C) 1990-2013, International Business Machines              |
+# |      Copyright (C) 1990-2017, International Business Machines              |
 # |      Corporation and others. All rights reserved                           |
 # +----------------------------------------------------------------------------+
 
@@ -52,7 +52,7 @@ OBJS= $(_OBJ)\EQFD.OBJ \
       $(_OBJ)\eqfweb.OBJ \
       $(_OBJ)\eqfmuprp.OBJ \
       $(_OBJ)\eqfgen99.OBJ \
-      $(_OBJ)\eqfmfc.OBJ
+      $(_OBJ)\eqfmfc.OBJ 
 
 $(_BIN)\OpenTM2.EXE:	$(OBJS)
 #------------------------------------------------------------------------------

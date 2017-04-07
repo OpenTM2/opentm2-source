@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00551">
+<title>EQFTAOPTIONS</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFTAOPTIONS</indexterm></indexterm><indexterm>EQFTAOPTIONS</indexterm>
+<p>The structure <i>EQFTAOPTIONS</i> is
+used by the API calls <xref href="eqfr5mst-00550.dita#eqfr5mst-00550"/> and <xref href="eqfr5mst-00549.dita#eqfr5mst-00549"/> to get or set the analysis
+options.</p>
+</section>
+<section><title/>
+<p> </p>
+<p><b>Fields</b></p>
+<parml>
+<plentry><pt><synph><var>fAdjustLeadingWS</var></synph></pt>
+<pd>This flag represents the "Adjust leading whitespace to  whitespace
+of source segment" flag of the GUI.</pd></plentry>
+<plentry><pt><synph><var>fAdjustTrailingWS</var></synph></pt>
+<pd>This flag represents the "Adjust trailing whitespace to  whitespace
+of source segment" flag of the GUI.</pd></plentry>
+<plentry><pt><synph><var>bForFutureUse </var></synph></pt>
+<pd>Area for future enhancements. Currently not in use.</pd></plentry>
+</parml>
+</section></refbody></reference>

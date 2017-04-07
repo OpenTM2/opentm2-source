@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dicprot">
+<title>Protecting a dictionary</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>dictionary<indexterm>protecting from uncontrolled modifications</indexterm></indexterm><indexterm>protecting<indexterm> dictionaries</indexterm></indexterm>
+<p>To avoid uncontrolled modification, you can protect dictionaries, that
+is, everyone can browse these dictionaries, but only authorized persons responsible
+for updating dictionaries (for example, a terminologist) can make changes
+to them. <indexterm>dictionary<indexterm>assigning a password</indexterm></indexterm>You protect
+them by assigning a password to them.</p>
+<p>You can protect dictionaries in the <q>New Dictionary</q> window when creating
+a new dictionary or in the <q>Dictionary Properties</q> window when viewing
+its properties by pressing the <b>Protect…</b> button.</p>
+<p>If you are not authorized to edit a protected dictionary but want to make
+changes to existing entries or add new entries, you can do this by creating
+a new dictionary using the protected dictionary as a model. For more details
+see <xref href="dicnew.dita#dicnew"/>. You can then use the new dictionary as an addendum
+dictionary to the protected one. Redefine any dictionary search sequence so
+that this addendum dictionary precedes the protected dictionary.</p>
+<p>You can send this addendum dictionary to a person who is authorized to
+edit protected dictionaries and can update these dictionaries on the basis
+of the modifications and additions made in your addendum dictionary.</p>
+<p>When you start creating a new dictionary, the unprotected mode is the default
+setting. In this mode you can carry out any modifications to that dictionary.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="4*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="1*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Dictionary task</entry>
+<entry valign="top" rowsep="1">Unprotected</entry>
+<entry valign="top" rowsep="1">Protected</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Export to SGML-based dictionary</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">No</entry></row>
+<row>
+<entry valign="top">Delete a dictionary</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">Yes</entry></row>
+<row>
+<entry valign="top">Export folder with dictionary</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">Yes</entry></row>
+<row>
+<entry valign="top">Look up a dictionary entry</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">Yes</entry></row>
+<row>
+<entry valign="top">Edit a dictionary entry</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">No</entry></row>
+<row>
+<entry valign="top">Organize a dictionary</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">Password</entry></row>
+</tbody>
+</tgroup>
+</table>
+<p>The following table shows you which tasks you can perform with unprotected
+and protected dictionaries:</p>
+<p>The following table shows the merge options that are available:</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="1*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Dictionary merge from</entry>
+<entry valign="top" rowsep="1">To unprotected dictionary</entry>
+<entry valign="top" rowsep="1">To protected dictionary</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">SGML-based dictionary</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">Password</entry></row>
+<row>
+<entry valign="top">Unprotected folder dictionary</entry>
+<entry valign="top">Yes</entry>
+<entry valign="top">No</entry></row>
+<row>
+<entry valign="top">Protected folder dictionary</entry>
+<entry valign="top">No</entry>
+<entry valign="top">No</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Calling sequence</title>
+<p>To protect an existing dictionary, select: 
+<ol>
+<li>The <q>Dictionary List</q> window</li>
+<li>The dictionary you want to protect</li>
+<li><b>Properties…</b> from the <b>File</b> menu</li>
+<li><b>Protect…</b> in the <q>Dictionary Properties</q> window</li>
+</ol></p>
+<p>To protect a new dictionary, select: 
+<ol>
+<li>The <q>Dictionary List</q> window</li>
+<li><b>New</b> from the <b>File</b> menu</li>
+<li><b>Protect…</b> in the <q>New Dictionary</q> window</li>
+</ol></p>
+<p>The <q>Protect Dictionary</q> window is displayed. Enter your new password
+twice and confirm by clicking <b>Protect</b>.</p>
+</section>
+<section><title>Results</title>
+<p>The dictionary is protected, for example, only those that know the password
+have read-write access to the dictionary. Those who do not know the password
+have read-only access. </p>
+<p>The protection status of a dictionary can be revoked if the password assigned
+to the respective dictionary is known.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <q>Dictionary List</q> window</li>
+<li>The dictionary you want to unprotect</li>
+<li><b>Properties…</b> from the <b>File</b> menu</li>
+<li>Click <b>Unprotect…</b></li>
+</ol></p>
+<p>The <q>Query Password for Dictionary</q> window is displayed. </p>
+<p>This window is also displayed when you try to perform an action that makes
+changes to the dictionary.</p>
+<p>In this window you can enter the dictionary password and confirm by pressing
+the <b>OK</b> button. </p>
+</section>
+<section><title>Results</title>
+<p>The dictionary is unprotected and everyone can change it.</p>
+</section></refbody></reference>

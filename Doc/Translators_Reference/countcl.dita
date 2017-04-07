@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="countcl">
+<title>Counting words</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>counting<indexterm>words (from command
+area)</indexterm></indexterm>
+<p>Translators are usually paid for translated words or lines. To
+prepare the payment it is necessary to count the words that have been
+translated for a specific project. Also, to plan for a translation
+project it is necessary to know how many words will have to be translated.</p>
+<p>Instead of using <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows to count words in a
+document, using a command might be more convenient.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>counting words</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">counting words</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you start to count words
+from the <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command area. Note that
+lowercase letters in a parameter name are optional and need not be
+typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>WORDCNT</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><var>folder</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>FIles</kwd><oper>=</oper>
+<groupchoice>
+<groupseq><var>document_name</var></groupseq>
+<groupseq><delim>(</delim>
+<groupseq><repsep>,</repsep><var>document_name</var></groupseq><delim>)</delim></groupseq>
+<groupseq><oper>@</oper><var>list_file_name</var></groupseq></groupchoice></groupseq>
+<groupseq><delim>/</delim><kwd>OUT</kwd><oper>=</oper><var>cnt_name</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>OVerwrite</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">NO</kwd><kwd>YES</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>OPtions</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">SOURCE</kwd><kwd>TMMATCH</kwd><kwd>TARGET</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>QUIET</kwd></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=WORDCNT</pt>
+<pd><codeph>WORDCNT</codeph> specifies that you want to count words in
+a document.</pd></plentry>
+<plentry><pt>/FLD=<synph><var>folder</var></synph></pt>
+<pd><synph><var>folder</var></synph> specifies the name of the folder that contains
+the document of which you want to count words.</pd></plentry>
+<plentry><pt>/FIles=<synph><var>document_name</var></synph></pt>
+<pd><synph><var>document_name</var></synph> specifies the name of the
+document of which you want to count words.
+<p>If you specify several
+documents, enclose the document names in brackets and separate them
+by commas.</p>
+<p>If you want to specify a list of document names in
+a list file, refer to this list file by preceding the list file name
+with the <codeph>@</codeph> symbol (<codeph>@</codeph><synph><var>list_file_name</var></synph>).
+In the list file enclose the document names in brackets and separate
+them by commas.</p>
+<p>If you do not specify the <b>FIles</b> option,
+the words of all documents in the folder are counted.</p></pd></plentry>
+<plentry><pt>/OUT=<synph><var>cnt_name</var></synph></pt>
+<pd><synph><var>cnt_name</var></synph> specifies the name of the file where the count
+result is to be stored (along with the drive and directory information).</pd></plentry>
+<plentry><pt>/OVerwrite=</pt>
+<pd>Specifies whether the file specified in <codeph>cnt_name</codeph> is
+to be overwritten if it already exists (<codeph>NO</codeph> is the default).</pd></plentry>
+<plentry><pt>/OPtions=<synph><var>option</var></synph></pt>
+<pd><synph><var>option</var></synph> specifies whether you want to count
+the words in the translated document (<codeph>TARGET</codeph>) or in the
+original document (<codeph>SOURCE</codeph>), or whether you want to count
+the number and type of matches found in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> (<codeph>TMMATCH</codeph>). <codeph>SOURCE</codeph> is
+the default.</pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. If you do not specify this parameter, a message window
+pops up whenever an error occurs or when the task has successfully
+completed.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to count words using the OTMBATCH
+command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=wordcnt /fld=newfld /files=161.scr /options=target
+       /out=e:\161.cnt</codeblock></section></required-cleanup>
+<p>All words in the translated document <codeph>161.scr</codeph>, which
+is contained in folder <codeph>newfld</codeph>, are counted and the result
+is stored in the file <codeph>161.cnt</codeph> on drive E. </p>
+</example></refbody></reference>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folana">
+<title>Analyzing all the documents in a folder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>analyzing<indexterm>all documents in a folder</indexterm></indexterm><indexterm>folder<indexterm>analyzing the documents it contains</indexterm></indexterm>
+<p>Documents that are to be translated must first be <i>segmented</i>.
+Segmentation is done during <i>analysis</i> of a
+document. You can analyze all the documents in a folder at once. </p>
+</section>
+<section><title>Prerequisites</title>
+<ul>
+<li>The folder must contain at least one document.</li>
+<li>If you intend using dictionaries to perform analysis, at least
+one dictionary must exist.</li>
+<li>If you intend using <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to perform analysis, at least one <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must
+exist.</li>
+</ul>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The folder from the <q>Folder List</q> window</li>
+<li><b>Analyze…</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>The <q>Analyze Documents</q> window is displayed (see <xref href="docana1.dita#docana1/analdocwin"/>).</p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Documents to be analyzed</pt>
+<pd>This box lists all the documents in the folder.</pd></plentry>
+</parml>
+<p>For a description of all other options, see <xref href="docana1.dita#docana1"/> and <xref href="docana2.dita#docana2"/>.</p>
+<p>When you have selected the desired options, click <b>Analyze</b> to
+begin analysis of the documents.</p>
+</section>
+<section><title>Results</title>
+<p>All documents in the folder are segmented. Depending on the options
+you selected: 
+<ul>
+<li>Terminology lists may be created</li>
+<li>Dictionaries may be extended</li>
+<li><keyword conref="common-symbols.dita#common-symbols/xlmems"/> may be extended</li>
+<li>A file containing untranslated segments may be created</li>
+<li>Segments in the documents may be automatically substituted</li>
+</ul></p>
+<p>You can now begin translating the documents by opening a document,
+see <xref href="docxlt.dita#docxlt"/>.</p>
+</section></refbody></reference>

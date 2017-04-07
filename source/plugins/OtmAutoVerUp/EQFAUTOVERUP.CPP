@@ -1271,7 +1271,7 @@ void SetInfoFromConfig(HWND hwndTabDlg)
     case Week:
         nCheckedID = IDC_RADIO_WEEK;
         break;
-    case Manual:
+    case Month://Manual:
         nCheckedID = IDC_RADIO_MANUAL;
         break;
     default:
@@ -1479,6 +1479,7 @@ BOOL IsSettingChanged(HWND hwndTabDlg)
     return bChanged;
 }
 
+/*
 void RefreshButtonSet(HWND hwndTabDlg)
 {
     int nFrequency = GetPrivateProfileInt(APP_AUTO_VER_UP_SET, KEY_AUTO_VER_UP_FREQUENCY, AUTO_VER_UP_FREQUENCY_DFT, gstrgConfigFile);
@@ -1504,6 +1505,7 @@ void RefreshButtonSet(HWND hwndTabDlg)
 
     EnableWindow(GetDlgItem(hwndTabDlg, IDC_BTN_CHECK_NOW), bAbled);
 }
+*/
 
 void SetNextCheckTime()
 {
@@ -1526,10 +1528,17 @@ void SetNextCheckTime()
         // check by week
         nDays = 7 - tmNow->tm_wday + 1; // regard Monday as the start date of the week
         break;
-    case Manual:
+    case Month:
         // check by manual
-        glogAutoVerUp.writef("Manual, needn't set next check time.");
-        return;
+        //glogAutoVerUp.writef("Manual, needn't set next check time.");
+        //return;
+		tmNow->tm_mon = (tmNow->tm_mon + 1)%12;
+		if (tmNow->tm_mon == 0)
+		{
+			tmNow->tm_year++;
+		}
+
+		break;
     default:
         glogAutoVerUp.writef("Default, needn't set next check time.");
         return;
@@ -1823,7 +1832,8 @@ int CheckNewVersion(const char * strOtmVersion)
     sprintf(strXml, "%s\\PLUGINS\\%s", gstrgOtmPath, AUTO_VER_UP_XML);
 
     int nFrequency = GetPrivateProfileInt(APP_AUTO_VER_UP_SET, KEY_AUTO_VER_UP_FREQUENCY, AUTO_VER_UP_FREQUENCY_DFT, gstrgConfigFile);
-    if ((nFrequency == Manual) || (nNow < nCheck))
+    //if ((nFrequency == Manual) || (nNow < nCheck))
+	if ( nNow < nCheck )
     {
         glogAutoVerUp.writef("Needn't start.");
         nRC = gOtmParser->XmlParser(gstrgConfigFile, strXml, FALSE);

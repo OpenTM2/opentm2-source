@@ -17,7 +17,7 @@ public class SyncParameters
     public static final String   DATASOURCEPORT             ="dataSourcePort";
     public static final String   DATASOURCEUSER             ="dataSourceUser";
     public static final String   DATASOURCEPASSWORD         ="dataSourcePassword";
-    public static final String   USERIDLIST                 ="userIdList";
+    public static final String   USERIDLIST                 ="userIdList"; //"user-id-list"
     public static final String   USERTOADD                  ="userToAdd";
     public static final String   USERTOREMOVE               ="userToRemove";
     public static final String   UPDATECOUNTER              ="update-counter";

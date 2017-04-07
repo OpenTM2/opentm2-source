@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="sreq">
+<title><!--rev=wst-->Software requirements</title>
+<prolog><metadata><keywords>
+
+<indexterm>software prerequisites</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 6.0 can run under any of the following
+operating systems:
+<ul>
+<li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> XP (Professional and Home
+Edition)</li>
+<li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 2000</li>
+<li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> NT</li>
+<li>Windows 7</li>
+</ul></p>
+<p>To use <keyword conref="common-symbols.dita#common-symbols/tm4w"/> in a LAN (Local Area Network) environment,
+you need the appropriate LAN software.</p>
+</body></topic>

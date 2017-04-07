@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="setstatus">
+<title>Displaying the cursor position</title>
+<prolog><metadata><keywords>
+
+<indexterm>cursor<indexterm>displaying position and status</indexterm></indexterm>
+<indexterm>Translation Environment<indexterm>displaying cursor position and status</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to display the current position and status of
+the cursor while you are translating:</p>
+<p>Select <b>Tailor</b> from the <b>Options</b> menu
+or the context-sensitive popup menu and choose <b>Statusbar</b>.
+In the bottom right corner of your <q>Translation</q> window, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> displays
+the following information:
+<ul>
+<li>Whether you are working in insert or replace mode (<b>Ins</b> or
+Ins)</li>
+<li>The number of the segment (<b>Seg</b>) you are
+currently translating</li>
+<li>The number of the line (<b>Ln</b>) in which your
+cursor is positioned</li>
+<li>The number of the column (<b>Col</b>) at which
+your cursor is positioned</li>
+</ul></p>
+</body></topic>

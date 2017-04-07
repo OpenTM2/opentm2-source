@@ -378,7 +378,7 @@ BEGIN
 
 188 "The SGML tag '%1' used in the SGML-based file is not valid. The error occurred near the entry '%2'.\012 Do you want to continue?"
 
-189 "Some dictionary entries contain fields that do not correspond to the dictionary structure. Data in these fields will be lost.\012 Do you want to continue?"
+189 "The dictionary field ""%1"" with a value of ""%2"" does not correspond  to the dictionary structure. Data in this field will be lost.\012 Do you want to ignore this error and continue?"
 
 190 "The dictionary entry %1 you are trying to import is too big."
 
@@ -1366,7 +1366,7 @@ BEGIN
 
 682 "MT output options error:\012 %1"
 
-683 "!! No message text defined !!"
+683 "The specified memory handle is not invalid."
 
 684 "!! No message text defined !!"
 

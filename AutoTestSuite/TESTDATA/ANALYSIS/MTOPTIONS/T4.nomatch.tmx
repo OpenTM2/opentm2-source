@@ -1,0 +1,19 @@
+﻿<?xml version='1.0' encoding="UTF-8"?>
+<tmx version="1.4">
+<header creationtoolversion="1.4.0.1" segtype="sentence" adminlang="en-us" srclang="en-US" o-tmf="OpenTM2" creationtool="OpenTM2" datatype="rtf" />
+   <body>
+      <tu tuid="1" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">1</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>This segment has no proposal at all. </seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+    </body>
+</tmx>

@@ -1802,7 +1802,15 @@ const void *p2                       // second element
   int iSortKey1 = pFactory->getProposalSortKey( GetMatchType(pFuzzy1->usFuzzyPercents), GetProposalTypeFromFlag( pFuzzy1->usMachineTrans ), (int)pFuzzy1->usFuzzyPercents, iMTDisplayFactor, 0, FALSE );
   int iSortKey2 = pFactory->getProposalSortKey( GetMatchType(pFuzzy2->usFuzzyPercents), GetProposalTypeFromFlag( pFuzzy2->usMachineTrans ), (int)pFuzzy2->usFuzzyPercents, iMTDisplayFactor, 0, FALSE );
 
-  return( iSortKey2 - iSortKey1 );
+  if ( iSortKey1 == iSortKey2 )
+  {
+    // base sort result on proposal time stamp when sort keys are identical
+    return( pFuzzy2->lDate - pFuzzy1->lDate );
+  }
+  else
+  {
+    return( iSortKey2 - iSortKey1 );
+  }
 } /* end of function FuzzinessCompare */
 
 

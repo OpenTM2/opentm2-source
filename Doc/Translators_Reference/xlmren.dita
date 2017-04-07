@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="xlmren">
+<title>Renaming a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>Translation Memory<indexterm>renaming</indexterm></indexterm><indexterm>renaming<indexterm><keyword conref="common-symbols.dita#common-symbols/xlmems"/></indexterm></indexterm>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to give a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> a new name.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from the <q>Translation Memory List</q> window</li>
+<li><b>Rename</b> from the <b>File</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Rename to</pt>
+<pd>Type a new name for the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</pd></plentry>
+<plentry><pt>Adjust all references automatically</pt>
+<pd>If you select this option, all references to the renamed <keyword conref="common-symbols.dita#common-symbols/xlmem"/> are
+also changed.</pd></plentry>
+</parml>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Rename</b>, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and, optionally,
+any references to it are renamed.</p>
+</section></refbody></reference>

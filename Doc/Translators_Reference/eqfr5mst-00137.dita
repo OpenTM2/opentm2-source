@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00137">
+  <title id="analyzingdocumentsusingtm">Analyzing documents using <keyword
+      conref="common-symbols.dita#common-symbols/xlmems"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>analyzing<indexterm>documents using <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/></indexterm></indexterm>
+      <p>If you have <i><keyword conref="common-symbols.dita#common-symbols/xlmems"/></i> available
+        from previous translations, you have several options: <ul>
+          <li><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can search existing
+              <keyword conref="common-symbols.dita#common-symbols/xlmems"/> for segments that match
+            segments in the document to be analyzed. Segments that match exactly or almost exactly
+            can be copied into a new document- or project-specific <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+          <li>The system can perform automatic substitutions, that is, it copies the translations of
+            segments that were previously made for an identical source segment (<i>exact match</i>)
+            into the translation version of the document. Matches are considered to be exact even if
+            the tagging of the segment to be replaced differs from that of the translation
+            proposal.</li>
+          <li>The remaining untranslated segments can optionally be send to the machine translation
+            server. (only if the target language is supported by the machine translation
+            server)</li>
+        </ul>
+      </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be searched must
+          exist.</li>
+        <li>The folder containing the document must be opened.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>One or more documents from the <q>Document List</q> window</li>
+          <li><b>Analyze…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Analyze Documents</q> window (see <xref href="#eqfr5mst-00137/analdocwin"/>) is
+        displayed. <required-cleanup><indexterm>windows<indexterm>Analyze
+            Documents</indexterm></indexterm></required-cleanup><fig id="analdocwin"
+          expanse="column">
+          <title>Analyze Documents window</title><image placement="break" href="eqfb7s7a.gif"
+              ><alt>Analyze Documents window</alt></image></fig>
+      </p>
+    </section>
+    <section id="protectxmpandscreensections">
+      <title>Options and parameters</title>
+      <p>On the <q>General</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Documents to be analyzed</pt>
+          <pd>This box contains the documents you selected previously.</pd>
+        </plentry>
+        <plentry>
+          <pt>Substitute exact matches in the documents automatically</pt>
+          <pd>Select this option to automatically replace original segments with the translations
+            found in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> associated
+            with the document. The document is then already partially translated when you start
+            working with it, enabling you to concentrate on the translation of new segments. <p>This
+              option is particularly useful in conjunction with the <b>Add segments to Translation
+                Memory of folder/document</b> option on the <q>Miscellaneous</q> tabbed page. Many
+                <keyword conref="common-symbols.dita#common-symbols/xlmems"/> can be searched in one
+              run for matching segments that are copied into the document-specific <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>, and are substituted in the
+              translation document.</p>
+            <p>When you select this option, the <b>Aut. Substitution</b> tab is created, which is
+              described in the following.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Create lists</pt>
+          <pd>When you select this option, the <b>List Settings</b> tab is created, which is
+            described in <xref href="eqfr5mst-00139.dita#eqfr5mst-00139"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Create file containing untranslated segments </pt>
+          <pd><indexterm>untranslated segments<indexterm>processing
+              them</indexterm></indexterm><indexterm>untranslated segments<indexterm>collecting them
+                in a file</indexterm></indexterm><indexterm>untranslated segments<indexterm>sending
+                them to a machine translation system</indexterm></indexterm><indexterm>machine
+              translation system</indexterm>Select this option if you want <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> to create a separate file
+            containing all untranslated segments. If you also selected <b>Substitute exact matches
+              in the documents automatically</b>, this file contains only the remaining untranslated
+            segments. <p>A file with a format similar to an external Translation Memory is created
+              (see <xref href="eqfr5mst-00613.dita#eqfr5mst-00613"/>) containing empty target
+              segments. This file can be exported for use by other systems . If an external system
+              is able to add valid translations for these untranslated segments, the updated file
+              can be imported into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> as a
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> for translation use.
+            </p></pd>
+        </plentry>
+        <plentry>
+          <pt>Count <keyword conref="common-symbols.dita#common-symbols/xlmem"/> match
+            information</pt>
+          <pd>Select this option to enable <keyword conref="common-symbols.dita#common-symbols/tm4w"
+            /> to count the number and type of matches that are found in the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> for the document. The document is
+            then segmented and the matches are counted but no segments are replaced with matches
+            that are found in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+              <p>If you also select the <b>Substitute exact matches in the documents
+                automatically</b> option, <keyword conref="common-symbols.dita#common-symbols/tm4w"
+              /> automatically replaces segments with matches found in the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> and counts the number and type
+              of matches replaced.</p>
+            <p>For information on how to view the counting result, refer to <xref
+                href="eqfr5mst-00144.dita#eqfr5mst-00144"/>. </p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Prepare Redundancy Report</pt>
+          <pd>Select this option if you later want to create a Redundancy Report to calculate the
+            costs for a translation project. For more information on Redundancy Reports, refer to
+              <xref href="eqfr5mst-00342.dita#eqfr5mst-00342"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Send untranslated segments to MT server</pt>
+          <pd>Select this option if you want send untranslated segments to the MT (Machine
+            Translation) server. This option is inactive in the current version of <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Create segment list for Translation Memory Optimizer</pt>
+          <pd>Select this option if you want to create a segment list for the Translation Memory
+            Optimizer too</pd>
+        </plentry>
+        <plentry>
+          <pt>Protect text in XMP and SCREEN sections</pt>
+          <pd>Select this option to protect text inside of &lt;xmp &gt; and &lt;screen&gt; sections
+            in IDDOC or DITA documents. Without this option the text will be translatable.</pd>
+        </plentry>
+        <plentry id="deletebutton">
+          <pt>Use analysis profile</pt>
+          <pd>Select this option to use an analysis profile for the analysis of documents. An
+            analysis profile contains markup table specific analysis settings which will override
+            the analysis settings specified in the analysis window. Select an analysis profile from
+            the analysis profile list or enter the name of a new analysis profile. Press the
+              <b>Edit</b> button to specify or modify the analysis settings in the profile. Press
+            the <b>Delete</b> button to delete the currently selected analysis profile.</pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Miscellaneous</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Add segments to <keyword conref="common-symbols.dita#common-symbols/xlmem"/> of
+            folder/document</pt>
+          <pd>Select this option if you want the Translation Memory databases that you can select
+            from the <b>Available</b> list to be searched for matches. All exact matches or fuzzy
+            matches found in the selected Translation Memory databases are then added to the
+            Translation Memory databases associated with the folder or documents that are being
+            analyzed. <p>From the <b>Available</b> list, select with a double-click those <keyword
+                conref="common-symbols.dita#common-symbols/xlmems"/> from where the segments are to
+              be copied. The selected <keyword conref="common-symbols.dita#common-symbols/xlmems"/>
+              are displayed in the <b>Selected</b> box. You must select at least one <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>, and you can select a maximum of
+              10 <keyword conref="common-symbols.dita#common-symbols/xlmems"/>.</p></pd>
+        </plentry>
+        <plentry id="stopsearchatfirstmemorywithexactmatch">
+          <pt>Stop search at first memory with exact match</pt>
+          <pd>Select this option if the search for memory segments should stop at the first memory
+            containing an exact match. This avoids duplicate exact matches from subsequent
+            Translation Memory databases in the list. Without this option <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> will extract matches from all
+            selected Translation Memory databases.</pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Aut. Substitution</q> page, which is only shown when the <b>Substitute exact
+          matches in the documents automatically</b> option is selected:</p>
+      <parml>
+        <plentry>
+          <pt>Use exact context match when more than one found</pt>
+          <pd>Select this option if you expect segments with more than one exact match in the
+            associated <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and you want the
+            system to choose the one from the same document. In this case, the document must contain
+            only one exact match. If this option is not selected, <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> skips the automatic substitution
+            for a segment when more than one exact translation is found for a source segment.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use latest exact match when more than one is found</pt>
+          <pd>Select this option if you expect segments with more than one exact match in the
+            associated <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and you want the
+            system to choose the most recent translation of the segment. If this option is not
+            selected, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> skips the
+            automatic substitution for a segment when more than one exact translation is found for a
+            source segment. </pd>
+        </plentry>
+        <plentry>
+          <pt>Adjust leading white space to white space in source segment</pt>
+          <pd>Select this option if the text is to have the same leading white space (blank, tab
+            stop, and line feed) before and after the automatic substitution.</pd>
+        </plentry>
+        <plentry>
+          <pt>Adjust trailing white space to white space in source segment</pt>
+          <pd>Select this option if the text is to have the same trailing white space (blank, tab
+            stop, and line feed) before and after the automatic substitution.</pd>
+        </plentry>
+        <plentry>
+          <pt>Respect CRLF in segment</pt>
+          <pd>The Translation Memory may contain two matching target segments for a source segment,
+            one with carriage return line feed (CRLF), and one without. If you select this option,
+            the target segment containing CRLF is taken during automatic substitution.</pd>
+        </plentry>
+        <plentry>
+          <pt>No blank at segment end even if source segment has one</pt>
+          <pd>A source segment may differ from its matching target segment in that the source
+            segment contains one or more blanks at its end. If you select this option, such segments
+            are considered an exact match during automatic substitution and the additional blanks at
+            the end of the source segment are removed.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use joined segments when found</pt>
+          <pd>Select this option to join segments. This can be useful if you want to analyze a
+            document that you have worked with before and where you joined neighboring text segments
+            before you translated them. During a new analysis run these segments are treated as
+            separate units again. However, in the associated Translation Memory there is a match
+            (translation) for the joined segments only. To find this match more easily during
+            automatic substitution, this option joins neighboring segments in the document to be
+            analyzed. Note that two neighboring segments are only joined if for the first segment in
+            the sequence a fuzzy match has been found.</pd>
+        </plentry>
+        <plentry>
+          <pt>Ignore path in document names</pt>
+          <pd>Select this option if any path information in the document name is to be ignored when
+            a document is checked for exact-exact matches. </pd>
+        </plentry>
+        <plentry>
+          <pt>No substitution if source and target segment is identical</pt>
+          <pd>Select this option to suppress the automatic substitution of segments when the source
+            segment is identical with the target segment found in the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry id="ignorememoryproposalswithcomments">
+          <pt>Ignore memory proposals with comments</pt>
+          <pd>Select this option to suppress the automatic substitution of segments when the memory
+            proposal has a comment.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use TMO replacement list for IDDOC to DITA converted projects</pt>
+          <pd>Select this option to specify a TMO replacement list to be applied on IDDOC proposals
+            for DITA documents. Once this option is selected, the name of the replacement list can
+            be typed in the list name field or be selected using the <b>Select....</b> button</pd>
+        </plentry>
+        <plentry>
+          <pt>List</pt>
+          <pd>The fully qualified file name of a TMO replacement list.</pd>
+        </plentry>
+      </parml>
+      <p>When you select both <b>Use exact context match...</b> and <b>Use latest exact
+        match...</b>, the system combines both requirements and chooses the latest of the exact
+        context matches. You then get fewer automatic substitutions than with <b>Use latest exact
+          match...</b> but more than with <b>Use exact context match...</b>.</p>
+      <p>Click <b>Analyze</b> to begin with the analysis of the document. As it can take some time
+        to analyze the document, a window is displayed showing the progress of the operation.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is segmented.</p>
+      <p>Depending on the options you selected, the document may already be partially translated,
+        the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> updated, or a file created
+        containing untranslated segments.</p>
+      <p>You can begin translating the document.</p>
+    </section>
+  </refbody>
+</reference>

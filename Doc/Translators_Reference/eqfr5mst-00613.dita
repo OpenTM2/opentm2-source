@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00613">
+  <title>Untranslated segments file</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>During export, you can generate a file with the untranslated segments of a document. This file can be processed by other systems, such as a 
+      machine translation system. This file format is similar to an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. The
+      following sample contains three segments:
+      <codeblock>&lt;NTMMemoryDb&gt;
+&lt;Segment&gt;0000000002
+&lt;Control&gt;
+000011•0•0000000000000000•English(U.S.)•German(national)••EQFANSI•DEVICE.DOC
+&lt;/Control&gt;
+&lt;Source&gt;Selecting Your Rack-Mounted Devices
+&lt;/Source&gt;
+&lt;Target&gt;&lt;/Target&gt;
+&lt;/Segment&gt;
+&lt;Segment&gt;0000000009
+&lt;Control&gt;
+000011•0•0000000000000000•English(U.S.)•German(national)••EQFANSI•DEVICE.DOC
+&lt;/Control&gt;
+&lt;Source&gt;Some items to consider are:
+&lt;/Source&gt;
+&lt;Target&gt;&lt;/Target&gt;
+&lt;/Segment&gt;
+&lt;Segment&gt;0000000074
+&lt;Control&gt;
+000011•0•0000000000000000•English(U.S.)•German(national)••EQFANSI•DEVICE.DOC
+&lt;/Control&gt;
+&lt;Source&gt;This publication assists you in selecting a hardware configuration.
+&lt;/Source&gt;
+&lt;Target&gt;&lt;/Target&gt;
+&lt;/Segment&gt;
+&lt;/NTMMemoryDb&gt;</codeblock>
+    </p>
+  </body>
+</topic>

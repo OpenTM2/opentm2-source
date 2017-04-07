@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00211">
+  <title><!--rev=as15082005-->Importing a folder into controlled folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <required-cleanup>
+        <indexterm>windows<indexterm>Controlled Folder Password</indexterm></indexterm>
+      </required-cleanup>
+      <fig expanse="column">
+        <title>Controlled Folder Password window</title>
+        <image placement="break" href="folimppassword.gif">
+          <alt>Figure shows Controlled Folder Password window</alt>
+        </image>
+      </fig>
+      <p>This window is shown whenever a folder is imported into an existing controlled folder and
+        the folder being imported is not a child of the controlled folder.</p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Password</pt>
+          <pd>Enter the password of the controlled folder into which the folder should be
+            imported.</pd>
+        </plentry>
+        <plentry>
+          <pt>OK</pt>
+          <pd>Checks the given password and checks it against the password of the controlled folder.
+            If the password is correct, the folder import starts. If the password is not correct,
+            the folder import window is shown.</pd>
+        </plentry>
+        <plentry>
+          <pt>Cancel</pt>
+          <pd>Closes the <q>Controlled Folder Password</q> window and returns to the folder import
+            window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Help</pt>
+          <pd>Gives information to help you to interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

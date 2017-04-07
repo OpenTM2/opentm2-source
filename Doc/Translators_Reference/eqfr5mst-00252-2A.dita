@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-2A" rev="GF_03042017">
+  <title>Installing MariaDB on the Server</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This procedure describes how to install <b>MariaDB</b> on a <b>server</b>.</p> 
+
+    <p>On the <b>server</b>, start the <b>MariaDB installer program</b>, that was downloaded in the step before, by double clicking on 
+       e.g. <q>mariadb-10.1.17-winx64.msi</q> (or a similar name). Follow the instructions of the installer you see on your screen. 
+       Almost all of the messages come from the MariaDB-installer program. Read the displayed information carefully.</p> 
+
+    <p>In panel <b>Custom Setup</b>, pay attention when filling in the data:
+      <ul>
+        <li>Ensure to install MariaDB to drive <b>C:</b>, and into the directory named <b>MariaDB</b>.</li>
+        <li>Press the button <b>Browse...</b> and adjust the predefined drive and directory accordingly.</li>
+        <li>After having adjusted the install-drive and directory, press the button <b>Next</b>.</li>
+      </ul>
+      <note>Install MariaDB directly into the <b>C</b>-drive on your server, and we also strongly recommend to use the 
+            directory <b>c:\MariaDB</b>. Do <b>not</b> install MariaDB to e.g. c:\program files\MariaDB\, because the 
+            programs may not work properly.</note>
+    </p>
+
+    <p>In panel <b>User settings</b>, pay attention when filling in the data:
+      <ul>
+        <li>Checkmark <b>Modify password for database user &apos;root&apos;</b>. In the entry-fields <b>New root password</b> 
+            and <b>Confirm</b> type in a password, and ensure to remember this password.</li>
+        <li>Checkmark <b>Use UTF8 as default server&apos;s charater set</b></li>
+        <li>Once the data is filled into this panel, click on the botton <b>Next</b> to continue.</li>
+      </ul>  
+    </p>
+ 
+    <p>In panel <b>Default instance properties</b>, pay attention when check marking entries:
+      <ul>
+        <li>Checkmark <b>Install as service</b>. In the entry-field <b>Service Name:</b> add <b>MySQL</b>.</li>
+        <li>Checkmark <b>Enable networking</b>. In the entry field <b>TCP port:</b> type in 3306, and ensure to 
+            remember this port name.</li>
+        <li>Checkmark <b>Optimize for transactions</b>. In the entry-field <b>Buffer pool size:</b> add <b>1991</b>.</li>
+        <li>Once the data is filled into this panel, click on the botton <b>Next</b> to continue.</li>
+      </ul>
+    </p>  
+
+    <p>Walk through all panels by acepting the default settings, and finalize the installation of MariaDB.</p>
+  </body>
+</topic>

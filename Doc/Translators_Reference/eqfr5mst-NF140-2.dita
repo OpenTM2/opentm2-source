@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF140-2" rev="GF_03042017">
+  <title>Call CHKPII from within OpenTM2</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>CHKPII can be called directly from within OpenTM2 to either check <b>all documents in a folder</b>, or <b>one or more selected 
+      documents</b> inside a folder. The function can either be called via <b>File</b> <b>CHKPII...</b>, or from the drop down menus for 
+      either Folders or Documents via <b>CHKPII...</b>. CHKPII must be separately installed into the CHKPII plugin. This function is
+      self-explaining, and this document does not explain the CHKPII functionality. Please refer to the CHKPII documentation.</p>
+  </body>
+</topic>

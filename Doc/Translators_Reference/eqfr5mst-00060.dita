@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00060">
+  <title>The treatment of braces - no symmetrical swapping</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>swapping<indexterm>with bidirectional languages</indexterm></indexterm>
+        <indexterm>bidirectional languages<indexterm>swapping of characters</indexterm><indexterm>treatment of braces</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> does <i>not</i> interchange the order of some directional pairs of
+      characters, such as left and right parentheses ( ), less-than and greater-than signs &lt; &gt;, left and right brackets [ ], and left 
+      and right braces { }.</p>
+    <p>&lt; &gt; is used in <q>Translation Memory</q> windows to denote matches. &lt; &gt; is used to denote shrink and compact styles.</p>
+    <p>You need to manually translate these characters in accordance with the logical sequence of a sentence.</p>
+  </body>
+</topic>

@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2015, International Business Machines
+	Copyright (C) 1990-2016, International Business Machines
 	Corporation and others. All rights reserved
 */
 package de.ibm.com.opentm2scripteride.gui.custom;
@@ -21,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
@@ -90,7 +91,7 @@ public class ParameterFramePanel {
 		mNamePanel.add(mChecked, "cell 1 0,alignx left,aligny top");
 		
 		String description =  mFrame.getDescription();//"<html>" + mFrame.getDescription().replace("\n", "<br>") + "</html>";
-				
+	
 		// make decision here about which select able to use
 		if( isGroupSelectable() ) {
 			String tempDescription = mFrame.getDescription();
@@ -105,6 +106,10 @@ public class ParameterFramePanel {
 			
 			mPts = new ComboBoxSelectableTextSource(mChecked, mTextValue, mFrame.getName());
 				
+		} else if(mFrame.getName().equals("pszMTOutputOptions")) {
+			// hard code for EqfAnalyzeDocEx
+			mPts =  new MTOutputOption4EqfAanalyzeDocEx(mChecked, mTextValue);
+			
 		} else {
 			
 			mPts = new ParameterTextSource(mChecked, mTextValue);
@@ -446,4 +451,97 @@ class ComboBoxSelectableTextSource extends ParameterTextSource {
 		}//end for
 	}
 	
+}
+
+class MTOutputOption4EqfAanalyzeDocEx extends ParameterTextSource {
+	
+    private Panel4EqfAnaylyzeDocEx mMTOptPanel = new Panel4EqfAnaylyzeDocEx();
+	public MTOutputOption4EqfAanalyzeDocEx(JCheckBox checkBox, String textValue) {
+		super(checkBox, textValue);
+		mMTOptPanel.setEnabled(isSelected());
+		
+		mMTOptPanel.setAsInput(mText.getText());
+		
+		mMTOptPanel.btnAdd.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mMTOptPanel.addSelectedOptions2MtOutput();
+				mText.setText(mMTOptPanel.getMToutputOptions());
+				//mMTOptPanel.showSendToMtReminderDialog();
+			}
+			
+		});
+		
+	
+		mMTOptPanel.btnReset.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String selRdbtnName = mMTOptPanel.getSelectedMtOutputBtn();
+				if(selRdbtnName == null)
+					return;
+				
+				mMTOptPanel.rdbtn2tf.get(selRdbtnName).setText("");
+				mText.setText(mMTOptPanel.getMToutputOptions());
+				mMTOptPanel.deselectAllPanels();
+			}
+			
+		});
+		
+		for(final JRadioButton rd:mMTOptPanel.rdbtns) {
+			rd.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					mMTOptPanel.deselectAllPanels();
+					mMTOptPanel.configOptionsBtnByDependance(rd.getText());
+					//System.out.println(rd.getText());
+					String option = mMTOptPanel.rdbtn2tf.get(rd.getText()).getText();
+					if(option.indexOf('(') == -1) {
+						return;
+					}
+					
+					mMTOptPanel.enableOptionsBtnByInput(option);
+					/*String rdoptions = option.substring(option.indexOf('(')+1,option.length()-1);
+					String []items = rdoptions.split(",");
+					for(String item:items) {
+						if(item.indexOf('=') != -1) {
+							mMTOptPanel.tfNoFuzzyAbove.setText(item.substring(item.indexOf('=')+1));
+							item = item.substring(0, item.indexOf('='));
+						}
+						//System.out.println(item);
+						for(JRadioButton temp:mMTOptPanel.getOptionButtons()) {
+							if(item.equalsIgnoreCase(temp.getText())) {
+								temp.setSelected(true);
+								break;
+							} 
+						}
+					}*/
+				}//end
+				
+			});
+		}
+	}
+	
+	public void enable(boolean bEnable) {
+		super.enable(bEnable);
+		if(mMTOptPanel == null)
+			return;
+		
+		mMTOptPanel.setEnabled(bEnable);
+	}
+	
+	
+	public JComponent getTextSourceComponent() {
+		return mMTOptPanel;
+	}
+	
+	public void fillText() {
+		if(isSelected())
+		    mText.setText(mMTOptPanel.getMToutputOptions());
+		else 
+			mText.setText("");
+
+	}
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="preface">
+  <title>About this book</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This book is intended for users working with <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+       under <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>.</p>
+    <p>This book is for all users of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> who
+      are already familiar with the basic functions of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> basics are explained in <cite>A Quick Tour</cite> 
+       as well as in the <cite>Translator’s Workbook</cite>. The <cite>Translator’s Reference</cite> provides information 
+       on the more advanced topics of translating with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. It 
+       provides comprehensive descriptions of all <keyword conref="common-symbols.dita#common-symbols/tm4w"/> components 
+       and their functions essential for doing the daily translation business. It also provides appendixes with detailed 
+       technical information.</p>
+    <p>This document describes the <b>APIs</b> (Application Programming Interfaces), which allow technically 
+       experienced users to automate processes.</p>
+    <p>An easy way to find information about a specific item is to look it up in the index. However, if you are not sure 
+       about the precise naming of a function, search the table of contents to find a topic where this function may belong to.</p>
+  </body>
+</topic>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00415">
+  <title>Machine Translation Evaluation in <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Evaluating the results of a translation in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, where
+      MT (Machine Translation) was involved in, is key to understand the productivity of MT. 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can track all activities in a central LOG-file, and 
+      this LOG-file can be evaluated using a DOS line command utility OtmMtEval.exe.
+    </p>
+  </body>
+</topic>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00019">
+  <title>Hardware requirements</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>hardware prerequisites</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To install <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, the following minimum hardware is required:</p>
+    <p>
+      <ul>
+        <li>An <tm trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm> compatible PC with a Pentium III processor or higher</li>
+        <li>1 GB<fn>1 MB equals 1.048.576 bytes.</fn> main storage (RAM)</li>
+        <li>1 GB free hard disk space<fn><keyword conref="common-symbols.dita#common-symbols/tm4w"/> requires aprox. 200MB of disk
+            space, but plan additional disk space for translation material.</fn></li>
+      </ul>
+    </p>
+  </body>
+</topic>

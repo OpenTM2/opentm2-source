@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00319">
+  <title>Deleting a markup table</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>deleting<indexterm>markup tables</indexterm></indexterm>
+      <indexterm>markup tables<indexterm>removing</indexterm></indexterm>
+      <p>If you no longer need a markup table, you can delete it. For markup tables provided by
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, it is recommended to create a
+        backup copy by exporting the table, because it cannot be reinstalled separately but only by
+        a system reinstallation. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The <q>Markup Table List</q> window must be active.</li>
+        <li>The markup table to be deleted must be selected.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Delete</b> from the <b>File</b> menu.</p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>Before the system deletes the selected markup table, it asks you to confirm whether you
+        really want to delete it.</p>
+      <p>If you select <b>No</b>, you will leave the delete function. If you select <b>Yes</b>, the
+        markup table will be deleted.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you selected <b>Yes</b>, the markup table is deleted. Otherwise it remains unchanged.
+        References to this markup table may still exist in certain folders. Update the folder
+        properties so that the deleted markup table is no longer associated with a folder. </p>
+    </section>
+  </refbody>
+</reference>

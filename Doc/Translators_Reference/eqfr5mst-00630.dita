@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00630">
+  <title>Colors, fonts and key assignment</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In all <keyword conref="common-symbols.dita#common-symbols/tm4w"/> versions, you can change
+      the font color, background color and font styles of each segment (translated, untranslated and
+      coded text parts) and proposals. These changes can be performed by the following windows: 
+      <ul>
+        <li>Translations window</li>
+        <li>Translation Memory window</li>
+        <li>Source of Proposal(s) window</li>
+        <li>Original window</li>
+        <li>Dictionary window</li>
+      </ul>
+      By default, the segments are presented in colors and fonts that can be easily
+      differentiated by color-blind users. For example, most of the color-blind people have
+      difficulties in differentiating between green and red colors. Therefore, these colors were not
+      used as default values.</p>
+  </body>
+</topic>

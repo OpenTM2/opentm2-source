@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00263">
+  <title>Creating an SGML-based dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>external format<indexterm>of dictionaries</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>An SGML-based file contains dictionary data and SGML tags describing the data structure and
+      the relation between the data elements.</p>
+    <p>SGML-based dictionaries can be created by: <ul>
+        <li>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> dictionary export
+          function</li>
+        <li>Data conversion programs or database macros</li>
+        <li>Editing a file (only recommended for small data volumes)</li>
+      </ul></p>
+    <p>If you have dictionary data in a format other than SGML, you must convert it before you can
+      import it.</p>
+    <p>Importing the SGML-based file into <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> (which can be either ASCII, Ansi or
+      Unicode) converts the dictionary into the internal format recognized by <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+  </body>
+</topic>

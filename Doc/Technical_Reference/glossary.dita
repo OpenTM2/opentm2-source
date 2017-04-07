@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="glossary">
+  <title>Glossary of terms and abbreviations</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This glossary defines and describes terms and abbreviations used in this manual.</p>
+    <dl>
+      <dlentry>
+        <dt>addendum</dt>
+        <dd>The extension of a <i>language-support file</i> that contains individually added spellings of terms. For example, terms which 
+          have been indicated as misspelled by the spellchecker although spelled correctly.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>aligning</dt>
+        <dd>The process of combining source segments with their corresponding target segments in an Initial Translation Memory (ITM).</dd>
+      </dlentry>
+      <dlentry>
+        <dt>analysis</dt>
+        <dd>A process for dividing text into <i>segments</i>. It checks the text against specific <i>exclusion lists</i> and <i>dictionaries</i>, 
+          and produces, on your request, a <i>new terms list</i> and a <i>found terms list</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>ANSI</dt>
+        <dd>American National Standards Institute.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>API</dt>
+        <dd><i>Application programming interface</i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>application programming interface (API)</dt>
+        <dd>A software interface that enables applications to communicate with each other. An API is the set of programming language constructs 
+          or statements that can be coded in an application program to obtain the specific functions and services provided by an underlying 
+          operating system or service program.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>automatic lookup</dt>
+        <dd>During translation, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> performs an automatic lookup in the 
+          referenced <i><keyword conref="common-symbols.dita#common-symbols/xlmem"/></i> and in the referenced <i>dictionaries</i>. For each 
+          segment, matching segment translations from the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> are displayed 
+          as <i>translation proposals</i> in the <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> window, translations of 
+          its terms are displayed in the <q>Dictionary</q> window. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>automatic substitution</dt>
+        <dd>An option in the Translate menu. It lets you start the automatic substitution process, which translates those <i>segments</i> that 
+          have been previously translated by you or another translator and are stored in the <i>Translation Memory</i>. It is particularly
+          useful for translating updated text. However, you still must translate new text manually.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>company code</dt>
+        <dd>Abbreviation for a particular area of usage a translation applies to. For example, certain terms are used differently depending on 
+          the companies or clients you do translations for. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>controlled folder handling</dt>
+        <dd>Is a concept that is only available to project coordinators. It allows them to specify, and change at any time, all properties and 
+          details for a folder, including the translators for the documents to be imported into this folder. It also allows them to ship the 
+          folder once all translations are finished.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>details</dt>
+        <dd>See <i>view details</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>dictionary</dt>
+        <dd>A database that contains terms, their translation, and other related information. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>dictionary entry</dt>
+        <dd>All data relating to a <i>headword</i> in a <i>dictionary</i>
+        </dd>
+      </dlentry>
+      <dlentry>
+        <dt>dictionary filter</dt>
+        <dd>A method to select specific entries from a <i>dictionary</i> or only parts of these entries. The filter conditions that must be met 
+          if an entry is to pass the filter can be individually defined when printing or searching a dictionary. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>dictionary print format</dt>
+        <dd>Specifies the layout of a printed <i>dictionary</i>. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides standard 
+          formats described in <i>format files</i> that can be tailored individually. The format files are on the same disk where 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is installed under the subdirectory <codeph>eqf\prtform</codeph>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>DLL</dt>
+        <dd><i>Dynamic-link library</i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>document file</dt>
+        <dd>A generic term used to describe all types of files containing information that is to be translated. Document files can be analyzed 
+          and opened for translation in the <i>Translation Environment</i>. The source of the document file you translate is called
+          the <i>original document</i>. The document file that you edit during translation is referred to as the <i>translation document</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>document type</dt>
+        <dd>Depending on the different types of <i>markup</i> used to describe the layout of document, 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> differentiates between different document types.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>dynamic-link library (DLL)</dt>
+        <dd>A file containing executable code and data bound to a program at load time or runtime, rather than during linking. The code and data 
+          in a dynamic-link library can be shared by several applications simultaneously. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>entry fields</dt>
+        <dd>The various fields and styles of an entry in a <i>dictionary</i>, such as meaning, usage, context, abbreviation, idioms, and 
+          grammatical information. For example, the entry field <synph><var>Abbr.</var></synph> would contain the abbreviation of a <i>headword</i>.
+          The combination of all entry fields of a specific headword makes up the headword’s entry in the dictionary. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>entry level</dt>
+        <dd>The information that applies to all the <i>templates</i> of an entry. For example, the term itself, the author, and the date the entry 
+          was created. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>entry section</dt>
+        <dd>Section in a <i>dictionary</i>. Contains all <i>dictionary entries</i> appearing one after another. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>exact match</dt>
+        <dd>Each <i>segment</i> in the <i>translation document</i> is compared with the selected <i>Translation Memory</i>. If an identical 
+          segment is found, an <i>exact match</i> has occurred and the corresponding <i>translation proposal</i> is shown in the <q>Translation
+            Memory</q> window. It originates from a previous translation. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>exact match (1)</dt>
+        <dd>An <i>exact match</i> for which the following condition applies:The exact match occurs only once in the attached 
+          <keyword conref="common-symbols.dita#common-symbols/xlmems"/>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>exact match (&gt;=2)</dt>
+        <dd>An <i>exact match</i> for which the following condition applies:The exact match occurs at least twice in the attached 
+          <keyword conref="common-symbols.dita#common-symbols/xlmems"/>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>exact-exact match</dt>
+        <dd>An <i>exact match</i> for which the following condition applies:The number of the active segment in the source document is identical 
+          (give or take 2) with that of the corresponding segment in the Translation Memory. In addition, the name of the document
+          (document name = file name plus relative path (if available)) being translated is identical with that of the document stored in the 
+          Translation Memory.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>exact context match</dt>
+        <dd>An <i>exact match</i> for which the following condition applies:The number of the active segment in the source document is not 
+          identical with that of the corresponding segment in the Translation Memory. However, the name of the document being translated is 
+          identical with that of the document stored in the Translation Memory.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>exclusion list</dt>
+        <dd>A list containing common words such as articles, prepositions, proper nouns, and terms that occur frequently. These words are 
+          ignored when creating <i>new terms lists</i> and <i>found terms lists</i> during <i>analysis</i>, and are not shown in the
+            <q>Dictionary</q> window during translation. Exclusion lists can be edited. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>export</dt>
+        <dd>To copy <i>folders</i>, documents, <i>dictionaries</i>, and <i>Translation Memory databases</i> to the DOS file system to make 
+          them available to another user. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>folder</dt>
+        <dd>Contains documents belonging to one project and references to the <i><keyword conref="common-symbols.dita#common-symbols/xlmems"/></i> 
+          and <i>dictionaries</i> you want to use during translation. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>format file</dt>
+        <dd>A file that contains the specification of a <i>dictionary print format</i>. It can be created and changed with a text editor.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>found terms list</dt>
+        <dd>A list of all terms in the documents being analyzed that were found in the selected <i>dictionaries</i>. The list is used to update 
+          dictionaries and <i>exclusion lists</i>. Found terms lists can be edited, that is, terms can be deleted, moved to a dictionary, or
+          to an <i>exclusion list</i>. A found terms list can be used to fill a separate dictionary related to a document. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>fuzzy match</dt>
+        <dd>Each <i>segment</i> in the <i>translation document</i> is compared with the selected <i>Translation Memory</i>. If an almost identical 
+          segment is found, a fuzzy match has occurred and the corresponding <i>translation proposal</i> is shown in the <q>Translation
+            Memory</q> window with a preceding [f]. It originates from a previous translation.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>fuzzy replacement match</dt>
+        <dd>A <i>replacement match</i> where a couple of words are not identical. It is displayed in the <q>Translation</q> window with a 
+          preceding [rf]. <p>Example: 
+            <codeblock>Document text: This is what happened in 1998.
+TM proposal:   This happens in 1999.</codeblock></p>
+          <p>In this example, the date in the TM proposal (1999) is automatically changed to the date in the document text (1998). 
+            However, <codeph>happened</codeph> is not replaced with <codeph>happens</codeph>.</p></dd>
+      </dlentry>
+      <dlentry>
+        <dt>header section</dt>
+        <dd>Section in a <i>dictionary</i>. Contains general dictionary information such as source language, target language, and creation date 
+          of the dictionary. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>headword</dt>
+        <dd>Word or term placed at the beginning of an entry in a <i>dictionary</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>history log file</dt>
+        <dd>A file storing, in compressed form, records that contain the information collected during events, such as exporting or deleting a 
+          folder, and the result of this collection. There is one history log file per folder, which is stored as <codeph>HISTLOG.DAT</codeph>
+          in the <codeph>PROPERTY</codeph> directory of the folder. New records are added at the end of the history log file.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>homonym</dt>
+        <dd>Words that are spelled and pronounced alike but different in meaning. For example, the noun conduct and the verb conduct are 
+          homonyms. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>homonym level</dt>
+        <dd>Part of a <i>dictionary entry</i>. Contains grammatical and syntactic information, such as part of speech, hyphenation, and 
+          abbreviation information. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>HTML</dt>
+        <dd><i>Hypertext Markup Language</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>Hypertext Markup Language (HTML) </dt>
+        <dd>A subset of the Standard Generalized Markup Language (SGML) allowing the presentation of electronically stored information within 
+          the World Wide Web (Internet). </dd>
+      </dlentry>
+      <dlentry>
+        <dt>icon</dt>
+        <dd>A small graphical symbol. Icons can represent windows that you want to work with (such as Folder list, Document list, Dictionary list, 
+          Translation Memory list, Terminology lists) or tasks that you want to perform. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>import</dt>
+        <dd>To copy <i>folders</i>, documents, <i>dictionaries</i>, and <i>Translation Memory databases</i> from the DOS file system to make 
+          them available to <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>Initial Translation Memory (ITM)</dt>
+        <dd>A <i>Translation Memory</i> created from existing translations and their corresponding originals. Proposals originating from an ITM 
+          are shown in the <q>Translation Memory</q> window with a preceding [m] like <i>machine-generated matches</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>irregular match</dt>
+        <dd>One of the following: <ul>
+            <li>A 1:2 match, where one source segment has been connected to two target segments</li>
+            <li>A 2:1 match, where two source segments have been connected to one target segment</li>
+            <li>A 2:2 match, where two source segments have been connected to two target segments</li>
+            <li>An unaligned sentence (the default color is red)</li>
+            <li>A sentence that is ignored (the default color is grey)</li>
+          </ul></dd>
+      </dlentry>
+      <dlentry>
+        <dt>ITM</dt>
+        <dd><i>Initial Translation Memory</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>JavaScript</dt>
+        <dd>A scripting language that resembles <tm trademark="Java" tmowner="Sun Microsystems, Inc." tmtype="tm" tmclass="special">Java</tm> and 
+          was developed by Netscape for use with the Netscape browser. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>language support files</dt>
+        <dd>Source languages supplied with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. Language support files are required when 
+          looking up <i>dictionary entries</i> during <i>analysis</i> of document files and during <i>spellcheck</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>lookup</dt>
+        <dd>See <i>automatic lookup</i> and <i>search</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>machine-generated match</dt>
+        <dd>Originates from an <i>Initial Translation Memory</i> and is displayed in the <q>Translation Memory</q> window with a preceding [m]. 
+          Can be used in the same way as a <i>fuzzy match</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>maptable section</dt>
+        <dd>Section in a <i>dictionary</i>. Determines the structure of <i>dictionary entries</i>. Contains the total of all allowed entry fields 
+          in a dictionary. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>markup</dt>
+        <dd>Information added to a document, for example, formatting tags, to enable a system to process it. It describes the document 
+          characteristics or specifies the actual processing to be performed. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>markup language</dt>
+        <dd>The language specific to a word processor that describes a document layout. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>markup table</dt>
+        <dd>Contains all tags and attributes of a particular <i>markup language</i>. Is used in 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> during <i>analysis</i> and translation. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>match</dt>
+        <dd>The fact that a source <i>segment</i> in a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and a source segment in 
+          a document to be translated at least resemble each other (<i>fuzzy match</i> or <i>replacement match</i>). If they are completely 
+          identical, it is an <i>exact match</i> if the translation was done by a translator, or a <i>machine-generated match</i> if the
+          translation is generated by a program.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>merge</dt>
+        <dd>Combining information of either two <i>dictionaries</i> or two <i>Translation Memory databases</i>. When merging 
+          dictionaries, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> preserves the structure of the destination dictionary. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>model dictionary</dt>
+        <dd>An already existing <i>dictionary</i> whose structure can be taken as a sample when creating a new dictionary. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>model folder</dt>
+        <dd>An already existing <i>folder</i> whose <i>properties</i> can be taken as a sample when creating a new folder. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>new terms list</dt>
+        <dd>A list of all the terms found in the documents being analyzed but not found in the selected <i>dictionaries</i> during 
+          <i>analysis</i>. New terms lists can be used to update dictionaries and <i>exclusion lists</i>. New terms lists can be edited, that 
+          is, terms can be deleted, moved to a dictionary, or to an exclusion list. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>organize</dt>
+        <dd>Internal restructuring of frequently changed <i>dictionaries</i> and <i><keyword conref="common-symbols.dita#common-symbols/xlmems"/></i>
+          to shorten search times. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>original document</dt>
+        <dd>The source of the document that you translate. You cannot edit this document but you can display it and use it for comparison or 
+          checking purposes. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>postediting</dt>
+        <dd>Editing an already translated document. Any changes cause an automatic update of the already translated <i>segments</i> in the 
+          <i>Translation Memory</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>properties</dt>
+        <dd>A summary of the different characteristics of a <i>folder</i> or a document, such as a description, the <i>markup language</i> used 
+          in documents, and references to <i><keyword conref="common-symbols.dita#common-symbols/xlmems"/></i> and <i>dictionaries</i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>replacement match</dt>
+        <dd>An <i>exact match</i> where only a number or date differs. It is displayed in the <q>Translation</q> window with a preceding [r]. 
+          <p>Example:
+            <codeblock>Document text:   This happened in 2015.
+Memory proposal: This happened in 2014.</codeblock></p>
+          <p>In this example, the date in the translation memory proposal (2014) is automatically changed to the date in the document text (2015).</p>
+        </dd>
+      </dlentry>
+      <dlentry>
+        <dt>reversing</dt>
+        <dd>Turning source segments contained in a Translation Memory into target segments and vice versa. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>revision marks</dt>
+        <dd>Characters at the beginning and end of a <i>segment</i> that can be individually defined and indicate that the enclosed segment has 
+          been translated from scratch, or by copying a <i>translation proposal</i> and changing it, or by copying a proposal without changing it. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>search</dt>
+        <dd>In the <q>Look up a Term</q> window, you can search for terms in a dictionary using predefined search criteria and user-definable 
+          <i>dictionary filters</i>. See also <i>automatic lookup</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>segment</dt>
+        <dd>A translation unit produced during <i>analysis</i>. It is usually a sentence, part of a sentence, an element of a list, or a citation.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>sense level</dt>
+        <dd>Part of a <i>dictionary entry</i>. Contains semantic variations of a <i>headword</i> such as varying areas of meaning and usage.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>SGML</dt>
+        <dd><i>Standard Generalized Markup Language</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>shared translation material </dt>
+        <dd>A dictionary or Translation Memory file located on a shared disk. It can be concurrently accessed by all 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users who are connected to the same LAN. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>source document</dt>
+        <dd>See <i>original document</i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>spellcheck</dt>
+        <dd>A proofreading aid to identify unrecognized or misspelled words in <i>translation documents</i>. Lists possible corrections for 
+          misspelled words. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>Standard Generalized Markup Language (SGML </dt>
+        <dd>A set of rules that allows the format specification of a <i>markup language</i> independent of any individual processing system. 
+          The external file formats created during export are based on SGML. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>stem</dt>
+        <dd>The part of an inflected word that remains unchanged except by phonetic changes or variations throughout an inflection. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>subject code</dt>
+        <dd>Abbreviation for a particular subject area a translation applies to. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>tag</dt>
+        <dd>Statement used to determine the format of a <i>document file</i>. Is contained in a <i>markup table</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>target document</dt>
+        <dd>See <i>translation document</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>target level</dt>
+        <dd>Contains all information applying to one translation variant of a <i>headword</i>, such as definition and usage. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>template</dt>
+        <dd><i>Dictionary entry</i> information on all levels (<i>entry</i>, <i>homonym</i>, <i>sense</i>, <i>and target</i>) relating to 
+          one specific translation of a <i>headword</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>terminology list</dt>
+        <dd>A generic term for the following types of lists: <i>exclusion lists</i>, <i>found terms lists</i>, and <i>new terms lists</i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>translation document</dt>
+        <dd>The document that you translate. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>Translation Environment</dt>
+        <dd>Environment where the actual translation is performed. It consists of a window where you can edit the document file, a window with 
+          proposals from the associated <i>Translation Memory</i>, and a window with translations for terms in the document. All <i>translation
+            proposals</i> can be copied into the <i>translation document</i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>
+          <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+        </dt>
+        <dd>A database that contains previously translated <i>segments</i> added during translation and <i>analysis</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt><keyword conref="common-symbols.dita#common-symbols/xlmem"/> databases</dt>
+        <dd>More than one <i><keyword conref="common-symbols.dita#common-symbols/xlmem"/></i>.</dd>
+      </dlentry>
+      <dlentry>
+        <dt>translation proposal</dt>
+        <dd>The translation of a <i>segment</i> found in a <i><keyword conref="common-symbols.dita#common-symbols/xlmem"/></i> during 
+          translation, where the source segment is identical (<i>exact match</i>) or almost identical (<i>fuzzy match</i>) to the current 
+          segment. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>user exit</dt>
+        <dd>A point in a program at which a user exit routine may be given control.</dd>
+        <dd>A programming service provided by a software product that may be requested during the execution of an application program for 
+          the service of transferring control back to the application program upon the later occurrence of a user-specified event. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>view details</dt>
+        <dd>Contents of the list windows displayed in the main window. You can define how detailed the contents of these lists is to be 
+          displayed. The default is to display only the names of the individual list items. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>word count</dt>
+        <dd>Utility to count words (words to be translated, words already translated, <i>markup</i> tags) in <i>original documents</i> 
+          or <i>translation documents</i>. </dd>
+      </dlentry>
+      <dlentry>
+        <dt>workbench</dt>
+        <dd>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main window.</dd>
+      </dlentry>
+    </dl>
+  </body>
+</topic>

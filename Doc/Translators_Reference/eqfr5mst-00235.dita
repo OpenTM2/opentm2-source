@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00235">
+  <title>Revising an Initial Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>revising<indexterm>Initial Translation Memory</indexterm></indexterm>
+      <indexterm>postediting<indexterm>Initial Translation Memory</indexterm></indexterm>
+      <indexterm>Initial Translation Memory (ITM)<indexterm>revising</indexterm></indexterm>
+      <indexterm>Initial Translation Memory (ITM)<indexterm>postediting</indexterm></indexterm>
+      <indexterm>editing<indexterm>Initial Translation Memory</indexterm></indexterm>
+      <p>To increase the reliability of the automatically generated Initial Translation Memory, it
+        is necessary to check the correctness of the relation between source and target
+        segments.</p>
+      <p>With the Initial Translation Memory editor you can see the contents of the Initial
+        Translation Memory at a glance to verify the correspondence between source and target
+        segments. When a target segment does not correspond to a source segment, you can perform the
+        necessary changes.</p>
+      <p>The original segments are displayed in the <q>Source</q> window, the corresponding
+        translations in the <q>Target</q> window. The segment pairs are synchronized with each
+        other. That means that a target segment is displayed at the same level on the screen as the
+        source segment and with the same background color.</p>
+      <p>The following describes how to work with the Initial Translation Memory editor.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <q>Create Initial Translation Memory</q> window must be invoked and filled in.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ul>
+          <li>The <b>Create</b> button from the <q>Create Initial Translation Memory</q>
+            window.</li>
+        </ul></p>
+      <p>The <q>Edit Initial Translation Memory</q> window is displayed. It consists of two windows.
+        One window shows source segments, the other window shows the corresponding target segments.
+              <required-cleanup><indexterm>windows<indexterm>Edit Initial Translation
+              Memory</indexterm></indexterm></required-cleanup><fig id="tmedit" expanse="column">
+          <title>Edit Initial Translation Memory window</title><image placement="break"
+            href="eqfb7s9g.gif"><alt>Figure shows Edit Initial Translation Memory
+            window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>For information on how to work with the Initial Translation Memory editor see <xref
+          href="eqfr5mst-00236.dita#eqfr5mst-00236"/>. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>You are now ready to verify the correctness of the automatically generated pairs of source
+        segments and their translated equivalents. When you leave the editor the segment pairs are
+        stored in the Translation Memory.</p>
+    </section>
+  </refbody>
+</reference>

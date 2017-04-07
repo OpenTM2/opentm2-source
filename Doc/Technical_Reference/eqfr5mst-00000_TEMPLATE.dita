@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00000">
+  <title>Eqfxxxxxxx</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+<!-- xxx  -->
+    <section>
+      <title>Purpose</title>
+      <indexterm>Eqfxxxxxxx</indexterm>
+      <indexterm>programming interface calls<indexterm>Eqfxxxxxxx</indexterm></indexterm>
+      <p>The API call <i>Eqfxxxxxxx</i> xxxx.</p>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->    
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+      </syntaxdiagram>
+    </refsyn>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+      </codeblock>
+    </example>
+<!-- xxx  -->
+
+  </refbody>
+</reference>

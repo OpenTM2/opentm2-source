@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00400">
+  <title>Revising an Initial Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>Initial Translation Memory (ITM)<indexterm>checking segment pairs</indexterm></indexterm>
+      <indexterm>Translation Memory matches<indexterm>machine-generated</indexterm></indexterm>
+      <indexterm>matches<indexterm>machine-generated</indexterm></indexterm>
+      <indexterm>Initial Translation Memory (ITM)<indexterm>checking correctness of matches</indexterm></indexterm>
+      <p>All matches placed in an Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> 
+         are indicated in the translation editor by a [m] prefix. It is strongly recommended that you check the 
+         correctness of these machine matches before using them if you have not already done this using the Initial 
+        <keyword conref="common-symbols.dita#common-symbols/xlmem"/> editor. </p>
+      <p>An alternative method to perform this check is to retranslate the original document in the 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor, and to compare the
+         sentences in the original document with the translation proposals from the Initial 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. For each sentence, either
+         <b>accept</b> or <b>reject</b> the saved translation. If you <b>accept</b> 
+         the translation proposal, the [m] flag is removed. Translations you reject, however, retain the [m] flag. 
+         Finally, the DOS line command utility OtmMemoryTool (applying the task <q>/TASK=deleteMtProposal</q>) can be 
+         used to delete all translations that still have the machine translation flag [m].</p>
+      <p>To check the correctness of a newly generated Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, 
+         proceed as follows: 
+        <ol>
+          <li>Create a folder with the following properties: 
+            <ul>
+              <li>The name of the Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> as 
+                  <keyword conref="common-symbols.dita#common-symbols/xlmem"/> name.</li>
+              <li>The same <b>markup table</b> that was used when creating the Initial 
+                  <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+              <li>The same <b>source and target language</b> you used when creating the Initial 
+                  <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+              <li>If you want to make changes while checking, select the appropriate dictionaries.</li>
+            </ul>
+          </li>
+          <li>Import only the original documents into the folder, but don't import the target documents. 
+              Use the same original files that you used when creating the Initial 
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+          <li>Open each document and perform the following tasks for all sentences: 
+            <ul>
+              <li>If there is an acceptable proposal for the current segment, displayed in the
+                  <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> window,
+                  accept it by pressing Ctrl+<i>n</i>, where <i>n</i> is the number of the proposal
+                  you consider correctly translated. The source segment is replaced with the accepted
+                  target segment. <p>Press Ctrl+Enter to store the translation of the segment now as a
+                  human translation that removes the [m] flagging and proceeds to the next segment.</p></li>
+              <li>If you do not accept any of the displayed proposals, move the cursor to the text
+                  following the currently active segment (for example, by pressing Ctrl+End and moving
+                  the cursor to the right) and then press Ctrl+Enter.</li>
+            </ul>
+          </li>
+          <li>When you have reached the end of all documents, leave the Translation Environment.</li>
+          <li>When you have checked the Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> 
+              based on all the documents that were used to create it, the Initial Translation Memory contains 
+              exact matches (the approved proposals) and machine-generated matches (the rejected proposals).</li>
+        </ol>
+      </p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>commands<indexterm>OtmMemoryTool</indexterm></indexterm>
+      <indexterm>OtmMemoryTool</indexterm>
+      <p>The following syntax diagram describes how you remove all the rejected machine-generated
+         matches from the Initial Translation Memory from the DOS command line area. Note that lowercase 
+         letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OtmMemoryTool</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TASK</kwd>
+          <oper>=</oper>
+          <kwd>deleteMtProposal</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TYpe</kwd>
+          <oper>=</oper>
+          <kwd>NOCONF</kwd>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TASK=deleteMtProposal</pt>
+          <pd>deleteMtProposal is the option used to delete MT-proposals from the 
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> is the name of the previously created and checked
+            Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> (without the file extension). 
+            All segments with the [m] flag are removed from this <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, 
+            all others remain unchanged.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TYpe=NOCONF</pt>
+          <pd>NOCONF specifies that no confirmation message is displayed at the end of the process.
+            This is useful when you do not want to be interrupted by a message.</pd>
+        </plentry>
+      </parml>
+      <p>When all machine-generated matches are removed from the 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, this is indicated by a completion message.</p>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to remove all machine-generated matches from a 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/> called <codeph>MyMemory</codeph>.</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Example</title>
+          <codeblock>OtmMemoryTool /TASK=deleteMtProposal /MEM=MyMemory</codeblock>
+        </section>
+<!--      </required-cleanup>-->
+    </example>
+  </refbody>
+</reference>

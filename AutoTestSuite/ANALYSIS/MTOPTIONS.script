@@ -1,0 +1,96 @@
+****************************************************************************************************
+** Script name...: MTOUTPUTOPTIONS.script                                                         **
+** Purpose.......: Script testing the options for the various MT output files                     **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: October 10, 2016                                                              **
+** Update........: October 13, 2016                                                              **
+** Copyright.....: Copyright (C) 1990-2016, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+****************************************************************************************************
+* define the location for the test data and the target directories inside OpenTM2
+****************************************************************************************************
+define Data,%TestDataLocation%\ANALYSIS\MTOPTIONS
+define MTFilePath,\OTM\MT
+define PropPath,\OTM\PROPERTY
+
+****************************************************************************************************
+* Prepare test data and cleanup any files left over from previous runs... 
+****************************************************************************************************
+*DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+*DeleteFile %MTFilePath%\MTOUTPUT.allsegs.EXP
+*DeleteFile %MTFilePath%\MTOUTPUT.allsegs.XML
+*DeleteFile %MTFilePath%\MTOUTPUT.nomatch.EXP
+*DeleteFile %MTFilePath%\MTOUTPUT.nomatch.XML
+*DeleteFile %MTFilePath%\MTOUTPUT.noproposal.EXP
+*DeleteFile %MTFilePath%\MTOUTPUT.noproposal.XML
+*DeleteFile %MTFilePath%\MTOUTPUT.allwmatch.XML
+*DeleteFile %MTFilePath%\MTOUTPUT.allwmatchsource.XML
+*DeleteFile %MTFilePath%\MTOUTPUT.all.XLF
+*EqfDeleteFolder MTOUTPUTOPTIONS
+*EqfDeleteMem MTOUTPUTOPTIONS
+*EqfImportFolderFP MTOUTPUTOPTIONS, %DATA%, , WITHMEM_OPT
+
+
+TESTCASE ANA_MTOOPTION_001,Test the creation of the MT output files using the default settings
+  EqfAnalyzeDocEx MTOUTPUTOPTIONS, , , , (NOMATCH,ALLSEGS,ALLWMATCH,ALLWMATCHSOURCE,NOPROPOSAL,XLIFF), (AUTOSUBST_OPT,OVERWRITE_OPT,SENDTOMT_OPT,TMMATCH_OPT)
+  TESTRESULT 0, EqfAnalyzeDocEx for MTOUTPUTOPTIONS test folder failed
+  COMPAREBINARY %DATA%\Defaults.nomatch.XML, %MTFilePath%\MTOUTPUTOPTIONS.nomatch.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.nomatch.XML file does not match expected content
+  COMPAREBINARY %DATA%\Defaults.allsegs.XML, %MTFilePath%\MTOUTPUTOPTIONS.allsegs.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.allsegs.XML file does not match expected content
+  COMPAREBINARY %DATA%\Defaults.allwmatch.XML, %MTFilePath%\MTOUTPUTOPTIONS.allwmatch.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.allwmatch.XML file does not match expected content
+  COMPAREBINARY %DATA%\Defaults.allwmatchsource.XML, %MTFilePath%\MTOUTPUTOPTIONS.allwmatchsource.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.allwmatchsource.XML file does not match expected content
+  COMPAREBINARY %DATA%\Defaults.noproposal.XML, %MTFilePath%\MTOUTPUTOPTIONS.noproposal.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.noproposal.XML file does not match expected content
+  COMPAREBINARY %DATA%\Defaults.all.xlf, %MTFilePath%\MTOUTPUTOPTIONS.all.xlf
+  TESTRESULT 0, MTOUTPUTOPTIONS.all.xlf file does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.nomatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allsegs.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allwmatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allwmatchsource.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.noproposal.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.all.xlf
+End
+
+TESTCASE ANA_MTOOPTION_002,Test the creation of EXP output files
+  EqfAnalyzeDocEx MTOUTPUTOPTIONS, , , , "NOMATCH(EXP),NOPROPOSAL(EXP),ALLSEGS(EXP)", (AUTOSUBST_OPT,OVERWRITE_OPT,SENDTOMT_OPT,TMMATCH_OPT)
+  TESTRESULT 0, EqfAnalyzeDocEx for MTOUTPUTOPTIONS test folder failed
+  COMPAREBINARY %DATA%\T2.nomatch.EXP, %MTFilePath%\MTOUTPUTOPTIONS.nomatch.EXP
+  TESTRESULT 0, MTOUTPUTOPTIONS.nomatch.EXP file does not match expected content
+  COMPAREBINARY %DATA%\T2.allsegs.EXP, %MTFilePath%\MTOUTPUTOPTIONS.allsegs.EXP
+  TESTRESULT 0, MTOUTPUTOPTIONS.allsegs.XML file does not match expected content
+  COMPAREBINARY %DATA%\T2.noproposal.EXP, %MTFilePath%\MTOUTPUTOPTIONS.noproposal.EXP
+  TESTRESULT 0, MTOUTPUTOPTIONS.noproposal.EXP file does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.nomatch.EXP
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allsegs.EXP
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.noproposal.EXP
+End
+
+TESTCASE ANA_MTOOPTION_003,Test the creation of XML output files
+  EqfAnalyzeDocEx MTOUTPUTOPTIONS, , , , "NOMATCH(XML),NOPROPOSAL(XML),ALLSEGS(XML),ALLWMATCH,ALLWMATCHSOURCE", (AUTOSUBST_OPT,OVERWRITE_OPT,SENDTOMT_OPT,TMMATCH_OPT)
+  TESTRESULT 0, EqfAnalyzeDocEx for MTOUTPUTOPTIONS test folder failed
+  COMPAREBINARY %DATA%\T3.nomatch.XML, %MTFilePath%\MTOUTPUTOPTIONS.nomatch.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.nomatch.EXP file does not match expected content
+  COMPAREBINARY %DATA%\T3.allsegs.XML, %MTFilePath%\MTOUTPUTOPTIONS.allsegs.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.allsegs.XML file does not match expected content
+  COMPAREBINARY %DATA%\T3.noproposal.XML, %MTFilePath%\MTOUTPUTOPTIONS.noproposal.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.noproposal.XML file does not match expected content
+  COMPAREBINARY %DATA%\T3.allwmatch.XML, %MTFilePath%\MTOUTPUTOPTIONS.allwmatch.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.allwmatch.XML file does not match expected content
+  COMPAREBINARY %DATA%\T3.allwmatchsource.XML, %MTFilePath%\MTOUTPUTOPTIONS.allwmatchsource.XML
+  TESTRESULT 0, MTOUTPUTOPTIONS.allwmatchsource.XML file does not match expected content
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.nomatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allsegs.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allwmatch.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.allwmatchsource.XML
+  DeleteFile %MTFilePath%\MTOUTPUTOPTIONS.noproposal.XML
+End

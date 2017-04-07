@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00195">
+  <title>Working with folders</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>folder<indexterm>definition of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Similar to office folders that contain paper files, an <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+       folder contains a number of related documents or document files, respectively. A folder, for example, 
+       might contain all documents of a specific translation project, or any other collection of documents 
+       that belong together.</p>
+    <p>Each folder has a number of <i>properties</i>, such as the source and target language, or
+       references to the dictionaries and Translation Memory databases to be used for analysis and
+       translation of the documents in the folder. By default, all documents in a folder have the
+       same properties, but you can specify individual properties for each document.</p>
+  </body>
+</topic>

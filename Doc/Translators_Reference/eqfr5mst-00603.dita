@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00603">
+    <title>Defining your own format file</title>
+    <prolog>
+        <metadata>
+            <keywords>
+
+                <indexterm>dictionary<indexterm>defining own print formats</indexterm></indexterm>
+                <indexterm>format files<indexterm>defining your own</indexterm></indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    <body>
+        <p>To print a dictionary or an extract from it, you can use one of the format files provided
+            by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. You find them on the
+            drive where you installed <keyword conref="common-symbols.dita#common-symbols/tm4w"/> in
+            the subdirectory <codeph>\otm\prtform</codeph>.</p>
+        <p>These format files provide a predefined layout for printing dictionary information. They
+            serve as sample files. You must replace all the generic information they contain with
+            your personal data, such as your address, and your name. It is useful to select a format
+            file that contains entry fields that match those of the dictionary you want to
+            print.</p>
+        <p>To get an idea of how the printout will turn out when using one of these format files,
+            read the explanation that is given after the <codeph>&lt;comment&gt;</codeph> tag in
+            each file. However, if you want to print a dictionary with a layout other than those
+            provided, you can define your own format file. You do this as follows:</p>
+        <p>
+            <ol>
+                <li>Copy one of the format files provided or create a new file. It must be in ASCII
+                    format.</li>
+                <li>Give it the extension <codeph>frm</codeph> (for example,
+                        <codeph>myform.frm</codeph>).</li>
+                <li>Edit this file with a text editor of your choice. You can use any of the tags
+                    given in <xref href="eqfr5mst-00604.dita#eqfr5mst-00604"/> to create an
+                    individual layout.</li>
+                <li>Place this file in the subdirectory <codeph>\otm\prtform</codeph> on the drive
+                    where you installed <keyword conref="common-symbols.dita#common-symbols/tm4w"
+                    />.</li>
+                <li>Use the new file name as format file name in the <q>Print Dictionary</q>
+                    window.</li>
+            </ol>
+        </p>
+        <p>The selected dictionary is printed on the printer that is defined as LPT1 in your
+            operating system (default setting).</p>
+        <p>The following is an example of an individual format file and how it looks on the
+            printout.
+            <codeblock>&lt;comment&gt;
+  This is my private format file.
+  It prints entries from dictionary MYDICT in the following way.
+  The front page gives administrative information about the
+  printout, such as title, date, and my name.
+  Then two entries of MYDICT follow.
+  These entries contain the fields I specified:
+  Part of Speech, Translation, Synonym, and Context.
+  Each page has the dictionary name MYDICT in its header section.
+  The page number is printed at the bottom of each page.
+&lt;/comment&gt;
+&lt;set sysname=$page_length value='61'&gt;
+&lt;set sysname=$page_eject value=' '&gt;
+&lt;dictfront&gt;
+            Title: Dictionary &lt;var sysname=$Dictname&gt;
+
+            Date:  &lt;var sysname=$Date format=dd.mm.yyyy&gt;
+
+            Author: Betty Miller
+&lt;/dictfront&gt;
+&lt;pagehead&gt;
+&lt;var sysname=$Dictname $Min=45 $Right&gt;
+&lt;var name=headword $first_on_page&gt;
+=================================================================
+
+&lt;/pagehead&gt;
+&lt;entryprt&gt;
+
+The term "&lt;var name=Headword&gt;" has the following meaning:
+
+&lt;repeat name=Headword&gt;
+  Part of Speech: &lt;var name='Part of Speech'&gt;
+&lt;repeat name='Part of Speech'&gt;
+      Translation:    &lt;var name=Translation&gt;
+          Synonym:        &lt;var name=Synonym&gt;
+          Context:        &lt;var name=Context&gt;
+
+&lt;/repeat&gt;
+&lt;/repeat&gt;
+&lt;/entryprt&gt;
+&lt;pagefoot&gt;
+=================================================================
+                                     - &lt;var sysname=$Page_No&gt; -
+&lt;/pagefoot&gt;</codeblock></p>
+        <p>If you used this format file when printing dictionary MYDICT, you would get a printout
+            with the following information on its title page:
+            <codeblock>
+Title: Dictionary MYDICT
+
+Date: 04/01/94
+
+Author: Betty Miller
+</codeblock></p>
+        <p>After the title page, the entries found are printed in the following way:
+            <codeblock>
+                   MYDICT
+
+assist
+=================================================================
+
+
+The term "assist" has the following meaning:
+
+
+      Part of Speech: verb
+        Translation:    helfen
+            Synonym:
+            Context:
+
+        Translation:    assistieren
+            Synonym:
+            Context:    to assist sb
+
+
+The term "access" has the following meaning/s:
+
+
+      Part of Speech: noun
+        Translation:    Zugriff
+            Synonym:
+            Context:
+
+        Translation:    Zutritt
+            Synonym:
+            Context:
+
+
+      Part of Speech: verb
+        Translation:    zugreifen
+            Synonym:
+            Context:
+
+=================================================================
+                              - 1 -</codeblock></p>
+    </body>
+</topic>

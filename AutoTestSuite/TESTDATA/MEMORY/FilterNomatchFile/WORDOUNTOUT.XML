@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="CNT2HTML.XSL" ?>
+<tmwordcount>
+  <description>
+    <report type="WordCount" counted="Target" generatedDate="    <report type="WordCount" counted="Target" generatedDate="06.12.2016" generatedTime="17:27:48" documentsSelected="1" />
+    <folder nameLong="na" nameShort="na" documentsAmount="1" />
+    <translationManager version="1" release="4" build="0" />
+  </description>
+  <documents>
+    <document nameLong="E:\GHE\opentm2\AUTOTESTSUITE\TESTDATA\MEMORY\FILTERNOMATCHFILE\NOMATCHIN.XML" nameShort="na">
+      <wordcount>
+        <words type="Translated" count="0" />
+        <words type="Untranslated" count="18" />
+        <words type="TargetWords" count="0" />
+        <words type="Markup" count="0" />
+      </wordcount>
+    </document>
+  </documents>
+  <summary>
+    <wordcount>
+        <words type="Translated" count="0" />
+        <words type="Untranslated" count="18" />
+        <words type="TargetWords" count="0" />
+        <words type="Markup" count="0" />
+    </wordcount>
+  </summary>
+</tmwordcount>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00249">
+  <title>Style menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Menu</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Protect</entry>
+            <entry valign="top">Markup tags cannot be overwritten.</entry>
+          </row>
+          <row>
+            <entry valign="top">Unprotect</entry>
+            <entry valign="top">Markup tags within a currently active translation can be
+              overwritten.</entry>
+          </row>
+          <row>
+            <entry valign="top">Hide</entry>
+            <entry valign="top">Markup tags are not shown (they are there, but invisible).</entry>
+          </row>
+          <row>
+            <entry valign="top">Compact</entry>
+            <entry valign="top">Markup tags are replaced by a special character indicating the
+              position of the tag.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>The <b>status bar</b> at the bottom of the editor window displays the following information
+      (from left to right): <dl>
+        <dlentry><dt>M flag</dt>
+          <dd>Shows whether or not the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            contains any m flags (<b>On</b> or <b>Off</b>).</dd></dlentry>
+        <dlentry><dt>Document</dt>
+          <dd>Displays the name of the document where the active translation segment originates from
+            and the line number of the segment.</dd></dlentry>
+        <dlentry><dt>Date</dt>
+          <dd>Displays the date at which the translation was added to the Translation
+          Memory.</dd></dlentry>
+        <dlentry><dt>Segment <i>n</i> of <i>m</i></dt>
+          <dd>Displays the number of the currently active segment (<i>n</i>) and the total number of
+            segments loaded into the editor (<i>m</i>).</dd></dlentry>
+        <dlentry><dt>Loaded</dt>
+          <dd>Displays how much of the Translation Memory has been loaded into the
+          editor.</dd></dlentry>
+      </dl>
+    </p>
+  </body>
+</topic>

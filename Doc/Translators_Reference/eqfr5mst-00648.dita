@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00648">
+  <title>Options Menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Options Menu</title>
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="127*"/>
+        <colspec colname="col2" colwidth="71*"/>
+        <colspec colname="colspec0" colwidth="70*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Menu bar choices</entry>
+            <entry colname="col2" valign="top">Actions</entry>
+            <entry colname="colspec0" valign="top">Keyboard shortcuts</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Options =&gt; Color...</entry>
+            <entry colname="col2">Opening the 'Set Colors' window.</entry>
+            <entry colname="colspec0">Alt+C</entry>
+          </row>
+          <row>
+            <entry colname="col1">Options =&gt; Fonts...</entry>
+            <entry colname="col2">Opening the 'Set Fonts' window.</entry>
+            <entry colname="colspec0">Alt+F</entry>
+          </row>
+          <row>
+            <entry colname="col1">Options =&gt; Keys...</entry>
+            <entry colname="col2">Opening the 'Assign Keys' window.</entry>
+            <entry colname="colspec0">Alt+K</entry>
+          </row>
+          <row>
+            <entry colname="col1">Options =&gt; Sentence Lookup...</entry>
+            <entry colname="col2">Opening the 'Sentence Lookup' window.</entry>
+            <entry colname="colspec0">Alt+S</entry>
+          </row>
+          <row>
+            <entry colname="col1">Options =&gt; Commands...</entry>
+            <entry colname="col2">Opening the 'Run Command' window.</entry>
+            <entry colname="colspec0">Alt+o</entry>
+          </row>
+          <row>
+            <entry colname="col1">Options =&gt; Profile Settings...</entry>
+            <entry colname="col2">Opening the 'Customize Translation Functions' window.</entry>
+            <entry colname="colspec0">Alt+P</entry>
+          </row>
+          <row>
+            <entry colname="col1">Options =&gt; Tailor</entry>
+            <entry colname="col2">Selecting one of the following settings: 
+              <ul>
+                <li>Ruler</li>
+                <li>Horizontal</li>
+                <li>Vertical</li>
+                <li>Titlebar</li>
+                <li>Status bar</li>
+              </ul>
+            </entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

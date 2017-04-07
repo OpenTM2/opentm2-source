@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-2B" rev="GF_03042017">
+  <title>Setup and configure MariaDB on the Server</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>After MariaDB is properly installed on the server, continue to <b>configure</b> the server.</p>
+
+    <p>Ensure that you are on the <b>server side</b>.</p>
+
+    <note>If <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is <b>not</b> installed on the server, then copy 
+       the directory &quot;x:\otm\OtmTMService\&quot; (and all it&apos;s content) from any 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> client installation to the server. You could copy the 
+       directory &quot;x:\otm\OtmTMService\&quot; to any place on the server, but generating a directory named 
+       &quot;c:\OTM\OtmTMService\&quot; is a good advice to remember it&apos;s content. 
+       <!-- Then open the WINDOWS explorer, and navigate to the directory x:\OTM\OtmTMService (e.g. c:\OTM\OtmTMService\).-->
+    </note>
+
+<!--    <p>If <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is already installed on the server, then open the WINDOWS
+      explorer, and navigate to the directory x:\OTM\OtmTMService (e.g. c:\OTM\OtmTMService\).</p>-->
+
+    <p>Open the WINDOWS explorer on the server, and navigate to the directory x:\OTM\OtmTMService (e.g. c:\OTM\OtmTMService\).</p>
+
+    <p>In order to start the server, double click on the <b>OtmTMService.jar</b>. If your environment doesn&apos;t allow to 
+       double click on the <b>OtmTMService.jar</b>, open a DOS command window, change to the directory where the OtmTMService.jar 
+       is located in, and type in &quot;java -jar OtmTMService.jar&quot;.</p>
+    
+    <p>The panel &quot;OtmTmService&quot; opens. Answer the question &quot;<b>Do you want to change the configration now?</b>&quot;
+       by clicking on the button <b>Yes</b>.</p>
+
+    <p>The panel &quot;Configure Window&quot; opens. 
+      <ul>
+        <li>In entry field <b>DB Installed Directory</b> ensure the path to MariaDB is correct (should usually be <b>c:\MariaDB</b>)</li>
+        <li>In entry field <b>DB Root password</b> type in the password that you have chosen when MariaDB was installed. This step
+            was performed in panel <b>User settings</b>.</li>
+        <li>In the drop down list <b>Server IP</b> type in the IP-adress of your server. This information should be provided by
+            the server admin who's installing MariaDB on the server.</li>
+        <li>In entry field <b>Server Port</b> type in the port name that you have chosen when MariaDB was installed. This step
+            was performed in panel <b>Default instance properties</b>.</li>
+        <li>Pres the button <b>Save</b> to save the changes mad ein the panel.</li>
+      </ul>
+    </p>
+
+    <p>The panel <b>OtmTmService</b> opens, and this indicates that the Shared Memory service started successfully. The button 
+       <b>Stop</b> should only be pressed, if the Shared Memory service should be stopped again (e.g. at the end of the work day).</p>
+    
+    <p>After the server configuration is completed, and after the Shared Memory service is started, you can start working with the 
+       WEB-based Shared Translation memory component.</p>
+
+<!--    <p>In case <keyword conref="common-symbols.dita#common-symbols/tm4w"/> was <b>installed</b> on the <b>server</b>, proceed as follows: 
+      <ul>
+        <li>By using e.g. the windows explorer, navigate to the drive, where OpenTM2 is installed on (e.g. drive C:\).</li>
+        <li>Open the directory <b>x:\OTM\</b> (where x: is the drive-letter where OpenTM2 is installed on).</li>
+        <li>See the directory <b>\OtmTMService\</b> (this directory contains the shared memory server). In case you want 
+            to deploy it to a different server, you need to copy the entire directory to the new server.</li>
+        <li>Open the directory <b>\OtmTMService\configure\</b>.</li>
+        <li>Search for the file named <b>service_cfg.xml</b> (this file contains the shared memory server configuration).</li>
+        <li>Open it in a text editor (e.g. in Notepad++).
+          <fig id="ServiceCFG" expanse="column">
+            <title>The <q><b>Service_CFG.xml</b></q> opened in a text editor.</title>
+            <image placement="break" href="ServiceCFG.gif">
+              <alt>Define the servers settings in the Service_CFG.xml</alt>
+            </image>
+          </fig>
+        </li>
+        <li>If you want to test and run the shared translation memory server <b>locally</b> (which means you have installed
+            MariaDB on your local PC rather than on a <q>real</q> server), then there is no need to change the values in 
+            <b>service_url</b> and <b>service_ip</b>. But if you use a <q>real</q> server, then replace the value <q>localhost</q> 
+            in <q>server_ip</q> by a real server IP-address, and the value in <q>service_url</q> by a real server url.</li>
+        <li>You can change the <b>user_name</b> and <b>user_password</b> to values you need or want.</li>
+        <li>Keep all other configuration-values unchanged, and <b>save</b> any changes before close this configuration-file.</li>
+      </ul>  
+    </p>-->
+    
+<!--    <p>In case <keyword conref="common-symbols.dita#common-symbols/tm4w"/> was <b>not</b> installed on the server, proceed as follows: 
+      <ul>
+        <li>On the server, create a directory x:\OTM\OtmTMService\ (where x: is a drive letter on your server such as <b>C:</b>)</li>
+        <li>From any existing <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation, copy the entire content of 
+            the directory x:\OTM\OtmTMService\ (where x: is the drive where <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+            is installed on). Ensure that all directories inside x:\OTM\OtmTMService\ are copied too.</li>
+        <li>By using e.g. the windows explorer, navigate to the drive, where OpenTM2 is installed on (e.g. drive C:\).</li>
+        <li>Open the directory <b>x:\OTM\</b> (where x: is the drive-letter where OpenTM2 is installed on).</li>
+        <li>See the directory <b>\OtmTMService\</b> (this directory contains the shared memory server). In case you want 
+          to deploy it to a different server, you need to copy the entire directory to the new server.</li>
+        <li>Open the directory <b>\OtmTMService\configure\</b>.</li>
+        <li>Search for the file named <b>service_cfg.xml</b> (this file contains the shared memory server configuration).</li>
+        <li>Open it in a text editor (e.g. in Notepad++).
+          <fig id="ServiceCFG" expanse="column">
+            <title>The <q><b>Service_CFG.xml</b></q> opened in a text editor.</title>
+            <image placement="break" href="ServiceCFG.gif">
+              <alt>Define the servers settings in the Service_CFG.xml</alt>
+            </image>
+          </fig>
+        </li>
+        <li>If you want to test and run the shared translation memory server <b>locally</b> (which means you have installed
+          MariaDB on your local PC rather than on a <q>real</q> server), then there is no need to change the values in 
+          <b>service_url</b> and <b>service_ip</b>. But if you use a <q>real</q> server, then replace the value <q>localhost</q> 
+          in <q>server_ip</q> by a real server IP-address, and the value in <q>service_url</q> by a real server url.</li>
+        <li>You can change the <b>user_name</b> and <b>user_password</b> to values you need or want.</li>
+        <li>Keep all other configuration-values unchanged, and <b>save</b> any changes before close this configuration-file.</li>
+      </ul>  
+    </p>-->
+
+  </body>
+</topic>

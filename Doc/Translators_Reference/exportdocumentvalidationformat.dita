@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="exportdocumentvalidationformat">
+  <title>Exporting a document in validation format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>documents in validation format</indexterm></indexterm>
+      <indexterm>document<indexterm>exporting in validation format</indexterm></indexterm>
+      <p>You can export a document in validation format for proofreading or translation
+        validation.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To export a document in validation format, select <b>Validation Format</b> from <b>Export
+          as</b>.</p>
+      <p>
+        <required-cleanup>
+          <indexterm>windows<indexterm>Export Documents (Validation format)</indexterm></indexterm>
+        </required-cleanup>
+        <fig id="expdocexwin" expanse="column">
+          <title>Export Documents window (Validation format)</title>
+          <image placement="break">
+            <alt/>
+          </image>
+          <image placement="break" href="valexp.gif">
+            <alt>Figure shows Export Documents window (Validation format)</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section id="whencreatingavalidationdocumentlinksarenotclickable">
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Path</pt>
+          <pd>Type the path name on the selected drive where you want the validation document to be
+            stored. Use a trailing backslash (\). You can also click <b>Browse</b> to display the
+              <q>Browse for Folder</q> window on which you can select the appropriate path.</pd>
+        </plentry>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Type the name of the validation document. When no name is specified, the name of the
+            document is used as name for the validation document. In combined mode the name of the
+            folder is used. The name can only be specified when only one document has been selected
+            or when all documents are combined into one validation document. You can also click
+              <b>Browse</b> to display the <q>Select validation document name</q> window on which
+            you can select the appropriate document name.</pd>
+        </plentry>
+        <plentry>
+          <pt>Format</pt>
+          <pd>
+            <ul>
+              <li>
+                <p>HTML:</p>
+                <p>Use the HTML file format if you want to <b>display</b> the validation or
+                  proofreading document in the browser. No further modifications can be applied to
+                  this file format.</p>
+              </li>
+              <li>
+                <p>XML:</p>
+                <p>Use the XML file format if you either want to display the validation or
+                  proofreading document in the browser by applying a style sheet or if you want to
+                  process the XML file using custom tools.</p>
+              </li>
+              <li>
+                <p>DOC:</p>
+                <p>Use the DOC file format if you want to <b>display and edit</b> the validation or
+                  proofreading document in MS WORD or even in Open Office. Further processing is
+                  possible e.g. by using TRACK CHANGES or by using ADD COMMENTS. These functions are
+                  dedicated to MS WORD or Open Office.</p>
+              </li>
+              <li id="odt">
+                <p>ODT:</p>
+                <p>Use the ODT file format if you want to <b>display and edit </b>the validation or
+                  proofreading document in Lotus Symphony or in Open Office.</p>
+              </li>
+            </ul>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Combine into one document</pt>
+          <pd>Select this option to combine all exported documents into one file. The name of the
+            folder is used for the combined document. Note: this option is only active when more
+            than one document is selected for the export.</pd>
+        </plentry>
+        <plentry>
+          <pt>Type of Validation Document</pt>
+          <pd>
+            <ul>
+              <li>
+                <p>Export for Validation:</p>
+                <p>This format is dedicated for <b>validation</b> purposes only. Validators request
+                  a dedicated format of the output which supports dedicated tasks and information.
+                  Please refer to the header of the generated document which contains detailed
+                  information for validators. Compared to the proofreading format users can't adjust
+                  the output by exporting single match types, the output is more static.</p>
+              </li>
+              <li>
+                <p>Export for Proofreading:</p>
+                <p>This format is dedicated for <b>proofreading</b> purposes only. Proofreaders
+                  request a dedicated format of the output which supports dedicated tasks and
+                  information. Compared to the validation format users can adjust the output by
+                  exporting single match types.</p>
+              </li>
+            </ul>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Remove inline tagging from text</pt>
+          <pd>When the <q>Remove inline tagging from text</q> option is selected, all inline
+            (neutral) tags contained in the segments are removed from the validation/proofreading
+            document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Preserve links and images</pt>
+          <pd>When the <q>Preserve links and images </q>links in the document are left as active
+            links within the validation document and images are converted to image links. This
+            option works independently from the "<q>Remove inline tagging from the text
+            </q>option.</pd>
+        </plentry>
+        <plentry>
+          <pt>Include word count info</pt>
+          <pd>Check this option to add a column containing the number of source words of this
+            segments to the proofreading document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Include existing match info</pt>
+          <pd>Check this option to show information on the memory proposals which were available at
+            the time the segment was translated.</pd>
+        </plentry>
+        <plentry>
+          <pt>Show mismatches only</pt>
+          <pd>Check this option to show only segments where the available memory proposals were not
+            used by the translator; e.g. the segment was translated manually although an exact match
+            existed.</pd>
+        </plentry>
+      </parml>
+      <p>
+        <parml>
+          <plentry>
+            <pt>Colors used in Validation Documents</pt>
+            <pd>
+              <ul>
+                <li>gray : protected segments</li>
+                <li>green : segments with an extract match</li>
+                <li>yellow : segments with fuzzy matches, modified exact matches or modified matches
+                  automatically substituted</li>
+                <li>orange : segments with machine matches or replacement matches</li>
+                <li>red : segments without matches</li>
+              </ul>
+            </pd>
+          </plentry>
+        </parml>
+      </p>
+      <required-cleanup>
+        <indexterm>windows<indexterm>Proofreading example</indexterm></indexterm>
+      </required-cleanup>
+      <fig id="valformat" expanse="column">
+        <title>Proofreading example</title>
+        <image placement="break" href="valformat.gif">
+          <alt>Figure shows Proofreading example</alt>
+        </image>
+      </fig>
+      <p>Match type options:</p>
+      <parml>
+        <plentry>
+          <pt>Auto Substituted</pt>
+          <pd/>
+        </plentry>
+        <plentry>
+          <pt/>
+          <pd>Select this option to include segments which have been substituted automatically into
+            the validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Modified Auto Substituted</pt>
+          <pd>Select this option to include segments in the report, that were automatically replaced
+            during the analysis, and were subsequently modified by the user.</pd>
+        </plentry>
+        <plentry>
+          <pt>Exact</pt>
+          <pd>Select this option to include segments which have been translated using an exact match
+            into the validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Modified Exact</pt>
+          <pd>Select this option to include segments which have been translated using an exact match
+            which has been modified manually into the validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Global Memory</pt>
+          <pd>Select this option to include segments which have been translated using an global
+            memory (HAMSTER) match into the validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Machine</pt>
+          <pd>Select this option to include segments which have been translated using a machine
+            translation into the validation document. </pd>
+        </plentry>
+        <plentry>
+          <pt>Replace</pt>
+          <pd>Select this option to include segments which have been translated using a replace
+            match into the validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Fuzzy</pt>
+          <pd>Select this option to include segments which have been translated using a fuzzy match
+            into in the validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>New</pt>
+          <pd>Select this option to include segments which have been translated manually into the
+            validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Not Translated</pt>
+          <pd>Select this option to include segments which have not been translated into the
+            validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Protected</pt>
+          <pd>Select this option to include protected (= not translatable) segments into the
+            validation document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Select All / Deselect All</pt>
+          <pd>Click <b>Select All</b> to select all match types, click <b>Deselect All</b> to
+            deselect all match types.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is exported as a validation document. </p>
+      <p>If the path that you specified does not exist yet, you are asked whether you want to create
+        the new path. If you are exporting one document, click <b>Yes</b>. If you are exporting
+        several documents and the path is to apply to all documents, click <b>Yes to All</b>.</p>
+    </section>
+  </refbody>
+</reference>

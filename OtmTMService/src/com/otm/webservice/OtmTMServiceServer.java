@@ -94,17 +94,7 @@ public class OtmTMServiceServer {
 			} else {
 				 JOptionPane.showMessageDialog(null, "MySql can't be started!", "OtmTMService", JOptionPane.INFORMATION_MESSAGE);
 			}
-			
-			
-			//System.out.println("Server running, input any character and press 'Enter' to stop the server");
-			/*try {
-				System.in.read(new byte[1], 0, 1);
-				server.stop();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			*/
-			
+						
 	   }catch (Exception e) {
 		   e.printStackTrace();
 	   }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dicorg">
+<title>Organizing a dictionary</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>dictionary<indexterm>organizing</indexterm></indexterm><indexterm>organizing<indexterm>dictionaries</indexterm></indexterm>
+<p>Organizing makes the dictionary compact and increases performance. Dictionaries
+to which you frequently make changes should be organized periodically.</p>
+<p>If an error occurs during dictionary processing, you are prompted to organize
+the dictionary because organizing often rectifies the error.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The dictionary must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <q>Dictionary List</q> window</li>
+<li>The dictionary you want to organize</li>
+<li><b>Organize</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>The organize procedure starts immediately.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>None.</p>
+</section>
+<section><title>Results</title>
+<p>The dictionary is organized, informing you how many terms have
+been organized, and you can continue using it.</p>
+</section></refbody></reference>

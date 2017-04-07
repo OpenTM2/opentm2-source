@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00386">
+  <title>Exporting a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>folder<indexterm>OTMBATCH: exporting (from command area)</indexterm></indexterm>
+      <indexterm>exporting<indexterm>OTMBATCH: folders (from command area)</indexterm></indexterm>
+      <p>If you need to set up new folders frequently, using the command area of your operating system instead of 
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows might be more convenient.</p>
+      <p>To work from the command area, use the <b>OTMBATCH</b> command. Its syntax is described in the following chapter. </p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>exporting folders</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">exporting folders</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you export a folder from the 
+        <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command area. Note that lowercase 
+        letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>FLDEXP</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>FIles</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>document_name</var>
+            </groupseq>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <var>document_name</var>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>list_file_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="required">
+          <groupseq>
+            <delim>/</delim>
+            <kwd>TOdrive</kwd>
+            <oper>=</oper>
+            <var>drive</var>
+          </groupseq>
+          <groupchoice importance="optional">
+            <groupseq importance="default">
+              <delim>/</delim>
+              <kwd>ToPath</kwd>
+              <oper>=</oper>
+              <kwd>\OTM\EXPORT</kwd>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <kwd>ToPath</kwd>
+              <oper>=</oper>
+              <var>path</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OPtions</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <fragref>option</fragref>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <fragref>option</fragref>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OVerwrite</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd>YES</kwd>
+            <kwd importance="default">NO</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>DEsc</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>desc</var>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>desc_file_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <fragment>
+          <title>option</title>
+          <groupchoice>
+            <kwd>DICT</kwd>
+            <kwd>MEM</kwd>
+            <kwd>ROMEM</kwd>
+            <kwd>DOCMEM</kwd>
+            <kwd>DELETE</kwd>
+            <kwd>XLIFF</kwd>
+            <kwd>MASTERFOLDER</kwd>
+          </groupchoice>
+        </fragment>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=FLDEXP</pt>
+          <pd><codeph>FLDEXP</codeph> specifies that you want to export a folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the folder that you want to export.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>document_name</var></synph></pt>
+          <pd><synph><var>document_name</var></synph> specifies the name of a document to be exported. <p>If you specify several documents, 
+            enclose the document names in brackets and separate them by commas.</p>
+            <p>If you want to specify a list of document names in a list file, refer to this list file by preceding the list file name with 
+              the <codeph>@</codeph> symbol (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+              enclose the document names in brackets and separate them by commas.</p>
+            <p>If you do not specify the <b>FIles</b> option, all documents in the folder are exported.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/TOdrive=<synph><var>drive</var></synph></pt>
+          <pd><synph><var>drive</var></synph> specifies the drive where the folder is to be exported
+            to.</pd>
+        </plentry>
+        <plentry>
+          <pt>/ToPath=<synph><var>path</var></synph></pt>
+          <pd><synph><var>path</var></synph> specifies the path where the folder is to be exported to. Start the path value with a backslash \. 
+            The default is <codeph>\otm\export</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OPtions=</pt>
+          <pd>Specifies whether you want to export the folder with its dictionaries (<codeph>DICT</codeph>), with its Translation Memory 
+            (<codeph>MEM</codeph>), with its Translation Memory databases to be searched (<codeph>ROMEM</codeph>), with its 
+            <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and all the <keyword conref="common-symbols.dita#common-symbols/xlmems"/> 
+            defined for its documents (<codeph>DOCMEM</codeph>), or whether you want to delete the folder after it has been exported 
+            (<codeph>DELETE</codeph>), or wether you want to export the folder as a master folder (<codeph>MASTERFOLDER </codeph>) or as a 
+            XLIFF translation package (<codeph>XLIFF</codeph>). A master folder exported without the <codeph>MASTERFOLDER</codeph> option becomes 
+            a child folder when it is re-imported. If you specify more than one option, you must enclose them in brackets. The 
+            <codeph>XLIFF</codeph> option cannot be used together with the options <codeph>DELETE</codeph> and <codeph>MASTERFOLDER</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OVerwrite=</pt>
+          <pd>Specifies whether an existing folder is overwritten when exporting a folder with the same name (<codeph>NO</codeph> is the default).</pd>
+        </plentry>
+        <plentry>
+          <pt>/DEsc=<synph><var>desc</var></synph></pt>
+          <pd><synph><var>desc</var></synph> specifies the notethat you want to add to the exported
+            folder, or the name of a file containing the note. The text that gives more information
+            about the exported folder must be enclosed in quotes. The specified note is displayed
+            when the folder is being selected for import. It has nothing to do with the folder
+            description which can only be changed using the folder properties window. If you specify
+            a file that is containing the text, the name of the file must be preceded by the @ symbol.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not use any wildcard characters, such as an 
+        asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to export a folder using the OTMBATCH command.</p>
+        <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=fldexp /fld=pharma /files=(161.scr,1500.scr) /todrive=e /options=(dict,mem) 
+          /desc="This is information on the folder"</codeblock>
+        </section>
+      <p>In this example, the folder to be exported is called <codeph>pharma</codeph>. It is exported to drive E with the documents 
+        <codeph>161.scr</codeph> and <codeph>1500.scr</codeph>, with its associated dictionary and Translation Memory. The note
+        <codeph>This is information on the folder</codeph> is added to the folder. </p>
+    </example>
+  </refbody>
+</reference>

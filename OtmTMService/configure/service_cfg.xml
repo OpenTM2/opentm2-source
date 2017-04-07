@@ -3,12 +3,13 @@
 <service_cfg>
   <downloadsize name="maxsize_per_time">3</downloadsize>
   <db>
-    <property name="db_installed_dir">C:\Mysql</property>
-    <property name="driver_class">com.mysql.jdbc.Driver</property>
-    <property name="root_password">1234</property>
+    <property name="db_installed_dir">C:\MariaDB</property>
+    <property name="driver_class">org.mariadb.jdbc.Driver</property>
+    <property name="root_password">123</property>
     <property name="server_ip">localhost</property>
-    <property name="server_port">3307</property>
+    <property name="server_port">3306</property>
     <property name="user_name">OtmAdmin</property>
     <property name="user_password">OtmAdmin</property>
   </db>
 </service_cfg>
+

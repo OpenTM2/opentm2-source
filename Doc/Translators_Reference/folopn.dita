@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folopn">
+<title>Opening a folder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>folder<indexterm>opening</indexterm></indexterm><indexterm>opening<indexterm>folders</indexterm></indexterm>
+<p>You open a folder to see which documents it contains. You can then
+select a document to work with from the <q>Document List</q> window.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The folder from the <q>Folder List</q> window</li>
+<li><b>Open</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>Alternatively, double-click the folder to open it.</p>
+<p>The <q>Document List</q> window is displayed.</p>
+</section>
+<section><title>Results</title>
+<p>A list of documents in the selected folder is displayed. From this
+list, you can start document-related functions by selecting one or
+more documents and an action from one of the menus.</p>
+<p>For further information see <xref href="docref.dita#docref"/>.</p>
+</section></refbody></reference>

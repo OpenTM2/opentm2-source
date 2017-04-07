@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00189">
+  <title>Viewing the details of a document</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>document<indexterm>displaying details</indexterm></indexterm>
+        <indexterm>document<indexterm>changing details</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can display parts of the properties and the current processing status of a document in
+      the <q>Document List</q> window. This includes such details as the date of import, date of
+      analysis, the percentage of the document that has been translated. Using this data you can
+      easily show the progress of translation work. You can display these details in the <q>Document
+        List</q> window.</p>
+    <p>The details of a document are: <dl>
+        <dlentry><dt>Name</dt>
+          <dd>The name of the document</dd></dlentry>
+        <dlentry><dt>Date of source file</dt>
+          <dd><indexterm>date<indexterm>of source file</indexterm></indexterm><indexterm>source
+                file<indexterm>date of</indexterm></indexterm><indexterm>statistics<indexterm>date
+                of source
+                file</indexterm></indexterm><indexterm>document<indexterm>details</indexterm></indexterm>The
+            date and time at which the source file was last modified outside <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>.</dd></dlentry>
+        <dlentry><dt>Translated</dt>
+          <dd>The date when translation of the document was completed</dd></dlentry>
+        <dlentry><dt>Analyzed</dt>
+          <dd>The date when the document was analyzed</dd></dlentry>
+        <dlentry><dt>Exported</dt>
+          <dd>The date when the document was last exported</dd></dlentry>
+        <dlentry><dt>Imported</dt>
+          <dd>The date when the document was last imported</dd></dlentry>
+        <dlentry><dt>Updated</dt>
+          <dd>The date (and optionally the time) that the document was last updated</dd></dlentry>
+        <dlentry><dt>Size</dt>
+          <dd>The number of bytes of the original document</dd></dlentry>
+        <dlentry><dt>Complete %</dt>
+          <dd>The percentage of the document that has already been translated</dd></dlentry>
+        <dlentry><dt>Changed</dt>
+          <dd>The number of segments that were copied from the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> window during translation and
+            subsequently changed</dd></dlentry>
+        <dlentry><dt>Shipment</dt>
+          <dd>The shipment number of the document</dd></dlentry>
+        <dlentry><dt>Markup</dt>
+          <dd>The markup table used for this document</dd></dlentry>
+        <dlentry><dt><keyword conref="common-symbols.dita#common-symbols/xlmem"/></dt>
+          <dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> used for this
+            document</dd></dlentry>
+        <dlentry><dt>Source language</dt>
+          <dd>The language of the original document</dd></dlentry>
+        <dlentry><dt>Target language</dt>
+          <dd>The language into which the document is translated</dd></dlentry>
+        <dlentry><dt>Editor</dt>
+          <dd>The editor used for this document</dd></dlentry>
+        <dlentry><dt>Alias</dt>
+          <dd>The alias name for the document</dd></dlentry>
+        <dlentry><dt>Source</dt>
+          <dd>The last update date and time of the source document</dd></dlentry>
+        <dlentry><dt>Name without path</dt>
+          <dd>The document name without any path information</dd></dlentry>
+        <dlentry><dt>Extension</dt>
+          <dd>The file extension of the document</dd></dlentry>
+      </dl></p>
+    <p>If nothing is specified for any of the last four items, <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> assumes these properties to be the same
+      as for the folder.</p>
+    <p>For an imported folder, the details in the <q>Document List</q> window are defined by the
+      sender. You can change them if you like. You can toggle between two display modes: <ul>
+        <li>Displaying the names only</li>
+        <li>Displaying selected details</li>
+      </ul></p>
+    <p>You can change the arrangement of the document details in the <q>Change Details</q> window
+      described in <xref href="eqfr5mst-00125.dita#eqfr5mst-00125"/>.</p>
+  </body>
+</topic>

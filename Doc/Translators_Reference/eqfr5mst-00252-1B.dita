@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-1B" rev="GF_07122015">
+  <title>Installing Axis2C on the OpenTM2 Client PC</title>
+  <prolog>
+    <metadata>
+      <!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter describes how to install <b>Axis2c</b> on the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+       <b><u>client PC</u></b>. Axis2c is an open source software-package used by 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to allow the communication of local
+       translation memories with the Web Based Shared Translation Memory located on the server.</p>
+    <p>
+      <b>Installation steps:</b>
+      <ul>
+        <li>Have the zip-file <q>axis2c-bin-1.6.0-win32.zip</q> located in a temporary directory on
+            your hard disk drive.</li>
+        <li>Manually create a directory like e.g. <b>c:\Axis2c\</b> on your local hard disk drive
+            (you may choose a different directory name, but we describe the installation and setup
+            using the mentioned directory name).</li>
+        <li>Unzip the <q>axis2c-bin-1.6.0-win32.zip</q> to c:\Axis2c\. A directory structure like
+            c:\Axis2c\bin\ is generated.</li>
+      </ul>
+      <note>Ensure that the directory structure is exactly created as shown before (e.g. ensure
+          <b>not</b> to generate e.g. c:\Axis2c\Axis2c\ when the ZIP-file is unpacked).</note>
+      <p>In section <xref href="eqfr5mst-00252-1C.dita#eqfr5mst-00252-1C"/> a description of the
+        Axis2c-<b>setup</b> is provided. However, don&apos;t jump to this section directly, but
+         continue with the next page of this User&apos;s Guide.</p>
+    </p>
+  </body>
+</topic>

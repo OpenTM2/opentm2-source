@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF123-5" rev="GF_06052015_2">
+  <title>Dictionary proposal merge function is not implemented properly</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><b><u>Change 1 - Displaying single source terms:</u></b> In the <b>previous dictionary display</b> within the editor, the 
+       display for a single source term may show several duplicate head term entries, each listing the same or different translated terms.  
+       The translated terms may have the same or different product identifiers or comments.  
+       The <b>new</b> implementation will merge these multiple entries into a <b>single head term entry</b>, where 
+       each translated term is listed only once, with its product identifiers and comments merged together.  
+       This will compress the head term entry into a smaller area, and allow more terms to be listed for 
+       long segments. The dictionary <b>lookup</b> window can still be used to display the original entry's information.</p>
+    <p><b><u>Change 2 - Copying terms when more than 52 terms are listed:</u></b> In the <b>previous dictionary display</b> within the editor, only the <b>first 52</b> 
+       (or less) translated terms could be easily copied using a hot key (like Ctrl+a). If there were <b>more</b> than 52 (or less) terms, 
+       they were identified with an asterisk '*' and could <b>not</b> be copied using a hot key. The <b>new</b> implementation allows the 
+       user to <b>define a special hot key</b> to page down/up the hot key assignments to either the next or the previous group of terms. 
+       This will allow all terms to be easily copied using a <b>Ctrl+x</b> hot key (where x is the user defined key). Keys are defined 
+       while being in the translation editor. Go to "Options", "Keys...", and in the panel "Assign Keys" locate e.g. "Scroll disctionary down".</p>    
+  </body>
+</topic>

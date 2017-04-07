@@ -17,6 +17,7 @@ Copyright Notice:
   #define INCL_EQF_TM               // general Transl. Memory functions
 
 
+
 //#define LOGGING
 
 #include "core\PluginManager\PluginManager.h"
@@ -27,17 +28,16 @@ Copyright Notice:
 #include "core\memory\MemoryFactory.h"
 #include "OptionsDialog.h"
 
-extern "C"
-{
-#include <OTMFUNC.H>               // header file of OpenTM2 API functions
-}
 
 #include "vector"
 
 
 // default memory plugins
 #define DEFAULTMEMORYPLUGIN "EqfMemoryPlugin"
-#define DEFAULTSHAREDMEMORYPLUGIN "EqfSharedMemPlugin"
+
+//P403634
+#define DEFAULTSHAREDMEMORYPLUGIN "EqfSharedMemoryPlugin"
+//#define DEFAULTSHAREDMEMORYPLUGIN "EqfSharedMemPlugin"
 
 /** Initialize the static instance variable */
 MemoryFactory* MemoryFactory::instance = 0;
@@ -53,6 +53,7 @@ MemoryFactory* MemoryFactory::getInstance()
 		instance = new MemoryFactory();
     instance->pluginList = NULL;
     instance->pSharedMemPluginList = NULL;
+    instance->pHandleToMemoryList = new std::vector<OtmMemory *>;;
     instance->refreshPluginList();
 #ifdef LOGGING
     instance->Log.open( "MemoryFactory" );
@@ -1158,7 +1159,7 @@ int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFac
   // when no context value is given, use context ranking of proposal
   if ( usContextRanking == 0 )
   {
-    usContextRanking = Proposal.getContextRanking();
+    usContextRanking = (USHORT)Proposal.getContextRanking();
   } /* endif */
   return( getProposalSortKey( Proposal.getMatchType(), Proposal.getType(), Proposal.getFuzziness(), iMTDisplayFactor, usContextRanking, fEndOfTable ) ); 
 }
@@ -1978,10 +1979,9 @@ void MemoryFactory::refreshPluginList()
   if ( this->pSharedMemPluginList != NULL ) delete( this->pSharedMemPluginList );
 
   this->szDefaultMemoryPlugin[0] = '\0';
-  this->szDefaultSharedMemoryPlugin [0] = '\0';
-
+  
   // access plugin manager
-	PluginManager* thePluginManager = PluginManager::getInstance();
+  PluginManager* thePluginManager = PluginManager::getInstance();
 
   // iterate through all memory plugins and store found plugins in pluginList
   OtmMemoryPlugin * curPlugin = NULL;
@@ -2004,9 +2004,10 @@ void MemoryFactory::refreshPluginList()
   // if default plugin is not available use first plugin as default
   if ( (this->szDefaultMemoryPlugin[0] == '\0') && (pluginList->size() != 0) )
   {
-    strcpy( this->szDefaultMemoryPlugin, (*pluginList)[0]->getName() );
+	  strcpy( this->szDefaultMemoryPlugin, (*pluginList)[0]->getName() );
   }
 
+  this->szDefaultSharedMemoryPlugin [0] = '\0';
   OtmSharedMemoryPlugin *curSharedPlugin = NULL;
   pSharedMemPluginList = new std::vector<OtmSharedMemoryPlugin *>;
   i = 0;
@@ -2019,7 +2020,10 @@ void MemoryFactory::refreshPluginList()
       pSharedMemPluginList->push_back( curSharedPlugin );
       if ( stricmp( curSharedPlugin->getName(), DEFAULTSHAREDMEMORYPLUGIN ) == 0 )
       {
-        strcpy( this->szDefaultMemoryPlugin, curSharedPlugin->getName() );
+		// P403634 
+        //strcpy( this->szDefaultMemoryPlugin, curSharedPlugin->getName() );
+		strcpy( this->szDefaultSharedMemoryPlugin, curSharedPlugin->getName() );
+
       }
     }
   }  while ( curSharedPlugin != NULL ); /* end */     
@@ -2267,3 +2271,871 @@ int MemoryFactory::replaceMemory
   return( iRC );
 }
 
+/*! \brief process the API call: EqfImportMemInInternalFormat and import a memory using the internal memory files
+  \param pszMemory name of the memory being imported
+  \param pszMemoryPackage name of a ZIP archive containing the memory files
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIImportMemInInternalFormat
+(
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+)
+{
+  int iRC = 0;
+
+  lOptions;
+
+  if ( (pszMemoryName == NULL) || (*pszMemoryName == EOS) )
+  {
+    UtlErrorHwnd( TA_MANDTM, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( TA_MANDTM );
+  } /* endif */
+
+  if ( (pszMemoryPackage == NULL) || (*pszMemoryPackage == EOS) )
+  {
+    UtlErrorHwnd( FUNC_MANDINFILE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_MANDINFILE );
+  } /* endif */
+
+  // make temporary directory for the memory files of the package
+  char szTempDir[MAX_PATH];
+  UtlMakeEQFPath( szTempDir, EOS, IMPORT_PATH, NULL );
+  strcat( szTempDir, "\\MemImp\\" );
+  strcat( szTempDir, pszMemoryName );
+  UtlMkMultDir( szTempDir, FALSE );
+
+  // unpzip the package
+  UtlUnzipToDirectory( pszMemoryPackage, szTempDir );
+
+  // build list of files
+  std::string strMemFiles;
+  {
+    WIN32_FIND_DATA FindData;
+    std::string strSearchPattern = szTempDir;
+    strSearchPattern.append( "\\*.*" );
+    HANDLE hDir = FindFirstFile( strSearchPattern.c_str(), &FindData );
+    if ( hDir != INVALID_HANDLE_VALUE )
+    {
+      BOOL fMoreFiles = TRUE;
+      do
+      {
+        if ( !(FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+        {
+          if ( !strMemFiles.length() == 0 ) strMemFiles.append( "," );
+          strMemFiles.append( szTempDir );
+          strMemFiles.append( "\\" );
+          strMemFiles.append( FindData.cFileName );
+        }
+        fMoreFiles = FindNextFile( hDir, &FindData );
+      } while ( fMoreFiles );
+      FindClose( hDir );
+    }
+  }
+
+  // call memory plugin to process the files
+  OtmMemoryPlugin *pPlugin = (OtmMemoryPlugin *)getPlugin( DEFAULTMEMORYPLUGIN );
+  if ( pPlugin != NULL )
+  {
+    PVOID pvPluginData = NULL;
+    iRC = pPlugin->importFromMemoryFiles( pszMemoryName, (PSZ)strMemFiles.c_str(), OtmMemoryPlugin::IMPORTFROMMEMFILES_COMPLETEINONECALL_OPT, &pvPluginData );
+  }
+
+  // delete any files left over and remove the directory
+  UtlDeleteAllFiles( (const char *)szTempDir );
+  RemoveDirectory( szTempDir );
+
+  return( (USHORT)iRC );
+}
+
+/*! \brief process the API call: EqfExportMemInInternalFormat and export a memory to a ZIP package
+  \param pszMemory name of the memory being exported
+  \param pszMemoryPackage name of a new ZIP archive receiving the memory files
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIExportMemInInternalFormat
+(
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+)
+{
+  int iRC = 0;
+
+  lOptions;
+
+  if ( (pszMemoryName == NULL) || (*pszMemoryName == EOS) )
+  {
+    UtlErrorHwnd( TA_MANDTM, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( TA_MANDTM );
+  } /* endif */
+
+  if ( (pszMemoryPackage == NULL) || (*pszMemoryPackage == EOS) )
+  {
+    UtlErrorHwnd( FUNC_MANDINFILE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_MANDINFILE );
+  } /* endif */
+
+  // check if memory exists
+  if ( !this->exists( NULL, pszMemoryName ) )
+  {
+    UtlErrorHwnd( ERROR_MEMORY_NOTFOUND, MB_CANCEL, 1, &pszMemoryName, EQF_ERROR, HWND_FUNCIF );
+    return( ERROR_MEMORY_NOTFOUND );
+  } /* endif */
+
+  // get the memory plugin for the memory
+  OtmPlugin* pPlugin = findPlugin( NULL, pszMemoryName  );
+  if( pPlugin == NULL )
+  {
+    this->iLastError = ERROR_MEMORYOBJECTISNULL;
+    this->strLastError = "Internal error: No plugin found for memory";
+    return( (USHORT)this->iLastError );
+  } /* endif */     
+
+  // get the list of memory files
+  const int iFileListBufferSize = 8000;
+  char *pszFileList = new char[iFileListBufferSize];
+  if( pPlugin->getType() ==  OtmPlugin::eTranslationMemoryType )
+  {
+    iRC = ((OtmMemoryPlugin *)pPlugin)->getMemoryFiles( pszMemoryName, pszFileList, iFileListBufferSize );
+  }
+  else if(pPlugin->getType() == OtmPlugin::eSharedTranslationMemoryType)
+  {
+    iRC = ((OtmSharedMemoryPlugin *)pPlugin)->getMemoryFiles( pszMemoryName, pszFileList, iFileListBufferSize );
+  }
+  if( iRC != 0  )
+  {
+    this->iLastError = ERROR_BUFFERTOOSMALL;
+    this->strLastError = "Internal error: Failed to get list of memory files";
+    delete pszFileList;
+    return( (USHORT)this->iLastError );
+  } /* endif */     
+
+  // add the files to the package
+  UtlZipFiles( pszFileList, pszMemoryPackage );
+  delete pszFileList;
+
+  return( (USHORT)iRC );
+}
+
+
+/*! \brief process the API call: EqfOpenMem and open the specified translation memory
+  \param pszMemory name of the memory being opened
+  \param plHandle buffer to a long value receiving the handle of the opened memory or -1 in case of failures
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIOpenMem
+(
+  PSZ         pszMemoryName, 
+  LONG        *plHandle,
+  LONG        lOptions 
+)
+{
+  lOptions;
+
+  if ( (pszMemoryName == NULL) || (*pszMemoryName == EOS) )
+  {
+    UtlErrorHwnd( TA_MANDTM, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( TA_MANDTM );
+  } /* endif */
+
+  if ( plHandle == NULL )
+  {
+    PSZ pszParm = "pointer to memory handle";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  int iRC = 0;
+  OtmMemory *pMem = this->openMemory( NULL, pszMemoryName, 0, &iRC );
+  if ( pMem == NULL )
+  {
+    this->showLastError( NULL, pszMemoryName, NULL, HWND_FUNCIF );
+    return( (USHORT)iRC );
+  } /* endif */
+
+
+  // find an empty slot in our handle-to-memory-object table
+  LONG lIndex = 0;
+  while( (lIndex < (LONG)pHandleToMemoryList->size()) && ((*pHandleToMemoryList)[lIndex] != NULL) ) lIndex++;
+
+  // add new entry to list if no free slot is available
+  if ( lIndex >= (LONG)pHandleToMemoryList->size() )
+  {
+    pHandleToMemoryList->resize( lIndex + 10, NULL );
+  } /* endif */
+
+  (*pHandleToMemoryList)[lIndex] = pMem;
+
+  *plHandle = createHandle( lIndex, pMem );
+
+  return( 0 );
+}
+
+
+/*! \brief process the API call: EqfCloseMem and close the translation memory referred by the handle
+  \param lHandle handle of a previously opened memory
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APICloseMem
+(
+  LONG        lHandle,
+  LONG        lOptions 
+)
+{
+  USHORT usRC = 0;
+
+  lOptions;
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    UtlErrorHwnd( FUNC_INVALID_MEMORY_HANDLE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_INVALID_MEMORY_HANDLE );
+  } /* endif */
+
+  usRC = (USHORT)this->closeMemory( pMem );
+
+  return( usRC );
+}
+
+/*! \brief process the API call: EqfQueryMem and lookup a segment in the memory
+  \param lHandle handle of a previously opened memory
+  \param pSearchKey pointer to a MemProposal structure containing the searched criteria
+  \param *piNumOfProposals pointer to the number of requested memory proposals, will be changed on return to the number of proposals found
+  \param pProposals pointer to a array of MemProposal structures receiving the search results
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIQueryMem
+(
+  LONG        lHandle,          
+  PMEMPROPOSAL pSearchKey, 
+  int         *piNumOfProposals,
+  PMEMPROPOSAL pProposals, 
+  LONG        lOptions     
+)
+{
+  USHORT usRC = 0;
+  OtmProposal SearchKey;
+  std::vector<OtmProposal *> vProposals;
+  for ( int i = 0; i < *piNumOfProposals; i++ ) vProposals.push_back( new(OtmProposal) );
+
+  if ( pSearchKey == NULL )
+  {
+    PSZ pszParm = "pointer to search key";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  if ( pProposals == NULL )
+  {
+    PSZ pszParm = "pointer to proposal array";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    UtlErrorHwnd( FUNC_INVALID_MEMORY_HANDLE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_INVALID_MEMORY_HANDLE );
+  } /* endif */
+
+  copyMemProposalToOtmProposal( pSearchKey, &SearchKey );
+  usRC = (USHORT)pMem->searchProposal( SearchKey, vProposals, lOptions );
+  *piNumOfProposals = OtmProposal::getNumOfProposals( vProposals );
+
+  for( int i = 0; i < *piNumOfProposals; i++ ) copyOtmProposalToMemProposal( vProposals[i], pProposals + i );
+
+  for ( size_t i=0; i < vProposals.size(); i++ ) delete( vProposals[i] );
+
+  return( usRC );
+}
+
+
+/*! \brief process the API call: EqfSearchMem and search the given text string in the memory
+  \param lHandle handle of a previously opened memory
+  \param pszSearchString pointer to the search string (in UTF-16 encoding)
+  \param pszStartPosition pointer to a buffer (min size = 20 charachters) containing the start position, on completion this buffer is filled with the next search position
+  \param pvProposal pointer to an OtmProposal object receiving the next matching segment
+  \param lSearchTime max time in milliseconds to search for a matching proposal, 0 for no search time restriction
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APISearchMem
+(
+  LONG        lHandle,                 
+  __wchar_t  *pszSearchString,
+  PSZ         pszStartPosition,
+  PMEMPROPOSAL pProposal,
+  LONG        lSearchTime,
+  LONG        lOptions
+)
+{
+  USHORT usRC = 0;
+  int iRC = 0;                         // code returned from memory object methods
+  BOOL fFound = FALSE;                 // found-a-matching-memory-proposal flag
+
+  OtmProposal *pOtmProposal = new (OtmProposal);
+
+  if ( (pszSearchString == NULL) || (*pszSearchString  == EOS)  )
+  {
+    PSZ pszParm = "Search string";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  if ( pszStartPosition == NULL ) 
+  {
+    PSZ pszParm = "pointer to start position";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  if ( pProposal == NULL )
+  {
+    PSZ pszParm = "pointer to proposal";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    UtlErrorHwnd( FUNC_INVALID_MEMORY_HANDLE, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    return( FUNC_INVALID_MEMORY_HANDLE );
+  } /* endif */
+
+  ULONGLONG ul64SearchStartTime = 0;
+  if ( lSearchTime != 0 ) ul64SearchStartTime = GetTickCount64();
+
+  // get first or next proposal
+  if ( *pszStartPosition == EOS )
+  {
+    iRC = pMem->getFirstProposal( *pOtmProposal );
+  }
+  else
+  {
+    pMem->setSequentialAccessKey( pszStartPosition );
+    iRC = pMem->getNextProposal( *pOtmProposal );
+  } /* endif */
+
+  // prepare searchstring
+  wcscpy( m_szSearchString, pszSearchString );
+  if ( lOptions & SEARCH_CASEINSENSITIVE_OPT ) _wcsupr( m_szSearchString );
+  if ( lOptions & SEARCH_WHITESPACETOLERANT_OPT ) normalizeWhiteSpace( m_szSearchString );
+
+
+  while ( !fFound && ( iRC == 0 ) )
+  {
+    fFound = searchInProposal( pOtmProposal, m_szSearchString, lOptions );
+    if ( fFound )
+    {
+      copyOtmProposalToMemProposal( pOtmProposal , pProposal );
+    }
+    else
+    {
+      if ( lSearchTime != 0 )
+      {
+        ULONGLONG ul64CurTime = 0;
+        ul64CurTime = GetTickCount64();
+        LONG lElapsedMillis = (LONG)(ul64CurTime - ul64SearchStartTime);
+        if ( lElapsedMillis > lSearchTime )
+        {
+          iRC = TIMEOUT_RC;
+        }
+      }
+      if ( iRC == 0 )
+      {
+        iRC = pMem->getNextProposal( *pOtmProposal );
+      }
+    }
+  } /* endwhile */
+
+  // search given string in proposal
+  if ( fFound || (iRC == TIMEOUT_RC) )
+  {
+    pMem->getSequentialAccessKey( pszStartPosition, 20 );
+    usRC = (USHORT)iRC;
+  } /* endif */
+  else if ( iRC == OtmMemory::INFO_ENDREACHED )
+  {
+    usRC = ENDREACHED_RC;
+  }
+  else
+  {
+    usRC = (USHORT)iRC;
+  }
+
+  delete( pOtmProposal );
+
+  return( usRC );
+}
+
+
+
+/*! \brief process the API call: EqfUpdateMem and update a segment in the memory
+  \param lHandle handle of a previously opened memory
+    \param pNewProposal pointer to an MemProposal structure containing the segment data
+  \param lOptions processing options
+  \returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIUpdateMem
+(
+  LONG        lHandle,
+  PMEMPROPOSAL pNewProposal,
+  LONG        lOptions
+)
+{
+  OtmProposal *pOtmProposal = new ( OtmProposal );
+
+  lOptions;
+
+  if ( ( pNewProposal == NULL ) )
+  {
+    PSZ pszParm = "pointer to proposal";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    return( DDE_MANDPARAMISSING );
+  } /* endif */
+
+  OtmMemory *pMem = handleToMemoryObject( lHandle );
+
+  if ( pMem == NULL )
+  {
+    return( INVALIDFILEHANDLE_RC );
+  } /* endif */
+
+  // generate short document name if none given (otherwise the long document name will not be stored in the memory...)
+  if ( (pNewProposal->szDocShortName[0] == EOS) && (pNewProposal->szDocName[0] != EOS) )
+  {
+    PSZ pszTemp = pNewProposal->szDocName;
+    int iLen = 0;
+    while ( (iLen < 8) && (*pszTemp != EOS) )
+    {
+      CHAR chTest;
+      chTest = *pszTemp;
+      if ( ((chTest >= '0') && (chTest <= '9')) || ((chTest >= 'a') && (chTest <= 'z')) || ((chTest >= 'A') && (chTest <= 'Z')) ) 
+      {
+        pNewProposal->szDocShortName[iLen++] = *pszTemp;
+      } /* endif */
+      pszTemp++;
+    } /* endwhile */
+
+    // pad short names with 'A's
+    while ( iLen < 5 ) pNewProposal->szDocShortName[iLen++] = 'A';
+
+    // add dummy extension to name
+    strcpy( pNewProposal->szDocShortName + strlen(pNewProposal->szDocShortName), ".000" );
+  } /* endif */
+  copyMemProposalToOtmProposal( pNewProposal, pOtmProposal );
+
+  USHORT usRC = (USHORT)pMem->putProposal( *pOtmProposal );
+
+  delete( pOtmProposal );
+
+  return( usRC );
+}
+
+// data structure for the APIListMem function and the insert memory callback function
+typedef struct _APILISTMEMDATA
+{
+  PSZ   pszBuffer;   // pointer to buffer for memory names or NULL to compute the size of the required buffer
+  LONG  lBufSize;  // size of the buffer
+  LONG *plLength;    // pointer to a variable containing the current length of the data in the buffer
+} APILISTMEMDATA, *PAPILISTMEMDATA;
+
+// callback function to add memory names to a list or update the length of the list
+int AddMemToList( void *pvData, char *pszName, OtmMemoryPlugin::PMEMORYINFO pInfo )
+{
+  PAPILISTMEMDATA pData = ( PAPILISTMEMDATA )pvData;
+
+  pInfo;
+
+  LONG lNameLen = strlen( pszName );
+
+  if ( pData->pszBuffer != NULL )
+  {
+    if ( (*(pData->plLength) + lNameLen + 1) <= pData->lBufSize )
+    {
+      if ( *(pData->plLength) != 0 )
+      {
+        strcpy( pData->pszBuffer + *(pData->plLength), "," );
+        *( pData->plLength ) += 1;
+      }
+      strcpy( pData->pszBuffer + *(pData->plLength), pszName );
+      *( pData->plLength ) += lNameLen;
+    }
+  }
+  else
+  {
+    *( pData->plLength ) += lNameLen + 1;
+  }
+  return( 0 );
+}
+
+
+
+/*! \brief List the name of all memories
+\param hSession the session handle returned by the EqfStartSession call
+\param pszBuffer pointer to a buffer reiceiving the comma separated list of memory names or NULL to get the required length for the list
+\param plLength pointer to a variable containing the size of the buffer area, on return the length of name list is stored in this variable
+\returns 0 if successful or an error code in case of failures
+*/
+USHORT MemoryFactory::APIListMem
+(
+  PSZ         pszBuffer,
+  LONG        *plLength
+)
+{
+  APILISTMEMDATA Data;
+
+  Data.pszBuffer = pszBuffer;
+  Data.lBufSize = *plLength;
+  Data.plLength = plLength;
+  *plLength = 0;
+
+  for ( std::size_t i = 0; i < pluginList->size(); i++ )
+  {
+    OtmMemoryPlugin *pluginCurrent = ( *pluginList )[i];
+
+    pluginCurrent->listMemories( AddMemToList, (void *)&Data, FALSE );
+  } /* endfor */
+
+  for ( std::size_t i = 0; i < pSharedMemPluginList->size(); i++ )
+  {
+    OtmSharedMemoryPlugin *pluginCurrent = ( *pSharedMemPluginList )[i];
+
+    pluginCurrent->listMemories( AddMemToList, (void *)&Data, FALSE );
+  } /* endfor */
+
+
+  return( 0 );
+}
+
+/*! \brief get the index into the memory object table from a memory handle
+  \param lHandle handle of a previously opened memory
+  \returns index into the memory object table
+*/
+LONG MemoryFactory::getIndexFromHandle
+(
+  LONG        lHandle
+)
+{
+  return( lHandle & 0x000007FF );
+}
+
+/*! \brief get the checksum from a memory handle
+  \param lHandle handle of a previously opened memory
+  \returns checksum of the memory object
+*/
+LONG MemoryFactory::getCheckSumFromHandle
+(
+  LONG        lHandle
+)
+{
+  return( lHandle & 0xFFFFF800 );
+}
+
+/*! \brief compute the checksum for a memory object
+  \param pMemory pointer to a memory object
+  \returns memory object checksum
+*/
+LONG MemoryFactory::computeMemoryObjectChecksum
+(
+  OtmMemory *pMemory
+)
+{
+  // compute checksum based on t3he individual byte values of the memory object pointer
+  LONG lCheckSum = 0;
+  _int64 iPointerValue = (_int64)pMemory;  // use int64 value to enable code for 64bit pointers
+  int iSize = sizeof(*pMemory);
+  while( iSize > 0 )
+  {
+    lCheckSum += (LONG)((iPointerValue  & 0x0000000F) * iSize);
+    iPointerValue = iPointerValue >> 4;
+    iSize--;
+  } /* endwhile */
+
+  // make room at end of checksum for the 11 bit value of the index
+  lCheckSum = lCheckSum << 11;
+
+  return( lCheckSum );
+}
+
+/*! \brief compute the checksum for a memory object
+  \param lHandle handel referring to the memory object
+  \returns memory object pointer or NULL if the given handle is invalid
+*/
+OtmMemory *MemoryFactory::handleToMemoryObject
+(
+  LONG lHandle
+)
+{
+  LONG lCheckSum = getCheckSumFromHandle( lHandle );
+  LONG lIndex = getIndexFromHandle( lHandle );
+
+  if ( (lIndex < 0) || (lIndex >= (LONG)pHandleToMemoryList->size()) )
+  {
+    return( NULL );
+  } /* endif */
+
+  if ( (*pHandleToMemoryList)[lIndex] == NULL  )
+  {
+    return( NULL );
+  } /* endif */
+
+  LONG lElementCheckSum = computeMemoryObjectChecksum( (*pHandleToMemoryList)[lIndex] );
+  if ( lCheckSum  != lElementCheckSum )
+  {
+    return( NULL );
+  } /* endif */
+
+  return( (*pHandleToMemoryList)[lIndex] );
+}
+
+/*! \brief convert a memory object and the index into the memory oject table to a memory handle
+  \param lIndex index into the memory object table
+  \param pMemory pointer to a memory object
+  \returns index into the memory object table
+*/
+LONG MemoryFactory::createHandle
+(
+  LONG        lIndex,
+  OtmMemory   *pMemory
+)
+{
+  LONG lCheckSum = computeMemoryObjectChecksum( pMemory );
+
+  return( lCheckSum | lIndex );
+}
+
+/*! \brief search a string in a proposal
+  \param pProposal pointer to the proposal 
+  \param pszSearch pointer to the search string (when fIngoreCase is being used, this strign has to be in uppercase)
+  \param lSearchOptions combination of search options
+  \returns TRUE if the proposal contains the searched string otherwise FALSE is returned
+*/
+BOOL MemoryFactory::searchInProposal
+( 
+  OtmProposal *pProposal,
+  PSZ_W pszSearch,
+  LONG lSearchOptions
+)
+{
+  BOOL   fFound = FALSE;
+
+  if ( !fFound && (lSearchOptions & SEARCH_IN_SOURCE_OPT) )
+  {
+    pProposal->getSource( m_szSegmentText, sizeof(m_szSegmentText)/sizeof(CHAR_W) );
+    if ( lSearchOptions & SEARCH_CASEINSENSITIVE_OPT ) _wcsupr( m_szSegmentText );
+    if ( lSearchOptions & SEARCH_WHITESPACETOLERANT_OPT ) normalizeWhiteSpace( m_szSegmentText );
+    fFound = findString( m_szSegmentText, pszSearch );
+  }
+
+  if ( !fFound && (lSearchOptions & SEARCH_IN_TARGET_OPT)  )
+  {
+    pProposal->getTarget( m_szSegmentText, sizeof(m_szSegmentText)/sizeof(CHAR_W) );
+    if ( lSearchOptions & SEARCH_CASEINSENSITIVE_OPT ) _wcsupr( m_szSegmentText );
+    if ( lSearchOptions & SEARCH_WHITESPACETOLERANT_OPT ) normalizeWhiteSpace( m_szSegmentText );
+    fFound = findString( m_szSegmentText, pszSearch );
+  }
+
+  return( fFound );
+}
+
+
+/*! \brief find the given string in the provided data
+  \param pszData pointer to the data being searched
+  \param pszSearch pointer to the search string
+  \returns TRUE if the data contains the searched string otherwise FALSE is returned
+*/
+BOOL MemoryFactory::findString
+( 
+  PSZ_W pszData,
+  PSZ_W pszSearch
+)
+{
+  CHAR_W chChar;
+  CHAR_W c;
+  BOOL   fFound = FALSE;
+  BOOL   fEnd = FALSE;
+
+  while ( !fFound && !fEnd )
+  {
+    // Scan for the 1st letter of the target string don't use strchr, it is too slow                   
+    chChar = *pszSearch;
+    while ( ((c = *pszData) != 0) && (chChar != c) ) pszData++;
+
+    if ( *pszData == 0 )
+    {
+      fEnd = TRUE;
+    }
+    else
+    {
+      // check for complete match
+      if ( compareString( pszData, pszSearch ) == 0)
+      {
+        fFound = TRUE;
+      }
+      else         // no match; go on if possible
+      {
+        pszData++;
+      } /* endif */
+    } /* endif */
+  } /* endwhile */
+  return( fFound );
+}
+
+/*! \brief check if search string matches current data
+  \param pData pointer to current position in data area
+  \param pSearch pointer to search string
+  \returns 0 if search string matches data
+*/
+SHORT MemoryFactory::compareString
+(
+  PSZ_W   pData,
+  PSZ_W   pSearch
+)
+{
+  SHORT  sRc = 0;                               // init strings are equal
+  CHAR_W c, d;
+  while (((d = *pSearch) != NULC) && ((c = *pData) != NULC) )
+  {
+    if ( c == d )
+    {
+      pData++; pSearch++;
+    }
+    else
+    {
+      sRc = c-d;
+      break;
+    } /* endif */
+  } /* endwhile */
+  if (*pSearch )
+  {
+    sRc = -1;
+  } /* endif */
+  return sRc;
+}
+
+/*! \brief normalize white space within a string by replacing single or multiple white space occurences to a single blank
+  \param pszString pointer to the string being normalized
+  \returns 0 in any case
+*/
+SHORT MemoryFactory::normalizeWhiteSpace
+(
+  PSZ_W   pszData
+)
+{
+  PSZ_W pszTarget = pszData;
+  while ( *pszData )
+  {
+    CHAR_W c = *pszData;
+    if ( (c == BLANK) || (c == LF) || (c == CR) || (c == 0x09) )
+    {
+      do
+      {
+        pszData++;
+        c = *pszData;
+      } while ( (c == BLANK) || (c == LF) || (c == CR) || (c == 0x09) );
+      *pszTarget++ = BLANK;
+    } 
+    else
+    {
+      *pszTarget++ = *pszData++;
+    } /* endif */
+  } /* endwhile */
+  *pszTarget = 0;
+  return 0;
+}
+
+/*! \brief copy the data of a MEMPROPOSAL structure to a OtmProposal object
+  \param pMemProposal pointer to MEMPROPOSAL structure 
+  \param pOtmProposal pointer to OtmProposal object
+  \returns 0 in any case
+*/
+void MemoryFactory::copyMemProposalToOtmProposal( PMEMPROPOSAL pProposal, OtmProposal *pOtmProposal )
+{
+  if ( (pProposal == NULL) || (pOtmProposal == NULL) ) return;
+
+  pOtmProposal->setID( pProposal->szId );
+  pOtmProposal->setSource( pProposal->szSource );
+  pOtmProposal->setTarget( pProposal->szTarget );
+  pOtmProposal->setDocName( pProposal->szDocName );
+  pOtmProposal->setDocShortName( pProposal->szDocShortName );
+  pOtmProposal->setSegmentNum( pProposal->lSegmentNum );
+  pOtmProposal->setSourceLanguage( pProposal->szSourceLanguage );
+  pOtmProposal->setTargetLanguage( pProposal->szTargetLanguage );
+  switch( pProposal->eType )
+  {
+    case MANUAL_PROPTYPE: pOtmProposal->setType( OtmProposal::eptManual ); break;
+    case MACHINE_PROPTYPE: pOtmProposal->setType( OtmProposal::eptMachine ); break;
+    case GLOBMEMORY_PROPTYPE: pOtmProposal->setType( OtmProposal::eptGlobalMemory ); break;
+    case GLOBMEMORYSTAR_PROPTYPE: pOtmProposal->setType( OtmProposal::eptGlobalMemoryStar ); break;
+    default: pOtmProposal->setType( OtmProposal::eptUndefined ); break;
+  } /* endswitch */
+  switch( pProposal->eMatch )
+  {
+    case EXACT_MATCHTYPE: pOtmProposal->setMatchType( OtmProposal::emtExact ); break;
+		case EXACTEXACT_MATCHTYPE: pOtmProposal->setMatchType( OtmProposal::emtExactExact ); break;
+    case EXACTSAMEDOC_MATCHTYPE: pOtmProposal->setMatchType( OtmProposal::emtExactSameDoc ); break;
+    case FUZZY_MATCHTYPE: pOtmProposal->setMatchType( OtmProposal::emtFuzzy ); break;
+    case REPLACE_MATCHTYPE: pOtmProposal->setMatchType( OtmProposal::emtReplace ); break;
+    default: pOtmProposal->setMatchType( OtmProposal::emtUndefined ); break;
+  } /* endswitch */
+  pOtmProposal->setAuthor( pProposal->szTargetAuthor );
+  pOtmProposal->setUpdateTime( pProposal->lTargetTime );
+  pOtmProposal->setFuzziness( pProposal->iFuzziness );
+  pOtmProposal->setMarkup( pProposal->szMarkup );
+  pOtmProposal->setContext( pProposal->szContext );
+  pOtmProposal->setAddInfo( pProposal->szAddInfo );
+}
+
+/*! \brief copy the data of a MEMPROPOSAL structure to a OtmProposal object
+  \param pMemProposal pointer to MEMPROPOSAL structure 
+  \param pOtmProposal pointer to OtmProposal object
+  \returns 0 in any case
+*/
+void MemoryFactory::copyOtmProposalToMemProposal( OtmProposal *pOtmProposal, PMEMPROPOSAL pProposal  )
+{
+  if ( (pProposal == NULL) || (pOtmProposal == NULL) ) return;
+
+  pOtmProposal->getID( pProposal->szId, sizeof(pProposal->szId) );
+  pOtmProposal->getSource( pProposal->szSource, sizeof(pProposal->szSource)/sizeof(CHAR_W) );
+  pOtmProposal->getTarget( pProposal->szTarget, sizeof(pProposal->szTarget)/sizeof(CHAR_W) );
+  pOtmProposal->getDocName( pProposal->szDocName, sizeof(pProposal->szDocName) );
+  pOtmProposal->getDocShortName( pProposal->szDocShortName, sizeof(pProposal->szDocShortName) );
+  pProposal->lSegmentNum = pOtmProposal->getSegmentNum();
+  pOtmProposal->getSourceLanguage( pProposal->szSourceLanguage, sizeof(pProposal->szSourceLanguage) );
+  pOtmProposal->getTargetLanguage( pProposal->szTargetLanguage, sizeof(pProposal->szTargetLanguage) );
+  switch( pOtmProposal->getType() )
+  {
+    case OtmProposal::eptManual: pProposal->eType = MANUAL_PROPTYPE; break;
+    case OtmProposal::eptMachine: pProposal->eType = MACHINE_PROPTYPE; break;
+    case OtmProposal::eptGlobalMemory: pProposal->eType = GLOBMEMORY_PROPTYPE; break;
+    case OtmProposal::eptGlobalMemoryStar: pProposal->eType = GLOBMEMORYSTAR_PROPTYPE; break;
+    default: pProposal->eType = UNDEFINED_PROPTYPE; break;
+  } /* endswitch */
+  switch( pOtmProposal->getMatchType() )
+  {
+    case OtmProposal::emtExact: pProposal->eMatch = EXACT_MATCHTYPE; break;
+    case OtmProposal::emtExactExact: pProposal->eMatch = EXACTEXACT_MATCHTYPE; break;
+    case OtmProposal::emtExactSameDoc : pProposal->eMatch = EXACTSAMEDOC_MATCHTYPE; break;
+    case OtmProposal::emtFuzzy: pProposal->eMatch = FUZZY_MATCHTYPE; break;
+    case OtmProposal::emtReplace: pProposal->eMatch = REPLACE_MATCHTYPE; break;
+    default: pProposal->eMatch = UNDEFINED_MATCHTYPE; break;
+  } /* endswitch */
+  pOtmProposal->getAuthor( pProposal->szTargetAuthor, sizeof(pProposal->szTargetAuthor) );
+  pProposal->lTargetTime = pOtmProposal->getUpdateTime();
+  pProposal->iFuzziness  = pOtmProposal->getFuzziness();
+  pOtmProposal->getMarkup( pProposal->szMarkup, sizeof(pProposal->szMarkup) );
+  pOtmProposal->getContext( pProposal->szContext, sizeof(pProposal->szContext)/sizeof(CHAR_W) );
+  pOtmProposal->getAddInfo( pProposal->szAddInfo, sizeof(pProposal->szAddInfo)/sizeof(CHAR_W) );
+}

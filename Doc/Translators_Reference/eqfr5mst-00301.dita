@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00301">
+<title>What you can do with terminology lists</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p>You can start most of the functions related to terminology lists from the
+related list window, as shown in the following example.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>None.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li><b>Utilities</b> from the action bar</li>
+<li><b>Display terminology lists</b> from the menu</li>
+<li>One of the list types offered in the cascaded window: <b>Exclusion Lists</b>, <b>Found Terms Lists</b>,
+or <b>New Terms Lists</b></li>
+</ol></p>
+<p>One of the list windows is displayed, for example the <q>New Terms Lists</q> window.</p>
+<p>The list window contains the list of existing terminology lists, in this
+example all new terms lists. </p>
+<p>Actions on a terminology list can be started by selecting a list name and
+an action from the <b>File</b> menu.</p>
+</section></refbody></reference>

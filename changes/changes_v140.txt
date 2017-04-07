@@ -1,0 +1,52 @@
+Changes in OpenTM2 v1.4.0
+
+List of requirements and fixes in OpenTM2 release v1.4.0:
+  (A) Requirements:
+
+  (B) Fixes:	 
+     P403669: "nomatch.exp" and "noproposal.exp" are identical. They should be different.
+     P403554: OTMITM: ITM-creation concatenates terms in some segments
+     P403648: Ctrl+Enter not work after importing profile settings from other machine
+     P403645: IBMDITA: Segmentation problem in video_transcript_whyliberty_perfscale.dita file
+     P403612: OtmTmxSplitSegments.exe: input TMX memory structure not properly recognized by the tool
+     P403607: requires support for languages Welsh and Azerbaijani
+     P403587: OtmTmx2Exp.exe: segments are skipped without being reported to LOG file
+     P403577: WCM report shows wrong word count
+     P403572: Comment added to Segment properties window also inserted into a segment in Translation Window
+     P403571: OpenTm2ScripterGUI to fully support API-call EqfAnalyzeDocEx
+     P403558: EqfAnalyzeDocEx doesn't seem to respect all parameters
+     P403542: OpenSSL: we need to upgrade from version 1.0.1t to 1.0.1u
+     P403518: Import of a *.DXT dictionary containing invalid x'a0' values does NOT import all terms, but doesn't throw an error message
+     P403477: Need to understand when MT information is registered in MTEval log
+     P403290: Key-Assignment for "Translation Memory window" disappeared from panel "Assigned keys"
+     P402876: Is not annotation data copied when selecting Automatic Substitution from Translate menu?
+     P402161: Performance of OpenTMS Memory Replicator
+     P402160: Shared memores are created with wrong "collation" on server
+     P402159: Need mechanism to backup data in OpenTMS environment
+     P402158: Need migration tool to load existing shared memories into OpenTMS database
+     P403634: Default shared memory plugin can't be set correctly
+     P403628: Can not resize height of Segment Properties window
+     P403627: OtmTmx2Exp converts en-GB to English(U.S.) wrongly
+     P403618: Always display MT match - Display MT match always
+     P403589: OtmTmx2Exp.exe: missing target language support avoid migration from TMX to EXP
+     P403588: OtmTmx2Exp.exe: process log-info shows "TMX2EXP" instead of "OTMEXP2TMX"
+     P403580: OTM crashes when trying to connect shared memory
+     P403566: Importing XLIFF folder sets Incorrect Compl% and Updated values in the list of files
+     P403559: Analysis pre-segmentation doesn't turn Completion to 0%
+     P403550: OTMshowfxp.exe should indicate if folder contains or not assigned memories
+     P403548: Please add word count for TMX file as well
+     P403525: OpenTM web shared memory is not ready yet
+     P403514: Is it possible to track removing a folder search memory in the history log file?
+     P403513: Allow user to define colors in OpenTM2 functions "Global Find&Replace" and "Fuzzy Segment Search"
+     P403512: Dictionary import fails --> Too many dictionary entry fields (38)
+     P403427: Need OtmGetToolInfo.exe which does NOT rely on OpenTM2 DLLs
+     P403408: OpenTM2Scripter: Short dictionary names not resolved correctly
+     P403294: SINGLE SHIPMENTS not counted in CALCULATING REPORT
+     P403263: MTLOG evaluation output may receive an update in the HEADER section
+     P403177: Question: why is a FUZZY proposal not displayed?
+     P402932: Question marks are displayed instead of the target term for non-Latin languages in the dictionary lookup entry function
+     P402849 Need method to strongly encourage update of old versions of OpenTM2
+     P402163 Is it possible to use groups or wildcards in "User list" for shared memory access
+     P401959 ALLWMATCH.XML contains incorrect characters
+     P401825 How does TM sort fuzzies in translation memory window
+     P403484 Definition of "NOPROPOSAL" in EQFNFLUENT.TRG (version 2.5)	

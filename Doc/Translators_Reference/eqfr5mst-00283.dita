@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00283">
+<title>Opening a dictionary</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>looking up an entry</indexterm></indexterm>
+<indexterm>dictionary<indexterm>opening</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>To look at dictionary data, you must open it. In a dictionary, you can
+search for specified terms, you can look up the data of an existing term,
+you can change the entry data of an existing term, and you can add entries
+for new terms.</p>
+<p>Opening a dictionary can be done in several ways outside the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> and
+during translation in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>.</p>
+<p>Opening a dictionary is automatically done, when you use one of the following
+functions: 
+<ul>
+<li><xref href="eqfr5mst-00278.dita#eqfr5mst-00278"/></li>
+<li><xref href="eqfr5mst-00281.dita#eqfr5mst-00281"/></li>
+<li><xref href="eqfr5mst-00288.dita#eqfr5mst-00288"/></li>
+</ul> </p>
+</body></topic>

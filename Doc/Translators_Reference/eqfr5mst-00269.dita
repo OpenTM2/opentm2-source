@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00269">
+<title>Sample of an SGML-based dictionary</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>example of external format</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following is an example of an SGML-based dictionary containing a header
+section, a maptable, and two entries. The text to the right of the vertical
+line is explanatory information or comments to the tags. All explanatory information
+must be omitted when you actually create an SGML-based dictionary. 
+<codeblock>&lt;dict&gt;                                          start of dictionary
+&lt;header&gt;                                        start of header section
+  &lt;source&gt;English (U.S.)&lt;/source&gt;               source language (required)
+  &lt;descript&gt;Basic Dictionary - English -&gt; German&lt;/descript&gt;
+  &lt;/header&gt;                                     end of header section
+ &lt;maptable&gt;                                     start of maptable section
+  &lt;hdterm&gt;Source term&lt;/hdterm&gt;
+  &lt;eauthor&gt;Created by&lt;/eauthor&gt;
+  &lt;ecrdate&gt;Term Creation Date&lt;/ecrdate&gt;
+  &lt;hom&gt;
+   &lt;epos&gt;Category&lt;/epos&gt;
+   &lt;sense&gt;
+    &lt;edef&gt;Definition&lt;/edef&gt;
+    &lt;euser id=210&gt;Private glossary&lt;/euser&gt;      user-defined entry field
+                                                added to sense level
+    &lt;target&gt;
+     &lt;tsubjcode&gt;Subject code&lt;/tsubjcode&gt;
+     &lt;trans&gt;Translation&lt;/trans&gt;
+     &lt;tuser id=1&gt;Project code&lt;/tuser&gt;           user-defined entry field
+                                                added to target level
+    &lt;/target&gt;
+   &lt;/sense&gt;
+  &lt;/hom&gt;
+ &lt;/maptable&gt;                                    end of maptable section</codeblock>
+<codeblock> &lt;entry&gt;                                        start of first entry
+  &lt;hdterm&gt;file&lt;/hdterm&gt;                         headword: file
+  &lt;eauthor&gt;Fred Miller&lt;/eauthor&gt;                author: Fred Miller
+  &lt;ecrdate&gt;940401&lt;/ecrdate&gt;                     creation date: 4/01/94
+  &lt;hom&gt;                                         start of homonym level
+   &lt;epos&gt;n&lt;/epos&gt;                               part of speech: noun
+   &lt;sense&gt;                                      start of sense level
+    &lt;target&gt;                                    start of target level
+     &lt;tsubjcode&gt;EDV&lt;/tsubjcode&gt;                 subject code
+     &lt;trans&gt;Datei&lt;/trans&gt;                       translation
+    &lt;/target&gt;                                   end of target level
+   &lt;/sense&gt;                                     end of sense level
+   &lt;/hom&gt;                                       end of homonym level
+ &lt;/entry&gt;                                       end of first entry
+ &lt;entry&gt;                                        start of second entry
+  &lt;hdterm&gt;abend&lt;/hdterm&gt;                        headword: abend
+  &lt;eauthor&gt;Peter G.&lt;/eauthor&gt;                   author: Peter G.
+  &lt;ecrdate&gt;940501&lt;/ecrdate&gt;                     creation date: 5/01/94
+  &lt;hom&gt;                                         start of homonym level
+   &lt;epos&gt;v&lt;/epos&gt;                               part of speech: verb
+   &lt;sense&gt;                                      start of sense level
+    &lt;target&gt;                                    start of target level
+     &lt;tsubjcode&gt;EDV&lt;/tsubjcode&gt;                 subject code
+     &lt;trans&gt;abnormal beenden&lt;/trans&gt;            translation
+     &lt;tuser id=4&gt;AS400&lt;/tuser&gt;                  user-defined entry field
+                                                not in maptable, field
+                                                is ignored when this
+                                                dictionary is imported
+    &lt;/target&gt;                                   end of target level
+   &lt;/sense&gt;                                     end of sense level
+  &lt;/hom&gt;                                        end of homonym level
+  &lt;hom&gt;                                         start of homonym level
+   &lt;epos&gt;n&lt;/epos&gt;                               part speech: noun
+   &lt;sense&gt;                                      start of sense level
+    &lt;target&gt;                                    start of target level
+     &lt;tsubjcode&gt;EDV&lt;/tsubjcode&gt;                 subject code
+     &lt;trans&gt;abnormale Beendigung&lt;/trans&gt;        translation
+    &lt;/target&gt;                                   end of target level
+   &lt;/sense&gt;                                     end of sense level
+  &lt;/hom&gt;                                        end of homonym level
+ &lt;/entry&gt;                                       end of second entry
+&lt;/dict&gt;                                         end of dictionary</codeblock>  </p>
+</body></topic>

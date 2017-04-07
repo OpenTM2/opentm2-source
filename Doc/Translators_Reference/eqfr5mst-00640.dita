@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00640">
+  <title>Menu bar choices</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter summarizes the menu bar choices of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. 
+      The first five menu items 
+      <ul>
+        <li><u>F</u>ile (Alt+F)</li>
+        <li><u>V</u>iew (Alt+V)</li>
+        <li><u>U</u>tilities (Alt+U)</li>
+        <li><u>W</u>indow (Alt+W)</li>
+        <li><u>H</u>elp (Alt+H)</li>
+      </ul>
+      are visible for all windows.
+    </p>
+    <p>The following seven menu items are only visible when the translation window is open: 
+      <ul>
+        <li><u>F</u>ile (Alt+F, this File menu contains different choices than the File menu in the main view)</li>
+        <li><u>E</u>dit (Alt+E)</li>
+        <li><u>O</u>ptions (Alt+O)</li>
+        <li>Cu<u>r</u>sor (Alt+r)</li>
+        <li><u>T</u>ranslate (Alt+T)</li>
+        <li>S<u>p</u>ellcheck (Alt+p)</li>
+        <li>Sty<u>l</u>e (Alt+l)</li>
+      </ul>
+    </p>
+    <p>As a prerequisite for the Actions described below, the view of 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> must be set to 'Use Explorer-like tree view'.
+    </p>
+  </body>
+</topic>

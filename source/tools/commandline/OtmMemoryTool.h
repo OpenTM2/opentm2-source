@@ -14,6 +14,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include <wtypes.h>
 
 #include <eqf.h>

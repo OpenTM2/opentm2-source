@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00416B" rev="GF_07122015">
+  <title>The Plugin Auto Version Upgrade</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-plugin <q>Auto Version Upgrade</q> is invoked via 
+      <q>Utilities</q> =&gt; <q>Auto Version Upgrade...</q>. When the <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      Auto Version Upgrade</q> panel is opened, 2 tabs are visible.
+    </p>
+    <section>
+      <title>The tab <q>Updates</q></title>
+      <p>On tab <q>Updates</q>, all <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-components are listed, for which 
+         an <b>update</b> is available. If a component should be updated, select the appropriate component from the list, 
+         and click on button <q>Update Selected</q>. After the installation, the component is removed from tab <q>Updates</q>.</p>
+      <p>
+        <fig id="AutoVersionUpgrade_TabUpdates" expanse="column">
+          <title>Auto Version Upgrade tab <q><b>Updates</b></q></title>
+          <image placement="break" href="AutoVersionUpgrade_Tab_Updates.gif">
+            <alt>The Auto Version Upgrade, tab Updates</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+    <section>
+      <title>The tab <q>Settings</q></title>
+      <p>On tab <q>Settings</q>, vital Auto Version Upgrade settings can be managed and adjusted.</p>
+      <ul>
+        <li><b>In <q>URL:</q></b> the URL is listed, which links to the server keeping the 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> updates. This entry can 
+          <b>not</b> be adjusted by the user.</li>
+        <li><b>In <q>Proxy Address:</q></b> a proxy server adress could be entered. This is initially left 
+          blank, and must usually not be filled.</li>
+        <li><b>In <q>Proxy Port:</q></b> a proxy server port could be entered. This is initially left blank, 
+          and must usually not be filled.</li>
+        <li><b>Button <q>Test connection...</q>:</b> can be pressed to check whether 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can connect the server as listed in <q>URL:</q>. 
+          After some seconds, a message window appears, informing whether or not the connection could be established 
+          to the server.</li>
+        <li><b>In <q>Timeout:</q></b> enter a numerci valuse such as <q>5</q>, which shows the time in seconds 
+          to wait before <keyword conref="common-symbols.dita#common-symbols/tm4w"/> stops checking the connection to 
+          the server.</li>
+        <li><b>In section <q>Check Frequency Setting</q></b> users can select the frequence 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> should check for updates.
+          <ul>
+            <li><q>Check for updates <b>once per day</b></q> triggers 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for updates once per <b>day</b>.</li>
+            <li><q>Check for updates <b>once per week</b></q> triggers 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for updates once per <b>week.</b></li>
+            <li rev="GF_03042017"><q>Check for updates <b>once per month</b></q> triggers 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for updates once per <b>month</b>.</li>
+          </ul>         
+        </li>
+        <li><b>Check-box <q>Keep the downloaded package in \OTM\Downloads</q></b> keeps all downloaded 
+          components in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> directory <q>\OTM\Downloads</q>. 
+          This could be of interest for users, who like to distribute updates manually rather than asking every user 
+          to download the updates from the server, and to install these updates.</li>
+        <li><b>Button <q>Save Settings</q></b> saves all changes made on tab <q>Settings</q>.</li>
+        <li><b>Button <q>Cancel</q></b> is cancelling all changes made on tab <q>Settings</q>.</li>
+      </ul>  
+      <p>
+        <fig id="AutoVersionUpgrade_TabSettings" expanse="column">
+          <title>Auto Version Upgrade tab <q><b>Settings</b></q></title>
+          <image placement="break" href="AutoVersionUpgrade_Tab_Settings.gif">
+            <alt>The Auto Version Upgrade, tab Settings</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+  </body>
+</topic>

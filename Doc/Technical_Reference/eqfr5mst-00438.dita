@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00438">
+<title>EQFGETSEGNUM</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFGETSEGNUM</indexterm><indexterm>programming interface calls<indexterm>EQFGETSEGNUM</indexterm></indexterm>
+<p><i>EQFGETSEGNUM</i> retrieves the segment number
+of the currently selected proposal (the segment that was used before
+by the <i>EQFGETPROP</i> call).</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETSEGNUM</kwd><delim>(</delim><var>pulSegNum</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pulSegNum(PULONG)</var></synph> — output</pt>
+<pd>The pointer to the ULONG variable receiving the segment number.</pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<p>One of the values listed in <xref href="eqfr5mst-00426.dita#eqfr5mst-00426"/>.</p>
+</section>
+<section><title>Remarks</title>
+<p>You can use the retrieved segment number, for example, as input
+parameter with the <i>EQFDELSEG</i> call.</p>
+</section></refbody></reference>

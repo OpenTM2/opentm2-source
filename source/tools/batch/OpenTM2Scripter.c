@@ -4648,7 +4648,8 @@ int IsWildcard(char *TempLine){
     iCount = strlen(TempLine)-1;
     
     // Run from the right side, until the first Backslash appears
-    while(TempLine[iCount] != '\\'){
+    while( (iCount >= 0) && (TempLine[iCount] != '\\') )
+    {
         if(TempLine[iCount] == '*' || TempLine[iCount] == '?' ) return 1;
         iCount--;
     }
@@ -5778,6 +5779,11 @@ int GetDictionaryNames(PWCPATH p_first_wc_path, char *DictionaryName, PFUNCTEST_
             fread(&new_prop, sizeof(new_prop), 1, fp);
             fclose( fp );
             
+            // use short dictionary name if no long name is available
+            if ( new_prop.szLongName[0] == 0 )
+            {
+              Utlstrccpy( new_prop.szLongName, new_prop.PropHead.szName, DOT );
+            }
 
             if(IsMatch(new_prop.szLongName, DictionaryName)){
                 //write it in the List

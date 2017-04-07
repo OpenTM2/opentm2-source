@@ -4296,6 +4296,9 @@ void HistLogCorrectRecSizes( PHISTLOGRECORD pRecord )
         case FOLPROP_LOGTASK :
           usNewSize = sizeof(FOLPROPHIST);
           break;
+        case FOLPROP_LOGTASK2 :
+          usNewSize = sizeof(FOLPROPHIST2);
+          break;
         case FOLPROPSHIPMENT_LOGTASK :
           usNewSize = sizeof(FOLPROPHISTSHIPMENT); //SHIPMENT_HANDLER
           break;

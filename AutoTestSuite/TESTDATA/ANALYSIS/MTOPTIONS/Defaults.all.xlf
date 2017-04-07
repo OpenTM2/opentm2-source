@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="2.0" srcLang="en-US" tgtLang="en-US"
+  xmlns:mda="urn:oasis:names:tc:xliff:metadata:2.0"
+  xmlns:mtc="urn:oasis:names:tc:xliff:matches:2.0">
+<mda:metadata><mda:metagroup category="otm">
+ <mda:meta type="OpenTM2">1.4.0</mda:meta>
+ <mda:meta type="folder">MTOUTPUTOPTIONS</mda:meta>
+ <mda:meta type="srclang">English(U.S.)</mda:meta>
+ <mda:meta type="tgtlang">English(U.S.)</mda:meta>
+</mda:metagroup></mda:metadata>
+
+<file original="MTOutputOptions.txt">
+<mda:metadata><mda:metagroup category="otm">
+ <mda:meta type="markup">EQFASCII</mda:meta>
+ <mda:meta type="srclang">English(U.S.)</mda:meta>
+ <mda:meta type="tgtlang">English(U.S.)</mda:meta>
+</mda:metagroup></mda:metadata>
+<unit id="1" name="1">
+ <mda:metadata><mda:metagroup category="otm">
+  <mda:meta type="segnum">1</mda:meta>
+ </mda:metagroup></mda:metadata>
+ <segment state="initial">
+  <source>This segment has no proposal at all. </source>
+ </segment>
+</unit>
+ </file>
+</xliff>

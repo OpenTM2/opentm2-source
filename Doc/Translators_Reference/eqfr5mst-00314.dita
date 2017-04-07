@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00314">
+  <title>Working with markup tables</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>markup information in a document<indexterm>see markup
+          table</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can handle documents that are
+      created by the most popular word-processing systems and a wide range of other document
+      types.</p>
+    <p>Documents usually are a mixture of text and layout information, which describes the
+      formatting of the document. This layout information is called markup data. It defines, for
+      example, the start of a new page, the start of a paragraph, or character layout like boldness,
+      italics, or underline.</p>
+    <p>In most of the word-processing systems that display a text in WYSIWYG mode (What You See Is
+      What You Get), you usually do not see this markup but only its effects. Some systems allow you
+      to display and check the markup data, for example in WordPerfect with the <b>Reveal codes</b>
+      option.</p>
+    <p>In other systems that generate the formatting printout in a separate step, you usually edit
+      the markup yourself.</p>
+    <p>The table that stores the description of the markup data is called <i>markup table</i> in
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> needs this markup table to differentiate
+      between the text to be translated and the markup data.</p>
+    <p>Markup tables are used: <ul>
+        <li>During analysis to divide the document into translatable and nontranslatable parts</li>
+        <li>During translation to protect the markup information, so that translators are warned if
+          they try to overtype it</li>
+      </ul></p>
+    <p>It is important for you to know which markup table is to be used for which type of document.
+      You must tell <keyword conref="common-symbols.dita#common-symbols/tm4w"/> what kind of markup
+      table should be associated with a folder or a document.</p>
+    <p>For more information on associating a markup table with a document see either <xref
+        href="eqfr5mst-00188.dita#eqfr5mst-00188"/>, or <xref
+        href="eqfr5mst-00174.dita#eqfr5mst-00174"/>.</p>
+    <p>For information on associating a folder with a markup table, see <xref
+        href="eqfr5mst-00201.dita#eqfr5mst-00201"/>, or <xref
+        href="eqfr5mst-00215.dita#eqfr5mst-00215"/>.</p>
+    <p>The association of a document or folder with a markup table is essential because the
+      different word processors have different layout descriptions. All these layout descriptions
+      are understood by <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and processed in
+      a general way.</p>
+    <p>The following table shows the available markup table names and the supported document
+      types.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="106*"/>
+        <colspec colname="col2" colwidth="391*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1"><indexterm>markup tables<indexterm>delivered with
+                    <keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm></indexterm>Markup table </entry>
+            <entry valign="top" rowsep="1">Type of document</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">EQFALINE</entry>
+            <entry colname="col2">ANSI files in which everything is translatable.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFAMI</entry>
+            <entry valign="top">Ami Pro texts (Ami Pro for <tm trademark="Windows"
+                tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>, Version
+              2.0).</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFAMRI</entry>
+            <entry valign="top">ANSI files in which translatable text is enclosed in double
+              quotes.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFANSI</entry>
+            <entry valign="top">ANSI documents. This markup table is combined with a user
+              exit.</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFAQUOT</entry>
+            <entry colname="col2">ANSI files in which translatable text is enclosed in single
+              quotes.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFASCII</entry>
+            <entry valign="top">ASCII files in which everything is translatable.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFASM</entry>
+            <entry valign="top">Assembler documents.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFBOOK</entry>
+            <entry valign="top"><tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg"
+                tmclass="ibm">BookMaster</tm> and Information Presentation Facility (IPF)
+              texts.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFFRBLD</entry>
+            <entry valign="top">FrameBuilder files (Version 5.5).</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFHTML2</entry>
+            <entry valign="top">HTML texts (level 2.0).</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFHTML4</entry>
+            <entry valign="top">HTML texts (level 4.0). This markup table is combined with a user
+              exit.</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFINT2</entry>
+            <entry colname="col2">Interleaf files.</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFLINE</entry>
+            <entry colname="col2">ASCII files in which everything is translatable.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFMRI</entry>
+            <entry valign="top">ASCII files in which translatable text is enclosed in double
+              quotes.</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFMSWRD</entry>
+            <entry colname="col2"><tm trademark="Microsoft" tmowner="Microsoft Corporation"
+                tmtype="reg" tmclass="special">Microsoft</tm> Word for <tm trademark="Windows"
+                tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>
+              documents.</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFPPT</entry>
+            <entry colname="col2"><tm trademark="Microsoft" tmowner="Microsoft Corporation"
+                tmtype="reg" tmclass="special">Microsoft</tm>
+              <tm trademark="PowerPoint" tmowner="Microsoft Corporation" tmtype="reg"
+                tmclass="other">PowerPoint</tm> documents.</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFQUOTE</entry>
+            <entry colname="col2">ASCII files in which translatable text is enclosed in single
+              quotes.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFRTF</entry>
+            <entry valign="top">Rich Text Format (RTF) files coming from Word for <tm
+                trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special"
+                >Windows</tm>, Ami Pro, or other word processors. </entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFSGML</entry>
+            <entry colname="col2">SGML documents that were designed for processing by <tm
+                trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg"
+                tmclass="ibmsub">Lotus</tm>
+              <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm"
+                tmclass="ibmsub">Notes</tm>. Also applies to help texts for programs running under
+                <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg"
+                tmclass="special">Windows</tm> that can be saved as RTF documents.</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFWP</entry>
+            <entry valign="top">WordPerfect texts (Version 5.0).</entry>
+          </row>
+          <row>
+            <entry valign="top">EQFWP6</entry>
+            <entry valign="top">WordPerfect texts (Version 6.0 and 6.1).</entry>
+          </row>
+          <row>
+            <entry colname="col1">EQFUTF8</entry>
+            <entry colname="col2">Unicode document in UTF-8 encoding</entry>
+          </row>
+          <row>
+            <entry colname="col1">LOTUSAMI</entry>
+            <entry colname="col2">Ami Pro documents designed for processing by <tm trademark="Lotus"
+                tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+              <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm"
+                tmclass="ibmsub">Notes</tm>.</entry>
+          </row>
+          <row>
+            <entry colname="col1">LOTUSNGD</entry>
+            <entry colname="col2"><tm trademark="Lotus" tmowner="Lotus Development Corporation"
+                tmtype="reg" tmclass="ibmsub">Lotus</tm>
+              <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm"
+                tmclass="ibmsub">Notes</tm> documents.</entry>
+          </row>
+          <row>
+            <entry colname="col1">UNICODE</entry>
+            <entry colname="col2">Unicode documents in UTF-16 encoding.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> allows you to add more formats.
+      For detailed information on creating external markup tables see <xref
+        href="eqfr5mst-00318.dita#eqfr5mst-00318"/>, and <xref
+        href="eqfr5mst-00520.dita#eqfr5mst-00520"/>.</p>
+    <p>For information on how to use the markup tables and how to prepare the different document
+      types for translation, see <xref href="eqfr5mst-00146.dita#eqfr5mst-00146"/>. </p>
+  </body>
+</topic>

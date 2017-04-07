@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="httlst">
+<title>Creating an external terminology list</title>
+<prolog><metadata><keywords>
+
+<indexterm>terminology lists<indexterm>creating them outside <keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm></indexterm>
+<indexterm>external
+format<indexterm>of terminology lists</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Although <keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers functions for the creation of terminology lists
+where you only specify some parameters in a window, you can also create them
+outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p>This can be useful when you already have terminology lists available in
+a format of your own, which you must only convert to the format you can import
+in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p>External new terms lists and external found terms lists must be created
+in an SGML format to import them. </p>
+<p>External exclusion lists are created without SGML tags. If you want to
+create an exclusion list outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can write a list of terms
+in an editor of your choice, where each line contains one term, and then import
+it in external format. The list can have any number of terms. For details
+on importing terminology lists see <xref href="implst.dita#implst"/>. </p>
+<p>A new terms list requires as first tag in the first line <codeph>&lt;NTLIST&gt;</codeph> and as the very last tag in the last line of the list the tag <codeph>&lt;/NTLIST&gt;</codeph>. The same applies to a found terms list, except that you
+must use the tags <codeph>&lt;FTLIST&gt;</codeph> and <codeph>&lt;/FTLIST&gt;</codeph>.</p>
+<p>The description of an entry always starts with the start tag <codeph>&lt;TERM&gt;</codeph> and ends with the corresponding end tag <codeph>&lt;/TERM&gt;</codeph>.</p>
+<p>The term itself is between the start tag <codeph>&lt;LEMMA&gt;</codeph> and the
+end tag <codeph>&lt;/LEMMA&gt;</codeph>.</p>
+<p>To add context information to a term, the context information must have
+the start tag <codeph>&lt;CONTEXT&gt;</codeph>, and the end tag <codeph>&lt;/CONTEXT&gt;</codeph>. Adding context information is optional; you can include more than
+one context.</p>
+<p>To insert the term <b>address</b> to a terminology list
+without context information, your entry would look as follows: 
+<codeblock>&lt;TERM&gt;
+  &lt;LEMMA&gt;address&lt;/LEMMA&gt;
+&lt;/TERM&gt;</codeblock></p>
+<p>When you want to insert the term <b>hardware</b> to a terminology
+list with information about two contexts, your entry would look as follows: 
+<codeblock>&lt;TERM&gt;
+ &lt;LEMMA&gt;hardware&lt;/LEMMA&gt;
+ &lt;CONTEXT&gt;However, before selecting your hardware devices,
+ you should understand your data processing requirements. &lt;/CONTEXT&gt;
+ &lt;CONTEXT&gt;This publication assists you in selecting
+ a hardware configuration. &lt;/CONTEXT&gt;
+&lt;/TERM&gt;</codeblock></p>
+<p>You can insert as much context information as you want, but each piece
+of context information needs the start and the end tag.</p>
+<p>A new terms list with the entries <b>hardware</b>, <b>software</b>, <b>term</b>, <b>context</b>,
+and with some context information for the first and last entry would have
+the following layout: 
+<codeblock>&lt;NTLIST&gt;
+ &lt;TERM&gt;
+  &lt;LEMMA&gt;hardware&lt;/LEMMA&gt;
+  &lt;CONTEXT&gt;Your hardware requirements are as follows:&lt;/CONTEXT&gt;
+ &lt;/TERM&gt;
+ &lt;TERM&gt;
+  &lt;LEMMA&gt;software&lt;/LEMMA&gt;
+ &lt;/TERM&gt;
+ &lt;TERM&gt;
+  &lt;LEMMA&gt;term&lt;/LEMMA&gt;
+ &lt;/TERM&gt;
+ &lt;TERM&gt;
+  &lt;LEMMA&gt;context&lt;/LEMMA&gt;
+  &lt;CONTEXT&gt;The context information must be stored between a start
+  and end tag.&lt;/CONTEXT&gt;
+ &lt;/TERM&gt;
+&lt;/NTLIST&gt;</codeblock></p>
+<p>You do not have to sort your entries in alphabetical order. This is done
+during importing.</p>
+<p>How to import the new list is described in <xref href="implst.dita#implst"/>. </p>
+</body></topic>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="termlistoverview">
+<title>Overview and terminology</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>All types of terminology lists can be <i>exported</i>,
+this means they are converted to an <i>external</i> format
+that is SGML based. A file with this format can be used to exchange the data
+of a list with other users or applications.</p>
+<p>External terminology lists can be edited or created by other systems; to
+use them in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you <i>import</i> them.</p>
+<p>A description of the external format is given in <xref href="httlst.dita#httlst"/>.</p>
+</body></topic>

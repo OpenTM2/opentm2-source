@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00474">
+  <title>EqfCreateSubFolder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfCreateSubFolder</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfCreateSubFolder</indexterm></indexterm>
+      <p><i>EqfCreateSubFolder</i> creates a subfolder from a parent folder by using the specified
+        values. The parent folder itself can be a subfolder.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCreateSubFolder</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszParentFolName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszSubFolName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszMemName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszMarkup</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszSourceLanguage</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszTargetLanguage</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszEditor</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszConversion</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszTranslator</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszTranslatorMail</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszParentFolName</entry>
+              <entry colname="col3">The name of the parent folder, or the name of a subfolder that
+                acts as a parent folder.</entry>
+            </row>
+            <row>
+              <entry valign="middle">PSZ</entry>
+              <entry valign="middle">pszSubFolName</entry>
+              <entry valign="middle">The name of the subfolder to be created.</entry>
+            </row>
+            <row>
+              <entry>PSZ</entry>
+              <entry>pszMemName</entry>
+              <entry valign="middle">The name of the Translation Memory to be used for the documents
+                in the new folder. If you want the same as in the parent folder, specify
+                  <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMarkup</entry>
+              <entry colname="col3">The name of the markup table, for example EQFMRI. If you want
+                the same as in the parent folder, specify <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry>PSZ</entry>
+              <entry>pszSourceLanguage</entry>
+              <entry valign="middle">The source language for the documents in this folder. Specify
+                the language exactly as it appears in the <q>Language List</q> window, for example
+                  <codeph>English(U.S.)</codeph>. If you want the same as in the parent folder,
+                specify <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry>PSZ</entry>
+              <entry>pszTargetLanguage</entry>
+              <entry valign="middle">The target language for the documents in this folder. Specify
+                the language exactly as it appears in the <q>Language List</q> window, for example
+                  <codeph>English(U.S.)</codeph>. The target language must different from the source
+                language. If you want the same as in the parent folder, specify
+                  <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszEditor</entry>
+              <entry colname="col3" valign="middle">The name of the editor. If not specified, the
+                editor STANDARD is used.</entry>
+            </row>
+            <row>
+              <entry>PSZ</entry>
+              <entry>pszConversion</entry>
+              <entry valign="middle">The export conversion type. If you want the same as in the
+                parent folder, specify <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry>PSZ</entry>
+              <entry>pszTranslator</entry>
+              <entry valign="middle">The name of the translator. If you want the same as in the
+                parent folder, specify <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry>PSZ</entry>
+              <entry>pszTranslatorMail</entry>
+              <entry valign="middle">The e-mail address of the translator. If you want the same as
+                in the parent folder, specify <codeph>NULL</codeph>.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  // Create a subfolder "SUBSUBTEST" of the parent folder "SUBTEST",
+  // which itself is a subfolder of parent folder "TEST". 
+
+if ( !usRC )
+ {
+          usRC = EqfCreateSubFolder(hSession,
+                                    "TEST\\SUBTEST", "SUBSUBTEST", 
+                                    "MEM1", "EQFASCII", 
+                                    "English(U.S.)",
+                                    "German(national)", NULL, NULL, 
+                                     "Translator", 
+                                     "Translator@xyz.com");
+  } //endif
+
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

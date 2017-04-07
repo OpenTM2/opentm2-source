@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00632">
+  <title>Set fonts</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can modify the default settings by clicking <b><u>O</u>ptions =&gt; <u>F</u>onts...</b>
+      from the menu bar (it is necessary to activate the translation view).</p>
+    <fig id="eqfsetfonts" expanse="column">
+      <title>Set Fonts Window</title>
+      <image placement="break" href="eqfsetfonts.gif"><alt>Figure shows Set Fonts Window</alt></image>
+    </fig>
+  </body>
+</topic>

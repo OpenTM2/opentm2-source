@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dicselwin">
+  <title><!--rev=as15082005-->Dictionary Selection window</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>selecting</indexterm></indexterm>
+      <indexterm>creating<indexterm>dictionary</indexterm></indexterm>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <fig expanse="column">
+        <title>Dictionary Selection window</title>
+        <image placement="break" href="folderdictselect.gif">
+          <alt>Figure shows Dictionary Selection window</alt>
+        </image>
+      </fig>
+      <ul>
+        <li>The <b>Available</b> listbox shows the names of the available dictionaries. To add a
+          dictionary to the <b>Selected</b> listbox either double-click the dictionary name or
+          select it using the keyboard and press the <q>Enter</q>-key.</li>
+        <li>The <b>Selected</b> listbox lists the names of the selected dictionaries. To remove a
+          dictionary from the <b>Selected</b> listbox either double-click the dictionary name or
+          select it using the keyboard and press the <q>Enter</q>-key.</li>
+      </ul>
+      <p>Press the <b>OK</b> button to leave the selection window and return to the previous window
+        or press the <b>Cancel</b> button to leave the window and discard any changes made to the
+        list of selected dictionaries.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00271">
+  <title>Using an existing dictionary as model</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p>All dictionaries have a dictionary entry structure. In <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> you can use the given default
+        structure, use an existing dictionary structure with or without changes, or define a new
+        structure based on all the available entry fields. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>Decide on which dictionary entry fields your dictionary is to contain.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window.</li>
+          <li><b>New…</b> from the <b>File</b> menu. The <q>New Dictionary</q> window is
+            displayed.</li>
+          <li><b>Yes…</b> next to the <b>Use existing dictionary as model</b> option.</li>
+        </ol></p>
+      <p>The <q>Use Existing Dictionary as Model</q> window is displayed (see <xref
+          href="#eqfr5mst-00271/dicmod"/>). <required-cleanup><indexterm>windows<indexterm>Use
+              Existing Dictionary as Model</indexterm></indexterm></required-cleanup><fig
+          id="dicmod" expanse="column">
+          <title>Use Existing Dictionary as Model window</title><image placement="break"
+            href="eqfb7s10b.gif"><alt>Figure shows Use Existing Dictionary as Model
+            window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The list of existing dictionaries is displayed in the list box. Select a dictionary with
+        the structure you want to use as a model from this list or select <b>-Master-</b>, which
+        contains all the entry fields predefined by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>. </p>
+      <p>Click <b>Select</b> to return to the <q>New Dictionary</q> window where you can view and
+        change the selected entry structure by selecting the <b>Change entry fields</b> option. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>You have determined which entry structure to use as a base for the new dictionary.</p>
+    </section>
+  </refbody>
+</reference>

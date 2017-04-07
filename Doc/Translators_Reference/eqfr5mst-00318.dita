@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00318">
+<title>Creating a markup table</title>
+<prolog><metadata><keywords>
+
+<indexterm>creating<indexterm>markup tables</indexterm></indexterm>
+<indexterm>markup
+tables<indexterm>creating</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>New markup tables can be created by using two different methods:
+<ul>
+<li>You can create an external markup table in SGML-based format and import
+it into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+<li>Within <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can use the <q>Markup Table Properties</q> window to create a new markup table.</li>
+</ul></p>
+<p>Creating a new markup table is similar to changing an existing markup table.
+Therefore, see <xref href="eqfr5mst-00317.dita#eqfr5mst-00317"/> for the details and advantages of both
+methods. Note that it is often more practical to modify a copy of an existing
+markup table.</p>
+</body></topic>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00273">
+<title>Renaming a dictionary entry field</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>dictionary<indexterm>renaming entry fields</indexterm></indexterm>
+<p>In <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, all entry fields are automatically assigned a name. You can
+change the field name to any other name. The changed names are used in all
+windows where dictionary entry data is displayed. For example, you may want
+to change <i>Headword</i> to <i>Term</i>,
+or <i>Part of speech</i> to <i>Category</i>.
+You can also change the field names to another language of your preference.</p>
+<p>You can change the entry field names of an existing dictionary when you
+create a new dictionary. </p>
+</section>
+<section><title>Prerequisites</title>
+<p>Decide which dictionary entry field names you want to use in your dictionary.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>When creating a new dictionary, select: 
+<ol>
+<li>The <q>Dictionary List</q> window.</li>
+<li><b>New…</b> from the <b>File</b> menu.
+The <q>New Dictionary</q> window is displayed.</li>
+<li><b>Yes…</b> next to the <b>Change entry
+fields</b> option.</li>
+<li>The entry field you want to rename in the <q>Change Entry Fields</q> window.</li>
+<li><b>Change name…</b></li>
+</ol></p>
+<p>When changing the properties of an existing dictionary, select: 
+<ol>
+<li>The <q>Dictionary List</q> window</li>
+<li>The dictionary to which you want to make changes</li>
+<li><b>Properties…</b> from the <b>File</b> menu</li>
+<li>The entry field you want to rename in the <q>Dictionary Properties</q> window</li>
+<li><b>Change name…</b></li>
+</ol></p>
+<p>The <q>Change Entry Field Name</q> window is displayed.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>Type the new field name in the <b>Displayed as</b> field.
+Click <b>Change</b> to rename the selected field. </p>
+</section>
+<section><title>Results</title>
+<p>The selected dictionary entry field is renamed.</p>
+<p>You are returned to the <q>Change Entry Fields</q> window when you create
+a new dictionary or to the <q>Dictionary Properties</q> window when you change
+the properties of an existing dictionary. </p>
+</section></refbody></reference>

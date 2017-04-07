@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00458">
+  <title>EqfBuildSegDocName</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfBuildSegDocName </indexterm>
+      <indexterm>programming interface calls<indexterm>EqfBuildSegDocName </indexterm></indexterm>
+      <p>Builds the fully qualified file name of a segmented document within a 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfBuildSegDocName </kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszDocumentName</var>
+          <sep>,</sep>
+          <var>fSource</var>
+          <sep>,</sep>
+          <var>pszSegFile</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">Long name of the folder</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocumentName</entry>
+              <entry colname="col3">Long document name</entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">fSource</entry>
+              <entry colname="col3">Flag selection source or target document <ul>
+                  <li>0 = build segmented source file name</li>
+                  <li>1 = build segmented target file name</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszSegFile</entry>
+              <entry colname="col3">Points to a buffer receiving the fully qualified document file
+                name, must have a width of at least 60 characters</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use EqfGetLastError to retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <codeblock>{
+  USHORT 	usRC = 0;
+  CHAR			szFileName [60];
+	HSESSION	hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  if ( !usRC )
+  {
+    usRC = EqfBuildSegDocName( hSession, "SAMPLE1", "Document1", 1, szFileName );
+  } // endif 
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+    </section>
+  </refbody>
+</reference>

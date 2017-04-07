@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00432">
+<title>EQFDELSEG</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFDELSEG</indexterm><indexterm>programming interface calls<indexterm>EQFDELSEG</indexterm></indexterm>
+<p><i>EQFDELSEG</i> deletes the specified segment
+from the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, together with its information.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFDELSEG</kwd><delim>(</delim><var>pszBuffer1</var><sep>,</sep><var>pszBuffer2</var><sep>,</sep><var>usSegNum</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszBuffer1(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the source segment to be deleted. It must have
+a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>pszBuffer2(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the corresponding translation to be deleted.
+It must have a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>usSegNum(USHORT)</var></synph> — input</pt>
+<pd>The segment number.</pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFERR_SEG_NOT_FOUND</dt>
+<dd>The specified segment was not found.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_ACCESS</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> could not be accessed.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_CORRUPTED</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is corrupted.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The request completed successfully.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>This call is useful if parts of combined segments are already translated.
+These parts are now meaningless and can therefore be deleted from
+the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+</section></refbody></reference>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="relinf">
+<title>Related information</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p><cite><tm trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm> <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>: A Quick Tour</cite>. It teaches you the basics of translating
+with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p><cite><tm trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm> <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>: Translator’s Workbook</cite>. It helps you learn to
+use <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</body></topic>

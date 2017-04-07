@@ -8,6 +8,7 @@ package com.otm.db;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,7 +67,7 @@ while(!bSuccess) {
 	try {
 		createUser(jdbcUserName,jdbcPassword,serverIP,port);
 	} catch (ClassNotFoundException|SQLException e) {
-		//e.printStackTrace();
+		e.printStackTrace();
 		mLogger.info(e.getMessage());
 		bSuccess = false;
 		try {
@@ -84,7 +85,10 @@ while(!bSuccess) {
 			
 			mDs.setDriverClass(driverClass);
 			StringBuilder url = new StringBuilder();
-		    url.append("jdbc:mysql://").append(serverIP).append(":").append(port);
+            if( "com.mysql.jdbc.Driver".equals(driverClass) ) 
+                url.append("jdbc:mysql://").append(serverIP).append(":").append(port);
+            else if( "org.mariadb.jdbc.Driver".equals(driverClass) )
+		        url.append("jdbc:mariadb://").append(serverIP).append(":").append(port);
 		    mDs.setJdbcUrl(url.toString());
 		    		    
 		    // At the same time create DB and INFOTABLE
@@ -122,6 +126,12 @@ while(!bSuccess) {
 			if(conn != null)
 				stmt = (Statement) conn.createStatement();
 			
+			DatabaseMetaData meta = (DatabaseMetaData) conn.getMetaData();
+			ResultSet set = meta.getTables(null, null, MEMORYINFOTABLE, null);
+			if (set.next()) {
+				return;
+			}
+	            
 			// create database
 			if(stmt != null) {
 				stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS "+DBNAME+" COLLATE = utf8_unicode_ci");
@@ -874,10 +884,12 @@ while(!bSuccess) {
 			HashMap<Integer,StringBuilder> tuCache= new HashMap<Integer,StringBuilder>();
 			
 			while(rstuv.next()) {
-				
-				if(user.equals(rstuv.getString(6))) {
-					continue;
-				}
+//System.out.println(rstuv.getString(6));
+
+			
+//				if(user.equals(rstuv.getString(6))) {
+//					continue;
+//				}
 				
 				StringBuilder tuvs = new StringBuilder();
 				tuvs.append("<tuv ").append("xml:lang=\"").append(rstuv.getString(4)).append("\">");
@@ -1001,8 +1013,14 @@ while(!bSuccess) {
 // So use raw connection here
 String dbClass = CfgUtil.getInstance().getDbCfg().get("driver_class");
 Class.forName(dbClass);
+
 StringBuilder sbUrl = new StringBuilder();
-sbUrl.append("jdbc:mysql://localhost:").append(port);
+if("org.mariadb.jdbc.Driver".equals(dbClass)) {
+	sbUrl.append("jdbc:mariadb://localhost:").append(port);
+} else if ("com.mysql.jdbc.Driver".equals(dbClass)) {
+	sbUrl.append("jdbc:mysql://localhost:").append(port);
+}
+
 String rootPassword =  CfgUtil.getInstance().getDbCfg().get("root_password");
 conn = DriverManager.getConnection(sbUrl.toString(), "root", rootPassword);
 if(!"localhost".equals(IP) && !"127.0.0.1".equals(IP))

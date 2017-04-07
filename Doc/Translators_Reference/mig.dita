@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="mig">
+<title><!--rev=wst-->Reusing <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 Version 1.0 translation
+material</title>
+<prolog><metadata><keywords>
+
+<indexterm>migrating from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2</indexterm>
+<indexterm>reusing<indexterm> <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 translation material</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>If you used to work with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 Version 1.0 and want
+to continue using the translation material from this product, follow
+these steps:
+<ol>
+<li><b>Back up remote translation material</b>Before
+you install <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 6.0 you must make backup copies
+from any Translation Memory databases and dictionaries that have been
+defined as remote under <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2. You do this by exporting
+them within a folder (see <xref href="folexp.dita#folexp"/>). This folder must
+have a reference to the Translation Memory or dictionary you want
+to back up. Store this folder in a save place. It is recommended to
+save one Translation Memory and one dictionary per folder. Note that
+only remote translation material must be backed up. You need not back
+up local translation material.</li>
+<li><b>Install <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version
+6.0</b>See <xref href="iproc.dita#iproc"/> for
+the installation procedure.</li>
+<li><b>Restore backup copies</b>After
+you installed <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 6.0 you can restore the saved
+translation material by importing the folders that you exported previously
+from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 Version 1.0. The same procedure applies
+for any archived <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 folders, Translation Memory
+databases (in EXP format), and dictionaries (in SGML format). All
+remote translation material from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 Version 1.0
+is then ready to be used in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 6.0. 
+<p>Note
+that before use you must <i>organize</i> not only
+the restored translation material but also your local Translation
+Memory databases and dictionaries (see <xref href="xlmorg.dita#xlmorg"/> and <xref href="dicorg.dita#dicorg"/>). Keep in mind that this translation material is not
+automatically defined as <i>shared</i> in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+Version 6.0.</p></li>
+</ol></p>
+</body></topic>

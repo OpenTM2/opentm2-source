@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="trans_notes_in_source_doc">
+<title>Translator's notes in a source document</title>
+<prolog><metadata><keywords>
+
+<indexterm>translator's notes<indexterm>ways to add</indexterm></indexterm>
+<indexterm>translator's notes<indexterm>in source document</indexterm></indexterm>
+<indexterm>trnote1<indexterm>translator's notes tag</indexterm></indexterm>
+<indexterm>trnote2<indexterm>translator's notes tag</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports translator's notes for document types
+that allow for annotations or hidden text that do not appear in a
+printed document. For example, SGML documents, <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> documents,
+and word processors like <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word
+for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> Version 6, and WordPerfect, allow for
+annotations.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> uses this capability to nest translator's notes
+inside annotations.</p>
+<p>The following example shows the source of a <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> document
+any how the author has added an annotation and several translator's
+notes. Note that <codeph>:annot.</codeph> and <codeph>:eannot.</codeph> are <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> markup tags, which enclose an ordinary
+annotation. <codeph>trnote1:</codeph> and <codeph>trnote2:</codeph> are <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+extensions that start a level 1 and level 2 translator's note. The
+latter need to be nested inside <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> annotations.
+<codeblock>...text...
+ :annot. This is an ordinary BookMaster annotation from the author,
+not a translator's note. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> ignores it. :eannot. 
+...text...  :annot.trnote1: Important: Always translate "Insert" with
+"Einfuegen" in order to be consistent throughout the documentation
+and the menu items. :eannot.  ...text...  :annot.trnote2: If time:
+check for proper translation of "Manual change". :eannot.        
+                                                                 
+      </codeblock></p>
+<p>If you just want to add translator's notes, you can specify them
+by adding <codeph>trnote1:</codeph> or <codeph>trnote2:</codeph> markups inside
+annotation markups of a document. Both markups are identical for all
+supported document types. Upper case notation is supported.</p>
+<p>If you work with markup tables in more detail, note that the <codeph>trnote1:</codeph> and <codeph>trnote2:</codeph> markups
+are defined in the markup tables that support an annotation or hiding
+method.</p>
+</body></topic>

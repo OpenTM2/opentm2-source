@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00173">
+  <title>Editing document revision marks for export</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>revision marks, defining</indexterm>
+      <indexterm>editing<indexterm>revision marks</indexterm></indexterm>
+      <p>During export, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can insert
+        revision marks in translated documents.</p>
+      <p>Revision marks can help reviewing a translated document. When translating an updated
+        version of a previously translated document, many segments will remain unchanged. In most
+        cases you can simply copy the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+        proposals for these segments into the new document. These segments usually need no further
+        checking because they originate from a previous translation.</p>
+      <p>The only segments that need to be reviewed are those that are translated from scratch, and
+        those that are based on a proposal copied from the <q><keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/></q> window and subsequently
+        changed.</p>
+      <p>You can choose which segment categories you want to mark.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The <q>Export Documents</q> window must be active, and you must export the documents in
+          external format.</li>
+        <li>The export options <b>Translation</b> and <b>With revision marks</b> must have been
+          selected.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Click <b>Edit…</b> in the <q>Export Documents</q> window</p>
+      <p>The <q>Edit Revision Marks</q> window is displayed (see <xref
+          href="#eqfr5mst-00173/editrvm"/>). <required-cleanup><indexterm>windows<indexterm>Edit
+              Revision Marks</indexterm></indexterm></required-cleanup><fig id="editrvm"
+          expanse="column">
+          <title>Edit Revision Marks window</title><image placement="break" href="eqfb7s7k.gif"
+              ><alt>Figure shows Edit Revision Marks window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>If this field is still empty, type a name for the revision marks.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>Type a text to describe the set of revision marks; this is optional.</pd>
+        </plentry>
+      </parml>
+      <p>You can mark the following types of segments with revision marks: <ul>
+          <li>Segments that have been translated from scratch without using a proposal from the
+            Translation Memory (<b>… translated from scratch</b>)</li>
+          <li>Segments that have been copied from a Translation Memory proposal and then changed
+              (<b>… modified proposal</b>)</li>
+          <li>Segments that have been copied from a Translation Memory proposal but not changed
+              (<b>… unmodified proposal</b>)</li>
+        </ul></p>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> lets you choose different
+        symbols for marking the beginning and the end of each type of segment in the <b>Begin
+          text</b> and <b>End text</b> fields.</p>
+      <p>You can type, for example: <ul>
+          <li>Tags that produce symbols when the exported document is formatted and printed.</li>
+          <li>Control characters that change the font type when the exported document is formatted
+            and printed. Control characters are only recognized by certain word processors or
+            printers.</li>
+          <li>Eye-catching characters, such as a string of asterisks (<codeph>******</codeph>).</li>
+        </ul></p>
+      <p>Click <b>Save</b> to return to the <q>Export Documents</q> window. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The set of revision marks is saved under the name you specified in the <b>Name</b> field.
+        Documents exported in external format are marked accordingly. To see the result of the
+        revision marks, browse the exported document file with a text editor or, if applicable,
+        print the document.</p>
+      <note>When you have marked the translations with the revision mark, you are recommended not to
+        import these documents in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> again,
+        because the revision marks might be misinterpreted.</note>
+      <p>It is recommended to export the revised and finalized translation again without revision
+        marks.</p>
+    </section>
+  </refbody>
+</reference>

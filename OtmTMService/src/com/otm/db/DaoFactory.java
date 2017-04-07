@@ -26,10 +26,11 @@ public class DaoFactory {
 	private static Dao newDaoInstance() {
 		
 		Map<String, String> dbcfg = CfgUtil.getInstance().getDbCfg();
-		
-		if( "com.mysql.jdbc.Driver".equals(dbcfg.get("driver_class")) ) {
+        String dbname = dbcfg.get("driver_class");	
+System.out.println(dbname);
+		if( "com.mysql.jdbc.Driver".equals(dbname) || "org.mariadb.jdbc.Driver".equals(dbname) ) {
 			return new DaoMysqlImpl(dbcfg);
-		}
+		} 
 
 		return null;
 	}

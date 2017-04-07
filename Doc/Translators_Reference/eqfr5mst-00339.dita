@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00339">
+  <title>Creating a Counting Report</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>reports<indexterm>Counting Report</indexterm></indexterm>
+      <indexterm>Counting Report</indexterm>
+      <p>The Counting Report contains tables that enable you to roughly calculate the translator’s
+        effort. You cannot change the tables to meet your requirements.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Counting Report</b> from the <b>Report</b> field.</p>
+      <p>The following table shows which tabbed pages must be filled in to produce a Counting
+        Report.</p>
+      <table>
+        <title>Overview of the tabbed pages to be filled in for a Counting Report</title>
+        <tgroup cols="4">
+          <colspec colname="col1" colwidth="74*"/>
+          <colspec colname="col2" colwidth="160*"/>
+          <colspec colname="col3" colwidth="69*"/>
+          <colspec colname="col4" colwidth="75*"/>
+          <thead>
+            <row>
+              <entry colname="col1" valign="top">Tabbed page</entry>
+              <entry colname="col2" valign="top">Purpose</entry>
+              <entry colname="col3" valign="top">Required?</entry>
+              <entry colname="col4" valign="top">Described in...</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <q>General</q>
+              </entry>
+              <entry colname="col2">To define the basics required for a report</entry>
+              <entry colname="col3">
+                <b>Yes</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#eqfr5mst-00339/generaltpcount">General page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Profile</q>
+              </entry>
+              <entry colname="col2">To save or load the report layout defined on the Settings tabbed
+                page</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00340.dita#eqfr5mst-00340/profiletp">Profile page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Settings</q>
+              </entry>
+              <entry colname="col2">To define the report layout</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00347.dita#eqfr5mst-00347"/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>FactSheet</q>
+              </entry>
+              <entry colname="col2">To set the factors for cost calculation</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00347.dita#eqfr5mst-00347"/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Security</q>
+              </entry>
+              <entry colname="col2">To select special options</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00338.dita#eqfr5mst-00338/securitytp">Security page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Shipments</q>
+              </entry>
+              <entry colname="col2">To create a report on specific shipments</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00340.dita#eqfr5mst-00340/shipmentstp">Shipments page</xref>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p id="generaltpcount">On the <q>General</q> page (see <xref
+          href="eqfr5mst-00337.dita#eqfr5mst-00337/countrepwin"/>), you can choose or specify the
+        following options and parameters:</p>
+      <parml>
+        <plentry>
+          <pt>Folder</pt>
+          <pd>This box contains the documents contained in the selected folder or the document that
+            you selected from the <b>Document List</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Report types</pt>
+          <pd>Choose one of the following Counting Report types: <parml>
+              <plentry><pt>Base list</pt>
+                <pd>To get a redundant segment list containing only the 99 most used segments with a
+                  frequency of 3 or above.</pd></plentry>
+              <plentry><pt>Detailed list</pt>
+                <pd>To get a redundant segment list containing all redundant
+                segments.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>To specify additional information on the report that will display in the header of the
+            report. You can type up to 80 characters.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to Screen</pt>
+          <pd>To display the report in a window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to File</pt>
+          <pd>To store the report in a specific file for which you can specify or select the name
+            and directory and select the file format.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Create</b> to start the creation of the Counting Report.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The Counting Report is created according to your specifications.</p>
+      <p>The following example shows a Counting Report on the contents of a folder, with a summary
+         at its end. For an explanation of the individual rows, refer to <xref href="eqfr5mst-00345.dita#eqfr5mst-00345"/>.</p>
+      <p>When interpreting the results note that the criteria for fuzzy matches can be
+         customized, as described in <xref href="#eqfr5mst-00339.dita/eqfr5mst-00339"/>. This also influences
+         the <q>No match</q> counter.<indexterm>fuzzy match overlap ratio<indexterm>impact on
+         counting report</indexterm></indexterm></p>
+      <fig id="countreptot" expanse="column">
+        <title>Counting Report with totals — Table on first document in folder</title>
+        <image placement="break" href="eqfb7s16e.gif">
+          <alt>Figure shows Counting Report with totals — Table on first document in folder</alt>
+        </image>
+      </fig>
+      <fig id="countrepwo" expanse="column">
+        <title>Counting Report with totals — Summary table</title>
+        <image placement="break" href="eqfb7s16f.gif">
+          <alt>Figure shows Counting Report with totals — Summary table</alt>
+        </image>
+      </fig>
+    </section>
+  </refbody>
+</reference>

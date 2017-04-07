@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mrkimp">
+  <title>Importing a markup table</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>markup tables<indexterm>importing</indexterm></indexterm>
+      <indexterm>markup tables<indexterm>making them available</indexterm></indexterm>
+      <indexterm>importing<indexterm>markup tables</indexterm></indexterm>
+      <p>If another user has prepared a markup table for your translation environment, you must
+        import it in order to be able to use it in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p>Markup tables can only be imported in external format.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <q>Markup Table List</q> window must be active. </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Import…</b> from the <b>File</b> menu.</p>
+      <p>The <q>Import Markup Table</q> window is displayed (see <xref
+          href="#mrkimp/importmarkuptablewin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Import Markup
+            Table</indexterm></indexterm></required-cleanup><fig id="importmarkuptablewin"
+          expanse="column">
+          <title>Import Markup Table window</title><image placement="break" href="eqfb7s12b.gif"
+              ><alt>Figure shows Import Markup Table window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Format:</pt>
+          <pd><b>External</b> is selected automatically.</pd>
+        </plentry>
+        <plentry>
+          <pt>From</pt>
+          <pd>Specify where the markup table to be imported currently resides and select the drive
+            where the external markup table is stored. <parml>
+              <plentry><pt>Name</pt>
+                <pd>Type the name of the external markup table or select the name from the following
+                  list boxes.</pd></plentry>
+              <plentry><pt>Current directory</pt>
+                <pd>Displays the directory selected from the <b>Directories</b> list
+                box.</pd></plentry>
+              <plentry><pt>Directories</pt>
+                <pd>Select the directory containing the external markup table from the list of
+                  directories on the selected drive.</pd></plentry>
+              <plentry><pt>Files</pt>
+                <pd>Select the file name of the external markup table from the list of names in the
+                  currently selected path.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>To markup table</pt>
+          <pd>Contains the name of the selected markup table to be imported. You can overwrite this
+            name to create a new markup table or select a name from the list box to merge your file
+            into an existing markup table.</pd>
+        </plentry>
+      </parml>
+      <p>To start the importing function, select the <b>Import</b> button.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The markup table is now available in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>, you can start to associate it with
+        documents or folders.</p>
+    </section>
+  </refbody>
+</reference>

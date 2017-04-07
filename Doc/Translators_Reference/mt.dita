@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="mt">
+<title>Machine Translation (MT)</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>TM now supports MT (Machine Translation)interface to communicate
+with IBM WebSphere Translation Server (WTS). TM analyzes documents
+to be translated and stores all segments, which don't have exact matches
+in the translation memory, into a seperate translation memory called
+SNOMATCH. The SNOMATCH file is send to a MQSeries Server. The MQSeries
+server is hosting the WebSphere translation server which actually
+translates the content of the SNOMATCH file. After having translated
+the SNOMATCH file, the MQSeries server sends back the SNOMATCH file
+to the originator. Finally the submitter does have a "machine translated"
+translation memory available which can be used as any other translation
+memory. The only difference is that all segments in the machine translated
+translation memory are marked with a "machine flag" which means that
+these sements cannot be substituted automatically. For more information
+please see chapter <xref href="machinetranslation.dita#machinetranslation"/>.</p>
+</body></topic>

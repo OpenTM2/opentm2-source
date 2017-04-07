@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="men">
+<title>Menus</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>To perform an action on a list window such as the <q>Translation
+Memory List</q> window in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can do one of the following: 
+<ul>
+<li>Select the appropriate item from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> menu bar
+to access a menu of actions.</li>
+<li>Click the icon in the toolbar representing this action.
+The most important tasks are represented as icons.</li>
+<li>Open a context-sensitive popup menu where you can select the same
+items as from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> menu bar. The menu shows only
+the selection of tasks that can be started from the currently active
+list window. You open the popup menu by pressing the right mouse button.</li>
+</ul> </p>
+</body></topic>

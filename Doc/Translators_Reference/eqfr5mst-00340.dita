@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00340">
+  <title>Creating a Calculating Report</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>reports<indexterm>Calculating Report</indexterm></indexterm>
+      <indexterm>Calculating Report</indexterm>
+      <p>The Calculating Report is the most important report for all parties involved in a
+        translation project. It enables you to exactly calculate the effort for a translation
+        project. It contains detailed tables, a summary, a fact sheet, or a combination of the
+        three, on the contents of a folder or on one or more documents, depending on your
+        specifications. Create such a report before a translation project starts, during a
+        translation project, or after it is finished.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Calculating Report</b> from the <b>Report</b> field.</p>
+      <p>The following table shows which tabbed pages must be filled in to produce a Calculating
+        Report.</p>
+      <table>
+        <title>Overview of the tabbed pages to be filled in for a Calculating Report</title>
+        <tgroup cols="4">
+          <colspec colname="col1" colwidth="74*"/>
+          <colspec colname="col2" colwidth="160*"/>
+          <colspec colname="col3" colwidth="69*"/>
+          <colspec colname="col4" colwidth="75*"/>
+          <thead>
+            <row>
+              <entry colname="col1" valign="top">Tabbed page</entry>
+              <entry colname="col2" valign="top">Purpose</entry>
+              <entry colname="col3" valign="top">Required?</entry>
+              <entry colname="col4" valign="top">Described in...</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <q>General</q>
+              </entry>
+              <entry colname="col2">To define the basics required for a report</entry>
+              <entry colname="col3">
+                <b>Yes</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#eqfr5mst-00340/generaltpcalc">General page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Profile</q>
+              </entry>
+              <entry colname="col2">To save or load the report layout defined on the Settings tabbed
+                page</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#eqfr5mst-00340/profiletp">Profile page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Settings</q>
+              </entry>
+              <entry colname="col2">To define the report layout</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href=""/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>FactSheet</q>
+              </entry>
+              <entry colname="col2">To set the factors for cost calculation</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00347.dita#eqfr5mst-00347"/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Security</q>
+              </entry>
+              <entry colname="col2">To select special options</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00338.dita#eqfr5mst-00338/securitytp">Security page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Shipments</q>
+              </entry>
+              <entry colname="col2">To create a report on specific shipments</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#eqfr5mst-00340/shipmentstp">Shipments page</xref>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p id="generaltpcalc">On the <q>General</q> page (see <xref
+          href="eqfr5mst-00337.dita#eqfr5mst-00337/countrepwin"/>), you can choose or specify the
+        following options and parameters:</p>
+      <parml>
+        <plentry>
+          <pt>Folder</pt>
+          <pd>This box contains the documents contained in the selected folder or the document that
+            you selected from the <b>Document List</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Report types</pt>
+          <pd>Choose one of the following Calculating Report types: <parml>
+              <plentry><pt>Base</pt>
+                <pd>To get a detailed overview, for each selected document, of the activities
+                  performed by <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and by
+                  the translator to complete a translation. The translator’s effort can be
+                  calculated based on these activities.</pd></plentry>
+              <plentry><pt>Summary</pt>
+                <pd>To get a summary row for each selected document, and a summary row for all
+                  documents.</pd></plentry>
+              <plentry><pt>Fact sheet</pt>
+                <pd>To get a complete overview of the costs of a translation project using different
+                  complexity and pay factors.</pd></plentry>
+              <plentry><pt>Base &amp; Summary &amp; Fact Sheet</pt>
+                <pd>To get a report containing all the information previously
+                described.</pd></plentry>
+              <plentry><pt>Base &amp; Summary</pt>
+                <pd>To get the detailed overview, a summary row for each selected document, and a
+                  summary row for all documents.</pd></plentry>
+              <plentry><pt>Summary &amp; Fact Sheet</pt>
+                <pd>To get a report containing both the summary and the fact sheet. This report is
+                  designed for the project coordinator.</pd></plentry>
+              <plentry><pt>Base &amp; Summary &amp; Fact Sheet</pt>
+                <pd>To get a report containing all the information previously
+                described.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>To specify additional information on the report that will display in the header of the
+            report. You can type up to 80 characters.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to Screen</pt>
+          <pd>To display the report in a window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to File</pt>
+          <pd>To store the report in a specific file for which you can specify or select the name
+            and directory and select the file format.</pd>
+        </plentry>
+      </parml>
+      <p id="profiletp">Click the <q>Profile</q> tab to display the <q>Profile</q> page (see <xref
+          href="#eqfr5mst-00340/crprofilepage"/>).
+              <required-cleanup><indexterm>windows<indexterm>Create Counting Report — Profile
+              page</indexterm></indexterm></required-cleanup><fig id="crprofilepage"
+          expanse="column">
+          <title>Create Counting Report window — Profile page</title><image placement="break"
+            href="eqfb7s162.gif"><alt>Figure shows Create Counting Report window — Profile
+              page</alt></image></fig></p>
+      <p>On the <q>Profile</q> page, you can choose the following option:</p>
+      <parml>
+        <plentry>
+          <pt>Actual profile </pt>
+          <pd>This display-only field shows the name of the loaded profile. If no profile has been
+            loaded <q>- none —</q> is shown. </pd>
+        </plentry>
+        <plentry>
+          <pt>Internal name</pt>
+          <pd>This display-only field shows the internal name of the loaded profile. Note: only
+            official approved profiles have an internal profile name which is normally the same as
+            name of the profile. </pd>
+        </plentry>
+        <plentry>
+          <pt>Profile</pt>
+          <pd>Type a name for the settings that you specified on the <q>Settings</q> tabbed page and
+            then click <b>Save</b> to save them. Or select or specify the name of existing settings
+            that you want to use and then click <b>Load</b>.</pd>
+        </plentry>
+      </parml>
+      <p id="shipmentstp">Click the <q>Shipments</q> tab to display the <q>Shipments</q> page (see
+          <xref href="#eqfr5mst-00340/crshipmentspage"/>).
+              <required-cleanup><indexterm>windows<indexterm>Create Counting Report — Shipments
+              page</indexterm></indexterm></required-cleanup><fig id="crshipmentspage"
+          expanse="column">
+          <title>Create Counting Report window — Shipments page</title><image placement="break"
+            href="eqfb7s163.gif"><alt>Figure shows Create Counting Report window — Shipments
+              page</alt></image></fig></p>
+      <p>On the <q>Shipments</q> page, you can choose or specify the following options and
+        parameters:</p>
+      <parml>
+        <plentry>
+          <pt>Use folder shipments</pt>
+          <pd>Select this option if you want to use the original shipment number of the folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Shipment</pt>
+          <pd>You can select one of the following: <parml>
+              <plentry><pt>All shipments</pt>
+                <pd>To get a report on all shipments</pd></plentry>
+              <plentry><pt>Single shipment</pt>
+                <pd>To get a report on all shipments, ordered by the shipment number.</pd></plentry>
+              <plentry><pt><i>Shipment number</i></pt>
+                <pd>The shipment number of the folder for which you want to create the report. The
+                  shipment number of a folder only appears in this field if you defined it during
+                  the creation of the folder (see <xref href="eqfr5mst-00201.dita#eqfr5mst-00201"/>)
+                  or when changing the properties of the folder (see <xref
+                    href="eqfr5mst-00215.dita#eqfr5mst-00215"/>).</pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Create</b> to start the creation of the Calculating Report.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The Calculating Report is created according to your specifications.</p>
+      <p>The following example shows a Calculating Report containing the overview, summary, and fact
+        sheet of two documents. For an explanation of the individual columns, refer to <xref
+          href="eqfr5mst-00345.dita#eqfr5mst-00345"/>.</p>
+      <p>
+        <fig id="calrepbase" expanse="column">
+          <title>Calculating Report — Base</title>
+          <image placement="break" href="eqfb7s16g.gif">
+            <alt>Figure shows Calculating Report — Base</alt>
+          </image>
+        </fig>
+        <fig id="calrepsum" expanse="column">
+          <title>Calculating Report — Summary</title>
+          <image placement="break" href="eqfb7s16h.gif">
+            <alt>Figure shows Calculating Report — Summary</alt>
+          </image>
+        </fig>
+        <fig id="calrepfact" expanse="column">
+          <title>Calculating Report — Fact Sheet</title>
+          <image placement="break" href="eqfb7s16i.gif">
+            <alt>Figure shows Calculating Report — Fact Sheet</alt>
+          </image>
+        </fig>
+      </p>
+      <note>If you create this report before a translation starts, only the “Analyze Auto” and “Not
+        Translated” columns contain figures. During and after a translation, all other columns can
+        also contain figures. After a translation is complete, the “Not Translated” column should
+        show “0”.</note>
+      <p/>
+    </section>
+  </refbody>
+</reference>

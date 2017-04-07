@@ -1,0 +1,57 @@
+﻿<?xml version='1.0'?>
+<rqt action="trqt" tl="en-US" uid="xyz@us.ibm.com">
+   <docs>
+    <d lang="en-US" dt="ndoc" url="MTOutputOptions.txt" markup="EQFASCII">
+      <p pid="1">
+        <s sid="1" seg="1"><t tid="1" tt="orig">This segment has no proposal at all. </t></s>
+        <s sid="2" seg="2"><t tid="1" tt="orig">This sentence here as an exact memory proposal.</t></s>
+        <s sid="3" seg="3"><t tid="1" tt="orig">And for this one here we have an Hamster match. </t></s>
+        <s sid="4" seg="4"><t tid="1" tt="orig">This is the sample for a segment having a  machine match proposal. </t></s>
+        <s sid="5" seg="5"><t tid="1" tt="orig">Here is a 72% fuzzy match for this text. </t></s>
+        <s sid="6" seg="6"><t tid="1" tt="orig">A segment  with a 64% fuzzy proposal and some more text following.</t></s>
+      </p>
+    </d>
+    <d lang="en-US" dt="sdoc" url="MTOutputOptions.txt" markup="EQFASCII">
+        <s sid="2">
+           <tgt>
+              <t tid="1" tt="fm" sc="100" seg="2" url="MTOutputOptions.txt">XL: This sentence here as an exact memory proposal.</t>
+           </tgt>
+           <src>
+              <t tid="1" tt="fm" sc="100" seg="2" url="MTOutputOptions.txt">This sentence here as an exact memory proposal.</t>
+           </src>
+        </s>
+        <s sid="3">
+           <tgt>
+              <t tid="1" tt="fm" sc="100" seg="3" url="MTOutputOptions.txt">XL: And for this one here we have an Hamster match. </t>
+           </tgt>
+           <src>
+              <t tid="1" tt="fm" sc="100" seg="3" url="MTOutputOptions.txt">And for this one here we have an Hamster match. </t>
+           </src>
+        </s>
+        <s sid="4">
+           <tgt>
+              <t tid="1" tt="fm" sc="100" seg="4" url="MTOutputOptions.txt">XL: This is the sample for a segment having a machine match proposal. </t>
+           </tgt>
+           <src>
+              <t tid="1" tt="fm" sc="100" seg="4" url="MTOutputOptions.txt">This is the sample for a segment having a  machine match proposal. </t>
+           </src>
+        </s>
+        <s sid="5">
+           <tgt>
+              <t tid="1" tt="fm" sc="72" seg="5" url="MTOutputOptions.txt">XL: Here is a 72% fuzzy proposal for the segment. </t>
+           </tgt>
+           <src>
+              <t tid="1" tt="fm" sc="72" seg="5" url="MTOutputOptions.txt">Here is a 72% fuzzy proposal for the segment. </t>
+           </src>
+        </s>
+        <s sid="6">
+           <tgt>
+              <t tid="1" tt="fm" sc="64" seg="6" url="MTOutputOptions.txt">XL: A segment  with a 64% fuzzy proposal.</t>
+           </tgt>
+           <src>
+              <t tid="1" tt="fm" sc="64" seg="6" url="MTOutputOptions.txt">A segment  with a 64% fuzzy proposal.</t>
+           </src>
+        </s>
+    </d>
+   </docs>
+</rqt>

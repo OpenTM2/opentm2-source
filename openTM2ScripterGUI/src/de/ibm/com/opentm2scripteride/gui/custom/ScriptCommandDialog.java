@@ -73,6 +73,7 @@ public class ScriptCommandDialog extends JDialog {
 		createGui();
 		Rectangle bounds = MainApp.getInstance().getMainWindow().getBounds();
 		Dimension size = getSize();
+		size.height -= 20;
 		setBounds(bounds.x + bounds.width / 2 - size.width / 2, bounds.y + bounds.height / 2 - size.height / 2, size.width, size.height);
 	}
 
@@ -238,14 +239,58 @@ public class ScriptCommandDialog extends JDialog {
 	 * Write back all parameters to the corresponding CommandModel and the editor
 	 */
 	protected void savePressed() {
+		//validate parameters value
+		validateParameterValues(mCommand.getFrame().getName());
+		
 		//write back all parameters
 		for (int i = 0; i < mParas.size(); i++) {
 			String key = mParas.get(i).getId();
 			mCommand.setParameter(key, mValues[i].getText());
 		}
+		
 		//write back to editor
 		writeToEditor();
 		close();
+	}
+	
+	/**
+	 * 
+	 * @param apiName
+	 */
+	private void validateParameterValues(String apiName) {
+		// currently only process EqfAnalyzeDocEx
+		if( !"EqfAnalyzeDocEx".equals(apiName) ) {
+			return;
+		}
+		
+		String mtOutputOpts= "";
+		for (int i = 0; i < mParas.size(); i++) {
+			
+			String key = mParas.get(i).getId();
+			if( "pszmtoutputoptions".equals(key) )
+				 mtOutputOpts = mValues[i].getText();
+			
+			else if( "loptions".equals(key) ) {
+				
+				String loptions = mValues[i].getText();
+				if( !mtOutputOpts.isEmpty() ) {
+					
+					if( loptions.isEmpty() )
+						mValues[i].setText("SENDTOMT_OPT");
+					else if( loptions.indexOf("SENDTOMT_OPT")==-1 ){
+						StringBuilder sb = new StringBuilder(loptions);
+						if( sb.indexOf(",")==-1 )
+					        mValues[i].setText( sb.insert(0,"(SENDTOMT_OPT,").append(")").toString() );
+						else
+							mValues[i].setText( sb.insert(1, "SENDTOMT_OPT,").toString() );
+					}
+					
+				}
+				
+			}//end else
+			
+		}//end for
+		
 	}
 
 }

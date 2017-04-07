@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00499">
+<title><!--rev=wst-->EqfGetSysLanguage</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfGetSysLanguage</indexterm><indexterm>programming interface calls<indexterm>EqfGetSysLanguage</indexterm></indexterm>
+<p><i>EqfGetSys Language</i> allows to retrieve the
+currently active default target language of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfGetSysLanguage</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszSysLanguage</var></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszSystemLanguage</entry>
+<entry colname="col3">Buffer provided to contain the system      
+language string at output. The length of the buffer has to be at least
+20 characters.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use <i>EqfGetSysLanguage</i> to retrieve the complete error
+information.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+                     USHORT usRC = 0;
+                     HSESSION hSession = 0L;
+                     CHAR   chSystemLanguage[20];
+
+                     // start the Eqf calling interface session
+                     usRC = EqfStartSession( hSession );
+
+                     // get the system language
+                     if ( !usRC )
+                     {
+                         usRC = EqfGetSysLanguage( hSession, chSystemLanguage );
+                     } /* endif */
+
+                     // terminate the session
+                     EqfEndSession( hSession );
+                   }</codeblock>
+</example></refbody></reference>

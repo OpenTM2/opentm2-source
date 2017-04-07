@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00282">
+  <title>Merging dictionaries</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>merging<indexterm>dictionaries</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>merging</indexterm></indexterm>
+      <p>Merging two dictionaries is only supported when you import an external dictionary into an
+        existing one in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p>When you do this, remember that the dictionary structure of the destination dictionary has
+        precedence. You are warned if the dictionary structures differ, and <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> allows you to create a new dictionary
+        instead, to prevent any loss of data.</p>
+      <p>If, during dictionary merge, the same term exists in both dictionaries, the <q>Merge
+          Dictionary Entries</q> window is displayed (see <xref href="#eqfr5mst-00282/dicmer"/>).
+              <required-cleanup><indexterm>windows<indexterm>Merge Dictionary
+            Entries</indexterm></indexterm></required-cleanup><fig id="dicmer" expanse="column">
+          <title>Merge Dictionary Entries window</title><image placement="break"
+            href="eqfb7s10i.gif"><alt>Figure shows Merge Dictionary Entries
+          window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Term</pt>
+          <pd>Displays the term that exists in both dictionaries.</pd>
+        </plentry>
+        <plentry>
+          <pt>Merge from SGML dictionary</pt>
+          <pd>Contains the entries in the external dictionary for this term.</pd>
+        </plentry>
+        <plentry>
+          <pt>Merge into target dictionary</pt>
+          <pd>Contains the entries in the existing dictionary for this term.</pd>
+        </plentry>
+        <plentry>
+          <pt>Options</pt>
+          <pd>Depending on how you want to process the entries for the current term (displayed in
+            the two boxes), select one of the following options or click <b>Cancel</b> to stop the
+            merging: <parml>
+              <plentry><pt>Replace target entry with source entry</pt>
+                <pd>This option only takes the source dictionary entry into consideration. The
+                  destination dictionary entry is overwritten.</pd></plentry>
+              <plentry><pt>Ignore source entry</pt>
+                <pd>This option only takes the destination dictionary entry into consideration. The
+                  source dictionary entry is discarded.</pd></plentry>
+              <plentry><pt>Combine entries</pt>
+                <pd>This option takes both the source dictionary and the destination dictionary
+                  entries into consideration, combining them to form one entry. Provided that the
+                  dictionary structures do not differ, no data is discarded or
+                overwritten.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Use the selected option for all entries</pt>
+          <pd>Select this option, if you do not want the <q>Merge Dictionary Entries</q> window to
+            appear every time the same term is found in both dictionaries and you are sure that your
+            selected merge option applies for all entries.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Merge</b> to begin or to continue the merging. Click <b>Cancel</b> to leave the
+        merging and importing program. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The external dictionary data is merged with the existing dictionary according to the
+        specified options. The external dictionary is unchanged.</p>
+    </section>
+  </refbody>
+</reference>

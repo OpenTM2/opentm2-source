@@ -1,0 +1,9 @@
+Word Count Results - Translation
+Folder: n/a
+==========================================================================================
+Documents                                  Translated    Untranslated Target words  Markup
+------------------------------------------------------------------------------------------
+E:\GHE\opentm2\AUTOTESTSUITE\TESTDATA\MEMORY\FILTERNOMATCHFILE\NOMATCHIN.XML
+                                                    0              18            0       0
+==========================================================================================
+Total                                               0              18            0       0

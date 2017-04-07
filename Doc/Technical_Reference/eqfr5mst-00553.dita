@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00553">
+<title>EQFGETCONTEXTINFO</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFGETCONTEXTINFO</indexterm></indexterm><indexterm>EQFGETCONTEXTINFO</indexterm>
+<p><i>EQFGETCONTEXTINFO</i> is called once when a
+new markup table is loaded into the Translation Memory. It returns
+the number of context strings that are used by this markup and the
+names of these context strings (for example, <codeph>Panel ID</codeph> for
+MRI markup). If a markup table user exit does not support this entry
+point, or returns an error code, no further context information processing
+is performed for this markup table (neither <i>EQFGETSEGCONTEXT</i>, <i>EQFUPDATECONTEXT</i>, nor <i>EQFCOMPARECONTEXT</i> is
+called).</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETCONTEXTINFO</kwd><delim>(</delim><var>pusNumOfContextStrings</var><sep>,</sep></groupseq>
+<groupseq><var>pContextNames</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pusNumOfContextStrings</var></synph></pt>
+<pd>The pointer to a USHORT variable receiving the number of context
+strings that are used by this markup.</pd></plentry>
+<plentry><pt><synph><var>pContextNames</var></synph></pt>
+<pd>The pointer to a UTF16 buffer for the context names. This buffer
+has a size of MAX_CONTEXT_LEN(4096) characters. The context names
+are stored as a list of UTF-16 strings, and the list is terminated
+by <codeph>0x0000</codeph>.
+<p>Currently the names will not be used. In a
+later version these names will be used in the translation environment
+to display the context of a segment.</p></pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The return code indicates whether context information could be
+returned.</p>
+</section></refbody></reference>

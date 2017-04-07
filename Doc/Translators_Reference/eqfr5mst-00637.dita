@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00637">
+  <title>Default keyboard shortcuts in Translation window</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Default keyboard shortcuts in Translation window</title>
+      <tgroup cols="2">
+        <colspec colname="col1" colwidth="92*"/>
+        <colspec colname="col2" colwidth="92*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Task</entry>
+            <entry colname="col2" valign="top">Keyboard shortcut</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Save</entry>
+            <entry colname="col2">F2</entry>
+          </row>
+          <row>
+            <entry colname="col1">Quit</entry>
+            <entry colname="col2">F3</entry>
+          </row>
+          <row>
+            <entry colname="col1">End-Save</entry>
+            <entry colname="col2">F4</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translation Memory Window</entry>
+            <entry colname="col2">F8</entry>
+          </row>
+          <row>
+            <entry colname="col1">Copy</entry>
+            <entry colname="col2">Ctrl+c</entry>
+          </row>
+          <row>
+            <entry colname="col1">Paste</entry>
+            <entry colname="col2">Ctrl+v</entry>
+          </row>
+          <row>
+            <entry colname="col1">Cut</entry>
+            <entry colname="col2">Ctrl+x</entry>
+          </row>
+          <row>
+            <entry colname="col1">Undo </entry>
+            <entry colname="col2">Alt+Backspace</entry>
+          </row>
+          <row>
+            <entry colname="col1">Start of Segment</entry>
+            <entry colname="col2">Alt+Home</entry>
+          </row>
+          <row>
+            <entry colname="col1">End of Segment</entry>
+            <entry colname="col2">Alt+End</entry>
+          </row>
+          <row>
+            <entry colname="col1">Start of Line</entry>
+            <entry colname="col2">Home</entry>
+          </row>
+          <row>
+            <entry colname="col1">End of Line</entry>
+            <entry colname="col2">End</entry>
+          </row>
+          <row>
+            <entry colname="col1">Start of Segment</entry>
+            <entry colname="col2">Alt+Home</entry>
+          </row>
+          <row>
+            <entry colname="col1">End of Segment</entry>
+            <entry colname="col2">Alt+End</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate Segment</entry>
+            <entry colname="col2">Ctrl+Newline</entry>
+          </row>
+          <row rev="GF_07122015">
+            <entry colname="col1">Next Untranslated Segment</entry>
+            <entry colname="col2">Alt+n</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p/>
+  </body>
+</topic>

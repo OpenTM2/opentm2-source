@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="detchg">
+  <title>Changing the details setting</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>changing the list window details<indexterm>general
+          description</indexterm></indexterm>
+        <indexterm>list windows<indexterm>customizing the arrangement of
+          items</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> lets you customize the view
+        details in the respective list window.</p>
+      <p>If not all details of a list item, for example a folder, fit on one line in the list
+        window, you should set priorities.</p>
+      <p>As an example, this window is explained for the details of documents in the <q>Document
+          List</q> window.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The respective list window is already selected, for example a <q>Document List</q> window.
+      </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Change Details…</b> from the <b>View</b> menu. </p>
+      <p>The <q>Change View Details</q> window is displayed (see <xref href="#detchg/chviewwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Change View
+            Details</indexterm></indexterm></required-cleanup><fig id="chviewwin" expanse="column">
+          <title>Change View Details sample window for documents</title><image placement="break"
+            href="eqfb7s6d.gif"><alt>Figure shows Change View Details sample window for
+              documents</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <dl>
+        <dlentry>
+          <dt>Details</dt>
+          <dd>This box displays all the view details available, for example, name, drive, dates.
+              <p>Double-click those view details you want to be displayed in the <q>Document
+                List</q> window. </p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>Selected</dt>
+          <dd>This box displays the view details selected. The items are displayed from left to
+            right in the same order you selected them from the <b>Details</b> list box. <p>To
+              deselect an item, double-click the entry in the <b>Selected</b> box.</p>
+            <p>Click <b>Clear</b> to remove all items from the <b>Selected</b> box. You can then
+              begin to define a new sequence of details.</p></dd>
+        </dlentry>
+      </dl>
+      <p>When you have selected the desired details, click <b>Change</b> to activate the new
+        setting.</p>
+      <p>Click <b>Cancel</b> at any time to leave the <q>Change View Details</q> window. No changes
+        are made. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The list window contains the selected details in the newly defined sequence. This setting
+        remains active throughout the current session until you change it again.</p>
+      <p>To save the settings for future <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        sessions, respond with <b>Yes</b> to the prompt <i>Do you want to save the current
+          workbench?</i> when you leave <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.
+        The current settings will then be used the next time you start <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    </section>
+  </refbody>
+</reference>

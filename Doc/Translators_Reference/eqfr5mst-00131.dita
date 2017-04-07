@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00131">
+  <title>Viewing and changing the system preferences</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>properties<indexterm>system preferences</indexterm></indexterm>
+      <indexterm>system preferences, viewing and changing</indexterm>
+      <p>You can view and change the properties of your system.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>System Preferences</b> from the <b>File</b> menu.</p>
+      <p>The <q>General page</q> of the <q>System Preferences</q> window is displayed. For more
+        advanced options select the <q>Advanced</q> page of this window.
+              <required-cleanup><indexterm>windows<indexterm>System
+            Preferences</indexterm></indexterm></required-cleanup>
+        <fig expanse="column">
+          <title>General page of System Preferences window</title>
+          <image placement="break" href="eqfb7s6v.gif">
+            <alt>Figure shows General page of System Preferences window</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <dl>
+        <dlentry>
+          <dt>Replace generic inline tagging during automatic substitution</dt>
+          <dd><indexterm>replace generic inline tagging</indexterm><indexterm> inline tagging,
+              replace</indexterm>Select this check box if you want <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> to adapt the tagging in the
+            Translation Memory during automatic substitution for exactly matching segments that
+            differ only in inline tags. If selected, <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> replaces the tagging in a
+            translation proposal and the source of this proposal with the tagging from the currently
+            active segment. As a result, the Translation Memory becomes format-independent, which
+            results in more automatic translations because of more exact
+              matches.<indexterm>Translation
+              Memory<indexterm>format-independence</indexterm></indexterm>
+            <p>The automatic tagging replacement occurs only if: <ul>
+                <li>Exact text matches are encountered</li>
+                <li>Tagging between the currently active segment and the translation proposal is
+                  different</li>
+                <li>A one-to-one correspondence between the taggings in the currently active
+                  segment, the translation proposal, and the source of the proposal can be proven.
+                    <p>If an active segment does not contain a tagging that is, on the other hand,
+                    contained in a translation proposal, <keyword
+                      conref="common-symbols.dita#common-symbols/tm4w"/> deletes this tagging from
+                    the translation proposal and the source of this proposal.</p></li>
+                <li>All taggings in a segment are suitable for replacement or deletion. No partial
+                  replacement or deletion takes place.</li>
+              </ul></p>
+            <p>This option is helpful if you translate updated documents that were meanwhile
+              converted to a different document format. For example, if you first translated a
+              BookMaster document, and you now translate an update of the same document in SGML
+              format, the Translation Memory for this document successively converts to SGML.</p>
+            <p>As a side effect, inline tags convert to lower, upper, or mixed case, dependent on
+              the preference in the translated document.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>Logo display time in ms</dt>
+          <dd>Specify for how many milliseconds (ms) the <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> logo is to be displayed when you
+            log on to <keyword conref="common-symbols.dita#common-symbols/tm4w"/> before the
+            Translation Workbench appears.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Standard Web Browser</dt>
+          <dd>Specify the name of the Web Browser to be called. You can also click <b>Browse</b> to
+            display the <q>Select a Web Browser</q> window on which you can select it.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Use Explorer-like tree view</dt>
+          <dd>Select this check box if you want to have your folder list displayed in an
+            Explorer-like tree view. Your <q>Folder List</q> window would then look as follows:
+                  <required-cleanup><indexterm>windows<indexterm>Folder List, Explorer-like tree
+                  view</indexterm></indexterm></required-cleanup><fig id="internetexpllike"
+              expanse="column">
+              <title>Folder List window in Explorer-like tree view</title><image placement="break"
+                href="eqfb7s6w.gif"><alt>Figure shows Folder List window in Explorer-like tree
+                  view</alt></image></fig></dd>
+        </dlentry>
+        <dlentry>
+          <dt>Fuzzy match overlap ratio — for Translation Memory Lookup</dt>
+          <dd><indexterm>fuzzy match overlap ratio — for translation memory
+                lookup<indexterm>default</indexterm><indexterm>individual
+              settings</indexterm></indexterm>You can specify individual overlap ratio thresholds
+            for the retrieval of fuzzy matches in small, medium, and large segments. You can specify
+            values from 5% to 50%. If nothing is specified, the default overlap ratio is 33%
+            regardless of a segment's length. <p>Fuzzy matches with an overlap smaller than the
+              specified percentage (or default) are not retrieved from the translation memory as
+              translation proposals. Further, all matches below 50% are considered as <q>no
+                matches</q> when <keyword conref="common-symbols.dita#common-symbols/tm4w"/> counts
+              matches (see <xref href="eqfr5mst-00144.dita#eqfr5mst-00144"/> and <xref
+                href="eqfr5mst-00339.dita#eqfr5mst-00339"/>).</p>
+            <p>See <xref href="eqfr5mst-00219.dita#eqfr5mst-00219"/> for more details, if
+              required.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>Fuzzy match overlap ratio - for display </dt>
+          <dd>For the display in the translation environment, you can specify individual overlap
+            ratio thresholds for fuzzy matches in small, medium, and large segments. You can specify
+            values from 5% to 99%. If nothing is specified, the default overlap ratio is 33%
+            regardless of a segment's length. <p>Fuzzy matches with an overlap smaller than the
+              specified percentage (or default) are not displayed as translation proposals in the
+              translation environment.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>Default Target Language: </dt>
+          <dd>For the editor and translation memory handling as well as some other functionalities,
+            it is necessary to specify the default target language. <p>Memory import in ANSI or
+              ASCII format: <ul>
+                <li>The default target language is used to obtain the codepage which is used to
+                  convert the input data from ASCII/ANSI to Unicode (UTF-16). It is therefore import
+                  that the "default target language" mathches exactly the language of the target
+                  segments in the imported memory.</li>
+              </ul></p>
+            <p>Memory export in ANSI or ASCII format: <ul>
+                <li>The default target language is used to obtain the codepage which is used to
+                  convert the internal Unicode (UTF-16) data to ASCII/ANSI. When the defualt target
+                  language does not match the target language of the exported segments most likely
+                  some special characters will be corrupted. Memories with a source language other
+                  than English should always be exported in Unicode format to avoid corrupted
+                  charactes on the source or the target side of the segments.</li>
+              </ul></p>
+            <p>Other: <ul>
+                <li>There are several other locations within <keyword
+                    conref="common-symbols.dita#common-symbols/tm4w"/> which require a conversion
+                  to/from Unicode. At all locations where no specifie language is available (i.e.
+                  all non-document related functions) the default target language is used to obtain
+                  the codepage for the conversion.</li>
+              </ul>
+              <required-cleanup><indexterm>windows<indexterm>Advanced page of System Preferences
+                    window</indexterm></indexterm></required-cleanup>
+              <fig expanse="column">
+                <title>Advanced page of System Preferences window</title>
+                <image placement="break" href="syspref2.gif"><alt>Advanced page of System Preferences window</alt></image>
+              </fig>
+            </p>
+          </dd>
+        </dlentry>
+        <dlentry>
+          <dt>XSLT engine to use for counting report and validation document export</dt>
+          <dd>Select either the IBM XSLT4C (this is the default) or the MSXML option. The selected
+            XSLT engine will be used by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+            to convert the internal XML format of reports or documents to the selected output
+            format. <required-cleanup><indexterm>windows<indexterm>Markup related page of System
+                  Preferences window</indexterm></indexterm></required-cleanup>
+            <fig expanse="column">
+              <title>Markup related page of System Preferences window</title>
+              <image placement="break" href="sysprefmarkup.gif"><alt>Markup related page of System Preferences window</alt></image>
+            </fig>
+            <note>Only change this setting if you encounter problems during the calculation report
+              creation or during the export of validation documents.</note></dd>
+        </dlentry>
+        <dlentry>
+          <dt>Enable preprocessing of IDDOC memory proposals for DITA documents: </dt>
+          <dd>Select this check box if you want to enable automatic preprocessing of IDDOC memory
+            proposals when looking up propsoals for DITA documents. The preprocessing automatically
+            replaces IDDOC character entities (e.g. &amp;rahead) with the actual character, converts
+            other entities to &lt;keyword&gt; or &lt;ph&gt; sequences, removes superfluos inline
+            tagging, and enables the usage of TMO replacement lists during analysis. </dd>
+        </dlentry>
+        <dlentry>
+          <dt>Display values of IDDOC and DITA entitites: </dt>
+          <dd>Select this check box if you want to automatically display the value of IDDOC and DITA
+            entities and variables in the status line of the translation environment. The
+            information for these entities is collected during the analysis of the documents and is
+            displayed in the status line of the translation environment when the cursor is placed on
+            an IDDOC or DITA variable.</dd>
+        </dlentry>
+      </dl>
+      <required-cleanup>
+        <indexterm>windows<indexterm>Display of IDDOC and DITA entities</indexterm></indexterm>
+      </required-cleanup>
+      <fig id="displayentities" expanse="column">
+        <title>Display of IDDOC and DITA entities</title>
+        <image placement="break" href="transenvwithentitydisplay.gif">
+          <alt>Display of IDDOC and DITA entities</alt>
+        </image>
+      </fig>
+      <p>After making your selections, click <b>Set</b> to activate the new settings.</p>
+      <p>Click <b>Cancel</b> to leave the <q>System Preferences</q> window without activating any
+        new settings.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The settings become effective immediately. If you selected the Explorer-like tree view for
+        your folder list, however, close <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        and then open it again to get the <q>Folder List</q> window in this view.</p>
+    </section>
+  </refbody>
+</reference>

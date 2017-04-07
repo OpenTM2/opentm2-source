@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm631">
+<title>New features in TM 6.3.1</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>New option in validation document export panel for the handling
+of global memory (HAMSTER) matches</li>
+<li>New function for exporting the segments inside specific tags in
+the TM memory export format (EXP)</li>
+<li>New option to display the differences between a machine match
+and the best fuzzy match in the memory proposal window of the Translation
+Environment </li>
+<li>New option for setting the color of fuzzy and machine matches
+in the memory proposal window of the Translation Environment </li>
+<li>New API call EqfExportSegs for the export of segments inside specific
+tags</li>
+<li>Additional parameter pszDescription for API call EqfChangeFolPropsEx</li>
+</ul>
+</body></topic>

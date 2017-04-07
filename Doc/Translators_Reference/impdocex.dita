@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="impdocex">
+  <title>Importing a document in external format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Calling sequence</title>
+      <indexterm>importing<indexterm>documents in external format</indexterm></indexterm>
+      <indexterm>document<indexterm>importing in external format</indexterm></indexterm>
+      <p>To import a document produced by word-processing systems, select <b>External Format</b>
+        from <b>Import from</b>.</p>
+      <p>The <q>External Format</q> page is displayed (see <xref href="#impdocex/impdocexwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Import Documents (External
+              format)</indexterm></indexterm></required-cleanup><fig id="impdocexwin"
+          expanse="column">
+          <title>Import Documents window (External format)</title><image placement="break"
+            href="eqfb7s7o.gif"><alt>Figure shows Import Documents window (External
+            format)</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>From</pt>
+          <pd>To specify the current location of the documents: <ul>
+              <li>Specify the path in which the documents to be imported currently reside. You can
+                also click <b>Browse</b> to display the <q>Browse for Folder</q> window on which you
+                can select the appropriate path.</li>
+              <li>Type the <b>Name</b> of the document to be imported. You can use global file name
+                characters in this field as follows: <p>Type only the common part of the file name
+                  in the <b>Name</b> field to display a subset of the available files in the
+                    <b>Files</b> list. Then add an asterisk (*) to represent the part of the file
+                  names that is different. For example, to import the files
+                    <codeph>part01.doc</codeph>, <codeph>part02.doc</codeph>,
+                    <codeph>part03.doc</codeph>, and <codeph>part04.doc</codeph>, type
+                    <codeph>part*.doc</codeph> in the <b>Name</b> field and press Enter.</p></li>
+              <li>The <b>Documents</b> list displays the files that match the specification you have
+                entered in the <b>Name</b> field. Select the files you want to import as documents.
+              </li>
+            </ul>
+            <p>To import all documents listed in the <b>Documents</b> list box, click <b>Select
+                all</b>.</p>
+            <p>To start a new selection of documents, click <b>Deselect all</b>.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>To folder</pt>
+          <pd>Shows the name of the folder to which you want to import the documents.</pd>
+        </plentry>
+      </parml>
+      <p>All selected files are listed in <b>Documents</b>. Select the documents you want to import,
+        then click <b>Import</b> to start the import procedure.</p>
+      <p>The <q>Document Properties</q> window is displayed for the first document (see <xref
+          href="#impdocex/docnew"/>). <required-cleanup><indexterm>windows<indexterm>Document
+              Properties</indexterm></indexterm></required-cleanup><fig id="docnew" expanse="column">
+          <title>Document Properties window</title><image placement="break" href="eqfb7s7g.gif"
+              ><alt>Figure shows Document Properties window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>If you import documents with the same properties as the folder, you do not specify anything
+        in this window. Click <b>Change</b> to import the document.</p>
+      <p>If several documents are selected for importing, you must specify the properties for each
+        document to be imported.</p>
+      <p>On the <q>Settings</q> page, specify: <parml>
+          <plentry><pt>Alias</pt>
+            <pd>An alias name for the document. Such a name is useful if you want to get the same
+              exact matches from the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> as
+              for another document that you already translated. You then assign the name of the
+              other document as alias name for this document. Assume, for example, that document
+                <codeph>docupdate</codeph> is an update of <codeph>docnew</codeph> and you want to
+              get the same exact matches from the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> that <codeph>docnew</codeph>
+              received. In this case, you would assign <codeph>docnew</codeph> as the alias name to
+                <codeph>docupdate</codeph>. <p>If an alias name exists, <keyword
+                  conref="common-symbols.dita#common-symbols/tm4w"/> uses this name instead of the
+                actual document name to access the correct <keyword
+                  conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+              <p>The same alias name can be assigned to several documents. An alias name can have up
+                to 256 characters.</p></pd></plentry>
+          <plentry><pt>Folder settings</pt>
+            <pd>In this box, the properties are displayed that are already defined for the folder in
+              general: <parml>
+                <plentry><pt><keyword conref="common-symbols.dita#common-symbols/xlmem"/></pt>
+                  <pd>The name of an existing <keyword
+                      conref="common-symbols.dita#common-symbols/xlmem"/></pd></plentry>
+                <plentry><pt>Markup</pt>
+                  <pd>The name of an existing markup table</pd></plentry>
+                <plentry><pt>Source language</pt>
+                  <pd>The name of a supported source language</pd></plentry>
+                <plentry><pt>Target language</pt>
+                  <pd>The name of a supported target language</pd></plentry>
+                <plentry><pt>Editor</pt>
+                  <pd>The editor used for the documents in the folder</pd></plentry>
+                <plentry><pt>Conversion</pt>
+                  <pd>The code page used for the documents in the folder</pd></plentry>
+              </parml></pd></plentry>
+          <plentry><pt>Document settings</pt>
+            <pd>Each document can have its own properties and can be different from those of the
+              folder. <p>If you import a document for the first time, the boxes in this group are
+                empty. If you import a document that already exists in the folder, the properties
+                that you specified for the first import and that differ from the folder properties
+                are displayed as default values, which you can change.</p>
+              <p>If the document has the same properties as the folder, you do not have to enter
+                anything, and the document <i>inherits</i> the folder properties. Document
+                properties that are different from the folder properties can be selected from the
+                respective list boxes:</p>
+              <parml>
+                <plentry><pt><keyword conref="common-symbols.dita#common-symbols/xlmem"/></pt>
+                  <pd>The name of an existing <keyword
+                      conref="common-symbols.dita#common-symbols/xlmem"/></pd></plentry>
+                <plentry><pt>Markup</pt>
+                  <pd>The name of an existing markup table</pd></plentry>
+                <plentry><pt>Source language</pt>
+                  <pd>The name of a supported source language</pd></plentry>
+                <plentry><pt>Target language</pt>
+                  <pd>The name of a supported target language</pd></plentry>
+                <plentry><pt>Editor</pt>
+                  <pd>The editor to be used for the imported document</pd></plentry>
+                <plentry><pt>Conversion</pt>
+                  <pd>The code page to be used for the imported document</pd></plentry>
+              </parml></pd></plentry>
+          <plentry><pt>Use settings for remaining documents</pt>
+            <pd>This option is only displayed if you want to import more than one document. If you
+              want to assign the same properties to all documents, select this
+            option.</pd></plentry>
+        </parml></p>
+      <p>For information on the <q>Admin</q> page, refer to <xref
+          href="docprp.dita#docprp/docpropadmin">Admin page</xref>.</p>
+      <p>To save the specified properties, click <b>Change</b>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The selected documents are imported and you can start analyzing and translating.</p>
+    </section>
+  </refbody>
+</reference>

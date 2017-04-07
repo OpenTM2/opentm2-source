@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00544">
+<title>EQFGETINFO</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFGETINFO</indexterm></indexterm><indexterm>EQFGETINFO</indexterm>
+<p><i>EQFGETINFO</i> returns specific on the document
+currently being processed in the EQFSHOW function of the user exit.</p>
+<p>This function is used by the user exit to get more information
+concerning the document and its location.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETINFO</kwd><delim>(</delim><var>lInfo</var><sep>,</sep><var>InfoID</var><sep>,</sep><var>pchBuffer</var><sep>,</sep><var>pusBufSize</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>lInfo</var></synph></pt>
+<pd>The info handle passed to the user exit in the EQFSHOW call.</pd></plentry>
+<plentry><pt><synph><var>InfoID </var></synph></pt>
+<pd>The ID of the requested information, valid IDs are:
+<codeblock>GETINFO_MARKUP to retrieve the markup table of the document
+GETINFO_FOLDEROBJECT to retrieve the object name of the folder containing the document
+GETINFO_FOLDERLONGNAME to retrieve the long name (in ASCII) of the folder containing the document
+GETINFO_DOCFULLPATH to retrieve the fully qualified path of the document segmented target file
+GETINFO_DOCLONGNAME to retrieve the document long name </codeblock></pd></plentry>
+<plentry><pt><synph><var>pchBuffer </var></synph></pt>
+<pd>The pointer to a buffer receiving the requested information,
+if this parameter is NULL the size of the requested information is
+returned using the pusBufSize parameter.</pd></plentry>
+<plentry><pt><synph><var>pusBufSize </var></synph></pt>
+<pd>The pointer to a USHORT value containing the buffer size, on
+return this value contains the size of the returned information.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<dl>
+<dlentry><dt>0</dt>
+<dd>function completed successfully</dd></dlentry>
+<dlentry><dt>ERROR_INVALID_PARAMETER</dt>
+<dd>unknown InfoID or missing parameter</dd></dlentry>
+<dlentry><dt>ERROR_INVALID_HANDLE</dt>
+<dd>invalid lInfo handle</dd></dlentry>
+<dlentry><dt>ERROR_NOT_ENOUGH_MEMORY</dt>
+<dd>not enough memory / memory allocation failed</dd></dlentry>
+<dlentry><dt>ERROR_INSUFFICIENT_BUFFER</dt>
+<dd>buffer is not large enough for the returned information, *pusBufSize
+contains required buffer size</dd></dlentry>
+</dl>
+</section>
+<example><title>Examples</title>
+<dl>
+<dlentry><dt/>
+<dd>Assuming the document "myTest.HTML" located in folder "AnotherTestFolder"
+is opened using EQFSHOW. The folder is located on drive "E:" and has
+a short name of "ANOTH000.F00". The document short name is "MYTESTHT.000".
+ The primary drive of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation is "C:"</dd></dlentry>
+<dlentry><dt/>
+<dd>usBufSize = sizeof(szBuffer); EQFGETINFO( lInfo,
+GETINFO_MARKUP, szBuffer, &amp;usBufSize) would return "IBMHTM32"
+in szBuffer</dd></dlentry>
+<dlentry><dt/>
+<dd>usBufSize = sizeof(szBuffer); EQFGETINFO( lInfo,
+GETINFO_FOLDEROBJECT, szBuffer, &amp;usBufSize) would return "C:\OTM\ANOTH000.F00"
+in szBuffer</dd></dlentry>
+<dlentry><dt/>
+<dd>usBufSize = sizeof(szBuffer); EQFGETINFO( lInfo,
+GETINFO_FOLDERLONGNAME, szBuffer, &amp;usBufSize ) would return "AnotherTestFolder"
+in szBuffer</dd></dlentry>
+<dlentry><dt/>
+<dd>usBufSize = sizeof(szBuffer); EQFGETINFO( lInfo,
+GETINFO_DOCFULLPATH, szBuffer, &amp;usBufSize ) would return "E:\OTM\ANOTH000.F00\STARGET\MYTESTHT.000"
+in szBuffer</dd></dlentry>
+<dlentry><dt/>
+<dd>usBufSize = sizeof(szBuffer); EQFGETINFO( lInfo,
+GETINFO_DOCLONGNAME, szBuffer, &amp;usBufSize ) would return "MyTest.HTML"
+in szBuffer</dd></dlentry>
+</dl>
+</example></refbody></reference>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00468">
+  <title>Parameters for structFinalFactors</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <example>
+      <codeblock>typedef struct _FINALFACTORS
+{
+  LONG lUnit;
+  LONG lCurrFactor;
+  PSZ  pszLocalCurrency;
+} FINALFACTORS,*PFINALFACTORS;</codeblock>
+    </example>
+    <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="53*"/>
+        <colspec colname="col2" colwidth="82*"/>
+        <colspec colname="col3" colwidth="154*"/>
+        <thead valign="top">
+          <row>
+            <entry align="left">Type</entry>
+            <entry align="left">Parameter</entry>
+            <entry align="left">Description </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">LONG</entry>
+            <entry colname="col2">lUnit</entry>
+            <entry colname="col3">Values (in words): <ul>
+                <li>1</li>
+                <li>10</li>
+                <li>250</li>
+              </ul></entry>
+          </row>
+          <row>
+            <entry valign="middle">float</entry>
+            <entry valign="middle">lCurrFactor</entry>
+            <entry valign="middle">Specifies the local currency factor.</entry>
+          </row>
+          <row>
+            <entry colname="col1">PSZ</entry>
+            <entry colname="col2">pszLocalCurrency</entry>
+            <entry colname="col3">Specifies the local currency. The local currencies correspond to
+              the values of the dialog <q>Create Counting Report</q>, tab <q>Fact Sheet</q>.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </refbody>
+</reference>

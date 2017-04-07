@@ -3,145 +3,10 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-|      Copyright (C) 1990-2013, International Business Machines           |
-|      Corporation and others. All rights reserved                        |  
-  +----------------------------------------------------------------------------+
+  |      Copyright (C) 1990-2063, International Business Machines              |
+  |     Corporation and others. All rights reserved                            |  
+  +----------------------------------------------------------------------------+*/
 
-  |  Description:                                                              |
-  +----------------------------------------------------------------------------+
-  | PVCS Section                                                               |
-// 
-// $CMVC 
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 26 Jun 2003
-//  -- New Release TM6.0.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 25 Jul 2002
-//  -- New Release TM6.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Aug 2001
-//  -- New Release TM2.7.2!!
-// 
-// 
-// 
-// $Revision: 1.2 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-// 
- *
- * $Header:   K:\DATA\EQFUTILS.DVG   1.9   22 Nov 1999 18:07:32   BUILD  $
- *
- * $Log:   K:\DATA\EQFUTILS.DVG  $
- * 
- *    Rev 1.9   22 Nov 1999 18:07:32   BUILD
- * - enlarged rename dialog for long name support
- *
- *    Rev 1.8   15 Sep 1997 10:45:58   BUILD
- * - A.57k Object rename function: added object rename dialog
- *
- *    Rev 1.7   16 Dec 1996 09:57:44   BUILD
- * - enlarged yes-to-all dialog
- *
- *    Rev 1.6   07 Oct 1996 17:13:14   BUILD
- * - fixed PTM KAT0157: No button of yes-to-all message box is too small (DBCS)
- *
- *    Rev 1.5   23 Sep 1996 14:28:26   BUILD
- * - enlarged sizze of "Yes-to-all" button for DBCS environment
- *
- *    Rev 1.3   05 Feb 1996 13:37:26   BUILD
- * - set different icon text (=ID of system icon) for Windows environment
- *
- *    Rev 1.2   24 Jan 1996 10:05:28   BUILD
- * - enlarged yes-to-all message box
- *
- *    Rev 1.1   10 Jan 1996 19:26:46   BUILD
- * - added template for "Yes-to-all" message box
- *
- *    Rev 1.0   09 Jan 1996 10:12:40   BUILD
- * Initial revision.
-  +----------------------------------------------------------------------------+
-*/
 /**********************************************************************/
 /*                          Set file dialog                           */
 /**********************************************************************/
@@ -150,25 +15,14 @@ STYLE DS_CONTEXTHELP | WS_VISIBLE | WS_BORDER | DS_MODALFRAME | WS_CAPTION
 CAPTION STR_UTL_SETFILE_DLG_TITLE
 FONT 8 "MS Sans Serif"
 BEGIN
-/****************************************************************/
-/*                          Name group                          */
-/****************************************************************/
-
   CONTROL STR_UTL_SETFILE_GP, ID_UTL_SETFILE_GP, 
     BUTTON,
     BS_GROUPBOX | WS_VISIBLE,
     6, 6, 211, 156
-/****************************************************************/
-/*                         Drives Group                         */
-/****************************************************************/
-
   CONTROL "", ID_UTL_SETFILE_DRIVEA_PB, 
     BUTTON,
     BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP,
     11, 12, 24, 12
-/****************************************************************/
-/*                       Name entry field                       */
-/****************************************************************/
 #ifndef _DBCS
   CONTROL STR_UTL_SETFILE_NAME_TXT, ID_UTL_SETFILE_NAME_TXT, 
     STATIC,
@@ -185,9 +39,6 @@ BEGIN
     EDIT,
     ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
     77, 50, 132, 12
-/****************************************************************/
-/*                      Current directory                       */
-/****************************************************************/
 #ifndef _DBCS
   CONTROL STR_UTL_CURDIR_TXT, ID_UTL_CURDIR_TXT, 
     STATIC,
@@ -204,9 +55,6 @@ BEGIN
     STATIC,
     SS_LEFT | WS_VISIBLE,
     95, 69, 115, 9
-/****************************************************************/
-/*                     Directories listbox                      */
-/****************************************************************/
   CONTROL STR_UTL_DIR_TXT, -1, 
     STATIC,
     SS_LEFT | WS_VISIBLE,
@@ -216,9 +64,6 @@ BEGIN
     LISTBOX,
     LBS_STANDARD | LBS_NOTIFY | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
     12, 99, 95, 57
-/****************************************************************/
-/*                         Pushbuttons                          */
-/****************************************************************/
   CONTROL STR_UTL_SETFILE_SET_PB, ID_UTL_SETFILE_SET_PB, 
     BUTTON,
     BS_DEFPUSHBUTTON | WS_VISIBLE | WS_TABSTOP | WS_GROUP,
@@ -232,10 +77,6 @@ BEGIN
     EQFHELPBUTTON,
     WS_TABSTOP | WS_VISIBLE,
     168, 168, 38, 15
-/****************************************************************/
-/*                      dummy radiobuttons                      */
-/*                        (not visible)                         */
-/****************************************************************/
   CONTROL "", ID_UTL_SETFILE_DUMMY1, 
     BUTTON,
     BS_AUTORADIOBUTTON,
@@ -504,4 +345,26 @@ BEGIN
     120, 158, 56, 15
 END
 
+ID_SETCOLOR_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE  10, 13, 223, 214
+STYLE DS_CONTEXTHELP | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION "Set Colors"
+FONT 8 "MS Sans Serif"
+BEGIN
+  CONTROL "Type of text", -1, BUTTON, BS_GROUPBOX | WS_GROUP | WS_VISIBLE, 6, 4, 211, 72
+  CONTROL "", ID_SETCOLOR_ITEM_LB, LISTBOX, LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE, 12, 16, 197, 57
+  CONTROL "Color", -1, BUTTON, BS_GROUPBOX | WS_GROUP | WS_VISIBLE, 6, 78, 211, 82
+  CONTROL "Foreground", -1, STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 12, 88, 95, 9
+  CONTROL "", ID_SETCOLOR_FOREGROUND_STATIC, STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 12, 100, 95, 37
+  CONTROL "Select color", ID_SETCOLOR_FOREGROUND_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 12, 140, 95, 15
+  CONTROL "Background", -1, STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 115, 88, 95, 9
+  CONTROL "", ID_SETCOLOR_BACKGROUND_STATIC, STATIC, SS_LEFT | WS_GROUP | WS_VISIBLE, 115, 100, 95, 37
+  CONTROL "Select color", ID_SETCOLOR_BACKGROUND_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 115, 140, 95, 15
+  CONTROL "Sample", -1, BUTTON, BS_GROUPBOX | WS_GROUP | WS_VISIBLE, 6, 164, 211, 28
+  CONTROL "Sample text - Sample Text - Sample Text", ID_SETCOLOR_SAMPLE_STATIC, STATIC, SS_CENTER | WS_VISIBLE, 12, 176, 197, 14
+
+  CONTROL "Apply", ID_SETCOLOR_CHANGE_PB, BUTTON, BS_DEFPUSHBUTTON | WS_TABSTOP | WS_VISIBLE | WS_GROUP, 4, 196, 56, 15
+  CONTROL "Defaults", ID_SETCOLOR_DEFAULT_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 68, 196, 56, 15
+  CONTROL "Cancel", ID_SETCOLOR_CANCEL_PB, BUTTON, BS_PUSHBUTTON | WS_TABSTOP | WS_VISIBLE, 132, 196, 38, 15
+  CONTROL "Help", ID_SETCOLOR_HELP_PB, EQFHELPBUTTON, WS_TABSTOP | WS_VISIBLE, 179, 196, 38, 15
+END
 

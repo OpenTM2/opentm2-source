@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="anacl">
+  <title id="analyzingadocumentorfolder">Analyzing a document or folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>document<indexterm>analyzing (from command area)</indexterm></indexterm>
+      <indexterm>analyzing<indexterm>documents (from command area)</indexterm></indexterm>
+      <p>To analyze a document or a set of documents it might be more convenient to use a command
+        instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows. It is
+        particularly useful if you have many large documents or folders that you want to analyze
+        overnight.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>analyzing documents</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">analyzing a document or
+            folder</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you analyze documents from the <tm
+          trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special"
+          >Windows</tm> command line. Note that lowercase letters in a parameter name are optional
+        and need not be typed. <syntaxdiagram>
+          <groupseq><kwd>OTMBATCH</kwd></groupseq>
+          <groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>ANALYSIS</kwd></groupseq>
+          <groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><var>folder</var></groupseq>
+          <groupseq importance="optional"><delim>/</delim><kwd>FIles</kwd><oper>=</oper>
+            <groupchoice>
+              <groupseq><var>document_name</var></groupseq>
+              <groupseq><delim>(</delim>
+                <groupseq><repsep>,</repsep><var>document_name</var></groupseq><delim>)</delim></groupseq>
+              <groupseq><oper>@</oper><var>list_file_name</var></groupseq></groupchoice></groupseq>
+          <groupseq importance="optional"><delim>/</delim><kwd>OPtions</kwd><oper>=</oper>
+            <groupchoice><fragref>option</fragref>
+              <groupseq><delim>(</delim>
+                <groupseq><repsep>,</repsep><fragref>option</fragref></groupseq><delim>)</delim></groupseq></groupchoice></groupseq>
+          <groupseq importance="optional"><delim>/</delim><kwd>MEm</kwd><oper>=</oper>
+            <groupchoice>
+              <groupseq><var>memdb</var>
+                <synnote>Mandatory only when <codeph>OPtions=ADDTOMEM</codeph></synnote></groupseq>
+              <groupseq><delim>(</delim>
+                <groupseq><repsep>,</repsep><var>memdb</var></groupseq><delim>)</delim></groupseq></groupchoice></groupseq>
+          <groupseq importance="optional"><delim>/</delim><kwd>OVerwrite</kwd><oper>=</oper>
+            <groupchoice><kwd importance="default">NO</kwd><kwd>YES</kwd></groupchoice></groupseq>
+          <groupseq importance="optional"><delim>/</delim><kwd>QUIET</kwd></groupseq>
+          <fragment><title>option</title>
+            <groupchoice><kwd>ADDTOMEM</kwd><kwd>AUTO</kwd><kwd>AUTOCONTEXT</kwd><kwd>AUTOLAST</kwd><kwd>AUTOJOIN</kwd><kwd>TMMATCH</kwd>
+              <kwd>UNTRANSLATED</kwd><kwd>ADJUSTLEADWS</kwd><kwd>ADJUSTTRAILWS</kwd><kwd>PROTECTXMPSCREEN</kwd><kwd>RESPECTCRLF</kwd></groupchoice></fragment></syntaxdiagram></p>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=ANALYSIS</pt>
+          <pd><codeph>ANALYSIS</codeph> specifies that you want to analyze documents.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of a folder that contains the
+            documents that you want to analyze.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>document_name</var></synph></pt>
+          <pd><synph><var>document_name</var></synph> specifies the name of a document
+            to be analyzed. <p>If you specify several documents, enclose the document names in
+              brackets and separate them by commas.</p>
+            <p>If you want to specify a list of document names in a list file, refer to this list
+              file by preceding the list file name with the <codeph>@</codeph> symbol
+                (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+              enclose the document names in brackets and separate them by commas.</p>
+            <p>If you do not specify the <b>FIles</b> option, all documents in the folder are
+              analyzed.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/OPtions=</pt>
+          <pd>This parameter is particularly useful if you have Translation Memory databases
+            available from previous translations. It specifies the following: <ul>
+              <li>ADDTOMEM <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can search
+                existing Translation Memory databases for segments that match segments in the
+                document being analyzed. Segments that match exactly or almost exactly are copied
+                into the Translation Memory associated to the document or folder being analyzed. In
+                that way, you can start to fill a document-specific Translation Memory even before
+                its translation has begun.</li>
+              <li>AUTO You can choose to have <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically replace sentences
+                with matches that already exist in the Translation Memory. This substitution is done
+                only for exact matches. The document is then already partially translated when you
+                start working with it, enabling you to focus on the translation of new
+                segments.</li>
+              <li>AUTOCONTEXTSee the explanation for <codeph>AUTO</codeph>. However, if
+                more than one exact match has been found, the translation of the segment is to be
+                taken from the same document.</li>
+              <li>AUTOLAST See the explanation for <codeph>AUTO</codeph>. However, if more than one
+                exact match has been found, the most recent translation of the segment is to be
+                taken.</li>
+              <li>AUTOJOIN Joins neighboring segments. This can be useful if you want to analyze a
+                document that you have worked with before and where you joined neighboring text
+                segments before you translated them. During a new analysis run these segments are
+                treated as separate units again. However, in the associated Translation Memory there
+                is a match (translation) for the joined segments only. To find this match more
+                easily during automatic substitution, this option joins neighboring segments in the
+                document to be analyzed. Note that neighboring segments are only joined if for the
+                first segment a fuzzy match has been found.</li>
+              <li>TMMATCH <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+                counts the number and type of matches found in the <keyword
+                  conref="common-symbols.dita#common-symbols/xlmem"/> for the document. The document
+                is then segmented and the matches are counted, but no segments are replaced with
+                matches found in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+                  <p>If you also specify <b>AUTO</b>, <keyword
+                    conref="common-symbols.dita#common-symbols/tm4w"/> automatically replaces
+                  segments with matches found in the <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> and counts the number and
+                  type of matches replaced.</p></li>
+              <li>UNTRANSLATED All untranslated segments are to be stored in a separate file.</li>
+              <li>ADJUSTLEADWS During whitespace handling of automatic substitution, leading
+                whitespaces are adjusted to whitespaces in source segment.</li>
+              <li>ADJUSTTRAILWS During whitespace handling of automatic substitution, trailing
+                whitespaces are adjusted to whitespaces in source segment.</li>
+              <li>RESPECTCRLF During whitespace handling of automatic substitution, substitution
+                takes place with respect of CRLF in the segment.</li>
+              <li>PROTECTXMPSCREENWhen specified the &lt;xmp&gt; and &lt;screen&gt; sections in DITA
+                and IDDOC are protected and excluded from translation</li>
+            </ul></pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> specifies a Translation Memory or a list of
+            Translation Memory databases that is to be searched when <codeph>ADDTOMEM</codeph> has
+            been specified.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OVerwrite=</pt>
+          <pd>Specifies if an existing document will be overwritten when its translation has already
+            been started. (<codeph>NO</codeph> is the default).</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. If you do
+            not specify this parameter, a message window pops up whenever an error occurs or when
+            the task has successfully completed.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to analyze a document by using the OTMBATCH command.</p>
+      <required-cleanup>
+        <section>
+          <title>Example</title>
+          <codeblock>otmbatch /task=analysis /fld=myfol /files=16.scr 
+       /options=(addtomem,auto,untranslated) /mem=oldmem</codeblock>
+        </section>
+      </required-cleanup>
+      <p>In this example, the document to be analyzed has the file name <codeph>16.scr</codeph> and
+        is stored in folder <codeph>myfol</codeph>. Any matches found in the Translation Memory
+          <codeph>oldmem</codeph> are to be added to the Translation Memory of folder
+          <codeph>myfol</codeph>. Any original segment for which an exact match has been found is to
+        be replaced with its corresponding translation segment. All the remaining segments that are
+        not translated are to be stored in a separate file. </p>
+    </example>
+  </refbody>
+</reference>

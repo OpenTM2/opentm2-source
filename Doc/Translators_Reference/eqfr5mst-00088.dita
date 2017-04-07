@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00088">
+  <title>Configuring the editor</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>editor functions<indexterm>configuring</indexterm></indexterm>
+        <indexterm>customizing<indexterm>the Translation Environment</indexterm></indexterm>
+        <indexterm>changing<indexterm>the Translation Environment</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following options help you tailor the Translation Environment and make translating easier for you. </p>
+  </body>
+</topic>

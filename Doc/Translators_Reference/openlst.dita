@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="openlst">
+  <title>Opening and changing a terminology list</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>terminology lists<indexterm>modifying</indexterm></indexterm>
+      <indexterm>terminology lists<indexterm>moving terms to another list</indexterm></indexterm>
+      <indexterm>opening<indexterm>terminology lists</indexterm></indexterm>
+      <p>You open a list to work with it, for example, to copy entries from the terminology list to
+        a dictionary or to another list. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The list window that contains the terminology list to be opened is active. </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The terminology list to be opened</li>
+          <li><b>Open</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>One of the following windows is displayed, depending on the type of list selected: <ul>
+          <li><q>Work with Found Terms List</q></li>
+          <li><q>Work with New Terms List</q></li>
+          <li><q>Edit Exclusion List</q></li>
+        </ul> See <xref href="#openlst/ntrmchg"/>, the <q>Work with New Terms List</q> window, as an
+        example.</p>
+      <p>The <q>Edit Exclusion List</q> window is explained in <xref href="edexlst.dita#edexlst"/>.
+              <required-cleanup><indexterm>windows<indexterm>Work with New Terms
+            List</indexterm></indexterm></required-cleanup><fig id="ntrmchg" expanse="column">
+          <title>Work with New Terms List window</title><image placement="break"
+            href="eqfb7s11c.gif"><alt>Figure shows Work with New Terms List
+          window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>In the list box you see the terms contained in the opened new or found terms list.</p>
+      <parml>
+        <plentry>
+          <pt>View</pt>
+          <pd>The meaning of the processing symbols in this row is as follows: <dl>
+              <dlentry><dt><image placement="inline" href="eqfb7s11e.gif"><alt>Figure
+                    shows</alt></image></dt>
+                <dd>Shows all terms in the list.</dd></dlentry>
+              <dlentry><dt><image placement="inline" href="eqfb7s11f.gif"><alt>Figure
+                    shows</alt></image></dt>
+                <dd>Shows all terms not marked for any processing.</dd></dlentry>
+              <dlentry><dt><image placement="inline" href="eqfb7s11g.gif"><alt>Figure
+                    shows</alt></image></dt>
+                <dd>Shows all terms to be deleted.</dd></dlentry>
+              <dlentry><dt><image placement="inline" href="eqfb7s11h.gif"><alt>Figure
+                    shows</alt></image></dt>
+                <dd>Shows all terms to be added to a dictionary.</dd></dlentry>
+              <dlentry><dt><image placement="inline" href="eqfb7s11i.gif"><alt>Figure
+                    shows</alt></image></dt>
+                <dd>Shows all terms to be added to an exclusion list.</dd></dlentry>
+            </dl>
+            <p>The contents of the list box depends on the processing selected for the terms and the
+              processing symbol selected in this row.</p></pd>
+        </plentry>
+      </parml>
+      <p>You can select and mark one or more terms in order to specify the processing:</p>
+      <parml>
+        <plentry>
+          <pt>Mark for delete</pt>
+          <pd>Select this button to remove this term from the lists.</pd>
+        </plentry>
+        <plentry>
+          <pt>Mark for dictionary…</pt>
+          <pd>Select this button to add this term to a dictionary. This takes you to the <q>Mark
+              Term for Dictionary</q> window where you specify further parameters and then return to
+            this window (see <xref href="markdic.dita#markdic"/>).</pd>
+        </plentry>
+        <plentry>
+          <pt>Mark for exclusion list</pt>
+          <pd>Select this button to add this term to an exclusion list. You can select the exclusion
+            list to be filled from the list box, which contains all available exclusion lists. You
+            can also type a new name for an exclusion list in order to create a new one.</pd>
+        </plentry>
+        <plentry>
+          <pt>Unmark</pt>
+          <pd>Click this option to unmark a previously marked term.</pd>
+        </plentry>
+      </parml>
+      <p>The view symbol preceding a term represents the processing you have selected for it.</p>
+      <p>To begin the processing of the selected terms, you click <b>Process</b>. If you marked any
+        term to add to a dictionary, you can specify more options in the <q>Mark Term for
+          Dictionary</q> window (see <xref href="dicedit.dita#dicedit"/>). When the processing is
+        completed, the list contains the remaining terms for which no processing was specified.</p>
+      <p>The marked terms need not be processed immediately. To save the list in its current status
+        of marking, click <b>Save</b>.</p>
+      <p>To leave the terms list in its original status, click <b>Cancel</b>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you selected <b>Process</b>, the terminology list is changed depending on your
+        selections. If you made changes to any dictionary or exclusion list, they are active during
+        the next analysis or translation of a document.</p>
+      <p>If you selected <b>Save</b>, the terminology list is saved including the new processing
+        marks.</p>
+      <p>If you selected the <b>Cancel</b> button, the terminology list remains unchanged.</p>
+    </section>
+  </refbody>
+</reference>

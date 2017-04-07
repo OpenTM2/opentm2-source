@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00092">
+  <title>Setting up the profile</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>profile<indexterm>setting up</indexterm></indexterm>
+        <indexterm>editor functions<indexterm>setting up an individual profile</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can customize some translation-specific functions in the editor according to your needs. Do this as follows:</p>
+    <p>
+      <ul>
+        <li>Open the <b>Options</b> menu</li>
+        <li>Select <b>Profile settings...</b></li>
+      </ul>
+    </p>
+    <p>This takes you to the <q>Customize Translation Functions</q> window. The options you specify in this window become immediately active 
+      when you continue working with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.
+      <indexterm>windows<indexterm>Customize Translation Functions<indexterm>options</indexterm></indexterm></indexterm></p>
+    <p>You can customize the following options: 
+      <ul>
+        <li><ph>On the <q>Editor</q> page:</ph><indexterm>Customize Translation Functions<indexterm>Editor options</indexterm></indexterm>
+          <ul>
+            <li><b>Set insert mode for active segment</b> <indexterm>cursor<indexterm>switching to insert mode</indexterm></indexterm>
+              <p>If you select this check box, the cursor state is switched to insert mode each time you start translating a new segment, 
+                even if it was in replace mode before.</p></li>
+            <li><b>Backspace across line boundaries</b> <indexterm>editor functions<indexterm>Backspace key</indexterm></indexterm>
+              <indexterm>Backspace key</indexterm>
+              <p>If you select this check box, the current line is joined with the previous line using the Backspace key during a translation. 
+                To achieve this, you must place the cursor in the first column of a text line and then press the Backspace key. The
+                cursor is then moved to the end of the previous line, and the two lines are joined within the active segment. If this check 
+                box is cleared, pressing the Backspace key when the cursor is in the first text column has no effect on the cursor position.</p></li>
+            <li><b>Insert proposal if insert mode is active</b> 
+              <p>If you select this check box, a proposal that you copied from the <q>Translation Memory</q> window is inserted at the current 
+                cursor position when the cursor is in insert mode. When the cursor is in replace mode, and this check box is cleared, the
+                proposal replaces the active segment.</p></li>
+            <li><b>Visual display</b>
+              <p>Determines the display of embedded text in bidirectional language documents. Select this check box if you want embedded 
+                numerals and text in an Arabic or Hebrew document to be shown from right to the left. Clear this check box if you want these
+                parts displayed from left to the right. See also <xref href="eqfr5mst-00053.dita#eqfr5mst-00053"/>, if required.</p>
+              <p>Have this check box cleared also for all non-bidirectional language documents.</p></li>
+            <li><b>Automatic insert of SO/SI characters</b><indexterm>shift-in/shift-out characters, automatic insertion of</indexterm>
+              <indexterm>DBCS, automatic insertion of shift-in/shift-out characters</indexterm>
+              <indexterm>double-byte characters, automatic insertion of shift-in/shift-out characters</indexterm>
+              <p>If you select this check box, shift-in (SI) and shift-out (SO) characters are inserted for double-byte characters 
+                (Asian languages).</p>
+              <p>SO characters and SI characters are treated as protected characters to prevent them from being overtyped. They are still 
+                displayed in compact style mode.</p>
+            </li>
+          </ul>
+        </li>
+        <li><ph>On the <q>Display</q> page:</ph><indexterm>Customize Translation Functions<indexterm>Display options</indexterm></indexterm>
+          <ul>
+            <li><b>Visible white spaces</b>
+              <p>If you select this check box, you can select a character that is displayed instead of a blank or a line feed. <ul>
+                  <li><b>Visible blank</b> 
+                    <p>Select a character from this drop-down list that you want to be displayed instead of a blank.</p></li>
+                  <li><b>Visible line feed</b>
+                    <p>Select a character from this drop-down list that you want to be displayed instead of a line feed.</p></li>
+                </ul></p>
+              <note>
+                <ol>
+                  <li>Some of the selectable characters might not display properly in the active system language.</li>
+                  <li>Do not select the same character for both options, otherwise you cannot distinguish for what the substitution character 
+                    stands.</li>
+                  <li>You can choose a blank as a substitution for one or the other option. However, choosing a blank for <i>all</i> options 
+                    causes the Translation Environment to appear as if the <b>Visible white spaces</b> check box is not selected. Avoid
+                    this combination.</li>
+                  <li>If you use the RTFEdit editor, the selections for <b>Visible blank</b> and <b>Visible line feed</b> are disabled because 
+                    standard Windows characters are used for both selections.
+                    <indexterm>RTFEdit editor<indexterm>visible blank characters</indexterm><indexterm>visible line feed characters</indexterm></indexterm></li>
+                </ol>
+              </note>
+            </li>
+            <li><b>Segment boundary sign in post edit</b>
+              <p>If you select this check box, you can select a character that is displayed at the end of each segment when you postedit your 
+                translation. 
+                <ul>
+                  <li><b>Segment boundary sign</b>
+                    <p>Select a character from this drop-down list that you want to be displayed at the end of each segment.</p></li>
+                </ul></p>
+              <note>See also the previous notes.</note></li>
+            <li><b>Shrink-style abbreviation</b>
+              <p>Displays the symbol used as a placeholder for the information that cannot be translated. This symbol is displayed in the 
+                <q>Translation</q> window if you select the shrink style from the <b>Style</b> menu. You can overtype this symbol with a
+                symbol of your choice. This symbol can consist of up to three characters, for example <codeph>&lt;/&gt;</codeph>.</p></li>
+            <li><b>Compact-style abbreviation</b>
+              <p>Displays the symbol used to mark information in a segment that cannot be translated. This symbol is displayed in the 
+                <q>Translation</q> window if you select the compact style from the <b>Style</b> menu. You can overtype it with a symbol of
+                your choice. It can consist of up to three characters, for example <codeph>&lt;/&gt;</codeph>.</p></li>
+            <li><b>Note</b>
+              <p>Displays the name of the markup tag in the source document indicating that this document contains one or more notes. 
+                You can overtype this name with a name of your choice.</p></li>
+            <li><b>Line number for active segment</b>
+              <p>Displays the number of the line containing the active segment. You can change it by specifying a number from 1 to 99.</p></li>
+            <li><b>Right margin</b>
+              <p>Determines the line length of a translated segment. You can select <b>Auto</b> to let the 
+                 line length automatically adapt to the window size. You can also select one of the offered 
+                 numbers or specify a number of your choice. This number determines how many characters are to fit a line.</p>
+              <p rev="GF_18082016">The setting in the right margin has an impact on the output, specifically when a numeric value 
+                 (e.g. 75 etc.) is defined, because this adds "line breaks" into the translated segments. So ensure 
+                 that the setting in "Right margin" is always set to "Auto", which adds no line feed to the translated segments.</p>
+              <p>This option only applies to segments still to be translated, not to segments that are already translated.</p>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <ph>On the <q>Dictionary</q> page:</ph><indexterm>Customize Translation Functions<indexterm>Directory options</indexterm></indexterm>
+          <ul>
+            <li><b>Information for dictionary terms</b>
+              <p>If you mark this option, the <q>Dictionary</q> window contains additional information about each dictionary entry. You control 
+                which dictionary entry fields are displayed by selecting or deselecting, for each field, the <b>Aut.Lookup</b> check box in the 
+                <q>Dictionary Properties</q> window. If too many dictionary entry fields are to be displayed, they are abbreviated in the 
+                <q>Dictionary</q> window.</p></li>
+            <li><b>Dictionary terms of all dictionaries</b>
+              <p>If you mark this option, the <q>Dictionary</q> window displays all translations that are found in the folder dictionaries for 
+                the terms in the current segment. If you do not mark this option, only the first translation found for the terms is displayed.</p></li>
+            <li><b>Dictionary indicator</b>
+              <p>If you mark this option, the dictionaries listed in the title bar of the <q>Dictionary</q> window are numbered. In this case, 
+                each translation of a term is preceded by the number of the dictionary from which it comes. The maximum number of
+                dictionaries allowed is 10, where the tenth dictionary is preceded by the letter A.</p>
+              <p>The default color of the dictionary indicator is gray on a white background. You can change these colors in the <q>Set Colors</q> 
+                window (see <xref href="eqfr5mst-00089.dita#eqfr5mst-00089"/>).</p></li>
+            <li><b>Show single words of compound terms in auto-lookup</b>
+              <p>If the option is active the single words of a compound term are looked up together with the compound term. If the option is 
+                inactive the single words of a compound term are not looked up in the dictionary auto-lookup.</p>
+              <p> An example:</p>
+              <p> Assume a dictionary containing the terms "data", "data processing", "data processing unit", and "unit". If a segment contains 
+                the term "data processing unit" the dictionary window will show the translations for "data", "data processing",
+                "data processing unit", and "unit" if the option is active and "data processing unit" if the option is inactive.</p></li>
+          </ul>
+        </li>
+        <li>
+          <ph id="ontranslmempage">On the <q>Transl.Mem</q> page:</ph><indexterm>Customize Translation Functions<indexterm>Translation Memory
+              options</indexterm></indexterm>
+          <ul>
+            <li><q><keyword conref="common-symbols.dita#common-symbols/xlmem"/> window</q>
+              <p>Lets you choose how the markup information is to be displayed in this window. You can choose between Protect, Hide, Compact, 
+                and Compact+1. Protect is the default. For more information on these styles, refer to 
+                <xref href="eqfr5mst-00047.dita#eqfr5mst-00047"/>.</p></li>
+            <li><q>Display 'Source of Proposal' window</q>
+              <p>If you select this check box, the <q>Source of Proposal(s)</q> window is always displayed when you work in the Translation 
+                Environment. If you clear this check box, the window only appears when you double-click in the <q>Translation Memory</q>
+                window, and it disappears again when you continue translating the next segment.</p>
+            </li>
+            <li><b>Number of proposals</b>
+              <p>If you select this check box, the number of found translation proposals is displayed in front of the original segment in the 
+                <q>Translation Memory</q> window and the <q>Source of Proposal(s)</q> window. For example, <codeph>[2]</codeph> in
+                either of these windows means that two translation proposals are available.</p></li>
+            <li><b>Document of proposal</b>
+              <p>If you select this check box, the file name of the document where a translation proposal originates from is displayed in 
+                front of the proposal in the <q>Translation Memory</q> window and the <q>Source of Proposal(s)</q> window. For example,
+                  <codeph>[DEVICE.HTML]</codeph> means that the displayed proposal originates from document <codeph>device.html</codeph>.</p></li>
+            <li><b>Date of proposal</b>
+              <p>If you select this check box, the date when a translation proposal has been stored in a Translation Memory is displayed in 
+                front of the proposal in the <q>Translation Memory</q> window and the <q>Source of Proposal(s)</q> window. For example,
+                  <codeph>[DEVICE.HTML 3/21/00]</codeph> means that the displayed proposal has been saved on the date shown.</p></li>
+            <li rev="GF_03042017"><b>Display MT match always</b>
+                 <indexterm>Translation Memory matches<indexterm>displaying MT matches</indexterm></indexterm>
+                 <indexterm>matches<indexterm>displaying MT matches</indexterm></indexterm>
+<!--              <p>If you select this check box, MT matches are always displayed in the <q>Translation Memory</q> window. If you clear this 
+                 check box, MT proposals are only displayed if there are no fuzzy proposals, or fuzzy proposals of poor quality.</p>-->
+              <p>In general, MT-matches are <b>not</b> displayed in case the translation memory contains EXACT-EXACT matches, EXACT matches or HAMSTER 
+                 (= global memory) matches. If you <b>select</b> this check box, then MT-matches are <b>always</b> displayed in the “Translation Memory” 
+                 window, even if there are FUZZY matches available in the translation memory. If you <b>clear</b> this check box, then 
+                 MT-matches are <b>only</b> displayed, if a FUZZY match has a fuzziness <b>below</b> 70%. If the fuzziness of the FUZZY match is 
+                 <b>above</b> 70%, then the MT-matches are <b>not</b> displayed.</p>
+            </li>
+            <li><b>Automatic replacement in fuzzy matches</b>
+              <indexterm>Translation Memory matches<indexterm>having terms replaced automatically</indexterm></indexterm>
+              <indexterm>matches<indexterm>having terms replaced automatically</indexterm></indexterm>
+              <p>If you select this check box, all information that is language independent (and therefore need not be translated), such as 
+                dates and proper nouns, is automatically replaced in a fuzzy match to reflect the information in the active original segment.
+                This results in more precise proposals. It also saves you from revising the proposal after it has been copied from the 
+                <q>Translation Memory</q> window. </p>
+              <p>This option is particularly useful if you translate documents that contain numerous dates, figures, and abbreviations 
+                (for example, stock market reports).</p>
+              <p>To show the automatic replacement, the proposal is preceded by an <codeph>[r]</codeph> when it is displayed in the 
+                <q>Translation Memory</q> window.</p>
+              <p>The following example shows an automatic replacement within a fuzzy match:</p>
+              <p>Current original segment:
+                <codeblock>(0) - Windows 98 Developer’s Toolkit</codeblock></p>
+              <p>Similar segment in a previous original document:
+                <codeblock>(0) - Windows 95 Developer’s Toolkit</codeblock></p>
+              <p>This segment has previously been translated into German:
+                <codeblock>Windows 95 Entwicklungswerkzeug</codeblock></p>
+              <p>If you have not marked this option, you get this translation offered as a proposal in the <q>Translation Memory</q> window:
+                <codeblock>1[f] - Windows 95 Entwicklungswerkzeug</codeblock></p>
+              <p>If you have marked this option, the match is presented as follows:
+                <codeblock>1[r] - Windows 98 Entwicklungswerkzeug</codeblock></p>
+              <p>The version number (95) has been updated to match the current original segment.</p>
+              <note>A translation proposal can be fuzzy in some parts and also contain information that has automatically been replaced 
+                (for example, a date). This proposal would be preceded by [rf].</note></li>
+            <li><b>Abbreviate Translation Memory proposal</b>
+              <indexterm>editor functions<indexterm>abbreviating Translation Memory proposals</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>abbreviating proposals</indexterm></indexterm>
+              <indexterm>abbreviations<indexterm>Translation Memory proposals</indexterm></indexterm>
+              <p>If you select this check box, the original segment in the <q>Translation Memory</q> window (preceded by <codeph>[0]</codeph>) 
+                is truncated if it is longer than one line. This is shown by an ellipsis (...). If this check box is cleared, the
+                <q>Translation Memory</q> window displays the complete original segment even if it exceeds one line.</p></li>
+            <li><b>Display all exact proposals</b><indexterm>editor functions<indexterm>display all exact proposals</indexterm></indexterm>
+              <indexterm>proposals<indexterm>display all</indexterm></indexterm>
+              <indexterm>translation proposal<indexterm>display all</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>display all proposals</indexterm></indexterm>
+              <p>If you select this check box, the <q>Translation Memory</q> window permanently shows up to nine available translation proposals 
+                for a current segment. If multiple proposals are available, they are displayed in chronological order. Proposals from
+                the current document precede those from other documents.</p>
+              <p>If this check box is cleared, only one (the most recent) translation proposal is displayed for a segment. If more proposals 
+                are available, this proposal is preceded by <codeph>[1++]</codeph>. You can actuate the display of (up to nine) further
+                proposals by double-clicking <codeph>++</codeph> in the <q>Translation Memory</q> window, or by pressing an assigned shortcut 
+                key. However, you need to repeat this for every segment.</p>            </li>
+            <li><b>Quality of Proposal (in %)</b><indexterm>translation proposal<indexterm>quality of proposal</indexterm></indexterm>
+              <indexterm>proposals<indexterm>quality of fuzzy matches</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>quality of fuzzy matches</indexterm></indexterm>
+              <p>If you select this check box, the <q>Translation Memory</q> window permanently shows a percentage number with every fuzzy 
+                translation proposal. Percentage numbers rank fuzzy proposals; the topmost proposal has the highest rank.</p></li>
+            <li><b>Memory Indicator</b>
+              <p>If you select this check box, the "Translation Memory" window permanently shows a memory indicator (e.g. [a]) for the 
+                memory containing the displayed proposal.</p></li>
+            <li><b>Memory Name</b>
+              <p>If you select this check box, the "Translation Memory" window permanently shows the name of the memory containing the 
+                displayed proposal.</p></li>
+            <li><b>Use color for machine and fuzzy proposals </b>
+              <p>If you select this check box, the "Translation Memory" window permanently shows fuzzy matches and machine matches in the 
+                colors defined in the "Set colors" window. The settings "(M) -Fuzzy proposal" and "(M) - Protected in fuzzy proposal" are used
+                for fuzzy matches and "(M) - Machine proposal" and "(M) - Protected in machine proposal is used for machine proposals.</p></li>
+            <li><b>Show differences between machine and fuzzy proposals above </b>
+              <p>If you select this check box, the "Translation Memory" window permanently shows the differences between the best fuzzy match 
+                and the first machine match in the colors defined in the "Set colors" window for "(MS) - Source modified", "(MS) - Source
+                equal", and "(MS) - Source inserted". The following field can be used to specify the fuzziness below which the differences 
+                will not be shown.</p></li>
+          </ul>
+          <p>If this check box is cleared, no percentage number is displayed. Nevertheless, the topmost proposal is likely to fit best.</p></li>
+        <li>
+          <ph>On the <q>Messages</q> page:</ph><indexterm>Customize Translation Functions<indexterm>Messages options</indexterm></indexterm>
+          <ul>
+            <li><b>Check for changes of inline tags</b> <indexterm>markup tags<indexterm>checking for changes in segments</indexterm></indexterm>
+              <p>If you mark this option, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> checks if you changed, deleted, or
+                added any markup tags within segments. For example, it checks if you changed a tag that indicates a change of the font type 
+                used. If a tag has been changed, you get a warning message. This ensures that the layout of the translation document still
+                looks like that of the original document, and no markup information is changed. If you do not mark this option, the warning 
+                message is not displayed.</p></li>
+            <li><b>Suppress message 'Fuzzy proposal unchanged'</b>
+              <indexterm>editor functions<indexterm>suppressing messages</indexterm></indexterm>
+              <indexterm>messages<indexterm>suppressing</indexterm></indexterm>
+              <indexterm>suppressing messages</indexterm>
+              <p>If you do not mark this option, you get a warning message when you save a segment that you copied from a fuzzy proposal and 
+                did not change it (this is the default). This helps you remember to revise segments that you translated using a fuzzy
+                translation proposal. If you mark this option, the message is not displayed.</p></li>
+            <li><b>Suppress message 'Source unchanged'</b>
+              <p>If you do not mark this option, you get a warning message when you want to save an untranslated segment as a translation. 
+                If you mark this option, the message is omitted, and the original segment is saved as a translation. This might be useful
+                when the original segment contains information that you do not want to translate (for example, citations, time and date 
+                information).</p></li>
+          </ul>
+        </li>
+        <li>On the <q>Aut. Substitution</q> page:<indexterm>Customize Translation Functions<indexterm>Aut. Substitution options</indexterm></indexterm>
+          <ul>
+            <li><b>Interrupt automatic substitution</b>
+              <indexterm>automatic substitution<indexterm>interrupting</indexterm></indexterm>
+              <p>Select this check box if you want the automatic substitution to stop if a segment cannot be substituted automatically. 
+                This occurs when <keyword conref="common-symbols.dita#common-symbols/tm4w"/> cannot find an exact match in the Translation 
+                Memory or if it finds more than one exact match. If you clear this check box, 
+                <keyword conref="common-symbols.dita#common-symbols/tm4w"/> skips all segments for which no exact match is found or for which 
+                more than one exact match is found and continues automatic substitution.</p></li>
+            <li><b>Use exact context match when more than one found</b>
+              <p>Select this check box if you expect segments with more than one exact match in the associated 
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and if you want the system to choose the one from the same 
+                document. If you clear this check box, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> skips the automatic 
+                substitution for this segment whenever more than one exact translation is found for a source segment.</p></li>
+            <li><b>Use latest exact match when more than one found</b>
+              <p>Select this check box if you want an automatic substitution run not to stop when more than one exact match is encountered. 
+                The most recent match in the Translation Memory is taken for the substitution.</p></li>
+            <li><b>Adjust leading white space to white space in source segment</b>
+              <p>Select this check box if you want the text to have the same leading white space (blank, tab stop, and line feed) before and 
+                after the automatic substitution, or when copying a proposal from the Translation Memory in the active segment.</p>
+              <p>No adjustment is the default.</p></li>
+            <li><b>Adjust trailing white space to white space in source segment</b>
+              <p>Select this check box if you want the text to have the same trailing white space (blank, tab stop, and line feed) before and 
+                after the automatic substitution, or when copying a proposal from the Translation Memory in the active segment.</p>
+              <p>No adjustment is the default.</p></li>
+          </ul>
+        </li>
+      </ul>
+    </p>
+  </body>
+</topic>

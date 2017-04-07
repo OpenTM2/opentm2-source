@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="resdeldoc">
+<title>Restore Deleted documents</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>exporting<indexterm>Deleting documents from
+a folder based on a list</indexterm></indexterm><indexterm>document<indexterm>deleting</indexterm></indexterm><indexterm>returning<indexterm>translation to customer</indexterm></indexterm><indexterm>transferring translation to another user</indexterm>
+<p>This function restores documents which have been deleted using
+the <b>Deleting documents from a folder</b> based on
+a list function.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder containing the documents being deleted must be selected
+and documents of this folder must have been deleted using the <b>Deleting documents from a folder</b> based on a list
+function.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>A folder in the folder list or a folder in the left column of
+the folder tree. </li>
+<li><b>Restore Delete Documents</b> from the <b>Delete/Restore Documents</b> based on a list menu of
+the <b>Utilities</b> menu.</li>
+</ol> </p>
+<p>You must confirm that you want to restore the documents. </p>
+</section>
+<section><title>Results</title>
+<p>The documents are restored and are shown in the document list of
+ the folder.</p>
+</section></refbody></reference>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00633" rev="GF_06052015_2">
+  <title>Assign keys</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Default settings of keys can be modified by clicking <b><u>O</u>ptions =&gt; <u>K</u>eys...</b>
+      from the menu bar (it is necessary to activate the translation view).</p>
+    <p>In order to either <b>change</b> or <b>add</b> a key-assignment, run this process:
+    <ol>      
+      <li>In panel "Assign Keys", search the key to be modified, and select it.</li>
+      <li>Click on button "Assign new key".</li>
+      <li>Press the key-combination to be used for the key (e.g. ALT+a)</li>
+      <li>The key assignment takes place immediately. In case of a warning, that this key-combination is already 
+          used, chose another key combination.</li>
+      <li>Finally click on button "Assign".</li>
+    </ol>  
+    <fig id="eqfassignkeysa" expanse="column">
+      <title>Assign Keys Window</title>
+      <image placement="break" href="eqfassignkeysa.gif">
+        <alt>Figure shows Assign Keys Window</alt>
+      </image>
+    </fig></p>  
+    <p><b>Special characters</b>, such as the copyright sign, can be added to the list of keys:
+      <ol>      
+        <li>In panel "Assign Keys", click on button "Add New Character".</li> 
+        <li>The panel "Add New Character" opens.</li>
+        <li>Clicking on the button "Open Windows Charmap" opens the Windows application "Charmap".</li> 
+        <li>From this panel, select the <b>Font</b> (e.g. "Courier new") as well as the "Special character"
+           (use the button "copy").</li>
+        <li><b><u>Important</u></b>: the font used in the <b>translation editor</b> must match the font selected in the CHARMAP
+            utility.</li> 
+        <li>In the panel "Add New Character" paste the copied character into field "Char".</li> 
+        <li>The field "Unicode" (a protected field) is automatically filled with the unicode value of the character.</li>
+        <li>For the user to better understand the special character, a name can be typed into field "Descriptive Name" (e.g. Copyright).</li>
+        <li>By pressing the button "Add Character", the special character is inserted into the list of keys in panel "Assign Key"
+            (the list is sorted alphabetically, so you find it unter the letter "I").</li> 
+        <li>The final step is to add a key combination to the newly defined special character using the button "Assign new key".</li>
+      </ol>
+    </p>
+    <p>Already <b>existing</b> special characters can either be <b>modified</b> by selecting the key and by clicking on button 
+      "Edit Character", or can be <b>deleted</b> by selecting the key and clicking on button "Remove Character".</p>
+    <fig id="eqfassignkeysb" expanse="column">
+      <title>Add New Character Window</title>
+      <image placement="break" href="eqfassignkeysb.gif">
+        <alt>Figure shows Add New Character Window</alt>
+      </image>
+    </fig>
+    <fig id="eqfassignkeysc" expanse="column">
+      <title>Assign Keys Window with newly added special character</title>
+      <image placement="break" href="eqfassignkeysc.gif">
+        <alt>Figure shows the panel Assign Keys with newly added character</alt>
+      </image>
+    </fig>
+  </body>
+</topic>

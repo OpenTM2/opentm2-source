@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00383">
+  <title>Importing documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>document<indexterm>OTMBATCH: importing (from command area)</indexterm></indexterm>
+      <indexterm>importing<indexterm>OTMBATCH: documents (from command area)</indexterm></indexterm>
+      <p>If you have many large documents that you want to import, using the command area of your
+        operating system instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        windows might be more convenient.</p>
+      <p>Before importing, ensure that: <ul>
+          <li><keyword conref="common-symbols.dita#common-symbols/tm4w"/> has been started.</li>
+          <li>A folder has been created. This folder can still be empty and will later contain the
+            documents to be imported.</li>
+        </ul></p>
+      <p>The properties of the folder give information on the used markup language and other
+        document-related information that is necessary when importing the respective documents.</p>
+      <p>To work from the command area, use the <b>OTMBATCH</b> command. Its syntax is described in
+        the following chapter.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>importing documents</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">importing
+          documents</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how to import from the command area of your
+        operating system. Note that lowercase letters in a parameter name are optional and need not
+        be typed. <syntaxdiagram>
+          <groupseq><kwd>OTMBATCH</kwd></groupseq>
+          <groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>DOCIMP</kwd></groupseq>
+          <groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><var>folder</var></groupseq>
+          <groupseq importance="optional"
+              ><delim>/</delim><kwd>STartpath</kwd><oper>=</oper><var>startpath</var></groupseq>
+          <groupseq><delim>/</delim><kwd>FIles</kwd><oper>=</oper>
+            <groupchoice>
+              <groupseq><var>file_name</var></groupseq>
+              <groupseq><delim>(</delim>
+                <groupseq><repsep>,</repsep><var>file_name</var></groupseq><delim>)</delim></groupseq>
+              <groupseq><oper>@</oper><var>list_file_name</var></groupseq></groupchoice></groupseq>
+          <groupseq importance="optional"
+              ><delim>/</delim><kwd>ALIAS</kwd><oper>=</oper><var>alias</var></groupseq>
+          <groupseq importance="optional"><delim>/</delim><kwd>OVerwrite</kwd><oper>=</oper>
+            <groupchoice><kwd importance="default">NO</kwd><kwd>YES</kwd></groupchoice></groupseq>
+          <groupseq importance="optional">
+            <groupchoice>
+              <groupseq><delim>/</delim><var>QUIET</var></groupseq>
+              <groupseq><delim>/</delim><var>QUIET=NOMSG</var></groupseq></groupchoice></groupseq>
+          <groupseq importance="optional"
+              ><delim>/</delim><kwd>EDit</kwd><oper>=</oper><var>editor</var></groupseq>
+          <groupseq importance="optional"
+              ><delim>/</delim><kwd>MArkup</kwd><oper>=</oper><var>markup</var></groupseq>
+          <groupseq importance="optional"
+              ><delim>/</delim><kwd>CONV</kwd><oper>=</oper><var>conv</var></groupseq></syntaxdiagram></p>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=DOCIMP</pt>
+          <pd><codeph>DOCIMP</codeph> specifies that you want to import a document.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the folder where the documents
+            imported are to be placed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/STartpath=<synph><var>startpath</var></synph></pt>
+          <pd><synph><var>startpath</var></synph> specifies the drive, directory, or both, to be
+            omitted from the document’s name. It only applies to documents imported in external
+            format where the path in which the document resides normally becomes part of the
+            document’s name.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>file_name</var></synph></pt>
+          <pd><synph><var>file_name</var></synph> specifies the name of the document you
+            want to import. The <synph><var>file_name</var></synph> specification can include the
+            drive and directory where the file to be imported is found. <p>If you specify several
+              documents, enclose the document names in brackets and separate them by commas.</p>
+            <p>If you want to specify a list of document names in a list file, refer to this list
+              file by preceding the list file name with the <codeph>@</codeph> symbol
+                (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+              enclose the document names in brackets and separate them by commas.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/ALIAS=<synph><var>alias</var></synph></pt>
+          <pd><synph><var>alias</var></synph> specifies an alias name for the document to be
+            imported. If you import several documents, this alias name applies to all of them. The
+            name can be up to 256 characters long.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OVerwrite=</pt>
+          <pd>Specifies if an existing document will be overwritten when importing a document with
+            the same name (<codeph>NO</codeph> is the default).</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+        <plentry>
+          <pt>/EDit=<synph><var>editor</var></synph></pt>
+          <pd>Specifies the editor to be used for the imported document.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MArkup=<synph><var>markup</var></synph></pt>
+          <pd>Specifies the markup table to be used for the document.</pd>
+        </plentry>
+        <plentry>
+          <pt>/CONV=<synph><var>conv</var></synph></pt>
+          <pd>Specifies the conversion to be used for the document.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to import several documents using the OTMBATCH command.</p>
+        <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=docimp /fld=pharma /files=@medlist.lst /overwrite=no</codeblock>
+        </section>
+      <p>In this example, the documents to be imported are listed in file
+          <codeph>medlist.lst</codeph>. <codeph>medlist.lst</codeph> looks as follows:</p>
+        <section>
+          <title>medlist.lst</title>
+          <codeblock>(d:\medset.doc, d:\medfrm.doc, d:\medb01.doc, d:\medb02.doc)</codeblock>
+        </section>
+      <p>The file <codeph>medlist.lst</codeph> must be located either on the current directory, or
+        (if it is not in the current directory) you must specify the complete path where it is
+        located. For example, <codeph>@d:\test\medlist.lst</codeph>.</p>
+      <note>There is a <codeph>@</codeph> sign before the drive letter.</note>
+      <p>All files contained in <codeph>medlist.lst</codeph> are to be imported into folder
+          <codeph>pharma</codeph> and are located in the root directory of drive D. If one of the
+        files already exists in the specified folder, it is not overwritten and you get a
+        message.</p>
+    </example>
+    <example>
+      <title>Examples</title>
+      <p>The following examples show how to import documents in external format with a path.</p>
+      <p>Assume that the following directories and files are on your V disk:
+        <codeblock>[proj1]
+  [vers1]
+    [mri]
+      base.mri
+      dialog.mri
+      dialog2.mri
+      message.osm
+    [docs]
+      intro.htm
+      lesson.htm
+  [vers2]
+    [mri]
+      base.mri
+      dialog.mri
+      dialog2.mri
+      message.osm
+    [docs]
+      intro.htm
+      lesson.htm</codeblock></p>
+      <section>
+          <title>Example 1</title>
+          <codeblock>OTMBATCH /task=docimp /fld=test /startpath=v:\
+       /files=(vers1\docs\*.htm,vers2\docs\*.htm) </codeblock>
+        </section>
+      <p>In this example, the following documents are imported into folder <codeph>test</codeph>:
+        <codeblock>vers1\docs\intro.htm
+vers1\docs\lesson.htm
+vers2\docs\intro.htm
+vers2\docs\lesson.htm</codeblock></p>
+        <section>
+          <title>Example 2</title>
+          <codeblock>OTMBATCH /task=docimp /fld=test /startpath=v:\vers1\ /files=(mri\*.*,docs\*.*) </codeblock>
+        </section>
+      <p>In this example, the following documents are imported into folder <codeph>test</codeph>:
+        <codeblock>mri\base.mri
+mri\dialog.mri
+mri\dialog2.mri
+mri\message.osm
+docs\intro.htm
+docs\lesson.htm</codeblock></p>
+        <section>
+          <title>Example 3</title>
+          <codeblock>OTMBATCH /task=docimp /fld=test /startpath=v:\vers1\ /files=(*.*) </codeblock>
+        </section>
+      <p>In this example, the following documents are imported into folder <codeph>test</codeph>:
+        <codeblock>mri\base.mri
+mri\dialog.mri
+mri\dialog2.mri
+mri\message.osm
+docs\intro.htm
+docs\lesson.htm</codeblock></p>
+        <section>
+          <title>Example 4</title>
+          <codeblock>OTMBATCH /task=docimp /fld=test /startpath=v:\ /files=(*.*) </codeblock>
+        </section>
+      <p>In this example, the following documents are imported into folder <codeph>test</codeph>:
+        <codeblock>vers1\mri\base.mri
+vers1\mri\dialog.mri
+vers1\mri\dialog2.mri
+vers1\mri\message.osm
+vers1\docs\intro.htm
+vers1\docs\lesson.htm
+vers2\mri\base.mri
+vers2\mri\dialog.mri
+vers2\mri\dialog2.mri
+vers2\mri\message.osm
+vers2\docs\intro.htm
+vers2\docs\lesson.htm</codeblock></p>
+        <section>
+          <title>Example 5</title>
+          <codeblock>OTMBATCH /task=docimp /fld=test /startpath=v:\vers1\docs /files=(*.htm) </codeblock>
+        </section>
+      <p>In this example, the following documents are imported into folder <codeph>test</codeph>:
+        <codeblock>intro.htm
+lesson.htm</codeblock></p>
+    </example>
+  </refbody>
+</reference>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="inst">
+<title><!--rev=wst-->Installing <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+<prolog><metadata><keywords>
+
+<indexterm>installing<indexterm><keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation program guides you through
+the installation.</p>
+<p>During the installation, you can request online help by pressing
+F1.</p>
+<p>Before you start, make sure that code page 850 is set on your computer.
+<keyword conref="common-symbols.dita#common-symbols/tm4w"/> requires this code page to perform all linguistic
+functions correctly. Refer to the documentation of your operating
+system to see how code page 850 is set.</p>
+<p>Note that some target languages require specific code pages and
+operating systems:
+<table pgwide="0" frame="none" colsep="0" rowsep="0">
+<tgroup cols="2">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<thead>
+<row>
+<entry>Target language</entry>
+<entry>Prerequisite</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">Arabic</entry>
+<entry colname="col2">Code page 864, country code 785</entry></row>
+<row>
+<entry colname="col1">Chinese, simplified</entry>
+<entry colname="col2">Code page 936</entry></row>
+<row>
+<entry colname="col1">Chinese, traditional</entry>
+<entry colname="col2">Code page 950</entry></row>
+<row>
+<entry colname="col1">Greek</entry>
+<entry colname="col2">Code page 869</entry></row>
+<row>
+<entry colname="col1">Hebrew</entry>
+<entry colname="col2">Code page 862, country code 972</entry></row>
+<row>
+<entry colname="col1">Japanese</entry>
+<entry colname="col2">Country code 081, one of the following operating
+systems: 
+<ul>
+<li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> XP</li>
+<li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 2000 Japanese</li>
+<li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> NT Japanese</li>
+</ul></entry></row>
+<row>
+<entry colname="col1">Russian</entry>
+<entry colname="col2">Code page 866</entry></row>
+</tbody>
+</tgroup>
+</table></p>
+</body></topic>

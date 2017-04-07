@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00437">
+<title>EQFGETPROP</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFGETPROP</indexterm><indexterm>programming interface calls<indexterm>EQFGETPROP</indexterm></indexterm>
+<p><i>EQFGETPROP</i> retrieves the selected proposal
+and copies it to the provided buffer.</p>
+<p><codeph>EQF_UP</codeph> or <codeph>EQF_DOWN</codeph> scrolls the contents
+of the <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> window in the selected direction, if possible. <codeph>EQF_UP</codeph> and <codeph>EQF_DOWN</codeph> are
+defined in the file <codeph>EQFTWBS.H</codeph>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETPROP</kwd><delim>(</delim><var>usNum</var><sep>,</sep><var>pszBuffer</var><sep>,</sep><var>pusLevel</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>usNum(USHORT)</var></synph> — input</pt>
+<pd>The number of the selected proposal or match (0...9, EQF_UP,
+EQF_DOWN).</pd></plentry>
+<plentry><pt><synph><var>pszBuffer(PSTRING)</var></synph> — output</pt>
+<pd>The buffer for the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposals. It must have a length
+of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is defined
+in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>pusLevel(PUSHORT)</var></synph></pt>
+<pd>The pointer to the variable for the return match level.</pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFERR_ENTRY_NOT_AVAIL</dt>
+<dd>The selected proposal is not available.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The selected proposal is available and copied into the provided
+buffer.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>If the selected proposal is not available, a warning message is
+issued and the appropriate return code is set.</p>
+</section></refbody></reference>

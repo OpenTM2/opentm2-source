@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="filterlistitems">
+  <title>Filtering list items</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>list windows<indexterm>filtering list items</indexterm></indexterm>
+      <p>If a list window contains too many items, you can reduce its contents.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The respective list window is selected.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Filter...</b> from the <b>View</b> menu.</p>
+      <p>The <q>Filter List Items</q> window is displayed (see <xref
+          href="#filterlistitems/filterlistitemwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Filter List
+            Items</indexterm></indexterm></required-cleanup><fig id="filterlistitemwin" expanse="column">
+          <title>Filter List Items window</title><image placement="break" href="eqfb7s6f.gif"
+              ><alt>Figure shows Filter List Items window</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <dl>
+        <dlentry>
+          <dt>Column</dt>
+          <dd>Select the detail that you want to use as filter condition. For example, if you wanted
+            to list only those folders that were updated before, on, or after a certain date, you
+            would select the detail <b>Updated</b>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Operator</dt>
+          <dd>Select one of the available operators.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Value</dt>
+          <dd>Specify a name or date, or part of a name. It can be up to 15 characters long and be
+            specified in uppercase, lowercase, or mixed case. You can also use a wildcard (*) in the
+            value.</dd>
+        </dlentry>
+      </dl>
+      <p>The individual operators and possible values are explained using the following folder list:
+        <fig expanse="column">
+          <image placement="break" href="eqfb7s6g.gif"><alt>Figure shows Folder List window</alt></image>
+        </fig>
+      </p>
+      <dl>
+        <dlentry>
+          <dt>The Equal operator</dt>
+          <dd>Use this operator to search for a single folder that exactly matches a specific value.
+            You cannot use a wildcard in the value. <p>Example 1: To display only the folder SHOWME,
+              you must specify the following: <fig id="specifyequal1" expanse="column">
+                <title>Specifying the Equal operator (Example 1)</title><image placement="break"
+                  href="eqfb7s6h.gif"><alt>Figure shows Specifying the Equal operator (Example
+                    1)</alt></image></fig></p>
+            <p>Example 2: To display the folder that was updated on February 27, 1998, you must
+              specify the following: <fig id="specifyequal2" expanse="column">
+                <title>Specifying the Equal operator (Example 2)</title><image placement="break"
+                  href="eqfb7s6i.gif"><alt>Figure shows Specifying the Equal operator (Example
+                    2)</alt></image></fig></p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>The Not equal operator</dt>
+          <dd>Use this operator to search for all folders that do not match a specific value. You
+            cannot use a wildcard in the value. <p>Example 1: If you want all folders whose name is
+                <i>not</i> SHOWME, your specification will look similar to the one in <xref
+                href="#filterlistitems/specifyequal1"/> except that you select the <b>Not equal</b>
+              operator instead of the <b>Equal</b> operator.</p>
+            <p>Example 2: If you want all folders that were <i>not</i> updated on February 27, 1998,
+              your specification will look similar to the one in <xref
+                href="#filterlistitems/specifyequal2"/> except that you select the <b>Not equal</b>
+              operator instead of the <b>Equal</b> operator.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>The Less operator</dt>
+          <dd>Use this operator to search for all folders updated before a certain date or for all
+            folders the detail of which precedes the letters that you specify. You can use a
+            wildcard in the value. <p>Example 1: To list all folders that were updated before March
+              29, 2000, you specify the following: <fig id="specifyless1" expanse="column">
+                <title>Specifying the Less operator (Example 1)</title><image placement="break"
+                  href="eqfb7s6j.gif"><alt>Figure shows Specifying the Less operator (Example
+                    1)</alt></image></fig></p>
+            <p>Example 2: To list all folders whose name precedes the letters <b>WORKFLG</b>, you
+              specify the following: <fig id="specifyless2" expanse="column">
+                <title>Specifying the Less operator (Example 2)</title><image placement="break"
+                  href="eqfb7s6k.gif"><alt>Figure shows Specifying the Less operator (Example
+                    2)</alt></image></fig></p>
+            <p>You then get the following list: <fig id="specifyless3" expanse="column">
+                <title>Result of a Less operation</title><image placement="break"
+                  href="eqfb7s6l.gif"><alt>Figure shows Result of a Less
+                operation</alt></image></fig></p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>The Less or equal operator</dt>
+          <dd>Use this operator to search for all folders updated on or before a certain date or for
+            all folders the detail of which precedes or matches the letters that you specify. If you
+            specify a wildcard in the value or do not specify the full value, you will not get an
+            exact match. <p>Example 1: To list all folders that were updated on or before February
+              27, 1998, you specify the following: <fig id="specifylessorequal1" expanse="column">
+                <title>Specifying the Less or equal operator (Example 1)</title><image
+                  placement="break" href="eqfb7s6m.gif"><alt>Figure shows Specifying the Less or
+                    equal operator (Example 1)</alt></image></fig></p>
+            <p>You then get all folders updated in 1996, and the folder updated on the specified
+              date.</p>
+            <p>Example 2: To list all folders whose name precedes or matches the letters
+                <b>WORKFLG</b>, you specify the following: <fig id="specifylessorequal2"
+                expanse="column">
+                <title>Specifying the Less or equal operator (Example 2)</title><image
+                  placement="break" href="eqfb7s6n.gif"><alt>Figure shows Specifying the Less or
+                    equal operator (Example 2)</alt></image></fig></p>
+            <p>In this example you get the same list as in <xref
+                href="#filterlistitems/specifyless3"/> because the value <b>WORKFLG</b> is not the
+              full name of a folder and therefore no exact match can be listed.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>The Greater operator</dt>
+          <dd>Use this operator to search for all folders updated after a certain date or for all
+            folders the detail of which follows the letters that you specify. You can use a wildcard
+            in the value. <p>Example 1: To list all folders that were updated after March 22, 1996,
+              you specify the following: <fig id="specifygreater1" expanse="column">
+                <title>Specifying the Greater operator (Example 1)</title><image placement="break"
+                  href="eqfb7s6o.gif"><alt>Figure shows Specifying the Greater operator (Example
+                    1)</alt></image></fig></p>
+            <p>Example 2: To list all folders whose dictionary name follows the letters
+                <b>WORKDIF</b>, you specify the following: <fig id="specifygreater2"
+                expanse="column">
+                <title>Specifying the Greater operator (Example 2)</title><image placement="break"
+                  href="eqfb7s6p.gif"><alt>Figure shows Specifying the Greater operator (Example
+                    2)</alt></image></fig></p>
+            <p>You then get the following folders: <fig id="specifygreater3" expanse="column">
+                <title>Result of a Greater operation</title><image placement="break"
+                  href="eqfb7s6q.gif"><alt>Figure shows Result of a Greater
+                operation</alt></image></fig></p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>The Greater or equal operator</dt>
+          <dd>Use this operator to search for all folders updated on or after a certain date or all
+            folders the detail of which follows or matches the letters that you specify. If you
+            specify a wildcard in the value or do not specify the full value, you will not get an
+            exact match. <p>Example 1: To list all folders that were updated on or after February
+              27, 1998, you specify the following: <fig id="specifygreaterorequal1" expanse="column">
+                <title>Specifying the Greater or equal operator (Example 1)</title><image
+                  placement="break" href="eqfb7s6r.gif"><alt>Figure shows Specifying the Greater or
+                    equal operator (Example 1)</alt></image></fig></p>
+            <p>You then get all folders updated in 2000, and the folder updated on the specified
+              date.</p>
+            <p>Example 2: To list all folders whose <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> name follows or matches the
+              letters <b>SH*</b>, you specify the following: <fig id="specifygreaterorequal2"
+                expanse="column">
+                <title>Specifying the Greater or equal operator (Example 2)</title><image
+                  placement="break" href="eqfb7s6s.gif"><alt>Figure shows Specifying the Greater or
+                    equal operator (Example 2)</alt></image></fig></p>
+            <p>In this example you get the following list: <fig id="specifygreaterorequal3"
+                expanse="column">
+                <title>Result of a Greater or equal operation</title><image placement="break"
+                  href="eqfb7s6t.gif"><alt>Figure shows Result of a Greater or equal
+                  operation</alt></image></fig></p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>The Like operator</dt>
+          <dd>Use this operator to search for folders the detail of which matches, starts with, or
+            ends with, the value that you specify. If you do not specify the full name, you must
+            represent the missing characters by an asterisk. <p>For example, if you want to list
+              only those folders whose description starts with <b>Folder</b>, you specify the
+              following: <fig id="specifylike" expanse="column">
+                <title>Specifying the Like operator</title><image placement="break"
+                  href="eqfb7s6u.gif"><alt>Figure shows Specifying the Like
+                operator</alt></image></fig></p></dd>
+        </dlentry>
+      </dl>
+      <p>After making your selections, click <b>Activate filter</b> to reflect them in the
+        appropriate list window.</p>
+      <p>Click <b>Cancel</b> to leave the <q>Filter List Items</q> window without changing the
+        contents of your list window.</p>
+      <p>If you want to have a complete list of your folders again, select <b>Show all</b> from the
+          <b>View</b> menu.</p>
+    </section>
+  </refbody>
+</reference>

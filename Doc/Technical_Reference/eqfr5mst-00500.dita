@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00500">
+<title><!--rev=as10112006-->EqfGetVersion</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfGetVersion</indexterm><indexterm>programming interface calls<indexterm>EqfGetVersion</indexterm></indexterm>
+<p><i>EqfGetVersion</i> retrieves the version info
+of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ulVersion</kwd><oper> = </oper><kwd>EqfGetVersion</kwd><delim>(</delim><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<p>—none —</p>
+</section>
+<section><title>Return code</title>
+<p>ULONG</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">ulVersion</entry>
+<entry colname="col2">The version of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> in a byte
+array, see the code sample for details how to access the version info. </entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>                    #include &lt;stdlib.h&gt;
+                    #include "eqf_api.h"
+
+                    int main( int argc, char *argv[], char *envp[] )
+                    {
+                       BYTE abVersion[4];
+                       ULONG ulVersion = EQFGETVERSION();
+
+                       memcpy( abVersion, &amp;ulVersion, sizeof(ULONG) );
+
+                       printf( "TM Version    %d\n", (short)abVersion[0] );
+                       printf( "TM Release    %d\n", (short)abVersion[1] );
+                       printf( "TM Subrelease %d\n", (short)abVersion[2] );
+                       printf( "TM Build      %d\n", (short)abVersion[3] );
+                     } /* end of main */</codeblock>
+</example></refbody></reference>

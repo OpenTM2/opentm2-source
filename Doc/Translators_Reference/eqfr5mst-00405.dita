@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00405">
+  <title>Removing segments with identical source and target strings</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to remove segments
+        which have the same source and the same target string from a Translation Memory. Whitespace
+        characters such as linefeed, carriage return and space are ignored when checking the source
+        and target string. For security reasons, the segments are not removed from the input
+        Translation Memory but a new Translation Memory is created which contains all segments from
+        the input Translation Memory except for the segments having the same source and target
+        string.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OtmMemoryTool</indexterm>
+      <indexterm>commands<indexterm>OtmMemoryTool</indexterm></indexterm>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OtmMemoryTool</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TASK</kwd>
+          <oper>=</oper>
+          <kwd>deleteIdentical</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>inmemdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>OUt</kwd>
+          <oper>=</oper>
+          <var>outmemdb</var>
+        </groupseq>
+        <groupseq/>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TASK=<synph><var>deleteIdentical</var></synph></pt>
+          <pd><synph><var>deleteIdentical</var></synph> specifies the task to delete identical segments from a translation memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm =<i>inmemdb</i></pt>
+          <pd><i>/MEm </i> inmemdb specifies the name of the Translation Memory that you want to use as input Translation Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUt =<i>outmemdb</i></pt>
+          <pd> outmemdb is the name of a new Translation Memory which is to receive all segments
+            from the input Translation Memory except the segments having the same source and
+            target string. The Translation Memory outmemdb is created by the OtmMemoryTool. 
+            <p>If you do not specify this parameter, the "Change Markup and Target Language" 
+               window is displayed. This window contains the following information: </p>
+            <p>
+              <ul>
+                <li>The name of the Translation Memory</li>
+                <li>The number of the current segment </li>
+                <li>The number of segments whose markup was changed</li>
+                <li>The number of segments whose target language was changed </li>
+              </ul></p>
+            <p>At the end of the process, you get a completion message showing the number of segments processed, 
+               the number of skipped segments, and the number of segments written to the output Translation Memory.</p>
+          </pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p> The following example show how to use the OtmMemoryTool command.</p>
+      <p>Enter the OtmMemoryTool command as follows:</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Example</title>
+          <codeblock>OtmMemoryTool /TASK=deleteIdentical /MEM=myMem /OUT=myCleanedMemory</codeblock>
+        </section>
+<!--      </required-cleanup>-->
+      <p>In this example all segments contained in Translation Memory myMem are written to the new output 
+         Translation Memory myCleanedMemory except for segments having the same source and target string. </p>
+    </example>
+  </refbody>
+</reference>

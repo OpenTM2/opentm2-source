@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="importlotus">
+  <title>Importing glossary terms from a <tm trademark="Lotus"
+      tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+    <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+      >Notes</tm> database</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>importing<indexterm>glossary from Lotus Notes</indexterm></indexterm>
+      <indexterm>document<indexterm>importing glossary from Lotus Notes</indexterm></indexterm>
+      <indexterm>Lotus Notes<indexterm>importing glossary from</indexterm></indexterm>
+      <p>You can import the glossary terms of a <tm trademark="Lotus"
+          tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm> database into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. The
+        name of the document’s markup table is always LOTUSNGD.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To import the glossary terms from <tm trademark="Lotus"
+          tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm>, select <b><tm trademark="Lotus" tmowner="Lotus Development Corporation"
+            tmtype="reg" tmclass="ibmsub">Lotus</tm> DGW</b> from <b>Import from</b>.</p>
+      <p>The <q><tm trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg"
+            tmclass="ibmsub">Lotus</tm> DGW</q> page is displayed (see <xref
+          href="#importlotus/impdoclotus"/>). <required-cleanup><indexterm>windows<indexterm>Import
+              Documents (Lotus Notes)</indexterm></indexterm></required-cleanup><fig
+          id="impdoclotus" expanse="column">
+          <title>Import Documents window (Lotus Notes)</title><image placement="break"
+            href="eqfb7s7u.gif"><alt>Figure shows Import Documents window (Lotus
+            Notes)</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Server</pt>
+          <pd>Select or specify the server on which the database containing the glossary terms is
+            located.</pd>
+        </plentry>
+        <plentry>
+          <pt>Databases</pt>
+          <pd>Displays all databases available on the selected server. Click a database to select
+            it.</pd>
+        </plentry>
+        <plentry>
+          <pt>File name</pt>
+          <pd>Displays the database that you selected in <b>Databases</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Source language</pt>
+          <pd>Select the source language of the glossary terms.</pd>
+        </plentry>
+        <plentry>
+          <pt>Target language</pt>
+          <pd>Select the target language of the glossary terms.</pd>
+        </plentry>
+        <plentry>
+          <pt>Extract untranslated terms only</pt>
+          <pd>Select this option if you want to import only the terms that have not been translated
+            yet.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Import</b> to start the import.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The glossary terms are extracted from the specified <tm trademark="Lotus"
+          tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm> database and are stored in a document in the SOURCE directory of the target
+        folder. The name of the document is equal to that of the <tm trademark="Lotus"
+          tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm> database.</p>
+    </section>
+  </refbody>
+</reference>

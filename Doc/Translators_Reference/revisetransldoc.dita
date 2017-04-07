@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="revisetransldoc">
+<title><!--rev=wrl-->Postediting and viewing the translated document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>After you have translated all segments of the document, you can move directly
+into postediting mode, which allows you to revise and correct your translation.
+In postediting mode, the <q>Translation Memory</q> and <q>Dictionary</q> windows are not displayed, and you can type text anywhere
+in the document.</p>
+<p>In addition, you can display the translated document in HTML
+or RTF format.</p>
+</body></topic>

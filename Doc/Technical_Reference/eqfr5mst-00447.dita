@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00447">
+<title>EQFWORDCNTPERSEG</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFWORDCNTPERSEG</indexterm><indexterm>programming interface calls<indexterm>EQFWORDCNTPERSEG</indexterm></indexterm>
+<p><i>EQFWORDCNTPERSEG</i> counts the number of words
+and markup tags in the specified segment using the specified language
+and markup. To count the number of words in a document, the words
+must be counted segment by segment.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFWORDCNTPERSEG</kwd><delim>(</delim><var>pszSeg</var><sep>,</sep><var>pszLang</var><sep>,</sep><var>pszFormat</var><sep>,</sep></groupseq>
+<groupseq><var>pulResult</var><sep>,</sep><var>pulMarkup</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszSeg(PSTRING)</var></synph> — input</pt>
+<pd>The segment of which the number of words and markup tags must
+be counted.</pd></plentry>
+<plentry><pt><synph><var>pszLang(PSTRING)</var></synph> — input</pt>
+<pd>The source or target language as provided by <i>EQFGETSOURCELANG</i> (see <ph otherprops="print">page <xref href="eqfr5mst-00439.dita#eqfr5mst-00439"/></ph><xref otherprops="display" href="eqfr5mst-00439.dita#eqfr5mst-00439"/>) or <i>EQFGETTARGETLANG</i> (see <ph otherprops="print">page <xref href="eqfr5mst-00440.dita#eqfr5mst-00440"/></ph><xref otherprops="display" href="eqfr5mst-00440.dita#eqfr5mst-00440"/>).</pd></plentry>
+<plentry><pt><synph><var>pszFormat(PSTRING)</var></synph> — input</pt>
+<pd>The format of the document as provided by <i>EQFGETDOCFORMAT</i> (see <ph otherprops="print">page <xref href="eqfr5mst-00436.dita#eqfr5mst-00436"/></ph><xref otherprops="display" href="eqfr5mst-00436.dita#eqfr5mst-00436"/>).</pd></plentry>
+<plentry><pt><synph><var>pulResult(PULONG)</var></synph> — output</pt>
+<pd>The result of word counting.</pd></plentry>
+<plentry><pt><synph><var>pulMarkUp(PULONG)</var></synph> — output</pt>
+<pd>The result of markup-tag counting.</pd></plentry>
+</parml>
+</section></refbody></reference>

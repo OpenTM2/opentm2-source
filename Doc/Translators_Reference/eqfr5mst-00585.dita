@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00585">
+<title><!--rev=as10112006-->Cursor movement in window</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table pgwide="1" frame="topbot">
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="col1" colwidth="298*"/>
+<colspec colname="col2" colwidth="115*"/>
+<colspec colname="col3" colwidth="152*"/>
+<colspec colname="col4" colwidth="114*"/>
+<tbody>
+<row>
+<entry valign="top">Bottom</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top">Ctrl+End</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Top</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top">Ctrl+Home</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Cursor down</entry>
+<entry valign="top"/>
+<entry valign="top">Down</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Cursor up</entry>
+<entry valign="top"/>
+<entry valign="top">Up</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Cursor left</entry>
+<entry valign="top"/>
+<entry valign="top">Left</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Cursor right</entry>
+<entry valign="top"/>
+<entry valign="top">Right</entry></row>
+<row>
+<entry valign="top">Insert shift-in/shift-out character in file</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Insert shift-in/shift-out character in segment</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Delete shift-in/shift-out character in file</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Delete shift-in/shift-out character in segment</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Start of line</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top">Home</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">End of line</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top">End</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Start of segment</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top">Alt+Home</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">End of segment</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top">Alt+End</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Query (active) line</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Go to line dialog</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry colname="col1">Go to segment dialog</entry>
+<entry colname="col2">Cursor</entry>
+<entry colname="col3"/>
+<entry colname="col4"/></row>
+<row>
+<entry valign="top">Special go to dialog</entry>
+<entry valign="top">Cursor</entry>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Next line</entry>
+<entry valign="top"/>
+<entry valign="top">Enter</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Next word</entry>
+<entry valign="top"/>
+<entry valign="top">Ctrl+Right</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Previous word</entry>
+<entry valign="top"/>
+<entry valign="top">Ctrl+Left</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Tab backward</entry>
+<entry valign="top"/>
+<entry valign="top">Backtab</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Tab forward</entry>
+<entry valign="top"/>
+<entry valign="top">Tab</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Go to active segment</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Go to changed segment</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Go to newly translated segment</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Go to unchanged segment</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Go to bookmark</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/>
+<entry valign="top"/></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

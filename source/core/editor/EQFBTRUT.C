@@ -1347,7 +1347,7 @@ VOID EQFBAutoTranslate
             else
             {
               // copy the proposal if good enough
-              fOK = EQFBCopyPropMatch( pDoc, EXACT_MATCH, EQUAL_EQUAL, FALSE );
+              fOK = EQFBCopyPropMatch( pDoc, EXACT_MATCH, EQUAL_EQUAL, FALSE, TRUE );
             }
 
              if (pDoc->hwndRichEdit )
@@ -1573,7 +1573,7 @@ VOID EQFBFuncAutoTrans
             else
             {
               // copy the proposal if good enough
-              fOK = EQFBCopyPropMatch( pDoc, EXACT_MATCH, EQUAL_EQUAL, FALSE );
+              fOK = EQFBCopyPropMatch( pDoc, EXACT_MATCH, EQUAL_EQUAL, FALSE, TRUE );
             }
 
             /**********************************************************/

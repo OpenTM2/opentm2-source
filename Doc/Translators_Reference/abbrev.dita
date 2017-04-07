@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="abbrev">
+<title>Maintaining abbreviation lists</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>abbreviation list<indexterm>maintaining </indexterm></indexterm>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> uses language-specific abbreviation lists to
+identify correct endings of a sentence.  This prevents that the period
+after an abbreviation is interpreted as the end of a sentence during
+analysis, for example in a sentence like <codeph>For details see books,
+films, magazines, etc. and keep the subject in mind.</codeph>. The period
+after <codeph>etc.</codeph> is not considered to be the end of the sentence.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides default abbreviation lists for each
+source language supported. You can add new abbreviations, or delete
+or modify existing ones.</p>
+</section>
+<section><title>Prerequisites</title>
+<ul>
+<li>The <q>Language List</q> window must be active (<b>Display
+Language List</b> from the <b>Utilities</b> menu).</li>
+<li>The language you want to work with must be in active state.</li>
+</ul>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>An active language</li>
+<li><b>Open</b> from the <b>File</b> menu
+or double-click the name of the language</li>
+</ol></p>
+<p>The list of abbreviations for the selected language is displayed.
+For example, <b>Edit Abbreviations for: German(national)</b> if
+you selected this language. You can now make your changes.</p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Abbreviations list</pt>
+<pd>To update an abbreviation, overtype it. To add a new one, switch
+to Insert mode and press Enter at the line before which you want to
+insert it. To delete an abbreviation, use the Backspace key. Note
+that you end the abbreviation with a full stop.</pd></plentry>
+<plentry><pt>Save</pt>
+<pd>To save any changes and close this window.</pd></plentry>
+<plentry><pt>Cancel</pt>
+<pd>To close this window without saving any changes.</pd></plentry>
+<plentry><pt>Help</pt>
+<pd>To get information on how to interact with this window.</pd></plentry>
+</parml>
+</section>
+<section><title>Results</title>
+<p>The language-specific list of abbreviations is updated and will
+be used for subsequent analysis runs. Depending on the language you
+selected, abbreviations have been changed, added, or removed from
+the abbreviation list for this language.</p>
+</section></refbody></reference>

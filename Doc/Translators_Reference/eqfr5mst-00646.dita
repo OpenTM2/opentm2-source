@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00646">
+  <title>Help Menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Help Menu</title>
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="127*"/>
+        <colspec colname="col2" colwidth="71*"/>
+        <colspec colname="colspec0" colwidth="70*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Menu bar choices</entry>
+            <entry colname="col2" valign="top">Actions</entry>
+            <entry colname="colspec0" valign="top">Keyboard shortcuts</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Help =&gt; Help for Help...</entry>
+            <entry colname="col2">Opening the 'Help Topics' window.</entry>
+            <entry colname="colspec0">Alt+H</entry>
+          </row>
+          <row>
+            <entry colname="col1">Help =&gt; Help Index...</entry>
+            <entry colname="col2">Opening the 'OpenTM2 Help' window.</entry>
+            <entry colname="colspec0">Alt+I</entry>
+          </row>
+          <row>
+            <entry colname="col1">Help =&gt; Homepage</entry>
+            <entry colname="col2">Opening the OpenTM2 internet homepage via standard web browser.</entry>
+            <entry colname="colspec0">Alt+p</entry>
+          </row>
+          <row>
+            <entry colname="col1">Help =&gt; Documentation (PDF)</entry>
+            <entry colname="col2">Opening the current OpenTM2 documentation via Acrobat Reader (PDF file format).</entry>
+            <entry colname="colspec0">Alt+D</entry>
+          </row>
+          <row>
+            <entry colname="col1">Help =&gt; Documentation (HTML)</entry>
+            <entry colname="col2">Opening the current OpenTM2 documentation via standard web browser (HTML file
+              format).</entry>
+            <entry colname="colspec0">Alt+o</entry>
+          </row>
+          <row>
+            <entry colname="col1">Help =&gt; Product Information...</entry>
+            <entry colname="col2">Opening the 'Product Information' window.</entry>
+            <entry colname="colspec0">Alt+P</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

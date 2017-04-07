@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00641">
+  <title>File Menu 1</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This table describes the File menu in the main view:</p>
+    <table>
+      <title>File Menu 1</title>
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="79*"/>
+        <colspec colname="col2" colwidth="94*"/>
+        <colspec colname="colspec0" colwidth="93*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Menu bar choices</entry>
+            <entry colname="col2" valign="top">Actions</entry>
+            <entry colname="colspec0" valign="top">Keyboard shortcuts</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">File =&gt; Open</entry>
+            <entry colname="col2">Opening the 'Document List' window from selected folder 
+              (works only in the deselected 'Use Explorer-like tree view').</entry>
+            <entry colname="colspec0">Alt+O</entry>
+          </row>
+          <row>
+            <entry colname="col1">File ==&gt; New...</entry>
+            <entry colname="col2">Creating
+              <ul>
+                <li>a new subfolder (when a file is selected in the 'Folder List' window).</li>
+                <li>new folder (when a folder is selected in the 'Folder List' window).</li>
+                <li>a translation memory (when 'Translation Memory' window is selected).</li>
+                <li>a dictionary (when 'Dictionary List' window is selected).</li>
+                <li>a new markup table (when 'Markup Table List' window is selected).</li>
+                <li>a new exclusion (when 'Exclusion Lists' window is selected).</li>
+              </ul>
+            </entry>
+            <entry colname="colspec0">Alt+N</entry>
+          </row>          
+          <row>
+            <entry colname="col1">File =&gt; Properties</entry>
+            <entry colname="col2">Opening
+              <ul>
+                <li>the 'Folder Properties' window (when a folder is selected in the 'Folder List' window).</li>
+                <li>the 'Document Properties' window (when a file is selected in the 'Folder List' window).</li>
+                <li>the 'Translation Memory Properties' window (when the 'Translation Memory' window is selected).</li>
+                <li>the 'Dictionary Properties' window (when the 'Dictionary List' window is selected).</li>
+                <li>the 'Markup Table Properties' window (when the 'Markup Table List' window is selected).</li>
+              </ul>
+            </entry>
+            <entry colname="colspec0">Alt+R</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Properties Summary</entry>
+            <entry colname="col2">Opening
+              <ul>
+                <li>the 'Folder Properties Summary' window (when a folder is selected in the 'Folder List' window).</li>
+                <li>the 'Document Properties Summary' window (when a file is selected in the 'Folder List' window).</li>
+                <li>the 'Translation Memory Properties Summary' window (when the 'Translation Memory' window is selected).</li>
+                <li>the Dictionary Properties Summary' window (when the 'Dictionary List' window is selected).</li>
+              </ul>
+            </entry>
+            <entry colname="colspec0">Alt+u</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Delete</entry>
+            <entry colname="col2">Deleting the selection (e.g. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder, file, memory or dictionary).</entry>
+            <entry colname="colspec0">ALT+D</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Rename Object</entry>
+            <entry colname="col2">Renaming the selected object (e.g. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder, memory or dictionary).</entry>
+            <entry colname="colspec0">ALT+b</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Cut</entry>
+            <entry colname="col2">Cutting to the clipboard.</entry>
+            <entry colname="colspec0">---</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Copy</entry>
+            <entry colname="col2">Copying to the clipboard.</entry>
+            <entry colname="colspec0">---</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Paste</entry>
+            <entry colname="col2">Pasting to the clipboard.</entry>
+            <entry colname="colspec0">---</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Merge...</entry>
+            <entry colname="col2">Merging selected translation memory from the 'Translation Memory List' window with another selectable memory.</entry>
+            <entry colname="colspec0">Alt+M</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Organize</entry>
+            <entry colname="col2">Organizing selected translation memory or dictionary.</entry>
+            <entry colname="colspec0">Alt+g</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Analyze...</entry>
+            <entry colname="col2">Analyzing the selected <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder.</entry>
+            <entry colname="colspec0">Alt+A</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Print...</entry>
+            <entry colname="col2">Printing the file content opened in the translation view window.</entry>
+            <entry colname="colspec0">Alt+P</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Print List...</entry>
+            <entry colname="col2">Printing the file list of an <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder.</entry>
+            <entry colname="colspec0">Alt+t</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; System Preference</entry>
+            <entry colname="col2">Opening the 'System Preferences' window.</entry>
+            <entry colname="colspec0">Alt+y</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Export</entry>
+            <entry colname="col2">Exporting selected file (e.g. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder, file, memory or dictionary).</entry>
+            <entry colname="colspec0">Alt+E</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Import</entry>
+            <entry colname="col2">Importing file (e.g. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder, file, memory or dictionary).</entry>
+            <entry colname="colspec0">Alt+I</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Global Find and Replace</entry>
+            <entry colname="col2">Opening the 'Global Find and Replace' window to find and change a term in all files of a selected folder.</entry>
+            <entry colname="colspec0">Alt+F</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Select All</entry>
+            <entry colname="col2">Selecting all files in a folder.</entry>
+            <entry colname="colspec0">Alt+S</entry>
+          </row>  
+          <row>
+            <entry colname="col1">File =&gt; Deselect All</entry>
+            <entry colname="col2">Deselecting all files in a folder.</entry>
+            <entry colname="colspec0">Alt+l</entry>
+          </row>  
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

@@ -1311,7 +1311,7 @@ __declspec(dllexport)
  VOID EQFBSysFilename( PSZ pszNewName, PSZ pszName);
 
  BOOL EQFBSendNextSource( PTBDOCUMENT, PULONG, BOOL, USHORT);
- BOOL EQFBCopyPropMatch( PTBDOCUMENT, USHORT, USHORT, BOOL);
+ BOOL EQFBCopyPropMatch( PTBDOCUMENT, USHORT, USHORT, BOOL, BOOL);
  VOID EQFBDoNextTwo( PTBDOCUMENT, PULONG, USHORT );  // send next two segments
  VOID EQFBDocIsTranslated( PTBDOCUMENT ); // handling for document is xlat
  PTBSEGMENT EQFBFindNextSource( PTBDOCUMENT, PULONG, USHORT, PBOOL, BOOL, PVOID *);

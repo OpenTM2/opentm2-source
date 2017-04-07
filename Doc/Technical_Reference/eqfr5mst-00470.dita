@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00470">
+<title>EqfCreateControlledFolder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfCreateControlledFolder</indexterm><indexterm>programming interface calls<indexterm>EqfCreateControlledFolder</indexterm></indexterm>
+<p><i>EqfCreateControlledFolder</i> creates a new
+controlled folder by using the specified values. Configure the target
+drive for the folder using the <q>Configure Drives</q> window of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfCreateControlledFolder</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszFolderName</var><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszDescription</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>chTargetDrive</var></groupseq><sep>,</sep></groupseq>
+<groupseq><var>pszTransMem</var><sep>,</sep></groupseq>
+<groupseq><var>pszMarkup</var><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszEditor</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional">
+<groupseq><repsep>,</repsep><var>pszDictionaries</var></groupseq></groupseq><sep>,</sep></groupseq>
+<groupseq><var>pszSourceLanguage</var><sep>,</sep></groupseq>
+<groupseq><var>pszTargetLanguage</var><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszConversion</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional">
+<groupseq><repsep>,</repsep><var>pszReadOnlyMems</var></groupseq></groupseq><sep>,</sep></groupseq>
+<groupseq><var>pszPassword</var><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszProjCoordName</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszProjCoordMail</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszTranslatorName</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszTranslatorMail</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszProductName</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszProductFamily</var><sep>,</sep></groupseq></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszSimilarProduct</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszProductDict</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszProductMem</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszPreviousVersion</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszVersion</var></groupseq><sep>,</sep></groupseq>
+<groupseq>
+<groupseq importance="optional"><var>pszShipmentNumber</var></groupseq><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszFolderName</entry>
+<entry colname="col3">The name of the folder to be created.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszDescription</entry>
+<entry colname="col3">The folder description, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">CHAR</entry>
+<entry colname="col2">chTargetDrive</entry>
+<entry colname="col3">The target drive for the new folder. If omitted,
+the primary EQF drive is used. The drive must be the primary EQF drive
+or one of the secondary EQF drives defined in the <q>Configure Drives</q> window.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszTransMem</entry>
+<entry colname="col3">The name of the Translation Memory to be used
+for the documents in the new folder.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszMarkup</entry>
+<entry colname="col3">The name of the markup table, for example EQFMRI.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszEditor</entry>
+<entry colname="col3">The name of the editor. If not specified, the
+editor STANDARD is used.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszDictionaries</entry>
+<entry colname="col3">The list of dictionaries to be used during translation.
+You can specify up to 10 dictionaries.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszSourceLanguage</entry>
+<entry colname="col3">The source language for the documents in this
+folder. Specify the language exactly as it appears in the <q>Language
+List</q> window, for example <codeph>English(U.S.)</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszTargetLanguage</entry>
+<entry colname="col3">The target language for the documents in this
+folder. Specify the language exactly as it appears in the <q>Language
+List</q> window, for example <codeph>English(U.S.)</codeph>. The target
+language must  different from the source language.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszConversion</entry>
+<entry colname="col3">The export conversion type, or <codeph>NULL</codeph> for
+no conversion.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszReadOnlyMems</entry>
+<entry colname="col3">The list of Translation Memories to search through
+during translation, or <codeph>NULL</codeph>. You can specify up to 4 Translation
+Memories.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszPassword</entry>
+<entry colname="col3">The password to protect the folder against changes.
+The password can be up to six characters long.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszProjCoordName</entry>
+<entry colname="col3">The name of the project coordinator, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszProjCoordMail</entry>
+<entry colname="col3">The e-mail address of the project coordinator,
+or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszTranslatorName</entry>
+<entry colname="col3">The name of the translator responsible for this
+folder, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszTranslatorMail</entry>
+<entry colname="col3">The e-mail address of the translator, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszProductName</entry>
+<entry colname="col3">The product name this folder is assigned to,
+or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszProductFamily</entry>
+<entry colname="col3">The product family this folder is assigned to,
+or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszSimilarProduct</entry>
+<entry colname="col3">The name of a similar product this folder is
+assigned to, <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszProductDict</entry>
+<entry colname="col3">The product-specific dictionary to be used during
+translation, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszProductMem</entry>
+<entry colname="col3">The product-specific memory to be used during
+translation, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszPreviousVersion</entry>
+<entry colname="col3">The previous version number of the product specified
+above, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszVersion</entry>
+<entry colname="col3">The actual version number of the product specified
+above, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszShipmentNumber</entry>
+<entry colname="col3">The number of the shipment, or <codeph>NULL</codeph>.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" colwidth="40*"/>
+<colspec colname="col2" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to retrieve the complete error
+information.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  // Create a new controlled folder name 'Test' on the 
+  // primary Eqf drive
+  if ( !usRC )
+  {
+    usRC = EqfCreateControlledFolder(hSession, "Test", 
+                             "Description of folder Test",
+                             '\0', // use primary Eqf drive
+                             "MEM1", "EQFASCII", 
+                             "STANDARD", "DICT1,ENGLGERM", 
+                             "English(U.S.)","German(national)",
+                             NULL, NULL, "passwd",
+                             "ProjCoordName", "ProjCoordMail",
+                             "TranslatorName","TranslatorMail", NULL,
+                             "Family", NULL, "Dict", "MemoryName",
+                             "1.0", "2.0", "1");
+  } //endif
+
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

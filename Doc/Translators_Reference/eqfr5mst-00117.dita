@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00117">
+  <title>Printing</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>printing</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In several windows you can request to print information.</p>
+    <p>You can print: 
+      <ul>
+        <li>The contents of all list windows, such as the <q>Folder List</q> window or the <q>Dictionary List</q> window</li>
+        <li>The details of a folder to be imported</li>
+        <li>The terms in an exclusion list</li>
+        <li>The terms in a new terms list or a found terms list</li>
+        <li>The data of a dictionary entry</li>
+        <li>A complete dictionary or selected parts of it</li>
+        <li>A document file</li>
+        <li>The results of counting words</li>
+        <li>The key assignments in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/></li>
+      </ul>
+    </p>
+    <p>You are prompted with the <q>Print Setup</q> window where you can specify the destination of your printout.</p>
+  </body>
+</topic>

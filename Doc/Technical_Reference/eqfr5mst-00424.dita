@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00424">
+  <title>Application programming interface for adding editors</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>editors, adding</indexterm>
+        <indexterm>application programming interface<indexterm>for adding
+          editors</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides an application
+      programming interface (API) that lets you use various editors as translation editors. Using
+      this API the editor can access all functions required for a translation, namely the 
+      <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, the automatic dictionary lookup, 
+      and the dictionary lookup dialog. <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+      prepares the <q>Dictionary</q> and <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> 
+      windows, establishes the communication links, handles all error conditions, and prepares and accesses 
+      the dictionaries and <keyword conref="common-symbols.dita#common-symbols/xlmems"/>. The editor must 
+      provide the end-user interface to access the provided services and handle the retrieved data.</p>
+    <p>All API functions are provided as a dynamic-link library (DLL).</p>
+    <p>An editor that can be used as a translation editor must meet the following requirements: 
+      <ul>
+        <li>Run as a <tm trademark="Presentation Manager" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">
+            Presentation Manager</tm> application. A VIOwindowed application is not sufficient.</li>
+        <li>Be programmable.</li>
+        <li>Be able to access programs and DLLs written in C for multithread environments.</li>
+        <li>Be able to recognize specific tags and extract and decompose text according to this information.</li>
+      </ul></p>
+    <p>The following sections describe the data types used by the API interface, possible error conditions, and 
+      the individual API calls for the interface provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+  </body>
+</topic>

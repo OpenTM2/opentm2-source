@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00539">
+<title>EQFGETNEXTSEG</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFGETNEXTSEG</indexterm></indexterm><indexterm>EQFGETNEXTSEG</indexterm>
+<p><i>EQFGETNEXTSEG</i> returns the next segment
+from the document identified by the lInfo handle. The text of the
+segment is stored in the buffer pointed to by pBuffer as a zero-terminated
+string. The API call increments the segment number automatically.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETNEXTSEG</kwd><delim>(</delim><var>lInfo</var><sep>,</sep><var>pusSegNum</var><sep>,</sep><var>pBuffer</var><sep>,</sep><var>pusBufSize</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>lInfo</var></synph></pt>
+<pd>The document handle which has been passed to the user exit as
+the first parameter of the EQFSHOW entry point.</pd></plentry>
+<plentry><pt><synph><var>pusSegNum</var></synph></pt>
+<pd>The pointer to a USHORT variable containing the segment number.
+This variable should be set to 1 before the first call. The segment
+number is automatically incremented.</pd></plentry>
+<plentry><pt><synph><var>pBuffer</var></synph></pt>
+<pd>The pointer to a buffer for the segment text.</pd></plentry>
+<plentry><pt><synph><var>pusBufSize</var></synph></pt>
+<pd>The pointer to a USHORT variable containing the size of the
+buffer pointed to by pBuffer. Attention: this size value is set to
+the actual length of the returned segment data on exit.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The function returns zero if successful otherwise an error code
+is returned. The error code 510 is also issued when the buffer size
+is not large enough to receive the segment data.</p>
+</section></refbody></reference>

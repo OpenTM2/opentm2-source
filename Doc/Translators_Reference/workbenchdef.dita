@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="workbenchdef">
+<title>What the Workbench is</title>
+<prolog><metadata><keywords>
+
+<indexterm>translation workbench<indexterm>definition</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The <b>Workbench</b> is the first main window you
+see after you have started <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. With this window you
+start the actual translation and perform tasks closely related to
+translating, such as importing and exporting.</p>
+<p>The Workbench is the environment for managing all <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+components, such as: 
+<ul>
+<li>Documents</li>
+<li>Folders</li>
+<li>Translation Memories</li>
+<li>Dictionaries</li>
+</ul></p>
+<p>Each component is listed in an individual window. Usually you work
+with any of these components in the following way: 
+<ol>
+<li>Select the item you want to work with from the respective window.
+For example, a document.</li>
+<li>Select the task you want to perform with this item from the respective
+menu. For example, <b>Import...</b>.</li>
+<li>Fill in the required information in the respective window. <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+needs this information to correctly perform the task you selected.</li>
+<li>Press a button (for example, <b>Import</b>) to
+start the specified task.</li>
+</ol></p>
+<p>The most important tasks in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> are also represented
+as icons in the toolbar of the Workbench. When you move your cursor
+over the individual icons you get hover help, giving you a short description
+of what the icon represents.</p>
+<pA status bar at the bottom of the Workbench indicates
+your current action. For example, if you select <b>New…</b> from
+the <b>File</b> menu, the status bar displays "Create
+a new object". To display the status bar, point to <b>Toolbar</b> on
+the <b>View</b> menu and then select <b>Statusbar</b> from
+the submenu.</p>
+<p>You find all <keyword conref="common-symbols.dita#common-symbols/tm4w"/> components listed in smaller, subsidiary
+windows on the Workbench. Sometimes these windows are minimized. You
+see them displayed as icons at the bottom of the screen.  If you double-click
+on one of these icons, it is restored to its original size.</p>
+<p>When starting <keyword conref="common-symbols.dita#common-symbols/tm4w"/> for the first time, the following
+windows are shown on the Workbench: 
+<ul>
+<li>The <q>Folder List</q> window shows the folders currently available
+in your system. Folders contain all translation material for one translation
+project. Read more about folders in the <cite>Translator’s Workbook</cite>.<indexterm>list windows<indexterm>Folder List</indexterm></indexterm></li>
+<li>The <q>Translation Memory List</q> window (as icon) shows the
+Translation Memories currently available in your system. Translation
+Memories keep all sentences you ever translated, and provide translation
+proposals for previously translated text. Read more about Translation
+Memories in <xref href="xlmwrk.dita#xlmwrk"/>.<indexterm>list windows<indexterm>Translation
+Memory List</indexterm></indexterm></li>
+<li>The <q>Dictionary List</q> window shows the dictionaries currently
+available in your system. For the translation of a document you can
+use more than one dictionary. Read more about working with dictionaries
+in <xref href="dicwrk.dita#dicwrk"/>.<indexterm>list windows<indexterm>Dictionary
+List</indexterm></indexterm></li>
+</ul></p>
+<p>Each item in a list is preceded by a small icon indicating
+the type of item.</p>
+<p>To work with other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> components, such as language
+lists, terminology lists, or markup tables, open the respective window
+by selecting it from the <b>Utilities</b> menu.</p>
+</body></topic>

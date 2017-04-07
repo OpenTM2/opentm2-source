@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="imfolcl">
+  <title>Importing a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>folder<indexterm>importing (from command area)</indexterm></indexterm>
+      <indexterm>importing<indexterm>folders (from command area)</indexterm></indexterm>
+      <p>It might be more convenient to use a command instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows to import a 
+        folder. This is especially useful if you have many folders that you want to import.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>importing folders</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">importing
+          folders</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you import a folder from the 
+        <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command line. Note that lowercase 
+        letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>FLDIMP</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq importance="required">
+          <groupseq>
+            <delim>/</delim>
+            <kwd>FRomdrive</kwd>
+            <oper>=</oper>
+            <var>drive</var>
+          </groupseq>
+          <groupchoice importance="optional">
+            <groupseq importance="default">
+              <delim>/</delim>
+              <kwd>FromPath</kwd>
+              <oper>=</oper>
+              <kwd>\OTM\EXPORT</kwd>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <kwd>FromPath</kwd>
+              <oper>=</oper>
+              <var>path</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OPtions</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <fragref>option</fragref>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <fragref>option</fragref>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupseq>
+            <delim>/</delim>
+            <kwd>TOdrive</kwd>
+            <oper>=</oper>
+            <var>drive</var>
+          </groupseq>
+          <groupchoice importance="optional">
+            <groupseq importance="default">
+              <delim>/</delim>
+              <kwd>ToPath</kwd>
+              <oper>=</oper>
+              <kwd>\OTM\EXPORT</kwd>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <kwd>ToPath</kwd>
+              <oper>=</oper>
+              <var>path</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>QUIET</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>EDit</kwd>
+          <oper>=</oper>
+          <var>editor</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MArkup</kwd>
+          <oper>=</oper>
+          <var>markup</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>CONV</kwd>
+          <oper>=</oper>
+          <var>conv</var>
+        </groupseq>
+        <fragment>
+          <title>option</title>
+          <groupchoice>
+            <kwd>DICT</kwd>
+            <kwd>MEM</kwd>
+          </groupchoice>
+        </fragment>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=FLDIMP</pt>
+          <pd><codeph>FLDIMP</codeph> specifies that you want to import a folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the folder that you want to import.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FRomdrive=<synph><var>drive</var></synph></pt>
+          <pd><synph><var>drive</var></synph> specifies the drive where the folder is imported from.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FromPath=<synph><var>path</var></synph></pt>
+          <pd><synph><var>path</var></synph> specifies the path where the folder is imported from.
+            Start the path value with a backslash \. The default is <codeph>\otm\export</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OPtions=</pt>
+          <pd>Specifies whether you want to import the folder with its associated dictionary (<codeph>DICT</codeph>) or Translation Memory 
+            (<codeph>MEM</codeph>). If you specify more than one option, you must enclose them in brackets and separate them with commas.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TOdrive=<synph><var>drive</var></synph></pt>
+          <pd><synph><var>drive</var></synph> specifies the drive where the folder is to be imported to. If nothing is specified, the folder 
+            is imported to the drive where the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> program files are located.</pd>
+        </plentry>
+        <plentry>
+          <pt>/ToPath=<synph><var>path</var></synph></pt>
+          <pd><synph><var>path</var></synph> specifies the path where the folder is to be imported to. Start the path value with a backslash \. 
+            The default is <codeph>\otm\export</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. If you do not specify this parameter, a message 
+            window pops up whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/EDit=<synph><var>editor</var></synph></pt>
+          <pd>Specifies the editor to be used for the imported folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MArkup=<synph><var>markup</var></synph></pt>
+          <pd>Specifies the markup table to be used for the imported folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/CONV=<synph><var>conv</var></synph></pt>
+          <pd>Specifies the conversion to be used for the imported folder.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not use any wildcard characters, such as 
+        an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to import a folder using the OTMBATCH command.</p>
+      <required-cleanup>
+        <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=fldimp /fld=pharma /fromdrive=a /todrive=e /options=(dict,mem)</codeblock>
+        </section>
+      </required-cleanup>
+      <p>In this example, the folder to be imported is called <codeph>pharma</codeph>. It is imported from drive A to drive E together with its 
+        associated dictionary and Translation Memory.</p>
+    </example>
+  </refbody>
+</reference>

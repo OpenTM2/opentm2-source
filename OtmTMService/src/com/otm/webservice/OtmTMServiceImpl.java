@@ -35,12 +35,10 @@ public class OtmTMServiceImpl implements OtmTMService {
 	public String synchronize(@WebParam(name = "parameters") String parameters) {
 		HashMap<String, String> paramHash = new HashMap<String, String>();
 		HashMap<String, String> resultHash = new HashMap<String, String>();
-		
-//System.out.println(parameters);	
+
 		mLogger.debug(parameters);
 		
         if(null==parameters) {
-//System.out.println("null parameters");
             mLogger.error("received null parameters");
 			resultHash.put(SyncParameters.RESPONSESTATUSMSG, "empty parameters send");
 			return serialize(resultHash);

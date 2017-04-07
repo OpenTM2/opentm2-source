@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00602">
+<title>FORMAT4.FRM</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>FORMAT4.FRM</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>This format file prints a dictionary extract with the following structure:</p>
+<p>
+<ul>
+<li>A front page showing the title of the printed dictionary, the date, and
+the author.</li>
+<li>The major part containing the dictionary entries with the fields specified
+by you. The sample contains the fields Translation, Part of Speech, Subject
+Code, and Context.</li>
+<li>A header section for each page with the name of the dictionary and the
+first headword on each page.</li>
+<li>The bottom of each page displaying the current page number.</li>
+</ul></p>
+<p>FORMAT4.FRM contains comments on most of the tags used. It is
+recommended that you read these comments to understand the results the tags
+produced on the printout.</p>
+<p>If you want to see the results of such a printout, print dictionary DICTPRT,
+which is contained in sample folder SAMPLPRT.</p>
+<note>You must first import SAMPLPRT into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. </note>
+</body></topic>

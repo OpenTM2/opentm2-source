@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00416" rev="GF_07122015">
+  <title>Working with Plug-Ins</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Plugins in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> are used to enhance the functionality. 
+       Existing plug-ins may be removed, new plug-ins may be added. So both, the <b>sequence</b> of the plug-ins as 
+       well as the <b>amount</b> of plugins may vary, and may not exist in the users 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> environment. This chapter describes the plug-ins 
+       which are usually deployed in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> base package.
+    </p>
+  </body>
+</topic>

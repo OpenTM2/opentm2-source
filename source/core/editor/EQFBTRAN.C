@@ -80,7 +80,6 @@ static CHAR_W chSeg2[MSGBOXDATALEN + 1];  // start of segment 2
 // copy specific fields from proposal meta data area
 VOID AddData_CopyFieldsFromList( PSZ_W pszTarget, PSZ_W pszSource, PSZ_W pszFieldList );
 
-
 //#define SHRINKLF_SEGDATA  "@\n"        // shrinked data with LF
 //#define SHRINKED_SEGDATA  "@"          // shrinked data
 
@@ -1343,6 +1342,10 @@ BOOL EQFBTInitTrans
          EQFBDocIsTranslated( pDoc );
          *pulSegNum = 1;                        // set return position
          fOK = FALSE;                           // do not proceed with proc.
+
+         // set document completion rate to 100%
+         WinSendMsg( ((PSTEQFGEN)pDoc->pstEQFGen)->hwndTWBS, EQFM_DOC_STATUS, (WPARAM)MP1FROMSHORT(EQF_DOC_COMPLRATE), (LPARAM)MP2FROMSHORT ( 100 ) );
+
       }
       else
       {
@@ -3288,7 +3291,7 @@ VOID EQFBGetPropMatch
        usChar = ( pDoc->usChar ) - CHARACTER_0;                  /* @KWT0010A */
      } /* endif */                                               /* @KWT0010A */
 
-   EQFBCopyPropMatch( pDoc, usChar, 0 , TRUE );     // let utility copy it
+   EQFBCopyPropMatch( pDoc, usChar, 0 , TRUE, FALSE );     // let utility copy it
 }
 
 
@@ -3334,7 +3337,9 @@ BOOL EQFBCopyPropMatch
    PTBDOCUMENT pDoc,                         // pointer to document ida
    USHORT usNum ,                            // number of match
    USHORT usMatchLevel,                      // minimum level of match
-   BOOL   fMsg )                             // display error message
+   BOOL   fMsg,                              // display error message
+   BOOL   fWithAnnotationData                // copy any annotation data of the proposal to the segment metadata
+)  
 {
    PSZ_W  pData = NULL;                      // pointer to data
    PSZ_W  pTemp;                             // temporary space
@@ -3679,12 +3684,30 @@ BOOL EQFBCopyPropMatch
                      } /* endif */
                   }
 
+                  if ( fWithAnnotationData )
+                  {
+                    PSZ_W pszPropData = pData + (wcslen(pData) + 1);
+                    HADDDATAKEY hKey = MADSearchKey( pszPropData, L"Note" );
+                    if ( hKey != NULL )
+                    {
+                      CHAR_W szStyle[40];
+                      MADGetAttr( hKey, L"style", szStyle, sizeof(szStyle) / sizeof(CHAR_W), L"" );
+                      MDAGetValueForKey( hKey, pDoc->szMetaData, sizeof(pDoc->szMetaData) / sizeof(CHAR_W), L"" );
+                      MDAddCommentData( &(pDoc->pTBSeg->pvMetadata), pDoc->szMetaData, szStyle );
+                      pDoc->szMetaData[0] = 0;
+                      pDoc->szContextBuffer[0] = 0;
+                      MDRefreshMetadata( pDoc, pDoc->pTBSeg, pDoc->szContextBuffer );
+                    } /* endif */
+                  } /* endif */
+
                   // MT proposals only: copy any MT data of copied proposal
                   if ( usState & MACHINE_TRANS_PROP )
                   {
                     PSZ_W pszPropData = pData + (wcslen(pData) + 1);
                     AddData_CopyFieldsFromList( pDoc->szMetaData, pszPropData, MTFIELDLIST );
                   }
+
+
 
                   // GQ 2012/10/15: PropTypeCopied handling moved to proposal copy logic
 
@@ -4734,4 +4757,3 @@ VOID AddData_CopyFieldsFromList( PSZ_W pszTarget, PSZ_W pszSource, PSZ_W pszFiel
   }
   *pszTarget = 0;
 }
-

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00034">
+  <title>Getting help</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>help for <keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides online help for each window. Display these help texts by
+      clicking the <b>Help</b> button in the respective window, or pressing F1. Read the help texts whenever you are not sure what to do 
+      in a window.
+    </p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> comes with <cite>A Quick Tour</cite> and a <cite>Translator’s
+      Workbook</cite>. These books teach you how to perform the basic tasks. If you work through both of them before you start working 
+      with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, it will be easier for you to become familiar with this program.
+    </p>
+    <p>A good way to learn about <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is to take the following approach: 
+      <ol>
+        <li>Read the <cite>A Quick Tour</cite> to learn how to perform the first steps with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+        <li>Work through the <cite>Translator’s Workbook</cite> to learn how to do all tasks necessary for a translation project.</li>
+        <li>Refer to the <cite>Translator’s Reference</cite> if you want to know more about a certain function in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+      </ol>
+    </p>
+  </body>
+</topic>

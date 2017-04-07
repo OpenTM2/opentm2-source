@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memdlcl">
+<title>Deleting a Translation Memory</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>Translation Memory<indexterm>deleting (from command
+area)</indexterm></indexterm><indexterm>deleting<indexterm>Translation Memory databases
+(from command area)</indexterm></indexterm>
+<p>If you want to delete a Translation Memory, using a command typed
+in your system’s command area instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows
+might be quicker and more convenient.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>deleting Translation
+Memory databases</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">deleting
+Translation Memory databases</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you delete a Translation
+Memory with the OTMBATCH command. Note that lowercase letters in a parameter
+name are optional and need not be typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>MEMDEL</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>MEm</kwd><oper>=</oper><var>memdb</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>QUIET</kwd></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=MEMDEL</pt>
+<pd><codeph>MEMDEL</codeph> specifies that you want to remove a Translation
+Memory.</pd></plentry>
+<plentry><pt>/MEm=memdb</pt>
+<pd>Specifies the name of the Translation Memory that you want to
+remove.</pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. If you do not specify this parameter, a message window
+pops up whenever an error occurs or when the task has successfully
+completed.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to delete a Translation Memory
+using the OTMBATCH command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=memdel /mem=medmem</codeblock></section></required-cleanup>
+<p>In this example, the Translation Memory <codeph>medmem</codeph> is deleted.
+You will be prompted with a message window. </p>
+</example></refbody></reference>

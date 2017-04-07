@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="iproc">
+<title><!--rev=wst-->Installation procedure</title>
+<prolog><metadata><keywords>
+
+<indexterm>installing<indexterm>procedure</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body><!--rev=wst-->
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 6.0 comes in two installation images:</p>
+<p><b>TM6xBase.EXE</b></p>
+<p><ph>Use this install image to install <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version
+6 on a system with no previous version of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installed
+on it (fresh install).</ph></p>
+<p><ph><b>TM6xUPD.EXE </b></ph></p>
+<p><ph>Use this install image to upgrade <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version
+TP5521 or later to <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 6.  If you are using
+a version of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> prior to TP5521, you must first upgrade
+to Version TP5521 and then to Version 6 using TM6xUPD.EXE. You can
+also uninstall your older version of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and install
+version 6 using TM6xBase.EXE.</ph><fn>NOTE:     Back up any translation
+material as described in "Reusing <keyword conref="common-symbols.dita#common-symbols/tm4w"/>/2 Version 1.0
+translation material"</fn></p>
+<p>
+<ol>
+<li>Download the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> version 6 install image TM6xUPD.EXE
+from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> ftp server.</li>
+<li>Stop <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, if it is running.</li>
+<li> Start the installation by running the install image TM6xUPD.EXE.</li>
+<li>On the welcome screen click on "Next". The setup status window
+is displayed.</li>
+<li>On the next screen click on "Finish".</li>
+</ol></p>
+</body></topic>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="deawdpf">
+<title>WordPerfect documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>WordPerfect</indexterm></indexterm>
+<indexterm>WordPerfect documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports WordPerfect document formats that were created
+with WordPerfect Version 5.x, Version 6.0, and Version 6.1. You can
+import these documents into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> using the <codeph>EQFWP</codeph> (for
+WordPerfect Version 5.x documents) or <codeph>EQFWP6</codeph> (for WordPerfect
+Version 6.0 and 6.1 documents) markup table.</p>
+<p>When you have translated the document, you can export it in external
+format and load it back into WordPerfect to generate a new index and
+new table of contents, for example, to print and review the translation.</p>
+<note>During translation, segments spanning more than two
+lines in the <q>Translation</q> window are joined including a blank
+space. As an exception to this rule, a blank is not inserted if an
+inline tag (such as [bold] or [italic]) is found
+at the end of a line. However, if you need a blank between the tag
+and the first word of the following line, it is recommended to join
+the lines such that no line ends with a tag or to start the following
+line with a blank before the first word.</note>
+</body></topic>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00422">
+  <title>MTI Installation Instructions</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>MTI Installation Instructions</indexterm>
+      <p>
+        <i>Software Prerequisites:</i>
+      </p>
+      <ul>
+        <li>Windows operating system (WINNT; WIN2000; WINXP)</li>
+        <li><keyword conref="common-symbols.dita#common-symbols/tm4w"/> (TM) 6.0.6 or higher</li>
+        <li>MQSeries client for your operating system</li>
+        <li>Java Runtime Environment version 1.4 or higher</li>
+      </ul>
+      <p>In order to use MTI through MQSeries you need to be connected to the IBM Intranet. Users
+        without access to the IBM Intranet can access MTI through a ftp connection. In order to use
+        this connection the user needs to have an account on the IBM ftp server and be setup as MTI
+        user on this server. No additional software is required for the ftp connection besides
+        TM6.0.6.</p>
+      <p>The following MTI installation instruction assume that your operating system is working
+        properly and that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 6.0.6 or
+        higher is already installed on your system.</p>
+      <p>
+        <i>MTI over MQSeries (requires a IBM Intranet connection)</i>
+      </p>
+      <p>
+        <ol>
+          <li>Open a command prompt and execute 'java -version' to verify if a Java version 1.4 or
+            higher is already installed on your system. If Java is not installed or the installed
+            version is lower as 1.4 please download Java version 1.4 or higher and install it on
+            your system before continuing with the instructions below.Java 1.4 is also available for
+            download from the MTI intranet website.</li>
+          <li>Download the MQSeries Client install image from the MTI intranet website into a
+            temporary directory on your local disk. ( <b><i>WINNT:</i></b>
+            <i>mqcvENUS-winnt.zip</i> ,<b>WIN2000 and WINXP:</b>
+            <i>mqcvEnUS-xp2000.zip</i> )</li>
+          <li>Unzip the zip file content in the temporary directory on your local disc.</li>
+          <li>Start the installation of the MQSeries client with a double click on the 'Setup.exe'
+            file.</li>
+          <li><b>IMPORTANT</b>: Use the 'Compact' installation option. 'Typical' or 'Custom' will
+            not work.</li>
+          <li>After the installation is completed successfully no further configuration for MQSeries
+            is required. Close all installation windows. A system re-start is not required.</li>
+        </ol>
+      </p>
+      <p>To be able to use the MTI function from <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> you need to provide your MQSeries or
+        ftp user account information in TM.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00513">
+  <title><!--rev=ws26102010-->EqfRemoveDocs</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfRemoveDocs</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfRemoveDocs</indexterm></indexterm>
+      <p><i>EqfRemoveDocs</i> removes documents from a folder. The names of the removed documents
+         are specified in a text file, one document per line.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfRemoveDocs</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+          <var>pszListFile</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder containing the documents to be removed</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszListFile</entry>
+              <entry colname="col3">The name of the list file containing the names of the documents being removed</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use EqfGetLastError to retrieve
+                the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{ 
+  USHORT usRC = 0; HSESSION hSession = 0L; 
+  // start the Eqf calling interface
+  session usRC = EqfStartSession( &amp;hSession ); 
+  // Remove the documents listed in file
+  REMOVELIST.TXT from folder SAMPLE1 
+  if ( !usRC ) 
+    { usRC = EqfRemoveDocs( hSession, "SAMPLE1", "C:\REMOVELIST.TXT" ); 
+    } /* endif */ 
+  // terminate the session EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

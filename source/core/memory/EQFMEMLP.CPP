@@ -1397,6 +1397,7 @@ static USHORT  MemLoadStart( PVOID *ppIda,
        {
          UtlClose( pLIDA->hFile, FALSE );
          pLIDA->hFile = NULL; 
+         pDialogIDA->hFile = NULL;
        } /* endif */
 
        memset( pLIDA->pstMemInfo, 0, sizeof(MEMEXPIMPINFO) );
@@ -1521,6 +1522,12 @@ static USHORT  MemLoadStart( PVOID *ppIda,
 
    if ( !fOK )
    {
+     // call import end function when available
+     if ( pLIDA->pfnMemImpEnd != NULL )
+     {
+       pLIDA->pfnMemImpEnd( pLIDA->lExternalImportHandle );
+     }
+
       // Clean the storage allocations if the MemLoadStart function failed.
       if ( pLIDA != NULL )
       {
@@ -3065,18 +3072,39 @@ USHORT MemFuncImportMem
 {
   USHORT      usRC = NO_ERROR;         // function return code
 
-  // prepare a new import or continue current one
-  if ( pData->fComplete )              // has last run been completed
+  // when running in COMPLETE_IN_ONE_CALL_OPT mode we use our own data area to be independent of other API calls running in parallel
+  if ( lOptions & COMPLETE_IN_ONE_CALL_OPT )
   {
-    // prepare a new analysis run
-    pData->usProgress = 0;
-    usRC = MemFuncPrepImport( pData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
+    PFCTDATA pPrivateData = (PFCTDATA)malloc( sizeof( FCTDATA ) );
+    memset( pPrivateData, 0, sizeof( FCTDATA ) );
+    pPrivateData->fComplete = TRUE;
+    pPrivateData->usProgress = 0;
+    usRC = MemFuncPrepImport( pPrivateData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
+    if ( usRC == 0 )
+    {
+      while ( !pPrivateData->fComplete )
+      {
+        usRC = MemFuncImportProcess( pPrivateData );
+      }
+      usRC = pPrivateData->usMemLoadRC;
+    }
+    free( pPrivateData );
   }
   else
   {
-    // continue current analysis process
-    usRC = MemFuncImportProcess( pData );
-  } /* endif */
+    // prepare a new import or continue current one
+    if ( pData->fComplete )              // has last run been completed
+    {
+      // prepare a new analysis run
+      pData->usProgress = 0;
+      usRC = MemFuncPrepImport( pData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
+    }
+    else
+    {
+      // continue current analysis process
+      usRC = MemFuncImportProcess( pData );
+    } /* endif */
+  }
   return( usRC );
 } /* end of function MemFuncImportMem */
 
@@ -3324,6 +3352,9 @@ USHORT MemFuncImportProcess
          MemoryFactory *pFactory = MemoryFactory::getInstance();
          pFactory->closeMemory( pDialogIDA->pMem );
          if ( pDialogIDA->hFile ) CloseFile( &(pDialogIDA->hFile));
+         pData->usMemLoadRC = UtlQueryUShort( QS_LASTERRORMSGID );
+         if ( pData->usMemLoadRC == 0 ) pData->usMemLoadRC = ERROR_MEMIMP_ERROR;
+         usPhase = 0;
        }
        else
        {

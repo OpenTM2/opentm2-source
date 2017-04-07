@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="exchangedocs">
+<title>Exchanging documents</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>When a translation is completed, it must be
+exported from <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and loaded into its original word-processing
+system for final formatting and printing. The markup information is
+preserved throughout the document because all tags are protected.</p>
+<p>An exported translation can be copied on a diskette or forwarded
+to another translator or a word-processor operator using e-mail.</p>
+</body></topic>

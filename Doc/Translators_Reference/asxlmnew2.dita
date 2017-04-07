@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="asxlmnew2">
+  <title>Creating an <keyword conref="common-symbols.dita#common-symbols/ITM"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>reusing<indexterm>existing translations</indexterm></indexterm>
+      <indexterm>Initial Translation Memory (ITM)<indexterm>creating</indexterm></indexterm>
+      <indexterm>creating<indexterm>Initial Translation Memory (ITM)
+        databases</indexterm></indexterm>
+      <indexterm>commands<indexterm>EQFITM</indexterm></indexterm>
+      <indexterm>translations<indexterm>reusing existing ones</indexterm></indexterm>
+      <p>You can generate a Translation Memory already before you start translating a document in
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. In this way, you can
+        immediately benefit from having a filled <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> when you start translating, for
+        example, updated versions of existing documents.</p>
+      <p>Such a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is called an Initial
+          <keyword conref="common-symbols.dita#common-symbols/xlmem"/> (ITM). <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> lets you create an Initial Translation
+        Memory based on existing translations—both a source file, containing the original document,
+        and a target file, containing the corresponding translated document, must be available.</p>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> scans both files to find the
+        corresponding target segment for each original segment, that is, it <i>aligns</i> the
+        segments of the two files. You are recommended to check the combinations of segments
+        afterwards.</p>
+      <p>When you use an Initial Translation Memory during a translation, the proposals in the
+          <q>Translation Memory</q> window are prefixed with [m] (created by <b>m</b>achine).
+          <indexterm>Translation Memory
+            matches<indexterm>machine-generated</indexterm></indexterm><indexterm>matches<indexterm>machine-generated</indexterm></indexterm>Such
+          <i>machine</i> proposals are treated as fuzzy matches, this means that they are not used
+        during automatic substitution.</p>
+      <p>To generate an Initial Translation Memory, you can choose between two methods. You can
+        start generating an Initial Translation Memory: <ul>
+          <li><b>From the command area</b> In this case you must type the EQFITM command and all
+            required parameters in your system’s command area and press Enter. For a complete
+            description of the syntax of this command, see <xref
+              href="createinixlm.dita#createinixlm"/>.</li>
+          <li><b>From the Initial Translation Memory icon</b> In this case you must double-click the
+              <b>Initial Translation Memory Tool</b> icon in the <q><tm trademark="IBM"
+                tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm>
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/></q> group window.</li>
+        </ul></p>
+      <p>
+        <b>Note: In both cases the SGML memory is written from ITM in UNICODE format</b>
+      </p>
+      <p>The following sections describe how to: <ul>
+          <li>Generate an Initial Translation Memory</li>
+          <li>Check the results of the alignment process (the process of combining source segments
+            with their matching target segments)</li>
+        </ul>
+      </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The original documents and corresponding translations must be available as separate
+          files.</li>
+        <li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> that is subsequently to
+          be used as an Initial Translation Memory must already be initialized (see <xref
+            href="xlmnew1.dita#xlmnew1"/>).</li>
+        <li>The markup table for the document files must be the same for source and target
+          documents.</li>
+        <li>The language support for the source language and the target language must be installed.
+        </li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <ol>
+        <li>Type <codeph>eqfitm</codeph> in the command area of your system (next to the
+            <codeph>[C:\]</codeph> prompt).</li>
+        <li>Press Enter to start the command.</li>
+        <li>Double-click the <b>Initial Translation Memory Tool</b> icon in the <q><tm
+              trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm> <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/></q> group window.</li>
+      </ol>
+      <p>The <q>Create Initial Translation Memory</q> window is displayed:
+              <required-cleanup><indexterm>windows<indexterm>Create Initial <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"
+              /></indexterm></indexterm></required-cleanup><fig id="itmwin" expanse="column">
+          <title>Create Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            window</title><image placement="break" href="eqfb7s9d.gif"><alt>Figure shows Create
+              Initial window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+          </pt>
+          <pd>Select an existing <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be
+            filled with the matched segment pairs of existing translations (source segments and
+            their matching target segments).</pd>
+        </plentry>
+        <plentry>
+          <pt>Markup</pt>
+          <pd>Select an existing markup table to be used for the file pairs you select.</pd>
+        </plentry>
+        <plentry>
+          <pt>Selection of file pairs</pt>
+          <pd>Define one file pair (source and target) at a time, then click <b>Add</b> to add the
+            file pair to the <b>Filelist</b> list box. Then specify the next file pair or add all
+            file pairs having the same name in the source file list and the target file list by
+            clicking <b>Add all matching files</b>.</pd>
+        </plentry>
+      </parml>
+      <p>A source file is defined by the following parameters: <parml>
+          <plentry><pt>Source language</pt>
+            <pd>Select the language of the original document file from the list of available
+              languages.</pd></plentry>
+          <plentry><pt>Source start path</pt>
+            <pd>Specify the path information that you do <b>not</b> want to become part of the
+              document name when the original document is stored in the <keyword
+                conref="common-symbols.dita#common-symbols/ITM"/>. For example, if your source file
+              is stored in <codeph>e:\tm\project\english</codeph> and you do not want
+                <codeph>e:\tm\project</codeph> to become part of the name under which it is stored,
+              specify <codeph>e:\tm\project</codeph> in this field. <p>The path you specify here can
+                differ from the target start path. However, if you specify a source start path, you
+                must also specify a target start path.</p></pd></plentry>
+          <plentry><pt>Source file</pt>
+            <pd>You can: <ul>
+                <li>Type the fully qualified file name in this field.</li>
+                <li>Type only the file name but select the location of the file using the
+                    <b>Browse</b> button.</li>
+                <li>If you first specify the file location using the <b>Browse</b> button or by
+                  typing in the location into the <b>Current Directory</b> field, select the file
+                  name from the <b>Files</b> list box.</li>
+              </ul></pd></plentry>
+          <plentry><pt>Current directory</pt>
+            <pd>This field shows the drive and path currently selected, you can modify the path
+              directly or you can click <b>Browse</b> to display the "Browse for Folder" window on
+              which you can select the appropriate path.</pd></plentry>
+          <plentry><pt>Files</pt>
+            <pd>Contains a list of all the files in the current directory. Select the source
+              file.</pd></plentry>
+        </parml></p>
+      <p>The target file is defined similar to the source file: <parml>
+          <plentry><pt>Target language</pt>
+            <pd>Select the language of the target document from the list of available
+              languages.</pd></plentry>
+          <plentry><pt>Target start path</pt>
+            <pd>Specify the path information that you do <b>not</b> want to become part of the
+              document name when the target document is stored in the <keyword
+                conref="common-symbols.dita#common-symbols/ITM"/>. For example, if your target file
+              is stored in <codeph>e:\tm\project\german</codeph> and you do not want
+                <codeph>e:\tm\project</codeph> to become part of the name under which it is stored,
+              specify <codeph>e:\tm\project</codeph> in this field. <p>The path you specify here can
+                differ from the source start path. However, if you specify a target start path, you
+                must also specify a source start path.</p></pd></plentry>
+          <plentry><pt>Target file</pt>
+            <pd>If the <b>Current Directory</b> field contains the correct drive and path name,
+              either select the source document from the <b>Files</b> list box or type it directly
+              into this field. Otherwise, first specify the correct drive and path information in
+              the <b>Current Directory</b> field.</pd></plentry>
+          <plentry><pt>Current directory</pt>
+            <pd>This field shows the drive and path currently selected, you can modify the path
+              directly or you can click <b>Browse</b> to display the "Browse for Folder" window on
+              which you can select the appropriate path.</pd></plentry>
+          <plentry><pt>Files</pt>
+            <pd>Contains a list of all the files in the current directory. Select the target
+              file.</pd></plentry>
+          <plentry><pt>Filelist</pt>
+            <pd>Displays file pairs selected for subsequent processing. All files must have the same
+              markup. To change the selection of file pairs, use one of the following buttons: <parml>
+                <plentry><pt>Add</pt>
+                  <pd>To save the specified file pair, click this button. The names of the source
+                    file and of the target file are added to the <b>Filelist</b> list
+                  box.</pd></plentry>
+                <plentry><pt>Add all matching files</pt>
+                  <pd>To add all files having the same name in the source and target file list as
+                    file pairs.</pd></plentry>
+                <plentry><pt>Delete/Delete all</pt>
+                  <pd>To remove a file pair, first select the file pair from the <b>Filelist</b>
+                    list box, then select <b>Delete</b>. To remove all file pairs, select <b>Delete
+                      all</b>.</pd></plentry>
+              </parml></pd></plentry>
+          <plentry><pt>Create</pt>
+            <pd>Starts the creation of the Initial Translation Memory and presents its
+              contents on the screen for you to review. After you saved the Initial Translation
+              Memory, the contained segments are treated as <b><i>machine</i></b>
+              proposals, prefixed with [m]. To remove this prefix and enable the segments to be used
+              during the automatic substitution process, use
+            <codeph>EQFDMM.EXE</codeph>.</pd></plentry>
+          <plentry><pt>Align</pt>
+            <pd>When all file pairs have been added to the <b>Filelist</b> list box, click
+                <b>Align</b> to begin filling the Initial <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>. The aligning process starts and
+              connects each source segment with a corresponding target segment. The matched segments
+              are written to the selected Translation Memory (prefixed by [m]). Mind that these
+              segment connections have not been checked yet. As it can take some time to join the
+              document file pairs together, a window is displayed showing the progress of the
+              operation.</pd></plentry>
+          <plentry><pt>Prepare</pt>
+            <pd>Same as <b>Create...</b> but no visual presentation of the Initial Translation
+              Memory contents. The selected file pairs are prefixed by <b>p</b>. You can use this
+              option to create the Initial Translation Memory but view it later.</pd></plentry>
+          <plentry><pt>Cancel</pt>
+            <pd>Stops the interaction with this window and returns you to the starting point. Any
+              modifications you have made are not saved.</pd></plentry>
+          <plentry><pt>Help</pt>
+            <pd>Gives information to help you interact with the current window.</pd></plentry>
+        </parml></p>
+      <p>When the generation of the Initial Translation Memory is completed, a message window
+        appears containing the number of paired segments. If you pressed the <b>Create...</b>
+        button, the contents of the Initial Translation Memory is presented in a window on the
+        screen. How you work with this window is described in <xref href="visual.dita#visual"/>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is filled with
+        matching source and target segments, using the file pairs you selected.</p>
+      <p>It is recommended that you check the correctness of the matches made by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>. You can do this before you start
+        translation work with this <keyword conref="common-symbols.dita#common-symbols/xlmem"/> as
+        described in <xref href="itmchk.dita#itmchk"/>, or online using the Initial Translation
+        Memory specific editor (see <xref href="visual.dita#visual"/>). This editor is invoked by
+        selecting the <b>Create</b> button in the <q>Create Initial Translation Memory</q>
+        window.</p>
+      <p>If you start to use the Initial <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> without any further checking, it is
+        recommended to treat the <b><i>machine-generated</i></b> matches (prefixed by [m])
+        in the same way as fuzzy matches (prefixed by [f]). When you copy these proposals into your
+        translation, check whether they need to be adapted and change them where necessary.</p>
+      <p>If you choose to use automatic substitution during analysis,
+            <b><i>machine-generated</i></b> matches are not used. </p>
+    </section>
+  </refbody>
+</reference>

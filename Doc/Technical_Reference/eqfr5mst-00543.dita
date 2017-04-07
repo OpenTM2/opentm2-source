@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00543">
+  <title>EQFBUILDDOCPATH</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>programming interface calls<indexterm>EQFBUILDDOCPATH</indexterm></indexterm>
+      <indexterm>EQFBUILDDOCPATH</indexterm>
+      <p><i>EQFBUILDDOCPATH</i> creates the fully qualified file name for a <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> document using the folder object name
+        and the document long name.</p>
+      <p>This function can be used to access documents stored in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> folders.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFBUILDDOCPATH</kwd>
+          <delim>(</delim>
+          <var>szFolObjName</var>
+          <sep>,</sep>
+          <var>szDocLongName</var>
+          <sep>,</sep>
+          <var>PathID</var>
+          <sep>,</sep>
+          <var>pchBuffer</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <synph>
+              <var>szFolObjName</var>
+            </synph>
+          </pt>
+          <pd> The folder object name as returned using EQFGETINFO with the GETINFO_FOLDEROBJECT
+            ID.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>szDocLongName </var>
+            </synph>
+          </pt>
+          <pd>The document long name.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>PathID </var>
+            </synph>
+          </pt>
+          <pd>The ID of the requested document path, valid IDs are:
+            <codeblock>PATHID_SOURCE to build the path to the source document
+PATHID_SEGSOURCE to build the path to the segmented source document
+PATHID_SEGTARGET to build the path to the segmented target document
+PATHID_TARGET to build the path to the target document</codeblock></pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>pchBuffer </var>
+            </synph>
+          </pt>
+          <pd>The pointer to a buffer receiving the fully qualified document path, the size of this
+            buffer has to be at least 60 bytes.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Return code</title>
+      <dl>
+        <dlentry>
+          <dt>0</dt>
+          <dd>function completed successfully</dd>
+        </dlentry>
+        <dlentry>
+          <dt>ERROR_INVALID_PARAMETER</dt>
+          <dd>wrong or missing parameter</dd>
+        </dlentry>
+        <dlentry>
+          <dt>ERROR_PATH_NOT_FOUND</dt>
+          <dd>the folder did not exist</dd>
+        </dlentry>
+        <dlentry>
+          <dt>ERROR_FILE_NOT_FOUND</dt>
+          <dd>the document does not exist</dd>
+        </dlentry>
+      </dl>
+    </section>
+    <example>
+      <title>Examples</title>
+      <dl>
+        <dlentry>
+          <dt/>
+          <dd>The folder "AnotherTestFolder" contains the document "myTest.HTML". The folder is
+            located on drive "E:" and has a short name of "ANOTH000.F00". The document short name is
+            "MYTESTHT.000". The primary drive of the <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> installation is "C:".</dd>
+        </dlentry>
+        <dlentry>
+          <dt/>
+          <dd>EQFBUILDDOCPATH( "C:\OTM\ANOTH000.F00", "myTest.HTML", PATHID_SOURCE, szBuffer ) would
+            return " E:\OTM\ANOTH000.F00\SOURCE\ MYTESTHT.000" in szBuffer.</dd>
+        </dlentry>
+      </dl>
+    </example>
+  </refbody>
+</reference>

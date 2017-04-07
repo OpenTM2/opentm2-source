@@ -3195,33 +3195,34 @@ MakeHashValue
 // Function flow:     check if still is space in list - if not allocate chunk
 //                    add this element to our list
 //------------------------------------------------------------------------------
-int filterSpace(wchar_t* pInData)
-{
-	if(pInData == NULL)
-		return 0;
-
-	wchar_t *pTemp = pInData;
-	wchar_t *pPos = pInData;
-	while(*pTemp != L'\0')
-	{
-		if(*pTemp==L' ' || *pTemp==L'\t')
-		{
-			pTemp++;
-		}
-		else
-		{
-			if(pPos == pTemp)
-				pPos++,pTemp++;
-			else
-				*pPos++ = *pTemp++;
-		}
-		   
-	}
-	if(pPos != pTemp)
-	    *pPos = L'\0';
-
-	return (pTemp-pPos);
-}
+// GQ 2016/11/28: undo of Li Pings fix for P403330 - the fix had the sideeffect to eliminate all blanks in segments following under certain conditions
+//int filterSpace(wchar_t* pInData)
+//{
+//	if(pInData == NULL)
+//		return 0;
+//
+//	wchar_t *pTemp = pInData;
+//	wchar_t *pPos = pInData;
+//	while(*pTemp != L'\0')
+//	{
+//		if(*pTemp==L' ' || *pTemp==L'\t')
+//		{
+//			pTemp++;
+//		}
+//		else
+//		{
+//			if(pPos == pTemp)
+//				pPos++,pTemp++;
+//			else
+//				*pPos++ = *pTemp++;
+//		}
+//		   
+//	}
+//	if(pPos != pTemp)
+//	    *pPos = L'\0';
+//
+//	return (pTemp-pPos);
+//}
 static
 BOOL AddToHashBlock
 (
@@ -3269,16 +3270,18 @@ BOOL AddToHashBlock
     pToken = &(pITMNopSegs->pTokenList[pITMNopSegs->ulUsed]);
     pToken->ulHash = ulHash;
 
-	// Fix P403330 begin
-	int spaces = filterSpace(pData);
-	pToken->pData = pData;
-	// Fix P403330 end
+// GQ 2016/11/28: undo of Li Pings fix for P403330 - the fix had the sideeffect to eliminate all blanks in segments following under certain conditions
+//	// Fix P403330 begin
+//	int spaces = filterSpace(pData);
+//	// Fix P403330 end
+    pToken->pData = pData;
 
     pToken->usStart= 0;
 
-	// Fix P403330 begin
-    pToken->usStop = (USHORT)(ulLength - 1 - spaces );
-	// Fix P403330 end
+//	// Fix P403330 begin
+//    pToken->usStop = (USHORT)(ulLength - 1 - spaces );
+//	// Fix P403330 end
+    pToken->usStop = (USHORT)(ulLength - 1);
 
     /******************************************************************/
     /* dummy setting for sType, just use MARK_DELETED                 */

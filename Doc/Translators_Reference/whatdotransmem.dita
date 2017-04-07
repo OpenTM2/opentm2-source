@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="whatdotransmem">
+<title>What you can do with <keyword conref="common-symbols.dita#common-symbols/xlmems"/></title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p>Most of the tasks concerning <keyword conref="common-symbols.dita#common-symbols/xlmems"/> begin from the <q>Translation
+Memory List</q> window.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li><q>Translation Memory List</q> window from the main window</li>
+<li>A <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from the window</li>
+<li>One of the enabled commands from the <b>File</b> or <b>View</b> menu</li>
+</ol></p>
+<p>This usually takes you to another window, where you can specify
+the necessary options and parameters and where you can start the requested
+procedure.</p>
+</section></refbody></reference>

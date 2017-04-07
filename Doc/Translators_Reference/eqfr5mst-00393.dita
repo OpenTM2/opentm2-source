@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00393">
+  <title>Organizing a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>organizing<indexterm>OTMBATCH: <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/> (from command
+        area)</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>OTMBATCH: organizing (from command
+        area)</indexterm></indexterm>
+      <p>To organize a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> it might be more
+        convenient to use a command instead of <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> windows. It is particularly useful if
+        you want to regularly organize several or all <keyword
+          conref="common-symbols.dita#common-symbols/xlmems"/> overnight.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>organizing <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/></indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">organizing Translation Memory
+            databases</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you organize a Translation Memory with the
+        OTMBATCH command. Note that lowercase letters in a parameter name are optional and need not
+        be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>MEMORG</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>memdb</var>
+            </groupseq>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <var>memdb</var>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>list_member_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=MEMORG</pt>
+          <pd><codeph>MEMORG</codeph> specifies that you want to organize a <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> specifies the name of the Translation
+            Memory to be organized. <p>If you want to specify several <keyword
+                conref="common-symbols.dita#common-symbols/xlmems"/>, enclose the Translation Memory
+              database names in brackets and separate them by commas.</p>
+            <p>If you want to specify a list of Translation Memory database names in a list file,
+              refer to this list file by preceding the list file name with the <codeph>@</codeph>
+              symbol (<codeph>@</codeph><synph><var>list_member_name</var></synph>). In the list
+              file enclose the Translation Memory database names in brackets and separate them by
+              commas.</p></pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to organize a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> using the OTMBATCH command.</p>
+        <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=memorg /mem=sample1</codeblock>
+        </section>
+      <p>In this example, the Translation Memory <codeph>sample1</codeph> is organized.</p>
+    </example>
+  </refbody>
+</reference>

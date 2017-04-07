@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="manipseg">
+<title>Manipulating segments</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> divides the translation into individual text
+units (segments). The editor provides functions to conveniently work
+with these segments.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="2*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Task</entry>
+<entry valign="top" rowsep="1">Key or Menu</entry>
+<entry valign="top" rowsep="1">Comment</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Compress segment <indexterm>segments<indexterm>compressing</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Turns segments presented in a style other than
+compact into compact style again.</entry></row>
+<row>
+<entry valign="top">Delete segment <indexterm>segments<indexterm>deleting</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Deletes the active segment.</entry></row>
+<row>
+<entry valign="top">Expand segment <indexterm>segments<indexterm>expanding</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Turns a segment into protected style if it was
+compact before.</entry></row>
+<row>
+<entry valign="top">Join segments <indexterm>segments<indexterm>joining</indexterm></indexterm></entry>
+<entry valign="top">Translate menu, "Join segments"</entry>
+<entry valign="top">Combines the active segment with the following
+one, and changes the way a document file is segmented.</entry></row>
+<row>
+<entry valign="top">Mark segment <indexterm>segments<indexterm>marking</indexterm></indexterm></entry>
+<entry valign="top">Key or command to be assigned</entry>
+<entry valign="top">Marks the active segment.</entry></row>
+<row>
+<entry valign="top">Reflow segment <indexterm>segments<indexterm>reflowing</indexterm></indexterm></entry>
+<entry valign="top">Edit menu, "Reflow segment"</entry>
+<entry valign="top">The current segment is reflown (dependent on definition
+of right margin). This function is not active if right margin is set
+to AUTO.</entry></row>
+<row>
+<entry valign="top">Spellcheck segments <indexterm>segments<indexterm>spellchecking</indexterm></indexterm></entry>
+<entry valign="top">Spellcheck menu, "Segment"</entry>
+<entry valign="top">Checks the spelling of a segment.</entry></row>
+<row>
+<entry valign="top">Split joined segments <indexterm>segments<indexterm>splitting</indexterm></indexterm></entry>
+<entry valign="top">Translate menu, "Split joined segments"</entry>
+<entry valign="top">Splits up previously combined segments at the
+current cursor position.</entry></row>
+<row>
+<entry valign="top">Translate segment <indexterm>segments<indexterm>translating</indexterm></indexterm></entry>
+<entry valign="top">Translate menu, "Translate segment" or
+Ctrl+Enter</entry>
+<entry valign="top">Confirms a translation and activates next segment.
+Alternative way to activate any segment in document where cursor has
+been positioned. Can be used to leave postediting mode.</entry></row>
+<row>
+<entry valign="top">Truncate segment <indexterm>segments<indexterm>truncating</indexterm></indexterm></entry>
+<entry valign="top">Alt+Delete</entry>
+<entry valign="top">Deletes all text from the current cursor position
+to the end of the segment.</entry></row>
+<row>
+<entry valign="top">Untranslate segment <indexterm>segments<indexterm>untranslating</indexterm></indexterm></entry>
+<entry valign="top">Translate menu, "Untranslate segment"</entry>
+<entry valign="top">Deletes the translated segment from the Translation
+Memory. The original segment replaces the translated one.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

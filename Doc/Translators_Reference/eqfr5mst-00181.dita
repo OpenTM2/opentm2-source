@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00181" rev="GF_06052015_2">
+  <title>Searching and replacing text in documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <section>
+      <title>General information</title>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a <b>Global Find and
+          Replace</b> function, which works across all or some documents contained in an <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> folder, or even across several folders.</p>
+      <p>This function might be helpful if you are looking for a particular piece of text of which
+         source document you are not sure about. Also, you may need to change a particular wording,
+         but do not want to type the new text manually at each occurrence. 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can search through a series of
+         documents to locate the required text and change it automatically. Any change can be
+         automatically reflected in the associated Translation Memory.</p>
+      <p>Note that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches and replaces
+         only pieces of text that can be translated. Markup tags cannot be changed. You can control
+         whether <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches in protected
+         text areas, like inline tags, for translatable text. This is helpful if you want to include
+         markup tag attribute values in the search process.</p>
+    </section>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <section>
+      <title>Prerequisites</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-folder must exist in
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, and the folder's documents
+         must have been analyzed.</p>
+    </section>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <section>
+      <title>Calling sequence</title>
+      <p>This function can either be started from the <q>Folder List</q> window or from the
+         <q>Document List</q> window belonging to a folder. The following description uses the
+         <q>Document List</q> window as the starting point.</p>
+      <p>
+        <ol>
+          <li>From the <q>Document list</q> window select one or more documents that need to be searched through</li>
+          <li>From the <q>File</q> menu, select <q>Global Find and Replace...</q>.</li>
+        </ol>
+      </p>
+      <p>The window <q>Global Find and Replace</q>, with the focus on tab <q>Interactive find and
+         replace</q> is displayed (see <xref href="#eqfr5mst-00181/GlobalFindAndReplaceInteractiveTab"/>).
+         <required-cleanup><indexterm>windows<indexterm>Global Find and Replace</indexterm></indexterm></required-cleanup>
+         <fig id="GlobalFindAndReplaceInteractiveTab" expanse="column">
+           <title>Global Find and Replace window, tab <q>Interactive Find and Replace</q></title>
+           <image placement="break" href="GlobalFindAndReplaceInteractiveTab.gif">
+             <alt>Figure shows Global Find and Replace window></alt>
+           </image>
+         </fig>
+      </p>
+    </section>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Find string [in TARGET]</pt>
+          <pd>The text-string you are looking. From the drop-down window, you can select one of the
+              last five terms that you recently searched for.
+            <p>If you are searching for 2 or more terms combined with AND, all terms must be contained 
+               in the same segment to form a match.</p>
+            <p>If you are searching for several terms combined with OR, either one of the terms must
+               be contained in the same segment to form a match.</p>
+            <p>If a search term is negated with the NOT operator, a segment will only match if the
+               negated term is not contained in the segment.</p>
+            <note>You can use wildcards: a * is the placeholder for multiple characters, a ? is the
+               placeholder for a single character. The placeholder can be changed in section <q>Wildcard</q>.</note>
+            <note>If a search string contains AND / OR / NOT, enclose the <b>search string</b> between
+               <b>double quotes</b>. If you want to search terms containing double quotes, the search term
+               has to be enclosed in double quotes and the double quote being searched has to be
+               duplicated. E.g. if you want to search for the term <i>Null"</i> ("Null" followed by a
+               double quote) the term has to be entered as <i>"Null"""</i> in the find field.</note>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>AND find string in SOURCE</pt>
+          <pd>A search string can not only be used to search in the <b>translation</b>, but at the
+              same time another (and different) search string can be used to search in the
+              <b>source</b> file too. Only if both values are found, a search result is displayed.</pd>
+        </plentry>
+        <plentry>
+          <pt>Replace string [in TARGET]</pt>
+          <pd>In order to <b>change</b> the searched term into another term, type the <q>replacement
+              term</q> into the text-box <b>Replace string [in TARGET]</b>. From the drop-down
+              window, you can also select one of the last five terms that you recently searched for.
+            <note>You can only replace terms in <b>translated</b> segments.</note>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Apply Batch list</pt>
+          <pd>
+            <p>Users can not only search using a single string, but an entire list of strings can be
+              applied instead. By clicking on tab <q>Batch List Maintenance</q>, several search and
+              replacement strings can be entered into a table form.
+              <fig id="GlobalFindAndReplaceBatchListTab" expanse="column">
+                <title>Global Find and Replace window, tab <q>Batch List Maintenance</q></title>
+                <image placement="break" href="GlobalFindAndReplaceBatchListTab.gif">
+                  <alt>Figure shows Batch List Maintenance window></alt>
+                </image>
+              </fig>
+            </p>
+            <ol>
+              <li>Column <q>#</q> shows the list-number of the entries.</li>
+              <li>In column <q>Search string in TARGET segment</q> users can type in the string that
+                  should be searched in the TARGET segment.</li>
+              <li>In column <q>Search string in SOURCE segment</q> users can type in the string that
+                  should be searched in the SOURCE segment.</li>
+              <li>In column <q>Replacement string in TARGET segment</q> users can type in the string
+                  that should be searched in the TARGET segment.</li>
+              <li>The entire table can be <b>exported</b> by pressing the button <q>Export
+                  table</q>. The file format is *.CSV (a comma seperated value file), and the file
+                  encoding is UTF-16.</li>
+              <li>The entire table can be <b>imported</b> by pressing the button <q>Import
+                  table</q>. The expected file format is *.CSV (a comma seperated value file), and the
+                  expected file encoding is UTF-16.</li>
+              <li>The <q>Up</q> button on the right hand side of the panel moves <b>up</b> a
+                  selected entry by one step.</li>
+              <li>The <q>Down</q> button on the right hand side of the panel moves <b>down</b> a
+                  selected entry by one step.</li>
+              <li>The <q>Add</q> button on the right hand side of the panel <b>opens</b> a dialog to add a new entry.
+                <ul>
+                  <li>The string to be searched in the <b>target</b> is added to the entry field <q>Search string in TARGET segment</q>.</li>
+                  <li>The string to be searched in the <b>SOURCE</b> is added to the entry field <q>Search string in SOURCE segment</q>.</li>
+                  <li>The string to be replaced in the <b>TARGET</b> is added to the entry field <q>Replacement string in TARGET</q>.</li>
+                </ul>  
+                <fig id="GlobalFindAndReplaceBatchListEntry1" expanse="column">
+                  <title>Adding search strings to the table</title>
+                  <image placement="break" href="GlobalFindAndReplaceBatchListEntry1.gif">
+                    <alt>Figure shows how to add serach strings to the table</alt>
+                  </image>
+                </fig>
+              </li>
+              <li>The <q>Delete</q> button on the right hand side of the panel <b>deletes</b> the
+                selected entry.</li>
+              <li>The <q>Edit</q> button on the right hand side of the panel <b>opens</b> an edit dialog used to modify an existing entry.
+                  Users can update the shown content in the panel. 
+                <ul>
+                  <li>The string to be searched in the <b>target</b> is added to the entry field <q>Search string in TARGET segment</q>.</li>
+                  <li>The string to be searched in the <b>SOURCE</b> is added to the entry field <q>Search string in SOURCE segment</q>.</li>
+                  <li>The string to be replaced in the <b>TARGET</b> is added to the entry field <q>Replacement string in TARGET</q>.</li>
+                </ul> 
+                <fig id="GlobalFindAndReplaceBatchListEntry2" expanse="column">
+                  <title>Editing a search string in the table</title>
+                  <image placement="break" href="GlobalFindAndReplaceBatchListEntry2.gif">
+                    <alt>Figure shows how to edit a search string in the table</alt>
+                  </image>
+                </fig>
+              </li>
+            </ol>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Options and Documents</pt>
+          <pd>
+            <p>In order to get a bigger <q>Search result</q> section, the section <q>Options and Documents</q> can 
+               either be shrinked or enlarged by clicking on the [-] or [+] sign on the left hand side of 
+               <q>Options and Documents</q>.</p> 
+          </pd>  
+        </plentry>  
+        <plentry>
+          <pt>Wildcard</pt>
+          <pd>
+            <ul>
+              <li><b>For single characters</b>: Select the character to be used as wildcard for <b>single</b> characters or
+                de-activate the single character wildcard by selecting "None". When used in the search
+                string the wildcard character matches any character of the document. 
+                <p><u>Example</u>: assuming that <q>?</q> has been selected as wildcard for single characters, the search
+                string <q>f?r</q> will match the following words: <q>fur</q>, <q>for</q> but not the
+                words <q>father</q>, <q>feather</q>, <q>fr</q></p>
+              </li>
+              <li><b>For multiple characters</b>: Select the character to be used as wildcard for multiple characters or de-activate the
+                multiple character wildcard by selecting "None". When used in the search string the
+                wildcard character matches none, one or more characters in the document. 
+                <p><u>Example</u>: assuming that <q>*</q> has been selected as wildcard for multiple characters, the
+                search string <q>f*r</q> will match the following words: <q>four</q>, <q>father</q>,
+                <q>feather</q>, <q>fr</q>, <q>for</q></p>
+              </li>
+            </ul>  
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Parameters</pt>
+          <pd>
+            <ul>
+              <li><b>Update Translation Memory</b>: Select this box if you want your changes to be reflected in the Translation Memory. 
+                  Any changed text segment is then updated in the Translation Memory associated to the folder.
+              </li>
+              <li><b>Confirm on replace</b>: Select this check box if you want <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+                  <b>not</b> to automatically substitute all changes, but to allow you to step through the changes one by one. 
+                  Selecting this check box also triggers to change the function of the button <q>Replace</q>:
+                  <ul>
+                    <li>If <b>selected</b>, the text on button <q>Replace</q> changes into <q>Prepare Replace</q>.</li>
+                    <li>If <b>not</b> selected, the text on button <q>Prepare Replace</q> changes into <q>Replace</q>.</li>
+                  </ul>
+              </li>
+              <li><b>Find in translatable text only</b>: Select this check box if you want 
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to search the text you are looking
+                  for in translatable text only. 
+                  <p>If this check box is not selected, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+                  searches also in protected text areas, like inline tags, for translatable text. This process might locate markup 
+                  tag attribute values.</p>
+              </li>
+              <li><b>Whole words only</b>: Select this check box if you want to find whole words only, not occurrencies where the
+                  <q>Find</q> string is part of a word. <p>If this check box is not selected, the Find
+                  term is also found if it is part of a word.</p>
+              </li>
+            </ul>  
+          </pd>  
+        </plentry>
+        <plentry>
+          <pt>Case</pt>
+          <pd>
+            <ul>
+              <li><b>Respect</b>: Specifies whether the search must <b>respect</b> case sensitivity.</li>
+              <li><b>Ignore</b>: Specifies whether the search must <b>ignore</b> case sensitivity.</li>
+            </ul>  
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Search in...</pt>
+          <pd>
+            <ul>
+              <li><b>Target</b>: Specifies whether to search in the <b>Target</b> only.</li>
+              <li><b>Source</b>: Specifies whether to search in the <b>Source</b> only.</li>
+              <li><b>Both</b>: Specifies whether to search in both, in the <b>Source</b> <u>and</u> in the <b>Target</b>.</li>
+            </ul>  
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Display Results</pt>
+          <pd>
+            <ul>
+              <li>If <q>Show source and target</q> is selected, then the columns <q>Source</q> <u>and</u> <q>Target</q> are 
+                  displayed in the section <q>Search results</q>.</li>
+              <li>If <q>Show source and target</q> is <b>not</b> selected, then only the column <q>Target</q> is  
+                  displayed in the section <q>Search results</q>.</li>
+              <li><q>Respect Linebreaks</q> allows to either display or hide line breaks in found segments.</li>
+            </ul>  
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Show Segments before / after found string</pt>
+          <pd>
+            <ul>
+              <li>If <q>Segments before/after</q> contains <q>0</q>: only show the segment containing the found string.</li>
+              <li>If <q>Segments before/after</q> contains <q>1</q>: show the found string plus the string before and after it.</li>
+              <li>If <q>Segments before/after</q> contains <q>2</q>: show the found string plus the two strings before and after it.</li>
+            </ul>  
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>The <q>Searched documents</q> box</pt>
+          <pd>Displays the list of documents that are to be searched.</pd>
+        </plentry>
+        <plentry>
+          <pt>The <q>Search results</q> box</pt>
+          <pd>This area shows the segment of the document containing the found text, andf the found text is highlighted. 
+              You are also informed about the <b>document name</b> (see column <q>Document</q>), as well as the 
+              <b>segment number</b> (see column <q>Segment</q>) containing the piece of text. 
+              <p>For easier perception of found text, the lines are wrapped if they exceed the available width. 
+              You can enlarge the text area by enlarging the <q>Global Find and Replace</q> window. This retains the 
+              dialog control elements, but dynamically resizes the available window space for the text area.</p>
+              <p>By pressing the button <q>Export segment list</q>, the entire list can be exported
+              either into a FLAT text file, or into an XML-file for further automated processing.
+              This button is only activated if the list is filled with data, otherwise it is de-activated.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Button <q>Find</q></pt>
+          <pd>
+            <p>Starts to search for the term that was specified in the <b>Find string [in TARGET]</b> (or
+            <b>Find string [in SOURCE]</b>, depending on the settings in section <b>Search in...</b>). 
+            The result of the search process is shown in the box <q>Search results</q>. The found term is 
+            highlighted.</p> 
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Button <q>Replace</q></pt>
+          <pd>
+            <p>This button can be clicked, if you do <b>not</b> select the check box <b>Confirm on change</b>. 
+               Clicking on the button <q>Replace</q> immeditale applies the desiered changes in the found 
+               string without asking the user for any confirmation. </p> 
+          </pd>  
+        </plentry>
+        <plentry>
+          <pt>Button <q>Open document</q></pt>
+          <pd>
+            <p>This button can be clicked to open the corresponding segment inside the document in which the 
+               term was found.</p>
+          </pd>  
+        </plentry>
+        <plentry>
+          <pt>Button <q>Prepare Replace</q></pt>
+          <pd>
+            <p>This button can be applied, if you select the check box <b>Confirm on change</b>. 
+              Clicking on the button <q>Prepare Replace</q> does <b>not</b> immeditale apply the desiered changes in the 
+              found string, but updates the list of found segments with the term to be deleted (gets a red background), 
+              and the new term (gets a green background) as defined in <q>Replace string [in TARGET]</q>. It allows 
+              to step through the changes one by one.</p>
+            <p>By selecting any entry in the box <q>Search result</q>, you can perform the following task by clicking one 
+              of the described buttons: 
+              <ul>
+                <li>Button <q>Previous</q>: if you are on 2nd or lower entry, you can <b>move backwards</b> to the previous 
+                    entry in the list.</li>
+                <li>Button <q>Export Segment List</q>: the entire segment list can be exported in either a plain text 
+                    format (*.TXT), or into an XML-document (*.XML).</li>
+                <li>Button <q>Apply Change</q>: the string to be replaced is marked with a strike-through font, and the 
+                    background is a light red color. In order to proceed to the next entry in the list, press the button 
+                    <q>Next</q></li>
+                <li>Button <q>Apply Change + Next</q>: the string to be replaced is marked with a strike-through font, and the 
+                  background is a light red color. The next entry in the list is automatically selected.</li>
+                <li>Button <q>Next</q>: if you are on any entry in the list (but not on the last entry in the list), you
+                    can <b>move foward</b> to the next entry in the list.</li>
+              </ul>
+            </p>
+          </pd>  
+        </plentry>
+
+        <plentry>
+          <pt>Button <q>Cancel</q></pt>
+          <pd>Stops the search and the interaction with this window and returns you to the starting
+            point. Any changes you have made are not saved.</pd>
+        </plentry>
+        <plentry>
+          <pt>Button <q>Help</q></pt>
+          <pd>Gives information to help you interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    <section>
+      <title>Results</title>
+      <p>The specified piece of text is located at every occurrence within a document and changed
+        where necessary. The associated Translation Memory is updated if requested.</p>
+    </section>
+    <example>
+      <title>Search examples with search operators</title>
+      <p>
+        <parml>
+          <plentry>
+            <pt>"and"</pt>
+            <pd>Finds all occurences of the string <b>and</b>. The double quotes surrounding the
+              term <b>and</b> are required because "and" is a <b>logical operator</b> too.</pd>
+          </plentry>
+          <plentry>
+            <pt>Peter and not Paul</pt>
+            <pd>Finds all occurences of the string <b>Peter</b> in segments which do <b>not</b>
+              contain the term <b>Paul</b>.</pd>
+          </plentry>
+          <plentry>
+            <pt>f*r</pt>
+            <pd>Finds all occurences of strings starting with <b>f</b> and ending with <b>r</b>,
+              e.g. for, fur, futur, fair, far</pd>
+          </plentry>
+          <plentry>
+            <pt>f?r</pt>
+            <pd>Finds all occurences of strings starting with <b>f</b> followed by <b>one</b>
+              character, followed and ending with <b>r</b>, e.g. for, far, fur.</pd>
+          </plentry>
+          <plentry>
+            <pt>"one"""</pt>
+            <pd>finds all occurences of the term <b>one</b> followed by a double quote.</pd>
+          </plentry>
+          <plentry>
+            <pt>""""</pt>
+            <pd>finds all occurences of a single double quote.</pd>
+          </plentry>
+        </parml>
+      </p>
+    </example>
+  </refbody>
+</reference>

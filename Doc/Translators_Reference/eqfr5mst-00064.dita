@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00064">
+  <title>Preparing for a translation</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Thai font<indexterm>selecting</indexterm></indexterm>
+        <indexterm>font selection</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you start translating a Thai document for the first time, the Thai font is <i>not</i> automatically selected in the Translation 
+      Environment. You need to manually set the font.</p>
+    <p>From the Translation Environment, select <b>Fonts</b> from the <b>Options</b> menu. This takes you to the <q>Font</q> window:</p>
+    <fig id="rtfedit_font" expanse="column">
+      <title>Setting fonts and colors for the Translation Environment</title>
+      <image placement="break" href="eqfb7s03g.gif">
+        <alt>Figure shows Setting fonts and colors for the Translation Environment</alt>
+      </image>
+    </fig>
+    <p>Select a font that supports the Thai script. You can also click <b>Defaults</b>, then <b>OK</b>, which selects an appropriate font for 
+      all Translation Environment windows shown on the left side of the <q>Font</q> window.</p>
+    <p>The window allows to customize and fine-tune the Translation Environment similar to <keyword conref="common-symbols.dita#common-symbols/tm4w"/>'s 
+      standard editor, as described in <xref href="eqfr5mst-00089.dita#eqfr5mst-00089"/>. Be sure to select only fonts that support the
+      Thai script. Your changes are reflected in the Preview area.</p>
+  </body>
+</topic>

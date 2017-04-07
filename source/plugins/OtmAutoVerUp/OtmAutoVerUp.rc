@@ -117,7 +117,7 @@ BEGIN
     PUSHBUTTON      "Check Now",IDC_BTN_CHECK_NOW,340,159,81,19
     CONTROL         "Check for updates once per day.",IDC_RADIO_DAY,"Button",BS_AUTORADIOBUTTON | WS_GROUP,24,165,197,12
     CONTROL         "Check for updates once per week.",IDC_RADIO_WEEK,"Button",BS_AUTORADIOBUTTON,24,193,197,12
-    CONTROL         "Check for updates manually.",IDC_RADIO_MANUAL,"Button",BS_AUTORADIOBUTTON,24,221,197,12
+    CONTROL         "Check for updates once per month.",IDC_RADIO_MANUAL,"Button",BS_AUTORADIOBUTTON,24,221,197,12
     GROUPBOX        "Proxy Setting",IDC_STATIC,14,53,418,64,WS_GROUP
     LTEXT           "Proxy Address:",IDC_STATIC,22,75,61,12
     LTEXT           "Proxy Port:",IDC_STATIC,22,96,61,12

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00266">
+   <title>Maptable section</title>
+   <prolog>
+      <metadata>
+         <keywords>
+
+            <indexterm>dictionary<indexterm>maptable section in external
+               dictionary</indexterm></indexterm>
+         </keywords>
+      </metadata>
+   </prolog>
+   <body>
+      <p>The maptable section determines how a dictionary entry is structured. It serves as a model
+         for the structure of an entry. The fields you defined in the maptable section are reflected
+         in the dictionary entries.</p>
+      <p>The maptable contains the total of all allowed fields (up to a maximum of 38) in a
+         dictionary entry. If a dictionary entry contains entry field tags not included in the
+         maptable section, the information between the tags is not imported during dictionary import
+         and only the entry fields listed in the maptable are taken into account. The information
+         between a start tag and its end tag contains the name you want to give the entry field of
+         the dictionary. You find these names displayed when you look up or edit a term in a
+         dictionary.</p>
+      <p>For example, if you specify <codeph>&lt;hdterm&gt;</codeph> Source Term
+            <codeph>&lt;/hdterm&gt;</codeph>, the terms you look up in the dictionary are shown
+         under <i>Source Term</i>. If you want to use another name, rename <i>Source Term</i> into
+         any other name you would like to use instead.</p>
+      <p>The following is an example of a maptable section:</p>
+      <section>
+         <title>Example of a maptable section</title>
+         <codeblock> &lt;maptable&gt;
+  &lt;hdterm&gt;Source term&lt;/hdterm&gt;
+   &lt;hom&gt;
+    &lt;epos&gt;English category&lt;/epos&gt;
+    &lt;sense&gt;
+     &lt;edef&gt;Formal English definition&lt;/edef&gt;
+     &lt;target&gt;
+      &lt;trans&gt;NL term&lt;/trans&gt;
+     &lt;/target&gt;
+    &lt;/sense&gt;
+   &lt;/hom&gt;
+ &lt;/maptable&gt;</codeblock>
+      </section>
+      <p>The maptable begins with the start maptable tag <codeph>&lt;maptable&gt;</codeph> and ends
+         with the end maptable tag <codeph>&lt;/maptable&gt;</codeph>. The
+            <codeph>&lt;hom&gt;</codeph>, <codeph>&lt;sense&gt;</codeph>, and
+            <codeph>&lt;target&gt;</codeph> start tags with their respective end tags mark the
+         homonym, sense, and target levels.</p>
+      <p>If you want to use the search criteria described in <xref
+            href="eqfr5mst-00288.dita#eqfr5mst-00288"/>, use the following start and end SGML
+         tags:</p>
+      <table pgwide="0" frame="topbot">
+         <tgroup cols="3" colsep="0" rowsep="1">
+            <colspec colname="col1" colwidth="1*"/>
+            <colspec colname="col2" colwidth="1*"/>
+            <colspec colname="col3" colwidth="2*"/>
+            <thead>
+               <row>
+                  <entry valign="top" rowsep="1">Searching for … </entry>
+                  <entry valign="top" rowsep="1">Level </entry>
+                  <entry valign="top" rowsep="1">Tags</entry>
+               </row>
+            </thead>
+            <tbody>
+               <row>
+                  <entry valign="top">Headwords</entry>
+                  <entry valign="top">Entry</entry>
+                  <entry valign="top"><codeph>&lt;hdterm&gt;</codeph> and
+                        <codeph>&lt;/hdterm&gt;</codeph></entry>
+               </row>
+               <row>
+                  <entry valign="top">Abbreviations</entry>
+                  <entry valign="top">Sense</entry>
+                  <entry valign="top"><codeph>&lt;eabbr&gt;</codeph> and
+                        <codeph>&lt;/eabbr&gt;</codeph></entry>
+               </row>
+               <row>
+                  <entry valign="top">Synonyms</entry>
+                  <entry valign="top">Sense</entry>
+                  <entry valign="top"><codeph>&lt;esyn&gt;</codeph> and
+                        <codeph>&lt;/esyn&gt;</codeph></entry>
+               </row>
+               <row>
+                  <entry valign="top">Related terms</entry>
+                  <entry valign="top">Sense</entry>
+                  <entry valign="top"><codeph>&lt;erel&gt;</codeph> and
+                        <codeph>&lt;/erel&gt;</codeph></entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </table>
+      <p>If you use the tags listed above, <keyword conref="common-symbols.dita#common-symbols/tm4w"
+         /> establishes a correct relation between the entry field name and the term you want to
+         look up in the dictionary.</p>
+      <p>If you want <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to add date
+         information automatically to your dictionary entries, add the Creation Date and Update
+         fields to the maptable.</p>
+      <p>If you want <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to
+         show style indicators in the dictionary lookup window, add the Style and the Trans Style
+         fields to the maptable.</p>
+      <p>You can add any number of individually defined entry fields to any level. The entry field
+         names are numbered and automatically mapped to an entry field name denoted by you in the
+         maptable. Entry fields you add to the entry, homonym, or sense level start with the tag
+            <codeph>&lt;euser id=xxx&gt;</codeph> and end with the tag
+            <codeph>&lt;/euser&gt;</codeph>, where <codeph>xxx</codeph> is the running number. Entry
+         fields you add to the target level start with <codeph>&lt;tuser id=xxx&gt;</codeph> and end
+         with <codeph>&lt;/tuser&gt;</codeph>.</p>
+      <p>You can control the display panel (the panel on which a field is displayed in the "Lookup
+         Entry" window) using the <codeph>displevel=</codeph> attribute. Use
+            <codeph>displevel=1</codeph> for fields to be displayed in panel 1,
+            <codeph>displevel=2</codeph> for fields to be displayed on panel 1 and 2 and
+            <codeph>displevel=3</codeph> for fields to be displayed on panel 1, panel 2, and panel
+         3. To omit fields from the display in the "Lookup Entry" window use
+            <codeph>displevel=0</codeph>. </p>
+      <p>The size of a dictionary field in the "Edit Entry in Dictionary" window is controlled using
+         the <codeph>entrytype</codeph> attribute. Specify <codeph>entrytype=1</codeph> for single
+         line fields and <codeph>entrytype=2</codeph> for multi-line fields. </p>
+      <p>In order to display the contents of a dictionary field as additional dictionary data in the
+         dictionary proposal area of the TranslationEnvironment specify the
+            <codeph>autlookup</codeph> attribute for the field.</p>
+      <section>
+         <title>Example of date-information fields and user-defined fields</title>
+         <codeblock>&lt;maptable&gt;
+ &lt;hdterm&gt;…&lt;/hdterm&gt;
+    .
+    .
+ <b>&lt;ecrdate&gt;Creation date&lt;/ecrdate&gt;</b>
+    .
+    .
+ &lt;hom&gt;
+    .
+    .
+ &lt;sense&gt;
+    .
+    .
+ <b>&lt;euser id=1 displevel=2 entrytype=1 autlookup&gt;Entry code&lt;/euser&gt;</b>
+ <b>&lt;elupdate displevel=3 entrytype=1&gt;Last update&lt;/elupdate&gt;</b>
+    .
+    .
+ &lt;target&gt;
+ &lt;trans&gt;…&lt;/trans&gt;
+ <b>&lt;tcrdate displevel=3 entrytype=1&gt;Translation creation date&lt;/tcrdate&gt;</b>
+ <b>&lt;tlupdate displevel=3 entrytype=1&gt;Translation update&lt;/tlupdate&gt;</b>
+ <b>&lt;tuser id=2 displevel=3 entrytype=2&gt;Related definition&lt;/tuser&gt;</b>
+ &lt;/target&gt;
+ &lt;/sense&gt;
+ &lt;/hom&gt;
+&lt;/maptable&gt;</codeblock>
+      </section>
+   </body>
+</topic>

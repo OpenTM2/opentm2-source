@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="diclook">
+  <title>Looking up a dictionary entry</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>looking up an entry</indexterm></indexterm>
+      <p>There are several ways to look up dictionary entries in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>: <ul>
+          <li>During translation, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+            automatically displays the translation of all terms in the currently active segment for
+            which entries are found in the dictionaries selected for search in the folder. The
+            dictionaries are searched in the order defined in the folder properties (see <xref
+              href="folvpr.dita#folvpr"/>), and the first entry found is displayed in the dictionary
+            window.</li>
+          <li>To view the complete dictionary entry or to check if there are any further entries in
+            other dictionaries, you can double-click the term, and the <q>Lookup Entry</q> window
+            for this term is displayed, which allows you to select the dictionary (if the entry
+            occurs in more than one of the folder dictionaries) and the lookup panel you want to
+            see. </li>
+          <li>You can also mark a term or a multiword term in the <q>Translation</q> window and
+            select <b>Look up a term…</b> from the <b>Translate</b> menu. If the term is not found
+            in the dictionaries, the <q>Look up a Term</q> window is displayed. If the term is found
+            in the dictionaries, the <q>Lookup Entry</q> window is displayed containing the data for
+            this term.</li>
+        </ul>
+      </p>
+      <p>Outside the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> you can look up
+        entries only in one dictionary at a time.</p>
+      <p>How to search for terms in a dictionary is described in <xref href="dicsrch.dita#dicsrch"
+        />. How to edit an existing entry in a dictionary after you have retrieved it is described
+        in <xref href="dicedit.dita#dicedit"/>. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The dictionary must exist.</li>
+        <li>The term you want to look up must exist in the dictionary.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Outside the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, follow this
+        procedure to look up a dictionary entry: <ol>
+          <li>Select the <q>Dictionary List</q> window.</li>
+          <li>Double-click the dictionary you want to open. The <q>Look up a Term</q> window is
+            displayed, where you can type the term, select your search type, and define a filter if
+            you want to restrict your search. For more detail on defining a filter, see <xref
+              href="dicfilt.dita#dicfilt"/>.</li>
+          <li>Type the term you want to look up in the <b>Term</b> field. <ph>You can use an
+              asterisk (*) as wildcard at any position, for example, <b>data*</b> or
+              <b>*data</b>.</ph></li>
+          <li>Select the <b>Headword</b> search option.</li>
+          <li>If the term exists in the dictionary, click <b>Look up</b> in the <q>Look up a
+              Term</q> window. Otherwise <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+            offers you to add the term to the dictionary (see also <xref href="dicedit.dita#dicedit"
+            />).</li>
+        </ol></p>
+      <p>During translation in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>,
+        there are several ways to look up a dictionary entry: <ul>
+          <li>Using a displayed term in the <q>Dictionary</q> window, double-click the term you want
+            to look up. The <q>Lookup Entry</q> window is displayed (see <xref
+              href="#diclook/dicdisp"/>).</li>
+          <li>Using a term in the <q>Translation</q> window: <ol>
+              <li>Mark the term, possibly a multiword term.</li>
+              <li>Select <b>Look up a term…</b> from the <b>Translate</b> menu. <p>If the specified
+                  term does not exist in the selected dictionary, the <q>Look up a Term</q> window
+                  is displayed (see <xref href="dicsrch.dita#dicsrch/dicluk4"/>) showing existing
+                  terms preceding and following the marked term in alphabetical sequence. For more
+                  information on searching, see <xref href="dicsrch.dita#dicsrch"/>.</p></li>
+            </ol></li>
+        </ul></p>
+      <p>In all cases, if the specified term exists in the dictionary, the <q>Lookup Entry</q>
+        window is displayed (see <xref href="#diclook/dicdisp"/>).
+              <required-cleanup><indexterm>windows<indexterm>Lookup
+          Entry</indexterm></indexterm></required-cleanup><fig id="dicdisp" expanse="column">
+          <title>Lookup Entry window</title><image placement="break" href="eqfb7s10h.gif"
+              ><alt>Figure shows Lookup Entry window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Dictionary</pt>
+          <pd>This field contains the name of the first dictionary where the term and its entry data
+            are found. If the lookup function was called from the <keyword
+              conref="common-symbols.dita#common-symbols/xlenv"/> and the folder properties contain
+            more than one dictionary, you can switch between the different dictionaries to see
+            whether the same term is in more than one dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>Display</pt>
+          <pd>In this field, you can switch between the lookup panels 1, 2, and 3 to display entry
+            data of this term as defined in the dictionary structure.</pd>
+        </plentry>
+      </parml>
+      <p>The large center box contains entries for the found term in the displayed dictionary
+        according to the panel selection.</p>
+      <p>Click <b>Print</b> to print the data of the term on your workstation printer. Click
+          <b>Edit…</b> if you want to edit the entry data of the found term in the <q>Edit Entry in
+          Dictionary</q> window. For more information on editing, see <xref
+          href="dicedit.dita#dicedit"/>. Click <b>Copy</b> to copy a marked text to the clipboard.
+        Click <b>Cancel</b> to leave the window. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The entries for the selected term are displayed. The entries are changed, printed, or
+        copied to the clipboard depending on the options you selected in this window.</p>
+    </section>
+  </refbody>
+</reference>

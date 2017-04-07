@@ -35,5 +35,5 @@ $(_DLL)\Messages$(_NLSCHAR).DLL: $(_MRI)\EQFMSG$(_NLSCHAR).STR
    @CVTRES /NOLOGO /OUT:$(_OBJ)\Messages.RBJ $(_RES)\EQFMSG$(_NLSCHAR).RES >>$(_ERR)
    @$(_LINKER) >>$(_ERR) @<<
 $(_OBJ)\Messages.RBJ
-/OUT:$(_DLL)\Messages$(_NLSCHAR).DLL $(_LINK_OPT_BASE) $(_LINK_LIB_CRT)
+/OUT:$(_DLL)\Messages$(_NLSCHAR).DLL $(_LINK_OPT_BASE) /NOENTRY $(_LINK_LIB_CRT)
 <<

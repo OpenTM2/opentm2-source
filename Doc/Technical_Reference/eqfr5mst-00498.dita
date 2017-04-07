@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00498">
+<title><!--rev=wst150703-->EqfGetSourceLine</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfGetSourceLine</indexterm><indexterm>programming interface calls<indexterm>EqfGetSourceLine</indexterm></indexterm>
+<p><i>EqfGetSourceLine </i>computes the start line
+and the end line of the given segment based on the linefeeds contained
+in the document.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfGetSourceLine</kwd><delim>(</delim><var>hSegFile</var><sep>,</sep><var>lSeg</var><sep>,</sep><var>plStartLine</var><sep>,</sep><var>plEndLine</var><delim>);</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="95*"/>
+<colspec colname="col2" colwidth="66*"/>
+<colspec colname="col3" colwidth="124*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSESEGFILE</entry>
+<entry colname="col2">hSegFile</entry>
+<entry colname="col3">The handle of a segmented file as returned by
+function <i>EqfLoadSegFile.</i></entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">ISeg</entry>
+<entry colname="col3">Number of segment for which the source line
+information is requested</entry></row>
+<row>
+<entry colname="col1">PLONG</entry>
+<entry colname="col2">plStartLine</entry>
+<entry colname="col3">Pointer to a LONG buffer which receives the
+starting line number of the segment</entry></row>
+<row>
+<entry colname="col1">PLONG</entry>
+<entry colname="col2">plEndLine</entry>
+<entry colname="col3">Pointer to a LONG buffer which receives the
+end line number of the segment</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="92*"/>
+<colspec colname="col2" align="left" colwidth="121*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry colname="col2" align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">10006 (SEGMENTISJOINED_RC)</entry>
+<entry colname="col2">The given segment is joined to a previous segment
+is not visible in the document</entry></row>
+<row>
+<entry colname="col1">10007 (INVALIDSEGMENT_RC)</entry>
+<entry colname="col2">The given segment number is invalid or out of
+range</entry></row>
+<row>
+<entry colname="col1">10008 (INVALIDFILEHANDLE_RC)</entry>
+<entry colname="col2">The file handle hSegFile is invalid</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use function
+EqfGetLastError to retrieve complete error information</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section></refbody></reference>

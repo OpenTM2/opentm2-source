@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF124-4" rev="GF_09092015_2">
+  <title>Support SmartTVT project by providing a unique Segment-ID</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The checkbox <q>With TVT tracking IDs</q> on the document export window must only be used when
+       required to support unique IBM TVT (Translation Verification Test) processing. When exporting a Unicode 
+       encoded file from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, a unique segment identifier 
+       is added around each translatable <keyword conref="common-symbols.dita#common-symbols/tm4w"/> segment. 
+       During TVT, when a piece of text needs to be changed, this unique identifier can be used to identify the 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> segment number and document name which contains 
+       that piece of text.
+    </p>
+    <p>This is a purely technical implementation, with no impact on translations performed in 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. So there is no further description in this document.
+    </p>  
+  </body>
+</topic>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<val>
+  <!--Changes since previous edition, up to first review-->
+  <!--  <revprop action="include" val="GF_18032015"/> -->
+  <!--  <revprop action="flag" val="GF_06052015"/>    -->
+  <!--  <revprop action="flag" val="GF_18082016"/>    -->
+  <!--  <revprop action="flag" val="GF_18112016"/>    -->
+  <revprop action="flag" val="GF_03042017"/>
+
+  <!--Changes since start of first review, up to second review-->
+  <!--  <revprop action="include" val="GF_18032015_2"/> -->
+  <!--  <revprop action="flag" val="GF_06052015_2"/>    -->
+  <!--  <revprop action="flag" val="GF_18082016"/>      -->
+  <!--  <revprop action="flag" val="GF_18112016"/>      -->
+  <revprop action="flag" val="GF_03042017"/>
+</val>
+ 

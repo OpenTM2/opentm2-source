@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00067">
+  <title>Using Thai dictionaries and abbreviation lists</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>dictionary<indexterm>Thai language</indexterm></indexterm>
+        <indexterm>Thai language<indexterm>dictionary</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can use Thai dictionaries the usual way, as described in <xref href="eqfr5mst-00258.dita#eqfr5mst-00258"/>. The headwords can be in 
+      Thai, as well as the translations. The following dialog box shows an example of how an entry in an English-Thai dictionary is edited. 
+      Ensure that the Thai keyboard is selected before editing or adding entries. 
+      <fig id="thai_edit_dict_entry" expanse="column">
+        <title>Editing a Thai dictionary entry</title>
+        <image placement="break" href="eqfb7s03j.gif">
+          <alt>Figure shows Using the Global Find and Replace window with Thai scripts</alt>
+        </image>
+      </fig>
+    </p>
+    <p><indexterm>abbreviation list<indexterm>Thai language</indexterm></indexterm>
+      <indexterm>Thai language<indexterm>abbreviation list</indexterm></indexterm>You can maintain abbreviation lists, as described in 
+      <xref href="eqfr5mst-00140.dita#eqfr5mst-00140"/>, also for the Thai language. The following dialog box shows an example: 
+      <fig id="thai_edit_abbrev_list" expanse="column">
+        <title>Editing a Thai abbreviation list</title>
+        <image placement="break" href="eqfb7s03k.gif">
+          <alt>Figure shows Editing a Thai abbreviation list</alt>
+        </image>
+      </fig>
+    </p>
+  </body>
+</topic>

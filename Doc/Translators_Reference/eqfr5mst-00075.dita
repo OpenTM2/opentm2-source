@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00075">
+  <title>Finding and replacing terms</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>finding and replacing terms</indexterm>
+        <indexterm>editor functions<indexterm>finding and replacing terms</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>If you wish to locate a specific term in your translation document, select <b>Find and Replace...</b> from the <b>Edit</b> menu in 
+      the Translation Environment. In the <q>Find and Replace</q> window type the word you are looking for in the <b>Find</b> field and click
+      <b>Find</b>. You can define the following search criteria: 
+      <ul>
+        <li>The spelling of the term to be searched (case sensitivity)</li>
+        <li>The direction of the search (forward or backward)</li>
+        <li>The text area that can be changed: within the current segment if the document is currently being translated, or throughout the file 
+          if the document is currently being revised (post-edited)</li>
+      </ul>
+    </p>
+    <p>A term is found even if it spans over two lines.</p>
+    <p>If you wish to replace a word by another term, type the new term into the field <b>Change to</b> and click <b>Replace</b>. The term 
+      specified in the <b>Find</b> field is changed to the new term in all places where it has been found in the text. If you wish to change the 
+      term only in certain contexts, click <b>Confirm on changes</b>. When the term is found press the <b>Replace</b> button a second time to 
+      replace the found term.</p>
+    <p>If you wish to locate a certain piece of text but do not know exactly the document where it originates from, you can search through a 
+      series of documents related to a folder. <!--See <xref href=""/> for details.--></p>
+    <p>The <q>Find and Replace</q> window remains open until you explicitly close it and is associated with the window that is currently active.</p>
+    <p>If both the <q>Translation</q> window and the <q>Original</q> window (source document) are open during a search, the two windows are 
+      synchronized. This means that when the searched term is found in the <q>Translation</q> window, the <q>Original</q> window is scrolled to 
+      the segment that contains the source of the searched term, and vice versa.</p>
+    <p>If you close the <q>Find and Replace</q> window and open it again at a later point of time during the same 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> session or during a new session, the <b>Find</b> and <b>Change to</b> lists 
+      contain the last five terms that you searched for and changed.</p>
+  </body>
+</topic>

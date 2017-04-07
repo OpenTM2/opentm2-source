@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mrkcprop">
+  <title><!--rev=as15082005-->Changing the properties of a markup table</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>markup tables<indexterm>changing properties</indexterm></indexterm>
+      <indexterm>changing properties<indexterm>of markup tables</indexterm></indexterm>
+      <indexterm>properties<indexterm>of markup tables</indexterm></indexterm>
+      <p>The <q>Markup Table Properties</q> window allows you to change, create, test, and protect a
+        markup table without the need to export the markup table to an external format. You can
+        change an existing markup table, which includes the addition, removal, and modification of
+        markup tag definitions and markup attribute definitions. You can create a new markup table
+        from scratch (however, it might be more efficient to choose the external method, as
+        described in <xref href="mrknew.dita#mrknew"/> and <xref href="mrkchg.dita#mrkchg"/>). You
+        can dynamically test a markup table against a test document and continue to change it
+        without leaving the <q>Markup Table Properties</q> window. And you can password-protect a
+        markup table against unauthorized modifications.</p>
+      <p>Before you apply any changes to a markup table or attempt to create a new one, you should
+        know its syntax and semantics, as described in <xref
+          href="createnewmarkup.dita#createnewmarkup"/>. Note that most options and parameters on
+        the <q>Markup Table Properties</q> window pages have their equivalent SGML tags described in
+        the subchapters of <xref href="createnewmarkup.dita#createnewmarkup"/>.</p>
+      <p>Before you change a markup table provided by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>, it is recommended to create a backup
+        copy by exporting the markup table.</p>
+      <note>The contents of markup tables are sensitive. Improper modifications avoid the correct
+        handling of documents that are associated with them. Apply the password protection to
+        prevent unauthorized modifications.</note>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <q>Markup Table List</q> window must be active. </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To change an existing markup table: <ul>
+          <li>Select a markup table in the <q>Markup Table List</q> window.</li>
+          <li>Select <b>Properties…</b> from the <b>File</b> menu.</li>
+        </ul></p>
+      <p>To create a new markup table: <ul>
+          <li>Select <b>New…</b> from the <b>File</b> menu. <p>If an existing name of a markup table
+              is chosen, a warning message is shown.</p></li>
+        </ul></p>
+      <p>The <q>Markup Table Properties</q> window is displayed (see <xref
+          href="#mrkcprop/markuptablepropwin"/>). <indexterm>windows<indexterm>Markup Table
+            Properties window</indexterm></indexterm><indexterm>Markup Table Properties
+          window</indexterm>
+        <required-cleanup><indexterm>windows<indexterm>Markup table
+            properties</indexterm></indexterm></required-cleanup><fig id="markuptablepropwin"
+          expanse="column">
+          <title>Markup Table Properties window</title><image placement="break" href="eqfb7s12c.gif"
+              ><alt>Figure shows Markup Table Properties window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>On the <q>General</q> page you can set or change general markup table properties:</p>
+      <indexterm>Markup Table Properties window<indexterm>General page</indexterm></indexterm>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Contains the name of the markup table being changed. This field cannot be changed if
+            an existing markup table is changed. <p>The field accepts a markup table name if you
+              started to create a new markup table.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd><indexterm>markup tables<indexterm>description of</indexterm></indexterm>Contains a
+            markup table description, which is shown in the <q>Markup Table List</q> window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Descriptive name</pt>
+          <pd><indexterm>markup tables<indexterm>descriptive name of</indexterm></indexterm>Contains
+            a descriptive name for this markup table. For example, if <b>Name</b> is
+              <codeph>EQFBOOK</codeph>, you could simply describe it as <codeph>BOOK</codeph>. <p>If
+              you create a new markup table, the descriptive name must be unique.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>User exit</pt>
+          <pd><indexterm>markup tables<indexterm>user exit</indexterm></indexterm>Contains the name
+            of the user exit, if the markup table uses one. <p>If you create a new markup table, and
+              you enter the name of a user exit that does not exist, a warning message is shown. You
+              can confirm this message to continue.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Character set</pt>
+          <pd><indexterm>markup tables<indexterm>character set used
+            with</indexterm></indexterm>Contains the specified character set that is to be used for
+            import and export of documents that use this markup table. You can specify
+              <codeph>ASCII</codeph>, <codeph>ANSI</codeph>, <codeph>UNICODE</codeph>, or
+              <codeph>UTF8</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Single substitution character</pt>
+          <pd><indexterm>markup tables<indexterm>substitution character used
+              in</indexterm></indexterm>Contains the substitution character to use for single
+            character substitution. The default character is <codeph>?</codeph>. <p>If you create a
+              new markup table, the character must be different from that used as multiple
+              substitution character.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Multiple substitution character</pt>
+          <pd><indexterm>markup tables<indexterm>substitution character used
+              in</indexterm></indexterm>Contains the substitution character to use for multiple
+            character substitution. The default character is <codeph>%</codeph>. <p>If you create a
+              new markup table, the character must be different from that used as single
+              substitution character.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Allow CRLF change</pt>
+          <pd><indexterm>markup tables<indexterm>substitution character used
+              in</indexterm></indexterm>If set to NO, do not allow reflow in the editor.</pd>
+        </plentry>
+        <plentry>
+          <pt>Translator notes</pt>
+          <pd><indexterm>markup tables<indexterm>translator's notes in </indexterm></indexterm>The
+            following fields contain the markup for translator's notes. Before changing or adding
+            information here you should be familiar with the internals of a markup table and how
+            translator's notes are added to a source document. For the latter see <xref
+              href="trnote.dita#trnote"/>. Note especially that the level 1 and level 2 translator's
+            note tags are nested between the start tag and end tag. The latter two are usually the
+            annotation or comment tags and have their own definitions in a markup table. If the
+            translator's notes start and end tags do not match the annotation start and end tags,
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> fails to properly
+            recognize translator's notes. <parml>
+              <plentry><pt>Start tag</pt>
+                <pd><indexterm>markup tables<indexterm>translator's note<indexterm>start
+                        tag</indexterm></indexterm></indexterm>Contains the start tag that begins an
+                  annotation or comment in the source document. For example, <codeph>:annot</codeph>
+                  for a BookMaster document, or <codeph>&lt;!-</codeph> for an HTML document (but
+                  not <codeph>:annot.</codeph>, respectively
+                <codeph>&lt;!--</codeph>).</pd></plentry>
+              <plentry><pt>Level 1 Note</pt>
+                <pd><indexterm>markup tables<indexterm>translator's note<indexterm>level 1
+                        note</indexterm></indexterm></indexterm><indexterm>translator's
+                      note<indexterm>level 1</indexterm></indexterm>Contains the level 1
+                  translator's note tag, for example, <codeph>trnote1:</codeph></pd></plentry>
+              <plentry><pt>Level 2 Note</pt>
+                <pd><indexterm>markup tables<indexterm>translator's note<indexterm>level 2
+                        note</indexterm></indexterm></indexterm><indexterm>translator's
+                      note<indexterm>level 2</indexterm></indexterm>Contains the level 2
+                  translator's note tag, for example, <codeph>trnote2:</codeph></pd></plentry>
+              <plentry><pt>End tag</pt>
+                <pd><indexterm>markup tables<indexterm>translator's note<indexterm>end
+                        tag</indexterm></indexterm></indexterm>Contains the end tag that terminates
+                  an annotation or comment in the source document. For example,
+                    <codeph>:eannot</codeph> for a BookMaster document, or <codeph>--</codeph> for
+                  an HTML document (but not <codeph>:eannot.</codeph>, respectively
+                    <codeph>--&gt;</codeph>).</pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Tags</q> page you can work with markup tag definitions. On the left of this page
+        you see the list of tags that are defined in this markup table. You can select a tag by
+        clicking it. You can add new tags (by clicking <b>Add new tag</b>) and delete selected tags
+        (by clicking <b>Delete tag</b>). On the right of this page you see the definition,
+        respectively properties, of a selected tag. You can change the properties of a tag by
+        changing the entry fields, by selecting or clearing the check boxes, and by selecting
+        options from drop-down lists.</p>
+      <p>If you create a new markup tag, you must at least specify the tag string and its delimiter,
+        respectively its length.</p>
+      <indexterm>Markup Table Properties window<indexterm>Tags page</indexterm></indexterm>
+      <parml>
+        <plentry>
+          <pt>Tag string</pt>
+          <pd><indexterm>markup tables<indexterm>tag definitions in</indexterm></indexterm>Contains
+            the string that represents the markup tag.</pd>
+        </plentry>
+        <plentry>
+          <pt>End delimiter</pt>
+          <pd>Contains one or more characters that end the tag string. Two or more characters cause
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for all possible
+            combinations of these characters to determine the end of the tag. You cannot specify a
+            string as end delimiter. <p>Alternatively, you can specify a length that specifies the
+              end of the tag string (see parameter <b>Length</b>).</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Length</pt>
+          <pd>Contains the length of the tag string. <p>Alternatively, you can specify end
+              delimiters that specify the end of the tag string (see parameter <b>End
+              delimiter</b>).</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Column position</pt>
+          <pd>Contains the column position where the markup tag starts. If a markup tag has no
+            special start position and can occur anywhere in a line, this parameter is omitted or
+            can be set to 0. The default is 0.</pd>
+        </plentry>
+        <plentry>
+          <pt>Tag type</pt>
+          <pd>Contains the type of the markup tag, which specifies whether the tag starts or ends a
+            segment and whether the tag influences <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>'s segmentation. See <q>TYPE</q> in
+              <xref href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/> for a description of
+            possible selections in the drop-down list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Segmentation flag</pt>
+          <pd>Contains a flag for this markup tag that controls <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>'s segmentation and text protection. <ul>
+              <li>If segmentation is toggled off, text following this markup tag is not segmented by
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/> until it encounters a
+                markup tag that toggles on segmentation.</li>
+              <li>If text protection is toggled on, text following this markup tag is protected by
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/> until it encounters a
+                markup tag that toggles off text protection.</li>
+            </ul>See <q>SEGINFO</q> in <xref
+              href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/> for a description of
+            possible selections in the drop-down list. </pd>
+        </plentry>
+        <plentry>
+          <pt>Text processing flag</pt>
+          <pd>Contains a flag for this markup text that specifies how text following this tag is
+            associated with the tag. See <q>ASSTEXT</q> in <xref
+              href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/> for a description of
+            possible selections in the drop-down list. </pd>
+        </plentry>
+        <plentry>
+          <pt>Unique ID</pt>
+          <pd>Contains a unique ID in the range from 1 to <ph>65565</ph> that is associated with
+            this tag. The use of these identifiers is at your disposal.</pd>
+        </plentry>
+        <plentry>
+          <pt>Additional information</pt>
+          <pd>Specifies whether specific text is to be ignored when segments are aligned during the
+            creation of an Initial Translation Memory. See <q>ADDINFO</q> in <xref
+              href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/> for a description of
+            possible specifications.</pd>
+        </plentry>
+        <plentry>
+          <pt>Class ID</pt>
+          <pd>Contains a class identifier. <b>CLS_HEAD</b> causes this markup tag to become an entry
+            of the table of contents that you can display during the translation of a document using
+            the <b>Special go to…</b> dialog.</pd>
+        </plentry>
+        <plentry>
+          <pt>Tag has attributes</pt>
+          <pd>This check box is selected if this markup tag has attributes attached (which requires
+            that these attributes are listed on the <q>Attributes</q> page). This parameter is
+            equivalent to the specification of <q>ATTRINFO</q> in <xref
+              href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Can contain translator's notes</pt>
+          <pd>This check box is selected if this markup tag can contain translator's notes. See
+              <xref href="trans_notes_in_source_doc.dita#trans_notes_in_source_doc"/> for
+            details.</pd>
+        </plentry>
+        <plentry>
+          <pt>Can contain translatable text</pt>
+          <pd>This check box is selected if the segment associated with this markup tag must be
+            translated. This parameter is equivalent to the specification of <q>TRANSLATEINFO</q> in
+              <xref href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/>.</pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Attributes</q> page you can work with markup attribute definitions. On the left
+        of this page you see the list of attributes that are defined in this markup table. You can
+        select an attribute by clicking it. You can add new attributes (by clicking <b>Add new
+          attribute</b>) and delete selected attributes (by clicking <b>Delete attribute</b>). On
+        the right of this page you see the definition, respectively properties, of a selected
+        attribute. You can change the properties of an attribute by changing the entry fields and by
+        selecting or clearing the check box.</p>
+      <p>If you create a new markup attribute, you must at least specify the attribute string and
+        its delimiter, respectively its length.</p>
+      <parml>
+        <plentry>
+          <pt>Attribute string</pt>
+          <pd><indexterm>Markup Table Properties window<indexterm>Attributes
+              page</indexterm></indexterm><indexterm>markup tables<indexterm>attribute definitions
+                in</indexterm></indexterm>Contains the string that represents the markup
+            attribute.</pd>
+        </plentry>
+        <plentry>
+          <pt>End delimiter</pt>
+          <pd>Contains one or more characters that end the attribute string. Two or more characters
+            cause <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for all
+            possible combinations of these characters to determine the end of the attribute. You
+            cannot specify a string as end delimiter. <p>Alternatively, you can specify a length
+              that specifies the end of the attribute string (see parameter <b>Attribute
+              length</b>).</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Attribute length</pt>
+          <pd>Contains the length of the attribute string. <p>Alternatively, you can specify end
+              delimiters that specify the end of the attribute string (see parameter <b>End
+                delimiter</b>).</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Additional information</pt>
+          <pd>Specifies whether specific text is to be ignored when segments are aligned during the
+            creation of an Initial Translation Memory. See <q>ADDINFO</q> in <xref
+              href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/> for a description of
+            possible specifications.</pd>
+        </plentry>
+        <plentry>
+          <pt>Can contain translatable text</pt>
+          <pd>This check box is selected if the segment associated with this markup attribute must
+            be translated. This parameter is equivalent to the specification of <q>TRANSLATEINFO</q>
+            in <xref href="markupsgml.dita#markupsgml/sgml_tags_tags_attribs"/>.</pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Test</q> page you can test the markup table. To test a markup table you need to
+        load a test document that contains text that is marked up with tags and attributes. When
+        loaded, the test document is shown in its source form with all markup tags and attributes
+        visible. The test document is analyzed by using the markup table as it is currently defined.
+        As a result of the analysis the contents of the test document is shown with visible
+        distinctions of segments, translatable text, and protected text. You can inspect the test
+        document and decide whether your definitions of markup tags and markup attributes are
+        properly recognized in the test document.</p>
+      <indexterm>markup tables<indexterm>testing</indexterm></indexterm>
+      <indexterm>testing<indexterm>markup tables</indexterm></indexterm>
+      <p>When you test a markup table, you might encounter markup tags or markup attributes in the
+        test document that are not recognized by your markup table. You can add the missing markup
+        tags or markup attributes to your markup table by marking the text section that represents
+        the tag or attribute with the mouse and clicking <b>Add Selection as tag</b> or <b>Add
+          Selection as attribute</b>. This adds a new markup tag or markup attribute to your markup
+        table. When you click <b>Refresh</b> the document is analysed again and the added markup tag
+        or markup attribute should be distinct.</p>
+      <p>If you encounter markup tags or markup attributes that are improperly recognized during the
+        analysis, you might need to change one or the other property of the affected tag (on the
+          <q>Tags</q> page) or attribute (on the <q>Attributes</q> page). Thereafter, you can test
+        the effect of the property changes by clicking <b>Refresh</b> on the <q>Test</q> page.</p>
+      <parml>
+        <plentry>
+          <pt>Load test document</pt>
+          <pd><indexterm>Markup Table Properties window<indexterm>Test
+            page</indexterm></indexterm>Lets you choose a test document through the operating
+            system's file open dialog, loads the document, and analyses its content by applying the
+            current markup table definitions. The result of the analysis is shown in the text box on
+            the left.</pd>
+        </plentry>
+        <plentry>
+          <pt>Add Selection as tag</pt>
+          <pd>Builds a markup tag from a selected text section in the test document and adds the tag
+            to the markup table. The markup tag is added to the list of tags on the <q>Tag</q> page
+            with its default properties.</pd>
+        </plentry>
+        <plentry>
+          <pt>Add Selection as attribute</pt>
+          <pd>Builds a markup attribute from a selected text section in the test document and adds
+            the attribute to the markup table. The markup attribute is added to the list of
+            attributes on the <q>Attributes</q> page with its default properties.</pd>
+        </plentry>
+        <plentry>
+          <pt>Refresh</pt>
+          <pd>Restarts the analysis of the loaded test document and shows the result in the text box
+            on the left. Click this button after you added or deleted markup tags or markup
+            attributes, or changed their properties.</pd>
+        </plentry>
+        <plentry>
+          <pt>Legend</pt>
+          <pd>Explains how to interpret markups in the text box. For example,
+              <codeph>&lt;P&gt;</codeph> indicates the boundary between segments, and
+            nontranslatable text is marked red.</pd>
+        </plentry>
+      </parml>
+      <p>On all pages of the <q>Markup Table Properties</q> window the following buttons are
+        active:</p>
+      <parml>
+        <plentry>
+          <pt>Save</pt>
+          <pd>Saves the markup table with its current definitions and leaves the <q>Markup Table
+              Properties</q> window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Cancel</pt>
+          <pd>Leaves the <q>Markup Table Properties</q> window without saving the markup table.</pd>
+        </plentry>
+        <plentry>
+          <pt>Protect / Unprotect</pt>
+          <pd><indexterm>markup
+                tables<indexterm>protecting</indexterm></indexterm><indexterm>protecting<indexterm>markup
+                tables</indexterm></indexterm>Lets you protect or unprotect the markup table by a
+            password against unauthorized changes. <p>If the markup table is unprotected, a
+                <b>Protect</b> button is shown. If the markup table is protected, an
+                <b>Unprotect</b> button is shown.</p>
+            <p>Clicking the button invokes a Protect, respectively Unprotect dialog that requests a
+              password. Type a password. Remember the password.</p></pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The markup table is now available in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>, you can start to associate it with
+        documents or folders.</p>
+    </section>
+  </refbody>
+</reference>

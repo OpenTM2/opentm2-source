@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="foldlx">
+  <title>Deleting a folder exported to the otm\export subdirectory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>deleting an exported</indexterm></indexterm>
+      <indexterm>deleting<indexterm>exported folders</indexterm></indexterm>
+      <p>When you export a folder, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> writes the data to a file in the 
+        <codeph>\otm\export</codeph> subdirectory on the selected drive. If you no longer need this exported folder file, you can delete it.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <liThe folder must have been exported to <codeph>otm\export</codeph>.</li>
+        <li>The exported folder must still exist on the drive that you selected when exporting the folder.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: 
+        <ol>
+          <li>The <q>Folder List</q> window in the main window</li>
+          <li><b>Delete Exported Folder…</b> from the <b>Utilities</b> menu</li>
+        </ol>
+      </p>
+      <p>The <q>Delete Exported Folder</q> window (see <xref href="#foldlx/foldelx"/>) is displayed.
+        <fig id="foldelx" expanse="column"> <title>Delete Exported Folder window</title>
+            <image placement="break" href="eqfb7s8b.gif">
+              <alt>Figure shows Delete Exported Folder window</alt>
+            </image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Delete</pt>
+          <pd>In this box, select: <ol>
+              <li>The drive where the exported folder resides. The <b>Folder</b> list box displays all folders previously exported to the selected 
+                drive.</li>
+              <li>The folder to be deleted from the <b>Folders</b> list box. To see more information about the exported folder, click 
+                <b>Details…</b>. The information is displayed in the <q>Folder Details</q> window. <p>Click <b>OK</b> to return to the previous
+                  window.</p></li>
+            </ol></pd>
+        </plentry>
+      </parml>
+      <p>To leave the exported folder unchanged, click <b>Cancel</b>.</p>
+      <p>To delete the exported folder, click <b>Delete</b>. For each selected exported folder, a message window prompts you to confirm that you 
+        want to delete the exported folder: 
+        <ul>
+          <li>Select <b>Yes</b> to delete the exported folder.</li>
+          <li>Select <b>No</b> to leave the exported folder unchanged.</li>
+        </ul>
+      </p>
+      <p>If there are no more exported folders selected to delete, click <b>Cancel</b> to return to the <q>Folder List</q> window.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you confirmed to delete the exported folder in the <codeph>\otm\export</codeph> subdirectory, it is deleted and cannot be reimported.</p>
+    </section>
+  </refbody>
+</reference>

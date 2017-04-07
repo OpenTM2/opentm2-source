@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00278">
+  <title>Editing a dictionary entry</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>updating an entry</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>adding an entry</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>removing an entry</indexterm></indexterm>
+      <p>Individual dictionary entries can be changed, for example, a new translation can be added
+        or an existing obsolete translation deleted.</p>
+      <p>You can edit a dictionary entry at any time before, after, or during translation.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The dictionary must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>There are several ways to get to the <q>Edit Entry in Dictionary</q> window: <ul>
+          <li>To add, change, or delete a dictionary entry outside the <keyword
+              conref="common-symbols.dita#common-symbols/xlenv"/>, select: <ol>
+              <li>The <q>Dictionary List</q> window</li>
+              <li>The dictionary you want to open</li>
+              <li><b>Open</b> from the <b>File</b> menu</li>
+              <li>The term to enter in the <q>Look up a Term</q> window</li>
+              <li><b>Headword</b> search type and click <b>Edit…</b></li>
+            </ol></li>
+          <li>To add, change, or delete a dictionary entry in the <keyword
+              conref="common-symbols.dita#common-symbols/xlenv"/>, select: <ol>
+              <li>The document for translation in the <q>Document List</q> window</li>
+              <li><b>Open</b> from the <b>File</b> menu</li>
+              <li>The term in the document to add or modify by marking it</li>
+              <li><b>Edit a term…</b> in the <b>Translate</b> menu</li>
+            </ol></li>
+          <li>Or select: <ol>
+              <li>The term in the <q>Dictionary</q> window and double-click it</li>
+              <li><b>Edit…</b> in the <q>Lookup Entry</q> window</li>
+            </ol></li>
+        </ul></p>
+      <p>In all cases, the <q>Edit Entry in Dictionary</q> window is displayed (see <xref
+          href="#eqfr5mst-00278/editentrydictwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Edit Entry in
+            Dictionary</indexterm></indexterm></required-cleanup><fig id="editentrydictwin"
+          expanse="column">
+          <title>Edit Entry in Dictionary window</title><image placement="break"
+            href="eqfb7s10e.gif"><alt>Figure shows Edit Entry in Dictionary
+          window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The entry displayed in the <q>Edit Entry in Dictionary</q> window is split up into
+        templates. <indexterm>dictionary<indexterm>template</indexterm></indexterm>A template is the
+        complete dictionary entry information related to one translation. This window shows one
+        template at a time.</p>
+      <p>If the term does not exist, only one empty template is displayed.If, on the other hand, the
+        term exists, the first template (translation) is displayed.</p>
+      <parml>
+        <plentry>
+          <pt>Template 1 of 1</pt>
+          <pd>The term in the sample window has one translation. This box displays all data related
+            to this translation, this means, each entry field with its name and its contents.</pd>
+        </plentry>
+        <plentry>
+          <pt>Template</pt>
+          <pd>The following options let you scroll through all templates of an entry or change
+            complete templates.Select: <parml>
+              <plentry><pt>Next</pt>
+                <pd>To select the following template.</pd></plentry>
+              <plentry><pt>Previous</pt>
+                <pd>To select the previous template.</pd></plentry>
+              <plentry><pt>Add</pt>
+                <pd>To add an empty template for a new translation variant.</pd></plentry>
+              <plentry><pt>Copy</pt>
+                <pd>To copy the contents of the currently displayed template into a new one where
+                  you can type over the contents to add the new translation. You would use
+                    <b>Copy</b> instead of <b>Add</b> in cases where only minor changes need to be
+                  made to a translation variant.</pd></plentry>
+              <plentry><pt>Delete</pt>
+                <pd>To delete the currently displayed template.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Clipboard</pt>
+          <pd>By selecting options in this box, you can move data from the current template to the
+            clipboard and vice versa, for example, you can insert context information from the
+            document in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>. <parml>
+              <plentry><pt>Copy</pt>
+                <pd>To copy a marked text to the clipboard.</pd></plentry>
+              <plentry><pt>Paste</pt>
+                <pd>To copy a previously saved text from the clipboard to the current cursor
+                  position. </pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>To delete the entire entry from the dictionary, click <b>Delete</b> at the bottom of the
+        window.</p>
+      <p>Click <b>Save</b> to save your changes to the dictionary displayed in the <b>Save to
+          dictionary</b> list box. In the <keyword conref="common-symbols.dita#common-symbols/xlenv"
+        />, you can choose between any of the dictionaries opened for translation (defined as a
+        folder property). Outside the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>,
+        you can only save the data to the dictionary you explicitly selected. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>A new term is added to the dictionary, or an existing term is changed or deleted.</p>
+    </section>
+  </refbody>
+</reference>

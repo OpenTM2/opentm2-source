@@ -541,6 +541,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html"><param name="Name" value="CTMXExportImport"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af8d030d0a6115acd3820764deb28dfb2"><param name="Name" value="EndImport"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af03f9ecfea64de694b2ba0b83b54dd22"><param name="Name" value="getLastError"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a417b027d3e54547cf32cc09d5db98194"><param name="Name" value="ImportNext"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a1d164297bfa50ec91aefe2186ff03823"><param name="Name" value="LoadNames"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a4cc9a2144d36bea3f366c3d38a4111e7"><param name="Name" value="m_bBuffer"></OBJECT>
@@ -1277,8 +1278,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph_plugin.html#a450341f3a5840f7f64bcfb1936b953ba"><param name="Name" value="OtmMorphPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell_plugin.html#a4da0958a35b1e18d18f74bb2449cbd4b"><param name="Name" value="OtmSpellPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#aa7750a4e8fe8271c70427a8e4d0b0db1"><param name="Name" value="getLastError"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af03f9ecfea64de694b2ba0b83b54dd22"><param name="Name" value="getLastError"></OBJECT>
   <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af03f9ecfea64de694b2ba0b83b54dd22"><param name="Name" value="CTMXExportImport"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#aa7750a4e8fe8271c70427a8e4d0b0db1"><param name="Name" value="EqfMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#ae5d3050ef8684149db01f7722588ab1e"><param name="Name" value="EqfMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory.html#a6e4b79002166697e1e75864aa8f1fb0d"><param name="Name" value="EqfSharedMemory"></OBJECT>

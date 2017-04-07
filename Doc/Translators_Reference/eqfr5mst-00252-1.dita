@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-1" rev="GF_07122015">
+  <title>Installation of important Client components</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter describes the installation of the most vital components used in 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/>&apos;s Web-based Shared Translation Memory concept. 
+       It is assumed, that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is already installed on the client PC.</p>
+  </body>
+</topic>

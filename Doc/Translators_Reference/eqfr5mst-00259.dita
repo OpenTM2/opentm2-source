@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00259">
+<title>Dictionary entry structure</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>entry structure</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>A dictionary entry is divided into the following levels: 
+<dl>
+<dlentry><dt>Entry</dt>
+<dd>This level contains general or administrative information, such as the
+date, author, or origin of an entry, and the headword itself. This information
+applies to all other levels of the dictionary entry.</dd></dlentry>
+<dlentry><dt>Homonym</dt>
+<dd>This level contains grammatical and syntactic information, such as which
+part of speech a headword is or how it is to be abbreviated and hyphenated.</dd></dlentry>
+<dlentry><dt>Sense</dt>
+<dd>This level contains semantic variations of a headword, such as different
+areas of meaning and usage.</dd></dlentry>
+<dlentry><dt>Target</dt>
+<dd>This level contains all information applying to one translation variant
+of a headword, such as definition or usage. For example, if a headword can
+be translated in two different ways, there is target level information for
+both translation variants.</dd></dlentry>
+</dl></p>
+<p>The entry level can have any number of homonym levels. For example, there
+are separate homonym levels for the noun <b>copy</b> and the
+verb <b>copy</b>.</p>
+<p>A homonym level can also have any number of sense levels depending on the
+individual definition of a headword or contextual information. For example,
+the noun <b>bank</b> can mean both the river bank or a financial
+institution.</p>
+<p>A sense level can have any number of target levels depending on the individual
+translation variants. For example, the German word <b>Schnecke</b> has two English translations, <b>snail</b> and <b>slug</b>.</p>
+<p>The entry fields and how they are distributed over the four levels is only
+suggested by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. The entry fields <b>Headword</b> and <b>Translation</b> are mandatory. All other predefined fields can
+be deleted or renamed. You can even omit particular levels. For example, you
+can omit the homonym and sense level if you want to have only headwords and
+translations in your dictionary.</p>
+<p>You can also add new fields to any of the levels. You can do this when
+creating a new dictionary in the <q>New dictionary</q> window by selecting <b>Add fields…</b> or by including them in the SGML dictionary
+file.</p>
+<p>For the list of all predefined entry fields and their corresponding SGML
+tags see <xref href="eqfr5mst-00268.dita#eqfr5mst-00268"/>.</p>
+</body></topic>

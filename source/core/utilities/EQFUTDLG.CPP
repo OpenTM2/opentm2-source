@@ -42,6 +42,7 @@
 /**********************************************************************/
 /* Private defines and declarations                                   */
 /**********************************************************************/
+static COLORREF acrCustomColors[16]; // array of custom colors 
 
 /**********************************************************************/
 /* IDA for print destination dialog                                   */
@@ -4806,7 +4807,7 @@ CLASSES     ObjectClass              // class of object (e.g. clsFolder)
   // allocate dialog IDA
   if ( usRC == NO_ERROR )
   {
-    if ( !UtlAlloc( (PVOID *)&pIDA, 0L, sizeof(PLISTUSERIDA), ERROR_STORAGE ) )
+    if ( !UtlAlloc( (PVOID *)&pIDA, 0L, sizeof(LISTUSERIDA), ERROR_STORAGE ) )
     {
         usRC = ERROR_NOT_ENOUGH_MEMORY;
     }
@@ -4881,7 +4882,7 @@ LPARAM mp2                          // second message parameter
           MemoryFactory *pFactory = MemoryFactory::getInstance();
           std::vector<std::string> users;
           std::string strError;
-          int iRC = pFactory->listSharedMemoryUsers( "", pIDA->szObject,users,strError);
+          int iRC = pFactory->listSharedMemoryUsers( "EqfSharedMemoryPlugin", pIDA->szObject,users,strError);
           if(iRC != 0)
           {
              MessageBox(hwnd, strError.c_str(),NULL,MB_OK|MB_ICONWARNING);
@@ -4994,5 +4995,260 @@ BOOL UtlCheckIfExist
   }
 
   return( fExist );
+}
+
+// instance data area for set colors dialog
+typedef struct _SETCOLORSIDA
+{
+  int  iCurElement;                  // index of currently active text element
+  COLORREF cForeground;              // currently selected foreground color
+  COLORREF cBackground;              // currently selected background color
+  COLORCHOOSERDATA InOutData;        // local copy of caller's color chooser data area
+} SETCOLORSIDA, *PSETCOLORSIDA;
+
+
+INT_PTR CALLBACK UTLCOLORCHOOSERDLG
+(
+  HWND   hwnd,                        // handle of window
+  WINMSG msg,                         // type of message
+  WPARAM mp1,                         // first message parameter
+  LPARAM mp2                          // second message parameter
+)
+{
+  /********************************************************************/
+  /*                         local variables                          */
+  /********************************************************************/
+  MRESULT              mResult = FALSE;// dlg procedure return value
+  PSETCOLORSIDA        pIDA;           // dialog IDA
+
+  switch ( msg )
+  {
+    case WM_EQF_QUERYID:
+      pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA);
+      HANDLEQUERYID( pIDA->InOutData.sID, mp2 );
+      break;
+
+    case WM_INITDLG :
+      {
+        // save the pointer to the IDA in the dialog reserved memory
+        pIDA = (PSETCOLORSIDA)PVOIDFROMMP2( mp2 );
+        ANCHORDLGIDA( hwnd, pIDA );
+
+        // fill type of text listbox
+        int i = 0;
+        while( pIDA->InOutData.ColorSetting[i].szElement[0] != EOS )
+        {
+          SHORT sItem = INSERTITEMEND( hwnd, ID_SETCOLOR_ITEM_LB, pIDA->InOutData.ColorSetting[i].szElement );
+          SETITEMHANDLE( hwnd, ID_SETCOLOR_ITEM_LB, sItem, i );
+          i++;
+        } /* endwhile */
+        SELECTITEM( hwnd, ID_SETCOLOR_ITEM_LB, 0 );
+
+        // adjust titlebar text
+        if ( pIDA->InOutData.szTitle [0] != EOS ) SETTEXTHWND(hwnd, pIDA->InOutData.szTitle );
+
+        // Keep dialog within TWB
+        {
+          SWP  swpDlg, swpTWB;
+          WinQueryWindowPos( hwnd, &swpDlg );
+
+          WinQueryWindowPos( (HWND)UtlQueryULong( QL_TWBCLIENT ), &swpTWB );
+          if ( (swpDlg.x > 0) && ((swpDlg.x + swpDlg.cx) < swpTWB.cx) )
+          {
+            swpDlg.x = (swpTWB.cx - swpDlg.cx) / 2;
+          } /* endif */
+          if ( (swpDlg.y > 0) && ((swpDlg.y + swpDlg.cy) < swpTWB.cy) )
+          {
+            swpDlg.y = (swpTWB.cy - swpDlg.cy) / 2;
+          } /* endif */
+          WinSetWindowPos( hwnd, HWND_TOP, swpDlg.x, swpDlg.y, swpDlg.cx, swpDlg.cy, EQF_SWP_MOVE | EQF_SWP_SHOW | EQF_SWP_ACTIVATE );
+        }
+
+        // leave the focus where we put it
+        mResult = MRFROMSHORT(DIALOGINITRETURN(TRUE));
+      }
+      break;
+
+    case WM_COMMAND :
+      {
+        pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA);
+
+        switch ( WMCOMMANDID( mp1, mp2 ) )
+        {
+          case ID_SETCOLOR_BACKGROUND_PB:
+            {
+              CHOOSECOLOR Colors;
+              memset( &Colors, 0, sizeof(Colors) );
+              Colors.lStructSize = sizeof(Colors);
+              Colors.hwndOwner = hwnd;
+              Colors.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
+              Colors.lpCustColors = acrCustomColors;
+              Colors.rgbResult = pIDA->cBackground;
+
+              if ( ChooseColor( &Colors ) )
+              {
+                pIDA->cBackground = Colors.rgbResult;
+                pIDA->InOutData.ColorSetting[pIDA->iCurElement].cBackground = Colors.rgbResult;
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_BACKGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_SAMPLE_STATIC ), NULL, TRUE );
+              } /* endif */
+            } 
+            break;
+
+          case ID_SETCOLOR_FOREGROUND_PB:
+            {
+              CHOOSECOLOR Colors;
+              memset( &Colors, 0, sizeof(Colors) );
+              Colors.lStructSize = sizeof(Colors);
+              Colors.hwndOwner = hwnd;
+              Colors.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
+              Colors.lpCustColors = acrCustomColors;
+              Colors.rgbResult = pIDA->cForeground;
+
+              if ( ChooseColor( &Colors ) )
+              {
+                pIDA->cForeground = Colors.rgbResult;
+                pIDA->InOutData.ColorSetting[pIDA->iCurElement].cForeground = Colors.rgbResult;
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_FOREGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_SAMPLE_STATIC ), NULL, TRUE );
+              } /* endif */
+            } 
+            break;
+
+          case ID_SETCOLOR_ITEM_LB:
+            if ( WMCOMMANDCMD( mp1, mp2 ) == LN_SELECT )
+            {
+              SHORT sItem = QUERYSELECTION( hwnd, ID_SETCOLOR_ITEM_LB );
+              if ( sItem != LIT_NONE )
+              {
+                SHORT sIndex = (SHORT)QUERYITEMHANDLE( hwnd, ID_SETCOLOR_ITEM_LB, sItem );
+                pIDA->cForeground = pIDA->InOutData.ColorSetting[sIndex].cForeground;
+                pIDA->cBackground = pIDA->InOutData.ColorSetting[sIndex].cBackground;
+                pIDA->iCurElement = sIndex;
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_FOREGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_BACKGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_SAMPLE_STATIC ), NULL, TRUE );
+              } /* endif */
+            } /* endif */
+            break;
+
+          case ID_SETCOLOR_CHANGE_PB :
+            WinDismissDlg( hwnd, TRUE );
+            break;
+
+          case ID_SETCOLOR_DEFAULT_PB:
+            {
+              // replace current colors with their default values
+              int i = 0;
+              while( pIDA->InOutData.ColorSetting[i].szElement[0] != EOS )
+              {
+                pIDA->InOutData.ColorSetting[i].cForeground = pIDA->InOutData.ColorSetting[i].cDefaultForeground; 
+                pIDA->InOutData.ColorSetting[i].cBackground = pIDA->InOutData.ColorSetting[i].cDefaultBackground;
+                i++;
+              } /* endwhile */
+
+              // force a refresh by posting a LN_SELECT message for the text item listbox
+              PostMessage( hwnd, WM_COMMAND, MAKEWPARAM( ID_SETCOLOR_ITEM_LB, LN_SELECT ), (LPARAM)GetDlgItem( hwnd, ID_SETCOLOR_ITEM_LB ) );
+            }
+            break;
+
+          case ID_SETCOLOR_CANCEL_PB :
+          case DID_CANCEL :
+            WinDismissDlg( hwnd, FALSE );
+            break;
+        } 
+      }
+      break;
+
+    case WM_CTLCOLORSTATIC:
+    {
+      DWORD CtrlID = GetDlgCtrlID((HWND)mp2);
+      if ( CtrlID == ID_SETCOLOR_FOREGROUND_STATIC )
+      {
+          pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA );
+          HDC hdcStatic = (HDC)mp1;
+          SetTextColor(hdcStatic, RGB(0,0,0));
+          SetBkColor(hdcStatic, pIDA->cForeground );
+        return (INT_PTR)CreateSolidBrush(pIDA->cForeground);
+      }
+      else if ( CtrlID == ID_SETCOLOR_BACKGROUND_STATIC )
+      {
+          pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA );
+          HDC hdcStatic = (HDC)mp1;
+          SetTextColor(hdcStatic, RGB(0,0,0));
+          SetBkColor(hdcStatic, pIDA->cBackground );
+        return (INT_PTR)CreateSolidBrush(pIDA->cBackground);
+      }
+      else if ( CtrlID == ID_SETCOLOR_SAMPLE_STATIC )
+      {
+          pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA );
+          HDC hdcStatic = (HDC)mp1;
+          SetTextColor(hdcStatic, pIDA->cForeground);
+          SetBkColor(hdcStatic, pIDA->cBackground );
+        return (INT_PTR)CreateSolidBrush(pIDA->cBackground);
+      } /* endif */
+    }
+    break;
+
+
+    default :
+      mResult = WinDefDlgProc( hwnd, msg, mp1, mp2 );
+      break;
+  } /* endswitch */
+
+  return( mResult );
+
+}
+
+// let the user select the color settings for a group of items
+USHORT UtlColorChooserDlg
+(
+  PCOLORCHOOSERDATA pColorChooserData  // pointer to caller's color chooser data structure
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PSETCOLORSIDA pIDA = NULL;           // color chooser dialog IDA
+
+  // check input parameters
+  if ( pColorChooserData == NULL )
+  {
+    usRC = ERROR_INVALID_DATA;
+  }
+
+  // allocate dialog IDA
+  if ( usRC == NO_ERROR )
+  {
+    if ( !UtlAlloc( (PVOID *)&pIDA, 0L, sizeof(SETCOLORSIDA), ERROR_STORAGE ) )
+    {
+        usRC = ERROR_NOT_ENOUGH_MEMORY;
+    }
+  }
+
+  // pop-up dialog
+  if ( usRC == NO_ERROR )
+  {
+    BOOL fOK;
+	  HMODULE hResMod;
+
+    memcpy( &(pIDA->InOutData), pColorChooserData, sizeof(pIDA->InOutData) );
+
+  	hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+    DIALOGBOX( QUERYACTIVEWINDOW(), UTLCOLORCHOOSERDLG, hResMod, ID_SETCOLOR_DLG, pIDA, fOK );
+
+    if ( fOK )
+    {
+      memcpy( pColorChooserData, &(pIDA->InOutData), sizeof(pIDA->InOutData) );
+    }
+    else
+    {
+      usRC = (USHORT)-1;   // user cancelled dialog
+    } /* endif */
+  }
+
+  if ( pIDA != NULL ) UtlAlloc( (PVOID *)&pIDA, 0L, 0L, NOMSG );
+  
+  // return to caller
+  return( usRC );
+
 }
 

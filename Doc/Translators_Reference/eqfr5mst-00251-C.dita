@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00251-C">
+  <title>Finding the owner of a LAN-based shared Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>viewing the list window details of<indexterm>shared Translation Memory databases</indexterm></indexterm>
+        <indexterm>displaying the list window details of<indexterm>shared Translation Memory databases</indexterm></indexterm>
+        <indexterm>viewing the list window details of<indexterm>shared dictionaries</indexterm></indexterm>
+        <indexterm>displaying the list window details of<indexterm>shared dictionaries</indexterm></indexterm>
+        <indexterm>Translation Memory<indexterm>displaying owner</indexterm></indexterm>
+        <indexterm>dictionary<indexterm>displaying owner</indexterm></indexterm>
+        <indexterm>owner of a shared resource, viewing</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In the <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/> List</q> window, you can display additional 
+       information about a LAN-based shared Translation Memory. The <b>Owner</b> column shows the user ID of the person 
+       who created the shared resource.</p>
+  </body>
+</topic>

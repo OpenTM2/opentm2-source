@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="entrysection">
+<title>Entry section</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>entry section in external dictionary</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The entry section lists the actual entries in the dictionary one after
+the other. Each entry starts with an <codeph>&lt;entry&gt;</codeph> tag and ends with
+an <codeph>&lt;/entry&gt;</codeph> tag. Each entry contains the same entry field tags
+as used in the maptable section. Whereas the maptable contains the general
+description of the structure of an entry, the entry section contains real
+data.</p>
+<p>The levels below the entry level can be repeated as often as necessary,
+for example, to contain multiple senses or translations.</p>
+<p>For an example of an SGML-based dictionary see <xref href="sgmdic3.dita#sgmdic3"/>.</p>
+</body></topic>

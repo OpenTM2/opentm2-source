@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00072">
+  <title>What the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor is</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> has a built-in editor that assists you when translating. It supports all
+      major editing functions and a set of functions that are especially adapted to translations.</p>
+    <p>You can work with the editor when you have entered the Translation Environment.</p>
+    <p><indexterm>RTFEdit editor</indexterm>The descriptions in this chapter apply also to the Rich Text Format editor RTFEdit, which supplements 
+      the standard editor in support of Thai language documents. See also <xref href="eqfr5mst-00063.dita#eqfr5mst-00063"/>, if required.</p>
+  </body>
+</topic>

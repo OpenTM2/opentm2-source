@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="docexp1">
+<title id="as18042006exportingdocuments"><!--rev=as18042006-->Exporting documents</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>document<indexterm>exporting (from command
+area)</indexterm></indexterm><indexterm>exporting<indexterm>documents (from command
+area)</indexterm></indexterm>
+<p>If you have many large documents that you want to export, using
+the command area of your operating system instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+windows might be more convenient.</p>
+<p>Before exporting, ensure that: 
+<ul>
+<li><keyword conref="common-symbols.dita#common-symbols/tm4w"/> has been started.</li>
+<li>A folder exists that contains the documents to be exported.</li>
+</ul></p>
+<p>The properties of the folder or of the documents give information
+on the used markup table and other document-related information that
+is necessary when exporting the respective documents.</p>
+<p>To work from the command area, use the <b>OTMBATCH</b> command.
+Its syntax is described in the following chapter. </p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>exporting documents</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">exporting documents</indexterm></indexterm></indexterm>
+<p>The following syntax diagrams describe how you export a document
+from the <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command area. Note that
+lowercase letters in a parameter name are optional and need not be
+typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>DOCEXP</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><var>folder</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>STartpath</kwd><oper>=</oper><var>startpath</var></groupseq>
+<groupseq><delim>/</delim><kwd>FIles</kwd><oper>=</oper>
+<groupchoice>
+<groupseq><var>file_name</var></groupseq>
+<groupseq><delim>(</delim>
+<groupseq><repsep>,</repsep><var>file_name</var></groupseq><delim>)</delim></groupseq>
+<groupseq><oper>@</oper><var>list_file_name</var></groupseq></groupchoice></groupseq>
+<groupseq><delim>/</delim><kwd>OPtions</kwd><oper>=</oper>
+<groupchoice><kwd>TARGET</kwd><kwd>SOURCE</kwd><kwd>SNOMATCH</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>OVerwrite</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">NO</kwd><kwd>YES</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>QUIET</kwd></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=DOCEXP</pt>
+<pd><codeph>DOCEXP</codeph> specifies that you want to export a document.</pd></plentry>
+<plentry><pt>/FLD=<synph><var>folder</var></synph></pt>
+<pd><synph><var>folder</var></synph> specifies the name of the folder containing
+the documents that you want to export.</pd></plentry>
+<plentry><pt>/STartpath=<synph><var>startpath</var></synph></pt>
+<pd><synph><var>startpath</var></synph> specifies the drive, directory, or both where
+the file exported is to be placed. The path information specified
+becomes part of, that is it prefixes, the name of the document. The
+directory specified must already exist.
+<p>If you omit this parameter,
+the document is placed in the drive and directory specified in <synph><var>file_name</var></synph>.
+However, this drive and directory does not become part of the document
+name.</p></pd></plentry>
+<plentry><pt>/FIles=<synph><var>file_name</var></synph></pt>
+<pd><synph><var>file_name</var></synph> specifies the name of the document
+you want to export. The <synph><var>file_name</var></synph> specification can include
+the drive and directory where the file exported is to be placed. The
+subdirectory specified here must already exist.
+<p>You can use the
+wildcard characters '*' and '?' in the name part of the parameter
+to export all documents matching the given name pattern (e.g. "C:\DOCEXP\*.DOC"
+to export all documents with a file name extension of ".DOC" to the
+directory "C:\DOCEXP").</p>
+<p>If you specify several documents, enclose
+the document names in brackets and separate them by commas.</p>
+<p>If
+you want to specify a list of document names in a list file, refer
+to this list file by preceding the list file name with the <codeph>@</codeph> symbol
+(<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file enclose
+the document names in brackets and separate them by commas.</p></pd></plentry>
+<plentry><pt>/OPtions=</pt>
+<pd>Specifies whether you want to export an original document
+(SOURCE), a translation (TARGET), or a document with nonmatching segments.</pd></plentry>
+<plentry><pt>/OVerwrite=</pt>
+<pd>Specifies whether an existing document is overwritten when exporting
+a document with the same name (<codeph>NO</codeph> is the default).</pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. If this option is omitted, a message window pops up
+whenever an error occurs or when the task has successfully completed.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase,
+lowercase, or in mixed-case letters.</note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to export a document using the
+OTMBATCH command with the TASK option.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=docexp /fld=pharma /files=c:\med.txt /options=target
+       /overwrite=yes</codeblock></section></required-cleanup>
+<p>In this example, the document to be exported is called <codeph>med.txt</codeph>.
+It is contained in folder <codeph>pharma</codeph>. The translation of <codeph>med.txt</codeph> is
+exported to the root directory of drive C. If <codeph>med.txt</codeph> already
+exists, it is overwritten.</p>
+<p>The following example shows how to export documents in
+external format with a path.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=docexp /fld=sample1 /startpath=i:\transl
+       /files=(test1\demo1.scr,test1\demo2.scr)</codeblock></section></required-cleanup>
+<p>The document <codeph>test1\demo1.scr</codeph> is exported to <codeph>i:\transl\test1\demo1.scr</codeph> and
+the document <codeph>test1\demo2.scr</codeph> is exported to <codeph>i:\transl\test1\demo2.scr</codeph>.</p>
+</example></refbody></reference>

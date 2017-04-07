@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00116">
+  <title>Export and import</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>exchanging translation material</indexterm>
+        <indexterm>files<indexterm>external format</indexterm></indexterm>
+        <indexterm>files<indexterm><keyword conref="common-symbols.dita#common-symbols/tm4w"/>format</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To exchange translation material with other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users or other programs, 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers functions to export and import the translation material.</p>
+    <p>To import an object, for example a folder, is a prerequisite for working with it in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. 
+      You export an object to work with it outside <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. Exported objects can be
+      in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format or in external format.</p>
+    <p>Objects in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format are files in a compressed format and can be imported only 
+      by other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users. For files in this format, you only have to specify the drive 
+      where to export to, or where to import from. These files are stored in the <codeph>otm\export</codeph> directory of the selected drive.</p>
+    <p>Objects in external format are ASCII encoded files that can be edited with a text editor. They can be imported by other 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users and processed by other systems. For files in external format you must 
+      specify the fully qualified DOS file name where to export to, or where to import from.<indexterm>fully qualified file names</indexterm>
+      <indexterm>file names, fully qualified</indexterm></p>
+    <p>Files in external format contain SGML tags that describe the structure of the files and the data it contains. For a complete description 
+      of SGML, refer to <cite>ISO 8879, Information Processing - Text and Office Systems - Standard Generalized Markup Language (SGML)</cite>.</p>
+  </body>
+</topic>

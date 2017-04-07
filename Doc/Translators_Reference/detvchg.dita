@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="detvchg">
+<title><!--rev=wst-->Viewing and changing the details of a list item</title>
+<prolog><metadata><keywords>
+
+<indexterm>list windows<indexterm>displaying detailed information in</indexterm></indexterm>
+<indexterm>list windows<indexterm>details</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>In the list windows, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can show you more information in addition
+to the names of the list items. You can ask the system to display
+these view details selectively and in a sequence defined by you.</p>
+<p>The details contain properties and statistical information of the
+list items, such as the: 
+<ul>
+<li>Name of a document</li>
+<li>Source language of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></li>
+<li>Size of a new terms list</li>
+<li>Date when a document was analyzed</li>
+<li>Date when a found terms list was updated</li>
+<li>Drive where a folder is stored</li>
+</ul></p>
+<p>Details can be displayed for: 
+<ul>
+<li>Folders</li>
+<li>Documents</li>
+<li>Dictionaries</li>
+<li><keyword conref="common-symbols.dita#common-symbols/xlmems"/></li>
+<li>New terms lists</li>
+<li>Found terms lists</li>
+<li>Exclusion lists</li>
+<li>Markup table list</li>
+</ul> </p>
+<pYou can view the selected details and change which
+details are displayed on a list window.</p>
+</body></topic>

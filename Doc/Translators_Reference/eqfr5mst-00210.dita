@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00210">
+  <title>Importing a XLIFF folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>importing<indexterm>folders (XLIFF)</indexterm></indexterm>
+      <indexterm>folder<indexterm>importing</indexterm></indexterm>
+      <p>Use the folder import in XLIFF format to import XLIFF packages translated outside of
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The original XLIFF package has to be exported from a <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> folder.</p>
+      <p>The original <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder has to
+        exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Folder List</q> window from the main window</li>
+          <li><b>Import…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Import Folder</q> window (see <xref href="#eqfr5mst-00210/importfolderwinxliff"/>)
+        is displayed. <required-cleanup><indexterm>windows<indexterm>Import XLIFF
+          Folder</indexterm></indexterm></required-cleanup><fig id="importfolderwinxliff" expanse="column">
+          <title>Import Folder window</title><image placement="break" href="folimpx.gif"><alt>Figure
+              shows Import Folder window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>You can import a folder from any drive that is defined to your installation.</p>
+      <p>On the <q>General</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>From</pt>
+          <pd>Select: <ul>
+              <li>The drive where the XLIFF package to be imported resides.</li>
+              <li>The folder from the <b>Folder</b> box. When you have selected a drive, this box
+                shows the importable folders on this drive. The folder box will only list XLIFF
+                packages which have been created by <keyword
+                  conref="common-symbols.dita#common-symbols/tm4w"/>. The box shows the folder names
+                and not the names of the XIFF package files.</li>
+            </ul></pd>
+        </plentry>
+        <plentry>
+          <pt>Options</pt>
+          <pd>Select: <parml>
+              <plentry><pt>With Translation Memory databases</pt>
+                <pd>if you wish to import the translated segments contained in the XLIFF package to
+                  the Translation Memory databases of the folder or document.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Contains the drive on which <keyword conref="common-symbols.dita#common-symbols/tm4w"
+            /> resides. If you have several <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> installations, select the
+            appropriate drive.</pd>
+        </plentry>
+        <plentry>
+          <pt>Import from</pt>
+          <pd>Select <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder (FXP)</q>
+            for the import of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folders.
+          </pd>
+        </plentry>
+      </parml>
+      <p>The <q>Details</q> page is empty for XLIFF folder imports.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The translated segments contained in the XLIFF package replace the corresponding segments
+        of the documents. The document completion ratio is updated accordingly.</p>
+      <p>If the <q>With TranslationMemory databases</q> option has been selected, the translated
+        segments from the XLIFF package are also added to the TranslationMemory of the folder or
+        document.</p>
+    </section>
+  </refbody>
+</reference>

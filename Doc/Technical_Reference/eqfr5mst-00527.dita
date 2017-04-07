@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00527">
+  <title>Creating user exits for markup tables</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>markup tables<indexterm>user exit for</indexterm></indexterm>
+        <indexterm>EQFHTML4<indexterm>user exit for</indexterm></indexterm>
+        <indexterm>EQFANSI<indexterm>user exit for</indexterm></indexterm>
+        <indexterm>markup tables<indexterm>combined with user exit</indexterm></indexterm>
+        <indexterm>user exit<indexterm>combined with markup table</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>There are document formats that require a user exit for their markup table: <ul>
+        <li>Binary documents, for example <tm trademark="Microsoft" tmowner="Microsoft Corporation"
+            tmtype="reg" tmclass="special">Microsoft</tm> Word for <tm trademark="Windows"
+            tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>
+          documents</li>
+        <li>Documents that require code page conversion, for example ANSI documents</li>
+        <li>Documents that have a fixed record layout</li>
+        <li>Documents that contain nontranslatable text parts, for example, RTF documents</li>
+        <li>Binary documents like Lotus Notes database files and template files that
+          require context-dependent processing.</li>
+      </ul></p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides two markup tables that
+      are already combined with a user exit: <ul>
+        <li>The user exit part of the EQFHTML4 markup table converts the code page and preprocesses
+          JavaScripts to limit segments to 2048 characters. The markup table part controls text
+          segmentation and the recognition of inline tags.</li>
+        <li>The user exit part of the EQFANSI markup table converts the code page, and the markup
+          table part inserts segment breaks after empty lines.</li>
+      </ul></p>
+    <p>In addition, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a user exit
+      that you can use with the appropriate markup table. This user exit is a dynamic-link library
+      (DLL) with predefined entry points. The code for the exit can be written in any programming
+      language that supports PASCAL calling conventions. The include file <codeph>EQF_API.H</codeph>
+      contains the definitions required for a user exit written in C.</p>
+    <p>The user exit is activated using the <codeph>&lt;SEGMENTEXIT&gt;</codeph> tag of the markup
+      table (see also <xref href="eqfr5mst-00521.dita#eqfr5mst-00521/segmentexit">Segment
+        exit</xref>).</p>
+  </body>
+</topic>

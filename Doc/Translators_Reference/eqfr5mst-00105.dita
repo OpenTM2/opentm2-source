@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00105">
+  <title>Translating with several translators</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can also be used by a team of translators. This is useful in particular if
+      a large document has to be translated. You can divide the large document into several parts and include these parts in individual files. 
+      In addition, you can assign one person the role of a coordinator who performs all duties associated with the preparation of the translation
+      material. These duties can include maintaining and importing dictionaries, making sure that each team member receives the appropriate 
+      dictionary for the document to be translated, and performing all Workbench-related tasks.</p>
+    <p>When the Workbench is handled by a coordinator, translators perform their work exclusively in the Translation Environment. All resources 
+      needed for translation can be prepared beforehand, and the only functions the translators need to select from the Workbench are the Open 
+      folder and Open document options.</p>
+    <p>Due to the split of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> into a Workbench and a Translation Environment, work
+      can easily be assigned to a vendor. The coordinator can supply the vendor with a folder containing all the required resources, namely the 
+      Translation Memory databases, dictionaries, and documents to be translated. After receiving the translated folder, the coordinator can
+      merge the Translation Memory databases returned by the vendor into a main Translation Memory for future translations. The dictionaries 
+      updated by the vendor can also be merged into one main dictionary and then be maintained by the coordinator or project leader.</p>
+    <p>In addition, the word count utility enables you to count all the words to be translated and so facilitates billing. </p>
+  </body>
+</topic>

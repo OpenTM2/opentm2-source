@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00296">
+<title>Viewing the details of a dictionary</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>displaying details in list window</indexterm></indexterm>
+<indexterm>dictionary<indexterm>changing details in list window</indexterm></indexterm>
+<indexterm>viewing
+the list window details of<indexterm>dictionaries</indexterm></indexterm><indexterm>displaying the list window details
+of<indexterm>dictionaries</indexterm></indexterm>
+<indexterm>changing the
+list window details<indexterm>of dictionaries</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>In its simplest form, the <q>Dictionary List</q> window lists all of the
+available dictionaries. However, if you want to see more specific details
+of each dictionary, you can change your view of the <q>Dictionary List</q> window
+to have it display individual properties, such as the source language, location,
+or description of a dictionary.</p>
+<p>The details selectable for a dictionary are: 
+<dl>
+<dlentry><dt>Name</dt>
+<dd>The name of the dictionary.</dd></dlentry>
+<dlentry><dt>Description</dt>
+<dd>The description of the dictionary.</dd></dlentry>
+<dlentry><dt>Drive</dt>
+<dd>The drive on which the dictionary resides.</dd></dlentry>
+<dlentry><dt>Owner</dt>
+<dd>Shows who created the dictionary (if it is a shared one). If it is a
+local dictionary, <codeph>n/a</codeph> is displayed.</dd></dlentry>
+<dlentry><dt>Source language</dt>
+<dd>The source language of the dictionary, this means the language of the
+headwords.</dd></dlentry>
+</dl></p>
+<p>You can toggle between two display modes: 
+<ul>
+<li>Display the dictionary names only</li>
+<li>Display the names and details</li>
+</ul></p>
+<p>You can change the arrangement of the dictionary details in the <q>Change
+Details</q> window.</p>
+<p>For a general description see <xref href="eqfr5mst-00125.dita#eqfr5mst-00125"/>. </p>
+</body></topic>

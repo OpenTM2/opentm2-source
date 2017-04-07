@@ -158,6 +158,9 @@ LPARAM mp2
 
    case WM_TIMER:
 		timerEvent(hwndDlg);
+		//update selected memory at fix interval
+		sendSelectedMemoriesToGlobal(hwndDlg);
+		//
 		break;
 
     case WM_CLOSE:

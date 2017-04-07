@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm642">
+<title>New features in TM 6.4.2</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>Enhanced logging for machine translation proposal usage </li>
+<li>The <b>/MA</b>= parameter of the <b>TMX2EXP</b> tool
+now supports a list of markup table names</li>
+<li>The properties of a folder can now be changed from the command
+line using the <b>OTMBATCH</b> tool</li>
+</ul>
+</body></topic>

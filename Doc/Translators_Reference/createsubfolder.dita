@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="createsubfolder">
+  <title>Creating a subfolder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>creating a subfolder</indexterm></indexterm>
+      <indexterm>creating<indexterm>subfolders</indexterm></indexterm>
+      <indexterm>subfolder<indexterm>creating</indexterm></indexterm>
+      <p>When your folder list is in Explorer-like tree view, you can create subfolders to each
+        folder. You can then import documents into the subfolders like into any other folder. You
+        can even create a subfolder for a subfolder.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>Your folder list must be in Explorer-like tree view.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <ol>
+        <li>Double-click the folder for which you want to create a subfolder. The contents of this
+          folder is displayed.</li>
+        <li>Click in the area containing the folder contents.</li>
+        <li>Click <b>New</b> on the <b>File</b> menu.</li>
+      </ol>
+      <p>The <q>Create a New Subfolder</q> window (see <xref
+          href="#createsubfolder/createsubfolderwin"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Create a New
+            Subfolder</indexterm></indexterm></required-cleanup><fig id="createsubfolderwin"
+          expanse="column">
+          <title>Create a New Subfolder window</title><image placement="break" href="eqfb7s8h.gif"
+              ><alt>Figure shows Create a New Subfolder window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The options you specify are used for all documents imported into this folder. If individual
+        documents need other properties, you can specify these when importing the documents.</p>
+      <parml>
+        <plentry>
+          <pt>Parent (Sub)Folder</pt>
+          <pd>Contains the name of the folder or subfolder for which you are creating a
+            subfolder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Subfolder name</pt>
+          <pd>Type up to 40 alphanumeric characters that describe the subfolder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Settings of parent (sub)folder</pt>
+          <pd>Displays the properties of the folder or subfolder for which you are creating a
+            subfolder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Subfolder-specific settings</pt>
+          <pd>If your subfolder is to differ in one or more properties from its parent folder or
+            subfolder, specify them in the appropriate fields.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Create</b> to create the new subfolder. Click <b>Cancel</b> to leave this window
+        without creating a new subfolder.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you clicked <b>Create</b>, the subfolder is created and added, in the tree view, as a
+        subfolder to its parent folder.</p>
+    </section>
+  </refbody>
+</reference>

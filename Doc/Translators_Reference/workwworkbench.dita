@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="workwworkbench">
+<title>Working with the Workbench</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>The Workbench consists of the following parts: folders, dictionaries,
+Translation Memory databases, and three kinds of terminology lists. It enables
+you to perform the various tasks, such as: 
+<ul>
+<li>Create a new dictionary or access an existing one for maintenance purposes
+such as modifying, adding, or deleting entries</li>
+<li>Merge Translation Memory databases</li>
+<li>Process terminology lists</li>
+<li>Import and export documents</li>
+</ul></p>
+<p>From the Workbench you can also open a document to access the Translation
+Environment. </p>
+</body></topic>

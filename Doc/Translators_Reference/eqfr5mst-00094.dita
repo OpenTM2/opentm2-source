@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00094">
+  <title>Translation scenarios</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> is designed to help you perform your daily translation work. As a flexible
+      tool that can be adapted to your specific requirements it improves your productivity regardless of the types of documents you translate 
+      and the size of your business.</p>
+    <p>The following scenarios give you an overview of how you can perform your translation tasks using 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. They show you how to: 
+      <ul>
+        <li>Translate a new document</li>
+        <li>Translate an updated document</li>
+        <li>Use <keyword conref="common-symbols.dita#common-symbols/tm4w"/> when a project involves only one translator</li>
+        <li>Use <keyword conref="common-symbols.dita#common-symbols/tm4w"/> when a project involves several translators</li>
+        <li>Exchange data with other translators and systems</li>
+      </ul></p>
+  </body>
+</topic>

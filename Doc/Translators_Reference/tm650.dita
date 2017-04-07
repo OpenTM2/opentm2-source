@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm650">
+<title>New features in TM 6.5.0</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li id="eqfadjustcountinfo">New API call EQFADJUSTCOUNTINFO to adjust
+the history log and count information<xref href="#tm650/eqfadjustcountinfo"/></li>
+<li id="eqfchangefolpropsex">Append mode for read-only memories in
+API call EqfChangeFolPropsEx<xref href="#tm650/eqfchangefolpropsex"/></li>
+<li id="eqfprocessnomatchex">New API call EqfProcessNomatchEx<xref href="#tm650/eqfprocessnomatchex"/></li>
+</ul>
+</body></topic>

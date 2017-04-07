@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF122-3" rev="GF_18032015_2">
+  <title>OpenTM2 Dictionary XML support</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> allows to import and export dictionaries in a standard XML format.
+      In the dictionary export or import panel, select "XML UTF-8" as the file format.</p>
+  </body>
+</topic>

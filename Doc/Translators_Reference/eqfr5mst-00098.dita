@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00098">
+  <title>Translating the document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you open a document for translation, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> displays the document with the
+      first segment being highlighted. You translate the segment by overtyping the source text and using the full-featured editor provided 
+      by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. In addition to the document you also see a <q>Translation Memory</q> 
+      window, which displays translation proposals, and a <q>Dictionary</q> window, which displays dictionary terms (single words or word 
+      groups). You can copy the proposals and terms into your document.</p>
+    <p>While you are translating a document, you can open another document in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      or files outside <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      enables you to copy text from the opened document into your current translation. </p>
+  </body>
+</topic>

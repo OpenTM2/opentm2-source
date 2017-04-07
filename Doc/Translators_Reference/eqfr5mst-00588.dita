@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00588">
+<title>Modes of editing</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table pgwide="1" frame="topbot">
+<tgroup cols="4" colsep="1" rowsep="1">
+<colspec colname="col1" colwidth="298*"/>
+<colspec colname="col2" colwidth="115*"/>
+<colspec colname="col3" colwidth="152*"/>
+<colspec colname="col4" colwidth="114*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Function</entry>
+<entry valign="top" rowsep="1">Menu</entry>
+<entry valign="top" rowsep="1">Default key</entry>
+<entry valign="top" rowsep="1">My key</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Line wrap (toggle)</entry>
+<entry valign="top">Edit</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Insert toggle</entry>
+<entry valign="top"/>
+<entry valign="top">Insert</entry></row>
+<row>
+<entry valign="top">Toggle first character of dictionary proposal</entry>
+<entry valign="top"/>
+<entry valign="top"/>
+<entry/></row>
+<row>
+<entry valign="top">Add an abbreviation</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Edit abbreviations</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Postediting</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Show translation</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/>
+<entry/></row>
+<row>
+<entry valign="top">Automatic substitution</entry>
+<entry valign="top">Translate</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Automatic spellchecking</entry>
+<entry valign="top">Spellcheck</entry>
+<entry valign="top"/>
+<entry/></row>
+<row>
+<entry valign="top">Spellcheck file</entry>
+<entry valign="top">Spellcheck</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Spellcheck segment</entry>
+<entry valign="top">Spellcheck</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top">Next misspelled word</entry>
+<entry valign="top">Spellcheck</entry>
+<entry valign="top"/>
+<entry/></row>
+<row>
+<entry valign="top">Next misspelled word</entry>
+<entry valign="top">Spellcheck</entry>
+<entry valign="top"/>
+<entry/></row>
+<row>
+<entry valign="top">Next updated word</entry>
+<entry valign="top"/>
+<entry valign="top"/></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

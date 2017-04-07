@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="interleaf">
+<title>Interleaf files</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>Interleaf</indexterm></indexterm>
+<indexterm>Interleaf files</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports Interleaf (ASCII) files, which usually have a file
+extension of DOC. Import these files using the <codeph>EQFINT2</codeph> markup
+table.</p>
+</body></topic>

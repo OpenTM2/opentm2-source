@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00101">
+  <title>Translating updated documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To translate an updated document, you first import it into a folder referencing the Translation Memory containing the old translation 
+      (of the original document). You then have the following options: 
+      <ul>
+        <li>Let <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically translate the unchanged parts during analysis. You
+          then only have to deal with the new and untranslated text.</li>
+        <li>After analysis, open the changed document and run the automatic substitution.
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> then stops at the places where your interaction is required, for
+          example, where you have to translate the new parts or where you must decide which match to take if the Translation Memory supplies 
+          several matches.</li>
+        <li>After analysis, open the changed document and work through it segment by segment, copying the translation for the unchanged parts 
+          into the changed document and translating the changed parts.</li>
+      </ul>
+    </p>
+    <p>After the translation is complete, you can postedit the translation regardless of which option you chose. 
+      <ph>The associated Translation Memory is updated automatically.</ph></p>
+    <p>When you export a changed document, you can ask <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to place different
+      revision marks next to the old text, the changes, and the text that you copied from the Translation Memory. </p>
+  </body>
+</topic>

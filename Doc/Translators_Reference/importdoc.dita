@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="importdoc">
+<title>Importing a new document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>When you import a new document into the newly created or an existing folder,
+the document is analyzed, that is, its text is broken into segments. You later
+translate the document segment by segment. Each translated segment is
+stored in the Translation Memory associated with the folder or the specific
+document. If a segment appears a second time in the document or in another
+document of the folder, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> displays the translated segment
+to you. You then only have to include the displayed translated segment in
+your translation. In this way, you achieve consistency throughout your document. </p>
+</body></topic>

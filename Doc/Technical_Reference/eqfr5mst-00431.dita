@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00431">
+  <title>EQFCONVERTFILENAMES</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EQFCONVERTFILENAMES</indexterm>
+      <indexterm>programming interface calls<indexterm>EQFCONVERTFILENAMES</indexterm></indexterm>
+      <p><i>EQFCONVERTFILENAMES</i> converts long file names into short file names, and vice
+        versa.</p>
+      <p>If the long file name is an empty string, the long file name is created from the short file
+        name, and vice versa. If the short file name meets the 8.3 DOS naming conventions, the long
+        file name is returned as a null pointer.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFCONVERTFILENAMES</kwd>
+          <delim>(</delim>
+          <var>pszFolder</var>
+          <sep>,</sep>
+          <var>pszLongFileName</var>
+          <sep>,</sep>
+          <var>pszShortFileName</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt><synph><var>pszFolder(PSTRING)</var></synph> — input</pt>
+          <pd>The name of the folder with path information, for example
+                <codeph><i>&lt;folder_drive&gt;</i>:\otm\<i>&lt;folder_name&gt;</i>.f00</codeph>.
+                <codeph><i>&lt;folder_name&gt;</i></codeph> can be extracted from
+              <codeph>pSegTarget</codeph> or <codeph>pSegSource</codeph> as defined in
+              <codeph>eqf_xstart</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>pszLongFileName(PSTRING)</var></synph> — input or output</pt>
+          <pd>The long file name without path information. It is used to get the short file name. If
+              <codeph>pszLongFileName==NULL</codeph>, <synph><var>pszLongFileName</var></synph> is
+            output.</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>pszShortFileName(PSTRING)</var></synph> — input or output</pt>
+          <pd>The short file name (8.3 DOS naming convention) without path information. It is used
+            to get the long file name. If <codeph>pszShortFileName==NULL</codeph>,
+                <synph><var>pszShortFileName</var></synph> is output.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Return codes</title>
+      <p>A <keyword conref="common-symbols.dita#common-symbols/tm4w"/> return code as defined in the
+        file <codeph>OS2TOWIN.H</codeph>. A return code of null indicates successful processing.</p>
+    </section>
+    <section>
+      <title>Remarks</title>
+      <p>If a long file name is to be created from a short file name and the result is an empty
+        string for <synph><var>pszLongFileName</var></synph>, the short file name applies to the 8.3
+        naming conventions.</p>
+    </section>
+    <section>
+      <title>Notes</title>
+      <p>Either <synph><var>pszLongFileName</var></synph> or
+          <synph><var>pszShortFileName</var></synph> must be an empty string. The non-empty string
+        must be a valid file name, otherwise an error is recorded.</p>
+    </section>
+  </refbody>
+</reference>

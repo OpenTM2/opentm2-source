@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00179">
+  <title>Copying and moving documents between folders</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>deleting<indexterm>documents</indexterm></indexterm>
+      <indexterm>document<indexterm>copying</indexterm></indexterm>
+      <indexterm>copying<indexterm>documents between folders</indexterm></indexterm>
+      <indexterm>moving<indexterm>documents between folders</indexterm></indexterm>
+      <p>You can copy or move one or more documents in a folder to another folder. This is an
+        alternative to exporting and then importing documents, and it is recommended if you deal
+        with a large number of documents. The advantage of this method is that you use the
+        Windows-like multiple-select and drag-and-drop techniques to copy or move documents.
+        Nevertheless, internally <keyword conref="common-symbols.dita#common-symbols/tm4w"/> exports
+        the selected documents to a temporary directory and imports them into the target folder.</p>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> maintains the history log files
+        of the source and target folders, as described in <xref
+          href="#eqfr5mst-00179/copy_move_doc_results"/>.<indexterm>history log
+            file<indexterm>copying documents</indexterm><indexterm>moving
+          documents</indexterm></indexterm></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The source folder containing at least one document must be open, and the corresponding
+          <q>Document List</q> window must be shown.</p>
+      <p>The <q>Document List</q> window with the target folder must be open. You can also have your
+        folder list displayed in the Explorer-like tree view. Make sure that the target folder is
+        visible.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <ol>
+        <li>Select one or more documents in the <q>Document List</q> window that you want to copy or
+          move. Do this by holding down the Ctrl key and clicking the documents. To select a series
+          of documents, use the Alt key respectively.</li>
+        <li>If you want to drag and drop the selected documents to the target folder: <ul>
+            <li>To move the documents, drag them to the target folder. Note the small drag
+              icon.</li>
+            <li>To copy the documents, press SHIFT and drag them to the target folder. Note the
+              small plus symbol beside the drag icon, indicating a copy operation.</li>
+          </ul></li>
+        <li>If you want to use the move/copy menu: <ul>
+            <li>With the documents still selected, click right on the document.</li>
+            <li>Open the target folder</li>
+            <li>Click <b>PASTE</b></li>
+            <li>Select document list window</li>
+            <li>Right mouse click on document list window.</li>
+            <li>Click <b>Copy</b>, respectively <b>Move</b>. (The button corresponds to your
+              previous selection.)</li>
+          </ul></li>
+      </ol>
+    </section>
+    <section id="copy_move_doc_results">
+      <title>Results</title>
+      <p>The selected documents are copied or moved to the selected target folder.</p>
+      <p>The history log files of the source and target folder are updated as follows: <ul>
+          <li>The history log entries of the selected documents from the source folder are merged
+            into the target folder's history log. They are not deleted from the source folder's
+            history log.</li>
+          <li>The target folder's history log gets an entry that indicates that the documents were
+            copied, respectively moved, with the <q>copy/move</q> function.</li>
+          <li>The source folder's history log only gets an entry when documents were moved,
+            indicating this fact.</li>
+        </ul></p>
+    </section>
+  </refbody>
+</reference>

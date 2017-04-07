@@ -156,6 +156,7 @@ struct
 { DOCIMPNEWTARGET_LOGTASK3,   "Document import/new target V3" },
 { HISTLOGDELETE_LOGTASK,      "Delete of history log file" },
 { HISTDATA_RESET_LOGTASK,     "Wordcount reset" },
+{ FOLPROP_LOGTASK2,           "Folder properties changed" },
 { (LOGTASK)0,                 "" } };
 
 #define DATEFORMATSTRING_YMD     "%4.4d%c%2.2d%c%2.2d"
@@ -829,6 +830,7 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
       else if ( usFileRc == NO_ERROR && ulBytesRead > 0 &&
            (pAllInfoTmp->histLogRecord.Task == DOCEXPORT_LOGTASK ||
             pAllInfoTmp->histLogRecord.Task == FOLPROP_LOGTASK   ||
+            pAllInfoTmp->histLogRecord.Task == FOLPROP_LOGTASK2  ||
             pAllInfoTmp->histLogRecord.Task == VERSION_LOGTASK   ||
             pAllInfoTmp->histLogRecord.Task == FOLPROPSHIPMENT_LOGTASK   ||
             pAllInfoTmp->histLogRecord.Task == DOCPROP_LOGTASK)&&
@@ -2437,6 +2439,50 @@ BOOL RptMakeOutputFile( PRPT pRpt, PSZ pszXMLFile )
 
 }
 
+// helper function: write a single folder property changes in XML format
+void WriteFolPropChanges( CXmlWriter *xw, PSZ pszName, CHAR chObjectID, PSZ pszChangeList, BOOL fIsList )
+{
+  BOOL fFirstElement = TRUE;
+
+  PSZ pszCurrentPos = pszChangeList;
+  while ( *pszCurrentPos != EOS )
+  {
+    if ( fIsList && fFirstElement )
+    {
+      xw->WriteStartElement( pszName );
+      fFirstElement = FALSE;
+    } /* endif */
+
+    if ( *pszCurrentPos == chObjectID )
+    {
+      xw->WriteStartElement( fIsList ? "name" : pszName );
+      
+      if ( pszCurrentPos[1] == FOLPROP_REMOVED_ACTION )
+      {
+        xw->WriteAttributeString( "type", "removed" );
+      }
+      else if ( pszCurrentPos[1] == FOLPROP_UNCHANGED_ACTION )
+      {
+        xw->WriteAttributeString( "type", "unchanged" );
+      }
+      else if ( pszCurrentPos[1] == FOLPROP_NEW_ACTION )
+      {
+        xw->WriteAttributeString( "type", "new" );
+      } /* endif */
+
+      xw->WriteString( pszCurrentPos + 2 );
+      xw->WriteEndElement();
+
+    } /* endif */
+    pszCurrentPos += strlen(pszCurrentPos) + 1;
+  } /* endwhile */
+
+  if ( fIsList && !fFirstElement )
+  {
+    xw->WriteEndElement();
+  } /* endif */
+}
+
 // create an XML history report
 BOOL RptHistoryReport( PRPT pRpt, CXmlWriter *xw )
 {
@@ -2957,6 +3003,23 @@ BOOL RptHistoryReport( PRPT pRpt, CXmlWriter *xw )
                 xw->WriteEndElement() ; // "dictionaries"
               } // end if
             } //end if
+            break; // end case
+
+          case FOLPROP_LOGTASK2:
+            {
+              PFOLPROPHIST2 pFolPropHist = &(pVarPartTmp->FolProp2);  // set pointer to FOLPROPHIST
+
+              xw->WriteAttributeString( "type", "FolProp2" );
+
+              WriteFolPropChanges( xw, "description", FOLPROP_DESCRIPTION_OBJ, pFolPropHist->szChanges, FALSE );
+              WriteFolPropChanges( xw, "editor", FOLPROP_DESCRIPTION_OBJ, pFolPropHist->szChanges, FALSE );
+              WriteFolPropChanges( xw, "markup", FOLPROP_MARKUP_OBJ, pFolPropHist->szChanges, FALSE );
+              WriteFolPropChanges( xw, "memory", FOLPROP_MEMORY_OBJ, pFolPropHist->szChanges, FALSE );
+              WriteFolPropChanges( xw, "sourceLang", FOLPROP_SOURCELANG_OBJ, pFolPropHist->szChanges, FALSE );
+              WriteFolPropChanges( xw, "targetLang", FOLPROP_TARGETLANG_OBJ, pFolPropHist->szChanges, FALSE );
+              WriteFolPropChanges( xw, "dictionaries", FOLPROP_DICTIONARY_OBJ, pFolPropHist->szChanges, TRUE );
+              WriteFolPropChanges( xw, "romemories", FOLPROP_RO_MEMORY_OBJ, pFolPropHist->szChanges, TRUE );
+            }
             break; // end case
 
             // SHIPMENT_HANDLER
@@ -4557,6 +4620,9 @@ void HistLogCorrectRecSizesX( PHISTLOGRECORD pRecord )
           break;
         case FOLPROP_LOGTASK :
           usNewSize = sizeof(FOLPROPHIST);
+          break;
+        case FOLPROP_LOGTASK2 :
+          usNewSize = sizeof(FOLPROPHIST2);
           break;
         case FOLPROPSHIPMENT_LOGTASK :
           usNewSize = sizeof(FOLPROPHISTSHIPMENT); //SHIPMENT_HANDLER

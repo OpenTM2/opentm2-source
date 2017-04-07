@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm651">
+<title>New features in TM 6.5.1</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>Machine translation (MT) meta information can now be provided
+in the EXP and TMX memory import format and is passed on to the MTLOG
+evaluation when MT proposals have been used</li>
+<li>Separate recording of think time in MTLOG evaluation</li>
+<li>Support Mongolian as target language</li>
+<li>MT output during analysis now supports the NOPROPOSAL outputs
+in the EXP format (switches NOPROPOSALEXP and NOPROPOSALEXP_NODUPLICATE)</li>
+<li>&lt;codeblock&gt; and &lt;meta&gt; areas in IBMDITA files can now be
+protected (using option in analysis panel)</li>
+<li>The document export in validation format now keeps a list of last
+used values for "Translator" and "Project Manager" </li>
+</ul>
+</body></topic>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00120">
+  <title>Message windows</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>messages<indexterm>types</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you work with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, the system prompts you with message windows if necessary. 
+      There are several types of messages: 
+      <dl>
+        <dlentry><dt>Informational</dt>
+          <dd>For example, to inform you that a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> was imported completely</dd>
+        </dlentry>
+        <dlentry><dt>Error</dt>
+          <dd>For example, if something critical happens</dd>
+        </dlentry>
+        <dlentry><dt>Warning or Question</dt>
+          <dd>For example, to ask whether you really want to delete a folder</dd>
+        </dlentry>
+      </dl>
+    </p>
+    <p>All messages have a unique number and start with <b>EQF</b> to identify them as <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      messages.</p>
+    <p>With all message windows where you are asked to confirm actions on an object, you can select a <b>Yes to All</b> button in the first 
+      message window that pops up after an action has been requested. When you pressed this button, 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> assumes the answer <b>Yes</b> on all subsequent message windows that ask for 
+      a confirmation. For example, while analyzing documents of a folder, a message asks if you want to overwrite the target document because 
+      translation for a document has already started. If you answer <b>Yes to All</b>, all subsequent messages are suppressed.</p>
+  </body>
+</topic>

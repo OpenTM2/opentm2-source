@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="archivememas">
+  <title>Archiving a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>archiving <keyword conref="common-symbols.dita#common-symbols/xlmems"
+          /><indexterm>from command area (OTMBATCH)</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>OTMBATCH: archiving (from command
+        area)</indexterm></indexterm>
+      <p>To archive a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> it might be more
+        convenient to use a command instead of <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> windows.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>archiving <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/></indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">archiving Translation Memory
+            databases</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you archive a Translation Memory with the
+        OTMBATCH command. Note that lowercase letters in a parameter name are optional and need not
+        be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>ARCHTM</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>FIles</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>document_name</var>
+            </groupseq>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <var>document_name</var>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>list_file_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OVerwrite</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd importance="default">NO</kwd>
+            <kwd>YES</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OPtions=option</kwd>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=ARCHTM</pt>
+          <pd><codeph>ARCHTM</codeph> specifies that you want to archive a <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the folder that contains the
+            documents of which you want to archive the translated segments.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>document_name</var></synph></pt>
+          <pd><synph><var>document_name</var></synph> specifies the name of a document
+            to be archived. The <synph><var>document_name</var></synph> specification can include
+            the drive and directory containing the document to be archived. <p>If you specify
+              several documents, enclose the document names in brackets and separate them by
+              commas.</p>
+            <p>If you want to specify a list of document names in a list file, refer to this list
+              file by preceding the list file name with the <codeph>@</codeph> symbol
+                (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+              enclose the document names in brackets and separate them by commas.</p>
+            <p>If you do not specify the <b>FIles</b> option, all documents in the folder are
+              archived.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> specifies the name of the Translation Memory to be
+            archived.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OVerwrite=</pt>
+          <pd>Specifies if an existing <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            is to be overwritten when archiving starts (<codeph>NO</codeph> is the default).</pd>
+        </plentry>
+        <plentry>
+          <pt>/OPtions=option</pt>
+          <pd><synph><var>option</var></synph> can be one of the following: <p>USEASFOLDERTM to use
+              the archive memory as folder memory</p>
+            <p>SOURCESOURCEMEM to create a source-source memory using the untranslated segments</p>
+            <p>SETMFLAG to set the machine translation flag of the segments in the archive
+              memory</p></pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to archive a <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> using the OTMBATCH command.</p>
+      <required-cleanup>
+        <section>
+          <title>Example</title>
+          <codeblock>otmbatch /task=archtm /fld=test /mem=arch</codeblock>
+        </section>
+      </required-cleanup>
+      <p>In this example, the folder <codeph>test</codeph> is archived in <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>
+        <codeph>arch</codeph>.</p>
+    </example>
+  </refbody>
+</reference>

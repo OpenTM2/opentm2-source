@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="dictlookup">
+  <title>Option to select dictionary lookup for compound words in editor</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>User Interface</p>
+    <p>The new option can be activated or de-activated using the "Show single words of compound
+      terms in auto-lookup" option of the Dictionary tab of the "Profile settings" dialog of the
+      TranslationEnvironment:</p>
+    <fig id="dictlookupa" expanse="column">
+      <title>Dictionary Lookup</title>
+      <image placement="break" href="dictlookup.gif">
+        <alt>Figure shows Dictionary Lookup</alt>
+      </image>
+    </fig>
+    <p>If the option is active the single words of a compound term are looked up together with the
+      compound term. If the option is inactive the single words of a compound term are not looked up
+      in the dictionary auto-lookup.</p>
+    <p>An example:</p>
+    <p> Assume a dictionary containing the terms "data", "data processing", "data processing unit",
+      and "unit". If a segment contains the term "data processing unit" the dictionary window will
+      show the translations for "data", "data processing", "data processing unit", and "unit" if the
+      option is active and "data processing unit" if the option is inactive.. </p>
+  </body>
+</topic>

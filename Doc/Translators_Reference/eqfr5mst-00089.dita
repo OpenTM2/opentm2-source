@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00089">
+  <title>Customizing colors and fonts</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>editor functions<indexterm>customizing colors</indexterm></indexterm>
+        <indexterm>customizing<indexterm>colors</indexterm></indexterm>
+        <indexterm>changing<indexterm>colors</indexterm></indexterm>
+        <indexterm>colors<indexterm>customizing</indexterm></indexterm>
+        <indexterm>editor functions<indexterm>customizing font sizes</indexterm></indexterm>
+        <indexterm>fonts, customizing</indexterm>
+        <indexterm>customizing<indexterm>font sizes</indexterm></indexterm>
+        <indexterm>changing<indexterm>font sizes</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can change the font and font size of the text in the various windows of the Translation Environment and the color of the various 
+      text types and markup tags to suit your needs.</p>
+    <p>If you are working with Thai language documents, see <xref href="eqfr5mst-00063.dita#eqfr5mst-00063"/> for customizing colors and fonts.</p>
+    <p>To change the font and font size, choose <b>Fonts</b> on the <b>Options</b> menu. This takes you to the <q>Set Fonts</q> window on which 
+      you can select the window for which you want to change the font and font size. In the <b>Sample text</b> box you see an example of how the
+      changed font looks. When you are satisfied with your changes, click <b>Set</b> to save them. To get the initial settings again, 
+      click <b>Defaults</b>.</p>
+    <p>To change the color, choose <b>Colors</b> on the <b>Options</b> menu. This takes you to the <q>Set colors</q> window on which you can 
+      select the text type for which you want to change the foreground color, background color, or both. In the <b>Sample text</b> box you see an
+      example of how the changed color looks. When you are satisfied with your changes, click <b>Set</b> to save them. To get the initial 
+      settings again, click <b>Defaults</b>.</p>
+    <p>Refer to the lesson on customizing the Translation Environment in the <cite>Translator’s Workbook</cite> to learn how to change fonts 
+      and colors.</p>
+  </body>
+</topic>

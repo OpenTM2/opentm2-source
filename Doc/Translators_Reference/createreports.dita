@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="createreports">
+<title>Creating reports</title>
+<prolog><metadata><keywords>
+
+<indexterm>reports<indexterm>creating</indexterm></indexterm>
+<indexterm>creating<indexterm>reports</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to collect information about the effort, state, and
+history of your translations. The collected information can be displayed in
+different reports and used as a basis for calculating translation costs.</p>
+</body></topic>

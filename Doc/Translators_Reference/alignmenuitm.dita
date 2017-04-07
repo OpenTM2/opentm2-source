@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="alignmenuitm">
+  <title>Align menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Menu or key</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Connect segments (Ctrl+o)</entry>
+            <entry valign="top">Relates the marked source segment to the marked target
+              segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete connection (Ctrl+d)</entry>
+            <entry valign="top">Removes a connection between a source segment and a target segment.
+              Either of the segments must be marked.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ignore segment (Ctrl+i)</entry>
+            <entry valign="top">Removes a marked segment from the ITM which you do not want to be
+              connected with another segment, or that does not have a match in the opposite file.
+              The ignored segment remains visible but gets a different background color.</entry>
+          </row>
+          <row>
+            <entry valign="top">Undo Ignore (Ctrl+u)</entry>
+            <entry valign="top">Makes a previously ignored segment available for connection with a
+              matching segment in the opposite file. Note that the segment must be marked before you
+              use <b>Undo ignore</b>.</entry>
+          </row>
+          <row>
+            <entry valign="top">Join segments (Ctrl+j)</entry>
+            <entry valign="top">Combines the currently active segment with the following
+              one.</entry>
+          </row>
+          <row>
+            <entry valign="top">Split joined segments (Ctrl+s)</entry>
+            <entry valign="top">Splits a previously joined segment at the current cursor
+              position.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

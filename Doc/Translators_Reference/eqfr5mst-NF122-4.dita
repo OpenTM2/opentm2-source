@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF122-4" rev="GF_18032015_2">
+  <title>Frequently used DOS line-command utilites integrated into UI</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This function is part 1 of 2, and the final implementation is done in the next version of 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>Important <keyword conref="common-symbols.dita#common-symbols/tm4w"/> line command utilities such as OtmExp2TMX 
+       or OtmMtEval etc. are now integrated into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, and can 
+       be directly envoked from within <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>This frees users from remembering long and complex command line syntnax calls.
+       The function is called via "Utilities" --> "GUI for command line tools" inside the 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> workbench.</p>
+  </body>
+</topic>

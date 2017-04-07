@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00491" rev="GF_07122015">
+  <title>EqfGetFolderPropEx</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfGetFolderPropEx</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfGetFolderPropEx</indexterm></indexterm>
+      <p><i>EqfGetFolderPropEx</i> retrieves the requested value from the properties of the
+        specified folder or subfolder.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfGetFolderPropEx</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszBuffer</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>iBufLen</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszKey</entry>
+              <entry colname="col3">Name of the requested property value: <ul>
+                  <li>ANALYSISPROFILE to retrieve the analysis profile name</li>
+                  <li>COUNTINGPROFILE to retrieve the counting profile name</li>
+                  <li>DESCRIPTION to retrieve the folder description</li>
+                  <li>DICTIONARIES to retrieve the list of dictionaries</li>
+                  <li>DRIVE to retrieve the folder drive</li>
+                  <li>MEMORY to retrieve the folder memory</li>
+                  <li>ROMEMORIES to retrieve the list of rea-only memories</li>
+                  <li>SHIPMENT to retrieve the folder shipment number</li>
+                  <li>SOURCELANGUAGE to retrieve the folder source language</li>
+                  <li>TARGETLANGUAGE to retrieve the folder target language</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszBuffer</entry>
+              <entry colname="col3">Points to a buffer receiving the requested value.</entry>
+            </row>
+            <row>
+              <entry valign="middle">int</entry>
+              <entry valign="middle">iBufLen</entry>
+              <entry valign="middle">Length of the buffer in number of bytes.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock> 
+{ 
+  USHORT usRC = 0; HSESSION hSession = 0L; // start the Eqf calling interface
+  session usRC = EqfStartSession(&amp;hSession); // Retrieve the source language of folder Test.
+  if ( !usRC ) 
+  { 
+    CHAR szBuffer[100]; usRC =
+    EqfGetFolderPropEx(hSession,"Test","SOURCELANGUAGE", szBuffer, sizeof(szBuffer) ); 
+  } //endif
+  // terminate the session EqfEndSession( hSession ); 
+} 
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

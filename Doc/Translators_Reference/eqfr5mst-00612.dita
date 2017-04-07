@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00612">
+  <title>Exchanging data with other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> products</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In general, all types of translation material can be exchanged between other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      versions.</p>
+    <p>This table shows which data types you can export to and import from <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      Version 1.2.2.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="4*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="1*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Data type</entry>
+            <entry valign="top" rowsep="1">Export to</entry>
+            <entry valign="top" rowsep="1">Import from</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Folder (including documents, dictionaries, <keyword conref="common-symbols.dita#common-symbols/xlmems"/>)</entry>
+            <entry valign="top">yes</entry>
+            <entry valign="top">yes</entry>
+          </row>
+          <row>
+            <entry valign="top">Document</entry>
+            <entry valign="top">yes</entry>
+            <entry valign="top">yes</entry>
+          </row>
+          <row>
+            <entry valign="top">External <keyword conref="common-symbols.dita#common-symbols/xlmem"/></entry>
+            <entry valign="top">no</entry>
+            <entry valign="top">yes</entry>
+          </row>
+          <row>
+            <entry valign="top">External dictionary</entry>
+            <entry valign="top">yes</entry>
+            <entry valign="top">yes</entry>
+          </row>
+          <row>
+            <entry valign="top">External markup table</entry>
+            <entry valign="top">yes</entry>
+            <entry valign="top">yes</entry>
+          </row>
+          <row>
+            <entry valign="top">External terminology list</entry>
+            <entry valign="top">yes</entry>
+            <entry valign="top">yes</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

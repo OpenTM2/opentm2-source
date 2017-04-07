@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="xmpxlat">
+<title>Translation exercise with a sample document</title>
+<prolog><metadata><keywords>
+
+<indexterm>sample material<indexterm>translating a sample document</indexterm></indexterm>
+<indexterm>translating<indexterm>sample documents</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Before documents can be translated, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> analyzes them to prepare them
+for translation. The <codeph>device.html</codeph> documents have already been analyzed.
+The <codeph>trans.html</codeph> documents are analyzed automatically when you open
+them, or you can explicitly select one of the analysis functions.</p>
+<p>After importing and opening a document, you are taken to the <b><keyword conref="common-symbols.dita#common-symbols/xlenv"/></b>,
+where the following windows are displayed: 
+<ul>
+<li>The <q>Translation</q> window</li>
+<li>The <q>Translation Memory</q> window</li>
+<li>The <q>Dictionary</q> window</li>
+</ul></p>
+<p>The document <codeph>device.html</codeph> contains one chapter of a complete
+book. Other document files of the book have been translated already, that
+is, a Translation Memory exists for them.</p>
+<p>When you translate a sample document, remember that you can stop at any
+point in the session by: 
+<ul>
+<li>Double-clicking the system menu icon of the <b><keyword conref="common-symbols.dita#common-symbols/xlenv"/></b></li>
+<li>Selecting <b>Close</b> from the system menu</li>
+</ul></p>
+<p>To copy a proposal from the <b>Translation Memory</b> into
+the <q>Translation</q> window, press and hold down the Control key and type
+the number of the required proposal.</p>
+<p>To copy a proposal from the <q>Dictionary</q> window into the <q>Translation</q> window, press and hold down the Control key and type the letter of the
+required proposal.</p>
+<p>You can edit the translation document file in either insert or replace
+mode.</p>
+<p>If the suggested translation contains special characters that are not available
+on your keyboard, ignore them or type other characters instead. </p>
+</body></topic>

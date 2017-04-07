@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-3D" rev="GF_07122015">
+  <title>User List Operations</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>Users can <b>add</b>, <b>remove</b> and <b>list</b> other users of a Web-based Shared Translation Memory if 
+       these users are in the user list of the selected Web-based Shared Translation Memory. By right-mouse clicking 
+       on a Web-based Shared Translation Memory, select the task <q>Add User</q> in order to add a new user to the 
+       Web-based Shared Translation Memory, or select <q>Remove User</q> from the Web-based Shared Translation Memory, 
+       or select <q>List User</q> in order to list all users having access to the shared translation memory.</p>
+    <fig id="SharedMemUserList" expanse="column">
+      <title>The context menu to <b>add</b>, <b>remove</b> and <b>list</b> other users.</title>
+      <image placement="break" href="SharedMemUserList.gif">
+        <alt>The context menu to add, remove and list other users.</alt>
+      </image>
+    </fig>
+    <p>You can select one to perform the corresponding operations.</p>
+  </body>
+</topic>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00430">
+<title>EQFCLOSE</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFCLOSE</indexterm><indexterm>programming interface calls<indexterm>EQFCLOSE</indexterm></indexterm>
+<p><i>EQFCLOSE</i> closes the session with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFCLOSE</kwd><delim>(</delim><var>fShutdown</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>fShutdown</var></synph></pt>
+<pd>Can be either of the following:
+<dl>
+<dlentry><dt>EQF_CLOSE_STANDBY</dt>
+<dd>The services session is closed, the services remain active.</dd></dlentry>
+<dlentry><dt>EQF_CLOSE_EXIT</dt>
+<dd>The services are closed and destroyed.</dd></dlentry>
+</dl></pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The request completed successfully.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+<dlentry><dt>EQFERR_CLOSE_DICT</dt>
+<dd>An error occurred during the closing of the dictionary.</dd></dlentry>
+<dlentry><dt>EQFERR_CLOSE_TM</dt>
+<dd>An error occurred during the closing of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</dd></dlentry>
+<dlentry><dt>EQFERR_SYSTEM</dt>
+<dd>A system error occurred.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>This call must be the last <keyword conref="common-symbols.dita#common-symbols/tm4w"/> call, implicitly issued by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</section></refbody></reference>

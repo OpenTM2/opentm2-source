@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00170">
+  <title>Exporting a document in plain XML format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>Exporting a document in plain XML
+        format</indexterm></indexterm>
+      <indexterm>document<indexterm>Exporting a document in plain XML format</indexterm></indexterm>
+      <p>You can export a document in XML format for processing the segments of the document with
+        other tools.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To export a document in validation format, select <b>Plain XML Format</b> from
+          <b>Export</b> as.</p>
+      <p>
+        <required-cleanup>
+          <indexterm>windows<indexterm>Exporting a document in plain XML
+            format</indexterm></indexterm>
+        </required-cleanup>
+        <fig id="expdocexwin" expanse="column">
+          <title>Export Documents window (Plain XML format)</title>
+          <image placement="break">
+            <alt/>
+          </image>
+          <image placement="break" href="xmldocexport.gif">
+            <alt>Figure shows Export Documents window (Plain XML format)</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section id="whencreatingavalidationdocumentlinksarenotclickable">
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Path</pt>
+          <pd>Type the path name on the selected drive where you want the XML document
+            to be stored. Use a trailing backslash (\). You can also click <b>Browse</b> to display
+            the <q>Browse for Folder</q> window on which you can select the appropriate path. </pd>
+        </plentry>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Type the name of the XML document. When no name is specified, the name of
+            the document is used as name for the XML document. In combined mode the name of the
+            folder is used. The name can only be specified when only one document has been selected
+            or when all documents are combined into one XML document. You can also click
+              <b>Browse</b> to display the <q>Select XML document name</q> window on which you can
+            select the appropriate document name. </pd>
+        </plentry>
+        <plentry>
+          <pt>Combine into one document</pt>
+          <pd>Select this option to combine all exported documents into one file. The name of the
+            folder is used for the combined document. Note: this option is only active when more
+            than one document is selected for the export. Have been substituted automatically into
+            the validation document. </pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is exported as a XML document. </p>
+      <p>If the path that you specified does not exist yet, you are asked whether you want to create
+        the new path. If you are exporting one document, click Yes. If you are exporting several
+        documents and the path is to apply to all documents, click <b>Yes to All</b>.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00521">
+  <title>Creating new markup tables</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can create your own markup table by exporting an existing markup table in
+      external SGML format, modifying it with any text editor, and importing it back into <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> under a different name. Markup tables
+      need to be available in an SGML-based format to be imported into <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>. Notice that an exported markup table
+      contains only the nondefault entries.</p>
+    <p>To become familiar with the content of markup tables you might want to export a
+      markup table and study it before you create a new markup table. See <xref
+        href="eqfr5mst-00320.dita#eqfr5mst-00320"/> for details.</p>
+    <p id="segmentexit">When you have exported one of the markup tables provided by <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> you might see a second tag in the second
+      line <codeph>&lt;SEGMENTEXIT&gt;</codeph><i>userexit</i><codeph>&lt;/SEGMENTEXIT&gt;</codeph>.
+        <i>userexit</i> is the name of the dynamic-link library (DLL) containing the user exit code.
+      This tag is only required if a user exit is to be used. For more information, refer to <xref
+        href="eqfr5mst-00527.dita#eqfr5mst-00527"/>.</p>
+  </body>
+</topic>

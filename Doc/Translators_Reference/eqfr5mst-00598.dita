@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00598">
+<title>Sample format files</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>format files for printing</indexterm></indexterm>
+<indexterm>format files<indexterm>samples</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides several sample format files. The following contains an
+introduction to format file statements.</p>
+<p>The print program assumes a page size with a default of 72
+lines per page. To modify this layout you can insert printer-specific characters
+in the format files according to the syntax provided. </p>
+</body></topic>

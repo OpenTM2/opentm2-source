@@ -142,10 +142,12 @@
       #define _WCHAR_T_DEFINED
     #endif
 
-    #ifndef _WCTYPE_T_DEFINED
-      typedef wchar_t wint_t;
-      typedef wchar_t wctype_t;
-      #define _WCTYPE_T_DEFINED
+    #if MSC_VER < 1400
+        #ifndef _WCTYPE_T_DEFINED
+          typedef wchar_t wint_t;
+          typedef wchar_t wctype_t;
+          #define _WCTYPE_T_DEFINED
+        #endif
     #endif
 
     #ifndef _CHAR_W_DEFINED
@@ -4687,7 +4689,36 @@ USHORT UtlMakeFileName
   PSZ         pszBuffer                // buffer for created file name
 );
 
+/*! \brief extract all files contained in a ZIP package to a directory
+  \param pszPackage fully qualified name of the ZIP package
+  \param pszDestPath fully qualified name of the destination directory
+  \returns 0 in any case
+*/
+__declspec(dllexport)
+int UtlUnzipToDirectory( const char * pszPackage, const char *pszDestPath );
 
+/*! \brief add all files of a directoy to a ZIP package
+  The current version of this function does not recurse into subdirectories
+  \param pszSourcePath fully qualified name of the directory contaiing the files to be added to the package
+  \param pszPackage fully qualified name of the ZIP package being created
+  \returns 0 in any case
+*/
+__declspec(dllexport)
+int UtlZipDirectory( const char *pszSourcePath, const char * pszPackage );
+
+/*! \brief add a list of files to a ZIP package
+  \param pszFileList list of comma separated, fully qualified file names to be added to the package
+  \param pszPackage fully qualified name of the ZIP package being created
+  \returns 0 in any case
+*/
+__declspec(dllexport)
+int UtlZipFiles( const char *pszFileList, const char * pszPackage  );
+
+/*! \brief delete all files and directories located in a specific directory
+  \param pszDirectory fully qualified name of the directory contaiing the files to be added to the package
+*/
+__declspec(dllexport)
+void UtlDeleteAllFiles( const char *pszDirectory );
 
 // Mode defines for function UtlHandleConversionStrings
 // CONVLOAD_MODE loads the names of the conversion into a listbox or combo-box
@@ -5935,7 +5966,11 @@ typedef struct _PROPFOLDERLIST
 
    CHAR      szFSLastExportFile[MAX_LONGFILESPEC];// LU: last used file name for the export of the fuzzy segment search results
    BOOL      fFSWithMarks;                        // LU: last used state of with marks checkbox
-   CHAR chReserve[3994];                          // reserve space/filler
+
+   COLORREF  aclrFSLastUsedForeground[10];        // LU: user foreground color settings in the fuzzy segment search 
+   COLORREF  aclrFSLastUsedBackground[10];        // LU: user background color settings in the fuzzy segment search 
+
+   CHAR chReserve[3914];                          // reserve space/filler
 
 } PROPFOLDERLIST, *PPROPFOLDERLIST;
 
@@ -7426,6 +7461,30 @@ BOOL UtlAddMenuItem( const char *pszMenuName, const char *pszMenuItem, int iMenu
 
 __declspec(dllexport)
 BOOL UtlDeleteMenuItem( const char *pszMenuName, int iMenuItemID );
+
+// Input/output data for the UtlColorChooser dialog
+typedef struct _COLORCHOOSERDATA
+{
+  SHORT             sID;               // ID to be used for dialog, 0 = use standard ID
+  CHAR              szTitle[256];      // text to be used for dialog caption
+  HWND              hwndOwner;         // owner window for the color chooser dialog
+  struct
+  {
+    CHAR            szElement[80];     // name of the text element
+    COLORREF        cForeground;       // current foreground color
+    COLORREF        cBackground;       // current background color
+    COLORREF        cDefaultForeground;// default foreground color
+    COLORREF        cDefaultBackground;// default background color
+  } ColorSetting[30];                  // table of color settings for the various elements
+} COLORCHOOSERDATA, *PCOLORCHOOSERDATA;
+
+
+// let the user select the color settings for a group of items
+__declspec(dllexport)
+USHORT UtlColorChooserDlg
+(
+  PCOLORCHOOSERDATA pColorChooserData  // pointer to caller's color chooser data structure
+);
 
 /**
 * \brief Count the number of words in a given string

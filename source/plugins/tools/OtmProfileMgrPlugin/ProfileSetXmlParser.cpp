@@ -504,6 +504,11 @@ int CProfileSetXmlParser::KeyInfoExport(xercesc::DOMDocument* pExportXmlDoc, DOM
             memset(strValue, 0x00, sizeof(strValue));
             sprintf(strValue, "%d", pKeyTable->ucState);
             pFunctionEle->setAttribute(XMLString::transcode(KEY_USTATE), XMLString::transcode(strValue));
+
+            memset(strValue, 0x00, sizeof(strValue));
+            sprintf(strValue, "%d", pKeyTable->bEditor);
+            pFunctionEle->setAttribute(XMLString::transcode(KEY_EDITOR), XMLString::transcode(strValue));
+
           }
           pKeyTable++;
         }
@@ -2531,6 +2536,7 @@ int CProfileSetXmlParser::KeyInfoImport(DOMNode* pKeyInfoEle)
     BOOL bSpecChar = FALSE;
 
     KEYPROFTABLE* pKeyTable = get_KeyTable();
+
     SPECCHARKEYVEC* pSCKeyTable = GetSpecCharKeyVec();
     (*pSCKeyTable).clear();
     int iSpecCharInx = 0;
@@ -2560,6 +2566,12 @@ int CProfileSetXmlParser::KeyInfoImport(DOMNode* pKeyInfoEle)
         // check the key of the element
         XMLSize_t nAttriCnt = currentNode->getAttributes()->getLength();
 
+        // initalize bEditor field of current entry
+        if (!stricmp(KEY_FUNCTION, strNodeName))
+        {
+          pKeyTable->bEditor = 0;
+        }
+
         SPECCHARKEY keySpecKey;
         // set one key
         for (XMLSize_t jInx = 0; jInx < nAttriCnt; jInx++)
@@ -2580,6 +2592,10 @@ int CProfileSetXmlParser::KeyInfoImport(DOMNode* pKeyInfoEle)
                 else if (!stricmp(KEY_USTATE, strName) && ((NULL != strValue) && (strlen(strValue) != 0)))
                 {
                     pKeyTable->ucState = (UCHAR) atoi(strValue);
+                }
+                else if (!stricmp(KEY_EDITOR, strName) && ((NULL != strValue) && (strlen(strValue) != 0)))
+                {
+                    pKeyTable->bEditor = (BYTE) atoi(strValue);
                 }
             }
             else if (!stricmp(KEY_SPEC_CHAR, strNodeName))
@@ -2603,7 +2619,25 @@ int CProfileSetXmlParser::KeyInfoImport(DOMNode* pKeyInfoEle)
 
         if (!bSpecChar)
         {
-            pKeyTable++;
+          // GQ: special handling for entries with missing editor flags: use editor flags from default table
+          if ( pKeyTable->bEditor == 0 )
+          {
+            // search entry for this function in the default table
+            KEYPROFTABLE* pDefKeyTable = get_DefKeyTable();
+            while ( (pDefKeyTable->Function != LAST_FUNC) && (pDefKeyTable->Function != pKeyTable->Function) )
+            {
+              pDefKeyTable++;
+            }
+
+            // use bEditor flags from default table when found
+            if ( pDefKeyTable->Function == pKeyTable->Function )
+            {
+              pKeyTable->bEditor = pDefKeyTable->bEditor;
+            }
+          }
+
+          // go to next entry
+          pKeyTable++;
         }
         else
         {

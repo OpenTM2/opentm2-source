@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00039">
+  <title>Arranging the windows</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>translation workbench<indexterm>arranging windows</indexterm></indexterm>
+        <indexterm>translation workbench<indexterm>resizing windows</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can position and size all subsidiary windows on the Workbench as you find them most convenient. When the Workbench is displayed for 
+      the first time, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> has made a default arrangement for you.</p>
+    <p>The defaults are usually good choices for many translators, but you are free to rearrange and resize the windows into whatever position 
+      and size you like.</p>
+    <p>The window layout can best be determined by you according to your requirements and preferences. For example, have the windows positioned 
+      in a tiled way, overlaying each other, displayed as icons, or hidden behind other windows to reduce clutter on the screen.</p>
+    <p>The easiest way to do this is by placing the mouse pointer in the window’s title bar and dragging the window into the new position. This 
+      is a basic function of the operating system you use. If you do not know how to reposition or resize windows, refer to the appropriate user
+      documentation of your operating system.</p>
+  </body>
+</topic>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-gen20">
+<title><!--rev=wst-->Limitations of the current Thai support</title>
+<prolog><metadata><keywords>
+
+<indexterm>Thai language<indexterm>limitations of support</indexterm></indexterm>
+<indexterm>limitations<indexterm>with Thai language
+support</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Note the following limitations of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>'s current
+Thai support:
+<ul>
+<li>Thai support is only available on Personal Computers
+that have Thai fonts installed. Code page 874 is supported.</li>
+<li>The sentence recognition in documents with Thai source language
+is not always correct.</li>
+<li>The dictionary lookup dialog box does not display the Thai translation
+correctly because of the fixed pitch size in this dialog box.</li>
+<li>Names of folders, files, translation memories, dictionaries, and
+terminology lists should not contain Thai characters.</li>
+<li>The Translation Memory editor cannot display Thai characters.
+During the creation of an Initial Translation Memory Thai characters
+cannot be displayed.</li>
+<li>Further, Thai word counting, spelling check and
+machine translation are not supported.</li>
+</ul></p>
+</body></topic>

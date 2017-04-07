@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00581">
+<title>ParsTerminate</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsTerminate</indexterm></indexterm><indexterm>ParsTerminate</indexterm><indexterm>parser API<indexterm>ParsTerminate</indexterm></indexterm>
+<p><i>ParsTerminate</i> terminates the parser API
+environment.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsTerminate</kwd><delim>(</delim><var>hParser</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSER</entry>
+<entry colname="col2">hParser</entry>
+<entry colname="col3">The parser API handle, created by the <i>ParsInitialize</i> function.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the environment is successfully terminated,
+or an error code.</p>
+</section></refbody></reference>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00607">
+<title>The &lt;var...&gt; attributes</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>&lt;var...&gt; attributes</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>
+<dl>
+<dlentry><dt><codeph>name</codeph>=<synph><var>xxx</var></synph></dt>
+<dd>Specifies which entry field (<synph><var>xxx</var></synph>) of a dictionary
+entry is to be printed. It can be used together
+with one of the following attributes: 
+<ul>
+<li><codeph>$first_on_page</codeph> Prints the content of
+the specified entry field when a page is started. This lets
+you put the headword in the pagehead section. For example: <codeph>&lt;var name=headword $first_on_page&gt;</codeph></li>
+<li><codeph>$last_on_page</codeph> Prints the contents of
+the specified entry field when a page is finished. This lets you put the headword
+in the pagefoot section. For example: <codeph>&lt;var name=headword $last_on_page&gt;</codeph></li>
+<li><codeph>$same_entry_again</codeph> Makes a reset within
+one entry going from the end of one template to the beginning
+of the same template again. This lets you process the same template again,
+printing different information. For example: <codeph>&lt;var name=headword $same_entry_again&gt;</codeph></li>
+<li><codeph>$no_display</codeph> Does not print the contents
+of the specified entry field. You can use it in combination with <codeph>$same_entry_again</codeph> when only a reset is needed, but no information is to be
+printed. For example: <codeph>&lt;var name=headword
+$no_display&gt;</codeph></li>
+</ul></dd></dlentry>
+<dlentry><dt><codeph>sysname=$filename</codeph></dt>
+<dd>Specifies the name of the file your printout is to be
+written to.</dd></dlentry>
+<dlentry><dt><codeph>sysname=$dictname</codeph></dt>
+<dd>Specifies the name of the dictionary that you selected for printing.</dd></dlentry>
+<dlentry><dt><codeph>sysname=$date</codeph></dt>
+<dd>Prints the current date at the specified position.</dd></dlentry>
+<dlentry><dt><codeph>sysname=$time</codeph></dt>
+<dd>Prints the current time at the specified position.</dd></dlentry>
+<dlentry><dt><codeph>format</codeph>=<synph><var>date/time</var></synph></dt>
+<dd>Specifies the format of the date and time information.
+This attribute is mandatory for <codeph>sysname=$date</codeph> and <codeph>sysname=$time</codeph>. For example: <codeph>&lt;var sysname=$date
+format='dd.mm.yy'&gt;</codeph> or <codeph>&lt;var sysname=$time format='hh:mm:ss'&gt;</codeph></dd></dlentry>
+<dlentry><dt><codeph>sysname=$page_no</codeph></dt>
+<dd>Prints the current page number.</dd></dlentry>
+<dlentry><dt><codeph>sysname=$page_eject</codeph></dt>
+<dd>Makes a page eject at this position. <!-- r --></dd></dlentry>
+<dlentry><dt><codeph>$max</codeph>=<synph><var>n</var></synph></dt>
+<dd>Specifies the maximum number of characters that is to be
+printed from the information in the specified entry field. If the information
+exceeds the specified number of characters, the rest is not
+printed.</dd></dlentry>
+<dlentry><dt><codeph>$min</codeph>=<synph><var>n</var></synph></dt>
+<dd>Specifies the minimum number of characters to be printed
+from the information in the specified entry field. This tag lets you define
+a minimum amount of space for an entry field. You may want to use it if you
+wish to print the contents of entry fields in two columns. If the information
+in the entry field is less than the specified number of characters, the rest is
+filled with blank characters. 
+<p>If both <codeph>$max</codeph> and <codeph>$min</codeph> are
+specified, the value for <codeph>$min</codeph> must be lower or equal
+to the value of <codeph>$max</codeph>.</p></dd></dlentry>
+<dlentry><dt><codeph>$left</codeph></dt>
+<dd>The printed text of the specified entry field is justified at the left
+edge. This attribute only works in combination with the <codeph>$min</codeph> attribute.
+For example: <codeph>&lt;var
+sysname=$dictname $min=45 $left&gt;</codeph>.</dd></dlentry>
+<dlentry><dt><codeph>$right</codeph></dt>
+<dd>The printed text of the specified entry field is justified at the right
+edge. This attribute only works in combination with the <codeph>$min</codeph> attribute.
+For example: <codeph>&lt;var
+sysname=$dictname $min=45 $right&gt;</codeph>.</dd></dlentry>
+</dl> </p>
+</body></topic>

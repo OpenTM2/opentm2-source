@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00288">
+  <title>Searching for a dictionary entry</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>searching for a term in a dictionary</indexterm>
+      <indexterm>dictionary<indexterm>searching for a term</indexterm></indexterm>
+      <p>If you want to know whether a certain term is included in a dictionary, you can search for
+        this term in several ways, this means with a: <ul>
+          <li>Complete or incomplete term</li>
+          <li>Predefined search type </li>
+          <li>Dictionary filter defined by you </li>
+          <li>Combination of these</li>
+        </ul></p>
+      <p>Searching for a term can be done outside the <keyword
+          conref="common-symbols.dita#common-symbols/xlenv"/> and during translation in the <keyword
+          conref="common-symbols.dita#common-symbols/xlenv"/>.</p>
+      <p>To search for a term, you specify the term and the search parameters in the <q>Look up a
+          Term</q> window.</p>
+      <p>If more than one term matches with the specified search criteria, you can select the term
+        you are currently interested in to display its data.</p>
+      <p>If the term is found in the dictionary, you can display and edit the complete entry in
+        subsequent windows (<b>Look up Entry</b> and <b>Edit Entry in Dictionary</b>).</p>
+      <p>If the specified term is not found in the dictionary, you can add a new entry for this
+        term.</p>
+      <p>What you can do in the following windows is described in <xref
+          href="eqfr5mst-00281.dita#eqfr5mst-00281"/>, and <xref
+          href="eqfr5mst-00278.dita#eqfr5mst-00278"/>. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The dictionary must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To search for a term outside the <keyword conref="common-symbols.dita#common-symbols/xlenv"
+        />, select: <ol>
+          <li>The <q>Dictionary List</q> window</li>
+          <li>The dictionary you want to open</li>
+          <li><b>Open…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>Alternatively, double-click the dictionary in the <q>Dictionary List</q> window in the main
+        window.</p>
+      <p>To search for a term in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>,
+        select: <ol>
+          <li>A term or a multiword term in the <q>Translation</q> window by marking it</li>
+          <li><b>Look up a term…</b> from the <b>Translate</b> menu If the term exists in the
+            dictionary, the <q>Look up Entry</q> window for this term is displayed. For more
+            information, see <xref href="eqfr5mst-00281.dita#eqfr5mst-00281"/>. If the term does not
+            exist in the dictionary, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+            starts searching for the term as if you specified the <b>Neighborhood</b> search
+            option.</li>
+        </ol></p>
+      <p>The <q>Look up a Term</q> window is displayed (see <xref href="#eqfr5mst-00288/dicluk4"/>).
+              <required-cleanup><indexterm>windows<indexterm>Look up a
+          Term</indexterm></indexterm></required-cleanup><fig id="dicluk4" expanse="column">
+          <title>Look up a Term window</title><image placement="break" href="eqfb7s10k.gif"
+              ><alt>Figure shows Look up a Term window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Term</pt>
+          <pd>If you came from the <q>Dictionary List</q> window, type the term you are looking for.
+            You can type a single term or a multiword term. You can use an asterisk (*) to get a
+            list of all terms in the dictionary, or use the asterisk as part of a term to get a list
+            of terms. For example, enter <codeph>app*</codeph> to get a list of all terms starting
+            with the letters <codeph>app</codeph>. You can enter the term in uppercase, lowercase,
+            or mixed-case characters. <p>If you came from the Translation Environment, the term that
+              you highlighted or on which you positioned your cursor is displayed and a list of up
+              to 30 terms preceding and following the term in alphabetical order.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Type of search</pt>
+          <pd>The synonym, related term, and abbreviation search types are greyed out if the
+            corresponding entry field does not exist in the dictionary. <p>Select one of the
+              following search types:</p>
+            <parml>
+              <plentry><pt>Neighborhood</pt>
+                <pd>To display the 30 terms preceding and the 30 terms following the specified
+                  term.</pd></plentry>
+              <plentry><pt>Compound word</pt>
+                <pd>To retrieve all compound words that start with the specified term. For example,
+                  if the term <b>data</b> is looked up, the possible compound words that would be
+                  retrieved are: <ul>
+                    <li><b>Data processing</b></li>
+                    <li><b>Data processing network</b></li>
+                    <li><b>Data processor</b></li>
+                  </ul>
+                  <p>The displayed list is empty if no matches are found in the dictionary.</p>
+                </pd></plentry>
+              <plentry><pt>Synonym</pt>
+                <pd>To retrieve all terms where the specified term is in the synonym entry field of
+                  the respective term. For example, if you specified the term <i>stream</i> with the
+                    <b>Synonym</b> search option, you would get <i>brook</i> and <i>rivulet</i>, if
+                    <i>stream</i> is contained in their dictionary entries. The displayed list is
+                  empty if no matches are found in the dictionary.</pd></plentry>
+              <plentry><pt>Related Term</pt>
+                <pd>To display all terms related to the selected term. For example, if you specified
+                  the term <b>forest</b> with the <b>Related Term</b> search option, you would get
+                    <b>forestry commission</b> and <b>forester</b> as related terms if forest was
+                  entered in the related term entry field of their dictionary entries. The displayed
+                  list is empty if no matches are found in the dictionary.</pd></plentry>
+              <plentry><pt>Abbreviation</pt>
+                <pd>To display all terms that have an abbreviation. For example, if you specified
+                  the term <b>appl.</b> with the <b>Abbreviation</b> search option, you would get
+                    <b>application</b> if <b>appl.</b> was entered in the abbreviation entry field
+                  of its dictionary entry. The displayed list is empty if no matches are found in
+                  the dictionary.</pd></plentry>
+              <plentry><pt>Headword</pt>
+                <pd>To search only for the specified term. This is the default search
+                option.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Dictionaries</pt>
+          <pd>This box displays the name of the selected dictionary if you came from the
+              <q>Dictionary List</q> window, or the name of one or more dictionaries used during the
+            translation of the document if you came from the Translation Environment.</pd>
+        </plentry>
+        <plentry>
+          <pt>Filter</pt>
+          <pd>Specify whether to use a filter to restrict the number of terms to be found. You can
+            use an existing filter, change it, or create a new filter. <parml>
+              <plentry><pt>Use filter</pt>
+                <pd>To use a filter, select this option and specify which filter to
+                use:</pd></plentry>
+              <plentry><pt>Name</pt>
+                <pd>Lists all available filters. If you want to use or change an existing filter,
+                  select it. If you want to define a new filter, enter a name in the list
+                box.</pd></plentry>
+              <plentry><pt>Description</pt>
+                <pd>The description of the selected filter.</pd></plentry>
+            </parml>
+            <p>Click <b>Edit…</b> to define the new filter or to change an existing one, which takes
+              you to the <q>Edit Dictionary Filter</q> window. For more details on how to define
+              filters, see <xref href="eqfr5mst-00275.dita#eqfr5mst-00275"/>.</p></pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Look up…</b> to start the search.</p>
+      <p>Click <b>Edit…</b> to display the <q>Edit Entry in Dictionary</q> window in which you can
+        edit the selected term, if it already exists in the dictionary, or define it to the
+        dictionary as a new term.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you selected the <b>Headword</b> search type and an entry for the specified term is
+        found in the dictionary, the <q>Lookup Entry</q> window is automatically displayed
+        containing the data for this entry. For more information, see <xref
+          href="eqfr5mst-00281.dita#eqfr5mst-00281"/>.</p>
+      <p>If you selected the <b>Headword</b> search type and the term is not found in the dictionary
+        and you clicked <b>Look up…</b>, a message appears asking if you want to add the term to the
+        dictionary. If you add the term, you are automatically taken to the <q>Edit Entry in
+          Dictionary</q> window. For more information, see <xref
+          href="eqfr5mst-00278.dita#eqfr5mst-00278"/>.</p>
+      <p>If you selected <b>Neighborhood</b> search, and the term is not found in the dictionary, a
+        list of up to 60 terms is displayed in alphabetical order where the specified term would
+        appear in the middle.</p>
+      <p>If more than one term satisfies the specified search criteria, a list of up to 60 terms is
+        displayed from which you can select a term and use it for a <b>Headword</b> search
+        request.</p>
+      <p>If the specified term exists in the selected dictionary and you selected <b>Edit…</b>, the
+          <q>Edit Entry in Dictionary</q> windows is displayed. For more information, see <xref
+          href="eqfr5mst-00278.dita#eqfr5mst-00278"/>. </p>
+    </section>
+  </refbody>
+</reference>

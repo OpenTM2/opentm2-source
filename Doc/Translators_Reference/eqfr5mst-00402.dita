@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00402">
+  <title>Changing m-flagged segments</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>Translation Memory<indexterm>changing m-flagged segments (from command area)</indexterm></indexterm>
+      <indexterm>segments<indexterm>changing m-flagged segments (from command area)</indexterm></indexterm>
+      <p>In the translation editor, machine translated segments are prefixed with an [m]. 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a DOS line command utility, which allows to 
+         remove these <q>m</q> prefixes from machine-translated segments in a Translation Memory. Alternatively, this 
+         DOS line command utility allows to <b>add</b> the <q>m</q> flags to segments which did not have such 
+         a flag before.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OtmMemoryTool</indexterm>
+      <indexterm>commands<indexterm>OtmMemoryTool</indexterm></indexterm>
+      <p>The following syntax diagram describes how to change the <q>m</q>-flags in a Translation Memory
+         using the DOS line command utility OtmMemoryTool. Note that lowercase letters in a parameter name 
+         are optional and need not be typed.</p>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OtmMemoryTool</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TASK</kwd>
+          <oper>=</oper>
+          <kwd>ChgProposalMeta</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>SEt</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>CLear</kwd>
+        </groupseq>
+<!--        <groupseq>
+          <delim>/</delim>
+          <kwd>SEt</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd importance="default">NO</kwd>
+            <kwd>YES</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>CLear</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd importance="default">NO</kwd>
+            <kwd>YES</kwd>
+          </groupchoice>
+        </groupseq>-->
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TYpe</kwd>
+          <oper>=</oper>
+          <kwd>NOCONF</kwd>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TASK=ChgProposalMeta</pt>
+          <pd><b>ChgProposalMeta</b> specifies the <b>task</b> to either clear or set the m-flag 
+              of the Translation Memory that you want to work with.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> specifies the name of the Translation Memory that you want to work with.</pd>
+        </plentry>
+        <plentry>
+          <pt>/CLear</pt>
+          <pd>Specifies whether you want to <b>remove</b> the m-flags in the specified Translation Memory.
+              This option is only required if you do not specify the SET option.</pd>
+        </plentry>
+        <plentry>
+          <pt>/SEt</pt>
+          <pd>Specifies whether you want to <b>add</b> new m flags to segments in the specified Translation Memory.
+              This option is only required if you do not specify the CLEAR option.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TYpe=NOCONF</pt>
+          <pd>No confirmation message is displayed. This is useful if you do not want to be
+              interrupted by progress messages while you are working.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to change an m-flag in a Translation Memory using the line command utility OtmMemoryTool.</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Example</title>
+          <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=MyMemory /CLEAR /type=noconf</codeblock>
+        </section>
+<!--      </required-cleanup>-->
+      <p>In this example, the m-flags that preceded the segments in the Translation Memory
+        <codeph>MyMemory</codeph> are removed. You are not prompted with a confirmation message.
+      </p>
+    </example>
+  </refbody>
+</reference>

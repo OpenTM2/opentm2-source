@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00535">
+<title><!--rev=ws07072010-->EQFCHECKSEGEXW</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFCHECKSEGW</indexterm></indexterm><indexterm>EQFCHECKSEGEXW</indexterm>
+<p><i>EQFCHECKSEGEXW</i> is called during the translation
+of a document after a segment has been translated but not saved yet
+in the Translation Memory. It can modify the segment, for example
+change lowercase characters to uppercase, and prevent the segment
+from being saved, for example if specific length limits have been
+exceeded. It has the same functionality as the entry point EQFCHECKSEGW
+and has two additional parameteres to allow the usage of the EQFGETPREVSEG(W)
+and EQGGETNEXTSEG(W) API functions. </p>
+<p><i>EQFCHECKSEGEXW</i> is also called when exact
+matches are automatically substituted during the analysis of a document</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFCHECKSEGEXW</kwd><delim>(</delim><var>PreviousSourceSegment</var><sep>,</sep><var>CurrentSourceSegment</var><sep>,</sep></groupseq>
+<groupseq><var>Translation</var><sep>,</sep><var>ModifyFlag</var><sep>,</sep><var>Info</var><sep>,</sep><var>SegNum</var><sep>,</sep><var>MessageFlag</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>PreviousSourceSegment</var></synph></pt>
+<pd>The pointer to the text of the previous source segment.</pd></plentry>
+<plentry><pt><synph><var>CurrentSourceSegment</var></synph></pt>
+<pd>The pointer to the text of the current source segment.</pd></plentry>
+<plentry><pt><synph><var>Translation</var></synph></pt>
+<pd>The pointer to the translation of the current segment.</pd></plentry>
+<plentry><pt><synph><var>ModifyFlag</var></synph></pt>
+<pd>The pointer to the flag that is set when the user exit has modified
+the translated segment.</pd></plentry>
+<plentry><pt><synph><var>Info</var></synph></pt>
+<pd>A long info value which has to be passed to EQFGETPREVSEG(W)
+and EQGGETNEXTSEG(W) API functions</pd></plentry>
+<plentry><pt><synph><var>SegNum</var></synph></pt>
+<pd>An unsigned long value representing the current segment number.
+The segment number should be stored in a local unsigned long variable.
+A pointer to this variable has to be  to be passed to EQFGETPREVSEG(W)
+and EQGGETNEXTSEG(W) API functions</pd></plentry>
+<plentry><pt><synph><var>MessageFlag</var></synph></pt>
+<pd>The flag indicating whether a message box is shown.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The return code indicates if the segment can be saved.</p>
+</section></refbody></reference>

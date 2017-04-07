@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm630">
+<title>New features in TM 6.3.0</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>New API call <b>EqfAddCTIDList</b> to associate
+a Global Memory option file to a TM folder</li>
+<li>New folder properties page for the review and modification of
+Global Memory options</li>
+<li>Added new translation memory indicators to the memory proposal
+window of the Translation Environment similar to the dictionary indicators
+in the dictionary window.</li>
+<li>TM tracks and collects MTLOG-file information even across several
+shipments</li>
+<li>TM supports "Hamster" matches (matches coming from a global memory
+search) by treating it as EXACT-matches, but TM doesn't replace it
+automatically. The translators must accept it manually.</li>
+</ul>
+</body></topic>

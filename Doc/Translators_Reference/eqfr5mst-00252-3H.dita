@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-3H" rev="GF_03042017">
+  <title>How to backup a WEB-based Shared Translation Memory DB</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>To backup a WEB-based Shared Translation Memory, we suggest this basic process:
+    <ul>
+      <li>On the server, open a DOS line command (or use the WINDOWS explorer).</li>
+      <li>Change to the directory where MariaDB is installed in (e.g. C:\MariaDB\).</li>
+      <li>Change to the directory "\data\".</li>
+      <li>Copy the entire folder "otms_mysql_db" to your backup media.</li>
+    </ul>
+    </p>  
+  </body>
+</topic>
+

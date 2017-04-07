@@ -11,7 +11,7 @@
 * to the language name used in TMX
 [Language-Tmgr2TMX]
 English(U.S.)=en-US
-English(U.K.)=en-UK
+English(U.K.)=en-GB
 German(national)=de-DE
 German(newnat)=de-DE
 German(DPAnat)=de-DE
@@ -28,7 +28,7 @@ Portuguese(nat.)=pt-PT
 Catalan=ca
 Danish=da
 Icelandic=is
-Norwegian(bokmal)=no
+Norwegian(bokmal)=no_BO
 Norwegian(nynorsk)=no
 Swedish=sv
 Greek=el
@@ -63,6 +63,8 @@ Indonesian=id
 Malay=ms
 Vietnamese=vi-VN
 Basque=eu
+Azerbaijani(Latin)=az-La
+Welsh=cy-GB
 * Other Languages
 
 **
@@ -74,6 +76,7 @@ Basque=eu
 [Language-TMX2Tmgr]
 en-US=English(U.S.)
 en-UK=English(U.K.)
+en-GB=English(U.K.)
 de-DE=German(reform)
 de-CH=German(Swiss)
 fr-FR=French(national)
@@ -92,6 +95,7 @@ nl=Dutch(permissive)
 ca=Catalan
 da=Danish
 is=Icelandic
+nb-NO=Norwegian(bokmal)
 no=Norwegian(bokmal)
 no=Norwegian(nynorsk)
 sv=Swedish
@@ -126,6 +130,10 @@ id=Indonesian
 ms=Malay
 vi-VN=Vietnamese
 eu=Basque
+az-LA=Azerbaijani(Latin)
+az-AZ=Azerbaijani(Latin)
+cy-GB=Welsh
+
 
 
 [Markup2Type]

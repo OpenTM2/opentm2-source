@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="common-symbols">
+  <title>symbols.ent</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+<body>
+  <required-cleanup remap="text entities" translate="yes">
+    <p><keyword id="tm4w">OpenTM2</keyword></p>
+    <p><keyword id="xlenv">Translation Environment</keyword></p>
+    <p><keyword id="xlmem">Translation Memory</keyword></p>
+    <p><keyword id="xlmems">Translation Memory databases</keyword></p>
+    <p><keyword id="ITM">Initial Translation Memory</keyword></p>
+    <p><keyword id="opn">Open</keyword></p>
+    <p><keyword id="new">New...</keyword></p>
+    <p><keyword id="mrg">Merge...</keyword></p>
+    <p><keyword id="org">Organize</keyword></p>
+    <p><keyword id="prt">Print...</keyword></p>
+    <p><keyword id="prp">Properties...</keyword></p>
+    <p><keyword id="ana">Analyze...</keyword></p>
+    <p><keyword id="exp">Export...</keyword></p>
+    <p><keyword id="imp">Import...</keyword></p>
+    <p><keyword id="sel">Select all</keyword></p>
+    <p><keyword id="des">Deselect all</keyword></p>
+    <p><keyword id="crlf"> ◄─┘</keyword></p>
+  </required-cleanup>
+</body>
+</topic>

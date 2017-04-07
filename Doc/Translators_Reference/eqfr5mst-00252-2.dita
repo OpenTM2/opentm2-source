@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-2" rev="GF_18112016">
+  <title>Installation of important Server components</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter describes the installation of the most vital components used in 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/>&apos;s Web-based Shared Translation Memory concept. 
+       It is assumed, that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is already installed on the <b>client PC</b> 
+       and possibly on the server too.</p>
+    <note>Installing <keyword conref="common-symbols.dita#common-symbols/tm4w"/> on the <b>server</b> would <b>only</b> be required to make the 
+      <q>OtmTMService</q> available on the <b>server</b>. However, this service is part of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      <b>client</b> installation, and it would be sufficient to only copy the entire OtmTMService directory from the client PC to the server PC.</note>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> currently supports two different databases:
+      <ol>
+        <li>MariaDB</li>
+        <li>MySQL</li>
+      </ol>  
+    </p>
+    <p>In this documentation, we describe the usage of MariaDB, but the installation and usage of MySQL is similar.</p>
+    <p>From the MariaDB-website at <b>https://downloads.mariadb.org/</b>, download the package 
+       <q>mariadb-10.1.17-winx64.msi</q> (or higher) to the local hard disk drive on the server.</p>
+    <note>MariaDB is not part of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installer package, but a 
+      3rd party open source module <b>used</b> by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</note>
+  </body>
+</topic>

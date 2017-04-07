@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="folovr">
+<title>Overview and terminology</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>You can send all the documents in a folder to another <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+user.</p>
+<p>Folders that are sent or exported contain a number of documents,
+associated <i>dictionaries</i> and <i><keyword conref="common-symbols.dita#common-symbols/xlmems"/></i>,
+and optionally an accompanying note to the recipient.</p>
+<p>To work with a folder that has been exported by another user, you
+must first <i>import</i> it into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p>Exporting folders is also useful to make backup copies of your
+translation material. </p>
+<p id="cfh"><indexterm>controlled folder handling</indexterm><indexterm>folder<indexterm>controlled folder handling</indexterm></indexterm>When creating a
+folder you can select <i>Controlled folder handling</i>.
+Selecting this option means that you are the project coordinator responsible
+for this folder. It enables you to specify, and change at any time,
+all properties and details for the folder, including the translators
+for the documents to be imported into this folder. The originator
+and translator that you specify for the folder also outline the way
+the folder is taking until it is received by the actual translator,
+for example, from project coordinator to the vendor, to translator
+A, to translator B who actually translates the folder contents.</p>
+<pThe specifications you make with regard to controlled
+folder handling appear on various windows and extend your possibilities
+concerning a folder and its contents. For example, you can export
+only the documents that are to be translated by a specific translator,
+a task that was not possible before controlled folder handling was
+introduced.</p>
+<p>Users who are not authorized for controlled folder handling have
+only restricted rights. </p>
+</body></topic>

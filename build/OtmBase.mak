@@ -49,6 +49,8 @@ $(_OBJ)\UtlRegistry.OBJ:	$(_SRC)\core\utilities\UtlRegistry.c
 $(_OBJ)\OtmProposal.OBJ:	$(_SRC)\core\utilities\OtmProposal.cpp
 $(_OBJ)\LogWriter.OBJ:	$(_SRC)\core\utilities\LogWriter.cpp
 $(_OBJ)\LanguageFactory.OBJ:	$(_SRC)\core\utilities\LanguageFactory.cpp
+$(_OBJ)\zip.OBJ:	$(_SRC)\core\utilities\zip.cpp
+$(_OBJ)\unzip.OBJ:	$(_SRC)\core\utilities\unzip.cpp
 
 
 $(_DLL)\OTMBase.DLL:	$(_OBJ)\UtlMATVal.OBJ \
@@ -68,6 +70,8 @@ $(_DLL)\OTMBase.DLL:	$(_OBJ)\UtlMATVal.OBJ \
 						$(_OBJ)\UtlRegistry.OBJ \
                                                 $(_OBJ)\LanguageFactory.OBJ \
 						$(_OBJ)\OtmProposal.OBJ \
+						$(_OBJ)\zip.OBJ \
+						$(_OBJ)\unzip.OBJ \
 						$(_OBJ)\LogWriter.OBJ
 
 #------------------------------------------------------------------------------
@@ -95,6 +99,8 @@ $(_DLL)\OTMBase.DLL:
 					$(_OBJ)\UtlRegistry.OBJ
                     			$(_OBJ)\LanguageFactory.OBJ
 					$(_OBJ)\OtmProposal.OBJ
+  					$(_OBJ)\zip.OBJ 
+					$(_OBJ)\unzip.OBJ 
 					$(_OBJ)\LogWriter.OBJ
 /OUT:$(_DLL)\OTMBase.DLL
 /MAP:$(_MAP)\OTMBase.MAP $(_LINK_OPTIONS) /MAPINFO:EXPORTS /DLL

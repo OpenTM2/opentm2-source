@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00408">
+  <title>Restoring vital <keyword conref="common-symbols.dita#common-symbols/tm4w"/> property files</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>This tool may be used to restore vital <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> property files or to correct corrupted
+        property files. Contact your <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        support team to get more information how to correct corrupted property files.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>EQFINST</indexterm>
+      <indexterm>commands<indexterm>EQFINST</indexterm></indexterm>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFINST</kwd>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+  </refbody>
+</reference>

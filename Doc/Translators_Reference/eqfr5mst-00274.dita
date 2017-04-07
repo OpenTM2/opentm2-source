@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00274">
+<title>Adding a user-defined entry field</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>dictionary<indexterm>adding your own entry fields</indexterm></indexterm>
+<p>The predefined entry fields in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> dictionaries are only examples of
+possible fields you can use when you create a new dictionary and determine
+its structure.</p>
+<p>You can add your own user-defined fields to any of the four levels that
+make up the dictionary structure.</p>
+<p>You can only add user-defined fields when you create a new dictionary.
+When the dictionary already exists, you cannot change its structure.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>Decide which dictionary entry fields you want to add to your dictionary
+structure.</p>
+</section>
+<section><title>Calling sequence</title>
+<ol>
+<li>The <q>Dictionary List</q> window</li>
+<li><b>New…</b> from the <b>File</b> menu</li>
+<li><b>Yes…</b> next to the <b>Change entry
+fields</b> option in the <q>New Dictionary</q> window</li>
+<li>An entry field belonging to the level to which you want to add a field</li>
+<li><b>Add field…</b></li>
+</ol>
+<p>The <q>Add Entry Field</q> window is displayed.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>Type a name for the entry field you want to add in the <b>Displayed as</b> field. Click <b>Add</b> to add the new field
+to your structure.</p>
+</section>
+<section><title>Results</title>
+<p>The entry field is added to the dictionary structure at the same level
+as the entry field you have selected before clicking <b>Add
+field…</b>. You are returned to the <q>Change Entry Fields</q> window.</p>
+</section></refbody></reference>

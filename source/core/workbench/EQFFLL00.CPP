@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2016, International Business Machines              |
+//|      Copyright (C) 1990-2017, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 
 //+----------------------------------------------------------------------------+
@@ -315,6 +315,128 @@ void FolderListAnalysis
   } /* endif */
 }
 
+// helper function: add a single change information to the changes list
+void  FolAddChange( PFOLPROPHIST2 pHistoryRecord, CHAR chObjectID, CHAR chActionID, PSZ pszValue, PULONG pulUsed )
+{
+  ULONG ulLength = strlen(pszValue) + 3;
+
+  if ( sizeof(pHistoryRecord->szChanges) >= (*pulUsed + ulLength + 1) )  // always leave room for terminating zero value 
+  {
+    PSZ pszWritePos = pHistoryRecord->szChanges + *pulUsed;
+    *pszWritePos++ = chObjectID;
+    *pszWritePos++ = chActionID;
+    strcpy( pszWritePos, pszValue );
+    *pulUsed += ulLength;
+  }
+  else
+  {
+    pHistoryRecord->fOverFlow = TRUE;
+  } /* endif */
+}
+
+// helper function: add change information for a single value to the changes list
+void  FolAddChangeInfo( PFOLPROPHIST2 pHistoryRecord, CHAR chObjectID, PSZ pszOldValue, PSZ pszNewValue, PULONG pulUsed )
+{
+  if ( strcmp( pszOldValue, pszNewValue ) == 0 )
+  {
+    // data is unchanged
+    FolAddChange( pHistoryRecord, chObjectID, FOLPROP_UNCHANGED_ACTION, pszOldValue, pulUsed );
+  } 
+  else 
+  {
+    if ( pszOldValue[0] != EOS )
+    {
+      FolAddChange( pHistoryRecord, chObjectID, FOLPROP_REMOVED_ACTION, pszOldValue, pulUsed );
+    } /* endif */
+    if ( pszNewValue[0] != EOS )
+    {
+      FolAddChange( pHistoryRecord, chObjectID, FOLPROP_NEW_ACTION, pszNewValue, pulUsed );
+    } /* endif */
+  }
+}
+
+// helper function: search a name in the given name table
+BOOL FolIsInList( PSZ pszEntry, PSZ pszTable, int iTableSize, int iEntrySize )
+{
+  PSZ pszTest = pszTable;
+
+  int i = 0;
+  while ( (*pszTest != EOS) && (i < iTableSize) )
+  {
+    if ( strcmp( pszEntry, pszTest ) == 0 )
+    {
+      return( TRUE );
+    } /* endif */
+    pszTest += iEntrySize;
+    i++;
+  } /* endwhile */
+  return( FALSE );
+}
+
+// helper function: add change information for changes in a named list
+void  FolAddChangesInListInfo( PFOLPROPHIST2 pHistoryRecord, CHAR chObjectID, PSZ pOldTable, PSZ pNewTable, int iTableSize, int iEntrySize, PULONG pulUsed )
+{
+  PSZ pszEntry = pOldTable;
+
+  // handle unchanged and removed elements
+  int i = 0;
+  while ( (*pszEntry != EOS) && (i < iTableSize) )
+  {
+    if ( FolIsInList( pszEntry, pNewTable, iTableSize, iEntrySize ) )
+    {
+      FolAddChange( pHistoryRecord, chObjectID, FOLPROP_UNCHANGED_ACTION, pszEntry, pulUsed );
+    }
+    else
+    {
+      FolAddChange( pHistoryRecord, chObjectID, FOLPROP_REMOVED_ACTION, pszEntry, pulUsed );
+    } /* endif */
+    pszEntry += iEntrySize;
+    i++;
+  } /* endwhile */
+
+  // handle new elements
+  i = 0;
+  pszEntry = pNewTable;
+  while ( (*pszEntry != EOS) && (i < iTableSize) )
+  {
+    if ( FolIsInList( pszEntry, pOldTable, iTableSize, iEntrySize ) )
+    {
+      // nothing to do, unchanged entry already added to change list
+    }
+    else
+    {
+      FolAddChange( pHistoryRecord, chObjectID, FOLPROP_NEW_ACTION, pszEntry, pulUsed );
+    } /* endif */
+    pszEntry += iEntrySize;
+    i++;
+  } /* endwhile */
+}
+
+// helper function: write a history log record with the folder property changes
+void FolWriteFolPropChangedHistLog( PSZ pszObj, PPROPFOLDER pOrgFolProp, PPROPFOLDER pNewFolProp )
+{
+  PFOLPROPHIST2 pHistRec = NULL;
+  ULONG ulUsed = 0;
+
+  UtlAlloc( (PVOID *)&pHistRec, 0, sizeof(FOLPROPHIST2), NOMSG );
+  if ( pHistRec == NULL ) return;
+
+  FolAddChangeInfo( pHistRec, FOLPROP_DESCRIPTION_OBJ, pOrgFolProp->szDescription, pNewFolProp->szDescription, &ulUsed );
+  FolAddChangeInfo( pHistRec, FOLPROP_EDITOR_OBJ, pOrgFolProp->szEditor, pNewFolProp->szEditor, &ulUsed );
+  FolAddChangeInfo( pHistRec, FOLPROP_MARKUP_OBJ, pOrgFolProp->szFormat, pNewFolProp->szFormat, &ulUsed );
+  FolAddChangeInfo( pHistRec, FOLPROP_MEMORY_OBJ, pOrgFolProp->szLongMemory, pNewFolProp->szLongMemory, &ulUsed );
+  FolAddChangeInfo( pHistRec, FOLPROP_SOURCELANG_OBJ, pOrgFolProp->szSourceLang, pNewFolProp->szSourceLang, &ulUsed );
+  FolAddChangeInfo( pHistRec, FOLPROP_TARGETLANG_OBJ, pOrgFolProp->szTargetLang, pNewFolProp->szTargetLang, &ulUsed );
+  FolAddChangesInListInfo( pHistRec, FOLPROP_DICTIONARY_OBJ, (PSZ)pOrgFolProp->aLongDicTbl, (PSZ)pNewFolProp->aLongDicTbl, sizeof(pOrgFolProp->aLongDicTbl)/sizeof(pOrgFolProp->aLongDicTbl[0]), 
+    sizeof(pOrgFolProp->aLongDicTbl[0]), &ulUsed );
+  FolAddChangesInListInfo( pHistRec, FOLPROP_RO_MEMORY_OBJ, (PSZ)pOrgFolProp->aLongMemTbl, (PSZ)pNewFolProp->aLongMemTbl, sizeof(pOrgFolProp->aLongMemTbl)/sizeof(pOrgFolProp->aLongMemTbl[0]), 
+    sizeof(pOrgFolProp->aLongMemTbl[0]), &ulUsed );
+
+  EQFBWriteHistLog2( pszObj, "", FOLPROP_LOGTASK2, sizeof(FOLPROPHIST2), (PVOID)pHistRec, TRUE, NULLHANDLE, NULL );
+
+  UtlAlloc( (PVOID *)&pHistRec, 0, 0, NOMSG );
+} /* end of function FolWriteFolPropChangedHistLog */
+
 // helper function: folder properties
 void FolderListFolderProperties
 (
@@ -362,6 +484,7 @@ void FolderListFolderProperties
     HPROP         hFolProp;  // handle of folder properties
     PPROPFOLDER   pFolProp;  // ptr to folder properties
     EQFINFO       ErrorInfo; // error code of property handler calls
+    PPROPFOLDER   pOrgFolProp = NULL;  // ptr to original folder properties
 
     chFolDrive = *pszObj;
     pSysProp = (PPROPSYSTEM)MakePropPtrFromHnd( EqfQuerySystemPropHnd());
@@ -388,30 +511,19 @@ void FolderListFolderProperties
       GetAllProperties( hFolProp, pFolProp, &ErrorInfo);
       pCommArea->fUserFlag = TRUE;
 
+      // make a copy of original folder properties to allow tracking of changes 
+      if ( UtlAlloc( (PVOID *)&pOrgFolProp, 0L, (LONG)sizeof(*pOrgFolProp), ERROR_STORAGE ) )
+      {
+        memcpy( pOrgFolProp, pFolProp, sizeof(*pOrgFolProp) );
+      } /* endif */
+
+
       DIALOGBOX( hwnd, FOLDERPROPSDLG, hResMod, ID_FOLDERPROPS_DLG,
                   pFolProp, iRC );
       if ( !iRC)                          // result returned ?
       {
-        /************************************************************/
-        /* Add properties changed record to history log             */
-        /************************************************************/
-        {
-          FOLPROPHIST FolPropHist;     // history record for folder
-
-          strcpy( FolPropHist.szMarkup,     pFolProp->szFormat );
-          strcpy( FolPropHist.szMemory,     pFolProp->szMemory );
-          strcpy( FolPropHist.szSourceLang, pFolProp->szSourceLang );
-          strcpy( FolPropHist.szTargetLang, pFolProp->szTargetLang );
-          strcpy( FolPropHist.szEditor,     pFolProp->szEditor );
-          strcpy( FolPropHist.szDescription,pFolProp->szDescription );
-          strcpy( FolPropHist.DictTable,    pFolProp->DicTbl );
-
-          EQFBWriteHistLog2( pszObj, "",
-                            FOLPROP_LOGTASK,
-                            sizeof(FOLPROPHIST), (PVOID)&FolPropHist,
-                            TRUE, NULLHANDLE, NULL );
-        }
-
+        // Add properties changed record to history log             
+        FolWriteFolPropChangedHistLog( pszObj, pOrgFolProp, pFolProp );
 
         /************************************************************/
         /* SHIPMENT_HANDLER   (all240800.zip)                       */
@@ -464,6 +576,7 @@ void FolderListFolderProperties
         CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo );
       } /* endif */
       pCommArea->fUserFlag = FALSE;
+      if ( pOrgFolProp ) UtlAlloc( (PVOID *)&pOrgFolProp, 0L, 0L, NOMSG );
       UtlAlloc( (PVOID *)&pFolProp, 0L, 0L, NOMSG );
     }
     else
@@ -1288,6 +1401,8 @@ LPARAM           mp2
 
           }
           break;
+
+
         default:
           {
             short sCommand = SHORT1FROMMP1(mp1);

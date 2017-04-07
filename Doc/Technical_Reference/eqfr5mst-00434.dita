@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00434">
+<title>EQFFILECONVERSIONEX</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFFILECONVERSIONEX</indexterm><indexterm>programming interface calls<indexterm>EQFFILECONVERSIONEX</indexterm></indexterm>
+<p><i>EQFFILECONVERSIONEX</i> is a helper function
+for user exits which require the files to be converted.</p>
+<p/>
+<p>The new API function gives the possibility 
+<ul>
+<li>to convert an ASCII file into ANSI (EQF_ASCII2ANSI) </li>
+<li>to convert an ANSI file into ASCII (EQF_ANSI2ASCII)</li>
+<li>to convert an ASCII file into UTF8 (EQF_ASCII2UTF8)</li>
+<li>to convert an UTF8 file into ASCII (EQF_UTF82ASCII)</li>
+<li>to convert an ASCII file into UTF16 (EQF_ASCII2UTF16)</li>
+<li>to convert an UTF16 file into ASCII (EQF_UTF162ASCII)</li>
+<li>to convert an ANSI file into UTF8 (EQF_ANSI2UTF8)</li>
+<li>to convert an UTF8 file into ANSI (EQF_UTF82ANSI)</li>
+<li>to convert an ANSI file into UTF16 (EQF_ANSI2UTF16) </li>
+<li>to convert an UTF16 file into ANSI (EQF_UTF162ANSI)</li>
+<li>to convert an UTF8 file into UTF16 (EQF_UTF82UTF16)</li>
+<li>to convert an UTF16 file into UTF8 (EQF_UTF162UTF8)</li>
+</ul></p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFFILECONVERSIONEX</kwd><delim>(</delim><var>pszInFile</var><sep>,</sep><var>pszOutFile</var><sep>,</sep><var>pszLanguage</var><sep>,</sep><var>usConversionType</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszInFile(PSZ)</var></synph> — input</pt>
+<pd>the fully qualified filename of the input file. or as defined
+in .</pd></plentry>
+<plentry><pt><synph><var>pszOutFile(PSZ)</var></synph> — input</pt>
+<pd>the fully qualified filename of the output file.</pd></plentry>
+<plentry><pt><synph><var>pszLanguage(PSZ)</var></synph> — input</pt>
+<pd>the language of the file (e.g. it can be retrieved with EQFGETSOURCELANG/EQFGETTARGETLANG).</pd></plentry>
+<plentry><pt><synph><var>usConversionType(USHORT)</var></synph> — input</pt>
+<pd>identifier of type of conversion: ASCII2ANSI, ANSI2ASCII
+<ul>
+<li>EQF_ASCII2ANSI</li>
+<li>EQF_ANSI2ASCII</li>
+<li>EQF_ASCII2UTF8 </li>
+<li>EQF_UTF82ASCII</li>
+<li>EQF_ASCII2UTF16</li>
+<li>EQF_UTF162ASCII</li>
+<li>EQF_ANSI2UTF8 </li>
+<li>EQF_UTF82ANSI</li>
+<li>EQF_ANSI2UTF16</li>
+<li>EQF_UTF162ANSI</li>
+<li>EQF_UTF82UTF16</li>
+<li>EQF_UTF162UTF8</li>
+</ul></pd></plentry>
+<plentry><pt><synph><var>usReturn(USHORT)</var></synph> — output</pt>
+<pd>
+<ul>
+<li>EQFRC_OK successfully completed</li>
+<li>EQFS_FILE_OPEN_FAILED file cannot be opened</li>
+<li>ERROR_STORAGE allocation of memory failed</li>
+<li>ERROR_FILE_INVALID_DATA file contains data that cannot be converted</li>
+<li>EQFRS_INVALID_PARM in all other cases of error</li>
+</ul></pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<p>
+<ul>
+<li>EQFRC_OK successfully completed</li>
+<li>EQFS_FILE_OPEN_FAILED file cannot be opened</li>
+<li>ERROR_STORAGE allocation of memory failed</li>
+<li>ERROR_FILE_INVALID_DATA file contains data that cannot be converted</li>
+<li>EQFRS_INVALID_PARM in all other cases of error</li>
+</ul></p>
+</section>
+<section><title>Remarks</title>
+<p>If the file pszOutFile exists already, it is overwritten. </p>
+<p>The API EQFFILECONVERSION is not available any more in TM6.0.2.
+It has been replaced by the new API EQFFILECONVERSIONEX.</p>
+<p/>
+<p/>
+<p>The pszInFile is converted according to the conversion type and
+written as the file pszOutFile. Output file and input file should
+be different files.</p>
+<p>The input language is used to determine the ASCII and ANSI codepage
+for the conversion. Inside TM, exactly one ASCII /one ANSI codepage
+is attached to each possible language. The input language must be
+a valid TM source or target language.</p>
+<p>If the language is NULL, the default target language of the system
+preferences is used for conversion.</p>
+<p>If EQF_ASCII2ANSI is specified, it is assumed that the input file
+is in ASCII. If EQF_ANSI2ASCII is specified, it is assumed that the
+input file is in ANSI.</p>
+<p>If EQF_UTF162ANSI or EQF_UTF162ASCII or EQF_UTF162UTF8 is specified,
+the input file is checked for the byte order mark. For UTF16 files,
+a byte-order-mark is required. If the input file does not contain
+such a mark, ERROR_FILE_INVALID_DATA is returned.</p>
+<p>For UTF8 input files, a byte-order-mark is accepted, however it
+is not required. UTF8 output files are written without a byte-order-mark.</p>
+<p>If the input file contains characters which are not valid in the
+codepage of the input language, the API EQFFILECONVERSIONEX may fail
+with the error return ERROR_FILE_INVALID_DATA.</p>
+<p>EQFRS_INVALID_PARM is returned as error code if usConversionType
+is invalid.</p>
+</section>
+<example><title>Examples</title>
+<p><ph><b/>Example</ph>
+<codeblock>CHAR szInFile[145];
+CHAR szOutFile[145];
+CHAR szLanguage[20];
+USHORT usRC = 0;
+strcpy(szOutFile, "d:\temp\b.tst");
+strcpy(szInFile,"d:\input\b.tst");
+strcpy(szLanguage, "English(U.S)");
+
+usRC = EQFFILECONVERSIONEX( szInFile, szOutFile, szLanguage, EQF_ASCII2ANSI ); </codeblock></p>
+</example></refbody></reference>

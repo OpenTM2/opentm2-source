@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-3B" rev="GF_07122015">
+  <title>Connecting or Disconnecting a WEB-based Shared Translation Memory</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p><b><u>Prerequisites</u></b>: <b>MySQL</b> and the Web Service Server are started.      
+      <note>By starting the <q>OtmTMService.jar</q>, MySQL is automatically started too. So no manual start of 
+            this component is usually required.</note>
+    </p>
+    <p>Translators can connect to a Web-based Shared Translation Memory as soon as these users are defined in the user 
+       access list of this Web-based Shared Translation Memory. After having successfully connected to the 
+       Web-based Shared Translation Memory, a copy of the Web-based Shared Translation Memory is stored on the local 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> client installation. This is a way to share translation 
+       memories created by other users. Users work with this translation memory almost identically as they work with any 
+       other local translation memory created by the user. The only exception is that users, not being the creator of the 
+       shared translation memory, can not delete it on the shared translation memory server.
+    </p>
+    <p>In order to connect to the Web-based Shared Translaiton Memory, follow these steps:
+      <ul>
+        <li>In <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, right-mouse click into the translation memory list window.</li>
+        <li>From the context menu select <q>Connect Shared Resource…</q>.</li>
+        <li>The panel <q>Options to connect to a shared memory</q> opens.</li>
+        <li><b>Type in</b>:
+          <ul>
+            <li>The <q>Service URL</q> which is the URL of the web service (e.g. http://localhost:8085/tmservice). 
+                Ensure to add your server&quot;s real IP-address to the field <q>Service URL</q> (<q>Localhost</q> is only an example).</li>
+            <li>The <q>User ID</q> which is the client user ID to access the shared translation memory (e.g. <q>xyz</q>).</li>
+            <li>The <q>Password</q> which belongs to the <q>User ID</q>.</li>
+            <li>Click on the button <q>OK</q>.</li>
+          </ul>
+        </li>
+        <li>The panel <q>Connect Shared Translation Memory databases</q> appears. From the left hand side pane <q>Available</q>, 
+            select (click on it) the translation memory you want to connect to, and then press the button <q>Add-&gt;&gt;</q>. 
+            From the right-hand pane <q>Selected</q> choose the shared translation memory you want to connect to (e.g. M009), 
+            and click on the button <q>Connect</q>.
+          <fig id="ConnectSharedMemory2" expanse="column">
+            <title>The panel <q><b>Connect Shared Translation Memory databases</b></q>.</title>
+            <image placement="break" href="ConnectSharedMemory2.gif">
+              <alt>The panel Connect Shared Translation Memory databases</alt>
+            </image>
+          </fig>
+        </li>
+        <li>Back in the <q>translation memory list window</q> see the translation memory selected before.</li>
+      </ul>
+    </p>
+  </body>
+</topic>

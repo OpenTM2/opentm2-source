@@ -694,9 +694,10 @@ BOOL SetSegDate
       pPropDocument->lSmallFuzzLevel  = (LONG)UtlQueryULong( QL_SMALLLOOKUPFUZZLEVEL );
 
       // GQ 2016/10/28: count number of translatable segments and not-translated segments when these values have not been set already
-      if ( (pInD->ulTotalSegs == 0) || (pPropDocument->ulNotTranslated == 0) )
+      if ( (ulSegDate != 0) && ((pInD->ulTotalSegs == 0) || (pPropDocument->ulNotTranslated == 0)) )
       {
-        TACountTranslatableSegments( pTAInput->szFolder, pInD->pszCurSourceFile, &(pInD->ulTotalSegs), &(pInD->ulSegsReplaced), &(pInD->ulSegsNotReplaced) );
+        ULONG ulTranslatableSegs = 0;
+        TACountTranslatableSegments( pTAInput->szFolder, pInD->pszCurSourceFile, &ulTranslatableSegs, &(pInD->ulSegsReplaced), &(pInD->ulSegsNotReplaced) );
       } /* endif */
 
 

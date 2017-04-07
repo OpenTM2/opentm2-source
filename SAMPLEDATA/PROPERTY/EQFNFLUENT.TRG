@@ -1,8 +1,8 @@
 * ==================================================================================================
 * Tool Name     : EqfNfluent.trg
-* Version       : V2.5
+* Version       : V2.6
 * Purpose       : Trigger file for the MT-output creation in various formats (especially for nFluent)
-* Copyright     : Copyright (c) 2012-2016, International Business Machines Corporation and others.  All rights reserved.
+* Copyright     : Copyright (c) 2012-2017, International Business Machines Corporation and others.  All rights reserved.
 * Author        : Gerhard Queck
 * Creation Date : 2010/01/01 (YYYY/MM/DD)
 * Updates       : Gerhard Fetz:  2012/04/30: Added new file header and more detailed descriptions
@@ -13,6 +13,7 @@
 *                 Gerhard Queck: 2015/11/17: Some minor rework
 *                 Gerhard Queck: 2016/02/18: Added a small description text to NOPROPOSAL output switches
 *                 Gerhard Queck: 2016/03/01: Added new switch INCLUDEWORDCOUNT
+*                 Gerhard Queck: 2017/03/15: Adjusted description of NOPROPOSAL option
 * ==================================================================================================
 *
 * INFORMATION: Place an asterisk (*) before any of the following switches to disable the output creation.
@@ -103,7 +104,8 @@ NOMATCH
 *
 * =============================================================================================================
 * == PURPOSE: Switch to create an XML-file which contains ALL source-segments which have no proposal at all  ==
-*             also ignoring FUZZY matches with a fuzziness below 50%.                                        == 
+*             This means no EXACT match, no MT-match, no GLOBAL MEMORY match, and no FUZZY match must exist  ==
+*             in an attached translation memory."                                                            ==
 *NOPROPOSAL
 *
 * PURPOSE: Same output as NOPROPOSAL but without duplicate segments                                          == 

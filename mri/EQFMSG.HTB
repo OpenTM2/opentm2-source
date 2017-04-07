@@ -687,7 +687,7 @@
     ERROR_FS_INVALID_MODE          , id_msg_subtable , ERROR_FS_INVALID_MODE          ,
     ERROR_FS_MISSING_OUTPUT_NAME   , id_msg_subtable , ERROR_FS_MISSING_OUTPUT_NAME   ,
     ERROR_TA_MTOPTIONS             , id_msg_subtable , ERROR_TA_MTOPTIONS             ,
-    FREE_0683_xxxxxxxxxxxxxxxxxxxxx, id_msg_subtable , FREE_0683_xxxxxxxxxxxxxxxxxxxxx,
+    FUNC_INVALID_MEMORY_HANDLE     , id_msg_subtable , FUNC_INVALID_MEMORY_HANDLE     ,
     FREE_0684_xxxxxxxxxxxxxxxxxxxxx, id_msg_subtable , FREE_0684_xxxxxxxxxxxxxxxxxxxxx,
     ERROR_FOLDER_FILES_EXIST       , id_msg_subtable , ERROR_FOLDER_FILES_EXIST       ,
     QUERY_FOL_DELETE_GREYEDOUT     , id_msg_subtable , QUERY_FOL_DELETE_GREYEDOUT     ,

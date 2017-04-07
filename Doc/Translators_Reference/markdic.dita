@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="markdic">
+  <title>Marking a term for a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>terminology lists<indexterm>moving terms to dictionary</indexterm></indexterm>
+      <indexterm>terminology lists<indexterm>marking terms for adding to
+        dictionary</indexterm></indexterm>
+      <p>You can mark new terms and found terms to add them to a dictionary. You do this by clicking
+          <b>Mark for dictionary…</b> in one of the following windows: <ul>
+          <li><q>Work with New Terms List</q></li>
+          <li><q>Work with Found Terms List</q></li>
+        </ul></p>
+      <p>The <q>Mark Term for Dictionary</q> window is displayed (see <xref
+          href="#markdic/marktermdictwin"/>). <required-cleanup><indexterm>windows<indexterm>Mark
+              Term for Dictionary</indexterm></indexterm></required-cleanup><fig
+          id="marktermdictwin" expanse="column">
+          <title>Mark Term for Dictionary window</title><image placement="break"
+            href="eqfb7s11d.gif"><alt>Figure shows Mark Term for Dictionary
+          window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Term</pt>
+          <pd>The current term from the terminology list is displayed.</pd>
+        </plentry>
+        <plentry>
+          <pt>Translation</pt>
+          <pd>Optionally, type the translation for the term to be copied to the dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>Add context information to dictionary entry</pt>
+          <pd>If you have created the terminology list with context information, this information is
+            copied to this field. You can also type your own context information. To save the
+            context information to the dictionary, mark the check box.</pd>
+        </plentry>
+        <plentry>
+          <pt>Dictionary</pt>
+          <pd>The list box contains all available dictionaries that are not protected. Select the
+            dictionary where you want the term to be added.</pd>
+        </plentry>
+      </parml>
+      <p>To save the processing information for this term, click <b>Mark</b>.</p>
+      <p>To skip the current term, select the <b>Skip</b> button.</p>
+      <p>If several terms are marked for the dictionary, the next term is displayed in the
+          <b>Term</b> field. If all marked terms were displayed, you are returned to the previous
+        window.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The selected term is prepared for addition to a dictionary. When all terms marked for the
+        dictionary are processed, you can add more information, depending on the structure of the
+        selected dictionary in the <q>Edit Entry in Dictionary</q> window. You can find more
+        information about editing entries in dictionaries in <xref href="dicedit.dita#dicedit"/>.
+      </p>
+    </section>
+  </refbody>
+</reference>

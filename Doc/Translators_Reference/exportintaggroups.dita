@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="exportintaggroups">
+  <title><!--rev=ws080811-->Export segments in tag groups</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>Export segments in tag groups</indexterm></indexterm>
+      <indexterm>document<indexterm>Export segments in tag groups</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a Export Segments in
+        tag groups function, which works across all or some documents of a folder.</p>
+      <p>This function export the segments which are located inside the given start and stop tags;
+        e.g. segments located in the title of the documents. The segments are exported in the
+        standard memory export format of TM (.EXP).</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The folder must exist, and its documents must have been analyzed.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>You can start this function from a "Folder List" window or from a "Document List" window.
+        Here the start from the "Document List"window is described.</p>
+      <p>Select: <ol>
+          <li>One or more documents you want to processe from the "Document List" window</li>
+          <li>"Export segments in tag groups" from the "Utilities" menu The "Export segments inside
+            given tag groups" window is displayed </li>
+        </ol></p>
+      <p>
+        <required-cleanup>
+          <indexterm>windows<indexterm>Export segments inside given tag groups
+            window</indexterm></indexterm>
+        </required-cleanup>
+        <fig id="expsegs" expanse="column">
+          <title>Export segments inside given tag groups window</title>
+          <image placement="break">
+            <alt/>
+          </image>
+          <image placement="break" href="xmldocexport.gif">
+            <alt>Figure shows Export segments inside given tag groups window</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Documents being processed</pt>
+          <pd>here the list of processed documents is displayed.</pd>
+        </plentry>
+        <plentry>
+          <pt>File containing list of start/stop tags</pt>
+          <pd>
+            <p>Here the name of the file containing the start/stop tags is entered. You can also
+              click Browse to display the "Select file containing list of start/stop tags" window on
+              which you can select the appropriate file name. </p>
+            <p>The list of start/stop tags is a plain text file. Each text line of the file contains
+              a start and stop tag separated by a comma. The start and stop tag can be enclosed in
+              double-quotes.</p>
+            <p>Sample</p>
+            <p>
+              <codeblock>&lt;title&gt;,&lt;/title&gt;
+"&lt;h1&gt;","&lt;/h1&gt;</codeblock>
+            </p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Output file</pt>
+          <pd>Here the name of the output file is entered. You can also click Browse to display the
+            "Select output file" window on which you can select the appropriate file name. </pd>
+        </plentry>
+        <plentry>
+          <pt>Start</pt>
+          <pd>Starts the export process. </pd>
+        </plentry>
+        <plentry>
+          <pt>Cancel </pt>
+          <pd>Stops the search and the interaction with this window and returns you to the starting
+            point. </pd>
+        </plentry>
+        <plentry>
+          <pt>Help</pt>
+          <pd>Gives information to help you interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The segments contained in the text groups are exported to the selected output file.</p>
+    </section>
+  </refbody>
+</reference>

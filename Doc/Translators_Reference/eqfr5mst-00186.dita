@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00186">
+<title>Opening and translating several documents</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>translating<indexterm>several documents</indexterm></indexterm><indexterm>document<indexterm>translating several documents</indexterm></indexterm><indexterm>document<indexterm>opening several documents</indexterm></indexterm><indexterm>opening<indexterm>several documents</indexterm></indexterm>
+<p>You can open several documents and translate them in parallel in
+the Translation Environment.</p>
+<p>If the selected documents have not been analyzed, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically
+analyzes them based on the properties of the documents and the folder.
+For more information on the analysis, see <xref href="eqfr5mst-00135.dita#eqfr5mst-00135"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The <q>Document List</q> window of the respective folder is active. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>You have two choices: 
+<ol>
+<li>You select several documents from the <q>Document List</q> window
+and then <b>Open</b> from the <b>File</b> menu.</li>
+<li>You open one or more documents while translating using <b>Open…</b> from the <b>File</b> menu
+(see <xref href="eqfr5mst-00087.dita#eqfr5mst-00087"/>).</li>
+</ol></p>
+</section>
+<section><title>Results</title>
+<p>In either case, the opened documents are displayed in the <q>Translation</q> window
+together with the respective dictionary and <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. If you used the
+first choice, the document selected first is the active one. If you
+used the second choice, the document opened last is the active one.</p>
+<p>You can switch to another opened document by either clicking it
+or by selecting it from the <b>Translation Environment</b> option
+from the <b>File</b> menu.</p>
+<p>You can close the opened documents one by one.</p>
+</section></refbody></reference>

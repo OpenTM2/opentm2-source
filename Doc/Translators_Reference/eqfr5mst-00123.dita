@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00123">
+  <title><!--rev=ng018-->Specifying an output file</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>files<indexterm>specifying</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p>You may need to specify an output file when working with one of the following windows: 
+        <ul>
+          <li><q>Count Words</q> for documents or a folder (see <xref href="eqfr5mst-00142.dita#eqfr5mst-00142/doccnt"/>)</li>
+          <li><q>Print Dictionary</q> (<xref href="eqfr5mst-00285.dita#eqfr5mst-00285/dicprt"/>)</li>
+        </ul>
+      </p>
+      <p>When you select the output option <b>File</b> and click <b>Select…</b>, the <q>Select File</q> window is displayed 
+        (see <xref href="#eqfr5mst-00123/selfilewin"/>).
+        <required-cleanup><indexterm>windows<indexterm>Select File</indexterm></indexterm></required-cleanup>
+        <fig id="selfilewin" expanse="column">
+          <title>Select File window</title>
+          <image placement="break" href="eqfb7s6b.gif"><alt>Figure shows Select File window</alt></image>
+        </fig>
+      </p>
+      <p>Specify the fully qualified file name, consisting of drive, directory and file name, as follows: 
+        <ol>
+          <li>Select the drive where the file is to reside from <b>Save in</b>.</li>
+          <li>Select the directory to hold the file by double-clicking it.</li>
+          <li>Specify a name in the <b>File name</b> field.</li>
+          <li>Select the file type from <b>Save as type</b>.</li>
+        </ol>
+      </p>
+      <p>Alternatively, you might select an existing file name as the output file. Its content will be overwritten upon completion of the operation.</p>
+      <p>When you have specified the file name, click <b>Save</b> to return to the previous window. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The drive, directory, and file name you select are used by the respective function.</p>
+    </section>
+  </refbody>
+</reference>

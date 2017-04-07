@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00565">
+<title>ParsUpdateSegW</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsUpdateSegW</indexterm></indexterm><indexterm>ParsUpdateSegW</indexterm><indexterm>parser API<indexterm>ParsUpdateSegW</indexterm></indexterm>
+<p><i>ParsUpdateSegW</i> updates a segment of the
+segmented file loaded into memory.</p>
+<p>If the segment is not in Unicode format, use <xref href="eqfr5mst-00564.dita#eqfr5mst-00564"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsUpdateSegW</kwd><delim>(</delim><var>hSegFile</var><sep>,</sep></groupseq>
+<groupseq><var>lSegNum</var><sep>,</sep></groupseq>
+<groupseq><var>pSeg</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSSEGFILE</entry>
+<entry colname="col2">hSegFile</entry>
+<entry colname="col3">The handle of the segmented file in memory.</entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">lSegNum</entry>
+<entry colname="col3">The number of the segment to update.</entry></row>
+<row>
+<entry colname="col1">PPARSSEGMENTW</entry>
+<entry colname="col2">pSeg</entry>
+<entry colname="col3">The pointer to the buffer that holds the new
+segment data.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the segment is successfully updated,
+or an error code.</p>
+</section></refbody></reference>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00502">
+<title><!--rev=as01042005-->EqfImportDict</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfImportDict</indexterm><indexterm>programming interface calls<indexterm>EqfImportDict</indexterm></indexterm>
+<p><i>EqfImportDict</i> imports a dictionary in SGML
+dictionary.</p>
+<p>This function performs the import in small units. Call it repetitively
+until it returns a return code other than CONTINUE_RC.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfImportDict</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>psInFile</var><sep>,</sep><var>pszDictName</var></groupseq>
+<groupseq>
+<groupseq importance="optional"><sep>,</sep><var importance="optional">psPassword</var>
+<groupseq importance="optional"><sep>,</sep>
+<groupchoice importance="required"><kwd>IGNORE_OPT</kwd><kwd>REPLACE_OPT</kwd><kwd>COMBINE_OPT</kwd><kwd>ASCII_OPT</kwd><kwd>ANSI_OPT</kwd><kwd>UTF16_OPT</kwd></groupchoice></groupseq></groupseq><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszInFile</entry>
+<entry colname="col3">The fully qualified name of the SGML file to
+be imported. </entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">psDictName</entry>
+<entry colname="col3">The name of the dictionary to be exported.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszPassword</entry>
+<entry colname="col3">The dictionary password. Only required if the
+dictionary exists already and is protected. </entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">lOptions</entry>
+<entry colname="col3">The options to be used for the merge of entries
+during the import: 
+<ul>
+<li>IGNORE_OPT </li>
+<li>REPLACE_OPT </li>
+<li>COMBINE_OPT </li>
+<li>ASCII_OPT </li>
+<li>ANSI_OPT </li>
+<li>UTF16_OPT </li>
+</ul></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">CONTINUE_RC</entry>
+<entry colname="col2">The dictionary import has not completed yet.
+Call <i>EqfImportDict</i> again.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2"><ph otherprops="print">Error code (EQF message number).
+Use <i>EqfGetLastError</i> (see <ph otherprops="print">page <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></ph><xref otherprops="display" href="eqfr5mst-00492.dita#eqfr5mst-00492"/>) to retrieve the complete
+error information.</ph></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Import the SGML file C:\DICT1.SGM into dictionary ENGLGERM
+  // and replace existing entries with the imported data  
+	if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfImportDict( hSession, "C:\\DICT1.SGN",
+										"ENGLGERM", NULL, REPLACE_OPT ) 
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

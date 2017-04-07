@@ -1,5 +1,5 @@
 @ECHO OFF
-rem Copyright (c) 2013,2016 International Business Machines
+rem Copyright (c) 2013,2017 International Business Machines
 rem Corporation and others.  All rights reserved.
 
 call my-config.bat
@@ -148,6 +148,8 @@ SET _TOCNAME=Contents
 SET _IPFDBCS=N
 
 call setvar_otmmarkup.bat
+call setvar_ibmmarkup.bat
 call setvar_usermarkup.bat
+call setvar_chkpii.bat
 
 PROMPT [OpenTM2]$p$g

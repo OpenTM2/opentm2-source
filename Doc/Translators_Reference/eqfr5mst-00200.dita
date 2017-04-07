@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00200">
+<title>Counting the words in all documents of a folder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>folder<indexterm>counting markup tags in
+the documents it contains</indexterm></indexterm><indexterm>folder<indexterm>counting
+words in the documents it contains</indexterm></indexterm>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a facility for counting the number of words and
+markup tags in all documents in a folder before and after translation.
+You can also perform this task for selected documents in a folder
+(see <xref href="eqfr5mst-00142.dita#eqfr5mst-00142"/>).</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder must contain at least one document. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The folder from the <q>Folder List</q> window</li>
+<li><b>Count Words…</b> from the <b>Utilities</b> menu</li>
+</ol></p>
+<p><q>Count Words</q> window (see <xref href="eqfr5mst-00142.dita#eqfr5mst-00142/doccnt"/>) is displayed.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>The options and parameters are the same as described in <xref href="eqfr5mst-00142.dita#eqfr5mst-00142/doccnt"/>.</p>
+<p>Click <b>Count</b> to begin counting words. </p>
+</section>
+<section><title>Results</title>
+<p>The results are displayed in the <q>Word Count Results - Original</q> window
+or in the <q>Word Count Results - Translation</q> window which are
+explained in <xref href="eqfr5mst-00142.dita#eqfr5mst-00142/doccnt"/>.</p>
+<p>When you close this window, you are returned to the <q>Folder List</q> window.</p>
+<p>If you selected the output option <b>File</b>, the
+results are also saved in a file with the name you choose.</p>
+</section></refbody></reference>

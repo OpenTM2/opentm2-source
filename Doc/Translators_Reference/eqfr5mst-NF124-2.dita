@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF124-2" rev="GF_09092015_2">
+  <title>Allow selecting PID of glossary terms to be displayed during editing</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When translating documents in a folder, one or more dictionaries can be attached to the
+      folder using the folder properties. If any of these folder contain a <q>NL Product</q>
+      element, the OpenTM2 can display only these values. The function is implemented via the folder
+      properties. The field named <q>PID selection</q> can be check-marked, and by clicking on the
+      button <q>Select...</q>, the user can select the PID-value to be used when displaying specific
+      terms belonging to a <q>NL Product</q>. If no PID is selected, all terms are displayed to the
+      user. </p>
+    <p>
+      <b><u>Specific information</u></b>: 
+      <ol>
+        <li>The PID selection is <b>only</b> available for the <b>entire folder</b>. It does not 
+          make sense to allow different PID selection for an individual document in the folder.</li>
+        <li>In the folder property window, there is a field under the list of selected memories: 
+          [PID selection:] [the value] [Select...]. The default is that there is no value, which means that 
+          all dictionary entries are to be used, regardless of the PID value. This is the same function as today. 
+          If the button  <q>Select...</q> is pressed, then a list of all the PID-values used in any of the selected 
+          dictionaries would be listed. Users can select one or more of these listed values.</li>
+        <li>Within the editor, when the dictionary entries are being shown, only the entries which have a 
+          matching PID value or which have no PID values are shown in the Dictionary window.</li>
+      </ol>
+    </p>
+  </body>
+</topic>

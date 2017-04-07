@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00449">
+  <title>The general application programming interface</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>application programming interface<indexterm>non-DDE</indexterm></indexterm>
+        <indexterm>data dynamic exchange (DDE)<indexterm>non-DDE application programming
+            interface</indexterm></indexterm>
+        <indexterm>DDE (data dynamic exchange)<indexterm>non-DDE application programming
+            interface</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides an application
+        programming interface (API) that enables an application to directly communicate with the
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> functions without 
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> running. However, it is required that
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is installed, all 
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> drives are configured, and shared
+        resources are connected. The application can communicate with all functions currently covered
+        by the dynamic data exchange (DDE) interface (that is, the OTMBATCH command area). In addition, 
+        it can use all functions concerning dictionary and 
+        <keyword conref="common-symbols.dita#common-symbols/xlmem"/> handling, namely retrieving dictionary
+        and <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposals and updating
+        dictionaries and <keyword conref="common-symbols.dita#common-symbols/xlmems"/>.
+    </p>
+  </body>
+</topic>

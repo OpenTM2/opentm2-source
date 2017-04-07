@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm640">
+<title>New features in TM 6.4.0</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>Changed proposal display order in Translation Memory Proposal
+window. Machine translation proposals are now shown in front of any
+fuzzy proposals. This changed proposal display order has no effect
+on the calculation of the payable word count in the Calculation Report. </li>
+<li>New option /INCURLYBRACE for the TMX2EXP tool</li>
+</ul>
+</body></topic>

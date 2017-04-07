@@ -1,0 +1,14 @@
+﻿<?xml version='1.0'?>
+<rqt action="trqt" tl="de-DE" uid="xyz@us.ibm.com">
+   <docs>
+    <d lang="en-US" dt="ndoc" url="TestDocForEqfFilterNomatchFileTests.jdk" markup="IBMNJDK2">
+      <p pid="1">
+        <s sid="1" seg="22"><t tid="1" tt="orig">Delete a group</t></s>
+        <s sid="2" seg="24"><t tid="1" tt="orig">Create a new group</t></s>
+        <s sid="3" seg="26"><t tid="1" tt="orig">Add a new member</t></s>
+        <s sid="4" seg="28"><t tid="1" tt="orig">Define a new role</t></s>
+        <s sid="5" seg="32"><t tid="1" tt="orig">Delete a member</t></s>
+      </p>
+    </d>
+  </docs>
+</rqt>

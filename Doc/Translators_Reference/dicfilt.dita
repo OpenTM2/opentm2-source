@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dicfilt">
+  <title>Defining a dictionary filter</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary filter</indexterm>
+      <indexterm>filter<indexterm>definition of</indexterm></indexterm>
+      <p>A dictionary filter is a means by which data in a dictionary can be selected so that only
+        entries that meet specified conditions are displayed or printed.</p>
+      <p>In <keyword conref="common-symbols.dita#common-symbols/tm4w"/> filters can be used in
+        combination with printing (see <xref href="dicprint.dita#dicprint"/>) or dictionary lookup
+        (see <xref href="diclook.dita#diclook"/>). <indexterm>filter<indexterm>for printing
+            dictionary extracts</indexterm></indexterm><indexterm>filter<indexterm>for looking up
+            dictionary entries</indexterm></indexterm>You can use an existing filter, change an
+        existing one, or create a new one.</p>
+      <p>In <keyword conref="common-symbols.dita#common-symbols/tm4w"/> a filter condition consists
+        of: <ul>
+          <li><indexterm>filter<indexterm>conditions</indexterm></indexterm>An entry field (such as
+              <b>Headword</b>, <b>Translation</b>)</li>
+          <li>An operator (such as <b>=</b> or <b>&gt;</b>)</li>
+          <li>An operand (such as <b>a*</b>)</li>
+        </ul></p>
+      <p>For example, the condition <codeph>Headword LIKE = 'a*'</codeph> selects all (and only) the
+        entries beginning with the letter <codeph>a</codeph>.</p>
+      <p>There are two types of operators: <ol>
+          <li><b>(=</b>, <b>&lt;&gt;</b>, <b>&lt;</b>, <b>&gt;</b>, <b>&lt;=</b>, <b>&gt;=</b>,
+              <b>LIKE</b>, <b>BETWEEN</b>, and <b>IN</b> form <i>expressions</i> (for example,
+              <codeph>Headword = 'Test'</codeph>). </li>
+          <li><b>AND</b>, <b>OR</b>, <b>(</b>, <b>)</b>, and <b>NOT</b>), join valid expressions to
+            form a larger expression (for example, <codeph>Headword = 'Test' AND Translation =
+              'Test'</codeph>).</li>
+        </ol></p>
+      <p>The operators have the following meanings: <dl>
+          <dlentry><dt>=</dt>
+            <dd>The field must contain exactly the value specified.</dd></dlentry>
+          <dlentry><dt>&lt;&gt;</dt>
+            <dd>The field must not contain the value specified.</dd></dlentry>
+          <dlentry><dt>&lt;</dt>
+            <dd>The field can contain only values that are less than the value specified, for
+              example, preceding the specified value in alphabetical sequence.</dd></dlentry>
+          <dlentry><dt>&gt;</dt>
+            <dd>The field can contain only values that are greater than the value specified, for
+              example, following the specified value in alphabetical sequence.</dd></dlentry>
+          <dlentry><dt>&lt;=</dt>
+            <dd>The field can contain only values that are less than or equal to the value
+              specified.</dd></dlentry>
+          <dlentry><dt>&gt;=</dt>
+            <dd>The field can contain only values that are greater than or equal to the value
+              specified.</dd></dlentry>
+          <dlentry><dt>LIKE</dt>
+            <dd>The field can contain values that are similar to the value specified, for example,
+              they start with the specified value.</dd></dlentry>
+          <dlentry><dt>BETWEEN</dt>
+            <dd>The field can contain values that are in a range between one value and
+            another.</dd></dlentry>
+          <dlentry><dt>IN</dt>
+            <dd>The field can contain values that match up to six different values.</dd></dlentry>
+          <dlentry><dt>AND</dt>
+            <dd>This operator joins two expressions so that both expressions must match in order to
+              let the entry pass the filter.</dd></dlentry>
+          <dlentry><dt>OR</dt>
+            <dd>This operator joins two expressions so that one or both expressions must match in
+              order to let the entry pass the filter.</dd></dlentry>
+          <dlentry><dt>NOT</dt>
+            <dd>This operator specifies that the filter let pass only those entries that do not
+              match the specified value.</dd></dlentry>
+          <dlentry><dt>( <ph>and</ph> )</dt>
+            <dd>These operators are used to group expressions. Expressions in parentheses are
+              processed before expressions without parentheses.</dd></dlentry>
+        </dl>
+      </p>
+      <note>All filters depend on the dictionary entry structure. This means that a filter created
+        for one dictionary possibly refers to entry fields that are not contained in another
+        dictionary. In such cases, it is recommended to create a new filter for each
+        dictionary.</note>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>Either the <q>Look up a Term</q> window or the <q>Print Dictionary</q> window is
+        active.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <ol>
+        <li>Select the <b>Use filter</b> option.</li>
+        <li>Click <b>Edit…</b>.</li>
+      </ol>
+      <p>The <q>Edit Dictionary Filter</q> window is displayed (see <xref
+          href="#dicfilt/editdictfilterwin"/>). <required-cleanup><indexterm>windows<indexterm>Edit
+              Dictionary Filter</indexterm></indexterm></required-cleanup><fig
+          id="editdictfilterwin" expanse="column">
+          <title>Edit Dictionary Filter window</title><image placement="break" href="eqfb7s10d.gif"
+              ><alt>Figure shows Edit Dictionary Filter window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The dictionary-filter parameters are as follows: <parml>
+          <plentry><pt>Name</pt>
+            <pd>Lists the name of all available filters. If you specified or selected an existing
+              filter in the <b>Print Dictionary</b> or <q>Look up a Term</q> window, the name of
+              this filter is displayed first in the list. If you specified a new filter in either of
+              these windows, this field is empty and the new name is only displayed in the <b>Save
+                to</b> box. <p>If you want to change an existing filter, select this filter.</p>
+              <p>If you want to create a new filter, skip this box.</p></pd></plentry>
+          <plentry><pt>Description</pt>
+            <pd>Displays the description of a filter if one was entered. For a new filter, type a
+              descriptive text.</pd></plentry>
+          <plentry><pt>Available fields</pt>
+            <pd>Lists the name of all entry fields that a dictionary entry consists of. <p>If you
+                want all entry fields to appear in the printout or in the <q>Lookup Entry</q> window
+                (depending on which window you came from) but do not specify any conditions for the
+                entry fields, you can skip this box.</p>
+              <p>If you want specific entry fields to appear in the printout or in the <q>Lookup
+                  Entry</q> window but do not want to specify any conditions for them, double-click
+                these entry fields. They will appear in the <b>SELECT</b> box.</p>
+              <p>If you also want to specify conditions for one or more entry fields using one of
+                the operators <b>=, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=, LIKE, BETWEEN</b>, and
+                  <b>IN</b>, double-click the entry field and then double-click the operator. The
+                  <q>Set Dictionary Condition</q> window is displayed in which you can specify one
+                or more values, depending on the operator that you selected. The condition that you
+                specify is displayed in the <b>WHERE</b> box after you leave the <q>Set Dictionary
+                  Condition</q> window.</p>
+              <note>The operators AND, OR, NOT, (, and ) can only be selected for the WHERE
+                box.Lists the entry fields defined for the selected
+            dictionary.</note></pd></plentry>
+          <plentry><pt>Operators</pt>
+            <pd>Lists the available operators that can be used with an entry field to specify a
+              filter condition.</pd></plentry>
+          <plentry><pt>Condition</pt>
+            <pd>Displays the defined filter condition: <parml>
+                <plentry><pt>SELECT</pt>
+                  <pd>Lists the entry fields that you selected in the <b>Available fields</b> box.
+                    Only those listed here will appear in the printout or in the <q>Lookup Entry</q>
+                    window, depending on which window you came from. <p>To add more entry fields,
+                      double-click them in the <b>Available fields</b> box.</p>
+                    <p>To include all fields, leave this box blank or type an asterisk
+                        (<codeph>*</codeph>).</p></pd></plentry>
+                <plentry><pt>WHERE</pt>
+                  <pd>Contains the condition that you specified and that a dictionary entry has to
+                    match in order to pass the filter. A condition expression consists of an entry
+                    field, an operator, and a value. <p>To add an expression, double-click an entry
+                      field in the <b>Available fields</b> box and then double-click one of the
+                      operators <b>=, &lt;&gt;, &lt;, &gt;, &lt;=, &gt;=, LIKE, BETWEEN</b>, and
+                        <b>IN</b>. The <q>Set Dictionary Condition</q> window is displayed in which
+                      you can specify one or more values, depending on the operator that you select.
+                      The expression that you specify is displayed in the <b>WHERE</b> box after
+                      leaving the <q>Set Dictionary Condition</q> window.</p>
+                    <p>To join expressions, move the cursor between the expressions to be joined and
+                      then double-click the operator <b>AND</b>, <b>OR</b>, or <b>NOT</b>. For
+                      example, <codeph>Headword = 'Test' AND Translation = 'Test'</codeph>.</p>
+                    <p>To group expressions, move the cursor to the beginning or end of an
+                      expression and then double-click the operator <b>(</b> or <b>)</b>.</p>
+                  </pd></plentry>
+              </parml></pd></plentry>
+          <plentry><pt>Save to</pt>
+            <pd>Displays the filter name that you specified or selected in the <b>Print
+                Dictionary</b> or <q>Look up a Term</q> window or selected from the <b>Name</b>
+              list. You can type a new name or select the name of an existing filter. In the latter
+              case, the existing filter is overwritten.</pd></plentry>
+        </parml></p>
+      <p>Select <b>Save</b> to create the new or changed filter. Select <b>Delete</b> to delete the
+        displayed filter.</p>
+      <p>For example, if you want to create a filter that selects only those entries in the
+        dictionary that begin with the letter <i>a</i>, define the filter as follows: <ol>
+          <li>Click the field name <i>Headword</i> in the <b>Available fields</b> list box to mark
+            it.</li>
+          <li>Double-click the <i>LIKE</i> operator in the <b>Operators</b> list box. The <q>Set
+              Dictionary Condition</q> window appears.</li>
+          <li>Type <codeph>a*</codeph> or <codeph>A*</codeph> at the cursor position and click
+              <b>Set</b>. The input can be in uppercase, lowercase, or mixed-case characters.</li>
+          <li>The condition is displayed in the <b>WHERE</b> field.</li>
+          <li>Enter a name for the filter (for example, <ph>ONLYA</ph>) in the <b>Save to</b>
+            combination box.</li>
+          <li>Click <b>Save</b> to create the filter.</li>
+        </ol>
+      </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The changed or new filter is saved and can be used for dictionary lookup or printing. You
+        are returned to the previous window.</p>
+    </section>
+  </refbody>
+</reference>

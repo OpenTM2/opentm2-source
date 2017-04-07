@@ -122,6 +122,13 @@ public class ConfigureWindow {
 				
 				Map<String, String> cfgs = CfgUtil.getInstance().getDbCfg();
 				cfgs.put("db_installed_dir", textDbInstalledDir.getText());
+				
+				if( cfgs.get("db_installed_dir").toLowerCase().indexOf("mariadb") == -1 ){
+				    cfgs.put("driver_class", "com.mysql.jdbc.Driver");	
+				} else {
+				    cfgs.put("driver_class", "org.mariadb.jdbc.Driver");	
+				}
+				
 				cfgs.put("root_password",String.valueOf(pfRootPassword.getPassword()));
 				cfgs.put("server_ip", (String) cbServerIP.getSelectedItem());
 				cfgs.put("server_port", (String) tfServerPort.getText());

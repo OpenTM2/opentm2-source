@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="unicode">
+<title><!--rev=as15082005-->Unicode documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>Unicode</indexterm></indexterm>
+<indexterm>Unicode documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Unicode enables you to display, and work with, documents in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> that
+have different character sets, such as German and Japanese, or different
+code pages.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides the following markup tables to import
+Unicode documents:
+<ul>
+<li><codeph>EQFUTF8</codeph> for files which are encoded in UTF-8 format</li>
+<li><codeph>UNICODE</codeph> for files which are encoded in UTF-16 format</li>
+</ul></p>
+<p>To use Unicode you must import the documents using the <codeph>UNICODE</codeph> or
+the <codeph>EQFUTF8</codeph> markup table.</p>
+</body></topic>

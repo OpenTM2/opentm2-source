@@ -154,7 +154,7 @@ int main( int argc, char *argv[], char *envp[] )
       return 0;
   }
   // show logo
-  printf( "TMX2EXP - The TMX to EXP memory converter\n\n" );
+  printf( "OtmTMX2EXP - The TMX to EXP memory converter\n\n" );
 
 
   // allocate our data area
@@ -411,8 +411,9 @@ USHORT ConvertSingleMemory
   if ( pData->fTagsInCurlyBracesOnly ) lOptions |= INCURLYBRACE_OPT;
   if ( pData->fSourceSource ) lOptions |= SOURCESOURCEMEM_OPT;
 
+  pData->szMsgBuffer[0] = 0;
   usRC = TMXTOEXP( pData->szInMemory, pData->szOutMemory, pData->lOutMode, lOptions, pData->szInMarkup,
-                   &lSegments, &lSkippedSegments );
+                   &lSegments, &lSkippedSegments, pData->szMsgBuffer, sizeof(pData->szMsgBuffer) );
 
   if ( usRC == NO_ERROR)
   {
@@ -422,8 +423,16 @@ USHORT ConvertSingleMemory
   }
   else
   {
-    sprintf( pData->szUtf8Buffer, "Conversion of memory %s into EXP memory %s failed, rc=%u.",
-      pData->szInMemory, pData->szOutMemory, usRC ); 
+    if (  pData->szMsgBuffer[0] != 0 )
+    {
+      sprintf( pData->szUtf8Buffer, "Conversion of memory %s into EXP memory %s failed, the error code is %u\nError message=\"%s\"",
+        pData->szInMemory, pData->szOutMemory, usRC, pData->szMsgBuffer ); 
+    }
+    else
+    {
+      sprintf( pData->szUtf8Buffer, "Conversion of memory %s into EXP memory %s failed, the error code is %u.",
+        pData->szInMemory, pData->szOutMemory, usRC ); 
+    }
     ShowError( pData, "%s", pData->szUtf8Buffer );
   } /* endif */
   return( usRC );
@@ -461,7 +470,7 @@ USHORT ShowError( PTMX2EXP_DATA pData, PSZ pszMsg, PSZ pszParm )
 
   if ( pData->fLog )
   {
-    FILE *hfLog = fopen( "EXP2TMX.LOG", "a" );
+    FILE *hfLog = fopen( "OTMEXP2TMX.LOG", "a" );
     if ( hfLog )
     {
       fprintf( hfLog, "Error: %s\n\n", pData->szMsgBuffer );
@@ -481,7 +490,7 @@ USHORT ShowInfo( PTMX2EXP_DATA pData, PSZ pszMsg, PSZ pszParm )
 
   if ( pData->fLog )
   {
-    FILE *hfLog = fopen( "EXP2TMX.LOG", "a" );
+    FILE *hfLog = fopen( "OTMEXP2TMX.LOG", "a" );
     if ( hfLog )
     {
       fprintf( hfLog, "Info: %s\n\n", pData->szMsgBuffer );

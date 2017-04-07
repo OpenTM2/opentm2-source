@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="xlmform">
+<title>Format of an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+<prolog><metadata><keywords>
+
+<indexterm>external
+format<indexterm>of Translation Memory databases</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>A <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in SGML-based format includes, in addition to the original
+and translation segments, SGML tags that describe the data structure
+of each segment.</p>
+<p>You can also use this format to create an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> containing
+your own translation database data. </p>
+<p>An external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is an ASCII coded file. It starts with <codeph>&lt;NTMemoryDb&gt;</codeph> and
+ends with <codeph>&lt;/NTMemoryDb&gt;</codeph>.</p>
+<p>The starting tag is followed by a description of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, enclosed
+between <codeph>&lt;Description&gt;</codeph> and <codeph>&lt;/Description&gt;</codeph> tags.</p>
+<p>The description is followed by the segment pairs. The number of
+segment pairs is not limited. The individual segment pairs are tagged
+in the following format: </p>
+<section><title>Example</title>
+<codeblock>&lt;Segment&gt;nnnnnnnnnn<keyword conref="common-symbols.dita#common-symbols/crlf"/>
+&lt;Control&gt;<keyword conref="common-symbols.dita#common-symbols/crlf"/>
+… <keyword conref="common-symbols.dita#common-symbols/crlf"/>
+&lt;⁄Control&gt;<keyword conref="common-symbols.dita#common-symbols/crlf"/>
+&lt;Source&gt;...&lt;⁄Source&gt;<keyword conref="common-symbols.dita#common-symbols/crlf"/>
+&lt;Target&gt;...&lt;⁄Target&gt;<keyword conref="common-symbols.dita#common-symbols/crlf"/>
+&lt;⁄Segment&gt;<keyword conref="common-symbols.dita#common-symbols/crlf"/></codeblock></section>
+<p>The symbol <keyword conref="common-symbols.dita#common-symbols/crlf"/> stands for the combination of the <i>carriage
+return</i> and the <i>line feed</i> characters.
+This character combination is usually generated when you press Enter
+to return you to the beginning of the next line. </p>
+<p>The following describes the SGML structure sequentially. 
+<ol>
+<li>A segment begins with the <codeph>&lt;Segment&gt;</codeph> tag.</li>
+<li>The segment identifier <codeph>nnnnnnnnnn</codeph> must immediately
+follow the <codeph>&lt;Segment&gt;</codeph> tag and must be 10 characters long.
+This identifier must be unique within the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+<li><keyword conref="common-symbols.dita#common-symbols/crlf"/> must follow the identifier.</li>
+<li>The next tag is <codeph>&lt;Control&gt;</codeph>, and is followed by <keyword conref="common-symbols.dita#common-symbols/crlf"/>.</li>
+<li>The next line is a sequence of numbers representing the <i>segment control information</i>, which is described
+in <xref href="xlmsgct.dita#xlmsgct"/>.</li>
+<li>The control information must be terminated by the <codeph>&lt;/Control&gt;</codeph> tag
+and be followed by <keyword conref="common-symbols.dita#common-symbols/crlf"/>.</li>
+<li>The next tag is <codeph>&lt;Source&gt;</codeph>, followed by the source
+segment. It is ended by <codeph>&lt;/Source&gt;</codeph>, followed by <keyword conref="common-symbols.dita#common-symbols/crlf"/>.
+If <keyword conref="common-symbols.dita#common-symbols/crlf"/> appears in the source segment, it is considered to be part
+of the source.</li>
+<li>The next tag is <codeph>&lt;Target&gt;</codeph>, followed by the target
+segment. It is ended by <codeph>&lt;/Target&gt;</codeph>, followed by a <keyword conref="common-symbols.dita#common-symbols/crlf"/>.
+If <keyword conref="common-symbols.dita#common-symbols/crlf"/> appears in the target segment, it is considered to be part
+of the target.</li>
+<li>The last tag of a segment is <codeph>&lt;/Segment&gt;</codeph>, followed
+by <keyword conref="common-symbols.dita#common-symbols/crlf"/>.</li>
+</ol></p>
+<p><xref href="sgmxlm2.dita#sgmxlm2"/> shows a small part of an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. </p>
+</body></topic>

@@ -212,6 +212,11 @@
 									<xsl:with-param name="data" select="$data"/>
 								</xsl:call-template>
 							</xsl:when>
+							<xsl:when test="$data/@type = 'FolProp2'">
+								<xsl:call-template name="folprop2">
+									<xsl:with-param name="data" select="$data"/>
+								</xsl:call-template>
+							</xsl:when>
 							<xsl:when test="$data/@type = 'FolPropShipment'">
 								<xsl:call-template name="folpropshipment">
 									<xsl:with-param name="data" select="$data"/>
@@ -321,6 +326,151 @@
 				<td><b><xsl:value-of select="$data/targetLang"/></b></td>
 			</tr>
 		</xsl:if>
+	</xsl:template>
+	
+	<!-- display history data of folprop2 record -->
+	<xsl:template name="folprop2">
+		<xsl:param name="data"/>
+		<tr>
+			<td width="130"/>
+			<td width="200"/>
+		</tr>
+
+		<xsl:if test="$data/description != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Description</b></td>
+				<td><b>
+				<xsl:for-each select="$data/description">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		
+		<xsl:if test="$data/editor != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Editor</b></td>
+				<td><b>
+				<xsl:for-each select="$data/editor">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		
+		<xsl:if test="$data/markup != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Markup table</b></td>
+				<td><b>
+				<xsl:for-each select="$data/markup">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		
+		<xsl:if test="$data/memory != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Folder memory</b></td>
+				<td><b>
+				<xsl:for-each select="$data/memory">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		
+		<xsl:if test="$data/sourceLang != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Source language</b></td>
+				<td><b>
+				<xsl:for-each select="$data/sourceLang">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		
+		<xsl:if test="$data/targetLang != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Target language</b></td>
+				<td><b>
+				<xsl:for-each select="$data/targetLang">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		
+		<xsl:if test="$data/dictionaries != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Dictionaries</b></td>
+				<td><b>
+				<xsl:for-each select="$data/dictionaries/name">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+		<xsl:if test="$data/romemories != '' ">
+			<tr>
+				<td style="vertical-align:top"><b>Read-Only Memories</b></td>
+				<td><b>
+				<xsl:for-each select="$data/romemories/name">
+					<xsl:if test="./@type ='removed'">
+						<del><xsl:value-of select="." /> </del>
+					</xsl:if>
+					<xsl:if test="./@type != 'removed'">
+						<xsl:value-of select="." /> 
+					</xsl:if>
+					(<xsl:value-of select="./@type"/>)<br/>
+				</xsl:for-each>
+				</b></td>
+			</tr>
+		</xsl:if>
+
 	</xsl:template>
 	
 	<!-- display history data of folder shipment record -->

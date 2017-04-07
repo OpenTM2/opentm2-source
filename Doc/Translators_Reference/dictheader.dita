@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="dictheader">
+<title>Header section</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>header section in external dictionary</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The header section contains general information about the dictionary such
+as: 
+<ul>
+<li>Type (for example, bilingual)</li>
+<li>Source language (for example, English (U.S.))</li>
+<li>Date when it was created</li>
+<li>Codepage encoding </li>
+</ul></p>
+<p>The dictionary header is marked with a header start tag <codeph>&lt;header&gt;</codeph> and a header end tag <codeph>&lt;/header&gt;</codeph>.</p>
+<p>The only information that you must provide in the header section is the
+source language of the dictionary. You can specify any of the languages for
+which you have a language support file installed (if you need to specify another
+language, see <xref href="langoth.dita#langoth"/>). <keyword conref="common-symbols.dita#common-symbols/tm4w"/> needs this information
+for reducing terms to their stem form when looking them up in the dictionary.</p>
+<p>The header section can have the following tags:</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="2*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Start tag</entry>
+<entry valign="top" rowsep="1">End tag</entry>
+<entry valign="top" rowsep="1">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top"><codeph>&lt;type&gt;</codeph></entry>
+<entry valign="top"><codeph>&lt;/type&gt;</codeph></entry>
+<entry valign="top">Type of dictionary</entry></row>
+<row>
+<entry valign="top"><codeph>&lt;source&gt;</codeph></entry>
+<entry valign="top"><codeph>&lt;/source&gt;</codeph></entry>
+<entry valign="top">Source language</entry></row>
+<row>
+<entry valign="top"><codeph>&lt;ltarget&gt;</codeph></entry>
+<entry valign="top"><codeph>&lt;/ltarget&gt;</codeph></entry>
+<entry valign="top">Target language</entry></row>
+<row>
+<entry colname="col1"><codeph>&lt;descript&gt;</codeph></entry>
+<entry colname="col2"><codeph>&lt;/descript&gt;</codeph></entry>
+<entry colname="col3">Description of the dictionary, up to 255 characters
+long.</entry></row>
+<row>
+<entry valign="top"><codeph>&lt;createdate&gt;</codeph></entry>
+<entry valign="top"><codeph>&lt;/createdate&gt;</codeph></entry>
+<entry valign="top">Date when dictionary was created</entry></row>
+<row>
+<entry colname="col1"><codeph>&lt;CodePage&gt;</codeph></entry>
+<entry colname="col2"><codeph>&lt;/CodePage&gt;</codeph></entry>
+<entry colname="col3">SGML-Format, can be UTF16, or ASCII=cp, or ANsi=cp</entry></row>
+</tbody>
+</tgroup>
+</table>
+<section><title>Example of a header section</title>
+<codeblock>&lt;header&gt;
+&lt;type&gt;Bilingual&lt;/type&gt;
+&lt;source&gt;English(U.S.)&lt;/source&gt;
+&lt;ltarget&gt;German(national)&lt;/ltarget&gt;
+&lt;descript&gt;Basic Dictionary - English -&gt; German&lt;/descript&gt;
+&lt;CodePage&gt;ASCII=850&lt;/CodePage&gt;
+&lt;createdate&gt;31/05/94&lt;/createdate&gt;
+&lt;/header&gt;</codeblock></section>
+</body></topic>

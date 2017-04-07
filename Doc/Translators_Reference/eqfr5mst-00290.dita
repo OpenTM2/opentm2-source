@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00290">
+<title>Accessing or disconnecting a shared dictionary</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>shared dictionaries, accessing</indexterm>
+<p>To use a dictionary that is shared by many translators you must include
+it in your list of local dictionaries. To remove it from this list you must
+disconnect it.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The shared dictionary must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <q>Dictionary List</q> window from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> workbench</li>
+<li><b>Connect shared resources...</b> from the <b>Utilities</b> menu</li>
+</ol></p>
+<p>The <q>Connect Shared Dictionaries</q> window is displayed. </p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Available</pt>
+<pd>Lists all dictionaries available on shared disks.</pd></plentry>
+<plentry><pt>Add --&gt;&gt;</pt>
+<pd>Adds the selected dictionary name to the <b>Selected</b> box.</pd></plentry>
+<plentry><pt>&lt;&lt;-- Remove</pt>
+<pd>Removes the selected dictionary name from the <b>Selected</b> box but does not delete the dictionary.</pd></plentry>
+<plentry><pt>Selected</pt>
+<pd>Lists all dictionaries selected. When you select <b>Connect</b>, the listed dictionaries will be connected. Dictionaries removed from
+this list are disconnected.</pd></plentry>
+</parml>
+<p>Select <b>Connect</b> to update your list window.</p>
+</section>
+<section><title>Results</title>
+<p>The selected dictionary has been added to your local list window and can
+now be used like any other dictionary. If you disconnected it, it is no longer
+shown in the list window.</p>
+</section></refbody></reference>

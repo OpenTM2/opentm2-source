@@ -333,9 +333,10 @@ private:
   typedef struct _TMXTUV
   {
     CHAR_W   szText[DATABUFFERSIZE];  // buffer for TUV text
-    CHAR     szLang[50];              // buffer for TUV language (converted to Tmgr language name)
+    CHAR     szLang[50];              // buffer for TUV language (converted to Tmgr language name) or original language in case of fInvalidLang
     BOOL     fInvalidChars;           // TRUE = contains invalid characters 
     BOOL     fInlineTags;             // TRUE = contains inline tagging
+    BOOL     fInvalidLang;            // TRUE = the language of the TUV is invalid
   } TMXTUV, *PTMXTUV;
 
   PTMXTUV pTuvArray;
@@ -383,6 +384,8 @@ class CTMXExportImport
     USHORT StartImport( const char *pszInFile, PMEMEXPIMPINFO pMemInfo ); 
     USHORT ImportNext( PFN_MEMINSERTSEGMENT pfnInsertSegment, LONG lMemHandle, LONG *plProgress ); 
     USHORT EndImport(); 
+    USHORT getLastError( PSZ pszErrorBuffer, int iBufferLength );
+
   protected:
     USHORT LoadNames();
     USHORT WriteTUV( PSZ pszLanguage, PSZ pszMarkup, PSZ_W pszSegmentData );
@@ -529,6 +532,23 @@ __declspec(dllexport) USHORT __cdecl EXTMEMIMPORTEND
 
   return( usRC );
 } /* end of function EXTMEMIMPORTEND */
+
+extern "C" 
+__declspec(dllexport) USHORT __cdecl EXTMEMIMPORTGETLASTERROR
+( 
+  LONG             lHandle,                 // Export/import handle as set by ExtMemImportStart function
+  PSZ              pszErrorBuffer,          // pointer to buffer for the error text
+  int              iBufferLength            // sizeof buffer in number of characters
+)
+{
+  USHORT           usRC = 0;           // function return code
+
+  CTMXExportImport *pTMXExport = (CTMXExportImport *)lHandle;
+
+  pTMXExport->getLastError( pszErrorBuffer, iBufferLength ); 
+
+  return( usRC );
+} /* end of function EXTMEMIMPORTGETLASTERROR */
 
 
 
@@ -1086,6 +1106,7 @@ USHORT CTMXExportImport::StartImport
         // stop import if no more data to follow
         if ( !fContinue && !m_handler->IsHeaderDone() )
         {
+          m_parser->parseReset(m_SaxToken);
           usRC = ERROR_BAD_FORMAT;
         } /* endif */
 
@@ -1178,7 +1199,14 @@ USHORT CTMXExportImport::ImportNext
       if ( errorCount || !fContinue )
       {
         m_parser->parseReset(m_SaxToken);
-        usRC = MEM_IMPORT_COMPLETE;
+        if ( errorCount )
+        {
+          usRC = ERROR_MEMIMP_ERROR;
+        }
+        else
+        {
+          usRC = MEM_IMPORT_COMPLETE;
+        }
       } /* endif */
     }
     catch (const OutOfMemoryException& )
@@ -1217,6 +1245,17 @@ USHORT CTMXExportImport::EndImport()
   } /* endif */
 
   return( usRC );
+}
+
+USHORT CTMXExportImport::getLastError
+( 
+  PSZ              pszErrorBuffer,          // pointer to buffer for the error text
+  int              iBufferLength            // sizeof buffer in number of characters
+)
+{
+  strncpy( pszErrorBuffer, this->m_pMemInfo->szError, iBufferLength - 1);
+  pszErrorBuffer[iBufferLength-1] = 0;
+  return( 0 );
 }
 
 // replace invalid characters in input file
@@ -2087,7 +2126,7 @@ void TMXParseHandler::endElement(const XMLCh* const name )
               fSkipTuv = TRUE; // skip this TUV as it contains the source text
             } /* endif */
 
-            // GQ 2016-05-13 (fix for P403308): for empty TUVS only: check if there is another TUV for the same language and which contains some data ans skip empty tuv in such a case
+            // GQ 2016-05-13 (fix for P403308): for empty TUVS only: check if there is another TUV for the same language and which contains some data and skip empty tuv in such a case
             if ( !fSkipTuv && (wcslen( pCurrentTuv->szText ) == 0) )
             {
               PTMXTUV pTestTuv = pCurrentTuv + 1;
@@ -2118,7 +2157,12 @@ void TMXParseHandler::endElement(const XMLCh* const name )
               fillSegmentInfo( pSourceTuv, pCurrentTuv, &(pBuf->SegmentData) );
 
 
-              if ( (iLenCurrent + 1) >= MAX_SEGMENT_SIZE)
+              if ( pCurrentTuv->fInvalidLang )
+              {
+                pBuf->SegmentData.fValid = FALSE;
+                sprintf( pBuf->SegmentData.szReason, "The language \"%s\" is not supported by OpenTM2.", pCurrentTuv->szLang );
+              }
+              else if ( (iLenCurrent + 1) >= MAX_SEGMENT_SIZE)
               {
                 pBuf->SegmentData.fValid = FALSE;
                 sprintf( pBuf->SegmentData.szReason, "Segment too large. Length of target text is %ld characters.", iLenCurrent );
@@ -2182,13 +2226,13 @@ void TMXParseHandler::endElement(const XMLCh* const name )
                   else
                   {
                     // use default markup table for the segment
-                    strcpy( pBuf->SegmentData.szFormat, "EQFASCII" );
+                    strcpy( pBuf->SegmentData.szFormat, "OTMANSI" );
                     pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
                   } /* endif */                     
                 }
                 else
                 {
-                  if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "EQFASCII" );
+                  if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "OTMANSI" );
                   pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
                 } /* endif */
               } /* endif */
@@ -2210,6 +2254,7 @@ void TMXParseHandler::endElement(const XMLCh* const name )
       {
         // check if <tuv> contains all required info
         BOOL fTuvValid = TRUE;
+        BOOL fTuvLangInvalid = FALSE;
    
         // GQ 2016/01/22 Allow empty data areas in order to allow conversion of memories with empty target segments
         // if ( pBuf->szData[0] == 0 ) fTuvValid = FALSE;          // no data for <tuv>
@@ -2233,12 +2278,13 @@ void TMXParseHandler::endElement(const XMLCh* const name )
                 *pszDelim = '\0';
                 if ( !pLangTmx2Tmgr->FindName( CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
                 {
-                  fTuvValid = FALSE;          // language not supported
+                  fTuvLangInvalid = TRUE;          // language not supported
                 } /* endif */
+                *pszDelim = '-';
               }
               else
               {
-                fTuvValid = FALSE;          // language not supported
+                fTuvLangInvalid = TRUE;          // language not supported
               } /* endif */
             } /* endif */
           } /* endif */
@@ -2273,6 +2319,12 @@ void TMXParseHandler::endElement(const XMLCh* const name )
           strcpy( pTuvData->szLang, pBuf->szLang );
           pTuvData->fInvalidChars = this->fInvalidChars;
           pTuvData->fInlineTags = this->fInlineTags;
+          pTuvData->fInvalidLang = fTuvLangInvalid;
+          if ( fTuvLangInvalid )
+          {
+            // remember specified ISO language
+            strcpy( pTuvData->szLang, CurElement.szTMXLanguage );
+          } /* endif */
 
           iCurTuv++;
         } /* endif */
@@ -3042,7 +3094,9 @@ USHORT TMXTOEXP
   LONG             lOptions,            // other processing options
   PSZ              pszMarkup,           // markup to use for segments
   PLONG            plValidSegs,         // number of segments written to EXP file
-  PLONG            plSkippedSegs        // number of skipped segments
+  PLONG            plSkippedSegs,       // number of skipped segments
+  PSZ              pszErrorMsgBuffer,   // buffer for error message texts,
+  int              iErrorMsgBufferSize  // size of buffer for error message texts
 )
 {
   USHORT           usRC = 0;           // function return code
@@ -3153,6 +3207,15 @@ USHORT TMXTOEXP
   if ( usRC == MEM_IMPORT_COMPLETE )
   {
     usRC = 0;
+  }
+  else if ( lHandle && (pszErrorMsgBuffer != NULL) )
+  {
+    EXTMEMIMPORTGETLASTERROR( lHandle, pszErrorMsgBuffer, iErrorMsgBufferSize );
+    if ( pData->hfLog )
+    {
+      fprintf( pData->hfLog, "Error %u while converting memory from TMX to EXP, the error msg is \"%s\"\n", usRC, pszErrorMsgBuffer );
+    } /* endif */
+
   } /* endif */
 
   if ( lHandle ) EXTMEMIMPORTEND( lHandle );

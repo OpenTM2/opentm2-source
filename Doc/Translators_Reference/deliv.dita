@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="deliv">
+<title><!--rev=wst-->What you get from <tm trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm></title>
+<prolog><metadata><keywords>
+
+<indexterm>deliverables</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>You receive an install image containing:</p>
+<ul>
+<li>The installation program</li>
+<li>The program files</li>
+<li>The sample files</li>
+<li>Basic dictionaries</li>
+<li>Language-support files </li>
+</ul>
+</body></topic>

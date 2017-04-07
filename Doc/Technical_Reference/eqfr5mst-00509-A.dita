@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00509-A" rev="GF_03042017">
+  <title>EqfOpenMem</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfOpenMem</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfOpenMem</indexterm></indexterm>
+      <p><i>EqfOpenMem</i> opens a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> for searching or updating proposals.</p>
+    </section>
+
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfOpenMem</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszMemoryName</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>
+          <var>plHandle</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>  
+          <var>IOptions</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemoryName</entry>
+              <entry colname="col3">The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PLONG</entry>
+              <entry colname="col2">plHandle</entry>
+              <entry colname="col3">Pointer to a long value receiving the handle of the opened  
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> or -1 in case of failures.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options for the opening (currently none).</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2"><ph>Error code (EQF message number). Use <i>EqfGetLastError</i> (see <ph>page 
+                    <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></ph>) to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <example>
+      <title>Code sample</title>
+      <codeblock> 
+{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+        
+  // start the Eqf calling interface session 
+  usRC = EqfStartSession( &amp;hSession );
+        
+  // open the memory TestMem 
+  if ( !usRC ) 
+  {
+    LONG lHandle = 0;
+    usRC = EqfOpenMem( hSession, "TestMem", &amp;lHandle, 0 );
+  } /* endif */
+        
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00307">
+  <title>Exporting a terminology list</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>terminology lists</indexterm></indexterm>
+      <indexterm>terminology lists<indexterm>exporting</indexterm></indexterm>
+      <p>You can export a terminology list to give it to another user, for example, another
+        translator who needs it for the translation of another document. You can choose to export
+        the list in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> or external
+        format.</p>
+      <p>In order to exchange the data with other <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> users, select the <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> format. If you want to pass the list to
+        another program, you should select the external format.</p>
+      <p>When you export in external format, the found terms lists and the new terms lists are
+        exported in SGML format. You can find a description of this format in <xref
+          href="eqfr5mst-00305.dita#eqfr5mst-00305"/>.</p>
+      <p>When you export an exclusion list in external format, it is written as an ASCII-coded file.
+      </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The list window that contains the terminology list to be exported is active.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The terminology list to be exported</li>
+          <li><b>Export…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>For an exclusion list, the <q>Export Exclusion List</q> window is displayed (see <xref
+          href="#eqfr5mst-00307/ntrmexp"/>). <required-cleanup><indexterm>windows<indexterm>Export
+              Exclusion List</indexterm></indexterm></required-cleanup><fig id="ntrmexp"
+          expanse="column">
+          <title>Export Exclusion List window</title><image placement="break" href="eqfb7s11a.gif"
+              ><alt>Figure shows Export Exclusion List window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>Depending on the format selected, this window offers a different number of options and
+        parameters.</p>
+      <p>For exporting in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format,
+        specify the following:</p>
+      <parml>
+        <plentry>
+          <pt>Format</pt>
+          <pd>Select <b><keyword conref="common-symbols.dita#common-symbols/tm4w"/></b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Select the drive to which you want to export the terminology list.</pd>
+        </plentry>
+      </parml>
+      <p>For exporting in external format, specify the following:</p>
+      <parml>
+        <plentry>
+          <pt>Format</pt>
+          <pd>Select <b>External</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Specify the needed parameters where to store the terminology list and select the drive
+            to which you want to export the list. <parml>
+              <plentry><pt>Name</pt>
+                <pd>Define the file name for the exported list.</pd></plentry>
+              <plentry><pt>Current directory</pt>
+                <pd>Displays the directory selected from the <b>Directories</b> list
+                box.</pd></plentry>
+              <plentry><pt>Directories</pt>
+                <pd>Contains all available directories on the drive selected. Select the directory
+                  where to store the exported list.</pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>To start the exporting function, select <b>Export</b>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The selected terminology list is now exported in the selected format. The file in the
+        internal format can only be used by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> users. The file in the external format
+        can be used or changed by other applications. In <xref
+          href="eqfr5mst-00305.dita#eqfr5mst-00305"/> you find a description of how to work with
+        external lists.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00346">
+  <title>Changing the layout</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This section describes what you can change with regard to the layout of a report.</p>
+    <p>To begin, click the <q>Settings</q> tab in the <q>Create Counting Report</q> window to
+      display the <q>Settings</q> tabbed page (see <xref href="#eqfr5mst-00346/countsetwin"/>).
+            <required-cleanup><indexterm>windows<indexterm>Create Counting Report window — Settings
+            page</indexterm></indexterm></required-cleanup><fig id="countsetwin" expanse="column">
+        <title>Create Counting Report window — Settings page</title><image placement="break"
+          href="eqfb7s16b.gif"><alt>Figure shows Create Counting Report window — Settings
+          page</alt></image></fig></p>
+    <p>On this page, you can choose or specify the options and parameters described in the
+      following. A Calculation Report (Base) is used as an example to demonstrate the effect that
+      the different specifications have on the report layout. <parml>
+        <plentry><pt>Count number of</pt>
+          <pd>Specify what is to be counted to calculate the effort and payment of the translator: <parml>
+              <plentry><pt>Source words</pt>
+                <pd>The source words are used for the calculation. This is the preferred setting.
+                    <p>Differences in the complexity of different languages can be taken into
+                    account using language-dependent complexity factors on the <q>FactSheet </q>page
+                    of the <q>Create Counting Report</q> window (see <xref
+                      href="eqfr5mst-00347.dita#eqfr5mst-00347"/>).</p></pd></plentry>
+              <plentry><pt>Target words</pt>
+                <pd>The target words are used for the calculation. Select this option only for
+                  tracking and informational purposes.</pd></plentry>
+              <plentry><pt>Segments</pt>
+                <pd>The translated segments are used for the calculation.</pd></plentry>
+              <plentry><pt>Modified words</pt>
+                <pd>The modified source words are used for the calculation.</pd></plentry>
+            </parml></pd></plentry>
+        <plentry><pt>Categories</pt>
+          <pd>Specify whether your report is to contain a “Category” column breaking your
+            calculation down to segments with 1..4 words, 5..14 words, and more than 15 words. <parml>
+              <plentry><pt>Show categories</pt>
+                <pd>The report contains a “Category” column. <p>The following Calculating Report
+                    contains such a column: <fig id="calrepcat" expanse="column">
+                      <title>Calculating Report (Base), with categories</title><image
+                        placement="break" href="eqfb7s16r.gif"><alt>Figure shows Calculating Report
+                          (Base), with categories</alt></image></fig></p></pd></plentry>
+              <plentry><pt>Hide categories</pt>
+                <pd>The report does not contain a “Category” column but shows the calculation summed
+                  up in one row. <p>The following Calculating Report differs from <xref
+                      href="#eqfr5mst-00346/calrepcat"/> in that it does not contain any categories:
+                      <fig id="calrepnocat" expanse="column">
+                      <title>Calculating Report (Base), without categories</title><image
+                        placement="break" href="eqfb7s16q.gif"><alt>Figure shows Calculating Report
+                          (Base), without categories</alt></image></fig></p></pd></plentry>
+            </parml></pd></plentry>
+        <plentry><pt>Build summary of categories</pt>
+          <pd>If you selected “Show categories”, you can select this option to add a row containing
+            the sum of the calculation. It is similar to the row you get when specifying “Hide
+            categories”. Your Calculating Report would then look as follows: <fig id="calrepsumcat" expanse="column">
+              <title>Calculating Report (Base), with summary of categories</title><image
+                placement="break" href="eqfb7s16s.gif"><alt>Figure shows Calculating Report (Base),
+                  with summary of categories</alt></image></fig></pd></plentry>
+        <plentry><pt>Report layout</pt>
+          <pd>Specify which columns the report is to contain: <parml>
+              <plentry><pt>Standard</pt>
+                <pd>The report contains the following columns: <ul>
+                    <li>Analyze Auto</li>
+                    <li>Analyze Post</li>
+                    <li>Analyze Edit</li>
+                    <li>Edit Exact</li>
+                    <li>Edit Replace</li>
+                    <li>Fuzzy 50–70%</li>
+                    <li>Fuzzy 70–90%</li>
+                    <li>Fuzzy &gt;90%</li>
+                    <li>Machine matches</li>
+                    <li>Manually translated (None Matches)</li>
+                    <li>Not Translated</li>
+                  </ul>
+                  <p>These columns are described in <xref href="eqfr5mst-00345.dita#eqfr5mst-00345"
+                    />.</p></pd></plentry>
+              <plentry><pt>Standard and group summary</pt>
+                <pd>The report contains the columns previously described and summaries for the
+                  Analyze, Edit, and Fuzzy columns. Your Calculating Report would then look as
+                  follows: <fig id="calrepstgr" expanse="column">
+                    <title>Calculating Report (Base), standard and group-summary
+                      layout</title><image placement="break" href="eqfb7s16t.gif"><alt>Figure shows
+                        Calculating Report (Base), standard and group-summary
+                    layout</alt></image></fig></pd></plentry>
+              <plentry><pt>Shrunk to groups</pt>
+                <pd>For the Analyze, Edit, and Fuzzy columns, the report only shows the summaries to
+                  improve readability. Your Calculating Report would then look as follows: <fig id="calrepshgr" expanse="column">
+                    <title>Calculating Report (Base), shrunk to groups</title><image
+                      placement="break" href="eqfb7s16u.gif"><alt>Figure shows Calculating Report
+                        (Base), shrunk to groups</alt></image></fig></pd></plentry>
+            </parml></pd></plentry>
+        <plentry><pt>Automatic shrink</pt>
+          <pd>Select this option if you want your report without the columns containing no values.
+            <xref href="#eqfr5mst-00346/calrepshgr"/> would then look as follows: <fig id="calrepstgras" expanse="column">
+              <title>Calculating Report (Base), standard and group-summary layout, automatic
+                shrink</title><image placement="break" href="eqfb7s16v.gif"><alt>Figure shows
+                  Calculating Report (Base), standard and group-summary layout, automatic
+                  shrink</alt></image></fig></pd></plentry>
+        <plentry><pt>Include statistics</pt>
+          <pd>This option is only available to the Calculating Report. <p>Select this option if you
+              want to add a statistics table of your project to the end of your report. This table
+              can help you check the quality and consistency of the translation. A low percentage of
+              matches used indicates that the translator used few of the proposals offered by
+                <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+            <p>You can choose between the following types of statistics:</p>
+            <parml>
+              <plentry><pt>Standard statistics</pt>
+                <pd>The statistics table contains the percentage of proposals offered (exact,
+                  replace, fuzzy, and machine proposals) that were actually used by the translator.
+                  Such a statistics table can look as follows: <fig id="stanstat" expanse="column">
+                    <title>Standard statistics</title><image placement="break" href="eqfb7s16w.gif"
+                        ><alt>Figure shows Standard statistics</alt></image></fig></pd></plentry>
+              <plentry><pt>Advanced statistics</pt>
+                <pd>The statistics table contains both the percentage of proposals used and the
+                  absolute number of proposals not used during the translation. This option enables
+                  you to estimate whether the number of matches not copied by the translator is
+                  acceptable. Your table can look as follows: <fig id="advstat" expanse="column">
+                    <title>Advanced statistics</title><image placement="break" href="eqfb7s16x.gif"
+                        ><alt>Figure shows Advanced statistics</alt></image></fig></pd></plentry>
+            </parml></pd></plentry>
+        <plentry><pt>Use existing proposals</pt>
+          <pd>Select this option if you want your report to show all proposals offered by <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> regardless of whether the
+            translator accepted and copied them. This option enables you to calculate the effort
+            based on the assumption that all proposals were accepted.</pd></plentry>
+      </parml></p>
+  </body>
+</topic>

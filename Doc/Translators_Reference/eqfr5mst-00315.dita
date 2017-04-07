@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00315">
+  <title>Overview and terminology</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Markup tables can be exchanged with other users or applications. This may be necessary, when
+      you have changed a markup table for your special translation needs and another translator may
+      want to share your changes for similar translation environments.</p>
+    <p>To give the markup table to someone else you must transfer it out of <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>. This process is called <i>export</i>.
+      The recipient must <i>import</i> the exported markup table into <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> again.</p>
+    <p>Markup tables can also be exchanged via exported folders. When you export a folder with a
+      document using a specific markup table, this markup table is included in the exported folder
+      and can be loaded implicitly during folder import in the recipient's system.</p>
+    <p>Markup tables can be changed. You can choose from two methods: <ul>
+        <li><indexterm>markup
+              tables<indexterm>exporting</indexterm><indexterm>importing</indexterm><indexterm>changing
+              properties</indexterm></indexterm>One way is to <i>export</i> it from <keyword
+            conref="common-symbols.dita#common-symbols/tm4w"/> and to use an external editor to
+          apply the changes. You need to <i>import</i> the markup table into <keyword
+            conref="common-symbols.dita#common-symbols/tm4w"/> to use it again, and you need to be
+          familiar with the SGML-based format of the exported markup table.</li>
+        <li>Another way is to <i>change the properties</i> of a markup table without leaving
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+      </ul>Each method has its advantages. See <xref href="eqfr5mst-00317.dita#eqfr5mst-00317"/> for
+      the details.</p>
+    <p>You can also create new markup tables, as described in <xref
+        href="eqfr5mst-00318.dita#eqfr5mst-00318"/>. New markup tables also need to be imported into
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> before they can be used for
+      translations.</p>
+  </body>
+</topic>

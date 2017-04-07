@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00286">
+  <title>Defining the printout format</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>dictionary<indexterm>controlling layout of printout</indexterm></indexterm>
+        <indexterm>printing<indexterm>defining layout of dictionary printout</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides sample print-format
+      files that you can use to print dictionary data or as a basis for defining your own print
+      output format.</p>
+    <p>To become acquainted with format files, use the <codeph>FORMAT1.FRM</codeph> print format
+      file for printing one of the sample dictionaries provided in a sample folder (for example
+        <codeph>SAMPLE2</codeph>).</p>
+    <p>When you change a format file or create one of your own, make sure you follow the required
+      syntax of the format file. All print-format files are located in the subdirectory
+        <codeph>\otm\prtform</codeph>.</p>
+    <p>The following sample files are provided by <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>: <dl><dlhead><dthd>File
+            name</dthd><ddhd>Description</ddhd></dlhead>
+        <dlentry><dt>format1.frm</dt>
+          <dd>Prints each headword and its translation.</dd></dlentry>
+        <dlentry><dt>format2.frm</dt>
+          <dd>Prints all templates for each entry without formatting.</dd></dlentry>
+        <dlentry><dt>format3.frm</dt>
+          <dd>For this format file, it is recommended to select the <b>File</b> output option
+            because it generates a <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg"
+              tmclass="ibm">BookMaster</tm> source file (containing all templates for each entry).
+            This file must be processed by <tm trademark="BookMaster" tmowner="IBM Corporation"
+              tmtype="reg" tmclass="ibm">BookMaster</tm> outside <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> to obtain a formatted dictionary
+            printout.</dd></dlentry>
+        <dlentry><dt>format4.frm</dt>
+          <dd>Prints a dictionary extract consisting of cover page, body part, header section, and
+            current page number for each page.</dd></dlentry>
+      </dl></p>
+    <p>All the print-format files provided by <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> are described in detail in <xref
+        href="eqfr5mst-00598.dita#eqfr5mst-00598"/>. For a complete and detailed description of the
+      structure and syntax of print-format files see <xref href="eqfr5mst-00603.dita#eqfr5mst-00603"
+      />.</p>
+    <p>Experienced users can use the print function also for generating new external dictionaries,
+      which again can be imported and used in <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>. For example, you can: <ul>
+        <li>Generate a reverse dictionary from an existing one (this means, generate a German to
+          English dictionary from an English to German dictionary).</li>
+        <li>Generate a new dictionary containing selected entries from another dictionary. This can
+          be useful, for example, when you have a dictionary containing translations into several
+          languages and want to extract the entry data related to translations into one of the
+          languages.</li>
+      </ul>
+    </p>
+  </body>
+</topic>

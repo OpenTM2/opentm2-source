@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2012, International Business Machines          |
+//|          Copyright (C) 1990-2017, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //|                                                                            |
@@ -49,6 +49,11 @@
 
 
 MRESULT EXPENTRY SpinSubclassProc( HWND, WINMSG, WPARAM, LPARAM );
+BOOL ReplaceWithUnicodeField
+( 
+  HWND hwndDlg,                        // window handle of dialog window
+  int  iEntryFieldID                   // ID of entry field
+);
 
 static FARPROC pfnOrgSpinProc;         // original spinbutton procedure
 
@@ -139,6 +144,8 @@ INT_PTR CALLBACK DISPENTRYDLGPROC( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
         //      OEMTOANSI( pszTemp );
         //    }
             SETTEXTHWNDW( hwnd, pIda->szUniBuffer );
+
+            ReplaceWithUnicodeField( hwnd, DISP_ENTRY_MLE_ENTRY );
 
             hwndMLE = WinWindowFromID (hwnd, DISP_ENTRY_MLE_ENTRY);
 
@@ -1628,6 +1635,15 @@ BOOL BuildLine
            usPos++;
            usCol++;
 
+           // DBCS characters cover two display positions...
+           if ( EQFIsDBCSChar( ucCurrent, 850 ) )
+           {
+             usPos++;
+             usCol++;
+             pucOutLastSpace = pucOut - 1;
+
+           } /* endif */
+
            if ( fShiftOut )
            {
              /*****************************************************/
@@ -1647,6 +1663,7 @@ BOOL BuildLine
               usDataLen--;
               usPos++;
              } /* endif */
+           
            } /* endif */
 
            if ( (usPos >= usLineSize ) ||
@@ -1728,3 +1745,37 @@ BOOL GetRelativeWindowPos( HWND hwndControl, SWP FAR *pSwp )
 
   return( TRUE );
 } /* end of function GetRelativeWindowPos */
+
+BOOL ReplaceWithUnicodeField
+( 
+  HWND hwndDlg,                        // window handle of dialog window
+  int  iEntryFieldID                   // ID of entry field
+)
+{
+  WINDOWPLACEMENT Placement;
+  WINDOWINFO Info;
+
+  // get values from window being replaced
+  HWND hwndEntryField = GetDlgItem( hwndDlg, iEntryFieldID );
+  GetWindowPlacement( hwndEntryField, &Placement );
+  GetWindowInfo( hwndEntryField, &Info );
+
+  // destroy the window
+  DestroyWindow( hwndEntryField );
+
+  // create a new one
+  hwndEntryField = CreateWindowExW( 0, L"Edit", L"", Info.dwStyle, 
+                               Placement.rcNormalPosition.left, Placement.rcNormalPosition.top,
+                               Placement.rcNormalPosition.right - Placement.rcNormalPosition.left,
+                               UtlQueryULong( QL_PELSPERLINE ) * 10,
+                               hwndDlg, (HMENU)iEntryFieldID, (HINSTANCE)(HAB)UtlQueryULong( QL_HAB ), 0 );
+
+  if ( hwndEntryField != NULL )
+  {
+    SetWindowLong( hwndEntryField, GWL_ID, iEntryFieldID );
+    SetWindowPos( hwndEntryField, HWND_TOP, 0, 0, Placement.rcNormalPosition.right - Placement.rcNormalPosition.left,
+                  UtlQueryULong( QL_PELSPERLINE ) * 10, SWP_NOACTIVATE | SWP_NOMOVE );
+  }
+
+  return( hwndEntryField != NULL );
+}

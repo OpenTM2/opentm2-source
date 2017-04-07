@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00054">
+  <title>Prerequisites for bidirectional language support</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>system locale<indexterm>for bidirectional languages</indexterm></indexterm>
+        <indexterm>regional settings<indexterm>for bidirectional languages</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Under the operating systems 
+      <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 7, 
+      <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 8,
+      <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 8.1,
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> requires that the System Locale is set to Arabic or Hebrew in the system
+      preferences. If you open an Arabic or Hebrew document and it does not display its text right-aligned and you cannot read it from right 
+      to left, you need to set the System Locale. Click <b>Start</b>, <b>Settings</b>, <b>Control Panel</b>, then select <b>Regional Settings</b>. 
+      Find a panel similar to the following. Set the System Locale and start over.</p>
+    <fig id="bidi_prereq" expanse="column">
+      <title>Setting the System Locale for bidirectional languages</title>
+      <image placement="break" href="eqfb7s03a.gif"><alt>Figure shows Setting the System Locale for bidirectional languages</alt></image>
+    </fig>
+    <p>If these settings are not correctly made, the drop-down boxes and dialog control panels might not show text in the correct language.</p>
+  </body>
+</topic>

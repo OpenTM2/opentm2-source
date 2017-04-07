@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="remdoclist">
+<title>Removing documents based on a list</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>document<indexterm>Removing documents based
+on a list</indexterm></indexterm><indexterm>deleting<indexterm>Removing documents
+based on a list</indexterm></indexterm>
+<p>Remove a group of documents from a folder. The document names are
+stored in a list file. The documents can be restored using the /TASK=RESTORDOCS.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>deleting documents</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">deleting documents</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you delete documents
+with the OTMBATCH command. Note that lowercase letters in a parameter
+name are optional and need not be typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>REMOVEDOCS</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><var>folder</var></groupseq>
+<groupseq><delim>/</delim><kwd>NAme</kwd><oper>=</oper>
+<groupchoice>
+<groupseq><var>list_file_name</var></groupseq></groupchoice></groupseq>
+<groupseq importance="optional">
+<groupchoice>
+<groupseq><delim>/</delim><var>QUIET</var></groupseq>
+<groupseq><delim>/</delim><var>QUIET=NOMSG</var></groupseq></groupchoice></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=REMOVEDOCS</pt>
+<pd><synph><var>REMOVEDOCS</var></synph> specifies that you want to remove documents. </pd></plentry>
+<plentry><pt>/FLD=<synph><var>folder</var></synph></pt>
+<pd>Specifies the name of the folder that contains the documents
+to be removed.</pd></plentry>
+<plentry><pt>/NAme=<synph><var>list_file_name</var></synph></pt>
+<pd><synph><var>list_file_name</var></synph> specifies the name of a text file containing
+the document names being removed. The names are specified on document
+per line.</pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify the parameter in this format, you are not prompted
+with any message window. If you do not specify any of the /quiet paramaters,
+a message window pops up whenever an error occurs or when the task
+has successfully completed.</pd></plentry>
+<plentry><pt>/QUIET=NOMSG</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. Any error message text is routed to stdout.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to delete documents using the OTMBATCH
+command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=removedocs /fld=pharma /name=C:\mydeletelist.txt /quiet</codeblock></section></required-cleanup>
+<p>In this example, the documents listed in  c:\mydeletelist.txt
+ are removed from folder pharma.</p>
+</example></refbody></reference>

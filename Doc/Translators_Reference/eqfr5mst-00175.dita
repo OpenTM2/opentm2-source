@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00175">
+  <title>Importing a document in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Calling sequence</title>
+      <indexterm>importing<indexterm>documents in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format</indexterm></indexterm>
+      <indexterm>document<indexterm>importing in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format</indexterm></indexterm>
+      <p>To import a document that is in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format, select <b>
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Format</b> from <b>Import from</b>.</p>
+      <p>The <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Format</q> page is displayed (see 
+        <xref href="#eqfr5mst-00175/impdoctmwin"/>). 
+        <required-cleanup>
+          <indexterm>windows<indexterm>Import Documents (<keyword conref="common-symbols.dita#common-symbols/tm4w"/>format)</indexterm></indexterm>
+        </required-cleanup>
+        <fig id="impdoctmwin" expanse="column">
+          <title>Import Documents window (<keyword conref="common-symbols.dita#common-symbols/tm4w"/> format)</title>
+          <image placement="break" href="eqfb7s7f.gif">
+            <alt>Figure shows Import Documents window ( format)</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>From</pt>
+          <pd>To specify the current location of the documents: 
+            <ul>
+              <li>Specify the drive where the documents to be imported currently reside. You can also click <b>Browse</b> to display the 
+                <q>Browse for Folder</q> window on which you can select the appropriate drive.</li>
+              <li>Double-click the folder containing the documents to be imported, in the <b>Folders</b> list.</li>
+              <li>Click one or more document names in the <b>Documents</b> list.</li>
+            </ul>
+            <p>To import all documents listed in the <b>Documents</b> list, click <b>Select all</b>.</p>
+            <p>To start a new selection of documents, click <b>Deselect all</b>.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>To folder</pt>
+          <pd>Shows the name of the folder to which you want to import the documents.</pd>
+        </plentry>
+      </parml>
+      <p>All files contained in the selected folder are listed in <b>Documents</b>. Select the documents you want to import, then click 
+        <b>Import</b> to start the import procedure.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The selected documents are imported and you can start analyzing and translating.</p>
+    </section>
+  </refbody>
+</reference>

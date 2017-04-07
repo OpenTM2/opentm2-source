@@ -277,10 +277,10 @@
     @echo $(_COMPILER)  $(_CL_CPP_OPTIONS_DLL) /Fo$(_OBJ)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\dictionary\$(*B).cpp
     @$(_COMPILER)  $(_CL_CPP_OPTIONS_DLL) /Fo$(_OBJ)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\dictionary\$(*B).cpp
 
-{$(_SRC)\plugins\markup\EqfMarkupTablePlugin\}.cpp{$(_OBJ)}.obj:
-    @echo ---- Compiling $(_SRC)\plugins\markup\EqfMarkupTablePlugin\$(*B).CPP
-    @echo ---- Compiling $(_SRC)\plugins\markup\EqfMarkupTablePlugin\$(*B).CPP >>$(_ERR)
-    @$(_COMPILER)  $(_CL_CPP_OPTIONS_DLL) /Fo$(_OBJ)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\markup\EqfMarkupTablePlugin\$(*B).cpp
+{$(_SRC)\plugins\markup\OtmMarkupTablePlugin\}.cpp{$(_OBJ)}.obj:
+    @echo ---- Compiling $(_SRC)\plugins\markup\OtmMarkupTablePlugin\$(*B).CPP
+    @echo ---- Compiling $(_SRC)\plugins\markup\OtmMarkupTablePlugin\$(*B).CPP >>$(_ERR)
+    @$(_COMPILER)  $(_CL_CPP_OPTIONS_DLL) /Fo$(_OBJ)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\markup\OtmMarkupTablePlugin\$(*B).cpp
 
 {$(_SRC)\plugins\markup\UserMarkupsPlugin\}.cpp{$(_OBJ)}.obj:
     @echo ---- Compiling $(_SRC)\plugins\markup\UserMarkupsPlugin\$(*B).CPP

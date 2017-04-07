@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00147">
+<title>Ami Pro documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>Ami Pro</indexterm></indexterm>
+<indexterm>Ami Pro documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> directly supports the document format of Ami
+Pro Version 2 or 3, which usually has the file extension SAM. Import
+such documents using the <codeph>EQFAMI</codeph> markup table. If they were
+designed for processing by <tm trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm> <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub">Notes</tm>, import them using the <codeph>LOTUSAMI</codeph> markup
+table.</p>
+<p>Do not change, delete, or insert markup data outside translatable
+segments. Inline tags should be handled carefully.</p>
+<p>The start of highlighting like bold, italics, underline, or similar
+is indicated with <b>&lt;+</b>, any character,
+and <b>&gt;</b>. The end of this markup data is indicated
+with <b>&lt;-</b>, the same character as at the
+start of this markup tag, and <b>&gt;</b>.</p>
+<p>Tables, headers, and footers appear at the beginning of the document
+for translation. </p>
+</body></topic>

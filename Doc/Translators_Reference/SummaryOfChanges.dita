@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="SummaryOfChanges" rev="GF_03042017">
+  <title>Summary of Changes</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This section introduces a <b>summary of changes</b> compared to the previous version of 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>
+      <ul>
+        <li>Improved stability by <b>fixing problems</b>.</li>
+        <li>The two languages <b>Azerbaijani(Latin)</b> and <b>Welsh</b> are added to the list of supported languages 
+            (see <xref href="eqfr5mst-00022.dita#eqfr5mst-00022"/>)</li>
+        <li>In both, the <b>Plugin Manager Settings</b> and the <b>Auto Version Upgrade Settings</b>, the <b>Check Frequency Setting</b>
+            has been changed from <b>Check for updates manually</b> into <b>Check for updates once per month</b>. This is to ensure that
+            users are informed bout new plugins or new versions of OpenTM2 at least once per month. See
+            <xref href="eqfr5mst-00416A.dita#eqfr5mst-00416A"/> and <xref href="eqfr5mst-00416B.dita#eqfr5mst-00416B"/>.</li>
+        <li>CHKPII can be called directly from within OpenTM2 to either check <b>all documents in a folder</b>, or <b>one or more selected 
+            documents</b> inside a folder. For more information, see <xref href="eqfr5mst-NF140.dita#eqfr5mst-NF140"/></li>
+        <li>Updated Web-based Shared Translation Memory component (see <xref href="eqfr5mst-NF140.dita#eqfr5mst-NF140"/>).</li>
+      </ul>
+    </p>
+  </body>
+</topic>

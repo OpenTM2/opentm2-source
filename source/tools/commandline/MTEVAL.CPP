@@ -366,11 +366,11 @@ int CMTEval::Evaluate
       return( ERROR_WRITE_FAULT );
     }
 
-    m_xw->WriteStylesheet( "MTEVAL.XSL" );
+    m_xw->WriteStylesheet( "OTMMTEVAL.XSL" );
     m_xw->WriteStartElement( "mtevaluation" );
     m_xw->WriteAttributeString( "xmlns:PE", "http://www.ibm.com/PostEdit" );
     m_xw->WriteStartElement( "header" );
-    m_xw->WriteElementString( "generator", "MTEVAL" );
+    m_xw->WriteElementString( "generator", "OTMMTEVAL" );
     sprintf( szVersion, "%d.%d.%d.%d", EQF_DRIVER_VERSION, EQF_DRIVER_RELEASE, EQF_DRIVER_SUBRELEASE, EQF_DRIVER_BUILD );
     m_xw->WriteElementString( "generatorversion", szVersion );
     {

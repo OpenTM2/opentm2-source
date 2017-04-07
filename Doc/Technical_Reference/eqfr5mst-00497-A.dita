@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00497-A" rev="GF_07122015">
+  <title>EqfGetShortName</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+<!-- xxx  -->
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfGetShortName</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfGetShortName</indexterm></indexterm>
+      <p>The API call <i>EqfGetShortName</i> is used to get the internally used short name for a folder, 
+         dictionary, Translation Memory, or document.</p> 
+         <p><b><u>Attention</u></b>: this API function will only work for the older OpenTM2 plugins. 
+         Newer plugins will (hopefully) not use short names anymore.</p>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->    
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfgetShortName</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>ObjectType</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszLongName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszShortName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colnamea="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">ObjectType</entry>
+              <entry colname="col3"><b><u>Type of the object being processed</u></b>:
+                <ul>
+                  <li>FOLDER_OBJ object is a folder.</li> 
+                  <li>MEMORY_OBJ object is a Translation Memory.</li>
+                  <li>DICT_OBJ object is a dictionary.</li>
+                  <li>DOCUMENT_OBJ object is a document.</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszLongName</entry>
+              <entry colname="col3">Long name of the object for documents also the folder name has to be 
+                specified in the form foldername:documentname.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszShortName</entry>
+              <entry colname="col3">Pointer to a buffer for the returned short name.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The MT flags in the memory have been cleared successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> 
+                (see page <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/>) to retrieve the complete error information.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{
+  USHORT usRC = 0; 
+  HSESSION hSession = 0L;
+  // start the OpenTM2 API session 
+  usRC = EqfStartSession( &amp;hSession );
+  if ( !usRC ) 
+  {
+    char szShortName[31]; // buffer for folder short name
+
+    // Get the short name of folder "MyFolder" and write the short name
+    // to the variable szShortName
+    usRC = EqfGetShortName( hSession, FOLDER_OBJ, "MyFolder", szShortName ); 
+  } /* endif */
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+<!-- xxx  -->
+
+  </refbody>
+</reference>

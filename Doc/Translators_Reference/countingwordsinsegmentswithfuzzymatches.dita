@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="countingwordsinsegmentswithfuzzymatches">
+  <title>Counting words in segments with fuzzy matches</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>counting<indexterm>matches</indexterm></indexterm>
+      <indexterm>document<indexterm>Counting words in segments with fuzzy
+        matches</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a facility for
+        counting words in segments with fuzzy matches. The result is shown in a window and can be
+        saved in a file. The words in segments with fuzzy matches are grouped in classes. The column
+        Class-0 lists the number of words in segments with fuzzy matches which are only different in
+        white space or inline tagging. The column Class-1 lists the number of words in segments with
+        one different word , class-2 with two different words and so on. To count the number of
+        words in all the documents of a folder, see <xref href="countnumber.dita#countnumber"/></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>At least one document must exist in the selected folder and the document has to be
+        analyzed.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>At least one document from the <q>Document List</q> window</li>
+          <li>from the menu</li>
+        </ol></p>
+      <p>The <q>Count Words</q> window (see <xref href="countmatch.dita#countmatch/matchcnt"/>) is
+        displayed. <required-cleanup><indexterm>windows<indexterm>Count
+            Words</indexterm></indexterm></required-cleanup><fig id="matchcnt" expanse="column">
+          <title>Count Words window</title><image placement="break" href="fuzzycount.gif"
+              ><alt>Figure shows Count Words window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>This box contains the list of the documents you selected in the <q>Document List</q>
+            window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Options</pt>
+          <pd>Select: <parml>
+              <plentry><pt>Fuzzy matches by class </pt>
+                <pd>To count the number of words in segments with fuzzy matches in the selected
+                  documents. </pd></plentry>
+              <plentry><pt>Output to </pt>
+                <pd>In this block you define where you want the system to save the results:
+                </pd></plentry>
+              <plentry><pt>Screen</pt>
+                <pd>he result of the word count is displayed on your screen. This option is selected
+                  automatically. </pd></plentry>
+              <plentry><pt>File </pt>
+                <pd>Select this option to also store the count results in a file. <p>You can:
+                  </p></pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Output to</pt>
+          <pd>In this block you define where you want the system to save the results: <parml>
+              <plentry><pt>Screen</pt>
+                <pd>The result of the word count is displayed on your screen. This option is
+                  selected automatically.</pd></plentry>
+              <plentry><pt>File</pt>
+                <pd>Select this option to also store the count results in a file. You can: <ul>
+                    <li>Accept the proposed file name.</li>
+                    <li>Type a file name of your choice.</li>
+                    <li>Click <b>Select…</b> to display the <q>Select File</q> window from where you
+                      can choose the file name without having to type it (for a detailed
+                      description, see <xref href="selfile.dita#selfile"/>).</li>
+                    <li>Select the format of the count result file. The supported formats are <ul>
+                        <li>ASCII (plain text)</li>
+                        <li>HTML</li>
+                        <li>XML </li>
+                      </ul></li>
+                  </ul></pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Count</b> to begin counting words</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The results of the word count are shown, for example, in the <q>Word Count Results – Fuzzy
+          Matches per Class</q> window (see <xref href="countmatch.dita#countmatch/wctmm"/>).
+              <required-cleanup><indexterm>windows<indexterm>Word Count Results – Fuzzy Matches per
+              Class</indexterm></indexterm></required-cleanup><fig id="wctmm" expanse="column">
+          <title>Word Count Results – Fuzzy Matches per Class window</title><image placement="break"
+            href="fuzzycountresult.gif"><alt>Figure shows Word Count Results – Fuzzy Matches per
+              Class window</alt></image></fig></p>
+      <p>The window contains the following columns: <dl>
+          <dlentry><dt>Documents</dt>
+            <dd>The name of the documents.</dd></dlentry>
+          <dlentry><dt>Total</dt>
+            <dd>The number of words in the documents.</dd></dlentry>
+          <dlentry><dt>Class-zero</dt>
+            <dd>The number of words in segments with fuzzy matches where no source words are
+              different.</dd></dlentry>
+          <dlentry><dt>Class-1</dt>
+            <dd>The number of words in segments with fuzzy matches where one source word is
+              different.</dd></dlentry>
+          <dlentry><dt>Class-2</dt>
+            <dd>The number of words in segments with fuzzy matches where two source words are
+              different.</dd></dlentry>
+          <dlentry><dt>Class-3</dt>
+            <dd>The number of words in segments with fuzzy matches where three source words are
+              different.</dd></dlentry>
+          <dlentry><dt>Class-4</dt>
+            <dd>The number of words in segments with fuzzy matches where four source words are
+              different.</dd></dlentry>
+          <dlentry><dt>Class-5</dt>
+            <dd>he number of words in segments with fuzzy matches where five source words are
+              different.</dd></dlentry>
+          <dlentry><dt>Class-6up</dt>
+            <dd>The number of words in segments with fuzzy matches where six or more source words
+              are different.</dd></dlentry>
+        </dl></p>
+      <p>If you selected the output option, the results are stored in the same format in the
+        specified file.</p>
+      <p>To return to the previous window, close the respective <q>Word Count Result – Fuzzy Matches
+          per Class</q> window.</p>
+    </section>
+  </refbody>
+</reference>

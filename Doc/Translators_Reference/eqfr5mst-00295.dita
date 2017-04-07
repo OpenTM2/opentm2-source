@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00295">
+  <title>Changing the properties of a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>displaying properties</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>changing properties</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>properties</indexterm></indexterm>
+      <p>The properties of a dictionary are its individual characteristics. Some properties, for
+        example the dictionary structure and the size of an entry field, cannot be changed when the
+        dictionary has been created. Others, for example which lookup panels are to display which
+        data, can be changed.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The dictionary must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window</li>
+          <li>The dictionary from the list of dictionaries</li>
+          <li><b>Properties…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>This takes you to the <q>Dictionary Properties</q> window (see <xref
+          href="#eqfr5mst-00295/dictpropwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Dictionary
+                Properties</indexterm></indexterm></required-cleanup><fig id="dictpropwin" expanse="column">
+          <title>Dictionary Properties window</title><image placement="break" href="eqfb7s10l.gif"
+              ><alt>Figure shows Dictionary Properties window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The <q>Dictionary Properties</q> window lists the characteristics of the selected
+        dictionary.</p>
+      <p>For an existing dictionary, only the following properties can be changed: <ul>
+          <li>The dictionary description</li>
+          <li>The lookup display panel of an entry field</li>
+          <li>The name of an entry field</li>
+        </ul></p>
+      <p>On the <q>General Properties</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>The name of the dictionary. It cannot be changed for an existing dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>Short name</pt>
+          <pd>The short name of the dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>The description of the dictionary. It can be up to 255 characters
+            long.</pd>
+        </plentry>
+        <plentry>
+          <pt>Location</pt>
+          <pd>Can be <b>local</b> (only one translator at a time can use it) or <b>shared</b>
+            (several translators can use it simultaneously).</pd>
+        </plentry>
+        <plentry>
+          <pt>Disk drive</pt>
+          <pd>The drive where the dictionary resides. It cannot be changed for an existing
+            dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>Source language</pt>
+          <pd>The source of the dictionary, this means, the language of the terms (headwords). It
+            cannot be changed for an existing dictionary.</pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Entry Structure</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Entry fields</pt>
+          <pd>Contains the entry fields that make up the dictionary structure. For an existing
+            dictionary you can only change the name of a field and the lookup panel number.</pd>
+        </plentry>
+        <plentry>
+          <pt>Display</pt>
+          <pd>Click the <b>Panel</b> number on which you want this entry field displayed in the
+              <q>Lookup Entry</q> window. <b>Omit</b> means you do not want this entry field to be
+            displayed at all. The entry field is not deleted from the entry structure. <p><b>Aut.
+                Lookup</b><ph> displays the complete entry field information in the window showing
+                the found dictionary proposals during translation.</ph></p></pd>
+        </plentry>
+      </parml>
+      <parml>
+        <plentry>
+          <pt>Level</pt>
+          <pd>Shows the level of the selected entry field. It cannot be changed for an existing
+            entry.</pd>
+        </plentry>
+        <plentry>
+          <pt>Size</pt>
+          <pd>Shows the size of the selected entry field. It cannot be changed for an existing
+            entry.</pd>
+        </plentry>
+      </parml>
+      <p>To change the name given to an entry field click <b>Change name…</b>. For example, you can
+        change the name of the <i>Headword</i> entry field to <i>Term</i>. For more information on
+        renaming entry fields see <xref href="eqfr5mst-00273.dita#eqfr5mst-00273"/>.</p>
+      <p>To avoid unauthorized modification of a dictionary, you can protect it by clicking
+          <b>Protect</b> and typing a password in the <q>Protect Dictionary</q> window. Then the
+        dictionary can only be modified when the correct password is entered. For more detail on how
+        to protect and unprotect dictionaries see <xref href="eqfr5mst-00287.dita#eqfr5mst-00287"
+        />.</p>
+      <p>Click <b>Change</b> to change dictionary properties. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The dictionary properties are changed according to your specifications.</p>
+    </section>
+  </refbody>
+</reference>

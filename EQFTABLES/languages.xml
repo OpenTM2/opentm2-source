@@ -33,6 +33,19 @@
 	<comments>-EG = Egypt </comments>
   </language>
   <language>
+    <name>Azerbaijani(Latin)</name>
+	<cpASCII>857</cpASCII>
+	<cpANSI>1254</cpANSI>
+	<cpName>ISO-8859-9</cpName>
+	<iso>az-AZ</iso>
+	<icu>az-AZ</icu>
+	<preferred>no</preferred>
+	<group>Azerbaijani</group>
+	<isSourceLanguage>yes</isSourceLanguage>
+	<isTargetLanguage>yes</isTargetLanguage>
+	<comments/>
+  </language>
+  <language>
     <name>Belarusian</name>
 	<cpASCII>1251</cpASCII>
     <cpANSI>1251</cpANSI>
@@ -143,7 +156,7 @@
 	<cpName>ISO-8859-1</cpName>
 	<iso>nl-NL</iso>
 	<icu>nl-NL</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>Dutch</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -182,7 +195,7 @@
 	<cpName>ISO-8859-1</cpName>
 	<iso>en-US</iso>
 	<icu>en-US</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>English</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -234,7 +247,7 @@
 	<cpName>ISO-8859-1</cpName>
 	<iso>fr-FR</iso>
 	<icu>fr-FR</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>French</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -260,7 +273,7 @@
 	<cpName>ISO-8859-1</cpName>
 	<iso>de-DE</iso>
 	<icu>de-DE</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>German</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -468,7 +481,7 @@
 	<cpName>ISO-8859-1</cpName>
 	<iso>nb-NO</iso>
 	<icu>nb-NO</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>Norwegian(Bokmal)</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -546,7 +559,7 @@
 	<cpName>ISO-8859-1</cpName>
 	<iso>pt-PT</iso>
 	<icu>pt-PT</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>Portuguese</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -744,6 +757,19 @@
 	<preferred>no</preferred>
 	<group>Montenegrin</group>
 	<isSourceLanguage>no</isSourceLanguage>
+	<isTargetLanguage>yes</isTargetLanguage>
+	<comments/>
+  </language>
+  <language>
+    <name>Welsh</name>
+	<cpASCII>852</cpASCII>
+	<cpANSI>1252</cpANSI>
+	<cpName>ISO-8859-14</cpName>
+	<iso>cy-GB</iso>
+	<icu>cy-GB</icu>
+	<preferred>no</preferred>
+	<group>Welsh</group>
+	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
 	<comments/>
   </language>

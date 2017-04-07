@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00119">
+  <title>Windows</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To perform an action on an object in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can specify the options and
+      parameters in a window specific for this action. At the bottom of the window you find pushbuttons, where you can: 
+      <ul>
+        <li>Start the action (left pushbutton)</li>
+        <li>Leave the window without any further action (<b>Cancel</b>)</li>
+        <li>Ask for information about this window (<b>Help</b>)</li>
+      </ul>
+    </p>
+  </body>
+</topic>

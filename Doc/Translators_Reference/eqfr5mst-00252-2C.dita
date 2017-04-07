@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-2C" rev="GF_07122015">
+  <title>Create a Shared Translation Memory on the Server</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>After the server is setup properly, continue to create a new WEB-based Shared Translation memory.</p>
+    <p>This procedure describes how to create a new WEB-based Shared Translation Memory in the 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> client and on the server.  
+      <note>When a new WEB-based Shared Translation Memory is created in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, 
+        then first a <b>local</b> translation memory is created which will then be automatically created on the server too.</note></p> 
+    <p><b><u>Step 1</u></b>: If not already done, start the Shared Translation Memory Server as follow:
+      <ul>
+        <li>Ensure that you are on the server side.</li>
+        <li>Open a DOS command line on the server.</li>
+        <li>Navigate to the directory x:\otm\OtmTMService\ (where x: is the drive where OpenTM2 is installed on).</li>
+        <li>Double click on the file <q>OtmTMService.jar</q>, and the following dialog shows up (remember that a JAVA RUNTIME 
+            Environment (JRE) must exist on the server).
+          <fig id="SharedMemoryServicePanel" expanse="column">
+            <title>The panel <q><b>OtmTMService</b></q>.</title>
+            <image placement="break" href="SharedMemoryServicePanel.gif">
+              <alt>The panel OtmTMService</alt>
+            </image>
+          </fig>
+          <note>If the shared memory server is started for the first time, wait some seconds before the following panel 
+                shows up, because an initialization-step (only one time) needs to be done.</note>
+        </li>
+        <li>Ensure <b>not</b> to click on the button <q>Stop</q>, because this would <b>stop</b> the service. Notice the <q>http</q> 
+            entry – this value is required when the WEB-based Shared Translation Memory is created in 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. In the example screen shot above, the value is 
+            <b>http://localhost:8085/tmservice</b>.</li>
+        <li>By starting the <b>OtmTMService.jar</b>, MySQL is automatically started too.</li>
+      </ul>
+    </p>
+    <p><b><u>Step 2</u></b>: Create a WEB-based Shared Translation Memory. In order to create a WEB-based Shared Translation Memory in 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, follow these steps:
+      <ul>
+        <li>On the client PC, start <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+        <li>Right mouse click into the translation memory list window.</li>
+        <li>From the context menu, select <q>New</q>.</li>
+        <li><u>In panel <q>New Translation Memory</q> type in</u>:
+          <ul>
+            <li>In <b>Name:</b>  <q>M009</q> (as an example)</li>
+            <li>In <b>Description:</b>  <q>A shared memory test</q> (as an example)</li>
+            <li>In <b>Type:</b> select <q>Shared Translation Memory (Web based)</q>.</li>
+            <li>From <b>Source language</b>: select a valid language like <q>English(U.S.)</q>.
+              <fig id="SharedMemoryNew" expanse="column">
+                <title>The panel <q><b>New Translation Memory</b></q>.</title>
+                <image placement="break" href="SharedMemoryNew.gif">
+                  <alt>The panel New Translation Memory</alt>
+                </image>
+              </fig>
+            </li>
+          </ul>
+        </li>
+        <li>In panel <q>New Translation Memory</q> click on button <q>Create</q>, and the panel <q>Create a shared memory</q> appears.
+          <fig id="SharedMemoryCreate" expanse="column">
+            <title>The panel <q><b>Create a Shared Memory</b></q>.</title>
+            <image placement="break" href="SharedMemoryCreate.gif">
+              <alt>The panel Create a Shared Memory</alt>
+            </image>
+          </fig>
+        </li>
+        <li><u>In panel <q>Create a shared memory</q>, type in the following values</u>:
+          <ul>
+            <li><b>Name</b> is already made available and can&apos;t be changed in this panel.</li>
+            <li>In <b>Service URL</b>:  <b>http://localhost:8085/tmservice</b>. Find this value from the open dialog 
+                <q>OtmTMService</q> described before in <q>Start the Shared Translation Memory Server</q>, the third entry from 
+                the top of the dialog. Make sure to add your server&apos;s real IP-address to the field <q>Service URL</q>. 
+                <q>http://localhost:8085/tmservice</q> is an example of <q>Local Host</q>.</li>
+            <li>In <q>User ID</q> and <q>Password</q> add any user you prefer, but you need to remember the name(s).</li>
+            <li><q>User list</q> must not be empty, you need to type in the <q>User ID</q> (e.g. xyz). But you can also specify other 
+                users separated by <q>;</q>, or just set <q>*</q> for any user.</li>
+          </ul>
+        </li>
+        <li>Click on button <q>OK</q>.</li>
+        <li>Wait some seconds, until a dialog appears either showing, that the shared memory was created successfully, or that it failed.</li>
+        <li>In this dialog, click on button <q>OK</q>.
+            <note>The panel <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator</q> appears. 
+            This panel is used to replicate local translation memories with the server translation memory. See the 
+            translation memory <q>M009</q> in the window <q>Available</q>. At the moment, only minimize the window, 
+            and we will see how to work with it later on.</note>
+            <fig id="SharedMemoryReplicator" expanse="column">
+              <title>The panel <q><b><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator</b></q>.</title>
+              <image placement="break" href="SharedMemoryReplicator.gif">
+                <alt>The panel <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator</alt>
+              </image>
+            </fig>
+        </li>
+        <li>In <keyword conref="common-symbols.dita#common-symbols/tm4w"/>&apos;s translation memory list window, see 
+            the newly created shared translation memory named <q>M009</q>.</li>
+      </ul>
+    </p>
+    <p></p>
+  </body>
+</topic>

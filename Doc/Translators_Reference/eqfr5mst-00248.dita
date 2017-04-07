@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00248">
+<title>Options menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="2*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Menu</entry>
+<entry valign="top" rowsep="1">Function</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Colors...</entry>
+<entry valign="top">Lets you change foreground and background colors.
+Note that if you change colors in the <q>Translation</q> window or
+the <q>Original</q> window, it will change colors in the translation
+editor windows accordingly. See also <xref href="eqfr5mst-00088.dita#eqfr5mst-00088"/> to
+learn how to work with the <q>Set Colors</q> window.</entry></row>
+<row>
+<entry valign="top">Fonts...</entry>
+<entry valign="top">Lets you change fonts and their sizes. Note that
+if you change a font or a font size in the <q>Translation</q> window
+or the <q>Original</q> window, it will change the font or font size
+in the translation editor windows accordingly. See also <xref href="eqfr5mst-00088.dita#eqfr5mst-00088"/> to learn how to work with the <q>Set Fonts</q> window.</entry></row>
+<row>
+<entry valign="top">Arrange</entry>
+<entry valign="top">Lets you arrange windows. <b>Horizontal</b> positions
+the <q>Translation</q> window below the <q>Original</q> window. <b>Vertical</b> positions the <q>Translation</q> window
+next to the <q>Original</q> window on the right half of the screen.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

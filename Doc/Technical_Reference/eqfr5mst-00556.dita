@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00556">
+<title>EQFCOMPARECONTEXT</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFCOMPARECONTEXT</indexterm></indexterm><indexterm>EQFCOMPARECONTEXT</indexterm>
+<p><i>EQFCOMPARECONTEXT</i>  is called for every
+segment that has an exact text match and context information available.
+The function compares the context strings of a segment against the
+context strings of a Translation Memory proposal and ranks the match
+between 0 and 100. 0 means no context match at all, and 100 means
+an exact context match.</p>
+<p>During an analysis only exact text matches <i>and</i> exact
+context matches of a segment lead to automatic substitutions. During
+a translation, the ranks are used to identify the best translation
+proposals.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFCOMPARECONTEXT</kwd><delim>(</delim><var>pContextStrings1</var><sep>,</sep></groupseq>
+<groupseq><var>pContextStrings2</var><sep>,</sep></groupseq>
+<groupseq><var>pusRanking</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pContextStrings1</var></synph></pt>
+<pd>The pointer to a buffer containing the context strings of the
+current segment. The context strings are stored as a list of UTF-16
+strings, and the list is terminated by <codeph>0x0000</codeph>.</pd></plentry>
+<plentry><pt><synph><var>pContextStrings2</var></synph></pt>
+<pd>The pointer to a buffer containing the context strings of the
+proposal. The context strings are stored as a list of UTF-16 strings,
+and the list is terminated by <codeph>0x0000</codeph>.</pd></plentry>
+<plentry><pt><synph><var>pusRanking</var></synph></pt>
+<pd>The pointer to the variable receiving the ranking for the context
+strings.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The return code indicates whether context information could be
+compared.</p>
+</section></refbody></reference>

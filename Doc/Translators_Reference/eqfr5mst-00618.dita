@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00618">
+<title>Hints, tips, and technical notices</title>
+<prolog><metadata><keywords>
+
+<indexterm>hints</indexterm>
+<indexterm>tips</indexterm>
+<indexterm>technical notices</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following topics are a collection of hints, tips, frequently asked
+questions, and technical notices that might be of interest in rare cases only.
+Nevertheless, this information might help to solve or identify one or the
+other problem.</p>
+<p>Where appropriate, other sections in this book refer to these topics. Also,
+several index entries guide you to these topics; note especially the index
+entries <q>hints</q>, <q>tips</q>, and <q>technical notices </q>.</p>
+</body></topic>

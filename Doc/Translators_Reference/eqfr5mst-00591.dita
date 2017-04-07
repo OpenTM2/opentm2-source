@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00591">
+  <title>Switching to other windows</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="1" frame="topbot">
+      <tgroup cols="4" colsep="1" rowsep="1">
+        <colspec colname="col1" colwidth="298*"/>
+        <colspec colname="col2" colwidth="115*"/>
+        <colspec colname="col3" colwidth="152*"/>
+        <colspec colname="col4" colwidth="114*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Function</entry>
+            <entry valign="top" rowsep="1">Menu</entry>
+            <entry valign="top" rowsep="1">Default key</entry>
+            <entry valign="top" rowsep="1">My key</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top"><q>Set Colors</q> window</entry>
+            <entry valign="top">Options</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top"><q>Set Fonts</q> window</entry>
+            <entry valign="top">Options</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top"><q>Run Command</q> window</entry>
+            <entry valign="top">Options</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top"><q>Assign Keys</q> window</entry>
+            <entry valign="top">Options</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top"><q>Customize Translation Functions</q> window</entry>
+            <entry valign="top">Options</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top"><q>Sentence Lookup</q> window</entry>
+            <entry valign="top">Options</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top"><q>Translator’s Note</q> window</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

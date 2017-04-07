@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00554">
+<title>EQFGETSEGCONTEXT</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFGETSEGCONTEXT</indexterm></indexterm><indexterm>EQFGETSEGCONTEXT</indexterm>
+<p><i>EQFGETSEGCONTEXT</i> returns the context strings
+for a given segment and passes them to the Translation Memory functions
+before a segment is about to be saved in the Translation Memory.</p>
+<p>This function is used by the editor during the translation. Using
+the supplied document handle the function can go backward or forward
+to other segments if  necessary (for example, for an MRI markup it
+is necessary to go back to the segment containing the <codeph>panel ID</codeph>).</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETSEGCONTEXT</kwd><delim>(</delim><var>pCurSeg</var><sep>,</sep></groupseq>
+<groupseq><var> pPrevSeg</var><sep>,</sep></groupseq>
+<groupseq><var> pNextSeg</var><sep>,</sep></groupseq>
+<groupseq><var> pContextStrings</var><sep>,</sep></groupseq>
+<groupseq><var> hEditor</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pCurSeg</var></synph></pt>
+<pd>The pointer to a zero-terminated UTF-16 string containing the
+text of the current segment.</pd></plentry>
+<plentry><pt><synph><var> pPrevSeg</var></synph></pt>
+<pd>The pointer to a zero-terminated UTF-16 string that contains
+the text of the previous segment (<codeph>NULL</codeph>, if there is none).</pd></plentry>
+<plentry><pt><synph><var>pNextSeg</var></synph></pt>
+<pd>The pointer to a zero-terminated UTF-16 string that contains
+the text of the next segment (<codeph>NULL</codeph>, if there is none).</pd></plentry>
+<plentry><pt><synph><var>pContextStrings</var></synph></pt>
+<pd>The pointer to a UTF16 buffer for the context strings. This
+buffer has a size of MAX_CONTEXT_LEN (4096) characters. The context
+strings are stored as a list of UTF-16 strings, and the list is terminated
+by <codeph>0x0000</codeph>.</pd></plentry>
+<plentry><pt><synph><var>hEditor</var></synph></pt>
+<pd>The handle of type HANDLE, which is required for the EQFGetNextSeg
+and EQFGetPrevSeg functions.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The return code indicates whether context strings could be returned.</p>
+</section></refbody></reference>

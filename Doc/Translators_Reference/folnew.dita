@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folnew">
+  <title>Creating a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>creating</indexterm></indexterm>
+      <indexterm>creating<indexterm>folders</indexterm></indexterm>
+      <p>Grouping documents in a folder is recommended whenever: <ul>
+          <li>A number of documents belong to the same translation project.</li>
+          <li>You use the same <keyword conref="common-symbols.dita#common-symbols/xlmems"/> for a
+            number of documents.</li>
+          <li>You use the same dictionaries for a number of documents.</li>
+        </ul></p>
+      <p>A folder also makes it easier to export or import a group of documents.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>Decide for which documents, dictionaries, and <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/> you wish to create a folder.</li>
+        <li>At least one language support file must be installed.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Folder List</q> window in the main window</li>
+          <li><b>New…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>New Folder</q> window (see <xref href="#folnew/newfolderwin"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>New
+          Folder</indexterm></indexterm></required-cleanup><fig id="newfolderwin" expanse="column">
+          <title>New Folder window</title><image placement="break" href="foldernew.gif"><alt>Figure
+              shows New Folder window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The options you specify are used for all documents imported into this folder. If individual
+        documents need other properties, you can specify these when importing the documents.</p>
+      <p>On the <q>Properties</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Type a name of up to 8 alphanumeric characters for the new folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>Type up to 40 alphanumeric characters that describe the folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Disk drive</pt>
+          <pd>Select the drive where the folder is to reside.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use existing folder as model</pt>
+          <pd>Click <b>Yes…</b> if the properties of the new folder are similar to an existing one.
+            This takes you to the <q>Use existing Folder as Model</q> window, where you can select
+            an existing folder as a model for the new folder. Click <b>Select</b> to return to the
+              <q>New Folder</q> window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Translation Memory to be used</pt>
+          <pd>Select a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be used for
+            the documents in the new folder. To create a new <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>, type in its name.</pd>
+        </plentry>
+        <plentry>
+          <pt>Source language</pt>
+          <pd>Select the language of the original documents.</pd>
+        </plentry>
+        <plentry>
+          <pt>Target language</pt>
+          <pd>Select the language into which the documents are to be translated.</pd>
+        </plentry>
+        <plentry>
+          <pt>Markup</pt>
+          <pd>Select a markup table name from the available names in the box.</pd>
+        </plentry>
+        <plentry>
+          <pt>Editor</pt>
+          <pd>Select an editor from the available names in the box.</pd>
+        </plentry>
+        <plentry>
+          <pt>Conversion</pt>
+          <pd>Select a conversion from the box that is to be used for all documents in this
+            folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Dictionaries to be searched</pt>
+          <pd>The selected search dictionaries are shown in the list box. The order in which you
+            select the dictionaries determines the order in which they are searched. You can select
+            up to 10 dictionaries. To select or deselect dictionaries press the <b>Select...</b>
+            button which will open the dictionary selection window. <p>You can also deselect
+              dictionaries by double-clicking the dictionary name.</p></pd>
+        </plentry>
+        <plentry>
+          <pt><keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be searched</pt>
+          <pd>The selected search Translation Memory databases are shown in the list box. The order
+            in which you select the Translation Memory databases determines the order in which they
+            are searched. You can select up to four Translation Memory databases. To select or
+            deselect Translation Memory databases press the <b>Select...</b> button which will open
+            the Translation Memory selection window. <p>You can also deselect Translation Memory
+              databases by double-clicking the Translation Memory name.</p></pd>
+        </plentry>
+        <plentry id="stopsearchatfirstmemorywithexactmatchii">
+          <pt>Stop search at first memory with exact match</pt>
+          <pd>Select this option if the search for memory segments should stop at the first memory
+            containing an exact match. This avoids duplicate exact matches from subsequent
+            Translation Memory databases in the list. Without this option <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> will extract matches from all
+            selected Translation Memory databases.</pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Admin</q> page: <parml>
+          <plentry><pt>Controlled folder handling</pt>
+            <pd>Select this option if you are the project coordinator responsible for this folder.
+              Clicking this option enables you to fill in all fields on this page and the <q>Project
+                Info</q> page. For more information on this option, refer to <xref
+                href="folovr.dita#folovr/cfh">Controlled folder handling</xref>.</pd></plentry>
+          <plentry><pt>Password</pt>
+            <pd>Type a password of up to five alphanumeric characters. This password protects your
+              folder from being changed by unauthorized people on the <q>Folder Properties</q>
+              window.</pd></plentry>
+          <plentry><pt>Project coordinator</pt>
+            <pd>Specify your name and e-mail address in the appropriate fields.</pd></plentry>
+          <plentry><pt>Originator</pt>
+            <pd>Remains empty until this folder has been exported for the first time. After an
+              export it contains the name and the e-mail address of the person who last exported
+              it.</pd></plentry>
+          <plentry><pt>Translator</pt>
+            <pd>Specify the name and the e-mail address of the person receiving the folder next.
+              This can be a vendor or the actual translator.</pd></plentry>
+        </parml></p>
+      <p>The <q>Project Info</q> page enables you to specify all necessary information about the
+        project reflected by this folder. Always specify a shipment number to ensure that you always
+        get a correct Calculating, Preanalysis, or Redundancy Report (see <xref
+          href="createreports.dita#createreports"/>). If you specify the shipment number at a later
+        point of time using the <q>Folder Properties</q> window, any documents that the folder then
+        contains need to be exported and imported again to guarantee a correct report.</p>
+      <p>Click <b>Create</b> to create the new folder. Click <b>Cancel</b> to leave this window
+        without creating a new folder.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you clicked on <b>Create</b>, the folder is created, an empty <q>Document List</q>
+        window is displayed, and the folder can be filled with documents.</p>
+      <p>If you entered a new <keyword conref="common-symbols.dita#common-symbols/xlmem"/> name as a
+        folder property, you are prompted with the <q>New <keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/></q> window, to specify some more
+        parameters.</p>
+    </section>
+  </refbody>
+</reference>

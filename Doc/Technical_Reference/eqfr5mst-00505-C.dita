@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00505-C" rev="GF_03042017">
+  <title>EqfListMem</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfListMem</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfListMem</indexterm></indexterm>
+      <p><i>EqfListMem</i> generates a list of all names of all available 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/> databases.</p>
+    </section>
+
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfListMem</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszBuffer</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>
+          <var>plLength</var>
+          <sep>,</sep>
+        </groupseq>  
+      </syntaxdiagram>
+    </refsyn>
+
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszBuffer</entry>
+              <entry colname="col3">Pointer to a buffer receiving the comma separated list of 
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> names, or NULL if the required length 
+                of the buffer is requested.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PLONG</entry>
+              <entry colname="col2">plLength</entry>
+              <entry colname="col3">Pointer to a variable containing the size of the pszBufferArea, on return this 
+                variable is filled with the length of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> 
+                name list or, if pszBuffer is NULL, with the required size for the buffer.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph>Error code (EQF message number). Use <i>EqfGetLastError</i> (see <ph>page 
+                    <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></ph>) to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <example>
+      <title>Code sample</title>
+<codeblock> 
+{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+  PSZ pszBuffer = NULL;
+  LONG lSize = 0;
+  
+  // start the Eqf calling interface session 
+  usRC = EqfStartSession( &amp;hSession );
+  
+  // get the required length for the memory name buffer 
+  if ( !usRC ) 
+  {
+    usRC = EqfListMem( hSession, pszBuffer, &amp;lSize );
+  } /* endif */
+  
+  // allocate a buffer for the memory names
+  if ( !usRC ) 
+  {
+    pszBuffer = new char[lSize];
+  } /* endif */
+  
+  // get the list of the memory names
+  if ( !usRC ) 
+  {
+    usRC = EqfListMem( hSession, pszBuffer, &amp;lSize );
+  } /* endif */
+  
+  if ( pszBuffer != NULL ) delete pszBuffer;
+  
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+  
+</codeblock>
+    </example>
+  </refbody>
+</reference>

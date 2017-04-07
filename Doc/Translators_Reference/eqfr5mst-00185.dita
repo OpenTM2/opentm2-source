@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00185">
+<title>Translating a document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>translating<indexterm>documents</indexterm></indexterm><indexterm>document<indexterm>translating</indexterm></indexterm>
+<p>To prepare the translation of documents you can generate terminology
+lists, for example, to add new terms to a dictionary or generate a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from
+previous translations.</p>
+<p>To translate the documents, the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> offers common editor functions
+and specific functions for translation, such as dictionary lookup
+and copying translation proposals. Using these functions helps you
+translate documents more efficiently.</p>
+<p>When you translate several documents on the same subject, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> used
+will grow, and the number of translation proposals will increase.</p>
+</section>
+<section><title>Prerequisites</title>
+<ul>
+<li>The document must have been imported.</li>
+<li>To begin translating a document, it must be opened.</li>
+</ul>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The document to be translated from the <q>Document List</q> window</li>
+<li><b>Open</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>The <keyword conref="common-symbols.dita#common-symbols/xlenv"/> is displayed. It consists of a number of windows. The
+selected document is shown in the <q>Translation</q> window. If the
+document you selected has already been partially translated, the cursor
+is positioned on the first untranslated segment and you can continue
+there.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>For information on how to use the editor functions, see <xref href="eqfr5mst-00071.dita#eqfr5mst-00071"/>. </p>
+</section>
+<section><title>Results</title>
+<p>You can choose the sequence in which you translate documents. You
+can also translate parts of a document at a time and continue later
+until the documents are completely translated. If needed, you can
+export partially translated documents and give them to other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users
+who can continue the translation.</p>
+<p>When you have completed the translation of the segments of a document, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically
+switches to the postediting mode where you can review the translation
+and check the spelling. The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> you used contains all segments
+and their translations and can be used for documents containing similar
+texts. You can postedit it whenever a translation needs to be modified.</p>
+</section></refbody></reference>

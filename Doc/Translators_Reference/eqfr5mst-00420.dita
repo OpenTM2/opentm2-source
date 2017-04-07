@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00420">
+<title><!--rev=wst-->Pre-requisites</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>Pre-requisites</indexterm>
+<p>For sending the MT jobs using MQSeries, the MQSeries Client software
+must have been installed locally.</p>
+</section></refbody></reference>

@@ -71,6 +71,7 @@ XERCES_CPP_NAMESPACE_USE;
 #define KEY_FUNC_NAME                                           "FuncName"
 #define KEY_UCODE                                               "UCode"
 #define KEY_USTATE                                              "UState"
+#define KEY_EDITOR                                              "ValidEditor"
 
 // key for position
 #define KEY_POS_CX                                              "cx"

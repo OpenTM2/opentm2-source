@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="spladd">
+<title>Editing the spellcheck addendum</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>spellchecking<indexterm>addendum terms, editing</indexterm></indexterm>
+<p>You can add terms which have been indicated as misspelled by the
+spellcheck facility (although spelled correctly) to an addendum for
+the language-support file of the current target language. During the
+next spellcheck, terms of this addendum are considered to be correct.
+You can modify this addendum at any time, for example, to remove terms
+that have been added by mistake. </p>
+</section>
+<section><title>Prerequisites</title>
+<p>The document must be translated, and you must be in the Translation
+Environment. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select <b>Edit addendum terms...</b> from the <b>Spellcheck</b> menu.</p>
+<p>The <q>Edit Addendum Terms</q> window is displayed.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>The terms in the addendum can be modified as follows:
+<ul>
+<li>To change a term, overtype it.</li>
+<li>To add a term, press Enter, and type the new term.</li>
+<li>To remove a term, mark it and press Enter.</li>
+</ul></p>
+<p>Clipboard operations (cut, copy, paste) are supported.</p>
+<p>To save your changes, select <b>Save</b>.</p>
+<p>To leave the window without saving your changes, select <b>Cancel</b>. </p>
+</section>
+<section><title>Results</title>
+<p>The corrections you made are saved and taken into account during
+subsequent spellchecks.</p>
+</section></refbody></reference>

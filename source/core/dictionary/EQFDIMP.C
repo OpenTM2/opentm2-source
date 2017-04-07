@@ -82,7 +82,7 @@ static BOOL SaveString( PDIMPIDA, PSZ_W * , USHORT );
 static BOOL CheckForEnd( PDIMPIDA, PTOKENENTRY, SHORT );
 static BOOL FillMapTable( PDIMPIDA, PSZ_W , SHORT, SHORT,
                           USHORT, USHORT, BOOL, BOOL, USHORT );
-static BOOL FillEntry( PDIMPIDA, PSZ_W , SHORT, SHORT );
+static BOOL FillEntry( PDIMPIDA, PSZ_W , SHORT, SHORT, PTOKENENTRY );
 static HFILE DimpOpenFile ( PDIMPIDA, PSZ, PULONG );
 static BOOL IDMatch( PDIMPIDA, PTOKENENTRY *, PSZ_W *, PUSHORT  );
 static PPROPDICTIONARY FillProfile( PDIMPIDA );
@@ -3452,7 +3452,7 @@ BOOL DimpEntry ( PDIMPIDA pDimpIda, SHORT sToken, PTOKENENTRY *ppToken )
 
         if ( fOK && pDummy )
         {
-          fOK = FillEntry( pDimpIda, pDummy, sToken, (SHORT) usI );
+          fOK = FillEntry( pDimpIda, pDummy, sToken, (SHORT) usI, *ppToken );
         } /* endif */
         pToken--;                    //token pos is updated at ent of loop so back one here
       } /* endif */
@@ -3482,7 +3482,7 @@ BOOL DimpEntry ( PDIMPIDA pDimpIda, SHORT sToken, PTOKENENTRY *ppToken )
 
         if ( fOK && pDummy )
         {
-          fOK = FillEntry( pDimpIda, pDummy, sToken, SYSFIELD );
+          fOK = FillEntry( pDimpIda, pDummy, sToken, SYSFIELD, *ppToken );
           UTF16strncpy ( pDimpIda->ucTermBuf, pDummy, MAX_TERM_LEN - 1);
           UTF16strcpy( pDimpIda->ucErrorTerm, pDimpIda->ucTermBuf );
         }
@@ -3511,7 +3511,7 @@ BOOL DimpEntry ( PDIMPIDA pDimpIda, SHORT sToken, PTOKENENTRY *ppToken )
           fOK = TextMatch( pDimpIda, &pToken, &pDummy );
 
           if ( fOK && pDummy )
-            fOK = FillEntry( pDimpIda, pDummy, sToken, SYSFIELD );
+            fOK = FillEntry( pDimpIda, pDummy, sToken, SYSFIELD, *ppToken );
         } /* endif */
       }
       else
@@ -4580,7 +4580,8 @@ static
 BOOL FillEntry( PDIMPIDA pDimpIda,      // pointer to dictionary import
                 PSZ_W    pDummyW,        // passed string
                 SHORT    sToken,        // token value
-                SHORT    sId )          // value of the attribute id=
+                SHORT    sId,           // value of the attribute id=
+                PTOKENENTRY pToken)     // field start token (only used for any error message)
 {
   PMAPENTRY   pMapEntry;              // pointer to map entry
   BOOL        fOK = TRUE;             // success indicator
@@ -4621,7 +4622,7 @@ BOOL FillEntry( PDIMPIDA pDimpIda,      // pointer to dictionary import
   }
   else
   {
-    if ( !pDimpIda->fNoError && !pDimpIda->fMerge )
+    if ( !pDimpIda->fIgnoreFieldNotInDictError && !pDimpIda->fNoError && !pDimpIda->fMerge )
     {
       if ( ISBATCHHWND(pDimpIda->HWNDImpCmd) )
       {
@@ -4629,20 +4630,38 @@ BOOL FillEntry( PDIMPIDA pDimpIda,      // pointer to dictionary import
       }
       else
       {
-        usResult = UtlErrorW( ERROR_DIMP_NOTINMAP,
-                             MB_YESNO, 1, &pDummyW, EQF_QUERY, TRUE);
-        fOK = ( usResult == MBID_YES );
+        wcsncpy( pDimpIda->szErrorMsgParm, pToken->pDataStringW, pToken->usLength );
+        pDimpIda->szErrorMsgParm[pToken->usLength] = 0;
+
+        if ( sId != SYSFIELD )
+        {
+          swprintf( pDimpIda->szErrorMsgParm + wcslen(pDimpIda->szErrorMsgParm), L" id=%d", sId );
+        }
+
+        PSZ_W pszParms[2];
+        pszParms[0] = ( pDimpIda->szErrorMsgParm[0] == L'<' ) ? pDimpIda->szErrorMsgParm + 1 : pDimpIda->szErrorMsgParm;
+        pszParms[1] = pDummyW;
+
+        usResult = UtlErrorW( ERROR_DIMP_NOTINMAP, MB_EQF_YESTOALL, 2, pszParms, EQF_QUERY, TRUE );
+
+        if ( usResult == MBID_EQF_YESTOALL )
+        {
+          pDimpIda->fIgnoreFieldNotInDictError = TRUE;
+          fOK = TRUE;
+        }
+        else if ( usResult == MBID_YES )
+        {
+          fOK = TRUE;
+        }
+        else
+        {
+          fOK = FALSE;
+        }
 
         if ( !fOK )
         {
           pDimpIda->fStop = TRUE;     //stop dimpwork loop
           pDimpIda->fNotOk = TRUE;    //delete all dict files in cleanup
-        }
-        else
-        {
-          //msg that inconsistancy between maptable and actual entry
-          //exists is to appaer only once
-          pDimpIda->fNoError = TRUE;
         } /* endif */
       } /* endif */
     }
@@ -6889,6 +6908,9 @@ DimpReadtoUnicode
                                                (long)pDimpIda->ulUsedInConv,
                                                (int)FALSE, &lRc, &lBytesLeft ) ;
               *(pDimpIda->pConvBuffer + pDimpIda->ulUsedInConv)= EOS;
+              if ( lRc != NO_ERROR ) {
+                 usRc = ERROR_DIMP_UTF8WRONG ; 
+              }
 
             }
             pDimpIda->ulUsed = (ulFilled + (ulConverted * sizeof(CHAR_W))); // # of bytes in InputFileBlock

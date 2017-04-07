@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00457">
+  <title>EqfArchiveTM</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfArchiveTM</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfArchiveTM</indexterm></indexterm>
+      <p><i>EqfArchiveTM </i>builds an Archive Translation Memory from an existing
+        Translation Memory. At least one segment of at least one document you want to archive must
+        have been translated (when SOURCESOURCEMEM_OPT option is not specified).</p>
+      <p>The SOURCESOURCEMEM_OPT option can be used to create a source-source Translation Memory. If
+        the option is specified all translatable segments of the document are written to the
+        specified Translation Memory. Without the option only segments already translated are
+        processed.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfArchiveTM</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq importance="required">
+          <groupchoice importance="required">
+            <kwd>'/0'</kwd>
+            <var>chTargetDrive</var>
+          </groupchoice>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq importance="required">
+          <groupchoice importance="required">
+            <kwd>NULL</kwd>
+            <groupseq importance="required">
+              <repsep>,</repsep>
+              <var>pszDocuments</var>
+            </groupseq>
+          </groupchoice>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszMemName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupchoice importance="optional">
+            <kwd>OVERWRITE_OPT</kwd>
+            <kwd>SOURCESOURCEMEM_OPT</kwd>
+            <kwd>SETMFLAG_OPT</kwd>
+            <kwd>USEASFOLDERTM_OPT</kwd>
+          </groupchoice>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CHAR</entry>
+              <entry colname="col2">chTargetDrive</entry>
+              <entry colname="col3">The target drive where the folder is located, or
+                  <codeph>'/0'</codeph> if it is the drive where the <codeph>eqf</codeph> directory is located.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocuments</entry>
+              <entry colname="col3">List of the documents that are searched for translated segments to be included in the 
+                Translation Memory, or <codeph>NULL</codeph> to search in all documents of the folder.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemName</entry>
+              <entry colname="col3">The name of an existing Translation Memory.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options used for the Archive Translation Memory: <ul>
+                  <li>OVERWRITE_OPT (overwrites the contents of an existing Translation Memory)</li>
+                  <li>USEASFOLDERTM_OPT (uses the Translation Memory as the new folder Translation Memory)</li>
+                  <li> SOURCESOURCEMEM_OPT (creates a source-source Translation Memory containing
+                    all translatable segments of the document)</li>
+                  <li> SETMFLAG_OPT (sets the machine translation flag of the segments written to the Translation Memory)</li>
+                </ul></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry valign="middle">CONTINUE_RC</entry>
+              <entry valign="middle">The Archive Translation Memory has not completed yet. Call <i>EqfArchiveTM</i> again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  // Build Archive Translation Memory "MEM1" for the folder 
+  // "TEST" (including document "test.txt")
+  if ( !usRC )
+  {
+    do
+    {
+          usRC = EqfArchiveTM(hSession, "TEST",'i', 
+                                        "test.txt", 
+                                        "MEM1", 
+                                         OVERWRITE_OPT|USEASFOLDERTM_OPT);
+     } while ( usRC == CONTINUE_RC );
+  } //endif
+
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

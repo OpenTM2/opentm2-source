@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00194" rev="GF_06052015_2">
+  <title>Step by step description to preview a XML document</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>XML Preview<indexterm>Style Sheet *.XSL</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <ol>
+        <li>Import and analyze the XML document.</li>
+        <li>Open the XML document in the translation editor.</li>
+        <li>Either click on <b>"Translate"</b> - <b>"Show Translation"</b> or click on the preview-icon in the icon list.</li>
+        <li>The window <b>"Select Preview Options"</b> opens. 
+          <fig id="xslselection" expanse="column">
+            <title>Select XSLT-stylesheet document from <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Folder window</title>
+            <image placement="break" href="xslselection.gif">
+              <alt>Figure shows select XSLT-stylesheet document from <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Folder window</alt>
+            </image>
+          </fig>
+        </li>
+        <li>If <b>no</b> XSLT processing is required: 
+          <ul>
+            <li>From <b>"Preview format"</b> select "No XSL processing".</li>
+            <li>Click on <b>"OK"</b> and the preview window opens. Only translatable segments are shown, preceeded by the segment number.</li>
+          </ul>
+        </li>
+        <li>If the XSLT-Sytslesheet document <b>is</b> part of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder: 
+          <ul>
+            <li>From <b>"Preview format"</b> select "XSL file (<keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder)".</li>
+            <li>From <b>"OTM folder"</b> select the folder that contains the XSLT-Stylesheet.</li>
+            <li>From <b>"Select XSL document"</b> select the XSL document which is required to preview the XML document.</li>
+            <li>Optionally select a directory where additional files are stored on. This can be
+              graphics, include files etc. Click on button <b>"Browse..."</b> and select the
+              appropriate directory in order to fill in the path-information to entry field
+              <b>"Misc. Files"</b> or manually type the path to the additional files.</li>
+            <li>Click on <b>"OK"</b> and the preview window opens.</li>
+          </ul>
+        </li>
+        <li>If the XSLT-Sytslesheet document is located in any directory on your hard disk drive: 
+          <ul>
+            <li>From <b>"Preview format"</b> select "XSL file (Non-<keyword conref="common-symbols.dita#common-symbols/tm4w"/> directory)".</li>
+            <li>Click on button <b>"OK"</b> and the dialog "Select XSL file" opens.</li>
+            <li>Navigate to the directory which contains the XSL file to be used, select it and click on button "Open".</li>
+            <li>The window "Translation Preview" opens.</li>
+          </ul>
+        </li>
+        <li>If no XSLT-Sytslesheet document should be used: 
+          <ul>
+            <li>From <b>"Preview format"</b> select "Standard XML".</li>
+            <li>Click on <b>"OK"</b> and the preview window opens. It lists all segments line by line. 
+                Each line starts with the segment number, followed by the segment itself. If a segment was selected in the 
+                translation editor, then this segment is highlighted.</li>
+          </ul>
+        </li>
+      </ol>
+      <fig id="xslpreview" expanse="column">
+        <title>Translation Preview window</title>
+        <image placement="break" href="xslpreview.gif">
+          <alt>Figure shows Translation Preview window</alt>
+        </image>
+      </fig>
+    </p>
+  </body>
+</topic>

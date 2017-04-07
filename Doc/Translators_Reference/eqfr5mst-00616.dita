@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00616">
+  <title>MT Client Interface via MQ Series -</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>MT Client Interface via MQ Series -</indexterm>
+        <indexterm>MT Client Interface via MQ Series -</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <b>Overview</b>
+    </p>
+    <p>The interface between <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and the MT
+      server code has been capsulated in the dynamic link library EQFMTMQS. This DLL handles all
+      pre-processing and packing required for the MT translation.server. The DLL should be loaded
+      dynamically as the DLL requires a MQ series client. The load will fail if MQ Series client
+      hasn't been installed. The following entry points are available:</p>
+    <p>
+      <ul>
+        <li>MT_INIT to initialize internal data. This function must have been called before using
+          any other function of this DLL</li>
+        <li>MT_TERMINATE to terminate the processing and close any open communication channels and
+          queues</li>
+        <li>MT_SEND_FILE to prepare and send a SNOMATCH file to the MT server</li>
+        <li>MT_GET_STATUS to get the state of a specific MT translation job submitted using
+          MT_SEND_FILE</li>
+        <li>MT_RECEIVE_FILE to receive the translated SNOMATCH file and convert it back into the
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format</li>
+        <li>MT_DELETE_JOB to delete a job submitted using MT_SEND_FILE. Delete will fail if the
+          translation of the job has already started.</li>
+      </ul>
+    </p>
+    <p>The pre-processing of inline tags is performed in the separate dynamic link library
+      EQF2WTS.DLL. The entry points of DLL and the description of the inline tag pre-processing is
+      contained in the documentation R007498-EQF2WTS.HTM.</p>
+    <p>The processing of the functions is synchron; i.e. the function returns once the requested
+      task has been completed. If the functions are called from a GUI which requires constant
+      message processing the functions should be called from a separate processing thread (This is
+      the way it has been implemented <keyword conref="common-symbols.dita#common-symbols/tm4w"
+      />).</p>
+    <p>
+      <b>Function Reference</b>
+    </p>
+    <p>
+      <b>Function MT_INIT</b>
+    </p>
+    <p>
+      <b>Purpose</b>
+    </p>
+    <p>Initializes all internal data and prepares the communication with MQ Series.</p>
+    <p>
+      <b>Format</b>
+    </p>
+    <p>fOK = MT_INIT( pMTPass );</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="3">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <colspec colname="col3"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Type</b>
+              </entry>
+              <entry colname="col2">
+                <b>Parameter</b>
+              </entry>
+              <entry colname="col3">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PMTPASS</entry>
+              <entry colname="col2">pMTPass</entry>
+              <entry colname="col3">Pointer to a MT Pass structure Currently the MTPASS structure is
+                not used by this function</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Return code</b>
+    </p>
+    <p>USHORT</p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="2">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">1 (TRUE)</entry>
+              <entry colname="col2">The function completed successfully. </entry>
+            </row>
+            <row>
+              <entry colname="col1">0 (FALSE)</entry>
+              <entry colname="col2">The function failed</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Function MT_TERMINATE</b>
+    </p>
+    <p>
+      <b>Purpose</b>
+    </p>
+    <p>Closes all open communication channels and queues. This function must be called at the end of
+      the MT processing.</p>
+    <p>
+      <b>Format</b>
+    </p>
+    <p>fOK = MT_TERMINATE( pMTPass );</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="3">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <colspec colname="col3"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Type</b>
+              </entry>
+              <entry colname="col2">
+                <b>Parameter</b>
+              </entry>
+              <entry colname="col3">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PMTPASS</entry>
+              <entry colname="col2">pMTPass</entry>
+              <entry colname="col3">Pointer to a MT Pass structure Currently the MTPASS structure is
+                not used by this function</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Return code</b>
+    </p>
+    <p>USHORT</p>
+    <p>
+      <table frame="all">
+        <title/>
+        <tgroup cols="2">
+          <colspec colname="col1" colwidth="1*"/>
+          <colspec colname="col2" colwidth="1*"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">1 (TRUE)</entry>
+              <entry colname="col2">The function completed successfully. </entry>
+            </row>
+            <row>
+              <entry colname="col1">0 (FALSE)</entry>
+              <entry colname="col2">The function failed</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Function MT_SEND_FILE</b>
+    </p>
+    <p>
+      <b>Purpose</b>
+    </p>
+    <p>Prepares and sends a SNOMATCH file (a file containing untranslated segments) to the MT
+      server. In the preparation step the inline tagging in the segments is preprocessed or masked,
+      the meta data file is created and both files are packed into a ZIP archive. For the inline tag
+      preprocessing the functions in the DLL EQF2WTS is required (this DLL also requires the
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> standard DLLs). The ZIP archive
+      is send to the MT server using MQ Series. The returned message ID is required to check the job
+      state using MT_GET_STATUS and to receive the translated segments using MT_RECEIVE_FILE.</p>
+    <p>
+      <b>Format</b>
+    </p>
+    <p>fOK = MT_SEND_FILE( pMTPass, pszDocumentName, pSourceLang, pTargetLang, pszMTId, pszProfile,
+      pszMTError );</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="3">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <colspec colname="col3"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Type</b>
+              </entry>
+              <entry colname="col2">
+                <b>Parameter</b>
+              </entry>
+              <entry colname="col3">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PMTPASS</entry>
+              <entry colname="col2">pMTPass</entry>
+              <entry colname="col3">Pointer to a MT Pass structure The following fields have to be
+                filled: <ul>
+                  <li>chServer (with the name of the MQ server) </li>
+                  <li>chQueueMgr (with the name of the queue manager) </li>
+                  <li>chServerInQueue (with the name of the input queue) </li>
+                  <li> chTEMP1 (with the folder name); </li>
+                  <li>chSourceLang (with the segment source language); </li>
+                  <li>chTargetLang (with the target language for the translation); </li>
+                  <li>chSUBJAREA (with a comma delimited list of subject areas)</li>
+                  <li>chSUBJAREA (with a comma delimited list of subject areas) </li>
+                  <li>chZipFile (with the fully qualified path name of the ZIP archive to be used)
+                  </li>
+                </ul>The following fields are filled by MT_SEND_FILE: <ul>
+                  <li>lCommStatus (contains error code if communication fails)</li>
+                  <li>chMESSAGEID (is filled with the message ID from MQ Series for this job) </li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocumentName</entry>
+              <entry colname="col3">Fully qualified file name of the SNOMATCH file</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocumentName</entry>
+              <entry colname="col3">Fully qualified file name of the SNOMATCH file</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszSourceLang</entry>
+              <entry colname="col3">Obsolete, chSourceLang of MTPASS is used instead</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTargetLang</entry>
+              <entry colname="col3">Obsolete, chTargetLang of MTPAS is used instead</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTID</entry>
+              <entry colname="col3">Obsolete, chMESSAGEID of MTPASS is used instead.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTError</entry>
+              <entry colname="col3">Pointer to a buffer receiving the text of an error message in
+                case of failures. The buffer should have a size of 100 bytes.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Return code </b>
+    </p>
+    <p>USHORT </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="2">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">1 (TRUE) </entry>
+              <entry colname="col2">The function completed successfully</entry>
+            </row>
+            <row>
+              <entry colname="col1">0 (FALSE) </entry>
+              <entry colname="col2">The function failed, pszMTError contains an error message
+                text</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Function MT_GET_STATUS</b>
+    </p>
+    <p>
+      <b>Purpose </b>
+    </p>
+    <p>Checks for status messages of the current job in the output queue. If there are status
+      messages the function receives all available status message of the job before returning. The
+      fStateAvailable flag in the MTPASS structure is set to TRUE once a server state is available
+      even if the function has not been completed because there are more state messages to receive.
+      If there are no new state messages for the given job, The return code is TRUE and the
+      fStateAvailable flag is FALSE: </p>
+    <p>
+      <b>Format </b>
+    </p>
+    <p>fOK = MT_GET_STATUS( pMTPass, pszMTID, pszMTError,plJobStatus, pusComplete ); </p>
+    <p>
+      <b>Parameters </b>
+    </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="3">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <colspec colname="col3"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Type</b>
+              </entry>
+              <entry colname="col2">
+                <b>Parameter</b>
+              </entry>
+              <entry colname="col3">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PMTPASS</entry>
+              <entry colname="col2">pMTPass</entry>
+              <entry colname="col3">Pointer to a MT Pass structure The following fields have to be
+                filled: <ul>
+                  <li>chServer (with the name of the MQ server)</li>
+                  <li>chQueueMgr (with the name of the queue manager)</li>
+                  <li>chServerOutQueue (with the name of the output queue)</li>
+                  <li>chMESSAGEID (with the MQ message id returned by MT_SEND_FILE)</li>
+                </ul>The following fields are filled by MT_GET_STATUS: <ul>
+                  <li>lCommStatus (contains error code if communication fails)</li>
+                  <li>fStateAvailable (TRUE if a state message text is available in pszMTError)</li>
+                </ul></entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTID</entry>
+              <entry colname="col3">Currently not in use . The chMESSAGEID field of the MTPASS
+                structure is used for this purpose.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTError</entry>
+              <entry colname="col3">Pointer to a buffer receiving the text of an error message in
+                case of failures or the new job state text if available. The buffer should have a
+                size of 100 bytes.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PLONG</entry>
+              <entry colname="col2">plJobState</entry>
+              <entry colname="col3">Pointer to a LONG variable receiving the state of the job <ul>
+                  <li>currently this parameter is not used</li>
+                </ul></entry>
+            </row>
+            <row>
+              <entry colname="col1">PUSHORT</entry>
+              <entry colname="col2">pusComplete</entry>
+              <entry colname="col3">Pointer to an USHORT buffer receiving the job completion state:
+                TRUE = job (translation) has been completed and can be received from the server
+                FALSE = job is not yet complete</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Return code </b>
+    </p>
+    <p>USHORT </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="2">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">1 (TRUE) </entry>
+              <entry colname="col2">The function completed successfully. </entry>
+            </row>
+            <row>
+              <entry colname="col1">0 (FALSE) </entry>
+              <entry colname="col2">The function failed, pszMTError contains an error message
+                text</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Function MT_RECEIVE_FILE</b>
+    </p>
+    <p>
+      <b>Purpose</b>
+    </p>
+    <p>Receives the translation from the MT server, unpacks the translated SNOMATCH file and
+      restores any inline tags which have been pre-processed or masked in during the processing in
+      the MT_SEND_FILE function. </p>
+    <p>
+      <b>Format</b>
+    </p>
+    <p> fOK = MT_RECEIVE_FILE( pMTPass, pszMTId, pszDocument, pszMTError </p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="3">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <colspec colname="col3"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Type</b>
+              </entry>
+              <entry colname="col2">
+                <b>Parameter</b>
+              </entry>
+              <entry colname="col3">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PMTPASS</entry>
+              <entry colname="col2">pMTPass</entry>
+              <entry colname="col3">Pointer to a MT Pass structure The following fields have to be
+                filled: <ul>
+                  <li>chServer (with the name of the MQ server)</li>
+                  <li>chQueueMgr (with the name of the queue manager)</li>
+                  <li>chServerOutQueue (with the name of the output queue)</li>
+                  <li>chMESSAGEID (with the MQ message id returned by </li>
+                </ul>MT_SEND_FILE) <ul>
+                  <li>chZipFile (with the fully qualified path name of the ZIP archive to be
+                    used)</li>
+                </ul>The following fields are filled by MT_RECEIVE_FILE: <ul>
+                  <li>lCommStatus (contains error code if communication fails)</li>
+                </ul></entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTId</entry>
+              <entry colname="col3">Obsolete – chMessageID of MTPASS is used instead</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocument</entry>
+              <entry colname="col3">Fully qualified file name of the target SNOMATCH file.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTError</entry>
+              <entry colname="col3">Pointer to a buffer receiving the text of an error message in
+                case of failures. The buffer should have a size of 100 bytes.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Return code </b>
+    </p>
+    <p>USHORT </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="2">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">1 (TRUE) </entry>
+              <entry colname="col2">The function completed successfully. </entry>
+            </row>
+            <row>
+              <entry colname="col1">0 (FALSE) </entry>
+              <entry colname="col2">The function failed, pszMTError contains an error message
+                text</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Function MT_DELETE_JOB</b>
+    </p>
+    <p>
+      <b>Purpose</b>
+    </p>
+    <p>Tries to delete a MT translation job send to the MT server using MT_SEND_FILE. The job cannot
+      be deleted anymore once the translation has been stated. </p>
+    <p>
+      <b>Format</b>
+    </p>
+    <p>fOK = MT_DELETE_JOB( pMTPass, pszMTJobId, pszMTError ); </p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="3">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <colspec colname="col3"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Parameter</b>
+              </entry>
+              <entry colname="col3">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PMTPASS</entry>
+              <entry colname="col2">pMTPass</entry>
+              <entry colname="col3">Pointer to a MT Pass structure The following fields have to be
+                filled: <ul>
+                  <li>chServer (with the name of the MQ server)</li>
+                  <li>chQueueMgr (with the name of the queue manager)</li>
+                  <li>chServerOutQueue (with the name of the output queue)</li>
+                  <li>chMESSAGEID (with the MQ message id returned by MT_SEND_FILE)</li>
+                </ul></entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTJobId</entry>
+              <entry colname="col3">Obsolete – chMessageID of MTPASS is used instead</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTError</entry>
+              <entry colname="col3">Pointer to a buffer receiving the text of an error message in
+                case of failures. The buffer should have a size of 100 bytes.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+    <p>
+      <b>Return Code</b>
+    </p>
+    <p>USHORT</p>
+    <p>
+      <table>
+        <title/>
+        <tgroup cols="2">
+          <colspec colname="col1"/>
+          <colspec colname="col2"/>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <b>Value</b>
+              </entry>
+              <entry colname="col2">
+                <b>Description</b>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">1 (TRUE) </entry>
+              <entry colname="col2">The function completed successfully. </entry>
+            </row>
+            <row>
+              <entry colname="col1">0 (FALSE) </entry>
+              <entry colname="col2">The function failed, pszMTError contains an error message
+                text</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </p>
+  </body>
+</topic>

@@ -1,7 +1,7 @@
 /*! \file
 	Copyright Notice:
 
-	Copyright (C) 1990-2016, International Business Machines
+	Copyright (C) 1990-2017, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -15,6 +15,10 @@
 #include "core\PluginManager\OtmSharedMemoryPlugin.h"
 #include "core\PluginManager\OtmMemory.h"
 #include "core\utilities\LogWriter.h"
+extern "C"
+{
+#include <OTMFUNC.H>               // header file of OpenTM2 API functions
+}
 
 class __declspec(dllexport) MemoryFactory
 /*! \brief   This class provides factory methods for OtmMemory objects 
@@ -593,11 +597,128 @@ int removeMemoryFromList(PSZ pszName);
     \param pszReplaceWith name of the memory replacing the pszReplace memory
 	  returns 0 if successful or error return code
   */
-  int MemoryFactory::replaceMemory
+  int replaceMemory
   (
     char *pszPluginName,
     char *pszReplace,
     char *pszReplaceWith
+  );
+
+
+  /*! \brief process the API call: EqfImportMemInInternalFormat and import a memory using the internal memory files
+    \param pszMemory name of the memory being imported
+    \param pszMemoryPackage name of a ZIP archive containing the memory files
+    \param lOptions options for searching fuzzy segments
+           - OVERWRITE_OPT overwrite any existing memory with the given name
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APIImportMemInInternalFormat
+  (
+    PSZ         pszMemoryName,
+    PSZ         pszMemoryPackage,
+    LONG        lOptions 
+  );
+
+  /*! \brief process the API call: EqfExportMemInInternalFormat and export a memory to a ZIP package
+    \param pszMemory name of the memory being exported
+    \param pszMemoryPackage name of a new ZIP archive receiving the memory files
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APIExportMemInInternalFormat
+  (
+    PSZ         pszMemoryName,
+    PSZ         pszMemoryPackage,
+    LONG        lOptions 
+  );
+
+  /*! \brief process the API call: EqfOpenMem and open the specified translation memory
+    \param pszMemory name of the memory being opened
+    \param plHandle buffer to a long value receiving the handle of the opened memory or -1 in case of failures
+    \param lOptions processing options 
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APIOpenMem
+  (
+    PSZ         pszMemoryName, 
+    LONG        *plHandle,
+    LONG        lOptions 
+  );
+
+  /*! \brief process the API call: EqfCloseMem and close the translation memory referred by the handle
+    \param lHandle handle of a previously opened memory
+    \param lOptions processing options 
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APICloseMem
+  (
+    LONG        lHandle,
+    LONG        lOptions 
+  );
+
+
+  /*! \brief process the API call: EqfQueryMem and lookup a segment in the memory
+    \param lHandle handle of a previously opened memory
+    \param pSearchKey pointer to a MemProposal structure containing the searched criteria
+    \param *piNumOfProsals pointer to the number of requested memory proposals, will be changed on return to the number of proposals found
+    \param pProposals pointer to a array of MemProposal structures receiving the search results
+    \param lOptions processing options 
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APIQueryMem
+  (
+    LONG        lHandle,          
+    PMEMPROPOSAL pSearchKey, 
+    int         *piNumOfProsals,
+    PMEMPROPOSAL pProposals, 
+    LONG        lOptions     
+  );
+
+
+  /*! \brief process the API call: EqfSearchMem and search the given text string in the memory
+    \param hSession the session handle returned by the EqfStartSession call
+    \param lHandle handle of a previously opened memory
+    \param pszSearchString pointer to the search string (in UTF-16 encoding)
+    \param pszStartPosition pointer to a buffer (min size = 20 charachters) containing the start position, on completion this buffer is filled with the next search position
+    \param pProposal pointer to an MemProposal structure receiving the next matching segment
+    \param lSearchTime max time in milliseconds to search for a matching proposal, 0 for no search time restriction
+    \param lOptions processing options
+       SEARCH_IN_SOURCE_OPT  search in source
+       SEARCH_IN_TARGET_OPT  search in target
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APISearchMem
+  (
+    LONG        lHandle,                 
+    __wchar_t  *pszSearchString,
+    PSZ         pszStartPosition,
+    PMEMPROPOSAL pProposal,
+    LONG        lSearchTime,
+    LONG        lOptions
+  );
+
+  /*! \brief process the API call: EqfUpdateMem and update a segment in the memory
+    \param lHandle handle of a previously opened memory
+    \param pNewProposal pointer to an MemProposal structure containing the segment data
+    \param lOptions processing options 
+    \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APIUpdateMem
+  (
+    LONG        lHandle, 
+    PMEMPROPOSAL pNewProposal,
+    LONG        lOptions
+  );
+
+  /*! \brief List the name of all memories
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszBuffer pointer to a buffer reiceiving the comma separated list of memory names or NULL to get the required length for the list
+  \param plLength pointer to a variable containing the size of the buffer area, on return the length of name list is stored in this variable
+  \returns 0 if successful or an error code in case of failures
+  */
+  USHORT APIListMem
+  (
+    PSZ         pszBuffer,
+    LONG        *plLength
   );
 
 private:
@@ -645,6 +766,113 @@ OtmSharedMemoryPlugin *getSharedMemoryPlugin( char *pszPlugin );
 */
 void MemoryFactory::refreshPluginList();
 
+/*! \brief get the index into the memory object table from a memory handle
+  \param lHandle handle of a previously opened memory
+  \returns index into the memory object table
+*/
+LONG getIndexFromHandle( LONG );
+
+/*! \brief get the checksum from a memory handle
+  \param lHandle handle of a previously opened memory
+  \returns checksum of the memory object
+*/
+LONG getCheckSumFromHandle
+(
+  LONG        lHandle
+);
+
+/*! \brief compute the checksum for a memory object
+  \param pMemory pointer to a memory object
+  \returns memory object checksum
+*/
+LONG computeMemoryObjectChecksum( OtmMemory *pMemory );
+
+/*! \brief convert a memory object and the index into the memory oject table to a memory handle
+  \param lIndex index into the memory object table
+  \param pMemory pointer to a memory object
+  \returns index into the memory object table
+*/
+LONG createHandle
+(
+  LONG        lIndex,
+  OtmMemory   *pMemory
+);
+
+/*! \brief compute the checksum for a memory object
+  \param lHandle handel referring to the memory object
+  \returns memory object pointer or NULL if the given handle is invalid
+*/
+OtmMemory *handleToMemoryObject
+(
+  LONG lHandle
+);
+
+
+/*! \brief search option flags
+*/
+#define SEARCH_SOURCE  1
+#define SEARCH_TARGET  2
+#define SEARCH_CASEINSENSITIVE 4
+#define SEARCH_WHITESPACETOLERANT 8
+
+/*! \brief search a string in a proposal
+  \param pProposal pointer to the proposal 
+  \param pszSearch pointer to the search string (when fIngoreCase is being used, this strign has to be in uppercase)
+  \param lSearchOptions combination of search options
+  \returns TRUE if the proposal contains the searched string otherwise FALSE is returned
+*/
+BOOL searchInProposal
+( 
+  OtmProposal *pProposal,
+  PSZ_W pszSearch,
+  LONG lSearchOptions
+);
+
+/*! \brief find the given string in the provided data
+  \param pszData pointer to the data being searched
+  \param pszSearch pointer to the search string
+  \returns TRUE if the data contains the searched string otherwise FALSE is returned
+*/
+BOOL findString
+( 
+  PSZ_W pszData,
+  PSZ_W pszSearch
+);
+
+/*! \brief check if search string matches current data
+  \param pData pointer to current position in data area
+  \param pSearch pointer to search string
+  \returns 0 if search string matches data
+*/
+SHORT compareString
+(
+  PSZ_W   pData,
+  PSZ_W   pSearch
+);
+
+/*! \brief normalize white space within a string by replacing single or multiple white space occurences to a single blank
+  \param pszString pointer to the string being normalized
+  \returns 0 in any case
+*/
+SHORT normalizeWhiteSpace
+(
+  PSZ_W   pszData
+);
+
+/*! \brief copy the data of a MEMPROPOSAL structure to a OtmProposal object
+  \param pMemProposal pointer to MEMPROPOSAL structure 
+  \param pOtmProposal pointer to OtmProposal object
+  \returns 0 in any case
+*/
+void copyOtmProposalToMemProposal( OtmProposal *pOtmProposal, PMEMPROPOSAL pProposal  );
+
+/*! \brief copy the data of a MEMPROPOSAL structure to a OtmProposal object
+  \param pMemProposal pointer to MEMPROPOSAL structure 
+  \param pOtmProposal pointer to OtmProposal object
+  \returns 0 in any case
+*/
+void copyMemProposalToOtmProposal( PMEMPROPOSAL pProposal, OtmProposal *pOtmProposal );
+
 /*! \brief Pointer to the instance of the MemoryFactory object (singleton).
 */
 	static MemoryFactory* instance;
@@ -680,6 +908,19 @@ void MemoryFactory::refreshPluginList();
 /*! \brief buffer for name of default shared memory plugin
 */
  char szDefaultSharedMemoryPlugin[512];
+
+/*! \brief array containing the memory objects referred to by a handle
+*/
+std::vector<OtmMemory *> *pHandleToMemoryList;
+
+/*! \brief Buffer for segment text
+*/
+  CHAR_W m_szSegmentText[MAX_SEGMENT_SIZE+1];
+
+  /*! \brief Buffer for search string
+  */
+  CHAR_W m_szSearchString[MAX_SEGMENT_SIZE + 1];
+
 
 };
 

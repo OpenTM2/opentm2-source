@@ -3,7 +3,7 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-  |      Copyright (C) 1990-2016, International Business Machines              |
+  |      Copyright (C) 1990-2017, International Business Machines              |
   |      Corporation and others. All rights reserved                           |  
   +----------------------------------------------------------------------------+
 
@@ -124,6 +124,10 @@ Please re-install the system."
 #define STR_FILE_MI_CUT          "Cut"
 #define STR_FILE_MI_PASTE        "Paste"
 #define STR_FILE_MI_EXIT         "E&xit"
+
+#ifndef FOR_OPENSRC
+  #define STR_FILE_MI_CHKPII     "CHKPII..."
+#endif
 
 //
 // Help Menue
@@ -263,7 +267,7 @@ Please re-install the system."
 
 #define STR_LOGO_COPYRIGHT2_LOGOS "(C) Copyright Logos Corp. 1998 - 2000"
 
-#define STR_LOGO_COPYRIGHT2 "Copyright (C) 1994 - 2016,"
+#define STR_LOGO_COPYRIGHT2 "Copyright (C) 1994 - 2017,"
 #define STR_LOGO_COPYRIGHT3 "International Business Machines"
 #define STR_LOGO_COPYRIGHT4 "Corporation and others."
 #define STR_LOGO_COPYRIGHT5 "All rights reserved."

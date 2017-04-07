@@ -58,6 +58,9 @@ typedef void * PVOID;
 #define MAX_LANG_LENGTH         20
 //#define MAX_PATH               144
 
+
+#define NOT_IN_PACKAGE " [not contained in package]"
+
 typedef struct _STRINGLIST
 {
   ULONG ulEntries;
@@ -111,10 +114,16 @@ BOOL fAllDocsCompleted = TRUE;         // all documents are completely translate
 BOOL fTotalCountValid = TRUE;          // total word count is valid
 int  iTotalCount = 0;                  // total word count
 
+BOOL fTMFolder = FALSE;             // TRUE for TranslationManager folder
+
+
 
 static BOOL WriteInUTF8W( FILE *hfOut, PSZ_W pszUTF16 );
 static BOOL WriteInUTF8( FILE *hfOut, PSZ pszASCII );
 static void PrintfInUtf8W( FILE *hfOut, const CHAR_W *pszFormat, ... );
+static BOOL isMemoryInPackage( PFILELIST pFileList, PSZ pszMemory );
+static BOOL isDictionaryInPackage( PFILELIST pFileList, PSZ pszDictionary );
+
 
 
 USHORT ShowFile( PFILELISTENTRY pEntry );
@@ -182,7 +191,6 @@ int main
   ULONG ulLength;                      // overall file length
   PFOLEXPHEADER pFolderHeader = NULL;
   PFILELISTENTRY pFileEntry;          // ptr to an entry in a file list
-  BOOL fTMFolder = FALSE;             // TRUE for TranslationManager folder
 
 
   envp;
@@ -761,6 +769,32 @@ int main
     } /* endif */
   } /* endif */
 
+  // attention: for TM folders we have to adjust the usFileType information as there are slight differences in the 
+  // file type enumeration between OpenTM2 and TM: The types NTMMEMORY_OLD_MEMORY and NTMMEMORY_OLD_PROP do not exist in OpenTM2
+  if ( fOK )
+  {
+    if ( fTMFolder ) 
+    {
+      pFileEntry = FileList.pEntries;
+      for ( ULONG ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+      {
+        if ( pFileEntry->usFileType == HISTLOG_DATA_FILE ) // this is actually NTMMEMORY_OLD_MEMORY
+        {
+          pFileEntry->usFileType = MEMORY_DATA_FILE;
+        }
+        else if ( pFileEntry->usFileType == DOCUMENT_EADATA_FILE ) // this is actually NTMMEMORY_OLD_PROP
+        {
+          pFileEntry->usFileType = MEMORY_PROP_FILE;
+        }
+        else if ( pFileEntry->usFileType >= TAGTABLE_SETTINGS_FILE ) // this is actually HISTLOG_DATA_FILE or higher
+        {
+          pFileEntry->usFileType -= 2;
+        } /* endif */
+        pFileEntry++;
+      } /* endfor */
+    } /* endif */
+  } /* endif */
+
   // retrieve folder properties from package
   if ( fOK )
   {
@@ -798,6 +832,30 @@ int main
        WriteInUTF8W( hfOut, L"  <FolderInfo>\r\n" );
        PrintfInUtf8W( hfOut, L"    <SourceLanguage>%S</SourceLanguage>\r\n", FolProp.szSourceLang );
        PrintfInUtf8W( hfOut, L"    <TargetLanguage>%S</TargetLanguage>\r\n", FolProp.szTargetLang );
+       PSZ pszMemory = (FolProp.szLongMemory[0] != EOS) ? FolProp.szLongMemory : FolProp.szMemory;
+       PrintfInUtf8W( hfOut, L"    <Memory isInPackage=\"%S\">%S</Memory>\r\n", isMemoryInPackage( &FileList, pszMemory ) ? "true" : "false", pszMemory);
+       if ( FolProp.aLongMemTbl[0][0] != EOS )
+       {
+          int i = 0;
+          WriteInUTF8W( hfOut, L"    <ReadOnlyMemoryList>\r\n" );
+          while ( (FolProp.aLongMemTbl[i][0] != EOS) && (i < sizeof(FolProp.aLongMemTbl) / sizeof(FolProp.aLongMemTbl[0])) )
+          {
+            PrintfInUtf8W( hfOut, L"       <Memory isInPackage=\"%S\">%S</Memory>\r\n", isMemoryInPackage( &FileList, FolProp.aLongMemTbl[i] ) ? "true" : "false", FolProp.aLongMemTbl[i] );
+            i++;
+          } /* endwhile */
+          WriteInUTF8W( hfOut, L"    </ReadOnlyMemoryList>\r\n" );
+       } /* endif */
+       if ( FolProp.aLongDicTbl[0][0] != EOS )
+       {
+          int i = 0;
+          WriteInUTF8W( hfOut, L"    <DictionaryList>\r\n" );
+          while ( (FolProp.aLongDicTbl[i][0] != EOS) && (i < sizeof(FolProp.aLongDicTbl) / sizeof(FolProp.aLongDicTbl[0])) )
+          {
+            PrintfInUtf8W( hfOut, L"       <Dictionary isInPackage=\"%S\">%S</Dictionary>\r\n", isDictionaryInPackage( &FileList, FolProp.aLongDicTbl[i] ) ? "true" : "false", FolProp.aLongDicTbl[i] );
+            i++;
+          } /* endwhile */
+          WriteInUTF8W( hfOut, L"    </DictionaryList>\r\n" );
+       } /* endif */
        PrintfInUtf8W( hfOut, L"    <Type>%S</Type>\r\n", pszFolderType );
     }
     else
@@ -805,6 +863,37 @@ int main
       fprintf( hfOut, "\n   Folder information\n" );
       fprintf( hfOut, "Folder source language : %s\n", FolProp.szSourceLang );
       fprintf( hfOut, "Folder target language : %s\n", FolProp.szTargetLang );
+      PSZ pszMemory = (FolProp.szLongMemory[0] != EOS) ? FolProp.szLongMemory : FolProp.szMemory;
+      fprintf( hfOut, "Folder memory          : %s%s\n", pszMemory, isMemoryInPackage( &FileList, pszMemory ) ? "" : NOT_IN_PACKAGE );
+      int i = 0;
+      while ( (FolProp.aLongMemTbl[i][0] != EOS) && (i < sizeof(FolProp.aLongMemTbl) / sizeof(FolProp.aLongMemTbl[0])) )
+      {
+        if ( i == 0 )
+        {
+          fprintf( hfOut, "Read-only memory       : %s%s\n", FolProp.aLongMemTbl[i], isMemoryInPackage( &FileList, FolProp.aLongMemTbl[i] ) ? "" : NOT_IN_PACKAGE );
+        }
+        else
+        {
+          fprintf( hfOut, "                         %s%s\n", FolProp.aLongMemTbl[i], isMemoryInPackage( &FileList, FolProp.aLongMemTbl[i] ) ? "" : NOT_IN_PACKAGE);
+        } /* endif */
+
+        i++;
+      } /* endwhile */
+      i = 0;
+      while ( (FolProp.aLongDicTbl[i][0] != EOS) && (i < sizeof(FolProp.aLongDicTbl) / sizeof(FolProp.aLongDicTbl[0])) )
+      {
+        if ( i == 0 )
+        {
+          fprintf( hfOut, "Dictionary             : %s%s\n", FolProp.aLongDicTbl[i], isDictionaryInPackage( &FileList, FolProp.aLongDicTbl[i] ) ? "" : NOT_IN_PACKAGE );
+        }
+        else
+        {
+          fprintf( hfOut, "                         %s%s\n", FolProp.aLongDicTbl[i], isDictionaryInPackage( &FileList, FolProp.aLongDicTbl[i] ) ? "" : NOT_IN_PACKAGE);
+        } /* endif */
+
+        i++;
+      } /* endwhile */
+
       fprintf( hfOut, "Folder type            : %s\n", pszFolderType );
     } /* endif */
   } /* endif */
@@ -896,28 +985,6 @@ int main
 
     if ( fDetails )
     {
-      // attention: for TM folders we have to adjust the usFileType information as there are slight differences in the 
-      // file type enumeration between OpenTM2 and TM: The types NTMMEMORY_OLD_MEMORY and NTMMEMORY_OLD_PROP do not exist in OpenTM2
-      if ( fTMFolder ) 
-      {
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( pFileEntry->usFileType == HISTLOG_DATA_FILE ) // this is actually NTMMEMORY_OLD_MEMORY
-          {
-            pFileEntry->usFileType = MEMORY_DATA_FILE;
-          }
-          else if ( pFileEntry->usFileType == DOCUMENT_EADATA_FILE ) // this is actually NTMMEMORY_OLD_PROP
-          {
-            pFileEntry->usFileType = MEMORY_PROP_FILE;
-          }
-          else if ( pFileEntry->usFileType >= TAGTABLE_SETTINGS_FILE ) // this is actually HISTLOG_DATA_FILE or higher
-          {
-            pFileEntry->usFileType -= 2;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-      } /* endif */
 
       if ( fXMLOutput )
       {
@@ -1682,3 +1749,76 @@ static void PrintfInUtf8W( FILE *hfOut, const CHAR_W *pszFormat, ... )
 
   WriteInUTF8W( hfOut, szUtf16Buffer );
 } /* end of function PrintfInUtf8W */
+
+
+// check if given memory is contained in the exported folder package
+BOOL isMemoryInPackage( PFILELIST pFileList, PSZ pszMemory )
+{
+  // no check for TM folder
+  if ( fTMFolder ) return( TRUE );
+
+  ULONG ulNoOfEntries = pFileList->ulListUsed;
+  PFILELISTENTRY pFileEntry = pFileList->pEntries;
+  while ( ulNoOfEntries )
+  {
+    if ((pFileEntry->usFileType == MEMORY_DATA_FILE) || (pFileEntry->usFileType == NTMMEMORY_DATA_FILE) )
+    {
+      Utlstrccpy( szBuffer, UtlGetFnameFromPath( pFileEntry->pszName ), DOT );
+      if ( strcmp( pszMemory, szBuffer ) == 0 )
+      {
+        return( TRUE );
+      } /* endif */
+    }
+    else if ( pFileEntry->usFileType == MEMORY_INFO_FILE )
+    {
+      PSZ pszName = NULL;
+      memset( szBuffer, 0, sizeof(szBuffer) );
+      GetPackFile( hInput, pFileEntry, (PBYTE)bPropBuffer, sizeof(bPropBuffer) );
+      pszName = strstr( (PSZ)bPropBuffer, "Name=" );
+      if ( pszName != NULL )
+      {
+        // find end of name entry
+        PSZ pszEnd = strchr( pszName, '\r' );
+        if ( pszEnd == NULL ) pszEnd = strchr( pszName, '\n' );
+        if ( pszEnd != NULL ) *pszEnd = EOS;
+        if ( strcmp( pszMemory, pszName + 5 ) == 0 )
+        {
+          return( TRUE );
+        } /* endif */
+      } /* endif */
+    } /* endif */
+    ulNoOfEntries--;            // skip to next entry in file list
+    pFileEntry++;
+  } /* endwhile */
+  return( FALSE );
+}
+
+// check if given dictionaryis contained in the exported folder package
+BOOL isDictionaryInPackage( PFILELIST pFileList, PSZ pszDictionary )
+{
+  // no check for TM folder
+  if ( fTMFolder ) return( TRUE );
+
+  ULONG ulNoOfEntries = pFileList->ulListUsed;
+  PFILELISTENTRY pFileEntry    = pFileList->pEntries;
+  while ( ulNoOfEntries )
+  {
+    memset( szBuffer, 0, sizeof(szBuffer) );
+    GetPackFile( hInput, pFileEntry, (PBYTE)bPropBuffer, sizeof(bPropBuffer) );
+    PPROPDICTIONARY pDictProp = (PPROPDICTIONARY)bPropBuffer;
+    if ( pDictProp->szLongName[0] == EOS )
+    {
+      // no long name available, so use short name instead
+      Utlstrccpy( pDictProp->szLongName, pDictProp->PropHead.szName, DOT );
+    } /* endif */
+
+    if ( strcmp( pDictProp->szLongName, pszDictionary ) == 0 )
+    {
+      return( TRUE );
+    } /* endif */
+    ulNoOfEntries--;            // skip to next entry in file list
+    pFileEntry++;
+  } /* endwhile */
+  return( FALSE );
+}
+

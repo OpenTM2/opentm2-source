@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00417">
+  <title>Invocation and User Interface</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>Invocation<indexterm>Invocation</indexterm></indexterm>
+      <p>Either select one or more documents in a document list window or select a folder in the
+        folder list window and start analysis using the "Analyze" menu item of the "File" pulldown
+        or using the "Analyze" option of the context menu popup. The analysis dialog will be
+        shown:</p>
+      <fig expanse="column">
+        <title>Analyzing dialog</title>
+        <image placement="break" href="mt1.gif">
+          <alt>Figure shows Analyzing dialog</alt>
+        </image>
+      </fig>
+      <p>In addition to the normal analysis options you should check the "Send untranslated segments
+        to MT server" option. Press the "Analyze" button. The "new MT Job" dialog window is
+        shown:</p>
+      <fig expanse="column">
+        <title>New MT job dialog</title>
+        <image placement="break" href="mt2.gif">
+          <alt>Figure shows New MT job dialog</alt>
+        </image>
+      </fig>
+      <p>Type in your email address in the "Email address of submitter" field (in the sample the
+        email address sample@myhost.com has been used). The email address may be required to send
+        package containing the machine translation to you manually when the package is not retrieved
+        from the sever. Select one or more subject areas for the machine translation job by checking
+        the box in front of the subject area. Note: If you open this dialog window for the first
+        time the Subject area list will be empty. Press the "Change preselected subject areas"
+        button to preselect one or more subject areas. The "Exclude segments from MT processing"
+        group allows to exclude segments from machine translation processing. The options in this
+        group are optionally and can be left empty. To activate one of the options place a checkmark
+        in the corresponding checkbox to activate the option. By specifying a number in the "with ..
+        words or more" field, segments which have the specified number of words or more are not send
+        to the MT server. The "with a fuzziness equal or above" fields exclude segments from the
+        machine translation processing when there are segments in the Translation Memory which have
+        a fuzziness equal or above the specified value. The fuzziness limits are specified for small
+        segments (segments with up to 4 words), medium segments (segments having from 5 up to 14
+        words) and for large segments (segments with 15 words or more) .separately. Once the
+        "General" tab has been completed select the "Server" tab. The server properties will be
+        shown:</p>
+      <fig expanse="column">
+        <title>Server properties</title>
+        <image placement="break" href="mt3.gif">
+          <alt>Figure shows Server properties</alt>
+        </image>
+      </fig>
+      <p>When the dialog window is opened for the first time, the installation default values will
+        be shown. Please verify that the shown values match the values you received from your MT
+        administrator. Change the values if necessary.</p>
+      <p>There are two methods to send your job to the MT machine: either you can use MQSeries or
+        you can send the MT job using the File Transfer Protocol (FTP). Use FTP if you have no
+        connection to the IBM Intranet. </p>
+      <p>To send the job using FTP specify the FTP server address, your FTP user ID and your
+        password.</p>
+      <p>When a firewall is installed it may be necessary to connect using a socks proxy or an FTP
+        proxy. In this case change the connection to "Socks proxy" or "FTP proxy" and specify a
+        proxy address and a proxy port.</p>
+      <p>For shared internet connections it may be necessary to activate the "Passive Mode"
+        option.</p>
+      <p>Note: If MQSeries is not installed on your machine only send using FTP is available.</p>
+      <p>Press the "OK" button to create the new MT job. The analysis process will start. Once the
+        analysis has been completed the MT job list window is opened automatically (if it is not
+        already open). The MT job list window shows all MT jobs with their current processing
+        state:</p>
+      <fig expanse="column">
+        <title>MT job list</title>
+        <image placement="break" href="mt4.gif">
+          <alt>Figure shows MT job list</alt>
+        </image>
+      </fig>
+      <p>The MT job list shows the name of the job (the folder name combined with a unique
+        identifier), the folder name, the current state of the job, the job creation data, the
+        source language and the target language. The state of a machine translation job may be: </p>
+      <p>
+        <table>
+          <title> MT job states</title>
+          <tgroup cols="2">
+            <colspec colname="col1" colwidth="30*"/>
+            <colspec colname="col2" colwidth="69*"/>
+            <tbody>
+              <row>
+                <entry colname="col1">
+                  <b>State</b>
+                </entry>
+                <entry colname="col2">
+                  <b>Meaning</b>
+                </entry>
+              </row>
+              <row>
+                <entry colname="col1">Preparing</entry>
+                <entry colname="col2">Analysis is preparing the segments for the machine
+                  translation</entry>
+              </row>
+              <row>
+                <entry colname="col1">Prepared</entry>
+                <entry colname="col2">Analysis has prepared the segments. The job has not been send
+                  to the MT server</entry>
+              </row>
+              <row>
+                <entry colname="col1">Sending</entry>
+                <entry colname="col2">The machine translation job is currently send to the MT
+                  server</entry>
+              </row>
+              <row>
+                <entry colname="col1">Job send to sever</entry>
+                <entry colname="col2">The machine translation job has been send to the
+                  sever.</entry>
+              </row>
+              <row>
+                <entry colname="col1">Waiting for server</entry>
+                <entry colname="col2"><keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+                  waits for server status messages, none has been received so far</entry>
+              </row>
+              <row>
+                <entry colname="col1">Translated</entry>
+                <entry colname="col2">The MT server has completed the translations</entry>
+              </row>
+              <row>
+                <entry colname="col1">Receiving</entry>
+                <entry colname="col2">The machine translation is received from the server</entry>
+              </row>
+              <row>
+                <entry colname="col1">Received</entry>
+                <entry colname="col2">The machine translation has been received from the
+                  sever</entry>
+              </row>
+              <row>
+                <entry colname="col1">Merging</entry>
+                <entry colname="col2">The segments translated by the MT server are merged into the
+                  machine translation memory</entry>
+              </row>
+              <row>
+                <entry colname="col1">Completed</entry>
+                <entry colname="col2">The MT job has been completed successfully. The machine
+                  translations have been merged in the machine translation memory.</entry>
+              </row>
+              <row>
+                <entry colname="col1">Job failed</entry>
+                <entry colname="col2">The MT job failed without additional info available</entry>
+              </row>
+              <row>
+                <entry colname="col1">-other-</entry>
+                <entry colname="col2">Status messages from the MT server, status messages from the
+                  merge process, error messages in case of failures</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+      </p>
+      <p>Once the machine translation has been received and merged into the machine translation
+        memory (the name of this memory is the folder name suffixed by "_MT") the job state changes
+        to "Completed" and the machine translation memory is added as search translation memory in
+        the folder properties. Now the manual translation can be started.</p>
+    </section>
+  </refbody>
+</reference>

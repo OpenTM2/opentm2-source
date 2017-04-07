@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00041">
+  <title>Hiding and shrinking path names</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Document names in the <q>Document List</q> window can be shown in various ways:<indexterm>Document List window<indexterm>hide/shrink/show path
+       names</indexterm></indexterm><indexterm>hiding<indexterm>path names</indexterm></indexterm><indexterm>shrinking<indexterm>path names</indexterm></indexterm><indexterm>showing<indexterm>path
+        names</indexterm></indexterm><indexterm>path names<indexterm>hide/shrink/show</indexterm></indexterm>
+      <ul>
+        <li>Without the path name, for example, as <codeph>Mydoc.htm</codeph>.</li>
+        <li>With the path name, for example, as <codeph>ps303\final\source\mydoc.htm</codeph>.</li>
+        <li>With the path name shrunk to eight characters, for example, as
+            <codeph>ps303\f;...\mydoc.htm</codeph>.</li>
+      </ul>
+    </p>
+    <p>Which way is appropriate depends on your preferences and the amount of view details you already specified for the <q>Document List</q> window. 
+      To hide or shrink the path names, select <b>Hide Path</b> or <b>Shrink Path</b> from the <b>View</b> menu. To show the path names, select 
+      <b>Show Path</b> from the <b>View</b> menu.</p>
+    <p>If the Name column in the <q>Document List</q> window is too narrow or too wide, you can drag the column border accordingly.
+      <indexterm>dragging<indexterm>column borders</indexterm></indexterm><indexterm>column borders<indexterm>dragging</indexterm></indexterm></p>
+  </body>
+</topic>

@@ -36,6 +36,25 @@
 
 #include "eqfgfr.h"             // golbal find and replace defines
 
+// color text names (in same order as base entry defines plus subtext defines)
+PSZ pszGFRTextTypes[] = {"Normal text", "Found text", "To be changed text", "Changed text", "Change-to text", "Changed-to text", "Additional segment data text", 
+  "Normal text when entry is selected", "Found text when entry is selected", "To be changed text when entry is selected", "Changed text when entry is selected", 
+  "Change-to text when entry is selected", "Changed-to text when entry is selected", "Additional segment data text when entry is selected", 
+  "Normal text when entry has the input focus", "Found text when entry has the input focus", "To be changed text when entry has the input focus", "Changed text when entry has the input focus", 
+  "Change-to text when entry has the input focus", "Changed-to text when entry has the input focus", "Additional segment data text when entry has the input focus", 
+  NULL };
+
+// default foreground and background colors (in same order as texttype names)
+//                                   Normal            Found             To be changed     Changed           Change-to         Changed-to        Add.segment data
+COLORREF aclrGFRDefaultForeground[] = { RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(80,80,80),      // normal element
+                                     RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(80,80,80),      // selected element 
+                                     RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(0,0,0),       RGB(80,80,80) };    // focus element 
+COLORREF aclrGFRDefaultBackground[] = { RGB(255,255,255), RGB(150,150,255), RGB(255,150,150), RGB(255,80,80),   RGB(150,255,150), RGB(100,255,100), RGB(255,255,255),   // normal element
+                                     RGB(230,230,230), RGB(150,150,255), RGB(255,150,150), RGB(255,80,80),   RGB(150,255,150), RGB(100,255,100), RGB(230,230,230),   // selected element 
+                                     RGB(230,230,255), RGB(150,150,255), RGB(255,150,150), RGB(255,80,80),   RGB(150,255,150), RGB(100,255,100), RGB(230,230,255) }; // focus element 
+
+
+
 // table containing find expression operators (has to be terminated with an empty element)
 FOLFINDOPERATOR FolFindOperators[] =
 {
@@ -240,6 +259,32 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
           // load our tab dialogs
           if ( fOK ) fOK = GFR_PropertySheetLoad( hwnd, pIda );
 
+          // fill color data area with default values
+          pIda->ColorData.hwndOwner = hwnd;
+          pIda->ColorData.sID = 0;
+          strcpy( pIda->ColorData.szTitle, "Set Global Find & Replace Colors" );
+          int i = 0;
+          while( pszGFRTextTypes[i] != NULL ) 
+          {
+            strcpy( pIda->ColorData.ColorSetting[i].szElement, pszGFRTextTypes[i] );
+            pIda->ColorData.ColorSetting[i].cForeground = aclrGFRDefaultForeground[i];
+            pIda->ColorData.ColorSetting[i].cDefaultForeground = aclrGFRDefaultForeground[i];
+            pIda->ColorData.ColorSetting[i].cBackground = aclrGFRDefaultBackground[i];
+            pIda->ColorData.ColorSetting[i].cDefaultBackground = aclrGFRDefaultBackground[i];
+            i++;
+          } /* endwhile */
+
+          // set any user defined colors
+          if ( pIda->pLastUsed && (pIda->pLastUsed->aclrBackground[0] != 0) && (pIda->pLastUsed->aclrForeground[0] != 0) )
+          {
+              int i = 0;
+              while( pIda->ColorData.ColorSetting[i].szElement[0] != EOS )
+              {
+                pIda->ColorData.ColorSetting[i].cForeground = pIda->pLastUsed->aclrForeground[i];
+                pIda->ColorData.ColorSetting[i].cBackground = pIda->pLastUsed->aclrBackground[i];
+                i++;
+              } /* endwhile */
+          } /* endif */
 
           // get handles and sizes of dialog controls
           if ( fOK )
@@ -294,6 +339,33 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
               pIda->swpDlg.y = (swpTWB.cy - pIda->swpDlg.cy) / 2;
             } /* endif */
           } /* endif */
+
+          // create font to be used for the controls
+          {
+            // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
+            HFONT   hFontDlg;
+
+            hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
+            if ( hFontDlg != NULL )
+            {
+              LOGFONT lFont;
+              if ( GetObject( hFontDlg, sizeof(LOGFONT), (LPSTR) &lFont ))
+              {
+                lFont.lfCharSet  = (UCHAR)GetCharSet();
+                if (lFont.lfHeight > 0 )
+                {
+                  lFont.lfHeight -=  SHEIGHTINCTRL;
+                }
+                else
+                {
+                  lFont.lfWeight = FW_NORMAL;
+                } /* endif */
+                lFont.lfOutPrecision = OUT_TT_PRECIS;
+                strcpy( lFont.lfFaceName, "Arial" );
+                pIda->hFontControl = CreateFontIndirect( &lFont );
+              }
+            }
+          }
 
           // postpone sizing of dialog window
           if ( fOK ) WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(INITDLG_TASK), 0L );
@@ -442,6 +514,17 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
 
         // pass command to all tabs
         FolFindPassToAllTabs( pIda, WM_CLOSE, 0, 0 );
+
+        // copy current color setting to last used values
+        {
+            int i = 0;
+            while( pIda->ColorData.ColorSetting[i].szElement[0] != EOS )
+            {
+              pIda->pLastUsed->aclrForeground[i] = pIda->ColorData.ColorSetting[i].cForeground;
+              pIda->pLastUsed->aclrBackground[i] = pIda->ColorData.ColorSetting[i].cBackground;
+              i++;
+            } /* endwhile */
+        } 
 
         // save last used values
         {
@@ -648,6 +731,8 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
 
         if ( pIda->hwndLB ) WinDestroyWindow( pIda->hwndLB );
 
+        if ( pIda->hFontControl ) DeleteObject( pIda->hFontControl );
+
         if ( pIda->fRegistered )
         {
           EqfRemoveObject( TWBFORCE, hwnd );
@@ -776,6 +861,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
 
 
         pIda->hResultListBox = GetDlgItem( hwnd, ID_FOLFIND_RESULT_LISTBOX );
+        if ( pIda->hFontControl != NULL ) SendMessage( pIda->hResultListBox, WM_SETFONT, (WPARAM)pIda->hFontControl, MP2FROMSHORT(TRUE) );
 
         // Set initial state of dialog controls
         if ( fOK )
@@ -984,6 +1070,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SHOWSOURCEANDTARGET_CHK ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_RESPECTLF_CHK ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SHOW_GB ), iShowCmd );
+              ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_COLOR_PB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SEGSBEFORE_TEXT ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SEGSAROUND_CB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_DOCS_GB ), iShowCmd );
@@ -1118,6 +1205,18 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
 
             }
             break;
+
+          case ID_FOLFIND_COLOR_PB:
+            {
+              if ( UtlColorChooserDlg( &(pIda->ColorData) ) == 0 )
+              {
+                // refresh result list
+                InvalidateRect( GetDlgItem( hwnd, ID_FOLFIND_RESULT_LISTBOX ), NULL, TRUE );
+              } /* endif */
+            } 
+            break;
+
+
 
           case ID_FOLFIND_STOP_PB:
             // stop any search currrently active

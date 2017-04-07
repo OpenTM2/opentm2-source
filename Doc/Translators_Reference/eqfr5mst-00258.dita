@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00258">
+<title>Working with dictionaries</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>definition of</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>A dictionary is a database that contains terms, their translations, and
+other related information.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a set of bilingual dictionaries with general vocabulary
+for English, German, French, Spanish, and Italian.</p>
+<p>You need dictionaries to look up the translations of individual terms or
+have these terms displayed automatically in the <q>Dictionary</q> window during
+translation. </p>
+<p>A <i>dictionary entry</i> contains all data relating to
+a term (or <i>headword</i>). The dictionary entry structure
+describes which data elements can be stored for a term in a dictionary.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a general dictionary structure that you can use as a model
+for building a dictionary serving your own purposes. Headword and Translation
+are mandatory fields. Certain entry fields, for example Synonym and Related
+term, are reserved for search criteria available during lookup in a dictionary.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can handle dictionaries with simple and complex structures.</p>
+<p>The general dictionary entry structure in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is divided into four embedded
+levels to contain, for example, verb and noun entries, different meanings
+(senses), and translation variants.</p>
+<p>In <keyword conref="common-symbols.dita#common-symbols/tm4w"/> a dictionary can have two formats: 
+<ul>
+<li>An internal dictionary is a dictionary that exists in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+<li>A dictionary in external format is an SGML-based data file. SGML is the
+data exchange format required for importing dictionary data into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. When
+a dictionary in the internal format is exported, it is automatically converted
+into SGML. When you import an external dictionary, it is automatically converted
+to the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format.</li>
+</ul></p>
+<p>All dictionary data in other text-processor or database formats needs to
+be converted into SGML by, for example, a program or database macro.</p>
+<p>You can create your own dictionaries from existing terminology imported
+into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, or from scratch while you are translating.</p>
+<p>For more information on the dictionary structure and on how to construct
+an SGML-based file, see: 
+<ul>
+<li><xref href="eqfr5mst-00259.dita#eqfr5mst-00259"/></li>
+<li><xref href="eqfr5mst-00263.dita#eqfr5mst-00263"/></li>
+</ul> </p>
+</body></topic>

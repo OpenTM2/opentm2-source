@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memcrclas">
+<title>Creating a Translation Memory</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>Translation Memory<indexterm>OTMBATCH: creating (from
+command area)</indexterm></indexterm><indexterm>creating<indexterm>OTMBATCH: Translation
+Memory databases (from command area)</indexterm></indexterm>
+<p>To set up a new Translation Memory, it might be more convenient
+to use a command instead of using <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>creating Translation
+Memory databases</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">creating
+Translation Memory databases</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you create a Translation
+Memory from the <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command line. Note that
+lowercase letters in a parameter name are optional and need not be
+typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>MEMCRT</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>NAme</kwd><oper>=</oper><var>memdb</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>DEsc</kwd><oper>=</oper><var>desc</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>TYpe</kwd><oper>=</oper>
+<groupchoice><kwd>SHARED</kwd><kwd importance="default">LOCAL</kwd></groupchoice></groupseq>
+<groupseq><delim>/</delim><kwd>TOdrive</kwd><oper>=</oper><var>drive</var></groupseq>
+<groupseq><delim>/</delim><kwd>SRclng</kwd><oper>=</oper><var>source</var></groupseq>
+<groupseq importance="optional">
+<groupchoice>
+<groupseq><delim>/</delim><var>QUIET</var></groupseq>
+<groupseq><delim>/</delim><var>QUIET=NOMSG</var></groupseq></groupchoice></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=MEMCRT</pt>
+<pd><codeph>MEMCRT</codeph> specifies that you want to set up a new Translation
+Memory.</pd></plentry>
+<plentry><pt>/NAme=<synph><var>memdb</var></synph></pt>
+<pd><synph><var>memdb</var></synph> specifies the name of the new Translation Memory.</pd></plentry>
+<plentry><pt>/DEsc=<synph><var>desc</var></synph></pt>
+<pd><synph><var>desc</var></synph> specifies the description of the new Translation
+Memory (up to 40 characters). If this parameter is not specified,
+the new Translation Memory will have no description.</pd></plentry>
+<plentry><pt>/TYpe=</pt>
+<pd>Specifies whether the new Translation Memory is to be shared
+among several <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users (<codeph>SHARED</codeph>) or if it
+is a local one which can be used only by you (<codeph>LOCAL</codeph>). If
+you omit this parameter, <codeph>LOCAL</codeph> is assumed.</pd></plentry>
+<plentry><pt>/TOdrive=<synph><var>drive</var></synph></pt>
+<pd><synph><var>drive</var></synph> specifies the drive where the new Translation
+Memory is to be located.</pd></plentry>
+<plentry><pt>/SRclng=<synph><var>source</var></synph></pt>
+<pd><synph><var>source</var></synph> is the source language of the text segments
+stored in the new Translation Memory. </pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify the parameter in this format, you are not prompted
+with any message window. If you do not specify any of the /quiet paramaters,
+a message window pops up whenever an error occurs or when the task
+has successfully completed.</pd></plentry>
+<plentry><pt>/QUIET=NOMSG</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. Any error message text is routed to stdout.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to create a Translation Memory
+using the OTMBATCH command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=memcrt /name=medmem /desc="new memory" /type=local
+       /todrive=e /srclng=English(U.S.)</codeblock></section></required-cleanup>
+<p>In this example, the new Translation Memory <codeph>medmem</codeph> is
+a local one and will be located on drive E. The source language of
+the stored text segments is English (U.S.). </p>
+</example></refbody></reference>

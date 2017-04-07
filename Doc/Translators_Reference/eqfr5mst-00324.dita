@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00324">
+<title>Overview and terminology</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p>The <q>Language List</q> window contains lists of all the language-support
+files available in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and their current installation status. </p>
+</section>
+<section><title>Prerequisites</title>
+<p>None.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select <b>Display language list</b> from the <b>Utilities</b> menu.</p>
+<p>The <q>Language List</q> window is displayed. </p>
+</section>
+<section><title>Options and parameters</title>
+<p>None.</p>
+</section>
+<section><title>Results</title>
+<p>The <q>Language List</q> window shows all available languages and their
+current status. The <b>State</b> column indicates whether the
+language-support file for the respective language is installed (indicated
+by <b>active</b> or <b>inactive</b>).</p>
+<p>There are several reasons for a language being shown as inactive: 
+<ul>
+<li>It is not included in your base package.</li>
+<li>It is included in your base package, but you did not install it.</li>
+<li>It is included in your base package and you installed it, but you subsequently
+deleted it because you had no need for it at that time.</li>
+</ul></p>
+<p>If you need a language-support file for any of the languages supported
+by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can install it on top of your current installation.</p>
+<p>If you translate into languages for which language support is not available,
+such as Hungarian, you cannot check the spelling of the translated documents.</p>
+</section></refbody></reference>

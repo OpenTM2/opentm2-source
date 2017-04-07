@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00454">
+  <title>EqfAddCTIDList</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfAddCTIDList</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfAddCTIDList</indexterm></indexterm>
+      <p><i>EqfAddCTIDList</i> associates a global memory filter file with a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfAddCTIDList</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolder</var>
+          <sep>,</sep>
+          <var>pszCTIDListFile</var>
+        </groupseq>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolder</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszCTIDListFile</entry>
+              <entry colname="col3">The fully qualified file name of the global memory option file</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The analysis has not completed yet. Call <i>EqfAnalyzeDoc</i> again.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );    
+  // asociate the global memory option file C:\GlobMem\CFM\GlobMemOptions.xml with 
+     folder ATestFolder   
+  if ( !usRC ) {
+    usRC = EqfAddCTIDList( hSession, "ATestFolder", "C:\GlobMem\CFM\GlobMemOptions.xml" );   
+  } /* endif */    
+  // terminate the session    EqfEndSession( hSession ); 
+}
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

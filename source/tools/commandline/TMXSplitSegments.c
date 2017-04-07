@@ -19,11 +19,19 @@
 
 PSZ pszDEAbbrev[] = {"0.", "1.", "2.", "3.", "4.", "6.", "7.", "8.", "9.", "a.",
                      "z.B.", "z.", "Benutzerspez.", "B.", "bzw.", "d.h.", "d.", "h.", "evtl.", "ggf.", "Inc.", "autom.", "max.", "nutzerspez.", 
-                     "usw.", "u.A.", "u.", NULL };
+                     "usw.", "u.A.", "u.", "Nr.", NULL };
 PSZ pszITAbbrev[] = { "autom.", "ecc.", "es.", "imp.", "Inc.", "pag.", "predef.", "Oppure.", "dim.", "lungh.", "N.", "preimp.", "max.", "Tel.", "proc.", NULL};
 PSZ pszESAbbrev[] = { "Desel.", "etc.", "Inc.", "p.ej.", "p.", "ej.", "U.S.", NULL};
 PSZ pszFRAbbrev[] = {"0.", "1.", "2.", "3.", "4.", "6.", "7.", "8.", "9.", "Aj.", "Enreg.", "ex.", "param.", "Inc.", "util.", NULL};
-PSZ pszENAbbrev[] = {"e.g.", "etc.", "i.e.", "Inc.", "vs.", "U.S.", NULL};
+PSZ pszENAbbrev[] = {"e.g.", "e.", "g.", "etc.", "i.e.", "Inc.", "vs.", "U.S.", NULL};
+
+PSZ_W pszDEAbbrevW[] = {L"0.", L"1.", L"2.", L"3.", L"4.", L"6.", L"7.", L"8.", L"9.", L"a.",
+                     L"z.B.", L"z.", L"Benutzerspez.", L"B.", L"bzw.", L"d.h.", L"d.", L"h.", L"evtl.", L"ggf.", L"Inc.", L"autom.", L"max.", L"nutzerspez.", 
+                     L"usw.", L"u.A.", L"u.", L"Nr.", NULL };
+PSZ_W pszITAbbrevW[] = { L"autom.", L"ecc.", L"es.", L"imp.", L"Inc.", L"pag.", L"predef.", L"Oppure.", L"dim.", L"lungh.", L"N.", L"preimp.", L"max.", L"Tel.", L"proc.", NULL};
+PSZ_W pszESAbbrevW[] = { L"Desel.", L"etc.", L"Inc.", L"p.ej.", L"p.", L"ej.", L"U.S.", NULL};
+PSZ_W pszFRAbbrevW[] = {L"0.", L"1.", L"2.", L"3.", L"4.", L"6.", L"7.", L"8.", L"9.", L"Aj.", L"Enreg.", L"ex.", L"param.", L"Inc.", L"util.", NULL};
+PSZ_W pszENAbbrevW[] = {L"e.g.", L"e.", L"g.", L"etc.", L"i.e.", L"Inc.", L"vs.", L"U.S.", NULL};
 
 typedef struct _TMXSPLITSEG_DATA
 {
@@ -565,11 +573,11 @@ USHORT ProcessTranslationUnit( PTMXSPLITSEG_DATA pData )
   pData->iNumOfTUs += 1;
 
   // find TUV delimiters
-  pszTUV1Start = strstr( pData->szTuBuffer, "<tuv " );
+  pszTUV1Start = strstr( pData->szTuBuffer, "<tuv" );
   if ( pszTUV1Start != NULL ) pszTUV1End = strstr( pszTUV1Start, "</tuv>" );
-  if ( pszTUV1End != NULL )   pszTUV2Start = strstr( pszTUV1End, "<tuv " );
+  if ( pszTUV1End != NULL )   pszTUV2Start = strstr( pszTUV1End, "<tuv" );
   if ( pszTUV2Start != NULL ) pszTUV2End = strstr( pszTUV2Start, "</tuv>" );
-  if ( pszTUV2End != NULL )   pszTUV3Start = strstr( pszTUV2End, "<tuv " );
+  if ( pszTUV2End != NULL )   pszTUV3Start = strstr( pszTUV2End, "<tuv" );
 
   // check number of TUVs
   if ( pszTUV3Start != NULL )
@@ -794,20 +802,54 @@ BOOL FindSegDataW( PSZ_W pszTuvStart, PSZ_W pszTuvEnd, PSZ_W *ppszSegStart, PSZ_
   return( fOK ); 
 }
 
-int SplitSegDataW( PSZ_W pszStart, PSZ_W pszEnd, PSZ_W pszDelim[] )
+int SplitSegDataW( PSZ_W pszStart, PSZ_W pszEnd, PSZ_W pszDelim[], PSZ_W *pszAbbrevStart )
 {
   int iSegments = 1;
   CHAR_W chTemp = *pszEnd;
-  *pszEnd = EOS;
+  *pszEnd = 0;
 
-  while ( *pszStart != EOS  )
+  while ( *pszStart != 0  )
   {
     if ( ((*pszStart == L'.') || (*pszStart == L'!') || (*pszStart == L'?')) && (pszStart[1] == L' ') )
     {
-      pszStart += 2;
-      while ( *pszStart == L' ') pszStart++;
-      pszDelim[iSegments-1] = pszStart;
-      iSegments++;
+      PSZ_W pszFound = NULL;
+
+      if ( pszAbbrevStart != NULL )
+      {
+        PSZ_W *pszAbbrev = pszAbbrevStart;
+        // check against list of abbreviations
+        while ( (pszFound == NULL) && (*pszAbbrev != NULL) )
+        {
+          PSZ_W pszEntry = *pszAbbrev;
+          int iLen = wcslen(pszEntry);
+          int iPos = 0;
+          while ( (iPos < iLen) && ((toupper(pszStart[iPos-iLen+1]) == toupper(pszEntry[iPos]))) ) 
+          {
+            iPos++;
+          } /* endwhile */             
+          if ( iPos >= iLen )
+          {
+            if ( !iswalpha(pszStart[-iLen]) )
+            {
+              pszFound = pszEntry;
+            } /* endif */               
+          } /* endif */             
+          pszAbbrev++;
+        } /* endwhile */           
+
+      } /* endif */         
+
+      if ( pszFound != NULL )
+      {
+        pszStart++;
+      }
+      else
+      {
+        pszStart += 2;
+        while ( *pszStart == L' ') pszStart++;
+        pszDelim[iSegments-1] = pszStart;
+        iSegments++;
+      } /* endif */         
     }
     else
     {
@@ -821,6 +863,49 @@ int SplitSegDataW( PSZ_W pszStart, PSZ_W pszEnd, PSZ_W pszDelim[] )
 
   return( iSegments );
 }
+
+PSZ_W * GetAbbrevForTuvW( PSZ_W pszTUVStart, PSZ_W pszTUVEnd )
+{
+  PSZ_W *pszAbbrev = NULL;
+  PSZ_W pszLanguage = NULL;
+  CHAR_W chTemp = *pszTUVEnd;
+  *pszTUVEnd = EOS;
+
+  pszLanguage = wcsstr( pszTUVStart, L"xml:lang=\"" );
+  if ( pszLanguage != NULL )
+  {
+    CHAR_W szLangID[3]; 
+    szLangID[0] = pszLanguage[10];
+    szLangID[1] = pszLanguage[11];
+    szLangID[2] = 0;
+    wcsupr( szLangID );
+    if ( wcscmp( szLangID, L"DE" ) == 0 )
+    {
+      pszAbbrev = pszDEAbbrevW;
+    } 
+    else if ( wcscmp( szLangID, L"IT" ) == 0 )
+    {
+      pszAbbrev = pszITAbbrevW;
+    } 
+    else if ( wcscmp( szLangID, L"ES" ) == 0 )
+    {
+      pszAbbrev = pszESAbbrevW;
+    } 
+    else if ( wcscmp( szLangID, L"FR" ) == 0 )
+    {
+      pszAbbrev = pszFRAbbrevW;
+    } 
+    else if ( wcscmp( szLangID, L"EN" ) == 0 )
+    {
+      pszAbbrev = pszENAbbrevW;
+    } /* endif */       
+  } /* endif */     
+  *pszTUVEnd = chTemp;
+
+  return( pszAbbrev );
+}
+
+
 
 USHORT ProcessTranslationUnitW( PTMXSPLITSEG_DATA pData )
 {
@@ -840,18 +925,21 @@ USHORT ProcessTranslationUnitW( PTMXSPLITSEG_DATA pData )
   pData->iNumOfTUs += 1;
 
   // find TUV delimiters
-  pszTUV1Start = wcsstr( (PSZ_W)pData->szTuBuffer, L"<tuv " );
+  pszTUV1Start = wcsstr( (PSZ_W)pData->szTuBuffer, L"<tuv" );
   if ( pszTUV1Start != NULL ) pszTUV1End = wcsstr( pszTUV1Start, L"</tuv>" );
-  if ( pszTUV1End != NULL )   pszTUV2Start = wcsstr( pszTUV1End, L"<tuv " );
+  if ( pszTUV1End != NULL )   pszTUV2Start = wcsstr( pszTUV1End, L"<tuv" );
   if ( pszTUV2Start != NULL ) pszTUV2End = wcsstr( pszTUV2Start, L"</tuv>" );
-  if ( pszTUV2End != NULL )   pszTUV3Start = wcsstr( pszTUV2End, L"<tuv " );
+  if ( pszTUV2End != NULL )   pszTUV3Start = wcsstr( pszTUV2End, L"<tuv" );
 
   // check number of TUVs
   if ( pszTUV3Start != NULL )
   {
     sprintf( pData->szBuffer, "Translation unit starting in line %ld contains more than 2 TUVs and is ignored", pData->iTuLine );
     ShowError( pData, pData->szBuffer, pData->szInMemory );
-    if ( pData->hfLog ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hfLog );
+    CHAR_W chTemp = ((PSZ_W)pData->szTuBuffer)[pData->iTuSize];
+    ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = 0;
+    if ( pData->hfLog ) fprintf( pData->hfLog, "%S\n", (PSZ_W)pData->szTuBuffer );
+    ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = chTemp;
     if ( pData->hOutFile ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hOutFile );
     usRC = 1;
   }
@@ -859,7 +947,10 @@ USHORT ProcessTranslationUnitW( PTMXSPLITSEG_DATA pData )
   {
     sprintf( pData->szBuffer, "Translation unit starting in line %ld does not contain 2 TUVs and is copied as-is", pData->iTuLine );
     ShowError( pData, pData->szBuffer, pData->szInMemory );
-    if ( pData->hfLog ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hfLog );
+    CHAR_W chTemp = ((PSZ_W)pData->szTuBuffer)[pData->iTuSize];
+    ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = 0;
+    if ( pData->hfLog ) fprintf( pData->hfLog, "%S\n", (PSZ_W)pData->szTuBuffer );
+    ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = chTemp;
     if ( pData->hOutFile ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hOutFile );
     usRC = 2;
   } /* endif */     
@@ -871,8 +962,11 @@ USHORT ProcessTranslationUnitW( PTMXSPLITSEG_DATA pData )
     {
       sprintf( pData->szBuffer, "Could not locate segment data in translation unit starting in line %ld, tu is copied as-is", pData->iTuLine );
       ShowError( pData, pData->szBuffer, pData->szInMemory );
-      if ( pData->hfLog ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hfLog );
       if ( pData->hOutFile ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hOutFile );
+      CHAR_W chTemp = ((PSZ_W)pData->szTuBuffer)[pData->iTuSize];
+      ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = 0;
+      if ( pData->hfLog ) fprintf( pData->hfLog, "%S\n", (PSZ_W)pData->szTuBuffer );
+      ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = chTemp;
       usRC = 3;
     } /* endif */     
   } /* endif */     
@@ -880,13 +974,20 @@ USHORT ProcessTranslationUnitW( PTMXSPLITSEG_DATA pData )
   // find sentence delimiters in segment data
   if ( usRC == NO_ERROR )
   {
-    int iSegs1 = SplitSegDataW( pszSeg1Start, pszSeg1End, pszDelims1 );
-    int iSegs2 = SplitSegDataW( pszSeg2Start, pszSeg2End, pszDelims2 );
+    // get any abreviation lists for TUV language
+    PSZ_W *pszAbbrev1 = GetAbbrevForTuvW( pszTUV1Start, pszTUV1End );
+    PSZ_W *pszAbbrev2 = GetAbbrevForTuvW( pszTUV2Start, pszTUV2End );
+
+    int iSegs1 = SplitSegDataW( pszSeg1Start, pszSeg1End, pszDelims1, pszAbbrev1 );
+    int iSegs2 = SplitSegDataW( pszSeg2Start, pszSeg2End, pszDelims2, pszAbbrev2 );
     if ( iSegs1 != iSegs2 )
     {
       sprintf( pData->szBuffer, "Number of sentences in <tuvs> of translation unit starting in line %ld do not match, tu is copied as-is", pData->iTuLine );
       ShowError( pData, pData->szBuffer, pData->szInMemory );
-      if ( pData->hfLog ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hfLog );
+      CHAR_W chTemp = ((PSZ_W)pData->szTuBuffer)[pData->iTuSize];
+      ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = 0;
+      if ( pData->hfLog ) fprintf( pData->hfLog, "%S\n", (PSZ_W)pData->szTuBuffer );
+      ((PSZ_W)pData->szTuBuffer)[pData->iTuSize] = chTemp;
       if ( pData->hOutFile ) fwrite( pData->szTuBuffer, pData->iTuSize, sizeof(CHAR_W), pData->hOutFile );
       usRC = 4;
     }
@@ -902,6 +1003,8 @@ USHORT ProcessTranslationUnitW( PTMXSPLITSEG_DATA pData )
       PSZ_W pszStart1 = pszSeg1Start;
       PSZ_W pszStart2 = pszSeg2Start;
       pData->iNumOfAddTUs -= 1;
+      pData->iNumOfSplitTUs += 1;
+
 
       for ( i = 0; i < iSegs1; i++ )
       {
@@ -950,6 +1053,9 @@ USHORT ConvertMemoryUTF16
       ShowError( pData, "Error: Output memory %s could not be opened", pData->szOutSpec );
     } /* endif */
   } /* endif */     
+
+  // write BOM to output file
+  if ( pData->hOutFile ) fwrite( UNICODEFILEPREFIX, 2, 1, pData->hOutFile );
 
   // get/write memory lines until done
   fgetws( (PSZ_W)pData->szReadBuffer, sizeof(pData->szReadBuffer)/sizeof(CHAR_W), pData->hInFile );

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00032">
+  <title>Required settings</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>required settings</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Before translators start working with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, the "Default Target Language" 
+      must be set. This is very important in order to properly handle the import and export of translation memories and dictionaries, e.g. 
+      when importing an external memory in the SGML ASCII or the SGML ANSI format the "Default target language" must exactly match the 
+      language of the target segments in the imported memory otherwise some special characters might be corrupted after the import. 
+      Click the button "<b>Set</b>" to save the changes.</p>
+    <p>For the correct display of characters in the dictionary editor, translation memory editor, global find&amp;replace; window, and 
+      the various list and dialog windows (e.g. folder list window) the Windows "<b>Regional options</b>" must match the target language 
+      of the documents and dictionaries being worked with. The Windows regional settings are changed in the Windows "<b>Control Panel</b>" 
+      under "<b>Regional Options</b>". Select the locale for the current target language in the first tab <b>and</b> the third tab of the 
+      "<b>Regional options</b>" window. Windows has to be restarted after this change.</p> 
+      <note>The name of the regional options window differs depending on the language version of Windows; e.g. in a German Windows 
+      version the regional settings are located in <b>"Einstellungen" ==&gt; "Systemsteuerung" =&gt; "Regions- und Sprachoptionen"</b>.</note>
+  </body>
+</topic>

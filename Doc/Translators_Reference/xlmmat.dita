@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="xlmmat">
+<title><keyword conref="common-symbols.dita#common-symbols/xlmem"/> matches</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>During translation in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches for matching
+segments, this means it checks whether the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> contains a previous
+translation of the current segment.</p>
+<p>The system differentiates mainly between an <i>exact
+match</i>, which is completely identical, and a <i>fuzzy
+match</i>, which is an almost identical match where the fuzziness
+can have various degrees. <indexterm>Translation Memory matches<indexterm>types of</indexterm></indexterm><indexterm>matches<indexterm>types of</indexterm></indexterm></p>
+<p>When <keyword conref="common-symbols.dita#common-symbols/tm4w"/> displays a matching segment in the <q>Translation</q> window
+of the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, the type of fuzzy match is indicated by a preceding
+flag in brackets, for example [f]. Exact matches do not
+have such a flag.</p>
+<p>An exact match is found when the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> contains a segment
+identical to the current segment in the document to be translated
+and when the segment translation was accepted by a human translator
+during translation. The segments must be identical with respect to
+text and punctuation but their tagging can differ.</p>
+<p>If an identical source segment is placed in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> by the
+EQFITM command or was imported as machine-generated translation, it
+is not regarded as an exact match. It is flagged by a preceding [m].</p>
+<p>If you choose a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> previously used for a <tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> document, for the translation of machine-readable
+information, all trailing line feeds and blanks are removed when an
+exact match is found. This ensures that the target sentence has as
+many trailing line feeds as the source segment.</p>
+<p>By default, a fuzzy match is recognized if the two
+segments overlap more than 33%. You can customize this threshold
+for segment lengths, as described in <xref href="#unresolvedid/viewsysprop"/>. <indexterm>fuzzy match overlap ratio<indexterm>default</indexterm></indexterm></p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can also show combinations of these types of matches. The
+following table shows the categories of matches and the flagging displayed
+in the <q>Translation Memory</q> window.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="3*"/>
+<colspec colname="col2" colwidth="1*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1"><indexterm>Translation Memory matches<indexterm>categories</indexterm></indexterm><indexterm>matches<indexterm>categories</indexterm></indexterm>Type of match</entry>
+<entry valign="top" rowsep="1">Flag</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Exact</entry>
+<entry valign="top">(not flagged)</entry></row>
+<row>
+<entry valign="top">Matches with minor deviations:</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top"> - Machine</entry>
+<entry valign="top">[m]</entry></row>
+<row>
+<entry valign="top"> - Replacement</entry>
+<entry valign="top">[r]</entry></row>
+<row>
+<entry valign="top"> - Machine and replacement</entry>
+<entry valign="top">[mr]</entry></row>
+<row>
+<entry valign="top">Fuzzy matches:</entry>
+<entry valign="top"/></row>
+<row>
+<entry valign="top"> - Fuzzy</entry>
+<entry valign="top">[f]</entry></row>
+<row>
+<entry valign="top"> - Fuzzy and replacement</entry>
+<entry valign="top">[rf]</entry></row>
+<row>
+<entry valign="top"> - Fuzzy and machine</entry>
+<entry valign="top">[mf]</entry></row>
+<row>
+<entry valign="top"> - Fuzzy, machine, and replacement</entry>
+<entry valign="top">[mrf]</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

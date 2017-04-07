@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="printlist">
+<title>Printing list windows</title>
+<prolog><metadata><keywords>
+<indexterm>list windows<indexterm>printing</indexterm></indexterm><indexterm>printing<indexterm>lists</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p>You can print the contents of all list windows, such as the <q>Folder
+List</q> window or the <q>Dictionary List</q> window on a printer
+of your selection.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The respective window that contains the list to be printed is active.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select <b>Print list…</b> from the <b>File</b> menu. </p>
+<p>The <q>Print Setup</q> window is displayed where you can specify
+the printer you want and the layout of your printout.</p>
+</section>
+<section><title>Results</title>
+<p>The list is printed on the printer of your choice. The printout
+reflects the columns and column widths of the list window that is
+displayed. If the list window has autotext columns, for example for
+long document names, the width of the printed columns is adjusted
+to the actual length.</p>
+</section></refbody></reference>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="conref-eqfr5mst">
+<title>eqfr5mst.idd</title>
+<prolog><metadata><keywords/>
+</metadata>
+</prolog>
+<body><required-cleanup remap="text entities" translate="yes"><p><keyword id="tl">TransLexis</keyword></p>
+<p><keyword id="ampc">&amp;</keyword></p></required-cleanup>
+</body></topic>

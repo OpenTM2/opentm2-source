@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00056">
+  <title>Translation Environment with an Arabic document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you open an Arabic document, you recognize the usual <q>Translation</q> window, <q>Dictionary</q> window, and 
+      <q>Translation Memory</q> window. However, the contents of these windows look different in several aspects. The following 
+      Translation Environment example assumes a translation from English to Arabic:</p>
+    <fig id="bidi_arabic" expanse="column">
+      <title>Translation Environment with an Arabic document</title>
+      <image placement="break" href="eqfb7s03c.gif">
+        <alt>Figure shows Translation Environment with an Arabic document</alt>
+      </image>
+    </fig>
+    <p>
+      <ul>
+        <li><indexterm>text alignment<indexterm>Arabic language</indexterm></indexterm>
+            <indexterm>reading order<indexterm>Arabic language</indexterm></indexterm>
+            <indexterm>Arabic language<indexterm>reading order</indexterm><indexterm>text alignment</indexterm></indexterm>In the
+            <q>Translation</q> window the text is aligned to the right, and the ruler runs from right to the left (ruler digits are always 
+          shown as Latin digits). The reading order is from right to the left for English and Arabic words. While you are typing, the cursor
+          moves from right to the left. The cursor control keys let the cursor move as depicted on the keys.</li>
+        <li>In the <q>Dictionary</q> window all words are aligned to the left. The reading order of English words is from left to the right, 
+          and the reading order of Arabic words is from right to the left.</li>
+        <li>In the <q>Translation Memory</q> window the English source text is aligned to the left, and its reading order is from left to the 
+          right. The Arabic translation proposals are aligned to the right, and their reading order is from right to the left (same alignment
+          and reading order as in the <q>Translation</q> window).</li>
+        <li><indexterm>Arabic language<indexterm>shaping</indexterm></indexterm>
+          <indexterm>shaping<indexterm>of Arabic characters</indexterm></indexterm>Shaping of Arabic characters is supported. (Arabic characters 
+          can assume up to four different shapes depending on their positions in words and their connectivity traits of the surrounding 
+          characters. The proper shape is selected by a shape-determination routine.)</li>
+        <li><indexterm>Arabic language<indexterm>ligating</indexterm></indexterm>
+          <indexterm>ligating<indexterm>of Arabic characters</indexterm></indexterm>Ligatures of Arabic characters are supported.
+          (A ligature is a graphic character consisting of two or more characters that are joined together. For example, the joining A and E 
+          form the ligature Æ.)</li>
+        <li>Digits in the proposal window are displayed as Latin digits.</li>
+        <li>The <b>Find and Replace</b> function in the Translation Environment allows you to select the <b>Case Respect</b> or <b>Case Ignore</b> 
+          option. However, these options have no effect with Arabic language documents.</li>
+      </ul>
+    </p>
+  </body>
+</topic>

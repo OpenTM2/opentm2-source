@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dictren">
+<title>Renaming a dictionary</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>dictionary<indexterm>renaming</indexterm></indexterm><indexterm>renaming<indexterm>dictionaries</indexterm></indexterm>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to give a dictionary a new name.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The dictionary must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The dictionary from the <q>Dictionary List</q> window</li>
+<li><b>Rename</b> from the <b>File</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Rename to</pt>
+<pd>Type a new name for the dictionary.</pd></plentry>
+<plentry><pt>Adjust all references automatically</pt>
+<pd>If you select this option, all references to the renamed dictionary
+are also changed.</pd></plentry>
+</parml>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Rename</b>, the dictionary and, optionally,
+any references to it are renamed.</p>
+</section></refbody></reference>

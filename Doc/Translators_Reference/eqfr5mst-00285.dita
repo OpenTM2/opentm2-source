@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00285">
+  <title>Printing a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>printing</indexterm></indexterm>
+      <indexterm>printing<indexterm>dictionary extracts</indexterm></indexterm>
+      <p>You can choose to print a complete dictionary or parts of it. </p>
+      <p>If you only want to print part of a dictionary, for example all entries with a headword
+        starting with the letter <i>a</i>, or only some of the entry fields, or only the headwords
+        and the translations, you can define a filter for the print function.</p>
+      <p>You must define the layout of your print output in format files that you edit with a text
+        editor. In the print format file you define the entry fields to be printed and how they are
+        arranged in the printout.</p>
+      <p>You can send your printout to an attached workstation printer or have the printout data
+        sent to a file.</p>
+      <p>Before printing a dictionary or part of a dictionary, the output file structure must be
+        determined. If you decide not to use one of the format files provided by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>, you must create this file in the
+        subdirectory <codeph>\otm\prtform</codeph>. For more information on how to use the sample
+        format print files see <xref href="eqfr5mst-00286.dita#eqfr5mst-00286"/>. For a detailed
+        description of the structure and syntax of a print format file see <xref
+          href="eqfr5mst-00603.dita#eqfr5mst-00603"/>. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The dictionary must exist.</li>
+        <li>The format file for the specific printout layout must exist.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window</li>
+          <li>The dictionary you want to print</li>
+          <li><b>Print…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Print Dictionary</q> window (see <xref href="#eqfr5mst-00285/dicprt"/>) is
+        displayed. <required-cleanup><indexterm>windows<indexterm>Print
+            Dictionary</indexterm></indexterm></required-cleanup><fig id="dicprt" expanse="column">
+          <title>Print Dictionary window</title><image placement="break" href="eqfb7s10j.gif"
+              ><alt>Figure shows Print Dictionary window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>The selected dictionary name.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>The dictionary description text.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to</pt>
+          <pd>In this box, select where you want to send your printout to: <parml>
+              <plentry><pt>Printer</pt>
+                <pd>If you want the printout on your attached workstation printer.</pd></plentry>
+              <plentry><pt>File</pt>
+                <pd>If you want the printout on file. Enter the complete file name
+                  specification—consisting of drive, path, file name—in the <b>Name</b> field
+                  yourself or click <b>Select…</b>, which takes you to the <q>Select File</q> window
+                  assisting you in selecting the drive, directory, and file name (see <xref
+                    href="eqfr5mst-00123.dita#eqfr5mst-00123"/>).</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Format</pt>
+          <pd>Specify the print format file to be used: <parml>
+              <plentry><pt>Name</pt>
+                <pd>Select a format file from the list of available files. If you created a new
+                  format file, it should appear in this list.</pd></plentry>
+              <plentry><pt>Description</pt>
+                <pd>Describes the selected format file.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Filter</pt>
+          <pd>Specify whether to use a filter. You can use an existing filter or change it or create
+            a new filter. <parml>
+              <plentry><pt>Use filter</pt>
+                <pd>To use a filter, select this option and specify which filter to
+                use:</pd></plentry>
+              <plentry><pt>Name</pt>
+                <pd>Lists all available filters. To use or change an existing filter, select it. To
+                  define a new filter, type the name in the list box.</pd></plentry>
+              <plentry><pt>Description</pt>
+                <pd>Describes the selected filter.</pd></plentry>
+            </parml>
+            <p>Click <b>Edit…</b> to define the new filter or to change an existing one, which takes
+              you to the <q>Edit Dictionary Filter</q> window. For more information on how to define
+              filter conditions, see <xref href="eqfr5mst-00275.dita#eqfr5mst-00275"/>.</p></pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Print</b> to start the printing function. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you selected the <b>Printer</b> option, the dictionary printout is sent to your attached
+        printer.</p>
+      <p>If you selected the <b>File</b> option, the dictionary printout is stored in the specified
+        file.</p>
+    </section>
+  </refbody>
+</reference>

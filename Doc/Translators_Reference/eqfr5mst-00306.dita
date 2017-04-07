@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00306">
+<title>Deleting a terminology list</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Prerequisites</title><indexterm>terminology lists<indexterm>removing</indexterm></indexterm><indexterm>deleting<indexterm>terminology lists</indexterm></indexterm>
+<p>The list window that contains the terminology list to be deleted is active. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The terminology list to be deleted</li>
+<li><b>Delete</b> from the <b>File</b> menu</li>
+</ol></p>
+</section>
+<section><title>Options and parameters</title>
+<p>Before the system deletes the selected list, it asks you to confirm whether
+you really want it: 
+<ul>
+<li>If you select <b>No</b>, you can leave the delete function.</li>
+<li>If you select <b>Yes</b>, the list is deleted.</li>
+</ul> </p>
+</section>
+<section><title>Results</title>
+<p>If you selected <b>Yes</b>, the list is deleted; otherwise
+it remains unchanged.</p>
+</section></refbody></reference>

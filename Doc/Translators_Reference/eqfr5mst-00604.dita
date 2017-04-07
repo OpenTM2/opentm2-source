@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00604">
+<title>Tags for defining the format of a dictionary printout</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>tags</indexterm></indexterm>
+<indexterm id="tag">tags to format dictionary printout</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Each data element to be printed is defined
+between a start and an end tag (except for <codeph>&lt;set&gt;</codeph> and <codeph>&lt;var&gt;</codeph>). The end tag always starts with “&lt;/”. If
+you use any multiword terms as entry-field names, for example, Part of Speech,
+you must enclose them in single quotes (for example: <codeph>&lt;var
+name='Part of Speech'&gt;</codeph>). You may type these tags in either uppercase
+or in lowercase letters. Some of the tags have attributes (<codeph>&lt;set...&gt;</codeph>, <codeph>&lt;repeat...&gt;</codeph>, <codeph>&lt;var...&gt;</codeph>).</p>
+<p>You can control the layout of your printout by placing the variables at
+the appropriate position. The printing of a text or a data element starts
+where the opening pointed bracket (<codeph>&lt;</codeph>) has
+been placed.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="3*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Start tag, end tag</entry>
+<entry valign="top" rowsep="1">Meaning</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">
+<codeblock>&lt;description&gt;,
+&lt;/description&gt;</codeblock></entry>
+<entry valign="top">Here you can describe what your printout contains. These
+tags are optional and have no effect on the layout of your printout. This
+description is shown in the <q>Print Dictionary</q> window.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;dictfront&gt;,
+&lt;/dictfront&gt;</codeblock></entry>
+<entry valign="top">Contains administrative information related to the printed
+dictionary, such as the name of the dictionary and the date of printing. This
+information is printed once at the beginning of your printout before any entries
+are printed. These tags are optional.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;pagehead&gt;,
+&lt;/pagehead&gt;</codeblock></entry>
+<entry valign="top">Here you can specify the information that you want to
+be printed on the top of each printed page. These tags are optional.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;entryprt&gt;,
+&lt;/entryprt&gt;</codeblock></entry>
+<entry valign="top">Here specify the structure and contents of the entries
+you want to be printed. These tags are mandatory.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;pagefoot&gt;,
+&lt;/pagefoot&gt;</codeblock></entry>
+<entry valign="top">Here you can specify the information that you want to
+be printed at the bottom of each printed page. These tags are optional.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;dictback&gt;,
+&lt;/dictback&gt;</codeblock></entry>
+<entry valign="top">Contains information related to the printed dictionary.
+This information is printed at the end of your printout after all entries
+have been printed. These tags are optional.</entry></row>
+</tbody>
+</tgroup>
+</table>
+<p>Within the format files the tags must follow the same sequence as specified
+here. To modify the layout of your printout, you can use the following additional
+tags:</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="3*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Start tag, end tag</entry>
+<entry valign="top" rowsep="1">Meaning</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">
+<codeblock>&lt;comment&gt;,
+&lt;/comment&gt;</codeblock></entry>
+<entry valign="top">Here you can specify information that you do not want
+to appear on your printout. These tags are optional. They can occur anywhere
+within a format file, but not between another start and end tag.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;set...&gt;</codeblock></entry>
+<entry valign="top">This tag lets you specify the length of a line and the
+length of a page of your printout. It can occur anywhere within a format file,
+but not between another start and end tag. For more information, see <xref href="eqfr5mst-00605.dita#eqfr5mst-00605"/>.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;repeat...&gt;,
+&lt;/repeat&gt;</codeblock></entry>
+<entry valign="top">The information specified here is repeated until all information
+belonging to the specified entry field is printed. These tags are optional
+and can only occur between <codeph>&lt;entryprt&gt;</codeph> and <codeph>&lt;/entryprt&gt;</codeph>. For more information, see <xref href="eqfr5mst-00606.dita#eqfr5mst-00606"/>.</entry></row>
+<row>
+<entry valign="top">
+<codeblock>&lt;var...&gt;</codeblock></entry>
+<entry valign="top">This tag can have the attribute <codeph>“name=”</codeph>.
+It can occur only between the <codeph>&lt;pagehead&gt;</codeph>, <codeph>&lt;pagefoot&gt;</codeph>, and <codeph>&lt;entryprt&gt;</codeph> tags and their end tags. 
+<p>If it has
+the attribute <codeph>“sysname=$...”</codeph> it can occur only between
+the <codeph>&lt;dictfront&gt;</codeph>, <codeph>&lt;pagehead&gt;</codeph>, <codeph>&lt;entryprt&gt;</codeph>, <codeph>&lt;pagefoot&gt;</codeph>, and <codeph>&lt;dictback&gt;</codeph> tags and their
+corresponding end tags. For more information, see <xref href="eqfr5mst-00607.dita#eqfr5mst-00607"/>.</p></entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

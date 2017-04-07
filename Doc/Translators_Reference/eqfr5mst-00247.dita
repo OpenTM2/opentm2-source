@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00247">
+  <title>Edit menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Many of the editor functions are tied to the <q>Translation</q> window only. If a function on
+      the <b>Edit</b> menu cannot be performed in the <q>Original</q> window, the function is
+      disabled whenever the <q>Original</q> window becomes active. If a keystroke editor function
+      does not apply to the active window, the system beeps.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Menu or key</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Find and replace... (Alt+F6)</entry>
+            <entry valign="top">Locates a term and replaces it as specified. Works in
+                <q>Translation</q> and <q>Original</q> window. Changes in the original text are not
+              allowed.</entry>
+          </row>
+          <row>
+            <entry valign="top">Cut</entry>
+            <entry valign="top">Copies a marked text section to the system clipboard and removes
+              text afterwards.Works in <q>Translation</q> window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Copy</entry>
+            <entry valign="top">Copies a marked text section to the system clipboard for later
+              pasting.Works in <q>Translation</q> and <q>Original</q> window. Text cannot be pasted
+              into <q>Original</q> window though.</entry>
+          </row>
+          <row>
+            <entry valign="top">Paste</entry>
+            <entry valign="top">Inserts text from clipboard into active segment at current cursor
+              position.Works in <q>Translation</q> window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Undo</entry>
+            <entry valign="top">Restores the original state as it was before an action was
+              performed.Works in <q>Translation</q> window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Unmark block (Alt+m)</entry>
+            <entry valign="top">Removes marking from a text section.Works in <q>Translation</q> and
+                <q>Original</q> window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Split line (Alt+s)</entry>
+            <entry valign="top">Splits line at current cursor position.Works in <q>Translation</q>
+              window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Join line (Alt+j)</entry>
+            <entry valign="top">Combines current line with following line.Works in
+                <q>Translation</q> window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete</entry>
+            <entry valign="top">Lets you choose either of the following options: <dl>
+                <dlentry><dt>Current segment (Ctrl+d)</dt>
+                  <dd>Removes only the currently active segment from the Translation
+                  Memory.</dd></dlentry>
+                <dlentry><dt>All segments</dt>
+                  <dd>Removes all segments from the Translation Memory (those that were loaded in
+                    the editor). Works in <q>Translation</q> and <q>Original</q>
+                  window.</dd></dlentry>
+              </dl></entry>
+          </row>
+          <row>
+            <entry valign="top">Set m flag</entry>
+            <entry valign="top">Lets you choose one of the following options: <dl>
+                <dlentry><dt>Delete one m flag</dt>
+                  <dd>Deletes the m flag contained in the current segment.</dd></dlentry>
+                <dlentry><dt>Delete all m flags</dt>
+                  <dd>Deletes all m flags contained in the <keyword
+                      conref="common-symbols.dita#common-symbols/xlmem"/>.</dd></dlentry>
+                <dlentry><dt>Set one m flag</dt>
+                  <dd>Displays the m flag for the current segment.</dd></dlentry>
+                <dlentry><dt>Set all m flags</dt>
+                  <dd>Displays the m flags for all machine translations in the <keyword
+                      conref="common-symbols.dita#common-symbols/xlmem"/> that are currently loaded
+                    into the editor.</dd></dlentry>
+              </dl></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>The following key combinations let you manipulate text in both the <q>Original</q> and
+        <q>Translation</q> windows. Note that the two windows are synchronized with each other. That
+      means, whenever you activate a segment in the <q>Translation</q> window, it becomes active in
+      the <q>Original</q> window too, and vice versa. The matching segment in the opposite window is
+      presented beside the active one at the same level.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Keys</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Ctrl+Shift+Left</entry>
+            <entry valign="top">Marks previous word from cursor position to beginning of
+              word.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+Shift+Right</entry>
+            <entry valign="top">Marks next word from cursor position to end of word including the
+              blank space.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+Insert</entry>
+            <entry valign="top">Copies marked block to system clipboard.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+Delete</entry>
+            <entry valign="top">Deletes all characters from current cursor position to end of line
+              in active segment.Works in <q>Translation</q> window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+Home</entry>
+            <entry valign="top">Moves cursor to first segment in window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+End</entry>
+            <entry valign="top">Moves cursor to last segment in window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+left</entry>
+            <entry valign="top">Moves cursor to beginning of previous word.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+right</entry>
+            <entry valign="top">Moves cursor to beginning of next word.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+Enter</entry>
+            <entry valign="top">Activates next segment or segment where cursor is
+              positioned.</entry>
+          </row>
+          <row>
+            <entry valign="top">Ctrl+t</entry>
+            <entry valign="top">Toggles between <q>Original</q> window and <q>Translation</q>
+              window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Shift+left</entry>
+            <entry valign="top">Extends text marking by one character to the left.</entry>
+          </row>
+          <row>
+            <entry valign="top">Shift+right</entry>
+            <entry valign="top">Extends text marking by one character to the right.</entry>
+          </row>
+          <row>
+            <entry valign="top">Shift+Up</entry>
+            <entry valign="top">Extends text marking to the previous line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Shift+Down</entry>
+            <entry valign="top">Extends text marking to the next line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Shift+Insert</entry>
+            <entry valign="top">Inserts text from clipboard at current cursor position in active
+              segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+F6</entry>
+            <entry valign="top">Locates a term and changes it as specified.Works in
+                <q>Translation</q> window and <q>Original</q> window. Changes in the original text
+              are not allowed.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+Delete</entry>
+            <entry valign="top">Deletes all characters from current cursor position to end of active
+              segment. Works in <q>Translation</q> window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+j</entry>
+            <entry valign="top">Joins current line with following line.Works in <q>Translation</q>
+              window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+s</entry>
+            <entry valign="top">Splits line at current cursor position.Works in <q>Translation</q>
+              window only.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+n</entry>
+            <entry valign="top">Loads next collection of segments.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+p</entry>
+            <entry valign="top">Loads previous collection.</entry>
+          </row>
+          <row>
+            <entry valign="top">Alt+m</entry>
+            <entry valign="top">Removes marking from a text section.</entry>
+          </row>
+          <row>
+            <entry valign="top">Up</entry>
+            <entry valign="top">Moves cursor one line up.</entry>
+          </row>
+          <row>
+            <entry valign="top">Down</entry>
+            <entry valign="top">Moves cursor one line down.</entry>
+          </row>
+          <row>
+            <entry valign="top">Right</entry>
+            <entry valign="top">Moves cursor one character right.</entry>
+          </row>
+          <row>
+            <entry valign="top">Left</entry>
+            <entry valign="top">Moves cursor one character left.</entry>
+          </row>
+          <row>
+            <entry valign="top">Home</entry>
+            <entry valign="top">Moves cursor to beginning of current line.</entry>
+          </row>
+          <row>
+            <entry valign="top">End</entry>
+            <entry valign="top">Moves cursor to end of current line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Page Up</entry>
+            <entry valign="top">Moves text one page up.</entry>
+          </row>
+          <row>
+            <entry valign="top">Page Down</entry>
+            <entry valign="top">Moves text one page down.</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete</entry>
+            <entry valign="top">If a text section has been marked, the marked text is removed. If no
+              text has been marked, the character where the cursor is positioned is removed.</entry>
+          </row>
+          <row>
+            <entry valign="top">Backspace</entry>
+            <entry valign="top">Moves cursor back by one character in the active segment and deletes
+              this character.</entry>
+          </row>
+          <row>
+            <entry valign="top">Insert</entry>
+            <entry valign="top">Switches from insert mode to overtype mode and vice versa. When you
+              insert text in insert mode, the existing text is moved to the right to make room for
+              the new text. If you want to type over the existing text, switch to overtype
+              mode.</entry>
+          </row>
+          <row>
+            <entry valign="top">F3</entry>
+            <entry valign="top">Quits the Translation Memory editor and returns you to the
+              workbench.</entry>
+          </row>
+          <row>
+            <entry valign="top">F4</entry>
+            <entry valign="top">Saves any changes made in the Translation Memory and returns you to
+              the <q>Translation Memory Editor</q> window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Enter</entry>
+            <entry valign="top">Moves to next line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Double-click left mouse button</entry>
+            <entry valign="top">Marks entire segment beginning from the cursor position.</entry>
+          </row>
+          <row>
+            <entry valign="top">Double-click right mouse button</entry>
+            <entry valign="top">Removes marking from a segment.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

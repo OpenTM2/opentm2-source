@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00047">
+  <title>How markup tags are displayed</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Translation Environment<indexterm>displaying markup tags</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> lets you choose how to display 
+      <indexterm>markup tags<indexterm>protect</indexterm></indexterm>
+      <indexterm>markup tags<indexterm>unprotect</indexterm></indexterm>
+      <indexterm>markup tags<indexterm>hide</indexterm></indexterm>
+      <indexterm>markup tags<indexterm>shrink</indexterm></indexterm>
+      <indexterm>markup tags<indexterm>compact</indexterm></indexterm>markup information in a translation document:</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="3*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Style</entry>
+            <entry valign="top" rowsep="1">Meaning</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Protect</entry>
+            <entry valign="top">The markup tags are shown but you cannot change them (default).</entry>
+          </row>
+          <row>
+            <entry valign="top">Unprotect</entry>
+            <entry valign="top">The markup tags are shown and you can overwrite and change them.</entry>
+          </row>
+          <row>
+            <entry valign="top">Hide</entry>
+            <entry valign="top">The markup tags are not shown.</entry>
+          </row>
+          <row>
+            <entry valign="top">Shrink</entry>
+            <entry valign="top">All markup tags outside segments are not shown. A replacement character is shown instead.</entry>
+          </row>
+          <row>
+            <entry valign="top">Compact</entry>
+            <entry valign="top">The information that is not to be translated and the markup tags within a segment are replaced with a character.</entry>
+          </row>
+          <row>
+            <entry valign="top">Compact+1</entry>
+            <entry valign="top">Markup tags are shown up to a length of 10 characters and cannot be changed. Longer markup tags are followed by 
+              three dots (…), for example <codeph>[Style=@Out…</codeph>.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

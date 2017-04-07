@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="deaassm">
+<title>Assembler documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>Assembler</indexterm></indexterm>
+<indexterm>Assembler documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> allows you to translate text contained in Assembler files,
+that is, information that is enclosed by single quotes.  For example: 
+<codeblock>*2.......10....16......................................................72.......
+         DC    C'THIS IS A ONE LINE TEXT'          DC    C'This is
+a two line text string that will be presented x                under
+<keyword conref="common-symbols.dita#common-symbols/tm4w"/> on one line'</codeblock></p>
+<p>Import these documents into a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder, using the <codeph>EQFASM</codeph> markup
+table.</p>
+<p>Text spread over more than one line is shown on one line in the <q>Translation</q> window.
+Translated text that does not fit into one source record is spread
+into several lines. A continuation character is placed in column 72,
+and the continuation begins in column 16. </p>
+</body></topic>

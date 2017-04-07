@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00599">
+<title>FORMAT1.FRM</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>FORMAT1.FRM</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>This format file prints each headword and its translation. It uses the
+following format statements to achieve this:</p>
+<section><title>Part of FORMAT1.FRM</title>
+<codeblock>&lt;entryprt&gt;
+=======================
+&lt;var name=Headword&gt;
+  &lt;var name=Translation&gt;
+&lt;/entryprt&gt;</codeblock></section>
+<p>Between <codeph>&lt;entryprt&gt;</codeph> and <codeph>&lt;/entryprt&gt;</codeph> you specify
+which entry fields you want to be printed for each entry. The
+names following <codeph>var name=</codeph> must be the same names that
+are defined as entry field names in the dictionary you want to print. To
+see which entry field names are in a dictionary, select <b>Properties…</b> from the <b>File</b> menu when the <q>Dictionary List</q> window is active and the respective dictionary selected.</p>
+<p><codeph>&lt;var name=Translation&gt;</codeph> means that the translation
+for the headword is printed. If there is more than one translation,
+only the first translation is printed.</p>
+<p>Nontagged information that you type between the <codeph>&lt;entryprt&gt;</codeph> and <codeph>&lt;/entryprt&gt;</codeph> tags is printed for each
+iteration. In the example above, the <codeph>==========</codeph> is
+used as a separator line between the entries on your printout.</p>
+<p>The following is an example of what your dictionary printout
+would look like. Assume that the dictionary is English-German and the sample
+format FORMAT1.FRM  has been used for formatting. Two entries
+(rule and run) are extracted.</p>
+<section><title>Sample printout</title>
+<codeblock>=======================
+rule
+  regieren
+=======================
+run
+  laufen</codeblock></section>
+</body></topic>

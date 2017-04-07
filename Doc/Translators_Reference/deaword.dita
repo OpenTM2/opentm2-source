@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="deaword">
+<title><tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>Microsoft Word for Windows</indexterm></indexterm>
+<indexterm>Microsoft Word for Windows documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body><!--rev=oct00-->
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports the following document formats of <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>:
+<ul compact="yes">
+<li>Word Version 2.0</li>
+<li>Word Version 6.0</li>
+<li>Word Version 7.0 (Word 97)</li>
+<li>Word Version 8.0 (Word 98)</li>
+<li>Word Version 9.0 (Word 2000)</li>
+</ul></p>
+<p>Import these documents using the <codeph>EQFMSWRD</codeph> markup table.</p>
+<note>The markup tables <codeph>EQFWORD</codeph> and <codeph>EQFWORD6</codeph> are
+no longer supported. Therefore, analyze existing Word documents again
+using the new markup table <codeph>EQFMSWRD</codeph>.</note>
+</body></topic>

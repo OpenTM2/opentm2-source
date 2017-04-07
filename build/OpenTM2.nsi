@@ -1,4 +1,4 @@
-; Copyright (c) 2016, International Business Machines
+; Copyright (c) 2016-2017 International Business Machines
 ; Corporation and others.  All rights reserved.
 
 ;NSIS Source for OpenTM2 installer  
@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.3.2"
+!define PRODUCT_VERSION "1.4.0"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -333,7 +333,7 @@ SectionEnd
 
          ; We are trying to install to different root and there is already version installed elsewhere
 
-               MessageBox MB_OK "You are trying to install OpenTM2 to different drive from where it is currently installed! The Installer will now quit."
+               MessageBox MB_OK "You are trying to install OpenTM2 to different drive from where it is currently installed! The Installer will now quit." /SD IDOK
 
               Abort
        ${EndIf}
@@ -440,14 +440,14 @@ IfFileExists "$INSTDIR\PROPERTY\EQFNFLUENT.TRG_new_old" 0 Continue5
 StrCpy $R9 "Equal"
 ${TextCompare} "$INSTDIR\PROPERTY\EQFNFLUENT.TRG_new" "$INSTDIR\PROPERTY\EQFNFLUENT.TRG_new_old" "FastDiff" "FileDiffFound"
 StrCmp $R9 "NotEqual" 0 Continue4
-MessageBox MB_OK "An existing EQFNFLUENT.TRG was found on your computer. The new EQFNFLUENT.TRG was installed with a new name EQFNFLUENT.TRG_new."
+MessageBox MB_OK "An existing EQFNFLUENT.TRG was found on your computer. The new EQFNFLUENT.TRG was installed with a new name EQFNFLUENT.TRG_new." /SD IDOK
 Continue4:
 Goto Continue6
 ${Else}
 Goto Continue8
 ${EndIf}
 Continue5:
-MessageBox MB_OK "An existing EQFNFLUENT.TRG was found on your computer. The new EQFNFLUENT.TRG was installed with a new name EQFNFLUENT.TRG_new."
+MessageBox MB_OK "An existing EQFNFLUENT.TRG was found on your computer. The new EQFNFLUENT.TRG was installed with a new name EQFNFLUENT.TRG_new." /SD IDOK
 Continue8:
 IfFileExists "$INSTDIR\PROPERTY\EQFNFLUENT.TRG_old" 0 Continue6
 Delete "$INSTDIR\PROPERTY\EQFNFLUENT.TRG_old"
@@ -460,7 +460,6 @@ SetOverwrite on
 ${File} "PROPERTY\" "EQFNFLUENT.TRG"
 Continue7:
 ;End control trigger file
-SetOverwrite on
 
 ${SetOutPath} "$INSTDIR\PRTFORM"
 ${File} "PRTFORM\" "FORMAT1.FRM"
@@ -484,7 +483,10 @@ ${File} "TABLE\" "HISTHTML.XSL"
 ${File} "TABLE\" "HISTTEXT.XSL"
 ${File} "TABLE\" "LISTFORM.IBL"
 ${File} "TABLE\" "MEMTABLE.IBL"
-${File} "TABLE\" "mteval.xsl"
+${File} "TABLE\" "otmmteval.xsl"
+IfFileExists "$INSTDIR\TABLE\MTEVAL.XSL" 0 NoMTEVALXSL
+Delete "$INSTDIR\TABLE\MTEVAL.XSL"
+NoMTEVALXSL:
 ${File} "TABLE\" "PANELW.LNG"
 ${File} "TABLE\" "QDPRTAGS.IBL"
 ${File} "TABLE\" "QFRTF.IBL"
@@ -633,7 +635,6 @@ ${File} "PLUGINS\UserMarkupTablePlugin\" "UserMarkupTablePlugin.DLL"
 
 !include ..\..\build\OtmMarkupTablePlugin_inc.nsi
 
-
 ${SetOutPath} "$INSTDIR\OtmTMService"
 ${File} "OtmTMService\" "OtmTMService.jar"
 ${SetOutPath} "$INSTDIR\OtmTMService\configure"
@@ -647,6 +648,7 @@ ${File} "OtmTMService\lib\" "jdom-1.1.3.jar"
 ${File} "OtmTMService\lib\" "log4j-1.2.15.jar"
 ${File} "OtmTMService\lib\" "mchange-commons-java-0.2.3.3.jar"
 ${File} "OtmTMService\lib\" "mysql-connector-java-5.1.7-bin.jar"
+${File} "OtmTMService\lib\" "mariadb-java-client-1.5.6.jar"
 ${SetOutPath} "$INSTDIR\OtmTMService\MANIFEST"
 ${File} "OtmTMService\MANIFEST\" "MANIFEST.MF"
 
@@ -789,6 +791,11 @@ ${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "tr_TR.dic"
 ${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "tr_TR.aff"
 ${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "uk_UA.dic"
 ${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "uk_UA.aff"
+${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "az-Latn-AZ.dic"
+${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "az-Latn-AZ.aff"
+${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "cy_GB.dic"
+${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "cy_GB.aff"
+${File} "PLUGINS\OtmSpellHSPlugin\DICT\" "cy-GB_LICENSE.txt"
 
 ${SetOutPath} "$INSTDIR\PLUGINS\OtmMorphICUPlugin\Rules"
 ${File} "PLUGINS\OtmMorphICUPlugin\Rules\" "english-otm-rules.txt"
@@ -947,7 +954,7 @@ Function .onInit
 
          ; this version is OLDER
 
-              MessageBox MB_OK|MB_ICONSTOP "   You are trying to install same or older version of OpenTM2! $\nIf you really want to do this, first uninstall the current version$\n$\n$\tThe Installer will now quit."
+              MessageBox MB_OK|MB_ICONSTOP "   You are trying to install same or older version of OpenTM2! $\nIf you really want to do this, first uninstall the current version$\n$\n$\tThe Installer will now quit." /SD IDOK
 
               Abort
        ${EndIf}

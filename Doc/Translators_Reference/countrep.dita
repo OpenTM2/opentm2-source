@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="countrep">
+<title>Creating reports</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>creating<indexterm>reports (from command
+area)</indexterm></indexterm>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to collect information about the effort, state,
+and history of your translations. The collected information can be
+displayed in different reports and used as a basis for calculating
+translation costs.</p>
+<p>Instead of using <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows to create reports,
+using a command might be more convenient.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>creating reports</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">creating reports</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you start to create
+reports from the <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command area. Note that
+lowercase letters in a parameter name are optional and need not be
+typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>CNTRPT</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><var>folder</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>FIles</kwd><oper>=</oper>
+<groupchoice>
+<groupseq><var>document_name</var></groupseq>
+<groupseq><delim>(</delim>
+<groupseq><repsep>,</repsep><var>document_name</var></groupseq><delim>)</delim></groupseq>
+<groupseq><oper>@</oper><var>list_file_name</var></groupseq></groupchoice></groupseq>
+<groupseq><delim>/</delim><kwd>OUT</kwd><oper>=</oper><var>output_name</var></groupseq>
+<groupseq><delim>/</delim><kwd>REport</kwd><oper>=</oper>
+<groupchoice><kwd>HISTORY</kwd><kwd>COUNTING</kwd><kwd>CALCULATING</kwd><kwd>PREANALYSIS</kwd><kwd>REDUNDANCY</kwd><kwd>REDUNDANCYSEGMENT</kwd></groupchoice></groupseq>
+<groupseq><delim>/</delim><kwd>TYpe</kwd><oper>=</oper>
+<groupchoice><kwd>DATE</kwd><kwd>BRIEF</kwd><kwd>DETAIL</kwd><kwd>WITH_TOTALS</kwd><kwd>WITHOUT_TOTALS</kwd><kwd>BASE</kwd><kwd>BASE_SUMMARY</kwd><kwd>BASE_SUMMARY_FACT</kwd><kwd>SUMMARY_FACT</kwd><kwd>FACT</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>PRofile</kwd><oper>=</oper><var>profile</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>OVerwrite</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">NO</kwd><kwd>YES</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>FOrmat</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">XML</kwd><kwd>ASCII</kwd><kwd>HTML</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>QUIET</kwd></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=CNTRPT</pt>
+<pd><codeph>CNTRPT</codeph> specifies that you want to create a report.</pd></plentry>
+<plentry><pt>/FLD=<synph><var>folder</var></synph></pt>
+<pd><synph><var>folder</var></synph> specifies the name of the folder that contains
+the documents of which you want to create a report.</pd></plentry>
+<plentry><pt>/FIles=<synph><var>document_name</var></synph></pt>
+<pd><synph><var>document_name</var></synph> specifies the name of the
+document of which you want to create a report.
+<p>If you specify several
+documents, enclose the document names in brackets and separate them
+by commas.</p>
+<p>If you want to specify a list of document names in
+a list file, refer to this list file by preceding the list file name
+with the <codeph>@</codeph> symbol (<codeph>@</codeph><synph><var>list_file_name</var></synph>).
+In the list file enclose the document names in brackets and separate
+them by commas.</p>
+<p>If you do not specify the <b>FIles</b> option,
+all documents in the folder are selected.</p> </pd></plentry>
+<plentry><pt>/OUT=<synph><var>output_name</var></synph></pt>
+<pd><synph><var>output_name</var></synph> specifies the name of the file where the
+report is to be stored (along with the drive and directory information).</pd></plentry>
+<plentry><pt>/REport=<synph><var>rpt_name</var></synph></pt>
+<pd><synph><var>rpt_name</var></synph> specifies whether you want to create
+a History, Counting, Calculating, Preanalysis, or Redundancy Report
+or a Redundant Segment List.</pd></plentry>
+<plentry><pt>/TYpe=<synph><var>rpt_type</var></synph></pt>
+<pd><synph><var>rpt_type</var></synph> specifies the type of report.
+<p>The following
+types are available for a History Report:
+<ul>
+<li>DATETo get a brief report that is sorted
+by the creation date and time of the documents.</li>
+<li>BRIEFTo get a brief report where the information
+is sorted by document name.</li>
+<li>DETAILTo get a detailed report of the process
+tasks performed on the selected documents.</li>
+</ul></p>
+<p>The following types are available for a Counting Report:
+<ul>
+<li>WITH_TOTALSTo get a report on one or
+more documents in the folder, with a summary at its end.</li>
+<li>WITHOUT_TOTALSTo get a report on one
+or more documents in the folder, without a summary.</li>
+</ul></p>
+<p>The following types are available for a Calculating, Preanalysis,
+or Redundancy Report:
+<ul>
+<li>BASETo get a rough overview, for each selected
+document, of the activities performed by <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and by the translator
+to complete a translation.</li>
+<li>BASE_SUMMARYTo get an overview and a
+summary of the activities performed for selected documents.</li>
+<li>FACTTo get a detailed overview of the costs
+of a translation using different complexity and pay factors.</li>
+<li>BASE_SUMMARY_FACTTo get a report
+containing all the information previously described.</li>
+<li>SUMMARY_FACTTo get a report containing
+both the summary and the fact sheet.</li>
+</ul></p></pd></plentry>
+<plentry id="profileoption"><pt>/PRofile=<synph><var>profile</var></synph></pt>
+<pd><synph><var>profile</var></synph> specifies the name of the profile to be loaded.
+When this parameter is omitted, the profile recently used for the
+folder is used. To suppress the usage of profiles specify <codeph>NONE</codeph> as
+profile name.</pd></plentry>
+<plentry><pt>/OVerwrite=</pt>
+<pd>Specifies whether the file specified in <codeph>output_name</codeph> is
+to be overwritten if it already exists (<codeph>NO</codeph> is the default).</pd></plentry>
+<plentry><pt>/FOrmat=</pt>
+<pd>Specifies the output format for the report. 
+<p>The following
+formats can be used:
+<ul>
+<li>ASCIITo create the report in plain ASCII
+text</li>
+<li>XMLTo create the report in the XML format</li>
+<li>HTMLTo create the report in HTML format</li>
+</ul></p></pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. If you do not specify this parameter, a message window
+pops up whenever an error occurs or when the task has successfully
+completed.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to create a report using the OTMBATCH
+command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=cntrpt /fld=sample1 /out=output /report=history /type=date</codeblock></section></required-cleanup>
+<p>In this example, a History Report of folder <codeph>sample1</codeph> is
+created and stored in the file <codeph>output</codeph>.</p>
+</example></refbody></reference>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00136">
+<title>Analyzing documents using defaults</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>analyzing<indexterm>documents using defaults</indexterm></indexterm>
+<p>Segmentation is the basic part of the analysis. You activate it
+implicitly when you select <b>Open</b> for a document
+that has not yet been analyzed. <indexterm>document</indexterm><indexterm>opening</indexterm></p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder containing the document must be opened. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The document to analyze from the <q>Document List</q> window of
+the folder</li>
+<li><b>Open</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>Alternatively, double-click the document in the <q>Document List</q> window.</p>
+<p>This takes you to the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> where the analyzed document is displayed
+in the <q>Translation</q> window.</p>
+</section>
+<section><title>Results</title>
+<p>The document is segmented. You can start to translate it (see <xref href="eqfr5mst-00185.dita#eqfr5mst-00185"/>).</p>
+</section></refbody></reference>

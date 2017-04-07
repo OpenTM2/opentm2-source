@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00133">
+<title>Overview and terminology</title>
+<prolog><metadata><keywords>
+
+<indexterm>document<indexterm>overview of functions</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>You must first <i>import</i> documents you want
+to translate into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> (see <xref href="eqfr5mst-00174.dita#eqfr5mst-00174"/>).</p>
+<p>This can be done by importing documents into an existing folder.
+At this point, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> asks you to specify the properties of the document.
+You can either let the system assign the default properties of the
+folder to which the document belongs, or you can assign different
+properties to the document.</p>
+<p>Another method for importing documents is to import a complete
+folder that contains at least one document (see <xref href="eqfr5mst-00209.dita#eqfr5mst-00209"/>).</p>
+<p>When you go to the <keyword conref="common-symbols.dita#common-symbols/xlenv"/> to begin translating a new document, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> <i>analyzes</i> the document to distinguish between the
+text that requires translation and markup data. It then splits up
+the document into translatable <i>segments</i>—which
+usually correspond to individual sentences—and markup data that
+is not to be translated.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can distinguish between abbreviations ended
+by a period and the end of a sentence. It uses an abbreviation list
+to correctly identify sentence boundaries. See <xref href="eqfr5mst-00140.dita#eqfr5mst-00140"/> to
+learn how to maintain an abbreviation list.</p>
+<p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor displays the segments to be translated and the
+markup in different colors so that you can easily distinguish between
+the two. As you move from segment to segment, the markup data is skipped.</p>
+<p>With the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor, you can check the spelling in the translated
+document and see suggestions for correct spellings.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> also includes a <i>word count</i> function,
+which shows you the number of words and markup tags in the original
+and translated documents.</p>
+<p>Prior to translating a document, you can check a document against
+the dictionaries that are installed with <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to compile a list
+of terms in the document that are not currently in the dictionaries.
+You can choose to add terms from this <i>new terms
+list</i> to a dictionary.</p>
+<p>When translating a new version of an existing document that has
+already been translated, you should check whether a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> for the
+document already exists, or whether one can be generated.</p>
+<p>To continue translating a document that has been partly translated
+by somebody else, you should first acquire all related translation
+material. In particular, ask for the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and all the dictionaries
+that were used. These can be passed to you in the form of an exported
+folder.</p>
+<p>You can then display details of the document in the <q>Document
+List</q> window, such as the properties and processing status of a
+document, the date of import, date of analysis, and what percentage
+of the document has already been translated.</p>
+<p>After completing a translation, you can choose to <i>export</i> a
+document back into its original format to load it into the original
+word processing system for a final layout review. </p>
+</body></topic>

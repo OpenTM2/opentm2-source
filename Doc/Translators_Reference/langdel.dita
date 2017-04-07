@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="langdel">
+<title>Deleting language-support files</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>language-support files<indexterm>deleting</indexterm></indexterm><indexterm>deleting<indexterm>language-support files</indexterm></indexterm>
+<p>You can delete a language-support file when you no longer need it. You
+may want to do this, for example, if you no longer translate from or into
+this language. </p>
+</section>
+<section><title>Prerequisites</title>
+<p>None.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li><b>Display language list</b> from the <b>Utilities</b> menu</li>
+<li>The language-support file to delete</li>
+<li><b>Delete</b> from the <b>File</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<p>Before <keyword conref="common-symbols.dita#common-symbols/tm4w"/> deletes the selected language-support file, you are asked
+to confirm your request: 
+<ul>
+<li>Select <b>Yes</b> to delete the language-support file.</li>
+<li>Select <b>No</b> to cancel the delete request.</li>
+</ul> </p>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Yes</b>, the language-support file is deleted.
+Otherwise, it remains unchanged. A reference to this source language may still
+exist in certain folders, dictionaries, and <keyword conref="common-symbols.dita#common-symbols/xlmems"/>. Update the respective
+properties so that the deleted language-support file is no longer referred
+to. </p>
+</section></refbody></reference>

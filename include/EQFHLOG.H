@@ -65,7 +65,8 @@ typedef enum
   DOCAPI_LOGTASK3,                     // histlog written vial API call in DOCSAVEHIST3 format
   DOCIMPNEWTARGET_LOGTASK3,            // new target document due to import in DOCSAVEHIST3 format
   HISTLOGDELETE_LOGTASK,               // history delete log record
-  HISTDATA_RESET_LOGTASK               // reset/ignore any previous calculating infos
+  HISTDATA_RESET_LOGTASK,              // reset/ignore any previous calculating infos
+  FOLPROP_LOGTASK2                     // folder properties changed record (new format)
 } LOGTASK;
 
 
@@ -285,6 +286,38 @@ typedef struct _FOLPROPHIST
   CHAR        DictTable[NUM_OF_FOLDER_DICS*MAX_FILESPEC]; // list of dicts
 } FOLPROPHIST, *PFOLPROPHIST;
 
+// object identifiers for the list of changes in FOLPROPHIST2 
+#define FOLPROP_DESCRIPTION_OBJ 'C'
+#define FOLPROP_EDITOR_OBJ      'E'
+#define FOLPROP_MARKUP_OBJ      'A'
+#define FOLPROP_MEMORY_OBJ      'M'
+#define FOLPROP_SOURCELANG_OBJ  'S'
+#define FOLPROP_TARGETLANG_OBJ  'T'
+#define FOLPROP_DICTIONARY_OBJ  'D'
+#define FOLPROP_RO_MEMORY_OBJ   'R'
+
+// activity identifiers for the list of changes in FOLPROPHIST2 
+#define FOLPROP_UNCHANGED_ACTION 'U'
+#define FOLPROP_REMOVED_ACTION   'R'
+#define FOLPROP_NEW_ACTION       'N'
+
+//+----------------------------------------------------------------------------+
+//|  Layout of additional info part for task FOLPROP2                          |
+//|                                                                            |
+//|  The list of changes is in the following format:                           |
+//|     entry-1 entry-2 .... entry-n ZERO                                      |
+//|                                                                            |
+//|     each entry consists of                                                 |
+//|     1 character object identifier                                          |
+//|     1 character activity identifier                                        |
+//|     n characters old/new/unchanged data (zero terminated)                  |
+//|                                                                            |
+//+----------------------------------------------------------------------------+
+typedef struct _FOLPROPHIST2
+{
+  BOOL        fOverFlow;               // list of changes did overflow szChanges buffer
+  CHAR        szChanges[4000];         // list of changes in the folder properties
+} FOLPROPHIST2, *PFOLPROPHIST2;
 
 
 //+----------------------------------------------------------------------------+
@@ -457,8 +490,9 @@ typedef union _HISTLOGVARPART
   DOCEXPORTHIST  DocExport;
   DOCPROPHIST    DocProp;
   FOLPROPHIST    FolProp;
+  FOLPROPHIST2   FolProp2;
   FOLPROPHISTSHIPMENT   FolPropShipment; //SHIPMENT_HANDLER
   VERSIONHIST    VersionHist;
-  BYTE           FillArea[4000];       // there are some histlogs around with varparts of 860 bytes ...
+  BYTE           FillArea[12000];       // just to have enough free room in this union even for slightly larger variable parts ...
 } HISTLOGVARPART, *PHISTLOGVARPART;
 

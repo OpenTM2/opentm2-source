@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00279">
+  <title>Exporting a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>exporting</indexterm></indexterm>
+      <indexterm>exporting<indexterm>dictionaries</indexterm></indexterm>
+      <p>There are two ways to export dictionary data, within a folder in the internal <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> format or as an external dictionary in
+        SGML format.</p>
+      <p>Export a dictionary if you want to pass the dictionary on to other <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> users or to create a backup copy of a
+        dictionary. Protected dictionaries must be exported in a folder. For more information on
+        folder export, see <xref href="eqfr5mst-00208.dita#eqfr5mst-00208"/>.</p>
+      <p>Exporting a dictionary into an SGML-based file is required if you want to use the
+        dictionary data in environments other than <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p><indexterm>dictionary<indexterm>Unicode enablement</indexterm></indexterm>Exporting a
+        dictionary can also be part of the conversion of a dictionary into Unicode. To convert a
+        dictionary into Unicode, you must first export it from <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> and then import it again. In both
+        cases, you select <b>SGML Unicode</b> as export or import format.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>Sufficient disk space for the exported dictionary is available. </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window</li>
+          <li>The dictionary you want to export</li>
+          <li><b>Export…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Export dictionary</q> window is displayed (see <xref
+          href="#eqfr5mst-00279/exportdictwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Export
+                Dictionary</indexterm></indexterm></required-cleanup><fig id="exportdictwin" expanse="column">
+          <title>Export Dictionary window</title><image placement="break" href="eqfb7s10f.gif"
+              ><alt>Figure shows Export Dictionary window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Save in</pt>
+          <pd>Select the drive and directory to which the dictionary is to be exported.</pd>
+        </plentry>
+        <plentry>
+          <pt>File name</pt>
+          <pd>Contains the name of the dictionary to be exported. You can overwrite it with a new
+            name.</pd>
+        </plentry>
+        <plentry>
+          <pt>Save as type</pt>
+          <pd>Select the format in which the dictionary is to be stored. Select <b>SGML Unicode</b>
+            if the export is part of your conversion of the dictionary into Unicode.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Save</b> to begin exporting the dictionary.</p>
+      <p>If you specified a new directory name, you are prompted to confirm whether you want to
+        create this new directory. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>An SGML-based dictionary file is created at the specified location and can be given to
+        other users or programs for further usage.</p>
+    </section>
+  </refbody>
+</reference>

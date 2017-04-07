@@ -153,7 +153,7 @@ enum Frequency
 {
     Day,
     Week,
-    Manual
+    Month//Manual
 };
 
 typedef struct _PROCESSBAR

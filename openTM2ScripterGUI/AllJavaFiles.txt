@@ -30,6 +30,8 @@
 ..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\custom\ScriptOutlineTransferHandler.java
 ..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\custom\ScriptOutlineTree.java
 ..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\custom\ScriptSelectableGroup.java
+..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\custom\ParameterFramePanel.java
+..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\custom\Panel4EqfAnaylyzeDocEx.java
 ..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\FontSelector.java
 ..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\HelpDialog.java
 ..\openTM2ScripterGUI\src\de\ibm\com\opentm2scripteride\gui\Highlighting.java

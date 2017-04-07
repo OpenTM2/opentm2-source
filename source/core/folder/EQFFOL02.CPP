@@ -7031,6 +7031,7 @@ HWND        hwnd                     // window to be used as parent for messages
           case DOCEXPORT_LOGTASK:
           case DOCPROP_LOGTASK:
           case FOLPROP_LOGTASK:
+          case FOLPROP_LOGTASK2:
           case LONGNAME_LOGTASK:
           case DOCSAVE_LOGTASK2:
           case DOCIMPNEWTARGET_LOGTASK2:

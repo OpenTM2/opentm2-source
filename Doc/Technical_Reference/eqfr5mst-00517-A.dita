@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00517-A" rev="GF_03042017">
+  <title>EqfUpdateMem</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfUpdateMem</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfUpdateMem</indexterm></indexterm>
+      <p><i>EqfUpdateMem</i> adds a new <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposal to the 
+        <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, or updates an existing one having the same key.</p>
+    </section>
+
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfUpdateMem</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>  
+          <var>lHandle</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>
+          <var>pNewProposal</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>  
+          <var>IOptions</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+<!--          <colspec colname="col1" colwidth="53*"/>-->
+          <colspec colname="col1" colwidth="73*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lHandle</entry>
+              <entry colname="col3">The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> handle from a
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> previously opened using EqfOpenMem
+                (see <xref href="eqfr5mst-00509-A.dita#eqfr5mst-00509-A"/>).</entry>
+            </row>
+            <row>
+              <entry colname="col1">PMEMPROPOSAL</entry>
+              <entry colname="col2">pNewProposal</entry>
+              <entry colname="col3">Pointer to a MEMPROPOSAL structure filled with the proposal data which will be added 
+                to the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, at least the source text, the target 
+                text, the source language, the target language and the markup table have to be filled.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options for the update process (currently none).</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2"><ph>Error code (EQF message number). Use <i>EqfGetLastError</i> (see <ph>page 
+                    <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></ph>) to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <example>
+      <title>Code sample</title>
+<codeblock> 
+{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+  LONG lHandle = 0;
+  
+  // start the Eqf calling interface session 
+  usRC = EqfStartSession( &amp;hSession );
+  
+  // open the memory TestMem 
+  if ( !usRC ) 
+  {
+    usRC = EqfOpenMem( hSession, "TestMem", &amp;lHandle, 0 );
+  } /* endif */
+  
+  // add a new memory proposal
+  if ( !usRC ) 
+  {
+    PMEMPROPOSAL pProposal = new MEMPROPOSAL;
+  
+    // fill-in proposal data
+    memset( pProposal, 0, sizeof(MEMPROPOSAL) );
+    wcscpy( pProposal->szSource, L"This is a sentence." );
+    wcscpy( pProposal->szTarget, L"Dies ist ein Satz." );
+    strcpy( pProposal->szSourceLanguage, "English(U.S.)" );
+    strcpy( pProposal->szTargetLanguage, "German(Reform)" );
+    strcpy( pProposal->szMarkup, "OTMANSI" );
+  
+    usRC = EqfUpdateMem( hSession, lHandle, pPropsal, 0 );
+  
+    delete pProposal;
+  } /* endif */
+  ...
+  
+  // close the memory 
+  if ( !usRC ) 
+  {
+    usRC = EqfCloseMem( hSession, lHandle, 0 );
+  } /* endif */
+  
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+  
+</codeblock>
+    </example>
+  </refbody>
+</reference>

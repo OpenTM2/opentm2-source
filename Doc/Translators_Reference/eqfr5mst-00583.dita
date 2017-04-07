@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00583">
+  <title>Editor functions reference</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To assign a function to a key or a key combination, click <b>Keys…</b> in the <b>Options</b> menu, select the function and assign it to a key.</p>
+    <p>To call an editor function that is assigned to a key combination, click <b>Commands…</b> in the <b>Options</b> menu, select the command to 
+      be executed, and click <b>Run</b>.</p>
+    <p>On the following pages, you find the complete list of the functions available in the 
+      <keyword conref="common-symbols.dita#common-symbols/xlenv"/>. They are grouped as follows: 
+      <ul>
+        <li>Editor functions inside the <q>Translation</q> window 
+          <ul>
+            <li><xref href="eqfr5mst-00585.dita#eqfr5mst-00585"/></li>
+            <li><xref href="eqfr5mst-00586.dita#eqfr5mst-00586"/></li>
+            <li><xref href="eqfr5mst-00587.dita#eqfr5mst-00587"/></li>
+            <li><xref href="eqfr5mst-00588.dita#eqfr5mst-00588"/></li>
+            <li><xref href="eqfr5mst-00589.dita#eqfr5mst-00589"/></li>
+            <li><xref href="eqfr5mst-00590.dita#eqfr5mst-00590"/></li>
+            <li><xref href="eqfr5mst-00591.dita#eqfr5mst-00591"/></li>
+          </ul>
+        </li>
+        <li>Editor functions outside the <q>Translation</q> window <ul>
+            <li><xref href="eqfr5mst-00593.dita#eqfr5mst-00593"/></li>
+            <li><xref href="eqfr5mst-00594.dita#eqfr5mst-00594"/></li>
+            <li><xref href="eqfr5mst-00595.dita#eqfr5mst-00595"/></li>
+            <li><xref href="eqfr5mst-00596.dita#eqfr5mst-00596"/></li>
+          </ul>
+        </li>
+      </ul>
+    </p>
+    <p>The tables shown provide a column in which you can enter the key that you assigned to the functions. Note that the keys Ctrl+A 
+      to Ctrl+Z and Ctrl+a to Ctrl+z are reserved keys and cannot be assigned.</p>
+  </body>
+</topic>

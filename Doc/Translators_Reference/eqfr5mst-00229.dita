@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00229">
+  <title>Exporting a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>Translation Memory<indexterm>exporting</indexterm></indexterm>
+      <indexterm>exporting<indexterm>Translation Memory databases</indexterm></indexterm>
+      <p>To make a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> available to another
+        system or user, you can export it to create an external <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>. An external <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> is in an SGML-based data exchange
+        format that you can use to pass your <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> data to users who do not work with
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p><indexterm>Translation Memory<indexterm>Unicode enablement</indexterm></indexterm>Exporting
+        a Translation Memory can also be part of the conversion of a Translation Memory into
+        Unicode. To convert a Translation Memory into Unicode, you must first export it from
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and then import it again. In
+        both cases, you select <b>SGML UTF-16</b> as export format or import format.</p>
+      <p>You can also export the memory using the Translation Memory exchange format TMX.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be exported</li>
+          <li><b>Export…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Export Translation Memory</q> window is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Export <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"
+          /></indexterm></indexterm></required-cleanup><fig id="exptransmemwin" expanse="column">
+          <title>Export <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            window</title><image placement="break" href="eqfb7s9c.gif"><alt>Figure shows Export
+              window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Save in</pt>
+          <pd>Select the drive and directory to which the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> is to be exported.</pd>
+        </plentry>
+        <plentry>
+          <pt>File name</pt>
+          <pd>Contains the name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            to be exported. You can overwrite it with a new name.</pd>
+        </plentry>
+        <plentry>
+          <pt>Save as type</pt>
+          <pd>Select the format in which the Translation Memory is to be stored. Select <b>SGML
+              UTF-16</b> if the export is part of your conversion of the Translation Memory into
+            Unicode. Select <b>TMX (UTF-16)</b> or <b>TMX (UTF-8)</b> to export the memory in the
+              <b>TMX format.Select TMX (UTF-16) (no CRLF)</b> or <b>TMX (UTF-8) (no CRLF)</b> to
+            export the memory in the TMX format and to removed any line breaks contained in the
+            segment data. Line break removal will insert blanks when necessary.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Save</b> to begin exporting the <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+      <p>If you selected a diskette drive and the data volume of the <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> exceeds the capacity of the diskette,
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> informs you that it cannot
+        export the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in this way. You
+        then must export the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in a
+        folder. For more information, see <xref href="eqfr5mst-00208.dita#eqfr5mst-00208"/>. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The Translation Memory is exported as a file that you can pass to other users or systems.
+        The default file extension is <codeph>EXP</codeph> for SGML format export and TMX for TMX
+        format export. The internal Translation Memory remains unchanged.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00615">
+<title><!--rev=wst-->Inline Tag pre-processing for machine translation - Overview</title>
+<prolog><metadata><keywords>
+
+<indexterm>Inline Tag pre-processing for machine translatione</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The WebSphere Translation server cannot handle inline tagging other than
+HTML-look-alike (i.e. inline tagging which is enclosed in angle brackets '&lt;'
+and '&gt;'). Inline tagging in other formats has to be converted before segments
+containing this inline tags are send to the MT server. This conversion is
+performed in module EQF2WTS which handles the pre-processing of inline tagging
+and the post-processing (after translation has been completed).</p>
+<p>The module has two entry points: </p>
+<ul>
+<li> TM2WST for the conversion of a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> SNOMATCH file into
+a WST SNOMATCH file</li>
+<li> WST2TM for the conversion of a WST SNOMATCH file into a <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+SNOMATCH file.</li>
+</ul>
+<p>For the following markups no inline tag pre-processing is performed as
+these markups use already tags which are enclosed in angle brackets:</p>
+<ul>
+<li>EQFHTML2</li>
+<li>QFHTML4</li>
+<li>IBMXML</li>
+<li>IBMHTM32</li>
+<li>IBMIDDOC </li>
+<li>EQFINT2</li>
+<li>EQFSGML</li>
+<li>IBMDITA</li>
+<li>IBMJDK11 </li>
+<li>IBMJSPHT</li>
+<li>IBMJXWML</li>
+<li>IBMJXHT</li>
+<li>IBMNTDAT</li>
+<li>IBMREXX</li>
+<li>IBMSYS </li>
+<li>IBMUHTM3</li>
+<li>IBMXHTML</li>
+<li>IBMXMNCM</li>
+<li>IBMXMTVP</li>
+<li>IBMXMWEL</li>
+<li>IBMXMWML</li>
+<li>IBMXMXSL</li>
+</ul>
+<p>For all other markups a new inline tag section is added to the segment-data
+which contains the original inline tags. The inline tags within the segments
+are replaced by the dummy tag &lt;iTag<i>n</i>&gt; , where<i> n </i>is the number of the inline tag in the inline tag area.
+Angle brackets within the inline tags are replaced with '$1' and '$2' to avoid
+any collision with the control tags of the SNOMATCH file.</p>
+<p>A sample: </p>
+<p>Original segment information in SNOMATCH file:</p>
+<codeblock>&lt;Segment&gt;0000000003
+&lt;Control&gt;
+000011•1•0000000000000000•English(U.S.)•German(DPAnat)••EQFRTF•MORE1.RTF
+&lt;/Control&gt;
+&lt;Source&gt;A small {\fs125 sample } containing inline tags.&lt;/Source&gt;
+&lt;Target&gt;&lt;/Target&gt;
+&lt;/Segment&gt;
+</codeblock>
+<p>Segment information after conversion:</p>
+<codeblock>&lt;Segment&gt;0000000003
+&lt;Control&gt;
+000011•1•0000000000000000•English(U.S.)•German(DPAnat)••EQFRTF•MORE1.RTF
+&lt;/Control&gt;
+&lt;InlineTags&gt;{\fs125 $0}$0&lt;/InlineTags&gt;
+&lt;Source&gt;A small &lt;ITag0&gt;sample&lt;ITag1&gt;containing inline tags.&lt;/Source&gt;
+&lt;Target&gt;&lt;/Target&gt;
+&lt;/Segment&gt;
+</codeblock>
+<p><b>Inline tag post-processing</b></p>
+<p>In the inline tag post-processing the inline tag placeholders (&lt;ITag<i>n</i>&gt;) in the source and target segments are replaced with
+the original inline tags and the &lt;InlineTags&gt;section is removed.</p>
+<p><b>Function Reference</b></p>
+<p><b>Purpose</b></p>
+<p>Reads a SNOMATCh file and pre-processes the inline tags and inserts inline
+tag placeholders if required. The pre-processed .SNOMATCH file is written
+to the given target file.</p>
+<p><b>Format </b></p>
+<p>usRC = TM2WST( pszInSnomatch, pszOutSnomatch, fShowMsg );</p>
+<p>
+<table>
+<title/>
+<tgroup cols="3">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<colspec colname="col3"/>
+<tbody>
+<row>
+<entry colname="col1"><ph><b/>Type </ph></entry>
+<entry colname="col2"><ph><b/>Parameter</ph></entry>
+<entry colname="col3"><b>Description</b></entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszInSnomatch</entry>
+<entry colname="col3">Fully qualified name of the input SNOMATCH file.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszOutSnomatch</entry>
+<entry colname="col3">Fully qualified name of the file receiving the converted
+SNOMATCH data.</entry></row>
+<row>
+<entry colname="col1">EQF_BOOL</entry>
+<entry colname="col2">fShowMsg</entry>
+<entry colname="col3">TRUE = the function should display error messages  
+                                                        FALSE = no error messages
+are to be shown</entry></row>
+</tbody>
+</tgroup>
+</table></p>
+<p><b>Return code</b></p>
+<p>USHORT</p>
+<p>
+<table>
+<title/>
+<tgroup cols="2">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<tbody>
+<row>
+<entry colname="col1"><b>Value</b></entry>
+<entry colname="col2"><b>Description</b></entry></row>
+<row>
+<entry colname="col1">0</entry>
+<entry colname="col2">The function completed successfully. </entry></row>
+<row>
+<entry colname="col1">Other</entry>
+<entry colname="col2">An error return code.</entry></row>
+</tbody>
+</tgroup>
+</table></p>
+<p><b>Function WST2TM</b></p>
+<p><b>Purpose </b></p>
+<p>Reads a translated SNOMATCh file and restores the original inline tagging.
+The processed .SNOMATCH data is written to the given target file.</p>
+<p><b>Format </b></p>
+<p>usRC = WST2TM( pszInSnomatch, pszOutSnomatch, fShowMsg );</p>
+<p><b>Parameters</b></p>
+<p>
+<table>
+<title/>
+<tgroup cols="3">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<colspec colname="col3"/>
+<tbody>
+<row>
+<entry colname="col1"><b>Type</b></entry>
+<entry colname="col2"><b>Parameter</b></entry>
+<entry colname="col3"><b>Description</b></entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszInSnomatch</entry>
+<entry colname="col3">Fully qualified name of the input SNOMATCH file containing
+the translated segments with pre-processed inline tags..</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszOutSnomatch</entry>
+<entry colname="col3">Fully qualified name of the file receiving the converted
+SNOMATCH data.</entry></row>
+<row>
+<entry colname="col1">EQF_BOOL</entry>
+<entry colname="col2">fShowMsg</entry>
+<entry colname="col3">TRUE = the function should display error messages  
+                                                        FALSE = no error messages
+are to be shown</entry></row>
+</tbody>
+</tgroup>
+</table></p>
+<p><b>Return code</b></p>
+<p>USHORT</p>
+<p>
+<table>
+<title/>
+<tgroup cols="2">
+<colspec colname="col1"/>
+<colspec colname="col2"/>
+<tbody>
+<row>
+<entry colname="col1"><b>Value</b></entry>
+<entry colname="col2"><b>Description</b></entry></row>
+<row>
+<entry colname="col1">0</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">Other</entry>
+<entry colname="col2">An error return code.</entry></row>
+</tbody>
+</tgroup>
+</table></p>
+</body></topic>

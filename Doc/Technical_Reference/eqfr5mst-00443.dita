@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00443">
+<title>EQFSAVESEG</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFSAVESEG</indexterm><indexterm>programming interface calls<indexterm>EQFSAVESEG</indexterm></indexterm>
+<p><i>EQFSAVESEG</i> saves the passed segment information
+in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFSAVESEG</kwd><delim>(</delim><var>pszBuffer1</var><sep>,</sep><var>pszBuffer2</var><sep>,</sep><var>usSegNum</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszBuffer1(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the source segment. It must have a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>pszBuffer2(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the translated segment. It must have a length
+of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is defined
+in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>usSegNum(USHORT)</var></synph> — input</pt>
+<pd>The segment number.</pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFERR_DISK_FULL</dt>
+<dd><keyword conref="common-symbols.dita#common-symbols/tm4w"/> detected that the disk is full.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_NOT_ACTIVE</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is not active.</dd></dlentry>
+<dlentry><dt>EQFERR_SEG_EMPTY</dt>
+<dd>The passed segment was empty and therefore was not stored in
+the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The dictionary term is selected and copied into the provided
+buffer.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>The editor must ensure that only correct data is saved in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+This means that the application must first check the spelling of the
+data.</p>
+</section></refbody></reference>

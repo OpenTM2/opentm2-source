@@ -74,7 +74,11 @@ static CHAR_W chSingleSubst;
 #define DEFAULT_MULT_WILDCARD   L'*'
 #define DEFAULT_SINGLE_WILDCARD L'?'
 
+// number of pushbuttons in push button row at the bottom of the dialog window
+#define NUM_OF_FUZZYSEARCH_PB 7
 
+// array of custom colors used by fuzzy search
+static COLORREF CustomColors[16];
 
 /**********************************************************************/
 /* Tasks during find and change operations                            */
@@ -121,6 +125,45 @@ typedef struct _FOUNDFUZZYMATCH
   BOOL        fUsed;                             // match has been used flag
 } FOUNDFUZZYMATCH, *PFOUNDFUZZYMATCH;
 
+// list of different text types
+// (the enum value Is used as index into the color and name tables - so pls do not change the order or remove entries)
+typedef enum _FSTEXTTYPES
+{
+  FS_NORMAL_TEXT,                      // normal text
+  FS_NORMAL_INSERTED_TEXT,             // inserted text
+  FS_NORMAL_MODIFIED_TEXT,             // modified text 
+  FS_SELECTED_TEXT,                    // normal text when item is selected
+  FS_SELECTED_INSERTED_TEXT,           // inserted text when item is selected
+  FS_SELECTED_MODIFIED_TEXT,           // inserted text when item is selected
+  FS_FOCUS_TEXT,                       // normal text when item has the input focus
+  FS_FOCUS_INSERTED_TEXT,              // inserted text when item has the input focus
+  FS_FOCUS_MODIFIED_TEXT,              // modified text when item has the input focus
+  FS_OPENED_TEXT,                      // normal text when item has beed opened
+  FS_OPENED_INSERTED_TEXT,             // inserted text when item has been opened
+  FS_OPENED_MODIFIED_TEXT,             // modified text when item has been opened    
+  FS_UNUSED1_TEXT,                     // for future enhancements - currently no used
+  FS_UNUSED2_TEXT,                     // for future enhancements - currently no used
+  FS_UNUSED3_TEXT,                     // for future enhancements - currently no used
+  FS_UNUSED4_TEXT,                     // for future enhancements - currently no used
+  FS_UNUSED5_TEXT,                     // for future enhancements - currently no used
+  FS_UNUSED6_TEXT                      // for future enhancements - currently no used
+} FSTEXTTYPES;
+
+// text types name (in same order as the FSTEXTTYPES enumeration
+PSZ pszTextTypes[] = {"Normal text", "Inserted text", "Modified text", "Normal text when element is selected", "Inserted text when element is selected", "Modified text when element is selected", 
+  "Normal text when element has the input focus", "Inserted text when element has the input focus", "Modified text when element has the input focus", "Normal text when element has been opened", 
+  "Inserted text when element has been opened", "Modified text when element has been opened", NULL };
+
+// default foreground and background colors (in same order as the FSTEXTTYPES enumeration)
+//                                   Normal            Inserted          Modified
+COLORREF aclrDefaultForeground[] = { RGB(0,0,0),       RGB(0,0,200),     RGB(0,50,50),      // normal element
+                                     RGB(0,0,0),       RGB(0,0,200),     RGB(0,50,50),      // selected element 
+                                     RGB(0,0,0),       RGB(0,0,200),     RGB(0,50,50),      // focus element 
+                                     RGB(0,0,0),       RGB(0,0,200),     RGB(0,50,50) };    // opened element
+COLORREF aclrDefaultBackground[] = { RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),  // normal element
+                                     RGB(190,190,190), RGB(190,190,190), RGB(190,190,190),  // selected element 
+                                     RGB(250,250,5),   RGB(250,250,5),   RGB(250,250,5),    // focus element 
+                                     RGB(140,240,140), RGB(140,240,140), RGB(140,240,140) };// opened element
 
 
 //
@@ -287,6 +330,9 @@ typedef struct _FSEARCHIDAX
 
   // logging
   LogWriter   *pLogWriter;                        // log writer object
+
+  // current color settings
+  COLORCHOOSERDATA ColorData;
 } FSEARCHIDAX, *PFSEARCHIDAX;
 
 
@@ -352,7 +398,7 @@ USHORT FS_RemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PV
 int FS_GetProposalDiffs( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBuffer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, 
                          PFS_STARTSTOP pSegmentChangesList, PLONG plSegmentChangesListLen, PFS_STARTSTOP pProposalChangesList, PLONG plProposalChangesListLen,
                          PBOOL fBelowThreshold );
-int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor );
+int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor, FSTEXTTYPES TextTypeNormal, FSTEXTTYPES TextTypeInserted, FSTEXTTYPES TextTypeModified );
 BOOL FS_ExportResults( PFSEARCHIDAX pIda );
 void FS_SelectSearchMode( HWND hwnd, int iMode );
 
@@ -526,6 +572,20 @@ MRESULT EXPENTRY FSearchDlgProc
           CBSELECTITEM( hwnd, ID_FUZZYSEARCH_MODE_CB, 0 );
         }
         
+        // fill color data area with default values
+        pIda->ColorData.hwndOwner = hwnd;
+        pIda->ColorData.sID = 0;
+        strcpy( pIda->ColorData.szTitle, "Set Fuzzy Segment Search Colors" );
+        int i = 0;
+        while( pszTextTypes[i] != NULL ) 
+        {
+          strcpy( pIda->ColorData.ColorSetting[i].szElement, pszTextTypes[i] );
+          pIda->ColorData.ColorSetting[i].cForeground = aclrDefaultForeground[i];
+          pIda->ColorData.ColorSetting[i].cDefaultForeground = aclrDefaultForeground[i];
+          pIda->ColorData.ColorSetting[i].cBackground = aclrDefaultBackground[i];
+          pIda->ColorData.ColorSetting[i].cDefaultBackground = aclrDefaultBackground[i];
+          i++;
+        } /* endwhile */
 
         /**************************************************************/
         /* Set initial state of dialog controls                       */
@@ -598,6 +658,17 @@ MRESULT EXPENTRY FSearchDlgProc
             strcpy( pIda->szExportFileName, pFllProp->szFSLastExportFile );
             if ( pFllProp->fFSWithMarks ) SETCHECK_TRUE( hwnd, ID_FUZZYSEARCH_SHOWDIFF_CHK );
 
+            // copy any last used color settings
+            if ( pFllProp->aclrFSLastUsedBackground[0] != pFllProp->aclrFSLastUsedForeground[0] )
+            {
+              int iMaxEntries = sizeof(pFllProp->aclrFSLastUsedBackground)/sizeof(COLORREF);
+              for( int i = 0; i < iMaxEntries; i++ )
+              {
+                pIda->ColorData.ColorSetting[i].cForeground = pFllProp->aclrFSLastUsedForeground[i];
+                pIda->ColorData.ColorSetting[i].cBackground = pFllProp->aclrFSLastUsedBackground[i];
+              } /* endfor */
+            } /* endif */
+
 
             CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
           } /* endif */
@@ -618,9 +689,10 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->hwndButton[1] = GetDlgItem( hwnd, ID_FUZZYSEARCH_STOP_PB );
           pIda->hwndButton[2] = GetDlgItem( hwnd, ID_FUZZYSEARCH_OPEN_PB );
           pIda->hwndButton[3] = GetDlgItem( hwnd, ID_FUZZYSEARCH_EXPORT_PB );
-          pIda->hwndButton[4] = GetDlgItem( hwnd, ID_FUZZYSEARCH_CANCEL_PB );
-          pIda->hwndButton[5] = GetDlgItem( hwnd, ID_FUZZYSEARCH_HELP_PB );
-          for ( i = 0; i < 6; i++ )
+          pIda->hwndButton[4] = GetDlgItem( hwnd, ID_FUZZYSEARCH_COLOR_PB );
+          pIda->hwndButton[5] = GetDlgItem( hwnd, ID_FUZZYSEARCH_CANCEL_PB );
+          pIda->hwndButton[6] = GetDlgItem( hwnd, ID_FUZZYSEARCH_HELP_PB );
+          for ( i = 0; i < NUM_OF_FUZZYSEARCH_PB; i++ )
           {
             RECT rect;
             GetWindowRect( pIda->hwndButton[i], &rect );
@@ -772,6 +844,16 @@ MRESULT EXPENTRY FSearchDlgProc
           FS_ExportResults( pIda );
           break;
 
+        case ID_FUZZYSEARCH_COLOR_PB:
+          {
+            if ( UtlColorChooserDlg( &(pIda->ColorData) ) == 0 )
+            {
+              // refresh result list
+              InvalidateRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_RESULT_LB ), NULL, TRUE );
+            } /* endif */
+          } 
+          break;
+
         case ID_FUZZYSEARCH_FIND_PB:
           fOK = TRUE;
  
@@ -787,6 +869,7 @@ MRESULT EXPENTRY FSearchDlgProc
           if ( pIda->lItemHeight == 0 )
           {
             pIda->lItemHeight = FS_ComputeItemHeight( hwnd, ID_FUZZYSEARCH_RESULT_LB );
+
           } /* endif */             
 
           // get currently selected search class
@@ -1105,6 +1188,15 @@ MRESULT EXPENTRY FSearchDlgProc
             int iSelected = CBQUERYSELECTION( hwnd, ID_FUZZYSEARCH_MODE_CB );
             if ( iSelected != LIT_NONE ) pFllProp->iFSLastUsedMode = CBQUERYITEMHANDLE( hwnd, ID_FUZZYSEARCH_MODE_CB, iSelected );
             strcpy( pFllProp->szFSLastExportFile, pIda->szExportFileName );
+
+            // save last used color settings
+            int iMaxEntries = sizeof(pFllProp->aclrFSLastUsedBackground)/sizeof(COLORREF);
+            for( int i = 0; i < iMaxEntries; i++ )
+            {
+              pFllProp->aclrFSLastUsedForeground[i] = pIda->ColorData.ColorSetting[i].cForeground;
+              pFllProp->aclrFSLastUsedBackground[i] = pIda->ColorData.ColorSetting[i].cBackground;
+            } /* endfor */
+
             SaveProperties( hFllProp, &ErrorInfo);
           } /* endif */
           CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
@@ -1199,7 +1291,7 @@ MRESULT EXPENTRY FSearchDlgProc
            lGap = lTotGaps / 6;
            lCorrect = (cxAvail > lTotSize) ? ((cxAvail - (lGap * 6) - lTotSize) / 2) : 0;
            lXPos    = pIda->sBorderSize;
-           for ( i = 0; (i < 6) && (hdwp != NULL); i++ )
+           for ( i = 0; (i < NUM_OF_FUZZYSEARCH_PB) && (hdwp != NULL); i++ )
            {
              lXPos += i ? (pIda->sButtonWidth[i-1] + lGap) : ((lGap / 2) + lCorrect);
              hdwp = DeferWindowPos( hdwp, pIda->hwndButton[i], HWND_TOP, lXPos,
@@ -2998,8 +3090,9 @@ void FS_MeasureItem( HWND hwnd, LONG lParam )
   } /* endif */     
 }
 
+
 // output text with difference coloring
-int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop, DWORD dwBackColor )
+int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP pStartStop,  FSTEXTTYPES TextTypeNormal, FSTEXTTYPES TextTypeInserted, FSTEXTTYPES TextTypeModified )
 {
   POINT pt;
 
@@ -3008,21 +3101,19 @@ int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP
     switch ( pStartStop->usType )
     {
       case 'D' :
-        //SetTextColor( hdc, RGB(200,0,0) );
-        //SetBkColor( hdc, RGB(210,210,210) );
-        //TextOutW( hdc, 1, 1, pszText + pStartStop->usStart, pStartStop->usStop - pStartStop->usStart + 1 ); 						
         break;
 
       case 'I' :
         if ( pIda->fWithMarks )
         {
-          SetTextColor( hdc, RGB(0,0,200) );
-          SetBkColor( hdc, RGB(210,210,210) );
+          SetTextColor( hdc, pIda->ColorData.ColorSetting[TextTypeInserted].cForeground );
+          SetBkColor( hdc, pIda->ColorData.ColorSetting[TextTypeInserted].cBackground );
+
         }
         else
         {
-          SetTextColor( hdc, RGB(0,0,0) );
-          SetBkColor( hdc, dwBackColor );
+          SetTextColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cForeground );
+          SetBkColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cBackground );
         } /* endif */
         TextOutW( hdc, 1, 1, pszText + pStartStop->usStart, pStartStop->usStop - pStartStop->usStart + 1 ); 						
         break;
@@ -3030,20 +3121,20 @@ int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP
       case 'M' :
         if ( pIda->fWithMarks )
         {
-          SetTextColor( hdc, RGB(0,50,50) );
-          SetBkColor( hdc, RGB(210,210,210) );
+          SetTextColor( hdc, pIda->ColorData.ColorSetting[TextTypeModified].cForeground );
+          SetBkColor( hdc, pIda->ColorData.ColorSetting[TextTypeModified].cBackground );
         }
         else
         {
-          SetTextColor( hdc, RGB(0,0,0) );
-          SetBkColor( hdc, dwBackColor );
+          SetTextColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cForeground );
+          SetBkColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cBackground );
         } /* endif */
         TextOutW( hdc, 1, 1, pszText + pStartStop->usStart, pStartStop->usStop - pStartStop->usStart + 1 ); 						
         break;
 
       default:
-        SetTextColor( hdc, RGB(0,0,0) );
-        SetBkColor( hdc, dwBackColor );
+        SetTextColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cForeground );
+        SetBkColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cBackground );
         TextOutW( hdc, 1, 1, pszText + pStartStop->usStart, pStartStop->usStop - pStartStop->usStart + 1 ); 						
         break;
     } /* endswitch */       
@@ -3051,8 +3142,8 @@ int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP
     pStartStop++;
   } /* endwhile */             
 
-  SetTextColor( hdc, RGB(0,0,0) );
-  SetBkColor( hdc, dwBackColor );
+  SetTextColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cForeground );
+  SetBkColor( hdc, pIda->ColorData.ColorSetting[TextTypeNormal].cBackground );
 
   GetCurrentPositionEx( hdc, &pt );
 
@@ -3125,34 +3216,45 @@ BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
           LONG xPos;
           int extent = 0;
           BOOL fRefreshScrollExtent = FALSE;
+          FSTEXTTYPES TextTypeNormal;
+          FSTEXTTYPES TextTypeInserted;
+          FSTEXTTYPES TextTypeModified;
 
-          // set background color depending on item state
-          DWORD dwBackColor = RGB(255,255,255);
-          if ( pMatch->fUsed && (lpdis->itemState & ODS_SELECTED) ) 
-          {
-            dwBackColor = RGB(220,220,35);
-          }              
-          else if ( lpdis->itemState & ODS_SELECTED ) 
+          // set text types depending on item state
+          if ( lpdis->itemState & ODS_SELECTED ) 
           {
             if ( lpdis->itemState & ODS_FOCUS ) 
             {
-              dwBackColor = RGB(250,250,5);
+              TextTypeNormal = FS_FOCUS_TEXT;
+              TextTypeInserted = FS_FOCUS_INSERTED_TEXT;
+              TextTypeModified = FS_FOCUS_MODIFIED_TEXT;
             }
             else
             {
-              dwBackColor = RGB(190,190,190);
+              TextTypeNormal = FS_SELECTED_TEXT;
+              TextTypeInserted = FS_SELECTED_INSERTED_TEXT;
+              TextTypeModified = FS_SELECTED_MODIFIED_TEXT;
             }
           }              
           else if ( pMatch->fUsed ) 
           {
-            dwBackColor = RGB(140,240,140);
+            TextTypeNormal = FS_OPENED_TEXT;
+            TextTypeInserted = FS_OPENED_INSERTED_TEXT;
+            TextTypeModified = FS_OPENED_MODIFIED_TEXT;
+          }
+          else
+          {
+            TextTypeNormal = FS_NORMAL_TEXT;
+            TextTypeInserted = FS_NORMAL_INSERTED_TEXT;
+            TextTypeModified = FS_NORMAL_MODIFIED_TEXT;
           } /* endif */             
 
-          SetBkColor( lpdis->hDC, dwBackColor );
+          SetTextColor( lpdis->hDC, pIda->ColorData.ColorSetting[TextTypeNormal].cForeground );
+          SetBkColor( lpdis->hDC, pIda->ColorData.ColorSetting[TextTypeNormal].cBackground );
 
           // erase rectangle
           {
-            HBRUSH hBrush = CreateSolidBrush( dwBackColor );
+            HBRUSH hBrush = CreateSolidBrush( pIda->ColorData.ColorSetting[TextTypeNormal].cBackground );
             FillRect( lpdis->hDC, &(lpdis->rcItem), hBrush ); 
             DeleteObject( hBrush );
           }
@@ -3192,7 +3294,8 @@ BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
 
           // show segment and proposal text
           MoveToEx( lpdis->hDC, xPos + 10, lpdis->rcItem.top + 4 + 1 * (tm.tmHeight + 4), NULL );
-          extent = FS_DrawDifferences( pIda, lpdis->hDC, pMatch->pszSegment, pMatch->pSegmentChanges, dwBackColor );
+          extent = FS_DrawDifferences( pIda, lpdis->hDC, pMatch->pszSegment, pMatch->pSegmentChanges, TextTypeNormal, TextTypeInserted, TextTypeModified );
+
           if ( extent > pIda->iMaxExtent )
           {
             pIda->iMaxExtent = extent;
@@ -3200,7 +3303,8 @@ BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
           } /* endif */             
 
           MoveToEx( lpdis->hDC, xPos + 10, lpdis->rcItem.top + 4 + 2*(tm.tmHeight + 4), NULL );
-          extent = FS_DrawDifferences( pIda, lpdis->hDC, pMatch->pszSource, pMatch->pProposalChanges, dwBackColor );
+          extent = FS_DrawDifferences( pIda, lpdis->hDC, pMatch->pszSource, pMatch->pProposalChanges, TextTypeNormal, TextTypeInserted, TextTypeModified );
+
           if ( extent > pIda->iMaxExtent )
           {
             pIda->iMaxExtent = extent;

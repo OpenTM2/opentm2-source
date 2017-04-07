@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="globalas">
+  <title><!--rev=as10112006-->Searching and replacing text in documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a Global Find and
+        Replace function, which works across all or some documents of a folder.</p>
+      <p>This function might be helpful if you are looking for a particular piece of text of which
+        source document you are not sure . Also, you may need to change a particular wording, but do
+        not want to type the new text manually at each occurrence. <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> can search through a series of
+        documents to locate the required text and change it automatically. Any change is
+        automatically reflected in the associated Translation Memory to be available for future
+        translations.</p>
+      <p>Note that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches and replaces
+        only pieces of text that can be translated. Markup tags cannot be changed. You can control
+        whether <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches in protected
+        text areas, like inline tags, for translatable text. This is helpful if you want to include
+        markup tag attribute values in the search process.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The folder must exist, and its documents must have been analyzed.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>You can start this function from a <q>Folder List</q> window or from a <q>Document List</q>
+        window. Here the start from the <q>Document List</q> window is described.</p>
+      <p>Select: <ol>
+          <li>One or more documents you want to have searched through from the <q>Document List</q>
+            window</li>
+          <li><b>Global Find and Replace...</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Global Find and Replace</q> window is displayed (see <xref
+          href="#globalas/globfindchwin"/>). <required-cleanup><indexterm>windows<indexterm>Global
+              Find and Replace</indexterm></indexterm></required-cleanup><fig id="globfindchwin"
+          expanse="column">
+          <title>Global Find and Replace window</title><image placement="break"
+            href="globalfind.gif"><alt>Figure shows Global Find and Replace
+          window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Find</pt>
+          <pd>the text for which you are looking. You can also select one of the last five terms
+            that you searched for. <p>If you are searching for 2 or more terms combined with AND,
+              all terms must be contained in the same segment to form a match.</p>
+            <p>If you are searching for several terms combined with OR, either one of the terms must
+              be contained in the same segment to form a match.</p>
+            <p>If a search term is negated with the NOT operator, a segment will only match if the
+              negated term is not contained in the segment.</p>
+            <note>You can use wildcards. * is the placeholder for multiple characters, ? is the
+              placeholder for a single character.</note>
+            <note>If a search string contains AND / OR / NOT enclose the search string between
+              double quotes. If you want to search terms containing double quotes the search term
+              has to be enclosed in double quotes and the double quote being searched has to be
+              duplicated. e.g. if you want to search for the term <i>Null"</i> ("Null" followed by a
+              double quote) the term has to be entered as <i>"Null"""</i> in the find
+            field.</note></pd>
+        </plentry>
+        <plentry>
+          <pt>Replace with</pt>
+          <pd>To change the term you are searching for to another term, type the term with which you
+            want to replace the term that you specified in the <b>Find</b> box. You can also select
+            one of your last five replacements. <note>You can only replace terms in translated
+              segments.</note></pd>
+        </plentry>
+        <plentry>
+          <pt>Case</pt>
+          <pd>Specify whether the search should <b>respect</b> or <b>ignore</b> case
+            sensitivity.</pd>
+        </plentry>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>Displays the list of documents that are to be searched.</pd>
+        </plentry>
+        <plentry>
+          <pt>Update Translation Memory</pt>
+          <pd>Select this box if you want your changes to be reflected in the Translation Memory.
+            Any changed text segment is then updated in the Translation Memory associated to the
+            folder. </pd>
+        </plentry>
+        <plentry>
+          <pt>Confirm on replace</pt>
+          <pd>Select this check box if you want <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> to stop before a text is changed.
+            You are then prompted to confirm the change.</pd>
+        </plentry>
+        <plentry>
+          <pt>Find in translatable text only</pt>
+          <pd>Select this check box if you want <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> to search the text you are looking
+            for in translatable text only. <p>If this check box is not selected, <keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> searches also in protected text
+              areas, like inline tags, for translatable text. This process might locate markup tag
+              attribute values.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Whole words only</pt>
+          <pd>Select this check box if you want to find whole words only, not occurrencies where the
+            Find string is part of a word. <p>If this check box is not selected, the Find term is
+              also found if it is part of a word</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Wildcard for single characters</pt>
+          <pd>Select here the character to be used as wildcard for single characters or de-activate
+            the single character wildcard by selecting "None". When used in the search string the
+            wildcard character matches any character of the document. <p>Example: assuming that
+                <q>?</q> has been selected as wildcard for single characters, the search string
+                <q>f?r</q> will match the following words: <q>fur</q>, <q>for</q> but not the words
+                <q>father</q>, <q>feather</q>, <q>fr</q></p></pd>
+        </plentry>
+        <plentry>
+          <pt>Wildcard for multiple characters</pt>
+          <pd>Select here the character to be used as wildcard for multiple characters or
+            de-activate the multiple character wildcard by selecting "None". When used in the search
+            string the wildcard character matches none, one or more characters in the document.
+              <p>Example: assuming that <q>*</q> has been selected as wildcard for multiple
+              characters, the search string <q>f*r</q> will match the following words: <q>four</q>,
+                <q>father</q>, <q>feather</q>, <q>fr</q>, <q>for</q></p></pd>
+        </plentry>
+        <plentry>
+          <pt>Display box</pt>
+          <pd>This area shows a part of the document containing the found piece of text. The found
+            part is highlighted. You are also informed about the name of the document and the number
+            of the segment containing the piece of text. <p>For easier perception of found text the
+              lines are wrapped if they exceed the available width. You can enlarge the text area by
+              enlarging the <q>Global Find and Replace</q> window. This retains the dialog control
+              elements, but dynamically resizes the available window space for the text area.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Find</pt>
+          <pd>Starts the search for the term that you specified in the <b>Find</b> box in the first
+            document listed and displays a small portion of the document in which the first
+            occurrence of the term is found, in the text area. The term found is highlighted. You
+            can then select either of the following: <ul>
+              <li><b>Open document</b> to view the entire document in which the term was found.</li>
+              <li><b>Find</b> to move to the next occurrence of the term, which can be in the same
+                or in another document to be searched. Select this button until you have reached the
+                end of the last document to be searched or you want to stop searching.</li>
+            </ul></pd>
+        </plentry>
+        <plentry>
+          <pt>Replace</pt>
+          <pd>If you selected the <b>Confirm on change</b> check box, a small portion of the
+            document in which the first occurrence of the term is found is displayed in the display
+            box and the found term is highlighted. You can then select one of the following: <ul>
+              <li><b>Open document</b> to view the entire document in which the term was found.</li>
+              <li><b>Find</b> to move to the next occurrence of the term without changing the term.
+                The next occurrence can be in the same or in another document to be searched.</li>
+            </ul>
+            <p>If you did not select the <b>Confirm on change</b> check box, all occurrences of the
+              term are replaced without you being asked to confirm the changes.</p>
+            <p>If you selected the <b>Update Translation Memory</b> check box, changes to translated
+              segments are reflected in the Translation Memory associated with the folder.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Cancel</pt>
+          <pd>Stops the search and the interaction with this window and returns you to the starting
+            point. Any changes you have made are not saved.</pd>
+        </plentry>
+        <plentry>
+          <pt>Help</pt>
+          <pd>Gives information to help you interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The specified piece of text is located at every occurrence within a document and changed
+        where necessary. The associated Translation Memory is updated if requested.</p>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>
+        <parml>
+          <plentry>
+            <pt>"and"</pt>
+            <pd>Finds all occurences of the string and. The double quotes around the term are
+              required as and is a logical operator</pd>
+          </plentry>
+          <plentry>
+            <pt>IBM and not SAP</pt>
+            <pd>Finds all occurences of the string <b>IBM</b> in segments which do not contain the
+              term <b>SAP</b></pd>
+          </plentry>
+          <plentry>
+            <pt>f*r</pt>
+            <pd>Find all occurences of strings starting with <b>f</b> and ending with <b>r</b>, e.g.
+              for, fur, futur, fair, far</pd>
+          </plentry>
+          <plentry>
+            <pt>f?r</pt>
+            <pd>Find all occurences of strings starting with <b>f</b> followed by one other
+              character followed and ending with <b>r</b>, e.g. for, far, fur</pd>
+          </plentry>
+          <plentry>
+            <pt>"one"""</pt>
+            <pd>finds all occurences of the term <b>one</b> followed by a double quote</pd>
+          </plentry>
+          <plentry>
+            <pt>""""</pt>
+            <pd>finds all occurences of a single double quote</pd>
+          </plentry>
+        </parml>
+      </p>
+    </example>
+  </refbody>
+</reference>

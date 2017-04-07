@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00605">
+<title>The &lt;set...&gt; attributes</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>&lt;set...&gt; attributes</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>
+<dl>
+<dlentry><dt><codeph>sysname=$line_length</codeph></dt>
+<dd>Specifies the length of a single line on your printout. If you do not
+use this attribute, 80 characters per line are printed. This
+attribute must be used together with the <codeph>value</codeph> attribute,
+for example: <codeph>&lt;set sysname=$line_length value='70'&gt;</codeph>.</dd></dlentry>
+<dlentry><dt><codeph>sysname=$page_length</codeph></dt>
+<dd>Specifies the number of lines that are to be printed per
+page. If you do not use this attribute, 72 lines per page are
+printed. If your printer prints less than 72 lines per page, you must specify
+the correct number here. This attribute must be used together
+with the <codeph>value</codeph> attribute, for example: <codeph>&lt;set sysname=$page_length value='62'&gt;</codeph></dd></dlentry>
+<dlentry><dt><codeph>sysname=$page_no</codeph></dt>
+<dd>Specifies which page number is to be printed on the first
+page of your printout. If you do not use this attribute, the starting page
+number is 1. This attribute must be used together with the <codeph>value</codeph> attribute, for example:<codeph>&lt;set sysname=$page_no
+value='7'&gt;</codeph></dd></dlentry>
+<dlentry><dt><codeph>sysname=$page_eject</codeph></dt>
+<dd>Specifies a character string that is inserted when the printer is supposed
+to make a page eject. You must specify the value that is used by your printer,
+otherwise no page eject is made. Refer to your printer manual for the page
+eject character that is used by your printer (for example the ♀ character
+= ASCII character 12). If you do not use this attribute, no character is
+used. An automatic page eject is done within the <codeph>&lt;dictfront&gt;</codeph> and <codeph>&lt;dictback&gt;</codeph> section. This attribute must
+be used together with the <codeph>value</codeph> attribute, for example:<codeph>&lt;set sysname=$page_eject value='♀'&gt;</codeph>.</dd></dlentry>
+<dlentry><dt><codeph>value</codeph>=<synph><var>xxx</var></synph></dt>
+<dd>This attribute is mandatory. It must be used in combination
+with the attributes listed here for the <codeph>&lt;set...&gt;</codeph> tag. You use
+it to specify the line length, the page length, the page number, and the page
+eject string.</dd></dlentry>
+</dl></p>
+</body></topic>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00111">
+  <title>Exchanging Translation Memory databases</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Translation Memory databases can be created from scratch using the Initial Translation Memory utility. If you have a document and its 
+      translation in external format, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can align the translated segments with
+      the original segments. In this way you can create a Translation Memory to be used in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>Translation Memory databases can be exported to an external SGML-based format and copied on diskettes or any other media for distribution 
+      and modification. They can be imported back onto another workstation through a standard import procedure. They can also be merged into an
+      existing Translation Memory. </p>
+  </body>
+</topic>

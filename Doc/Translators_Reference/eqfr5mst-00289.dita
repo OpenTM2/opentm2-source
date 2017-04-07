@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00289">
+  <title>Sharing dictionaries</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>sharing<indexterm>dictionaries</indexterm></indexterm>
+        <indexterm>dictionary<indexterm>sharing</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Sharing dictionaries with other translators in a LAN system helps you keep your own used disk
+      space small and you can work with a dictionary even if another translator is using it at the
+      same time. You may find this especially convenient when you work with fellow translators on
+      the same project. For example, if you must translate a term that a fellow translator has added
+      to the shared dictionary only recently, you can instantly use your colleague’s translation by
+      copying it from the shared dictionary.</p>
+    <p>If you wish to work with shared dictionaries, you must note the following prerequisites: <ol>
+        <li><b>Install the LAN software.</b> The appropriate LAN software must be installed (see
+            <xref href="eqfr5mst-00020.dita#eqfr5mst-00020"/> for the supported software). </li>
+        <li><b>Log on to the LAN.</b> You must be logged on to the LAN. </li>
+        <li><b>Define a shared disk.</b> At least one of your disks must be defined as shared disk.
+          In <b><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm></b> you do this 
+          using the FileManager. In NOVELL Netware and <tm trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm> LAN
+          Manager LANs you use the NET USE command. It is recommended to share the entire disk because 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> creates its own subdirectory structure on this disk. </li>
+        <li><b>Specify a dictionary as shared.</b> The dictionary you want to share must be defined
+          to reside on a shared disk. This can only be done when a new dictionary is created. See
+            <xref href="eqfr5mst-00270.dita#eqfr5mst-00270"/> for learning how to create a
+          dictionary that can be shared. Note that it is not possible to redefine a local dictionary
+          as shared at a later time. It must be done when it is created. If you created the
+          dictionary, you can now start working with it. If you want to use a dictionary created by
+          someone else, see the next step. </li>
+        <li><b>Connect the shared dictionary.</b> To use a dictionary that is defined as shared and
+          not created by you, you must add it to your Dictionary List. See <xref href="eqfr5mst-00290.dita#eqfr5mst-00290"/> to learn how to do this.</li>
+      </ol></p>
+  </body>
+</topic>

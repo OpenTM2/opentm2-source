@@ -1,5 +1,5 @@
 /*! EQFFOL00.H - Internal header file for the EQF FolderHandler
-	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2017, International Business Machines Corporation and others. All rights reserved.
 */
 #ifndef INCL_EQFFOL00
 #define INCL_EQFFOL00

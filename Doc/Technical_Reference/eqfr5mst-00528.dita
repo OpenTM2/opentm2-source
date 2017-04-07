@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00528">
+  <title>General user exit entry points</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The user exit entry points (their names start with EQF) are called at
+      different stages during the analysis, translation, and export of a document. <ul>
+        <li>During the analysis (see <xref href="#eqfr5mst-00528/preseg"/>): <ul>
+            <li><xref href="eqfr5mst-00529.dita#eqfr5mst-00529"/> is called <i>before</i> the text
+              is segmented. It can be used to preprocess a document and decide whether text
+              segmentation is done by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+              after EQFPRESEG2.<indexterm>user exit<indexterm>entry
+                    point<indexterm>EQFPRESEGW</indexterm></indexterm></indexterm></li>
+            <li><xref href="eqfr5mst-00531.dita#eqfr5mst-00531"/> is called <i>after</i> the text is
+              segmented. It can be used to postprocess a document.<indexterm>user
+                  exit<indexterm>entry
+                point<indexterm>EQFPOSTSEGW</indexterm></indexterm></indexterm></li>
+            <li><xref href="eqfr5mst-00533.dita#eqfr5mst-00533"/> is called <i>after</i> Translation
+              Memory matches are processed and terms lists are created. It can be used to modify
+                segments.<indexterm>user exit<indexterm>entry
+                  point<indexterm>EQFPOSTTMW</indexterm></indexterm></indexterm></li>
+          </ul>
+          <fig id="preseg" expanse="column">
+            <title>Analysis of a document using the user exit</title><image placement="break"
+              href="eqfb7s19a.gif"><alt>Figure shows Analysis of a document using the user
+                exit</alt></image></fig></li>
+        <li>During the translation: <ul>
+            <li><xref href="eqfr5mst-00534.dita#eqfr5mst-00534"/> is called after a segment is
+              translated but before it is saved in the Translation Memory. It can be used to modify
+              a segment.<indexterm>user exit<indexterm>entry
+                    point<indexterm>EQFCHECKSEGW</indexterm></indexterm></indexterm></li>
+            <li><xref href="eqfr5mst-00536.dita#eqfr5mst-00536"/> is called when the user selects
+              the "Show translation" menu item.<indexterm>user exit<indexterm>entry
+                    point<indexterm>EQFSHOW</indexterm></indexterm></indexterm></li>
+          </ul></li>
+        <li>During the export (see <xref href="#eqfr5mst-00528/preunseg"/>): <ul>
+            <li><xref href="eqfr5mst-00545.dita#eqfr5mst-00545"/> is called <i>before</i>
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> removes the segmentation
+              from a document. It can be used for the same purpose, or whatever is required at this
+                step.<indexterm>user exit<indexterm>entry
+                  point<indexterm>EQFPREUNSEGW</indexterm></indexterm></indexterm></li>
+            <li><xref href="eqfr5mst-00547.dita#eqfr5mst-00547"/> is called <i>after</i>
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> (or EQFPREUNSEG2) removed
+              the segmentation. It can be used, for example, to establish the external document
+                format.<indexterm>user exit<indexterm>entry
+                    point<indexterm>EQFPOSTUNSEG2</indexterm></indexterm></indexterm></li>
+            <li>Alternatively, <xref href="eqfr5mst-00546.dita#eqfr5mst-00546"/> can be called
+                <i>after</i>
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> (or EQFPREUNSEG2) removed
+              the segmentation. If EQFPOSTUNSEGW entry point exists, <keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> uses EQFPOSTUNSEGW, without
+              regard of the existence of EQFPOSTUNSEG2. EQFPOSTUNSEGW requires that the input text
+              is always UTF16. If EQFPOSTUNSEGW entry point exists, <keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/>s' "Undo text segmentation" step
+              outputs an UTF16 file.</li>
+          </ul>
+          <fig id="preunseg" expanse="column">
+            <title>Export of a document using the user exit</title><image placement="break"
+              href="eqfb7s19b.gif"><alt>Figure shows REQTEXT</alt></image></fig></li>
+      </ul></p>
+    <p>The following sections describe the individual entry points in detail. Note that
+      entry points from earlier versions of <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> (without the trailing letter W) are
+      supported, and the calling syntax remains unchanged. However, you should use the entry points
+      as listed in this section. See <xref href="eqfr5mst-00031.dita#eqfr5mst-00031"/> for
+        details.<indexterm>programming interface calls<indexterm>compatibility
+        notes</indexterm></indexterm></p>
+  </body>
+</topic>

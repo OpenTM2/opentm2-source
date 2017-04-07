@@ -36,6 +36,10 @@
 #include "cxmlwriter.h"
 
 #include "eqfgfr.h"
+
+
+
+
 BOOL GFR_ResizeColumns
 ( 
   HWND        hwnd,                    // dialog window handle
@@ -133,7 +137,7 @@ BOOL GFR_AdjustResultColumns
 }
 
 
-void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, LPRECT prcClip, PFOLFINDRESULTENTRY pEntry, PFOLFINDRESULTPOS pFoundPos, int iFoundEntries, BOOL fTarget, DWORD dwBackColor );
+void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, LPRECT prcClip, PFOLFINDRESULTENTRY pEntry, PFOLFINDRESULTPOS pFoundPos, int iFoundEntries, BOOL fTarget, int iBaseColorIndex );
 
 //
 //  FUNCTION:   AddListViewItems(HWND)
@@ -156,11 +160,14 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
 // handle WM_DRAWITEM message for our ownerdrawn listbox
 void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
 {
-  TEXTMETRIC tm; 
-  int y; 
   WCHAR szString[256];
   UINT uFirstColWidth;
   RECT rcClip;
+  int iBaseColorIndex = 0;
+
+  HFONT hFontOld = NULL;
+  
+  if ( pIda->hFontControl ) hFontOld = (HFONT)SelectObject( lpDrawItem->hDC, pIda->hFontControl );
 
   if ( lpDrawItem->hwndItem == GetDlgItem( pIda->hwndPages[0], ID_FOLFIND_HEADER_TEXT ) )
   {
@@ -169,8 +176,9 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
     // only handle normal draw operations
     if ( (lpDrawItem->itemAction != ODA_FOCUS) && (lpDrawItem->itemAction != ODA_SELECT) && (lpDrawItem->itemAction != ODA_DRAWENTIRE) ) return;
    
-    DWORD dwBackColor = RGB(225,225,225);
+    DWORD dwBackColor = pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground;
     SetBkColor( lpDrawItem->hDC, dwBackColor );
+    SetTextColor( lpDrawItem->hDC, pIda->ColorData.ColorSetting[iBaseColorIndex].cForeground );
 
     // erase rectangle
     {
@@ -220,16 +228,16 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
     // only handle normal draw operations
     if ( (lpDrawItem->itemAction != ODA_FOCUS) && (lpDrawItem->itemAction != ODA_SELECT) && (lpDrawItem->itemAction != ODA_DRAWENTIRE) ) return;
 
-    DWORD dwBackColor = RGB(255,255,255);
+    iBaseColorIndex = GFR_NORMAL_ENTRY;
     if ( lpDrawItem->itemState & ODS_FOCUS ) 
     { 
-      dwBackColor = RGB(230,230,255);
+      iBaseColorIndex = GFR_FOCUS_ENTRY;
     } 
     else if ( lpDrawItem->itemState & ODS_SELECTED ) 
     { 
-      dwBackColor = RGB(230,230,230);
+      iBaseColorIndex = GFR_SELECTED_ENTRY;
     } 
-    SetBkColor( lpDrawItem->hDC, dwBackColor );
+    SetBkColor( lpDrawItem->hDC, pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground );
 
     //// erase rectangle
     //{
@@ -241,8 +249,6 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
     // get thre result entry for the painted item
     PFOLFINDRESULTENTRY pEntry = (PFOLFINDRESULTENTRY) QUERYITEMHANDLEHWND( pIda->hResultListBox, lpDrawItem->itemID );
 
-    BOOL fSelected = (lpDrawItem->itemState & ODS_SELECTED);
-
     // Calculate the width of the first column.
     uFirstColWidth = pIda->aiListViewColWidth[0];
 
@@ -253,13 +259,13 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
     rcClip.top = lpDrawItem->rcItem.top;
     rcClip.bottom = lpDrawItem->rcItem.bottom;
     swprintf( szString, L"%ld", pEntry->iDocIndex + 1 );
-    DrawItemColumn( pIda, lpDrawItem->hDC, 0, szString, &rcClip, pEntry, NULL, 0, FALSE, dwBackColor );
+    DrawItemColumn( pIda, lpDrawItem->hDC, 0, szString, &rcClip, pEntry, NULL, 0, FALSE, iBaseColorIndex );
 
     // draw segment number column
     rcClip.left = rcClip.right;
     rcClip.right = rcClip.left + pIda->aiListViewColWidth[1];
     swprintf( szString, L"%lu", pEntry->ulSegNum );
-    DrawItemColumn( pIda, lpDrawItem->hDC, 1, szString, &rcClip, pEntry, NULL, 0, FALSE, dwBackColor );
+    DrawItemColumn( pIda, lpDrawItem->hDC, 1, szString, &rcClip, pEntry, NULL, 0, FALSE, iBaseColorIndex );
 
     // draw source or target text
     rcClip.left = rcClip.right;
@@ -283,7 +289,7 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
         break;
     } /* endswich */
     //  FillRect ( lpDrawItem->hDC, &rcClip, (HBRUSH) GetSysColor( COLOR_HIGHLIGHT ) );
-    if ( pszData != NULL ) DrawItemColumn( pIda, lpDrawItem->hDC, 2, pszData, &rcClip, pEntry, pFoundPos, pEntry->iUsedEntries, fTarget, dwBackColor );
+    if ( pszData != NULL ) DrawItemColumn( pIda, lpDrawItem->hDC, 2, pszData, &rcClip, pEntry, pFoundPos, pEntry->iUsedEntries, fTarget, iBaseColorIndex );
 
 
     // target column (only when 4 columns are displayed)
@@ -294,7 +300,7 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
       //swprintf( szString, L"ClipRect Left=%ld Top=%ld Right=%ld Bottom=%ld", rcClip.left, rcClip.top, rcClip.right, rcClip.bottom );
       pszData = (PSZ_W)((PBYTE)pEntry + pEntry->iTextOffs[TARGET_TEXT]);
       FillRect ( lpDrawItem->hDC, &rcClip, (HBRUSH) GetSysColor( COLOR_GRADIENTINACTIVECAPTION ) );
-      DrawItemColumn( pIda, lpDrawItem->hDC, 3, pszData, &rcClip, pEntry, pFoundPos, pEntry->iUsedEntries, TRUE, dwBackColor );
+      DrawItemColumn( pIda, lpDrawItem->hDC, 3, pszData, &rcClip, pEntry, pFoundPos, pEntry->iUsedEntries, TRUE, iBaseColorIndex );
     }
 
     // draw focus rectangle if the item the focus
@@ -303,6 +309,8 @@ void GFR_DrawItem( PFOLFINDDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
         DrawFocusRect( lpDrawItem->hDC, &(lpDrawItem->rcItem) ); 
     } 
   } /* endif */
+
+  if ( hFontOld ) SelectObject( lpDrawItem->hDC, hFontOld );
 
   return; 
 } 
@@ -376,46 +384,31 @@ int GetTextHeight( HDC hdc, int iAvail, PSZ_W pszString, int iLen )
   return( iLines );
 }
 
-void GFR_SetTextAndBackgroundStyle( HDC hdc, RECT *prc, DRAWTYPE DrawType, DWORD dwBackColor )
+void GFR_SetTextAndBackgroundStyle( PFOLFINDDATA pIda, HDC hdc, RECT *prc, DRAWTYPE DrawType, int iBaseColorIndex )
 {
+  int iColorIndex = 0;
+
+  prc; 
+
   switch( DrawType )
   {
-    case NORMALTEXT_DRAWTYPE:
-      SetTextColor( hdc, RGB(0,0,0) );
-      SetBkColor( hdc, dwBackColor );
-      break;
-    case FOUND_DRAWTYPE: 
-      SetTextColor( hdc, RGB(0,0,0) );
-      SetBkColor( hdc, RGB(150,150,255) );
-      break;
-    case TOBECHANGED_DRAWTYPE:
-      SetTextColor( hdc, RGB(0,0,0) );
-      SetBkColor( hdc, RGB(255,150,150) );
-      break;
-    case CHANGED_DRAWTYPE:
-      {
-        SetTextColor( hdc, RGB(0,0,0) );
-        SetBkColor( hdc, RGB(255,80,80) );
-      }
-      break;
-    case CHANGETO_DRAWTYPE:
-      SetTextColor( hdc, RGB(0,0,0) );
-      SetBkColor( hdc, RGB(150,255,150) );
-      break;
-    case CHANGEDTO_DRAWTYPE:
-      SetTextColor( hdc, RGB(0,0,0) );
-      SetBkColor( hdc, RGB(100,255,100) );
-      break;
-    case ADDSEGMENTTEXT_DRAWTYPE:
-      SetTextColor( hdc, RGB(80,80,80) );
-      SetBkColor( hdc, dwBackColor );
-      break;
+    case NORMALTEXT_DRAWTYPE:     iColorIndex = iBaseColorIndex + GFR_NORMAL_TEXT; break;
+    case FOUND_DRAWTYPE:          iColorIndex = iBaseColorIndex + GFR_FOUND_TEXT; break;
+    case TOBECHANGED_DRAWTYPE:    iColorIndex = iBaseColorIndex + GFR_TOBECHANGED_TEXT; break;
+    case CHANGED_DRAWTYPE:        iColorIndex = iBaseColorIndex + GFR_CHANGED_TEXT; break;
+    case CHANGETO_DRAWTYPE:       iColorIndex = iBaseColorIndex + GFR_CHANGETO_TEXT; break;
+    case CHANGEDTO_DRAWTYPE:      iColorIndex = iBaseColorIndex + GFR_CHANGEDTO_TEXT; break;
+    case ADDSEGMENTTEXT_DRAWTYPE: iColorIndex = iBaseColorIndex + GFR_ADDSEGMENTDATA_TEXT; break;
   } /* endswitch */
+
+  SetTextColor( hdc, pIda->ColorData.ColorSetting[iColorIndex].cForeground );
+  SetBkColor( hdc, pIda->ColorData.ColorSetting[iColorIndex].cBackground );
+
   return;
 }
 
 // draw text and handle any linebreaks within the text
-void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, DWORD dwBackColor,  DRAWTYPE DrawType )
+void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, int iBaseColorIndex,  DRAWTYPE DrawType )
 {
   if ( pIda->fRespectLineFeeds )
   {
@@ -433,7 +426,7 @@ void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pP
       {
         // draw current line of text
         int iLineLen = pszLineFeed - pszString;
-        if ( iLineLen > 0 ) GFR_DrawText( hdc, prcClip, pPt, pszString, iLineLen, iLineHeight, dwBackColor, DrawType );
+        if ( iLineLen > 0 ) GFR_DrawText( pIda, hdc, prcClip, pPt, pszString, iLineLen, iLineHeight, iBaseColorIndex, DrawType );
 
         // go to next line
         pPt->x = prcClip->left + 2;
@@ -448,7 +441,7 @@ void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pP
       else
       {
         // draw remaining text
-        if ( iLen > 0 ) GFR_DrawText( hdc, prcClip, pPt, pszString, iLen, iLineHeight, dwBackColor, DrawType );
+        if ( iLen > 0 ) GFR_DrawText( pIda, hdc, prcClip, pPt, pszString, iLen, iLineHeight, iBaseColorIndex, DrawType );
       } /* endif */
     } while ( (pszLineFeed != NULL) && (iLen != 0) ); /* endwhile */
   }
@@ -462,11 +455,11 @@ void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pP
       if ( (pIda->szColTextBuffer[i] == L'\n') || (pIda->szColTextBuffer[i] == L'\r') ) pIda->szColTextBuffer[i] = L' ';
     } /* endfor */
 
-    GFR_DrawText( hdc, prcClip, pPt, pIda->szColTextBuffer, iLen, iLineHeight, dwBackColor, DrawType );
+    GFR_DrawText( pIda, hdc, prcClip, pPt, pIda->szColTextBuffer, iLen, iLineHeight, iBaseColorIndex, DrawType );
   } /* endif */
 }
 
-void GFR_DrawText( HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, DWORD dwBackColor,  DRAWTYPE DrawType )
+void GFR_DrawText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, int iBaseColorIndex,  DRAWTYPE DrawType )
 {
   SIZE size;
   RECT rc;
@@ -514,7 +507,7 @@ void GFR_DrawText( HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen
         rc.left = pPt->x;
         rc.right = pPt->x + size.cx;
 
-        GFR_SetTextAndBackgroundStyle( hdc, &rc, DrawType, dwBackColor );
+        GFR_SetTextAndBackgroundStyle( pIda, hdc, &rc, DrawType, iBaseColorIndex );
         ExtTextOutW( hdc, pPt->x, pPt->y, (DrawType == NORMALTEXT_DRAWTYPE ) ? ETO_CLIPPED : (ETO_CLIPPED | ETO_OPAQUE), &rc, pszString, i, NULL);
         // apply strike through
         if ( DrawType == CHANGED_DRAWTYPE )
@@ -547,7 +540,7 @@ void GFR_DrawText( HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen
         rc.left = pPt->x;
         rc.right = pPt->x + size.cx;
         if ( rc.right > prcClip->right )  rc.right = prcClip->right;
-        GFR_SetTextAndBackgroundStyle( hdc, &rc, DrawType, dwBackColor );
+        GFR_SetTextAndBackgroundStyle( pIda, hdc, &rc, DrawType, iBaseColorIndex );
         ExtTextOutW( hdc, pPt->x, pPt->y, (DrawType == NORMALTEXT_DRAWTYPE ) ? ETO_CLIPPED : (ETO_CLIPPED | ETO_OPAQUE), &rc, pszString, iLen, NULL);
         // apply strike through
         if ( DrawType == CHANGED_DRAWTYPE )
@@ -568,7 +561,7 @@ void GFR_DrawText( HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen
     else
     {
       // draw remaining text
-      GFR_SetTextAndBackgroundStyle( hdc, &rc, DrawType, dwBackColor );
+      GFR_SetTextAndBackgroundStyle( pIda, hdc, &rc, DrawType, iBaseColorIndex );
       ExtTextOutW( hdc, pPt->x, pPt->y, (DrawType == NORMALTEXT_DRAWTYPE ) ? ETO_CLIPPED : (ETO_CLIPPED | ETO_OPAQUE), &rc, pszString, iLen, NULL);
       // apply strike through
       if ( DrawType == CHANGED_DRAWTYPE )
@@ -594,7 +587,7 @@ void GFR_DrawText( HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen
 //      prcClip - Rectangle to clip the string to.
 //
 
-void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, LPRECT prcClip, PFOLFINDRESULTENTRY pEntry, PFOLFINDRESULTPOS pFoundPos, int iFoundEntries, BOOL fTarget, DWORD dwBackColor )
+void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, LPRECT prcClip, PFOLFINDRESULTENTRY pEntry, PFOLFINDRESULTPOS pFoundPos, int iFoundEntries, BOOL fTarget, int iBaseColorIndex )
 {
   int iCurPos = 0; // current position within text
   int iLineHeight = 0;
@@ -610,12 +603,12 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
   // get text length
   int iRemaining = wcslen( pszString );
 
-  SetTextColor( hdc, RGB(0,0,0) );
-  SetBkColor( hdc, dwBackColor );
+  SetTextColor( hdc, pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground );
+  SetBkColor( hdc, pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground );
 
   // erase rectangle
   {
-    HBRUSH hBrush = CreateSolidBrush( dwBackColor );
+    HBRUSH hBrush = CreateSolidBrush( pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground );
     FillRect( hdc, prcClip, hBrush ); 
     DeleteObject( hBrush );
   }
@@ -633,13 +626,13 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
   if ( (iColumn >= 2) && (pIda->pLastUsed->sShowBeforeAfter == 2) )
   {
     PSZ_W pszText = (PSZ_W)((PBYTE)pEntry + pEntry->iTextOffs[ fTarget ? PREV_SEG_TARGET_TEXT1 : PREV_SEG_SOURCE_TEXT1 ] );
-    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, dwBackColor, ADDSEGMENTTEXT_DRAWTYPE );
+    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, iBaseColorIndex, ADDSEGMENTTEXT_DRAWTYPE );
   } /* endif */
 
   if ( (iColumn >= 2)  && (pIda->pLastUsed->sShowBeforeAfter >= 1) )
   {
     PSZ_W pszText = (PSZ_W)((PBYTE)pEntry + pEntry->iTextOffs[ fTarget ? PREV_SEG_TARGET_TEXT0 : PREV_SEG_SOURCE_TEXT0 ] );
-    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, dwBackColor, ADDSEGMENTTEXT_DRAWTYPE );
+    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, iBaseColorIndex, ADDSEGMENTTEXT_DRAWTYPE );
   } /* endif */
 
   // find next next active entry in found pos array 
@@ -668,7 +661,7 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
     if ( pFoundPos == NULL )
     {
       // output of remaining text
-      GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, iRemaining, iLineHeight, dwBackColor, NORMALTEXT_DRAWTYPE );
+      GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, iRemaining, iLineHeight, iBaseColorIndex, NORMALTEXT_DRAWTYPE );
       iRemaining = 0;
     }
     else
@@ -682,7 +675,7 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
       int iOutputLen = iCurOffs - iCurPos;
       if ( iOutputLen != 0 )
       {
-        GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, iOutputLen, iLineHeight, dwBackColor, NORMALTEXT_DRAWTYPE );
+        GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, iOutputLen, iLineHeight, iBaseColorIndex, NORMALTEXT_DRAWTYPE );
         iRemaining -= iOutputLen;
         iCurPos += iOutputLen;
       }
@@ -693,31 +686,31 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
         case CHANGETO_TYPE:
           {
             PSZ_W pszChangeTo = (PSZ_W)((PBYTE)(pEntry->pszChangeToBuffer) + pFoundPos->usChangeOffs);
-            GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, dwBackColor, TOBECHANGED_DRAWTYPE );
-            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, dwBackColor, CHANGETO_DRAWTYPE );
+            GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, iBaseColorIndex, TOBECHANGED_DRAWTYPE );
+            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, iBaseColorIndex, CHANGETO_DRAWTYPE );
           }
           break;
 
         case CHANGED_TYPE:
           {
             PSZ_W pszChangeTo = (PSZ_W)((PBYTE)(pEntry->pszChangeToBuffer) + pFoundPos->usChangeOffs);
-            GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, dwBackColor, CHANGED_DRAWTYPE );
-            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, dwBackColor, CHANGEDTO_DRAWTYPE );
+            GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, iBaseColorIndex, CHANGED_DRAWTYPE );
+            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, iBaseColorIndex, CHANGEDTO_DRAWTYPE );
           }
           break;
 
         case AUTOCHANGED_TYPE:
           {
             PSZ_W pszChangeTo = (PSZ_W)((PBYTE)(pEntry->pszChangeToBuffer) + pFoundPos->usChangeOffs);
-            GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, dwBackColor, CHANGED_DRAWTYPE );
-            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, dwBackColor, CHANGEDTO_DRAWTYPE );
+            GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, iBaseColorIndex, CHANGED_DRAWTYPE );
+            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, iBaseColorIndex, CHANGEDTO_DRAWTYPE );
             iOffsDelta += (wcslen(pszChangeTo) - (int)pFoundPos->usLen);
           }
           break;
 
         case FOUND_TYPE:
         default:
-          GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, dwBackColor, FOUND_DRAWTYPE );
+          GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, iBaseColorIndex, FOUND_DRAWTYPE );
           break;
       } /* endswitch */
 
@@ -741,13 +734,13 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
   if ( (iColumn >= 2)  && (pIda->pLastUsed->sShowBeforeAfter >= 1) )
   {
     PSZ_W pszText = (PSZ_W)((PBYTE)pEntry + pEntry->iTextOffs[ fTarget ? NEXT_SEG_TARGET_TEXT0 : NEXT_SEG_SOURCE_TEXT0 ] );
-    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, dwBackColor, ADDSEGMENTTEXT_DRAWTYPE );
+    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, iBaseColorIndex, ADDSEGMENTTEXT_DRAWTYPE );
   } /* endif */
 
   if ( (iColumn >= 2)  && (pIda->pLastUsed->sShowBeforeAfter == 2) )
   {
     PSZ_W pszText = (PSZ_W)((PBYTE)pEntry + pEntry->iTextOffs[ fTarget ? NEXT_SEG_TARGET_TEXT1 : NEXT_SEG_SOURCE_TEXT1 ] );
-    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, dwBackColor, ADDSEGMENTTEXT_DRAWTYPE );
+    GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszText, wcslen(pszText), iLineHeight, iBaseColorIndex, ADDSEGMENTTEXT_DRAWTYPE );
   } /* endif */
 
 

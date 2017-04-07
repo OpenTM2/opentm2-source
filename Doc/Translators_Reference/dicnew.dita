@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dicnew">
+  <title>Creating a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers you several ways of
+        setting up a new dictionary. <ul>
+          <li>If you do not have any existing terminology in machine-readable form, you must create
+            a completely new dictionary. You do this by determining the dictionary properties. In
+            particular, you must define a dictionary structure. You can use a default structure
+            offered by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, or you can use
+            the structure of an existing dictionary in <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> and change it. A newly created
+            dictionary is empty at first but you can add entries from a new terms list built during
+            document analysis or at any stage during the translation process. In this way you can
+            create dictionaries that contain specific terms related to your translation
+            projects.</li>
+          <li>During analysis, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can
+            generate a found terms list that contains all terms of the document that exist in the
+            referenced dictionaries. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can
+            also copy the entry data of these terms into a separate dictionary.</li>
+          <li>If you have a terminology file in a format of your own, you must generate an external
+            SGML-based dictionary and you must import it into <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>. In this case, a new dictionary is
+            created with your terminology and the entry structure as defined in the SGML file is
+            taken.</li>
+        </ul></p>
+      <p>If you create a new dictionary via the <q>New Dictionary</q> window in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> and you do not use the modeling option,
+        the following entry fields are offered as default fields:</p>
+      <table pgwide="0" frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="1">
+          <colspec colname="col1" colwidth="3*"/>
+          <colspec colname="col2" colwidth="1*"/>
+          <thead>
+            <row>
+              <entry valign="top" rowsep="1"><indexterm>dictionary<indexterm>default entry
+                    fields</indexterm></indexterm>Entry field </entry>
+              <entry valign="top" rowsep="1">Level</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top">Headword *)</entry>
+              <entry valign="top">Entry</entry>
+            </row>
+            <row>
+              <entry valign="top">Part of Speech</entry>
+              <entry valign="top">Homonym</entry>
+            </row>
+            <row>
+              <entry valign="top">Abbrev./Fullform *)</entry>
+              <entry valign="top">Sense</entry>
+            </row>
+            <row>
+              <entry valign="top">Definition</entry>
+              <entry valign="top">Sense</entry>
+            </row>
+            <row>
+              <entry valign="top">Synonym *)</entry>
+              <entry valign="top">Sense</entry>
+            </row>
+            <row>
+              <entry valign="top">Other Related Terms *)</entry>
+              <entry valign="top">Sense</entry>
+            </row>
+            <row>
+              <entry valign="top">Context</entry>
+              <entry valign="top">Sense</entry>
+            </row>
+            <row>
+              <entry valign="top">Translation</entry>
+              <entry valign="top">Target</entry>
+            </row>
+            <row>
+              <entry valign="top">Company/Subject Code</entry>
+              <entry valign="top">Target</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <p>The entry fields marked with <codeph>*)</codeph> can be used as predefined search criteria
+        in the <q>Look up a Term</q> window (see <xref href="dicsrch.dita#dicsrch"/>).</p>
+      <p>If you are working with a more comprehensive structure and require more entry fields,
+        select <b>-Master-</b> in the <q>Use Existing Dictionary as Model</q> window, which offers
+        an extensive dictionary structure. You can rename or delete any fields from this set of
+        entry fields and you can also add new user-defined fields to it.</p>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> adds and updates time stamp
+        information automatically, provided the following date fields are selected in the <q>New
+          dictionary</q> window from the <i>-Master-</i> model dictionary.</p>
+      <table pgwide="0" frame="topbot">
+        <tgroup cols="3" colsep="0" rowsep="1">
+          <colspec colname="col1" colwidth="1*"/>
+          <colspec colname="col2" colwidth="1*"/>
+          <colspec colname="col3" colwidth="2*"/>
+          <thead>
+            <row>
+              <entry valign="top" rowsep="1">Entry field</entry>
+              <entry valign="top" rowsep="1">Level</entry>
+              <entry valign="top" rowsep="1">Contents</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top">Creation Date</entry>
+              <entry valign="top">entry</entry>
+              <entry valign="top">The date when a headword was added to a dictionary.</entry>
+            </row>
+            <row>
+              <entry valign="top">Last Update</entry>
+              <entry valign="top">sense</entry>
+              <entry valign="top">The date when information at the sense level of an entry was added
+                or modified.</entry>
+            </row>
+            <row>
+              <entry valign="top">Creation Date</entry>
+              <entry valign="top">target</entry>
+              <entry valign="top">The date when a translation for a headword was added.</entry>
+            </row>
+            <row>
+              <entry valign="top">Last Update</entry>
+              <entry valign="top">target</entry>
+              <entry valign="top">The date when a translation entry field was last updated.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>None.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window</li>
+          <li><b>New…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>New Dictionary</q> window is displayed (see <xref href="#dicnew/dicnew1"/>).
+              <required-cleanup><indexterm>windows<indexterm>New
+          Dictionary</indexterm></indexterm></required-cleanup><fig id="dicnew1" expanse="column">
+          <title>New Dictionary window</title><image placement="break" href="eqfb7s10a.gif"
+              ><alt>Figure shows New Dictionary window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Type a name of your choice for the new dictionary. This name can be up to eight
+            alphanumeric characters long.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>Type a description for the new dictionary. The description can be up to 255
+            alphanumeric characters long.</pd>
+        </plentry>
+        <plentry>
+          <pt>Location of dictionary</pt>
+          <pd>Specify where to place the new dictionary. It can be on a <b>local</b> disk drive
+            (only you can use it) or on a <b>shared</b> disk drive (several translators can use it
+            simultaneously). See <xref href="shdict.dita#shdict"/> to learn about sharing
+            dictionaries. <p>Select the drive on which you want the new dictionary to reside. A
+              dictionary grows with time, so select a drive with enough space.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Source Language</pt>
+          <pd>Select a source language from the list of installed languages displayed in the list
+            box.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use existing dictionary as model</pt>
+          <pd>If you do not want to determine the dictionary entry structure yourself, you can use
+            the structure of an existing dictionary as a model by clicking <b>Yes…</b>. This takes
+            you to the <q>Use Existing Dictionary as Model</q> window where you can select a
+            dictionary as model. Click <b>Select</b> or <b>Cancel</b> to return to the <q>New
+              Dictionary</q> window. For more information on this option see <xref
+              href="dicnew4.dita#dicnew4"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Change entry fields</pt>
+          <pd>If you want to change the dictionary entry structure (add, delete, or rename entry
+            fields), click <b>Yes…</b>, which takes you to the <q>Change Entry Fields</q> window
+            where you can define your changes. Click <b>Select</b> or <b>Cancel</b> to return to the
+              <q>New Dictionary</q> window. For more information on this option see <xref
+              href="dicnew5.dita#dicnew5"/>.</pd>
+        </plentry>
+      </parml>
+      <p>To avoid unauthorized modification of a dictionary, you can protect it by clicking
+          <b>Protect…</b>, which takes you to the <q>Protect Dictionary</q> window where you can
+        type a password of your own. Click <b>Protect</b> to return to the <q>New Dictionary</q>
+        window. From now on, the dictionary can only be modified when the correct password is
+        supplied. For more information on how to protect and unprotect dictionaries see <xref
+          href="dicprot.dita#dicprot"/>.</p>
+      <p>Click <b>Create</b> to create the new dictionary. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The dictionary is created but still empty. When the dictionary has been created, its entry
+        structure is fixed and can no longer be changed. You can now start to fill it by importing
+        an SGML-based file, by entering terms from a new terms list, or by editing dictionary
+        entries.</p>
+    </section>
+  </refbody>
+</reference>

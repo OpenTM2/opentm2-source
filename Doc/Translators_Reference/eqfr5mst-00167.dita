@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00167">
+  <title>Exporting a document in external format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>documents in external format</indexterm></indexterm>
+      <indexterm>document<indexterm>exporting in external format</indexterm></indexterm>
+      <p>You use the external format to distribute a translated document for checking, for
+        example.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To export a document in external format, select <b>External Format</b> from <b>Export
+          as</b>.</p>
+      <p>The <q>External Format</q> page is displayed (see <xref href="#eqfr5mst-00167/expdocexwin"
+        />). <required-cleanup><indexterm>windows<indexterm>Export Documents (External
+              format)</indexterm></indexterm></required-cleanup><fig id="expdocexwin"
+          expanse="column">
+          <title>Export Documents window (External format)</title><image placement="break"
+            href="eqfb7s7m.gif"><alt>Figure shows Export Documents window (External
+            format)</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Export</pt>
+          <pd>This box contains a list of the documents you selected in the <q>Document List</q>
+            window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Translation</pt>
+          <pd>Select this option to export the documents in their translated version.</pd>
+        </plentry>
+        <plentry>
+          <pt>Path</pt>
+          <pd>Type the path name where you want the translated documents to be stored on the
+            selected drive. Use a trailing backslash (\). You can also click <b>Browse</b> to
+            display the <q>Browse for Folder</q> window on which you can select the appropriate
+            path.</pd>
+        </plentry>
+        <plentry>
+          <pt>With revision marks</pt>
+          <pd>Select this option to have the parts of the exported document that have been newly
+            translated marked. Revision marks can be individually defined by you. To specify a set
+            of revision marks to be used, do one of the following: <ul>
+              <li>Type the name of an existing set of revision marks or a new name.</li>
+              <li>Select an existing name from the list box.</li>
+            </ul>
+            <p>To change an existing set of revision marks or to define new revision marks, click
+                <b>Edit…</b>. This takes you to the <q>Edit Revision Marks</q> window where you
+              define your revision marks (see <xref href="eqfr5mst-00173.dita#eqfr5mst-00173"
+              />).</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Original</pt>
+          <pd>Select this option to export the documents in their original version.</pd>
+        </plentry>
+        <plentry>
+          <pt>Path</pt>
+          <pd>Type the path name on the selected drive where you want the original document to be
+            stored. Use a trailing backslash (\). You can also click <b>Browse</b> to display the
+              <q>Browse for Folder</q> window on which you can select the appropriate path.</pd>
+        </plentry>
+        <plentry>
+          <pt>Untranslated segments</pt>
+          <pd>You can select this option only if you selected <b>Create file containing untranslated
+              segments</b> during analysis, which generates a file containing untranslated segments.
+            Select this option if you want to export this file. <p>This exported file is in the
+              format of an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+              with empty target segments. <indexterm>untranslated
+                segments</indexterm><indexterm>automatic substitution</indexterm>You can transfer
+              this file to a machine translation system to translate these segments
+              automatically.</p>
+            <note><indexterm>machine translation system</indexterm>The machine translation system
+              must first be programmed to recognize the source and target language segments in the
+              external format of the <keyword conref="common-symbols.dita#common-symbols/xlmem"
+              />.</note>
+            <p>After the empty target segments have been completed by the machine translation
+              system, you can import the file into <keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> as a <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> and use it to translate the rest
+              of the document. The proposals offered in the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> window are then preceded by an
+                <i>[m]</i> (generated by <b>m</b>achine).</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Path</pt>
+          <pd>You must type the path name on the selected drive where you want the untranslated
+            segments file to be stored. Use a trailing backslash (\). You can also click
+              <b>Browse</b> to display the <q>Browse for Folder</q> window in which you can select
+            the appropriate path.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Export</b> to start document export.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is exported in external format and stored as an HTML file in the directory
+        under the file name you specified. The document can then be further processed with the
+        corresponding word-processing system.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="createredundantlist">
+  <title>Creating a Redundant Segment List</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>reports<indexterm>Redundant Segment List</indexterm></indexterm>
+      <indexterm>Redundant Segment List</indexterm>
+      <p>The Redundant Segment List contains the first 100 most frequently used segments in a
+        folder. As part of your translation project preparation, translate the segments listed. You
+        can open the documents containing the segments from the Redundant Segment List by
+        double-clicking the document name.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>To prepare a folder or document for this report type, analyze it with the “Count <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> match information” and “Prepare
+        Redundant Segment List” options selected. See <xref href="docana1.dita#docana1"/> for more
+        information.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Redundant Segment List</b> from the <b>Report</b> field.</p>
+      <p>The following table shows which tabbed pages must be filled in to produce a Redundancy
+        Segment List.</p>
+      <table>
+        <title>Overview of the tabbed pages to be filled in for a Redundancy Segment List</title>
+        <tgroup cols="4">
+          <colspec colname="col1" colwidth="74*"/>
+          <colspec colname="col2" colwidth="160*"/>
+          <colspec colname="col3" colwidth="69*"/>
+          <colspec colname="col4" colwidth="75*"/>
+          <thead>
+            <row>
+              <entry colname="col1" valign="top">Tabbed page</entry>
+              <entry colname="col2" valign="top">Purpose</entry>
+              <entry colname="col3" valign="top">Required?</entry>
+              <entry colname="col4" valign="top">Described in...</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <q>General</q>
+              </entry>
+              <entry colname="col2">To define the basics required for a report</entry>
+              <entry colname="col3">
+                <b>Yes</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#createredundantlist/generaltpsegml">General page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Profile</q>
+              </entry>
+              <entry colname="col2">To save or load the report layout defined on the Settings tabbed
+                page</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="createcalculate.dita#createcalculate/profiletp">Profile page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Settings</q>
+              </entry>
+              <entry colname="col2">To define the report layout</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href=""/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>FactSheet</q>
+              </entry>
+              <entry colname="col2">To set the factors for cost calculation</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="factsheetsettings.dita#factsheetsettings"/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Security</q>
+              </entry>
+              <entry colname="col2">To select special options</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="createhistory.dita#createhistory/securitytp">Security page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Shipments</q>
+              </entry>
+              <entry colname="col2">To create a report on specific shipments</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="createcalculate.dita#createcalculate/shipmentstp">Shipments page</xref>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <p>To produce a Redundant Segment List, fill in the following tabbed pages: <ul>
+          <li><q>General</q>, described in the following</li>
+          <li>Optionally, <q>Security</q>, described in <xref
+              href="createhistory.dita#createhistory/securitytp">Security page</xref></li>
+        </ul></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p id="generaltpsegml">On the <q>General</q> page (see <xref
+          href="croverview.dita#croverview/countrepwin"/>), you can choose or specify the following
+        options and parameters:</p>
+      <parml>
+        <plentry>
+          <pt>Folder</pt>
+          <pd>This box contains the documents contained in the selected folder or the document that
+            you selected from the <b>Document List</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>To specify additional information on the report that will display in the header of the
+            report. You can type up to 80 characters.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to Screen</pt>
+          <pd>To display the report in a window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to File</pt>
+          <pd>To store the report in a specific file for which you can specify or select the name
+            and directory and select the file format.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Create</b> to start the creation of the Redundant Segment List.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The Redundant Segment List is created according to your specifications.</p>
+      <p>The following example shows a Redundant Segment List.</p>
+      <p>
+        <fig id="redseglist" expanse="column">
+          <title>Redundant Segment List</title>
+          <image placement="break" href="eqfb7s16p.gif">
+            <alt>Figure shows Redundant Segment List</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+  </refbody>
+</reference>

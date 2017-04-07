@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="lotusdgw">
+  <title>Exporting translated glossary terms to a <tm trademark="Lotus"
+      tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+    <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+      >Notes</tm> database</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>glossary to Lotus Notes</indexterm></indexterm>
+      <indexterm>document<indexterm>exporting glossary to Lotus Notes</indexterm></indexterm>
+      <indexterm>Lotus Notes<indexterm>exporting glossary to</indexterm></indexterm>
+      <p>You can export translated glossary terms that are contained in a document to a <tm
+          trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub"
+          >Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm> database.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To export the terms to <tm trademark="Lotus" tmowner="Lotus Development Corporation"
+          tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm>, select <b><tm trademark="Lotus" tmowner="Lotus Development Corporation"
+            tmtype="reg" tmclass="ibmsub">Lotus</tm> DGW</b> from <b>Export as</b>.</p>
+      <p>The <q><tm trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg"
+            tmclass="ibmsub">Lotus</tm> DGW</q> page is displayed (see <xref
+          href="#lotusdgw/expdoclotus"/>). <required-cleanup><indexterm>windows<indexterm>Export
+              Documents (Lotus Notes)</indexterm></indexterm></required-cleanup><fig
+          id="expdoclotus" expanse="column">
+          <title>Export Documents window (Lotus Notes)</title><image placement="break"
+            href="eqfb7s7s.gif"><alt>Figure shows Export Documents window (Lotus
+            Notes)</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Mark term as approved</pt>
+          <pd>Select this option if all the terms to be exported are to be marked as approved.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Export</b> to start the export.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The translated glossary terms are exported and stored in a <tm trademark="Lotus"
+          tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm> database.</p>
+    </section>
+  </refbody>
+</reference>

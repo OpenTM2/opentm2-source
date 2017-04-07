@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="docspl">
+  <title>Spellchecking a document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>document<indexterm>checking their spelling</indexterm></indexterm>
+      <indexterm>spellchecking<indexterm>documents</indexterm></indexterm>
+      <p>A translated document can contain typing errors or misspelled words. <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> offers a spellchecking function you can
+        use at any time during translation.</p>
+      <p>Spellchecking is supported for all languages for which language support is installed. For
+        each misspelled word, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> shows a
+        correction proposal, which you can accept, overwrite, or skip.</p>
+      <p>Note that only the spelling of translated segments is checked.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The language support file for the target language of the document must be installed. No
+        spellchecking is supported for the following languages: Romanian, Slovene, Croation,
+        Slovakian, Lithuania, Latvia, Estonia.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>If you are not already in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>,
+        start it by selecting: <ol>
+          <li>A document from the <q>Document List</q> window</li>
+          <li><b>Open</b> from the <b>File</b> menu</li>
+          <li>The <q>Translation</q> window</li>
+          <li><b>File…</b> from the <b>Spellcheck</b> menu</li>
+        </ol></p>
+      <p>The Spellcheck function starts immediately at the beginning of the translated document, and
+        the <q>Spellcheck</q> window (see <xref href="#docspl/spellcheckwin"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Spellcheck</indexterm></indexterm></required-cleanup>
+        <fig id="spellcheckwin" expanse="column">
+          <title>Spellcheck window</title><image placement="break" href="eqfb7s7h.gif"><alt>Figure
+              shows Spellcheck window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Misspelled word</pt>
+          <pd>The first word in the document that is misspelled or not in the language support
+            file.</pd>
+        </plentry>
+        <plentry>
+          <pt>Similar Words</pt>
+          <pd>A list of correctly spelled alternatives for the misspelled word. Double-click the
+            correctly spelled word to select it. Or, click <b>Skip</b> to continue with the next
+            misspelled word without selecting any of the alternatives. For some words, this list may
+            be empty.</pd>
+        </plentry>
+        <plentry>
+          <pt>Change to</pt>
+          <pd>The word selected as the correctly spelled one. You can overtype it if you need a new
+            spelling.</pd>
+        </plentry>
+      </parml>
+      <p>You can accept a spelling in several ways. Select: <parml>
+          <plentry><pt>Change</pt>
+            <pd>To accept the spelling in the <b>Change to</b> field.</pd></plentry>
+          <plentry><pt>Addendum</pt>
+            <pd>To add a new spelling to the target language support file. Then this spelling will
+              not be shown as misspelled anymore.</pd></plentry>
+          <plentry><pt>Temp Add</pt>
+            <pd>To add the new spelling temporarily to the target language support file. When you
+              leave <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, this new spelling
+              is not saved.</pd></plentry>
+        </parml></p>
+      <p>When all misspelled words have been either changed or skipped, a message appears telling
+        you that spellchecking is complete.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The corrections you accepted are substituted for the misspelled words in both the document
+        and the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. </p>
+    </section>
+  </refbody>
+</reference>

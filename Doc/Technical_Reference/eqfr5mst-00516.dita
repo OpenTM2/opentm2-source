@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00516">
+<title><!--rev=wst-->EqfSetSysLanguage</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfSetSysLanguage</indexterm><indexterm>programming interface calls<indexterm>EqfSetSysLanguage</indexterm></indexterm>
+<p><i>EqfSetSysLanguage</i> sets the default target
+language for the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> system                       
+ environment. All <keyword conref="common-symbols.dita#common-symbols/tm4w"/> internal character conversions
+(Unicode to ASCII/ANSI,                         ASCII/ANSI to Unicode)
+and linguistic functions will use the provided default target language
+if no                         other language settings are available.
+This happens e.g. during Translation Memory import/export in     
+                   ASCII.                          It is a good coding
+practice to retrieve the default target language first (EqfGetSysLanguage),
+set                         the requested default target language,
+do your processing and reset the default target language to the  
+                      previously stored value.                   
+      Using the EqfSetSysLanguage has the same effect as modifying
+the Default Target Language                         on the System
+Preferenece Dialog via the GUI. </p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfSetSysLanguage</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszSystemLanguage</var></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszSystemLanguage</entry>
+<entry colname="col3">Buffer provided to contain the system      
+language string. The length of the buffer has to be at least 20 characters.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use <i>EqfSetSysLanguage</i> to retrieve the complete error
+information.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>                        {
+                          USHORT usRC = 0;
+                          HSESSION hSession = 0L;
+
+                          // start the Eqf calling interface session
+                          usRC = EqfStartSession( hSession );
+
+
+                          // Set the default target language to be Japanese
+                          if ( !usRC )
+                          {
+                            usRC = EqfSetSysLanaguage( hSession, "Japanese" );
+
+                          } /* endif */
+
+                          // terminate the session
+                          EqfEndSession( hSession );
+                        }</codeblock>
+</example></refbody></reference>

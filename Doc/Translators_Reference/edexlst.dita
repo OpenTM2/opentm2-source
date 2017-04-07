@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edexlst">
+<title>Editing an exclusion list</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>terminology lists<indexterm>modifying an exclusion list</indexterm></indexterm><indexterm>exclusion lists<indexterm>adding a term</indexterm></indexterm><indexterm>exclusion lists<indexterm>changing a term</indexterm></indexterm><indexterm>exclusion lists<indexterm>removing a
+term</indexterm></indexterm><indexterm>editing<indexterm>exclusion lists</indexterm></indexterm>
+<p>When you have opened an exclusion list, the <q>Edit Exclusion List</q>
+window is displayed.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>The list box contains terms from the selected exclusion list. 
+<ul>
+<li>To change a term, overtype it.</li>
+<li>To add a term, press Enter and type a term in the empty line.</li>
+<li>To delete a term, mark it and press Enter.</li>
+</ul></p>
+<p>Clipboard operations (cut, copy, paste) are supported.</p>
+<parml>
+<plentry><pt>Save to</pt>
+<pd>Displays all the exclusion lists to which terms can be saved. Select
+an existing exclusion list or overtype it with another name (to create a new
+list).</pd></plentry>
+</parml>
+<p>To save the terms in the selected exclusion list, select the <b>Save</b> button.</p>
+<p>To leave the exclusion list in its original status, select <b>Cancel</b>.</p>
+</section>
+<section><title>Results</title>
+<p>If you selected <b>Save</b>, the exclusion list is changed
+depending on your selections. If you made changes to the exclusion list, they
+are active during the next analysis of a document.</p>
+<p>If you selected <b>Cancel</b>, the exclusion list remains
+unchanged.</p>
+</section></refbody></reference>

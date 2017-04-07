@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00515-A" rev="GF_03042017">
+  <title>EqfSearchMem</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfSearchMem</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfSearchMem</indexterm></indexterm>
+      <p><i>EqfSearchMem</i> does a concordance search in a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfSearchMem</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>
+          <var>IHandle</var>
+          <sep>,</sep>
+        </groupseq>  
+        <groupseq>
+          <var>pszSearchString</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszStartPosition</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pProposals</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>lSearchTime</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>  
+          <var>IOptions</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+<!--          <colspec colname="col1" colwidth="53*"/>-->
+          <colspec colname="col1" colwidth="73*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">IHandle</entry>
+              <entry colname="col3"><keyword conref="common-symbols.dita#common-symbols/xlmem"/> handle from a 
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> previously opened using EqfOpenMem 
+                (see <xref href="eqfr5mst-00509-A.dita#eqfr5mst-00509-A"/>).</entry>
+            </row>
+            <row>
+              <entry colname="col1">wchar_t *</entry>
+              <entry colname="col2">pszSearchString</entry>
+              <entry colname="col3">Pointer to the search string (in UTF-16 encoding).</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszStartPosition</entry>
+              <entry colname="col3">Pointer to a buffer (min size = 20 characters) containing the start position. 
+                On completion, this buffer is filled with the next search position. To start at the search at the 
+                begin of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, leave this buffer empty.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PMEMPROPOSAL</entry>
+              <entry colname="col2">pProposal</entry>
+              <entry colname="col3">Pointer to MEMPROPOSAL structure receiving the matching proposal.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lSearchTime</entry>
+              <entry colname="col3">Number of miliseconds to search for an entry. When this time is exceeded, the function 
+                returns with an return code of TIMEOUT_RC. To search for a indefinite time, specify the value 0.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">Options for the import, valid options are:
+              <ul>
+                <li>SEARCHINSOURCE_OPT to search in the source text.</li>
+                <li>SEARCHINTARGET_OPT to search in the target text.</li>
+                <li>SEARCH_CASEINSENSITIVE to search case insensitive.</li>
+                <li>SEARCH_WHITESPACETOLERANT to handle all types of whitespace (blank, tab, linefeed) the same, and to treat
+                    multiple whitespace characters as a single space character.</li>
+              </ul>
+                The options can be combined using the logical or operator (|).  
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="70*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">10010 (ENDREACHED_RC)</entry>
+              <entry colname="col2">The end of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> has been reached.</entry>
+            </row>
+            <row>
+              <entry colname="col1">10011 (TIMEOUT_RC)</entry>
+              <entry colname="col2">A time out occurred (exceeded given search time).</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2"><ph>Error code (EQF message number). Use <i>EqfGetLastError</i> (see <ph>page 
+                    <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></ph>) to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <example>
+      <title>Code sample</title>
+        <codeblock> 
+{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+  LONG lHandle = 0;
+  
+  // start the Eqf calling interface session 
+  usRC = EqfStartSession( &amp;hSession );
+  
+  // open the memory TestMem 
+  if ( !usRC ) 
+  {
+    usRC = EqfOpenMem( hSession, "TestMem", &amp;lHandle, 0 );
+  } /* endif */
+  
+  // search the memory for the text "IBM"
+  if ( !usRC ) 
+  {
+    PMEMPROPOSAL pProposal = new MEMPROPOSAL;
+    char szSearchPos[20] = "";
+  
+    do
+      {
+      usRC = EqfSearchMem( hSession, lHandle, L"IBM", szSearchPos, pProposal, 
+      0, SEARCHSOURCE_OPT );
+  
+      // do something with the found proposal
+      ...
+    } while (usRC == 0 );
+    delete pProposal;
+  } /* endif */
+  ...
+  
+  // close the memory 
+  if ( !usRC ) 
+  {
+    usRC = EqfCloseMem( hSession, lHandle, 0 );
+  } /* endif */
+  
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

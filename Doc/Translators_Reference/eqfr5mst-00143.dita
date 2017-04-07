@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00143">
+  <title>Counting duplicate words in a document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>counting<indexterm>words</indexterm></indexterm>
+      <indexterm>document<indexterm>counting duplicate words in</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a facility for
+        counting duplicate words for one or more documents. The result is shown in a window and can
+        be saved in a file. Duplicate words are words in segments which are contained more than once
+        in the documents and will become exact matches once the first occurence of such a segment
+        has been translated. </p>
+      <p>To count the number of words in all the documents of a folder, see <xref
+          href="eqfr5mst-00200.dita#eqfr5mst-00200"/>.</p>
+      <p>Using the <b>"Include memory match information"</b> option, information on memory matches
+        can be included in the created reslts.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>At least one document must exist in the selected folder.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>At least one document from the <q>Document List</q> window</li>
+          <li><b>Count Words…</b> from the <b>Utilities</b> menu</li>
+        </ol></p>
+      <p>The <q>Count Words</q> window (see <xref href="eqfr5mst-00142.dita#eqfr5mst-00142/doccnt"
+        />) is displayed. <required-cleanup><indexterm>windows<indexterm>Count
+            Words</indexterm></indexterm></required-cleanup><fig id="doccnt" expanse="column">
+          <title>Count Words window</title><image placement="break" href="eqfb7s7c3.gif"><alt>Figure
+              shows Count Words window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>This box contains the list of the documents you selected in the <q>Document List</q>
+            window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Options</pt>
+          <pd>Select: <parml>
+              <plentry><pt>Duplicate words</pt>
+                <pd>To count the number of duplicate words in the selected documents.</pd></plentry>
+              <plentry><pt>Include memory match information</pt>
+                <pd>To show information on memory matches in the results.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Output to</pt>
+          <pd>In this block you define where you want the system to save the results: <parml>
+              <plentry><pt>Screen</pt>
+                <pd>The result of the word count is displayed on your screen. This option is
+                  selected automatically.</pd></plentry>
+              <plentry><pt>File</pt>
+                <pd>Select this option to also store the count results in a file. You can: <ul>
+                    <li>Accept the proposed file name.</li>
+                    <li>Type a file name of your choice.</li>
+                    <li>Click <b>Select…</b> to display the <q>Select File</q> window from where you
+                      can choose the file name without having to type it (for a detailed
+                      description, see <xref href="eqfr5mst-00123.dita#eqfr5mst-00123"/>).</li>
+                    <li>Select the format of the count result file. The supported formats are <ul>
+                        <li>ASCII (plain text)</li>
+                        <li>HTML</li>
+                        <li> XML </li>
+                      </ul></li>
+                  </ul></pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Count</b> to begin counting words.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>Result without <q>Include memory match information</q> option selected. The results of the
+        word count are shown, for example, in the <q>Word Count Results - Duplicate Words</q> window
+        (see <xref href="#eqfr5mst-00143/duplicatecountsfigure"/>). </p>
+      <required-cleanup>
+        <indexterm>windows<indexterm>Word Count Results — Duplicate Words</indexterm></indexterm>
+      </required-cleanup>
+      <fig id="duplicatecountsfigure" expanse="column">
+        <title>Word Count Results - Duplications Words window</title>
+        <image placement="break" href="duplicatecounts.gif">
+          <alt>Figure shows Word Count Results - Duplicate Words window</alt>
+        </image>
+      </fig>
+      <p>The window contains the following columns:</p>
+      <dl>
+        <dlentry>
+          <dt>Documents</dt>
+          <dd>The name of the document.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Translated</dt>
+          <dd>The number of translated words in the documents.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Untranslated</dt>
+          <dd>The number of untranslated words in the documents.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Duplicate words</dt>
+          <dd>The number of words in duplicate segments. The first occurence of these segments is
+            counted in the <q>To be translated</q> column.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>To be translated</dt>
+          <dd>The number of words which have to be translated manually.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Markup</dt>
+          <dd>The number of tags in the documents.</dd>
+        </dlentry>
+      </dl>
+      <p>If you selected the <b>File</b> output option, the results are stored in the same format in
+        the specified file.</p>
+      <p>To return to the previous window, close the respective <q>Word Count Result — Duplicate
+          Words</q> window. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>Result with <q>Include memory match information</q> option selected. The results of the
+        word count are shown, for example, in the <q>Word Count Results - Duplicate Words</q> window
+        (see <xref href="#eqfr5mst-00143/duplicatecountsfigure2"/>). </p>
+      <required-cleanup>
+        <indexterm>windows<indexterm>Word Count Results with memory match information — Duplicate
+            Words</indexterm></indexterm>
+      </required-cleanup>
+      <fig id="duplicatecountsfigure2" expanse="column">
+        <title>Word Count Results with memory match information- Duplications Words window</title>
+        <image placement="break" href="duplicatecounts2.gif">
+          <alt>Figure shows Word Count Results with memory match information - Duplicate Words
+            window</alt>
+        </image>
+      </fig>
+      <p>The window contains the following columns:</p>
+      <dl>
+        <dlentry>
+          <dt>Documents</dt>
+          <dd>The name of the document.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Duplicate words (Repetitions) </dt>
+          <dd>All words in segments, which had already one occurrence in one of the document(s). The
+            first occurrence of the segment is listed in one of the fuzzy columns and any additional
+            occurrence of the segment is listed in the duplicate words column.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>95-99% Fuzzy</dt>
+          <dd>The number of words in segments for which there is a fuzzy match in the memory with a
+            fuzziness of 95% up to 99% or segments for which another segment would become a 95-99%
+            fuzzy match proposal during the translation of the document(s).</dd>
+        </dlentry>
+        <dlentry>
+          <dt>75-94% Fuzzy</dt>
+          <dd>The number of words in segments for which there is a fuzzy match in the memory with a
+            fuzziness of 75% up to 94% or segments for which another segment would become a 75-94%
+            fuzzy match proposal during the translation of the document(s).</dd>
+        </dlentry>
+        <dlentry>
+          <dt>0-74% Fuzzy</dt>
+          <dd>The number of words in segments for which there is a fuzzy match in the memory with a
+            fuzziness of 0% up to 74% or segments for which another segment would become a 0-74%
+            fuzzy match proposal during the translation of the document(s).</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Total untranslated</dt>
+          <dd>The total number of words in segments which have no exact match in the Translation
+            Memory. This column contains the total of the duplictae words column and th efuzzy
+            columns.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Exact matches (100% Matches)</dt>
+          <dd>The number of words in segments for which there is one or more exact match in the
+            Translation Memory.</dd>
+        </dlentry>
+      </dl>
+      <p>If you selected the <b>File</b> output option, the results are stored in the same format in
+        the specified file.</p>
+      <p>To return to the previous window, close the respective <q>Word Count Result — Duplicate
+          Words</q> window. </p>
+    </section>
+  </refbody>
+</reference>

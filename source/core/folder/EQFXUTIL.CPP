@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2014, International Business Machines              |
+//|      Copyright (C) 1990-2017, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -342,14 +342,20 @@ int CXLIFFUtil::SetDocCompletion
     PTBSEGMENT pSeg = EQFBGetSegW( pDoc, ulSegNum );
     while ( pSeg )
     {
-      if ( pSeg->qStatus == QF_XLATED ) 
+
+      if ( !pSeg->SegFlags.Joined || pSeg->SegFlags.JoinStart )
       {
-        ulTrans++;
+         if ( pSeg->qStatus == QF_XLATED ) 
+         {
+           ulTrans++;
+         }
+         else if ( pSeg->qStatus != QF_NOP ) 
+         {
+           ulNotTrans++;
+         } /* endif */
+      } else {
+        // ignore joined segments
       }
-      else if ( pSeg->qStatus != QF_NOP ) 
-      {
-        ulNotTrans++;
-      } /* endif */
       ulSegNum++;
       pSeg = EQFBGetSegW( pDoc, ulSegNum );
     } /*endwhile */
@@ -363,7 +369,7 @@ int CXLIFFUtil::SetDocCompletion
     if ( SetPropAccess( hProp, PROP_ACCESS_WRITE) )
     {
       // reset some dates
-      pProp->ulTouched = 0L;
+//    pProp->ulTouched = 0L;
       pProp->ulXLated = 0L;
 
       // reset memory match counts (not valid anymore)
@@ -404,6 +410,7 @@ int CXLIFFUtil::SetDocCompletion
       else if ( ulNotTrans == 0 )
       {
         pProp->usComplete = 100;
+        UtlTime( (PLONG)&(pProp->ulXLated) );
       }
       else
       {
@@ -416,6 +423,7 @@ int CXLIFFUtil::SetDocCompletion
 
       // set import time
       UtlTime( (PLONG)&(pProp->ulImp) );
+      UtlTime( (PLONG)&(pProp->ulTouched) );
 
 
       SaveProperties( hProp, &ulErrorInfo );

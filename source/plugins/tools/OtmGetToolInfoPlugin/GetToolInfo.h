@@ -24,6 +24,10 @@
 //+----------------------------------------------------------------------------+
 #pragma once
 
+// ensure that only API call avaiable in WinXP 32 bit are being used
+#undef _WIN32_WINNT
+#define _WIN32_WINNT 0x0501
+
 #include "..\\..\\..\\..\\include\\eqf.h"
 #include "..\\..\\..\\..\\mri\\eqfstart.id"
 

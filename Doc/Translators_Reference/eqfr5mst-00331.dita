@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00331">
+  <title>Overview and terminology</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following table lists the sample folders you can select when installing <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="4" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="492*"/>
+        <colspec colname="col2" colwidth="461*"/>
+        <colspec colname="col3" colwidth="450*"/>
+        <colspec colname="col4" colwidth="484*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Folder</entry>
+            <entry valign="top" rowsep="1">Format</entry>
+            <entry valign="top" rowsep="1">Original</entry>
+            <entry valign="top" rowsep="1">Translation</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">
+              <codeph>samplami</codeph>
+            </entry>
+            <entry valign="top">Ami Pro</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Spanish</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplprt</codeph>
+            </entry>
+            <entry valign="top"><tm trademark="OS/2" tmowner="IBM Corporation" tmtype="reg"
+                tmclass="ibm">OS/2</tm> resource file</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">German (national)</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplrtf</codeph>
+            </entry>
+            <entry valign="top">RTF</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Spanish</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplwp</codeph>
+            </entry>
+            <entry valign="top">WordPerfect</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Spanish</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplw4w</codeph>
+            </entry>
+            <entry valign="top">Word 2.0</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">German (national)</entry>
+          </row>
+          <row>
+            <entry valign="top">samplehtml1</entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">German (national)</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>sample2</codeph>
+            </entry>
+            <entry valign="top"><tm trademark="OS/2" tmowner="IBM Corporation" tmtype="reg"
+                tmclass="ibm">OS/2</tm> program file</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">German (national)</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml3</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Italian</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml4</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Spanish</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml5</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">French (national)</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml6</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">German (national)</entry>
+            <entry valign="top">English (U.S.)</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml7</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Japanese</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml8</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Russian</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml9</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Arabic</entry>
+          </row>
+          <row>
+            <entry valign="top">
+              <codeph>samplehtml10</codeph>
+            </entry>
+            <entry valign="top">HTML</entry>
+            <entry valign="top">English (U.S.)</entry>
+            <entry valign="top">Polish</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>Each sample folder contains several documents, a dictionary, and a Translation Memory
+      specially prepared for demonstration purposes. The <codeph>samplehtml1</codeph> folder, for
+      example, contains: <ul>
+        <li>Two small documents called <codeph>device.html</codeph> and
+          <codeph>trans.html</codeph></li>
+        <li>A small English (U.S.) to German (national) dictionary called
+          <codeph>sample1</codeph></li>
+        <li>A small <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+          <codeph>samplehtml1</codeph></li>
+      </ul></p>
+    <p>The text of the sample documents is the same for all formats, except: <ul>
+        <li>SAMPLE2 contains <tm trademark="OS/2" tmowner="IBM Corporation" tmtype="reg"
+            tmclass="ibm">OS/2</tm> program files</li>
+        <li>SAMPLPRT contains a sample dictionary for printing</li>
+      </ul></p>
+    <p>The document <codeph>device.html</codeph> is already analyzed, the document
+        <codeph>trans.html</codeph> is not analyzed.</p>
+    <p>To install the sample folders, select the <b>Samples</b> option during installation. The
+      installation procedure prepares the folders for subsequent import and use.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> performs a morphological stem
+      reduction so that you can look up terms in the original document and check the spelling in
+      translated documents. To use these features with the material in a sample folder, you must
+      first install the appropriate language-support files for the source and target languages. For
+      example, to use folder <codeph>samplwp</codeph> you must install the English (U.S.)
+      language-support file because the original sample documents are in English. To check which
+      language-support files have been installed, select <b>Display language list</b> from the
+        <b>Utilities</b> menu of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+      workbench. <ph>State <b>active</b> tells you that a language has been installed.</ph></p>
+    <p>To have <keyword conref="common-symbols.dita#common-symbols/tm4w"/> check the spelling of a
+      translated document, you must install the language-support file for the target language. For
+      example, for SAMPLWP the Spanish language-support file must be installed.</p>
+    <p>To study the material in one of the sample folders, import it first. You can then open a
+      document. The <b><keyword conref="common-symbols.dita#common-symbols/xlenv"/></b> is displayed
+      and you can start to translate the document. From the <q>Dictionary</q> window you can also
+      look up terms in the supplied sample dictionary, and from the <q>Translation Memory</q> window
+      you can copy entire sentences.</p>
+    <p>During translation, sentences you translate are added to the sample <keyword
+        conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+    <p>To return a sample folder to its initial status, delete the associated dictionary, <keyword
+        conref="common-symbols.dita#common-symbols/xlmem"/>, and folder. Then import the entire
+      folder again. Otherwise, the contents of the initial and updated folders are merged.</p>
+    <p>To see samples of SGML-based files for data exchange, you can export a sample dictionary or a
+      sample <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in external format. </p>
+  </body>
+</topic>

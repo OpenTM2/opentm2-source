@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00636">
+  <title>Navigating in windows (Folder List window, Document List window, Translation Memory List
+    window or Dictionary List window)</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Navigating in windows</title>
+      <tgroup cols="2">
+        <colspec colname="col1" colwidth="92*"/>
+        <colspec colname="col2" colwidth="92*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Task</entry>
+            <entry colname="col2" valign="top">Keyboard shortcut</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Moving the cursor one selection down/up</entry>
+            <entry colname="col2">Down/Up arrow</entry>
+          </row>
+          <row>
+            <entry colname="col1">Moving the cursor one screen view down/up</entry>
+            <entry colname="col2">Page Down/Up</entry>
+          </row>
+          <row>
+            <entry colname="col1">Moving the cursor to first entry in the window</entry>
+            <entry colname="col2">Home</entry>
+          </row>
+          <row>
+            <entry colname="col1">Moving the cursor to last entry in the window</entry>
+            <entry colname="col2">End</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p/>
+  </body>
+</topic>

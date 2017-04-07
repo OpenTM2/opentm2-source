@@ -2675,7 +2675,7 @@ void SetInfoFromConfig(HWND hwndTabDlg)
     case Week:
         nCheckedID = IDC_RADIO_WEEK;
         break;
-    case Manual:
+	case Month://Manual:
         nCheckedID = IDC_RADIO_MANUAL;
         break;
     default:
@@ -3190,7 +3190,7 @@ void RefreshAllList(HWND hwndTabDlg, BOOL bShowMsg)
         MessageBox(hwndTabDlg, INFO_NO_NEW_FOUND_STR, PLUGIN_MGR_APP_NAME_STR, MB_OK);
     }
 }
-
+/*
 void RefreshButtonSet(HWND hwndTabDlg)
 {
     int nFrequency = GetPrivateProfileInt(APP_PLUGIN_MGR_SETTINGS, KEY_PLUGIN_MGR_FREQUENCY, PLUGIN_MGR_FREQUENCY_DFT, gstrConfigPath);
@@ -3216,7 +3216,7 @@ void RefreshButtonSet(HWND hwndTabDlg)
 
     EnableWindow(GetDlgItem(hwndTabDlg, IDC_BTN_CHECK_NOW), bAbled);
 }
-
+*/
 void SetNextCheckTime()
 {
     time_t timeNow;
@@ -3238,10 +3238,17 @@ void SetNextCheckTime()
         // check by week
         nDays = 7 - tmNow->tm_wday + 1; // regard Monday as the start date of the week
         break;
-    case Manual:
+    case Month:
         // check by manual
-        glogPlgMgr.writef("Manual, needn't set next check time.");
-        return;
+        //glogPlgMgr.writef("Manual, needn't set next check time.");
+        //return;
+		tmNow->tm_mon = (tmNow->tm_mon + 1)%12;
+		if (tmNow->tm_mon == 0)
+		{
+			tmNow->tm_year++;
+		}
+
+		break;
     default:
         glogPlgMgr.writef("Default, needn't set next check time.");
         return;
@@ -3301,7 +3308,8 @@ unsigned int __stdcall CheckNewVersionProc(LPVOID lpParameter)
     glogPlgMgr.writef("Compare time now=%d with check=%d", nNow, nCheck);
 
     int nFrequency = GetPrivateProfileInt(APP_PLUGIN_MGR_SETTINGS, KEY_PLUGIN_MGR_FREQUENCY, PLUGIN_MGR_FREQUENCY_DFT, gstrConfigPath);
-    if ((nFrequency == Manual) || (nNow < nCheck))
+    //if ((nFrequency == Manual) || (nNow < nCheck))
+	if ( nNow < nCheck )
     {
         glogPlgMgr.writef("Needn't start:%d", nRC);
         WritePrivateProfileString(APP_PLUGIN_MGR_SETTINGS, KEY_PLUGIN_MGR_AUTO, "0", gstrConfigPath);

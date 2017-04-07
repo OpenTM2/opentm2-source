@@ -3,7 +3,7 @@
 
 	Copyright Notice:
 
-	Copyright (C) 1990-2016, International Business Machines
+	Copyright (C) 1990-2017, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -864,7 +864,6 @@ LPARAM           mp2
     case PID_FILE_MI_FINDCHANGE:
     case PID_FILE_MI_FUZZYSEARCH:
     case PID_FILE_MI_SPELLCHECK:
-
       {
         SHORT sItem = QUERYNEXTSELECTIONHWND( pCommArea->hwndLB, LIT_FIRST );
         if ( sItem != LIT_NONE )
@@ -1586,6 +1585,7 @@ LPARAM           mp2
       // pass message to column listbox control
       WinSendMsg( pCommArea->hwndLB, message, mp1, mp2 );
       break;
+
 
     default:
       if ( message == WM_EQF_COMMAND)

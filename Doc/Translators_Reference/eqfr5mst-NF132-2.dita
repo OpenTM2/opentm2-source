@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF132-2" rev="GF_18112016">
+  <title>Blablabla</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>xxxxx.</p>
+    <p>
+      <fig id="fuzzySearchResult" expanse="column">
+        <title>Panel <q><b>xxxxx</b></q></title>
+        <image placement="break" href="fuzzySearchResult.jpg">
+          <alt>xxxxx</alt>
+        </image>
+      </fig>
+    </p>
+    <p>For more information, go to page <xref href="eqfr5mst-00182.dita#eqfr5mst-00182"/>).</p>
+  </body>
+</topic>

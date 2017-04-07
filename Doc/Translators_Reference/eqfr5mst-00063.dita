@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00063">
+  <title>Working with Thai language documents</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Thai language<indexterm>Rich Text Format editor</indexterm></indexterm>
+        <indexterm>Rich Text Format editor</indexterm>
+        <indexterm>RTFEdit editor<indexterm>versus standard editor</indexterm></indexterm>
+        <indexterm>editor<indexterm>standard versus RTFEdit</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> supports the translation of documents from and to the Thai language. This language 
+      is special in its character representation, character composition, word spacing, and writing order, therefore 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a Rich Text Format (RTF) editor that can process Thai language documents. </p>
+    <p>This RTFEdit editor is required for Thai documents, but can also be used for all other document formats supported by 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. In contrast, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>'s
+      <q>Standard</q> editor supports all document formats except the Thai document format.</p>
+    <p>Another difference that you might notice: RTFEdit is a proportional fonts editor; the standard editor is a monospace fonts editor.</p>
+    <p>The following sections describe the preparation for a translation, shows a typical Translation Environment scenario, and lists particularities 
+      and limitations.</p>
+  </body>
+</topic>

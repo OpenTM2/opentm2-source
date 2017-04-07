@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00374">
+  <title>Changing the properties of a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>creating<indexterm>OTMBATCH: reports (from command area)</indexterm></indexterm>
+      <p>If you need to change the properties of a folder frequently, it may be more convenient not to use the 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> GUI, but a DOS line command utility.</p>
+      <p>To work from the DOS line command area, use the <b>OTMBATCH</b> command. The syntax is described in the following chapter.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>creating reports</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">changing folder properties</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how to change the folder properties from the DOS
+        command line. Note that lowercase letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>FLDPROP</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <kwd>folder</kwd>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memory</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>DEsc</kwd>
+          <oper>=</oper>
+          <var>description</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TGtlng</kwd>
+          <oper>=</oper>
+          <var>targetlanguage</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>DIct</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <var>dict</var>
+            <var>(-dict-)</var>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>ROMEM</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <var>readonlymem</var>
+            <var>(-readonlymem-)</var>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>PRofile</kwd>
+          <oper>=</oper>
+          <var>profile</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>SHipment</kwd>
+          <oper>=</oper>
+          <var>shipnum</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <var>/QUIET</var>
+            <var>/QUIET=NOMSG</var>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=FLDPROP</pt>
+          <pd><synph><var>FLDPROP</var></synph>specifies that you want to change the folder
+            properties.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memory</var></synph></pt>
+          <pd><synph><var>memory</var></synph> specifies the name of an existing translation memory
+            that is to used as folder memory. </pd>
+        </plentry>
+        <plentry>
+          <pt>/DEsc=<synph><var>desc</var></synph></pt>
+          <pd><synph><var>desc</var></synph> specifies the new <b>description</b> for the
+            folder</pd>
+        </plentry>
+        <plentry>
+          <pt>/TGtlng=<synph><var>targetlanguage</var></synph></pt>
+          <pd><synph><var> target</var></synph> is the new <b>target</b> language of the
+            documents stored in the folder. </pd>
+        </plentry>
+        <plentry>
+          <pt>/DIct=<synph><var>dict</var></synph></pt>
+          <pd><synph><var>dict</var></synph> specifies the name of a dictionary to be associated
+            with the folder. If you specify several dictionaries, enclose the dictionary names in
+            brackets and separate them by commas.</pd>
+        </plentry>
+        <plentry>
+          <pt>/ROmem=<synph><var>readonlymem</var></synph></pt>
+          <pd><synph><var>target</var></synph> is the new read-only translation memory to be
+            associated with the folder. If you specify several translation memory databases, enclose
+            the names in brackets and separate them by commas. In order to clear the list of
+            read-only memories, specify an empty list: (/ROMEM=())</pd>
+        </plentry>
+        <plentry rev="GF_07122015">
+          <pt>/PRofile=<synph><var>profile</var></synph></pt>
+          <pd><synph><var>profile</var></synph> specifies the name of a profile to be associated
+            with the folder.</pd>
+        </plentry>
+        <plentry rev="GF_07122015">
+          <pt>/SHipment=<synph><var>shipnum</var></synph></pt>
+          <pd><synph><var>shipnum</var></synph> specifies the numeric value of a hipment number from
+            1 to <q>n</q> (where <q>n</q> is e.g. <q>10</q>). <note>The shipment number can only be
+              set in a <q>Controlled Folder</q>.</note>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed. </pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout. <note>You can type the commands in uppercase,
+              lowercase, or in mixed-case letters. You may not use any wildcard characters, such as
+              an asterisk (*).</note></pd>
+        </plentry>
+      </parml>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to change the properties of a folder using the OTMBATCH
+        command.</p>
+      <section>
+        <title>Example</title>
+        <codeblock>OTMBATCH /task=fldprop /name=proj1 /desc="My new description"</codeblock>
+      </section>
+      <p>In this example, the description of the folder called <q>proj1</q> is changed to <q>My new
+         description</q>. All other properties of the folder are not changed.</p>
+    </example>
+  </refbody>
+</reference>

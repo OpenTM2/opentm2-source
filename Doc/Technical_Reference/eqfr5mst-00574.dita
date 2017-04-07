@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00574">
+<title>ParsFreeSegFile</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsFreeSegFile</indexterm></indexterm><indexterm>ParsFreeSegFile</indexterm><indexterm>parser API<indexterm>ParsFreeSegFile</indexterm></indexterm>
+<p><i>ParsFreeSegFile</i> frees a segmented file
+from memory.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsFreeSegFile</kwd><delim>(</delim></groupseq>
+<groupseq><var>hSegFile</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSSEGFILE</entry>
+<entry colname="col2">hSegFile</entry>
+<entry colname="col3">The handle of the segmented file in memory.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the memory is successfully freed, or
+an error code.</p>
+</section></refbody></reference>

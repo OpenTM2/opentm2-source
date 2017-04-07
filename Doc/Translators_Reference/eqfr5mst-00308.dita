@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00308">
+  <title>Importing a terminology list</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>importing<indexterm>terminology lists</indexterm></indexterm>
+      <indexterm>terminology lists<indexterm>importing</indexterm></indexterm>
+      <p>If a terminology list has been created by another <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> user, you must import it to make it
+        available in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>To import a new terms list, the <q>New Terms Lists</q> window must be active.</li>
+        <li>To import a found terms list, the <q>Found Terms Lists</q> window must be active.</li>
+        <li>To import an exclusion list, the <q>Exclusion Lists</q> window must be active.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Import…</b> from the <b>File</b> menu.</p>
+      <p>For an exclusion list, the <q>Import Exclusion List</q> window is displayed (see <xref
+          href="#eqfr5mst-00308/ntrmimp"/>). <required-cleanup><indexterm>windows<indexterm>Import
+              Exclusion List</indexterm></indexterm></required-cleanup><fig id="ntrmimp"
+          expanse="column">
+          <title>Import Exclusion List window</title><image placement="break" href="eqfb7s11b.gif"
+              ><alt>Figure shows Import Exclusion List window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>Depending on the format selected, this window offers a different number of options and
+        parameters:</p>
+      <p>For importing in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format,
+        specify the following:</p>
+      <parml>
+        <plentry>
+          <pt>Format</pt>
+          <pd>Select <b><keyword conref="common-symbols.dita#common-symbols/tm4w"/></b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>From</pt>
+          <pd>Select the drive from which you want to import the terminology list. <p>When you have
+              selected a drive the terminology lists are automatically displayed in the list box.
+              Select the list you want to import.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>To list</pt>
+          <pd>Type the name under which you want the data stored in <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+      </parml>
+      <p>For importing in external format, specify the following:</p>
+      <parml>
+        <plentry>
+          <pt>Format</pt>
+          <pd>Select <b>External</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>From</pt>
+          <pd><keyword conref="common-symbols.dita#common-symbols/tm4w"/> needs information where
+            the terminology list to be imported currently resides: <p>Select the drive where the
+              external list is stored.</p>
+            <parml>
+              <plentry><pt>Name</pt>
+                <pd>Type the name of the external list.</pd></plentry>
+              <plentry><pt>Current directory</pt>
+                <pd>Displays the directory selected from the <b>Directories</b> list
+                box.</pd></plentry>
+              <plentry><pt>Directories</pt>
+                <pd>Select the directory containing the external terminology list from the list of
+                  directories on the selected drive.</pd></plentry>
+              <plentry><pt>Files</pt>
+                <pd>Select the file name of the external terminology list from the list of names in
+                  the currently selected path.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>To list</pt>
+          <pd>Type the name under which you want the data stored in <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+      </parml>
+      <p>To start the importing function, select the <b>Import</b> button.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The terminology list is stored in <keyword conref="common-symbols.dita#common-symbols/tm4w"
+        /> and can be used for further processing.</p>
+    </section>
+  </refbody>
+</reference>

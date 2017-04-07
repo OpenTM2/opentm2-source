@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF122-1" rev="GF_18032015_2">
+  <title>Improved Global Find and Replace function</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This function is part 1 of 2, and the final implementation is done in the next version of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>The purpose of the new function is to improve the quality ensurance process in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>Users can now not only search in translated files, but in source files too. This function enables users to search e.g. English source terms and 
+      strings in the selected source files or folder(s), and the corresponding e.g. English and translation-context is displayed when the criteria is met.</p>
+    <p>The e.g. English segments and their corresponding translated segments can be exported into a plain text file. This helps translators and reviewers 
+      to checking the translation consistency.</p>
+    <p>In addition, users can not only search English terms in the source files, but it is now possible to search both, the English term in the source files 
+      and the translated term in the translated files at once. This enables users to search a specific 1:1 pair of English and NL-terms among n:n pairs.</p>
+    <p>A new result-table is added to the Global Find and Replace panel. When <keyword conref="common-symbols.dita#common-symbols/tm4w"/> finds a search 
+      pattern, it shows the NLV context plus the corresponding source segment. This helps to save time in the search process.</p>
+  </body>
+</topic>

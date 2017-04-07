@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00164">
+<title>Deleting documents from a folder based on a list</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>exporting<indexterm>Deleting documents from
+a folder based on a list</indexterm></indexterm><indexterm>document<indexterm>deleting</indexterm></indexterm><indexterm>returning<indexterm>translation to customer</indexterm></indexterm><indexterm>transferring translation to another user</indexterm>
+<p>When you delete documents using this function the documents are
+not shown in the folder anymore but can be restored when necessary
+using the <b>Restore deleted documents</b> function.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder containing the documents being deleted must be selected.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>A folder in the folder list or a folder in the left column of
+the folder tree. </li>
+<li><b>Delete Documents</b>... from the <b>Delete/Restore
+Documents based on a list</b> menu of the <b>Utilities </b>menu.</li>
+<li>Select the text file containing the names of the documents being
+deleted in the <b>Select file containing the list of
+documents being removed window</b>   	
+<note>the selected
+file has to be a pure text file in ANSI encoding, each line of the
+text file contains the name of a single document</note></li>
+<li>Press the button which opens the selected file</li>
+</ol> </p>
+</section>
+<section><title>Results</title>
+<p>The documents are removed from the folder. You can restore the
+documents using the Restore Deleted Documents function</p>
+</section></refbody></reference>

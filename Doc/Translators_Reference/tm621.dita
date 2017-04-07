@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm621">
+<title>New features in TM 6.2.1</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>new target languages <b>Portuguese(Br.New)</b> and <b>Portuguese(nt.New)</b> supporting the new Portuguese
+spelling rules (implementation of requirement R010558)</li>
+<li>the generic inline tag replacement function now can delete inline
+tagging when the memory proposal has inline tagging but the segment
+in the document has none (implementation of requirement R009765)</li>
+<li>new user exit entry point EQFCHECKSEGWEX with additional parameters
+to allow usage of the EqfGetNextSeg/EqfGetPrevSeg API calls (implementation
+of requirement R010813)</li>
+<li>100% fuzzy matches (matches which differ in whitespace only) are
+now used for automatic substitution when the markup table allows text
+reflow (implementation of R010664)</li>
+<li>New option "SENDTOMT" for the OTMBATCH task ANALYSIS (fix for
+P400738)</li>
+<li>New calling interface reference EqfOpenDoc</li>
+<li>New calling interface reference EqfOpenDocEx</li>
+<li>New search string for Opening a Document</li>
+<li>Support for Windows 7</li>
+</ul>
+</body></topic>

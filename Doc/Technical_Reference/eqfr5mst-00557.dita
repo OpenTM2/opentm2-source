@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00557">
+  <title>Parser application programming interface</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following functions are internal <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> parsing functions that are made available
+      to expand the possibilities of user exists. Their main purposes are: <ul>
+        <li>To access and modify segmented documents on a segment base. <p>Documents can be loaded,
+            and their segments can be retrieved and modified. Segments can be converted into an SGML
+            tagged format. Code conversions can be done, and some document properties can be
+            retrieved. Modified documents can be saved.</p></li>
+        <li>To access and tokenize markup tables to get information about markup tags and property
+          information. <p>Markup tables can be loaded and tokenized, and the properties of markup
+            tags can be accessed.</p></li>
+      </ul></p>
+    <p>Because these are basically parsing functions, their names start with <q>Pars</q>. Function
+      names ending with <q>W</q> are for Unicode documents, and for markup tables to be used with
+      Unicode documents.</p>
+    <p>Note that these functions are not called at defined <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> processing steps (as opposed to the
+      descriptions in <xref href="#unresolvedid/gen_user_exit_entry_points"/> and <xref
+        href="eqfr5mst-00552.dita#eqfr5mst-00552"/>. However, they are well suited to be used in the
+      code of one or more of these entry points. For example, they can be used to create or clean up
+      markup tables. A sample parser that uses these parser API functions can be found in file
+        <codeph>parssamp.c</codeph> in directory <codeph>\otm\nondde\</codeph>. </p>
+    <p>Further details about these functions, like the definition of data types, can be found in
+      file <codeph>eqfpapi.h</codeph> in the same directory.</p>
+    <p>The following sections describe the parser API functions in detail. Where applicable, the
+      parser API functions are enabled for Unicode UTF-16
+          support.<indexterm>Unicode<indexterm>support for parser
+        API</indexterm></indexterm><indexterm>parser API<indexterm>Unicode
+        support</indexterm></indexterm></p>
+  </body>
+</topic>

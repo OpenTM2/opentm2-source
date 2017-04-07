@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00180">
+<title>Opening a document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>starting<indexterm>translations</indexterm></indexterm><indexterm>document<indexterm>opening</indexterm></indexterm><indexterm>opening<indexterm>documents</indexterm></indexterm>
+<p>You must open a document before you can start translating.</p>
+<p>If the selected document has not been analyzed, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically
+analyzes the document based on the properties of the document and
+the folder. For more information on the analysis, see <xref href="eqfr5mst-00135.dita#eqfr5mst-00135"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The <q>Document List</q> window of the respective folder is active. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The document from the <q>Document List</q> window</li>
+<li><b>Open</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>Alternatively, double-click the document in the <q>Document List</q> window.</p>
+<p>You are taken to the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, where the selected document is contained
+in the <q>Translation</q> window.</p>
+</section>
+<section><title>Results</title>
+<p>The document is segmented and you can start translating it. </p>
+<p>To leave the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, you must close the document.</p>
+</section></refbody></reference>

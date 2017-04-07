@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF130-5" rev="GF_07122015">
+  <title>Change View Details</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The old <q>Change Details</q> panel was rather static, and changing adding/removing columns,
+      as well as the sequence of the colums was time consuming and error prone. The new panel allows
+      to quickly shift the elements in pane <q>Available</q> to the <q>Selected</q> pane. After
+      that, the sequence of the single elements can be changed by pressing the <q>Up</q> and
+      <q>Down</q> arrows.</p>
+    <p>Once the column sequence has been adjusted, the <q>layout</q> can be <b>saved</b> per window
+      type such as <q>Document List Window</q> or <q>Translation Memory List window</q> etc. by
+      clicking on the button <q>Save as default list</q>. Formerly saved default-lists can be loaded
+      by clicking on the button <q>Save as default list</q>.</p>
+    <p>
+      <fig id="ChangeViewDetails" expanse="column">
+        <title>The new panel <q><b>Change Details</b></q></title>
+        <image placement="break" href="ChangeViewDetails.gif">
+          <alt>Change View Details</alt>
+        </image>
+      </fig>
+    </p>
+  </body>
+</topic>

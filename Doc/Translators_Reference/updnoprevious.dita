@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="updnoprevious">
+  <title><!--rev=wst-->Installing <keyword conref="common-symbols.dita#common-symbols/tm4w"/> on a system with no previous version of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installed</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Instnoprev</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <!--rev=wst-->
+    <p>
+      <ol>
+        <li>Download the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> version 6 install image TM6xBase.EXE from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> ftp server.</li>
+        <li>Start the installation by running the install image TM6xBase.EXE.</li>
+        <li>On the welcome screen click on "Next".</li>
+        <li>The license agreement is displayed. Click on "Yes"</li>
+        <li>On the next screen you select a drive attached to your system, where you want to install <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. Select a drive and 
+          click "Next".</li>
+        <li>On the next screen, you can select the setup type: <ul>
+            <li><b>Typical</b>
+              <p>A typical install installs the following components: (see Custom install for a list of all available components).</p>
+              <ul>
+                <li>IBM <keyword conref="common-symbols.dita#common-symbols/tm4w"/></li>
+                <li>Language Support (All Languages)</li>
+                <li>IBM Internal Markup Tables</li>
+                <li>Sample Files</li>
+                <li>Basic Dictionaries</li>
+                <li>Documentation</li>
+              </ul></li>
+            <li><b>Compact</b>
+              <p>A Compact install installs the following components: (see Custom install for a list of all available components).</p>
+              <ul>
+                <li>IBM <keyword conref="common-symbols.dita#common-symbols/tm4w"/></li>
+                <li>Language Support (All Languages)</li>
+                <li>IBM Internal Markup Tables</li>
+                <li>Sample Files</li>
+                <li>Documentation</li>
+              </ul></li>
+            <li><b>Custom</b>
+              <p>From a Custom install, you cal select the components you want to install. Note: if you select a component, which have 
+                prerequisites components, the prerequisites components will be automatically selected.</p></li>
+          </ul></li>
+        <li>On the next screen you will see the current settings. Click "Next"</li>
+        <li>The Setup Status Window is displayed.</li>
+        <li> After copying the files, the completion window is displayed. Click on "Finish". <keyword conref="common-symbols.dita#common-symbols/tm4w"/> has now been installed. 
+          Note the final message on the completion window and reboot the system if told to do so.</li>
+      </ol>
+    </p>
+  </body>
+</topic>

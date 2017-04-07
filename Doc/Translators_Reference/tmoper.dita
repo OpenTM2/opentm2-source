@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tmoper">
+<title><keyword conref="common-symbols.dita#common-symbols/tm4w"/> operations not to refer to the Windows OEM
+codepage but to use the language property</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p><b>Purpose</b></p>
+<p><ph>This enhancement garantues that batch / CFM functionality of
+TM and ITM can be done on one Windows machine for all target languages.
+This is required in special for DBCS countries. For DBCS countries
+it is now possible to share one Windows machine for import/analysis/export
+without respect of the language of the translation. </ph></p>
+<p><b>Description</b></p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> does not refer any more to the codepage of the
+installed operating system for operations which require knowledge
+of the appropriate codepage. Instead, the source language and the
+target language of the document are now used for correct handling.
+Knowledge of the codepage is necessary for correct morphology, correct
+sentence and word recognition, correct conversions between ASCII /
+ANSI and Unicode, for example</p>
+<p> However there are some cases where the correct language is not
+known ( e.g. Dictionary import or memory import, memory edit). For
+those cases the system preferences now contain a new field "default
+target language", as can be seen below. If no target language is known,
+the default target language from the system preferences is used. It
+is also possible to set and retrieve the default target language via
+Non-DDE API calls (see separate documentation) if it is necessary
+for some CFM applications. CFM applications are responsible for setting
+the correct default target language. </p>
+<p>Although translators must work on a machine with an operating system
+fitting to their target language, translators should be informed that
+they must set the default target language correctly on their system
+when they install the new package TM6.0. If a translator translates
+to another target language as previously the default target language
+should be adapted too. If the default target language in the system
+preferences dialog is not set correctly, import and export of dictionaries
+and memories on a translators machine will not work correctly. Also
+display in the translation memory window or dictionary window and
+the display in the list windows (folder list, files list, dictionary
+list and so on) may contain erraneous characters if the default target
+language is not set correctly.</p>
+<p>Although translators must work on a machine with an operating system
+fitting to their target language, translators should be informed that
+they must set the default target language correctly on their system
+when they install the new package TM6.0. If a translator translates
+to another target language as previously the default target language
+should be adapted too. If the default target language in the system
+preferences dialog is not set correctly, import and export of dictionaries
+and memories on a translators machine will not work correctly. Also
+display in the translation memory window or dictionary window and
+the display in the list windows (folder list, files list, dictionary
+list and so on) may contain erraneous characters if the default target
+language is not set correctly.</p>
+<p>All user exits listed in the technical description which we are
+responsible for, are also checked and adapted. For conversions during
+analysis (PRESEG and POSTSEG) the codepage is retrieved from the corresponding
+source language. For conversions during document export (PREUNSEG
+and POSTUNSEG) the codepage is retrieved from the corresponding target
+language.   </p>
+<p>For other markups, please inform the owners of the markups that
+they should check and change their approach if necessary.  </p>
+<p>If generating the shortnames inside TM from objects with longnames,
+the codepage of the installed operating system is used. So if your
+objects ( folders, files, dictionaries...) have language-specific
+characters in their names the generation of the shortnames depends
+on the Windows codepage.  </p>
+<p>Furthermore be aware that the system preferences default target
+language is used for: 
+<ol>
+<li>For Thai dictionary export it is necessary that system preferences
+language is set to Thai - otherwise an Ansi conversion can take place. </li>
+<li>Memory edit </li>
+<li>Noise or Exclusion or Found Terms lists:If they are written in
+or read from SGML-Format ASCII or ANSI. </li>
+<li>for conversions needed for printing lists </li>
+<li>for export / import of SGML lists ( noise / exclusion lists)</li>
+</ol></p>
+<p>For Greek, ASCII codepage 869 and ANSI codepage 1253 is now used
+always. Since the new approach is no more dependent from the Windows
+OEM codepage, it should be redundant for CFM purposes to edit in the
+registry as it had been necessary previously for Greek users. </p>
+<p>ITM users must be aware that during writing a non-Unicode-SGML-memory
+the default target language of the system preferences is used.</p>
+<p><b>Compatibility</b></p>
+<p>For implementation of this requirement upward-compatibility is
+garantueed. That means TP6.0 ( the next release with R007197 can work
+with all TP5.5.2.x data material (folders, files, user exits).</p>
+<p><b>Restrictions to when the correct Windows OEM codepage
+is required</b></p>
+<p>Restrictions occur in the Standard editor or RTFeditor, Visual
+ITM, Memory edit, Global Find and Change dialog, lists handling via
+Edit lists dialog, Printings. Keyboard handling and display routines
+usually requires a correct operating system. We recommend to use during
+translation an operating system which fits to the selected target
+language. Font selection as well as display ( e.g. DBCS, Thai, BIDI)
+may be corrupted if working on English operating system.</p>
+<p><b>Other restrictions</b></p>
+<p>All within this requirement adapted used exits require to run with
+TP6.0 eqfdll.dll. If one of user exits of TP6.0 is copied to TP5.5.2.x
+by a folder import, e.g. the message EQF0423 (e.g."The file eqfhtml4.dll
+that contains the user exits for analysis could not be loaded") pops
+up at document import or export time. </p>
+</body></topic>

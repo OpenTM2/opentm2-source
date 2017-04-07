@@ -22,6 +22,8 @@
 #include "eqfserno.h"
 #include "tools\common\InitPlugins.h"
 #include "core\PluginManager\PluginManager.h"    // Add for P403138
+#include "core\memory\MemoryFactory.h"
+#include "core\utilities\LanguageFactory.h"
 
 
 //#define SESSIONLOG
@@ -81,6 +83,12 @@
 #endif
 
 #ifdef DEBUGAPI
+  #define LOGPARMSTRINGW( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %S=\"%s\"\n", name, (value) ? value : "<NULL>" ); LOGFORCEWRITE(); } }
+#else
+  #define LOGPARMSTRINGW( name, value )
+#endif
+
+#ifdef DEBUGAPI
   #define LOGPARMCHAR( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %s=\'%c\'\n", name, (value) ? value : ' ' ); LOGFORCEWRITE(); } }
 #else
   #define LOGPARMCHAR( name, value )
@@ -96,6 +104,12 @@
   #define LOGPARMUSHORT( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %s=%u\n", name, value ); LOGFORCEWRITE(); }}
 #else
   #define LOGPARMUSHORT( name, value )
+#endif
+
+#ifdef DEBUGAPI
+  #define LOGPARMLONG( name, value ) { if ( fLog && hLog ) { fprintf( hLog, "  %s=%ld\n", name, value ); LOGFORCEWRITE(); }}
+#else
+  #define LOGPARMLONG( name, value )
 #endif
 
 
@@ -560,9 +574,9 @@ USHORT EqfCountWords
 
   if ( pData && pData->fComplete ) 
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfCountWords: Process complete, rc=%s", szRC );
 #endif
@@ -814,7 +828,7 @@ USHORT EqfImportMem
 
 
   // check sequence of calls
-  if ( usRC == NO_ERROR )
+  if ( (usRC == NO_ERROR ) && !(lOptions & COMPLETE_IN_ONE_CALL_OPT) )
   {
     if ( !pData->fComplete && (pData->sLastFunction != FCT_EQFIMPORTMEM) )
     {
@@ -825,21 +839,24 @@ USHORT EqfImportMem
   // call TM import
   if ( usRC == NO_ERROR )
   {
-    pData->sLastFunction = FCT_EQFIMPORTMEM;
+    if ( !( lOptions & COMPLETE_IN_ONE_CALL_OPT ) ) pData->sLastFunction = FCT_EQFIMPORTMEM;
     usRC = MemFuncImportMem( pData, pszMemName, pszInFile, NULL, NULL, NULL, NULL, lOptions );
   } /* endif */
 
-  if ( (usRC == NO_ERROR) && !pData->fComplete )
+  if ( !( lOptions & COMPLETE_IN_ONE_CALL_OPT ) )
   {
-    usRC = CONTINUE_RC;
-  } /* endif */
+    if ( ( usRC == NO_ERROR ) && !pData->fComplete )
+    {
+      usRC = CONTINUE_RC;
+    } /* endif */
+  }
 
   if ( !usRC )
   {
       SetSharingFlag( EQF_REFR_MEMLIST );
   }
 
-  if ( pData && pData->fComplete ) LOGWRITE2( "  RC=%u\n", usRC );
+  if ( pData && (pData->fComplete || (lOptions & COMPLETE_IN_ONE_CALL_OPT ) ) ) LOGWRITE2( "  RC=%u\n", usRC );
 
   return( usRC );
 } /* end of function EqfImportMem */
@@ -891,6 +908,16 @@ USHORT EqfImportMemEx
   {
     pData->sLastFunction = FCT_EQFIMPORTMEMEX;
     usRC = MemFuncImportMem( pData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
+    if ( lOptions & COMPLETE_IN_ONE_CALL_OPT )
+    {
+      if ( ( usRC == NO_ERROR ) && !pData->fComplete ) usRC = CONTINUE_RC;
+      while ( usRC == CONTINUE_RC )
+      {
+        usRC = MemFuncImportMem( pData, pszMemName, pszInFile, pszTM_ID, pszStoreID, pszUnused1, pszUnused2, lOptions );
+        if ( ( usRC == NO_ERROR ) && !pData->fComplete ) usRC = CONTINUE_RC;
+      } /*endwhile */
+    } /* endif */
+
   } /* endif */
 
   if ( (usRC == NO_ERROR) && !pData->fComplete )
@@ -925,7 +952,7 @@ USHORT EqfExportMem
   // validate session handle
   usRC = FctValidateSession( hSession, &pData );
 
-  if ( pData && (pData->fComplete || (pData->sLastFunction != FCT_EQFEXPORTMEM)) )
+  if ( pData && (pData->fComplete || (pData->sLastFunction != FCT_EQFEXPORTMEM) || (lOptions & COMPLETE_IN_ONE_CALL_OPT)) )
   {
     LOGWRITE1( "==EQFExportMem==\n" );
     LOGPARMSTRING( "Memory", pszMemName );
@@ -934,7 +961,7 @@ USHORT EqfExportMem
   } /* endif */
 
   // check sequence of calls
-  if ( usRC == NO_ERROR )
+  if ( (usRC == NO_ERROR) && !( lOptions & COMPLETE_IN_ONE_CALL_OPT ) )
   {
     if ( !pData->fComplete && (pData->sLastFunction != FCT_EQFEXPORTMEM) )
     {
@@ -945,16 +972,16 @@ USHORT EqfExportMem
   // call TM export
   if ( usRC == NO_ERROR )
   {
-    pData->sLastFunction = FCT_EQFEXPORTMEM;
+    if ( !( lOptions & COMPLETE_IN_ONE_CALL_OPT ) ) pData->sLastFunction = FCT_EQFEXPORTMEM;
     usRC = MemFuncExportMem( pData, pszMemName, pszOutFile, lOptions );
   } /* endif */
 
-  if ( (usRC == NO_ERROR) && !pData->fComplete )
+  if ( !( lOptions & COMPLETE_IN_ONE_CALL_OPT ) && (usRC == NO_ERROR) && !pData->fComplete )
   {
     usRC = CONTINUE_RC;
   } /* endif */
 
-  if ( pData && pData->fComplete ) LOGWRITE2( "  RC=%u\n", usRC );
+  if ( pData && (pData->fComplete || ( lOptions & COMPLETE_IN_ONE_CALL_OPT ) ) ) LOGWRITE2( "  RC=%u\n", usRC );
 
   return( usRC );
 } /* end of function EqfExportMem */
@@ -1143,9 +1170,9 @@ USHORT EqfAnalyzeDoc
 
   if ( pData && pData->fComplete )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfAnalyzeDoc: Process complete, rc=%s", szRC );
 #endif
@@ -2090,6 +2117,31 @@ USHORT EqfGetLastError
   return( usRC );
 } /* end of function EqfGetLastError */
 
+USHORT EqfGetLastErrorW
+(
+  HSESSION    hSession,                // Eqf session handle
+  PUSHORT     pusRC,                   // ptr to buffer for last return code
+  wchar_t    *pszMsgBuffer,            // ptr to buffer receiving the message
+  USHORT      usBufSize                // size of message buffer in bytes
+)
+{
+  PFCTDATA    pData = NULL;            // ptr to function data area
+  USHORT      usRC = NO_ERROR;         // function return code
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( usRC == NO_ERROR )
+  {
+    *pusRC = (USHORT)pData->LastMessage.sErrNumber;
+    MultiByteToWideChar( CP_OEMCP, 0, pData->LastMessage.chMsgText, -1, pszMsgBuffer, usBufSize );
+
+    pData->LastMessage.sErrNumber = 0;
+    pData->LastMessage.chMsgText[0] = EOS;
+  } /* endif */
+
+  return( usRC );
+} /* end of function EqfGetLastErrorW */
 
 
 
@@ -3101,9 +3153,9 @@ USHORT EqfCleanMemory
 
   if ( pData && pData->fComplete )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfCleanMemory: Process complete, rc=%s", szRC );
 #endif
@@ -3241,9 +3293,9 @@ USHORT EqfProcessNomatch
 
   if ( pData && pData->fComplete )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfProcessNomatch: Process complete, rc=%s", szRC );
 #endif
@@ -3360,9 +3412,9 @@ USHORT EqfProcessNomatchEx
 
   if ( pData && pData->fComplete )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfProcessNomatchEx: Process complete, rc=%s", szRC );
 #endif
@@ -3644,9 +3696,9 @@ USHORT EqfExportSegs
 
   if ( pData && pData->fComplete )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfExportSegs: Process complete, rc=%s", szRC );
 #endif
@@ -4104,9 +4156,9 @@ unsigned short EqfFilterNoMatchFile
 
   if ( pData && pData->fComplete )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
 #ifdef SESSIONLOG
+    CHAR szRC[10];
     sprintf( szRC, "%u", usRC );
     UtlLogWriteString( "EqfFilterNoMatchFile: Process complete, rc=%s", szRC );
 #endif
@@ -4147,7 +4199,6 @@ USHORT EqfDeleteDict
 
   if ( pData )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
   }
 
@@ -4221,10 +4272,500 @@ USHORT EqfSearchFuzzySegments
 
   if ( pData )
   {
-    CHAR szRC[10];
     LOGWRITE2( "  RC=%u\n", usRC );
   }
 
   return( usRC );
 
 }
+
+/*! \brief Import a memory using the internal memory files
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being imported
+  \param pszMemoryPackage name of a ZIP archive containing the memory files
+  \param lOptions options for searching fuzzy segments
+         - OVERWRITE_OPT overwrite any existing memory with the given name
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfImportMemInInternalFormat
+(
+  HSESSION    hSession, 
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfImportMemInInternalFormat==\n" );
+    LOGPARMSTRING( "Memory", pszMemoryName );
+    LOGPARMSTRING( "Package", pszMemoryPackage );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIImportMemInInternalFormat( pszMemoryName, pszMemoryPackage, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Export a memory to a ZIP package
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being exported
+  \param pszMemoryPackage name of a new ZIP archive receiving the memory files
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfExportMemInInternalFormat
+(
+  HSESSION    hSession, 
+  PSZ         pszMemoryName,
+  PSZ         pszMemoryPackage,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfExportMemInInternalFormat==\n" );
+    LOGPARMSTRING( "Memory", pszMemoryName );
+    LOGPARMSTRING( "Package", pszMemoryPackage );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIExportMemInInternalFormat( pszMemoryName, pszMemoryPackage, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Open the specified translation memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszMemory name of the memory being opened
+  \param plHandle buffer to a long value receiving the handle of the opened memory or -1 in case of failures
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfOpenMem
+(
+  HSESSION    hSession,
+  PSZ         pszMemoryName, 
+  LONG        *plHandle,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfOpenMem==\n" );
+    LOGPARMSTRING( "Memory", pszMemoryName );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIOpenMem( pszMemoryName, plHandle, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Close the translation memory referred by the handle
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfCloseMem
+(
+  HSESSION    hSession, 
+  LONG        lHandle,
+  LONG        lOptions 
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfCloseMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APICloseMem( lHandle, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+/*! \brief Lookup a segment in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pSearchKey pointer to a MemProposal structure containing the searched criteria
+  \param *piNumOfProposals pointer to the number of requested memory proposals, will be changed on return to the number of proposals found
+  \param pProposals pointer to a array of MemProposal structures receiving the search results
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfQueryMem
+(
+  HSESSION    hSession,    
+  LONG        lHandle,          
+  PMEMPROPOSAL pSearchKey, 
+  int         *piNumOfProposals,
+  PMEMPROPOSAL pProposals, 
+  LONG        lOptions     
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfQueryMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIQueryMem( lHandle, pSearchKey, piNumOfProposals, pProposals, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+
+/*! \brief Search the given text string in the memory
+\param hSession the session handle returned by the EqfStartSession call
+\param lHandle handle of a previously opened memory
+\param pszSearchString pointer to the search string (in UTF-16 encoding)
+\param pszStartPosition pointer to a buffer (min size = 20 charachters) containing the start position, on completion this buffer is filled with the next search position
+\param pProposal pointer to an MemProposal structure receiving the next matching segment
+\param lSearchTime max time in milliseconds to search for a matching proposal, 0 for no search time restriction
+\param lOptions processing options
+SEARCH_IN_SOURCE_OPT  search in source
+SEARCH_IN_TARGET_OPT  search in target
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfSearchMem
+(
+  HSESSION    hSession,
+  LONG        lHandle,
+  CHAR_W      *pszSearchString,
+  PSZ         pszStartPosition,
+  PMEMPROPOSAL pProposal,
+  LONG        lSearchTime,
+  LONG        lOptions
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfSearchMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMSTRINGW( "SearchString", pszSearchString );
+    LOGPARMSTRING( "StartPosition", pszStartPosition );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APISearchMem( lHandle, pszSearchString, pszStartPosition, pProposal, lSearchTime, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+
+/*! \brief Update a segment in the memory
+  \param hSession the session handle returned by the EqfStartSession call
+  \param lHandle handle of a previously opened memory
+  \param pNewProposal pointer to an MemProposal structure containing the segment data
+  \param lOptions processing options 
+  \returns 0 if successful or an error code in case of failures
+*/
+__declspec(dllexport)
+USHORT EqfUpdateMem
+(
+  HSESSION    hSession,
+  LONG        lHandle, 
+  PMEMPROPOSAL pNewProposal,
+  LONG        lOptions
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfUpdateMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+  // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIUpdateMem( lHandle, pNewProposal, lOptions );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+/*! \brief List the name of all memories
+\param hSession the session handle returned by the EqfStartSession call
+\param pszBuffer pointer to a buffer reiceiving the comma separated list of memory names or NULL to get the required length for the list
+\param plLength pointer to a variable containing the size of the buffer area, on return the length of name list is stored in this variable
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfListMem
+(
+  HSESSION    hSession,
+  PSZ         pszBuffer,
+  PLONG       plLength
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+                                       // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfUpdateMem==\n" );
+    LOGPARMLONG( "Handle", lHandle );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+    // call the memory factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+
+    usRC = pFactory->APIListMem( pszBuffer, plLength );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+/*! \brief Get the OpenTM2 language name for a ISO language identifier
+\param hSession the session handle returned by the EqfStartSession call
+\param pszISOLang pointer to ISO language name (e.g. en-US )
+\param pszOpenTM2Lang buffer for the OpenTM2 language name
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfGetOpenTM2Lang
+(
+  HSESSION    hSession,
+  PSZ         pszISOLang,
+  PSZ         pszOpenTM2Lang
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+                                       // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfGetOpenTM2Lang==\n" );
+    LOGPARMSTRING( "ISOLang", pszIsoLanguage );
+  } /* endif */
+
+  if ( (usRC == NO_ERROR ) && (pszISOLang == NULL) ) 
+  {
+    PSZ pszParm = "pointer to ISO language id";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } /* endif */
+
+  if ( (usRC == NO_ERROR ) && (pszOpenTM2Lang == NULL) ) 
+  {
+    PSZ pszParm = "buffer for OpenTM2 language name";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } /* endif */
+
+
+  // use the language factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+    pLangFactory->getOpenTM2NameFromISO( pszISOLang, pszOpenTM2Lang );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+
+/*! \brief Get the ISO language identifier for a OpenTM2 language name
+\param hSession the session handle returned by the EqfStartSession call
+\param pszOpenTM2Lang pointer to the OpenTM2 language name
+\param pszISOLang pointer to a buffer for the ISO language identifier
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfGetIsoLang
+(
+  HSESSION    hSession,
+  PSZ         pszOpenTM2Lang,
+  PSZ         pszISOLang
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+                                       // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfGetIsoTM2Lang==\n" );
+    LOGPARMSTRING( "OpenTM2Lang", pszOpenTM2Language );
+  } /* endif */
+
+  if ( (usRC == NO_ERROR ) && (pszOpenTM2Lang == NULL) ) 
+  {
+    PSZ pszParm = "pointer to OpenTM2 language name";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } /* endif */
+
+  if ( (usRC == NO_ERROR ) && (pszOpenTM2Lang == NULL) ) 
+  {
+    PSZ pszParm = "buffer for ISO language id";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } /* endif */
+
+
+  // use the language factory to process the request
+  if ( usRC == NO_ERROR )
+  {
+    LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+    pLangFactory->getISOName( pszOpenTM2Lang, pszISOLang );
+  } /* endif */
+
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
+

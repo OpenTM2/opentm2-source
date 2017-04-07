@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF123-4" rev="GF_06052015_2">
+  <title>Interface to allow easy entry of characters not on keyboard</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This function allows to quickly add <b>special characters</b> into a segment inside the 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-editor.</p>
+    <p>In the current <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-editor implementation, it may be difficult 
+      to enter special characters which do not exist on the keyboard. A new interface is provided where users can customize an 
+      accelerator key which inserts character at the current cursor position in the 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-editor. More details can be found in 
+      <xref href="eqfr5mst-00633.dita#eqfr5mst-00633"/>.</p>
+  </body>
+</topic>

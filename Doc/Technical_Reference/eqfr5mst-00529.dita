@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00529">
+  <title>EQFPRESEG2</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>programming interface calls<indexterm>EQFPRESEG2</indexterm></indexterm>
+      <indexterm>EQFPRESEG2</indexterm>
+      <p><i>EQFPRESEG2</i> is called during the analysis of a document before the text
+        is segmented. It preprocesses the document, for example converts code pages, and decides
+        whether text segmentation is done by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> or <i>EQFPRESEG2</i> itself. If an
+        error occurs, it can stop the analysis.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFPRESEG2</kwd>
+          <delim>(</delim>
+          <var>MarkupTable</var>
+          <sep>,</sep>
+          <var>Editor</var>
+          <sep>,</sep>
+          <var>Path</var>
+          <sep>,</sep>
+          <var>SourceFile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>Buffer</var>
+          <sep>,</sep>
+          <var>OutputFlag</var>
+          <sep>,</sep>
+          <var>SliderWindowHandle</var>
+          <sep>,</sep>
+          <var>ReturnFlag</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <synph>
+              <var>MarkupTable</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of a markup table.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Editor</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the editor.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Path</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the program path.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SourceFile</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the source file (with full path).</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Buffer</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the buffer containing the name of the temporary output file.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>OutputFlag</var>
+            </synph>
+          </pt>
+          <pd>The output flag indicating whether the text is to be segmented by EQFPRESEG2 instead
+            of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SliderWindowHandle</var>
+            </synph>
+          </pt>
+          <pd>The handle of the slider window.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>ReturnFlag</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the return flag. If this flag changes to TRUE, the user exit must
+            return immediately.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00338">
+  <title>Creating a History Report</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>reports<indexterm>History Report</indexterm></indexterm>
+      <indexterm>History Report</indexterm>
+      <p>The History Report contains a history of the process tasks with regard to the selected
+        folder or document. It keeps track of the most important tasks performed by the translator.
+        It is available in different views depending on the level of complexity of the process tasks
+        to be tracked. It should be created if problems with word-count results or consistency arise
+        and when a translation project is finished.</p>
+      <p>If you want to create a report for an entire folder, all documents that it ever contained
+        are listed.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>History Report</b> from the <b>Report</b> field.</p>
+      <p>The following table shows which tabbed pages must be filled in to produce a History
+        Report.</p>
+      <table>
+        <title>Overview of the tabbed pages to be filled in for a History Report</title>
+        <tgroup cols="4">
+          <colspec colname="col1" colwidth="74*"/>
+          <colspec colname="col2" colwidth="160*"/>
+          <colspec colname="col3" colwidth="69*"/>
+          <colspec colname="col4" colwidth="75*"/>
+          <thead>
+            <row>
+              <entry colname="col1" valign="top">Tabbed page</entry>
+              <entry colname="col2" valign="top">Purpose</entry>
+              <entry colname="col3" valign="top">Required?</entry>
+              <entry colname="col4" valign="top">Described in...</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">
+                <q>General</q>
+              </entry>
+              <entry colname="col2">To define the basics required for a report</entry>
+              <entry colname="col3">
+                <b>Yes</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#eqfr5mst-00338/generaltphis">General page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Profile</q>
+              </entry>
+              <entry colname="col2">To save or load the report layout defined on the <q>Settings</q>
+                tabbed page</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00340.dita#eqfr5mst-00340/profiletp">Profile page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Settings</q>
+              </entry>
+              <entry colname="col2">To define the report layout</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00346.dita#eqfr5mst-00346"/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>FactSheet</q>
+              </entry>
+              <entry colname="col2">To set the factors for cost calculation</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00347.dita#eqfr5mst-00347"/>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Security</q>
+              </entry>
+              <entry colname="col2">To select special options</entry>
+              <entry colname="col3">
+                <b>Optional</b>
+              </entry>
+              <entry colname="col4">
+                <xref href="#eqfr5mst-00338/securitytp">Security page</xref>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">
+                <q>Shipments</q>
+              </entry>
+              <entry colname="col2">To create a report on specific shipments</entry>
+              <entry colname="col3">No</entry>
+              <entry colname="col4">
+                <xref href="eqfr5mst-00340.dita#eqfr5mst-00340/shipmentstp">Shipments page</xref>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p id="generaltphis">On the <q>General</q> page (see <xref
+          href="eqfr5mst-00337.dita#eqfr5mst-00337/countrepwin"/>), you can choose or specify the
+        following options and parameters:</p>
+      <parml>
+        <plentry>
+          <pt>Folder</pt>
+          <pd>This box contains the documents contained in the selected folder or the document that
+            you selected from the <b>Document List</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Report types</pt>
+          <pd>Choose one of the following History Report types: <parml>
+              <plentry><pt>Brief, sort by date</pt>
+                <pd>To get a brief report that is sorted by the creation date and time of the
+                  documents and contains the following information: <sl>
+                    <sli>A unique record number within the history log file</sli>
+                    <sli>The name of the documents for which you create a history report</sli>
+                    <sli>The creation date and time of the documents</sli>
+                    <sli>The process tasks for each document listed in the report</sli>
+                  </sl></pd></plentry>
+              <plentry><pt>Brief, sort by document</pt>
+                <pd>To get a brief report where the information is sorted by document
+                name.</pd></plentry>
+              <plentry><pt>Detail</pt>
+                <pd>To get a detailed report of the process tasks performed on the selected
+                  documents, such as the <keyword conref="common-symbols.dita#common-symbols/xlmem"
+                  /> and markup language used and the number of matches found. The information is
+                  sorted by the unique record number.</pd></plentry>
+              <plentry><pt>Version</pt>
+                <pd>To get a report on the <keyword conref="common-symbols.dita#common-symbols/tm4w"
+                  /> versions used.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>To specify additional information on the report that will display in the header of the
+            report. You can type up to 80 characters.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to Screen</pt>
+          <pd>To display the report in a window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Output to File</pt>
+          <pd>To store the report in a specific file for which you can specify or select the name
+            and directory and select the file format.</pd>
+        </plentry>
+      </parml>
+      <p>Click the <q>Security</q> tab to display the <q>Security</q> tabbed page (see <xref
+          href="#eqfr5mst-00338/crsecuritypage"/>).
+              <required-cleanup><indexterm>windows<indexterm>Create Counting Report — Security
+                page</indexterm></indexterm></required-cleanup><fig id="crsecuritypage" expanse="column">
+          <title>Create Counting Report window — Security page</title><image placement="break"
+            href="eqfb7s16z.gif"><alt>Figure shows Create Counting Report window — Security
+              page</alt></image></fig></p>
+      <p id="securitytp">On the <q>Security</q> page, you can choose or specify the following
+        options and parameters:</p>
+      <parml>
+        <plentry>
+          <pt>List of documents</pt>
+          <pd>Select this option if you want to add, to the end of the report, a list of all
+            documents contained in this report. This is useful if your documents have long names
+            because the report abbreviates file names to 10 characters. The list at the end of a
+            report, however, contains the full document names.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Create</b> to start the creation of the History Report.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The History Report is created according to your specifications.</p>
+      <p>The following examples show a brief History Report, sorted by date, on one document and an
+        excerpt of a detailed History Report, also on one document.</p>
+      <p>
+        <b>Example 1:</b>
+        <fig id="hisrepdate" expanse="column">
+          <title>Brief History Report, sorted by date</title>
+          <image placement="break" href="eqfb7s16c.gif">
+            <alt>Figure shows Brief History Report, sorted by date</alt>
+          </image>
+        </fig>
+      </p>
+      <p>
+        <b>Example 2:</b>
+        <fig id="hisrepdetail" expanse="column">
+          <title>Detailed History Report</title>
+          <image placement="break" href="eqfb7s16d.gif">
+            <alt>Figure shows Detailed History Report</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+  </refbody>
+</reference>

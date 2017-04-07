@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00522">
+<title>Layout and content of a markup table</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>The general layout and content of a markup table are as follows:
+<ul>
+<li>A markup table must begin with a <codeph>&lt;TAGTABLE&gt;</codeph> tag
+and end with a <codeph>&lt;/TAGTABLE&gt;</codeph> tag.</li>
+<li>Following the <codeph>&lt;TAGTABLE&gt;</codeph> tag are <i>header
+tags</i> that are descriptive or of general purpose for the markup
+table. These header tags do not declare individual markup data. You
+can use them to give the markup table a name and a description, to
+specify a character set for conversion, or to specify substitution
+characters. Header tags in a markup table are optional. See <xref href="eqfr5mst-00524.dita#eqfr5mst-00524/sgml_tags_header"/> for a list of allowed header tags and a
+detailed description.
+<p>An example of a header tag in a markup table
+is <codeph>&lt;DESCRNAME&gt;descriptive name&lt;/DESCRNAME&gt;</codeph>,
+which lets you specify a name for the markup table that is different
+from its file name.</p></li>
+<li>Next, a list of <i>markup tag definitions</i> follows.
+These definitions are the core of a markup table. Each definition
+describes a specific formatting tag, for example, a header tag, or
+a soft line feed. The definition always includes the name of the markup
+tag, and either its length or the delimiting characters. A markup
+tag definition can include further information, for example, whether
+the text associated with a markup tag needs to be translated. See <xref href="eqfr5mst-00525.dita#eqfr5mst-00525/sgml_tags_tags_attribs"/> for a list of allowed tags to define
+a markup tag in detail.
+<p>A single markup tag definition always starts
+with the start tag <codeph>&lt;TAG&gt;</codeph> and ends with the corresponding
+end tag <codeph>&lt;/TAG&gt;</codeph>. An example of a markup tag definition
+is:
+<codeblock>&lt;TAG&gt;
+ &lt;STRING&gt;[soft line feed]&lt;/STRING&gt;
+ &lt;LENGTH&gt;16&lt;/LENGTH&gt;
+ &lt;TYPE&gt;STNEUTRAL&lt;/TYPE&gt;
+ &lt;SEGINFO&gt;SEGNEUTRAL&lt;/SEGINFO&gt;
+&lt;/TAG&gt;</codeblock>which defines the markup of a soft line feed. The keyword <codeph>[soft line feed]</codeph> is
+defined as <codeph>&lt;STRING&gt;[soft line feed]&lt;/STRING&gt;</codeph> and
+has a length of 16 characters. <codeph>&lt;TYPE&gt;STNEUTRAL&lt;/TYPE&gt;</codeph> specifies
+that this markup tag has no influence on segmenting, and <codeph>&lt;SEGINFO&gt;SEGNEUTRAL&lt;/SEGINFO&gt;</codeph> specifies
+that this markup tag does not influence the segmenting status.</p></li>
+<li>Markup tags often have <i>attributes</i> that
+specify additional characteristics. For example, a markup tag for
+tables and figures in a document might use a <codeph>width</codeph> attribute
+to specify the width of the element. You need to define all attributes
+of a markup language in your markup table as well. The definition
+of attributes is similar to the definition of markup tags, except
+that each attribute definition is enclosed between the <codeph>&lt;ATTRIBUTE&gt;</codeph> and <codeph>&lt;/ATTRIBUTE&gt;</codeph> tags.
+See <xref href="eqfr5mst-00525.dita#eqfr5mst-00525/sgml_tags_tags_attribs"/> for a list of allowed tags
+to define an attribute in detail.
+<p>An example of an attribute definition
+is:
+<codeblock>&lt;ATTRIBUTE&gt;
+&lt;STRING&gt;WIDTH=%&lt;/STRING&gt;
+&lt;ENDDELIM&gt;' .\r\n'&lt;/ENDDELIM&gt;
+&lt;/ATTRIBUTE&gt;</codeblock>which defines the markup of a <codeph>WIDTH</codeph> attribute.
+Here, you will notice that the keyword <codeph>WIDTH</codeph> is supposed
+to be delimited by one of four delimiting characters, as opposed to
+the previous example, where an explicit length is specified.</p></li>
+</ul></p>
+<p>In summary, a markup table has the following layout:
+<codeblock>&lt;TAGTABLE&gt;
+<synph><var>Header tags, as required</var></synph>
+&lt;TAG&gt;
+<synph><var>markup tag definition</var></synph>
+&lt;/TAG&gt;
+⋮
+&lt;TAG&gt;
+<synph><var>markup tag definition</var></synph>
+&lt;/TAG&gt;
+&lt;ATTRIBUTE&gt;
+<synph><var>attribute definition (optional)</var></synph>
+&lt;/ATTRIBUTE&gt;
+⋮
+&lt;ATTRIBUTE&gt;
+<synph><var>attribute definition (optional)</var></synph>
+&lt;/ATTRIBUTE&gt;
+&lt;/TAGTABLE&gt;</codeblock></p>
+<p>Notice that all entries use the SGML syntax. All SGML tags must
+be enclosed in "<codeph>&lt;</codeph>" and "<codeph>&gt;</codeph>". There are
+always a start tag and an end tag.</p>
+<p>Your markup table can contain up to 1000 entries.</p>
+<p>An SGML markup tag or attribute must be at least specified with <codeph>STRING</codeph> and <codeph>ENDDELIM</codeph>,
+or <codeph>STRING</codeph> and <codeph>LENGTH</codeph>.</p>
+<p>After you have edited the markup table, you can import it into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.
+If you import it into an existing markup table, this table is overwritten.</p>
+</body></topic>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00384">
+  <title>Creating a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>folder<indexterm>OTMBATCH: creating (from command area)</indexterm></indexterm>
+      <indexterm>creating<indexterm>OTMBATCH: folders (from command area) </indexterm></indexterm>
+      <p>If you need to set up new folders frequently, using the command area of your operating
+        system instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows might
+        be more convenient.</p>
+      <p>To work from the command area, use the <b>OTMBATCH</b> command. Its syntax is described in
+        the following chapter. </p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>creating folders</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">creating
+          folders</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you create a folder from the <tm
+          trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special"
+          >Windows</tm> command area. Note that lowercase letters in a parameter name are optional
+        and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>FLDCRT</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>NAme</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>DEsc</kwd>
+          <oper>=</oper>
+          <var>desc</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TOdrive</kwd>
+          <oper>=</oper>
+          <var>drive</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MArkup</kwd>
+          <oper>=</oper>
+          <var>markuptable</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>EDit</kwd>
+          <oper>=</oper>
+          <var>editor</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>DIct</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>dict</var>
+            </groupseq>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <var>dict</var>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>SRclng</kwd>
+          <oper>=</oper>
+          <var>source</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TGtlng</kwd>
+          <oper>=</oper>
+          <var>target</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=FLDCRT</pt>
+          <pd><codeph>FLDCRT</codeph> specifies that you want to set up a new folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/NAme=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the new folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/DEsc=<synph><var>desc</var></synph></pt>
+          <pd><synph><var>desc</var></synph> specifies the description of the new folder (up to 40
+            characters). If none is specified, the folder will have no description and will be more
+            difficult to relate to a specific project later on.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TOdrive=<synph><var>drive</var></synph></pt>
+          <pd><synph><var>drive</var></synph> specifies the drive where the new folder is to be
+            placed. It must be either the main drive or a drive that has been configured as
+            additional drive.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> specifies the name of an existing Translation Memory
+            that is to be related to the new folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MArkup=<synph><var>markuptable</var></synph></pt>
+          <pd><synph><var>markuptable</var></synph> specifies the name of a markup table that is to
+            be related to the markup language of the documents that will be stored in the new
+            folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/EDit=<synph><var>editor</var></synph></pt>
+          <pd><synph><var>editor</var></synph> specifies the name of an editor that is to be
+            associated with the new folder (only <codeph>STANDARD</codeph> is possible).</pd>
+        </plentry>
+        <plentry>
+          <pt>/DIct=<synph><var>dict</var></synph></pt>
+          <pd><synph><var>dict</var></synph> specifies the name of a dictionary to be
+            associated with the new folder. This parameter is optional, that is, it is not required
+            that a dictionary is specified. <p>If you specify several dictionaries, enclose the
+              dictionary names in brackets and separate them by commas.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/SRclng=<synph><var>source</var></synph></pt>
+          <pd><synph><var>source</var></synph> is the source language of the documents stored in the
+            new folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TGtlng=<synph><var>target</var></synph></pt>
+          <pd><synph><var>target</var></synph> is the target language of the documents stored in the
+            new folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to create a folder using the OTMBATCH command.</p>
+        <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=fldcrt /name=proj1 /desc="new folder" /todrive=e
+       /mem=ibmmem /markup=eqfbook /edit=standard /dict=(ibmterm,ibm2)
+       /srclng=German(national) /tgtlng=English(U.S.)</codeblock>
+        </section>
+      <p>In this example, the folder to be created is called <codeph>proj1</codeph> and is described
+        as <codeph>new folder</codeph>. It will be located on drive E and will have the following
+        translation resources attached to it: <ul>
+          <li>The Translation Memory <codeph>ibmmem</codeph></li>
+          <li>The dictionaries <codeph>ibmterm</codeph> and <codeph>ibm2</codeph></li>
+          <li>The markup table <codeph>eqfbook</codeph></li>
+          <li>The editor <codeph>standard</codeph></li>
+        </ul> The source language of the folder’s documents will be German (national), the target language will be English (U.S.).</p>
+    </example>
+  </refbody>
+</reference>

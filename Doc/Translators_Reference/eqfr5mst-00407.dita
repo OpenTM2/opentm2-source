@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00407" rev="GF_06052015_2">
+  <title>Showing the contents of exported folders</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to display the content of an exported 
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder (*.fxp), either in a brief overview, or in greater 
+        details when using the option /DETAILS.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMSHOWFXP</indexterm>
+      <indexterm>commands<indexterm>OTMSHOWFXP</indexterm></indexterm>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMSHOWFXP</kwd>
+        </groupseq>
+        <groupseq>
+          <kwd>Folderfile</kwd>
+        </groupseq>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>DETAILS</kwd>
+          </groupseq>
+        </groupchoice>
+<!--        <groupseq>
+          <delim>/</delim>
+          <kwd>DETAILS</kwd>
+        </groupseq>-->
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>folderfile</pt>
+          <pd>folderfile specifies the fully qualified file name of an exported folder (*.FXP)</pd>
+        </plentry>
+        <plentry>
+          <pt>/DETAILS</pt>
+          <pd/>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Example</title>
+      <p>The following example shows how to use the OTMSHOWFXP command.</p>
+      <p>Enter the OTMSHOWFXP command as follows:</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Examples</title>
+          <codeblock>otmshowfxp c:\folders\showme.fxp</codeblock>
+          <codeblock>otmshowfxp c:\folders\showme.fxp /DETAILS</codeblock>
+        </section>
+<!--      </required-cleanup>-->
+    </example>
+  </refbody>
+</reference>

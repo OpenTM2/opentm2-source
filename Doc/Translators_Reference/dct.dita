@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="dct">
+<title>Dictionaries</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>specialist and technical ones</indexterm></indexterm>
+<indexterm>dictionary<indexterm>providers of</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers integrated basic dictionaries.
+However, if  you already have a stock of technical terminology that
+you would like to use in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can do this by creating
+a new dictionary in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> that contains your own terminology.
+To learn how to do this, see <xref href="dicnew.dita#dicnew"/>. </p>
+</body></topic>

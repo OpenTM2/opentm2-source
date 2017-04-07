@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00264">
+<title><!--rev=as01042005-->The structure of an SGML-based dictionary</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>structure of an external dictionary</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>An SGML-based dictionary is divided into the following: 
+<ol>
+<li>A header section containing general dictionary information such as source
+language, target language(s), and creation date.</li>
+<li>A maptable section specifying the structure of a dictionary entry. That
+is, all the entry fields that make up a dictionary entry and the relation
+between these entry fields.</li>
+<li>An entry section with dictionary entries appearing one after another.</li>
+</ol></p>
+<p>The dictionary is enclosed by a dictionary start tag <codeph>&lt;dict&gt;</codeph> and
+a dictionary end tag <codeph>&lt;/dict&gt;</codeph>.</p>
+</body></topic>

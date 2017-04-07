@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00427">
+  <title>API calls</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>programming interface calls</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following sections describe the individual API calls for the interface provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. 
+      The following calls are available: 
+      <table otherprops="print" pgwide="0" frame="all">
+        <tgroup cols="2" colsep="0" rowsep="1">
+          <colspec colname="col1" colwidth="3*"/>
+          <colspec colname="col2" colwidth="2*"/>
+          <thead>
+            <row>
+              <entry valign="bottom" align="left">Call...</entry>
+              <entry valign="bottom" align="right">described on page...</entry></row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top" align="left">EQFCLEAR</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00429.dita#eqfr5mst-00429"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFCLOSE</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00430.dita#eqfr5mst-00430"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFCONVERTFILENAMES</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00431.dita#eqfr5mst-00431"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFDELSEG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00432.dita#eqfr5mst-00432"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFDICTLOOK</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00433.dita#eqfr5mst-00433"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFFILECONVERSIONEX</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00434.dita#eqfr5mst-00434"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETDICT</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00435.dita#eqfr5mst-00435"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETDOCFORMAT</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00436.dita#eqfr5mst-00436"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETPROP</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00437.dita#eqfr5mst-00437"/></entry></row>
+            <row>
+              <entry colname="col1">EQFGETSEGNUM</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00495.dita#eqfr5mst-00495"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETSOURCELANG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00439.dita#eqfr5mst-00439"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETTARGETLANG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00440.dita#eqfr5mst-00440"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFINIT</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00441.dita#eqfr5mst-00441"/></entry></row>
+            <row>
+              <entry colname="col1">EQFQUERYEXITINFO</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00442.dita#eqfr5mst-00442"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFSAVESEG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00443.dita#eqfr5mst-00443"/></entry></row>
+            <row>
+              <entry colname="col1">EQFSEGFILECONVERTASCII2UNICODE</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00444.dita#eqfr5mst-00444"/></entry></row>
+            <row>
+              <entry colname="col1">EQFSEGFILECONVERTUNICODE2ASCII</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00445.dita#eqfr5mst-00445"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFTRANSSEG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00446.dita#eqfr5mst-00446"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFWORDCNTPERSEG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00447.dita#eqfr5mst-00447"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFWRITEHISTLOG</entry>
+              <entry valign="top" align="right"><xref href="eqfr5mst-00448.dita#eqfr5mst-00448"/></entry></row>
+          </tbody>
+        </tgroup>
+      </table>
+      <ul otherprops="display">
+        <li><xref href="eqfr5mst-00429.dita#eqfr5mst-00429"/></li>
+        <li><xref href="eqfr5mst-00430.dita#eqfr5mst-00430"/></li>
+        <li><xref href="eqfr5mst-00431.dita#eqfr5mst-00431"/></li>
+        <li><xref href="eqfr5mst-00432.dita#eqfr5mst-00432"/></li>
+        <li><xref href="eqfr5mst-00433.dita#eqfr5mst-00433"/></li>
+        <li><xref href="eqfr5mst-00434.dita#eqfr5mst-00434"/></li>
+        <li><xref href="eqfr5mst-00435.dita#eqfr5mst-00435"/></li>
+        <li><xref href="eqfr5mst-00436.dita#eqfr5mst-00436"/></li>
+        <li><xref href="eqfr5mst-00437.dita#eqfr5mst-00437"/></li>
+        <li><xref href="eqfr5mst-00439.dita#eqfr5mst-00439"/></li>
+        <li><xref href="eqfr5mst-00440.dita#eqfr5mst-00440"/></li>
+        <li><xref href="eqfr5mst-00441.dita#eqfr5mst-00441"/></li>
+        <li><xref href="eqfr5mst-00443.dita#eqfr5mst-00443"/></li>
+        <li><xref href="eqfr5mst-00444.dita#eqfr5mst-00444"/></li>
+        <li><xref href="eqfr5mst-00446.dita#eqfr5mst-00446"/></li>
+        <li><xref href="eqfr5mst-00447.dita#eqfr5mst-00447"/></li>
+        <li><xref href="eqfr5mst-00448.dita#eqfr5mst-00448"/></li>
+      </ul>
+    </p>
+  </body>
+</topic>

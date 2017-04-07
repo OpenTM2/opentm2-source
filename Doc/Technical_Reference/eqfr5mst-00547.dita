@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00547">
+  <title>EQFPOSTUNSEG2</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>programming interface calls<indexterm>EQFPOSTUNSEG2</indexterm></indexterm>
+      <indexterm>EQFPOSTUNSEG2</indexterm>
+      <p><i>EQFPOSTUNSEG2</i> is called during the export of a document after the
+        segmentation tags have been removed from the text. It is normally used to establish the
+        external document format. If an error occurs, it can stop the export.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFPOSTUNSEG2</kwd>
+          <delim>(</delim>
+          <var>MarkupTable</var>
+          <sep>,</sep>
+          <var>Editor</var>
+          <sep>,</sep>
+          <var>Path</var>
+          <sep>,</sep>
+          <var>TargetFile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>SegmentationTags</var>
+          <sep>,</sep>
+          <var>ReturnFlag</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <synph>
+              <var>MarkupTable</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of a markup table.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Editor</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the editor.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Path</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the program path (with full path).</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>TargetFile</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the target file (with full path).</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SegmentationTags</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the tags inserted during text segmentation.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>ReturnFlag</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the return flag. If this flag changes to TRUE, the user exit must
+            return immediately.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

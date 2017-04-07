@@ -12,7 +12,7 @@
 ****************************************************************************************************
 
 * define the directory containing the test data
-DEFINE TESTDATALOCATION,E:\OTMIBM\TRUNK\AUTOTESTSUITE\TESTDATA
+DEFINE TESTDATALOCATION,E:\GHE\opentm2\AUTOTESTSUITE\TESTDATA
 
 
 

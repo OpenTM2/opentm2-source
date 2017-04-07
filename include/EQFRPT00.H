@@ -383,9 +383,10 @@ typedef union _varpart
   DOCEXPORTHIST  DocExport;
   DOCPROPHIST    DocProp;
   FOLPROPHIST    FolProp;
+  FOLPROPHIST2   FolProp2;
   FOLPROPHISTSHIPMENT   FolPropShipment; //SHIPMENT_HANDLER
   VERSIONHIST    VersionHist;
-  BYTE           FillArea[900];        // there are some histlogs around with varparts of 860 bytes ...
+  BYTE           FillArea[10000];  
 } VARPART, *PVARPART;
 
 

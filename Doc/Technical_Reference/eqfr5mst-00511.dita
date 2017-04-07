@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00511">
+  <title>EqfProcessNomatch</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfProcessNomatch</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfProcessNomatch</indexterm></indexterm>
+      <p>The API call <i>EqfProcessNomatch</i> reads one or more SNOMATCH files (created using the
+        analysis option "Create file containing untranslated segments") and looks up the segments
+        contained in the SNOMATCH files in the input memory. Each matching proposal (exact and fuzzy
+        match) is written to the output memory. The API call creates a memory match word count and a
+        duplicate word count for the segments in the SNOMATCH files. The word count reports can be
+        created in text and XML form.</p>
+      <p>This function performs the processing in small units unless told to complete in one call
+        using the COMPLETE_IN_ONE_CALL_OPT flag. Call it repetitively until it returns a return code
+        other than CONTINUE_RC.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfProcessNomatch</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszNomatch</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszInMemory</var>
+          <sep>,</sep>
+          <var>pszOutMemory</var>
+          <sep>,</sep>
+          <var>pszMemMatchReportText</var>
+          <sep>,</sep>
+          <var>pszMemMatchReportXml</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszDupReportText</var>
+          <sep>,</sep>
+          <var>pszDupReportXml</var>
+          <sep>,</sep>
+          <var>lOptions</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszNomatch</entry>
+              <entry colname="col3">The specification for the SNOMATCH files to use for the
+                processing. This parameter is evaluated in the following way: <parml>
+                  <plentry><pt>the specified value contains wildcard characters</pt>
+                    <pd>the specified value is used as fully qualified search pattern for the
+                      SNOMATCH FILES to be used e.g. "C:\OTM\TEST.F00\SNOMATCH\A*.*"</pd></plentry>
+                  <plentry><pt>the specified value contains path delimiters</pt>
+                    <pd>the specified value is used as fully qualified name of the SNOMATCH file to
+                      process, if the specified value points to a directory all files in the
+                      directory are processed e.g. "C:\OTM\TEST.F00\SNOMATCH\File1.txt",
+                      "C:\OTM\TEST.F00\SNOMATCH"</pd></plentry>
+                  <plentry><pt>the value contains no path delimiters</pt>
+                    <pd>the specified value is used as name of a TM folder, all SNOMATCH files
+                      contained in the SNOMATCH directory of this folder are processed e.g.
+                      "TEST"</pd></plentry>
+                </parml></entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszInMemory</entry>
+              <entry colname="col3">The name of the input memory (TM internal)</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutMemory</entry>
+              <entry colname="col3">The name of an existing or new internal memory receiving the
+                relevant proposals from the input memory</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemMatchReportText</entry>
+              <entry colname="col3">The fully qualified name for the memory match word count report
+                in text format, specify NULL if no report of this type should be created</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemMatchReportXml</entry>
+              <entry colname="col3">The fully qualified name for the memory match word count report
+                in XML format, specify NULL if no report of this type should be created</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDupReportText</entry>
+              <entry colname="col3">The fully qualified name for the duplicate word count report in
+                text format, specify NULL if no report of this type should be created</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDupReportXml</entry>
+              <entry colname="col3">The fully qualified name for the duplicate word count report in
+                XML format, specify NULL if no report of this type should be created</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The option(s) to be used for the processing: <parml>
+                  <plentry><pt>COMPLETE_IN_ONE_CALL_OPT</pt>
+                    <pd> If set the API call does not return after each processing step but stays in
+                      the API call until the function has been completed</pd></plentry>
+                  <plentry><pt>RESPECTCRLF_OPT</pt>
+                    <pd>If set memory proposals having different linebreaks are not used as exact
+                      match </pd></plentry>
+                </parml> The options can be combined by using the logical OR operator</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The SNOMATCH processing is not complete yet. Call
+                  <i>EqfProcessNomatch</i> again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph otherprops="print">Error code (EQF message number). Use <i>EqfGetLastError</i>
+                  (see <ph otherprops="print">page <xref href="eqfr5mst-00492.dita#eqfr5mst-00492"
+                    /></ph><xref otherprops="display" href="eqfr5mst-00492.dita#eqfr5mst-00492"/>)
+                  to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>HSESSION hSession;
+USHORT usRC;
+
+usRC = EqfStartSession( &amp;hSession );
+usRC = EqfProcessNomatch( hSession, "TestFolder",  
+          "PrevMemory", "NewMemory", NULL,
+          "C:\Reports\MemMatch.XML", NULL,
+          "C:\Reports\Dups.XML, COMPLETE_IN_ONE_CALL_OPT);
+usRC = EqfEndSession( hSession );</codeblock>
+      <p>The API <i>EqfProcessNomatch</i> is called to process all SNOMATCH files of folder
+          <b>"TestFolder"</b>, the segments are looked up ion the memory <b>"PrevMemory"</b> and any
+        relevant matches found are written to the memory <b>"NewMemory"</b>, the memory match count
+        in XML format will be stored under <b>"C:\Reports\MemMatch.XML"</b> and the XML duplicate
+        word count will be stored under <b>"C:\Reports\Dups.XML"</b>, the text versions of the
+        reports are not being used. The API call will complete in one call.</p>
+    </example>
+  </refbody>
+</reference>

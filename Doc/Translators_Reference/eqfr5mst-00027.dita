@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00027">
+  <title>Installation procedure</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>installing<indexterm>procedure</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can be installed in two ways: </p>
+    <p>
+      <b>First time installation</b>
+    </p>
+    <p>Use these instructions only when installing <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+       for the very first time on the workstation. If <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+       is already installed, use the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Auto Version
+       Update utility (<keyword conref="common-symbols.dita#common-symbols/tm4w"/> menu item:
+       Utilities --> Auto Version Upgrade...). </p>
+    <p>
+      <ol>
+        <li>Download the latest <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation package.</li>
+        <li>Open the Windows explorer and navigate to the place where you downloaded the install package to.</li>
+        <li>Start installation by double clicking on the install package.</li>
+        <li>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation program will start.</li>
+        <li>Follow the instructions of the installation program.</li>
+        <li>After <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is successfully
+          installed, a folder named "<keyword conref="common-symbols.dita#common-symbols/tm4w"/>" is
+          installed on the desktop as well as an icon named "<keyword conref="common-symbols.dita#common-symbols/tm4w"/>". </li>
+      </ol>
+    </p>
+    <p>
+      <b>Upgrade installation</b>
+    </p>
+    <p>Use these instructions only when <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+       has already been installed on the workstation. </p>
+       <note>Back up any translation material as described in "Reusing <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+       Version 1.0 translation material". </note>
+    <p>
+      <ol>
+        <li>Start <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+        <li>Select the menu item: Utilities --> Auto Version Upgrade...</li>
+        <li>In the "<keyword conref="common-symbols.dita#common-symbols/tm4w"/> Auto Version
+            Upgrade" window, select the "Updates" tab (if it is not already selected).</li>
+        <li>Select (check) the checkbox next to the "<keyword conref="common-symbols.dita#common-symbols/tm4w"/>" component.</li>
+        <li>Close the main <keyword conref="common-symbols.dita#common-symbols/tm4w"/> window, by
+            selecting the menu item: File --> Exit. Do not close the 
+            "<keyword conref="common-symbols.dita#common-symbols/tm4w"/> Auto Version Upgrade" window.</li>
+        <li>Press the "Upgrade Selected" button to install this new version of 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+        <li>Wait for the download to complete.</li>
+        <li>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation program
+            will automatically start when the download is successfully completed.</li>
+        <li>Follow the instructions of the installation program.</li>
+      </ol>
+    </p>
+  </body>
+</topic>

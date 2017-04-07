@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00236">
+  <title>The Initial Translation Memory editor</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>Initial Translation Memory (ITM)<indexterm>editor</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>On the menu bar of the <q>Edit Initial Translation Memory</q> window you can select the
+      following items: <dl>
+        <dlentry><dt>File</dt>
+          <dd>To save changes in the <q>Initial Translation Memory</q> window and to
+          exit.</dd></dlentry>
+        <dlentry><dt>Edit</dt>
+          <dd>To find and replace, split and join, cut and paste, delete, and do other operations on
+            the text.</dd></dlentry>
+        <dlentry><dt>Align</dt>
+          <dd>To manipulate the relation between source and target segments.</dd></dlentry>
+        <dlentry><dt>Options</dt>
+          <dd>To change the view of the <q>Source</q> and <q>Target</q> windows and to modify colors
+            and fonts.</dd></dlentry>
+        <dlentry><dt>Cursor</dt>
+          <dd>To move and change the cursor position in the <q>Source</q> and <q>Target</q> windows,
+            to mark segments, and to set bookmarks.</dd></dlentry>
+        <dlentry><dt>Style</dt>
+          <dd>To change the display of markup information.</dd></dlentry>
+        <dlentry><dt>Help</dt>
+          <dd>To get information that helps you interact with the current window.</dd></dlentry>
+      </dl></p>
+  </body>
+</topic>

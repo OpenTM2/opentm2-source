@@ -9,13 +9,15 @@
 # target list
 #------------------------------------------------------------------------------
 build:    $(_LIB)\OTMFUNC.DLL \
-          $(_BIN)\OTMGetReportData.EXE
+          $(_BIN)\OTMGetReportData.EXE \
+          $(_BIN)\TestAPI.EXE
 
 $(_OBJ)\InitPlugins.obj:        $(_SRC)\tools\common\InitPlugins.CPP
 
 $(_OBJ)\OTMFUNC.OBJ:	$(_SRC)\api\OTMFUNC.C
 
 $(_DLL)\OTMFUNC.DLL:	$(_OBJ)\OTMFUNC.OBJ $(_OBJ)\InitPlugins.obj
+
 
 $(_DLL)\OTMFUNC.DLL:
     @echo ---- Linking $(_DLL)\OTMFUNC.DLL
@@ -38,6 +40,7 @@ $(_OBJ)\OTMGetReportData.OBJ:	$(_SRC)\api\OTMGetReportData.C $(_SRC)\api\OTMGetR
 
 $(_BIN)\OTMGetReportData.EXE:	$(_OBJ)\OTMGetReportData.OBJ
 
+
 $(_BIN)\OTMGetReportData.EXE:
     @echo ---- Linking $(_DLL)\OTMGetReportData.EXE
     @echo ---- Linking $(_DLL)\OTMGetReportData.EXE >>$(_ERR)
@@ -46,5 +49,21 @@ $(_BIN)\OTMGetReportData.EXE:
 /OUT:$(_BIN)\OTMGetReportData.EXE
 /MAP:$(_MAP)\OTMGetReportData.MAP 
 $(_LINK_OPTIONS)
+$(_LINK_LIB_EXE)
+<<
+
+$(_OBJ)\TestAPI.OBJ:	$(_SRC)\api\TestAPI.C
+
+$(_BIN)\TestAPI.EXE:	$(_OBJ)\TestAPI.OBJ $(_LIB)\OtmFunc.LIB
+
+
+$(_BIN)\TestAPI.EXE:
+    @echo ---- Linking $(_DLL)\TestAPI.EXE
+    @echo ---- Linking $(_DLL)\TestAPI.EXE >>$(_ERR)
+    @$(_LINKER) @<<lnk.rsp>>$(_ERR)
+                          $(_OBJ)\TestAPI.OBJ
+/OUT:$(_BIN)\TestAPI.EXE
+/MAP:$(_MAP)\TestAPI.MAP 
+$(_LINK_OPTIONS) $(_LIB)\OtmFUNC.LIB
 $(_LINK_LIB_EXE)
 <<

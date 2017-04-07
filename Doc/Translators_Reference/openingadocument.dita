@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="openingadocument">
+<title>Opening a document</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>organizing<indexterm>OTMBATCH: Opening a
+document</indexterm></indexterm><indexterm>Translation Memory<indexterm>OTMBATCH: Opening a
+document</indexterm></indexterm>
+<p>Instead of using <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows to open a document,
+you might find it more convenient to use a command.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>organizing <keyword conref="common-symbols.dita#common-symbols/xlmems"/></indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">organizing Translation Memory
+databases</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you open a document
+from the Windows® command line. Note that lowercase letters
+in a parameter name are optional and need not be typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>DOCOPEN</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>FLD</kwd><oper>=</oper><kwd>folder</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>NAme</kwd><oper>=</oper><kwd>document_name</kwd></groupseq>
+<groupseq>
+<groupchoice>
+<groupseq><delim>/</delim><kwd>SEgment</kwd><oper>=</oper><kwd>segnumber</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>LIne</kwd><oper>=</oper><kwd>linenumber</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>SEarch</kwd><oper>=</oper><kwd>searchme</kwd></groupseq></groupchoice><delim>/</delim><kwd>QUIET</kwd></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=<synph><var>DOCOPEN</var></synph> </pt>
+<pd><synph><var>DOCOPEN</var></synph>specifies that you want to open a document. </pd></plentry>
+<plentry><pt>/FLD=<synph><var>folder </var></synph></pt>
+<pd><synph><var>folder</var></synph> specifies the name of the folder that contains
+the document you want to open. </pd></plentry>
+<plentry><pt>/NAme=<synph><var>document_name</var></synph></pt>
+<pd><synph><var>document_name</var></synph> specifies the name of the document to
+be opened. </pd></plentry>
+<plentry><pt>/SEgment=<synph><var>segnumber</var></synph></pt>
+<pd><synph><var>segnumber</var></synph> specifies the number of the segment which
+is to be activated when the document is opened. </pd></plentry>
+<plentry><pt>/LIne=<synph><var>linenumber</var></synph></pt>
+<pd><synph><var>linenumber</var></synph> specifies the line number to which the cursor
+is positioned when the document is opened. </pd></plentry>
+<plentry><pt>/SEarch=<synph><var>searchme </var></synph></pt>
+<pd><synph><var>searchme </var></synph> specifies a search string to be searched
+in the document, the segment containing the first occurence of the
+search string will be activated.</pd></plentry>
+<plentry><pt>/QUIET </pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. If you do not specify this parameter, a message window
+pops up whenever an error occurs or when the task has successfully
+completed. </pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to organize a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> using the
+OTMBATCH command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=docopen /fld=sample1 /name=device.scr</codeblock></section></required-cleanup>
+<p>This command opens the document DEVICE.SCR which is stored in folder
+SAMPLE1. </p>
+</example></refbody></reference>

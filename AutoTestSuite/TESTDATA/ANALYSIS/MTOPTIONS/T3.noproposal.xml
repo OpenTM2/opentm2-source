@@ -1,0 +1,10 @@
+﻿<?xml version='1.0'?>
+<rqt action="trqt" tl="en-US" uid="xyz@us.ibm.com">
+   <docs>
+    <d lang="en-US" dt="ndoc" url="MTOutputOptions.txt" markup="EQFASCII">
+      <p pid="1">
+        <s sid="1" seg="1"><t tid="1" tt="orig">This segment has no proposal at all. </t></s>
+      </p>
+    </d>
+   </docs>
+</rqt>

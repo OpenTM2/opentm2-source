@@ -31,11 +31,13 @@ extern "C" {
     #define _WCHAR_T_DEFINED
   #endif
 
-  #ifndef _WCTYPE_T_DEFINED
-    typedef wchar_t wint_t;
-    typedef wchar_t wctype_t;
-    #define _WCTYPE_T_DEFINED
-  #endif
+    #if MSC_VER < 1400
+        #ifndef _WCTYPE_T_DEFINED
+          typedef wchar_t wint_t;
+          typedef wchar_t wctype_t;
+          #define _WCTYPE_T_DEFINED
+        #endif
+    #endif
 
   #ifndef _CHAR_W_DEFINED
     typedef wchar_t CHAR_W;

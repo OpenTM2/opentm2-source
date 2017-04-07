@@ -254,6 +254,7 @@ typedef struct _EDITIDA
    CHAR       szTemplatePattern[256];  // pattern for template text
    CHAR_W     szUserIDW[MAX_USERID];    // user ID of a logged-on user
    CHAR_W     szHeadWordUserNameW[DICTENTRYLENGTH];  // if username is different to chSystName
+   HFONT      hFontControl;             // font to be used for dialog controls
 } EDITIDA, *PEDITIDA;
 
 

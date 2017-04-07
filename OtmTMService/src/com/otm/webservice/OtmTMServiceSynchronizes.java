@@ -49,43 +49,36 @@ public class OtmTMServiceSynchronizes {
 			String user = paramHash.get(SyncParameters.USER_ID);
 			String password = paramHash.get(SyncParameters.PASSWORD);
             String userList = paramHash.get(SyncParameters.USERIDLIST);
+           
+            // to compatible for older version "userIdList"
+            if(null==userList || userList.isEmpty()) {
+            	userList = paramHash.get("user-id-list");
+            }
+            // to compatible for older version ";" to ","
+            if(userList!=null && !userList.isEmpty()) {
+            	userList = userList.replaceAll(";",",");
+            }
             
 			result.put("method",  paramHash.get(SyncParameters.METHOD));
 			result.put("name", memoryname);
-
-            // synchronize blocking operation
-			// TODO: use configure to createDB in main
-/*			synchronized(mLockObj) {
-				if(!mDbExisted) {
-					try {
-						mDao.createDB(serverIP, port,user, password,
-								driverClass);
-					} catch (PropertyVetoException e) {
-						e.printStackTrace();
-						result.put("error", e.getMessage());
-						return result;
-					}
-					mDbExisted = true;
-					System.out.println(mDao.getDbName()+" create successfully");
-				}
-			}
-*/
-
            
 			try {
 				mDao.createMemory(memoryname, user,password,userList);
 			} catch (PropertyVetoException e) {
 				e.printStackTrace();
 				result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
+				mLogger.error(result);
 				return result;
 			}
 
 		} catch (SQLException e) {
 			result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
+			mLogger.error(result);
 			return result;
 		}
 
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+		mLogger.info(result);
 		return result;
 	}
 	
@@ -109,25 +102,25 @@ public class OtmTMServiceSynchronizes {
 			String memories = mDao.listMemories(user);
 			if(memories==null || memories.indexOf(memoryName)==-1 ) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
-//System.out.println(result);
 				mLogger.error(result);
 				return result;
 			}	
 						
 			String creatorName = mDao.getCreatorName(memoryName);
-//System.out.println(creatorName);
 			mLogger.info(creatorName);
 			if(creatorName!=null && creatorName.equals(userid)) {
-//System.out.println(creatorName);
 				mDao.deleteMemory(memoryName);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			result.put(SyncParameters.RESPONSESTATUSMSG,e.getMessage());
+			mLogger.error(result);
 			return result;
 		}
 		
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+		mLogger.info(result);
+		
 		return result;
 	}
 	
@@ -145,12 +138,13 @@ public class OtmTMServiceSynchronizes {
 		result.put("method", paramHash.get(SyncParameters.METHOD));
 		result.put("name", memoryName);
 		
+		mLogger.debug(result);
+		
 		try {
 			// no user accessed memory, returned directly
 			String memories = mDao.listMemories(user);
 			if(memories==null || memories.indexOf(memoryName)==-1 ) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
-//System.out.println(result);
                 mLogger.error(result);
 				return result;
 			}	
@@ -158,13 +152,19 @@ public class OtmTMServiceSynchronizes {
 			String users = mDao.getUserList(memoryName);
 			result.put(SyncParameters.USERIDLIST,users);
 			
+			// to compatible with old version, also passed this
+            result.put("user-id-list",users);          
+
 		} catch (SQLException e) {
 		    result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
 			e.printStackTrace();
+			mLogger.error(result);
 			return result;
 		}
 		
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+		mLogger.info(result);
+		
 		return result;
 		
 	}
@@ -190,7 +190,6 @@ public class OtmTMServiceSynchronizes {
 			String memories = mDao.listMemories(user);
 			if(memories==null || memories.indexOf(memoryName)==-1 ) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
-//System.out.println(result);
                 mLogger.error(result);
 				return result;
 			}	
@@ -198,15 +197,18 @@ public class OtmTMServiceSynchronizes {
 			String res = mDao.addUser(memoryName, userToAdd);
 			if(res != null) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, res);
+				mLogger.error(result);
 				return result;
 			}
 		} catch (SQLException e) {
 		    result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
+		    mLogger.error(result);
 			e.printStackTrace();
 			return result;
 		}
 		
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+		mLogger.info(result);
 		return result;
 		
 	}
@@ -231,7 +233,6 @@ public class OtmTMServiceSynchronizes {
 			String memories = mDao.listMemories(user);
 			if(memories==null || memories.indexOf(memoryName)==-1 ) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
-//System.out.println(result);
 				mLogger.error(result);
 				return result;
 			}	
@@ -239,15 +240,18 @@ public class OtmTMServiceSynchronizes {
 			String res = mDao.removeUser(memoryName, userToRemove);
 			if(res != null) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, res);
+				mLogger.error(result);
 				return result;
 			}
 		} catch (SQLException e) {
 		    result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
+		    mLogger.error(result);
 			e.printStackTrace();
 			return result;
 		}
 		
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+		mLogger.info(result);
 		return result;
 		
 	}
@@ -273,10 +277,12 @@ public class OtmTMServiceSynchronizes {
 		} catch (SQLException e) {
 		    result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
 			e.printStackTrace();
+			mLogger.error(result);
 			return result;
 		}
 		
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+		mLogger.info(result);
 		return result;
 		
 	}
@@ -303,7 +309,6 @@ public class OtmTMServiceSynchronizes {
 				if(memories==null || memories.indexOf(memoryname)==-1 ) {
 					result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
 					mLogger.error(result);
-//System.out.println(result);
 					return result;
 				}	
 				
@@ -312,11 +317,13 @@ public class OtmTMServiceSynchronizes {
                 mDao.upload(user, memoryname, tus);
 			    result.put(SyncParameters.RESPONSESTATUSMSG, "success");
 			} catch ( SQLException | ParserConfigurationException |SAXException |IOException e) {
+				result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
 				e.printStackTrace();
+				mLogger.error(result);
 			}
 		}
-//System.out.println(result);	
-		mLogger.info(result);
+
+		mLogger.debug(result);
 		return result;
 	}
 	
@@ -332,12 +339,13 @@ public class OtmTMServiceSynchronizes {
 		result.put("name", memoryName);
 		
 		
+		mLogger.debug(result);
+		
 		try {
 			// no user accessed memory, returned directly
 			String memories = mDao.listMemories(userid);
 			if(memories==null || memories.indexOf(memoryName)==-1 ) {
-				result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
-//System.out.println(result);		
+				result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");	
 				mLogger.error(result);
 				return result;
 			}	
@@ -349,18 +357,19 @@ public class OtmTMServiceSynchronizes {
 				result.put(SyncParameters.UPDATECOUNTER, tmxStr.get(SyncParameters.UPDATECOUNTER));
 			} else {
 				result.put(SyncParameters.RESPONSESTATUSMSG, "No segments downloaded");
-				mLogger.info("No segments downloaded");
+				mLogger.debug(result);
 				return result;
 			}
 		} catch (SQLException e) {
 		    result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
+		    mLogger.error(result);
 			e.printStackTrace();
 			return result;
 		}
 		
 		result.put(SyncParameters.RESPONSESTATUSMSG, "success");
-//System.out.println(result);
 		mLogger.debug(result);
+		
 		return result;
 		
 	}

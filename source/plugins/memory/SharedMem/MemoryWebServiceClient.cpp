@@ -374,7 +374,7 @@ int MemoryWebServiceClient::createMemory
   parameters.insert(std::map<std::string,std::string>::value_type("user-id",  (*pvOptions)[2]));
   parameters.insert(std::map<std::string,std::string>::value_type("password", (*pvOptions)[3]));
   parameters.insert(std::map<std::string,std::string>::value_type("name", (*pvOptions)[0]));
-  parameters.insert(std::map<std::string,std::string>::value_type("user-id-list", (*pvOptions)[4]));
+  parameters.insert(std::map<std::string,std::string>::value_type("userIdList", (*pvOptions)[4]));
 
   std::string notRequired;
   return doSyncCall(parameters,"",notRequired);

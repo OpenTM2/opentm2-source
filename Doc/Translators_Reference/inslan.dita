@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="inslan">
+<title><!--rev=wst-->Installing <keyword conref="common-symbols.dita#common-symbols/tm4w"/> in and from a LAN</title>
+<prolog><metadata><keywords>
+
+<indexterm>LAN installation</indexterm>
+<indexterm>installing<indexterm>in a LAN environment</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body><!--rev=wst-->
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can be installed in a LAN (Local Area Network).
+Use the <codeph>xcopy</codeph> command to put all the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+install image on a LAN subdirectory.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> users logged on to this LAN can install the
+product from there and share translation material that is of common
+benefit, such as dictionaries and Translation Memory databases.</p>
+</body></topic>

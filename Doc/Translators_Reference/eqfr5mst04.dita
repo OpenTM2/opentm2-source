@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-gen3">
+  <title>Starting with <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+<body>
+<!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+-->
+<!--  Before you start -->
+<!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2009, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+-->
+<!--  Working with the TM/Windows Workbench -->
+<!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2009, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s03l SYSTEM "eqfb7s03l.eps" NDATA graphics>
+<!ENTITY eqfb7s03k SYSTEM "eqfb7s03k.eps" NDATA graphics>
+<!ENTITY eqfb7s03j SYSTEM "eqfb7s03j.eps" NDATA graphics>
+<!ENTITY eqfb7s03i SYSTEM "eqfb7s03i.eps" NDATA graphics>
+<!ENTITY eqfb7s03h SYSTEM "eqfb7s03h.eps" NDATA graphics>
+<!ENTITY eqfb7s03g SYSTEM "eqfb7s03g.eps" NDATA graphics>
+<!ENTITY eqfb7s03f SYSTEM "eqfb7s03f.eps" NDATA graphics>
+<!ENTITY eqfb7s03e SYSTEM "eqfb7s03e.eps" NDATA graphics>
+<!ENTITY eqfb7s03d SYSTEM "eqfb7s03d.eps" NDATA graphics>
+<!ENTITY eqfb7s03c SYSTEM "eqfb7s03c.eps" NDATA graphics>
+<!ENTITY eqfb7s03b SYSTEM "eqfb7s03b.eps" NDATA graphics>
+<!ENTITY eqfb7s03a SYSTEM "eqfb7s03a.eps" NDATA graphics>
+]>
+-->
+<!--  Working with the Translation Environment -->
+<!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2010, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % files SYSTEM "files.ent">
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%files;
+%symbols;
+]>
+-->
+<!--  Working with the editor -->
+</body>
+</topic>

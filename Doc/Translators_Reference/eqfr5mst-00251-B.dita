@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00251-B">
+  <title>Deleting a LAN-based shared Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>deleting<indexterm>shared Translation Memory databases</indexterm></indexterm>
+      <p>If you no longer need a LAN-based shared Translation Memory, you can delete it. When you delete a LAN-based shared 
+         Translation Memory that is shared by others, the following conditions apply: 
+        <ul>
+          <li>If you are the owner of the LAN-based shared Translation Memory, you can delete it at any time. Keep in mind that 
+              other users in the network can no longer use the deleted LAN-based shared Translation Memory because it has been 
+              physically deleted.</li>
+          <li>If you did not create the LAN-based shared Translation Memory but just share it, you can delete it at any time. 
+              Keep in mind that this will remove the LAN-based shared Translation Memory from <b>your</b> list of Translation 
+              Memory databases. The deleted LAN-based shared Translation Memory is no longer available for you. All other users 
+              who share it can still continue working with it because it is still available on the shared disk. In case you need 
+              to work with the deleted LAN-based shared Translation Memory again, you can access it by connecting it once more.</li>
+        </ul>
+      </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The LAN-based shared <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: 
+        <ol>
+          <li>The LAN-based shared <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be deleted</li>
+          <li><b>Delete</b> from the <b>File</b> menu</li>
+        </ol>
+      </p>
+      <p>Before <keyword conref="common-symbols.dita#common-symbols/tm4w"/> deletes the selected file, you are prompted to 
+         confirm that you want to delete the file. </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <dl>
+        <dlentry>
+          <dt>Yes</dt>
+          <dd>The LAN-based shared Translation Memory is deleted.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>No</dt>
+          <dd>The LAN-based shared Translation Memory is <b>not</b> deleted.</dd>
+        </dlentry>
+      </dl>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you are the owner of the deleted LAN-based shared Translation Memory, it is deleted physically, the disk space is 
+         freed, and it can no longer be used by any other translator in the network.</p>
+      <p>If the LAN-based shared Translation Memory was created by someone else and you just shared it, it is removed from the 
+         respective list window and you can no longer access it. However, it is still available on the shared disk to be used 
+         by other translators.</p>
+    </section>
+  </refbody>
+</reference>

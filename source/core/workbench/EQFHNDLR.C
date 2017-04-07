@@ -3,13 +3,18 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2016, International Business Machines              |
+//|      Copyright (C) 1990-2017, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
   #define NOEXTRESMOD
   // #define NOEXTICONS
+#define INCL_EQF_FOLDER           // folder list and document list functions
 #include "eqf.h"                       // General .H for EQF
 #include "eqfprogr.h"                // progress indicator defines
+
+#include "eqfstart.id"            // IDs for EQFSTARR resource
+#include "eqfdde.h"               // batch mode definitions
+#include "eqffol00.h"             // Document List Handler defines
 #include <eqf.id>   
 
 /**********************************************************************/
@@ -2549,7 +2554,7 @@ void HandlePopupMenu( HWND hwnd, POINT point, SHORT sMenuID )
        EnableMenuItem(hMenuTrackPopup, PID_FILE_MI_PASTE, MF_BYCOMMAND|MF_GRAYED);
   }
 
-  // if memory list window focused, decide whether need to show renmae menu item
+  // if memory list window focused, decide whether need to show rename menu item
   pIda = ACCESSWNDIDA( hwnd, PGENLISTINSTIDA );
   iSelItems = SendMessage(  (pIda->CommArea).hwndLB, LB_GETSELCOUNT, 0, 0 );
   if((pIda->CommArea).sListWindowID == ID_MEMORY_WINDOW && iSelItems>0)

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00421">
+  <title><!--rev=as01042005-->Display of MT Job Info in Folder Properties Summary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p>The folder properties summary window shows any available MT job information:</p>
+      <fig expanse="column">
+        <title>MT job info in Folder Properties window</title>
+        <image placement="break" href="mtfolderproperties.gif">
+          <alt>Figure shows MT job info in Folder Properties window</alt>
+        </image>
+      </fig>
+      <p>The "Total words processed for MT" line lists the total number of words which have been
+        processed in the analysis. This word count is the number of words for which there is no
+        exact match in the translation memory databases.</p>
+      <p>The "Words send to the MT server" line lists the total number of words of the segments send
+        to the MT server. This word count may less than the "Total words processed for MT" number as
+        segments may have been filtered due to the specified filter conditions or because the inline
+        tagging of the some of the segments is not support by the MT system.</p>
+      <p>The "Words received from the MT server" line lists the total number of words of the
+        segments received from the MT server.</p>
+    </section>
+  </refbody>
+</reference>

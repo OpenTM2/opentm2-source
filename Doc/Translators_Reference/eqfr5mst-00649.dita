@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00649">
+<title><!--rev=as10112006-->Cursor Menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table>
+<title>Cursor Menu</title>
+<tgroup cols="3">
+<colspec colname="col1" colwidth="127*"/>
+<colspec colname="col2" colwidth="71*"/>
+<colspec colname="colspec0" colwidth="70*"/>
+<thead>
+<row>
+<entry colname="col1" valign="top">Menu bar choices</entry>
+<entry colname="col2" valign="top">Actions</entry>
+<entry colname="colspec0" valign="top">Keyboard shortcuts</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">Cursor =&gt; Next Updated</entry>
+<entry colname="col2">Jumping to next updated segment.</entry>
+<entry colname="colspec0">—</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Find block</entry>
+<entry colname="col2">Moving cursor to marked text section.</entry>
+<entry colname="colspec0">Alt+F</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Special Go To...</entry>
+<entry colname="col2">Opening 'Special Go To' window. </entry>
+<entry colname="colspec0">Alt+p</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Go to Line...</entry>
+<entry colname="col2">Opening the 'Go to Line' window.</entry>
+<entry colname="colspec0">Alt+G</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Go to Segment</entry>
+<entry colname="col2">Opening the 'Go to Segment' window. </entry>
+<entry colname="colspec0"/></row>
+<row>
+<entry colname="col1">Cursor =&gt; Query Line</entry>
+<entry colname="col2">Querying line information of selected line.</entry>
+<entry colname="colspec0">Alt+Q</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Top</entry>
+<entry colname="col2">Placing the cursor at the start of the file.</entry>
+<entry colname="colspec0">Alt+T</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Bottom</entry>
+<entry colname="col2">Placing the cursor at the end of the file.</entry>
+<entry colname="colspec0">Alt+B</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Start of Line</entry>
+<entry colname="col2">Placing the cursor at the start of the line.</entry>
+<entry colname="colspec0">Alt+S</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; End of Line</entry>
+<entry colname="col2">Placing the cursor at the end of the line.</entry>
+<entry colname="colspec0">Alt+E</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; Start of Segment</entry>
+<entry colname="col2">Placing the cursor at the start of the segment.</entry>
+<entry colname="colspec0">Alt+a</entry></row>
+<row>
+<entry colname="col1">Cursor =&gt; End of Segment</entry>
+<entry colname="col2">Placing the cursor at the end of the segment.</entry>
+<entry colname="colspec0">Alt+n</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

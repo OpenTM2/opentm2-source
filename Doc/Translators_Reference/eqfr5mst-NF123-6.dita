@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF123-6" rev="GF_06052015_2">
+  <title>Export XLIFF folder with search Translation Memory Databases</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>A folder can be exported into the XLIFF-format using "Export As: XLIFF folder" in the tab
+       "General". A new functionality <q>Export including the "Search translation memories"</q> has 
+       been added to the XLIFF-folder export. If the search translation memories should be
+       exported too, the option <q>With search Translation Memory databases</q> in the tab <q>Options</q> needs
+       to be selected. As a result, the exported XLIFF-folder not only contains memory proposals from 
+       the project translation memory, but it also contains memory proposals from the <b>search translation 
+       memories</b>. The API call <q>EqfExportFolder</q> supports the XLIFF-folder export including memory
+       proposals from the search translation memories too.</p> 
+    <p>For more detailed information, see also <xref href="eqfr5mst-00208.dita#eqfr5mst-00208"/></p>
+  </body>
+</topic>

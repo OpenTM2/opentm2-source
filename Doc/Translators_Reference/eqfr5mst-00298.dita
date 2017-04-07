@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00298">
+  <title><!--rev=as01042005-->Viewing style indicators for dictionary terms</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The style of dictionary terms can be specified using the "Style" field ( &lt;estyle&gt; ) on
+      sense level and the "Trans Style" field ( &lt;tstyle&gt;) on target level.</p>
+    <p>The following style values are predefined: <ul>
+        <li>Positive styles values: "peferred"</li>
+        <li>Negative style values: "deprecated", "non standard", and "no longer used"</li>
+      </ul></p>
+    <p>When a term with predefined style information is displayed in the dictionary lookup window of
+      the TranslationEnvironment, a style indicator is displayed before the term for styles on sense
+      level and before the term translation for styles on target level.</p>
+    <p>For the positive style values this indicator is a plus sign ('+') with green background. The
+      indicator for negative style values is the minus sign ('-') with red background.</p>
+    <fig expanse="column">
+      <title>Style indicators for dictionary terms</title>
+      <image placement="break" href="estyle.gif">
+        <alt>Figure shows Style indicators for dictionary terms</alt>
+      </image>
+    </fig>
+  </body>
+</topic>

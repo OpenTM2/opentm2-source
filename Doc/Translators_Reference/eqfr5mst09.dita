@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-gen8">
+<title>Programming interfaces</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Adding editors --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2010, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s19b SYSTEM "eqfb7s19b.EPS" NDATA graphics>
+<!ENTITY eqfb7s19a SYSTEM "eqfb7s19a.EPS" NDATA graphics>
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with external markup tables -->
+</body></topic>

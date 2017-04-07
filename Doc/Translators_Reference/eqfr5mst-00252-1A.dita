@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-1A" rev="GF_07122015">
+  <title>Downloading Axis2C to the OpenTM2 Client PC</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter describes how to download <b>Axis2c</b> to the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      <b>client PC</b>.</p>
+    <p>Go to the web-site <b>http://archive.apache.org/dist/ws/axis2-c/1_6_0/</b>, and download the package 
+      <b>axis2c-bin-1.6.0-win32.zip</b> to your local hard disk drive. You may use e.g. a temporary directory.</p>
+    <note>Axis2c is not part of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installer package, but a 
+      3rd party open source module <b>used</b> by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</note>
+  </body>
+</topic>

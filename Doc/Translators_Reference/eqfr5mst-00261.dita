@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00261">
+<title>Overview and terminology</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>Dictionaries are used during analysis and translation: 
+<ul>
+<li>During the analysis of a document one or more dictionaries can be searched.
+This is useful to find <i>new terms</i> (terms in the document
+that are not in the selected dictionaries) or to find <i>found terms</i> (terms in the document that are already in the referenced
+dictionaries). The new terms can be added to the dictionary to be used during
+translation. The found terms can be used to fill a dictionary with entries
+extracted from other dictionaries.</li>
+<li>During the translation of a document, the <q>Dictionary</q> window
+displays either all translations that are found in the folder dictionaries
+for the terms in the current segment or only the first translation found.
+This depends on whether you marked the <b>Dictionary terms of
+all dictionaries</b> box on the <q>Display</q> page of the <q>Customize Translation
+Functions</q> window.</li>
+</ul></p>
+<p>The <i>properties</i> of a dictionary are its main characteristics
+such as the source language, the dictionary structure, information on its
+location, and a brief description of its contents. You can specify them in
+the <q>Dictionary Properties</q> window.<indexterm>dictionary<indexterm>properties</indexterm></indexterm></p>
+<p>Parts of these properties can also be displayed as <i>details</i> (or <i>view details</i>) in the <q>Dictionary
+List</q> window. </p>
+</body></topic>

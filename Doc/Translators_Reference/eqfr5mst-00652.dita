@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00652">
+<title>Style Menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>Only one item can be selected at a time</p>
+<table>
+<title>Style Menu</title>
+<tgroup cols="3">
+<colspec colname="col1" colwidth="127*"/>
+<colspec colname="col2" colwidth="71*"/>
+<colspec colname="colspec0" colwidth="70*"/>
+<thead>
+<row>
+<entry colname="col1" valign="top">Menu bar choices</entry>
+<entry colname="col2" valign="top">Actions</entry>
+<entry colname="colspec0" valign="top">Keyboard shortcuts</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">Style =&gt;
+<codeblock>- Protect
+- Unprotect
+- Hide
+- Shrink
+- Compact
+- Compact+1</codeblock></entry>
+<entry colname="col2">Changing the style in the 'Translation' window.</entry>
+<entry colname="colspec0"> 
+<codeblock>- Alt+P
+- Alt+U
+- Alt+H
+- Alt+S
+- Alt+C
+- Alt+o</codeblock></entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

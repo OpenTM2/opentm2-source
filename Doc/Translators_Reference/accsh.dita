@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="accsh">
+<title>Accessing or disconnecting a shared Translation Memory</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>shared Translation Memory databases, accessing</indexterm>
+<p>To use a Translation Memory that is shared by many translators
+you must include it in your list of local Translation Memory databases.
+To remove it from this list you must disconnect it.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The shared <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <q>Translation Memory List</q> window from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+workbench</li>
+<li><b>Connect shared resources...</b> from the <b>Utilities</b> menu</li>
+</ol></p>
+<p>The <q>Connect Shared Translation Memories</q> window is displayed. </p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Available</pt>
+<pd>Lists all Translation Memory databases available on shared disks.</pd></plentry>
+<plentry><pt>Add --&gt;&gt;</pt>
+<pd>Adds the selected Translation Memory name to the <b>Selected</b> box.</pd></plentry>
+<plentry><pt>&lt;&lt;-- Remove</pt>
+<pd>Removes the selected Translation Memory name from the <b>Selected</b> box but does not delete the Translation
+Memory.</pd></plentry>
+<plentry><pt>Selected</pt>
+<pd>Lists all Translation Memory databases selected. When you select <b>Connect</b> the listed Translation Memory databases
+will be connected. Translation Memory databases removed from this
+list are disconnected.</pd></plentry>
+</parml>
+</section>
+<section><title>Results</title>
+<p>The selected Translation Memory has been added to your local list
+window and can now be used like any other Translation Memory. If you
+selected to remove it from your list window, it is disconnected.</p>
+</section></refbody></reference>

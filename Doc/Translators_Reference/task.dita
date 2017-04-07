@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task">
+<title>How a task is described</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>Each task is described according to the following structure: 
+<ul>
+<li>In an introduction, the individual task is explained such as when
+and why to do it.</li>
+<li>How to perform the task is usually described as follows: 
+<dl>
+<dlentry><dt>Prerequisites</dt>
+<dd>What the prerequisites are</dd></dlentry>
+<dlentry><dt>Calling sequence</dt>
+<dd>How to get to the windows required for performing the task</dd></dlentry>
+<dlentry><dt>Options and parameters</dt>
+<dd>Which options and parameters to specify and how to specify them</dd></dlentry>
+<dlentry><dt>Results</dt>
+<dd>What is achieved by the task</dd></dlentry>
+</dl></li>
+</ul> </p>
+</body></topic>

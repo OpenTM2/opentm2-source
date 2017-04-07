@@ -4,7 +4,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2015, International Business Machines          |
+//|          Copyright (C) 1990-2017, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //|                                                                            |
 //+----------------------------------------------------------------------------+
@@ -14,8 +14,9 @@
 /**********************************************************************/
 #define INCL_DEV
 #include <eqf.h>                  // General Translation Manager include file
-
 #include <time.h>                 // C time related functions
+#include "zip.h"
+#include "unzip.h"
 
 #include "EQFUTPRI.H"                  // private utility header file
 
@@ -3976,4 +3977,120 @@ VOID CloseFile
   } /* endif */
 } /* end of function CloseFile */
 
+/*! \brief extract all files contained in a ZIP package to a directory
+  \param pszPackage fully qualified name of the ZIP package
+  \param pszDestPath fully qualified name of the destination directory
+  \returns 0 in any case
+*/
+__declspec(dllexport)
+int UtlUnzipToDirectory( const char * pszPackage, const char *pszDestPath )
+{
+  HZIP hz;
 
+  hz = OpenZip( pszPackage, 0 );
+  SetUnzipBaseDir( hz, pszDestPath );
+  
+  ZIPENTRY ze; 
+  GetZipItem( hz, -1, &ze ); 
+  int numitems=ze.index;
+  for (int zi=0; zi<numitems; zi++)
+  { 
+    GetZipItem( hz, zi, &ze );
+    UnzipItem( hz, zi, ze.name );
+  }
+  CloseZip(hz);
+
+  return( 0 );
+}
+
+/*! \brief add all files of a directoy to a ZIP package
+  The current version of this function does not recurse into subdirectories
+  \param pszSourcePath fully qualified name of the directory contaiing the files to be added to the package
+  \param pszPackage fully qualified name of the ZIP package being created
+  \returns 0 in any case
+*/
+__declspec(dllexport)
+int UtlZipDirectory( const char *pszSourcePath, const char * pszPackage  )
+{
+  HZIP hz; 
+  HANDLE hDir;
+  WIN32_FIND_DATA FindData;
+  char szSearchPath[MAX_PATH];
+
+  hz = CreateZip( pszPackage, 0 );
+  sprintf( szSearchPath, "%s\\*.*", pszSourcePath );
+  hDir = FindFirstFile( szSearchPath, &FindData );
+  if ( hDir != INVALID_HANDLE_VALUE )
+  {
+    do
+    {
+      if ( !(FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) )
+      {
+        sprintf( szSearchPath, "%s\\%s", pszSourcePath, FindData.cFileName );
+        ZipAdd( hz, FindData.cFileName, szSearchPath );
+      } /* endif */
+    } while ( FindNextFile( hDir, &FindData  ) );
+    FindClose( hDir );
+  }
+  CloseZip( hz );
+  return( 0 );
+}
+
+/*! \brief add a list of files to a ZIP package
+  \param pszFileList list of comma separated, fully qualified file names to be added to the package
+  \param pszPackage fully qualified name of the ZIP package being created
+  \returns 0 in any case
+*/
+__declspec(dllexport)
+int UtlZipFiles( const char *pszFileList, const char * pszPackage  )
+{
+  HZIP hz; 
+  char szCurFile[MAX_PATH];
+
+  hz = CreateZip( pszPackage, 0 );
+  while( *pszFileList != EOS )
+  {
+    // get current file name
+    Utlstrccpy( szCurFile, (PSZ)pszFileList, ',' );
+
+    // add it to theZIP package
+    ZipAdd( hz, UtlGetFnameFromPath( szCurFile ), szCurFile );
+
+    // continue with next file
+    pszFileList += strlen(szCurFile);
+    if ( *pszFileList == ',' ) pszFileList++;
+  } /* endwhile */
+  CloseZip( hz );
+  return( 0 );
+}
+
+
+/*! \brief delete all files and directories located in a specific directory
+  \param pszDirectory fully qualified name of the directory contaiing the files to be added to the package
+*/
+__declspec(dllexport)
+void UtlDeleteAllFiles( const char *pszDirectory )
+{
+ char szFileFound[MAX_PATH];
+ WIN32_FIND_DATA info;
+ HANDLE hp; 
+ sprintf( szFileFound, "%s\\*.*", pszDirectory );
+ hp = FindFirstFile( szFileFound, &info );
+ do
+ {
+    if ( !((strcmp( info.cFileName, ".") == 0 ) || (strcmp( info.cFileName, ".." ) == 0 )))
+    {
+      sprintf( szFileFound, "%s\\%s", pszDirectory, info.cFileName );
+      if(( info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == FILE_ATTRIBUTE_DIRECTORY)
+      {
+        UtlDeleteAllFiles( szFileFound );
+        RemoveDirectory( szFileFound );
+      }
+      else
+      {
+        DeleteFile( szFileFound );
+      }
+    }
+  } while ( FindNextFile( hp, &info ) ); 
+ FindClose( hp );
+}

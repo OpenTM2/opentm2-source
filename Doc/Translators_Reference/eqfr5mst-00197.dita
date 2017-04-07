@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00197">
+<title>What you can do with folders</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> includes a number of processing functions for folders, which
+you can access by selecting a folder from the <q>Folder List</q> window
+and then selecting a choice from the <b>File</b>, <b>View</b>, or <b>Utilities</b> menu.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>At least one folder must exist, except if you import a folder. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select the <q>Folder List</q> window from the main window. The <q>Folder
+List</q> window is displayed.</p>
+</section>
+<section><title>Results</title>
+<p>This window displays a list of the available folders. When you
+select a command from one of the menus, you are taken to another window
+where you can specify processing options.</p>
+</section></refbody></reference>

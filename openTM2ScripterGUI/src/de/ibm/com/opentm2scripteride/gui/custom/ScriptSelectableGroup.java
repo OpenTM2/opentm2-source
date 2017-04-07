@@ -306,6 +306,7 @@ abstract class ToggleBttonGroup {
 						child.setEnabled(true);
 					} else {
 						child.setEnabled(false);
+						// dangerous point,can't cancel selected button in groups
 					    child.setSelected(false);
 					}
 				}

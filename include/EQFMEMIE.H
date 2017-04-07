@@ -182,6 +182,18 @@ __declspec(dllexport) USHORT __cdecl EXTMEMIMPORTEND
   LONG             lHandle                  // Import/import handle as set by ExtMemImportStart function
 );
 
+//
+// EXTMEMIMPORTGETLASTERROR
+//
+// Get the description of the last error (This function has to be called before calling EXTMEMIMPORTEND)
+extern "C" 
+__declspec(dllexport) USHORT __cdecl EXTMEMIMPORTGETLASTERROR
+( 
+  LONG             lHandle,                 // Export/import handle as set by ExtMemImportStart function
+  PSZ              pszErrorBuffer,          // pointer to buffer for the error text
+  int              iBufferLength            // sizeof buffer in number of characters
+);
+
 // function pointer typedefs for the functions above
 #ifdef __cplusplus
 extern "C" {
@@ -209,7 +221,9 @@ USHORT TMXTOEXP
   LONG             lOptions,            // other processing options
   PSZ              pszMarkup,           // markup to use for segments
   PLONG            plValidSegs,         // number of segments written to EXP file
-  PLONG            plSkippedSegs        // number of skipped segments
+  PLONG            plSkippedSegs,       // number of skipped segments
+  PSZ              pszErrorMsgBuffer,   // buffer for error message texts,
+  int              iErrorMsgBufferSize  // size of buffer for error message texts
 );
 
 #ifdef __cplusplus

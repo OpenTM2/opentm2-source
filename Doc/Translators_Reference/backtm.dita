@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="backtm">
+<title>Backing up your translation material</title>
+<prolog><metadata><keywords>
+
+<indexterm id="backup">backup copies of translations</indexterm>
+<indexterm>translations<indexterm>making backup copies of</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Make regular backup copies of your translation material, such as
+Translation Memories, dictionaries, and documents.</p>
+<p>Use the <b>Export...</b> command on the <b>File</b> menu of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main window
+to copy the respective files on any media (diskette, tape, or optical
+disks) and have them available as backups.</p>
+</body></topic>

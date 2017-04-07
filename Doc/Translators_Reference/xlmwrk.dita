@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="xlmwrk">
+<title>Working with <keyword conref="common-symbols.dita#common-symbols/xlmems"/></title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>A <i><keyword conref="common-symbols.dita#common-symbols/xlmem"/></i> is a database that contains existing
+translations. You use a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to find and reuse these translations. <indexterm>Translation Memory<indexterm>definition of</indexterm></indexterm></p>
+<p>During analysis <keyword conref="common-symbols.dita#common-symbols/tm4w"/> splits a document into translatable segments,
+which usually correspond to sentences.</p>
+<p>A <keyword conref="common-symbols.dita#common-symbols/xlmem"/> contains pairs of such segments that consist of an original
+(source) segment and a translated (target) segment, which together
+make up a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> segment. A <keyword conref="common-symbols.dita#common-symbols/xlmem"/> can contain source sentences
+in one <i>source language</i>, and translated sentences
+in several <i>target languages</i>.</p>
+</body></topic>

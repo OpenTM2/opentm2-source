@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00190">
+<title>Including notes for the translator</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to include notes in the source document to be
+translated. Thus, you can give the translator hints, tips, or instructions.
+The author of the document might want to inform the translator about
+the specific meaning of an expression. Or the project coordinator
+might want to give the translator the correct translation for a word.</p>
+<p>Translator's notes can be inserted at any place in a document.
+You can specify two levels of notes to emphasize different importance,
+which is then displayed with different colors, fonts, and indentation
+in the Translation Environment.</p>
+</body></topic>

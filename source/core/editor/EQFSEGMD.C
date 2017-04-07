@@ -46,6 +46,13 @@ PSZ pszTranslStates[] = { "Needs translation", "Needs review translation", "New"
 // list of comment styles
 PSZ pszStyles[] = { "", "Source bug", "Others", "S-T Inconsistency", "Q&A", "Global Memory", NULL };
 
+// GQ: Allowed functions when focus is in the MLE or combobox
+static USHORT usAllowedFunctions[] = { ACTPROP_FUNC, DICTDOWN_FUNC, DICTUP_FUNC, ESCAPE_FUNC, FILE_FUNC, NEXTDOC_FUNC, PREVDOC_FUNC, QUIT_FUNC,
+                                SAVE_FUNC, GOTOSEG_FUNC, POSTEDIT_FUNC, AUTOTRANS_FUNC, FIND_FUNC, OPEN_FUNC, KEYS_FUNC, ADDFUZZY_FUNC, 
+                                DISPORG_FUNC, PRINT_FUNC, FONTSIZE_FUNC, MARGINACT_FUNC, SPELLSEG_FUNC, SPELLFILE_FUNC, COMMAND_FUNC,  SETTINGS_FUNC, 
+                                GOTO_FUNC, ACTTRANS_FUNC, SRCPROP_FUNC, SAVEAS_FUNC, REIMPORT_FUNC, EDITADD_FUNC, SHOWTRANS_FUNC, TOCGOTO_FUNC, 
+                                SPELLAUTO_FUNC, GOTOSEGMENT_FUNC, CFIND_FUNC, SEGPROP_FUNC, TSEGNEXT_EXACT_FUNC, TSEGNEXT_FUZZY_FUNC, TSEGNEXT_NONE_FUNC, 
+                                TSEGNEXT_MT_FUNC, TSEGNEXT_GLOBAL_FUNC, LAST_FUNC };
 
 
 // enumeration of controls within segment properties dialog
@@ -535,19 +542,26 @@ LONG FAR PASCAL ComboBoxSubclassProc
            usStatus = EQFBCurrentState( pKeyDoc );
            if ((usStatus & usAction) == usAction )
            {
-              (*function)( pKeyDoc );           // execute the function
-              /****************************************************/
-              /* check if it is a function where pDoc will be     */
-              /* freed and therefore is invalid furthermore       */
-              /****************************************************/
-              if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
-                   && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+              // GQ: fix for P403572: Restrict allowed functions to avoid operations in translation window (e.g. mark, copy and paste,...) when a key is pressed in segment properties window
+              int i = 0;
+              while( (usAllowedFunctions[i] != usFunction) && (usAllowedFunctions[i] != LAST_FUNC) ) i++;
+
+              if ( usAllowedFunctions[i] != LAST_FUNC ) 
               {
-                EQFBRefreshScreen( pKeyDoc );  // refresh the screen
-              } /* endif */
-              else
-              {
-                 EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+                (*function)( pKeyDoc );           // execute the function
+                /****************************************************/
+                /* check if it is a function where pDoc will be     */
+                /* freed and therefore is invalid furthermore       */
+                /****************************************************/
+                if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
+                     && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+                {
+                  EQFBRefreshScreen( pKeyDoc );  // refresh the screen
+                } /* endif */
+                else
+                {
+                   EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+                } /* endif */
               } /* endif */
            }
         }
@@ -613,20 +627,26 @@ LONG FAR PASCAL MLESubclassProc
            usStatus = EQFBCurrentState( pKeyDoc );
            if ((usStatus & usAction) == usAction )
            {
-       
-              (*function)( pKeyDoc );           // execute the function
-              /****************************************************/
-              /* check if it is a function where pDoc will be     */
-              /* freed and therefore is invalid furthermore       */
-              /****************************************************/
-              if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
-                   && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+              // GQ: fix for P403572: Restrict allowed functions to avoid operations in translation window (e.g. mark, copy and paste,...) when a key is pressed in segment properties window
+              int i = 0;
+              while( (usAllowedFunctions[i] != usFunction) && (usAllowedFunctions[i] != LAST_FUNC) ) i++;
+
+              if ( usAllowedFunctions[i] != LAST_FUNC ) 
               {
-                EQFBRefreshScreen( pKeyDoc );  // refresh the screen
-              } /* endif */
-              else
-              {
-                 EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+                (*function)( pKeyDoc );           // execute the function
+                /****************************************************/
+                /* check if it is a function where pDoc will be     */
+                /* freed and therefore is invalid furthermore       */
+                /****************************************************/
+                if (!((usFunction == QUIT_FUNC)||(usFunction == FILE_FUNC)||(usFunction == REIMPORT_FUNC) )
+                     && pKeyDoc->pSegTables )  // be sure noone else closed doc..
+                {
+                  EQFBRefreshScreen( pKeyDoc );  // refresh the screen
+                } /* endif */
+                else
+                {
+                   EQFBFuncNothing( pKeyDoc ); // ignore keystroke
+                } /* endif */
               } /* endif */
            }
         }
@@ -685,11 +705,35 @@ MRESULT APIENTRY METADATADIALOG
         i++;
       } /*endwhile */
 
-      // set initial size
+      // set initial dialog size
       SetWindowPos( hwndDlg, HWND_TOP, 0, 0, ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.x + ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.x + 20 ,
                     ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.y + ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.cy + 20, SWP_NOMOVE | SWP_NOZORDER );
-      SetCtrlFnt ( hwndDlg, GetCharSet(), ID_TB_MD_COMMENT_MLE, 0);
 
+      // get window size/position from folderlist properties
+      {
+        EQFINFO     ErrorInfo;              // error code of property handler calls
+        PVOID       hFllProp;               // handle of folder list properties
+        OBJNAME     szFllObjName;           // buffer for folder list object name
+
+
+        UtlMakeEQFPath( (PSZ)szFllObjName, NULC, SYSTEM_PATH, NULL );
+        strcat( (PSZ)szFllObjName, BACKSLASH_STR );
+        strcat( (PSZ)szFllObjName, DEFAULT_FOLDERLIST_NAME );
+        hFllProp = OpenProperties( (PSZ) szFllObjName, NULL, PROP_ACCESS_READ, &ErrorInfo );
+        if ( hFllProp )
+        {
+          PPROPFOLDERLIST pFllProp = (PPROPFOLDERLIST)MakePropPtrFromHnd( hFllProp );
+
+          // get last use dialog position (if available)
+          if ( pFllProp->swpSegPropSizePos.x || pFllProp->swpSegPropSizePos.y )
+          {
+            WinSetWindowPos( hwndDlg, HWND_TOP, pFllProp->swpSegPropSizePos.x, pFllProp->swpSegPropSizePos.y, pFllProp->swpSegPropSizePos.cx, pFllProp->swpSegPropSizePos.cy, EQF_SWP_MOVE | EQF_SWP_SIZE );
+          } /* endif */
+        } /* endif */
+        if (hFllProp) CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
+      }
+
+      SetCtrlFnt ( hwndDlg, GetCharSet(), ID_TB_MD_COMMENT_MLE, 0);
     }
 
     // subclass combobox edit field and MLE edit field to catch escape key and shortcut keys
@@ -938,7 +982,7 @@ MRESULT APIENTRY METADATADIALOG
         lpMinMax->ptMinTrackSize.x = ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.x + ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.cx + 10;
         lpMinMax->ptMinTrackSize.y = ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.y + ControlsInfo[CONTEXT_BOX_CONTROL].swpOrg.cy + yTitle + yBorder + yBorder;
         lpMinMax->ptMaxTrackSize.x = 9999;
-        lpMinMax->ptMaxTrackSize.y = lpMinMax->ptMinTrackSize.y;
+        lpMinMax->ptMaxTrackSize.y = lpMinMax->ptMinTrackSize.y ;
       } /* endif */         
     }
     break;
@@ -1101,40 +1145,6 @@ MRESULT MDDialogInit
         CBSETITEMHANDLE( hwndDlg, ID_TB_MD_STYLE_CBS, sItem, i );
         i++;
       } /*endwhile */
-    }
-
-    // get window size/position from folderlist properties
-    {
-      EQFINFO     ErrorInfo;              // error code of property handler calls
-      PPROPFOLDERLIST pFllProp = NULL;    // ptr to folder list properties
-      PVOID       hFllProp;               // handle of folder list properties
-      OBJNAME     szFllObjName;           // buffer for folder list object name
-
-      UtlMakeEQFPath( (PSZ)szFllObjName, NULC, SYSTEM_PATH, NULL );
-      strcat( (PSZ)szFllObjName, BACKSLASH_STR );
-      strcat( (PSZ)szFllObjName, DEFAULT_FOLDERLIST_NAME );
-      hFllProp = OpenProperties( (PSZ) szFllObjName, NULL, PROP_ACCESS_READ, &ErrorInfo );
-      if ( hFllProp )
-      {
-        pFllProp = (PPROPFOLDERLIST)MakePropPtrFromHnd( hFllProp );
-
-        // get last use dialog position (if available)
-        if ( pFllProp->swpSegPropSizePos.x || pFllProp->swpSegPropSizePos.y )
-        {
-          EQF_PSWP pSwp = &(pFllProp->swpSegPropSizePos);
-
-          // get client rectange of our parent window
-          RECT rectParent;
-          GetClientRect( pMDData->pDoc->hwndClient, &rectParent );
-
-          // use saved values only if valid
-          //if ( ((pSwp->x + pSwp->cx) < rectParent.right) && ((pSwp->y + 20) > rectParent.bottom) )
-          {
-            WinSetWindowPos( hwndDlg, HWND_TOP, pSwp->x, pSwp->y, pSwp->cx, pSwp->cy, EQF_SWP_MOVE | EQF_SWP_SIZE );
-          } /* endif */
-        } /* endif */
-      } /* endif */
-      if (hFllProp) CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
     }
   } /* endif */
 

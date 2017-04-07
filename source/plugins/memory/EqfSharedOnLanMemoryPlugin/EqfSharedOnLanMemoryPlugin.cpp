@@ -1970,8 +1970,12 @@ int EqfSharedOnLanMemoryPlugin::connectToMemory(
   {
     if (  m_RemoteLongToShortNameList[i].compare( 0, iLen, pszName ) == 0 )
     {
-      strcpy( szShortName, m_RemoteLongToShortNameList[i].c_str() + iLen + 1 );
-      break;
+      PSZ pszEntry = (PSZ)m_RemoteLongToShortNameList[i].c_str();
+      if ( *(pszEntry + iLen) == '>' )
+      {
+        strcpy( szShortName, pszEntry + iLen + 1 );
+        break;
+      } /* endif */
     }
   }
 
@@ -2053,8 +2057,12 @@ int EqfSharedOnLanMemoryPlugin::disconnectMemory(
   {
     if (  m_RemoteLongToShortNameList[i].compare( 0, iLen, pszName ) == 0 )
     {
-      strcpy( szShortName, m_RemoteLongToShortNameList[i].c_str() + iLen + 1 );
-      break;
+      PSZ pszEntry = (PSZ)m_RemoteLongToShortNameList[i].c_str();
+      if ( *(pszEntry + iLen) == '>' )
+      {
+        strcpy( szShortName, pszEntry + iLen + 1 );
+        break;
+      } /* endif */
     }
   }
 

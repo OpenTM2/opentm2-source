@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00460">
+  <title>EqfChangeFolPropsEx</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfChangeFolPropsEx</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfChangeFolPropsEx</indexterm></indexterm>
+      <p><i>EqfChangeFolPropsEx</i> lets you change the following folder properties: the target language, 
+            the folder translation memory, the dictionaries, the search translation memory databases, the folder
+            descriptiption, the analysis profile name and the shipment number.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfChangeFolPropsEx</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>chTargetDrive</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszTargetLanguage</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszMemName</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <groupseq>
+              <repsep>,</repsep>
+              <var>pszDictionaries</var>
+            </groupseq>
+          </groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <groupseq>
+              <repsep>,</repsep>
+              <var>pszROMemories</var>
+            </groupseq>
+          </groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszDescription</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq rev="GF_07122015">
+          <groupseq importance="optional">
+            <var>pszProfile</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq rev="GF_07122015">
+          <groupseq importance="optional">
+            <var>pszShipment</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CHAR</entry>
+              <entry colname="col2">chTargetDrive</entry>
+              <entry colname="col3">The target drive where the folder is located, if it is not the
+                drive where the <codeph>eqf</codeph> directory is located. If you do not specify a
+                drive, specify <codeph>'/0'</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTargetLanguage</entry>
+              <entry valign="middle">The target language for the documents in this folder, or
+                  <codeph>NULL</codeph> if the target language should not be changed. Specify the
+                language exactly as it appears in the <q>Language List</q> window, for example
+                  <codeph>English(U.S.)</codeph>. The target language must be different from the
+                source language.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemName</entry>
+              <entry colname="col3">The name of the translation memory, or <codeph>NULL</codeph> if the translation memory should 
+                not be changed.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDictionaries</entry>
+              <entry colname="col3">The list of dictionaries to be used during translation. You can specify up to 10 dictionaries. 
+                If the dictionaries should not be changed, specify <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszROMemories</entry>
+              <entry colname="col3">The list of search translation memory databases to be used during analysis and translation. 
+                You can specify up to 10 translation memory databases. If the search translation memory databases should not be 
+                changed, specify <codeph>NULL</codeph>. When you prefix the list of memories with a plus sign, the specified 
+                translation memories are added to the existing list of folder search memories instead of replacing them.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDescription</entry>
+              <entry colname="col3">The folder description or <codeph>NULL</codeph> when folder description should not be changed.</entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszProfile</entry>
+              <entry colname="col3">The folder analysis profile, or <codeph>NULL</codeph> when no profile name is used.</entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszShipment</entry>
+              <entry colname="col3">The shipment number, or <codeph>NULL</codeph> when no shipment number is used.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  // Change the properties (target language, Memory, Dictionaries) 
+  // of the folder named "test"
+  if ( !usRC )
+  {
+    usRC = EqfChangeFolProps(hSession, "test", 'e', 
+                             "English(U.S)", 
+                             "MEM1,MEM2", "DICT1,DICT2");
+  } //endif
+
+  // terminate the session
+  EqfEndSession( hSession );
+} </codeblock>
+      <p>In this sample some properties of the folder "test" are changed: the target language is
+        changed to "English(U.S.)", the memories "Mem1" and "Mem2" are added to the list of folder
+        search memories and the dictionaries "DICT!" and "DICT2" are used as folder dictionaries.
+      </p>
+    </example>
+  </refbody>
+</reference>

@@ -54,12 +54,16 @@ MRESULT EditClose( HWND hwnd, WPARAM mp1, LPARAM mp2 );
 BOOL    EditGetEntry( PEDITIDA pIda );
 BOOL    EditCalcDlgControls( PEDITIDA pIda );
 
-MRESULT APIENTRY EditSubclassProc( HWND, SHORT, WPARAM, LPARAM );
-PFNWP  pfnOrgEdit;           // original edit window procedure
+LRESULT CALLBACK EditSubclassProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData);
 
 extern HELPSUBTABLE hlpsubtblEditEntryDlg[];
 
 static BOOL CheckLanguages ( PEDITIDA pIda );
+static BOOL ReplaceWithUnicodeField
+( 
+  HWND hwndDlg,                        // window handle of dialog window
+  int  iEntryFieldID                   // ID of entry field
+);
 
 
 /*******************************************************************************
@@ -101,28 +105,54 @@ INT_PTR CALLBACK EditEntryDlgProc (HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
         ANCHORDLGIDA( hwnd, pIda );
         pIda->hwndDlg = hwnd;
 
+
         {
           USHORT usDummy;
           UtlGetLANUserIDW( pIda->szUserIDW, &usDummy, FALSE );
         }
+        ReplaceWithUnicodeField( hwnd, EDIT_ENTRY_EDIT_HEADWORD );
+
+        // create font to be used for the controls
+        {
+          // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
+          HFONT   hFontDlg;
+
+          hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
+          if ( hFontDlg != NULL )
+          {
+            LOGFONT lFont;
+            if ( GetObject( hFontDlg, sizeof(LOGFONT), (LPSTR) &lFont ))
+            {
+              lFont.lfCharSet  = (UCHAR)GetCharSet();
+              if (lFont.lfHeight > 0 )
+              {
+                lFont.lfHeight -=  SHEIGHTINCTRL;
+              }
+              else
+              {
+                lFont.lfWeight = FW_NORMAL;
+              } /* endif */
+              lFont.lfOutPrecision = OUT_TT_PRECIS;
+              pIda->hFontControl = CreateFontIndirect( &lFont );
+            }
+          }
+        }
 
         if ( EditCalcDlgControls( pIda ) )
         {
-		  HMODULE hResMod;
-		  hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
-          LOADSTRING( (HAB)UtlQueryULong( QL_HAB), hResMod, SID_EDIT_ENTRY_TEMPLATE,
-                      pIda->szTemplatePattern );
-          SETTEXTLIMIT( hwnd, EDIT_ENTRY_EDIT_HEADWORD, MAX_TERM_LEN );
+          HMODULE hResMod;
+          hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+          LOADSTRING( (HAB)UtlQueryULong( QL_HAB), hResMod, SID_EDIT_ENTRY_TEMPLATE, pIda->szTemplatePattern );
 
-
-          SetCtrlFnt (hwnd, GetCharSet(),  EDIT_ENTRY_EDIT_HEADWORD, 0);
           InitEdit (hwnd, pIda);
           if (pIda->pControls) // first control
             SETFOCUSHWND( pIda->hwndHeadword );
           pIda->fDestroy = FALSE; // set by WM_CLOSE to TRUE to avoid multiple // destroys
           FillDictCombo (pIda);
+          SETTEXTLIMIT( hwnd, EDIT_ENTRY_EDIT_HEADWORD, MAX_TERM_LEN );
+          if ( pIda->hFontControl != NULL ) SendDlgItemMessage( hwnd, EDIT_ENTRY_EDIT_HEADWORD, WM_SETFONT, (WPARAM)pIda->hFontControl, MP2FROMSHORT(TRUE) );
           pIda->hwndSelection = pIda->hwndHeadword;
-          WinStartTimer( WinQueryAnchorBlock(hwnd),
+          WinStartTimer( WinQueryAnchorBlock(hwnd), 
                          hwnd,
                          100,       // timer ID
                          500L );    // timeout time in milliseconds
@@ -133,6 +163,7 @@ INT_PTR CALLBACK EditEntryDlgProc (HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
         } /* endif */
       } /* endif */
       break;
+
 
     case WM_ACTIVATE:
       if (mp1)
@@ -185,6 +216,7 @@ INT_PTR CALLBACK EditEntryDlgProc (HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
       pIda = ACCESSDLGIDA( hwnd, PEDITIDA );
       if ( pIda )
       {
+        if ( pIda->hFontControl ) DeleteObject( pIda->hFontControl );
         UtlAlloc( (PVOID *)&pIda->pStringBuffer, 0L, 0L, NOMSG );
       } /* endif */
       break;
@@ -1211,7 +1243,7 @@ MRESULT EditClose( HWND hwnd, WPARAM mp1, LPARAM mp2 )
                     hwnd,
                     100 );
 
-      DelCtrlFont (hwnd, EDIT_ENTRY_EDIT_HEADWORD);
+//      DelCtrlFont (hwnd, EDIT_ENTRY_EDIT_HEADWORD);
 
       WinDismissDlg( hwnd, fSaved );
     } /* endif */
@@ -2046,7 +2078,7 @@ PCONTROL CreateControls (PEDITIDA  pIda )
   HWND        hwndInsertBehind;       // Z-Order placement handle
   SWP         swpDialog;              // size and position of edit dialog
   HFONT       hFont;                  // font to be used for new controls
-  CHAR        szAnsiBuffer[DICTENTRYLENGTH]; // buffer for OEM->ANSI conv.
+  CHAR_W      szUTF16Buffer[DICTENTRYLENGTH]; // buffer for OEM->ANSI conv.
   BOOL        fAllVisible = TRUE;     // all-controls-are-visible flag
   ULONG       ulOemCP= 0L;
 
@@ -2197,10 +2229,9 @@ PCONTROL CreateControls (PEDITIDA  pIda )
           fAllVisible = FALSE;
         } /* endif */
 
-        strcpy( szAnsiBuffer, pProfEntry->chUserName );
-        OEMTOANSI( szAnsiBuffer );
-        pControl->hwndStatic = CreateWindow( "STATIC",
-                                             szAnsiBuffer,
+        MultiByteToWideChar( CP_ACP, 0, pProfEntry->chUserName, -1, szUTF16Buffer, sizeof(szUTF16Buffer)/sizeof(CHAR_W) );
+        pControl->hwndStatic = CreateWindowExW( 0, L"STATIC",
+                                             szUTF16Buffer,
                                              WS_CHILD | ulStaticStyle,
                                              pControl->swpStatic.x,
                                              pControl->swpStatic.y,
@@ -2210,8 +2241,11 @@ PCONTROL CreateControls (PEDITIDA  pIda )
                                              NULL,
                                              (HINSTANCE)UtlQueryULong( QL_HAB ),
                                              NULL);
+
+
         if ( pControl->hwndStatic )
         {
+          if ( pIda->hFontControl != NULL ) SendMessage( pControl->hwndStatic, WM_SETFONT, (WPARAM)pIda->hFontControl, MP2FROMSHORT(TRUE) );
           /************************************************************/
           /* Correct z-order                                          */
           /************************************************************/
@@ -2226,8 +2260,8 @@ PCONTROL CreateControls (PEDITIDA  pIda )
           ENABLECTRLHWND( pControl->swpStatic.hwnd, FALSE );
         } /* endif */
 
-        pControl->hwndEntry = CreateWindow( "EDIT",
-                                              "",
+        pControl->hwndEntry = CreateWindowExW( 0, L"Edit",
+                                              L"",
                                               WS_CHILD | ulEntryStyle,
                                               pControl->swpEntry.x,
                                               pControl->swpEntry.y,
@@ -2237,8 +2271,10 @@ PCONTROL CreateControls (PEDITIDA  pIda )
                                               (HMENU)((LONG)pControl->usControlID),
                                               (HINSTANCE)UtlQueryULong( QL_HAB ),
                                               NULL );
+
         if ( pControl->hwndEntry )
         {
+          if ( pIda->hFontControl != NULL ) SendMessage( pControl->hwndEntry, WM_SETFONT, (WPARAM)pIda->hFontControl, MP2FROMSHORT(TRUE) );
           /************************************************************/
           /* Correct z-order                                          */
           /************************************************************/
@@ -2248,8 +2284,7 @@ PCONTROL CreateControls (PEDITIDA  pIda )
           /************************************************************/
           /* Subclass edit control for keyboard navigation            */
           /************************************************************/
-          pfnOrgEdit = SUBCLASSWND(pControl->hwndEntry, EditSubclassProc );
-
+          SetWindowSubclass( pControl->hwndEntry, EditSubclassProc, 0, 0);
         } /* endif */
         hwndInsertBehind =
         pControl->swpEntry.hwnd = pControl->hwndEntry;
@@ -2270,7 +2305,7 @@ PCONTROL CreateControls (PEDITIDA  pIda )
           /********************************************************************/
           /* Set fonts                                                        */
           /********************************************************************/
-          SendMessage( pControl->hwndEntry,  WM_SETFONT, (WPARAM)hFont, FALSE );
+          //SendMessage( pControl->hwndEntry,  WM_SETFONT, (WPARAM)hFont, FALSE );
           SendMessage( pControl->hwndStatic, WM_SETFONT, (WPARAM)hFont, FALSE );
 
           /***********************************************************/
@@ -3352,7 +3387,7 @@ BOOL EditGetEntry( PEDITIDA pIda )
     {
     SETTEXTW( pIda->hwndDlg, EDIT_ENTRY_STEXT_HEADWORD, pIda->pucHeadwordName );
   }
-    WinSendMsg (pIda->hwndHeadword, EM_SETSEL, NULL, NULL);
+   //GQTEST WinSendMsg (pIda->hwndHeadword, EM_SETSEL, NULL, NULL);
   } /* endif */
 
   /********************************************************************/
@@ -3564,23 +3599,14 @@ BOOL    EditCalcDlgControls( PEDITIDA pIda )
 } /* end of function EditCalcDlgControls */
 
 
-MRESULT APIENTRY EditSubclassProc
-(
-HWND hwnd,
-SHORT msg,
-WPARAM mp1,
-LPARAM mp2
-)
+LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM mp1, LPARAM mp2, UINT_PTR uIdSubclass, DWORD_PTR dwRefData )
 {
   MRESULT mResult;
 
   switch ( msg )
   {
     case WM_GETDLGCODE:
-      mResult = CallWindowProc( (WNDPROC)pfnOrgEdit, hwnd, msg, mp1, mp2 );
-      mResult |= DLGC_WANTTAB;
-      return( mResult );
-
+      return( DefSubclassProc( hwnd, msg, mp1, mp2 ) | DLGC_WANTTAB );
 
       /******************************************************************/
       /* Process TAB and BACKTAB using the EditChar function            */
@@ -3612,10 +3638,9 @@ LPARAM mp2
         /* For multiline entry fields pass up and down on to          */
         /* control otherwise activate EditChar to process the key     */
         /**************************************************************/
-        if ( ((mp1 == VK_UP) || (mp1 == VK_DOWN)) &&
-             (lStyle & ES_MULTILINE) )
+        if ( ((mp1 == VK_UP) || (mp1 == VK_DOWN)) && (lStyle & ES_MULTILINE) )
         {
-          return( CallWindowProc( (WNDPROC)pfnOrgEdit, hwnd, msg, mp1, mp2 ) );
+          return DefSubclassProc( hwnd, msg, mp1, mp2 );
         }
         else
         {
@@ -3625,7 +3650,7 @@ LPARAM mp2
       } /* endif */
       break;
   } /* endswitch */
-  return( CallWindowProc( (WNDPROC)pfnOrgEdit, hwnd, msg, mp1, mp2 ) );
+  return DefSubclassProc( hwnd, msg, mp1, mp2 );
 } /* end of function EditSubclassProc */
 
 
@@ -3652,3 +3677,37 @@ static BOOL CheckLanguages
 
   return (fAnsiConv);
 }  /* end of function CheckLanguages */
+
+BOOL ReplaceWithUnicodeField
+( 
+  HWND hwndDlg,                        // window handle of dialog window
+  int  iEntryFieldID                   // ID of entry field
+)
+{
+  WINDOWPLACEMENT Placement;
+  WINDOWINFO Info;
+
+  // get values from window being replaced
+  HWND hwndEntryField = GetDlgItem( hwndDlg, iEntryFieldID );
+  GetWindowPlacement( hwndEntryField, &Placement );
+  GetWindowInfo( hwndEntryField, &Info );
+
+  // destroy the window
+  DestroyWindow( hwndEntryField );
+
+  // create a new one
+  hwndEntryField = CreateWindowExW( 0, L"Edit", L"", Info.dwStyle, 
+                               Placement.rcNormalPosition.left, Placement.rcNormalPosition.top,
+                               Placement.rcNormalPosition.right - Placement.rcNormalPosition.left,
+                               Placement.rcNormalPosition.bottom - Placement.rcNormalPosition.top,
+                               hwndDlg, (HMENU)iEntryFieldID, (HINSTANCE)(HAB)UtlQueryULong( QL_HAB ), 0 );
+
+  if ( hwndEntryField != NULL )
+  {
+    SetWindowLong( hwndEntryField, GWL_ID, iEntryFieldID );
+    SetWindowPos( hwndEntryField, HWND_TOP, 0, 0, Placement.rcNormalPosition.right - Placement.rcNormalPosition.left,
+      Placement.rcNormalPosition.bottom - Placement.rcNormalPosition.top, SWP_NOACTIVATE | SWP_NOMOVE );
+  }
+
+  return( hwndEntryField != NULL );
+}

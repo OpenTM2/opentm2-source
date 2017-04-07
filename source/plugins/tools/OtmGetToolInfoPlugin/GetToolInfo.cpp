@@ -802,10 +802,10 @@ int GetToolInfo::ShowFileName(const char * strStartPath)
             sprintf(strFileDate, "%d-%d-%d %d:%d:%d",stLstTime.wYear,
                     stLstTime.wMonth,stLstTime.wDay,stLstTime.wHour,stLstTime.wMinute,stLstTime.wSecond);
 
-            DWORD nFileSize =  (otmFindData.nFileSizeHigh * (MAXDWORD + 1)) + otmFindData.nFileSizeLow;
+            _int64 nFileSize =  ((_int64)otmFindData.nFileSizeHigh * ((_int64)MAXDWORD + 1)) + (_int64)otmFindData.nFileSizeLow;
 
             memset(strShowMsg, 0x00, sizeof(strShowMsg));
-            sprintf(strShowMsg, "      %-40s    %-20s    %d\n", otmFindData.cFileName, strFileDate, nFileSize);
+            sprintf(strShowMsg, "      %-40s    %-20s    %I64d\n", otmFindData.cFileName, strFileDate, nFileSize);
             ShowInfoMsg(strShowMsg);
         }
 
@@ -931,10 +931,10 @@ int GetToolInfo::ShowPluginPath(const char * strStartPath, STRINGGRP & vecSubDir
             sprintf(strFileDate, "%d-%d-%d %d:%d:%d",stLstTime.wYear,
                     stLstTime.wMonth,stLstTime.wDay,stLstTime.wHour,stLstTime.wMinute,stLstTime.wSecond);
 
-            DWORD nFileSize =  (otmFindData.nFileSizeHigh * (MAXDWORD + 1)) + otmFindData.nFileSizeLow;
+            _int64 nFileSize =  ((_int64)otmFindData.nFileSizeHigh * ((_int64)MAXDWORD + 1)) + (_int64)otmFindData.nFileSizeLow;
 
             memset(strShowMsg, 0x00, sizeof(strShowMsg));
-            sprintf(strShowMsg, "      | %-40s    %-20s    %d\n", otmFindData.cFileName, strFileDate, nFileSize);
+            sprintf(strShowMsg, "      | %-40s    %-20s    %I64d\n", otmFindData.cFileName, strFileDate, nFileSize);
             ShowInfoMsg(strShowMsg);
         }
 
@@ -1001,10 +1001,10 @@ int GetToolInfo::ShowFileDetails(const char * strStartPath)
             sprintf(strFileDate, "%d-%d-%d %d:%d:%d",stLstTime.wYear,
                     stLstTime.wMonth,stLstTime.wDay,stLstTime.wHour,stLstTime.wMinute,stLstTime.wSecond);
 
-            DWORD nFileSize =  (otmFindData.nFileSizeHigh * (MAXDWORD + 1)) + otmFindData.nFileSizeLow;
+            _int64 nFileSize =  ((_int64)otmFindData.nFileSizeHigh * ((_int64)MAXDWORD + 1)) + (_int64)otmFindData.nFileSizeLow;
 
             memset(strShowMsg, 0x00, sizeof(strShowMsg));
-            sprintf(strShowMsg, "      %-40s    %-20s    %d\n", otmFindData.cFileName, strFileDate, nFileSize);
+            sprintf(strShowMsg, "      %-40s    %-20s    %I64d\n", otmFindData.cFileName, strFileDate, nFileSize);
             ShowInfoMsg(strShowMsg);
         }
 
@@ -1434,16 +1434,17 @@ int GetToolInfo::GetValFromRegEx(HKEY hStartKey, const char * strSubKey, const c
         return nRC;
     }
 
-    DWORD dwResType = RRF_RT_REG_EXPAND_SZ | RRF_NOEXPAND;
-    dRet = RegGetValue(hKey, NULL, strKey, dwResType, NULL, (LPBYTE)strValue, &dwDataSize);
+    //DWORD dwResType = RRF_RT_REG_EXPAND_SZ | RRF_NOEXPAND;
+    //dRet = RegGetValue(hKey, NULL, strKey, dwResType, NULL, (LPBYTE)strValue, &dwDataSize);
+    dRet = RegQueryValueEx( hKey, strKey, NULL, NULL, (LPBYTE)strValue, &dwDataSize );
 
-    // add for type not support start
-    if (ERROR_UNSUPPORTED_TYPE == dRet)
-    {
-        dwResType = RRF_RT_REG_SZ;
-        dRet = RegGetValue(hKey, NULL, "PATH", dwResType, NULL, (LPBYTE)strValue, &dwDataSize);
-    }
-    // add end
+    //// add for type not support start
+    //if (ERROR_UNSUPPORTED_TYPE == dRet)
+    //{
+    //    dwResType = RRF_RT_REG_SZ;
+    //    dRet = RegGetValue(hKey, NULL, "PATH", dwResType, NULL, (LPBYTE)strValue, &dwDataSize);
+    //}
+    //// add end
 
     while (dRet == ERROR_MORE_DATA)
     {
@@ -1457,7 +1458,8 @@ int GetToolInfo::GetValFromRegEx(HKEY hStartKey, const char * strSubKey, const c
             break;
         }
 
-        dRet = RegGetValue(hKey, NULL, strKey, dwResType, NULL, (LPBYTE)strValue, &dwDataSize);
+        //dRet = RegGetValue(hKey, NULL, strKey, dwResType, NULL, (LPBYTE)strValue, &dwDataSize);
+        dRet = RegQueryValueEx( hKey, strKey, NULL, NULL, (LPBYTE)strValue, &dwDataSize );
     }
 
     if ((nRC != ERROR_NO_MORE_SPACE) && (nRC != ERROR_SUCCESS))
@@ -1472,6 +1474,8 @@ int GetToolInfo::GetValFromRegEx(HKEY hStartKey, const char * strSubKey, const c
 
 BOOL CALLBACK DialogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+  lParam;
+
     switch (uMsg)
     {
     case WM_INITDIALOG:
@@ -1539,7 +1543,7 @@ int GetToolInfo::DoInitialize()
         return nRC;
     }
 
-    HAB  hAB = NULL;
+    //HAB  hAB = NULL;
 
     //SetupUtils(hAB, m_strMsgFile);
     return nRC;
@@ -1923,24 +1927,26 @@ int GetToolInfo::ShowMemoriesInfo()
 
         // Installed Physical Memory (RAM)
         memset(strShowMsg, 0x00, sizeof(strShowMsg));
-        if (m_dwMajVer >= 6)
-        {
-            // if the version is vista and over
-            PULONGLONG pTotalMemInKilo = new ULONGLONG;
-            if (GetPhysicallyInstalledSystemMemory(pTotalMemInKilo))
-            {
-                sprintf(strShowMsg, INSTALLED_PHY_MEM_STR, (float)*pTotalMemInKilo/dKBSzie);
-            }
-            else
-            {
-                sprintf(strShowMsg, INSTALLED_PHY_MEM_STR, 0);
-            }
-            delete pTotalMemInKilo;
-        }
-        else
-        {
+
+        // disabled code below as GetPhysicallyInstalledSystemMemory is not supported under WinXP
+        //if (m_dwMajVer >= 6)
+        //{
+        //    // if the version is vista and over
+        //    PULONGLONG pTotalMemInKilo = new ULONGLONG;
+        //    if (GetPhysicallyInstalledSystemMemory(pTotalMemInKilo))
+        //    {
+        //        sprintf(strShowMsg, INSTALLED_PHY_MEM_STR, (float)*pTotalMemInKilo/dKBSzie);
+        //    }
+        //    else
+        //    {
+        //        sprintf(strShowMsg, INSTALLED_PHY_MEM_STR, 0);
+        //    }
+        //    delete pTotalMemInKilo;
+        //}
+        //else
+        //{
             sprintf(strShowMsg, INSTALLED_PHY_MEM_STR, (float) statex.ullTotalPageFile/dGBSize);
-        }
+        //}
         ShowInfoMsg(strShowMsg);
 
         // Total Physical Memory

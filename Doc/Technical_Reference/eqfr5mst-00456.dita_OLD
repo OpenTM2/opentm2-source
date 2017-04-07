@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00456">
+  <title>EqfAnalyzeDocEx</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfAnalyzeDocEx</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfAnalyzeDocEx</indexterm></indexterm>
+      <p><i>EqfAnalyzeDocEx</i> analyzes one or more documents. If no documents are specified, the
+        function analyzes all documents in the selected folder.</p>
+      <p>This function performs the analysis in small units. Call it repetitively until it returns a
+        return code other than CONTINUE_RC.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <!-- ********************************************************************************************* -->
+<!--      <syntaxdiagram rev="GF_18112016">
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfAnalyzeDocEx</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszDocument</var>
+          <sep>,</sep>
+          <var>pszMemNames</var>
+          <sep>,</sep>
+          <var>pszProfile</var>
+          <sep>,</sep>
+<!-\-          <var>pvReserved</var>    -\->
+          <var>pszMTOutput</var>
+          <sep>,</sep>
+          <var>lOptions</var>
+        </groupseq>
+      </syntaxdiagram>-->
+      <!-- ********************************************************************************************* -->
+
+      <!-- ********************************************************************************************* -->
+      <syntaxdiagram rev="GF_18112016">
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfAnalyzeDocEx</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+        </groupseq>
+
+        <groupseq>
+<!--          <groupseq importance="optional"> -->
+<!--            <sep>,</sep> -->
+            <groupseq importance="optional">
+              <groupseq>
+                <repsep>,</repsep>
+                <var>pszDocument</var>
+              </groupseq>
+            </groupseq>
+          
+<!--            <groupseq importance="optional"> -->
+<!--              <sep>,</sep> -->
+              <groupseq importance="optional">
+                <groupseq>
+                  <repsep>,</repsep>
+                  <var>pszMemName</var>
+                </groupseq>
+              </groupseq>
+
+              <groupseq importance="optional">
+                <groupseq>
+                  <var>pszProfile</var>
+                  <sep>,</sep>
+                </groupseq>
+              </groupseq>
+
+              <groupseq importance="optional">
+                <groupseq>
+                  <var>pszMTOutput</var>
+                  <sep>,</sep>
+                </groupseq>
+              </groupseq>
+        </groupseq>
+
+              <groupseq importance="optional">
+                <sep>,</sep>
+                <groupchoice importance="required">
+                  <kwd>TMMATCH_OPT</kwd>
+                  <kwd>ADDTOMEM_OPT</kwd>
+                  <kwd>AUTOSUBST_OPT</kwd>
+                  <kwd>UNTRANSLATED_OPT</kwd>
+                  <kwd>AUTOLAST_OPT</kwd>
+                  <kwd>AUTOJOIN_OPT</kwd>
+                  <kwd>AUTOCONTEXT_OPT</kwd>
+                  <kwd>REDUNDCOUNT_OPT</kwd>
+                  <kwd>OVERWRITE_OPT</kwd>
+                  <kwd>IGNOREPATH_OPT</kwd>
+                  <kwd>ADJUSTLEADWS_OPT</kwd>
+                  <kwd>ADJUSTTRAILWS_OPT</kwd>
+                  <kwd>NOBLANKATSEGEND_OPT</kwd>
+                  <kwd>NOSUBSTIFIDENTICAL_OPT</kwd>
+                  <kwd>PROTECTXMPSCREEN_OPT</kwd>
+                  <kwd>SENDTOMT_OPT</kwd>
+                  <kwd>STOPATFIRSTEXACT_OPT</kwd>
+                  <kwd>IGNORECOMMENTED_OPT</kwd>
+                  <kwd>RESPECTCRLF_OPT</kwd>
+                </groupchoice>
+              </groupseq>
+            <!-- </groupseq> -->
+          <!-- </groupseq> -->
+          <delim>)</delim>
+          <sep>;</sep>
+
+      </syntaxdiagram>
+      <!-- ********************************************************************************************* -->
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder containing the documents.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocument</entry>
+              <entry colname="col3">The name of one or more documents. If you want to analyze all
+                documents in the folder, specify <codeph>NULL</codeph> or an empty list.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemName</entry>
+              <entry colname="col3">The name of one or more Translation Memories to be used as
+                search memories. Use a comma separated list if more than one memory is specified.
+                Specify <codeph>NULL</codeph> if no search memory is to be used.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszProfile</entry>
+              <entry colname="col3">The name of the analysis profile. Specify <codeph>NULL</codeph> 
+                if no analysis profile is to be used.</entry>
+            </row>
+<!--            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pvReserved</entry>
+              <entry colname="col3">reserved for future enhancements, specify <codeph>NULL</codeph></entry>
+            </row> -->
+            <row rev="GF_18112016">
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMTOutput</entry>
+              <entry colname="col3">This parameter can be used to control which MT-output files are to be created, 
+                and which segments are written to these output files. Specify <codeph>NULL</codeph> if no MT-output is to be created.</entry>
+            </row>
+
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options to be used for the analysis: <sl>
+                  <sli>TMMATCH_OPT</sli>
+                  <sli>ADDTOMEM_OPT</sli>
+                  <sli>AUTOSUBST_OPT</sli>
+                  <sli>UNTRANSLATED_OPT</sli>
+                  <sli>AUTOLAST_OPT</sli>
+                  <sli>AUTOJOIN_OPT</sli>
+                  <sli>AUTOCONTEXT_OPT</sli>
+                  <sli>REDUNDCOUNT_OPT</sli>
+                  <sli>OVERWRITE_OPT</sli>
+                  <sli>IGNOREPATH_OPT</sli>
+                  <sli>ADJUSTLEADWS_OPT</sli>
+                  <sli>ADJUSTTRAILWS_OPT</sli>
+                  <sli>NOBLANKATSEGEND_OPT</sli>
+                  <sli>NOSUBSTIFIDENTICAL_OPT</sli>
+                  <sli>PROTECTXMPSCREEN_OPT</sli>
+                  <sli>SENDTOMT_OPT</sli>     
+                  <sli>RESPECTCRLF_OPT</sli>
+                  <sli>STOPATFIRSTEXACT_OPT</sli>
+                  <sli>IGNORECOMMENTED_OPT</sli>
+                </sl>
+                <p>These options correspond to those in the <q>Analyze Documents</q> window. OVERWRITE_OPT must be
+                   specified if the translation of the documents has already started.</p>
+                <p>You can combine the constants using OR.</p>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- ****************************************************************************************** -->
+
+<!-- ****************************************************************************************** -->
+    <section rev="GF_18112016">
+      <title>pszMTOutput option description</title>
+      <p>The option <b>SENDTOMT_OPT</b> is used to control the MT output creation.</p>
+      <p>When the option <b>SENDTOMT_OPT</b> has been specified, the parameter <b>pszMTOutput</b> can be used to 
+         control which MT output files are created, and which segments are written to these output files. When the 
+         parameter is not used, the EQFNFLUENT.TRG file controls the MT output files being created.</p>
+      <p>The <b>pszMTOutput</b> parameter contains a comma separated list of MT output files to be created. 
+         For each output file additional options can be specified.</p>
+      <p>The MT output files and the options are specified following the following scheme:
+        <codeblock>Outputfile-1(options for output file1),outputfile-2(options for output file2),…,
+                   outputfile-n(options for output file n)</codeblock>
+      </p>
+    </section>
+<!-- ****************************************************************************************** -->
+
+<!-- ****************************************************************************************** -->
+    <section rev="GF_18112016">
+      <title>Keywords for pszMTOutput</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" colwidth="82*"/>
+          <colspec colname="col2" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Output Type</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">NOMATCH</entry>
+              <entry colname="col2">Create a NOMATCH output file which contains all translatable segments for which there is 
+                no 100% proposal available (100% proposals include exact matches, Hamster matches, and Machine Translation matches). </entry>
+            </row>
+            <row>
+              <entry colname="col1">ALLSEGS</entry>
+              <entry colname="col2">Create a ALLSEGS file containing all translatable segments regardless of the available proposals for the segment.</entry>
+            </row>
+            <row>
+              <entry colname="col1">ALLWMATCH</entry>
+              <entry colname="col2">Create a ALLWMATCH file containing all translatable segments regardless of the available proposals for the segment and 
+                add the list of available proposals.</entry>
+            </row>			
+            <row>
+              <entry colname="col1">NOPROPOSAL</entry>
+              <entry colname="col2">Create a NOPROPOSAL output file which contains all translatable segments for which there is no 100% proposal available 
+                and no fuzzy proposal with 50 % fuzziness or better (100% proposals include exact matches, Hamster matches, and Machine Translation matches).</entry>
+            </row>
+            <row>
+              <entry colname="col1">XLIFF</entry>
+              <entry colname="col2">Create an XLIFF file which contains ALL source-segments, along with all proposals.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- ****************************************************************************************** -->
+
+<!-- ****************************************************************************************** -->
+    <section rev="GF_18112016">
+      <title>Parameters for pszMTOutput</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" colwidth="82*"/>
+          <colspec colname="col2" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Values</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">Output format</entry>
+              <entry colname="col2">The options to be used for the analysis: 
+                <ul>
+                  <li><b>EXP</b> (default) - Create a file in the EXP format.</li>
+                  <li><b>XML</b> - Create a file in the nFluent XML format.</li>
+                  <li><b>TMX</b> - Create a file in the TMX format.</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">Handling of duplicates</entry>
+              <entry colname="col2">The options to be used for the analysis: 
+                <ul>
+                  <li><b>DUPLICATES</b> (default) - Do not filter duplicate segments.</li>
+                  <li><b>NODUPLICATES</b> - Suppress duplicate segments (i.e. add only one occurrence of each segment).</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">Handling of Hamster matches</entry>
+              <entry colname="col2">The options to be used for the analysis: 
+                <ul>
+                  <li><b>NOHAMSTER</b> (default) - suppress segments having a Hamster proposal.</li>
+                  <li><b>HAMSTER</b> - add segments having a Hamster proposal to the output file.</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">Handling of MT matches</entry>
+              <entry colname="col2">The options to be used for the analysis: 
+                <ul>
+                  <li><b>NOMACHINEMATCH</b> (default) - suppress segments having a MT match.</li>
+                  <li><b>MACHINEMATCH</b> - include segments having a machine match proposal.</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">Handling of fuzzy matches</entry>
+              <entry colname="col2">The options to be used for the analysis: 
+                <p><b>NOFUZZYABOVE=dd</b> - suppress segments fuzzy proposals which a fuzziness above the specified value "dd" 
+                    (e.g. to suppress all segments with a fuzziness above 33% specify NOFUZZYABOVE=33).</p>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">Include wordcount information</entry>
+              <entry colname="col2">The options to be used for the analysis: 
+                <ul>
+                  <li><b>NOWORDCOUNT</b> (default) - do not add word count information to the output.</li>
+                  <li><b>WORDCOUNT</b> - add word count information to the output.</li>
+                </ul>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- ****************************************************************************************** -->
+
+<!-- ****************************************************************************************** -->
+    <section rev="GF_18112016">
+      <title>Samples</title>
+      <p>pszMTOutput parameter to create a NOMATCH file in EXP format which does not contain segments with 
+         exact matches, Hamster matches, MT matches and fuzzy matches with a fuzziness of 20% or better and 
+         which does include word count information and which does not contain duplicates:</p>
+      <codeblock>NOPROPOSAL(EXP,NODUPLICATES,NOHAMSTER,NOMACHINEMATCH,NOFUZZYABOVE=20,WORDCOUNT)</codeblock>
+
+      <p>As some of the options are active by default the following string will achieve the same result:</p>
+      <codeblock>NOPROPOSAL(NODUPLICATES,NOFUZZYABOVE=20,WORDCOUNT)</codeblock>
+
+      <p>The order in which the keywords are specified does not matter.</p>
+      <p>Using this enhanced API call, the MT output files can be created as needed and with the required granularity.</p> 
+      <p>Adding word count information to the MT output file is already implemented, and can be triggered by 
+         specifying the keyword INCLUDEWORDCOUNT in the EQFNFLIUENT.TRG trigger file (located in \OTM\PROPERTY\).</p> 
+    </section>
+<!-- ****************************************************************************************** -->
+    
+<!-- ****************************************************************************************** -->
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The analysis has not completed yet. Call <i>EqfAnalyzeDocEx</i>
+                again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Analyze all documents of folder SAMPLE1 and 
+  // substitute exact matches automatically, use analysis profile Profile1
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfAnalyzeDocEX( hSession, "SAMPLE1", NULL, ("Mem1", "Mem2"), "Profile1", 
+                            NULL, AUTOSUBST_OPT | OVERWRITE_OPT );
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

@@ -1,0 +1,22 @@
+/*+----------------------------------------------------------------------------+
+  |  OtmProofReadImportPlugin.ID - IDs used by proof read import tool          |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2017, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+*/
+
+#define ID_CLEANUP_DIALOG      2000
+
+#define ID_CLEANUP_TREE        2001
+#define ID_CLEANUP_DELETE      2002
+#define ID_CLEANUP_CANCEL      2003
+#define ID_CLEANUP_FILES       2004
+#define ID_CLEANUP_SIZE        2005
+#define ID_CLEANUP_SELECTALL   2006
+#define ID_CLEANUP_DESELECTALL 2007
+
+#define ID_PROOFREADIMPORT_COMMAND  2020
+

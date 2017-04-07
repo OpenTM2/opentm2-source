@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00453">
+  <title>Calling interface reference</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>programming interface calls</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following sections describe the individual calls provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p><b><u>The following calls are available</u></b>:
+        <table otherprops="print" pgwide="0" frame="all">
+        <tgroup cols="2" colsep="0" rowsep="1">
+          <colspec colname="col1" colwidth="191*"/>
+          <colspec colname="col2" colwidth="203*"/>
+          <thead>
+            <row>
+              <entry valign="bottom" align="left">API call name</entry>
+              <entry valign="bottom" align="right">Described on page</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1" align="left">EqfAddCTIDList</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00454.dita#eqfr5mst-00454"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfAddMatchSegID</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00454-A.dita#eqfr5mst-00454-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfAnalyzeDoc</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00455.dita#eqfr5mst-00455"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfAnalyzeDocEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00456.dita#eqfr5mst-00456"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfArchiveTM</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00457.dita#eqfr5mst-00457"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfBuildSegDocName</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00458.dita#eqfr5mst-00458"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfChangeFolProps</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00459.dita#eqfr5mst-00459"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfChangeFolPropsEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00460.dita#eqfr5mst-00460"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfChangeMFlag</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00461.dita#eqfr5mst-00461"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCleanMemory</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00462.dita#eqfr5mst-00462"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfClearMTFlag</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00462-A.dita#eqfr5mst-00462-A"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfCloseMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00462-B.dita#eqfr5mst-00462-B"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCountWords</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00463.dita#eqfr5mst-00463"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCountWordsInString</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00463-A.dita#eqfr5mst-00463-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateCntReport</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00464.dita#eqfr5mst-00464"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCreateCntReportEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00464-A.dita#eqfr5mst-00464-A"/></entry>
+            </row> 
+            <row>
+              <entry colname="col1" align="left">EqfCreateCountReport</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00469.dita#eqfr5mst-00469"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCreateCountReportEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00469-A.dita#eqfr5mst-00469-A"/></entry>
+            </row> 
+            <row>
+              <entry colname="col1" align="left">EqfCreateControlledFolder</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00470.dita#eqfr5mst-00470"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateFolder</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00471.dita#eqfr5mst-00471"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateITM</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00472.dita#eqfr5mst-00472"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCreateMarkup</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00472-A.dita#eqfr5mst-00472-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00473.dita#eqfr5mst-00473"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateSubFolder</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00474.dita#eqfr5mst-00474"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfDeleteDict</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00474-A.dita#eqfr5mst-00474-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDeleteDoc</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00475.dita#eqfr5mst-00475"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDeleteFolder</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00476.dita#eqfr5mst-00476"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDeleteMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00478.dita#eqfr5mst-00478"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfDeleteMTLog</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00478-A.dita#eqfr5mst-00478-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDictionaryExists</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00479.dita#eqfr5mst-00479"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDocumentExists</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00480.dita#eqfr5mst-00480"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfEndSession</entry>
+              <entry colname="col2" align="right"><xref href=""/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportDict</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00481.dita#eqfr5mst-00481"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportDoc</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00482.dita#eqfr5mst-00482"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportFolder</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00483.dita#eqfr5mst-00483"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportFolderFP</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00484.dita#eqfr5mst-00484"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportFolderFPas</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00485.dita#eqfr5mst-00485"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00486.dita#eqfr5mst-00486"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfExportMemInInternalFormat</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00486-A.dita#eqfr5mst-00486-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportSegs</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00487.dita#eqfr5mst-00487"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfFilterNoMatchFile</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00487-A.dita#eqfr5mst-00487-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfFolderExists</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00488.dita#eqfr5mst-00488"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfFreeSegFile</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00489.dita#eqfr5mst-00489"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetFolderProp</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00490.dita#eqfr5mst-00490"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetFolderPropEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00491.dita#eqfr5mst-00491"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetLastError</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetMatchLevel</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00493.dita#eqfr5mst-00493"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetProgress</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00494.dita#eqfr5mst-00494"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSegNum</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00495.dita#eqfr5mst-00495"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSegW</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00496.dita#eqfr5mst-00496"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSegmentNumber</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00497.dita#eqfr5mst-00497"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetShortName</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00497-A.dita#eqfr5mst-00497-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSourceLine</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00498.dita#eqfr5mst-00498"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSysLanguage</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00499.dita#eqfr5mst-00499"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetVersion</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00500.dita#eqfr5mst-00500"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetVersionEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00500-A.dita#eqfr5mst-00500-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportDoc</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00501.dita#eqfr5mst-00501"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportDict</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00502.dita#eqfr5mst-00502"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportFolder</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00503.dita#eqfr5mst-00503"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfImportFolderAs</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00504-A.dita#eqfr5mst-00504-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportFolderFP</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00504.dita#eqfr5mst-00504"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00505.dita#eqfr5mst-00505"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfImportMemEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00505-A.dita#eqfr5mst-00505-A"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfImportMemInInternalFormat</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00505-B.dita#eqfr5mst-00505-B"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfListMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00505-C.dita#eqfr5mst-00505-C"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfLoadSegFile</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00506.dita#eqfr5mst-00506"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfMemoryExists</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00507.dita#eqfr5mst-00507"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfOpenDoc</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00508.dita#eqfr5mst-00508"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfOpenDocByTrack</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00508-A.dita#eqfr5mst-00508-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfOpenDocEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00509.dita#eqfr5mst-00509"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfOpenMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00509-A.dita#eqfr5mst-00509-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfOrganizeMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00510.dita#eqfr5mst-00510"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfProcessNomatch</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00511.dita#eqfr5mst-00511"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfProcessNomatchEx</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00512.dita#eqfr5mst-00512"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfQueryMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00512-B.dita#eqfr5mst-00512-B"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfReduceToStemForm</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00512-A.dita#eqfr5mst-00512-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfRemoveDocs</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00513.dita#eqfr5mst-00513"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfRestoreDocs</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00514.dita#eqfr5mst-00514"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfRename</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00515.dita#eqfr5mst-00515"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfSearchMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00515-A.dita#eqfr5mst-00515-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfSetSysLanguage</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00516.dita#eqfr5mst-00516"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfStartSession</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00517.dita#eqfr5mst-00517"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+            <entry colname="col1" align="left">EqfUpdateMem</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00517-A.dita#eqfr5mst-00517-A"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfUpdateSegW</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00518.dita#eqfr5mst-00518"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfWriteSegFile</entry>
+              <entry colname="col2" align="right"><xref href="eqfr5mst-00519.dita#eqfr5mst-00519"/></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      
+<!--        <ul otherprops="display">
+          <li><xref href="eqfr5mst-00454.dita#eqfr5mst-00454"/></li>
+          <li><xref href="eqfr5mst-00455.dita#eqfr5mst-00455"/></li>
+          <li><xref href="eqfr5mst-00456.dita#eqfr5mst-00456"/></li>
+          <li><xref href="eqfr5mst-00457.dita#eqfr5mst-00457"/></li>
+          <li><xref href="eqfr5mst-00458.dita#eqfr5mst-00458"/></li>
+          <li><xref href="eqfr5mst-00459.dita#eqfr5mst-00459"/></li>
+          <li><xref href="eqfr5mst-00460.dita#eqfr5mst-00460"/></li>
+          <li><xref href="eqfr5mst-00461.dita#eqfr5mst-00461"/></li>
+          <li><xref href="eqfr5mst-00462.dita#eqfr5mst-00462"/></li>
+          <li><xref href="eqfr5mst-00462-A.dita#eqfr5mst-00462-A"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00462-B.dita#eqfr5mst-00462-B"/></li>
+          <li><xref href="eqfr5mst-00463.dita#eqfr5mst-00463"/></li>
+          <li><xref href="eqfr5mst-00463-A.dita#eqfr5mst-00463-A"/></li>
+          <li><xref href="eqfr5mst-00464.dita#eqfr5mst-00464"/></li>
+<!-\- Next entry qas commented, and I do not know why -\->
+          <li><xref href="eqfr5mst-00464-A.dita#eqfr5mst-00464-A"/></li>-\->
+          <li><xref href="eqfr5mst-00469.dita#eqfr5mst-00469"/></li>
+          <li><xref href="eqfr5mst-00469-A.dita#eqfr5mst-00469-A"/></li>
+          <li><xref href="eqfr5mst-00470.dita#eqfr5mst-00470"/></li>
+          <li><xref href="eqfr5mst-00471.dita#eqfr5mst-00471"/></li>
+          <li><xref href="eqfr5mst-00472.dita#eqfr5mst-00472"/></li>
+          <li><xref href="eqfr5mst-00472-A.dita#eqfr5mst-00472-A"/></li>
+          <li><xref href="eqfr5mst-00473.dita#eqfr5mst-00473"/></li>
+          <li><xref href="eqfr5mst-00474.dita#eqfr5mst-00474"/></li>
+          <li><xref href="eqfr5mst-00474-A.dita#eqfr5mst-00474-A"/></li>
+          <li><xref href="eqfr5mst-00475.dita#eqfr5mst-00475"/></li>
+          <li><xref href="eqfr5mst-00476.dita#eqfr5mst-00476"/></li>
+          <li><xref href="eqfr5mst-00478.dita#eqfr5mst-00478"/></li>
+          <li><xref href="eqfr5mst-00478-A.dita#eqfr5mst-00478-A"/></li>
+          <li><xref href="eqfr5mst-00479.dita#eqfr5mst-00479"/></li>
+          <li><xref href="eqfr5mst-00480.dita#eqfr5mst-00480"/></li>
+          <li><xref href="eqfr5mst-00481.dita#eqfr5mst-00481"/></li>
+          <li><xref href="eqfr5mst-00482.dita#eqfr5mst-00482"/></li>
+          <li><xref href="eqfr5mst-00483.dita#eqfr5mst-00483"/></li>
+          <li><xref href="eqfr5mst-00484.dita#eqfr5mst-00484"/></li>
+          <li><xref href="eqfr5mst-00485.dita#eqfr5mst-00485"/></li>
+          <li><xref href="eqfr5mst-00486.dita#eqfr5mst-00486"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00486-A.dita#eqfr5mst-00486-A"/></li>
+          <li><xref href="eqfr5mst-00487.dita#eqfr5mst-00487"/></li>
+          <li><xref href="eqfr5mst-00487-A.dita#eqfr5mst-00487-A"/></li>
+          <li><xref href="eqfr5mst-00488.dita#eqfr5mst-00488"/></li>
+          <li><xref href="eqfr5mst-00489.dita#eqfr5mst-00489"/></li>
+          <li><xref href="eqfr5mst-00492.dita#eqfr5mst-00492"/></li>
+          <li><xref href="eqfr5mst-00494.dita#eqfr5mst-00494"/></li>
+          <li><xref href="eqfr5mst-00495.dita#eqfr5mst-00495"/></li>
+          <li><xref href="eqfr5mst-00496.dita#eqfr5mst-00496"/></li>
+          <li><xref href="eqfr5mst-00497.dita#eqfr5mst-00497"/></li>
+          <li><xref href="eqfr5mst-00497-A.dita#eqfr5mst-00497-A"/></li>
+          <li><xref href="eqfr5mst-00498.dita#eqfr5mst-00498"/></li>
+          <li><xref href="eqfr5mst-00499.dita#eqfr5mst-00499"/></li>
+          <li><xref href="eqfr5mst-00500.dita#eqfr5mst-00500"/></li>
+          <li><xref href="eqfr5mst-00500-A.dita#eqfr5mst-00500-A"/></li>
+          <li><xref href="eqfr5mst-00501.dita#eqfr5mst-00501"/></li>        
+          <li><xref href="eqfr5mst-00502.dita#eqfr5mst-00502"/></li>
+          <li><xref href="eqfr5mst-00503.dita#eqfr5mst-00503"/></li>
+          <li><xref href="eqfr5mst-00504.dita#eqfr5mst-00504"/></li>
+          <li><xref href="eqfr5mst-00505.dita#eqfr5mst-00505"/></li>
+          <li><xref href="eqfr5mst-00505-A.dita#eqfr5mst-00505-A"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00505-B.dita#eqfr5mst-00505-B"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00505-C.dita#eqfr5mst-00505-C"/></li>
+          <li><xref href="eqfr5mst-00506.dita#eqfr5mst-00506"/></li>
+          <li><xref href="eqfr5mst-00507.dita#eqfr5mst-00507"/></li>
+          <li><xref href="eqfr5mst-00508.dita#eqfr5mst-00508"/></li>
+          <li><xref href="eqfr5mst-00508-A.dita#eqfr5mst-00508-A"/></li>
+          <li><xref href="eqfr5mst-00509.dita#eqfr5mst-00509"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00509-A.dita#eqfr5mst-00509-A"/></li>
+          <li><xref href="eqfr5mst-00510.dita#eqfr5mst-00510"/></li>
+          <li><xref href="eqfr5mst-00511.dita#eqfr5mst-00511"/></li>
+          <li><xref href="eqfr5mst-00512.dita#eqfr5mst-00512"/></li>
+          <li><xref href="eqfr5mst-00512-A.dita#eqfr5mst-00512-A"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00512-B.dita#eqfr5mst-00512-B"/></li>
+          <li><xref href="eqfr5mst-00513.dita#eqfr5mst-00513"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00515-A.dita#eqfr5mst-00515-A"/></li>
+          <li><xref href="eqfr5mst-00517.dita#eqfr5mst-00517"/></li>
+<!-\-NEW-\-><li><xref href="eqfr5mst-00517-A.dita#eqfr5mst-00517-A"/></li>          
+          <li><xref href="eqfr5mst-00518.dita#eqfr5mst-00518"/></li>
+          <li><xref href="eqfr5mst-00519.dita#eqfr5mst-00519"/></li>
+        </ul>-->
+    </p>
+  </body>
+</topic>

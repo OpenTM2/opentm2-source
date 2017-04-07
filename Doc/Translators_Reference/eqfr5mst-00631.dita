@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00631">
+  <title>Set colors</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body> 
+    <p>You can modify the default settings by clicking <b><u>O</u>ptions =&gt; <u>C</u>olor...</b>
+      from the menu bar (it is necessary to activate the translation view).</p>
+    <fig id="eqfsetcolor" expanse="column">
+      <title>Set Colors Window</title>
+      <image placement="break" href="eqfsetcolor.gif"><alt>Figure shows Set Colors Window</alt></image>
+    </fig>
+  </body>
+</topic>

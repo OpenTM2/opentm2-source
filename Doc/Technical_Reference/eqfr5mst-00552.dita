@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00552">
+  <title>User exit entry points for context-dependent translations</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><indexterm>Lotus Notes<indexterm>markup table<indexterm>with user
+            exit</indexterm></indexterm></indexterm><indexterm>user exit<indexterm>for LOTUSNGD
+          markup table</indexterm></indexterm><indexterm>LOTUSNGD markup table<indexterm>user exit
+          for</indexterm></indexterm><indexterm>context information<indexterm>in Lotus Notes
+          elements</indexterm></indexterm>The following user exit entry points support
+      context-dependent translations, where translation proposals and automatic translations not
+      only depend on text matches but also on the type of document containing the text. These entry
+      points are designed to support the translation of Lotus Notes and Domino design elements, such
+      as Notes database files, template files, and application templates. When <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> imports these documents (using the
+      LOTUSNGD markup table), it maintains context-dependent information about these design elements
+      together with existing translations in the Translation Memory. If the user exit is used by the
+      markup table, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> uses the context
+      information and the translation proposals to identify matches on the segments to be
+      translated. <ul>
+        <li><xref href="eqfr5mst-00553.dita#eqfr5mst-00553"/> is called once when a markup table is
+          loaded. It returns information about the number and the names of context strings used in
+          the Translation Memory, and it controls (based on the availability of context information)
+          whether further context information processing is performed.<indexterm>user
+              exit<indexterm>entry
+            point<indexterm>EQFGETCONTEXTINFO</indexterm></indexterm></indexterm></li>
+        <li><xref href="eqfr5mst-00554.dita#eqfr5mst-00554"/> is called before a translated segment
+          is saved in the Translation Memory. It gets the context strings from the user exit and
+          passes them to the Translation Memory.<indexterm>user exit<indexterm>entry
+                point<indexterm>EQFGETSEGCONTEXT</indexterm></indexterm></indexterm></li>
+        <li><xref href="eqfr5mst-00555.dita#eqfr5mst-00555"/> is called subsequently for every
+          segment during the analysis of a document and updates the user exit with the context
+          strings from the Translation Memory for the current segment.<indexterm>user
+              exit<indexterm>entry
+            point<indexterm>EQFUPDATECONTEXT</indexterm></indexterm></indexterm></li>
+        <li><xref href="eqfr5mst-00556.dita#eqfr5mst-00556"/> is called for every segment and
+          compares and ranks a segment's context information against Translation Memory
+            proposals.<indexterm>user exit<indexterm>entry
+                point<indexterm>EQFCOMPARECONTEXT</indexterm></indexterm></indexterm></li>
+      </ul><keyword conref="common-symbols.dita#common-symbols/tm4w"/> uses these user exit entry
+      points to support the translation of Lotus Notes forms that contain the Form, Subform, Title,
+      and Subtitle context strings.</p>
+  </body>
+</topic>

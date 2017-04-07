@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00555">
+<title>EQFUPDATECONTEXT</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFUPDATECONTEXT</indexterm></indexterm><indexterm>EQFUPDATECONTEXT</indexterm>
+<p><i>EQFUPDATECONTEXT</i> is called subsequently
+during the analysis of a document. If the current segment in the Translation
+Memory contains context information, this function updates the user
+exit with the context strings for this segment.</p>
+<p>The retrieved context strings are used to identify exact context
+matches with the <i>EQFCOMPARECONTEXT</i> function.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFUPDATECONTEXT</kwd><delim>(</delim><var>pSeg</var><sep>,</sep></groupseq>
+<groupseq><var>pContextStrings</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pSeg</var></synph></pt>
+<pd>The pointer to a zero-terminated UTF-16 string containing the
+text of the current segment.</pd></plentry>
+<plentry><pt><synph><var>pContextStrings</var></synph></pt>
+<pd>The pointer to a UTF16 buffer containing the current context
+strings and receiving the updated context strings. This buffer has
+a size of MAX_CONTEXT_LEN(4096) characters. The context strings are
+stored as a list of UTF-16 strings, and the list is terminated by <codeph>0x0000</codeph>.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The return code indicates whether context strings could be updated.</p>
+</section></refbody></reference>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="linesandwords">
+<title>Working with lines and words</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor provides default key combinations
+for manipulating lines and words within a document.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="2*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Task</entry>
+<entry valign="top" rowsep="1">Key or Menu</entry>
+<entry valign="top" rowsep="1">Comment</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Delete character <indexterm>editor functions<indexterm>deleting
+characters</indexterm></indexterm><indexterm>deleting<indexterm>characters</indexterm></indexterm></entry>
+<entry valign="top">Delete or Backspace key</entry>
+<entry valign="top">Deletes the character where the cursor is currently
+positioned, or the previous character.</entry></row>
+<row>
+<entry valign="top">Delete line <indexterm>editor functions<indexterm>deleting lines</indexterm></indexterm><indexterm>deleting<indexterm>lines</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Deletes the line where the cursor is currently
+positioned.</entry></row>
+<row>
+<entry valign="top">Delete until tag <indexterm>editor functions<indexterm>deleting
+text until next markup tag</indexterm></indexterm><indexterm>deleting<indexterm>text
+until next markup tag</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Deletes all characters from the current cursor
+position up to the next tag.</entry></row>
+<row>
+<entry valign="top">Delete word <indexterm>editor functions<indexterm>deleting words</indexterm></indexterm><indexterm>deleting<indexterm>words</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Removes the term where the cursor is located.</entry></row>
+<row>
+<entry valign="top">Find and replace <indexterm>editor functions<indexterm>find
+and replace terms</indexterm></indexterm><indexterm>finding and replacing
+terms</indexterm></entry>
+<entry valign="top">Edit menu, "Find and replace"</entry>
+<entry valign="top">Locates the required term and replaces it as specified.</entry></row>
+<row>
+<entry valign="top"><indexterm>lines<indexterm>inserting</indexterm></indexterm><indexterm>inserting a line</indexterm>Insert line <indexterm>editor functions<indexterm>inserting
+a line</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Inserts a line after the line where the cursor
+is currently positioned.</entry></row>
+<row>
+<entry valign="top"><indexterm>lines<indexterm>joining</indexterm></indexterm><indexterm>joining lines</indexterm>Join lines <indexterm>editor functions<indexterm>joining lines</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Joins the current line with the following one.</entry></row>
+<row>
+<entry valign="top"><indexterm>lines<indexterm>splitting</indexterm></indexterm><indexterm>splitting a line</indexterm>Split line <indexterm>editor functions<indexterm>splitting lines</indexterm></indexterm></entry>
+<entry valign="top">To be assigned</entry>
+<entry valign="top">Splits the line at the current cursor position.</entry></row>
+<row>
+<entry valign="top"><indexterm>lines<indexterm>truncating</indexterm></indexterm><indexterm>truncating lines</indexterm>Truncate line <indexterm>editor functions<indexterm>truncating
+lines</indexterm></indexterm></entry>
+<entry valign="top">Ctrl+Delete</entry>
+<entry valign="top">Deletes all characters from the current cursor
+position until the end of the line.</entry></row>
+<row>
+<entry valign="top"><indexterm>undoing an action</indexterm>Undo <indexterm>editor functions<indexterm>undoing an action</indexterm></indexterm></entry>
+<entry valign="top">Alt+Backspace</entry>
+<entry rev="oct00" valign="top">Restores the original state as it
+was before an action was performed. You can undo up to five preceding
+operations.</entry></row>
+<row>
+<entry valign="top"><indexterm>lines<indexterm>wrapping</indexterm></indexterm><indexterm>wrapping lines</indexterm>Wrap line <indexterm>editor functions<indexterm>wrapping lines</indexterm></indexterm></entry>
+<entry valign="top">Edit menu, "Line wrap (toggle)"</entry>
+<entry valign="top">Set wrapping at margin column on or off.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

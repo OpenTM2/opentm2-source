@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="dicstr4">
+<title>Dictionary search criteria</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>search criteria</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>To search for one or more dictionary entries, the specified term can be
+used as one of the following search criteria:</p>
+<p>
+<dl>
+<dlentry><dt>Headword</dt>
+<dd>The dictionary entry for the specified term is retrieved.</dd></dlentry>
+<dlentry><dt>Synonyms</dt>
+<dd>All entries that have the specified term in the synonym field of the
+dictionary entry are retrieved.</dd></dlentry>
+<dlentry><dt>Related terms</dt>
+<dd>All entries that have the specified term in the related terms field
+of the dictionary entry are retrieved.</dd></dlentry>
+<dlentry><dt>Abbreviations</dt>
+<dd>All entries that have the specified term in the abbreviation field of
+the dictionary entry are retrieved.</dd></dlentry>
+<dlentry><dt>Neighborhood</dt>
+<dd>If the specified term exists, it is listed together with terms preceding
+and following it in alphabetical order. If not, the terms that would precede
+and follow it are listed.</dd></dlentry>
+<dlentry><dt>Compounds</dt>
+<dd>All compounds that begin with the specified term are retrieved and displayed
+as a list. For example, if you search for the term <b>data</b>,
+the possible compounds that would be retrieved are <b>data processing</b>, <b>data model</b>, and <b>data processing
+division</b>.</dd></dlentry>
+</dl></p>
+<p>The first four entry fields can only be used as search criteria when they
+exist at the entry level shown in the following table. The entry fields are:</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Entry field</entry>
+<entry valign="top" rowsep="1">Level</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Headword</entry>
+<entry valign="top">Entry</entry></row>
+<row>
+<entry valign="top">Synonym</entry>
+<entry valign="top">Sense</entry></row>
+<row>
+<entry valign="top">Other Related Terms</entry>
+<entry valign="top">Sense</entry></row>
+<row>
+<entry valign="top">Abbrev./Fullform</entry>
+<entry valign="top">Sense</entry></row>
+</tbody>
+</tgroup>
+</table>
+<p>In the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> default entry structure, these fields are defined at these
+levels.</p>
+<p>If you are importing an SGML dictionary file and want to use any of the
+above search criteria, see <xref href="sgmtags.dita#sgmtags"/> for the SGML
+tags required.</p>
+</body></topic>

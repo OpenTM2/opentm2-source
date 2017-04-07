@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00252-3E" rev="GF_07122015">
+  <title>Synchronization (Upload and Download) with WEB-based Shared Translation Memory Server</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>The panel <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator</q> supports a 
+       <q>real time memory replication</q> with the server. In the left hand <q>Available</q> window all existing 
+       memories are listed, but they are <b>not</b> actively replicated with the server. You can select the memory you want 
+       to replicate, and move it to the <q>Selected</q> list window on the right-hand side. After having moved one or more 
+       translation memories to the <q>Selected</q> list window, the memories automatically start to be synchronized with server.
+       This means, that the segments of the <b>local</b> translation memory are uploaded to server, and that segments 
+       of the WEB-based Translation Memory are download to the client.</p>
+    <fig id="SharedMemoryReplicator" expanse="column">
+      <title>The panel <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator.</title>
+      <image placement="break" href="SharedMemoryReplicator.gif">
+        <alt>The panel <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Memory Replicator.</alt>
+      </image>
+    </fig>
+    <p>If you don&apos;t want a memory to be synchronized with the server, you can just move it from <q>Selected</q> to the 
+       <q>Available</q> list window.</p> 
+    <p>The <q>Replication interval</q> (in seconds) can be adjusted. The bigger the interval for memory replication 
+       is defined, the longer it takes to synchronize the local translation memory with the server translation memory. 
+       So it is better to set the <q>Replication interval</q> between 5 to 15 seconds. But there is no general rule – 
+       observe the systems behaviour, and set the interval-time to a value where your infrastructure is supported the best.</p>
+  </body>
+</topic>

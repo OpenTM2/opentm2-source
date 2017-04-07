@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00419">
+  <title><!--rev=wst-->Subject Area Selection</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>subject areas<indexterm>Subject Area</indexterm></indexterm>
+      <indexterm>Subject Area</indexterm>
+      <p>The "select subject areas" window is shown when the "Change preselected subject areas"
+        button in the MT Job dialog window is pressed. It allows the preselection of subject
+        areas:</p>
+      <fig expanse="column">
+        <title>Select Subject Areas</title>
+        <image placement="break" href="mt5.gif">
+          <alt>Figure shows Select Subject Areas</alt>
+        </image>
+      </fig>
+      <p>On the left hand side the available subject areas are displayed. The right hand side
+        displays the list of selected subject areas.</p>
+      <p>To add subject areas to the selected subject area list check one or more subject areas and
+        press the "&gt;" button. The checked subject areas will be added to the list of selected
+        subject areas. Use the '+'-sign in front of subject areas to open hidden branches. Use the
+        '-' sign to hide opened branches.</p>
+      <p>To removed subject areas from the selected subject area list select one or more subject
+        areas and press the '&lt;' button. The selected subject areas will be removed from the
+        list.</p>
+      <p>If you are done presse the "OK" button to return to the MT Job dialog.</p>
+    </section>
+  </refbody>
+</reference>

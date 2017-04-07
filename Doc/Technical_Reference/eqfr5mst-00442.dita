@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00442">
+  <title>EQFQUERYEXITINFO</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EQFQUERYEXITINFO</indexterm>
+      <indexterm>programming interface calls<indexterm>EQFQUERYEXITINFO</indexterm></indexterm>
+      <p>The entry point<i> EQFQUERYEXITINFO</i>in QUERYEXIT_ADDFILES mode is called by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> during folder export when a markup
+        table having a user exit is added to the exported folder.</p>
+      <p> If the user exit requires other files beside the markup table (.TBL) file, the user exit
+        DLL and the .markup table control file (.CHR) to be exported and imported with the folder it
+        should place a list of these files in the supplied buffer area.</p>
+      <p>The list of files is a comma separated list of file names terminated by a null character (C
+        string syntax).</p>
+      <p>The file names may not contain wildcard characters.</p>
+      <p>All files are specified with their relative path in the \EQF directory.</p>
+      <p>Files not located in the \EQF directory cannot be exported and imported using folder
+        import.</p>
+      <p>Example:</p>
+      <p>The file list "TABLE\ADDFILE.CHR,WIN\MYDLL.DLL,WIN\LOCALE\XYZ.CNV" will export the files
+        \OTM\TABLE\ADDFILE.CHR, \OTM\WIN\MYDLL.DLL and the file \OTM\WIN\LOCALE\YXZ.CNV in the
+        exported folder. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> versions prior
+        to TP603 will only import the files contained in the \OTM\TABLE directory, files in other
+        directories will be ignored.</p>
+      <p>If the user exit places a list of additional files in the supplied buffer it should return
+        a return code of zero all other values are assumed to be error codes.</p>
+      <p>In the future there will be other modes of the entry point EQFQUERYEXITINFO, so the
+        requested mode should be checked by the user exit.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFQUERYEXITINFO</kwd>
+          <delim>(</delim>
+          <var>pszTagTable</var>
+          <sep>,</sep>
+          <var>usMode</var>
+          <sep>,</sep>
+          <var>pszBuffer</var>
+          <sep>,</sep>
+          <var>usBufLen</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt><synph><var>pszTagTable(PSZ)</var></synph> — input</pt>
+          <pd>The name of the active tag table; e.g. "IBMHTM32"</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>usMode(USHORT)</var></synph> — input</pt>
+          <pd>Mode of the function, currently on "QUERYEXIT_ADDFILES" is being used</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>pszBuffer(PSZ)</var></synph> — input</pt>
+          <pd>Points to a buffer which will receive the list of additional markup table files</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>usBufLen(USHORT)</var></synph>— input</pt>
+          <pd>Length of the supplied buffer area in number of bytes</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Return codes</title>
+      <dl>
+        <dlentry>
+          <dt>USHORT (zero = function completed successfully)</dt>
+          <dd/>
+        </dlentry>
+      </dl>
+      <p>EXAMPLE:</p>
+      <codeblock>USHORT APIENTRY16 EQFQUERYEXITINFO
+(
+  PSZ pszTagTable,                     // name of the markup table, e.g. "IBMHTM32"
+  USHORT usMode,                       // type of information being queried
+  PSZ pszBuffer,                       // buffer area receiving the information 
+                                          returned by the exit
+  USHORT usBufLen                      // length of buffer area
+)
+{
+switch( usMode )
+{
+case QUERYEXIT_ADDFILES:
+  strcpy( pszBuffer, "TABLE\MYINFO.CTL,WIN\MYDLL.DLL" );
+  break;
+default:
+  usRC = 1;                       // mode is not supported by user exit
+  } /* endswitch */
+} /* end of function EQFQUERYEXITINFO */
+In this sample the files "\OTM\TABLE\MYINFO.CTL" and "\OTM\WIN\MYDLL.DLL"  
+are exported within the exported folder package.</codeblock>
+    </section>
+  </refbody>
+</reference>

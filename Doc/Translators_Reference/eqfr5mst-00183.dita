@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00183" rev="GF_07122015">
+  <title>Spellchecking Documents or Folders</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+<!--    <section/>-->
+    <section>
+<!--      <title/>-->
+      <indexterm>document<indexterm>checking their spelling</indexterm></indexterm>
+      <indexterm>spellchecking<indexterm>documents</indexterm></indexterm>
+      <p>A translated document can contain typos or misspelled words. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+         offers a spellchecking function you can use at any time during translation.</p>
+      <p>Spellchecking is supported for all languages for which the language support is installed. For each misspelled word, 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> shows a correction proposal, which you can accept, overwrite, or skip.</p>
+      <p>Note that only the spelling of <b>translated</b> segments is checked.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>
+        <ul>
+          <li>The language support file for the <b>target</b> language of the document must be installed.</li>
+          <li>No spellchecking is supported for the following languages: Romanian, Slovene, Croation, Slovakian, Lithuania, Latvia, Estonia.</li>
+          <li rev="GF_07122015">In case of performing the spellchecking on multi-selected documents, the <b>target language</b> must be the same.
+            In case of <q>mixed target languages</q>, an error message (EQF0674) appears, indicating the issue. Before continuing the 
+            spellchecking, ensure to only select documents with the same target language.</li>
+        </ul>
+      </p>
+    </section>
+
+    <section rev="GF_07122015">
+      <title>Calling sequence</title>
+      <p>Spellchecking in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can not only be performed inside the 
+         <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, but it can be run either on one or more selected 
+         <b>folders</b>, or one or more selected <b>documents</b> of a selected folder. In case of multi-selected folders 
+         or documents, the spellchecking is performed on all documents selected. Once the spellchecking has completed on one 
+         document, it automatically moves to the next document etc., until the last segment in the last document has been reached.</p>
+
+      <note><b><q>Resuming stopped spell-checking</q></b>: in case of running the spell checking on multiple documents, and in case the 
+        spell check window is cancelled, the current document stays open in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>. 
+        In order to <q>resume</q> the spell checking of the previously selected group of documents, select <q>Spellcheck</q> 
+        ==&gt; <q>File</q>.</note>
+
+      <p>Outside the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, the spellchecking can be started as follows:
+        <ul>
+          <li>Select one or more <b>folders</b> in the folder list window, and click on <q>File</q> --&gt; <q>Spellcheck...</q>.
+              Alternatively right-mouse click into the list of selected folders, and select <q>Spellcheck...</q> from the context menu.</li>
+          <li>Select one or more <b>documents</b> in the document list window of a selected folder, and click on 
+              <q>File</q> --&gt; <q>Spellcheck...</q>. Alternatively right-mouse click into the list of selected folders, and select 
+              <q>Spellcheck...</q> from the context menu.</li>
+        </ul>  
+      </p>
+    </section>
+    
+    <section>
+      <p>The <q>classic</q> way to perform spellchecking on translated segments is to run it inside the 
+        <keyword conref="common-symbols.dita#common-symbols/xlenv"/>.</p>
+      <p>If you are not already in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, start it by selecting: 
+        <ol>
+          <li>A document from the <q>Document List</q> window</li>
+          <li><b>Open</b> from the <b>File</b> menu</li>
+          <li>The <q>Translation</q> window</li>
+          <li><b>File…</b> from the <b>Spellcheck</b> menu</li>
+        </ol>
+      </p>
+      <p>The Spellcheck function starts immediately at the beginning of the translated document, and the <q>Spellcheck</q> 
+         window (see <xref href="#eqfr5mst-00183/spellcheckwin"/>) is displayed.
+         <required-cleanup><indexterm>windows<indexterm>Spellcheck</indexterm></indexterm></required-cleanup>
+         <fig id="spellcheckwin" expanse="column">
+           <title>Spellcheck window</title>
+             <image placement="break" href="eqfb7s7h.gif">
+               <alt>Figure shows Spellcheck window</alt>
+             </image>
+         </fig>
+      </p>
+    </section>
+
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Misspelled word</pt>
+          <pd>The first word in the document that is misspelled or which is not contained in the language support file.</pd>
+        </plentry>
+        <plentry>
+          <pt>Similar Words</pt>
+          <pd>A list of correctly spelled alternatives for the misspelled word. Double-click the correctly spelled 
+              word to select it. Or, click <b>Skip</b> to continue with the next misspelled word without selecting 
+              any of the alternatives. For some words, this list may be empty.</pd>
+        </plentry>
+        <plentry>
+          <pt>Change to</pt>
+          <pd>The word selected as the correctly spelled one. You can overtype it if you need a new spelling.</pd>
+        </plentry>
+      </parml>
+      <p><b>You can accept a spelling in several ways by selecting:</b> 
+        <parml>
+          <plentry>
+            <pt>Change</pt>
+            <pd>To accept the spelling in the <b>Change to</b> field.</pd>
+          </plentry>
+          <plentry>
+            <pt>Addendum</pt>
+            <pd>To add a new spelling to the target language support file. Then this spelling will not be shown as misspelled anymore.</pd>
+          </plentry>
+          <plentry>
+            <pt>Temp Add</pt>
+            <pd>To add the new spelling temporarily to the target language support file. When you leave 
+                <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, this new spelling is not saved.</pd>
+          </plentry>
+        </parml>
+      </p>
+      <p>When all misspelled words have been either changed or skipped, a message appears telling you that spellchecking is complete.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The corrections you accepted are substituted for the misspelled words in both the document and the 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+    </section>
+  </refbody>
+</reference>

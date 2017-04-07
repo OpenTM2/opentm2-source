@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00304">
+<title>Creating an exclusion list</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>creating<indexterm>exclusion lists</indexterm></indexterm><indexterm>terminology lists<indexterm>creating exclusion lists</indexterm></indexterm><indexterm>exclusion lists<indexterm>creating</indexterm></indexterm>
+<p>You can create an exclusion list from an existing new terms list or found
+terms list. This procedure is explained in <xref href="eqfr5mst-00309.dita#eqfr5mst-00309"/>.</p>
+<p>You can also create an exclusion list from the <q>New Exclusion List</q>
+window or the <q>Edit Exclusion List</q> window.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The <q>Exclusion Lists</q> window is active.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select <b>New…</b> from the <b>File</b> menu.</p>
+<p>The <q>New Exclusion List</q> window is displayed.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>The upper list box is empty. Here you can define the terms for the new
+exclusion list: 
+<ul>
+<li>To add a term, press Enter and type a term in the empty line.</li>
+<li>To delete a term already entered, mark it with the mouse and press Enter.</li>
+<li>To change a term already entered, overtype it. Pasting from the clipboard
+is also supported.</li>
+</ul></p>
+<parml>
+<plentry><pt>Name</pt>
+<pd>Type the name of the new exclusion list.</pd></plentry>
+</parml>
+<p>To save the terms in the new exclusion list, select the <b>Create</b> button.</p>
+<p>If you do not want to create the exclusion list anymore, select the <b>Cancel</b> button.</p>
+</section>
+<section><title>Results</title>
+<p>If you selected the <b>Create</b> button, the exclusion
+list is created with the terms entered and you can use it in the analysis
+of a document.</p>
+<p>If you selected the <b>Cancel</b> button, no new exclusion
+list is created.</p>
+</section></refbody></reference>

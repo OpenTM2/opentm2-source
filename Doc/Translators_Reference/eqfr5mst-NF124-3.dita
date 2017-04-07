@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF124-3" rev="GF_09092015_2">
+  <title>Adding Folder Name in Title Bar</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>While being in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> workbench, the 
+       <q>build-in</q> function (this function can not be selected or de-selected) <q>Adding folder name 
+       in title bar</q> allows to see to which folder the selected document belongs to - the information 
+       is displayed in the <b>title</b> bar. The same functionality is used inside the translation 
+       editor, so that a user can see to which folder the edited document belongs to.</p>
+  </body>
+</topic>

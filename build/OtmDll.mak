@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 # OTMDLL.MAK - Makefile for Startup code and resource DLL
-# Copyright (c) 2016, International Business Machines
+# Copyright (c) 2016,2017 International Business Machines
 # Corporation and others.  All rights reserved.
 #------------------------------------------------------------------------------
 
@@ -382,7 +382,7 @@ $(_DLL)\OTMDLL.DLL:		$(_OBJ)\EQFCOPYR.OBJ \
 						$(_OBJ)\EQFTMMV.OBJ \
 						$(_OBJ)\EQFSEGEXPORT.OBJ \
 						$(_OBJ)\MarkupPluginMapper.OBJ \
-						$(_OBJ)\SpecialCharDlg.OBJ
+						$(_OBJ)\SpecialCharDlg.OBJ 
 
 #						$(_OBJ)\eqfx_api.obj \
 #						$(_OBJ)\eqfx1api.obj \

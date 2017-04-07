@@ -246,9 +246,11 @@
 #define  EXT_OF_DICPROP ".PRO"     // extension of dictionary properties
 #define  COMPLETED_TASK   USER_TASK + 1
 
-#define MAX_FIELDS_FOR_DICT 38    // max number of fields per dictionary
+//#define MAX_FIELDS_FOR_DICT 38    // max number of fields per dictionary
                                   // (is dictated by entryfield limit in
                                   //  dictionary edit)
+// GQ 2017/01/19 there is no restriction for the number of fields in a dialog anymore, so we could increase the max field value
+#define MAX_FIELDS_FOR_DICT 100    // max number of fields per dictionary 
 
 
 //new dialog flag to show if entry structure given via sgml or not
@@ -604,6 +606,9 @@ typedef struct _DIMPIDA
  HWND         hwndToCombo;                  // handle of "to dictionary" combobox in standard open dialog
  CHAR szImportDir[MAX_EQF_PATH];         // import directory name
  ULONG ulImportDirLength;                // length of import directory name
+ CHAR_W       szErrorMsgParm[MAX_PATH];  // buffer for the parameter of error messages
+ BOOL         fIgnoreFieldNotInDictError;// TRUE = ignore fields which are not defined in the dictionary
+
 } DIMPIDA, *PDIMPIDA;
 
 typedef struct _DORGIDA

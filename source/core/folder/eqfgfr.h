@@ -242,7 +242,9 @@ typedef struct _FOLFINDLASTUSED
    CHAR_W    szAndFindInSource[MAX_FINDCHANGE_LEN+1];// last used "and find in source" string
    BOOL      fApplyBatchList;                    // true = apply a batch find/replace list
    BOOL      fRespectLineFeeds;                  // TRUE = break lines at line feeds, FALSE = ignore line feeds and show text as a single block
-   CHAR      szFiller[6492];                     // room for future enhancements
+   COLORREF  aclrForeground[40];                 // array with user defined foreround colors
+   COLORREF  aclrBackground[40];                 // array with user defined background colors
+   CHAR      szFiller[6332];                     // room for future enhancements
 } FOLFINDLASTUSED, *PFOLFINDLASTUSED;
 
 // structure passed to/from batch list result dialog
@@ -257,6 +259,21 @@ typedef struct _BATCHLISTENTRYDATA
 
 // number of pushbuttons at the bottom of the global find&replace window
 #define NUM_OF_GFR_BUTTONS 6
+
+// list of different text types
+// main entry types (the value is the base index into the color and name table)
+#define GFR_NORMAL_ENTRY     0              /* text in normal entry */
+#define GFR_SELECTED_ENTRY   7              /* text in selected entry */  
+#define GFR_FOCUS_ENTRY     14              /* text in entry with input focus */
+
+// subtext defines (added to the main entry type gives the index into the color and name table)
+#define GFR_NORMAL_TEXT         0
+#define GFR_FOUND_TEXT          1
+#define GFR_TOBECHANGED_TEXT    2
+#define GFR_CHANGED_TEXT        3
+#define GFR_CHANGETO_TEXT       4
+#define GFR_CHANGEDTO_TEXT      5
+#define GFR_ADDSEGMENTDATA_TEXT 6 
 
 /**********************************************************************/
 /* Instance data area (IDA) for find/change dialog                    */
@@ -392,6 +409,12 @@ typedef struct _FOLFINDDATA
   RECT        rcOrgOptsAndDocsGB;               // original size and position of options and document groupbox
   RECT        rcOrgResultGB;                    // original size and position of results groupbox
   CHAR_W      szColTextBuffer[MAX_SEGMENT_SIZE*8]; // buffer for the complete text of a column
+
+  // current color settings
+  COLORCHOOSERDATA ColorData;
+  
+  // font to be used for result area and othere controls
+  HFONT hFontControl;
 } FOLFINDDATA, *PFOLFINDDATA;
 
 
@@ -615,10 +638,10 @@ VOID  GFR_ResetSearchPosition
 );
 
 // draw single text string and break text exceeding the right side boundary
-void GFR_DrawText( HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, DWORD dwBackColor, DRAWTYPE DrawType );
+void GFR_DrawText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, int iColorBaseIndex, DRAWTYPE DrawType );
 
 // draw multi line text
-void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, DWORD dwBackColor, DRAWTYPE DrawType );
+void GFR_DrawMultiLineText( PFOLFINDDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt, PSZ_W pszString, int iLen, int iLineHeight, int iColorBaseIndex, DRAWTYPE DrawType );
 
 /*! \brief Draw a single line in the result listview control
   \param pIda pointer to global find and replace instance data area

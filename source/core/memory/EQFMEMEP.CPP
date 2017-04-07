@@ -2285,18 +2285,39 @@ USHORT MemFuncExportMem
 {
   USHORT      usRC = NO_ERROR;         // function return code
 
-  // prepare a new import or continue current one
-  if ( pData->fComplete )              // has last run been completed
+  // when running in COMPLETE_IN_ONE_CALL_OPT mode we use our own data area to be independent of other API calls running in parallel
+  if ( lOptions & COMPLETE_IN_ONE_CALL_OPT )
   {
-    // prepare a new analysis run
-    pData->usProgress = 0;
-    usRC = MemFuncPrepExport( pData, pszMemName, pszOutFile, lOptions );
+    PFCTDATA pPrivateData = (PFCTDATA)malloc( sizeof( FCTDATA ) );
+    memset( pPrivateData, 0, sizeof( FCTDATA ) );
+    pPrivateData->fComplete = TRUE;
+    pPrivateData->usProgress = 0;
+
+    usRC = MemFuncPrepExport( pPrivateData, pszMemName, pszOutFile, lOptions );
+    if ( usRC == 0 )
+    {
+      while ( !pPrivateData->fComplete )
+      {
+        usRC = MemFuncExportProcess( pPrivateData );
+      }
+    }
+    free( pPrivateData );
   }
   else
   {
-    // continue current analysis process
-    usRC = MemFuncExportProcess( pData );
-  } /* endif */
+    // prepare a new import or continue current one
+    if ( pData->fComplete )              // has last run been completed
+    {
+      // prepare a new analysis run
+      pData->usProgress = 0;
+      usRC = MemFuncPrepExport( pData, pszMemName, pszOutFile, lOptions );
+    }
+    else
+    {
+      // continue current analysis process
+      usRC = MemFuncExportProcess( pData );
+    } /* endif */
+  }
   return( usRC );
 } /* end of function MemFuncExportMem */
 

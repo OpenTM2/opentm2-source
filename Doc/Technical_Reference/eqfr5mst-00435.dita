@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00435">
+<title>EQFGETDICT</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFGETDICT</indexterm><indexterm>programming interface calls<indexterm>EQFGETDICT</indexterm></indexterm>
+<p><i>EQFGETDICT</i> retrieves the selected dictionary
+word and copies it into the provided buffer.</p>
+<p><codeph>EQF_UP</codeph> or <codeph>EQF_DOWN</codeph> scrolls the contents
+of the <q>Dictionary</q> window in the selected direction, if possible. <codeph>EQF_LOOKUP</codeph> can
+be used to retrieve the selected dictionary lookup term. The appropriate
+return code is set if the dictionary lookup is pending or no term
+is selected. <codeph>EQF_UP</codeph>, <codeph>EQF_DOWN</codeph>, and <codeph>EQF_LOOKUP</codeph> are
+defined in the file <codeph>EQFTWBS.H</codeph>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFGETDICT</kwd><delim>(</delim><var>usNum</var><sep>,</sep><var>pszBuffer</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>usNum(USHORT)</var></synph> — input</pt>
+<pd>The number of the selected dictionary word (0...9, EQF_UP,
+EQF_DOWN, EQF_LOOKUP).</pd></plentry>
+<plentry><pt><synph><var>pszBuffer(PSTRING)</var></synph> — output</pt>
+<pd>The buffer for the dictionary word. It must have a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFERR_ENTRY_NOT_AVAIL</dt>
+<dd>The selected dictionary entry is not available.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The selected dictionary term is available and copied into the
+provided buffer.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>If the selected dictionary word is not available, a warning message
+is issued.</p>
+</section></refbody></reference>

@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |      Copyright (C) 1990-2016, International Business Machines              |
+# |      Copyright (C) 1990-2017, International Business Machines              |
 # |      Corporation and others. All rights reserved                           |
 # +----------------------------------------------------------------------------+
 
@@ -47,7 +47,6 @@
 !include $(_BLD)\OtmMarkupTablePlugin.MAK
 !include $(_BLD)\UserMarkupTablePlugin.MAK
 !include $(_BLD)\OtmCleanupPlugin.mak
-!include $(_BLD)\S2TMfcBasedExe.mak
 !include $(_BLD)\OtmToolsLauncherPlugin.mak
 !include $(_BLD)\OpenTM2ToolsLauncher.mak
 !include $(_BLD)\OtmGetToolInfo.mak

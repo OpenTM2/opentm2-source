@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00410">
+  <title>Correcting the drive letter information of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> files</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>Many <keyword conref="common-symbols.dita#common-symbols/tm4w"/> files contain drive letter information. 
+         When these files are copied from one machine to another machine, or copied from one drive letter to 
+         another drive letter, the files can not be used anymore and are shown as marked as defect in the 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> list windows. The tool OTMADL corrects the drive 
+         letter settings of the specified file so that the files can be processed as usual.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMADL</indexterm>
+      <indexterm>commands<indexterm>OTMADL</indexterm></indexterm>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OTMADL</kwd>
+        </groupseq>
+        <groupchoice>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>FOL</kwd>
+            <oper>=</oper>
+            <var>folder</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>MEM</kwd>
+            <oper>=</oper>
+            <var>mem</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>DIC</kwd>
+            <oper>=</oper>
+            <var>dictionary</var>
+          </groupseq>
+        </groupchoice>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/FOL =<i>folder</i></pt>
+          <pd>folder specifies the name of a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+              folder whose drive letter settings will be corrected</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEM=<i>mem</i></pt>
+          <pd>mem specifies the name of a Translation Memory whose drive letter settings will be corrected</pd>
+        </plentry>
+        <plentry>
+          <pt>/DIC =<i>dictionary</i></pt>
+          <pd>dictionary specified the name of a dictioanry whose drive letter settings will be corrected</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. 
+            You may not use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example show how to use the OTMADL command.</p>
+      <p>Enter the OTMADL command as follows:</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Example</title>
+          <codeblock>otmadl /fol=showme</codeblock>
+          <p>In this example the drive letter of the folder showme and the drive letter of all of its documents is corrected</p>
+        </section>
+<!--      </required-cleanup>-->
+    </example>
+  </refbody>
+</reference>

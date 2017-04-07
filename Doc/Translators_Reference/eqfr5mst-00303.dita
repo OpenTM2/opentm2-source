@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00303">
+<title>Creating a list of new terms or found terms</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>terminology lists<indexterm>creating lists of new terms</indexterm></indexterm><indexterm>terminology lists<indexterm>creating lists of found terms</indexterm></indexterm><indexterm>creating<indexterm>lists of found terms</indexterm></indexterm><indexterm>creating<indexterm>lists of new terms</indexterm></indexterm><indexterm>new terms list<indexterm>creating</indexterm></indexterm><indexterm>found terms list<indexterm>creating</indexterm></indexterm>
+<p>New terms lists and found terms lists are created during analysis of a
+document. </p>
+</section>
+<section><title>Prerequisites</title>
+<ul>
+<li>At least one document must exist.</li>
+<li>At least one dictionary must exist.</li>
+</ul>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The document in the <q>Document List</q> window</li>
+<li><b>Analyze…</b> from the <b>File</b>
+menu</li>
+<li><b>Create lists</b> in the <q>Analyze Documents</q> window</li>
+<li><b>Create list of new terms</b> or <b>Create
+list of found terms</b> in the <q>List Settings</q> window</li>
+<li>Any dictionaries to be used</li>
+<li><b>Set</b> to return to the previous window</li>
+<li><b>Analyze</b> to begin the analysis and the creation of
+the selected terminology lists</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<p>For a detailed description of the options see <xref href="eqfr5mst-00135.dita#eqfr5mst-00135"/>. </p>
+</section>
+<section><title>Results</title>
+<p>The terminology lists are created according to your specifications. </p>
+</section></refbody></reference>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF124-1" rev="GF_09092015_2">
+  <title>Re-import document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The function <q>Re-Import document</q> allows to re-import a document from within the editor
+      in case the source file is changed frequently. This avoids to manually process each single
+      document re-import step.</p>
+    <p><b><u>Basic Information</u></b>: <ol>
+        <li>The function only works for documents which have been imported on the machine from which
+          the reload function is started. If the document has been imported using a <q>folder
+          import</q> or a <q>document import in internal format</q>, the function will not be
+          available. The function will also not be available when the original document is not
+          accessible - e.g. it resides on a network drive which is not available at this time or the
+          external document has been deleted.</li>
+        <li>The document re-import will not overwrite the original document properties, only the
+          document time stamps and the completion rate will be adjusted.</li>
+        <li>The analysis step will use the analysis options which were active at the time where the
+          last analysis was executed on the folder containing the document. To ensure that no
+          translation work is lost the <q>Automatic substitution</q> option is generally used even
+          when the option was not active during the last <q>manual</q> analysis run.</li>
+        <li>When the newly re-imported and re-analyzed document is opened in the translation editor,
+          the segment which was active at the time the re-import function was started will be made
+          the active one. It may happen that the segmentation is slightly different due to the
+          changed document source file and that the activated segment is not the correct one.</li>
+        <li>A key-combination can be assigned to the re-import document function. This is performed
+          via <q>Options</q>, <q>Keys</q>, panel <q>Assign Keys</q>, function <q>Re-import
+          document</q>.</li>
+      </ol>
+    </p>
+    <p>The process to re-import a document while being in the translation editor is started by going to 
+       <q>File</q>, <q>Re-Import document</q>.
+    </p>  
+    <p>
+    <b><u>This starts the following process</u></b>:
+      <ol>
+        <li>Close the translation editor.</li>
+        <li>Import the document.</li>
+        <li>Analyze the document with the previously used analysis settings.</li>
+        <li>Open the analyzed document in the translation editor.</li>
+        <li>Position the cursor in the segment which was active when the <q>Re-Import</q> process was started.</li>
+      </ol>
+    </p>
+    <p>See also the folder properties window on page <xref href="eqfr5mst-00215.dita#eqfr5mst-00215"/>.</p>
+  </body>
+</topic>

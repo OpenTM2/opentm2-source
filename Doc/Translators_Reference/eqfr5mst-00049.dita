@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00049">
+  <title>Displaying the original of a translation proposal</title>
+    <prolog>
+       <metadata>
+         <keywords>
+           <indexterm>Translation Memory matches<indexterm>displaying their sources</indexterm></indexterm>
+           <indexterm>matches<indexterm>displaying their sources</indexterm></indexterm>
+         </keywords>
+       </metadata>
+    </prolog>
+    <body>
+      <p>To view the source of a translation proposal double-click anywhere within the <q>Translation Memory</q> window. The 
+        <q>Source of Proposal(s)</q> window shows the original text of a proposal found in the Translation Memory, for example, the English
+        original of a German translation. The original text of an exact match is preceded by <codeph>[0]</codeph>, that of a fuzzy match 
+        by <codeph>[f]</codeph>. This window also shows the segment that is currently active in the original document. The source of
+        a proposal is displayed below the currently active segment. These segments are compared with one another, and differences are 
+        indicated by color.</p>
+      <p>You can change the colors by selecting <b>Colors...</b> from the <b>Options</b> menu of the <q>Translation</q> window.</p>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> indicates the correspondence and differences between the source text
+        of a found proposal and the currently active source text. This helps you determine how strongly you can rely on a translation proposal. 
+        If the source of the proposal differs from the segment currently to be translated, do not take the match as is, but change it
+        so that the translation matches the original you are currently translating.</p>
+      <p>The following gives you an example how <keyword conref="common-symbols.dita#common-symbols/tm4w"/> indicates differences: 
+        <ul>
+          <li>Terms that occur in the source of the translation proposal but not in the currently active source segment. 
+            <p>Current segment:
+              <codeblock>0 - These are the descriptions of the products that
+                will eventually be shown at the 2000 fair.</codeblock></p>
+            <p> Translation proposal (German):
+              <codeblock>1[f] - Dies sind die Beschreibungen der Produkte, die dann
+                auf der COMDEX Messe 2000 gezeigt werden.</codeblock></p>
+            <p> Source of proposal:
+              <codeblock>1[f] - These are the descriptions of the products that
+                will eventually be shown at the 2000 <u>COMDEX</u> fair.</codeblock></p>
+            <p>The part that differs is underlined here. The proposal must be altered to
+              reflect the meaning of the current segment.</p>
+          </li>
+          <li>Terms that are different in the source of the match compared to the currently active segment. 
+            <p>Current segment:
+              <codeblock>0 - These are the descriptions of the products that
+                will eventually be shown at the 2000 fair.</codeblock></p>
+            <p>Proposal (German):
+              <codeblock>1[f] - Dies sind die Beschreibungen einiger Produkte, die
+                dann auf der Messe 2000 gezeigt werden.</codeblock></p>
+            <p>Source of proposal:
+              <codeblock>1[f] - These are the descriptions of <b>some</b> products that
+                will eventually be shown at the 2000 fair.</codeblock></p>
+            <p>The part that differs is shown in bold. The proposal must be changed to reflect the meaning of the current segment.</p>
+          </li>
+          <li>Terms that occur in the currently active segment but not in the source of the proposal. 
+            <p>Current segment:
+              <codeblock>0 - These are the descriptions of the products that
+                will eventually be shown at the 2000 fair.</codeblock></p>
+            <p>Proposal (German):
+              <codeblock>1[f] - Dies sind die Beschreibungen der Produkte, die
+                auf der Messe 2000 gezeigt werden.</codeblock></p>
+            <p>Source of proposal:
+              <codeblock>1[f] - These are the descriptions of the products that will
+                <calloutlabel>?</calloutlabel> be shown at the 2000 fair.</codeblock></p>
+            <p>The part that differs is indicated by a question mark. The proposal must be altered to reflect the meaning of the current segment. 
+               That means, a translation for the term <codeph>eventually</codeph>, which is not included in the source of the proposal but in the 
+               current source, must be added at the <calloutlabel>?</calloutlabel> position.</p>
+          </li>
+        </ul>
+      </p>
+      <p>Text that is identical in the active segment and in the source of the proposal is not highlighted. However, you can have the identical 
+         parts displayed in a color of your choice.</p>
+    </body>
+</topic>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF122-2" rev="GF_18032015_2">
+  <title>Additional analysis options to protect text</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Additional selection criterias are added to the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> analysis panel. The new option 
+      protects text in XMP, SCREEN, MSGNUM, CODEBLOCK, and META sections of dedicated file formats and their dedicated markup tables.</p> 
+    <p>Using this new option, each section-type can be protected individually without affecting the other section types.</p> 
+    <p>For the analysis-API call EqfAnalyzeDoc the five new options PROTECTXMP_OPT, PROTECTMSGNUM_OPT, PROTECTMETA_OPT, PROTECTSCREEN_OPT, and
+      PROTECTCODEBLOCK_OPT can be used to activate the section protection for the given tag group. The old option PROTECTXMPSCREEN_OPT will protect 
+      all five sections types. </p>
+  </body>
+</topic>

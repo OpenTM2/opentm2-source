@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00409">
+  <title>Checking the folder history data</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> collects all processing steps
+        and count information for a folder in a history log file. This history log file is the base
+        for the creation of calculation reports. The tool CHKCALC can be used to verify that the
+        folder history log file is not corrupted.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMCHKCALC</indexterm>
+      <indexterm>commands<indexterm>OTMCHKCALC</indexterm></indexterm>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OTMCHKCALC</kwd>
+        </groupseq>
+        <groupchoice>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>FLD</kwd>
+            <oper>=</oper>
+            <var>folder</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>HLOG</kwd>
+            <oper>=</oper>
+            <var>histlog</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>FXP</kwd>
+            <oper>=</oper>
+            <var>fxpfile</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>ALL</kwd>
+          </groupseq>
+        </groupchoice>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/FLD =<i>folder</i></pt>
+          <pd>folder specifies the name of a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder which is to be checked</pd>
+        </plentry>
+        <plentry>
+          <pt>/HLOG=<i>histlog</i></pt>
+          <pd>histlog specified the fully qualified file name of a history log file to be checked</pd>
+        </plentry>
+        <plentry>
+          <pt>/FXP =<i>fxpfile</i></pt>
+          <pd>fxpfile specified the fully qualified file name of an exported <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder</pd>
+        </plentry>
+        <plentry>
+          <pt>/ALL</pt>
+          <pd>The /ALL switch tells the tool to check the history log information of all 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folders</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p> The following example show how to use the CHKCALC command..</p>
+      <p>Enter the CHKCALC command as follows:</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Example</title>
+          <codeblock>otmchkcalc /fld=showme</codeblock>
+          <p>In this example the history log information of folder showme is checked.</p>
+          <codeblock>otmchkcalc /all</codeblock>
+          <p>In this example the history log information of all folders is checked.</p>
+        </section>
+<!--      </required-cleanup>-->
+    </example>
+  </refbody>
+</reference>

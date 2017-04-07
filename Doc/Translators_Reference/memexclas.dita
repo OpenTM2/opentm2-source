@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memexclas">
+<title>Exporting a Translation Memory</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>Translation Memory<indexterm>OTMBATCH: exporting
+(from command area)</indexterm></indexterm><indexterm>exporting<indexterm>OTMBATCH:
+Translation Memory databases (from command area)</indexterm></indexterm>
+<p>If you want to export a Translation Memory, using a command typed
+in your system’s command area instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows
+might be more convenient.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>exporting Translation
+Memory databases</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">exporting
+Translation Memory databases</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you export a Translation
+Memory from the <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command line. Note that
+lowercase letters in a parameter name are optional and need not be
+typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>MEMEXP</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>OUT</kwd><oper>=</oper><var>mem_file</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>TYpe</kwd><oper>=</oper>
+<groupchoice>
+<groupseq><var>ASCII</var></groupseq>
+<groupseq><var>ANSI</var></groupseq>
+<groupseq><var>UTF16</var></groupseq>
+<groupseq><var>TMXUTF8</var></groupseq>
+<groupseq><var>TMXUTF16</var></groupseq></groupchoice></groupseq>
+<groupseq><delim>/</delim><kwd>MEm</kwd><oper>=</oper><var>memdb</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>OVerwrite</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">NO</kwd><kwd>YES</kwd></groupchoice></groupseq>
+<groupseq importance="optional">
+<groupchoice>
+<groupseq><delim>/</delim><var>QUIET</var></groupseq>
+<groupseq><delim>/</delim><var>QUIET=NOMSG</var></groupseq></groupchoice></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=MEMEXP</pt>
+<pd><codeph>MEMEXP</codeph> specifies that you want to export a Translation
+Memory.</pd></plentry>
+<plentry><pt>/OUT=<synph><var>mem_file</var></synph></pt>
+<pd><synph><var>mem_file</var></synph> specifies the name (along with the drive and
+directory) of a file where the Translation Memory specified in <synph><var>memdb</var></synph> is
+to be exported to. The file must have the extension EXP.</pd></plentry>
+<plentry><pt>/TYpe=</pt>
+<pd>
+<ul>
+<li><codeph>ASCII</codeph> specifies that the encoding of the exported memory
+should be in ASCII and the format is SGML (EXP).</li>
+<li><codeph>ANSI</codeph> specifies that the encoding of the exported memory
+should be in ANSI and the format is SGML (EXP). </li>
+<li><codeph>UTF16</codeph> specifies that the encoding of the exported memory
+should be in Unicode (UTF-16) and the format is SGML (EXP).</li>
+<li><codeph>TMXUTF8</codeph> specifies that the encoding of the exported
+memory should be in UTF-8 and the format is TMX. </li>
+<li><codeph>TMXUTF16</codeph> specifies that the encoding of the exported
+memory should be in UTF-16 and the format is TMX.</li>
+</ul></pd></plentry>
+<plentry><pt>/MEm=<synph><var>memdb</var></synph></pt>
+<pd><synph><var>memdb</var></synph> specifies the name of the Translation Memory
+that you want to export.</pd></plentry>
+<plentry><pt>/OVerwrite=</pt>
+<pd>Specifies whether an existing Translation Memory file is to
+be overwritten when exporting the Translation Memory.</pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify the parameter in this format, you are not prompted
+with any message window. If you do not specify any of the /quiet paramaters,
+a message window pops up whenever an error occurs or when the task
+has successfully completed.</pd></plentry>
+<plentry><pt>/QUIET=NOMSG</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. Any error message text is routed to stdout.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*).</note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to export a Translation Memory
+using the OTMBATCH command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=memexp /out=d:\mymemo.exp /type=external /mem=oldmemo</codeblock></section></required-cleanup>
+<p>In this example, the Translation Memory <codeph>oldmemo</codeph> is exported
+to the file <codeph>d:\mymemo.exp</codeph>.</p>
+</example></refbody></reference>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="shareprofile">
+  <title>Sharing a profile</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>profile<indexterm>sharing</indexterm></indexterm>
+        <indexterm>editor functions<indexterm>sharing a profile</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You may want to provide all translators or those working on the same project with the same
+      profile settings and shortcuts. You can do this in the following way: <ol>
+        <li>Prepare all settings on one workstation.</li>
+        <li>Stop <keyword conref="common-symbols.dita#common-symbols/tm4w"/> on all the workstations
+          to receive the shared profile.</li>
+        <li>Copy the file <codeph>eqfprow.prp</codeph>, which contains all settings, from directory
+            <codeph>\otm\property</codeph> to a diskette or a drive shared among all
+          translators.</li>
+        <li>Put the copied file in the <codeph>\otm\property</codeph> directory of each translator’s
+          workstation.</li>
+      </ol></p>
+  </body>
+</topic>

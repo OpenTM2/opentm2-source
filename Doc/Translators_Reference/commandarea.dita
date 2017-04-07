@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="commandarea">
+<title>Working from the command area (OTMBATCH)</title>
+<prolog><metadata><keywords>
+
+<indexterm>OTMBATCH commands</indexterm>
+<indexterm>command area instructions</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Using the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows is only one way of performing
+translation tasks with this product. An alternative way is to type
+instructions directly in the system’s command area.</p>
+<p>To start a task from the command area: 
+<ol>
+<li>Type a command and its parameters in your operating system’s
+command area (next to the command prompt) according to the command
+syntax described in the following chapters.</li>
+<li>Press Enter.</li>
+</ol></p>
+<p>Note that lowercase letters in a parameter name are optional and
+need not be typed. A mixture between uppercase and lowercase letters
+is allowed. However, a muddled letter sequence like in <codeph>OVerWRiTe</codeph> must
+not be used. The parameters can be entered in any order whatever.</p>
+<p>To process several commands in sequence, type the individual commands
+into a batch file (<codeph>*.BAT</codeph> or <codeph>*.CMD</codeph>) using any
+text editor. You can execute these commands by starting the batch
+file.</p>
+<p>To avoid retyping of long text strings in commands, you can also
+type a command and its parameters in a text editor, which is capable
+of the <b>Copy to clipboard</b> function. You can then <b>paste</b> the text string from the clipboard directly
+into your system’s command area and start the task. </p>
+</body></topic>

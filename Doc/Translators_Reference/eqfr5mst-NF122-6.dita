@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-NF122-6" rev="GF_18032015_2">
+  <title>XML Preview function</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This function is part 1 of 2, and the final implementation is done in the next version of 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>A new output format "Translatable text only" has been added to the document export function "Validation format".
+      To export a document in the "translatable text" format, check-mark "Translatable text only" in the section "Options" 
+      in the panel "Export documents".</p>
+  </body>
+</topic>

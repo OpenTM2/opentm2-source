@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="countsettingsas">
+<title><!--rev=as25032008-->Changing the layout of a report</title>
+<prolog><metadata><keywords>
+
+<indexterm>reports<indexterm>changing the layout</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The Calculating, Preanalysis, and Redundancy Reports have the same layout.
+However, you can change it according to your needs. The following sections
+explain the various rows and columns of a report and tell you what you can
+change.</p>
+</body></topic>

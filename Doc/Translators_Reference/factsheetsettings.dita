@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="factsheetsettings">
+  <title>Setting the factors for cost calculation</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>reports<indexterm>calculating the costs</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Documents can differ considerably with regard to their complexity. Some documents are easy to
+      translate while the translation of others is difficult and time-consuming. The complexity of a
+      document can also vary depending on the source language. <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> enables you to take into account such
+      language-dependent differences.</p>
+    <p>For each translation project you can specify different complexity and pay factors. The
+      factors can be reflected in the History, Calculating, Preanalysis, and Redundancy Reports.</p>
+    <p>Click the <q>FactSheet</q> tab of the <q>Create Counting Report</q> window to display the
+        <q>FactSheet</q> tabbed page (see <xref href="#factsheetsettings/ffsswin"/>).
+            <required-cleanup><indexterm>windows<indexterm>Create Counting Report — FactSheet
+            page</indexterm></indexterm></required-cleanup><fig id="ffsswin" expanse="column">
+        <title>Create Counting Report window — FactSheet page</title><image placement="break"
+          href="eqfb7s16y.gif"><alt>Figure shows Create Counting Report window — FactSheet
+            page</alt></image></fig></p>
+    <p>On this page, you can choose or specify the following options and parameters: <parml>
+        <plentry><pt>Column</pt>
+          <pd>Select the calculating factor for which you want to choose different complexity and
+            pay factors. You can choose one of the following: <parml>
+              <plentry><pt>Analysis Auto Subst</pt>
+                <pd>Contains the number of exact and exact-exact matches retrieved from a <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> during the analysis of the
+                  document.</pd></plentry>
+              <plentry><pt>Analysis Auto Subst 2</pt>
+                <pd>Has the same contents as, and replaces, the “Analysis Auto Subst“ column after
+                  the analyzed document is opened for translation.</pd></plentry>
+              <plentry><pt>Edit Auto Subst</pt>
+                <pd>Contains the number of exact matches retrieved from a <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> during the translation of
+                  the document using the “Automatic substitution” option from the <b>Translate</b>
+                  menu.</pd></plentry>
+              <plentry><pt>Exact Matches</pt>
+                <pd>Contains the number of exact matches copied from a <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> during the translation of
+                  the document using the Ctrl+<i>n</i> key.</pd></plentry>
+              <plentry><pt>Replace Matches</pt>
+                <pd>Contains the number of fuzzy replacement matches copied from a <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> during the translation of
+                  the document.</pd></plentry>
+              <plentry><pt>Fuzzy Matches</pt>
+                <pd>Contains the number of fuzzy matches copied from a <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> during the translation of
+                  the document. The fuzzy matches are broken down to matches that fit less than 70%,
+                  less than 90%, and over 90%.</pd></plentry>
+              <plentry><pt>Machine Matches</pt>
+                <pd>Contains the number of exact matches copied from an <keyword
+                    conref="common-symbols.dita#common-symbols/ITM"/> during the translation of the
+                  document.</pd></plentry>
+              <plentry><pt>Manually Translated</pt>
+                <pd>Contains the number of segments to be manually translated.</pd></plentry>
+            </parml>
+            <p>For a more detailed description of these options, refer to <xref
+                href="reportlayout.dita#reportlayout"/>.</p>
+            <p>You can change the complexity and pay factors for several or all columns of a report.
+              For example, if you want to specify different complexity and pay factors for the Exact
+              Matches and Manually Translated columns, proceed as follows: <ol>
+                <li>Select Exact Matches.</li>
+                <li>Select a category.</li>
+                <li>Specify a complexity factor.</li>
+                <li>Specify a pay factor.</li>
+                <li>Select Manually Translated. At this point of time, <keyword
+                    conref="common-symbols.dita#common-symbols/tm4w"/> saves your settings for the
+                  Exact Matches column.</li>
+                <li>Select a category and specify a complexity factor and a pay factor.</li>
+              </ol></p></pd></plentry>
+        <plentry><pt>Categories</pt>
+          <pd>Select the segments for which you want to choose different complexity and pay factors.
+            You can choose one of the following: <parml>
+              <plentry><pt>Simple (1..4 Words)</pt>
+                <pd>Segments with one to four words.</pd></plentry>
+              <plentry><pt>Medium (5..14 Words, mean)</pt>
+                <pd>Segments with five to 14 words.</pd></plentry>
+              <plentry><pt>Complex (&gt;= 15 Words)</pt>
+                <pd>Segments with more than 15 words.</pd></plentry>
+            </parml></pd></plentry>
+        <plentry><pt>Complexity factor</pt>
+          <pd>Specify a complexity for the selected column and category. This option enables you to
+            take into account the translation challenges that each language poses. <p>For example, a
+              Finnish sentence with more than 15 words might be more difficult to translate than an
+              English sentence of the same length. So, for a translation from Finnish, you might
+              want to specify a complexity factor of 2 for segments with more than 15 words that
+              need to be manually translated, whereas for a translation from English, you might want
+              to leave the complexity factor at 1.</p>
+            <p>The default complexity factor is 1.</p>
+          </pd></plentry>
+        <plentry><pt>Pay factor</pt>
+          <pd>Specify a number by which the amount of money defined in the <b>Local Currency</b>
+            fields is to be multiplied for the unit specified. <p>It is recommended that you specify
+              the same pay factor for an entire translation project.</p>
+            <p>The default pay factory is 1.</p></pd></plentry>
+        <plentry><pt>Unit</pt>
+          <pd>Select the unit on which your payment is based: <parml>
+              <plentry><pt>1 word</pt>
+                <pd>Payment is per word.</pd></plentry>
+              <plentry><pt>Standard line (10 words)</pt>
+                <pd>Payment is per line, which consists of 10 words on average.</pd></plentry>
+              <plentry><pt>Standard page (250 words)</pt>
+                <pd>Payment is per page, which consists of 250 words on average.</pd></plentry>
+            </parml></pd></plentry>
+        <plentry><pt>Local currency</pt>
+          <pd>Specify the amount of money to be paid for each unit and the currency.</pd></plentry>
+      </parml></p>
+    <p>
+      <b>Example:</b>
+    </p>
+    <p>The following figure shows the fact sheet of a Calculation Report that was created after the
+      translation was finished: 
+      <fig expanse="column">
+        <title>Calculating Report — Fact Sheet</title><image placement="break" href="eqfb7s161.gif"
+            ><alt>Figure shows Calculating Report — Fact Sheet</alt></image>
+      </fig></p>
+    <p>To achieve this result, you specify the following on the <q>FactSheet</q> page: <ol>
+        <li>Select <b>Analysis Auto Subst2</b> as column.</li>
+        <li>Select <b>Simple (1..4 Words)</b> as category.</li>
+        <li>Specify <b>0.5</b> for the complexity.</li>
+        <li>Select <b>Medium (5..14 Words, mean)</b> as category.</li>
+        <li>Specify <b>0.5</b> for the complexity.</li>
+        <li>Select <b>Complex (&gt;= 15 Words)</b> as category.</li>
+        <li>Specify <b>0.5</b> for the complexity.</li>
+        <li>Select <b>Exact Matches</b> as column.</li>
+        <li>Select <b>Simple (1..4 Words)</b> as category.</li>
+        <li>Specify <b>0.75</b> for the complexity.</li>
+        <li>Select <b>Medium (5..14 Words, mean)</b> as category.</li>
+        <li>Specify <b>0.75</b> for the complexity.</li>
+        <li>Select <b>Complex (&gt;= 15 Words)</b> as category.</li>
+        <li>Specify <b>0.75</b> for the complexity.</li>
+        <li>Select <b>Manually Translated</b> as column.</li>
+        <li>Select <b>Simple (1..4 Words)</b> as category.</li>
+        <li>Specify <b>1</b> for the complexity.</li>
+        <li>Select <b>Medium (5..14 Words, mean)</b> as category.</li>
+        <li>Specify <b>2</b> for the complexity.</li>
+        <li>Select <b>Complex (&gt;= 15 Words)</b> as category.</li>
+        <li>Specify <b>3</b> for the complexity.</li>
+        <li>Specify <b>Standard line (10 words)</b> as unit.</li>
+        <li>Specify <b>10 USD</b> as local currency.</li>
+      </ol></p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> calculates the costs by
+      multiplying each category with the complexity factor specified for that category. Each result
+      is multiplied with the pay factor specified. The sum is the number of payable words. Because
+      the unit is defined to be a standard line, the number of payable words is divided by 10. The
+      result is multiplied by the cost (“Local currency”) specified for a standard line. You then
+      receive the costs for the translation of this document.</p>
+  </body>
+</topic>

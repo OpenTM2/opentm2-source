@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00065">
+  <title>Translation Environment with a Thai document</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Translation Environment<indexterm>with RTF editor</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you open a Thai document, you see the usual three windows that make up the Translation Environment. In all windows Thai characters 
+      are properly displayed. You do not necessarily notice any differences because of the Rich Text Format editor, except that you can type and
+      edit Thai characters. </p>
+    <fig id="thai_trans_envir" expanse="column">
+      <title>Translation Environment with a Thai document</title>
+      <image placement="break" href="eqfb7s03f.gif">
+        <alt>Figure shows Translation Environment with a Thai document</alt>
+      </image>
+    </fig>
+    <p> The RTFEdit editor provides the same functions as the standard editor, with a few exceptions: 
+      <ul>
+        <li>Copying Translation Memory proposals with the Ctrl-&lt;<i>number_of_proposal</i>&gt; keys requires a non-Thai keyboard or the use of 
+          the numeric pad.<indexterm>copying<indexterm>Translation Memory proposals</indexterm></indexterm></li>
+        <li>When you open a document with a Thai source or target language with the RTFEdit editor, a Thai keyboard is automatically selected.</li>
+      </ul>
+    </p>
+    <p>Spellchecking is available from the Translation Environment, as described in <xref href="eqfr5mst-00183.dita#eqfr5mst-00183"/>. Note that 
+      no spelling aid is given for the Thai language.<indexterm>spellchecking<indexterm>Thai documents</indexterm></indexterm></p>
+  </body>
+</topic>

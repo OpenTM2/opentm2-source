@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00363">
+<title>Importing a dictionary</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title>Purpose</title><indexterm>dictionary<indexterm>importing (from command
+area)</indexterm></indexterm><indexterm>importing<indexterm>dictionaries (from command
+area)</indexterm></indexterm>
+<p>If you want to import a dictionary, using a command typed in your
+system’s command area instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows might
+be more convenient.</p>
+</section>
+<refsyn><title>Format</title><indexterm>OTMBATCH<indexterm>importing dictionaries</indexterm></indexterm><indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">importing dictionaries</indexterm></indexterm></indexterm>
+<p>The following syntax diagram describes how you import a dictionary
+from the <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command area. Note that
+lowercase letters in a parameter name are optional and need not be
+typed.</p>
+<syntaxdiagram>
+<groupseq><kwd>OTMBATCH</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>TAsk</kwd><oper>=</oper><kwd>DICIMP</kwd></groupseq>
+<groupseq><delim>/</delim><kwd>FIles</kwd><oper>=</oper><var>dict_file</var></groupseq>
+<groupseq><delim>/</delim><kwd>DIct</kwd><oper>=</oper><var>dict_name</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>OPtions</kwd><oper>=</oper>
+<groupchoice><kwd importance="default">COMBINE</kwd><kwd>REPLACE</kwd><kwd>IGNORE</kwd></groupchoice></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>PAssword</kwd><oper>=</oper><var>password</var></groupseq>
+<groupseq importance="optional"><delim>/</delim><kwd>QUIET</kwd></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt>/TAsk=DICIMP</pt>
+<pd><codeph>DICIMP</codeph> specifies that you want to import a dictionary.</pd></plentry>
+<plentry><pt>/FIles=<synph><var>dict_file</var></synph></pt>
+<pd>Specifies the name of the SGML file containing the dictionary
+that you want to import along with the drive and directory where it
+is located.</pd></plentry>
+<plentry><pt>/DIct=<synph><var>dict_name</var></synph></pt>
+<pd>Specifies the name of an existing dictionary to which the dictionary
+specified in <codeph>FIles</codeph> is to be imported to. It can be a local
+or a shared dictionary.</pd></plentry>
+<plentry><pt>/OPtions</pt>
+<pd>This parameter is particularly useful if the existing dictionary
+already contains entries. It specifies the following: 
+<ul>
+<li>REPLACE  The entries in the SGML (external)
+dictionary file replace the entries in the existing (internal) dictionary.</li>
+<li>IGNORE  Ignores the entries in the SGML
+(external) dictionary.</li>
+<li>COMBINE  Combines the entries in the SGML
+(external) dictionary file with the entries in the existing (internal)
+dictionary. This is the default. That means if nothing is specified,
+the system assumes that you want to combine the dictionary entries.</li>
+</ul></pd></plentry>
+<plentry><pt>/PAssword</pt>
+<pd><codeph>password</codeph> specifies the password of the dictionary
+to which the SGML file is to be imported (if this dictionary is write-protected).
+If the dictionary is write-protected and no password is entered, processing
+stops.</pd></plentry>
+<plentry><pt>/QUIET</pt>
+<pd>If you specify this parameter, you are not prompted with any
+message window. If you do not specify this parameter, a message window
+pops up whenever an error occurs or when the task has successfully
+completed.</pd></plentry>
+</parml>
+<note>You can type the commands in uppercase, lowercase,
+or in mixed-case letters. You may not use any wildcard characters,
+such as an asterisk (*). </note>
+</section>
+<example><title>Examples</title>
+<p>The following example shows how to import a dictionary using the
+OTMBATCH command.</p><required-cleanup>
+<section><title>Example</title>
+<codeblock>otmbatch /task=dicimp /files=d:\mymemo.sgm /options=replace /dict=newmemo</codeblock></section></required-cleanup>
+<p>In this example, the dictionary file <synph><var>mymemo.sgm</var></synph>, which
+is in external (SGML) format, is imported to the existing dictionary <codeph>newmemo</codeph>.
+The entries in <codeph>mymemo.sgm</codeph> replace the entries in <synph><var>newmemo</var></synph>. </p>
+</example></refbody></reference>

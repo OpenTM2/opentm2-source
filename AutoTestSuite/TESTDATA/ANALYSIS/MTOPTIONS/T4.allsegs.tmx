@@ -1,0 +1,84 @@
+﻿<?xml version='1.0' encoding="UTF-8"?>
+<tmx version="1.4">
+<header creationtoolversion="1.4.0.1" segtype="sentence" adminlang="en-us" srclang="en-US" o-tmf="OpenTM2" creationtool="OpenTM2" datatype="rtf" />
+   <body>
+      <tu tuid="1" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">1</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>This segment has no proposal at all. </seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+      <tu tuid="2" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">2</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>This sentence here as an exact memory proposal.</seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+      <tu tuid="3" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">3</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>And for this one here we have an Hamster match. </seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+      <tu tuid="4" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">4</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>This is the sample for a segment having a  machine match proposal. </seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+      <tu tuid="5" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">5</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>Here is a 72% fuzzy match for this text. </seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+      <tu tuid="6" datatype="rtf" creationdate="20161208T211055Z">
+      <prop type="tmgr:segNum">6</prop>
+      <prop type="tmgr:markup">EQFASCII</prop>
+      <prop type="tmgr:docname">MTOUTPUT.000</prop>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg>A segment  with a 64% fuzzy proposal and some more text following.</seg>
+      </tuv>
+      <tuv xml:lang="en-US">
+        <prop type="tmgr:language">English(U.S.)</prop>
+        <seg></seg>
+      </tuv>
+    </tu>
+    </body>
+</tmx>

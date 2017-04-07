@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00317">
+  <title>Changing a markup table</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>markup tables<indexterm>changing</indexterm></indexterm>
+        <indexterm>editing<indexterm>markup tables</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>A markup table can be changed by using two different methods: 
+      <ul>
+        <li>You can export an existing markup table from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> internal format to 
+          an SGML-based external format, which can be edited with any text editor. The contents of an exported markup table are described 
+          in terms of SGML statements, so you need to be familiar with SGML. After changes are made you need to import the markup table 
+          into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> before you can use it again. Follow these steps if you choose 
+          this method: 
+          <ul>
+            <li>Export an existing markup table from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, as described in 
+              <xref href="eqfr5mst-00320.dita#eqfr5mst-00320"/>. This ensures that you start with a markup table that has the correct SGML syntax.</li>
+            <li>Make a backup copy. The original markup tables provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+              cannot be reinstalled.</li>
+            <li>Change and replace the markup data in the exported file as required, as described in 
+              <xref href="eqfr5mst-00521.dita#eqfr5mst-00521"/>.</li>
+            <li>Before importing the external markup table, consider to rename the file to protect the original markup table until you are finished.</li>
+            <li>Import the external markup table, as described in <xref href="eqfr5mst-00321.dita#eqfr5mst-00321"/>. 
+              <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> performs a syntax check during the import. It does not import 
+                an incorrect markup table, so you need to correct it in its external format.</p>
+              <p>Note that an external markup table can be imported either under the old name or a new name.</p></li>
+          </ul>
+          <p>The disadvantages of this method are that you need to export and import the markup table and that you need to know SGML. 
+            Further, no syntax checking is provided (other than <keyword conref="common-symbols.dita#common-symbols/tm4w"/> refusing to 
+            import an improperly coded markup table).</p>
+          <p>The advantage is that extensive changes are faster. You can also use tools of choice to automate changes to markup tables, for 
+            example word processing macros.</p>
+          <p>For more detailed information see <xref href="eqfr5mst-00520.dita#eqfr5mst-00520"/>.</p></li>
+        <li>Within <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you can use the <q>Markup Table Properties</q> window to 
+          change, add, and remove properties of a markup table. The properties comprise all aspects of the content of a markup table. 
+          In addition, you can test your modifications immediately, and you can password-protect a markup table.
+            <p>The advantages of this method are that you do not need to leave <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+              to change a markup table and that less knowledge about SGML is required.</p>
+          <p>On the other hand, the graphical user interface might not be appropriate for extensive changes.</p>
+          <p>To actually change a markup table by means of the <q>Markup Table Properties</q> window, 
+            see <xref href="eqfr5mst-00322.dita#eqfr5mst-00322"/>.</p></li>
+      </ul>
+    </p>
+    <p>Before you change a markup table provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, it is recommended to make a 
+      backup copy of the original version because the original markup tables cannot be reinstalled. </p>
+  </body>
+</topic>

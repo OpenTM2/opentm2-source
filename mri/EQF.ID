@@ -3,7 +3,7 @@
   +----------------------------------------------------------------------------+
   |  Copyright Notice:                                                         |
   |                                                                            |
-  |      Copyright (C) 1990-2016, International Business Machines              |
+  |      Copyright (C) 1990-2017, International Business Machines              |
   |      Corporation and others. All rights reserved                           |  
   +----------------------------------------------------------------------------+
 */
@@ -386,6 +386,10 @@
 #define PID_FILE_MI_UPLOADTOSERVER    ID_TWBM_AAB+314
 #define PID_FILE_MI_DOWNFROMSERVER    ID_TWBM_AAB+315
 
+#ifndef FOR_OPENSRC
+  #define PID_FILE_MI_CHKPII    ID_TWBM_AAB+316
+#endif
+
 // start ID for menu items added by tool plugins
 #define ID_TWBM_AAB_TOOLPLUGINS ID_TWBM_AAB+340
 
@@ -658,10 +662,12 @@
 //| Another group of dialog IDs                                                |
 //+----------------------------------------------------------------------------+
 #define ID_DOCSHORT_DLG          20050 // Document long-to-short name dialog
+#define ID_SETCOLOR_DLG          20080 // general chooese colors dialog
 #define ID_RENAME_DLG            20100 // General object rename dialog
 #define ID_FOL_DELHLOG_DLG       20150 // confirmation dialog for the delete of history logs
 #define ID_FUZZYSEARCH_DLG       20200 // Fuzzy Search dialog
 #define ID_OPTION_DLG            20250 // Options dialog
+
 
 #define ID_ADDUSER_DLG           20270 // show add user dialog
 #define ID_REMOVEUSER_DLG        20280 // show remove user dialog

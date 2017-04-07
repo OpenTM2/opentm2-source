@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="xlmarch">
+  <title>Archiving a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>Translation Memory<indexterm>archiving</indexterm></indexterm>
+      <indexterm>archiving Translation Memory databases</indexterm>
+      <p>When you have finished a translation project you can archive the translated documents in
+        another or a new <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. You then have
+        a clean <keyword conref="common-symbols.dita#common-symbols/xlmem"/> without
+        redundancies.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>At least one segment of the document or documents you want to archive must have been
+        translated.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Folder List</q> or <q>Document List</q> window, depending on whether you want
+            to archive a single or all documents in a folder.</li>
+          <li>The folder or document.</li>
+          <li><b>Build Archive <keyword conref="common-symbols.dita#common-symbols/xlmem"/>…</b>
+            from the <b>Utilities</b> menu.</li>
+        </ol></p>
+      <p>The <q>Build Archive Translation Memory</q> window (see <xref
+          href="#xlmarch/buildarchxlmwin"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Build Archive <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"
+          /></indexterm></indexterm></required-cleanup><fig id="buildarchxlmwin" expanse="column">
+          <title>Build Archive <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            window</title><image placement="break" href="eqfb7s9a.gif"><alt>Figure shows Build
+              Archive window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Documents being searched</pt>
+          <pd>This box lists the documents that are searched for translated segments to be included
+            in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Archive into <keyword conref="common-symbols.dita#common-symbols/xlmem"/></pt>
+          <pd>Select an existing <keyword conref="common-symbols.dita#common-symbols/xlmem"/> or
+            type the name for a new <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in
+            which the documents are to be archived.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use as folder <keyword conref="common-symbols.dita#common-symbols/xlmem"/></pt>
+          <pd>Select this option if you want to use the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> as the new folder <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The documents are stored in the specified <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>. If you specified an existing <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>, you are asked whether you want to
+        overwrite its contents or merge the new entries with the existing ones.</p>
+    </section>
+  </refbody>
+</reference>

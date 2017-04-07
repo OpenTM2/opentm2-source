@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00415D.dita" rev="GF_06052015_2">
+  <title>Output created by the OtmMtEval tool</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <p>The OtmMtEval tool creates an UTF-8 encoded XML file. This file can be viewed using any browser like 
+         Mozilla Firefox or MS Internet Explorer, by applying the XSLT style sheet <q>MTEVAL.XSL</q>. 
+         Ensure that this XSLT style sheet (the <q>MTEVAL.XSL</q>) is located in the same directory the XML file is stored in.
+         <note>The original MTEVAL.XSL is part of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+               installation, and can be found in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+               directory <b>\otm\property\</b>).</note>
+      </p>
+      <p>The report consists of three main parts:
+        <ol>
+          <li>A <b>header</b> part</li>
+          <li>A <b>main report</b> part (which is the detailled folder list information)</li>
+          <li>A <b>summary</b> part</li>
+        </ol>
+        <p>The details of each part of the report are described in the next section.</p> 
+      </p>
+      <p>
+        <fig expanse="column">
+          <title>The MT-Evaluation report</title>
+          <image placement="break" href="OtmMtEvalReport.gif">
+            <alt>Figure shows the MT-Evaluation report</alt>
+          </image>
+        </fig>
+      </p>  
+        <!--        <fig expanse="column">
+          <title>The MT Evaluation header</title>
+          <image placement="break" href="mteval1.gif">
+            <alt>Figure shows MT Evaluation header</alt>
+          </image>
+        </fig> -->
+      <p>In the above example of a LOG file <b>header</b> (see the screen shot before), the following information is displayed: 
+        <ul>
+          <li>the <b>version of the OtmMtEval</b> tool used to create the report (see: <q>1.2.3.2103</q>)</li>
+          <li>the <b>report generation date</b> (see: <q>Tue Aug 04 08:44:54 2015</q>)</li>
+          <li>the <b>input specification</b> (see: <q>0_test_MT_2</q>)</li> 
+        </ul>
+      </p>
+      <p>The header is followed by a detailled <b>folder list information</b>.</p>
+        <!--        <fig expanse="column">
+          <title>The MT Evaluation folder list</title>
+          <image placement="break" href="mteval2.gif">
+            <alt>Figure shows the MT Evaluation folder list</alt>
+          </image>
+        </fig> -->
+      <p>For each evaluated <b>folder</b>, the listing shows the following <b>header information</b>: 
+        <ul>
+          <li>the <b>name of the folder</b> (see: <q>0_test_MT_2</q>)</li>
+          <li>the <b>MT settings</b> used for the latest analysis process (see: <q>No</q>)</li>
+        </ul>
+      </p>
+      <p>For each evaluated <b>folder</b>, the listing shows the following <b>detailled information</b>:
+        <ul>
+          <li>The <b>Segment ID</b></li>
+          <li>The <b>Words</b> in segment</li>
+          <li>The <b>Process Time</b> (in seconds)</li>
+          <li>The <b>Choice Time</b> (in seconds)</li>
+          <li>The <b>Think Time</b> (in seconds)</li>
+          <li>The <b>Edit Time</b> (in seconds)</li>
+          <li>The <b>Total Time</b> (in seconds)</li>
+          <li>The <b>Charcters Typed</b></li>
+          <li>The <b>Existing Proposals</b></li>
+          <li>The <b>Used Proposal</b></li>
+          <li>The <b>Autosubstituted</b> value (yes or no)</li>
+          <li>The <b>Time Stamp</b></li>
+          <li>The <b>Segment Source</b></li>
+          <li>The <b>MT metadata</b> value</li>
+        </ul>
+      </p>
+      <p>For each evaluated <b>folder</b>, the listing shows the following <b>Folder summary</b>:</p>
+        <ul>
+          <li>The type <q>Existing MT proposal</q> shows the amount of words in MT proposals <q>displayed</q> to the translator.</li>
+          <li>The type <q>Used MT proposal</q> shows the amount of words in MT proposals <b>used</b> by the translator.</li>
+          <li>The words for each of these two entries are devided into three categories of words in a segment, 
+              <q>Simple 1...4 words (per segment)</q>, <q>Medium 5...14 words (per segment)</q> and <q>Complex 15++ words (per segment)</q>.</li>
+          <li>Finally a total word count (summary of the three categories before).</li>
+        </ul>
+      <p>The detailled folder list information section is followed by a <b>folder list summary</b>.</p>
+        <ul>
+          <li>The <b>summary</b> is located at the end of each MT evaluation report.</li>
+          <li>The <b>summary</b> shows the number of processed folders (Folders processed).</li>
+          <li>The <b>summary</b> shows the counting unit (Words).</li>
+          <li>The three <b>types</b> of proposals are <q>Processed for MT</q>, <q>Existing MT proposals</q> and <q>Used MT proposals</q>.</li>
+          <li>The words for each type of proposals are devided into the three categories <q>Simple 1...4 words (per segment)</q>, 
+              <q>Medium 5...14 words (per segment)</q> and <q>Complex 15++ words (per segment)</q>.</li>
+          <li>A Total word count (summary of the three categories before).</li>
+        </ul>
+    </section>
+      <!--      <p>Each word count shows the words in <b>simple segments</b> (segments with 1 to 4 words), 
+         <b>medium segments</b> (segments with 5 to 14 words), and <b>complex segments</b> (15 or more
+         words), and the <b>summary</b> of these three categories.</p> -->
+
+      <!--      <p>The line <q>MT job data</q> <q>Processed for MT</q> lists the <b>total number of words</b>
+         which have been processed in the analysis. This word count is the number of words for which
+         there is no exact match in the translation memory databases.</p> -->
+
+      <!--      <p>The <q>MT job data</q> <q>Send to MT server</q> line lists the total number of words
+         of the segments send to the MT server. This word count may less than the <q>Total words
+         processed for MT</q> number as segments may have been filtered due to the specified filter
+         conditions or because the inline tagging of the some of the segments is not support by the MT system.</p> -->
+
+      <!--      <p>The <q>MT job data</q> <q>Received from the MT server</q> line lists the total
+         number of words of the segments received from the MT server.</p> -->
+
+      <!--      <p>For each document the word count of displayed MT proposals (shown in the memory lookup
+        window) and the word count of MT proposals actually used by the translator is shown.</p> -->
+
+<!--      <p>The <b>summary</b> is located at the end of the MT evaluation report: -->
+        <!--        <fig expanse="column">
+          <title>MT Evaluation summary</title>
+          <image placement="break" href="mteval3.gif">
+            <alt>Figure shows MT Evaluation summary</alt>
+          </image>
+        </fig> -->
+<!--      </p> -->
+<!--      <p>The summary shows the number of processed folders and the summary of the word counts of all folders.</p> -->
+<!--    </section> -->
+  </refbody>
+</reference>

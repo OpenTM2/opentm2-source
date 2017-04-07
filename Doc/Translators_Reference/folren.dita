@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folren">
+<title>Renaming a folder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>folder<indexterm>renaming</indexterm></indexterm><indexterm>renaming<indexterm>folders</indexterm></indexterm>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to give a folder a new name.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder to be deleted must not be open (that is, the <q>Document
+List</q> window for the folder must not be displayed).</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The folder from the <q>Folder List</q> window</li>
+<li><b>Rename</b> from the <b>File</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<parml>
+<plentry><pt>Rename to</pt>
+<pd>Type a new name for the folder.</pd></plentry>
+</parml>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Rename</b>, the folder and any
+references to it are renamed.</p>
+</section></refbody></reference>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="countmatch">
+  <title>Counting the number and type of matches in a document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>counting<indexterm>matches</indexterm></indexterm>
+      <indexterm>document<indexterm>counting matches in</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>counting matches from</indexterm></indexterm>
+      <indexterm>Translation Memory matches<indexterm>counting</indexterm></indexterm>
+      <indexterm>matches<indexterm>counting</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a facility for
+        counting the number and type of <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+        matches for one or more documents. The result is shown in a window and can be saved in a
+        file.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>At least one document must exist in the selected folder.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>At least one document from the <q>Document List</q> window</li>
+          <li><b>Count words…</b> from the <b>Utilities</b> menu</li>
+        </ol></p>
+      <p>The <q>Count Words</q> window (see <xref href="#countmatch/matchcnt"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Count
+          Words</indexterm></indexterm></required-cleanup><fig id="matchcnt" expanse="column">
+          <title>Count Words window</title><image placement="break" href="eqfb7s7c2.gif"><alt>Figure
+              shows Count Words window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>This box contains the list of the documents you selected in the <q>Document List</q>
+            window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Options</pt>
+          <pd>Select: <parml>
+              <plentry><pt><keyword conref="common-symbols.dita#common-symbols/xlmem"/> match
+                  information</pt>
+                <pd>To count the number and type of matches found in the <keyword
+                    conref="common-symbols.dita#common-symbols/xlmem"/> for the selected
+                  documents.</pd></plentry>
+              <plentry><pt>Count replace matches separately</pt>
+                <pd>To show the matches replaced automatically, in separate columns.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>Output to</pt>
+          <pd>In this block you define where you want the system to save the results: <parml>
+              <plentry><pt>Screen</pt>
+                <pd>The result of the word count is displayed on your screen. This option is
+                  selected automatically.</pd></plentry>
+              <plentry><pt>File</pt>
+                <pd>Select this option to also store the count results in a file. You can: <ul>
+                    <li>Accept the proposed file name.</li>
+                    <li>Type a file name of your choice.</li>
+                    <li>Click <b>Select…</b> to display the <q>Select File</q> window from where you
+                      can choose the file name without having to type it (for a detailed
+                      description, see <xref href="selfile.dita#selfile"/>).</li>
+                    <li>Select the format of the count result file. The supported formats are <ul>
+                        <li>ASCII (plain text)</li>
+                        <li>HTML</li>
+                        <li>XML </li>
+                      </ul></li>
+                  </ul></pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Count</b> to begin counting the matches.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The results of the word count are shown, for example, in the <q>Word Count Results -
+            <keyword conref="common-symbols.dita#common-symbols/xlmem"/> Matches</q> window (see
+          <xref href="#countmatch/wctmm"/>). <required-cleanup><indexterm>windows<indexterm>Word
+              Count Results — <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+              Matches</indexterm></indexterm></required-cleanup><fig id="wctmm" expanse="column">
+          <title>Word Count Results - <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            window</title><image placement="break" href="eqfb7s7i.gif"><alt>Figure shows Word Count
+              Results - window</alt></image></fig></p>
+      <p>The window contains the following columns: <dl>
+          <dlentry><dt>Documents</dt>
+            <dd>The name of the documents.</dd></dlentry>
+          <dlentry><dt>Total</dt>
+            <dd>The number of words in the documents.</dd></dlentry>
+          <dlentry><dt>Exact-Exact</dt>
+            <dd>The number of words in segments with identical matches.</dd></dlentry>
+          <dlentry><dt>Exact (1)</dt>
+            <dd>The number of words in segments having exactly one proposal.</dd></dlentry>
+          <dlentry><dt>Exact (2+)</dt>
+            <dd>The number of words in segments having more than one exact proposal.</dd></dlentry>
+          <dlentry><dt>Fuzzy</dt>
+            <dd>The number of words in segments with fuzzy proposals. If you did not select <b>Count
+                replace matches separately</b>, the number displayed also includes the number of
+              words in segments automatically replaced and automatically replaced in a fuzzy
+              match.</dd></dlentry>
+          <dlentry><dt>MachMatch</dt>
+            <dd>The number of segments translated by machine.</dd></dlentry>
+          <dlentry><dt>No match</dt>
+            <dd>The number of words in segments with no proposal.</dd></dlentry>
+        </dl></p>
+      <p>If you selected <b>Count replace matches separately</b>, you get the following fields in
+        addition: <dl>
+          <dlentry><dt>Replace</dt>
+            <dd>The number of words in segments automatically replaced.</dd></dlentry>
+          <dlentry><dt>FuzzyRepl</dt>
+            <dd>The number of words in segments automatically replaced in a fuzzy
+            match.</dd></dlentry>
+        </dl></p>
+      <p>If you selected the <b>File</b> output option, the results are stored in the same format in
+        the specified file.</p>
+      <p>Note that the criteria for fuzzy matches can be customized, as described in <xref
+          href="#unresolvedid/viewsysprop"/>. This also influences the <q>No match</q>
+          counter.<indexterm>fuzzy match overlap ratio<indexterm>impact on counting
+            matches</indexterm></indexterm></p>
+      <p>If there is no <keyword conref="common-symbols.dita#common-symbols/xlmem"/> match data
+        available for a document, for example because the document has not been analyzed yet or
+        neither the <b>Substitute exact matches in the documents automatically</b> options nor the
+          <b>Count <keyword conref="common-symbols.dita#common-symbols/xlmem"/> match
+          information</b> option was selected during analysis, the <q>Word Count Results - <keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/> Matches</q> window contains the text
+          <codeph>No match …</codeph>.</p>
+      <p>To return to the previous window, close the <q>Word Count Result — <keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/> Matches</q> window.</p>
+    </section>
+  </refbody>
+</reference>

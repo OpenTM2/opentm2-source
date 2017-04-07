@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="deawind">
+<title><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> help files</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>Windows help files</indexterm></indexterm>
+<indexterm>Windows help files</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>These files are used to define help texts for programs running
+under <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>. They can be saved as
+RTF documents.</p>
+<p>Import these documents using the EQFRTF markup table. </p>
+</body></topic>

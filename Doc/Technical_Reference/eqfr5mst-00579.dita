@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00579">
+<title>The PARSTOKEN structure</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<refbody>
+<section><p>This structure holds the token information of a token that is returned
+by the <i>ParsGetNextToken</i> function.</p></section>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Name</entry>
+<entry align="left">Usage </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">INT</entry>
+<entry colname="col2">iTokenID</entry>
+<entry colname="col3">The token ID of the token returned. The token
+ID represents the position of the tag in the markup table.
+<ul>
+<li>A token ID of <codeph>PARSTOKEN_ENDOFLIST</codeph> represents the end
+of the tag token list.</li>
+<li>A token ID of <codeph>PARSTOKEN_TEXT</codeph> (text token) represents
+text which is not recognized as a tag.</li>
+</ul></entry></row>
+<row>
+<entry colname="col1">INT</entry>
+<entry colname="col2">iStart</entry>
+<entry colname="col3">The start position (in characters, not bytes)
+of the token in the text area (see parameter <i>pszData</i> of
+the <i>ParsTokenize</i> or <i>ParsTokenizeW</i> function).</entry></row>
+<row>
+<entry colname="col1">INT</entry>
+<entry colname="col2">iLength</entry>
+<entry colname="col3">The length of the token (in number of characters,
+not bytes).</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">usFixedID</entry>
+<entry colname="col3">A fixed token ID, or <codeph>NULL</codeph> if none
+is specified for the tag in the markup table.</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">usAddInfo</entry>
+<entry colname="col3">Additional tag information, or <codeph>NULL</codeph> if
+none is specified for the tag in the markup table.</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">usClassID</entry>
+<entry colname="col3">A Class ID, or <codeph>NULL</codeph> if none is specified
+for the tag in the markup table.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</refbody></reference>

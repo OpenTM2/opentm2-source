@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tm652">
+<title>New features in TM 6.5.2</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<ul>
+<li>New match type "Modified auto-substituted" in validation/proofreading
+document export <xref href="exportdocumentvalidationformat.dita#exportdocumentvalidationformat"/></li>
+<li>New API calls to check for the existence of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+objects: EqfDictionaryExists <xref href="eqfdictionaryexists.dita#eqfdictionaryexists"/>, EqfDocumentExists <xref href="eqfdocumentexists.dita#eqfdocumentexists"/>, EqfFolderExists <xref href="eqffolderexists.dita#eqffolderexists"/>, EqfMemoryExists <xref href="eqfmemoryexists.dita#eqfmemoryexists"/></li>
+<li>OTMBATCH with /task=FLDPROP can now clear the list of read-only
+memories<xref href="changingfolderproperties.dita#changingfolderproperties"/> </li>
+</ul>
+</body></topic>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="ibmiddoc">
+<title>Update IBMIDDOC markup table for DTD changes in IDWB 3.7</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p><b>Purpose</b></p>
+<p>This enhancement garantuees support of new tagging added to IBMIDDOC.dtd</p>
+<p><b>Description</b></p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/>'s IBMIDDOC markup table has been enhanced to
+support new tags and attributes in IBMIDDOC.dtd. The relevant IBMIDDOC.dtd
+is the one added to the requirement database on 23/09/2002 together
+with the sample files SampleFile_37.idd and SampleFlyer_37.idd. The
+embedded screenshots show the segmented test files in TM using the
+new IBMIDDOC markup table.</p>
+<fig>
+<title>SampleFlyer_37.idd. </title><image placement="break" href="sampleflyer_37.gif"><alt>Figure shows Sample Flyer</alt></image></fig>
+</body></topic>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00524">
+  <title>SGML tags for markup table header</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>markup tables<indexterm>SGML tags</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following table contains the definition of the SGML tags that you can use in a markup
+      table header.</p>
+    <table id="sgml_tags_header" pgwide="0" frame="topbot">
+      <title>SGML tags for markup table header</title>
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="118*"/>
+        <colspec colname="col2" colwidth="369*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">SGML tag</entry>
+            <entry valign="top" rowsep="1">Definition</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">DESCRIPTION</entry>
+            <entry valign="top">Specifies a markup table description, which is shown in
+              the <q>Markup Table Properties</q> window and the <q>Markup Table List</q> window.
+            </entry>
+          </row>
+          <row>
+            <entry valign="top">DESCRNAME</entry>
+            <entry valign="top">Specifies a descriptive name for this markup table. For example, the
+              specification of <codeph>&lt;DESCRNAME&gt;ASCII&lt;/DESCRNAME&gt;</codeph> in the
+              markup table EQFASCII would give it the name ASCII. If nothing is specified, the file
+              name of the markup table is used.</entry>
+          </row>
+          <row>
+            <entry valign="top">CHARSET</entry>
+            <entry valign="top">Specifies the character set to be used for import and export of
+              documents that use this markup table. The documents will be converted using the
+              selected character set without the need to do the conversion in a user exit. Specify
+              one of the following character sets: <dl>
+                <dlentry><dt>ASCII</dt>
+                  <dd> </dd></dlentry>
+                <dlentry><dt>ANSI</dt>
+                  <dd> </dd></dlentry>
+                <dlentry><dt>UTF8</dt>
+                  <dd> </dd></dlentry>
+                <dlentry><dt>UNICODE</dt>
+                  <dd> </dd></dlentry>
+              </dl></entry>
+          </row>
+          <row>
+            <entry valign="top">SINGLESUBST</entry>
+            <entry valign="top">Specifies the substitution character to use for single character
+              substitution. The default character is <codeph>?</codeph>.</entry>
+          </row>
+          <row>
+            <entry valign="top">MULTSUBST</entry>
+            <entry valign="top">Specifies the substitution character to use for multiple character
+              substitution. The default character is <codeph>%</codeph>.</entry>
+          </row>
+          <row>
+            <entry valign="top">USEUNICODE</entry>
+            <entry valign="top">Specifies whether segmented source and target files in
+              subdirectories <codeph>SSOURCE</codeph> and <codeph>STARGET</codeph> are stored in
+              Unicode UTF-16 format. Specify one of the following: <dl>
+                <dlentry><dt>YES</dt>
+                  <dd> </dd></dlentry>
+                <dlentry><dt>NO</dt>
+                  <dd>This is the default.</dd></dlentry>
+              </dl></entry>
+          </row>
+          <row>
+            <entry colname="col1">REFLOW</entry>
+            <entry colname="col2">Specifies whether CRLF are allowed to be changed during
+              translation or not. EQFMRI is an example of a markup where RELOW is specified and set
+              to NO. Specify one of the following: <dl>
+                <dlentry><dt>YES</dt>
+                  <dd>This is the default.</dd></dlentry>
+                <dlentry><dt>NO</dt>
+                  <dd> </dd></dlentry>
+              </dl></entry>
+          </row>
+          <row>
+            <entry colname="col1">SEGMENTEXIT</entry>
+            <entry colname="col2">Contains the name of the user exit, if the markup table uses
+              one.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00567">
+<title>ParsMakeSGMLSegment</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsMakeSGMLSegment</indexterm></indexterm><indexterm>ParsMakeSGMLSegment</indexterm><indexterm>parser API<indexterm>ParsMakeSGMLSegment</indexterm></indexterm>
+<p><i>ParsMakeSGMLSegment</i> builds an SGML tagged
+segment as used in segmented files.</p>
+<p>If the segment is in Unicode format, use <xref href="eqfr5mst-00568.dita#eqfr5mst-00568"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsMakeSGMLSegment</kwd><delim>(</delim><var>hParser</var><sep>,</sep></groupseq>
+<groupseq><var>pSegment</var><sep>,</sep></groupseq>
+<groupseq><var>pszBuffer</var><sep>,</sep></groupseq>
+<groupseq><var>iBufferSize</var><sep>,</sep></groupseq>
+<groupseq><var>fSourceFile</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSER</entry>
+<entry colname="col2">hParser</entry>
+<entry colname="col3">The parser API handle, created by the <i>ParsInitialize</i> function.</entry></row>
+<row>
+<entry colname="col1">PPARSSEGMENT</entry>
+<entry colname="col2">pSegment</entry>
+<entry colname="col3">The pointer to the buffer that holds the segment
+data.</entry></row>
+<row>
+<entry colname="col1">CHAR</entry>
+<entry colname="col2">pszBuffer</entry>
+<entry colname="col3">The pointer to the buffer that receives the
+zero-terminated SGML-tagged segment. The buffer size for the segment
+should be at least twice the maximum segment size.</entry></row>
+<row>
+<entry colname="col1">INT</entry>
+<entry colname="col2">iBufferSize</entry>
+<entry colname="col3">The size of <i>pszBuffer</i>.</entry></row>
+<row>
+<entry colname="col1">BOOL</entry>
+<entry colname="col2">fSourceFile</entry>
+<entry colname="col3">
+<dl>
+<dlentry><dt>TRUE</dt>
+<dd>Create SGML for a segmented source file.</dd></dlentry>
+<dlentry><dt>FALSE</dt>
+<dd>Create SGML for a segmented target file.</dd></dlentry>
+</dl></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the segment is successfully built,
+or an error code.</p>
+</section></refbody></reference>

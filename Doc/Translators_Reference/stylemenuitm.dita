@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="stylemenuitm">
+<title>Style menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="2*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Menu</entry>
+<entry valign="top" rowsep="1">Function</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Protect</entry>
+<entry valign="top">The markup tags are shown but cannot be overwritten
+(see the example given in <xref href="changemarkupdisplay.dita#changemarkupdisplay/mds"/>).</entry></row>
+<row
+<entry valign="top">Unprotect</entry>
+<entry valign="top">The markup tags are shown and you can overwrite
+and change them.</entry></row>
+<row
+<entry valign="top">Hide</entry>
+<entry valign="top">The markup tags are not shown.</entry></row>
+<row>
+<entry valign="top">Shrink</entry>
+<entry valign="top">All markup tags outside segments are not shown.
+A replacement character is shown instead (see the example given in <xref href="changemarkupdisplay.dita#changemarkupdisplay/mds"/>).</entry></row>
+<row>
+<entry valign="top">Compact</entry>
+<entry valign="top">All markup tags are replaced with a replacement
+character to indicate the position of each tag (see the example given
+in <xref href="changemarkupdisplay.dita#changemarkupdisplay/mds"/>).</entry></row>
+<row
+<entry valign="top">Compact+1</entry>
+<entry valign="top">Markup tags are shown up to a length of 10 characters
+and cannot be changed. Longer markup tags are followed by three dots
+(…), for example <codeph>[Style=@Out…</codeph>.</entry></row>
+</tbody>
+</tgroup>
+</table>
+<p>The <b>status bar</b><ph> at the bottom of the window
+displays the following information from left to right:</ph> 
+<ol>
+<li>The total number of segments in the source window compared to
+the total number of segments in the target window.</li>
+<liThe number of segments in the source window that have
+an irregular match in the target window compared to the number of
+segments in the target window that have an irregular match in the
+source window.</li>
+<li>The number of segments in the source window that have no match
+in the target window compared to the number of segments in the target
+window that have no match in the source window.</li>
+<li>The number of ignored segments in the source window compared to
+the number of ignored segments in the target window.</li>
+<li>The relation of source segments to target segments. For example, <b>2:1</b> means that two source segments have been connected
+to one target segment.</li>
+</ol> </p>
+</body></topic>

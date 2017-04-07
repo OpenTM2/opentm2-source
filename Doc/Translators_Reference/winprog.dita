@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="winprog">
+  <title>Progress windows</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Some actions may require some time to complete, for example: <ul>
+        <li>Organizing a dictionary</li>
+        <li>Exporting a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></li>
+        <li>Analyzing all documents of a folder</li>
+      </ul></p>
+    <p>The progress of such an action is indicated by a so-called progress window (see <xref
+        href="#winprog/organdictwin"/>). <required-cleanup><indexterm>windows<indexterm>Organizing
+            Dictionary sample window</indexterm></indexterm></required-cleanup><fig
+        id="organdictwin" expanse="column">
+        <title>Organizing Dictionary sample window</title><image placement="break"
+          href="eqfb7s6a.gif"><alt>Figure shows Organizing Dictionary sample
+        window</alt></image></fig></p>
+    <p>This type of window can be minimized to let you do other work in <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>. When the action is completed, a message
+      with the result of the action is displayed.</p>
+    <p>If you want to interrupt the action, double-click the system icon of the progress window. In
+      the following message window, you can confirm the cancellation request.</p>
+  </body>
+</topic>

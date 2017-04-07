@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="editmenuitm">
+<title>Edit menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table rev="oct00" pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="2*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Menu or key</entry>
+<entry valign="top" rowsep="1">Function</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Find and replace... (Ctrl+f)</entry>
+<entry valign="top">Locates a term in the source or target document,
+depending on where the cursor is located, and changes it as specified.
+You can only change a term if the <keyword conref="common-symbols.dita#common-symbols/ITM"/> can be edited.</entry></row>
+<row>
+<entry valign="top">Cut (Ctrl+x)</entry>
+<entry valign="top">Copies a marked text section to the system clipboard
+and removes text afterwards.</entry></row>
+<row>
+<entry valign="top">Copy (Ctrl+c)</entry>
+<entry valign="top">Copies a marked text section to the system clipboard
+for later pasting.</entry></row>
+<row>
+<entry valign="top">Paste (Ctrl+v)</entry>
+<entry valign="top">Inserts text from the clipboard into the active
+segment at the current cursor position.</entry></row>
+<row>
+<entry valign="top">Undo</entry>
+<entry valign="top">Restores the original state as it was before an
+action was performed.</entry></row>
+<row>
+<entry valign="top">Split line</entry>
+<entry valign="top">Splits the line at the current cursor position.</entry></row>
+<row>
+<entry valign="top">Join line</entry>
+<entry valign="top">Combines the current line with the following line.</entry></row>
+<row>
+<entry valign="top">Toggle initial caps</entry>
+<entry valign="top">Changes the initial caps to small initials.</entry></row>
+<row>
+<entry valign="top">Add an abbreviation (Ctrl+a)</entry>
+<entry valign="top">Adds the term where the cursor is positioned to
+the list of abbreviations associated to the current source language.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

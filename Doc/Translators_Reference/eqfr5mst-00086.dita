@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00086">
+  <title>Spellchecking</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>spellchecking</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To proofread an entire translation document or just a segment, select <b>File...</b> or <b>Segment...</b> from the <b>Spellcheck</b> menu 
+      while you are in postediting mode. Click <b>Skip</b> when misspelled words are indicated (in the <b>Misspelled word</b> field) that
+      you consider correct or unimportant.</p>
+    <p>If a word turns out to be misspelled, either double-click the right word in the <b>Similar words</b> list box or type the correct word in 
+      the <b>Change to</b> field and click <b>Change</b>. The misspelled word is then replaced with the correct word.</p>
+    <p>To permanently add the correct word to the spellchecker, click <b>Addendum</b>. If you want to add this word only temporarily, click 
+      <b>Temp add</b>.</p>
+    <p>This addendum can be edited at a later time. For example, to remove, change, or add more terms.</p>
+    <p>If no more misspelled words are found, you receive a message.</p>
+    <p>To practise handling the proofreading aid, refer to the <cite>Translator’s Workbook</cite>, Lesson 11: Postediting translations. </p>
+    <p>For more information on spellchecking, refer to <xref href="eqfr5mst-00183.dita#eqfr5mst-00183"/>.</p>
+  </body>
+</topic>

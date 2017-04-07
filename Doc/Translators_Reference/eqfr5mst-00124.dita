@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-00124">
+  <title>Selecting multiple objects in list windows</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>list windows<indexterm>selecting multiple objects</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Several list windows in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> allow you
+      to select more than one object on which you want to perform the same task. This allows you to
+      perform repeatable and time-consuming tasks unattended.</p>
+    <p>In the following chapters, whenever a <q>Calling sequence</q> asks you to select <q>one or
+        more</q> objects in one of the list windows, you can use this capability. If unsure, just
+      try to select multiple objects in a window. <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> only allows you to select multiple
+      objects if it can safely perform the task on multiple objects in one run.</p>
+    <p>The selection of multiple objects is done much like in the Windows environment. You use the
+      mouse to click list items. Holding down the Ctrl key, and then clicking list items, lets you
+      randomly select list items in a list window. Holding down the Alt key, and then clicking list
+      items, lets you select a series of list items. If you prefer to use key combinations only, or
+      need information about more sophisticated selection methods, see the Windows Help
+      facility.</p>
+    <p>Multiple object selection is supported in the following windows: <dl>
+        <dlentry><dt>Document List window</dt>
+          <dd><indexterm>Document List window<indexterm>selecting multiple
+              documents</indexterm></indexterm>Almost all <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> tasks can be applied to multiple
+            documents in this window. <note>If you view document properties for multiple documents,
+              the <q>Document Properties</q> window shows: <ul>
+                <li>Property values that are equal for all selected documents in black color.</li>
+                <li>Property values that are different for all selected documents in grey color.
+                  Only the property values of the first document are shown.</li>
+              </ul>
+              <p>If you change document properties for multiple documents, the changed values are
+                applied to all selected documents, and unchanged values are left as they are.</p>
+              <p>For example, assume that document A (properties are markup EQFAMRI, and editor
+                STANDARD) and document B (properties are markup EQFAMRI, and editor XLATE) are
+                selected in the <q>Document List</q> window. The <q>Document Properties</q> window
+                shows markup EQFAMRI in black color (because it is equal for both documents) and
+                editor STANDARD in grey (because the second document uses a different editor). If
+                you change the editor in the <q>Document Properties</q> window to RTFEDIT, and save
+                the change, this editor is now associated with the selected
+            documents.</p></note></dd></dlentry>
+        <dlentry><dt>Folder List window</dt>
+          <dd><indexterm>Folder List window<indexterm>selecting multiple
+              folders</indexterm></indexterm>The Export, Delete, and Analyze tasks can be applied to
+            multiple folders in this window. <note>If you prefer to use the Explorer-like tree view,
+              you cannot select multiple folders from the directory tree displayed on the left.
+              Instead, click the parent folder on the left, and click the individual folders on the
+              right. </note>
+            <p/></dd></dlentry>
+        <dlentry><dt>Translation Memory List window</dt>
+          <dd><indexterm>Translation Memory List window<indexterm>selecting multiple Translation
+                Memories</indexterm></indexterm>The Export, Delete, and Organize tasks can be
+            applied to multiple Translation Memories in this window.</dd></dlentry>
+        <dlentry><dt>Dictionary List window</dt>
+          <dd><indexterm>Dictionary List window<indexterm>selecting multiple
+                dictionaries</indexterm></indexterm>The Export, Delete, and Organize tasks can be
+            applied to multiple dictionaries in this window.</dd></dlentry>
+        <dlentry><dt>Connect Shared Translation Memories window</dt>
+          <dd><indexterm>Connect Shared Translation Memories window<indexterm>selecting multiple
+                shared Translation Memories</indexterm></indexterm>The Access and Disconnect tasks
+            can be applied to multiple shared Translation Memories in this window.</dd></dlentry>
+        <dlentry><dt>Connect Shared Dictionaries window</dt>
+          <dd><indexterm>Connect Shared Dictionaries window<indexterm>selecting multiple shared
+                dictionaries</indexterm></indexterm>The Access and Disconnect tasks can be applied
+            to multiple shared dictionaries in this window.</dd></dlentry>
+        <dlentry><dt>Import … windows</dt>
+          <dd><indexterm>Import Documents window<indexterm>selecting multiple
+              documents</indexterm></indexterm><indexterm>Import Folder window<indexterm>selecting
+                multiple folders</indexterm></indexterm><indexterm>Import Translation Memory
+                window<indexterm>selecting multiple Translation
+              Memories</indexterm></indexterm><indexterm>Import Dictionary
+                window<indexterm>selecting multiple
+              dictionaries</indexterm></indexterm><indexterm>Import New Terms
+                window<indexterm>selecting multiple new terms
+              lists</indexterm></indexterm><indexterm>Import Found Terms window<indexterm>selecting
+                multiple found terms lists</indexterm></indexterm><indexterm>Import Exclusion Lists
+                window<indexterm>selecting multiple exclusion
+              lists</indexterm></indexterm><indexterm>Import Markup Table List
+                window<indexterm>selecting Markup Table List</indexterm></indexterm>Import tasks can
+            be applied to multiple objects in the various import windows, such as the <q>Import
+              Documents</q>, <q>Folder</q>, <q>Translation Memory</q>, <q>Dictionary</q>, <q>New
+              Terms Lists</q>, <q>Found Terms Lists</q>, <q>Exclusion Lists</q>, and <q>Markup
+              Table</q> windows. <note><ol>
+                <li>In the <q>Import Folder</q> window the options you specify are applied to all
+                  folders to be imported. The <b>Import folder as</b> option cannot be selected if
+                  multiple folders are to be imported. Also, the <q>Details</q> page in the
+                    <q>Import Folder</q> window cannot be selected.</li>
+                <li>In the <q>Import Dictionary</q> window the <b>To dictionary</b> option cannot be
+                  selected if multiple dictionaries are to be imported. The dictionaries are
+                  imported using the file names given when they were exported. For every dictionary
+                  to be imported the <q>New Dictionary</q> window is shown before the import
+                  starts.</li>
+                <li>In the <q>Import Translation Memory</q> window the <b>To Translation Memory</b>
+                  option cannot be selected if multiple Translation Memories are to be imported. The
+                  Translation Memories are imported using the file names given when they were
+                  exported. For every Translation Memory to be imported the <q>New Translation
+                    Memory</q> window is shown before the import starts.</li></ol>
+            </note></dd></dlentry>
+      </dl></p>
+  </body>
+</topic>

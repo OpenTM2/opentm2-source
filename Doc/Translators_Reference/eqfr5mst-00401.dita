@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="eqfr5mst-00401">
+  <title>Reversing a Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>Translation Memory<indexterm>reversing</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a DOS line command utility 
+        to reverse a Translation Memory. The reversed Translation Memory is saved in a new Translation Memory
+        file. This means that the source language of the Translation Memory you want to reverse is
+        turned into the target language. The target language of the reversed Translation Memory is
+        now becoming the source language. This can be useful when you are working in a company which
+        does translations from any to any languages. Or, when a document was initially written in
+        English, translated into German, revised in German for a second release, and now must be
+        translated back into English.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OtmMemoryTool</indexterm>
+      <indexterm>commands<indexterm>OtmMemoryTool</indexterm></indexterm>
+      <p>The following syntax diagram describes how you reverse a Translation Memory from the DOS line command. 
+        Note that lowercase letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram rev="GF_07122015">
+        <groupseq>
+          <kwd>OtmMemoryTool</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TASK</kwd>
+          <oper>=</oper>
+          <kwd>reverseMemory</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memoryName</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>REv</kwd>
+          <oper>=</oper>
+          <var>revMemoryName</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TYPE</kwd>
+          <oper>=</oper>
+          <kwd>NOCONF</kwd>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml rev="GF_07122015">
+        <plentry>
+          <pt>/TASK=reverseMemory</pt>
+          <pd>reverseMemory specifies the <b>task</b> to reverse the Translation Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memoryName</var></synph></pt>
+          <pd><synph><var>memoryName</var></synph> specifies the name of the Translation Memory to be reversed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/REv=<synph><var>revMemoryName</var></synph></pt>
+          <pd>Specifies the name of the Translation Memory where you want to place the reversed Translation Memory 
+              specified in <synph><var>revMemoryName</var></synph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TYpe=NOCONF</pt>
+          <pd>No confirmation message is displayed. This is useful if you do not want to be interrupted by progress 
+              messages while you are working.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not use any 
+            wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example rev="GF_07122015">
+      <title>Examples</title>
+      <p>The following example shows how to reverse a Translation Memory using the OtmMemoryTool DOS line command utility.</p>
+<!--      <required-cleanup>-->
+        <section>
+          <title>Example</title>
+          <codeblock>OtmMemoryTool /TASK=reverseMemory /MEM=MyMemory /REV=MyRevisedMemoryName</codeblock>
+        </section>
+<!--      </required-cleanup>-->
+      <p>In this example, the Translation Memory <codeph>MyMemory</codeph> is reversed into the
+         existing Translation Memory <codeph>MyRevisedMemoryName</codeph>. </p>
+    </example>
+  </refbody>
+</reference>
