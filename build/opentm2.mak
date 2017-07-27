@@ -33,6 +33,7 @@ $(_OBJ)\eqfmuprp.OBJ:	$(_SRC)\core\mfc\eqfmuprp.CPP
 $(_OBJ)\eqfgen99.OBJ:	$(_SRC)\core\mfc\eqfgen99.CPP
 $(_OBJ)\eqfmfc.OBJ:		$(_SRC)\core\mfc\eqfmfc.CPP
 $(_OBJ)\eqfd.OBJ:		$(_SRC)\core\mfc\eqfd.CPP
+$(_OBJ)\eqfchkp99.OBJ:		$(_SRC)\core\mfc\eqfchkp99.CPP
 
 
 #------------------------------------------------------------------------------
@@ -52,7 +53,8 @@ OBJS= $(_OBJ)\EQFD.OBJ \
       $(_OBJ)\eqfweb.OBJ \
       $(_OBJ)\eqfmuprp.OBJ \
       $(_OBJ)\eqfgen99.OBJ \
-      $(_OBJ)\eqfmfc.OBJ 
+      $(_OBJ)\eqfmfc.OBJ \
+      $(_OBJ)\eqfchkp99.OBJ
 
 $(_BIN)\OpenTM2.EXE:	$(OBJS)
 #------------------------------------------------------------------------------
@@ -67,5 +69,5 @@ $(_BIN)\OpenTM2.EXE:
 $(OBJS) $(_OBJ)\EQFD.RBJ
 $(_LINK_CPP_OPTIONS)
 /OUT:$(_BIN)\OpenTM2.EXE /pdb:"$(_BIN)\EQFD.pdb"
-   $(_LIB)\OtmAlloc.LIB $(_LIB)\OTMBase.LIB $(_LIB)\OTMDll.LIB version.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib
+   $(_LIB)\OTMBase.LIB $(_LIB)\OTMDll.LIB version.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib
 <<

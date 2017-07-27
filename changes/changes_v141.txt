@@ -1,0 +1,28 @@
+Changes in OpenTM2 v1.4.1
+
+List of requirements and fixes in OpenTM2 release v1.4.1:
+  (A) Requirements:
+    R012607: Provide an easy way to import proofreading results into OpenTM2 to update memories
+    R012605: Support using PWB validation output to update translation memory entries
+    R012606: Globalization Pipeline will use OpenTM2 to perform their content validation process
+
+
+  (B) Fixes:	 
+     P403330: Source and Target file can't be aligned when use OtmItm to create memory
+     P403736: Creating calculating report abends
+     P403726: Format problem of the Nomatch File
+     P403715: Calculating Report Problem: HAMSTER Fuzzy should be counted as Fuzzy (Currently counted as NoMatch)
+     P403711: API EqfImportFolderFP, import two smiliar folder conflict
+     P403697: OTM 1.4.0 doesn't start on Windows XP
+     P403751: OtmMtEval.exe terminates prematurely with a specific FXP
+     P403741: XG003AAP001 GP_PII_SHIP, S.Chinese got higher word count after translation
+     P403722: There is a segment that does not get recorded in the MTEval report
+     P403713: The ALLSEGSEXP option of EQFNFLUENT.TRG sometimes gives "translation" in the <Source> element & wrong information in <wcnt> element
+     P403699: Importing OTM folder from empty local directory never ends
+     P403698: OTMBATCH: Analysis PROTECTSCREEN option does not seem to be working
+     P403685: Global search: document and segment numbers are empty in results table
+     P403755: Minor correction in documentation: location of OtmMtEval.XSL
+     S141002: TMX import uses wrong markup table for default
+     S141003: Changes can not be introduced into source segments
+     S141004: Validation document import: differences not shown anymore when loading a list from the GUI
+     nn: Allow parallel memory import using the API layer

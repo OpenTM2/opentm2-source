@@ -159,9 +159,9 @@ EQFBFuncStart
               {
                 pIdaDoc->ulSrcOemCP = GetLangOEMCP(pIdaDoc->szDocSourceLang);
               }
-              fOk = ( EQFBCntAllSrcWords( LoadStruct.pDoc,
-                                          (SHORT)pIdaDoc->usSrcLang,
-                                          pIdaDoc->ulSrcOemCP) == 0 );
+              //fOk = ( EQFBCntAllSrcWords( LoadStruct.pDoc,
+              //                            (SHORT)pIdaDoc->usSrcLang,
+              //                            pIdaDoc->ulSrcOemCP) == 0 );
             } /* endif */
           }
           switch ( pDocument->DispStyle)
@@ -260,6 +260,20 @@ EQFBFuncStart
             fOk = (EQFBDocLoad( &LoadStruct) == 0 ); // load target document
             TPLOG();
 
+            if ( fOk )
+            {
+              PDOCUMENT_IDA pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
+              if ( pIdaDoc )
+              {
+                if ( !pIdaDoc->ulSrcOemCP)
+                {
+                  pIdaDoc->ulSrcOemCP = GetLangOEMCP(pIdaDoc->szDocSourceLang);
+                }  
+                fOk = ( EQFBCntAllSrcWords( LoadStruct.pDoc, pTgtDoc, 
+                                            (SHORT)pIdaDoc->usSrcLang,
+                                            pIdaDoc->ulSrcOemCP) == 0 );
+              }
+            }
           }
           else
           {
@@ -1475,9 +1489,9 @@ EQFBFuncRTFStart
            {
              pIdaDoc->ulSrcOemCP = GetLangOEMCP(pIdaDoc->szDocSourceLang);
            }
-           fOk = ( EQFBCntAllSrcWords( LoadStruct.pDoc,
-                                       (SHORT)pIdaDoc->usSrcLang,
-                                       pIdaDoc->ulSrcOemCP) == 0 );
+           //fOk = ( EQFBCntAllSrcWords( LoadStruct.pDoc,
+           //                            (SHORT)pIdaDoc->usSrcLang,
+           //                            pIdaDoc->ulSrcOemCP) == 0 );
          } /* endif */
        }
        switch ( pDocument->DispStyle)
@@ -1558,6 +1572,23 @@ EQFBFuncRTFStart
          LoadStruct.pstEQFGen = pstEQFGen;
 
          fOk = (EQFBDocLoad( &LoadStruct) == 0 ); // load target document
+         if ( fOk )
+         {
+            if ( fOk )
+            {
+              PDOCUMENT_IDA pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
+              if ( pIdaDoc )
+              {
+                if ( !pIdaDoc->ulSrcOemCP)
+                {
+                  pIdaDoc->ulSrcOemCP = GetLangOEMCP(pIdaDoc->szDocSourceLang);
+                }  
+                fOk = ( EQFBCntAllSrcWords( LoadStruct.pDoc, pTgtDoc, 
+                                            (SHORT)pIdaDoc->usSrcLang,
+                                            pIdaDoc->ulSrcOemCP) == 0 );
+              }
+            }
+         }
        }
        else
        {

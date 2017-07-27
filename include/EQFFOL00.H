@@ -424,6 +424,7 @@ typedef struct _FOLIMPIDA
   PVOID       pvMemImportData;             // data area for the import of memory files
   USHORT      usImportError;               // error code of failed import or 0 if successful
   BOOL        fGlobalMemOptCheckRequired;  // state of fGlobalMemOptCheckRequired flag of the folder properties
+  BOOL        fReserved;                   // TRUE = a new folder short name has been reserved for this folder import
 } FOLIMPIDA, *PFOLIMPIDA;
 
 

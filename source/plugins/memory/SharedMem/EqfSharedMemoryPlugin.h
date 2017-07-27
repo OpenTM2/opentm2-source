@@ -10,20 +10,32 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "core\PluginManager\OtmMemoryPlugin.h"
 #include "core\PluginManager\OtmMemory.h"
 #include "core\PluginManager\OtmSharedMemoryPlugin.h"
 #include "core\Utilities\LogWriter.h"
 #include "MemoryWebServiceClient.h"
-
+#include "FifoQueue.h"
 class OtmMemory;
 
 class EqfSharedMemoryPlugin: public OtmSharedMemoryPlugin
-/*! \brief This class implements the standard shared translation memory plugin (EQF) for OpenTM2.
-*/
-
 {
 public:
+
+	static const int NAME_LEN = 512;
+
+	typedef struct _SHAREDMEMPROP
+	{
+		char szName[NAME_LEN];           // name of memory
+		char szWebServiceURL[NAME_LEN];  // URL of web service
+		char szUserID[NAME_LEN];         // user ID for the access to the memory
+		char szPassword[NAME_LEN];       // password for the user ID
+		char szInQueueName[NAME_LEN];    // name of input queue
+		char szOutQueueName[NAME_LEN];   // name of input queue
+		char szUnUsed[8096];             // room for enhancements
+	} SHAREDMEMPROP, *PSHAREDMEMPROP;
+
 /*! \brief Constructor
 */
 	EqfSharedMemoryPlugin();
@@ -83,11 +95,11 @@ public:
 */
 	OtmMemory* createMemory(
 		PSZ pszName,			  
-	  PSZ pszSourceLang,
-	  PSZ pszDescription,
-    CHAR chDrive,
-    std::vector<std::string> *pvOptions,
-    OtmMemory *pLocalMemory
+		PSZ pszSourceLang,
+		PSZ pszDescription,
+		CHAR chDrive,
+		std::vector<std::string> *pvOptions,
+		OtmMemory *pLocalMemory
 	);
 
 /*! \brief Connect to an existing shared translation memory
@@ -120,8 +132,8 @@ public:
 */
 	OtmMemory* openMemory(
 		PSZ pszName,			  
-    OtmMemory *pLocalMemory,
-    USHORT usAccessMode
+		OtmMemory *pLocalMemory,
+		USHORT usAccessMode
 	);
 
   /*! \brief Provide a list of all available memories
@@ -144,9 +156,9 @@ public:
 	\returns number of provided memories
 */
 	int listSharedMemories(
-    std::vector<std::string> *pvOptions,
-    std::vector<std::string> *pvConnected,
-    std::vector<std::string> *pvNotConnected
+		std::vector<std::string> *pvOptions,
+		std::vector<std::string> *pvConnected,
+		std::vector<std::string> *pvNotConnected
 	);
 
 /*! \brief Close a memory
@@ -179,7 +191,7 @@ public:
 */
 	int getMemoryInfo(
 		PSZ pszName,
-    OtmMemoryPlugin::PMEMORYINFO pInfo
+		OtmMemoryPlugin::PMEMORYINFO pInfo
 	);
 
 /*! \brief provides a list of the memory data files
@@ -225,8 +237,8 @@ public:
 	\returns 0 if successful or error return code
 */
 int renameMemory(
-	  PSZ pszOldName,
-    PSZ pszNewName
+	PSZ pszOldName,
+	PSZ pszNewName
 );
 
 /*! \brief Provide list of options required for the creation of shared memories
@@ -248,11 +260,11 @@ int renameMemory(
 */
 	int getCreateOptionFields(
 		PSZ pszName,
-    std::vector<std::string> **ppLabels,
-    std::vector<std::string> **ppFieldData,
-    std::vector<std::string> **ppFieldDescr,
-    PFN_OPTIONSDIALOGCHECKDATA *ppfnCheckCallback,
-    long *plHandle
+		std::vector<std::string> **ppLabels,
+		std::vector<std::string> **ppFieldData,
+		std::vector<std::string> **ppFieldDescr,
+		PFN_OPTIONSDIALOGCHECKDATA *ppfnCheckCallback,
+		long *plHandle
 	);
 
 
@@ -272,11 +284,11 @@ int renameMemory(
 	\returns 0 if successful or error return code
 */
 	int getAccessOptionFields(
-    std::vector<std::string> **ppLabels,
-    std::vector<std::string> **ppFieldData,
-    std::vector<std::string> **ppFieldDescr,
-    PFN_OPTIONSDIALOGCHECKDATA *ppfnCheckCallback,
-    long *plHandle
+		std::vector<std::string> **ppLabels,
+		std::vector<std::string> **ppFieldData,
+		std::vector<std::string> **ppFieldDescr,
+		PFN_OPTIONSDIALOGCHECKDATA *ppfnCheckCallback,
+		long *plHandle
 	);
 
 
@@ -314,28 +326,13 @@ int renameMemory(
   \param pvOptions pointer to a vector with the user input
 	\returns true if input is correct otherwise false
 */
-  int writeLastUsedCreateValues( std::vector<std::string> *pvOptions );
+    int writeLastUsedCreateValues( std::vector<std::string> *pvOptions );
 
 /*! \brief write last used access values to disk
   \param pvOptions pointer to a vector with the user input
 	\returns true if input is correct otherwise false
 */
   int writeLastUsedAccessValues( std::vector<std::string> *pvOptions );
-
-
-/*! \brief Property data of shared memories
-*/
-  #define NAME_LEN 512
-  typedef struct _SHAREDMEMPROP
-  {
-    char szName[NAME_LEN];           // name of memory
-    char szWebServiceURL[NAME_LEN];  // URL of web service
-    char szUserID[NAME_LEN];         // user ID for the access to the memory
-    char szPassword[NAME_LEN];       // password for the user ID
-    char szInQueueName[NAME_LEN];    // name of input queue
-    char szOutQueueName[NAME_LEN];   // name of input queue
-    char szUnUsed[8096];             // room for enhancements
-  } SHAREDMEMPROP, *PSHAREDMEMPROP;
 
 
 /*! \brief write the properties of a shared memory to disk
@@ -398,7 +395,7 @@ int removeMemoryUser(PSZ pszName, PSZ userName);
 */
 int listMemoryUsers(PSZ pszName, std::vector<std::string> &users);
 
-int replicateWithServer(PSZ pszName,OtmMemory* pLocalMem, bool isUpload);
+//int replicateWithServer(PSZ pszName,OtmMemory* pLocalMem, bool isUpload);
 
 /*! \brief Stops the plugin. 
 	Terminating-function for the plugin, will be called directly before
@@ -442,6 +439,8 @@ int replicateWithServer(PSZ pszName,OtmMemory* pLocalMem, bool isUpload);
    \returns 0 if success
 */
  int replaceMemory( PSZ pszReplace, PSZ pszReplaceWith );
+ //
+ CSharedBuffer4Thread*   getSyncBuffer(std::string &);
 
 private:
   std::string name;
@@ -450,19 +449,20 @@ private:
 	std::string version;
 	std::string supplier;
 	std::string descrType;
-  std::vector<std::string> vCreateLabels;
-  std::vector<std::string> vCreateFieldData;
-  std::vector<std::string> vCreateFieldDescr;
-  std::vector<std::string> vAccessLabels;
-  std::vector<std::string> vAccessFieldData;
-  std::vector<std::string> vAccessFieldDescr;
+	std::vector<std::string> vCreateLabels;
+	std::vector<std::string> vCreateFieldData;
+	std::vector<std::string> vCreateFieldDescr;
+	std::vector<std::string> vAccessLabels;
+	std::vector<std::string> vAccessFieldData;
+	std::vector<std::string> vAccessFieldDescr;
 	std::string strLastError;
 	int iLastError;
-  MemoryWebServiceClient WebService;
-  LogWriter Log;
-  BOOL fReplicatorIsRunning;
+	MemoryWebServiceClient WebService;
+	LogWriter Log;
+	//BOOL fReplicatorIsRunning;
 
-
+    std::map<std::string,CSharedBuffer4Thread*> syncBuffMap; 
+ 
 /*! \brief Load memory properties file 
   \param pszName name of the property file
   \param pszPassword properties encryption password
@@ -471,7 +471,7 @@ private:
 	\returns 0 if successful or error return code
 */
 	int loadPropFile(
-		PSZ pszName,
+    PSZ pszName,
     PSZ pszPassword,
     void **ppvProp,
     int iSize
@@ -485,7 +485,7 @@ private:
 	\returns 0 if successful or error return code
 */
   int writePropFile(
-	  PSZ pszName,
+	PSZ pszName,
     PSZ pszPassword,
     void *pvProp,
     int iPropSize
@@ -528,21 +528,10 @@ int createProperties(
   std::string strPassword
 );
 
-
-/*! \brief Stop the memory replicator application
-	\returns true when successful 
-*/
-BOOL stopReplicator();
-
-/*! \brief Starts the memory replicator application if it is not active yet
-	\returns true when successful 
-*/
-BOOL startReplicator();
-
+//
 void initCreationDatas();
-int batchUpload(PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem);
-int batchDownload(PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem);
-
+//
+int deleteSharedProperties(PSZ);
 };
 
 #endif // #ifndef _EqfSharedMemoryPlugin_H_

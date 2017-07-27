@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="tools_MemoryFromTmx">
+  <title>Converting external Memory databases from the TMX format into the EXP format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>TMX is widely used to interchange translation memories with other translation tools. The DOS line command utility 
+         OTMTMX2EXP can be used to convert TMX Translation Memory databases into the 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> specific *.EXP format (an SGML-based format).</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMTMX2EXP</indexterm>
+      <indexterm>commands<indexterm>OTMTMX2EXP</indexterm></indexterm>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMTMX2EXP</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>INMEM</kwd>
+          <oper>=</oper>
+          <var>inmem</var>
+        </groupseq>
+<!--        <groupseq>
+          <kwd>InMEm</kwd>
+        </groupseq>-->
+<!--        <groupseq>
+          <kwd>-</kwd>
+        </groupseq>-->
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>OUTMEM</kwd>
+            <oper>=</oper>
+            <var>outmem</var>
+          </groupseq>
+        </groupchoice>
+<!--        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <kwd>OUTMEM</kwd>
+          </groupseq>
+        </groupchoice>-->
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>OUTMODE</kwd>
+            <oper>=</oper>
+            <var>om</var>
+          </groupseq>
+        </groupchoice>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>CLEANRTF</kwd>
+          </groupseq>
+        </groupchoice>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>INCURLYBRACE</kwd>
+          </groupseq>
+        </groupchoice>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>SOURCESOURCE</kwd>
+          </groupseq>
+        </groupchoice>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>MArkup</kwd>
+            <oper>=</oper>
+            <var>mu</var>
+          </groupseq>
+        </groupchoice>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/INMEM=<i>inmem</i></pt>
+          <pd>inmem specifies the name of the external translation memory in EXP-format that you want to convert. 
+            The name may contain wildcards (e.g. C:\MEMS\*.EXP) to convert a group of files in a single run </pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTMEM=<i>outmem</i></pt>
+          <pd>outmem is the name of the converted translation memory in EXP format. If no name is specified, the 
+              name of the input memory is used with the file extension changed to *.EXP.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTMODE=<i>om </i>or /OM=<i>om </i></pt>
+          <pd>om specifies the encoding of the output memory and can be UTF16, ASCII, or ANSI.</pd>
+        </plentry>
+        <plentry>
+          <pt>/CLEANRTF</pt>
+          <pd>if specified any RTF inline tags are removed from the segments of the memory</pd>
+        </plentry>
+        <plentry>
+          <pt>/INCURLYBRACE</pt>
+          <pd>if specified only RTF inline tags inside curly braces "{}" are removed. This option is
+              only valid together with the /CLEANRTF option</pd>
+        </plentry>
+        <plentry>
+          <pt>/SOURCESOURCE or /SS </pt>
+          <pd>if specified the source of the memory matches is also used as the target text thus
+              creating a source-source memory</pd>
+        </plentry>
+        <plentry>
+          <pt>/MARKUP=<i>mu </i>or /MA=<i>mu</i></pt>
+          <pd>if specified the markup table name mu is used when no 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> markup table name can be associated
+              automatically with the TMX translation unit. You can also specify a list of markup table
+              names (e.g. /MA=(OTMXML,OTMHTM32,EQFRTF) ), the OTMTMX2EXP tool will then generate for
+              each markup table a separate segment entry in the output EXP file. This will only be
+              done when no markup table could be associated with the TMX translation unit, and when the
+              text of the translation unit contains inline-tagging. </pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p> The following example show how to use the OTMTMX2EXP command.</p>
+      <p>Enter the OTMTMX2EXP command as follows:</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>otmtmx2exp *.TMX /outmode=UTF16 /CLEANRTF</codeblock>
+        </section>-->
+      <p> <codeblock>otmtmx2exp *.TMX /outmode=UTF16 /CLEANRTF</codeblock></p>
+      <p>In this example all translation memory databases with an extension of *.TMX will be
+         converted into the EXP format, and the encoding of the converted memories will be UTF-16. 
+         All RTF-tagging contained in the segments will be removed.</p>
+    </example>
+  </refbody>
+</reference>

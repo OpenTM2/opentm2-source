@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_ShortcutsSpecial">
+  <title>Special accessibility keyboard shortcuts</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Special accessibility keyboard shortcuts</title>
+      <tgroup cols="2">
+        <colspec colname="col1" colwidth="92*"/>
+        <colspec colname="col2" colwidth="92*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Task</entry>
+            <entry colname="col2" valign="top">Keyboard shortcut</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Toggles StickyKeys on and off</entry>
+            <entry colname="col2">Tap &lt;SHIFT&gt; 5 times</entry>
+          </row>
+          <row>
+            <entry colname="col1">Toggles FilterKeys on and off</entry>
+            <entry colname="col2">Hold the &lt;Right SHIFT&gt; key for 8 seconds</entry>
+          </row>
+          <row>
+            <entry colname="col1">Toggles ToggleKeys on and off</entry>
+            <entry colname="col2">Hold the &lt;NUM LOCK&gt; key for 5 seconds</entry>
+          </row>
+          <row>
+            <entry colname="col1">Toggles MouseKeys on and off</entry>
+            <entry colname="col2">&lt;Left ALT&gt;+&lt;Left SHIFT&gt;+&lt;NUM LOCK&gt;</entry>
+          </row>
+          <row>
+            <entry colname="col1">Toggles High Contrast on and off</entry>
+            <entry colname="col2">&lt;Left ALT&gt;+&lt;Left SHIFT&gt;+&lt;PRINT SCREEN&gt;</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

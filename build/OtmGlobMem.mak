@@ -1,4 +1,4 @@
-# Copyright (c) 1999-2013, International Business Machines
+# Copyright (c) 1999-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #
 !INCLUDE $(_BLD)\EQFRULES.MAK
@@ -33,5 +33,5 @@ $(_DLL)\OTMGLOBM.dll:
 $(_OBJ)\OTMGLOBM.OBJ $(_OBJ)\CXMLWriter.OBJ
 /OUT:$(_DLL)\OTMGLOBM.dll /MAPINFO:EXPORTS
 $(_LINK_OPTIONS) 
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIBOTHER)\xerces-c_3.lib
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIBOTHER)\xerces-c_3.lib
 <<

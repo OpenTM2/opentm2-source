@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="otmbatch_Diagram">
+  <title>How to read syntax diagrams</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In this chapter diagrams are used to illustrate the programming syntax. To use a diagram, follow a path from left to right, top to bottom, 
+      adding elements as you go. In these diagrams, all spaces and other characters are significant.</p>
+    <p>Each diagram begins with a double right arrowhead and ends with a right and left arrowhead pair. Lines beginning with single right 
+      arrowheads are continuation lines. 
+      <syntaxdiagram>
+        <groupseq><kwd>keyword</kwd><oper>=</oper><var>variable_value</var></groupseq>
+      </syntaxdiagram>
+    </p>
+    <p>Keywords are all in lowercase, but can be entered in uppercase or in lowercase. Variable values that you provide are shown in 
+      <synph><var>italics</var></synph> and are usually in lowercase. Where values are shown in uppercase, they should be entered as they appear.</p>
+    <p>In a choice of items, the default item is always shown above the main line: 
+      <syntaxdiagram>
+        <groupseq><kwd>keyword=</kwd></groupseq>
+        <groupchoice><kwd importance="default">default_value</kwd><kwd>other_value</kwd><kwd>other_value</kwd></groupchoice>
+      </syntaxdiagram></p>
+    <p>Optional syntax elements are shown below the main line: 
+      <syntaxdiagram>
+        <groupseq importance="optional"><kwd>keyword</kwd><oper>=</oper><var>value</var></groupseq>
+      </syntaxdiagram></p>
+    <p>A repeat arrow shown above an item or a stack of items indicates that you can specify the item multiple times or specify more than one of 
+      the items. A character (such as a comma) on the repeat arrow line indicates that the items must be separated by that character. 
+      A repeatable operand is shown like this: 
+      <syntaxdiagram>
+        <groupseq><kwd>keyword</kwd><oper>=</oper></groupseq>
+        <groupseq>
+          <delim>(</delim>
+          <groupseq><repsep>,</repsep><var>variable_value</var></groupseq>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </p>
+    <p>Syntax diagrams can be broken into fragments. A fragment is indicated by vertical bars with the name of the fragment between the bars. 
+      The fragment is shown following the main diagram, like this: 
+      <syntaxdiagram>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>KEYWORD</kwd>
+          <oper>=</oper>
+          <fragref>ITEM1</fragref>
+        </groupseq>
+        <fragment>
+          <title>ITEM1</title>
+          <groupchoice><var>variable1</var><var>variable2</var><var>variable3</var></groupchoice>
+        </fragment>
+      </syntaxdiagram>
+    </p>
+  </body>
+</topic>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="plugin_ProfileSettingManagement">
+  <title>The Plugin Profile Settings Management</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-plugin <q>Profile Settings Management</q> is meant to 
+       backup vital <keyword conref="common-symbols.dita#common-symbols/tm4w"/> settings to a save place, and restore it 
+       in case of problems, or a new installation of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, where
+       own settings may have been reset.
+    </p>
+    <section>
+      <title>Export (Backup) Profile Settings</title>
+      <p>In order to <b>export</b> (= backup) profile settings, perform these steps:
+        <ul>
+          <li>In section <q>Import or Export</q>, select <q>Export Profile Settings</q>.</li>
+          <li>In section <q>Profile Location</q>, <q>Export To:</q> either type in the <b>path</b>
+              to where the profile settings should be stored into, or select it from the drop down list.</li>
+          <li>In section <q>Profile Location</q>, <q>Profile Name:</q> either type in a profile name, or select 
+              it from the drop down list.</li>
+          <li>In section <q>Profile Location</q>, <q>Profile Format:</q> ensure to leave <q>*.xml</q>. This is the only 
+              supported file format, and it can <b>not</b> be changed by the user.</li>
+          <li>In section <q>Profile Settings to be Exported</q>, either check-mark <q>Export All Settings</q> (which
+              exports all availabl settings), or check-mark any of the four profile settings <q>Translation Editor</q>, 
+              <q>Workbench</q>, <q>Folder List Window</q>, or <q>Last Used Values</q>.</li>
+          <li>Click on button <q>Export Selected Settings</q> to start the export function. A message window appears 
+              which confirms the successful export. In case the profile name should alreyd exist, a warning message appears
+              which allows to either overwrite the existing profile, or to cancel the profile export.</li>
+        </ul>  
+      </p>
+    </section>
+    <section>
+      <title>Import (restore) Profile Settings</title>
+      <p>In order to <b>import</b> (= restore) profile settings, perform these steps:
+        <ul>
+          <li>In section <q>Import or Export</q>, select <q>Import Profile Settings</q>.</li>
+          <li>In section <q>Profile Location</q>, <q>Import To:</q> either type in the <b>path</b>
+              from where the profile settings should be imported from, or select it from the drop down list.</li>
+          <li>In section <q>Profile Location</q>, <q>Profile Name:</q> either type in a profile name, or select 
+              it from the drop down list.</li>
+          <li>In section <q>Profile Location</q>, <q>Profile Format:</q> ensure to leave <q>*.xml</q>. This is the only 
+              supported file format, and it can <b>not</b> be changed by the user.</li>
+          <li>In section <q>Profile Settings to be Imported</q>, either check-mark <q>Import All Settings</q> (which
+              imports all availabl settings), or check-mark any of the four profile settings <q>Translation Editor</q>, 
+              <q>Workbench</q>, <q>Folder List Window</q>, or <q>Last Used Values</q>.</li>
+          <li>Click on button <q>Import Selected Settings</q> to start the import function. A message window appears 
+              which confirms the successful import.</li>
+        </ul>  
+      </p>
+    </section>
+    <p>
+      <fig id="profileSettingsManagement" expanse="column">
+        <title>The panel <q><b>Profile Settings Management</b></q></title>
+        <image placement="break" href="changes_130_ProfileSettings.gif">
+          <alt>Define the backup and restore profile settings</alt>
+        </image>
+      </fig>
+    </p>   
+  </body>
+</topic>

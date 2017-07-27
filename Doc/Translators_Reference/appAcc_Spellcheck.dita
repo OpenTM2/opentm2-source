@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_Spellcheck">
+<title>Spellcheck Menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table>
+<title>Spellcheck Menu</title>
+<tgroup cols="3">
+<colspec colname="col1" colwidth="127*"/>
+<colspec colname="col2" colwidth="71*"/>
+<colspec colname="colspec0" colwidth="70*"/>
+<thead>
+<row>
+<entry colname="col1" valign="top">Menu bar choices</entry>
+<entry colname="col2" valign="top">Actions</entry>
+<entry colname="colspec0" valign="top">Keyboard shortcuts</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">Spellcheck =&gt; Segment...</entry>
+<entry colname="col2">Spellchecking the selected segment.</entry>
+<entry colname="colspec0">Alt+S</entry></row>
+<row>
+<entry colname="col1">Spellcheck =&gt; File...</entry>
+<entry colname="col2">Spellchecking the selected file.</entry>
+<entry colname="colspec0">Alt+F</entry></row>
+<row>
+<entry colname="col1">Spellcheck =&gt; Edit Addendum Terms...</entry>
+<entry colname="col2">Opening the 'Edit Addendum Terms for: .... ' window
+for the target language.</entry>
+<entry colname="colspec0">—</entry></row>
+<row>
+<entry colname="col1">Spellcheck =&gt; Auto Spellcheck</entry>
+<entry colname="col2">Turning the auto spellcheck on or off.</entry>
+<entry colname="colspec0">Alt+A</entry></row>
+<row>
+<entry colname="col1">Spellcheck =&gt; Next Misspelled</entry>
+<entry colname="col2">Jumping to next misspelled word.</entry>
+<entry colname="colspec0">Alt+N</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

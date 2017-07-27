@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfOpenDocByTrack" rev="GF_07122015">
+  <title>EqfOpenDocByTrack</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+<!-- xxx  -->
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfOpenDocByTrack</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfOpenDocByTrack</indexterm></indexterm>
+      <p>The API call <i>EqfOpenDocByTrack</i> opens a document in the OpenTM2 editor and positions to a 
+         specific segment based on the specified TVT tracking Id.</p>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->    
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfOpenDocByTrack</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszTrackId</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTrackId</entry>
+              <entry colname="col3">The tracking-ID of a segment within a specific document in the folder.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The document has been opened successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> 
+                (see page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/>) to retrieve the complete error information.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+<!-- xxx  -->
+
+<!-- xxx  -->
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{
+  USHORT usRC = 0; 
+  HSESSION hSession = 0L;
+  // start the OpenTM2 API session 
+  usRC = EqfStartSession( &amp;hSession );
+  if ( !usRC ) 
+  {
+    wchar_t *pszTrackID = L"1A:FF3"; 
+
+    // open a document in folder "MyFolder" and position to a specific
+    // segment based on the provided TVT track ID
+    usRC = EqfOpenDocByTrack( hSession, "MyFolder", pszTrackID );
+  } /* endif */
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+<!-- xxx  -->
+
+  </refbody>
+</reference>

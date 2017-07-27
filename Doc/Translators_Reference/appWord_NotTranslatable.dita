@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appWord_NotTranslatable">
+<title>Markup data outside translatable segments</title>
+<prolog><metadata><keywords>
+
+<indexterm>Word documents<indexterm>markup information outside translatable
+segments</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following table lists markup data that is outside of translatable segments.
+They must not be changed.</p>
+<p>The variables <i>var1</i> and <i>var2</i> are relevant only for <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="2*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="3*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Tag name</entry>
+<entry valign="top" rowsep="1">End tag</entry>
+<entry valign="top" rowsep="1">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">[Annotation Subdoc]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The annotation texts follow. </entry></row>
+<row>
+<entry valign="top">[column]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The start of a new column if the text is written in columns
+(as in a newspaper). </entry></row>
+<row>
+<entry valign="top">[comment]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">An annotation text follows. </entry></row>
+<row>
+<entry valign="top">[comment text: <i>var1</i>,<i>var2</i>]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">An annotation text follows. </entry></row>
+<row>
+<entry valign="top">[drawn obj: <i>attributes</i>]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A drawing object is inserted. </entry></row>
+<row>
+<entry valign="top">[endnote text:<i>ref</i> <i>var1</i>,<i>var2</i>]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">The endnote text for the end note reference with <i>ref</i> follows. </entry></row>
+<row>
+<entry valign="top">[Endnote Subdoc]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The end note texts follow. </entry></row>
+<row>
+<entry valign="top">[footnote text:<i>ref</i> <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The footnote text for the footnote referenced with <i>ref</i> follows. </entry></row>
+<row>
+<entry valign="top">[Footnote Subdoc]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The footnote texts follow. </entry></row>
+<row>
+<entry valign="top">[hdr textbox]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A header textbox entry. </entry></row>
+<row>
+<entry valign="top">[header⁄footer]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">One header⁄footer. </entry></row>
+<row>
+<entry valign="top">[Header⁄Footer Subdoc]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Header⁄footer texts follow. </entry></row>
+<row>
+<entry valign="top">[Header Textbox Subdoc]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The header textbox texts follow. </entry></row>
+<row>
+<entry valign="top">[index]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The index follows, it is not translatable. For more information
+on rebuilding the index, see <xref href="doc_FormatsWord.dita#doc_FormatsWord"/>. </entry></row>
+<row>
+<entry valign="top">[lf]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">Hard line feed. </entry></row>
+<row>
+<entry valign="top">[next cell: <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The next cell in a table starts. </entry></row>
+<row>
+<entry valign="top">[paragraph: <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Start of a new paragraph. </entry></row>
+<row>
+<entry valign="top">[row]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">A new row starts in a table. </entry></row>
+<row>
+<entry valign="top">[section: <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">A new section starts. </entry></row>
+<row>
+<entry valign="top">[style: <i>name</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Occurs after the paragraph tag and gives the style name
+for the next paragraph with <i>name</i>. </entry></row>
+<row>
+<entry valign="top">[subdoc]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">The current document is a master document and has as subdocument
+inserted at this text position. </entry></row>
+<row>
+<entry valign="top">[textbox]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A textbox entry. </entry></row>
+<row>
+<entry valign="top">[Textbox Subdoc]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The textbox texts follow. </entry></row>
+<row>
+<entry valign="top">[toa]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The table of authorities follows, it is not translatable.
+For more information on rebuilding the table of authorities, see <xref href="doc_FormatsWord.dita#doc_FormatsWord"/>. </entry></row>
+<row>
+<entry valign="top">[toc]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The table of contents follows, it is not translatable.
+For more information on rebuilding the table of contents, see <xref href="doc_FormatsWord.dita#doc_FormatsWord"/>. </entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

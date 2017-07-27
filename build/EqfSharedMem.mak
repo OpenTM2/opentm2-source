@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # EqfSharedMem.MAK    - Makefile for the shared memory plugin
-# Copyright (c) 2016, International Business Machines
+# Copyright (c) 2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@
 # target list
 #------------------------------------------------------------------------------
 
-build:	$(_DLL)\MemoryWebServiceClient.DLL  $(_DLL)\EqfSharedMemPlugin.DLL  $(_BIN)\OtmMemReplicator.EXE 
+build:	$(_DLL)\MemoryWebServiceClient.DLL  $(_DLL)\EqfSharedMemPlugin.DLL
 
 #------------------------------------------------------------------------------
 # include dependency list for eqf*.c programs
@@ -56,62 +56,26 @@ $(_OBJ)\JSONFactory.OBJ:		$(_SRC)\plugins\memory\SharedMem\JSONFactory.CPP $(_SR
 
 $(_OBJ)\FifoQueue.OBJ:		$(_SRC)\plugins\memory\SharedMem\FifoQueue.CPP $(_SRC)\plugins\memory\SharedMem\FifoQueue.H
 
-$(_OBJEXE)\JSONFactory.OBJ:		$(_SRC)\plugins\memory\SharedMem\JSONFactory.CPP $(_SRC)\plugins\memory\SharedMem\JSONFactory.H
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP >>$(_ERR)
-    @$(_COMPILER)  $(_CL_CPP_OPTIONS_EXE) /Fo$(_OBJEXE)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\memory\SharedMem\$(*B).cpp
-
-$(_OBJEXE)\FifoQueue.OBJ:		$(_SRC)\plugins\memory\SharedMem\FifoQueue.CPP $(_SRC)\plugins\memory\SharedMem\FifoQueue.H
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP >>$(_ERR)
-    @$(_COMPILER)  $(_CL_CPP_OPTIONS_EXE) /Fo$(_OBJEXE)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\memory\SharedMem\$(*B).cpp
-
 $(_OBJ)\TMXFactory.OBJ:		$(_SRC)\plugins\memory\SharedMem\TMXFactory.CPP $(_SRC)\plugins\memory\SharedMem\TMXFactory.H
 
 $(_OBJ)\EqfSharedMemoryPlugin.OBJ:  $(_SRC)\plugins\memory\SharedMem\EqfSharedMemoryPlugin.CPP $(_SRC)\plugins\memory\SharedMem\EqfSharedMemoryPlugin.H
 
 $(_OBJ)\EqfSharedMemory.OBJ:  $(_SRC)\plugins\memory\SharedMem\EqfSharedMemory.CPP $(_SRC)\plugins\memory\SharedMem\EqfSharedMemory.H
 
-$(_OBJEXE)\TransportThread.OBJ:  $(_SRC)\plugins\memory\SharedMem\TransportThread.CPP $(_SRC)\plugins\memory\SharedMem\TransportThread.H
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP >>$(_ERR)
-    @$(_COMPILER)  $(_CL_CPP_OPTIONS_EXE) /Fo$(_OBJEXE)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\memory\SharedMem\$(*B).cpp
+$(_OBJ)\ReplicateThread.OBJ:  $(_SRC)\plugins\memory\SharedMem\ReplicateThread.CPP $(_SRC)\plugins\memory\SharedMem\ReplicateThread.H
 
 $(_OBJ)\LogWriter.OBJ:  $(_SRC)\core\utilities\LogWriter.CPP $(_SRC)\core\utilities\LogWriter.H
 
-$(_OBJEXE)\LogWriter.OBJ:  $(_SRC)\core\utilities\LogWriter.CPP $(_SRC)\core\utilities\LogWriter.H
-    @echo ---- Compiling $(_SRC)\core\utilities\$(*B).CPP
-    @echo ---- Compiling $(_SRC)\core\utilities\$(*B).CPP >>$(_ERR)
-    @$(_COMPILER)  $(_CL_CPP_OPTIONS_EXE) /Fo$(_OBJEXE)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\core\utilities\$(*B).cpp
-
 $(_DLL)\EqfSharedMemPlugin.DLL:		$(_OBJ)\EqfSharedMemoryPlugin.OBJ \
 					$(_OBJ)\EqfSharedMemory.OBJ \
+					$(_OBJ)\ReplicateThread.OBJ \
 					$(_OBJ)\JSONFactory.OBJ \
 					$(_OBJ)\FifoQueue.OBJ \
 					$(_OBJ)\TMXFactory.OBJ \
-					$(_LIB)\OtmAlloc.lib \
 					$(_LIB)\OtmBase.lib \
 					$(_LIB)\OtmDll.lib \
 					$(_LIB)\PluginManager.lib \
 					$(_LIB)\MemoryWebServiceClient.lib
-
-#------------------------------------------------------------------------------
-# Build TestClient.EXE
-#------------------------------------------------------------------------------
-$(_BIN)\TestClient.EXE: $(_OBJ)\TestClient.OBJ $(_OBJ)\adb_synchronize.obj $(_OBJ)\adb_synchronizeResponse.obj \
-                        $(_OBJ)\axis2_stub_OtmTMServiceImplService.obj $(_OBJ)\axis2_extension_mapper.obj  
-    @echo ---- Linking $(_BIN)\TestClient.EXE
-    @echo ---- Linking $(_BIN)\TestClient.EXE >>$(_ERR)
-    $(_LINKER) @<<lnk.rsp >>$(_ERR)
-$(_OBJ)\TestClient.OBJ
-$(_OBJ)\adb_synchronize.obj
-$(_OBJ)\adb_synchronizeResponse.obj
-$(_OBJ)\axis2_stub_OtmTMServiceImplService.obj
-$(_OBJ)\axis2_extension_mapper.obj
-$(_LINK_OPTIONS) 
-/OUT:$(_BIN)\TestClient.EXE /pdb:"$(_BIN)\EQFD.pdb"
-  $(_LINK_LIB_EXE) $(_LIB)\OtmAlloc.LIB $(AXIS2C_HOME)\lib\axutil.lib $(AXIS2C_HOME)\lib\axiom.lib $(AXIS2C_HOME)\lib\axis2_engine.lib
-<<
 
 
 #------------------------------------------------------------------------------
@@ -121,6 +85,7 @@ $(_DLL)\EqfSharedMemPlugin.DLL:
     @echo --- Linking $(_DLL)\EqfSharedMemPlugin.DLL
     @echo ---- Linking $(_DLL)\EqfSharedMemPlugin.DLL >>$(_ERR)
     @$(_LINKER) @<<lnk.rsp>>$(_ERR)
+	$(_OBJ)\ReplicateThread.OBJ 
 	$(_OBJ)\EqfSharedMemoryPlugin.OBJ
 	$(_OBJ)\EqfSharedMemory.OBJ 
 	$(_OBJ)\JSONFactory.OBJ 
@@ -128,7 +93,7 @@ $(_DLL)\EqfSharedMemPlugin.DLL:
 	$(_OBJ)\TMXFactory.OBJ 
 /OUT:$(_DLL)\EqfSharedMemPlugin.DLL
 /MAP:$(_MAP)\EqfSharedMemPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIBOTHER)\xerces-c_3.lib Shell32.lib $(_LIB)\MemoryWebServiceClient.lib
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIBOTHER)\xerces-c_3.lib Shell32.lib $(_LIB)\MemoryWebServiceClient.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @echo ************ Info *****************  
@@ -160,46 +125,3 @@ $(_LINK_LIB_CRT) Shell32.lib $(AXIS2C_HOME)\lib\axutil.lib $(AXIS2C_HOME)\lib\ax
 <<
     @if not exist $(RELEASE_DIR)\OTM\WIN\ md $(RELEASE_DIR)\OTM\WIN
     @copy $(_BIN)\MemoryWebServiceClient.DLL $(RELEASE_DIR)\OTM\WIN /Y>$(_ERR)
-	
-	
-#------------------------------------------------------------------------------
-# Build Dependencies for OtmMemReplicator.EXE                                 -
-#------------------------------------------------------------------------------
-
-$(_OBJEXE)\ReplicatorDialog.RES:	$(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.rc \
-                                $(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.ico \
-								$(_SRC)\plugins\memory\SharedMem\resource.h
-	@echo ---- Compiling $(_RC_COMPILER)  /n /Fo $(_OBJEXE)\ReplicatorDialog.RES $(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.rc
-    @$(_RC_COMPILER)  /n /Fo $(_OBJEXE)\ReplicatorDialog.RES $(_SRC)\plugins\memory\SharedMem\ReplicatorDialog.rc >>$(_ERR)
-	
-	
-$(_OBJEXE)\OtmMemReplicator.obj: 		$(_SRC)\plugins\memory\SharedMem\OtmMemReplicator.cpp
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP
-    @echo ---- Compiling $(_SRC)\plugins\memory\SharedMem\$(*B).CPP >>$(_ERR)
-    @$(_COMPILER)  $(_CL_CPP_OPTIONS_EXE) /Fo$(_OBJEXE)\ /Fd$(_BIN)\EQFSTART.PDB /Fe$(_BIN)\ $(_SRC)\plugins\memory\SharedMem\$(*B).cpp
-
-OTMMEMREPOBJS= $(_OBJEXE)\OtmMemReplicator.OBJ \
-	$(_OBJEXE)\TransportThread.OBJ \
-	$(_OBJEXE)\LogWriter.OBJ \
-	$(_OBJEXE)\JSONFactory.OBJ \
-    $(_OBJEXE)\FifoQueue.OBJ  \
-	$(_OBJEXE)\ReplicatorDialog.RES
-
-$(_BIN)\OtmMemReplicator.EXE:	$(OTMMEMREPOBJS)
-
-#------------------------------------------------------------------------------
-# Build OtmMemReplicator.EXE                                                          -
-#------------------------------------------------------------------------------
-$(_BIN)\OtmMemReplicator.EXE: 
-    @echo ---- Linking $(_BIN)\OtmMemReplicator.EXE
-    @echo ---- Linking $(_BIN)\OtmMemReplicator.EXE >>$(_ERR)
-    @echo ---- _LINK_OPTIONS_EXE=$(_LINK_OPTIONS_EXE)
-    $(_LINKER) @<<lnk.rsp >>$(_ERR)
-$(OTMMEMREPOBJS) 
-$(_LINK_OPTIONS_EXE)
-/OUT:$(_BIN)\OtmMemReplicator.EXE /pdb:"$(_BIN)\OtmMemReplicator.pdb"
-    $(_LINK_LIB_EXE) $(_LIB)\OtmAlloc.LIB $(_LIB)\OTMBase.LIB  $(_LIB)\MemoryWebServiceClient.LIB Shell32.lib 
-<<
-    @if not exist $(RELEASE_DIR)\OTM\WIN\ md $(RELEASE_DIR)\OTM\WIN
-    @copy $(_BIN)\OtmMemReplicator.EXE $(RELEASE_DIR)\OTM\WIN /Y>$(_ERR)
-	

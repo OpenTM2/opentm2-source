@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_EditorFile">
+  <title>File menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Menu or key</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Next</entry>
+            <entry valign="top">Loads another collection of segments into the editor if more
+              segments are found in the Translation Memory than the number set in the <q>Translation
+                Memory Editor</q> window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Previous</entry>
+            <entry valign="top">Loads the previous collection of segment pairs into the editor.
+            </entry>
+          </row>
+          <row>
+            <entry valign="top">New query (F5)</entry>
+            <entry valign="top">Saves any changes made in the Translation Memory. Returns you to the
+                <q>Translation Memory Editor</q> window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Quit (F4)</entry>
+            <entry valign="top">Saves any changes made in the Translation Memory editor and returns
+              you to the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main
+              window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Toggle windows (Ctrl+t)</entry>
+            <entry valign="top">Activates the opposite window (<q>Original</q> or
+              <q>Translation</q>).</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

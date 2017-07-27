@@ -2613,8 +2613,8 @@ USHORT MemoryFactory::APISearchMem
     return( FUNC_INVALID_MEMORY_HANDLE );
   } /* endif */
 
-  ULONGLONG ul64SearchStartTime = 0;
-  if ( lSearchTime != 0 ) ul64SearchStartTime = GetTickCount64();
+  DWORD dwSearchStartTime = 0;
+  if ( lSearchTime != 0 ) dwSearchStartTime = GetTickCount();
 
   // get first or next proposal
   if ( *pszStartPosition == EOS )
@@ -2644,9 +2644,17 @@ USHORT MemoryFactory::APISearchMem
     {
       if ( lSearchTime != 0 )
       {
-        ULONGLONG ul64CurTime = 0;
-        ul64CurTime = GetTickCount64();
-        LONG lElapsedMillis = (LONG)(ul64CurTime - ul64SearchStartTime);
+        LONG lElapsedMillis = 0;
+        DWORD dwCurTime = GetTickCount();
+        if ( dwCurTime < dwSearchStartTime )
+        {
+          // an overflow occured
+          lElapsedMillis = (LONG)(dwCurTime + (ULONG_MAX - dwSearchStartTime));
+        }
+        else
+        {
+          lElapsedMillis = (LONG)(dwCurTime - dwSearchStartTime);
+        } /* endif */
         if ( lElapsedMillis > lSearchTime )
         {
           iRC = TIMEOUT_RC;

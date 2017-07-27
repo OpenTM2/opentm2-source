@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_BasicMovingText">
+  <title>Moving around the text</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>moving<indexterm>within text</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you have opened a document you can start using the editor. The text appears in the <q>Translation</q> window, and the cursor is 
+      placed in the active text unit to be translated (shown with a yellow background). To view another part of the text in the 
+      <q>Translation</q> window, you must move the cursor. The following table explains how to move the cursor within a segment and within 
+      the complete translation and how to scroll text in windows.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Move to...</entry>
+            <entry valign="top" rowsep="1">Action</entry>
+            <entry valign="top" rowsep="1">Comment</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Active segment <indexterm>cursor<indexterm>moving</indexterm></indexterm></entry>
+            <entry valign="top">Translate menu, "Go to active segment"</entry>
+            <entry valign="top">Positions the cursor in front of the first character of the active segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Beginning of line</entry>
+            <entry valign="top">Home</entry>
+            <entry valign="top">Positions the cursor at the beginning of the current line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Beginning of segment</entry>
+            <entry valign="top">Alt+Home</entry>
+            <entry valign="top">Positions the cursor at the beginning of the current segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Bookmark</entry>
+            <entry valign="top">Translate menu, "Go to bookmark"</entry>
+            <entry valign="top">Positions the cursor on the bookmark previously set. To go to subsequent one, repeat action.</entry>
+          </row>
+          <row>
+            <entry valign="top">Bottom of document</entry>
+            <entry valign="top">Ctrl+End</entry>
+            <entry valign="top">Moves cursor to bottom of document.</entry>
+          </row>
+          <row>
+            <entry valign="top">End of line</entry>
+            <entry valign="top">End</entry>
+            <entry valign="top">Positions the cursor on the last character of the current line.</entry>
+          </row>
+          <row>
+            <entry valign="top">End of segment</entry>
+            <entry valign="top">Alt+End</entry>
+            <entry valign="top">Positions the cursor on the last character of the active segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Newly translated segment</entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Saves you from scrolling through whole text. Takes you directly to the segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next changed segment</entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Saves you from scrolling through whole text. Takes you directly to the segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next line</entry>
+            <entry valign="top">Enter</entry>
+            <entry valign="top">Positions the cursor at the beginning of the next line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next unchanged segment</entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Saves you from scrolling through whole text. Takes you directly to the segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next untranslated segment</entry>
+            <entry valign="top">Translate menu, "Next untranslated segment"</entry>
+            <entry valign="top">Confirms a translation and positions the cursor in the next untranslated segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next word</entry>
+            <entry valign="top">Ctrl+Right</entry>
+            <entry valign="top">Positions the cursor on the next word.</entry>
+          </row>
+          <row>
+            <entry valign="top">Previous word</entry>
+            <entry valign="top">Ctrl+Left</entry>
+            <entry valign="top">Positions the cursor on the first character of the previous word.</entry>
+          </row>
+          <row>
+            <entry valign="top">Tab backward</entry>
+            <entry valign="top">Backtab</entry>
+            <entry valign="top">Moves cursor to previous tab stop (tab = 8 characters).</entry>
+          </row>
+          <row>
+            <entry valign="top">Tab forward</entry>
+            <entry valign="top">Tab</entry>
+            <entry valign="top">Moves cursor to next tab stop (tab = 8 characters).</entry>
+          </row>
+          <row>
+            <entry valign="top">Top of document</entry>
+            <entry valign="top">Ctrl+Home</entry>
+            <entry valign="top">Moves cursor to top of document.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

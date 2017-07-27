@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appPrb_StartOpenTM2">
+  <title>Problems when starting <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>starting<indexterm>problems with</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>If <keyword conref="common-symbols.dita#common-symbols/tm4w"/> does not start or its windows are empty, do the following: 
+      <ol>
+        <li>Delete the file <codeph>eqfsys.prp</codeph> from the <codeph>\otm\property</codeph> directory.</li>
+        <li>Type <b>EQFINST <synph><var>c</var></synph>:</b> on the command line, where <synph><var>c</var></synph> is the drive on 
+          which <keyword conref="common-symbols.dita#common-symbols/tm4w"/> resides.</li>
+        <li>Start <keyword conref="common-symbols.dita#common-symbols/tm4w"/> again.</li>
+      </ol>
+    </p>
+  </body>
+</topic>

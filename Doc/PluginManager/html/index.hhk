@@ -118,15 +118,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_r_e_a_t_e_o_p_t_i_o_n_s.html#adcf4299369c41a43ceb8cd353e434db1"><param name="Name" value="szUserList"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_r_e_a_t_e_o_p_t_i_o_n_s.html#a958eab1174ac05a4e702a2882b5a2bf5"><param name="Name" value="szWebServiceURL"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html"><param name="Name" value="_FIFODATA"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a87b58c82d17f73c7c1324c2bcfdb718c"><param name="Name" value="iLastError"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a1229c3993c9400d2818f370a0b9428ff"><param name="Name" value="mode"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a3fa337067fbb517aefb8a465377f753c"><param name="Name" value="strDataPath"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a1ed23e9d18a53db9d8060949e087daca"><param name="Name" value="strLastError"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a8951ef56288b53d57998d916db15f93f"><param name="Name" value="strQueueName"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a98a682ab6adedcbb4e7417f72d003436"><param name="Name" value="strQueuePath"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_x_p_a_c_k.html"><param name="Name" value="_FIXPACK"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_x_p_a_c_k.html#ac8ecedb3f5d4a8dc6f2ffdcf1ce91b36"><param name="Name" value="bNeedWait"></OBJECT>
@@ -205,17 +196,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___p_r_o_c_e_s_s_b_a_r.html#a1fe92e66b4e56dad88ef6838b9bd5ddb"><param name="Name" value="hwndProcessBar"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___p_r_o_c_e_s_s_b_a_r.html#a6a5c57f3b3b2429d548765ff170004fa"><param name="Name" value="nID"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html"><param name="Name" value="_SHAREDMEMDATA"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a5323ff2ded1e5f3d603bda2935b8dd4b"><param name="Name" value="fMarkedForDelete"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a0464ac88b65a37dfb7c7f200d685f8bf"><param name="Name" value="fPropertiesLoaded"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a62bddf6aa116fbfa02fa822eb222fdfc"><param name="Name" value="fPropertiesLoadFailed"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#ad95a793b26c08d2d564f44ce764c1112"><param name="Name" value="inQueue"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#af766e48a3af4890c7865761508bf1957"><param name="Name" value="outQueue"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a5a5e0ba892c7e6275d65e6c202bf3b90"><param name="Name" value="Properties"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a2e74f3475d8e2188c38ed34d613bbdb3"><param name="Name" value="strLastUpdateID"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a882720749f8f51e5175f92d1074ef0fd"><param name="Name" value="strPropFileName"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structaxis2__stub___otm_t_m_service_impl_service__synchronize__callback__data.html#a61f655fc9189ed96920a213a040c6102"><param name="Name" value="_synchronizeResponse"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html"><param name="Name" value="_TMXELEMENT"></OBJECT>
   <UL>
@@ -251,21 +231,6 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_n_a_m_e_t_o_i_d.html#ae319a69784dac48c6edcd86776242ca1"><param name="Name" value="ID"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_n_a_m_e_t_o_i_d.html#a497307d7ea08beff4b326d54e3479b09"><param name="Name" value="szName"></OBJECT>
-  </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html"><param name="Name" value="_TRANSPORTTHREADDATA"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a18154accd158d32160b607296009ab83"><param name="Name" value="ExistingPropFiles"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#ae662f574392f9f266cb28ef826b279c2"><param name="Name" value="fKill"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a968a6089755ac9c6ceed0e835e849cdf"><param name="Name" value="fOK"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a2a0619aa6f0a62feb07992428979e874"><param name="Name" value="iCurEntry"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a4c98a4f655f49697cf0012f8d1a20326"><param name="Name" value="iDownloaded"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#ab0fe6a36d7f48d6cc120e7ffa0ac10ca"><param name="Name" value="iUploaded"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a99e3a6348523715c0cb2f60749261a57"><param name="Name" value="MemoryList"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a8ff52c99fb743b1e8d7f4c91806f4e90"><param name="Name" value="pLog"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a04c157cf51247608a4db43e842b94dc8"><param name="Name" value="pWebClient"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a4649e53ef594195565e4736738f00715"><param name="Name" value="State"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a16da756d6754e606d4ebc0762f38944b"><param name="Name" value="strPropertyPath"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a13f0da122c2a9f34f064c4e2f9a134c3"><param name="Name" value="Task"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___w_e_b_c_l_i_e_n_t_d_a_t_a.html"><param name="Name" value="_WEBCLIENTDATA"></OBJECT>
   <UL>
@@ -331,7 +296,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager_impl.html#a10eb777ad8d2c53b83bfbf2197cec9ce"><param name="Name" value="PluginManagerImpl"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_name_list.html#af63a9ccd8567745dbba33bec866d5d84"><param name="Name" value="AddName"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a3d07b21a744dce8813f4f76b00720835"><param name="Name" value="AddNewMemories"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#ab8e4c58947f07e1868f24f3d0f1ab6e2"><param name="Name" value="addParmToJSON"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#a437ef3cfb103d1aa77163954cbba1915"><param name="Name" value="addPluginListener"></OBJECT>
   <UL>
@@ -349,7 +313,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#ad278c24a79af95a544c4bf52aed3b6b5"><param name="Name" value="AddToTm"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#a3e5fea591e1c682eea786c1645fbbe58"><param name="Name" value="AnalysisSentense"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#a412d2a25825f67ef30168d5215a1a5f2"><param name="Name" value="appendSegment"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a850a1b340f5fa8779f5942628759b5f6"><param name="Name" value="APPL_NAME"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structaxis2__stub___otm_t_m_service_impl_service__synchronize__callback__data.html#a98a760a1038751a4ecd609b6420ba656"><param name="Name" value="axis2_status_t"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structaxis2__stub___otm_t_m_service_impl_service__synchronize__callback__data.html"><param name="Name" value="axis2_stub_OtmTMServiceImplService_synchronize_callback_data"></OBJECT>
   <UL>
@@ -379,6 +342,12 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___n_t_m_g_e_t_m_a_t_c_h_l_e_v_e_l_d_a_t_a.html#a13dd47dea85b7a80e7fbd94280ac0a98"><param name="Name" value="bTokenBuffer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_s_i_o_n_a_r_e_a.html#a92ed85446471e36d29c7390324b860bf"><param name="Name" value="BtreeIn"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_s_i_o_n_a_r_e_a.html#a5683ab8fafa6a02bd93b47c3098d7af9"><param name="Name" value="BtreeOut"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#afba7cb501a745edfc692fbf1e6a63d94"><param name="Name" value="BUFFERSIZE"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#afba7cb501a745edfc692fbf1e6a63d94"><param name="Name" value="CSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a3d5d3273b91fcb54a8473a5fcf07928e"><param name="Name" value="CUploadBuffer4Process"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#afdc70c1d3d5925a4a3cba574bf4113f1"><param name="Name" value="cacheInMem"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#a81f026c6d0a41b5ff7e561572a29f5ab"><param name="Name" value="characters"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#a81f026c6d0a41b5ff7e561572a29f5ab"><param name="Name" value="TMXParseHandler"></OBJECT>
@@ -390,6 +359,10 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#af5e79a21ac43795eda805fc6c99f7632"><param name="Name" value="chInBuf"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#ad30948dea3d9891a252f9e012b1c3aa3"><param name="Name" value="chInBufW"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#af3bb6e86f902438d8680d6e7d9dba58c"><param name="Name" value="chPrivateBuffer"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_in_queue.html"><param name="Name" value="CInQueue"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_in_queue.html#ac19221e801881e958def67ff66d3e712"><param name="Name" value="CInQueue"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a48353dc2968225b730e5e6f7ab8f34be"><param name="Name" value="clearAbbreviations"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#ae70979bd1ba21a7201934a68bbfb7700"><param name="Name" value="ClearAllPlugins"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#a70ccaa089df93382a4af170141dd626a"><param name="Name" value="clearMemory"></OBJECT>
@@ -401,9 +374,8 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#a772d86d968e42c103e95f20ce83e14eb"><param name="Name" value="clearProposals"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___w_e_b_c_l_i_e_n_t_d_a_t_a.html#a5f68425f2000952a7132ee486f6ee75b"><param name="Name" value="client_home"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a5e24f8722878f93099224758d9028af9"><param name="Name" value="close"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a9f18632b6746193a89bc3cd7deb7688c"><param name="Name" value="close"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a5e24f8722878f93099224758d9028af9"><param name="Name" value="FifoQueue"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a9f18632b6746193a89bc3cd7deb7688c"><param name="Name" value="HistoryWriter"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#ab27d5112d05956f58747880ead639c58"><param name="Name" value="OtmDocument"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document_plugin.html#a5f5316baf9a7a45b14f8016a36a1053a"><param name="Name" value="OtmDocumentPlugin"></OBJECT>
@@ -420,6 +392,17 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#a7e19a8dca8fbb7e57c6ed49a2a9b8ded"><param name="Name" value="EqfMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#ae867bffc6910cb1425353a60eafb5d2b"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html"><param name="Name" value="CMemoryUpdateCounters"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a84358d29928518a789b63df3c070a8c5"><param name="Name" value="CMemoryUpdateCounters"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a45cf9e36d968ad457d90404a4463f26a"><param name="Name" value="deleteUpCounterProperty"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a238ec2c36b44b3440322edef7c69fed1"><param name="Name" value="loadUpCounterProperty"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#ae32cdb51afaaf52b270bd75cf4da190d"><param name="Name" value="memName"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#ae51a3e9e03dae0f86a88660a708ad4de"><param name="Name" value="ownUpCounterSet"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#adc2a6c2d76f3f2ec8797c4ff909939dd"><param name="Name" value="upcounter"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a7ac052a130c66d64116827d6be168181"><param name="Name" value="upCounterPath"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#af5093cb52083474401a068a6e140babb"><param name="Name" value="writeUpCounterProperty"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_name_list.html"><param name="Name" value="CNameList"></OBJECT>
   <UL>
@@ -475,6 +458,10 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#af4b92698447026228c7b10c07c1f1cef"><param name="Name" value="GetVer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#ac13f03f83b6846b415e90aebef8c3c66"><param name="Name" value="ParseConfigFile"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_out_queue.html"><param name="Name" value="COutQueue"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_out_queue.html#af3f15a05cc7032fbfbb4454db60b71ee"><param name="Name" value="COutQueue"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html"><param name="Name" value="CPlgMgXmlParser"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#ae70979bd1ba21a7201934a68bbfb7700"><param name="Name" value="ClearAllPlugins"></OBJECT>
@@ -517,6 +504,18 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#a9fe5da3790d759d507c4d12c30bbecab"><param name="Name" value="WriteToLocalXml"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#aa5aac6005fb2d78fa97572f92dce413d"><param name="Name" value="XmlParser"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html"><param name="Name" value="CProcessLock"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#a47ff807803b0edfd07a9b1af63cc4c27"><param name="Name" value="CProcessLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#ace31302d9275b1fda8e752d24883fd26"><param name="Name" value="lock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#adc358d3ae8149b5f9c211f0e3f7afdfb"><param name="Name" value="tryLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#a811160107a3fb186971bd67b1f066c5d"><param name="Name" value="unlock"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_read_from_shared_buffer.html"><param name="Name" value="CReadFromSharedBuffer"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_read_from_shared_buffer.html#a97c84d87a6ffa7e17a240210ae263ffd"><param name="Name" value="CReadFromSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_read_from_shared_buffer.html#afd8b68dc5ad5bb4e0413b590d13d7e06"><param name="Name" value="read"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_dictionary_plugin.html#ab040f4f1cf6b0d106ad8ee1e0477252a"><param name="Name" value="CreateDict"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_dictionary_plugin.html#ab040f4f1cf6b0d106ad8ee1e0477252a"><param name="Name" value="EqfDictionaryPlugin"></OBJECT>
@@ -537,6 +536,44 @@
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#a69f1844cab8feef8ef59ab96301d6ea7"><param name="Name" value="EqfMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a00c6f3752627bcbcc8e70195fffc12f8"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html"><param name="Name" value="CSharedBuffer"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer4_thread.html"><param name="Name" value="CSharedBuffer4Thread"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer4_thread.html#a4c734797a62b9d212ef0f8f3c1068b0d"><param name="Name" value="CSharedBuffer4Thread"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer4_thread.html#ac81aee56cea42270224ba6be0e134556"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer4_thread.html#aac8f9e41fa9ad77e63d87793b778d7ed"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html"><param name="Name" value="CSharedBuffer"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#afba7cb501a745edfc692fbf1e6a63d94"><param name="Name" value="BUFFERSIZE"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#a47a23b0a1b0d186c485697686da1fac2"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#ab6646f30bb79a7d0a48930dc3ff3d17e"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html"><param name="Name" value="CSharedFiles"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ab7b677ac7eaddb76d96221009bcf8def"><param name="Name" value="CSharedFiles"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a015f6c00787f257a7aa2842b520ec8b0"><param name="Name" value="fpath"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#aaae5b23149ac815a2ce3945bbf1203e3"><param name="Name" value="getMetas"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ab8c7bcabf8a83938b6aca3539c8f4417"><param name="Name" value="init"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ae9ac365bdbcc7e33baaf74db9f5c88b5"><param name="Name" value="isEmpty"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a38a76d7f4d5a71f1395f669a41adb230"><param name="Name" value="queueName"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a31c37b7e9792566c244a603e697df1ea"><param name="Name" value="queuePath"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a0cc640378ddf277d1874b9332244b0c9"><param name="Name" value="read"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ae27c07dcdde879cc48310d0b2c7095b5"><param name="Name" value="updateMetas"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a18dcd52419919b520c1fa036a838fc28"><param name="Name" value="write"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html"><param name="Name" value="CSyncLock"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html#a3ac11229f21358b06e3c5bab875b89cf"><param name="Name" value="lock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html#aab47629546f61eeaaa6d0f1d5496211c"><param name="Name" value="tryLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html#a6a9889082a1be87cd509c287318d4676"><param name="Name" value="unlock"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html"><param name="Name" value="CThreadLock"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html#ad3eb5e303ba5f08140bf982286cc8974"><param name="Name" value="lock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html#a885d5c411e4fe63f5cb8b0057a8360d8"><param name="Name" value="tryLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html#a31e4eb543e4e34cee1243bfdb2d5f048"><param name="Name" value="unlock"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html"><param name="Name" value="CTMXExportImport"></OBJECT>
   <UL>
@@ -570,6 +607,20 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#ae39407b7893a32c73e06ebe06585ccda"><param name="Name" value="WriteSegment"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#ac49b8bf5dbb17d4e9fac96382a4b58fc"><param name="Name" value="WriteTUV"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html"><param name="Name" value="CUploadBuffer4Process"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a3d5d3273b91fcb54a8473a5fcf07928e"><param name="Name" value="BUFFERSIZE"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a8e91dae1189dbe36f1903ab1c0b27c91"><param name="Name" value="CUploadBuffer4Process"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#aec0dfa1381088def474a202864ea762f"><param name="Name" value="Lock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#ac091143f4fac7a35f8bb8636c5c7f10f"><param name="Name" value="m_hFileHandle"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a421b877bda96dc348227550c2acaf537"><param name="Name" value="m_pBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a37a371c0403caac42e53054d42a53072"><param name="Name" value="syncFile"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_write_to_shared_buffer.html"><param name="Name" value="CWriteToSharedBuffer"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_write_to_shared_buffer.html#a0aec881e72355e5c726de6f67682d770"><param name="Name" value="CWriteToSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_write_to_shared_buffer.html#a4191cc7f16cfc67e295e31ba1b928109"><param name="Name" value="write"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html"><param name="Name" value="CXLFImport"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#a8a53c889ba748ea4777cf13b2cbcfa64"><param name="Name" value="EndImport"></OBJECT>
@@ -592,7 +643,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structaxis2__stub___otm_t_m_service_impl_service__synchronize__callback__data.html#a3c208ee8ecab8ea8a651da8686ec5524"><param name="Name" value="data"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_simple_base64.html#aae6442d7ab63a9f5b6870b6d8cf3331e"><param name="Name" value="decode"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a2279e5d68a2ddef080e982437c1b37ab"><param name="Name" value="deleteCrititalSection"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#a45a8592e959ca4f639fb6dea29702736"><param name="Name" value="deleteMarkup"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#a45a8592e959ca4f639fb6dea29702736"><param name="Name" value="OtmMarkup"></OBJECT>
@@ -607,7 +657,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a9c71c3bf9601b3be066f61ef2072c297"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a2bc3cb4255b832d42063fe5a6bdff5ea"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a64d47a6bdb272a15cc0c2474221dfd8e"><param name="Name" value="deleteMonitorCS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#acad8ec375c36a0ec90928701afd955ea"><param name="Name" value="deleteProposal"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#acad8ec375c36a0ec90928701afd955ea"><param name="Name" value="EqfMemory"></OBJECT>
@@ -616,6 +665,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a3a821267cdb2f841f6108414728a2d89"><param name="Name" value="OtmMemory"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#ab623175962eff68ef4aa86a8821f74fe"><param name="Name" value="deleteTerm"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a45cf9e36d968ad457d90404a4463f26a"><param name="Name" value="deleteUpCounterProperty"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#ab64f932a4d74686461b8e1f0bdb33d14"><param name="Name" value="deregisterPlugin"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#ab64f932a4d74686461b8e1f0bdb33d14"><param name="Name" value="PluginManager"></OBJECT>
@@ -630,13 +680,14 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a44a3d0900b7f289dd2c4e31a2ea288ca"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_impl_8cpp.html#a6b276a1016cc8a084bc22230b2c630f8"><param name="Name" value="DllNameCheck"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a93627628cc491c365a1ff5505b1e4e3b"><param name="Name" value="download"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_http.html#a31a7996b4a0bc0761c8794b7886ee53b"><param name="Name" value="DownloadFile"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_http.html#a31a7996b4a0bc0761c8794b7886ee53b"><param name="Name" value="COtmHttp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_https.html#a90184331b7562aca040c5242d6ea7cbc"><param name="Name" value="COtmHttps"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp.html#a2a4b68d30be3175903325fd3fe7e459b"><param name="Name" value="COtmSftp"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a7b500425c584e8dcbbc7cc311202544b"><param name="Name" value="downloadProposal"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ad01f92b62e282af1b0dd17bb67462c38"><param name="Name" value="downloadProposal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_listener.html#ae61f60cca5da38383ca03fd2af9c792fa44ec7066fa6a6b5166935b821b57dd31"><param name="Name" value="eAboutToStop"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#ac41269cddb14c77165fa76fff6f71a88aeb22ea2276c31b7563bc9b2ac1c46530"><param name="Name" value="eAlreadyRegistered"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a1939b6b879b44379088625f7aa3257b5ae7cf8c130279078b7705d25737ef7aaa"><param name="Name" value="eBufferTooSmall"></OBJECT>
@@ -648,7 +699,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_plugin.html#a8ab51e55bd1ba17d9ea3abc1f47dd231a8ec205ff58ae203926cd26d3bf96d501"><param name="Name" value="eMarkupType"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a1939b6b879b44379088625f7aa3257b5a6e391a0299aad65dc8de08650f22f9e8"><param name="Name" value="eMemoryNotFound"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_plugin.html#a8ab51e55bd1ba17d9ea3abc1f47dd231a3f296d6bf059bae0be20ad92213ea635"><param name="Name" value="eMorphType"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#aee6422db988b3f62441e13d703cb6171"><param name="Name" value="Encrypt"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#af9dc240d6a23185e08db393af141c048"><param name="Name" value="endElement"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#af9dc240d6a23185e08db393af141c048"><param name="Name" value="TMXParseHandler"></OBJECT>
@@ -861,7 +911,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#ae7abfb24c8644a3dcfa0611fe538a059"><param name="Name" value="registerPlugins"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#a36c91624b5e522e5c7cda36aa82fab54"><param name="Name" value="REPLICATOREXE"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8h.html"><param name="Name" value="EqfSharedMemoryPlugin.h"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_eqf_shared_memory_plugin_1_1___s_h_a_r_e_d_m_e_m_p_r_o_p.html"><param name="Name" value="EqfSharedMemoryPlugin::_SHAREDMEMPROP"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_eqf_shared_memory_plugin_1_1___s_h_a_r_e_d_m_e_m_p_r_o_p.html#a285eb08ffec2fe2b6f819f334ade6dd8"><param name="Name" value="szInQueueName"></OBJECT>
@@ -894,6 +943,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a74d0ab5bc07742123078ee1e7fd60211"><param name="Name" value="getName"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ac8893113257d43bb08ba433199a5a097"><param name="Name" value="getShortDescription"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#aec7355f8ed80e918083d0a99275407de"><param name="Name" value="getSupplier"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a3930d818346c0e99dc169678ba4f0894"><param name="Name" value="getSyncBuffer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#acca93ebc9dd265b914ec2eb4b5bdaa8b"><param name="Name" value="getVersion"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#afc6ded2d4292b46b24b877e862883681"><param name="Name" value="importFromMemoryFiles"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#aeeae5cc096377fcd4e425eaadc4ec61e"><param name="Name" value="isLocalMemoryUsed"></OBJECT>
@@ -904,13 +954,13 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ae55320911e91d214c3475392dc08c473"><param name="Name" value="listSharedMemories"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#aebc586e8c55ecd043a8c6a81b22a1d1e"><param name="Name" value="loadProperties"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ad7bf769a71bcd265a84535cb90af0e37"><param name="Name" value="loadPropertyFile"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a39283c75a296560a64f700b22c19f88c"><param name="Name" value="NAME_LEN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a02402c54e8fc1349a5a8820d59c23f20"><param name="Name" value="openMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a8a08c62607bac0f8a96b695fa0dea8c8"><param name="Name" value="PSHAREDMEMPROP"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a2f857a1cb8e5350354c8b0b5977c24ac"><param name="Name" value="removeMemoryFromList"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#aefd373e939495c3596c46cded8bd4f6b"><param name="Name" value="removeMemoryUser"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a5510613407b5d6146c26aed9ef9e7e16"><param name="Name" value="renameMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ac40dac4eca0878b77c27f69552d53043"><param name="Name" value="replaceMemory"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ae82ec319aeeef30c65715dcffabfd7f7"><param name="Name" value="replicateWithServer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a12252230b9d04b65d71fe29da2fc122d"><param name="Name" value="setOwner"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a647856c57d576b08e181987b8187256e"><param name="Name" value="SHAREDMEMPROP"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a2eb39c5318afc8df1c4925117f7ac7fe"><param name="Name" value="stopPlugin"></OBJECT>
@@ -1026,7 +1076,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a7cadcd51fc2dec9bb219283ff5f16ead"><param name="Name" value="removeMemoryUser"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#adb4dccc39ae8cea5b44cae8ecde19197"><param name="Name" value="renameMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#af03ea18015ea982991bf337536909320"><param name="Name" value="replaceMemory"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#ab6f7a0a13107dcbf3cad9547393b8422"><param name="Name" value="replicateWithServer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#af20cca6d3e6b27471a4c3631ea1040c5"><param name="Name" value="setDescription"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a181cd4d0dad4393589f1ef3928b9e115"><param name="Name" value="setOwner"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a65edcd0bed405045e497b37c804eeb58"><param name="Name" value="SHAREDMEMPROP"></OBJECT>
@@ -1046,29 +1095,18 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a12a131877614e752ba1bf9998f1f9b8a"><param name="Name" value="Error_AdbSynchronizeCreate_failed"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#aba6a0fe1e59625bfcbe8a544382b027c"><param name="Name" value="Error_Axis2CHome_notset"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ae5651d2b638bac888b3325e3023ca0dc"><param name="Name" value="Error_AxutilEnvCreateAll_failed"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ac887fea7889d1e3b1cf55ae092f5926e"><param name="Name" value="ERROR_BUFFERTOOSMALL"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ac887fea7889d1e3b1cf55ae092f5926e"><param name="Name" value="FifoQueue"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a50e199890852c9036f6353c3cbc35c44"><param name="Name" value="OtmMemory"></OBJECT>
-  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a50e199890852c9036f6353c3cbc35c44"><param name="Name" value="ERROR_BUFFERTOOSMALL"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#af3ce19455f9b73534684698c544c16cd"><param name="Name" value="ERROR_ENTRYISCORRUPTED"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#afd897a245946af4c5c55ec20724f1ad5"><param name="Name" value="ERROR_FILE_NOT_EXIST"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#afd897a245946af4c5c55ec20724f1ad5"><param name="Name" value="OtmMorph"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#a18d21cf6edb5acd42d798ec84d80a184"><param name="Name" value="OtmSpell"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a96a7a7b287fe2d07fa095caf9ff531af"><param name="Name" value="ERROR_FILEREADERROR"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a9af1673d4cde9bd3ef3e816a88958b91"><param name="Name" value="ERROR_FILEWRITEERROR"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a5dade887aedc885ffcc8bce7f3279279"><param name="Name" value="Error_IncompleteResponseFromWebService"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ade319d09f923d184eae12d819cbfd73b"><param name="Name" value="ERROR_INSUFFICIENTMEMORY"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ade319d09f923d184eae12d819cbfd73b"><param name="Name" value="FifoQueue"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_factory.html#a6660094bfde5604d84f72db3904c3ec3"><param name="Name" value="TMXFactory"></OBJECT>
-  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_factory.html#a6660094bfde5604d84f72db3904c3ec3"><param name="Name" value="ERROR_INSUFFICIENTMEMORY"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a6a3b1962a8a9df8f1173b8c8e1cc0158"><param name="Name" value="Error_InternalFunction_failed"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a17f9a2e8da7ed8aef15f035e065faa67"><param name="Name" value="ERROR_INTERNALKEY_MISSING"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#a08666e1dd3897eb3cb960bf85018ef7e"><param name="Name" value="ERROR_INVALIDJSONSYNTAX"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#aaf10dcd18e3d100dc9fc1429f5db8526"><param name="Name" value="ERROR_INVALIDMODE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a5dadb856d1f4ef2e2f55998869cb58f5"><param name="Name" value="ERROR_INVALIDOBJNAME"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#a2a3470556cf1d64f0670710d8096ce1d"><param name="Name" value="ERROR_INVALIDPARSEHANDLE"></OBJECT>
   <UL>
@@ -1084,7 +1122,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#aae1569d594479cdda09ff8ec5ccec9f1"><param name="Name" value="OtmMorph"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#a19401e2c54d22139969545a71c535ffa"><param name="Name" value="OtmSpell"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#aa3cb7ff088e846dadcfaabc4775c1bfa"><param name="Name" value="ERROR_NODATAPATH"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#aaebe3af5bdeb200896d143f41cc60328"><param name="Name" value="Error_NoResponseFromWebService"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a06b021e5d475b50c9a2096ff96440e38"><param name="Name" value="ERROR_NOSHAREDMEMORYPLUGIN"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a27d5e4fefc2f4f6d43d1a51015478983"><param name="Name" value="ERROR_NULL_OBJECT"></OBJECT>
@@ -1099,8 +1136,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#aeac215307ba36949c9eb990b7c9b600d"><param name="Name" value="Error_PrivateDataNotSet"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#af7eebc2b1cdead8f55ba2a7e44c9fa6f"><param name="Name" value="ERROR_PROPERTYLOADFAILED"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ac360676aa44727f9e751bc2e45e86252"><param name="Name" value="ERROR_QUEUEISEMPTY"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a59e11c76251fcd17bdf35df74cae91d1"><param name="Name" value="ERROR_QUEUEISFULL"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a75538c8d363b0529436616b46e9dde2b"><param name="Name" value="ERROR_UNKNOWN"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a75538c8d363b0529436616b46e9dde2b"><param name="Name" value="OtmMorph"></OBJECT>
@@ -1132,7 +1167,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a1939b6b879b44379088625f7aa3257b5abc591891913fa8acbb0c6909ff070642"><param name="Name" value="eUnknownPlugin"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_plugin.html#adb893acaa59edad466fe4384fa0599bdafd1f0e4aec433c7c32eb1ede461203f6"><param name="Name" value="eUsable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structaxis2__stub___otm_t_m_service_impl_service__synchronize__callback__data.html#aeca904b25e6a5e3ae7d2f59ef1f48c92"><param name="Name" value="exception"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a18154accd158d32160b607296009ab83"><param name="Name" value="ExistingPropFiles"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a44441201f37210870e9381becc848a87"><param name="Name" value="fAnsi"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#a20883cec18019b9e7881ead6ec339bf9"><param name="Name" value="fatalError"></OBJECT>
   <UL>
@@ -1143,50 +1177,23 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#a4e3b6b88e12dc985d11f13dc2a90f5e3"><param name="Name" value="fFileIsComplete"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#a6efa04be8762bc3ac1d0b6b2fd901807"><param name="Name" value="fFirstCall"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a16c50159d167428b1ba93c682d8c3bfb"><param name="Name" value="fHeaderWritten"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html"><param name="Name" value="FifoQueue"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a5e24f8722878f93099224758d9028af9"><param name="Name" value="close"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ac887fea7889d1e3b1cf55ae092f5926e"><param name="Name" value="ERROR_BUFFERTOOSMALL"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a96a7a7b287fe2d07fa095caf9ff531af"><param name="Name" value="ERROR_FILEREADERROR"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a9af1673d4cde9bd3ef3e816a88958b91"><param name="Name" value="ERROR_FILEWRITEERROR"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ade319d09f923d184eae12d819cbfd73b"><param name="Name" value="ERROR_INSUFFICIENTMEMORY"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#aaf10dcd18e3d100dc9fc1429f5db8526"><param name="Name" value="ERROR_INVALIDMODE"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#aa3cb7ff088e846dadcfaabc4775c1bfa"><param name="Name" value="ERROR_NODATAPATH"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#ac360676aa44727f9e751bc2e45e86252"><param name="Name" value="ERROR_QUEUEISEMPTY"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a59e11c76251fcd17bdf35df74cae91d1"><param name="Name" value="ERROR_QUEUEISFULL"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a37c6c5d357051393e5dc51d05159a852"><param name="Name" value="FifoQueue"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a7759eae90b26c5d78556f697c356d69b"><param name="Name" value="getLastError"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0a0f7fb3878a28bf12ea5bc19d417d34"><param name="Name" value="getRecordSize"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a6aa27d2e756e16188fe2ab7b752e1309"><param name="Name" value="isEmpty"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a2b535ce265ae7d567c44d729fc1ea639"><param name="Name" value="isOpen"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0adaa4845c2231e23391cd714ddadfe1"><param name="Name" value="open"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0e73a5ec67a7e160f0873af035e7f57b"><param name="Name" value="OPENMODE"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a4e87de2333493ed8fb9f7340d5a1cee7"><param name="Name" value="readRecord"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#aa2b760517d04a05e2e1f1a74af000337"><param name="Name" value="setDataPath"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a8b50882981201242dd6921cf417b6723"><param name="Name" value="writeRecord"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a914e68448271e31da0e29aab63d5d3d2"><param name="Name" value="~FifoQueue"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#aaf0ed69262a7684316e5388d38b71036"><param name="Name" value="FillClb"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a9ab16bcc833eb9a6d653b72b8ce13bda"><param name="Name" value="FillTargetRecord"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a8384db65949f1c59b80e165d2a8fa567"><param name="Name" value="FillTmRecord"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_name_list.html#a21f2b21615b10ef88096f0e1b687a285"><param name="Name" value="FindName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a550a666bb38e79ce23f1fb2007b9605e"><param name="Name" value="fInlineTagging"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a2c71bfa15608fe324640d792f91455f3"><param name="Name" value="fixInconsistence"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_x_p_a_c_k.html#a98bf362a1579623c75ffb78af860f6e4"><param name="Name" value="fixpackCopies"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n_m_a_i_n.html#a20c0bc26058d9367e0b0ee615d26ea58"><param name="Name" value="fixPacks"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#ae662f574392f9f266cb28ef826b279c2"><param name="Name" value="fKill"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_memory_8cpp.html#aa1841b5d827646cb5ea6242e88064070"><param name="Name" value="FlagToProposalType"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_memory_8cpp.html#aa1841b5d827646cb5ea6242e88064070"><param name="Name" value="EqfMemory.cpp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_on_lan_memory_8cpp.html#aa1841b5d827646cb5ea6242e88064070"><param name="Name" value="EqfSharedOnLanMemory.cpp"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a5323ff2ded1e5f3d603bda2935b8dd4b"><param name="Name" value="fMarkedForDelete"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a968a6089755ac9c6ceed0e835e849cdf"><param name="Name" value="fOK"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a0464ac88b65a37dfb7c7f200d685f8bf"><param name="Name" value="fPropertiesLoaded"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a62bddf6aa116fbfa02fa822eb222fdfc"><param name="Name" value="fPropertiesLoadFailed"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a015f6c00787f257a7aa2842b520ec8b0"><param name="Name" value="fpath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a36a55dffaf7252c7df3db5ffc92ab8d2"><param name="Name" value="fSegBufferFull"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a29604811bcb0b861b112bb0c0d04469e"><param name="Name" value="fUnicode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a1114ca381397297bf141bfd0157c142e"><param name="Name" value="fUTF16Output"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a269355668f3684c64057e02ac1e71964"><param name="Name" value="g_szClassName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a5e524d73088602a2a30e26209a47f2da"><param name="Name" value="getAccessOptionFields"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a5e524d73088602a2a30e26209a47f2da"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
@@ -1240,7 +1247,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#a982b77307bd230e9931b5aa0829745de"><param name="Name" value="TMXParseHandler"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_x_l_f_parse_handler.html#a3d62a5dfa856b24989bcac97812ecb54"><param name="Name" value="XLFParseHandler"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#ad87b23f329dcb471ca56835b20dad0bc"><param name="Name" value="getFileChangedFlag"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a97072070d910189c8a6f8e2a83a6ab8e"><param name="Name" value="getFileSize"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a97072070d910189c8a6f8e2a83a6ab8e"><param name="Name" value="EqfMemory"></OBJECT>
@@ -1287,14 +1293,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a9c4feef5b9098e647bf4e5d97f518aeb"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory.html#a2ee699fabf4baa1fe19af9e3ad717d03"><param name="Name" value="EqfSharedOnLanMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a9122f311da74fdd72c5bbe07eb17bcad"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a7759eae90b26c5d78556f697c356d69b"><param name="Name" value="FifoQueue"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a1031c70d3e8d57dd03c15978b3b13e02"><param name="Name" value="MemoryWebServiceClient"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#aaa0127212a901925e8433428c88c7392"><param name="Name" value="OtmMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#aa206ad0355ee774a31a2c12a624ffa05"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#aa5610d698ced091d043ffbfe67cdbc2e"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_factory.html#ae475aff695c41463de53fc0cff186691"><param name="Name" value="TMXFactory"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a71da48f4adf8ae4176e060e1044a322d"><param name="Name" value="getListBoxItemx"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#ae0fe0e64d44ab5e3308da155ab43ce7b"><param name="Name" value="getListOfSupportedDrives"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#ae0fe0e64d44ab5e3308da155ab43ce7b"><param name="Name" value="EqfMemoryPlugin"></OBJECT>
@@ -1380,6 +1384,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory.html#a059269b4d2ff07169694673476535350"><param name="Name" value="EqfSharedOnLanMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#aa0a832c7fb41c77ebc4f96b1208c3956"><param name="Name" value="OtmMemory"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#aaae5b23149ac815a2ce3945bbf1203e3"><param name="Name" value="getMetas"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph_plugin.html#a9b23ea3765613d66dd004bfb21f37da7"><param name="Name" value="getMorphInfo"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_dictionary.html#ad1e7b879cbebde9da97aa21e1dbc4667"><param name="Name" value="getName"></OBJECT>
   <UL>
@@ -1491,10 +1496,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#aab1c82b9d54d561311519bb22c83b1c0"><param name="Name" value="GetProxyAddress"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#a08b87f0f80d358a351bb2bc97cc96dd9"><param name="Name" value="GetProxyPort"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#a1e3f58c0971d8cdb33f4b05c4ba859cb"><param name="Name" value="GetPwd"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0a0f7fb3878a28bf12ea5bc19d417d34"><param name="Name" value="getRecordSize"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a9623d72a37d372d6ed3a5fbdb56f096f"><param name="Name" value="getReplicatorInterval"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#a0cedaf0f7aa53e1d2f9e0cd37a0a7e11"><param name="Name" value="getSegment"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a6927ea6f27c2bfe3d19385d75d7d6364"><param name="Name" value="getSelectedMemories"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a1a829635ce4cceaf2f1f1d38b650639b"><param name="Name" value="getSequentialAccessKey"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a1a829635ce4cceaf2f1f1d38b650639b"><param name="Name" value="EqfMemory"></OBJECT>
@@ -1548,12 +1550,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell_plugin.html#aeae46db73cca1276eadcaca28c2ddd6b"><param name="Name" value="OtmSpellPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_tool_plugin.html#a8a2e6e4f33e0f2d2aa89091bd873bb09"><param name="Name" value="OtmToolPlugin"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a3930d818346c0e99dc169678ba4f0894"><param name="Name" value="getSyncBuffer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup_plugin.html#a9957b17728f702418635ad5b9ffb3cea"><param name="Name" value="getTableDirectory"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#abecd2b83dd45247ae58e75aa11a0bbef"><param name="Name" value="getTableFileName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup_plugin.html#a2d37f8477592c0846e2808dbf14934fa"><param name="Name" value="getTablePath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_time_manager.html#a88c92f80e880e6b4babddcdcee6f8817"><param name="Name" value="GetTimeStamp"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_time_manager.html#a8c93c2d45bc1d3ca9ceb173be1e451cd"><param name="Name" value="GetTimeStampStr"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a3aa4f9a232003d4d86c37eb6c4bad64c"><param name="Name" value="GetTransportStatistics"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_plugin.html#af98b97a1f8f03418fee9012000d02f72"><param name="Name" value="getType"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup_plugin.html#aa5f707f62df8d79458f2d33fe0df505b"><param name="Name" value="getUserExitDirectory"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#a9fcb1fbf98fcc553a1dc4f9021a97d77"><param name="Name" value="getUserExitFileName"></OBJECT>
@@ -1584,6 +1586,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a67133e55074d30d1f982e2ff6cc434d8"><param name="Name" value="HashSentence"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#af58561daeb75b51a1df3403d0c63efbe"><param name="Name" value="HashTupel"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a0e0b49011a1efc5a598924b0ae9128f9"><param name="Name" value="HashTupelW"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a9ff419111b6f516ec708b376816e110b"><param name="Name" value="header"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a6280876fb68a7fa9027e38dca48a4756"><param name="Name" value="hfLog"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a5261a548f6f8bbd12089ebd8211b2cb5"><param name="Name" value="hfOut"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a3406ca03494fec1c126de490eddba170"><param name="Name" value="hInFile"></OBJECT>
@@ -1604,22 +1607,16 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_loaded_plugin_d_l_l.html#ac7fbdc9b382b1ead4c4cdfe6291e21b8"><param name="Name" value="hMod"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___p_r_o_c_e_s_s_b_a_r.html#a1fe92e66b4e56dad88ef6838b9bd5ddb"><param name="Name" value="hwndProcessBar"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a2a0619aa6f0a62feb07992428979e874"><param name="Name" value="iCurEntry"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a6d4ecdc6ed73743ae39ce666beeb4f29"><param name="Name" value="ID"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a6d4ecdc6ed73743ae39ce666beeb4f29"><param name="Name" value="_TMXELEMENT"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_n_a_m_e_t_o_i_d.html#ae319a69784dac48c6edcd86776242ca1"><param name="Name" value="_TMXNAMETOID"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___x_l_f_n_a_m_e_t_o_i_d.html#a3ffa20abcbf4a7d7e60862b8fc8ba43e"><param name="Name" value="_XLFNAMETOID"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a4c98a4f655f49697cf0012f8d1a20326"><param name="Name" value="iDownloaded"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#aae9788444d14932278851c6c1fd0aa5f"><param name="Name" value="iInBufProcessed"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a94e022dcdd273a1d428fa4f86e2acf3b"><param name="Name" value="iInBufRead"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_a_i_n_t_h_r_e_a_d_i_n_f_o.html#aea61a7fc7fa552c2fe07df9c85a7d204"><param name="Name" value="iInx"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a87b58c82d17f73c7c1324c2bcfdb718c"><param name="Name" value="iLastError"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a87b58c82d17f73c7c1324c2bcfdb718c"><param name="Name" value="_FIFODATA"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#a52b49054a01c12f4ac1cab9998e91195"><param name="Name" value="_TMXFACTORYDATA"></OBJECT>
-  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#a52b49054a01c12f4ac1cab9998e91195"><param name="Name" value="iLastError"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___w_e_b_c_l_i_e_n_t_d_a_t_a.html#a357c4d73ca8d7c9387afb1d7f1cfc98f"><param name="Name" value="iLastReturnCode"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_morph_1_1_t_e_r_m_e_n_t_r_y.html#abd79145cd0c501ebdea11d8dffa2822f"><param name="Name" value="iLength"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a2e2253306b645222ce8a6785bc6e3dd7"><param name="Name" value="iLineNum"></OBJECT>
@@ -1672,18 +1669,20 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_factory.html#a98a857ef956615445c8537af5708d792"><param name="Name" value="TMXFactory"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a0b7c68270d5498772f3638e6003ee470"><param name="Name" value="INFO_ENDREACHED"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_tool_plugin.html#a23d473f50c843ecff77e439191f3eb75"><param name="Name" value="init"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a35f89f48141589bedc54f4f78771f7c1"><param name="Name" value="initCriticalSection"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ab8c7bcabf8a83938b6aca3539c8f4417"><param name="Name" value="init"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ab8c7bcabf8a83938b6aca3539c8f4417"><param name="Name" value="CSharedFiles"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_tool_plugin.html#a23d473f50c843ecff77e439191f3eb75"><param name="Name" value="OtmToolPlugin"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a5f50be6a63c30d00fef66258b0982625"><param name="Name" value="ReplicateHelper"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory.html#a2ff15a716e0a84de3ef34201d959f395"><param name="Name" value="initialize"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a97a11f099b76877e55111796d609f4be"><param name="Name" value="initMonitorCS"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#ad95a793b26c08d2d564f44ce764c1112"><param name="Name" value="inQueue"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___j_s_o_n_p_a_r_s_e_d_a_t_a.html#a807be40358014110be24e82ef1d03e5a"><param name="Name" value="iPos"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize.html#a5d732b16413c1aaab73bd633457438af"><param name="Name" value="is_valid_parameters"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize_response.html#a908ed0ad576b71f0288de3e44615689a"><param name="Name" value="is_valid_return"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#afdd8e7ab87c7bfd1a0de2c581c4927b6"><param name="Name" value="isDeletable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a6e0dc577e299eae99b6f71d0f4d4c0de"><param name="Name" value="iSegBufferFree"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#ae8cf2bcc4d5d0f17c411a9178a2e7247"><param name="Name" value="iSegBufferUsed"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a6aa27d2e756e16188fe2ab7b752e1309"><param name="Name" value="isEmpty"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ae9ac365bdbcc7e33baaf74db9f5c88b5"><param name="Name" value="isEmpty"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#aeae99c53cb5e0db2546a73c1e843d5f9"><param name="Name" value="isExportable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#aa40b9d4252176987cabd6a5322fba466"><param name="Name" value="IsHeaderDone"></OBJECT>
   <UL>
@@ -1704,11 +1703,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a630a2b3633906a1a0313292cb50b46ce"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a8dc29ac4a234ec72c5ac17f3f00f0aef"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a2b535ce265ae7d567c44d729fc1ea639"><param name="Name" value="isOpen"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a2b535ce265ae7d567c44d729fc1ea639"><param name="Name" value="FifoQueue"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a9efa02be6832b025432004c7e5dca777"><param name="Name" value="HistoryWriter"></OBJECT>
-  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a9efa02be6832b025432004c7e5dca777"><param name="Name" value="isOpen"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#a3edcf36bd4a6c3ce0c4916baa00e9bb8"><param name="Name" value="isProgramRunning"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#a8b7ebf5f503d592588e407846e205b9e"><param name="Name" value="isProtected"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph_plugin.html#a2456d78e594df7bdf5e5e1083ed56c7a"><param name="Name" value="isSupported"></OBJECT>
@@ -1730,7 +1725,6 @@
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_x_l_f_parse_handler.html#a78f7653554b5ea16894bf6ee3cb2e1d9"><param name="Name" value="IsValidFormat"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_morph_1_1_t_e_r_m_e_n_t_r_y.html#a5b564419dd48027ac5dc619625bc6f94"><param name="Name" value="iTermType"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#ab0fe6a36d7f48d6cc120e7ffa0ac10ca"><param name="Name" value="iUploaded"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_a_i_n_t_h_r_e_a_d_i_n_f_o.html#a5681866ca20595b84742f0852b5e9d1f"><param name="Name" value="jInx"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html"><param name="Name" value="JSONFactory"></OBJECT>
   <UL>
@@ -1746,8 +1740,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#a2d5521bb02a055f9a41f410579bb1dc5"><param name="Name" value="terminateJSON"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___j_s_o_n_p_a_r_s_e_d_a_t_a.html#a66a6e9b1eefd4704f3f1e9015bb4ff8e"><param name="Name" value="JSONString"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a4afea9eb3fb03d8a8191f3494b357b09"><param name="Name" value="KEY_DRIVE"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a522d378f6c1d4ec2d1edbad8a76238db"><param name="Name" value="KEY_PATH"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_a_i_n_t_h_r_e_a_d_i_n_f_o.html#a830623252d20f40bf670124c308f7868"><param name="Name" value="kInx"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#a255a97aa1ce41d8c0294cf9f9d27709f"><param name="Name" value="LangTmgr2Tmx"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#a5e5bcafefb968de4868f668ab0d43236"><param name="Name" value="LangTmx2Tmgr"></OBJECT>
@@ -1760,7 +1752,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a3cd551c88f85f188e67961725b1a4280"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#add8006332646d9fb6b1d52711f8caf9a"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#aa0326a3621d33295275806bb8af2fa8a"><param name="Name" value="ListMemoryProperties"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ab38da3a16bce7f0b7f15dfc9b01934bf"><param name="Name" value="listMemoryUsers"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ab38da3a16bce7f0b7f15dfc9b01934bf"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
@@ -1779,6 +1770,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a9ceddf8e8714a23fe25f5b96456047f7"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a69fb869d0cc46a522e6db38cd85acd85"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a793d74346e7d43d3357424c4b61c2456"><param name="Name" value="listShareMemories"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#aec9a9f6ed9a1bd193589b937cb9cbb84"><param name="Name" value="listTerms"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#aec9a9f6ed9a1bd193589b937cb9cbb84"><param name="Name" value="OtmMorph"></OBJECT>
@@ -1802,13 +1794,20 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#aebc586e8c55ecd043a8c6a81b22a1d1e"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#ae53e5b0264f6ab04d9269e5972bf10ee"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#aa7a753dd419feb1eaf3c2f2faccbdf6c"><param name="Name" value="loadProperty"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ad7bf769a71bcd265a84535cb90af0e37"><param name="Name" value="loadPropertyFile"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ad7bf769a71bcd265a84535cb90af0e37"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a7e000394b5d20d2374e45e912da9e31d"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a7f7f977dc217f233519a7777c599e8cb"><param name="Name" value="LoadPropertyFile"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#af82719bcc2b74e6bc59db4d18350c491"><param name="Name" value="loadUpdateCounter"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a238ec2c36b44b3440322edef7c69fed1"><param name="Name" value="loadUpCounterProperty"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#ace31302d9275b1fda8e752d24883fd26"><param name="Name" value="lock"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#ace31302d9275b1fda8e752d24883fd26"><param name="Name" value="CProcessLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html#a3ac11229f21358b06e3c5bab875b89cf"><param name="Name" value="CSyncLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html#ad3eb5e303ba5f08140bf982286cc8974"><param name="Name" value="CThreadLock"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#aec0dfa1381088def474a202864ea762f"><param name="Name" value="Lock"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___w_e_b_c_l_i_e_n_t_d_a_t_a.html#aa5791837d53b0ee6030157a7de8271de"><param name="Name" value="Log"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a99c2849f5654e97e4af2c2fead48f01e"><param name="Name" value="lSegCounter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a1d81b38c9a606510870c812b6717f0db"><param name="Name" value="lSegNum"></OBJECT>
@@ -1829,6 +1828,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a714174b2643954cfa12d826081c82ed8"><param name="Name" value="CTMXExportImport"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#aa9af31f974f0fbf4eaa208e9cdd24bf2"><param name="Name" value="CXLFImport"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#ac091143f4fac7a35f8bb8636c5c7f10f"><param name="Name" value="m_hFileHandle"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_name_list.html#a719199fef3fdf2bc9ef38df6a48d92d1"><param name="Name" value="m_iListSize"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#adf1094527eada5874ed19bbecc44815e"><param name="Name" value="m_iSourceSize"></OBJECT>
   <UL>
@@ -1843,6 +1843,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#accd115edf8b26910f65dbd1c67a3c97f"><param name="Name" value="CTMXExportImport"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#ac3301b6021544ce47597b48ec604e44c"><param name="Name" value="CXLFImport"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a421b877bda96dc348227550c2acaf537"><param name="Name" value="m_pBuffer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_name_list.html#a3f279a12f62e20a6c7c8fca57aa99e27"><param name="Name" value="m_pList"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a3f3140464a4d36e2067bef8c815cbe74"><param name="Name" value="m_pLoadedRTFTable"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a0422231d2e68ac4c51b34c6812294ebc"><param name="Name" value="m_pLoadedTable"></OBJECT>
@@ -1910,15 +1911,15 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_on_lan_memory_plugin_8cpp.html#a42a7552473b9844d6e2c161a1255c5f7"><param name="Name" value="EqfSharedOnLanMemoryPlugin.cpp"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#ae9e080b52952b0855088d96378a7326f"><param name="Name" value="MemInfo"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#ae32cdb51afaaf52b270bd75cf4da190d"><param name="Name" value="memName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a62be800385e3d493f126c142cb63e1cd"><param name="Name" value="MEMORYINFO"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a99e3a6348523715c0cb2f60749261a57"><param name="Name" value="MemoryList"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#ab975662db7db3695fd6a4a3974118660"><param name="Name" value="MEMORYPARTDATA"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html"><param name="Name" value="MemoryWebServiceClient"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ab9b03173c59fd92a1e6e9e4dc1f5b78a"><param name="Name" value="addMemoryUser"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ab530c3def452de39a22dece56ac7dd82"><param name="Name" value="createMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a9ef9b72ef0e34a7564f461cb9a6d183d"><param name="Name" value="deleteMemory"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a7b500425c584e8dcbbc7cc311202544b"><param name="Name" value="downloadProposal"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ad01f92b62e282af1b0dd17bb67462c38"><param name="Name" value="downloadProposal"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a12a131877614e752ba1bf9998f1f9b8a"><param name="Name" value="Error_AdbSynchronizeCreate_failed"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#aba6a0fe1e59625bfcbe8a544382b027c"><param name="Name" value="Error_Axis2CHome_notset"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ae5651d2b638bac888b3325e3023ca0dc"><param name="Name" value="Error_AxutilEnvCreateAll_failed"></OBJECT>
@@ -1931,24 +1932,18 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ae4b5b0cb93a1fd278138c20653fc2cfd"><param name="Name" value="getMemoryInfo"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ab1acabfcff9f09f2874aff5c449595f5"><param name="Name" value="listMemories"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a3154572b8bf84b025dfa1c7d39d6cee2"><param name="Name" value="listMemoryUsers"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#af82719bcc2b74e6bc59db4d18350c491"><param name="Name" value="loadUpdateCounter"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a174587688a9382568ec349c9bc4b1fc3"><param name="Name" value="MemoryWebServiceClient"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#add4d839d425fe338e83a0991be21cd6e"><param name="Name" value="removeMemoryUser"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#aa1629b0e6fe3a35c6e8f7eb6050d7d7d"><param name="Name" value="setEndpointUrl"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a67dbe46b43626933c56393849c929f8e"><param name="Name" value="uploadProposal"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a01d1e77f1fe88410fc97e96f54f8a75d"><param name="Name" value="writeUpdateCounter"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ac89869ced3aeecf67a37e005c5c7f0fe"><param name="Name" value="uploadProposal"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a9b90d34213d8e852286bce2cc6059103"><param name="Name" value="~MemoryWebServiceClient"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a1229c3993c9400d2818f370a0b9428ff"><param name="Name" value="mode"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a9d5b1b6b31f4b7c83425fe637396bdb5"><param name="Name" value="MonitorThreadProc"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#ae29a8cb3e7b63ce9226a500a5139a759"><param name="Name" value="MORPH_ABBREV_DIC"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#af960a158a5a6ed07722146636045ee3c"><param name="Name" value="MORPH_ADDENDUM_DIC"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph_plugin.html#ad349e28603296a4351f029b86225ecc2"><param name="Name" value="MORPHINFO"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a6e5ac15e5322e9a02c6685d459c0116a"><param name="Name" value="MP2FROMP"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a7eef4c7901ddf329775d705ccdb0fd85"><param name="Name" value="MRFROMSHORT"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8h.html#a4853f6c25c8394fd57c4d99f61d5cd89"><param name="Name" value="NAME_LEN"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a39283c75a296560a64f700b22c19f88c"><param name="Name" value="NAME_LEN"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8h.html#a4853f6c25c8394fd57c4d99f61d5cd89"><param name="Name" value="EqfSharedMemoryPlugin.h"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a39283c75a296560a64f700b22c19f88c"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_on_lan_memory_plugin_8h.html#a4853f6c25c8394fd57c4d99f61d5cd89"><param name="Name" value="EqfSharedOnLanMemoryPlugin.h"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___p_r_o_c_e_s_s_b_a_r.html#a6a5c57f3b3b2429d548765ff170004fa"><param name="Name" value="nID"></OBJECT>
@@ -1962,9 +1957,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a56ff1cf9530772b3a39959bab0647034"><param name="Name" value="OM_APPEND"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#aecd41d232fdce970fd20faa51a89faed"><param name="Name" value="OM_OVERWRITE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a8b0ea4be7661d6764e027d0401d6bf8e"><param name="Name" value="OM_UTF16"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0adaa4845c2231e23391cd714ddadfe1"><param name="Name" value="open"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a2654da351c8f64934e79b615c6515055"><param name="Name" value="open"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0adaa4845c2231e23391cd714ddadfe1"><param name="Name" value="FifoQueue"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a2654da351c8f64934e79b615c6515055"><param name="Name" value="HistoryWriter"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document_plugin.html#aa96f2ac7ebb4034678feedf13f2b5b20"><param name="Name" value="OtmDocumentPlugin"></OBJECT>
   </UL>
@@ -1975,8 +1969,8 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a1af8d0767db9c6767e387e2956cfeb1c"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#aef40bb26d8624970415d024a4f18edda"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#ac90ad6eb1d7a8cac8c3f3ab46865d3d6"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#ada74ea88d1b9b4faa291053a22887a75"><param name="Name" value="ReplicateHelper"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a0e73a5ec67a7e160f0873af035e7f57b"><param name="Name" value="OPENMODE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph_plugin.html#a65ac194f5126141852437755745384db"><param name="Name" value="openMorph"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell_plugin.html#a6822b0d231ec3d6256f39b8198d7c8cb"><param name="Name" value="openSpell"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#a98f30a851763bd4675f011b1c6d31ce0"><param name="Name" value="OPTIONSPASSWORD"></OBJECT>
@@ -2181,23 +2175,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#aa90eab73e2c93a989c7f64098c0afeee"><param name="Name" value="stopPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a07f0c58dcabd71566a2bcac276018f2a"><param name="Name" value="~OtmMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html"><param name="Name" value="OtmMemReplicator.CPP"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a850a1b340f5fa8779f5942628759b5f6"><param name="Name" value="APPL_NAME"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a64d47a6bdb272a15cc0c2474221dfd8e"><param name="Name" value="deleteMonitorCS"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a269355668f3684c64057e02ac1e71964"><param name="Name" value="g_szClassName"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#ad87b23f329dcb471ca56835b20dad0bc"><param name="Name" value="getFileChangedFlag"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a71da48f4adf8ae4176e060e1044a322d"><param name="Name" value="getListBoxItemx"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a97a11f099b76877e55111796d609f4be"><param name="Name" value="initMonitorCS"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a4afea9eb3fb03d8a8191f3494b357b09"><param name="Name" value="KEY_DRIVE"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a522d378f6c1d4ec2d1edbad8a76238db"><param name="Name" value="KEY_PATH"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a9d5b1b6b31f4b7c83425fe637396bdb5"><param name="Name" value="MonitorThreadProc"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a6e5ac15e5322e9a02c6685d459c0116a"><param name="Name" value="MP2FROMP"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a7eef4c7901ddf329775d705ccdb0fd85"><param name="Name" value="MRFROMSHORT"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a1463681b81ddfb9d515921bd94d48d62"><param name="Name" value="setFileChangedFlag"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#ae06e349b2a8a01148e40706325a36dcf"><param name="Name" value="TIMER_ID"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a661c2abc03926acfaeb93b4ae7db4943"><param name="Name" value="WinMain"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html"><param name="Name" value="OtmMorph"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_morph_8h.html"><param name="Name" value="OtmMorph.h"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_morph_1_1_t_e_r_m_e_n_t_r_y.html"><param name="Name" value="OtmMorph::TERMENTRY"></OBJECT>
@@ -2334,7 +2311,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a0daccb6916373f91844ef63f672d557a"><param name="Name" value="removeMemoryUser"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#acfec8cbddce6d033586a2bc011dc251e"><param name="Name" value="renameMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a1a5604a3425a46b802bfad4a5713ea35"><param name="Name" value="replaceMemory"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a9485334ba6459ec0e0c48136fb61fffa"><param name="Name" value="replicateWithServer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#aa3736c043d190c39bd0097a49074e8b4"><param name="Name" value="setOwner"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#ad0548d1560c2af78f3436a03b878350b"><param name="Name" value="~OtmSharedMemoryPlugin"></OBJECT>
   </UL>
@@ -2401,7 +2377,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_tool_plugin.html#a556d58dd1f1f9c7a896648f16baf5cd9"><param name="Name" value="stopPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_tool_plugin.html#a03941008c0c13f85a8c4c0199fe2ef0b"><param name="Name" value="~OtmToolPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#af766e48a3af4890c7865761508bf1957"><param name="Name" value="outQueue"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#ae51a3e9e03dae0f86a88660a708ad4de"><param name="Name" value="ownUpCounterSet"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#aef4cd6d0852c4bf3a6250406da68acd0"><param name="Name" value="PACCESSOPTIONS"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp_config.html#ac13f03f83b6846b415e90aebef8c3c66"><param name="Name" value="ParseConfigFile"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#a2e4fa7206e63ddfe668963449b52c758"><param name="Name" value="parseJSONGetNext"></OBJECT>
@@ -2413,7 +2389,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a390352bc4a05021246d798a248ebdff8"><param name="Name" value="PFN_LISTMEMORY_CALLBACK"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#a720392ccee625c543b4be1c70993908b"><param name="Name" value="pHandler"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_e_m_i_m_p_o_r_t_f_r_o_m_f_i_l_e_d_a_t_a.html#a98feabe21309b2590b8c4b1d88d9f0a9"><param name="Name" value="pInputMemory"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a8ff52c99fb743b1e8d7f4c91806f4e90"><param name="Name" value="pLog"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#aef112715903307b0dc236646fe5e58aa"><param name="Name" value="plugin"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8h.html#af86d127d8789315f7bdb4ea960074e7d"><param name="Name" value="PLUGIN_MISS_DICT"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8h.html#ab139037f9ff9694d1a7f0cab49adaf98"><param name="Name" value="PLUGIN_MISS_MARKUP"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8h.html#a4769be3ca4d7cabb0fad173785779872"><param name="Name" value="PLUGIN_MISS_MEMORY"></OBJECT>
@@ -2513,19 +2489,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#a3bb1a93c3b3413d54f6c3ca5b29c857a"><param name="Name" value="CXLFImport"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_tool_plugin.html#a7cc899340243eed9e3c7411c54cf1b3e"><param name="Name" value="processCommand"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1ba669f132a72398c148b9be8a9b7e06"><param name="Name" value="ProcessCurrentMemory"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#a1b5f53c2bb8f5a796bfbd96f45d3ccd7"><param name="Name" value="processToolCommand"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#a1b5f53c2bb8f5a796bfbd96f45d3ccd7"><param name="Name" value="PluginManager"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager_impl.html#a4349019f9a312d5e3551e06afa2e2993"><param name="Name" value="PluginManagerImpl"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1ad8b1f1895fa591bcc300af3af3c279"><param name="Name" value="ProcessTransportThread"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a5a5e0ba892c7e6275d65e6c202bf3b90"><param name="Name" value="Properties"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#a20f81f34621e9dbaeab549dd2c175bc4"><param name="Name" value="PROPERTIESPASSWORD"></OBJECT>
-  <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#a20f81f34621e9dbaeab549dd2c175bc4"><param name="Name" value="EqfSharedMemoryPlugin.cpp"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a20f81f34621e9dbaeab549dd2c175bc4"><param name="Name" value="TransportThread.CPP"></OBJECT>
-  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize.html#a51090d2d7eba3eb65fd0545c519b756f"><param name="Name" value="property_parameters"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize_response.html#a8b6d0384c7a141972afa69df60e3d94b"><param name="Name" value="property_return"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize.html#a23fcc38a473f0143e2d090f39aeb320f"><param name="Name" value="property_Type"></OBJECT>
@@ -2538,29 +2507,37 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_e_m_i_m_p_o_r_t_f_r_o_m_f_i_l_e_d_a_t_a.html#ac924eee88d8e5f1b8bcadab32b2e9f2f"><param name="Name" value="Proposal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_factory.html#ae30d3f5ce8dee5f9316f670abf6fb45d"><param name="Name" value="ProposalToTMX"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_factory.html#a8d187191f37eaa21c0f8bd2c9862a269"><param name="Name" value="ProposalToTUString"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a241ce8b164f888387d4eb5ba864f0969"><param name="Name" value="PSHAREDMEMDATA"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a1a21ae56bb071f818b94d15fbc45837f"><param name="Name" value="propPath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a8a08c62607bac0f8a96b695fa0dea8c8"><param name="Name" value="PSHAREDMEMPROP"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a8a08c62607bac0f8a96b695fa0dea8c8"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#ac077545123ceab18e97ff87306ce95b4"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell_plugin.html#a0cddb7b9c41da32cbc7b8c52f15d115a"><param name="Name" value="PSPELLINFO"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a6c475d52a74ced3fe60dbfdb8eda8cfb"><param name="Name" value="PTRANSPORTTHREADDATA"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#af02e225f22bba803337ed455a36338d6"><param name="Name" value="putProposal"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#af02e225f22bba803337ed455a36338d6"><param name="Name" value="EqfMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory.html#a69a6f1af8b4448e6476027afbade2278"><param name="Name" value="EqfSharedMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory.html#a355e78e2842545e3a724f9781788a193"><param name="Name" value="EqfSharedOnLanMemory"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a4e0a13c64e56cb2b7856b872451808fd"><param name="Name" value="OtmMemory"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#ae17528b86d39699eb685c11415c34272"><param name="Name" value="ReplicateHelper"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a04c157cf51247608a4db43e842b94dc8"><param name="Name" value="pWebClient"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a783dbab9d80d3593176a91db49ffc026"><param name="Name" value="pWebClient"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize.html#abfdc44c7096ef67f12cc07897315a3f3"><param name="Name" value="qname"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize.html#abfdc44c7096ef67f12cc07897315a3f3"><param name="Name" value="adb_synchronize"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="structadb__synchronize_response.html#a0ec58224c2bf9ce83d49df5585a3b5c7"><param name="Name" value="adb_synchronizeResponse"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#a07fa275547523f5ec1b91e89ecd39ff7"><param name="Name" value="read"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a4e87de2333493ed8fb9f7340d5a1cee7"><param name="Name" value="readRecord"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a38a76d7f4d5a71f1395f669a41adb230"><param name="Name" value="queueName"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a31c37b7e9792566c244a603e697df1ea"><param name="Name" value="queuePath"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_read_from_shared_buffer.html#afd8b68dc5ad5bb4e0413b590d13d7e06"><param name="Name" value="read"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_read_from_shared_buffer.html#afd8b68dc5ad5bb4e0413b590d13d7e06"><param name="Name" value="CReadFromSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#a47a23b0a1b0d186c485697686da1fac2"><param name="Name" value="CSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer4_thread.html#ac81aee56cea42270224ba6be0e134556"><param name="Name" value="CSharedBuffer4Thread"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a0cc640378ddf277d1874b9332244b0c9"><param name="Name" value="CSharedFiles"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#a07fa275547523f5ec1b91e89ecd39ff7"><param name="Name" value="OtmDocument"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#af60d88a71547973b5f63c48f4d84325b"><param name="Name" value="readTermFromFile"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#ac2d91aa7679fd594e867952ac2583368"><param name="Name" value="rebuildIndex"></OBJECT>
   <UL>
@@ -2580,7 +2557,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_plugin.html#a842c638cd8baaa005945a1326f9edbfe"><param name="Name" value="OtmPlugin"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#aa431bff808faaaf8c59e2533a8586ffb"><param name="Name" value="ReleasePlugin"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#ac05d226f5e09b537f1dd7ecded9a3881"><param name="Name" value="RemoveDeletedMemories"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#a1a1de5d751b7da2aefc521b96375c7fc"><param name="Name" value="removeMemoryFromList"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory_plugin.html#a1a1de5d751b7da2aefc521b96375c7fc"><param name="Name" value="EqfMemoryPlugin"></OBJECT>
@@ -2617,11 +2593,22 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory_plugin.html#a3f3f7930e2df3c69f845d8fd3578b5de"><param name="Name" value="OtmMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a1a5604a3425a46b802bfad4a5713ea35"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ae82ec319aeeef30c65715dcffabfd7f7"><param name="Name" value="replicateWithServer"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html"><param name="Name" value="ReplicateHelper"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#ae82ec319aeeef30c65715dcffabfd7f7"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#ab6f7a0a13107dcbf3cad9547393b8422"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_shared_memory_plugin.html#a9485334ba6459ec0e0c48136fb61fffa"><param name="Name" value="OtmSharedMemoryPlugin"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#afdc70c1d3d5925a4a3cba574bf4113f1"><param name="Name" value="cacheInMem"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a93627628cc491c365a1ff5505b1e4e3b"><param name="Name" value="download"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a2c71bfa15608fe324640d792f91455f3"><param name="Name" value="fixInconsistence"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a9ff419111b6f516ec708b376816e110b"><param name="Name" value="header"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a5f50be6a63c30d00fef66258b0982625"><param name="Name" value="init"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a793d74346e7d43d3357424c4b61c2456"><param name="Name" value="listShareMemories"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#aa7a753dd419feb1eaf3c2f2faccbdf6c"><param name="Name" value="loadProperty"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#ada74ea88d1b9b4faa291053a22887a75"><param name="Name" value="openMemory"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#aef112715903307b0dc236646fe5e58aa"><param name="Name" value="plugin"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a1a21ae56bb071f818b94d15fbc45837f"><param name="Name" value="propPath"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#ae17528b86d39699eb685c11415c34272"><param name="Name" value="putProposal"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a783dbab9d80d3593176a91db49ffc026"><param name="Name" value="pWebClient"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#aebd573fdbd4d41f37d46f8b3e5bfa123"><param name="Name" value="sharedPlugin"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a8bb7ec799edbf780d7095aa37edf9ec4"><param name="Name" value="upload"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_eqf_shared_memory_plugin_8cpp.html#a36c91624b5e522e5c7cda36aa82fab54"><param name="Name" value="REPLICATOREXE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#a8207f6f1ac112ff3ef44c45081bcd9a5"><param name="Name" value="save"></OBJECT>
@@ -2634,7 +2621,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a6ccb9c22a943d10e9174d93536599ccf"><param name="Name" value="OtmMemory"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#abc39bedc10fa9027c806a3b1eeee3499"><param name="Name" value="Segment"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#aa2b760517d04a05e2e1f1a74af000337"><param name="Name" value="setDataPath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a2ba7cd8433ede2048a196a8cb399dc4e"><param name="Name" value="setDescription"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a2ba7cd8433ede2048a196a8cb399dc4e"><param name="Name" value="EqfMemory"></OBJECT>
@@ -2645,7 +2631,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a5b68dbe31760bd91a8cc68a52b04ec9d"><param name="Name" value="OtmMemory"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#aa1629b0e6fe3a35c6e8f7eb6050d7d7d"><param name="Name" value="setEndpointUrl"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a1463681b81ddfb9d515921bd94d48d62"><param name="Name" value="setFileChangedFlag"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a3c85ec4c898d073f9962a50fbbffb4e8"><param name="Name" value="setGlobalMemoryOptions"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a3c85ec4c898d073f9962a50fbbffb4e8"><param name="Name" value="EqfMemory"></OBJECT>
@@ -2677,8 +2662,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_https.html#a0c164038792bf01e810eda9df4f8ed46"><param name="Name" value="COtmHttps"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp.html#a7bd3a7ecbc31c4b7313c14d85467e8b0"><param name="Name" value="COtmSftp"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#afc87a68b1cc9cb20aab8f2a1b76284e8"><param name="Name" value="setReplicatorInterval"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1b8ff1a45e1dbc54f1901af9cb06cffc"><param name="Name" value="setSelectedMemories"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a71fc0b652e81fe3790960331b64e93be"><param name="Name" value="setSequentialAccessKey"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#a71fc0b652e81fe3790960331b64e93be"><param name="Name" value="EqfMemory"></OBJECT>
@@ -2693,12 +2676,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#a5f5b943731d8bfe2cb038abed631a7f2"><param name="Name" value="TMXParseHandler"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_x_l_f_parse_handler.html#ac123771a71da42dd8eff0dc338e6c530"><param name="Name" value="XLFParseHandler"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a96f200d84f7809f1d4bd3658bfcd9b74"><param name="Name" value="SHAREDMEMDATA"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a647856c57d576b08e181987b8187256e"><param name="Name" value="SHAREDMEMPROP"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a647856c57d576b08e181987b8187256e"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a65edcd0bed405045e497b37c804eeb58"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#aebd573fdbd4d41f37d46f8b3e5bfa123"><param name="Name" value="sharedPlugin"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_impl_8cpp.html#a66ba004a6b39068c93841a2deb9dd2a9"><param name="Name" value="short"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_simple_base64.html"><param name="Name" value="SimpleBase64"></OBJECT>
   <UL>
@@ -2717,8 +2700,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#acc4fbc7be5807dc506681f9fec01c288"><param name="Name" value="CXLFImport"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#a05aff119641f51f4707e21e0af880ab8"><param name="Name" value="startJSON"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#affa809413e8958aa804e716d89bc55ce"><param name="Name" value="StartTransportThread"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a4649e53ef594195565e4736738f00715"><param name="Name" value="State"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#abce49dfde207f3464160e6a8077ebbef"><param name="Name" value="stem"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#abce49dfde207f3464160e6a8077ebbef"><param name="Name" value="OtmMorph"></OBJECT>
@@ -2742,14 +2723,12 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#ac8e8659263081cbc1789eaba4ba1ade4"><param name="Name" value="PluginManager"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager_impl.html#a9276de2277c9cf1aa8c8c1154463de8c"><param name="Name" value="PluginManagerImpl"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a16b3b028cd0e318312189fb09ddc0fc5"><param name="Name" value="StopTransportThread"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8h.html#ab7008d1fef470b05dd6dcd3ee16275c5"><param name="Name" value="STR_DICT_PLUGIN"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8h.html#a826e33b99bf6936d66f84c7eae77462a"><param name="Name" value="STR_MARKUP_PLUGIN"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8h.html#ab94685135163ef0c29187d7e2329678d"><param name="Name" value="STR_MEMORY_PLUGIN"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n.html#a9466904b4129eca5d361553fe7ed1124"><param name="Name" value="strAfterAction"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_plugin_manager_8cpp.html#ab7662b4fd09afcc9f3308f482e49b271"><param name="Name" value="StrcatName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_e_m_i_m_p_o_r_t_f_r_o_m_f_i_l_e_d_a_t_a.html#a0ef03e94ff2d97da6863c26c207a3ede"><param name="Name" value="strDataFile"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a3fa337067fbb517aefb8a465377f753c"><param name="Name" value="strDataPath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n_m_a_i_n.html#a311afc60053436c1291921a97533437a"><param name="Name" value="strDate"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n_m_a_i_n.html#a311afc60053436c1291921a97533437a"><param name="Name" value="_CPLUGINMAIN"></OBJECT>
@@ -2785,13 +2764,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_morph_8h.html#a94016d94c130e651c4b01696eb3fa847"><param name="Name" value="OtmMorph.h"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_spell_8h.html#a94016d94c130e651c4b01696eb3fa847"><param name="Name" value="OtmSpell.h"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a1ed23e9d18a53db9d8060949e087daca"><param name="Name" value="strLastError"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#ae5965d8cb2cadc514ed4266ffa18664b"><param name="Name" value="strLastError"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a1ed23e9d18a53db9d8060949e087daca"><param name="Name" value="_FIFODATA"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#ae5965d8cb2cadc514ed4266ffa18664b"><param name="Name" value="_TMXFACTORYDATA"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___w_e_b_c_l_i_e_n_t_d_a_t_a.html#a887dd79aa22a4f9b6a4c49da073f9660"><param name="Name" value="_WEBCLIENTDATA"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a2e74f3475d8e2188c38ed34d613bbdb3"><param name="Name" value="strLastUpdateID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___w_e_b_c_l_i_e_n_t_d_a_t_a.html#a5bdc6e5263ae2e4dcd182694fbe0d93b"><param name="Name" value="strLogFile"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n.html#aa844cf7da431d0d60f9186c5567bf5a9"><param name="Name" value="strLongDscp"></OBJECT>
   <UL>
@@ -2809,13 +2786,9 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n_d_e_p_n.html#abbe1349ae515f94116e328b71a5efd62"><param name="Name" value="_CPLUGINDEPN"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_a_i_n_t_h_r_e_a_d_i_n_f_o.html#ab617544ef32f4d47e873251d94742467"><param name="Name" value="_MAINTHREADINFO"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a16da756d6754e606d4ebc0762f38944b"><param name="Name" value="strPropertyPath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___m_e_m_i_m_p_o_r_t_f_r_o_m_f_i_l_e_d_a_t_a.html#a13ef4ffb5f98efd441c1904fa1790c56"><param name="Name" value="strPropFile"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___s_h_a_r_e_d_m_e_m_d_a_t_a.html#a882720749f8f51e5175f92d1074ef0fd"><param name="Name" value="strPropFileName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___n_e_t_w_o_r_k_p_a_r_a_m.html#a525cff69ddf38450a84ecc7cac7143b2"><param name="Name" value="strProxyAddress"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___n_e_t_w_o_r_k_p_a_r_a_m.html#ab0c61261d38136b5e27db1668b5bc061"><param name="Name" value="strProxyPort"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a8951ef56288b53d57998d916db15f93f"><param name="Name" value="strQueueName"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_f_o_d_a_t_a.html#a98a682ab6adedcbb4e7417f72d003436"><param name="Name" value="strQueuePath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n.html#aae1712f77ac6c14fb2bbb9da75a4a543"><param name="Name" value="strSeverity"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n.html#a28f88662cc7ffd6c42b77256ecd4e9b0"><param name="Name" value="strShortDscp"></OBJECT>
   <UL>
@@ -2841,6 +2814,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#a7655eac63d9ccf8f44a32181922f5380"><param name="Name" value="OtmSpell"></OBJECT>
   </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#a08f58112f4886c36e567dec2e28bc45a"><param name="Name" value="suggest"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_upload_buffer4_process.html#a37a371c0403caac42e53054d42a53072"><param name="Name" value="syncFile"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#ac6bbb0c7122ae1f9d3f0160893cb120e"><param name="Name" value="szASCIIBuffer"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_s_i_o_n_a_r_e_a.html#a258f159f5c57fe81d2981b0cfb8484cc"><param name="Name" value="szBackupName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#af1c6a46a535d7739585bc3f6a6d2ff1e"><param name="Name" value="szBuffer"></OBJECT>
@@ -2964,7 +2938,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_eqf_shared_memory_plugin_1_1___s_h_a_r_e_d_m_e_m_p_r_o_p.html#a015d2e9d3f51dd01db2051a8e8fc1070"><param name="Name" value="EqfSharedMemoryPlugin::_SHAREDMEMPROP"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_eqf_shared_on_lan_memory_plugin_1_1___s_h_a_r_e_d_m_e_m_p_r_o_p.html#a88bb9447575012a700224157230c8ff2"><param name="Name" value="EqfSharedOnLanMemoryPlugin::_SHAREDMEMPROP"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_r_a_n_s_p_o_r_t_t_h_r_e_a_d_d_a_t_a.html#a13f0da122c2a9f34f064c4e2f9a134c3"><param name="Name" value="Task"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory.html#a89b80178aad961508d942a6591641be5"><param name="Name" value="terminate"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_j_s_o_n_factory.html#a2d5521bb02a055f9a41f410579bb1dc5"><param name="Name" value="terminateJSON"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a3c73cf646a30b44fa9b119d5496b51f7"><param name="Name" value="TERMLIST"></OBJECT>
@@ -2986,9 +2959,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_otm_sftp.html#ae24de202bc89631c2000404d54227e71"><param name="Name" value="COtmSftp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#a89eb9036620d8ba08f1081cb30cc0386"><param name="Name" value="CPlgMgXmlParser"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a63cf7bee4759e30409baf977e370a935"><param name="Name" value="THREADSTATE"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a0137ac3c5e248fc3d1854c5ce7855289"><param name="Name" value="THREADTASK"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1f4c4067ec26c449f7967faf951e2413"><param name="Name" value="THREADWAITTIME"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_time_manager.html"><param name="Name" value="TimeManager"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_time_manager.html#a7b173a1ec01accfb19577e27ec68f719"><param name="Name" value="GetDateStr"></OBJECT>
@@ -2996,7 +2966,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_time_manager.html#a88c92f80e880e6b4babddcdcee6f8817"><param name="Name" value="GetTimeStamp"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_time_manager.html#a8c93c2d45bc1d3ca9ceb173be1e451cd"><param name="Name" value="GetTimeStampStr"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#ae06e349b2a8a01148e40706325a36dcf"><param name="Name" value="TIMER_ID"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a1dde89dec33fff5bd300647582cec40f"><param name="Name" value="TMDelTargetClb"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#aa0da4279553328dad6ee65d7158826e1"><param name="Name" value="TMLoopAndDelTargetClb"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a7549735febfa42de0209103f10bb6dd1"><param name="Name" value="TmtXReplace"></OBJECT>
@@ -3040,34 +3009,12 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a21017956de79b1b779a52d60c882fd09"><param name="Name" value="tokenizeBySentence"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_morph.html#a27f5a5c05f6f552409c67c1a257b4e09"><param name="Name" value="tokenizeByTerm"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a303a0f803518388479f3370c69556d95"><param name="Name" value="TokenizeTarget"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html"><param name="Name" value="TransportThread.CPP"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#adc358d3ae8149b5f9c211f0e3f7afdfb"><param name="Name" value="tryLock"></OBJECT>
   <UL>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a3d07b21a744dce8813f4f76b00720835"><param name="Name" value="AddNewMemories"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a2279e5d68a2ddef080e982437c1b37ab"><param name="Name" value="deleteCrititalSection"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#aee6422db988b3f62441e13d703cb6171"><param name="Name" value="Encrypt"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a9623d72a37d372d6ed3a5fbdb56f096f"><param name="Name" value="getReplicatorInterval"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a6927ea6f27c2bfe3d19385d75d7d6364"><param name="Name" value="getSelectedMemories"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a3aa4f9a232003d4d86c37eb6c4bad64c"><param name="Name" value="GetTransportStatistics"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a35f89f48141589bedc54f4f78771f7c1"><param name="Name" value="initCriticalSection"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#aa0326a3621d33295275806bb8af2fa8a"><param name="Name" value="ListMemoryProperties"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a7f7f977dc217f233519a7777c599e8cb"><param name="Name" value="LoadPropertyFile"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1ba669f132a72398c148b9be8a9b7e06"><param name="Name" value="ProcessCurrentMemory"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1ad8b1f1895fa591bcc300af3af3c279"><param name="Name" value="ProcessTransportThread"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a20f81f34621e9dbaeab549dd2c175bc4"><param name="Name" value="PROPERTIESPASSWORD"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a241ce8b164f888387d4eb5ba864f0969"><param name="Name" value="PSHAREDMEMDATA"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a6c475d52a74ced3fe60dbfdb8eda8cfb"><param name="Name" value="PTRANSPORTTHREADDATA"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#ac05d226f5e09b537f1dd7ecded9a3881"><param name="Name" value="RemoveDeletedMemories"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#afc87a68b1cc9cb20aab8f2a1b76284e8"><param name="Name" value="setReplicatorInterval"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1b8ff1a45e1dbc54f1901af9cb06cffc"><param name="Name" value="setSelectedMemories"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a96f200d84f7809f1d4bd3658bfcd9b74"><param name="Name" value="SHAREDMEMDATA"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#affa809413e8958aa804e716d89bc55ce"><param name="Name" value="StartTransportThread"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a16b3b028cd0e318312189fb09ddc0fc5"><param name="Name" value="StopTransportThread"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a63cf7bee4759e30409baf977e370a935"><param name="Name" value="THREADSTATE"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a0137ac3c5e248fc3d1854c5ce7855289"><param name="Name" value="THREADTASK"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a1f4c4067ec26c449f7967faf951e2413"><param name="Name" value="THREADWAITTIME"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a8ca45bc139bba10f6c451bb22b2825cc"><param name="Name" value="TRANSPORTTHREADDATA"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#adc358d3ae8149b5f9c211f0e3f7afdfb"><param name="Name" value="CProcessLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html#aab47629546f61eeaaa6d0f1d5496211c"><param name="Name" value="CSyncLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html#a885d5c411e4fe63f5cb8b0057a8360d8"><param name="Name" value="CThreadLock"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_transport_thread_8_c_p_p.html#a8ca45bc139bba10f6c451bb22b2825cc"><param name="Name" value="TRANSPORTTHREADDATA"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_f_a_c_t_o_r_y_d_a_t_a.html#af3f37b769982b3511d97d11769672657"><param name="Name" value="Type2Markup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#adb9242e44a9d4541290fdb0a24ef6345"><param name="Name" value="ulBytesRead"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#a8353a814d86fe8caa45d1bf40594c32d"><param name="Name" value="ulBytesToRead"></OBJECT>
@@ -3078,6 +3025,14 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_plugin_1_1___m_e_m_o_r_y_i_n_f_o.html#a01c41dcf2f6521a6b03a8f8bcd141221"><param name="Name" value="ulSize"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#a9a7e10ae47ed7dd87be3a0add3d14445"><param name="Name" value="ulState"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_otm_memory_1_1___m_e_m_o_r_y_p_a_r_t_d_a_t_a.html#a875d6e08e986520c49ad0b21888d4dcc"><param name="Name" value="ulTotalSize"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#a811160107a3fb186971bd67b1f066c5d"><param name="Name" value="unlock"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_process_lock.html#a811160107a3fb186971bd67b1f066c5d"><param name="Name" value="CProcessLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_sync_lock.html#a6a9889082a1be87cd509c287318d4676"><param name="Name" value="CSyncLock"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_thread_lock.html#a31e4eb543e4e34cee1243bfdb2d5f048"><param name="Name" value="CThreadLock"></OBJECT>
+  </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#adc2a6c2d76f3f2ec8797c4ff909939dd"><param name="Name" value="upcounter"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#a7ac052a130c66d64116827d6be168181"><param name="Name" value="upCounterPath"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a343550c3fab44e6e0be978d6fd4ebc9d"><param name="Name" value="UPDATE_DATE"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#ae56e2560e46c756367a5697aa87c6927"><param name="Name" value="UPDATE_MARKUP"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_memory.html#a2a6ef9c6c67541efd5b58ab209c7b2d8"><param name="Name" value="UPDATE_MTFLAG"></OBJECT>
@@ -3092,6 +3047,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup.html#a02c0eed112056a39471955599bd668b1"><param name="Name" value="OtmMarkup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_markup_plugin.html#a35e09c95e4193ef7fb111e4e53878ca4"><param name="Name" value="OtmMarkupPlugin"></OBJECT>
   </UL>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#ae27c07dcdde879cc48310d0b2c7095b5"><param name="Name" value="updateMetas"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#aa296a611e94eea54774f0a0cb492dff2"><param name="Name" value="updateProposal"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_memory.html#aa296a611e94eea54774f0a0cb492dff2"><param name="Name" value="EqfMemory"></OBJECT>
@@ -3102,7 +3058,8 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_document.html#ae8e8746002d2cdbc284c98691c96ad43"><param name="Name" value="updateSegment"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a7ab8177d7dd3122926d0cbcd4c85a302"><param name="Name" value="UpdateTmIndex"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#ac66a48421801c285bcfa2182b01a6300"><param name="Name" value="UpdateTmRecord"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a67dbe46b43626933c56393849c929f8e"><param name="Name" value="uploadProposal"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a8bb7ec799edbf780d7095aa37edf9ec4"><param name="Name" value="upload"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#ac89869ced3aeecf67a37e005c5c7f0fe"><param name="Name" value="uploadProposal"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_plugin.html#afd46fca101d3b34279c80a4acab750b4"><param name="Name" value="usableState"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_o_n_v_e_r_t_e_r_d_a_t_a.html#a871a1e4073e0152f5adfe51e9a42932d"><param name="Name" value="usTranslationFlag"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#ad20f376625e8f8763bbb8ed41593c04f"><param name="Name" value="ValidationCheck"></OBJECT>
@@ -3112,8 +3069,14 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_t_m_x_parse_handler.html#aa1872320d5a6cb1ad935e2f10f957ae7"><param name="Name" value="TMXParseHandler"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_x_l_f_parse_handler.html#a9e25307319864d72a6945f23684213f4"><param name="Name" value="XLFParseHandler"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="_otm_mem_replicator_8_c_p_p.html#a661c2abc03926acfaeb93b4ae7db4943"><param name="Name" value="WinMain"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#aa4b7cf6870f44818940fe604f6380a29"><param name="Name" value="write"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#ab6646f30bb79a7d0a48930dc3ff3d17e"><param name="Name" value="write"></OBJECT>
+  <UL>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer.html#ab6646f30bb79a7d0a48930dc3ff3d17e"><param name="Name" value="CSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_buffer4_thread.html#aac8f9e41fa9ad77e63d87793b778d7ed"><param name="Name" value="CSharedBuffer4Thread"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_shared_files.html#a18dcd52419919b520c1fa036a838fc28"><param name="Name" value="CSharedFiles"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_write_to_shared_buffer.html#a4191cc7f16cfc67e295e31ba1b928109"><param name="Name" value="CWriteToSharedBuffer"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#aa4b7cf6870f44818940fe604f6380a29"><param name="Name" value="HistoryWriter"></OBJECT>
+  </UL>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a5f95422761dc10c75154fa5cb7e4949b"><param name="Name" value="WriteEnd"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a0731d083a8287857e7e5befeeb9cee9e"><param name="Name" value="writef"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a679b583cad9ecf264ebb37e0cb702b67"><param name="Name" value="WriteHeader"></OBJECT>
@@ -3132,12 +3095,11 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a262d621ac9c4b7ae8eb13e750509dd03"><param name="Name" value="EqfSharedMemoryPlugin"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#a99fac67279d3fa4654045d391bc5a7b3"><param name="Name" value="EqfSharedOnLanMemoryPlugin"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a8b50882981201242dd6921cf417b6723"><param name="Name" value="writeRecord"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#ae39407b7893a32c73e06ebe06585ccda"><param name="Name" value="WriteSegment"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_spell.html#a1b1fef804911ebc9292c74eb15d3e56d"><param name="Name" value="writeTermToFile"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_plg_mg_xml_parser.html#a9fe5da3790d759d507c4d12c30bbecab"><param name="Name" value="WriteToLocalXml"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#ac49b8bf5dbb17d4e9fac96382a4b58fc"><param name="Name" value="WriteTUV"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a01d1e77f1fe88410fc97e96f54f8a75d"><param name="Name" value="writeUpdateCounter"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_c_memory_update_counters.html#af5093cb52083474401a068a6e140babb"><param name="Name" value="writeUpCounterProperty"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#ae6bcbef1d576f5e7bc9bccd214c7a32d"><param name="Name" value="writewf"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_x_l_f_parse_handler.html"><param name="Name" value="XLFParseHandler"></OBJECT>
   <UL>
@@ -3165,7 +3127,6 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_memory_plugin.html#a5ae3caf4740a475e7018eced6ae42a77"><param name="Name" value="~EqfSharedMemoryPlugin"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory.html#a365dd75b72fc54f2bdfbbb2eb905867f"><param name="Name" value="~EqfSharedOnLanMemory"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_eqf_shared_on_lan_memory_plugin.html#ab909edcdecd8e4a0d3eb759d5be7dfe3"><param name="Name" value="~EqfSharedOnLanMemoryPlugin"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_fifo_queue.html#a914e68448271e31da0e29aab63d5d3d2"><param name="Name" value="~FifoQueue"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_history_writer.html#a3e7e4e5b5c4a4f6e3b3780005792a585"><param name="Name" value="~HistoryWriter"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_memory_web_service_client.html#a9b90d34213d8e852286bce2cc6059103"><param name="Name" value="~MemoryWebServiceClient"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_otm_dictionary.html#af343277692e0df6bb7bdde2a721d131f"><param name="Name" value="~OtmDictionary"></OBJECT>

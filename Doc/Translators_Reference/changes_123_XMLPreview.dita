@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_123_XMLPreview">
+  <title>XML Preview function</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Within the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor, any
+      XML-document can now be previewed in a basic style.</p>
+    <p>The XML-document can be previewd inside the translation editor either by clicking on the
+      "Pre-View" icon located in the icon list, or via <b>"Translate"</b> - <b>"Show Translation"</b>. 
+      An HTML window opens, and the translatable segments of the XML document
+      are shown line-by-line.</p> 
+    <p>More details can be found in <xref href="doc_PreviewXmlSteps.dita#doc_PreviewXmlSteps"/>.</p>
+  </body>
+</topic>

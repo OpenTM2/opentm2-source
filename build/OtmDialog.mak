@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # OTMDialog.mak - Makefile for OTMDialog DLL
-# Copyright (c) 2012, International Business Machines
+# Copyright (c) 2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -49,5 +49,5 @@ $(_DLL)\OTMDialog.DLL:
 					$(_OBJ)\eqfutmdi.OBJ
 /OUT:$(_DLL)\OTMDialog.DLL
 /MAP:$(_MAP)\OTMDialog.MAP $(_LINK_OPTIONS) /MAPINFO:EXPORTS /DLL
-$(_LINK_LIB_CRT) $(_LIB)\OTMBase.lib $(_LIB)\OtmAlloc.lib
+$(_LINK_LIB_CRT) $(_LIB)\OTMBase.lib
 <<

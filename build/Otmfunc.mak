@@ -1,6 +1,6 @@
 # OTMFUNC.MAK
 #    Description:     --- NON-DDE Batch interface DLL
-# Copyright (c) 2014, International Business Machines
+# Copyright (c) 2017, International Business Machines
 # Corporation and others.  All rights reserved.
 
 !INCLUDE $(_BLD)\EQFRULES.MAK
@@ -27,7 +27,7 @@ $(_DLL)\OTMFUNC.DLL:
 						  $(_OBJ)\InitPlugins.obj
 /OUT:$(_DLL)\OTMFUNC.DLL
 /MAP:$(_MAP)\OTMFUNC.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.LIB $(_LIB)\OTMBase.LIB $(_LIB)\OTMITMD.LIB $(_LIB)\OTMDll.LIB $(_LIB)\PluginManager.LIB
+$(_LINK_LIB_CRT) $(_LIB)\OTMBase.LIB $(_LIB)\OTMITMD.LIB $(_LIB)\OTMDll.LIB $(_LIB)\PluginManager.LIB
 <<
     @if not exist $(RELEASE_DIR)\OTM\API\ md $(RELEASE_DIR)\OTM\API
     @copy $(_LIB)\OtmFUNC.LIB $(RELEASE_DIR)\OTM\API /Y>$(_ERR)

@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCreateCntReport">
+  <title>EqfCreateCntReport</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfCreateCntReport</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfCreateCntReport</indexterm></indexterm>
+      <p><i>EqfCreateCntReport </i> creates Calculating, Preanalysis, Redundancy, Redundant segment
+        list reports.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCreateCntReport</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <groupseq>
+              <repsep>,</repsep>
+              <var>pszDocuments</var>
+            </groupseq>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <fragref>pstructReportType</fragref>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszOutfileName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFormat</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszProfile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <fragref>pstructRepSettings</fragref>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <fragref>pstructFactSheet</fragref>
+          <var>[usColumn] [usCategory]</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>usColumn</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>usCategory</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <fragref>pstructFinalFactors</fragref>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupchoice importance="optional">
+            <kwd>PLAUS_OPT</kwd>
+            <kwd>LOST_OPT</kwd>
+            <kwd>LIST_OPT</kwd>
+          </groupchoice>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>bSingleShipment</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+        <fragment>
+          <title>structReportType</title>
+          <groupseq>
+            <var>pszReport</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>lRepType</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var importance="optional">pszDescription</var>
+          </groupseq>
+        </fragment>
+        <fragment>
+          <title>structRepSettings</title>
+          <groupseq>
+            <var>pszCountType</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>bShow</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>bSummary</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>pszRepLayout</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>bShrink</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>pszStatisticType</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>bExProposal</var>
+          </groupseq>
+        </fragment>
+        <fragment>
+          <title>structFactSheet</title>
+          <groupseq>
+            <var>lComplexity</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>lPayfactor</var>
+          </groupseq>
+        </fragment>
+        <fragment>
+          <title>structFinalFactors</title>
+          <groupseq>
+            <var>pszUnit</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>lCurrFactor</var>
+            <sep>,</sep>
+          </groupseq>
+          <groupseq>
+            <var>pszLocalCurrency</var>
+          </groupseq>
+        </fragment>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry valign="middle">PSZ</entry>
+              <entry valign="middle">pszDocuments</entry>
+              <entry valign="middle">List of documents, or <codeph>NULL</codeph> if all documents of
+                the folder should be used.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PREPORT TYPE</entry>
+              <entry colname="col2">pstructReportType</entry>
+              <entry colname="col3">See <xref href="api_EqfCreateCntReport_Type.dita#api_EqfCreateCntReport_Type"/> for
+                details.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutfileName</entry>
+              <entry colname="col3">The name of the file where the report is to be stored (along
+                with the drive and directory information).</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFormat</entry>
+              <entry colname="col3">Format of the Output file ("ASCII"," HTML", or "XML").</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszProfile</entry>
+              <entry colname="col3">The name of the profile to be loaded, or
+                <codeph>NULL</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PREPORT SETTINGS</entry>
+              <entry colname="col2">pstructRepSettings</entry>
+              <entry colname="col3">See <xref href="api_EqfCreateCntReport_Settings.dita#api_EqfCreateCntReport_Settings"/> for
+                details.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PFACTSHEET</entry>
+              <entry colname="col2">pstructFactSheet [usColumn][usCategory]</entry>
+              <entry colname="col3">Array of <b>structFactSheet</b>. See <xref
+                  href="api_EqfCreateCntReportFact.dita#api_EqfCreateCntReportFact"/> for details.</entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">usColumn</entry>
+              <entry colname="col3">The first array index represents the column number according to
+                the listed columns in the dialog <q>Create Counting Report</q>, tab <q>Fact
+                  Sheet</q>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">usCategory</entry>
+              <entry colname="col3">The second array index represents the category number according
+                to the listed categories in the dialog <q>Create Counting Report</q>, tab <q>Fact
+                  Sheet</q>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PFINAL FACTORS</entry>
+              <entry colname="col2">pstructFinalFactors</entry>
+              <entry colname="col3">See <xref href="api_EqfCreateCntReport_Factors.dita#api_EqfCreateCntReport_Factors"/> for
+                details.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptSecurity</entry>
+              <entry colname="col3">The options to be used for security: <ul>
+                  <li>PLAUS_OPT (Plausibility check)</li>
+                  <li>LOST_OPT (Lost Data: Force new shipment)</li>
+                  <li>LIST_OPT (List of Documents)</li>
+                </ul>You can combine the options using OR.</entry>
+            </row>
+            <row>
+              <entry colname="col1">BOOL</entry>
+              <entry colname="col2">bSingleShipment</entry>
+              <entry colname="col3">
+                <ul>
+                  <li>TRUE = Single Shipments</li>
+                  <li>FALSE = All Shipments</li>
+                </ul>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT   usRC = 0;
+  HSESSION hSession = 0L;
+  int      i,j;
+  #define  COLUMN  10;
+  #define  CATGORY 3;
+
+  REPORTTYPE  ReportType = {NULL, 0L, NULL};
+  REPSETTINGS ReportSettings = {NULL, 0, 0, NULL, 0, NULL, 0};
+  FACTSHEET   FactSheet[COLUMN][CATEGORY];
+  FINALFACT   FinalFactors = {0L, 0L NULL};
+
+  //fill ReportType structure
+  ReportType.pszReport = "Calculating Report");
+  ReportType.lRepType=BASE_TYP | FACT_TYP | SUM_TYP;
+  ReportType.pszDescription[0]='\0';
+
+  //fill ReportSettings strucure
+  RepSettings.pszCountType = "Source Words";
+  RepSettings.bShow=TRUE;
+  RepSettings.bSummary=TRUE;
+  RepSettings.pszRepLayout = "Standard";
+  RepSettings.bShrink=FALSE;
+  RepSettings.pszStatisticType = NULL;
+  RepSettings.bExProposal=FALSE;
+
+  //fill FactSheet structure
+  for(i=0;i++,i&lt;COLUMN)
+  {
+    for(j=0,j++,j&lt;CATEGORY)
+    {
+      FactSheet[i][j].lComplexity = (float)1.0;
+      FactSheet[i][j].lPayFactor = (float)1.0;
+    }
+  }
+
+  // fill FinalFactors structure
+  FinalFactors.lUnit = 1;
+  FinalFactors.lCurrFactor = (float)1.0;
+  FinalFactors.pszLocalCurrency = "EUR";
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  if ( !usRC )
+  {
+    usRC = EqfCreateCntReport(hSession, 'e', "TEST", "test.doc, 
+                              test2.doc", &amp;ReportType,
+                              "E:\\Project\\CalcReport", "HTML", 
+                              NULL, 
+                             &amp;RepSettings,(void *)FactSheet, 
+                              COLUMN, CATEGORY, &amp;FinalFactors, 
+                              PLAUS_OPT, TRUE);
+  } //endif
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

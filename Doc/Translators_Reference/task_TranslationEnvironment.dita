@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task_TranslationEnvironment">
+  <title>Working with the Translation Environment</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>After opening a document, you are in the Translation Environment where you translate segment by segment by using the Translation Memory 
+      and dictionary proposals. The original document is still in the background and can be viewed at any time. After postediting the translation, 
+      you return to the Workbench to export the document into its original word-processing format. </p>
+  </body>
+</topic>

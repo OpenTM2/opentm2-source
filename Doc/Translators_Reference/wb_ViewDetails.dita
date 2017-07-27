@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="wb_ViewDetails">
+  <title>Defining the view details</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>translation workbench<indexterm>defining details displayed in
+          windows</indexterm></indexterm>
+        <indexterm>list windows<indexterm>defining details of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Usually you just see the names of documents, Translation Memories, dictionaries, and so on, listed in the respective windows. For example, 
+      in the <q>Document List</q> window <keyword conref="common-symbols.dita#common-symbols/tm4w"/> by default displays only the document names.</p>
+    <p>However, if you are interested in more details about a specific list item, this information can be easily retrieved.</p>
+    <p>You can view, for example: 
+      <ul>
+        <li>A description of a list item</li>
+        <li>When a list item was last modified</li>
+        <li>Where a list item is located</li>
+        <li>The completion percentage of a translation</li>
+      </ul>
+    </p>
+    <p>Because not every translator has the need for the same amount of detail, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+      lets you choose individually what you want to display.</p>
+    <p>You define this by selecting <b>Change details...</b> from the <b>View</b> menu. On the subsequent window <b>Change View Details</b> you 
+      select the details in which you are interested.</p>
+    <p>If, in the corresponding List windows, the columns displaying the individual details are too narrow or too wide, you can change 
+      them by dragging the borders of the column headers using the mouse.
+      <indexterm>dragging<indexterm>column borders</indexterm></indexterm><indexterm>column borders<indexterm>dragging</indexterm></indexterm></p>
+  </body>
+</topic>

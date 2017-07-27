@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCreateCntReportFact">
+  <title>Parameters for structFactSheet</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <example>
+      <codeblock>typedef struct _FACTSHEET
+{
+  LONG lComplexity;
+  LONG lPayFactor;
+} FACTSHEET,*PFACTSHEET;</codeblock>
+    </example>
+    <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="53*"/>
+        <colspec colname="col2" colwidth="82*"/>
+        <colspec colname="col3" colwidth="154*"/>
+        <thead valign="top">
+          <row>
+            <entry align="left">Type</entry>
+            <entry align="left">Parameter</entry>
+            <entry align="left">Description </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="middle">float</entry>
+            <entry valign="middle">lComplexity</entry>
+            <entry valign="middle">Specifies the Complexity Factor.</entry>
+          </row>
+          <row>
+            <entry valign="middle">float</entry>
+            <entry valign="middle">lPayFactor</entry>
+            <entry valign="middle">Specifies the Pay Factor.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </refbody>
+</reference>

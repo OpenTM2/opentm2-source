@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_PropertiesChange">
+  <title>Changing the properties of a <keyword
+      conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>Translation Memory<indexterm>changing properties</indexterm></indexterm>
+      <p>All properties of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> can be
+        viewed, but only the description can be changed.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/> List</q>
+            window</li>
+          <li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from the list of
+              <keyword conref="common-symbols.dita#common-symbols/xlmems"/></li>
+          <li><b>Properties…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>This takes you to the <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+          Properties</q> window (see <xref href="#memory_PropertiesChange/xlmpropwin"/>).
+                <required-cleanup><indexterm>windows<indexterm><keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>
+                  Properties</indexterm></indexterm></required-cleanup><fig id="xlmpropwin" expanse="column">
+          <title><keyword conref="common-symbols.dita#common-symbols/xlmem"/> Properties
+            window</title><image placement="break" href="memory_PropertiesChange.gif"><alt>Figure shows Properties
+              window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/> Properties</q> window
+        lists the characteristics of the selected <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>. Only the <b>Description</b> field can
+        be changed.</p>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. </pd>
+        </plentry>
+        <plentry>
+          <pt>Short name</pt>
+          <pd>The short name of the Translation Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>The description of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+            It can be up to 40 characters long.</pd>
+        </plentry>
+        <plentry>
+          <pt>Location</pt>
+          <pd>Can be <b>local</b> (only one translator can use it at a time) or <b>shared</b>
+            (several translators can use it simultaneously).</pd>
+        </plentry>
+        <plentry>
+          <pt>Disk drive</pt>
+          <pd>The drive where the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            resides.</pd>
+        </plentry>
+        <plentry>
+          <pt>Source language</pt>
+          <pd>The source of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, this
+            means the language of the terms (headwords).</pd>
+        </plentry>
+        <plentry>
+          <pt>Different Segments</pt>
+          <pd>The total number of different segments stored in the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> which have different translations,
+            which are from different languages or which have different markup tables.</pd>
+        </plentry>
+        <plentry>
+          <pt>File size</pt>
+          <pd>The total size of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, in
+            bytes.</pd>
+        </plentry>
+        <plentry>
+          <pt>Last update</pt>
+          <pd>The date and time of the last update of the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>A list of the documents for which segments are stored in this <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Markups</pt>
+          <pd>A list of all markup tables used by the segments of this <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you select <b>Change</b>, the <keyword conref="common-symbols.dita#common-symbols/xlmem"
+        /> description is changed according to your specification. Otherwise, it remains unchanged.
+        You are returned to the previous window.</p>
+    </section>
+  </refbody>
+</reference>

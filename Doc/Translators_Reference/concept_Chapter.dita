@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="concept_Chapter">
+  <title>General concepts</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In this part, you find descriptions of what you can do with all kinds of translation material in 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. Each type of data, such as documents, dictionaries, and folders, is considered 
+      as an object on which you can perform an action, such as copying, changing, and deleting.</p>
+    <p>For each <keyword conref="common-symbols.dita#common-symbols/tm4w"/> object, you find a chapter that contains: 
+      <ul>
+        <li>A general description of what the object is</li>
+        <li>An overview of the functions and the terminology related to the object</li>
+        <li>Detailed descriptions of the actions you can perform on the object</li>
+      </ul>
+    </p>
+  </body>
+</topic>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfGetSegW">
+<title><!--rev=as01042005-->EqfGetSegW</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfGetSegW </indexterm><indexterm>programming interface calls<indexterm>EqfGetSegW </indexterm></indexterm>
+<p>Get the data of a specific segment from a segmented file loaded
+into memory using <i>EqfLoadSegFile</i>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfGetSegW</kwd><delim>(</delim><var>hSegFile</var><sep>,</sep><var>lSegNum</var><sep>,</sep><var>pSeg</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="95*"/>
+<colspec colname="col2" colwidth="66*"/>
+<colspec colname="col3" colwidth="124*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSESEGFILE</entry>
+<entry colname="col2">hSegFile</entry>
+<entry colname="col3">Handle of loaded segment file</entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">ISegNum</entry>
+<entry colname="col3">Number of segment being rereived</entry></row>
+<row>
+<entry colname="col1">PPARSESEGMENTW</entry>
+<entry colname="col2">pSeg</entry>
+<entry colname="col3">Pointer to structure receiving the segment data</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to retrieve the complete error
+information.</entry></row>
+</tbody>
+</tgroup>
+</table>
+<codeblock>{
+  USHORT   usRC = 0;
+  HPARSSEGFILE *hSegFile = NULL;
+  HSESSION hSession = 0L;
+  PARSSEGMENTW Segment;
+ 
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  if ( !usRC )
+  {
+    usRC = EqfBuildSegDocName( hSession, "SAMPLE1", "Document1", 
+                               1, szFileName );
+  } //endif
+
+  if ( !usRC )
+  {
+    usRC = EqfLoadSegFile( hSession, szFileName, &amp;hSegFile );
+    if ( !usRC )
+    {
+      usRC = EqfGetSegW( hSegFile, 1, &amp;Segment );
+      if ( !usRC )
+      {
+        wcslwr( Segment.szData );
+        usRC = EqfUpdateSegW( hSegFile, 1, &amp;Segment );
+        if ( !usRC )
+        {
+          usRC = EqfWriteSegFile( hSegFile, szFileName );
+        } //endif
+      } //endif
+      EqfFreeSegFile(hSegFile );
+    } //endif
+  } //endif
+
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+</section></refbody></reference>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="report_LayoutBasic">
+<title>The report layout</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>This section describes the individual rows and columns of a Calculating,
+Preanalysis, or Redundancy Report.</p>
+<parml>
+<plentry><pt>Analyze Auto</pt>
+<pd>Contains the number of exact and exact-exact matches retrieved from
+a Translation Memory during the analysis of a document for which the manual
+translation has already been started. The "<b>Analyze Auto2</b>" numbers are not used for payment purposes as these numbers contain
+a mixture of manually translated segments (which have been added to the memory
+while manually translating the document) and segments which were already in
+the memory before the manual translation started.
+<p>When the document is re-imported
+<keyword conref="common-symbols.dita#common-symbols/tm4w"/> assumes the start of a new shipment. The automatically
+substituted segments during an analysis following the re-import are when counted
+in the "<b>Analyze Auto</b>" column although the manual translation
+may have been started already.</p></pd></plentry>
+<plentry><pt>Analyze Auto2</pt>
+<pd>Contains the number of exact and exact-exact matches retrieved from
+a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> during the analysis of a document. To get a result, you must select
+the option “Substitute exact matches in the documents automatically”
+on the <q>General</q> page of the <q>Analyze Documents</q> window (see <xref href="doc_AnalyzeMemory.dita#doc_AnalyzeMemory"/> for a description). If more than one exact match is found,
+it is counted as part of the “Edit Exact” column because the translator
+has to decide which match is the correct one.
+<p>Only the first analysis of
+the document is taken into account. If, however, a previously translated document
+is imported and analyzed again, the report contains both the number of exact
+matches of the first analysis and the results of the reimported document.
+The results are shown as belonging to shipment 1 and shipment 2 (column “Number
+Shipment”).</p></pd></plentry>
+<plentry><pt>Analyze Post</pt>
+<pd>Has the same contents as, and replaces, the “Analyze Auto“ column
+after the analyzed document is opened for translation.</pd></plentry>
+<plentry><pt>Analyze Edit</pt>
+<pd>Contains the number of exact matches retrieved from a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> during
+the translation of the document. To get a result, you must analyze the document
+without the “Substitute exact matches in the documents automatically”
+option and then select the option “Automatic substitution” from the <b>Translate</b> menu during translation. Only the first analysis
+of the document is taken into account.
+<p>If a previously translated document
+is imported and analyzed again and then edited with automatic substitution,
+the report contains the number of exact matches of both the first and the
+second edit. The results are shown as belonging to shipment 1 and shipment
+2 (column “Number Shipment”).</p></pd></plentry>
+<plentry><pt>Edit Auto</pt>
+<pd>Contains the number of exact and exact-exact matches retrieved from
+a Translation Memory during the "<b>Automatic Substitution</b>"
+from within the Translation Environment. </pd></plentry>
+<plentry><pt>Edit Exact</pt>
+<pd>Contains the number of exact matches copied from a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> during the
+translation of the document, using the Ctrl+<i>n</i> key
+(where <i>n</i> is the number of the exact-match proposal).
+In addition, it includes the number of exact matches where the translator
+had to choose between several matches offered. It also includes the number
+of inner-document and cross-document redundancies produced by the Redundancy
+Report.
+<p>If a previously translated document is imported, analyzed, and edited
+again, the report contains the number of exact matches of both the first and
+the second edit. The results are shown as belonging to shipment 1 and shipment
+2 (column “Number Shipment”).</p>
+<p>If you selected the “Use existing
+proposals” option on the <q>Settings</q> page, this column shows all exact
+matches offered by the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> regardless of whether the translator accepted
+and copied them. The number of exact matches not accepted by the translator
+is reflected in the Calculating Report when you choose “Include statistics”
+and “Advanced statistics” on the <q>Settings</q> page.</p></pd></plentry>
+<plentry><pt>Edit Replace</pt>
+<pd>Contains the number of fuzzy replacement matches copied from an existing <keyword conref="common-symbols.dita#common-symbols/xlmem"/> during
+the translation of the document, using the Ctrl+<i>n</i> key
+(where <i>n</i> is the number of the fuzzy-replacement-match
+proposal).
+<p>If a previously translated document is imported, analyzed, and
+edited again, the fuzzy replacement matches become exact matches. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> keeps
+the original number of fuzzy replacement matches and adds the number of exact
+matches to the “Analyze Auto” column as shipment 2.</p>
+<p>If you selected
+the “Use existing proposals” option on the <q>Settings</q> page, this
+column shows all fuzzy replacement matches offered by the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> regardless
+of whether the translator accepted and copied them. The number of fuzzy replacement
+matches not accepted by the translator is reflected in the Calculating Report
+when you choose “Include statistics” and “Advanced statistics”
+on the <q>Settings</q> page.</p></pd></plentry>
+<plentry><pt>Fuzzy Matches</pt>
+<pd>Contains the number of fuzzy matches copied from an existing <keyword conref="common-symbols.dita#common-symbols/xlmem"/> during
+the translation of the document, using the Ctrl+<i>n</i> key
+(where <i>n</i> is the number of the fuzzy-match proposal).
+The fuzzy matches are broken down to matches that fit 50 to 70%, 70 to 90%,
+and over 90%.
+<p>If a previously translated document is imported, analyzed,
+and edited again, the fuzzy matches become exact matches. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> keeps the
+original number of fuzzy matches and adds the number of exact matches to the “Analyze
+Auto” column as shipment 2.</p>
+<p>If you selected the “Use existing
+proposals” option on the <q>Settings</q> page, this column shows all fuzzy
+matches offered by the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> regardless of whether the translator accepted
+and copied them. The number of fuzzy matches not accepted by the translator
+is reflected in the Calculating Report when you choose “Include statistics”
+and “Advanced statistics” on the <q>Settings</q> page.</p></pd></plentry>
+<plentry><pt>Machine Matches</pt>
+<pd>Contains the number of exact matches copied from an <keyword conref="common-symbols.dita#common-symbols/ITM"/> during the
+translation of the document, using the Ctrl+<i>n</i> key
+(where <i>n</i> is the number of the machine-match proposal).
+<p>If a previously translated document is imported, analyzed, and edited again,
+the machine matches become exact matches. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> keeps the original number
+of machine matches and adds the number of exact matches to the “Analyze
+Auto” column as shipment 2.</p>
+<p>If you selected the “Use existing
+proposals” option on the <q>Settings</q> page, this column shows all machine
+matches offered by the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> regardless of whether the translator accepted
+and copied them. The number of machine matches not accepted by the translator
+is reflected in the Calculating Report when you choose “Include statistics”
+and “Advanced statistics” on the <q>Settings</q> page.</p></pd></plentry>
+<plentry><pt>Non Matches</pt>
+<pd>Contains the number of segments translated manually. This number remains
+the same even if you analyze the translated document again and translate it
+using the “Automatic substitution” option from the <b>Translate</b> menu.
+<p>If a previously translated document is imported, analyzed,
+and edited again, the non-matches become exact matches. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> keeps the original
+number of non-matches and adds the number of exact matches to the “Analyze
+Auto” column as shipment 2.</p></pd></plentry>
+<plentry><pt>Not Translated</pt>
+<pd>Contains the number of segments not yet translated because the translation
+has not started yet or was interrupted. If the partly translated document
+is imported and analyzed again, only the number of segments not yet translated
+is shown.
+<p>This column should show “0” once the translation is finished.</p></pd></plentry>
+</parml>
+</body></topic>

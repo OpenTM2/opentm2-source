@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCreateFolder">
+<title><!--rev=as01042005-->EqfCreateFolder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfCreateFolder</indexterm><indexterm>programming interface calls<indexterm>EqfCreateFolder</indexterm></indexterm>
+<p><i>EqfCreateFolder</i> creates a new folder by
+using the specified values. Configure the target drive for the folder
+using the <q>Configure Drives</q> window of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfCreateFolder</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszFolderName</var><sep>,</sep></groupseq>
+<groupseq><var importance="optional">pszDescription</var><sep>,</sep><var importance="optional">chTargetDrive</var><sep>,</sep><var>pszTransMem</var><sep>,</sep><var>pszMarkup</var><sep>,</sep></groupseq>
+<groupseq><var importance="optional">pszEditor</var><sep>,</sep>
+<groupseq importance="optional">
+<groupseq><repsep>,</repsep><var>pszDictionaries</var></groupseq></groupseq><sep>,</sep><var>pszSourceLanguage</var><sep>,</sep></groupseq>
+<groupseq><var>pszTargetLanguage</var><sep>,</sep><var>pszConversion</var><sep>,</sep><var>pszROMemory</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszFolderName</entry>
+<entry colname="col3">The name of the folder to be created.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszDescription</entry>
+<entry colname="col3">The folder description, or <codeph>NULL</codeph>.</entry></row>
+<row>
+<entry colname="col1">CHAR</entry>
+<entry colname="col2">chTargetDrive</entry>
+<entry colname="col3">The target drive for the new folder. If omitted,
+the primary EQF drive is used. The drive must be the primary EQF drive
+or one of the secondary EQF drives defined in the <q>Configure Drives</q> window.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszTransMem</entry>
+<entry colname="col3">The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be used for the documents
+in the new folder.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszMarkup</entry>
+<entry colname="col3">The name of the markup table, for example EQFMRI.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszEditor</entry>
+<entry colname="col3">The name of the editor. If not specified, the
+editor STANDARD is used.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszDictionaries</entry>
+<entry colname="col3">The list of dictionaries to be used during translation.
+You can specify up to 10 dictionaries.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszSourceLanguage</entry>
+<entry colname="col3">The source language for the documents in this
+folder. Specify the language exactly as it appears in the <q>Language
+List</q> window, for example <codeph>English(U.S.)</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszTargetLanguage</entry>
+<entry colname="col3">The target language for the documents in this
+folder. Specify the language exactly as it appears in the <q>Language
+List</q> window, for example <codeph>English(U.S.)</codeph>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszConversion</entry>
+<entry colname="col3">Conversion to be used for the folder or NULL</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszROMemory</entry>
+<entry colname="col3">List of read-only memories to be searched or
+NULL</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2"><ph otherprops="print">Error code (EQF message number).
+Use <i>EqfGetLastError</i> (see <ph otherprops="print">page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></ph><xref otherprops="display" href="api_EqfGetLastError.dita#api_EqfGetLastError"/>) to retrieve the complete
+error information.</ph><ph otherprops="display">Error code (EQF message
+number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> to retrieve the complete
+error information.</ph></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Create a new folder name SAMPLE1 on the primary Eqf drive
+  if ( !usRC )
+  {
+    usRC = EqfCreateFolder( hSession, "SAMPLE1", 
+                            "Description of folder SAMPLE1",
+                            '\0',     // use primary Eqf drive
+                            "MEM01", "EQFASCII", "STANDARD", 
+                            "DICT1,ENGLGERM", "English(U.S.)", 
+                            "German(National)" );
+
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

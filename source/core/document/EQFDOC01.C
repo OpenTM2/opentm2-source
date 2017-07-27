@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2016, International Business Machines
+	Copyright (C) 1990-2017, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -40,7 +40,7 @@
   #include "eqftaml.h"                 // validation format document export defines
 
 
-// prefix for folder name in folder name dumy file
+// prefix for folder name in folder name dummy file
 #define FOLNAMEPREFIX "FolName="
 
 // names for last used value files
@@ -54,7 +54,7 @@
 // list of formats for validation format export 
 // Note: this list must be must be in same order as the VALFORMATID enumeration in EQFTAML.H!
 //       the end of the list is indicated by an empty string
-static char VALEXPFORMATS[][20] = { "HTML", "XML", "MS Word (.DOC)", "Symphony (.ODT)", "" };
+static char VALEXPFORMATS[][20] = { "HTML", "XML", "MS Word (.DOC)", "MS Word (.DOCX)", "Symphony (.ODT)","" };
 
 
 USHORT ExportSNOMATCHDocument( PDOCEXPIDA pIda );
@@ -2200,7 +2200,8 @@ SHORT  sNotification                // notification
         ENABLECTRL( hwnd, ID_DOCEXP_VALFORMAT_LINKSIMAGES_CHK, 
            (((VALFORMATID)pIda->sValFormat == HTML_VALEXPFORMAT) || 
             ((VALFORMATID)pIda->sValFormat == ODT_VALEXPFORMAT) || 
-            ((VALFORMATID)pIda->sValFormat == DOC_VALEXPFORMAT)) );
+            ((VALFORMATID)pIda->sValFormat == DOC_VALEXPFORMAT) ||
+            ((VALFORMATID)pIda->sValFormat == DOCX_VALEXPFORMAT)) );
         UtlLoadLastUsedStrings( hwnd, ID_DOCEXP_VALFORMAT_PATH_CB, DOCEXPVALLASTUSED );
 
         pIda->sExportFormatID = sId;
@@ -2970,7 +2971,8 @@ SHORT sNotification                 // notification type
               case 0 : Options.ValFormat = HTML_VALEXPFORMAT; break;
               case 1 : Options.ValFormat = XML_VALEXPFORMAT; break;
               case 2 : Options.ValFormat = DOC_VALEXPFORMAT; break;
-              case 3 : Options.ValFormat = ODT_VALEXPFORMAT; break;
+              case 3 : Options.ValFormat = DOCX_VALEXPFORMAT; break;
+              case 4 : Options.ValFormat = ODT_VALEXPFORMAT; break;
               default: Options.ValFormat = HTML_VALEXPFORMAT; break;
             } /* endswitch */               
           } /* endif */             
@@ -2992,7 +2994,7 @@ SHORT sNotification                 // notification type
           Options.fExactFromManual = (EQF_BOOL)pIda->fValExportExactFromManual;
           Options.fTransOnly = (EQF_BOOL)pIda->fValExportTransOnly;
 
-          if ( (Options.ValFormat == HTML_VALEXPFORMAT) || (Options.ValFormat == DOC_VALEXPFORMAT) )
+          if ( (Options.ValFormat == HTML_VALEXPFORMAT) || (Options.ValFormat == DOC_VALEXPFORMAT) || (Options.ValFormat == DOCX_VALEXPFORMAT))
           {
             Options.fLinksImages = (EQF_BOOL)pIda->fValExportLinksImages;
           }
@@ -3451,7 +3453,7 @@ SHORT sNotification                 // notification type
       {
         pIda = ACCESSDLGIDA( hwnd, PDOCEXPIDA );
         pIda->sValFormat = CBQUERYSELECTION( hwnd, ID_DOCEXP_VALFORMAT_FORMAT_CB );
-        if ( ((VALFORMATID)pIda->sValFormat == HTML_VALEXPFORMAT) || ((VALFORMATID)pIda->sValFormat == DOC_VALEXPFORMAT) )
+        if ( ((VALFORMATID)pIda->sValFormat == HTML_VALEXPFORMAT) || ((VALFORMATID)pIda->sValFormat == DOC_VALEXPFORMAT) || ((VALFORMATID)pIda->sValFormat == DOCX_VALEXPFORMAT) )
         {
           ENABLECTRL( hwnd, ID_DOCEXP_VALFORMAT_LINKSIMAGES_CHK, TRUE );
           SETCHECK( hwnd, ID_DOCEXP_VALFORMAT_LINKSIMAGES_CHK, pIda->fValExportLinksImages );
@@ -7258,6 +7260,7 @@ LONG        lOptions                 // options for document export
     if ( lOptions & VALFORMAT_XML_OPT ) iFormats++; 
     if ( lOptions & VALFORMAT_HTML_OPT ) iFormats++; 
     if ( lOptions & VALFORMAT_DOC_OPT ) iFormats++; 
+    if ( lOptions & VALFORMAT_DOCX_OPT ) iFormats++; 
     if ( lOptions & VALFORMAT_ODT_OPT ) iFormats++; 
     if ( iFormats > 1 )
     {
@@ -7266,8 +7269,8 @@ LONG        lOptions                 // options for document export
     } /* endif */
     pDocImpExp->fValCombine  = (lOptions &  VALFORMAT_COMBINE_OPT) != 0;
     pDocImpExp->fValProtSegs = (lOptions &  VALFORMAT_PROTSEGS_OPT) != 0;
-    pDocImpExp->fValFormat = (lOptions &  (VALFORMAT_XML_OPT | VALFORMAT_HTML_OPT | VALFORMAT_DOC_OPT | VALFORMAT_ODT_OPT)) != 0;
-    pDocImpExp->lValOutputFormat = (LONG)(lOptions &  (VALFORMAT_XML_OPT | VALFORMAT_HTML_OPT | VALFORMAT_DOC_OPT | VALFORMAT_ODT_OPT));
+    pDocImpExp->fValFormat = (lOptions &  (VALFORMAT_XML_OPT | VALFORMAT_HTML_OPT | VALFORMAT_DOC_OPT | VALFORMAT_DOCX_OPT | VALFORMAT_ODT_OPT)) != 0;
+    pDocImpExp->lValOutputFormat = (LONG)(lOptions &  (VALFORMAT_XML_OPT | VALFORMAT_HTML_OPT | VALFORMAT_DOC_OPT | VALFORMAT_DOCX_OPT | VALFORMAT_ODT_OPT));
     pDocImpExp->fPlainXML = (lOptions & PLAINXML_OPT) != 0;
     pDocImpExp->fWithTrackID = (lOptions & WITHTRACKID_OPT) != 0;
   } /* endif */
@@ -7435,6 +7438,10 @@ LONG        lOptions                 // options for document export
       else if ( pDocImpExp->lValOutputFormat & VALFORMAT_DOC_OPT )
       {
         Options.ValFormat = DOC_VALEXPFORMAT;
+      }
+      else if ( pDocImpExp->lValOutputFormat & VALFORMAT_DOCX_OPT )
+      {
+        Options.ValFormat = DOCX_VALEXPFORMAT;
       }
       else
       {
@@ -8063,7 +8070,8 @@ static int DocValFormatSetMatchStates
   pIda->sValFormat = CBQUERYSELECTION( hwnd, ID_DOCEXP_VALFORMAT_FORMAT_CB );
   if ( ((VALFORMATID)pIda->sValFormat == HTML_VALEXPFORMAT) || 
        ((VALFORMATID)pIda->sValFormat == ODT_VALEXPFORMAT) || 
-       ((VALFORMATID)pIda->sValFormat == DOC_VALEXPFORMAT) )
+       ((VALFORMATID)pIda->sValFormat == DOC_VALEXPFORMAT) ||
+       ((VALFORMATID)pIda->sValFormat == DOCX_VALEXPFORMAT) )
   {
     ENABLECTRL( hwnd, ID_DOCEXP_VALFORMAT_LINKSIMAGES_CHK, TRUE );
     SETCHECK( hwnd, ID_DOCEXP_VALFORMAT_LINKSIMAGES_CHK, pIda->fValExportLinksImages );

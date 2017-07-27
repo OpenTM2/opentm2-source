@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="eqfr5mst-gen5">
+  <title>Working with <keyword conref="common-symbols.dita#common-symbols/tm4w"/> components and functions</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2008, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s6h SYSTEM "eqfb7s6h.eps" NDATA graphics>
+<!ENTITY eqfb7s6w SYSTEM "eqfb7s6w.eps" NDATA graphics>
+<!ENTITY eqfb7s6v SYSTEM "eqfb7s6v.eps" NDATA graphics>
+<!ENTITY eqfb7s6u SYSTEM "eqfb7s6u.eps" NDATA graphics>
+<!ENTITY eqfb7s6t SYSTEM "eqfb7s6t.eps" NDATA graphics>
+<!ENTITY eqfb7s6s SYSTEM "eqfb7s6s.eps" NDATA graphics>
+<!ENTITY eqfb7s6r SYSTEM "eqfb7s6r.eps" NDATA graphics>
+<!ENTITY eqfb7s6q SYSTEM "eqfb7s6q.eps" NDATA graphics>
+<!ENTITY eqfb7s6p SYSTEM "eqfb7s6p.eps" NDATA graphics>
+<!ENTITY eqfb7s6o SYSTEM "eqfb7s6o.eps" NDATA graphics>
+<!ENTITY eqfb7s6n SYSTEM "eqfb7s6n.eps" NDATA graphics>
+<!ENTITY eqfb7s6m SYSTEM "eqfb7s6m.eps" NDATA graphics>
+<!ENTITY eqfb7s6l SYSTEM "eqfb7s6l.eps" NDATA graphics>
+<!ENTITY eqfb7s6k SYSTEM "eqfb7s6k.eps" NDATA graphics>
+<!ENTITY eqfb7s6j SYSTEM "eqfb7s6j.eps" NDATA graphics>
+<!ENTITY eqfb7s6i SYSTEM "eqfb7s6i.eps" NDATA graphics>
+<!ENTITY eqfb7s6e SYSTEM "eqfb7s6e.eps" NDATA graphics>
+<!ENTITY eqfb7s6g SYSTEM "eqfb7s6g.eps" NDATA graphics>
+<!ENTITY eqfb7s6f SYSTEM "eqfb7s6f.eps" NDATA graphics>
+<!ENTITY eqfb7s6d SYSTEM "eqfb7s6d.eps" NDATA graphics>
+<!ENTITY eqfb7s6c SYSTEM "eqfb7s6c.eps" NDATA graphics>
+<!ENTITY % files SYSTEM "files.ent">
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%files;
+%symbols;
+]>
+--><!--  General concepts --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s7u SYSTEM "eqfb7s7u.eps" NDATA graphics>
+<!ENTITY eqfb7s7t SYSTEM "eqfb7s7t.eps" NDATA graphics>
+<!ENTITY eqfb7s7s SYSTEM "eqfb7s7s.eps" NDATA graphics>
+<!ENTITY eqfb7s7j SYSTEM "eqfb7s7j.eps" NDATA graphics>
+<!ENTITY eqfb7s7h SYSTEM "eqfb7s7h.eps" NDATA graphics>
+<!ENTITY eqfb7s7p SYSTEM "eqfb7s7p.eps" NDATA graphics>
+<!ENTITY eqfb7s7g SYSTEM "eqfb7s7g.eps" NDATA graphics>
+<!ENTITY eqfb7s7o SYSTEM "eqfb7s7o.eps" NDATA graphics>
+<!ENTITY eqfb7s7f SYSTEM "eqfb7s7f.eps" NDATA graphics>
+<!ENTITY eqfb7s7k SYSTEM "eqfb7s7k.eps" NDATA graphics>
+<!ENTITY eqfb7s7n SYSTEM "eqfb7s7n.eps" NDATA graphics>
+<!ENTITY eqfb7s7m SYSTEM "eqfb7s7m.eps" NDATA graphics>
+<!ENTITY eqfb7s7l SYSTEM "eqfb7s7l.eps" NDATA graphics>
+<!ENTITY eqfb7s7i SYSTEM "eqfb7s7i.eps" NDATA graphics>
+<!ENTITY eqfb7s7d SYSTEM "eqfb7s7d.eps" NDATA graphics>
+<!ENTITY eqfb7s7c SYSTEM "eqfb7s7c.eps" NDATA graphics>
+<!ENTITY eqfb7s7c2 SYSTEM "eqfb7s7c2.eps" NDATA graphics>
+<!ENTITY eqfb7s7c3 SYSTEM "eqfb7s7c3.eps" NDATA graphics>
+<!ENTITY eqfb7s7b SYSTEM "eqfb7s7b.eps" NDATA graphics>
+<!ENTITY eqfb7s7a SYSTEM "eqfb7s7a.eps" NDATA graphics>
+<!ENTITY % files SYSTEM "files.ent">
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%files;
+%symbols;
+]>
+--><!--  Working with documents --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2010, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s8h SYSTEM "eqfb7s8h.eps" NDATA graphics>
+<!ENTITY eqfb7s8g SYSTEM "eqfb7s8g.eps" NDATA graphics>
+<!ENTITY eqfb7s8b SYSTEM "eqfb7s8b.eps" NDATA graphics>
+<!ENTITY % files SYSTEM "files.ent">
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%files;
+%symbols;
+]>
+--><!--  Working with folders --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s7v SYSTEM "eqfb7s7v.eps" NDATA graphics>
+<!ENTITY eqfb7s9g SYSTEM "eqfb7s9g.eps" NDATA graphics>
+<!ENTITY eqfb7s9j SYSTEM "eqfb7s9j.eps" NDATA graphics>
+<!ENTITY eqfb7s9i SYSTEM "eqfb7s9i.eps" NDATA graphics>
+<!ENTITY eqfb7s9h SYSTEM "eqfb7s9h.eps" NDATA graphics>
+<!ENTITY eqfb7s9a SYSTEM "eqfb7s9a.eps" NDATA graphics>
+<!ENTITY eqfb7s9f SYSTEM "eqfb7s9f.eps" NDATA graphics>
+<!ENTITY eqfb7s9d SYSTEM "eqfb7s9d.eps" NDATA graphics>
+<!ENTITY eqfb7s9c SYSTEM "eqfb7s9c.eps" NDATA graphics>
+<!ENTITY eqfb7s9b SYSTEM "eqfb7s9b.eps" NDATA graphics>
+<!ENTITY % files SYSTEM "files.ent">
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%files;
+%symbols;
+]>
+--><!--  Working with Translation Memories --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2005, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY DicImport SYSTEM "DicImport.eps" NDATA graphics>
+<!ENTITY estyle SYSTEM "estyle.eps" NDATA graphics>
+<!ENTITY DictLookup SYSTEM "DictLookup.eps" NDATA graphics>
+<!ENTITY customizeTranslFunctions SYSTEM "customizeTranslFunctions.bmp" NDATA graphics>
+<!ENTITY eqfb7s10m SYSTEM "eqfb7s10m.eps" NDATA graphics>
+<!ENTITY eqfb7s10l SYSTEM "eqfb7s10l.eps" NDATA graphics>
+<!ENTITY eqfb7s10k SYSTEM "eqfb7s10k.eps" NDATA graphics>
+<!ENTITY eqfb7s10j SYSTEM "eqfb7s10j.eps" NDATA graphics>
+<!ENTITY eqfb7s10i SYSTEM "eqfb7s10i.eps" NDATA graphics>
+<!ENTITY eqfb7s10h SYSTEM "eqfb7s10h.eps" NDATA graphics>
+<!ENTITY eqfb7s10g SYSTEM "eqfb7s10g.eps" NDATA graphics>
+<!ENTITY eqfb7s10f SYSTEM "eqfb7s10f.eps" NDATA graphics>
+<!ENTITY eqfb7s10e SYSTEM "eqfb7s10e.eps" NDATA graphics>
+<!ENTITY eqfb7s10d SYSTEM "eqfb7s10d.eps" NDATA graphics>
+<!ENTITY eqfb7s10c SYSTEM "eqfb7s10c.eps" NDATA graphics>
+<!ENTITY eqfb7s10b SYSTEM "eqfb7s10b.eps" NDATA graphics>
+<!ENTITY eqfb7s10a SYSTEM "eqfb7s10a.eps" NDATA graphics>
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with dictionaries --><!-- Fragment document type declaration subset:
+ArborText, Inc., 1988-2000, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s11i SYSTEM "eqfb7s11i.eps" NDATA graphics>
+<!ENTITY eqfb7s11h SYSTEM "eqfb7s11h.eps" NDATA graphics>
+<!ENTITY eqfb7s11g SYSTEM "eqfb7s11g.eps" NDATA graphics>
+<!ENTITY eqfb7s11f SYSTEM "eqfb7s11f.eps" NDATA graphics>
+<!ENTITY eqfb7s11e SYSTEM "eqfb7s11e.eps" NDATA graphics>
+<!ENTITY eqfb7s11d SYSTEM "eqfb7s11d.eps" NDATA graphics>
+<!ENTITY eqfb7s11c SYSTEM "eqfb7s11c.eps" NDATA graphics>
+<!ENTITY eqfb7s11b SYSTEM "eqfb7s11b.eps" NDATA graphics>
+<!ENTITY eqfb7s11a SYSTEM "eqfb7s11a.eps" NDATA graphics>
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with terminology lists --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2005, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s12c SYSTEM "eqfb7s12c.eps" NDATA graphics>
+<!ENTITY eqfb7s12b SYSTEM "eqfb7s12b.eps" NDATA graphics>
+<!ENTITY eqfb7s12a SYSTEM "eqfb7s12a.eps" NDATA graphics>
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with markup tables --><!-- Fragment document type declaration subset:
+ArborText, Inc., 1988-2000, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % comment "IGNORE">
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with language support files --><!-- Fragment document type declaration subset:
+ArborText, Inc., 1988-2000, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with sample sessions --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2006, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY eqfb7s163 SYSTEM "eqfb7s163.eps" NDATA graphics>
+<!ENTITY eqfb7s162 SYSTEM "eqfb7s162.eps" NDATA graphics>
+<!ENTITY eqfb7s161 SYSTEM "eqfb7s161.eps" NDATA graphics>
+<!ENTITY eqfb7s16y SYSTEM "eqfb7s16y.eps" NDATA graphics>
+<!ENTITY eqfb7s16x SYSTEM "eqfb7s16x.eps" NDATA graphics>
+<!ENTITY eqfb7s16w SYSTEM "eqfb7s16w.eps" NDATA graphics>
+<!ENTITY eqfb7s16v SYSTEM "eqfb7s16v.eps" NDATA graphics>
+<!ENTITY eqfb7s16u SYSTEM "eqfb7s16u.eps" NDATA graphics>
+<!ENTITY eqfb7s16t SYSTEM "eqfb7s16t.eps" NDATA graphics>
+<!ENTITY eqfb7s16s SYSTEM "eqfb7s16s.eps" NDATA graphics>
+<!ENTITY eqfb7s16r SYSTEM "eqfb7s16r.eps" NDATA graphics>
+<!ENTITY eqfb7s16q SYSTEM "eqfb7s16q.eps" NDATA graphics>
+<!ENTITY eqfb7s16p SYSTEM "eqfb7s16p.eps" NDATA graphics>
+<!ENTITY eqfb7s16o SYSTEM "eqfb7s16o.eps" NDATA graphics>
+<!ENTITY eqfb7s16n SYSTEM "eqfb7s16n.eps" NDATA graphics>
+<!ENTITY eqfb7s16m SYSTEM "eqfb7s16m.eps" NDATA graphics>
+<!ENTITY eqfb7s16l SYSTEM "eqfb7s16l.eps" NDATA graphics>
+<!ENTITY eqfb7s16k SYSTEM "eqfb7s16k.eps" NDATA graphics>
+<!ENTITY eqfb7s16j SYSTEM "eqfb7s16j.eps" NDATA graphics>
+<!ENTITY eqfb7s16i SYSTEM "eqfb7s16i.eps" NDATA graphics>
+<!ENTITY eqfb7s16h SYSTEM "eqfb7s16h.eps" NDATA graphics>
+<!ENTITY eqfb7s16g SYSTEM "eqfb7s16g.eps" NDATA graphics>
+<!ENTITY eqfb7s16f SYSTEM "eqfb7s16f.eps" NDATA graphics>
+<!ENTITY eqfb7s16e SYSTEM "eqfb7s16e.eps" NDATA graphics>
+<!ENTITY eqfb7s16d SYSTEM "eqfb7s16d.eps" NDATA graphics>
+<!ENTITY eqfb7s16c SYSTEM "eqfb7s16c.eps" NDATA graphics>
+<!ENTITY eqfb7s16z SYSTEM "eqfb7s16z.eps" NDATA graphics>
+<!ENTITY eqfb7s16b SYSTEM "eqfb7s16b.eps" NDATA graphics>
+<!ENTITY eqfb7s16a SYSTEM "eqfb7s16a.eps" NDATA graphics>
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Creating reports --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2009, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2011, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % symbols SYSTEM "symbols.ent">
+%symbols;
+]>
+--><!--  Working with batch commands --><!-- Fragment document type declaration subset:
+Arbortext, Inc., 1988-2010, v.4002
+<!DOCTYPE IBMIDDOC PUBLIC "+//ISBN 0-933186::IBM//DTD IBMIDDoc//EN" [
+<!ENTITY % files SYSTEM "files.ent">
+%files;
+<!ENTITY MT5 SYSTEM "MT5.eps" NDATA graphics>
+<!ENTITY MT4 SYSTEM "MT4.eps" NDATA graphics>
+<!ENTITY MT3 SYSTEM "MT3.eps" NDATA graphics>
+<!ENTITY MT2 SYSTEM "MT2.eps" NDATA graphics>
+<!ENTITY MT1 SYSTEM "MT1.eps" NDATA graphics>
+]>
+--><!--  Machine Translation-->
+  </body>
+</topic>

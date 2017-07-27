@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_Overview">
+<title>Overview and terminology</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/xlmems"/> are used during <i>translation</i> and <i>analysis</i> of documents. 
+<ul>
+<li>During translation in the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> displays matching sentences
+as <i>translation proposals</i> for the current sentence.
+You can then choose the translation proposal that represents the best
+translation of the sentence, and copy it into the document you currently
+translate. 
+<p>The type of match is always evaluated by comparing a
+sentence in the source document with source sentences in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> proposes
+both <i>exact</i> matches and <i>fuzzy</i> matches. <indexterm>Translation Memory matches<indexterm>exact</indexterm></indexterm><indexterm>matches<indexterm>exact</indexterm></indexterm>Exact matches are found if
+two source segments are completely identical. Fuzzy matches are found
+if two source segments are almost identical. <indexterm>Translation Memory matches<indexterm>fuzzy</indexterm></indexterm><indexterm>matches<indexterm>fuzzy</indexterm></indexterm></p>
+<p>All types of fuzzy matches are indicated by a character
+enclosed in brackets in front of the proposal. For example, [f]
+indicates a fuzzy match.</p>
+<p>If two source sentences differ by only
+a digit or a number, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> proposes this as a fuzzy match, with the
+number already replaced with the new value. Such a <i>fuzzy
+replacement</i> match is indicated by [r]. The various
+types of matches are described in detail in <xref href="memory_Matches.dita#memory_Matches"/>.</p>
+<p>Whenever
+you translate a segment, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically adds your translation
+to the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> associated with the current document. The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is
+therefore being continuously updated—the translation of one
+sentence may even be offered as a translation proposal for the next
+matching segment.</p></li>
+<li>During document analysis, you can choose to have <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically
+replace sentences with matches that already exist in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+This substitution occurs only for exact matches.</li>
+<li>During document analysis, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can also extract segments with
+an exact or a fuzzy match from existing <keyword conref="common-symbols.dita#common-symbols/xlmems"/> and copy these segments
+into a new one. In this way, you can “preload” a document-related <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+</ul></p>
+<p>When the same original sentence appears in several places in a
+document, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> also allows you to store several different translations
+of the sentence. In this way, you can translate a segment in different
+ways according to the context.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/xlmems"/> provide an efficient method of translating whenever you
+deal with similar or repetitive texts (for example revised editions
+of manuals).</p>
+<p>During translation, you can select <i>automatic
+substitution</i>. This option automatically copies existing translated
+segments into the translation document for as long as it finds exact
+matches for the current source segments. Automatic copying stops when
+no exact match, or more than one exact match, has been found for a
+source segment. Now you must continue translating the segment manually.
+Afterwards automatic copying can be restarted.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/xlmems"/> can be even combined with one another. Use the <i>merge</i> option to merge the contents of one <keyword conref="common-symbols.dita#common-symbols/xlmem"/> with
+another. </p>
+<p><keyword conref="common-symbols.dita#common-symbols/xlmems"/> can have two formats: 
+<ul>
+<li>Internal, called <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format. The internal format is used to
+work with <keyword conref="common-symbols.dita#common-symbols/xlmems"/> within <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+<li>External. The external format is an SGML-based data exchange format
+that allows the data within <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be processed outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.
+The data in an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is interspersed between SGML tags
+that describe the structure of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> as a whole and the data
+elements of each segment. This format allows you to edit a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> with
+a text editor, for example to change or delete segments in a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+</ul></p>
+<p>If you have translated documents that were translated outside <keyword conref="common-symbols.dita#common-symbols/tm4w"/>,
+you can generate an <i>Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> (ITM)</i>,
+this means you can fill a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> with existing translation segments.
+When you start the translation of a document that is similar to an
+existing one, you can benefit from your previous translations that
+are now available in the Initial Translation Memory.</p>
+<p>An exported <keyword conref="common-symbols.dita#common-symbols/xlmem"/> in SGML format is also helpful for reusing
+existing translations. If you have previously saved files or databases
+in another format, you can access them with <keyword conref="common-symbols.dita#common-symbols/tm4w"/> by using a program
+to convert them to the format of an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+</body></topic>

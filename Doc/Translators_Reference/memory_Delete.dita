@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_Delete">
+<title>Deleting a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>Translation Memory<indexterm>deleting</indexterm></indexterm><indexterm>deleting<indexterm><keyword conref="common-symbols.dita#common-symbols/xlmem"/> databases</indexterm></indexterm>
+<p>If you no longer need a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, for example, if you have specified
+incorrect parameters or it has been filled with the wrong data, you
+can delete it.</p>
+<p>For learning how to delete a shared Translation Memory, see <xref href="memory_SharedWebUsingDelete.dita#memory_SharedWebUsingDelete"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be deleted</li>
+<li><b>Delete</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>Before <keyword conref="common-symbols.dita#common-symbols/tm4w"/> deletes the requested <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, a message window is
+displayed asking you to confirm that you want to delete the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+</section>
+<section><title>Options and parameters</title>
+<ul>
+<li>If you select <b>No</b>, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is not deleted.</li>
+<li>If you select <b>Yes</b>, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is deleted.</li>
+</ul>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Yes</b>, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is deleted,
+and the disk space is freed. Otherwise, the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> remains unchanged.
+References to this <keyword conref="common-symbols.dita#common-symbols/xlmem"/> may still exist in certain folders. Update
+the folder properties so that the deleted <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is no longer referenced.</p>
+</section></refbody></reference>

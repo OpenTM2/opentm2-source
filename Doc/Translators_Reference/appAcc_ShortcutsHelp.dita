@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_ShortcutsHelp">
+  <title>Help</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Help</title>
+      <tgroup cols="2">
+        <colspec colname="col1" colwidth="92*"/>
+        <colspec colname="col2" colwidth="92*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Task</entry>
+            <entry colname="col2" valign="top">Keyboard shortcut</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Opening the online help</entry>
+            <entry colname="col2">F1</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p/>
+  </body>
+</topic>

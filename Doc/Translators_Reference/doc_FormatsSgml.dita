@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_FormatsSgml">
+<title>SGML documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>SGML</indexterm></indexterm>
+<indexterm>SGML documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Import SGML documents that were designed for processing by <tm trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm> <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub">Notes</tm> using
+the <codeph>EQFSGML</codeph> markup table.</p>
+</body></topic>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appEdit_Overview">
+  <title>Editor functions reference</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To assign a function to a key or a key combination, click <b>Keys…</b> in the <b>Options</b> menu, select the function and assign it to a key.</p>
+    <p>To call an editor function that is assigned to a key combination, click <b>Commands…</b> in the <b>Options</b> menu, select the command to 
+      be executed, and click <b>Run</b>.</p>
+    <p>On the following pages, you find the complete list of the functions available in the 
+      <keyword conref="common-symbols.dita#common-symbols/xlenv"/>. They are grouped as follows: 
+      <ul>
+        <li>Editor functions inside the <q>Translation</q> window 
+          <ul>
+            <li><xref href="appEdit_TranslationCursor.dita#appEdit_TranslationCursor"/></li>
+            <li><xref href="appEdit_TranslationScroll.dita#appEdit_TranslationScroll"/></li>
+            <li><xref href="appEdit_TranslationEdit.dita#appEdit_TranslationEdit"/></li>
+            <li><xref href="appEdit_TranslationEditMode.dita#appEdit_TranslationEditMode"/></li>
+            <li><xref href="appEdit_TranslationTags.dita#appEdit_TranslationTags"/></li>
+            <li><xref href="appEdit_TranslationDocument.dita#appEdit_TranslationDocument"/></li>
+            <li><xref href="appEdit_TranslationSwitchTo.dita#appEdit_TranslationSwitchTo"/></li>
+          </ul>
+        </li>
+        <li>Editor functions outside the <q>Translation</q> window <ul>
+            <li><xref href="appEdit_OtherClipboard.dita#appEdit_OtherClipboard"/></li>
+            <li><xref href="appEdit_OtherSwitchTo.dita#appEdit_OtherSwitchTo"/></li>
+            <li><xref href="appEdit_OtherMemory.dita#appEdit_OtherMemory"/></li>
+            <li><xref href="appEdit_OtherDictionary.dita#appEdit_OtherDictionary"/></li>
+          </ul>
+        </li>
+      </ul>
+    </p>
+    <p>The tables shown provide a column in which you can enter the key that you assigned to the functions. Note that the keys Ctrl+A 
+      to Ctrl+Z and Ctrl+a to Ctrl+z are reserved keys and cannot be assigned.</p>
+  </body>
+</topic>

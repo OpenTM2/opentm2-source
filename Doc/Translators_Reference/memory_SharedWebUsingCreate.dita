@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_SharedWebUsingCreate">
+  <title>Creating a WEB-based Shared Translation Memory</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>In order to create a new Web-based Shared Translation Memory in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>,
+      refer to <xref href="memory_SharedWebInstallMariaDBCreate.dita#memory_SharedWebInstallMariaDBCreate"/>.</p>
+  </body>
+</topic>

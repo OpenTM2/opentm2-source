@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFINIT">
+  <title>EQFINIT</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EQFINIT</indexterm>
+      <indexterm>programming interface calls<indexterm>EQFINIT</indexterm></indexterm>
+      <p><i>EQFINIT</i> initializes <keyword conref="common-symbols.dita#common-symbols/tm4w"/> for
+        use by an editor. This means, it creates the <q>Dictionary</q> and <q><keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/></q> windows, establishes the
+        communication links, attaches the <keyword conref="common-symbols.dita#common-symbols/xlmem"
+        /> and dictionaries, and allocates the internal structures required by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFINIT</kwd>
+          <delim>(</delim>
+          <var>pstEQFStruct</var>
+          <sep>,</sep>
+          <var>pszTranslationMemoryDatabases</var>
+          <sep>,</sep>
+          <var>pszUserDictionaries</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt><synph><var>pstEQFStruct(PSTEQFSTRUCT)</var></synph> — input</pt>
+          <pd>The number of sentences (0...9).</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>pszTranslationMemoryDatabases</var>
+            </synph>
+          </pt>
+          <pd>The file name of the Translation Memory databases.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>pszUserDictionaries</var>
+            </synph>
+          </pt>
+          <pd>The name of the user-supplied dictionaries.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Return codes</title>
+      <dl>
+        <dlentry>
+          <dt>EQFERR_TM_ACCESS</dt>
+          <dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> could not be
+            accessed.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>EQFERR_TM_CORRUPTED</dt>
+          <dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is corrupted.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>EQFERR_DICT_ACCESS</dt>
+          <dd>The dictionary or the dictionary lookup program could not be accessed.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>EQF_OKAY</dt>
+          <dd>The request completed successfully.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>EQFERR_SYSTEM</dt>
+          <dd>A system error occurred.</dd>
+        </dlentry>
+      </dl>
+    </section>
+    <section>
+      <title>Remarks</title>
+      <p>The application must set the initial values for the position and size of the
+          <q>Dictionary</q> and <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q>
+        windows. If nothing is specified, the default values are used. If a problem occurs, a
+        warning message is issued and the appropriate return code is set.</p>
+    </section>
+    <section>
+      <title>Notes</title>
+      <p>This call is implicitly issued by <keyword conref="common-symbols.dita#common-symbols/tm4w"
+        /> and only listed for completeness reasons.</p>
+    </section>
+  </refbody>
+</reference>

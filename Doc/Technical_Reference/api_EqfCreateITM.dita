@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCreateITM">
+  <title>EqfCreateITM</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfCreateITM</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfCreateITM</indexterm></indexterm>
+      <p><i>EqfCreateITM</i> creates an Initial Translation Memory (ITM) database from
+        an existing Translation Memory. It can create an internal Translation Memory and an external
+        Translation Memory. The internal Translation Memory must not be filled.</p>
+      <p>Important hint: If you want to generate a source English-English memory (i.e. a memory
+        where the source sentence and the target sentence are identical), please always use
+        EQFArchiveTM function with the option SOURCESOURCEMEM_OPT.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCreateITM</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszMemDB</var>
+          <sep>,</sep>
+        </groupseq>
+        <fragref>pszFilePairs</fragref>
+        <groupseq>
+          <var>pszMarkup</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszSGMLMemFile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszSourceLanguage</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszTargetLanguage</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszSourceStartPath</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var importance="optional">pszTargetStartPath</var>
+          <sep>,</sep>
+        </groupseq>
+        <fragref>lType</fragref>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+        <fragment>
+          <title>pszFilePairs</title>
+          <groupseq>
+            <groupseq importance="required">
+              <repsep>,</repsep>
+              <var>pszSourceFile</var>
+              <sep>,</sep>
+              <var>pszTranslationFile</var>
+            </groupseq>
+            <sep>,</sep>
+          </groupseq>
+        </fragment>
+        <fragment>
+          <title>lType</title>
+          <groupchoice importance="required">
+            <repsep>|</repsep>
+            <kwd>NOANA_TYP</kwd>
+            <kwd>NOTM_TYP</kwd>
+            <kwd>PREPARE_TYP</kwd>
+          </groupchoice>
+        </fragment>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemDB</entry>
+              <entry colname="col3">The name of a previously created <keyword
+                  conref="common-symbols.dita#common-symbols/tm4w"/> Translation Memory (without the
+                file extension). This Translation Memory can still be empty. It can be filled with
+                original segments and their corresponding translations.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFilePairs</entry>
+              <entry colname="col3">List of file names to use when creating the ITM, in the form
+                  <codeph>(original1, translation1, original2, translation2)</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMarkup</entry>
+              <entry colname="col3">The name of the markup table, for example
+                  <codeph>EQFMRI</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszSGMLMemFile</entry>
+              <entry colname="col3">The name you want to give to the external ITM, and the path
+                where it is to be located. The ITM is in SGML format and can subsequently be
+                imported into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> after you
+                have checked it.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszSourceLanguage</entry>
+              <entry colname="col3">The source language for the documents in this folder. Specify
+                the language exactly as it appears in the <q>Language List</q> window, for example
+                  <codeph>English(U.S.)</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTargetLanguage</entry>
+              <entry colname="col3">The target language for the documents in this folder. Specify
+                the language exactly as it appears in the <q>Language List</q> window, for example
+                  <codeph>English(U.S.)</codeph>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszSourceStartPath</entry>
+              <entry colname="col3">The path information that you do <i>not</i> want to become part
+                of the document name when the original document is stored in the Initial Translation
+                Memory. <p>For example, if your source file is stored in
+                    <codeph>e:\tm\project\english</codeph>, and you do not want
+                    <codeph>e:\tm\project</codeph> to become part of the name under which it is
+                  stored, specify <codeph>e:\tm\project</codeph>.</p>
+                <p>The path you specify here can differ from the <i>pszTargetStartPath</i>. However,
+                  if you specify a source start path, you must also specify a
+                    <i>pszTargetStartPath</i>.</p></entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTargetStartPath</entry>
+              <entry colname="col3">The path information that you do <b>not</b> want to become part
+                of the document name when the target document is stored in the Initial Translation
+                Memory. <p>For example, if your source file is stored in
+                    <codeph>e:\tm\project\english</codeph> and you do not want
+                    <codeph>e:\tm\project</codeph> to become part of the name under which it is
+                  stored, specify <codeph>e:\tm\project</codeph>. </p>
+                <p>The path you specify here can differ from the <i>pszSourceStartPath</i>. However,
+                  if you specify a source start path, you must also specify a
+                    <i>pszSourceStartPath</i>.</p></entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lType</entry>
+              <entry colname="col3">One or more of the following: <ul>
+                  <li>NOANA_TYP <p>Do not analyze the selected files because they have already been
+                      analyzed by <keyword conref="common-symbols.dita#common-symbols/tm4w"
+                    />.</p></li>
+                  <li>NOTM_TYP <p>Do not fill the internal Translation Memory (<i>pszMemDB</i>).
+                      Fill the external Translation Memory. It is in SGML format and you can check
+                      it afterwards.</p></li>
+                  <li>PREPARE_TYP <p>The source documents are related to their corresponding
+                      translations. The file pairs are prefixed with <b>p</b>.</p></li>
+                </ul>
+                <p>You can combine the options using OR.</p></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession(&amp;hSession);
+
+  // Create a new Initial Translation Memory TestITM
+  if ( !usRC )
+  {
+    usRC = EqfCreateITM(hSession, "TestITM", 
+                        "E:\TM\PROJECT\ENFGLISH\original1,
+                         E:\TM\PROJECT\GERMAN\translation1",
+                        "EQFASCII", NULL, 
+                        "English(U.S.)", "German(national)",
+                        "E:\TM\PROJECT", "E:\TM\PROJECT", 0);
+   } //endif
+
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

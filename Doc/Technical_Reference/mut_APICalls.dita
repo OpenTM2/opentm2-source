@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="mut_APICalls">
+<title>API calls for user exits</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>This group contains the API calls which can be called by the markup
+table user exits to access and modify <keyword conref="common-symbols.dita#common-symbols/tm4w"/> settings.
+Currently these are 
+<ul>
+<li><xref href="mut_EQFGETTAOPTIONS.dita#mut_EQFGETTAOPTIONS"/> to get the
+active analysis settings. This API call can be called by the user
+exit during the <xref href="mut_EQFPRESEGEX.dita#mut_EQFPRESEGEX"/>,
+and <xref href="mut_EQFPOSTSEGWEX.dita#mut_EQFPOSTSEGWEX"/> processing. </li>
+<li><xref href="mut_EQFSETTAOPTIONS.dita#mut_EQFSETTAOPTIONS"/> to modify
+the analysis settings. This API call can be called by the user exit
+during the <xref href="mut_EQFPRESEGEX.dita#mut_EQFPRESEGEX"/>, and <xref href="mut_EQFPOSTSEGWEX.dita#mut_EQFPOSTSEGWEX"/> processing.</li>
+</ul> The following sections describe the individual API calls in
+detail.<indexterm>API calls for user exits<indexterm>API
+calls for user exits</indexterm></indexterm></p>
+</body></topic>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="folder_Details">
+<title>Viewing the details of a folder</title>
+<prolog><metadata><keywords>
+
+<indexterm>viewing
+the list window details of<indexterm>folders</indexterm></indexterm><indexterm>displaying the list window details
+of<indexterm>folders</indexterm></indexterm>
+<indexterm>changing the
+list window details<indexterm>of folders</indexterm></indexterm>
+<indexterm>folder<indexterm>displaying
+details</indexterm></indexterm>
+<indexterm>folder<indexterm>changing details</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>In the <q>Folder List</q> window, you can display additional information
+about a folder. You can define which details you want to be displayed
+and in which order.</p>
+<p>The displayable folder details are as follows:</p>
+<parml>
+<plentry><pt>Name </pt>
+<pd><indexterm>folder<indexterm>details</indexterm></indexterm>The name of the folder.</pd></plentry>
+<plentry><pt>Description</pt>
+<pd>The description of the folder.</pd></plentry>
+<plentry><pt>Updated</pt>
+<pd>The date when the folder properties were last changed.</pd></plentry>
+<plentry><pt>Markup</pt>
+<pd>The markup table defined in the folder's properties. This
+markup table is used for all documents in the folder unless a different
+markup table is specified in the properties of a document.</pd></plentry>
+<plentry><pt>Translation Memory</pt>
+<pd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> associated with the folder.</pd></plentry>
+<plentry><pt>Drive</pt>
+<pd>The disk drive where the folder resides.</pd></plentry>
+<plentry><pt>Dictionary</pt>
+<pd>The first dictionary in the list of dictionaries associated
+with the folder.</pd></plentry>
+<plentry><pt>Editor</pt>
+<pd>The text editor used (default value STANDARD).</pd></plentry>
+<plentry><pt>Source language</pt>
+<pd>The language of the original documents in the folder. A different
+language can be specified for individual documents in the folder.</pd></plentry>
+<plentry><pt>Target language</pt>
+<pd>The language of the translated documents in the folder. A different
+language can be specified for individual documents in the folder.</pd></plentry>
+<plentry><pt>Search Translation Memory</pt>
+<pd>The <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be searched for segment matches.</pd></plentry>
+</parml>
+<p>You can toggle between two display modes: 
+<ul>
+<li>Display the names only</li>
+<li>Display selected details</li>
+</ul></p>
+<p>You can change the arrangement of the folder details in the <q>Change
+Details</q> window described in <xref href="concept_DetailsViewChange.dita#concept_DetailsViewChange"/>.</p>
+</body></topic>

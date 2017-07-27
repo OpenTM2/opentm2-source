@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_132" rev="GF_18112016">
+  <title>New and Updated APIs in OpenTM2 v1.3.2</title>
+<prolog>
+  <metadata>
+    <keywords><!--Insert <indexterm> tags here--></keywords>
+  </metadata>
+</prolog>
+<body>
+  <p>This chapter is listing <b>new and updated APIs</b> implemented in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> v1.3.2.</p>
+  <p>
+    <ul>
+      <li>Updated API <q>EqfAnalyzeDocEx</q>: see <xref href="api_EqfAnalyzeDocEx.dita#api_EqfAnalyzeDocEx"/>.</li>
+    </ul>
+  </p> 
+</body>
+</topic>

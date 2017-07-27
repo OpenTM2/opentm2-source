@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfGetMatchLevel">
+<title>EqfGetMatchLevel </title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfGetMatchLevel </indexterm><indexterm>programming interface calls<indexterm>EqfGetMatchLevel </indexterm></indexterm>
+<p> The API call <i>EqfGetMatchLevel</i> computes
+the match level of the given proposal for the supplied segment. The
+segment data and the proposal is passed to the function using a EQFSEGINFO
+structure.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfGetMatchLevel </kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pSegment</var><sep>,</sep><var>pProposal</var><sep>,</sep></groupseq>
+<groupseq><var>psMatchLevel</var><sep>,</sep><var>pMatchState</var><sep>,</sep><var>lOptions</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PEQFSEGINFO</entry>
+<entry colname="col2">pSegment</entry>
+<entry colname="col3">Pointer to an EQFSEGINFO structure containing
+the segment data. 
+<p>Note: The target part has not to be filled.</p></entry></row>
+<row>
+<entry colname="col1">PEQFSEGINFO</entry>
+<entry colname="col2">pProposal</entry>
+<entry colname="col3">Pointer to an EQFSEGINFO structure containing
+the proposal data. </entry></row>
+<row>
+<entry colname="col1">PSHORT</entry>
+<entry colname="col2">psMatchLevel</entry>
+<entry colname="col3">Pointer to a SHORT variable receiving the match
+level. The returned match level is in the range from 0 to 100.</entry></row>
+<row>
+<entry colname="col1">PSHORT</entry>
+<entry colname="col2">pMatchState</entry>
+<entry colname="col3">Pointer to a SHORT variable receiving the match
+state.
+<p>The returned match state can be:</p>
+<ul>
+<li>REPLACE_MATCHSTATE for a replace match</li>
+<li>FUZZYREPLACE_MATCHSTATE for a fuzzy replace matche</li>
+<li>FUZZY_MATCHSTATE for a fuzzy matche</li>
+<li>NONE_MATCH if theproposal is no match at all</li>
+<li>EXACT_MATCHSTATE for an exact matche</li>
+<li>EXACTEXACT_MATCHSTATE for an exact match coming from the same
+document and same segment.</li>
+</ul></entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">lOptions</entry>
+<entry colname="col3">The options to be used for the function:
+<ul>
+<li>NO_GENERIC_INLINETAG_REPL_OPT if set the function “generic
+inline tag replacement” is not used</li>
+<li>USE_GENERIC_INLINETAG_REPL_OPT if set the function “generic
+inline tag replacement” is always used</li>
+</ul>
+<p>If none of these values is specified, the settings from the “System
+preferences” are used.</p></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="54*"/>
+<colspec colname="col2" align="left" colwidth="141*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> to retrieve the complete error information. </entry></row>
+</tbody>
+</tgroup>
+</table>
+<p><b>EQFSEGINFO</b> structure</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Field</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">WCHAR [2048] </entry>
+<entry colname="col2">szSource</entry>
+<entry colname="col3">The proposal source in UTF-16 encoding</entry></row>
+<row>
+<entry colname="col1">WCHAR [2048]</entry>
+<entry colname="col2">szTarget</entry>
+<entry colname="col3">The proposal target in UTF-16 encoding</entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">lSegNumber</entry>
+<entry colname="col3">The segment number</entry></row>
+<row>
+<entry colname="col1">CHAR [256]</entry>
+<entry colname="col2">szDocument</entry>
+<entry colname="col3">The name of the document</entry></row>
+<row>
+<entry colname="col1">CHAR [20]</entry>
+<entry colname="col2">szSourceLanguage</entry>
+<entry colname="col3">The source language of the proposal</entry></row>
+<row>
+<entry colname="col1">CHAR [20]</entry>
+<entry colname="col2">szTargetLanguage</entry>
+<entry colname="col3">The target language of the proposal</entry></row>
+<row>
+<entry colname="col1">CHAR [13]</entry>
+<entry colname="col2">szMarkup</entry>
+<entry colname="col3">The name of the markup table</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>// the segment data from the document 
+EQFSEGINFO SegmentData =
+{ 
+  L"The &lt;strong&gt;IBM Websphere Translation Server&lt;/strong&gt; performs automatic translations.", 
+  L"",
+  1, 
+  "document.idd", 
+  "English(U.S.)",
+  "German(DPAnat)",
+  "IBMIDDOC"
+};
+ 
+// data for a fuzzy match
+EQFSEGINFO FuzzyMatch = 
+{ 
+  L"The &lt;strong&gt;IBM Websphere Translation Server&lt;/strong&gt; does automatic translations.", 
+  L"Der &lt;strong&gt;IBM Websphere Translation Server&lt;/strong&gt; macht automatische Uebersetzungen.", 
+  7, 
+  "anotherdoc.idd", 
+  "English(U.S.)",
+  "German(DPAnat)",
+  "IBMIDDOC"
+};
+ 
+{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+ 
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+ 
+  // check the match level of the match in FuzzyMatch
+  if ( !usRC )
+  {
+    SHORT sMatchLevel = 0;
+    EQFMATCHSTATE MatchState;
+ 
+    usRC = EqfGetMatchLevel( hSession, &amp;SegmentData , &amp;FuzzyMatch, &amp;sMatchLevel, &amp;MatchState, 0 );
+  } /* endif */
+ 
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

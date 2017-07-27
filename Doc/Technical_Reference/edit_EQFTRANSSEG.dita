@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFTRANSSEG">
+<title>EQFTRANSSEG</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFTRANSSEG</indexterm><indexterm>programming interface calls<indexterm>EQFTRANSSEG</indexterm></indexterm>
+<p><i>EQFTRANSSEG</i> retrieves the information available
+for the current segment and puts it into the internal waiting list.</p>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> handles the layout and scrolling of the <q>Dictionary</q> and <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> windows
+and the selection of entries.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFTRANSSEG</kwd><delim>(</delim><var>pszBuffer</var><sep>,</sep><var>usSegNum</var><sep>,</sep><var>fShow</var><sep>,</sep><var>fFlags</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszBuffer(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the source segment. It must have a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>usSegNum(USHORT)</var></synph> — input</pt>
+<pd>The segment number.</pd></plentry>
+<plentry><pt><synph><var>fShow(BOOL)</var></synph> — input</pt>
+<pd>Determines whether the segment must immediately be displayed
+in the <q>Dictionary</q> or <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> window:
+<dl>
+<dlentry><dt>TRUE</dt>
+<dd>Put the segment into the <q>Dictionary</q> or <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> window.</dd></dlentry>
+<dlentry><dt>FALSE</dt>
+<dd>Use the segment information as sentence.</dd></dlentry>
+</dl></pd></plentry>
+<plentry><pt><synph><var>fFlags(FLAG)</var></synph> — input</pt>
+<pd>Determines what is displayed:
+<dl>
+<dlentry><dt>EQF_NODICTWND</dt>
+<dd>No <q>Dictionary</q> window is displayed.</dd></dlentry>
+<dlentry><dt>EQF_NOPROPWND</dt>
+<dd>No <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> window is displayed.</dd></dlentry>
+<dlentry><dt>EQF_NOAUTODICT</dt>
+<dd>The automatic dictionary lookup is disabled.</dd></dlentry>
+</dl></pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFERR_DISK_FULL</dt>
+<dd><keyword conref="common-symbols.dita#common-symbols/tm4w"/> detected that the disk is full.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_CORRUPTED</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is corrupted.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_ACCESS</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> could not be accessed.</dd></dlentry>
+<dlentry><dt>EQFERR_DICT_ACCESS</dt>
+<dd>The dictionary or the dictionary lookup program could not be
+accessed.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The request completed successfully.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>If <synph><var>fShow</var></synph> is set to FALSE, the success indicator is immediately
+set to TRUE. In addition, the sentence is treated as a sentence and
+processed in the background. Any error information produced during
+background processing is stored and displayed when this segment is
+displayed.</p>
+<p>If <synph><var>fShow</var></synph> is set to TRUE, this call first checks if the
+segment information is already prepared and can be immediately retrieved.
+If this is not the case, it is processed in the foreground.</p>
+<p>The EQF_NOAUTODICT flag is used to determine if the dynamic
+dictionary lookup, which consumes a lot of performance, should be
+skipped.</p>
+</section></refbody></reference>

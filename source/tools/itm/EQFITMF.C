@@ -678,6 +678,14 @@ ITMLCS
 //                       check that in longer string only blanks are
 //                       remaining
 //------------------------------------------------------------------------------
+
+// P403330 BEGIN
+BOOL isSpaceOrTab(PSZ_W pData)
+{
+	return (*pData==BLANK || *pData=='\t');
+}
+// P403330 END
+
 BOOL
 ItmLenComp
 (
@@ -691,12 +699,12 @@ ItmLenComp
    /*******************************************************************/
    /* skip leading blanks                                             */
    /*******************************************************************/
-   while ( usLen1 &&  (*pData1 == BLANK ))
+   while ( usLen1 &&  isSpaceOrTab(pData1) )
    {
      pData1++;
      usLen1--;
    } /* endwhile */
-   while ( usLen2 && (*pData2 == BLANK ))
+   while ( usLen2 && isSpaceOrTab(pData2) )
    {
      pData2++;
      usLen2--;
@@ -707,12 +715,31 @@ ItmLenComp
    /*******************************************************************/
    while ( usLen1 && usLen2 && fEqual )
    {
-     if ( *pData1 == *pData2 )
+     if ( *pData1==*pData2 || ( isSpaceOrTab(pData1) && isSpaceOrTab(pData2) ) )
      {
-       pData1++;
-       pData2++;
-       usLen1--;
-       usLen2--;
+		// P403330 BEGIN
+        if( isSpaceOrTab(pData1) )
+		{
+			while(usLen1>0 && isSpaceOrTab(pData1) )
+			{
+				pData1++;
+				usLen1--;
+			}
+
+			while(usLen2>0 && isSpaceOrTab(pData2) )
+			{
+				pData2++;
+				usLen2--;
+			}
+
+			continue;
+		}
+		// P403330 END
+
+         pData1++;
+         pData2++;
+         usLen1--;
+         usLen2--;
      }
      else
      {
@@ -728,7 +755,7 @@ ItmLenComp
        /***************************************************************/
        while ( usLen1 && fEqual )
        {
-         if ( *pData1 == BLANK )
+         if ( isSpaceOrTab(pData1) )
          {
            pData1++;
            usLen1--;
@@ -749,7 +776,7 @@ ItmLenComp
        /***************************************************************/
        while ( usLen2 && fEqual )
        {
-         if ( *pData2 == BLANK )
+         if ( isSpaceOrTab(pData2) )
          {
            pData2++;
            usLen2--;

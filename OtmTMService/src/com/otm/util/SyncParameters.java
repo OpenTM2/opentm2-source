@@ -25,6 +25,9 @@ public class SyncParameters
     public static final String   MEMORYLIST                 ="memory-list"; 
     
     public static final String   RESPONSESTATUSMSG          ="status-msg";
+    
+    public static final String   LOADEDCOUNTER              ="uploaded-counter";
+    public static final String   OWNUPLOADCOUNTERS          ="own-uploaded-counters";
    
    
 }

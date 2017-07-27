@@ -12,6 +12,22 @@ import java.util.List;
 public class TU {
 	
     @Override
+	public int hashCode() {
+		int result = 1;
+        result = result*31 + createtionDate.hashCode();
+        result = result*31 + Integer.valueOf(segNum);
+        result = result*31 + markup.hashCode();
+        result = result*31 + docName.hashCode();
+        result = result*31 + shortDocName.hashCode();
+        
+        for(TUV tuv:tuvs){
+        	result = result*31 + tuv.hashCode();
+        }
+        
+		return result;
+	}
+
+	@Override
 	public String toString() {
 		return "TU [createtionDate=" + createtionDate + ", lastAccessTime="
 				+ updateCounter + ", segNum=" + segNum + ", markup=" + markup
@@ -98,5 +114,20 @@ public class TU {
 		this.shortDocName = shortDocName;
 	}
     
+    public TUV getSourceTUV() {
+    	for(TUV tuv:tuvs){
+    		if( "en-US".equalsIgnoreCase(tuv.getLang()) )
+    			return tuv;
+    	}
+    	return null;
+    }
     
+    public ArrayList<TUV> getTargetTUV() {
+    	ArrayList<TUV> tgtTUVS = new ArrayList<TUV>();
+    	for(TUV tuv:tuvs){
+    		if( !"en-US".equalsIgnoreCase(tuv.getLang()) )
+    			tgtTUVS.add(tuv);
+    	}
+    	return tgtTUVS;
+    }
 }

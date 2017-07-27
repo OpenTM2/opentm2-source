@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appEdit_TranslationEdit">
+  <title>Editing</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="1" frame="topbot">
+      <tgroup cols="4" colsep="1" rowsep="1">
+        <colspec colname="col1" colwidth="298*"/>
+        <colspec colname="col2" colwidth="115*"/>
+        <colspec colname="col3" colwidth="152*"/>
+        <colspec colname="col4" colwidth="114*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Function</entry>
+            <entry valign="top" rowsep="1">Menu</entry>
+            <entry valign="top" rowsep="1">Default key</entry>
+            <entry valign="top" rowsep="1">My key</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Delete character or marked block</entry>
+            <entry valign="top"/>
+            <entry valign="top">Delete</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete character and move cursor left</entry>
+            <entry valign="top"/>
+            <entry valign="top">Backspace</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete until tag</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Delete line</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Insert line</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Join line(s)</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Split line</entry>
+            <entry valign="top">Edit </entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Truncate line</entry>
+            <entry valign="top"/>
+            <entry valign="top">Ctrl+Delete</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete word</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Mark word</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Compress current segment</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Truncate segment</entry>
+            <entry valign="top"/>
+            <entry valign="top">Alt+Delete</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete segment</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Join segments</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Split joined segments</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Mark segment</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Next untranslated segment</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top">Alt+n</entry>
+          </row>
+          <row>
+            <entry valign="top">Reflow segment</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Spellcheck segment</entry>
+            <entry valign="top">Spellcheck </entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Translate segment</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top">Ctrl+Enter</entry>
+          </row>
+          <row>
+            <entry valign="top">Untranslate segment</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Copy block</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Copy proposal block</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top">Ctrl+letter of proposal</entry>
+            <entry/>
+          </row>
+          <row>
+            <entry valign="top">Delete block (Clear)</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Find block</entry>
+            <entry valign="top">Cursor</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Mark block</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Move block</entry>
+            <entry valign="top"/>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Unmark block</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Find (and change... )</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Undo</entry>
+            <entry valign="top">Edit</entry>
+            <entry valign="top">Alt+Backspace</entry>
+          </row>
+          <row>
+            <entry valign="top">Set bookmark</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top"/>
+          </row>
+          <row>
+            <entry valign="top">Clear bookmark</entry>
+            <entry valign="top">Translate</entry>
+            <entry valign="top"/>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

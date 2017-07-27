@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dict_FieldChange">
+  <title>Changing dictionary entry fields</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>changing entry fields</indexterm></indexterm>
+      <p>Select this function to make modifications to a dictionary entry structure. You can delete
+        entry fields, rename entry fields, or add new user-defined entry fields. You can determine
+        the size of the entry field and what entry field data you want to have displayed on which
+        panel of the <q>Lookup Entry</q> window.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>Decide on which dictionary entry fields your dictionary is to contain.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window.</li>
+          <li><b>New…</b> from the <b>File</b> menu. The <q>New Dictionary</q> window is
+            displayed.</li>
+          <li><b>Yes…</b> next to the <b>Change entry fields</b> option.</li>
+        </ol></p>
+      <p>The <q>Change Entry Fields</q> window is displayed (see <xref href="#dict_FieldChange/dicyy2"
+        />). <required-cleanup><indexterm>windows<indexterm>Change Entry
+          Fields</indexterm></indexterm></required-cleanup><fig id="dicyy2" expanse="column">
+          <title>Change Entry Fields window</title><image placement="break" href="dict_FieldChange.gif"
+              ><alt>Figure shows Change Entry Fields window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Entry fields</pt>
+          <pd>This list box contains all the entry fields defined for this dictionary. Select one
+            entry field at a time and define your settings for this field.</pd>
+        </plentry>
+        <plentry>
+          <pt>Display</pt>
+          <pd>If you want this entry field to be displayed in one of the panels of the <q>Lookup
+              Entry</q> window, decide on which one. This means choose between <b>Panel 1</b> (for
+            the most relevant data), <b>Panel 2</b>, and <b>Panel 3</b>. <p>Select <b>Omit</b> if
+              you want the entry field and its data not to be displayed on any of the lookup panels.
+              The entry field is not deleted from the entry structure. Select <b>Aut. Lookup</b> to
+              display the complete entry field information in the window showing the found
+              dictionary proposals during translation.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Level</pt>
+          <pd>To specify the level you want the entry field to belong to, select a corresponding
+            entry field so that the required level is active. It can be <b>Entry</b>,
+            <b>Homonym</b>, <b>Sense</b>, or <b>Target</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Size</pt>
+          <pd>Select one of the two choices: <parml>
+              <plentry><pt>Small</pt>
+                <pd>Is adequate for an entry field of about a line in length (the maximum is 255
+                  characters).</pd></plentry>
+              <plentry><pt>Large</pt>
+                <pd>Is needed for an entry field consisting of several lines of data. <p>Select this size only if absolutely necessary because the use of too many large
+                    fields decreases the performance of <keyword
+                      conref="common-symbols.dita#common-symbols/tm4w"/>.</p></pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>For each selected entry field you can clicke of the following: <parml>
+          <plentry><pt>Change Name…</pt>
+            <pd>To rename the entry field. See <xref href="dict_FieldRename.dita#dict_FieldRename"/> for
+              details.</pd></plentry>
+          <plentry><pt>Add Field…</pt>
+            <pd>To add a new user-defined entry field to the list of entry fields. For more detail
+              see <xref href="dict_FieldAdd.dita#dict_FieldAdd"/>.</pd></plentry>
+          <plentry><pt>Delete field</pt>
+            <pd>To remove the entry field from the entry structure.</pd></plentry>
+        </parml></p>
+      <p>When all of the entry field settings are complete, click <b>Change</b>. This takes you back
+        to the <q>New Dictionary</q> window.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The entry structure of the selected dictionary is changed according to your specifications,
+        this means the dictionary can have more or fewer entry fields, changed entry field names and
+        sizes, and changed lookup display options.</p>
+    </section>
+  </refbody>
+</reference>

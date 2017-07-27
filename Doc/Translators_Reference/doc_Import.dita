@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_Import">
+  <title>Importing a document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>document<indexterm>importing</indexterm></indexterm>
+      <indexterm>importing<indexterm>documents</indexterm></indexterm>
+      <p>You must import a document into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        before you can work with it.</p>
+      <p>A <keyword conref="common-symbols.dita#common-symbols/tm4w"/> document can be in one of the
+        following formats: <ul>
+          <li><keyword conref="common-symbols.dita#common-symbols/tm4w"/> format <p>This format can
+              be received from another <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+              user who previously exported the document in <keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> format. When you import a
+              document into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you receive
+              the current status of both the original and translated version of the
+            documents.</p></li>
+          <li>External format (with and without relative path) <p>This format is produced by
+              word-processing systems, such as WordPerfect or <tm trademark="Microsoft"
+                tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word
+              for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg"
+                tmclass="special">Windows</tm>.</p>
+            <p>When you import a document in external format you can decide whether you
+              want to import it either under its name only or under its name and path information.
+              Name and path uniquely identify a document in a folder. If you import a document under
+              its name and path, you can have several documents in a folder with the same name,
+              provided that the path differs.</p></li>
+        </ul>
+      </p>
+      <p>In addition, you can extract glossary terms from a <tm trademark="Lotus"
+          tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+        <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub"
+          >Notes</tm> database and import them as a document into <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The active window is the <q>Document List</q> window of the folder into which the document
+        is to be imported.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Import…</b> from the <b>File</b> menu.</p>
+      <p>The <q>Import Documents</q> window is displayed (see <xref
+          href="#doc_Import/importdocumentswin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Import
+                Documents</indexterm></indexterm></required-cleanup><fig id="importdocumentswin" expanse="column">
+          <title>Import Documents window</title><image placement="break" href="doc_Import.gif"
+              ><alt>Figure shows Import Documents window</alt></image></fig></p>
+    </section>
+  </refbody>
+</reference>

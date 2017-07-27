@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="tools_Chapter">
+  <title>Working from the command area (Other Tools)</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Other Tools</indexterm>
+        <indexterm>Other Tools command area instructions</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter contains <q>other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> tools</q> 
+       which can be executed from the DOS command area.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> contains a plugin named <q><b>GUI for Command Line Tools</b></q>
+      which helps users to run the tools from within <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. Users
+      are supported by displaying the command syntax as well as possible options to choose. The process and output will be 
+      same same, no matter which way the user decided to use. For more information see <xref href="plugin_CommandLineGui.dita#plugin_CommandLineGui"/>.</p>  
+    <p>
+      <b>
+        <u>To start a task from the DOS command area:</u>
+      </b>
+      <ol>
+        <li>Open a DOS line command.</li>
+        <li>Type a command and its parameters into the operating system’s DOS command area (next to
+          the command prompt) according to the command syntax described in the following chapters.</li>
+        <li>Press the <q>Enter</q> key.</li>
+      </ol>
+    </p>
+    <p>Note that <b>lowercase letters</b> in a parameter name are
+       <b>optional</b> and need not be typed. A mixture between uppercase and lowercase
+       letters is allowed. However, a muddled letter sequence like in <codeph>OVerWRiTe</codeph> must
+       not be used. The parameters can be entered in any order.</p>
+    <p>To process several commands in sequence, type the individual commands into a DOS batch file
+       (<codeph>*.BAT</codeph> using any text editor. You can execute these commands by starting
+       the DOS batch file.</p>
+    <p>To avoid retyping of long text strings in commands, you can also type a command and its
+       parameters in a text editor, which is capable of the <b>Copy to clipboard</b> function. You
+       can then <b>paste</b> the text string from the clipboard directly into your system’s DOS
+       command area and start the task. </p>
+  </body>
+</topic>

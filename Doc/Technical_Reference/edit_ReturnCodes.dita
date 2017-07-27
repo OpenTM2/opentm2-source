@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_ReturnCodes">
+<title>Return codes</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following list contains all return codes provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.
+If an operating-system error is found, the <codeph>EQFERR_SYSTEM</codeph> is
+set and the extended return code is updated in the line <codeph>stEQFStruct
+sOS2</codeph>.</p>
+<dl>
+<dlentry><dt>EQFERR_TM_ACCESS</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> could not be accessed.</dd></dlentry>
+<dlentry><dt>EQFERR_DICT_ACCESS</dt>
+<dd>The dictionary or the dictionary lookup program could not be
+accessed.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The request completed successfully.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+<dlentry><dt>EQFERR_CLOSE_DICT</dt>
+<dd>An error occurred during the closing of the dictionary.</dd></dlentry>
+<dlentry><dt>EQFERR_CLOSE_TM</dt>
+<dd>An error occurred during the closing of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</dd></dlentry>
+<dlentry><dt>EQFERR_ENTRY_NOT_AVAIL</dt>
+<dd>The selected proposal is not available.</dd></dlentry>
+<dlentry><dt>EQFERR_DISK_FULL</dt>
+<dd><keyword conref="common-symbols.dita#common-symbols/tm4w"/> detected that the disk is full.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_NOT_ACTIVE</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is not active.</dd></dlentry>
+<dlentry><dt>EQFERR_SEG_EMPTY</dt>
+<dd>The passed segment was empty and therefore was not stored in
+the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</dd></dlentry>
+<dlentry><dt>EQFERR_TM_CORRUPTED</dt>
+<dd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is corrupted.</dd></dlentry>
+<dlentry><dt>EQFERR_SEG_NOT_FOUND</dt>
+<dd>The specified segment was not found.</dd></dlentry>
+<dlentry><dt>EQFERR_DICTLOOK_NOT_FOUND</dt>
+<dd>The dictionary lookup dialog could not be loaded.</dd></dlentry>
+<dlentry><dt>EQFERR_DICT_LOOKUP_PENDING</dt>
+<dd>The dictionary lookup request is pending.</dd></dlentry>
+<dlentry><dt>EQFERR_NO_ENTRY_AVAIL</dt>
+<dd>The dictionary entry is not available.</dd></dlentry>
+<dlentry><dt>EQFERR_SYSTEM</dt>
+<dd>A system error occurred.</dd></dlentry>
+</dl>
+</body></topic>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_AnalyzeDictionary">
+  <title>Analyzing documents using dictionaries</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>analyzing<indexterm>documents using dictionaries</indexterm></indexterm>
+      <indexterm>terminology lists<indexterm>creating</indexterm></indexterm>
+      <p>If you have <i>dictionaries</i> available containing vocabulary associated with the
+        document, you can ask <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to
+        generate two types of <i>terminology list</i>: <ul>
+          <li><i>New terms</i> list. <indexterm>terminology lists<indexterm>list of new
+                terms</indexterm></indexterm>This list contains all terms in your document that are
+            not defined in the referenced dictionaries. You can use this list of terms to add
+            entries to these dictionaries.</li>
+          <li><i>Found terms</i> list. <indexterm>terminology lists<indexterm>list of found
+                terms</indexterm></indexterm>This list contains all terms in your document that are
+            already defined in the referenced dictionaries. You can use this list of terms to fill a
+            separate dictionary related to the document.</li>
+        </ul></p>
+      <p>The generated terminology lists may contain terms that are unsuitable as terminology for
+        your translation. <indexterm>terminology lists<indexterm>exclusion
+          lists</indexterm></indexterm>In this case, you can create the lists again using
+          <i>exclusion lists</i> or <i>exclusion dictionaries</i> to get fewer terms in the
+        lists.</p>
+      <p>If you are only interested in terms that occur more than once in a document, you can
+        specify a minimum number of occurrences greater than 1.</p>
+      <p>To perform the creation of terminology lists, you specify your options and parameters in
+        two subsequent windows.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>Dictionaries and, optionally, exclusion lists must be available</li>
+        <li>The folder containing the document must be opened</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>One or more documents from the <q>Document List</q> window.</li>
+          <li><b>Analyze…</b> from the <b>File</b> menu. The <q>Analyze Documents</q> window is
+            displayed </li>
+          <li><b>Create lists</b>. The <b>List Settings</b> tab is created.</li>
+          <li><b>List Settings</b> tab.</li>
+        </ol></p>
+      <p>The <q>List Settings</q> page (see <xref href="#doc_AnalyzeDictionary/diclist"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Analyze Documents — List Settings
+                page</indexterm></indexterm></required-cleanup><fig id="diclist" expanse="column">
+          <title>Analyze Documents window — List Settings page</title><image placement="break"
+            href="doc_AnalyzeDictionary.gif"><alt>Figure shows Analyze Documents window — List Settings
+              page</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>To create a new terms list, select: <parml>
+          <plentry><pt>Create list of new terms </pt>
+            <pd><indexterm>creating<indexterm>lists of new terms</indexterm></indexterm>Select this
+              option to create a list of new terms. The system provides the folder name as the
+              default name for the list to be generated. You can specify any other name. For this
+              type of list, you can also select:</pd></plentry>
+          <plentry><pt>Include new multiword terms</pt>
+            <pd>Select this option to include multiword terms that are not hyphenated, such as data
+              management, in the list of new terms. Choose whether the first word of these terms can
+              be a noun, an adjective, or either of them.</pd></plentry>
+          <plentry><pt>Include context information</pt>
+            <pd>If a new term is found, the system can save the original segment (containing the
+              term) as <i>context</i> information. This option is useful if you intend to copy the
+              new terms to a dictionary that can contain context information.</pd></plentry>
+          <plentry><pt>Minimum number of occurrences</pt>
+            <pd>Specify how often a term must occur in the document so that it is included in the
+              new terms list.</pd></plentry>
+        </parml></p>
+      <p>To create the list of all terms of a document that are also in selected dictionaries,
+        select: <parml>
+          <plentry><pt>Create list of found terms </pt>
+            <pd><indexterm>creating<indexterm>lists of found terms</indexterm></indexterm>Select
+              this option to create a list of found terms. The system provides the folder name as
+              the default name for the list to be generated. You can specify any other name. For
+              this type of list, you can also select:</pd></plentry>
+          <plentry><pt>Include context information</pt>
+            <pd>If a term is found in one of the selected dictionaries, the system can save the
+              original segment (containing the term) as <i>context</i> information. This option is
+              useful if you intend to copy the found terms to a dictionary that can contain context
+              information.</pd></plentry>
+          <plentry><pt>Minimum number of occurrences</pt>
+            <pd>Specify how often a term must occur in the document so that it is included in the
+              found terms list.</pd></plentry>
+          <plentry><pt>Add found terms to dictionary</pt>
+            <pd>To copy the found terms to a dictionary, select a dictionary from this list
+              box.</pd></plentry>
+        </parml></p>
+      <p>For both new terms and found terms lists, you must specify: <parml>
+          <plentry><pt>Dictionaries to be used for analysis</pt>
+            <pd>Select the dictionaries to be used for generating terminology lists from the
+                <b>Available</b> list box. The dictionaries are listed in the <b>Selected</b> list
+              box in the order in which you select them, and the dictionaries are searched in this
+              order. You must select at least one dictionary, and you can select up to
+            10.</pd></plentry>
+        </parml></p>
+      <p>If needed, you can limit the generation of terminology lists by the following options: <parml>
+          <plentry><pt>Use exclusion lists</pt>
+            <pd>If you have terms you want to exclude from the lists to be generated, use an
+              exclusion list. For each language for which you installed the language support,
+                <keyword conref="common-symbols.dita#common-symbols/tm4w"/> already provides an
+              exclusion list. It contains so-called noise terms. Select the exclusion lists to be
+              used from the list box.</pd></plentry>
+          <plentry><pt>Use exclusion dictionaries</pt>
+            <pd>If you have a dictionary that contains well-defined terms that you want to exclude
+              from the terminology lists to be generated, select it from the list
+            box.</pd></plentry>
+        </parml></p>
+      <p>Click <b>Set</b> to return to the <q>Analyze Documents</q> window.</p>
+      <p>To begin analysis, click <b>Analyze</b>. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is segmented.</p>
+      <p>Depending on the options you selected, new terms lists and found terms lists are created,
+        and can be modified and used for dictionary updates. For information on how to process new
+        terms lists and found terms lists, see <xref href="term_Chapter.dita#term_Chapter"
+        />.</p>
+      <p>Analyzing documents using machine translation (MT)</p>
+      <p>You can begin translating the document.</p>
+    </section>
+  </refbody>
+</reference>

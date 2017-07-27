@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task_MarkupExchange">
+  <title>Exchanging markup tables</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> is an open platform that supports many word-processing formats by using
+      specific markup tables. These markup tables enable <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to distinguish between
+      formatting information in a document and actual text to be translated.</p>
+    <p>You may want to distribute a markup table to someone who has to translate a document with special formatting tags that require 
+      customization of a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> markup table.</p>
+    <p>Markup tables can also be exported in an SGML-based format for distribution or modification. However, they should only be modified by 
+      people experienced in SGML.</p>
+  </body>
+</topic>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_FormatsHtml">
+<title>HTML documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>HTML</indexterm></indexterm>
+<indexterm>HTML documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body><!--rev=wrl2-->
+<p>Import HTML level 2.0 and 3.0 documents using the <codeph>EQFHTML2</codeph> markup
+table and level 4.0 documents using <codeph>EQFHTML4</codeph>. The latter
+markup table is combined with a user exit.</p>
+</body></topic>

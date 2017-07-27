@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="sample_Delete">
+<title>Deleting a sample folder</title>
+<prolog><metadata><keywords>
+
+<indexterm>deleting<indexterm>sample folders</indexterm></indexterm>
+<indexterm>sample material<indexterm>deleting sample folders</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>If you no longer need any of the sample material, for example, because
+you are translating other document types or because you are now sufficiently
+familiar with it, you can delete selected sample folders.</p>
+<p>For details on how to delete parts of the samples, see: 
+<ul>
+<li><xref href="folder_Delete.dita#folder_Delete"/></li>
+<li><xref href="doc_Delete.dita#doc_Delete"/></li>
+<li><xref href="dict_Delete.dita#dict_Delete"/></li>
+<li><xref href="memory_Delete.dita#memory_Delete"/></li>
+</ul></p>
+<p>To remove the sample folders from your disk entirely, see <xref href="folder_DeletedExported.dita#folder_DeletedExported"/>. </p>
+</body></topic>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_Merge">
+  <title>Merging <keyword conref="common-symbols.dita#common-symbols/xlmems"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>Translation Memory<indexterm>merging</indexterm></indexterm>
+      <indexterm>merging<indexterm><keyword conref="common-symbols.dita#common-symbols/xlmems"
+          /></indexterm></indexterm>
+      <p>If several translators are working on a large document, each of them uses and updates a
+        separate <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+      <p>For the translation of subsequent releases of the document, it is useful to merge these to
+        create a single consolidated <keyword conref="common-symbols.dita#common-symbols/xlmem"
+        />.</p>
+      <p>You can merge <keyword conref="common-symbols.dita#common-symbols/xlmems"/> in two ways: <ul>
+          <li>While importing an external <keyword conref="common-symbols.dita#common-symbols/xlmem"
+            /> (see <xref href="memory_Import.dita#memory_Import"/>).</li>
+          <li>By merging two internal <keyword conref="common-symbols.dita#common-symbols/xlmems"
+            />.</li>
+        </ul></p>
+      <p>The merging of two <keyword conref="common-symbols.dita#common-symbols/xlmems"/> is
+        described using two sample names, <codeph>TMEM01</codeph> and <codeph>TMEM02</codeph>.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The two <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be merged must
+          exist.</li>
+        <li>They must have the same source language.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Translation Memory List</q> window</li>
+          <li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be merged, for
+            example, <codeph>TMEM01</codeph></li>
+          <li>Select <b>Merge…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Merge Translation Memory</q> window (see <xref href="#memory_Merge/mergexlmwin"/>)
+        is displayed. <required-cleanup><indexterm>windows<indexterm>Merge <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"
+          /></indexterm></indexterm></required-cleanup><fig id="mergexlmwin" expanse="column">
+          <title>Merge <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            window</title><image placement="break" href="memory_Merge.gif"><alt>Figure shows Merge
+              window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The <b>Into <keyword conref="common-symbols.dita#common-symbols/xlmem"/></b> list box
+        displays all available <keyword conref="common-symbols.dita#common-symbols/xlmems"/>. Select
+        the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, for example
+          <codeph>TMEM02</codeph>, into which to merge the previously selected <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>
+        <codeph>TMEM01</codeph>.</p>
+      <p>When you have selected the target <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>, click <b>Merge</b> to begin merging
+        the <keyword conref="common-symbols.dita#common-symbols/xlmems"/>. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The contents of <codeph>TMEM01</codeph> is merged into the target <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>
+        <codeph>TMEM02</codeph>. The <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+        <codeph>TMEM01</codeph> remains unchanged. You can begin to use the extended <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/>
+        <codeph>TMEM02</codeph>.</p>
+    </section>
+  </refbody>
+</reference>

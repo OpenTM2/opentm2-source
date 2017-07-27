@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="tools_ItmCreate">
+  <title>Creating an Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from the command line
+  </title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>Initial Translation Memory (ITM)<indexterm>creating (from command area)</indexterm></indexterm>
+      <indexterm>creating<indexterm>Initial Translation Memory (ITM) databases (from command area)</indexterm></indexterm>
+      <p>If you need to create Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+         (ITM) databases frequently, you might find it more convenient to use a command instead of
+         the procedure described in <xref href="memory_ItmCreate.dita#memory_ItmCreate"/>.</p>
+      <p>
+         <ph>The correctness of the aligned segment pairs in an internal ITM can be checked with a
+         text editor as described in <xref href="memory_ItmEditor.dita#memory_ItmEditor"/> or 
+         <xref href="tools_ItmRevise.dita#tools_ItmRevise"/>.</ph>
+      </p>
+      <p>When you consider the Initial <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+         to be correct, you can begin using it for your translations.</p>
+      <p>The OTMITM command has additional options compared to the window version: 
+        <ul>
+          <li>You not only can create an internal 
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, but also an external 
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+          <li>You must not fill the internal 
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</li>
+          <li>You can suppress the confirmation message.</li>
+        </ul>
+      </p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMITM<indexterm>creating an Initial Translation Memory</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMITM<indexterm otherprops="">creating an Initial Translation Memory</indexterm></indexterm></indexterm>
+      <p>The following syntax diagrams describe how you create an initial 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from the 
+         <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> command area.
+         Note that lowercase letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMITM</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+          <synnote>Mandatory, but not filled if <codeph>/TYPE=NOTM</codeph></synnote>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FIles</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <fragref>file_pairs</fragref>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>list_file_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupchoice>
+          <kwd>─</kwd>
+          <synnote>Mandatory except for <codeph>/TYPE=NOANA</codeph></synnote>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>MArkup</kwd>
+            <oper>=</oper>
+            <var>markup</var>
+          </groupseq>
+        </groupchoice>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>SGmlmem</kwd>
+          <oper>=</oper>
+          <var>mem_file</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>SRclng</kwd>
+          <oper>=</oper>
+          <var>source_language</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TGtlng</kwd>
+          <oper>=</oper>
+          <var>target_language</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>SrcStartpath</kwd>
+          <oper>=</oper>
+          <var>source_startpath</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TgtStartpath|/TS</kwd>
+          <oper>=</oper>
+          <var>target_startpath</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TYpe</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <fragref>type</fragref>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <fragref>type</fragref>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq>
+          <kwd>/sglmformat</kwd>
+          <oper>=</oper>
+          <var>format</var>
+          <groupchoice>
+            <kwd>UNICODE</kwd>
+            <kwd>ASCII</kwd>
+            <kwd>ANSI</kwd>
+          </groupchoice>
+        </groupseq>
+        <fragment>
+          <title>file_pairs</title>
+          <groupseq>
+            <delim>(</delim>
+          </groupseq>
+          <groupseq>
+            <repsep>,</repsep>
+            <var>file_name_original</var>
+            <delim>,</delim>
+            <var>file_name_translation</var>
+          </groupseq>
+          <groupseq>
+            <delim>)</delim>
+          </groupseq>
+        </fragment>
+        <fragment>
+          <title>type</title>
+          <groupchoice>
+            <kwd>NOANA</kwd>
+            <kwd>NOTM</kwd>
+            <kwd>NOCONF</kwd>
+            <kwd>PREPARE</kwd>
+            <groupseq>
+              <kwd>VISUAL</kwd>
+            </groupseq>
+          </groupchoice>
+        </fragment>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/SGMLFORMAT=<synph><var>format</var></synph></pt>
+          <pd><synph><var>format</var></synph>specifies the export format of a ITM. The
+            default parameter is UNICODE. Other possible parameters are ANSII and ASCII. Shortform
+            is /sf.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> is the name of a previously created 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/> (without the file
+              extension). This <keyword conref="common-symbols.dita#common-symbols/xlmem"/> can still
+              be empty. It can be filled with original segments and their corresponding translations.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>file_pairs</var></synph></pt>
+          <pd><synph><var>file_pairs</var></synph> specifies the pair of files to use
+            when creating the ITM. Enclose the pair of files in brackets and separate the file names
+            by a comma. <p>If you specify several pairs (as original1, translation1, original2,
+            translation2, and so on), enclose the file names in brackets and separate them by commas.</p>
+            <p>If you want to specify a list of pairs in a list file, refer to this list file by
+            preceding the list file name with the <codeph>@</codeph> symbol
+            (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+            enclose the file names in brackets and separate them by commas.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/MArkup=<synph><var>markup</var></synph></pt>
+          <pd><synph><var>markup</var></synph> is the name of the markup table that the selected
+            texts use (mandatory except for <codeph>/TYPE=NOANA</codeph>). See 
+            <xref href="mut_Chapter.dita#mut_Chapter"/> for the names of the markup tables.</pd>
+        </plentry>
+        <plentry>
+          <pt>/SGmlmem=<synph><var>mem_file</var></synph></pt>
+          <pd><synph><var>mem_file</var></synph> is the name you want to give to the external ITM
+            and the path where it is to be located. The ITM is in SGML format and can subsequently
+            be imported into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> after you
+            have checked it.</pd>
+        </plentry>
+        <plentry>
+          <pt>/SRclng=<synph><var>source_language</var></synph></pt>
+          <pd><synph><var>source_language</var></synph> is the language of the original
+            documents.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TGtlng=<synph><var>target_language</var></synph></pt>
+          <pd><synph><var>target_language</var></synph> is the language of the translated documents.</pd>
+        </plentry>
+        <plentry>
+          <pt>/SrcStartpath=<synph><var>source_startpath</var></synph></pt>
+          <pd><synph><var>source_startpath</var></synph> is the path information that you do
+              <b>not</b> want to become part of the document name when the original document is
+              stored in the <keyword conref="common-symbols.dita#common-symbols/ITM"/>. For example,
+              if your source file is stored in <codeph>e:\tm\project\english</codeph> and you do not
+              want <codeph>e:\tm\project</codeph> to become part of the name under which it is stored,
+              specify <codeph>e:\tm\project</codeph> in this field. <p> The path you specify here can
+              differ from the <synph><var>target_startpath</var></synph>. However, if you specify a
+              source start path, you must also specify a <synph><var>target_startpath</var></synph>.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/TgtStartpath=<synph><var>target_startpath</var></synph></pt>
+          <pd><synph><var>target_startpath</var></synph> is the path information that you do
+              <b>not</b> want to become part of the document name when the target document is stored
+              in the <keyword conref="common-symbols.dita#common-symbols/ITM"/>. For example, if your
+              source file is stored in <codeph>e:\tm\project\english</codeph> and you do not want
+              <codeph>e:\tm\project</codeph> to become part of the name under which it is stored,
+              specify <codeph>e:\tm\project</codeph> in this field. <p>The path you specify here can
+              differ from the <synph><var>source_startpath</var></synph>. However, if you specify a
+              source start path, you must also specify a
+              <synph><var>source_startpath</var></synph>.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/TYpe=</pt>
+          <pd>One or more of the following: 
+            <ul>
+              <li>NOANA Do not analyze the selected files because they have already been analyzed by
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</li>
+              <li>NOTM Do not fill the internal 
+                  <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+                  (<synph><var>memdb</var></synph>). Fill the external 
+                  <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. 
+                  It is in SGML format and you can check it afterwards.</li>
+              <li>NOCONF No confirmation message is displayed. This is useful if you do not want to
+                be interrupted by progress messages while you are working.</li>
+              <li>PREPARE The source documents are related to their corresponding translations. The
+                file pairs are prefixed with <b>p</b>.</li>
+              <li>VISUAL Creates the ITM and presents its contents on the screen for you to
+                revise.</li>
+            </ul></pd>
+        </plentry>
+      </parml>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following examples show how to use the OTMITM command.</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example:</title>
+          <codeblock>otmitm /mem=MyItm /files=(d:\eng\text.html,d:\ger\text.html) 
+          /markup=otmhtm32 /srclng=English(U.S.) /tgtlng=German(reform)</codeblock>
+        </section>-->
+      <p> <codeblock>otmitm /mem=MyItm /files=(d:\eng\text.html,d:\ger\text.html) 
+          /markup=otmhtm32 /srclng=English(U.S.) /tgtlng=German(reform)</codeblock></p>
+<!--      </required-cleanup>-->
+      <note>For better readability, the command is shown on two lines. However, it must be typed in one line.</note>
+      <p>In this example, the original HTML document <codeph>text.html</codeph> is located in
+         the directory <codeph>d:\eng\</codeph>. The German translation is located in the directory
+         <codeph>d:\ger\</codeph>. <codeph>otmhtm32</codeph> is the name of the 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> markup table used for this document.
+         All matching sentence pairs are put into <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+         <codeph>MyItm</codeph>. No external <keyword conref="common-symbols.dita#common-symbols/xlmem"/> 
+         (SGML format) is created.</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example:</title>
+          <codeblock>otmitm /mem=MyItm /files=@itm.lst /markup=otmhtm32 /sgmlmem=xx.out
+          /type=notm /srclng=English(U.S.) /tgtlng=German(reform)</codeblock>
+        </section>-->
+      <p> <codeblock>otmitm /mem=MyItm /files=@itm.lst /markup=otmhtm32 /sgmlmem=xx.out
+          /type=notm /srclng=English(U.S.) /tgtlng=German(reform)</codeblock></p>
+<!--      </required-cleanup>-->
+      <note>For better readability, the command is shown on two lines here. However, it must be typed in one line.</note>
+      <p>In this example, a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+        <codeph>myitm</codeph> is used to find out the source language. The files to be analyzed are
+        contained in <codeph>itm.lst</codeph>. <codeph>itm.lst</codeph> looks as follows:</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>itm.lst</title>
+          <codeblock>(
+d:\eng\text1.html, d:\ger\text1.html,
+d:\eng\text2.html, d:\ger\text2.html
+)</codeblock>
+        </section>-->
+      <p> <codeblock>(
+d:\eng\text1.html, d:\ger\text1.html,
+d:\eng\text2.html, d:\ger\text2.html
+)</codeblock></p>
+<!--      </required-cleanup>-->
+      <p>The ITM created is placed into an SGML <keyword conref="common-symbols.dita#common-symbols/xlmem"/> 
+         named <codeph>xx.out</codeph>, not into <codeph>myitm</codeph> (because type <codeph>notm</codeph> is specified). 
+         The markup table to be used is <codeph>otmhtm32</codeph> because the documents were originally created
+         in HTML.</p>
+      <p>You must type the command in one line. You can type it in uppercase letters, lowercase
+        letters, or mixed case. You cannot use any wildcard characters, such as asterisks (*).</p>
+      <note>It is recommended to proofread the external ITM before using it in 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. Because it has not been created during
+            translation, but consists of machine-generated matches, the alignment of original and
+            translated segments might not be completely correct. This could be the case where two
+            original segments have been combined into one translated segment.</note>
+    </example>
+  </refbody>
+</reference>

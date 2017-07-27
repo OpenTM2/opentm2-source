@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_BidiControlling">
+  <title>Controlling the bidirectional display</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can control whether embedded text in a bidirectional language document, like numerals and
+      foreign language text phrases, are displayed from left to the right or reverted.</p>
+    <p>The decision depends on your personal preference and on the amount of embedded text in a
+      document.</p>
+    <p><indexterm>customizing<indexterm>for bidirectional languages</indexterm></indexterm>
+      <indexterm>visual display option</indexterm>Do change the direction, you can customize the
+      Translation Environment as follows: <ul>
+        <li>Open the <b>Options</b> menu</li>
+        <li>Select <b>Profile settings...</b></li>
+        <li>In the <q>Customize Translation Functions</q> window, select the <b>Display</b> page.
+              <indexterm>windows<indexterm>Customize Translation Functions<indexterm>Visual
+                display</indexterm></indexterm></indexterm></li>
+        <li>Select or clear the <b>Visual display</b> check box, and click <b>Set</b> to save the
+          profile settings. <p>Selecting this check box displays embedded text in the same direction
+            as the Arabic or Hebrew text, from right to the left.</p></li>
+      </ul>
+      <fig id="bidi_activate" expanse="column">
+        <title>Controlling the bidirectional display</title><image placement="break"
+          href="env_BidiControlling.gif">
+          <alt>Figure shows Controlling the bidirectional display</alt></image></fig>
+    </p>
+    <p>Remember to clear this check box if you work with non-bidirectional documents.</p>
+  </body>
+</topic>

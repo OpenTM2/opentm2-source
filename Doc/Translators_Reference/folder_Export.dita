@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folder_Export">
+  <title>Exporting a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+<!--    <section/> -->
+    <section>
+<!--      <title/> -->
+      <indexterm>folder<indexterm>exporting</indexterm></indexterm>
+      <indexterm>exporting<indexterm>folders</indexterm></indexterm>
+      <p>The main purpose of exporting a folder is to make documents available to other users 
+         or on other systems. Other translation material, such as dictionaries and 
+         <keyword conref="common-symbols.dita#common-symbols/xlmems"/>, can also be exported, 
+         either as part of a folder, or separately.</p>
+      <p>Exporting a folder is the easiest way of distributing translated material from one 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> user to another, and it is 
+         the recommended way.</p>
+      <p>You can also include a note for the recipient. This note could, for example, include
+         instructions about which document to translate first or when the translation is due. 
+         The recipient can display this note when importing the folder.</p>
+      <p>You can also export the folder as a XLIFF <q>package</q> to allow translation
+         outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. The export as an 
+         XLIFF-folder only exports the <b>translatable parts</b> of the documents together with matching memory
+         proposals. As not all parts of the documents are contained in the XLIFF-Folder, it can <b>not</b> be
+         used to transport or backup an <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder. 
+         XLIFF-folders can only be imported into the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+         folder from which they had been exported from. If the <b>search translation memories</b> should be 
+         exported too, the option <q>With search Translation Memory databases</q> in the tab <q>Options</q> 
+         needs to be selected.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The folder to be exported must exist in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: 
+        <ol>
+          <li>The folder from the <q>Folder List</q> window</li>
+          <li><b>Export…</b> from the <b>File</b> menu</li>
+        </ol>
+      </p>
+      <p>The window <q>Export Folder</q> (see <xref href="#folder_Export/exportfolderwin"/>) is displayed. 
+         <required-cleanup>
+           <indexterm>windows<indexterm>Export Folder</indexterm></indexterm>
+         </required-cleanup>
+         <fig id="exportfolderwin" expanse="column">
+         <title>Export Folder window</title>
+           <image placement="break" href="folder_Export.gif">
+             <alt>Figure shows Export Folder window</alt>
+           </image>
+         </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>On the <q>General</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Select subfolders and documents to be exported</pt>
+          <pd>To export only selected subfolders and documents of this folder. You can then select
+            these subfolders and documents from the list box. You can extend or limit your selection
+            by clicking <b>Select all</b> or <b>Deselect all</b>, respectively.</pd>
+        </plentry>
+        <plentry>
+          <pt>Select documents by translator</pt>
+          <pd>To export only the documents that are to be translated by a specific translator.
+              Select one of the translators listed.</pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Specify the drive and directory to which you want to export your folder. You can also
+            click <b>Browse</b> to display the <q>Browse for Folder</q> window on which you can
+            select the appropriate drive and directory.</pd>
+        </plentry>
+        <plentry>
+          <pt>Export as</pt>
+          <pd><p>The export format of the folder. Either select 
+              <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Folder (FXP)</q> for 
+              exporting in the standard <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+              format, <b>or</b> select <q>XLIFF folder</q> to export the folder as an XLIFF <q>package</q> 
+              for the translation outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p> 
+          </pd>
+        </plentry>
+      </parml>
+      <p>On the <q>Options</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Word-count data only</pt>
+          <pd>To export only the history log file (HISTLOG.DAT) of the folder. For more information
+              on this file, refer to <xref href="report_Overview.dita#report_Overview"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>With dictionaries</pt>
+          <pd>To export the folder with the dictionaries associated with this folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>With Translation Memory</pt>
+          <pd>To export the folder with the Translation Memory database associated with this folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>With search <keyword conref="common-symbols.dita#common-symbols/xlmems"/></pt>
+          <pd>To export the folder with the <keyword conref="common-symbols.dita#common-symbols/xlmems"/> 
+              that are only used to  search for matching segments.</pd>
+        </plentry>
+        <plentry>
+          <pt>With document <keyword conref="common-symbols.dita#common-symbols/xlmems"/></pt>
+          <pd>To export the folder with all the <keyword conref="common-symbols.dita#common-symbols/xlmems"/> 
+              defined for the folder and its documents.</pd>
+        </plentry>
+        <plentry>
+          <pt>Export folder as</pt>
+          <pd>To export the folder using a <b>different</b> name.</pd>
+        </plentry>
+        <!-- GF, August 03, 2015: We plan to remove this entry in OpenTM2 v1.2.4 in November 2015 -->
+        <plentry>
+          <pt>Export using folder short name</pt>
+          <pd>To export the folder using a <b>short</b> name. This is useful if you later want to import
+              the folder into a system that recognizes only file names with a length of eight characters 
+              plus a 3–character extension (e.g. TEST1234.fxp).</pd>
+        </plentry>
+        <!-- GF, August 03, 2015: We plan to remove this entry in OpenTM2 v1.2.4 in November 2015 -->
+        <plentry>
+          <pt>Export in non-Unicode format</pt>
+          <pd>This option exports the folder in a format which is compatible to TP5.5.1 and TP5.4
+              (non-Unicode versions of TM). Older versions of 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can not use folders exported 
+              in non-Unicode format due to changes in the file structure. If you use this option the
+              segmented files, contained dictionaries and memories are converted to ASCII and stored
+              in TP5.5.1 format.If you import a folder which is in non-Unicode format you will need to
+              organize the contained memories and dictionaries after the import is completed to be
+              able to use them.</pd>
+        </plentry>
+        <plentry>
+          <pt>Add note</pt>
+          <pd>To add some explanatory text for the recipient of the folder. You type the text in the
+              <q>Add Note to Folder</q> window that is displayed when the exporting function is
+              started. Your note is saved and included in the exported folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Delete the folder after export</pt>
+          <pd>To delete the folder <b>after</b> it is exported. This option can only be selected when all
+              documents in the folder are being exported. After the export file is created, the system
+              prompts you to confirm that you want to delete the folder. If you selected the <b>Select
+              subfolders and documents to be exported</b> option, the <b>Select documents by translator</b> 
+              option, or both, not all documents are exported, and the folder can not be deleted.</pd>
+        </plentry>
+        <plentry id="expmasterfoldas">
+          <pt>Export as master folder</pt>
+          <pd>To export the folder as master folder. This option can be used to create a backup of a
+              master folder or to move a master folder to another PC. If you export a master
+              folder <b>without</b> specifying this option, the folder will be exported as a <b>child
+              folder</b>. This option is only active for master folders.</pd>
+        </plentry>
+        <plentry>
+          <pt>Originator</pt>
+          <pd>Specify your name and e-mail address. Make sure that you filled in these fields before
+              exporting the folder.</pd>
+        </plentry>
+      </parml>
+      <p><b>Note:</b> Only the options <q>With Translation Memory</q> and
+        <q>With search Translation Memory databases</q> can be selected when exporting the folder 
+        as an XLIFF folder.</p>
+      <p>After having selected the required options, select <b>Export</b> to start the export process.</p>
+      <p><b>If</b> you selected the <b>Add note</b> option, you are prompted with the <q>Add Note to Folder</q> 
+         window to type your note for the recipient. To save the note in the exported
+         folder, click <b>Add</b> to start the export of the folder.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>Export as <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder: 
+        <ul>
+          <li>The folder is exported, including all material you selected. If you exported the
+            folder together with documents, any markup tables used by documents are also exported.</li>
+          <li><keyword conref="common-symbols.dita#common-symbols/tm4w"/> stores the exported folder
+            in one file in the specified directory. From this directory it can be reimported. The
+            file has the folder name and the extension <codeph>FXP</codeph>.</li>
+          <li>If you selected the option <b>Delete the folder after export</b>, the folder is
+            deleted, including all documents in it. However, the referenced markup tables,
+            dictionaries, and <keyword conref="common-symbols.dita#common-symbols/xlmems"/> are not
+            deleted.</li>
+        </ul>
+      </p>
+      <p>Export as XLIFF folder: 
+        <ul>
+          <li>The translatable information of the documents in the folder is exported as an XLIFF <q>package</q>.</li> 
+          <li>Translation memory proposals are added to the XLIFF-folder when the option <q>With Translation Memory</q> 
+              has been selected.</li>
+          <li>If the <b>search translation memories</b> should be exported too, the option 
+              <q>With search Translation Memory databases</q> in the tab "Options" needs to be selected.</li> 
+          <li>The XLIFF-folder can be translated outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+              using a XLIFF translation editor.</li>
+          <li>The translated XLIFF-folder must be <b>imported</b> into the <b>original</b> 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder before the translated 
+              documents can be exported using the document <b>export</b> function.</li>
+        </ul>
+      </p>
+    </section>
+  </refbody>
+</reference>

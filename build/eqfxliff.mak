@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |          Copyright (C) 1990-2014, International Business Machines          |
+# |          Copyright (C) 1990-2017, International Business Machines          |
 # |          Corporation and others. All rights reserved                       |
 # |                                                                            |
 # +----------------------------------------------------------------------------+
@@ -47,5 +47,5 @@ $(_DLL)\EQFXLIFF.DLL: $(_OBJ)\EQFXLIFP.OBJ $(_OBJ)\CXMLWriter.OBJ $(_OBJ)\EQFXUT
 $(_OBJ)\EQFXLIFP.OBJ $(_OBJ)\CXMLWriter.OBJ $(_OBJ)\EQFXUTIL.OBJ $(_OBJ)\EQFXNAME.OBJ  $(_OBJ)\EQFXPARS.OBJ $(_OBJ)\EQFXPARI.OBJ
 /OUT:$(_DLL)\EQFXLIFF.DLL
 /MAP:$(_MAP)\EQFXLIFF.MAP $(_LINK_OPTIONS)
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OTMBASE.LIB $(_LIB)\OTMDLL.LIB $(PACKAGESLIB)\xerces-c_3.lib
+$(_LINK_LIB_CRT) $(_LIB)\OTMBASE.LIB $(_LIB)\OTMDLL.LIB $(PACKAGESLIB)\xerces-c_3.lib
 <<

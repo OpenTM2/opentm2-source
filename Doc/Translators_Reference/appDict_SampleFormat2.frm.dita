@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appDict_SampleFormat2.frm">
+<title>FORMAT2.FRM</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>FORMAT2.FRM</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>This format file prints the templates for each entry without formatting. A
+template is all entry field information on all levels (entry level, homonym
+level, sense level, and target level) relating to one specific translation
+of a headword. The following is an illustration of a dictionary entry.</p>
+<p>FORMAT2.FRM looks as follows:</p>
+<section><title>Part of FORMAT2.FRM</title>
+<codeblock>&lt;entryprt&gt;
+=======================
+&lt;var name =Headword&gt;
+&lt;repeat name=Headword&gt;
+  &lt;var name='Part of Speech'&gt;
+  &lt;var name=Translation&gt;
+  &lt;var name=Abbrev./Fullform&gt;
+&lt;/repeat&gt;
+&lt;/entryprt&gt;</codeblock></section>
+<p><codeph>&lt;var name=Headword&gt;</codeph> means that the headword is
+printed. <codeph>&lt;repeat...&gt;</codeph> means that the Part of Speech, the Translation,
+and the Abbrev./Fullform entry fields are printed
+until a different headword is found. If the fields for Part
+of Speech, Translation, or Abbrev./Fullform in the dictionary are
+not filled, an empty line is printed. </p>
+<p>The following sample shows how your dictionary printout would look. Assume
+that the dictionary is English-German and the sample format FORMAT2.FRM has
+been used for formatting. Two entries (rule and run) are extracted.</p>
+<section><title>Sample printout</title>
+<codeblock>=======================
+rule
+  verb
+  regieren
+
+rule
+  noun
+  Regel
+
+=======================
+run
+  verb
+  laufen
+
+run
+  noun
+  Lauf</codeblock></section>
+</body></topic>

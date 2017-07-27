@@ -603,7 +603,7 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
   // get text length
   int iRemaining = wcslen( pszString );
 
-  SetTextColor( hdc, pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground );
+  SetTextColor( hdc, pIda->ColorData.ColorSetting[iBaseColorIndex].cForeground );
   SetBkColor( hdc, pIda->ColorData.ColorSetting[iBaseColorIndex].cBackground );
 
   // erase rectangle

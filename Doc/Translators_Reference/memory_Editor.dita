@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_Editor">
+  <title>The Translation Memory editor</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>editing<indexterm>Translation Memory databases</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To revise the entries in a Translation Memory, you are assisted by an editor. The functions
+      of this editor support you when changing the Translation Memory entries.</p>
+    <p>The editor consists of two windows. The <q>Original</q> window shows original segments, the <q>Translation</q> 
+       window shows the corresponding translations. By pressing Ctrl+Enter you can move from segment to segment.</p>
+    <p>From the menu bar of the <q>Edit Translation Memory</q> window you can select the following items: 
+      <dl>
+        <dlentry>
+          <dt>File</dt>
+          <dd>To save changes, to exit the editor, to load more segments, to switch between <q>Translation</q> and <q>Editor</q> window.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Edit</dt>
+          <dd>To find and replace, to split and join, to cut and paste, to delete, and do other operations on the text.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Options</dt>
+          <dd>To change colors and fonts, and to arrange the editor windows.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Style</dt>
+          <dd>To change your view of markup tags.</dd>
+        </dlentry>
+      </dl>
+    </p>
+  </body>
+</topic>

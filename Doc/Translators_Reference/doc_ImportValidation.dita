@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_ImportValidation">
+  <title>Importing validation documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a validation document import 
+         function, which allows the translator to accept or reject the changed translatable segments which have been proposed during the validation or proofreading review.
+         For each accepted change, the corresponding translated document and Translation Memory should be updated 
+         so that these changes will be reflected in the next iteration or release of this project.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The folder from which the validation document had been exported must exist.</p>
+      <p>The Translation Memory for the folder must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li><b>Import validation documents...</b> from the <b>Utilities</b> menu</li>
+          <li>The format of the validation documents in the <b>Format</b> drop down list</li>
+          <li>One or more validation documents in the <b>Import Validation Document</b> dialog</li>
+          <li><b>Import</b> button at the bottom of the <b>Import Validation Document</b> dialog</li>
+        </ol></p>
+      <p>The <q>Validation Document Import and Processing</q> window is displayed 
+          (see <xref href="#doc_ImportValidation/importvalidation"/>).
+          <fig id="importvalidation" expanse="column">
+            <title>Validation Document Import and Processing</title>
+            <image placement="break" href="doc_ImportValidation.gif">
+              <alt>Figure shows Validation Document Import and Processing window</alt>
+            </image>
+          </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Show unchanged segments</pt>
+          <pd>Select this option to display unchanged segments (i.e. segments which have not been 
+              modified by the validator) in the <b>Imported Validation Segments</b> list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Show modified segments</pt>
+          <pd>Select this option to display segments which have been modified by the validator
+              in the <b>Imported Validation Segments</b> list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Show processed segments</pt>
+          <pd>Select this option to display segments which have been auto-updated
+              in the <b>Imported Validation Segments</b> list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Set colors</pt>
+          <pd>Opens the "Set Validation Document Import Colors" dialog, which allows customization of the colors being used in the <b>Imported Validation Segments</b> list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Update translated segment</pt>
+          <pd>Select this box if you want the selected segment changes to be reflected in documents of the folder.
+            Any selected segment change is then updated in the translated document. </pd>
+        </plentry>
+        <plentry>
+          <pt>Update translation memory</pt>
+          <pd>Select this box if you want the selected segment changes to be reflected in the Translation Memory.
+            Any selected segment change is then updated in the Translation Memory associated to the folder. </pd>
+        </plentry>
+        <plentry>
+          <pt>Show differences in translation</pt>
+          <pd>Select this box if you want to highlight the differences between the original translation and the modified translation returned 
+	      from the validator. </pd>
+        </plentry>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>Displays the folders and the documents of the imported validation documents. 
+              The number in front of each document corresponds with the document number shown in the <b>Document</b> column of the <b>Imported Validation Segments</b> list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Imported Validation Segments</pt>
+          <pd>This area shows the segments from the imported validation documents. For each segment a selection box, 
+            the document number, the segment number, the source text, the target text , the modified target text, and 
+            any comment of the validator is shown. 
+            <note>Unchanged segments do not have a selection box.</note> 
+            The differences between the target text and the modified target text are highlighted when the option
+            <b>Show differences in translation</b> is selected. 
+            The selection box can be toggled by clicking on the box using the mouse or be pressing the space key. 
+            The modified target text can be editied by double-clicking the text or by pressing the F2 key.
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>Select All</pt>
+          <pd>Sets the selection boxes of all segments </pd>
+        </plentry>
+        <plentry>
+          <pt>Deselect All</pt>
+          <pd>Clears the selection boxes of all segments </pd>
+        </plentry>
+        <plentry>
+          <pt>Auto-update selected</pt>
+          <pd>Processes all selected segments, and updates the translated segments of the document and/or the memory with the modified target text</pd>
+        </plentry>
+        <plentry>
+          <pt>Open active in editor</pt>
+          <pd>Opens the active segment in the editor of the Translation Environment</pd>
+        </plentry>
+        <plentry>
+          <pt>Import validation documents</pt>
+          <pd>Imports a new group of validation documents into the <b>Validation Document Import and Processing</b> window</pd>
+        </plentry>
+        <plentry>
+          <pt>Save current list</pt>
+          <pd>Saves the current list of segments to a file</pd>
+        </plentry>
+        <plentry>
+          <pt>Load list</pt>
+          <pd>Loads a previously saved segment list</pd>
+        </plentry>
+        <plentry>
+          <pt>Close</pt>
+          <pd>Closes the <b>Validation Document Import and Processing</b> window</pd>
+        </plentry>
+        <plentry>
+          <pt>Help</pt>
+          <pd>Gives information to help you interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dict_PropertiesView">
+  <title>Viewing the properties of a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>displaying properties</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>properties</indexterm></indexterm>
+      <p>The main properties of a dictionary are: <parml>
+          <plentry><pt>Name</pt>
+            <pd>The name of the dictionary. It cannot be changed for an existing
+            dictionary.</pd></plentry>
+          <plentry><pt>Source language</pt>
+            <pd>The source of the dictionary, this means, the language of the terms (headwords). It
+              cannot be changed for an existing dictionary.</pd></plentry>
+          <plentry><pt>Drive</pt>
+            <pd>The drive where the dictionary resides. It cannot be changed for an existing
+              dictionary.</pd></plentry>
+          <plentry><pt>Description</pt>
+            <pd>The description of the dictionary. It can be up to 255 characters
+              long.</pd></plentry>
+          <plentry><pt>Location</pt>
+            <pd>Can be <b>local</b> (only one translator at a time can use it) or <b>shared</b>
+              (several translators can use it simultaneously).</pd></plentry>
+          <plentry><pt>Entry fields</pt>
+            <pd>Contains the entry fields that make up the dictionary structure. For an existing
+              dictionary you can only change the name of a field and the lookup panel
+            number.</pd></plentry>
+          <plentry><pt>Protected?</pt>
+            <pd>Specifies whether the dictionary is protected against unauthorized
+              modifications.</pd></plentry>
+        </parml></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The dictionary must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>A dictionary from the <q>Dictionary List</q> window</li>
+          <li><b>Properties Summary…</b> from the <b>File</b> menu</li>
+        </ol></p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>A document in HTML format is displayed containing a summary of the dictionary properties
+        (see <xref href="#dict_PropertiesView/dicprop1win"/>). <fig id="dicprop1win" expanse="column">
+          <title>Dictionary Properties document</title><image placement="break" href="dict_PropertiesView.gif"
+              ><alt>Figure shows Dictionary Properties document</alt></image></fig></p>
+      <p>If you want to view more properties or change the properties of a dictionary, refer to
+          <xref href="dict_PropertiesChange.dita#dict_PropertiesChange"/>.</p>
+    </section>
+  </refbody>
+</reference>

@@ -27,7 +27,7 @@ EqfSharedMemory::EqfSharedMemory()
   this->pLocalMemory = NULL;
   this->pMemoryPlugin = NULL;
   this->pProperties = NULL;
-   this->strMemoryName = "";
+  this->strMemoryName = "";
 }
 
 
@@ -194,21 +194,12 @@ int EqfSharedMemory::putProposal
   int iRC = 0;
   if ( this->pLocalMemory != NULL )
   {
-    // if proposal is empty, we only let it trigger to read input queue
-    if(Proposal.getSourceLen()==0 && Proposal.getTargetLen()==0)
-    {
-      this->readProposalsFromInQueue();
-      return iRC;
-    }
-
+   
     iRC = this->pLocalMemory->putProposal( Proposal );
     if ( iRC == 0 )
     {
        // send proposal to shared memory and check for updates 
       iRC = this->sendProposalToOutQueue( this->ePut, Proposal );
-      // as now when download success, it will notify to read proposal
-      // So should we still keep the trigger?
-      //this->readProposalsFromInQueue();
     } /* end */       
   } /* end */     
   return( iRC );
@@ -568,32 +559,14 @@ int EqfSharedMemory::initialize( EqfSharedMemoryPlugin *pMemoryPlugin, char *psz
     this->strLastError = "Could not load properties of shared memory " + this->strMemoryName;
   } /* end */     
   
-  // create input and output queue
-  if ( iRC == 0 )
-  {
-    iRC = this->inQueue.open( this->pProperties->szInQueueName, FifoQueue::OM_READ );
-    if ( iRC != 0 )
-    {
-      this->iLastError = this->inQueue.getLastError( this->strLastError );
-    } /* end */     
-  } /* endif */     
-  if ( iRC == 0 )
-  {
-    iRC = this->outQueue.open( this->pProperties->szOutQueueName, FifoQueue::OM_WRITE );
-    if ( iRC != 0 )
-    {
-      this->iLastError = this->outQueue.getLastError( this->strLastError );
-    } /* end */     
-  } /* endif */     
-
+  
   // cleanup in case of errors
   if ( iRC != 0 )
   {
     if ( this->pProperties != NULL ) UtlAlloc( (void **)&(this->pProperties), 0, 0, NOMSG );
-    if ( this->inQueue.isOpen() ) this->inQueue.close();
-    if ( this->outQueue.isOpen() ) this->outQueue.close();
   } /* endif */     
 
+ 
   return( iRC );
 }
 
@@ -604,8 +577,7 @@ int EqfSharedMemory::initialize( EqfSharedMemoryPlugin *pMemoryPlugin, char *psz
 int EqfSharedMemory::terminate()
 {
   if ( this->pProperties != NULL ) UtlAlloc( (void **)&(this->pProperties), 0, 0, NOMSG );
-  if ( this->inQueue.isOpen() ) this->inQueue.close();
-  if ( this->outQueue.isOpen() ) this->outQueue.close();
+ 
   return( 0 );
 }
 
@@ -843,79 +815,10 @@ int EqfSharedMemory::sendProposalToOutQueue
   TMXFactory *pTMXFactory = TMXFactory::getInstance();
   std::string strTMXData;
 
-  pTMXFactory->ProposalToTMX( Proposal, strTMXData );
-
-  // write proposal to out queue
-  iRC = this->outQueue.writeRecord( (void *)strTMXData.c_str(), strTMXData.length() + 1 );
-  if ( iRC != 0 )
-  {
-    this->iLastError = this->outQueue.getLastError( this->strLastError );
-  } /* end */     
+  pTMXFactory->ProposalToTUString( Proposal, strTMXData,false,false );
+  CSharedBuffer4Thread* writeToBuff = pMemoryPlugin->getSyncBuffer(strMemoryName);
+  if(writeToBuff != NULL)
+      writeToBuff->write(strTMXData);
 
   return( iRC );
 }
-
-
-/*! \brief read new proposal from in queue and store them in the local memory
-  	\returns 0 when successful or error code 
-*/
-int EqfSharedMemory::readProposalsFromInQueue
-( 
-)
-{
-  int iRC = 0;
-
-  TMXFactory *pTMXFactory = TMXFactory::getInstance();
-  std::string strTMXData;
-  //OtmProposal Proposal;
-  std::vector<OtmProposal*> proposals;
-
-  int iProposalCount = 3;
-  while ( (iRC == 0) && iProposalCount && !this->inQueue.isEmpty() )
-  {
-    int iSize = this->inQueue.getRecordSize();
-    char *pszRecordData = new( char[iSize] );
-    iRC = this->inQueue.readRecord( (void *)pszRecordData, iSize );
-    if ( iRC != 0 )
-    {
-      this->iLastError = this->inQueue.getLastError( this->strLastError );
-    }
-    else
-    {
-      strTMXData = pszRecordData;
-
-      // must filter the first '\n', else the saxparser can't run
-      std::size_t idx = strTMXData.find("\\n");
-      if(idx != std::string::npos)
-        strTMXData.erase(idx,2);
-
-      iRC = pTMXFactory->TMX2Proposal( strTMXData, proposals );
-
-      if ( iRC != 0) 
-      {
-        this->iLastError = pTMXFactory->getLastError( this->strLastError );
-      }
-      else if ( !proposals.empty())
-      {
-        // add propopsals to memory
-        for(std::vector<OtmProposal*>::iterator iter=proposals.begin();
-              iter != proposals.end();
-              iter++)
-        { 
-           OtmProposal  *tempProposal = *iter;
-           if(!tempProposal->isEmpty())
-           {
-             this->pLocalMemory->putProposal( *tempProposal );
-           }
-        }
-       
-      } /* endif */
-    } /* endif */       
-    iProposalCount--;
-    delete []pszRecordData;
-  } /* endwhile */     
-
-  return( iRC );
-}
-
-

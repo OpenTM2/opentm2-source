@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFADJUSTCOUNTINFO">
+  <title>EQFADJUSTCOUNTINFO</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EQFADJUSTCOUNTINFO</indexterm>
+      <indexterm>programming interface calls<indexterm>EQFADJUSTCOUNTINFO</indexterm></indexterm>
+      <p><i>EQFADJUSTCOUNTINFO</i> writes the actual word-counting information for the specified
+        document to the history log file and adjusts the count information stored in the document
+        properties. This API call is quite expensive in resource usage and processing time and
+        should only be called when the <b>STARGET</b> file has been changed massively during the
+          <b>EQFPOSTTM</b> processing of the user exit..</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFADJUSTCOUNTINFO</kwd>
+          <delim>(</delim>
+          <var>pszDocTargetFile</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <synph>
+              <var>pszDocTargetFile(PSTRING) -- input</var>
+            </synph>
+          </pt>
+          <pd>The fully qualified name of the document <b>STARGET</b> file </pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

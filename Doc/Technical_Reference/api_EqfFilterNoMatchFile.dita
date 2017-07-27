@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfFilterNoMatchFile" rev="GF_07122015">
+  <title>EqfFilterNoMatchFile</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <!-- xxx  -->
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfFilterNoMatchFile</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfFilterNoMatchFile</indexterm></indexterm>
+      <p>The API call <i>EqfFilterNoMatchFile</i> Checks matches from a NOMATCH file against a
+        memory and applies any Global Memory option file.</p>
+      <p>This API function looks up all matches contained in a NOMATCH file (in XML format) in the
+        given memory, and applies the specified Global Memory option file on the memory proposals.
+        The function creates a memory match word count, and writes any matches not found in the
+        input memory to a new NOMATCH file. The new NOMATCH file can be in the XML format and/or the
+        *.EXP format. The processing is done in small units, and the API call is to be called
+        repetitively as long as the return code CONTINUE_RC is returned. To do the processing in one
+        block, specify the option COMPLETE_IN_ONE_CALL_OPT. The word count report can be created in
+        the XML format (use the option XML_OUTPUT_OPT) or in plain text format (use the option
+        TEXT_OUTPUT_OPT). The word count report creation in plain text format is the default.</p>
+    </section>
+    <!-- xxx  -->
+
+    <!-- xxx  -->
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCreatMarkup</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszInNoMatchXML</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszGlobMemOptionFile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszMemory</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszOutNoMatchXML</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszOutNoMatchEXP</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszWordCountReport</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>lOptions</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <!-- xxx  -->
+
+    <!-- xxx  -->
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszInNoMatchXML</entry>
+              <entry colname="col3">The fully qualified file name of the input NOMATCH file in XML format.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszGlobMemOptionFile</entry>
+              <entry colname="col3">The fully qualified file name of the Global Memory option file.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemory</entry>
+              <entry colname="col3">The name of the internal memory being used for the look-up.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutNoMatchXML</entry>
+              <entry colname="col3">The fully qualified file name of the new NOMATCH file in the XML format (can be NULL when not used).</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutNoMatchEXP</entry>
+              <entry colname="col3">The fully qualified file name of the new NOMATCH file in the EXP format (can be NULL when not used).</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszWordCountReport</entry>
+              <entry colname="col3">The fully qualified file name of the created memory match word count report (can be NULL when not used).</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3"><b><u>The options for the processing</u></b>: <ul>
+                  <li>COMPLETE_IN_ONE_CALL_OPT to do the processing in one call (rather than doing the processing in small units).</li>
+                  <li>TEXT_OUTPUT_OPT to create the word count report in plain text format (=default).</li>
+                  <li>XML_OUTPUT_OPT to create the word count report in XML format.</li>
+                </ul>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <!-- xxx  -->
+
+    <!-- xxx  -->
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The no match file has been filtered successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">10003 (CONTINUE_RC)</entry>
+              <entry colname="col2">The processing has not completed yet. Call EqfFilterNoMatchFile again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> 
+                (see page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/>) to retrieve the complete error information.
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <!-- xxx  -->
+
+    <!-- xxx  -->
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{
+  USHORT usRC = 0; 
+  HSESSION hSession = 0L;
+  // start the OpenTM2 API session 
+  usRC = EqfStartSession( &amp;hSession );
+  if ( !usRC ) 
+  {
+    // Filter the no match file NOMATCH.XML using the memory LookupMemory
+    // and the global memory option file GlobMemOption.XML and write the
+    // filtered no match file to NEWNOMATCH.XML. In addition create the
+    // wordcount file WordCounts.XML in the XML format
+    usRC = EqfFilterNoMatchFile( hSession, "C:\\NOMATCH.XML", "C:\\GlobMemOption.XML", 
+    "LookupMemory", "C:\\NEWNOMATCH.XML", NULL, "C:\\WordCounts.XML", 
+    COMPLETE_IN_ONE_CALL_OPT | XML_OUTPUT_OPT ); 
+  } /* endif */
+  // terminate the session 
+  EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+    <!-- xxx  -->
+
+  </refbody>
+</reference>

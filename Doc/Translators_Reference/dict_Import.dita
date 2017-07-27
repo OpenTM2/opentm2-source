@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dict_Import">
+  <title>Importing a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>dictionary<indexterm>importing</indexterm></indexterm>
+      <indexterm>importing<indexterm>dictionaries</indexterm></indexterm>
+      <indexterm>dictionary<indexterm>merging when importing</indexterm></indexterm>
+      <p>You can import a dictionary as an external dictionary (SGML-based) or within a folder in
+        the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format.</p>
+      <p>If you want to work with terminology created outside <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>, create an SGML-based file (for more
+        details, see <xref href="dict_SgmlCreate.dita#dict_SgmlCreate"/>) and import this file into
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. You can either import the
+        file into a new dictionary or merge the data into an existing dictionary.</p>
+      <p>Dictionaries imported in a folder are in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> format. If the dictionary does not
+        exist, a new dictionary is created; if it does exist, the folder dictionary is merged into
+        the existing one. For more information on folder import, see <xref
+          href="folder_Import.dita#folder_Import"/>.</p>
+      <p>When merging two dictionaries, the dictionary structure of the destination dictionary is
+        maintained. Data in entry fields that exist only in the source dictionary and not in the
+        destination dictionary will not be regarded and data may be lost. Entry fields not contained
+        in the external dictionary will be empty in the dictionary after importing.</p>
+      <p>If you select to import an external dictionary under a new dictionary name, the <q>New
+          Dictionary</q> window is displayed where all the properties are shown as they are coded in
+        the SGML-based file. You can change certain properties if you want to, although this is not
+        always advisable as the changed properties may be different from what is specified in the
+        SGML file.</p>
+      <p><indexterm>dictionary<indexterm>Unicode
+        enablement</indexterm></indexterm>Importing a dictionary can also be part of the conversion
+        of a dictionary into Unicode. To convert a dictionary into Unicode, you must first export it
+        from <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and then import it again.
+        In both cases, you select <b>SGML Unicode</b> as export or import format.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The SGML-based file for import must have been created according to the description in <xref
+          href="dict_SgmlCreate.dita#dict_SgmlCreate"/>.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Dictionary List</q> window</li>
+          <li>A dictionary if you want to merge dictionaries</li>
+          <li><b>Import…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Import Dictionary</q> window is displayed (see <xref
+          href="#dict_Import/importdictwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Import
+                Dictionary</indexterm></indexterm></required-cleanup><fig id="importdictwin" expanse="column">
+          <title>Import Dictionary window</title><image placement="break" href="dict_Import.gif"
+              ><alt>Figure shows Import Dictionary window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Look in</pt>
+          <pd>Select the directory where the dictionary to be imported resides.</pd>
+        </plentry>
+        <plentry>
+          <pt>File name</pt>
+          <pd>Enter the name of the external dictionary to be imported.</pd>
+        </plentry>
+        <plentry>
+          <pt>Format</pt>
+          <pd>Select the format of the dictionary to be imported.</pd>
+        </plentry>
+        <plentry>
+          <pt>To dictionary</pt>
+          <pd>Contains the name of the selected dictionary to be imported. You can
+            overwrite this name to create a new dictionary or select a name from the list box to
+            merge your file into an existing dictionary.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Import</b> to begin the import function.</p>
+      <p>If <keyword conref="common-symbols.dita#common-symbols/tm4w"/> detects an incorrect SGML
+        tag in the SGML-based file, a message is displayed, asking you if you want to skip the entry
+        containing the error or to cancel the import process.</p>
+      <p>If you selected to import an external dictionary under a new dictionary name, the <q>New
+          Dictionary</q> window is displayed where all the properties are shown as they are coded in
+        the SGML-based file. For more information, see <xref
+          href="dict_Create.dita#dict_Create"/>.</p>
+      <p>If you selected to merge the external dictionary into an existing dictionary in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>, remember that the dictionary
+        structures may differ and that there may be identical terms. In case of conflicts you are
+        prompted to specify additional options for merging dictionaries in the <q>Merge Dictionary
+          Entries</q> window. For more information, see <xref
+          href="dict_Merge.dita#dict_Merge"/>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The external dictionary data is imported either under a new name or merged with an existing
+        dictionary. You can begin to use it in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>. The external dictionary is
+        unchanged.</p>
+    </section>
+  </refbody>
+</reference>

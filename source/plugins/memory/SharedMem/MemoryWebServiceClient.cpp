@@ -19,6 +19,7 @@
 #include <axis2_client.h>
 
 #include <string>
+#include <fstream>
 #include "MemoryWebServiceClient.h"
 #include "JSONFactory.h"
 #include "core\utilities\LogWriter.h"
@@ -229,13 +230,13 @@ int MemoryWebServiceClient::listMemories
    if(iRC!=0)
 	   return iRC;
 
-   int iStart = 0;
+   std::string::size_type iStart = 0;
    do 
    {
-     int iEnd = memoryList.find( ",", iStart );
-     int iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
-     List.push_back( memoryList.substr( iStart, iLen ) );
-     iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
+	  std::string::size_type iEnd = memoryList.find( ",", iStart );
+      std::string::size_type iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
+      List.push_back( memoryList.substr( iStart, iLen ) );
+      iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
    } while( iStart != std::string::npos );
 
    return( iRC );
@@ -415,7 +416,8 @@ int MemoryWebServiceClient::uploadProposal
    char *pszName,
    char *pszUserID,
    char *pszPassword,
-   std::string &strTMXProposal
+   std::string &strTMXProposal,
+   std::string &uploadedCounter
 )
 {
    std::map<std::string,std::string> parameters;
@@ -426,9 +428,8 @@ int MemoryWebServiceClient::uploadProposal
    parameters.insert(std::map<std::string,std::string>::value_type("tmx-document",strTMXProposal));
    parameters.insert(std::map<std::string,std::string>::value_type("encoding","UTF-8"));
 
-   std::string notRequired;
-   return doSyncCall(parameters,"",notRequired);
-
+   //std::string notRequired;
+   return doSyncCall(parameters,"uploaded-counter",uploadedCounter);
 }
 
 /* \brief Download proposal data
@@ -445,7 +446,8 @@ int MemoryWebServiceClient::downloadProposal
    char *pszUserID,
    char *pszPassword,
    std::string &strTMXProposal,
-   std::string &strUpdateCounter
+   std::string &strUpdateCounter,
+   std::set<std::string> &ownUpCounterSet
 )
 {
   PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
@@ -458,6 +460,7 @@ int MemoryWebServiceClient::downloadProposal
     return( setError( "Error: internal data not allocated", Error_PrivateDataNotSet ) );
   } /* endif */       
 
+
   // prepare command
   JSONFactory *factory = JSONFactory::getInstance();
   std::string command = "";
@@ -468,6 +471,19 @@ int MemoryWebServiceClient::downloadProposal
   factory->addParmToJSON( command, "name", pszName );
   factory->addParmToJSON( command, "parameter", "empty" );
   factory->addParmToJSON( command, "update-counter", strUpdateCounter );
+  
+  std::string strOwnUpLoaded;
+  for(std::set<std::string>::iterator iter = ownUpCounterSet.begin();
+	  iter!=ownUpCounterSet.end();
+	  iter++)
+  {
+	  strOwnUpLoaded += *iter;
+	  strOwnUpLoaded += ",";
+  }
+  if(strOwnUpLoaded.size()>0)
+	  strOwnUpLoaded.erase(strOwnUpLoaded.size()-1);
+
+  factory->addParmToJSON( command, "own-uploaded-counters", strOwnUpLoaded );
   factory->terminateJSON( command );
 
   // process command
@@ -499,17 +515,7 @@ int MemoryWebServiceClient::downloadProposal
       } 
       else if ( stricmp( name.c_str(), "tmx-document" ) == 0 )
       {
-        // replace "\\" with "\"
-        std::size_t iStart = 0;
-        std::size_t idx = value.find("\\\\",iStart);
-        while(idx != std::string::npos)
-        {
-            strTMXProposal.append(value.substr(iStart,idx-iStart));
-            strTMXProposal.append("\\");
-            iStart = idx+2;
-            idx = value.find("\\\\",iStart);
-        }
-        strTMXProposal.append(value.substr(iStart,value.length()-iStart));
+          strTMXProposal += value;
       } 
       else if ( stricmp( name.c_str(), "update-counter" ) == 0 )
       {
@@ -620,7 +626,7 @@ int MemoryWebServiceClient::callSynchronize
   PWEBCLIENTDATA pData = (PWEBCLIENTDATA)this->pvPrivateData;
   adb_synchronize_t *synch;
   adb_synchronizeResponse_t *response;
-  axis2_char_t* returnedResponse;
+  //axis2_char_t* returnedResponse;
 
   if ( pData == NULL )
   {
@@ -630,7 +636,9 @@ int MemoryWebServiceClient::callSynchronize
   // create stub if not done yet
   if ( pData->stub == NULL )
   {
-    this->createStub();
+    int iRet = this->createStub();
+    if(iRet != 0)
+        return iRet;
   } /* endif */     
 
   // build the request adb
@@ -754,18 +762,6 @@ int MemoryWebServiceClient::doSyncCall(std::map<std::string,std::string> &parame
 	return iRC;
 }
 
-void MemoryWebServiceClient::makeUpdateCounterFileName
-(
-  std::string &strPropPath, 
-  std::string &strPropFile, 
-  std::string &strUpdateCounterFileName 
-)
-{
-	 strUpdateCounterFileName = strPropPath + "\\" + strPropFile;
-     strUpdateCounterFileName.erase( strUpdateCounterFileName.length() - 4  );
-     strUpdateCounterFileName.append( ".UDC");
-}
-
 /* \brief add a new user to a shared memory user list
    \param pvOptions pointer to vector containing the  addUser option strings   
    \returns 0
@@ -832,51 +828,16 @@ int MemoryWebServiceClient::listMemoryUsers
    if ( iRC == 0 )
    {
      // fill caller's vector with the names of the memories
-     int iStart = 0;
+     std::string::size_type iStart = 0;
      do 
      {
-        int iEnd = usersList.find( ",", iStart );
-        int iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
-        users.push_back( usersList.substr( iStart, iLen ) );
-        iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
+         std::string::size_type iEnd = usersList.find( ",", iStart );
+         std::string::size_type iLen = (iEnd == std::string::npos ) ? std::string::npos : iEnd - iStart;
+         users.push_back( usersList.substr( iStart, iLen ) );
+         iStart = (iEnd != std::string::npos) ? iEnd + 1 : iEnd;
      } while( iStart != std::string::npos );
 
    }
 
   return( iRC );
-}
-
-// load current update counter value
-void MemoryWebServiceClient::loadUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter )
-{
-  strUpdateCounter = "0"; // set default
-
-  std::string strUpdateCounterFileName;
-  makeUpdateCounterFileName( strPropPath, strPropFileName, strUpdateCounterFileName );
-
-  FILE *hf = fopen( strUpdateCounterFileName.c_str(), "rb" );
-  if ( hf == NULL ) return;
-
-  char szBuffer[256];
-  memset( szBuffer, 0, sizeof(szBuffer) );
-  fread( szBuffer, sizeof(szBuffer), 1, hf );
-  fclose( hf );
-
-  strUpdateCounter = szBuffer;
-  return;
-}
-
-// write new update counter value
-void MemoryWebServiceClient::writeUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter )
-{
-  std::string strUpdateCounterFileName;
-  makeUpdateCounterFileName( strPropPath, strPropFileName, strUpdateCounterFileName );
-
-  FILE *hf = fopen( strUpdateCounterFileName.c_str(), "wb" );
-  if ( hf == NULL ) return;
-
-  fwrite( strUpdateCounter.c_str(), strUpdateCounter.length() + 1, 1, hf );
-  fclose( hf );
-
-  return;
 }

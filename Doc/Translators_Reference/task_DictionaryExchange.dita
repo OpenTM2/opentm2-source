@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task_DictionaryExchange">
+  <title>Exchanging dictionaries</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can use your own terminology databases or dictionaries in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> using the
+      SGML-based exchange format. You must add SGML tags to the file containing your database or dictionary to make it compatible with 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> dictionaries can also be converted into other formats. You first export
+      them as external dictionaries and then replace the SGML tags with the appropriate coding. Outside 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, the dictionaries can be copied on a diskette or any other media
+      for distribution.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> dictionaries can also be distributed as part of a folder. This is
+      convenient for copyright-protected dictionaries that can only be transferred from one workstation to another using the folder export 
+      and import procedures. </p>
+  </body>
+</topic>

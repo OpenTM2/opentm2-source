@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfExportDict">
+<title><!--rev=as01042005-->EqfExportDict</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfExportDict</indexterm><indexterm>programming interface calls<indexterm>EqfExportDict</indexterm></indexterm>
+<p><i>EqfExportDict</i> exports a dictionary in SGML
+format to the specified file. It fails if the output file exists already
+unless the OVERWRITE_OPT has been set. Default encoding of output
+SGML dictionary is Unicode (UTF16). Specify the option ASCII_OPT
+or ANSI_OPT if the export dictionary should have the corresponding
+format.</p>
+<p>This function performs the export in small units. Call it repetitively
+until it returns a return code other than CONTINUE_RC.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfExportDict</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszDictName</var><sep>,</sep>
+<groupchoice importance="optional"><kwd>OVERWRITE_OPT</kwd><kwd>ASCII_OPT</kwd><kwd>ANSI_OPT</kwd><kwd>UTF16_OPT</kwd></groupchoice><sep>,</sep></groupseq>
+<groupseq><var>pszOutFile</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszDictName</entry>
+<entry colname="col3">The name of the dictionary to be exported.</entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">lOptions</entry>
+<entry colname="col3">The option to be used for the export: 
+<ul>
+<li>OVERWRITE_OPT</li>
+<li>ASCII_OPT</li>
+<li>ANSI_OPT</li>
+<li>UTF16_OPT</li>
+</ul></entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszOutFile</entry>
+<entry colname="col3">The fully qualified name of the output file.
+If the output file exists already, specify the OVERWRITE_OPT option.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">CONTINUE_RC</entry>
+<entry colname="col2">The dictionary export has not completed yet.
+Call <i>EqfExportDict</i> again.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2"><ph otherprops="print">Error code (EQF message number).
+Use <i>EqfGetLastError</i> (see <ph otherprops="print">page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></ph><xref otherprops="display" href="api_EqfGetLastError.dita#api_EqfGetLastError"/>) to retrieve the complete
+error information.</ph><ph otherprops="display">Error code (EQF message
+number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> to retrieve the complete
+error information.</ph></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Export the dictionary ENGLGERM to SGML file C:\DICT1.SGM 
+  // and overwrite any existing SGML file with this name
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfExportDict( hSession, "ENGLGERM", OVERWRITE_OPT | UTF16_OPT 
+                            "C:\\DICT1.SGM" );
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

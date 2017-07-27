@@ -395,8 +395,6 @@ public:
 private:
   OtmMemory *pLocalMemory;                       // pointer to local memory doing all memory related function
   EqfSharedMemoryPlugin *pMemoryPlugin;          // memory plugin for this memory
-  FifoQueue inQueue;                             // input queue
-  FifoQueue outQueue;                            // output queue
   std::string strMemoryName;                     // name of the memory
   std::string strLastError;                      // last error text
   int iLastError;                                // last error code
@@ -420,10 +418,6 @@ private:
     OtmProposal &Proposal
   );
 
-/*! \brief read new proposal from in queue and store them in the local memory
-  	\returns 0 when successful or error code 
-*/
-  int readProposalsFromInQueue();
 };
 
 #endif // #ifndef _EqfSharedMemory_h_

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folder_PropertiesChange">
+  <title>Changing the properties of a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>changing properties</indexterm></indexterm>
+      <indexterm>folder<indexterm>properties</indexterm></indexterm>
+      <p>When you create a folder, you must define its properties before you can work with the
+         folder. Some of them can be changed later.</p>
+      <p>The properties defined for each folder apply to all documents in the folder unless
+         individual document properties have been set. It is sometimes not advisable to change the
+         properties of a folder. In particular, you should not change the 
+         <keyword conref="common-symbols.dita#common-symbols/xlmem"/> associated with the folder when you
+        have started translating a document. You can change the associated dictionaries, if necessary. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The folder must exist.</li>
+        <li>If you want to change the properties of the folder, it must not be open.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: 
+        <ol>
+          <li>The folder from the <q>Folder List</q> window</li>
+          <li><b>Properties…</b> from the <b>File</b> menu</li>
+        </ol>
+      </p>
+      <p>The <q>Folder Properties</q> window (see <xref href="#folder_PropertiesChange/folderpropwin"/>) is displayed. 
+        <required-cleanup>
+          <indexterm>windows<indexterm>Folder Properties</indexterm></indexterm>
+        </required-cleanup>
+        <fig id="folderpropwin" expanse="column">
+          <title>Folder Properties window</title>
+          <image placement="break" href="folder_PropertiesChange.gif" >
+            <alt>Figure shows Folder Properties window</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>On the <q>Properties </q> page, the selected properties are shown in the
+        respective fields. The <b>Name</b> field and the <b>Short name</b> field cannot be changed
+        for an existing folder. </p>
+      <p>The following fields contain the currently assigned names. They can be changed by selecting
+        another name from the respective list box. <ul>
+          <li><keyword conref="common-symbols.dita#common-symbols/xlmem"/></li>
+          <li>Markup</li>
+          <li>Editor</li>
+          <li>Source language</li>
+          <li>Target language</li>
+        </ul></p>
+      <p>For the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be used, you can
+        also type a new name in the respective field.
+      </p>
+      <p>The dictionaries to be used in the folder are selected as follows: 
+        <ul>
+          <li>The <b>Dictionaries to be searched</b> list box shows the selected dictionaries.</li>
+          <li>To select or deselect dictionaries press the <b>Select...</b> button, which will open
+            the dictionary selection window.</li>
+          <li>Dictionaries can also be deselected by double-clicking the dictionary name.</li>
+        </ul>
+      </p>
+      <p>The PID (Product Identifier) to be used in the folder is selected as follows: 
+        <ul>
+          <li>The PID selection is <b>only</b> available for the <b>entire folder</b>.</li>
+          <li>In the folder property window, there is a field under the list of selected memories: 
+            [PID selection:] [the value] [Select...]. The default is that there is no value, which means that 
+            all dictionary entries are to be used, regardless of the PID value. If the button  <q>Select...</q> 
+            is pressed, then a list of all the PID-values used in any of the selected dictionaries would be listed. 
+            Users can select one or more of these listed values.</li>
+          <li>Within the editor, when the dictionary entries are being shown, only the entries which have a 
+            matching PID value or which have no PID values are shown in the Dictionary window.</li>
+        </ul>
+      </p>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be
+        searched in the folder are selected as follows: 
+        <ul>
+          <li>The <b><keyword conref="common-symbols.dita#common-symbols/xlmems"/></b> list box
+            shows the selected Translation Memory databases.</li>
+          <li>To select or deselect Translation Memory databases press the <b>Selected</b> button,
+            which will open the Translation Memory selection dialog.</li>
+          <li>Translation Memory databases can also be deselected by double-clicking the Translation
+            Memory name.</li>
+        </ul>
+      </p>
+      <p>If the folder is protected by a password, you can only change the fields on the
+          <q>Admin </q> page if you know the password.</p>
+      <parml>
+        <plentry>
+          <pt>Controlled folder handling</pt>
+          <pd>If it is a folder for which controlled folder handling was selected during its
+            creation, this check box is selected. For more information on this option, refer to
+              <xref href="folder_Overview.dita#folder_Overview/cfh">Controlled folder
+            handling</xref>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Password</pt>
+          <pd>If the folder is protected by a password, type the password assigned to this
+            folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Project coordinator</pt>
+          <pd>Contains the name and e-mail of the project coordinator. You can change the fields if
+            you are the project coordinator or allowed to perform the tasks of the project
+            coordinator.</pd>
+        </plentry>
+        <plentry>
+          <pt>Originator</pt>
+          <pd>If this folder has not been exported yet, the <b>Name</b> and the <b>e-mail</b> fields
+            are empty. If this folder was exported before, the fields contain the name and e-mail
+            address of the person who last exported it.</pd>
+        </plentry>
+        <plentry>
+          <pt>Translator</pt>
+          <pd>Select or specify name and e-mail address of the person to receive the folder
+            next.</pd>
+        </plentry>
+      </parml>
+      <p>The <q>Project Info</q> page contains information about the project. You can
+        change all fields if you are the project coordinator. If the folder is protected by a
+        password, you can only change them if you specified the correct password on the <q>Admin</q>
+        page.</p>
+      <p>If you change the shipment number or specify one for this folder for the first
+        time, export and import again any documents that this folder already contains. This is
+        necessary to get a correct Calculating, Preanalysis, or Redundancy Report (see <xref
+          href="report_Chapter.dita#report_Chapter"/>). </p>
+      <p>The "Admin" page contains also two buttons for the maintenance of the folder history log.
+        The folder history log contains all information concerning the folder history and is vital
+        for the creation of calculation reports.</p>
+      <ul>
+        <li>The "Delete history log" button deletes the complete history log. No calculation reports
+          can be performed for this folder anymore. Use this button only when an existing folder is
+          re-used for another translation job or for another shipment and the counting information
+          of the previous shipment is not required anymore.</li>
+        <li>The "Clean history log" button tries to reduce the size of the history log by removing
+          superfluos entries from the history log.</li>
+      </ul>
+      <p>When the folder has an associated global memory option file the additional page <q>Global
+          Memory</q> is available: <required-cleanup><indexterm>windows<indexterm>Folder Properties
+              Global Memory</indexterm></indexterm></required-cleanup>
+        <fig id="globalmemoryoption" expanse="column">
+          <title>Folder Properties Global Memory window</title>
+            <image placement="break" href="folder_PropertiesChangeMemory.gif">
+              <alt>Figure shows Folder Properties Global Memory window</alt>
+            </image>
+        </fig>
+        Here you can review and modify the options for global memory
+        proposals. The meta data file field shows the name of the associated global memory option
+        file. In the global memory by project area the scrollable table with the project IDs and the
+        settings is displayed. The table has the following columns:</p>
+      <p>
+        <parml>
+          <plentry>
+            <pt>Seq.</pt>
+            <pd>The sequence number of the table entry</pd>
+          </plentry>
+          <plentry>
+            <pt>ProjectId </pt>
+            <pd>The project identifier</pd>
+          </plentry>
+          <plentry>
+            <pt>IUC</pt>
+            <pd>Either "D" for pubs/documentation, or "P" for PII</pd>
+          </plentry>
+          <plentry>
+            <pt>Arch.</pt>
+            <pd>"Y" when the project has been archived in the TMB otherwise "N"</pd>
+          </plentry>
+          <plentry>
+            <pt>Division</pt>
+            <pd>The division</pd>
+          </plentry>
+          <plentry>
+            <pt># Words</pt>
+            <pd>The number of word matches found in the project</pd>
+          </plentry>
+          <plentry>
+            <pt># Segments</pt>
+            <pd>The number of segments matches found in the project</pd>
+          </plentry>
+          <plentry>
+            <pt>CFM Arrival Date</pt>
+            <pd>The CFM arrival date</pd>
+          </plentry>
+        </parml>
+      </p>
+      <p>For each entry one of the following options can be selected: <parml>
+          <plentry><pt>AutoSubst</pt>
+            <pd>The memory proposals for this project can be used for automatic
+            substitution</pd></plentry>
+          <plentry><pt>H</pt>
+            <pd>The memory proposals for this project a are not used for automatic substitution and
+              are displayed with the prefix "h" in the memory proposal window</pd></plentry>
+          <plentry><pt>H*</pt>
+            <pd>The memory proposals for this project a are not used for automatic substitution and
+              are displayed with the prefix "h*" in the memory proposal window</pd></plentry>
+          <plentry><pt>Exclude</pt>
+            <pd>The memory proposals for this project are excluded from memory
+            look-up</pd></plentry>
+        </parml>The button "save meta data file" saves the global memory options and the button
+        "Save meta data file and got to Analysis panel" saves the global memory option file, closes
+        the folder property window and opens the Analysis window.</p>
+      <p>To save the changes of the properties, click <b>Change</b>.</p>
+      <p>To leave the <q>Folder Properties</q> window without changing the properties, for example,
+        if you only wanted to look at the folder properties, click <b>Cancel</b>. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you select <b>Change</b>, the folder properties are changed according to your
+        specifications. Otherwise, they remain unchanged. You are returned to the previous
+        window.</p>
+      <p>If you entered the name of new <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, the 
+        <b>New <keyword conref="common-symbols.dita#common-symbols/xlmem"/></b> is displayed
+        to specify the characteristics of this <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+      <p>If you changed a markup table name, it is strongly recommended that you analyze the
+        documents in the folder again. </p>
+      <p>For more information how to select a <b>Dictionary</b> or a <b>Translation
+          Memory</b>, refer to <ul>
+          <li><xref href="folder_Dictionary.dita#folder_Dictionary"/></li>
+          <li><xref href="folder_Memory.dita#folder_Memory"/></li>
+        </ul></p>
+    </section>
+  </refbody>
+</reference>

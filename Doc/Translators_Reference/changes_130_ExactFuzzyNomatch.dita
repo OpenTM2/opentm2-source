@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_130_ExactFuzzyNomatch">
+  <title>Shortcut keys for next EXACT, FUZZY, NO match segment</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Translators can jump to the next <b>untranslated</b> segment using one of these options:
+      <ol>
+        <li>next untranslated segment with <b>Any</b> match. This means, the next <b>untranslated</b> segment 
+            is identified, regardless of whether there are matches found or not.</li>
+        <li>next untranslated segment with <b>EXACT</b> match. This means, the next <b>untranslated</b> segment 
+            is identified, for which an <u>Exact</u> match is found. Other untranslated segments are ignored.</li>
+        <li>next untranslated segment with <b>FUZZY</b> match. This means, the next <b>untranslated</b> segment 
+            is identified, for which a <u>Fuzzy</u> match is found. Other untranslated segments are ignored.</li>
+        <li>next untranslated segment with <b>NO</b> match. This means, the next <b>untranslated</b> segment 
+            is identified, for which <u>No</u> matches are found. Other untranslated segments are ignored.</li>
+      </ol>  
+    </p>
+    <p>
+      The default hot-key assigned for <q>Next Untranslated Segment =&gt; Any</q> is <q>Alt+n</q>. Users can assign their
+      own hotkeys for <b>With EXACT match</b>, <b>With FUZZY match</b>, and <b>With NO match</b> using the function 
+      <q>Options</q> =&gt; <q>Keys...</q> (see page <xref href="appAcc_Keys.dita#appAcc_Keys"/>).
+    </p>
+    <p>
+      <fig id="nextUntranslatedSegment" expanse="column">
+        <title>Context Menu <q><b>Next Untranslated Segment</b></q></title>
+        <image placement="break" href="changes_130_ExactFuzzyNomatch.gif">
+          <alt>Jump to a segment with specific match proposals</alt>
+        </image>
+      </fig>
+    </p>  
+    <p>See also the information on page <xref href="appAcc_Translation.dita#appAcc_Translation"/>.</p>
+  </body>
+</topic>

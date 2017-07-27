@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="otmbatch_Dictionaryexport">
+  <title>Exporting a dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>dictionary<indexterm>OTMBATCH: exporting (from command
+        area)</indexterm></indexterm>
+      <indexterm>exporting<indexterm>OTMBATCH: dictionaries (from command
+        area)</indexterm></indexterm>
+      <p>If you want to export a dictionary, using a command typed in your system’s command area
+        instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows might be more
+        convenient.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>exporting dictionaries</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">exporting
+            dictionaries</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you export a Translation Memory from the <tm
+          trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special"
+          >Windows</tm> command line. Note that lowercase letters in a parameter name are optional
+        and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>DICEXP</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>DIct</kwd>
+          <oper>=</oper>
+          <var>dic_name</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>OUT</kwd>
+          <oper>=</oper>
+          <var>mem_file</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OVerwrite</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd importance="default">NO</kwd>
+            <kwd>YES</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <var>OPTIONS=option</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=DICEXP</pt>
+          <pd><codeph>DICEXP</codeph> specifies that you want to export a dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>/DIct=<synph><var>dic_name</var></synph></pt>
+          <pd><synph><var>dic_file</var></synph> specifies the name of the dictionary to be
+            exported.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUT=<synph><var>mem_file</var></synph></pt>
+          <pd><synph><var>mem_file</var></synph> specifies the name (along with the drive and
+            directory) of a file where the dictionary is to be exported to. The file must have the
+            extension EXP.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OVerwrite=</pt>
+          <pd>Specifies whether an existing dictionary file is to be overwritten with the exported
+            dictionary.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OPTIONS=option</pt>
+          <pd>Specifies the format of the exported dicionary. Use ASCII for ASCII encoding, ANSI for
+            Ansi encoding or UTF16 for Unicode (UTF-16) encoding of the exported dictionary. If
+            nothing is specified the dictionary is exported in the ASCII format.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to export a dictionary using the OTMBATCH command.</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=dicexp /dict=mydict /out=d:\mydict.exp</codeblock>
+        </section>  -->
+      <p><codeblock>OTMBATCH /task=dicexp /dict=mydict /out=d:\mydict.exp</codeblock></p>
+      <p>In this example, the dictionary <codeph>mydict</codeph> is exported to the file <codeph>d:\mydict.exp</codeph>.</p>
+    </example>
+  </refbody>
+</reference>

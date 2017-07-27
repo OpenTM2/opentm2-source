@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_BidiHebrew">
+  <title>Translation Environment with a Hebrew document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you open a Hebrew document, you recognize the usual <q>Translation</q> window, <q>Dictionary</q> window, and <q>Translation Memory</q> 
+      window. However, the contents of these windows look different in several aspects. The following Translation Environment example
+      assumes a translation from English to Hebrew:</p>
+    <fig id="bidi_hebrew" expanse="column">
+      <title>Translation Environment with a Hebrew document</title>
+      <image placement="break" href="env_BidiHebrew.gif">
+        <alt>Figure shows Translation Environment with a Hebrew document</alt>
+      </image>
+    </fig>
+    <p>
+      <ul>
+        <li><indexterm>text alignment<indexterm>Hebrew language</indexterm></indexterm>
+          <indexterm>reading order<indexterm>Hebrew language</indexterm></indexterm>
+          <indexterm>Hebrew language<indexterm>reading order</indexterm>
+          <indexterm>text alignment</indexterm></indexterm>In the <q>Translation</q> window the text is aligned to the right, and the ruler 
+          runs from right to the left (ruler digits are always shown as Latin digits). The reading order is from right to the left for English 
+          and Hebrew words. While you are typing, the cursor moves from right to the left. The cursor control keys let the cursor move as 
+          depicted on the keys.</li>
+        <li>In the <q>Dictionary</q> window all words are aligned to the left. The reading order of English words is from left to the right, and 
+          the reading order of Hebrew words is from right to the left.</li>
+        <li>In the <q>Translation Memory</q> window the English source text is aligned to the left, and its reading order is from left to the right. 
+          The Hebrew translation proposals are aligned to the right, and their reading order is from right to the left (same alignment
+          and reading order as in the <q>Translation</q> window).</li>
+      </ul>
+    </p>
+  </body>
+</topic>

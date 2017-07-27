@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folder_Import">
+  <title>Importing a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>importing<indexterm>folders</indexterm></indexterm>
+      <indexterm>folder<indexterm>importing</indexterm></indexterm>
+      <p>When translations are prepared centrally before being distributed to individual
+        translators, you are strongly recommended to use folders as the means of distributing this
+        material, because all related translation material (documents, dictionaries, and <keyword
+          conref="common-symbols.dita#common-symbols/xlmems"/>) can be included in one folder.</p>
+      <p>Before you can start to work with material that has been exported, you must import the
+        material in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p>A folder exported to a diskette drive can span more than one diskette. The system prompts
+        you to insert the diskettes into the diskette drive in the same sequence they were used
+        during export.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>Ensure that there is sufficient free disk space on your system.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Folder List</q> window from the main window</li>
+          <li><b>Import…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Import Folder</q> window (see <xref href="#folder_Import/importfolderwin"/>) is
+        displayed. <required-cleanup><indexterm>windows<indexterm>Import
+          Folder</indexterm></indexterm></required-cleanup><fig id="importfolderwin" expanse="column">
+          <title>Import Folder window</title><image placement="break" href="folder_Import.gif"><alt>Figure
+              shows Import Folder window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>You can import a folder from any drive that is defined to your installation.</p>
+      <p>On the <q>General</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>From</pt>
+          <pd>Select: <ul>
+              <li>The drive where the folder to be imported resides.</li>
+              <li>The folder from the <b>Folder</b> box. When you have selected a drive, this box
+                shows the importable folders on this drive.</li>
+            </ul></pd>
+        </plentry>
+        <plentry>
+          <pt>Options</pt>
+          <pd>Select: <parml>
+              <plentry><pt>With dictionaries</pt>
+                <pd>if you wish to import all dictionaries that were previously exported together
+                  with the folder. If there are no dictionaries in the folder, this option cannot be
+                  selected.</pd></plentry>
+              <plentry><pt>With <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+                  databases</pt>
+                <pd>if you wish to import all <keyword
+                    conref="common-symbols.dita#common-symbols/xlmems"/> that were previously
+                  exported with the folder. If there are no <keyword
+                    conref="common-symbols.dita#common-symbols/xlmems"/> in the folder, this option
+                  cannot be selected.</pd></plentry>
+              <plentry><pt>Import folder as</pt>
+                <pd>if you wish to import the folder under a different name.</pd></plentry>
+            </parml></pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Contains the drive on which <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> resides. If you have several
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installations, select the
+            appropriate drive.</pd>
+        </plentry>
+        <plentry>
+          <pt>Import from</pt>
+          <pd>Select <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder (FXP)</q>
+            for the import of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folders.
+          </pd>
+        </plentry>
+      </parml>
+      <p>The <q>Details</q> page contains information about the selected folder; it
+        cannot be changed on this window.</p>
+      <parml>
+        <plentry>
+          <pt>Name</pt>
+          <pd>The name of the folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Description</pt>
+          <pd>Additional information about the folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Date of export</pt>
+          <pd>The date and time when the folder was exported.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+          </pt>
+          <pd>The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            referenced in this folder.</pd>
+        </plentry>
+        <plentry>
+          <pt>Markup</pt>
+          <pd>The name of the markup table used.</pd>
+        </plentry>
+        <plentry>
+          <pt>Export options</pt>
+          <pd>This field can contain <b>Selected documents only</b> if the folder was exported with
+            this option, otherwise this field is empty.</pd>
+        </plentry>
+        <plentry>
+          <pt>Documents</pt>
+          <pd>If the folder contains documents, their file names are displayed here.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <keyword conref="common-symbols.dita#common-symbols/xlmems"/>
+          </pt>
+          <pd>If the folder contains <keyword conref="common-symbols.dita#common-symbols/xlmems"/>,
+            their names are displayed here.</pd>
+        </plentry>
+        <plentry>
+          <pt>Dictionaries</pt>
+          <pd>If the folder contains dictionaries, their names are displayed here.</pd>
+        </plentry>
+        <plentry>
+          <pt>Note</pt>
+          <pd>If the folder contains a note, it is displayed here.</pd>
+        </plentry>
+      </parml>
+      <p>To print a copy of the details, click <b>Print</b>.</p>
+      <p>To begin importing the folder, click <b>Import</b>.</p>
+      <p>If you import the folder from a diskette drive and the exported folder was written to more
+        than one diskette, you are prompted to insert the diskettes in the sequence in which they
+        were inserted during export. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The folder is imported. It is added in the <q>Folder List</q> window, and you can start
+        using its contents or the imported dictionaries for document analysis.</p>
+      <p>If the folder contains a dictionary with the same name as an existing one, you
+        are asked whether the dictionary is to be ignored, or to be imported and automatically
+        merged with the existing one.</p>
+      <p>If the folder contains a <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> with the same name as an existing one,
+        you are asked whether the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is to
+        be ignored, or to be imported and automatically merged with the existing one.</p>
+      <p>An imported folder also contains the markup tables of the folder and document properties.
+        During import, markup tables in your system are overwritten if they have the same name and
+        the markup table in the folder is a more recent one.</p>
+      <p>If you import a folder that already exists but the content of one or more of its
+        documents differs from the existing ones, the <q>Set Document Processing Options</q> window
+        is displayed. You can then decide for each document whether it is to be imported.</p>
+      <p>When you open the imported folder, the <q>Document List</q> window displays the details
+        arrangement defined by the sender.</p>
+    </section>
+  </refbody>
+</reference>

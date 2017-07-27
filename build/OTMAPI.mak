@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |      Copyright (C) 1990-2014, International Business Machines              |
+# |      Copyright (C) 1990-2017, International Business Machines              |
 # |      Corporation and others. All rights reserved                           |
 # +----------------------------------------------------------------------------+
 # |  Description:                                                              |
@@ -57,5 +57,5 @@ $(_OBJ)\eqfx_api.obj
 $(_OBJ)\eqfx1api.obj
 /OUT:$(_DLL)\OTMAPI.dll
 $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\otmbase.lib $(_LIB)\otmalloc.lib $(_LIB)\otmdll.lib
+$(_LINK_LIB_CRT) $(_LIB)\otmbase.lib $(_LIB)\otmdll.lib
 <<

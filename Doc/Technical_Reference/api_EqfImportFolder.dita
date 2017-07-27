@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfImportFolder">
+  <title>EqfImportFolder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfImportFolder</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfImportFolder</indexterm></indexterm>
+      <p><i>EqfImportFolder</i> imports a folder from a specific drive to the specified <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> drive. The path from which the folder
+        is imported is always <codeph>\otm\export</codeph>.</p>
+      <p>This function performs the import in small units. Call it repetitively until it returns a
+        return code other than CONTINUE_RC.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfImportFolder</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+          <var>chFromDrive</var>
+          <sep>,</sep>
+        </groupseq>
+
+        <groupseq>
+          <var>chToDrive</var>
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd>WITHMEM_OPT</kwd>
+              <kwd>WITHDICT_OPT</kwd>
+              <kwd>XLIFF_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+
+      </syntaxdiagram>
+
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder to be imported.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CHAR</entry>
+              <entry colname="col2">chFromDrive</entry>
+              <entry colname="col3">The drive from which the folder is exported.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CHAR</entry>
+              <entry colname="col2">chToDrive</entry>
+              <entry colname="col3">The target drive for the imported folder. If omitted, the
+                primary EQF drive is used. The drive must be the primary EQF drive or one of the
+                secondary EQF drives defined in the <q>Configure Drives</q> window.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options to be used for the export: <sl>
+                  <sli>WITHMEM_OPT</sli>
+                  <sli>WITHDICT_OPT</sli>
+                  <sli>XLIFF_OPT</sli>
+                </sl>
+                <p>These options correspond to those in the <q>Import Folder</q> window in OpenTM2.</p>
+                <p>You can combine the constants using OR.</p>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The folder import has not completed yet. Call
+                  <i>EqfImportFolder</i> again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph otherprops="print">Error code (EQF message number). Use <i>EqfGetLastError</i>
+                  (see <ph otherprops="print">page 
+                  <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></ph><xref otherprops="display" href="api_EqfGetLastError.dita#api_EqfGetLastError"/>)
+                  to retrieve the complete error information.</ph>
+                <ph otherprops="display">Error code (EQF message number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> to retrieve 
+                  the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Import the folder SAMPLE1 from drive C: to the primary Eqf 
+  // system drive, import the folder with Translation Memory databases 
+  // and dictionaries
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfImportFolder( hSession, "SAMPLE1", 'C', 
+                              '\0',     // use primary Eqf drive
+                              WITHDICT_OPT | WITHMEM_OPT );
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="EditionNotices" rev="GF_03042017">
+  <title>Fourth Edition, April 2017</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This edition applies to <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 1.4.0</p>
+  </body>
+</topic>

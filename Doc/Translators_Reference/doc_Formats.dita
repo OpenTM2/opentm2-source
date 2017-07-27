@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_Formats">
+<title>Dealing with specific document formats</title>
+<prolog><metadata><keywords>
+
+<indexterm>document<indexterm>specific formats</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can work with documents that originate from a variety of
+word processors and formats.</p>
+<p>Most word processors include facilities for converting document
+files from one document format to another. If the file format of your
+word processor is not explicitly supported by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, you may be able
+to use these conversion facilities to convert your file to a format
+that is supported directly by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p>Sometimes, it can be helpful to have a printed version of the original
+document available to get a better picture of the whole document.</p>
+<p>It is recommended that you check your document after translation
+for any changes concerning the layout. You can edit and print it with
+the word processor that was used for creating the original document.
+Minor format corrections might be necessary because translated text
+has not always the same length as the corresponding original text.</p>
+</body></topic>

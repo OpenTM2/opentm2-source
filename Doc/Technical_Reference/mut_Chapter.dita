@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="mut_Chapter">
+  <title>Working with external markup tables</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>external markup tables</indexterm>
+        <indexterm>markup tables<indexterm>creating external ones</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter provides the information required to work with external markup
+      tables. It describes the format of external markup tables so that you can modify them or
+      create new ones. The user exit mechanism of markup tables and its entry points are described
+      to allow for customized processing of documents at different stages. Finally, a parser
+      application programming interface provides some of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>'s 
+      internal functions to expand the possibilities of user exits.</p>
+    <p>The contents of external markup tables are described in terms of the SGML syntax. You should
+      be familiar with SGML to modify or create markup tables. For a complete description of SGML
+      refer to <cite>ISO 8879, Information Processing - Text and Office Systems - Standard
+      Generalized Markup Language (SGML)</cite>.</p>
+  </body>
+</topic>

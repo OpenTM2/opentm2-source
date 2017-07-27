@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_SharedWeb">
+  <title>Sharing WEB-based Translation Memories</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides <b>two different solutions</b> to 
+       share Translation Memory databases amongst several translators. 
+      <ol>
+        <li>One solution is based on <b>LAN-technology</b> (see <xref href="memory_SharedLan.dita#memory_SharedLan"/>),</li> 
+        <li>and one solution is based on a <b>WEB-Server technology</b>. The following section describes the 
+            <b>WEB-server</b> based solution.</li>
+      </ol>
+    </p>
+    <p>Sharing Translation Memory databases with other translators on a <b>WEB-server</b> not only helps to keep the local 
+       disk space small, but you can work with a Translation Memory even if other translators are using it at the 
+       same time. You may find this especially convenient when you work with other translators on the same project. For example, 
+       if you must translate a sentence that a fellow translator has translated only recently for the same project, you can 
+       instantly use your colleague&apos;s translation by copying it from the WEB-based shared Translation Memory.
+    </p>
+    <p>An important component in the WEB-based Shared Translation Memory environment is OpenTM2's WEB-service 
+       component named <b>OtmTMService</b>. The <b>OtmTMService</b> is a <b>web service component</b> for sharing translation 
+       memory databases. It allows several users to operate on a WEB-based Shared Translation Memory simultaneously, and the 
+       changes made by one user are available to others in real time. It also provides batch operation capabilities for big 
+       translation memory databases.    
+    </p>
+    <p><b><u>Important:</u></b> Before the WEB-based Shared Translation Memory environment can be used, it 
+      must be installed and configured. In order to <b>install and configure</b> a WEB-based Shared Memory environment, 
+      please carefully read <b>all</b> the <b>installation</b>-steps described in the next chapters, especially the chapters 
+      <xref href="memory_SharedWebInstall.dita#memory_SharedWebInstall"/> and <xref href="memory_SharedWebInstallSteps.dita#memory_SharedWebInstallSteps"/>. 
+      A translation scenario is described in chapter <xref href="memory_SharedWebUsing.dita#memory_SharedWebUsing"/>.
+    </p> 
+<!--    <p>If you wish to <b>work</b> with a <b>WEB-based</b> shared Translation Memory, you need to meet the following <b>prerequisites</b>: 
+      <ol>
+        <li><b>Install the WEB-server software on the server.</b> The appropriate WEB-server software must be installed (see
+            <xref href="prep_Software.dita#prep_Software"/> for the supported software). </li>
+        <li><b>Log on to the WEB-server.</b> From the operating system, you must be logged on to the WEB-server. </li>
+        <li><b>Specify a WEB-based shared Translation Memory as a <b>shared</b> Translation Memory.</b> The Translation Memory you 
+            want to share must be defined to reside on a shared disk. This can <b>only</b> be done when a new Translation Memory is created. 
+            See <xref href="memory_Create.dita#memory_Create"/> for the creation of WEB-based shared Translation Memory databases. 
+            Note that it is not possible to redefine a local Translation Memory as a WEB-based shared Translation Memory at a later 
+            point in time. It must be done when it is <b>created</b>. If you created the Translation Memory, you can now start working 
+            with it. If you want to use a Translation Memory created by someone else, see the next step.</li>
+        <li><b>Connect to the WEB-based shared Translation Memory.</b> To use a Translation Memory that is defined as WEB-based shared 
+            Translation Memory, but <b>not</b> created by you, you must add it to your Translation Memory List. See 
+            <xref href="memory_SharedWeb.dita#memory_SharedWeb"/> to learn how to do this.</li>
+      </ol>
+    </p>-->
+    <p>In case all necessary installations have already been made, you can skip the next chapters, and you can directly proceed with chapter 
+      <xref href="memory_SharedWebUsing.dita#memory_SharedWebUsing"/>. The scenario described in this chapter helps
+      to understand the WEB-based shared memory concept.
+    </p>
+  </body>
+</topic>

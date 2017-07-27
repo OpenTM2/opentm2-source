@@ -1,0 +1,61 @@
+@echo off
+rem *******************************************************************************************************
+rem ** Script name...: BuildTechnicalReference_OT.bat                                                    **
+rem ** Version.......: 1.0                                                                               **
+rem ** Creation Date.: June 9, 2017                                                                      **
+rem ** Update........: June 9, 2017                                                                      **
+rem ** ------------------------------------------------------------------------------------------------- **
+rem ** Purpose.......: Create OpenTM2 Technical Reference using Dita Open Toolkit.                       **
+rem ** Prerequisites.: none.                                                                             **
+rem ** Developer.....: David Walters                                                                     **
+rem *******************************************************************************************************
+echo.
+cls
+
+:startMeUp
+echo.
+echo **************************************************************************
+echo ** Start output creation using DITA OpenToolkit.                        **
+echo **************************************************************************
+echo.
+
+:GetUserInput
+echo.
+echo **************************************************************************
+echo ** Enter "1" to CONVERT IBM DITA to Dita OpenToolkit files.             **
+echo ** Enter "2" to SKIP conversion.                                        **
+echo ** Enter "9" to EXIT processing.                                        **
+echo **************************************************************************
+SET /P number= Your selection (either "1", "2" or "9"):    
+IF   %number% EQU 1 GOTO CONVERT
+IF   %number% EQU 2 GOTO BUILD     
+IF   %number% EQU 9 GOTO EXIT      
+ echo **********************************************************************
+ echo ** Wrong input. You need to select either "1", "2", or "9".         **
+ echo **********************************************************************
+ PAUSE
+ GOTO GetUserInput
+
+:CONVERT    
+perl ConvertDITA_IBM2OT.perl  ..\Translators_Reference  ..\build\OT_TransRef  1 
+
+:BUILD      
+echo.
+echo **************************************************************************
+echo ** Start building output.                    *****************************
+echo **************************************************************************
+    call dita.bat  -i OT_TransRef/Opentm2TranslatorsReference.ditamap   -format=pdf        -output=out/trans_PDF       -verbose   -logfile=logs\TransRef_PDF.log
+rem call dita.bat  -i OT_TransRef/Opentm2TranslatorsReference.ditamap   -format=html5      -output=out/trans_HTML5     -verbose   -logfile=logs\TransRef_HTML5.log
+rem call dita.bat  -i OT_TransRef/Opentm2TranslatorsReference.ditamap   -format=htmlhelp   -output=out/trans_HTMLHELP  -verbose   -logfile=logs\TransRef_HMLHELP.log
+echo **************************************************************************
+
+del  ditadoc.tmp
+
+
+:EXIT
+echo.
+echo **************************************************************************
+echo ** Build completed.    Press any key to finish.                         **
+echo **************************************************************************
+PAUSE
+echo on

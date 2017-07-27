@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="plugin_RemoveTemporaryFiles">
+  <title>The Plugin Remove Temporary Files</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-plugin <q>Remove Temporary Files</q> helps users
+       to remove temporary files from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. The tool collects all
+       temporary files and displays it in panel <q>Remove temporary files</q>, where users can either select individual
+       enries or even all entries to delete it.
+    </p>
+    <p>In order to delete temporary files from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, process these steps:
+      <ul>
+        <li>The section <q>Temporary files being deleted</q> contains all files which can be deleted.</li>
+        <li>Either mark or un-mark a single checkbox on the left-hand side of the entry.</li>
+        <li>In order to mark all entries in the list, klick on button <q>Select All</q>.</li>
+        <li>In order to unmark all entries in the list, klick on button <q>Deselect All</q>.</li>
+        <li>Field <q>Number of selected files:</q> shows the total amount of file a user selected.</li>
+        <li>Field <q>Total size of selected files:</q> shows the total amount of KB (Kilo Byte) of the files a user selected.
+            As soon as the process has ended, the panel <q>Remove temporary files</q> is closed.</li>
+        <li>In order to delete the selected files, click on button <q>Delete selected files</q>.</li>
+        <li>In order to close the panel with no action performed, click on button <q>Cancel</q>.</li>
+      </ul>  
+    </p>
+    <p>
+      <fig id="RemoveTemporaryFiles" expanse="column">
+        <title>The panel <q><b>Remove temporary files</b></q></title>
+        <image placement="break" href="plugin_RemoveTemporaryFiles.gif">
+          <alt>The panel <!--q-->Remove temporary files<!--/q--></alt>
+        </image>
+      </fig>
+    </p>  
+  </body>
+</topic>

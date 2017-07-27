@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_DataTypes">
+<title>Data types</title>
+<prolog><metadata><keywords>
+
+<indexterm>data types<indexterm>for adding editors</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The editor must use the following structure to communicate with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.
+The C interface binding is available in the file <codeph>EQFTWBS.H</codeph>.</p>
+<p>
+<codeblock>typedef struct _STEQFSTRUCT
+       {
+         HWND  hwndEdit ;              /* handle of editor window      */
+         CHAR szSemaphore [EQF_NAME];  /* space for the semaphore name */
+         HWND hwndEQFPropWnd;          /* handle of proposal window    */
+         HWND hwndEQFDictWnd;          /* handle of dictionary window  */
+         USHORT usIndustryCode;        /* industry code                */
+         CHAR szProjPath [EQF_NAME];   /* path of file to be translated*/
+         CHAR szFileName [EQF_NAME];   /* currently transl. file       */
+         RECTL rectlEQFPropWnd;        /* coordinates of proposal wnd  */
+         RECTL rectlEQFDictWnd;        /* coordinates of dictionary wnd*/
+         SHORT sOS2;                   /* Error code                   */
+       } STEQFSTRUCT;</codeblock></p>
+</body></topic>

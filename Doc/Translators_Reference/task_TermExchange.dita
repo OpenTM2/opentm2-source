@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task_TermExchange">
+  <title>Exchanging terminology lists</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Terminology lists can be exported as standard text files and processed with any editor or word processor. They can also be distributed in 
+      this format on a diskette or any other media.</p>
+    <p>Terminology lists can be reimported into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> for dictionary maintenance. </p>
+  </body>
+</topic>

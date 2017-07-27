@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_TranslationEnvironment">
+  <title>The Translation Environment</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Translation Environment<indexterm>definition of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you selected a document for translation and opened it, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> takes you to
+      the Translation Environment. It is the environment where you: 
+      <ul>
+        <li>Type the translation</li>
+        <li>Can view and copy translations for specific terms</li>
+        <li>Can view and copy previously translated text segments</li>
+        <li>Can decide whether you use the keyboard or the mouse for a task</li>
+      </ul>
+    </p>
+    <p>To save you from paper-shuffling, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically looks up terms in
+      dictionaries and retrieves previous translations. You see the findings on the screen, and you can copy them if they are appropriate 
+      for your current context.</p>
+    <p>To conveniently do this, the Translation Environment is divided into the following subwindows: 
+      <ul>
+        <li>The <q>Translation</q> window <indexterm>Translation Environment<indexterm>Translation window</indexterm>
+          </indexterm><indexterm>windows<indexterm>Translation</indexterm></indexterm>Displays the text to be translated, broken into segments. 
+          The first segment ready for translation is shown with a yellow background. 
+          <p>All formatting information is displayed in red. 
+          <ph>To avoid that it takes up too much space on your screen or distracts you from the actual text, you can reduce or hide it.</ph> 
+          By default it is protected from being overwritten. This ensures that the layout of the original text is retained in the translation.</p>
+          <p>In this window you perform the actual translation with an editor that provides functions that are especially useful for translating.</p>
+          <p>You do the actual translation by inserting or overtyping text. While editing the translation document, the original document is in the 
+            background. You can switch to it whenever necessary.</p>
+        </li>
+        <li>The <q>Translation Memory</q> window <indexterm>Translation Environment<indexterm>Translation Memory window</indexterm></indexterm>
+          <indexterm>windows<indexterm>Translation Memory</indexterm></indexterm>Displays translation proposals that are based on previously 
+          translated segments. <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> finds these proposals by looking through a database 
+          called Translation Memory that contains all text segments you ever translated together with their corresponding translations.</p>
+          <p>When first created, the Translation Memory is empty. It is gradually filled as you continue translating. If it contains a segment 
+            that matches your currently active segment, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> lets you know how you 
+            translated it before.</p>
+          <p>These proposals can be exact or fuzzy, depending on how precisely they match the current original segment. It is up to you to decide 
+            if you copy the proposal as is, or modify it to suit your current context.</p>
+          <p>Exact proposals can occur multiple times in a Translation Memory if the same sentence has been translated in different contexts. 
+            This fact is shown in the <q>Translation Memory</q> window by a <codeph>[<i>x</i>++]</codeph> string preceding the original segment, 
+            where <codeph><i>x</i></codeph> represents the number of available proposals. To display all proposals, double-click 
+            <codeph>++</codeph> or press the assigned shortcut key. To permanently set this option, see 
+            <xref href="edit_Profile.dita#edit_Profile"/>.<indexterm>display all exact proposals</indexterm>
+            <indexterm>proposals<indexterm>display all</indexterm></indexterm></p>
+          <p>If only the tagging differs between a segment and a proposal, the proposal is still considered to be an exact match. When you copy 
+            the proposal, its tagging is adapted to the tagging in the segment currently being translated.</p>
+          <p>If the Translation Memory offers more than one fuzzy proposal, the first proposal is most likely to fit in the current context. In 
+            the second or third fuzzy proposal the differences to the current original segment increase, and you have to be careful when
+            you copy them.</p>
+          <p>To ease your decision which multiple fuzzy proposals to consider, you can customize 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to display a quality number with every fuzzy proposal. This quality number 
+            (a percentage number) ranks different proposals, and you might just ignore proposals below a certain level. See 
+            <xref href="edit_Profile.dita#edit_Profile"/> about how to customize <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+          <p>To learn how to copy a Translation Memory proposal see <xref href="edit_SpecificFunctions.dita#edit_SpecificFunctions"/>.</p>
+        </li>
+        <li>The <q>Dictionary</q> window <indexterm>Translation Environment<indexterm>Dictionary window</indexterm></indexterm>
+          <indexterm>windows<indexterm>Dictionary</indexterm></indexterm>Displays translations that are found for terms in the currently active 
+          segment. 
+          <p>The title bar of this window contains the dictionaries used for the translation. Depending on what you specified 
+            on the Dictionary page of the <q>Customize Translation Functions</q> window (see <xref href="edit_Profile.dita#edit_Profile"/>), 
+            the dictionaries and the translation of the source terms are numbered.</p>
+          <p>When a new segment is activated, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> automatically looks up specific
+            terms of this segment in the related dictionary. For example, if the term <b>proposals</b> is to be looked up, it is reduced to 
+            <b>proposal</b>. If a translation for <b>proposal</b> has been found in a dictionary, it is shown in the <q>Dictionary</q> window.</p>
+        </li>
+      </ul>
+    </p>
+    <p>Whenever you activate a segment for translation, the <q>Translation Memory</q> and the <q>Dictionary</q> window reflect this by presenting 
+      appropriate translation proposals for this segment.</p>
+    <p>To learn how to copy a dictionary proposal see <xref href="edit_SpecificFunctions.dita#edit_SpecificFunctions"/>.</p>
+  </body>
+</topic>

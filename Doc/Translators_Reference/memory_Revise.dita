@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_Revise">
+  <title>Revising a Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>revising<indexterm>Translation Memory databases</indexterm></indexterm>
+      <indexterm>postediting<indexterm>Translation Memory databases</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>revising</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>postediting</indexterm></indexterm>
+      <indexterm>editing<indexterm>Translation Memory databases</indexterm></indexterm>
+      <p>To improve the quality of your translations, you may wish to check the contents of a
+        Translation Memory from time to time, and modify or remove translations that are stored
+        there. Doing these changes directly in the Translation Memory lets you benefit from polished
+        translations the next time you use this repository.</p>
+      <p>Therefore, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers a Translation
+        Memory that can be manipulated. You can browse its contents, make changes to existing
+        translations, or delete complete entries from it. You can work on a Translation Memory
+        contents in an editor window as if you were editing normal text. The original segments are
+        displayed in the <q>Original</q> window, the corresponding translations in the
+          <q>Translation</q> window. You make your changes in the <q>Translation</q> window.</p>
+      <p>Translation Memory files can be huge. To make it easier for you to find a certain
+        translation, you have the choice to narrow down what you are looking for. For example, you
+        can search for a certain translation segment, or for translations made within a certain time
+        frame.</p>
+      <p>The following describes how to open a Translation Memory in order to work with it.</p>
+      <note>Use this function with care. A Translation Memory that has grown over a period of time
+        is an essential asset for all your translations. Therefore it is good practice to avoid any
+        uncontrolled changes. There is no Quit or Undo function. All changes become effective
+        immediately.</note>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The Translation Memory you want to work with must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Translation Memory List</q> window from the main window</li>
+          <li>The Translation Memory you wish to edit</li>
+          <li><b>Open</b> from the <b>File</b> menu or double-click the Translation Memory name</li>
+        </ol></p>
+      <p>You are first prompted with the <q>Translation Memory Editor</q> window to specify what you
+        are looking for in the selected Translation Memory. For more information on how to work with
+        this window see <xref href="memory_Search.dita#memory_Search"/>.</p>
+      <p>After you specified the search criteria, the <q>Edit Translation Memory</q> window (see
+          <xref href="#memory_Revise/tmedt"/>) is displayed. It consists of two windows. The
+          <q>Original</q> window lets you view the original text, in the <q>Translation</q> window
+        you can make your changes. By pressing Ctrl+Enter you can move from segment to segment.
+              <required-cleanup><indexterm>windows<indexterm>Edit Translation
+            Memory</indexterm></indexterm></required-cleanup><fig id="tmedt" expanse="column">
+          <title>Edit Translation Memory window</title><image placement="break" href="memory_Revise.gif"
+              ><alt>Figure shows Edit Translation Memory window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>For information on how to use the Translation Memory editor functions, see <xref
+          href="memory_Editor.dita#memory_Editor"/>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>You open a Translation Memory to work on the translations that are stored in it. In the
+          <q>Edit Translation Memory</q> window you can browse the original texts and revise the
+        corresponding translations. If you need to change or remove translated text, you can do this
+        in the <q>Translation</q> window where you are assisted by an editor. How you use this
+        editor is explained in <xref href="memory_Editor.dita#memory_Editor"/>.</p>
+    </section>
+  </refbody>
+</reference>

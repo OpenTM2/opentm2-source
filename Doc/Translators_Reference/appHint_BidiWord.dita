@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appHint_BidiWord">
+<title><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> Help/RTF – Table columns not in reverse
+order</title>
+<prolog><metadata><keywords>
+
+<indexterm>bidirectional languages<indexterm>Windows Help and
+RTF<indexterm>limitations</indexterm></indexterm><indexterm>right-to-left
+tables</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Although the RTF specification encloses special tags for bidirectional
+language processing of tables, the <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Help compiler does not support
+column reordering for bidirectional languages.  Note the following excerpt
+from a <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> technical article: <q>… Right-to-left
+tables, a standard feature of word processors such as Arabic <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word,
+are not a supported feature of Help Compiler Workshop. Help Compiler Workshop
+will compile a right-to-left table as if it is a left-to-right table. …</q>. </p>
+<p>See also <xref href="appHint_WordMarkup.dita#appHint_WordMarkup"/>.</p>
+<p>As a workaround, you can edit the tables manually before importing the
+documents into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. You can use the Word macro function to
+automate this task.</p>
+</body></topic>

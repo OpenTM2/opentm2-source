@@ -1,0 +1,505 @@
+F	x	x		x	FRONTMATTER	
+T	1	eqfr5mst-00001.dita	front_Chapter	Related information		
+T	1	SummaryOfChanges.dita	changes_summary	Summary of changes		
+T	1	eqfr5mst-NF141.dita	changes_141	New features and functions in OpenTM2 v1.4.1		
+T	2	eqfr5mst-NF141-1.dita	changes_141_SharedMemory	Updated WEB-based Shared Memory solution		
+T	2	eqfr5mst-NF141-2.dita	changes_141_ValidationImport	Call CHKPII from within OpenTM2		
+T	1	eqfr5mst-NF140.dita	changes_140	New features and functions in OpenTM2 v1.4.0		
+T	2	eqfr5mst-NF140-1.dita	changes_140_SharedMemory	Updated WEB-based Shared Memory solution		
+T	2	eqfr5mst-NF140-2.dita	changes_140_CHKPII	Call CHKPII from within OpenTM2		
+T	1	eqfr5mst-NF132.dita	changes_132	New features and functions in OpenTM2 v1.3.2		
+T	2	eqfr5mst-NF132-1.dita	changes_132_SharedMemory	Reworked WEB-based Shared Memory solution		
+T	1	eqfr5mst-NF131.dita	changes_131	New features and functions in OpenTM2 v1.3.1		
+T	2	eqfr5mst-NF131-1.dita	changes_131_FuzzySearch	Changes in the Fuzzy Segment Search function		
+T	2	eqfr5mst-NF131-2.dita	changes_131_NextUntranslated	Two more entries in function Next Untranslated Segment		
+T	1	eqfr5mst-NF130.dita	changes_130	New features and functions in OpenTM2 v1.3.0		
+T	2	eqfr5mst-NF130-1.dita	changes_130_ExactFuzzyNomatch	"Shortcut keys for next EXACT, FUZZY, NO match segment"		
+T	2	eqfr5mst-NF130-2.dita	changes_130_ProfileSettings	Plugin to backup and restore Profile Settings		
+T	2	eqfr5mst-NF130-3.dita	changes_130_Spellcheck	Spellchecking across multiple Folders or Documents		
+T	2	eqfr5mst-NF130-4.dita	changes_130_MatchSegmentId	Add Match Segment ID to support Machine Translation		
+T	2	eqfr5mst-NF130-5.dita	changes_130_ChangeViewDetails	Change View Details		
+T	2	eqfr5mst-NF130-6.dita	changes_130_SharedMemory	Updated WEB-based Shared Translation Memory concept		
+T	1	eqfr5mst-NF124.dita	changes_124	New features and functions in OpenTM2 v1.2.4		
+T	2	eqfr5mst-NF124-1.dita	changes_124_DocumentReimport	Re-import document		
+T	2	eqfr5mst-NF124-2.dita	changes_124_DictionarySelectionPID	Allow selecting PID of glossary terms to be displayed during editing		
+T	2	eqfr5mst-NF124-3.dita	changes_124_AddFolderName	Adding Folder Name in Title Bar		
+T	2	eqfr5mst-NF124-4.dita	changes_124_NewLanguages	OpenTM2 to support the languages Bosnian and Montenegrin		
+T	2	eqfr5mst-NF124-5.dita	changes_124_SmartTVT	Support SmartTVT project by providing a unique Segment-ID		
+T	1	eqfr5mst-NF123.dita	changes_123	New features and functions in OpenTM2 v1.2.3		
+T	2	eqfr5mst-NF123-1.dita	changes_123_GlobalFind	Improved Global Find and Replace function		
+T	2	eqfr5mst-NF123-2.dita	changes_123_DosCommandGUI	Frequently used DOS line-command utilites integrated into UI		
+T	2	eqfr5mst-NF123-3.dita	changes_123_XMLPreview	XML Preview function		
+T	2	eqfr5mst-NF123-4.dita	changes_123_EnterCharacters	Interface to allow easy entry of characters not on keyboard		
+T	2	eqfr5mst-NF123-5.dita	changes_123DictionaryProposalMerge	Dictionary proposal merge function is not implemented properly		
+T	2	eqfr5mst-NF123-6.dita	changes_123_XLIFFWithMemoryEntries	Export XLIFF folder with search Translation Memory Databases		
+T	1	eqfr5mst-NF122.dita	changes_122	New features and functions in OpenTM2 v1.2.2		
+T	2	eqfr5mst-NF122-2.dita	changes_122_AnalysisOptions	Additional analysis options to protect text		
+T	2	eqfr5mst-NF122-3.dita	changes_122_DictionaryXML	OpenTM2 Dictionary XML support		
+T	2	eqfr5mst-NF122-4.dita	changes_122_DosCommandGUI	Frequently used DOS line-command utilites integrated into UI		
+T	2	eqfr5mst-NF122-5.dita	changes_122_CalcReport	Target language entry in calculation report		
+T	2	eqfr5mst-NF122-6.dita	changes_122_XMLPreview	XML Preview function		
+C	0	x	prep_Chapter	x	Before you start	eqfr5mst-00018.dita
+T	1	eqfr5mst-00019.dita	prep_Hardware	Hardware requirements	Before you start	
+T	1	eqfr5mst-00020.dita	prep_Software	Software requirements	Before you start	
+T	1	eqfr5mst-00021.dita	prep_OpenTM2	What you get from OpenTM2	Before you start	
+T	2	eqfr5mst-00022.dita	prep_LanguageFiles	Language-support files	Before you start	
+T	2	eqfr5mst-00023.dita	prep_Dictionaries	Dictionaries	Before you start	
+T	1	eqfr5mst-00025.dita	prep_InstallingOpenTM2	Installing OpenTM2	Before you start	
+T	2	eqfr5mst-00026.dita	prep_InstallingComponents	Installing components	Before you start	
+T	2	eqfr5mst-00027.dita	prep_InstallProcedure	Installation procedure	Before you start	
+T	1	eqfr5mst-00032.dita	prep_Settings	Required settings	Before you start	
+T	1	eqfr5mst-00033.dita	prep_StartingOpenTM2	Starting OpenTM2	Before you start	
+T	1	eqfr5mst-00034.dita	prep_GettingHelp	Getting help	Before you start	
+T	1	eqfr5mst-00035.dita	prep_BackingUpTranslation	Backing up your translation material	Before you start	
+T	1	eqfr5mst-00036.dita	prep_AdditionalDrives	Defining additional drives	Before you start	
+C	0	x	wb_Chapter	x	Working with the Translation Workbench	eqfr5mst-00037.dita
+T	1	eqfr5mst-00038.dita	wb_Workbench	The Workbench	Working with the Translation Workbench	
+T	1	eqfr5mst-00039.dita	wb_Windows	Arranging the windows	Working with the Translation Workbench	
+T	1	eqfr5mst-00040.dita	wb_ViewDetails	Defining the view details	Working with the Translation Workbench	
+T	1	eqfr5mst-00041.dita	wb_PathNames	Hiding and shrinking path names	Working with the Translation Workbench	
+T	1	eqfr5mst-00042.dita	wb_Sorting	Option to sort document list on file name and extension	Working with the Translation Workbench	
+T	1	eqfr5mst-00043.dita	wb_Saving	Saving the Workbench	Working with the Translation Workbench	
+C	0	x	env_Chapter	x	Working with the Translation Environment	eqfr5mst-00044.dita
+T	1	eqfr5mst-00045.dita	env_TranslationEnvironment	The Translation Environment	Working with the Translation Environment	
+T	1	eqfr5mst-00046.dita	env_Colors	The meaning of the colors	Working with the Translation Environment	
+T	1	eqfr5mst-00047.dita	env_MarkupTags	How markup tags are displayed	Working with the Translation Environment	
+T	1	eqfr5mst-00048.dita	env_MarkupTagsDisplayed	Changing the display of markup information	Working with the Translation Environment	
+T	1	eqfr5mst-00049.dita	env_TranslationProposalDisplay	Displaying the original of a translation proposal	Working with the Translation Environment	
+T	1	eqfr5mst-00050.dita	env_ActiveWindow	Making a window active	Working with the Translation Environment	
+T	1	eqfr5mst-00051.dita	env_SegmentsTranslate	Checking how segments were translated	Working with the Translation Environment	
+T	1	eqfr5mst-00052.dita	env_RegionalSettings	Influence of Windows regional settings (Windows control panel > “Regional and Language Options”)	Working with the Translation Environment	
+T	1	eqfr5mst-00053.dita	env_BidirectionalWorking	Working with bidirectional language documents	Working with the Translation Environment	
+T	2	eqfr5mst-00054.dita	env_BidiPrerequisites	Prerequisites for bidirectional language support	Working with the Translation Environment	
+T	2	eqfr5mst-00055.dita	env_BidiControlling	Controlling the bidirectional display	Working with the Translation Environment	
+T	2	eqfr5mst-00056.dita	env_BidiArabic	Translation Environment with an Arabic document	Working with the Translation Environment	
+T	2	eqfr5mst-00057.dita	env_BidiHebrew	Translation Environment with a Hebrew document	Working with the Translation Environment	
+T	2	eqfr5mst-00058.dita	env_BidiConsiderations	Further considerations	Working with the Translation Environment	
+T	3	eqfr5mst-00059.dita	env_BidiShortcutKeys	Defining shortcut keys	Working with the Translation Environment	
+T	3	eqfr5mst-00060.dita	env_BidiSwappingBraces	The treatment of braces - no symmetrical swapping	Working with the Translation Environment	
+T	3	eqfr5mst-00061.dita	env_BidiTextInDialogs	The treatment of text in dialog boxes	Working with the Translation Environment	
+T	3	eqfr5mst-00062.dita	env_BidiMemory	Translation Memory considerations	Working with the Translation Environment	
+T	1	eqfr5mst-00063.dita	env_ThaiWorking	Working with Thai language documents	Working with the Translation Environment	
+T	2	eqfr5mst-00064.dita	env_ThaiPreparing	Preparing for a translation	Working with the Translation Environment	
+T	2	eqfr5mst-00065.dita	env_ThaiDocument	Translation Environment with a Thai document	Working with the Translation Environment	
+T	2	eqfr5mst-00066.dita	env_ThaiFindReplace	Using Find and Replace	Working with the Translation Environment	
+T	2	eqfr5mst-00067.dita	env_ThaiDictionaries	Using Thai dictionaries and abbreviation lists	Working with the Translation Environment	
+T	2	eqfr5mst-00068.dita	env_ThaiHtml	Translating HTML documents	Working with the Translation Environment	
+T	2	eqfr5mst-00069.dita	env_ThaiLimitations	Limitations of the current Thai support	Working with the Translation Environment	
+T	2	eqfr5mst-00070.dita	env_ThaiCommentingSegments	Commenting segments in the editor	Working with the Translation Environment	
+C	0	eqfr5mst-00071.dita	edit_Chapter	x	Working with the OpenTM2 editor	eqfr5mst-00071.dita
+T	1	eqfr5mst-00072.dita	edit_Overview	The OpenTM2 editor	Working with the OpenTM2 editor	
+T	1	eqfr5mst-00073.dita	edit_BasicFunctions	Basic functions	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00074.dita	edit_BasicKeys	Assigning keys	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00075.dita	edit_BasicFindReplace	Finding and replacing terms	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00076.dita	edit_BasicSearchingForTerms	Searching for terms in Translation Memory databases	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00077.dita	edit_BasicMovingText	Moving around the text	Working with the OpenTM2 editor	
+T	3	eqfr5mst-00078.dita	edit_BasicScrolling	Scrolling	Working with the OpenTM2 editor	
+T	3	eqfr5mst-00079.dita	edit_BasicCursor	Querying and setting the cursor position	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00080.dita	edit_BasicMovingMarkedText	Moving around marked text	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00081.dita	edit_BasicBookmarks	Working with bookmarks	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00082.dita	edit_BasicLinesWords	Working with lines and words	Working with the OpenTM2 editor	
+T	1	eqfr5mst-00083.dita	edit_SpecificFunctions	Translation-specific functions	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00084.dita	edit_ManipulatingSegments	Manipulating segments	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00085.dita	edit_ManipulatingDocuments	Manipulating documents	Working with the OpenTM2 editor	
+T	3	eqfr5mst-00086.dita	edit_Spellcheck	Spellchecking	Working with the OpenTM2 editor	
+T	3	eqfr5mst-00087.dita	edit_ViewOtherDocuments	Viewing other documents while translating	Working with the OpenTM2 editor	
+T	1	eqfr5mst-00088.dita	edit_Configuring	Configuring the editor	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00089.dita	edit_ColorsFonts	Customizing colors and fonts	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00090.dita	edit_Ruler	Displaying a ruler	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00091.dita	edit_CursorPosition	Displaying the cursor position	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00092.dita	edit_Profile	Setting up the profile	Working with the OpenTM2 editor	
+T	2	eqfr5mst-00093.dita	edit_ProfileSharing	Sharing a profile	Working with the OpenTM2 editor	
+C	0	eqfr5mst-00094.dita	task_Chapter	x	Translation scenarios	eqfr5mst-00094.dita
+T	1	eqfr5mst-00095.dita	task_DocumentNew	Translating a new document	Translation scenarios	
+T	2	eqfr5mst-00096.dita	task_FolderCreate	Creating a folder	Translation scenarios	
+T	2	eqfr5mst-00097.dita	task_DocumentImport	Importing a new document	Translation scenarios	
+T	2	eqfr5mst-00098.dita	task_DocumentTranslate	Translating the document	Translation scenarios	
+T	2	eqfr5mst-00099.dita	task_DocumentPostedit	Postediting and viewing the translated document	Translation scenarios	
+T	2	eqfr5mst-00100.dita	task_DocumentExport	Exporting the translated document	Translation scenarios	
+T	1	eqfr5mst-00101.dita	task_DocumentTranslateUpdates	Translating updated documents	Translation scenarios	
+T	1	eqfr5mst-00102.dita	task_TranslatorsOne	Translating with one translator	Translation scenarios	
+T	2	eqfr5mst-00103.dita	task_Workbench	Working with the Workbench	Translation scenarios	
+T	2	eqfr5mst-00104.dita	task_TranslationEnvironment	Working with the Translation Environment	Translation scenarios	
+T	1	eqfr5mst-00105.dita	task_TranslatorsTwo	Translating with several translators	Translation scenarios	
+T	2	eqfr5mst-00106.dita	task_ResourceShare	Sharing translation resources	Translation scenarios	
+T	1	eqfr5mst-00107.dita	task_DataExchange	Exchanging data with other people and systems	Translation scenarios	
+T	2	eqfr5mst-00108.dita	task_DocumentExchange	Exchanging documents	Translation scenarios	
+T	2	eqfr5mst-00109.dita	task_DictionaryExchange	Exchanging dictionaries	Translation scenarios	
+T	2	eqfr5mst-00110.dita	task_TermExchange	Exchanging terminology lists	Translation scenarios	
+T	2	eqfr5mst-00111.dita	task_MemoryExchange	Exchanging Translation Memory databases	Translation scenarios	
+T	2	eqfr5mst-00112.dita	task_FolderExchange	Exchanging folders	Translation scenarios	
+T	2	eqfr5mst-00113.dita	task_MarkupExchange	Exchanging markup tables	Translation scenarios	
+C	0	eqfr5mst-00114.dita	concept_Chapter	x	General concepts	eqfr5mst-00114.dita
+T	1	eqfr5mst-00115.dita	concept_TaskDescription	How a task is described	General concepts	
+T	1	eqfr5mst-00116.dita	concept_ExportImport	Export and import	General concepts	
+T	1	eqfr5mst-00117.dita	concept_Print	Printing	General concepts	
+T	2	eqfr5mst-00118.dita	concept_PrintLists	Printing list windows	General concepts	
+T	1	eqfr5mst-00119.dita	concept_Windows	Windows	General concepts	
+T	2	eqfr5mst-00120.dita	concept_WindowsMessage	Message windows	General concepts	
+T	2	eqfr5mst-00121.dita	concept_WindowsProgress	Progress windows	General concepts	
+T	1	eqfr5mst-00122.dita	concept_Menus	Menus	General concepts	
+T	1	eqfr5mst-00123.dita	concept_OutputFile	Specifying an output file	General concepts	
+T	1	eqfr5mst-00124.dita	concept_MultipleObjectSelect	Selecting multiple objects in list windows	General concepts	
+T	1	eqfr5mst-00125.dita	concept_DetailsViewChange	Viewing and changing the details of a list item	General concepts	
+T	2	eqfr5mst-00126.dita	concept_DetailsSelect	Viewing selected details	General concepts	
+T	2	eqfr5mst-00127.dita	concept_DetailsChange	Changing the details setting	General concepts	
+T	1	eqfr5mst-00128.dita	concept_ListItems	Arranging and filtering list items	General concepts	
+T	2	eqfr5mst-00129.dita	concept_ListItemArrange	Arranging list items	General concepts	
+T	2	eqfr5mst-00130.dita	concept_ListItemsFilter	Filtering list items	General concepts	
+T	1	eqfr5mst-00131.dita	concept_SystemPreferences	Viewing and changing the system preferences	General concepts	
+C	0	eqfr5mst-00132.dita	doc_Chapter	x	Working with documents	eqfr5mst-00132.dita
+T	1	eqfr5mst-00133.dita	doc_Overview	Overview and terminology	Working with documents	
+T	1	eqfr5mst-00134.dita	doc_WhatCanYouDo	What you can do with documents	Working with documents	
+T	1	eqfr5mst-00135.dita	doc_Analyze	Analyzing a document	Working with documents	
+T	2	eqfr5mst-00136.dita	doc_AnalyzeDefaults	Analyzing documents using defaults	Working with documents	
+T	2	eqfr5mst-00137.dita	doc_AnalyzeMemory	Analyzing documents using Translation Memory databases	Working with documents	
+T	2	eqfr5mst-00138.dita	doc_AnalyzeProfile	Editing analysis Profiles	Working with documents	
+T	2	eqfr5mst-00139.dita	doc_AnalyzeDictionary	Analyzing documents using dictionaries	Working with documents	
+T	2	eqfr5mst-00140.dita	doc_AnalyzeAbbreviation	Maintaining abbreviation lists	Working with documents	
+T	1	eqfr5mst-00141.dita	doc_Close	Closing a document	Working with documents	
+T	1	eqfr5mst-00142.dita	doc_CountWords	Counting the number of words in a document	Working with documents	
+T	1	eqfr5mst-00143.dita	doc_CountWordsDuplicate	Counting duplicate words in a document	Working with documents	
+T	1	eqfr5mst-00144.dita	doc_CountMatches	Counting the number and type of matches in a document	Working with documents	
+T	1	eqfr5mst-00145.dita	doc_CountFuzzy	Counting words in segments with fuzzy matches	Working with documents	
+T	1	eqfr5mst-00146.dita	doc_Formats	Dealing with specific document formats	Working with documents	
+T	2	eqfr5mst-00148.dita	doc_FormatsAnsi	ANSI documents	Working with documents	
+T	2	eqfr5mst-00149.dita	doc_FormatsAscii	ASCII documents	Working with documents	
+T	2	eqfr5mst-00150.dita	doc_FormatsAssembler	Assembler documents	Working with documents	
+T	2	eqfr5mst-00151.dita	doc_FormatsBookmaster	BookMaster and Information Presentation Facility documents	Working with documents	
+T	2	eqfr5mst-00152.dita	doc_FormatsFrameBuilder	FrameBuilder files	Working with documents	
+T	2	eqfr5mst-00153.dita	doc_FormatsHtml	HTML documents	Working with documents	
+T	2	eqfr5mst-00154.dita	doc_FormatsInterleaf	Interleaf files	Working with documents	
+T	2	eqfr5mst-00156.dita	doc_FormatsPowerpoint	Microsoft PowerPoint documents	Working with documents	
+T	2	eqfr5mst-00157.dita	doc_FormatsWord	Microsoft Word for Windows documents	Working with documents	
+T	2	eqfr5mst-00158.dita	doc_FormatsRtf	RTF documents	Working with documents	
+T	2	eqfr5mst-00159.dita	doc_FormatsSgml	SGML documents	Working with documents	
+T	2	eqfr5mst-00160.dita	doc_FormatsUnicode	Unicode documents	Working with documents	
+T	2	eqfr5mst-00161.dita	doc_FormatsWindowsHelp	Windows help files	Working with documents	
+T	1	eqfr5mst-00163.dita	doc_Delete	Deleting a document	Working with documents	
+T	1	eqfr5mst-00164.dita	doc_DeleteList	Deleting documents from a folder based on a list	Working with documents	
+T	1	eqfr5mst-00165.dita	doc_DeleteRestore	Restore Deleted documents	Working with documents	
+T	1	eqfr5mst-00166.dita	doc_ExportOpenTM2	Exporting a document in OpenTM2 format	Working with documents	
+T	1	eqfr5mst-00167.dita	doc_ExportExternal	Exporting a document in external format	Working with documents	
+T	1	eqfr5mst-00168.dita	doc_ExportExternalPath	Exporting a document in external format with a path	Working with documents	
+T	1	eqfr5mst-00169.dita	doc_ExportValidation	Exporting a document in validation format	Working with documents	
+T	1	eqfr5mst-00170.dita	doc_ExportXml	Exporting a document in plain XML format	Working with documents	
+T	1	eqfr5mst-00171.dita	doc_ExportTagGroup	Export segments in tag groups	Working with documents	
+T	1	eqfr5mst-00173.dita	doc_ExportRevision	Editing document revision marks for export	Working with documents	
+T	1	eqfr5mst-00174.dita	doc_Import	Importing a document	Working with documents	
+T	1	eqfr5mst-00175.dita	doc_ImportOpenTM2	Importing a document in OpenTM2 format	Working with documents	
+T	1	eqfr5mst-00176.dita	doc_ImportExternal	Importing a document in external format	Working with documents	
+T	1	eqfr5mst-00177.dita	doc_ImportexternalPath	Importing a document in external format with a path	Working with documents	
+T	1	eqfr5mst-00179.dita	doc_CopyMove	Copying and moving documents between folders	Working with documents	
+T	1	eqfr5mst-00180.dita	doc_Open	Opening a document	Working with documents	
+T	1	eqfr5mst-00181.dita	doc_Search	Searching and replacing text in documents	Working with documents	
+T	1	eqfr5mst-00182.dita	doc_SearchFuzzy	Search segments with fuzzy matches	Working with documents	
+T	1	eqfr5mst-00183.dita	doc_Spellcheck	Spellchecking Documents or Folders	Working with documents	
+T	1	eqfr5mst-00184.dita	doc_SpellcheckAddendum	Editing the spellcheck addendum	Working with documents	
+T	1	eqfr5mst-00185.dita	doc_Translate	Translating a document	Working with documents	
+T	1	eqfr5mst-00186.dita	doc_OpenDocuments	Opening and translating several documents	Working with documents	
+T	1	eqfr5mst-00187.dita	doc_PropertiesView	Viewing the properties of a document	Working with documents	
+T	1	eqfr5mst-00188.dita	doc_PropertiesChange	Changing the properties of a document	Working with documents	
+T	1	eqfr5mst-00189.dita	doc_DetailsView	Viewing the details of a document	Working with documents	
+T	1	eqfr5mst-00190.dita	doc_NoteToTranslators	Including notes for the translator	Working with documents	
+T	2	eqfr5mst-00191.dita	doc_TranslatorNotes	Translator's notes in a source document	Working with documents	
+T	2	eqfr5mst-00192.dita	doc_TranslatorNotesEnvironment	Translator's notes in the Translation Environment	Working with documents	
+T	1	eqfr5mst-00193.dita	doc_PreviewXml	Preview XML documents	Working with documents	
+T	2	eqfr5mst-00194.dita	doc_PreviewXmlSteps	Step by step description to preview a XML document	Working with documents	
+C	0	eqfr5mst-00195.dita	folder_Chapter	x	Working with folders	eqfr5mst-00195.dita
+T	1	eqfr5mst-00196.dita	folder_Overview	Overview and terminology	Working with folders	
+T	1	eqfr5mst-00197.dita	folder_WhatCanYouDo	What you can do with folders	Working with folders	
+T	1	eqfr5mst-00198.dita	folder_Analyze	Analyzing all the documents in a folder	Working with folders	
+T	1	eqfr5mst-00199.dita	folder_Close	Closing a folder	Working with folders	
+T	1	eqfr5mst-00200.dita	folder_CountWords	Counting the words in all documents of a folder	Working with folders	
+T	1	eqfr5mst-00201.dita	folder_Create	Creating a folder	Working with folders	
+T	1	eqfr5mst-00202.dita	folder_Dictionary	Dictionary Selection window	Working with folders	
+T	1	eqfr5mst-00203.dita	folder_Memory	Translation Memory Selection window	Working with folders	
+T	1	eqfr5mst-00204.dita	folder_CreateSubfolder	Creating a subfolder	Working with folders	
+T	1	eqfr5mst-00205.dita	folder_Rename	Renaming a folder	Working with folders	
+T	1	eqfr5mst-00206.dita	folder_Delete	Deleting a folder	Working with folders	
+T	1	eqfr5mst-00207.dita	folder_DeletedExported	Deleting a folder exported to the otm\export subdirectory	Working with folders	
+T	1	eqfr5mst-00208.dita	folder_Export	Exporting a folder	Working with folders	
+T	1	eqfr5mst-00209.dita	folder_Import	Importing a folder	Working with folders	
+T	1	eqfr5mst-00210.dita	folder_ImportXliff	Importing a XLIFF folder	Working with folders	
+T	1	eqfr5mst-00211.dita	folder_ImportControlled	Importing a folder into controlled folder	Working with folders	
+T	1	eqfr5mst-00212.dita	folder_Open	Opening a folder	Working with folders	
+T	1	eqfr5mst-00213.dita	folder_Search	Searching and replacing text across several documents in a folder	Working with folders	
+T	1	eqfr5mst-00214.dita	folder_PropertiesView	Viewing the properties of a folder	Working with folders	
+T	1	eqfr5mst-00215.dita	folder_PropertiesChange	Changing the properties of a folder	Working with folders	
+T	1	eqfr5mst-00216.dita	folder_Details	Viewing the details of a folder	Working with folders	
+C	0	`	memory_Chapter	x	Working with Translation Memory databases	eqfr5mst-00217.dita
+T	1	eqfr5mst-00218.dita	memory_Overview	Overview and terminology	Working with Translation Memory databases	
+T	1	eqfr5mst-00219.dita	memory_Matches	Translation Memory matches	Working with Translation Memory databases	
+T	1	eqfr5mst-00220.dita	memory_WhatCanYouDo	What you can do with Translation Memory databases	Working with Translation Memory databases	
+T	1	eqfr5mst-00221.dita	memory_Create	Creating a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00222.dita	memory_ExternalCreate	Creating an external Translation Memory	Working with Translation Memory databases	
+T	2	eqfr5mst-00223.dita	memory_ExternalFormat	Format of an external Translation Memory	Working with Translation Memory databases	
+T	2	eqfr5mst-00224.dita	memory_ExternalFormat2	The Translation Memory format	Working with Translation Memory databases	
+T	2	eqfr5mst-00225.dita	memory_ExternalTags	SGML tags for external Translation Memory databases	Working with Translation Memory databases	
+T	2	eqfr5mst-00226.dita	memory_ExternalControlInfo	Control information of a Translation Memory segment	Working with Translation Memory databases	
+T	1	eqfr5mst-00227.dita	memory_Rename	Renaming a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00228.dita	memory_Delete	Deleting a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00229.dita	memory_Export	Exporting a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00230.dita	memory_ItmCreate	Creating an Initial Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00231.dita	memory_Import	Importing a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00232.dita	memory_Merge	Merging Translation Memory databases	Working with Translation Memory databases	
+T	1	eqfr5mst-00233.dita	memory_Archive	Archiving a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00234.dita	memory_Organize	Organizing a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00235.dita	memory_ItmRevise	Revising an Initial Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00236.dita	memory_ItmEditor	The Initial Translation Memory editor	Working with Translation Memory databases	
+T	2	eqfr5mst-00237.dita	memory_ItmEditorFile	File menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00238.dita	memory_ItmEditorEdit	Edit menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00239.dita	memory_ItmEditorAlign	Align menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00240.dita	memory_ItmEditorOptions	Options menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00241.dita	memory_ItmEditorCursor	Cursor menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00242.dita	memory_ItmEditorStyle	Style menu	Working with Translation Memory databases	
+T	1	eqfr5mst-00243.dita	memory_Revise	Revising a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00244.dita	memory_Search	Searching a translation	Working with Translation Memory databases	
+T	1	eqfr5mst-00245.dita	memory_Editor	The Translation Memory editor	Working with Translation Memory databases	
+T	2	eqfr5mst-00246.dita	memory_EditorFile	File menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00247.dita	memory_EditorEdit	Edit menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00248.dita	memory_EditorOptions	Options menu	Working with Translation Memory databases	
+T	2	eqfr5mst-00249.dita	memory_EditorStyle	Style menu	Working with Translation Memory databases	
+T	1	eqfr5mst-00250.dita	memory_ExternalRevise	Revising external Translation Memory databases	Working with Translation Memory databases	
+T	1	eqfr5mst-00251.dita	memory_SharedLan	Sharing LAN-based Translation Memories	Working with Translation Memory databases	
+T	2	eqfr5mst-00251-A.dita	memory_SharedLanConnect	Connecting or disconnecting a LAN-based shared Translation Memory	Working with Translation Memory databases	
+T	2	eqfr5mst-00251-B.dita	memory_SharedLanDelete	Deleting a LAN-based shared Translation Memory	Working with Translation Memory databases	
+T	2	eqfr5mst-00251-C.dita	memory_SharedLanFindOwner	Finding the owner of a LAN-based shared Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00252.dita	memory_SharedWeb	Sharing WEB-based Translation Memories	Working with Translation Memory databases	
+T	2	eqfr5mst-00252-1.dita	memory_SharedWebInstall	Installation of important Client components	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-1A.dita	memory_SharedWebInstallAxis2cDownload	Downloading Axis2C to the OpenTM2 Client PC	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-1B.dita	memory_SharedWebInstallAxis2cInstall	Installing Axis2C on the OpenTM2 Client PC	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-1C.dita	memory_SharedWebInstallAxis2cConfigure	Configure Axis2c on the OpenTM2 Client	Working with Translation Memory databases	
+T	2	eqfr5mst-00252-2.dita	memory_SharedWebInstallSteps	Installation of important Server components	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-2A.dita	memory_SharedWebInstallMariaDBInstall	Installing MariaDB on the Server	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-2B.dita	memory_SharedWebInstallMariaDBSetup	Setup and configure MariaDB on the Server	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-2C.dita	memory_SharedWebInstallMariaDBCreate	Create a Shared Translation Memory on the Server	Working with Translation Memory databases	
+T	2	eqfr5mst-00252-3.dita	memory_SharedWebUsing	A Translation Scenario using the OpenTM2 WEB-based Shared Translation Memory	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-3A.dita	memory_SharedWebUsingCreate	Creating a WEB-based Shared Translation Memory	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-3B.dita	memory_SharedWebUsingConnect	Connecting or Disconnecting a WEB-based Shared Translation Memory	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-3C.dita	memory_SharedWebUsingDelete	Deleting a WEB-based Shared Translation Memory	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-3D.dita	memory_SharedWebUsingUsers	User List Operations	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-3G.dita	memory_SharedWebUsingFindOwner	Finding the owner of a WEB-based Shared Translation Memory	Working with Translation Memory databases	
+T	3	eqfr5mst-00252-3H.dita	memory_SharedWebUsingBackup	How to backup a WEB-based Shared Translation Memory DB	Working with Translation Memory databases	
+T	1	eqfr5mst-00255.dita	memory_PropertiesView	Viewing the properties of a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00256.dita	memory_PropertiesChange	Changing the properties of a Translation Memory	Working with Translation Memory databases	
+T	1	eqfr5mst-00257.dita	memory_DetailsView	Viewing the details of a Translation Memory	Working with Translation Memory databases	
+C	0	eqfr5mst-00258.dita	dict_Chapter	x	Working with dictionaries	eqfr5mst-00258.dita
+T	1	eqfr5mst-00259.dita	dict_EntryStructure	Dictionary entry structure	Working with dictionaries	
+T	1	eqfr5mst-00260.dita	dict_SearchCriteria	Dictionary search criteria	Working with dictionaries	
+T	1	eqfr5mst-00261.dita	dict_Overview	Overview and terminology	Working with dictionaries	
+T	1	eqfr5mst-00262.dita	dict_WhatCanYouDo	What you can do with dictionaries	Working with dictionaries	
+T	1	eqfr5mst-00263.dita	dict_SgmlCreate	Creating an SGML-based dictionary	Working with dictionaries	
+T	2	eqfr5mst-00264.dita	dict_CreateSgmlStructure	The structure of an SGML-based dictionary	Working with dictionaries	
+T	3	eqfr5mst-00265.dita	dict_CreateSgmlStructureHeader	Header section	Working with dictionaries	
+T	3	eqfr5mst-00266.dita	dict_CreateSgmlStructureMaptable	Maptable section	Working with dictionaries	
+T	3	eqfr5mst-00267.dita	dict_CreateSgmlStrucutreEntry	Entry section	Working with dictionaries	
+T	2	eqfr5mst-00268.dita	dict_CreateSgmlFields	List of dictionary-entry fields and their SGML tags	Working with dictionaries	
+T	2	eqfr5mst-00269.dita	dict_CreateSgmlSample	Sample of an SGML-based dictionary	Working with dictionaries	
+T	1	eqfr5mst-00270.dita	dict_Create	Creating a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00271.dita	dict_CreateModel	Using an existing dictionary as model	Working with dictionaries	
+T	1	eqfr5mst-00272.dita	dict_FieldChange	Changing dictionary entry fields	Working with dictionaries	
+T	1	eqfr5mst-00273.dita	dict_FieldRename	Renaming a dictionary entry field	Working with dictionaries	
+T	1	eqfr5mst-00274.dita	dict_FieldAdd	Adding a user-defined entry field	Working with dictionaries	
+T	1	eqfr5mst-00275.dita	dict_Filter	Defining a dictionary filter	Working with dictionaries	
+T	1	eqfr5mst-00276.dita	dict_Rename	Renaming a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00277.dita	dict_Delete	Deleting a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00278.dita	dict_Edit	Editing a dictionary entry	Working with dictionaries	
+T	1	eqfr5mst-00279.dita	dict_Export	Exporting a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00280.dita	dict_Import	Importing a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00281.dita	dict_Lookup	Looking up a dictionary entry	Working with dictionaries	
+T	1	eqfr5mst-00282.dita	dict_Merge	Merging dictionaries	Working with dictionaries	
+T	1	eqfr5mst-00283.dita	dict_Open	Opening a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00284.dita	dict_Organize	Organizing a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00285.dita	dict_Print	Printing a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00286.dita	dict_PrintFormat	Defining the printout format	Working with dictionaries	
+T	1	eqfr5mst-00287.dita	dict_Protect	Protecting a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00288.dita	dict_Search	Searching for a dictionary entry	Working with dictionaries	
+T	1	eqfr5mst-00289.dita	dict_Share	Sharing dictionaries	Working with dictionaries	
+T	2	eqfr5mst-00290.dita	dict_SharedAccess	Accessing or disconnecting a shared dictionary	Working with dictionaries	
+T	2	eqfr5mst-00291.dita	dict_SharedDelete	Deleting a shared dictionary	Working with dictionaries	
+T	2	eqfr5mst-00292.dita	dict_SharedHints	Hints and tips when working with a shared dictionary	Working with dictionaries	
+T	2	eqfr5mst-00293.dita	dict_SharedOwner	Finding the owner of a shared dictionary	Working with dictionaries	
+T	1	eqfr5mst-00294.dita	dict_PropertiesView	Viewing the properties of a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00295.dita	dict_PropertiesChange	Changing the properties of a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00296.dita	dict_DetailsView	Viewing the details of a dictionary	Working with dictionaries	
+T	1	eqfr5mst-00297.dita	dict_CompoundWords	Option to select dictionary lookup for compound words in editor	Working with dictionaries	
+T	1	eqfr5mst-00298.dita	dict_Styles	Viewing style indicators for dictionary terms	Working with dictionaries	
+C	0	eqfr5mst-00299.dita	term_Chapter	x	Working with terminology lists	eqfr5mst-00299.dita
+T	1	eqfr5mst-00300.dita	term_Overview	Overview and terminology	Working with terminology lists	
+T	1	eqfr5mst-00301.dita	term_WhatCanYouDo	What you can do with terminology lists	Working with terminology lists	
+T	1	eqfr5mst-00302.dita	term_Create	Creating a terminology list	Working with terminology lists	
+T	2	eqfr5mst-00303.dita	term_CreateNewFound	Creating a list of new terms or found terms	Working with terminology lists	
+T	2	eqfr5mst-00304.dita	term_CreateExclusion	Creating an exclusion list	Working with terminology lists	
+T	1	eqfr5mst-00305.dita	term_CreateExternal	Creating an external terminology list	Working with terminology lists	
+T	1	eqfr5mst-00306.dita	term_Delete	Deleting a terminology list	Working with terminology lists	
+T	1	eqfr5mst-00307.dita	term_Export	Exporting a terminology list	Working with terminology lists	
+T	1	eqfr5mst-00308.dita	term_Import	Importing a terminology list	Working with terminology lists	
+T	1	eqfr5mst-00309.dita	term_Change	Opening and changing a terminology list	Working with terminology lists	
+T	1	eqfr5mst-00310.dita	term_MarkTerm	Marking a term for a dictionary	Working with terminology lists	
+T	1	eqfr5mst-00311.dita	term_ExitExclusion	Editing an exclusion list	Working with terminology lists	
+T	1	eqfr5mst-00312.dita	term_Print	Printing a terminology list	Working with terminology lists	
+T	1	eqfr5mst-00313.dita	term_DetailsView	Viewing the details of a terminology list	Working with terminology lists	
+C	0	eqfr5mst-00314.dita	mut_Chapter	x	Working with markup tables	eqfr5mst-00314.dita
+T	1	eqfr5mst-00315.dita	mut_Overview	Overview and terminology	Working with markup tables	
+T	1	eqfr5mst-00316.dita	mut_WhatCanYouDo	What you can do with markup tables	Working with markup tables	
+T	1	eqfr5mst-00317.dita	mut_Change	Changing a markup table	Working with markup tables	
+T	1	eqfr5mst-00318.dita	mut_Create	Creating a markup table	Working with markup tables	
+T	1	eqfr5mst-00319.dita	mut_Delete	Deleting a markup table	Working with markup tables	
+T	1	eqfr5mst-00320.dita	mut_Export	Exporting a markup table	Working with markup tables	
+T	1	eqfr5mst-00321.dita	mut_Import	Importing a markup table	Working with markup tables	
+T	1	eqfr5mst-00322.dita	mut_PropertiesChange	Changing the properties of a markup table	Working with markup tables	
+C	0	eqfr5mst-00323.dita	lang_Chapter	x	Working with language-support files	eqfr5mst-00323.dita
+T	1	eqfr5mst-00324.dita	lang_Overview	Overview and terminology	Working with language-support files	
+T	1	eqfr5mst-00325.dita	lang_WhatCanYouDo	What you can do with language-support files	Working with language-support files	
+T	1	eqfr5mst-00326.dita	lang_Delete	Deleting language-support files	Working with language-support files	
+T	1	eqfr5mst-00327.dita	lang_Extend	Extending language-support files	Working with language-support files	
+T	1	eqfr5mst-00329.dita	lang_Other	What you can do for other languages	Working with language-support files	
+C	0	eqfr5mst-00330.dita	sample_Chapter	x	Working with the samples	eqfr5mst-00330.dita
+T	1	eqfr5mst-00331.dita	sample_Overview	Overview and terminology	Working with the samples	
+T	1	eqfr5mst-00332.dita	sample_WhatCanYouDo	What you can do with the samples	Working with the samples	
+T	1	eqfr5mst-00333.dita	sample_Delete	Deleting a sample folder	Working with the samples	
+T	1	eqfr5mst-00334.dita	sample_Import	Importing and opening a sample folder and its documents	Working with the samples	
+T	1	eqfr5mst-00335.dita	sample_Exercise	Translation exercise with a sample document	Working with the samples	
+C	0	eqfr5mst-00336.dita	report_Chapter	x	Creating reports	eqfr5mst-00336.dita
+T	1	eqfr5mst-00337.dita	report_Overview	Overview and terminology	Creating reports	
+T	1	eqfr5mst-00338.dita	report_History	Creating a History Report	Creating reports	
+T	1	eqfr5mst-00339.dita	report_Counting	Creating a Counting Report	Creating reports	
+T	1	eqfr5mst-00340.dita	report_Calculate	Creating a Calculating Report	Creating reports	
+T	1	eqfr5mst-00341.dita	report_Preanalysis	Creating a Preanalysis Report	Creating reports	
+T	1	eqfr5mst-00342.dita	report_Redundancy	Creating a Redundancy Report	Creating reports	
+T	1	eqfr5mst-00343.dita	report_RedundantSegment	Creating a Redundant Segment List	Creating reports	
+T	1	eqfr5mst-00344.dita	report_Layout	Changing the layout of a report	Creating reports	
+T	2	eqfr5mst-00345.dita	report_LayoutBasic	The report layout	Creating reports	
+T	2	eqfr5mst-00346.dita	report_LayoutChange	Changing the layout	Creating reports	
+T	1	eqfr5mst-00347.dita	report_CostCaculation	Setting the factors for cost calculation	Creating reports	
+C	0	eqfr5mst-00370.dita	otmbatch_Chapter	x	Working from the command area (OTMBATCH)	eqfr5mst-00370.dita
+T	1	eqfr5mst-00371.dita	otmbatch_Diagram	How to read syntax diagrams	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00372.dita	otmbatch_FolderAnalyze	Analyzing a document or folder	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00373.dita	otmbatch_MemoryArchive	Archiving a Translation Memory	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00374.dita	otmbatch_FolderChange	Changing the properties of a folder	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00375.dita	otmbatch_ReportCreate	Creating reports	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00376.dita	otmbatch_Count	Counting words	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00377.dita	otmbatch_Dictionaryexport	Exporting a dictionary	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00378.dita	otmbatch_DictionaryImport	Importing a dictionary	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00379.dita	otmbatch_DictionaryDelete	Deleting documents	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00380.dita	otmbatch_DocumentRemove	Removing documents based on a list	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00381.dita	otmbatch_DocumentRestore	Restoring documents	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00382.dita	otmbatch_DocumentExport	Exporting documents	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00383.dita	otmbatch_DocumentImport	Importing documents	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00384.dita	otmbatch_FolderCreate	Creating a folder	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00385.dita	otmbatch_FolderDelete	Deleting a folder	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00386.dita	otmbatch_FolderExport	Exporting a folder	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00387.dita	otmbatch_FolderImport	Importing a folder	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00388.dita	otmbatch_MemoryCreate	Creating a Translation Memory	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00389.dita	otmbatch_MemoryDelete	Deleting a Translation Memory	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00390.dita	otmbatch_MemoryExport	Exporting a Translation Memory	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00391.dita	otmbatch_MemoryImport	Importing a Translation Memory	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00392.dita	otmbatch_DocumentOpen	Opening a document	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00393.dita	otmbatch_MemoryOrganize	Organizing a Translation Memory	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00394.dita	otmbatch_Rename	"Renaming a folder, a dictionary or a Translation Memory"	Working from the command area (OTMBATCH)	
+T	1	eqfr5mst-00395.dita	otmbatch_TasksMultiple	Performing several tasks in one step	Working from the command area (OTMBATCH)	
+C	0	eqfr5mst-00396.dita	tools_Chapter	x	Working from the command area (Other Tools)	eqfr5mst-00396.dita
+T	1	eqfr5mst-00397.dita	tools_Diagram	How to read syntax diagrams	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00398.dita	tools_MemoryConvert	Converting a NLV memory to a source/source memory	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00399.dita	tools_ItmCreate	Creating an Initial Translation Memory from the command line	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00400.dita	tools_ItmRevise	Revising an Initial Translation Memory	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00401.dita	tools_MemoryReverse	Reversing a Translation Memory	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00402.dita	tools_MemoryMflag	Changing m-flagged segments	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00403.dita	tools_MemoryQuality	Specifying the quality of m-flagged segments	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00404.dita	tools_MemoryMeta	"Changing the markup, target language and date of segments"	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00405.dita	tools_MemoryRemoveSegments	Removing segments with identical source and target strings	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00406.dita	tools_MemoryRemoveInline	Removing inline tagging from an external memory	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00407.dita	tools_FolderContents	Showing the contents of exported folders	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00408.dita	tools_PropertiesRestore	Restoring vital OpenTM2 property files	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00409.dita	tools_FolderHistory	Checking the folder history data	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00410.dita	tools_DriveChange	Correcting the drive letter information of Translation Manager files	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00411.dita	tools_MemoryToTmx	Converting SGML memory databases into TMX format	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00412.dita	tools_MemoryFromTmx	Converting external Memory databases from the TMX format into the EXP format	Working from the command area (Other Tools)	
+T	1	eqfr5mst-00413.dita	tools_FolderExportType	Changing the type of an exported folder	Working from the command area (Other Tools)	
+C	0	eqfr5mst-00414.dita	mt_Chapter	x	Machine Translation (MT) Support	eqfr5mst-00414.dita
+T	1	eqfr5mst-00415.dita	mt_Overview	Machine Translation Evaluation in OpenTM2	Machine Translation (MT) Support	
+T	2	eqfr5mst-00415A.dita	mt_Prepare	Preparing for MT-processing	Machine Translation (MT) Support	
+T	2	eqfr5mst-00415B.dita	mt_OtmMtEval	The OtmMtEval tool	Machine Translation (MT) Support	
+T	2	eqfr5mst-00415C.dita	mt_OtmMtEvalUsage	Usage of the OtmMtEval tool	Machine Translation (MT) Support	
+T	2	eqfr5mst-00415D.dita	mt_OtmMtEvalOutput	Output created by the OtmMtEval tool	Machine Translation (MT) Support	
+C	0	eqfr5mst-00416.dita	plugin_Chapter	x	Working with Plug-Ins	eqfr5mst-00416.dita
+T	1	eqfr5mst-00416A.dita	plugin_Manager	The Plugin Manager	Working with Plug-Ins	
+T	1	eqfr5mst-00416B.dita	plugin_AutoVersionUpgrade	The Plugin Auto Version Upgrade	Working with Plug-Ins	
+T	1	eqfr5mst-00416C.dita	plugin_ProfileSettingManagement	The Plugin Profile Settings Management	Working with Plug-Ins	
+T	1	eqfr5mst-00416D.dita	plugin_CommandLineGui	The Plugin GUI for Command Line Tools	Working with Plug-Ins	
+T	1	eqfr5mst-00416E.dita	plugin_RemoveTemporaryFiles	The Plugin Remove Temporary Files	Working with Plug-Ins	
+A	0	eqfr5mst-00582.dita	appMenu_Overview	Overview of the OpenTM2 menus	Appendix A	eqfr5mst-00582.dita
+A	0	eqfr5mst-00583.dita	appEdit_Overview	Editor functions reference	Appendix B	eqfr5mst-00583.dita
+T	1	eqfr5mst-00584.dita	appEdit_Translation	Editor functions inside the Translation window	Appendix B	
+T	2	eqfr5mst-00585.dita	appEdit_TranslationCursor	Cursor movement in window	Appendix B	
+T	2	eqfr5mst-00586.dita	appEdit_TranslationScroll	Scrolling	Appendix B	
+T	2	eqfr5mst-00587.dita	appEdit_TranslationEdit	Editing	Appendix B	
+T	2	eqfr5mst-00588.dita	appEdit_TranslationEditMode	Modes of editing	Appendix B	
+T	2	eqfr5mst-00589.dita	appEdit_TranslationTags	Changing the presentation of control tags	Appendix B	
+T	2	eqfr5mst-00590.dita	appEdit_TranslationDocument	Document overall functions	Appendix B	
+T	2	eqfr5mst-00591.dita	appEdit_TranslationSwitchTo	Switching to other windows	Appendix B	
+T	1	eqfr5mst-00592.dita	appEdit_Other	Editor functions outside the Translation window	Appendix B	
+T	2	eqfr5mst-00593.dita	appEdit_OtherClipboard	Using the clipboard	Appendix B	
+T	2	eqfr5mst-00594.dita	appEdit_OtherSwitch To	Switching to other windows	Appendix B	
+T	2	eqfr5mst-00595.dita	appEdit_OtherMemory	Functions in the Translation Memory window	Appendix B	
+T	2	eqfr5mst-00596.dita	appEdit_OtherDictionary	Functions in the Dictionary window	Appendix B	
+A	0	eqfr5mst-00597.dita	appDict_Overview	Format files for printing a dictionary	Appendix C	eqfr5mst-00597.dita
+T	1	eqfr5mst-00598.dita	appDict_Sample	Sample format files	Appendix C	
+T	2	eqfr5mst-00599.dita	appDict_SampleFormat1.frm	FORMAT1.FRM	Appendix C	
+T	2	eqfr5mst-00600.dita	appDict_SampleFormat2.frm	FORMAT2.FRM	Appendix C	
+T	2	eqfr5mst-00601.dita	appDict_SampleFormat3.frm	FORMAT3.FRM	Appendix C	
+T	2	eqfr5mst-00602.dita	appDict_SampleFormat4.frm	FORMAT4.FRM	Appendix C	
+T	1	eqfr5mst-00603.dita	appDict_FormatUser	Defining your own format file	Appendix C	
+T	1	eqfr5mst-00604.dita	appDict_Tags	Tags for defining the format of a dictionary printout	Appendix C	
+T	2	eqfr5mst-00605.dita	appDict_TagsSet	The<set..> attributes	Appendix C	
+T	2	eqfr5mst-00606.dita	appDict_TagsRepeat	The<repeat..> attributes	Appendix C	
+T	2	eqfr5mst-00607.dita	appDict_TagsVar	The<var..> attributes	Appendix C	
+A	0	eqfr5mst-00608.dita	appWord_Overview	Displaying markup information for Word documents	Appendix D	eqfr5mst-00608.dita
+T	1	eqfr5mst-00609.dita	appWord_Change	Markup data that can be changed	Appendix D	
+T	1	eqfr5mst-00610.dita	appWord_Protect	Markup data that must not be changed	Appendix D	
+T	1	eqfr5mst-00611.dita	appWord_NotTranslatable	Markup data outside translatable segments	Appendix D	
+A	0	eqfr5mst-00612.dita	appExchange_Overview	Exchanging data with other OpenTM2 products	Appendix E	eqfr5mst-00612.dita
+T	1	eqfr5mst-00613.dita	appExchange_Untranslated	Untranslated segments file	Appendix E	
+A	0	eqfr5mst-00614.dita	appDir_Overview	Directory structure of OpenTM2	Appendix F	eqfr5mst-00614.dita
+A	0	eqfr5mst-00615.dita	appMt_Overview	Inine Tag pre-processing for machine translaation - Overview	Appendix G	eqfr5mst-00615.dita
+A	0	eqfr5mst-00616.dita	appMQ_Overview	MT Client Interface via MQ Seeries	Appendix H	eqfr5mst-00616.dita
+A	0	eqfr5mst-00617.dita	appLimit_Overview	System limitations	Appendix I	eqfr5mst-00617.dita
+A	0	eqfr5mst-00618.dita	appHint_Overview	"Hints, tips, and technical notices"	Appendix J	eqfr5mst-00618.dita
+T	1	eqfr5mst-00619.dita	appHint_Word	About Microsoft Word documents	Appendix J	
+T	2	eqfr5mst-00620.dita	appHint_WordSpace	Disk space consumption with .doc files	Appendix J	
+T	2	eqfr5mst-00621.dita	appHint_WordPicture	Problem: Word files with embedded picture data cannot be exported	Appendix J	
+T	2	eqfr5mst-00622.dita	appHint_WordFont	Automatic font conversion for translated RTF documents	Appendix J	
+T	2	eqfr5mst-00623.dita	appHint_WordIndex	Translating TOC and index sections in Word documents	Appendix J	
+T	2	eqfr5mst-00624.dita	appHint_WordMarkup	EQFRTF/EQFMSWRD markup table and third-party program limitations	Appendix J	
+T	1	eqfr5mst-00625.dita	appHint_Bidi	About bidirectional language processing	Appendix J	
+T	2	eqfr5mst-00626.dita	appHint_BidiWord	Windows Help/RTF – Table columns not in reverse order	Appendix J	
+A	0	eqfr5mst-00627.dita	appPrb_Overview	Problem determination	Appendix K	eqfr5mst-00627.dita
+T	1	eqfr5mst-00628.dita	appPrb_StartOpenTM2	Problems when starting OpenTM2	Appendix K	
+A	0	eqfr5mst-00629.dita	appAcc_Overview	Accessibility	Appendix L	eqfr5mst-00629.dita
+T	1	eqfr5mst-00630.dita	appAcc_ColorFontKeys	"Colors, fonts and key assignment"	Appendix L	
+T	2	eqfr5mst-00631.dita	appAcc_Color	Set colors	Appendix L	
+T	2	eqfr5mst-00632.dita	appAcc_Font	Set fonts	Appendix L	
+T	2	eqfr5mst-00633.dita	appAcc_Keys	Assign keys	Appendix L	
+T	1	eqfr5mst-00634.dita	appAcc_Shortcuts	Keyboard shortcuts	Appendix L	
+T	2	eqfr5mst-00635.dita	appAcc_ShortcutsMenu	Opening menus	Appendix L	
+T	2	eqfr5mst-00636.dita	appAcc_ShortcutsWindow	"Navigating in windows (Folder List window, Document List window, Translation Memory List window or Dictionary List window)"	Appendix L	
+T	2	eqfr5mst-00637.dita	appAcc_ShortcutsTransWindow	Default keyboard shortcuts in Translation window	Appendix L	
+T	2	eqfr5mst-00638.dita	appAcc_ShortcutsHelp	Help	Appendix L	
+T	2	eqfr5mst-00639.dita	appAcc_ShortcutsSpecial	Special accessibility keyboard shortcuts	Appendix L	
+T	1	eqfr5mst-00640.dita	appAcc_Menu	Menu bar choices	Appendix L	
+T	1	eqfr5mst-00641.dita	appAcc_MenuFile1	File Menu 1	Appendix L	
+T	1	eqfr5mst-00642.dita	appAcc_MenuFile2	File Menu 2	Appendix L	
+T	1	eqfr5mst-00643.dita	appAcc_View	View Menu	Appendix L	
+T	1	eqfr5mst-00644.dita	appAcc_Utility	Utilities Menu	Appendix L	
+T	1	eqfr5mst-00645.dita	appAcc_Window	Window Menu	Appendix L	
+T	1	eqfr5mst-00646.dita	appAcc_Help	Help Menu	Appendix L	
+T	1	eqfr5mst-00647.dita	appAcc_Edit	Edit Menu	Appendix L	
+T	1	eqfr5mst-00648.dita	appAcc_Options	Options Menu	Appendix L	
+T	1	eqfr5mst-00649.dita	appAcc_Cursor	Cursor Menu	Appendix L	
+T	1	eqfr5mst-00650.dita	appAcc_Translation	Translation Menu	Appendix L	
+T	1	eqfr5mst-00651.dita	appAcc_Spellcheck	Spellcheck Menu	Appendix L	
+T	1	eqfr5mst-00652.dita	appAcc_Style	Style Menu	Appendix L	
+A	0	eqfr5mst-00653.dita	appNotice_Overview	Notices	Appendix M	eqfr5mst-00653.dita
+T	1	eqfr5mst-00654.dita	appNotice_Trademarks	Trademarks	Appendix M	
+I	0	glossary.dita	glossary	Glossary of terms and abbreviations	Glossary	glossary.dita

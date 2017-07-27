@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_ItmEditorCursor">
+  <title>Cursor menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Menu</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Next connection (Ctrl+Shift+Down)</entry>
+            <entry valign="top">Moves the cursor to the next connected segment pair.</entry>
+          </row>
+          <row>
+            <entry valign="top">Previous connection (Ctrl+Shift+Up)</entry>
+            <entry valign="top">Moves the cursor to the previous connected segment pair.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next unaligned (Alt+Down)</entry>
+            <entry valign="top">Moves the cursor to the next segment for which no matching segment
+              has been found. This can be either in the same or in the opposite window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Previous unaligned (Alt+Up)</entry>
+            <entry valign="top">Moves the cursor to the previous segment for which no matching
+              segment has been found. This can be either in the same or in the opposite
+              window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next irregular (Shift+Alt+Down)</entry>
+            <entry valign="top">Moves the cursor to the next <b>irregular match</b> and marks it. An
+              irregular match can be one of the following: <ul>
+                <li>A 1:2 match, where one source segment is connected to two target segments</li>
+                <li>A 2:1 match, where two source segments are connected to one target segment</li>
+                <li>A 2:2 match, where two source segments are connected to two target segments</li>
+                <li>An unaligned sentence (the default color is red)</li>
+                <li>A sentence that is ignored (the default color is gray)</li>
+              </ul></entry>
+          </row>
+          <row>
+            <entry valign="top">Previous irregular (Shift+Alt+Up)</entry>
+            <entry valign="top">Moves the cursor to the previous irregular match and marks
+              it.</entry>
+          </row>
+          <row>
+            <entry valign="top">Synchronize (Ctrl+Enter)</entry>
+            <entry valign="top">Positions the current segment and its match in the opposite window
+              beside one another at the same level.</entry>
+          </row>
+          <row>
+            <entry valign="top">Mark segment (Ctrl+m)</entry>
+            <entry valign="top">Marks the segment where the cursor is positioned. A segment must be
+              marked to connect and to remove it.</entry>
+          </row>
+          <row>
+            <entry valign="top">Unmark segment (Ctrl+n)</entry>
+            <entry valign="top">Removes the marking from a segment. Only one segment in a window can
+              be marked.</entry>
+          </row>
+          <row>
+            <entry valign="top">Go to line...</entry>
+            <entry valign="top">Enables you to specify the number of the line to which you want to
+              move your cursor.</entry>
+          </row>
+          <row>
+            <entry valign="top">Query line</entry>
+            <entry valign="top">Informs you in which line your cursor is located.</entry>
+          </row>
+          <row>
+            <entry valign="top">Set bookmark</entry>
+            <entry valign="top">Sets a bookmark at the current cursor position. This makes it easier
+              for you to return to this point in the <keyword
+                conref="common-symbols.dita#common-symbols/ITM"/> at a later point of time. You can
+              set several bookmarks, for example, at all those alignments that you want to check
+              again later.</entry>
+          </row>
+          <row>
+            <entry valign="top">Go to bookmark</entry>
+            <entry valign="top">Moves the cursor to the position where you set a bookmark.</entry>
+          </row>
+          <row>
+            <entry valign="top">Clear bookmark</entry>
+            <entry valign="top">Removes a bookmark from the segment where the cursor is
+              located.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

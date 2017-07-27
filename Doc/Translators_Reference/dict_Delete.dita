@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="dict_Delete">
+<title>Deleting a dictionary</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>dictionary<indexterm>deleting</indexterm></indexterm><indexterm>deleting<indexterm>dictionaries</indexterm></indexterm>
+<p>Deleting a dictionary can be useful when you have exported it or archived
+it outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> and no longer need it, and you require free space on
+your disk.</p>
+<p>For deleting a shared dictionary, see <xref href="dict_SharedDelete.dita#dict_SharedDelete"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>Make sure that you have a backup copy of the dictionary before deleting
+it if it contains important data. </p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li><q>Dictionary List</q> window</li>
+<li>The dictionary you want to delete</li>
+<li><b>Delete</b> from the <b>File</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<p>A confirmation message appears before the dictionary is deleted.</p>
+<p>If you select <b>No</b>, the delete function is canceled.
+If you select <b>Yes</b>, the dictionary is deleted. </p>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Yes</b>, the dictionary is deleted. References
+to this dictionary may still exist in certain folders. Update the folder properties
+so that the deleted dictionary is not referenced anymore.</p>
+</section></refbody></reference>

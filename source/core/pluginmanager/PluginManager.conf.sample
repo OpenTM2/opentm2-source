@@ -5,7 +5,7 @@
 #+----------------------------------------------------------------------------+
 #OpenTM2 Configurationfile
 [Networks]
-URL=http://community.opentm2.org/download/attachements/2064532
+URL=http://community.opentm2.org/download/attachments/2064532
 ProxyAddress=
 ProxyPort=
 [BasicPlugins]

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFCLEAR">
+<title>EQFCLEAR</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFCLEAR</indexterm><indexterm>programming interface calls<indexterm>EQFCLEAR</indexterm></indexterm>
+<p><i>EQFCLEAR</i> resets or clears the information
+stored.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFCLEAR</kwd><delim>(</delim><var>usFlag</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>usFlag(USHORT)</var></synph></pt>
+<pd>Can be either of the following:
+<dl>
+<dlentry><dt>EQFF_NODICTWND</dt>
+<dd>The <q>Dictionary</q> window is hidden.</dd></dlentry>
+<dlentry><dt>EQFF_NOPRDPWND</dt>
+<dd>The <q>Proposals</q> window is hidden.</dd></dlentry>
+</dl></pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The request completed successfully.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>This call is used to initialize the buffers and clear the <q>Dictionary</q> and <q><keyword conref="common-symbols.dita#common-symbols/xlmem"/></q> windows
+after a new document is loaded.</p>
+</section></refbody></reference>

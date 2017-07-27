@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 2012-2016, International Business Machines              |
+//|      Copyright (C) 2012-2017, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -415,6 +415,7 @@ BATCHOPTION DocExportValOptions[] =
   { "XML",           VALFORMAT_XML_OPT },
   { "HTML",          VALFORMAT_HTML_OPT },
   { "DOC",           VALFORMAT_DOC_OPT },
+  { "DOCX",          VALFORMAT_DOCX_OPT },
   { "ODT",           VALFORMAT_ODT_OPT },
   { "COMBINE",       VALFORMAT_COMBINE_OPT },
   { "PROTSEGS",      VALFORMAT_PROTSEGS_OPT },

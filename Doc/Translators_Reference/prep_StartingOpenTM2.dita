@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="prep_StartingOpenTM2">
+  <title>Starting <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm><keyword conref="common-symbols.dita#common-symbols/tm4w"/><indexterm>starting</indexterm></indexterm>
+        <indexterm>starting<indexterm><keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To start <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, double-click the 
+      <b><keyword conref="common-symbols.dita#common-symbols/tm4w"/></b> icon on the desktop or in the 
+      <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/></q> group window.</p>
+    <p>After <keyword conref="common-symbols.dita#common-symbols/tm4w"/> has started, the 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main window is displayed. From here users start all tasks required 
+      for translating with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. You find a description of the basic
+      tasks in <cite>A Quick Tour</cite>.</p>
+  </body>
+</topic>

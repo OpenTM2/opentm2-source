@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_130_Spellcheck">
+  <title>Spellchecking across multiple Folders or Documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Beginning with <keyword conref="common-symbols.dita#common-symbols/tm4w"/> v1.3.0, spellchecking can not only be 
+       performed inside the <keyword conref="common-symbols.dita#common-symbols/xlenv"/>, but it can be run either on 
+       one or more selected <b>folders</b>, or one or more selected <b>documents</b> of a selected folder. In case of 
+       multi-selected folders or documents, the spellchecking is performed on all documents selected. Once the spellchecking
+       has completed on one document, it automatically moves to the next document etc., until the last segment in the last 
+       document has been reached.</p>
+    <p>For more information see page <xref href="doc_Spellcheck.dita#doc_Spellcheck"/>.</p> 
+  </body>
+</topic>

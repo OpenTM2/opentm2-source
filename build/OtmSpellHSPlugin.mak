@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # OtmSpellHSPlugin.MAK    - Makefile for Spell Check Plugin DLL
-# Copyright (c) 2014, International Business Machines
+# Copyright (c) 2014-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -56,7 +56,6 @@ $(_OBJ)\OtmSpellHS.OBJ:			$(_SRC)\plugins\spell\OtmSpellHSPlugin\OtmSpellHS.cpp 
 $(_DLL)\OtmSpellHSPlugin.DLL:	$(_OBJ)\OtmSpellHSPlugin.OBJ \
 								$(_OBJ)\OtmSpellHS.OBJ \
 								$(_OBJ)\HunspellObjManager.OBJ \
-								$(_LIB)\OtmAlloc.lib \
 								$(_LIB)\OtmBase.lib \
 								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
@@ -74,7 +73,7 @@ $(_DLL)\OtmSpellHSPlugin.DLL:
 					$(_OBJ)\HunspellObjManager.OBJ
 /OUT:$(_DLL)\OtmSpellHSPlugin.DLL
 /MAP:$(_MAP)\OtmSpellHSPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(HUNSPELLLIBDIR)\$(HUNSPELLLIB)
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(HUNSPELLLIBDIR)\$(HUNSPELLLIB)
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmSpellHSPlugin md $(RELEASE_DIR)\OTM\Plugins\OtmSpellHSPlugin

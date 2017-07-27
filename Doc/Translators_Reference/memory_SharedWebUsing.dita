@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_SharedWebUsing">
+  <title>A Translation Scenario using the OpenTM2 WEB-based Shared Translation Memory</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter describes how to create a Web-based Shared Translation Memory, how to start the work on the 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> client, etc.</p>
+    <p></p>
+  </body>
+</topic>

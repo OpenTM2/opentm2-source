@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appHint_WordIndex">
+<title>Translating TOC and index sections in Word documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>technical notices<indexterm>TOC and index translation
+in Word</indexterm><indexterm>Word documents, translation</indexterm></indexterm>
+<indexterm>Word documents<indexterm>TOC translation</indexterm><indexterm>index translation</indexterm></indexterm>
+<indexterm>TOC translation<indexterm>of Word documents</indexterm></indexterm>
+<indexterm>index translation<indexterm>of Word documents</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>When you open a Word document in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, the table of contents
+section and the index section of the document are protected and cannot be
+translated.</p>
+<p>To create translated table of contents and index sections, re-create both
+sections after the translation is completed. Open the document in <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word,
+select where you want to insert the TOC, respectively index, click Index and
+Tables on the Insert menu, and then click the Table of Contents tab, respectively
+Index tab. The table of contents and index are then re-created from the (already
+translated) headings and index entries.</p>
+<p>For more details see <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word Help.</p>
+</body></topic>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_BidiShortcutKeys">
+  <title>Defining shortcut keys</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When a document with Arabic or Hebrew source or target language is opened, the keyboard properties are automatically changed to the 
+      Arabic, respectively Hebrew, input locale.</p>
+    <p>If you want to assign your own keys or key combinations for certain editor functions (<b>Options</b> menu, <b>Keys...</b>, 
+      <b>Assign Keys</b>), select the English input locale before doing so. This ensures a proper key assignment and a proper display of all key
+      assignments. When finished, switch back to the previous input locale.</p>
+  </body>
+</topic>

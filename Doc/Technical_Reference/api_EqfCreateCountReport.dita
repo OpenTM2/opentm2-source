@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCreateCountReport">
+  <title>EqfCreateCountReport</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfCreateCountReport</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfCreateCountReport</indexterm></indexterm>
+      <p><i>EqfCreateCountReport </i> creates Calculating, Preanalysis, Redundancy, Redundant segment list reports 
+         <b>using counting profiles</b>.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCreateCountReport</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszDocuments</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszOutfileName</var>
+          <sep>,</sep>
+          <var>usReport</var>
+          <sep>,</sep>
+          <var>usType</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszFrofile</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>lOptions</var>
+          </groupseq>
+        </groupseq>
+        <groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder.</entry>
+            </row>
+            <row>
+              <entry valign="middle">PSZ</entry>
+              <entry valign="middle">pszDocuments</entry>
+              <entry valign="middle">List of documents, or <codeph>NULL</codeph> if all documents of the folder should be used.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutfileName</entry>
+              <entry colname="col3">The name of the file where the report is to be stored (along with the drive and directory information).</entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">usReport</entry>
+              <entry colname="col3">Type of report: 
+                <ul>
+                  <li>HISTORY_REP (History Report) </li>
+                  <li>COUNTING_REP (Counting Report)</li>
+                  <li>CALCULATING_REP (Calculation Report)</li>
+                  <li>PREANALYSIS_REP (PreAnalysis Report)</li>
+                  <li>REDUNDANCY_REP (Redundncy Report)</li>
+                  <li>REDUNDANCYSEGMENT_REP (Redundancy Segment List)</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">usType</entry>
+              <entry colname="col3">Type of report: <p>for HISTORY_REP</p>
+                <ul>
+                  <li>BRIEF_SORTBYDATE_REPTYPE</li>
+                  <li>BRIEF_SORTBYDOC_REPTYPE</li>
+                  <li>DETAIL_REPTYPE</li>
+                </ul>
+                <p>for HISTORY_REP</p>
+                <ul>
+                  <li>WITHTOTALS_REPTYPE</li>
+                  <li>WITHOUTTOTALS_REPTYPE</li>
+                </ul>
+                <p>for CALCULATING_REP, PREANALYSIS_REP, and REDUNDANCY_REP</p>
+                <ul>
+                  <li>BASE_REPTYPE</li>
+                  <li>BASE_SUMMARY_REPTYPE</li>
+                  <li>BASE_SUMMARY_FACTSHEET_REPTYPE</li>
+                  <li>SUMMARY_FACTSHEET_REPTYPE</li>
+                  <li>FACTSHEET_REPTYPE</li>
+                </ul>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszProfile</entry>
+              <entry colname="col3">The name of the profile to be loaded.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">Options for the counting report: OVERWRITE_OPT or 0</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to
+                retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT   usRC = 0;
+  HSESSION hSession = 0L;
+	// start the Eqf calling interface session
+	usRC 0 EqfStartSession(&amp;hSession)
+
+  if ( !usRC )
+  {
+    usRC = EqfCreateCountReport(hSession, 'e', "TEST", "test.doc, 
+                              test2.doc",
+                              "E:\\Project\\CalcReport",
+                              COUNTING_REP, BASESUMMARY_REPTYPE
+                              "PUB0205", OVERWRITE_OPT);
+  } //endif
+  // terminate the session
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

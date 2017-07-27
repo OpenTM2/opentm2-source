@@ -2,6 +2,7 @@
 
 <service_cfg>
   <downloadsize name="maxsize_per_time">3</downloadsize>
+  <filtduplicated name="filter_duplicate_segment">true</filtduplicated>
   <db>
     <property name="db_installed_dir">C:\MariaDB</property>
     <property name="driver_class">org.mariadb.jdbc.Driver</property>

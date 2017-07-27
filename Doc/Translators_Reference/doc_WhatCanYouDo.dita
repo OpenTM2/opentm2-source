@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_WhatCanYouDo">
+<title>What you can do with documents</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers several processing functions for documents, which
+you start by selecting: 
+<ol>
+<li>At least one document from the <q>Document List</q> window</li>
+<li>An action from the associated <b>File</b>, <b>View</b>, or <b>Utilities</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Prerequisites</title>
+<p>A folder containing at least one document (except if you import
+a document).</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The folder with your documents from the <q>Folder List</q> window</li>
+<li><b>Open</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>Alternatively, select the <q>Folder List</q> window and double-click
+the folder name in the list. </p>
+<p>The <q>Document List</q> window for this folder is displayed.</p>
+</section>
+<section><title>Results</title>
+<p>The selected folder is “opened”. To perform a task on a
+document, select at least one document and an action from one of the
+toolbar menus.</p>
+</section></refbody></reference>

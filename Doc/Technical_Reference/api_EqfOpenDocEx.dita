@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfOpenDocEx">
+  <title>EqfOpenDocEx</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfOpenDocEx</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfOpenDocEx</indexterm></indexterm>
+      <p>opens a document at the given segment or line or the first location of a specific search string in the Translation Environment.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfOpenDoc</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+          <var>pszDocument</var>
+          <sep>,</sep>
+          <var>ulSegNum</var>
+          <sep>,</sep>
+          <var>ulLine</var>
+          <sep>,</sep>
+          <var>pszSearch</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder containing the documents to be opened.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocument</entry>
+              <entry colname="col3">The name of the document being opened.</entry>
+            </row>
+            <row>
+              <entry colname="col1">ULONG </entry>
+              <entry colname="col2">ulSegNum </entry>
+              <entry colname="col3">The segment number to go to (0 if not used)</entry>
+            </row>
+            <row>
+              <entry colname="col1">ULONG </entry>
+              <entry colname="col2">ulLine</entry>
+              <entry colname="col3">The line to go to (ulSegNum must be 0 if a line number is specified)</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ_W</entry>
+              <entry colname="col2">pszSearch</entry>
+              <entry colname="col3">Points to search string in UTF-16 encoding, if specified (and ulSegNum and ulLine are zero) 
+                the specified search string is searched in the opened document and the segment containing the first occurence 
+                of the search string is activated</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry> 
+              <entry colname="col2">Error code (EQF message number). Use <i>EqfGetLastError</i> to retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>
+{ 
+  USHORT usRC = 0; 
+  HSESSION hSession = 0L; 
+  // start the Eqf calling interface
+  session usRC = EqfStartSession( &amp;hSession ); 
+  // Open the document DOC1.TXT in folder SAMPLE1 at the first occurence of string "error" 
+  if ( !usRC ) 
+  { 
+    usRC = EqfOpenDocEx(hSession, "SAMPLE1", "DOC1.TXT", 0, 0, L"error" ); 
+  } /* endif */ 
+  
+  // terminate the session
+  EqfEndSession( hSession ); 
+}
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

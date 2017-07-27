@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_Colors">
+  <title>The meaning of the colors</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Translation Environment<indexterm>colors</indexterm></indexterm>
+        <indexterm>segments<indexterm>colors</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> shows the status of segments in the <q>Translation</q> window by different
+      colors. The default settings are: <indexterm>colors<indexterm>default settings</indexterm></indexterm></p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="4" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="1*"/>
+        <colspec colname="col4" colwidth="1*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Status</entry>
+            <entry valign="top" rowsep="1">Text</entry>
+            <entry valign="top" rowsep="1">Background</entry>
+            <entry valign="top" rowsep="1">Meaning</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Translated</entry>
+            <entry valign="top">Black</entry>
+            <entry valign="top">Grey</entry>
+            <entry valign="top">Segment has already been translated.</entry>
+          </row>
+          <row>
+            <entry valign="top">Active</entry>
+            <entry valign="top">Black</entry>
+            <entry valign="top">Yellow</entry>
+            <entry valign="top">Currently active segment ready to be translated.</entry>
+          </row>
+          <row>
+            <entry valign="top">Not translated</entry>
+            <entry valign="top">Blue</entry>
+            <entry valign="top">Grey</entry>
+            <entry valign="top">Segment has not been translated yet.</entry>
+          </row>
+          <row>
+            <entry valign="top">Not translatable</entry>
+            <entry valign="top">Red</entry>
+            <entry valign="top">Grey</entry>
+            <entry valign="top">Segment contains no translatable information.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

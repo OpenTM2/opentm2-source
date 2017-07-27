@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2016, International Business Machines
+	Copyright (C) 1990-2017, International Business Machines
 	Corporation and others. All rights reserved
 */
 
@@ -2665,10 +2665,19 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
     UtlQueryString( QST_PRIMARYDRIVE, chSysDrive,
                     sizeof(chSysDrive) );
     pIda->szTargetFolObj[0] = chSysDrive[0];
-    hFolProp = OpenProperties( pIda->szTargetFolObj, NULL,
-                               PROP_ACCESS_READ,
-                               &ErrorInfo);
+    if ( !pIda->fReserved )
+    {
+      hFolProp = OpenProperties( pIda->szTargetFolObj, NULL,
+                                 PROP_ACCESS_READ,
+                                 &ErrorInfo);
+    }
+    else
+    {
+      // ignore short name reserved dummy file
+      hFolProp = NULL;
+    } /* endif */
     pIda->szTargetFolObj[0] = chOrgDrive;
+
     if ( hFolProp )          // does folder exist ???
     {
       // -- folder exists already, now check unique IDs  ---
@@ -2676,6 +2685,7 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
       // another one)
       fObjectNew = FALSE;
       pFolProp = (PPROPFOLDER)MakePropPtrFromHnd( hFolProp );
+
       switch ( pIda->pHeader->BitFlags.fHeaderType )
       {
         case RELEASE0_HEADER :
@@ -2885,8 +2895,36 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
 
 
         // move property file
-        UtlSmartMoveHwnd( pIda->szSearchPath, pIda->szObjPath,
-                          TRUE , pIda->hwndErrMsg );
+        // GQ 2017/04/27: use copy/delete combo as UtlSmartMove may fail when property file exists (e.g. because of a short name reserve dummy file) so we had to use 
+        // UtlSmartMoveHwnd( pIda->szSearchPath, pIda->szObjPath, TRUE , pIda->hwndErrMsg );
+        {
+          PSZ pszParms[2];
+
+          int iFileRC = 0;
+          if ( !CopyFile( pIda->szSearchPath, pIda->szObjPath, FALSE ) )
+          {
+            iFileRC = GetLastError();
+            pszParms[0] = pIda->szObjPath;
+          } /* endif */
+
+          if ( iFileRC == 0 )
+          {
+            if ( !DeleteFile( pIda->szSearchPath ) )
+            {
+              iFileRC = GetLastError();
+              pszParms[0] = pIda->szSearchPath;
+            } /* endif */
+          } /* endif */
+
+          if ( iFileRC != 0 )
+          {
+            char szCode[10];
+            itoa( iFileRC, szCode, 10 );
+            pszParms[1] = szCode;
+            UtlErrorHwnd( iFileRC, MB_CANCEL, 2, pszParms, EQF_ERROR, pIda->hwndErrMsg );
+          }
+          pIda->fReserved = FALSE; // property file is not a dummy file anymore
+        }
 
         // correct PROPHEAD part in property file
         fOK = FolCorrectPropHead( pIda->szObjPath,
@@ -7460,8 +7498,12 @@ USHORT FolFuncPrepImportFolder
     {
       strcpy( pIda->szTargetFolName, pszFolderName );
     } /* endif */
+
     ANSITOOEM(pIda->szTargetFolName);
-    ObjLongToShortName( pIda->szTargetFolName, pIda->szTargetShortFolName, FOLDER_OBJECT, &fIsNew );
+    OBJLONGTOSHORTSTATE ObjState;
+
+    // create target short name and ensure that the new short name is reserved and may not be reused by other processes
+    ObjLongToShortNameEx2( pIda->szTargetFolName, EOS, pIda->szTargetShortFolName, FOLDER_OBJECT, &ObjState, TRUE, &pIda->fReserved );
 
     if ( pIda->usImpMode == FOL_TMGR_FORMAT )
     {
@@ -7527,7 +7569,6 @@ USHORT FolFuncPrepImportFolder
     } /* endif */
 
     // check if folder exists somethere and adjust TO drive
-    if ( fOK )
     {
       PPROPFOLDER pFolProp;               // ptr to folder properties
       PVOID       hFolProp;               // handle of folder properties
@@ -7539,21 +7580,26 @@ USHORT FolFuncPrepImportFolder
       strcpy( pIda->szTargetFolder, pIda->szTargetShortFolName );
       strcat( pIda->szTargetFolder, EXT_FOLDER_MAIN );
       strcat( pIda->szTargetFolObj, pIda->szTargetFolder );
-      hFolProp = OpenProperties( pIda->szTargetFolObj, NULL,
-                                 PROP_ACCESS_READ,
-                                 &ErrorInfo);
-      if ( hFolProp )
+
+      // ignore reserved short name dummy property file 
+      if ( !pIda->fReserved )
       {
-        pFolProp = (PPROPFOLDER)MakePropPtrFromHnd( hFolProp );
-        if ( pFolProp->chDrive == NULC )
+        hFolProp = OpenProperties( pIda->szTargetFolObj, NULL,
+                                   PROP_ACCESS_READ,
+                                   &ErrorInfo);
+        if ( hFolProp )
         {
-          chToDrive = pIda->szTargetFolObj[0];
-        }
-        else
-        {
-          chToDrive = pFolProp->chDrive;
+          pFolProp = (PPROPFOLDER)MakePropPtrFromHnd( hFolProp );
+          if ( pFolProp->chDrive == NULC )
+          {
+            chToDrive = pIda->szTargetFolObj[0];
+          }
+          else
+          {
+            chToDrive = pFolProp->chDrive;
+          } /* endif */
+          CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo );
         } /* endif */
-        CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo );
       } /* endif */
     } /* endif */
 
@@ -7736,6 +7782,17 @@ USHORT FolFuncPrepImportFolder
   {
     if ( pIda )
     {
+      // delete any reserved short name placeholder
+      if ( pIda->fReserved )
+      {
+        UtlMakeEQFPath( pIda->szTargetFolObj, NULC, SYSTEM_PATH, NULL ); 
+        strcat( pIda->szTargetFolObj, BACKSLASH_STR );
+        strcat( pIda->szTargetFolObj, pIda->szTargetShortFolName );
+        strcat( pIda->szTargetFolObj, EXT_FOLDER_MAIN );
+        DeleteFile( pIda->szTargetFolObj );
+        pIda->fReserved = FALSE;
+      }
+
       if ( pIda->pPackCtrl )            // is there an open package ???
       {
         UtlPackClosePackage( pIda->pPackCtrl ); // ... close it
@@ -8992,7 +9049,7 @@ LPARAM mp2
           nItem++;
         } /* endwhile */
 
-        if ( pIda->fOk )
+        if ( pIda->fOk && pIda->szTargetFolObj[0] )
         {
           // prepare data for folder import in XLIFF format
           if ( pIda->usImpMode == FOL_XLIFF_FORMAT )
@@ -9300,6 +9357,10 @@ LPARAM mp2
         {
           SELECTITEMMS( hwnd, ID_FOLIMP_FOLDER_LB, 0 );
           SETFOCUS( hwnd, ID_FOLIMP_FILENAME_CB  );
+        }
+        else
+        {
+           FolImpImportPathChanged( hwnd, pIda );              /* 4-13-17 */
         }
 
 

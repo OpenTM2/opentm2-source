@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_AnalyzeProfile">
+  <title id="editinganalysisprofiles">Editing analysis Profiles</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>analyzing<indexterm>Editing analysis Profiles <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/></indexterm></indexterm>
+      <p>An analysis profile allows the specification of analysis settings for a specific group of
+        markup tables. When an analysis profile is specified in the analysis window the settings
+        from the profile overide the settings specified in the analysis window. When the markup
+        table of the analyzed document does not match the markup tables defined in the profile the
+        analysis profile settings are ignored and the settings from the analysis window are used
+        instead.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>Activate the analysis window</li>
+          <li>Select the option <b>"Use analysis profile"</b></li>
+          <li>Select an analysis profile from the analysis profile list or enter the name of a new
+            analysis profile</li>
+          <li>press the <b>Edit</b> button</li>
+        </ol></p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The analysis profile window is displayed</p>
+      <p>The <q>Analyze profile</q> window (see <xref
+          href="#doc_AnalyzeProfile/analysisprofilewindow"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Analyze
+                Profile</indexterm></indexterm></required-cleanup><fig id="analysisprofilewindow" expanse="column">
+          <title>Analysis Profile window</title><image placement="break" href="doc_AnalyzeProfile.gif"><alt>Analyze Documents
+          window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Markup table group</pt>
+          <pd>Select one of the markup table groups. The markup tables and the analysis settings for
+            the selected group are displayed. </pd>
+        </plentry>
+        <plentry>
+          <pt>Available</pt>
+          <pd>This list shows the available markup tables. Markup tables already selected (in the
+            same or another markup table group) are not listed here. To move a markup table to the
+            selected list either double-click the markup table name or select the markup table name
+            and press the "&gt;" button. </pd>
+        </plentry>
+        <plentry>
+          <pt>Substitute exact matches in the documents automatically</pt>
+          <pd>Select this option to automatically replace original segments with the
+            translations found in the Translation Memory associated with the document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Create file containing untranslated segments </pt>
+          <pd>Select this option if you want <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/> to create a separate file
+            containing all untranslated segments. If you also selected <b>Substitute exact matches
+              in the documents automatically</b>, this file contains only the remaining untranslated
+            segments.</pd>
+        </plentry>
+        <plentry>
+          <pt>Count Translation Memory match information</pt>
+          <pd>Select this option to enable <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to count the number and type of 
+            matches that are found in the Translation Memory for the document. The document is then segmented and the matches are 
+            counted but no segments are replaced with matches that are found in the Translation Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>Adjust leading white space to white space in source segment </pt>
+          <pd>Select this option if the text is to have the same leading white space (blank, tab
+            stop, and line feed) before and after the automatic substitution. </pd>
+        </plentry>
+        <plentry>
+          <pt>Adjust trailing white space to white space in source segment </pt>
+          <pd>Select this option if the text is to have the same trailing white space (blank, tab
+            stop, and line feed) before and after the automatic substitution. </pd>
+        </plentry>
+        <plentry>
+          <pt>Respect CRLF in segment </pt>
+          <pd>The Translation Memory may contain two matching target segments for a source segment,
+            one with carriage return line feed (CRLF), and one without. If you select this option,
+            the target segment containing CRLF is taken during automatic substitution.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use joined segments when found </pt>
+          <pd>Select this option to join segments. This can be useful if you want to analyze a
+            document that you have worked with before and where you joined neighboring text segments
+            before you translated them. During a new analysis run these segments are treated as
+            separate units again. However, in the associated Translation Memory there is a match
+            (translation) for the joined segments only. To find this match more easily during
+            automatic substitution, this option joins neighboring segments in the document to be
+            analyzed. Note that two neighboring segments are only joined if for the first segment in
+            the sequence a fuzzy match has been found. </pd>
+        </plentry>
+      </parml>
+      <p>
+        <ul>
+          <li>Click <b>Save</b> to save the analysis profile. </li>
+          <li>Click <b>Cancel</b> to leave this window without saving the analysis profile.</li>
+        </ul>
+      </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>If you clicked on <b>Save</b>, the analysis profile is saved or created (if it is a new
+        one) and can be used for the analysis process.</p>
+      <parml>
+        <plentry>
+          <pt>Usage of analysis profile</pt>
+          <pd>An analysis profile can be used when the analysis settings for documents must be
+            different depending on the markup table of the document. <lines/> Normally you would
+            select all documents of one markup table and perform the analysis for these documents
+            and when select the documents which require different analysis settings and repeat the
+            analysis for these documents. <lines/>With the help of an analysis profile this can be
+            simplified. Just select one of the markup tables in markup table group 1 and select the
+            settings required for this markup table, go to markup table group 2, select the second
+            markup table and select the settings required for this markup table and save the
+            profile. Select the profile in the analysis window and run the analysis process. For all
+            documents with the markup table selected in the first markup table group the settings
+            from the first markup table group are used and for all documents with a the markup table
+            selected in the second group the settings from the second markup table group are used.
+            For all other documents the settings from the analysis window are used.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

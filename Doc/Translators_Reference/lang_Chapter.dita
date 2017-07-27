@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="lang_Chapter">
+<title>Working with language-support files</title>
+<prolog><metadata><keywords>
+
+<indexterm>language-support files<indexterm>definition of</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Language-support files are monolingual morphological data files. With <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+they are used to perform: 
+<ul>
+<li><b>Stem reduction</b> during dictionary lookup of terms
+in original documents. <indexterm>stem reduction</indexterm><indexterm>dictionary<indexterm>stem reduction during lookup</indexterm></indexterm>
+<p>When an original document
+contains the English word <b>bought</b>, for example, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+actually looks up the infinitive form of the verb, <b>buy</b>,
+in the dictionary. The English (U.S.) language-support file contains the information
+necessary to associate <b>bought</b> with <b>buy</b>.</p></li>
+<li><b>Compound separation</b> during dictionary lookup of
+terms in original documents for all Germanic languages. <indexterm>compound
+separation</indexterm><indexterm>dictionary<indexterm>compound separation during
+lookup</indexterm></indexterm>
+<p>When an original document contains the German word <b>Autoradio</b> (car radio), <keyword conref="common-symbols.dita#common-symbols/tm4w"/> looks up <b>Autoradio</b>. If it does not find this compound, it decomposes it and looks
+up its parts <b>Auto</b> and <b>Radio</b>.</p></li>
+<li><b>Text segmentation</b> into sentences, including recognizing
+abbreviations in the original documents. 
+<p>A paragraph of text is divided
+into sentences during analysis to allow a sentence-by-sentence translation.</p></li>
+<li><b>Spellchecking</b> of translated documents.</li>
+</ul></p>
+<p>For translations from a given source language, you <i>must</i> install the corresponding language-support file.</p>
+<p>For translations into a target language, the installation of the language-support
+file is optional unless you need to check the spelling of the target file.</p><!-- <d class="topic" id="eqfr5mst-00328">
+<dprolog><titleblk>
+<title>Installing language-support files</title>
+</titleblk></dprolog>
+<dbody><i2 i1id="lsf"><idxterm>installing</idxterm></i2><i2 i1id="ins"><idxterm>
+language-support files</idxterm></i2>
+<p>Select the language-support files for the languages you normally work in
+during the initial installation of <dvcfobj props="textent conref-tm4w">&amp;tm4w;</dvcfobj>. If you subsequently need to install
+additional language-support files, refer to <xref refid="lang"> for details
+of how to do so.</p>
+</dbody></d> -->
+</body></topic>

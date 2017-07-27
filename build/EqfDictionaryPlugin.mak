@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # EqfDictionaryPlugin.MAK - Makefile for standard Dictionary Plugin DLL
-# Copyright (c) 2013, International Business Machines
+# Copyright (c) 2013-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -47,7 +47,6 @@ $(_DLL)\EqfDictionaryPlugin.DLL:	$(_OBJ)\EQFDASD.OBJ \
 									$(_OBJ)\EQFDASDT.OBJ \
 									$(_OBJ)\EqfDictionaryPlugin.OBJ \
 									$(_OBJ)\EqfDictionary.OBJ \
-									$(_LIB)\OtmAlloc.lib \
 									$(_LIB)\OtmBase.lib \
 									$(_LIB)\OtmDll.lib \
 									$(_LIB)\PluginManager.lib
@@ -69,7 +68,7 @@ $(_DLL)\EqfDictionaryPlugin.DLL:
 			$(_OBJ)\EqfDictionary.OBJ
 /OUT:$(_DLL)\EqfDictionaryPlugin.DLL
 /MAP:$(_MAP)\EqfDictionaryPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_DLL)\OtmAlloc.lib $(_LIB)\OTMBase.lib $(_LIB)\OTMDll.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib
+$(_LINK_LIB_CRT) $(_LIB)\OTMBase.lib $(_LIB)\OTMDll.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\EqfDictionaryPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

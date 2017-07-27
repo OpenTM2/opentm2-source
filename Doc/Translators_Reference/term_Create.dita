@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="term_Create">
+<title>Creating a terminology list</title>
+<prolog><metadata><keywords>
+
+<indexterm>creating<indexterm>terminology lists</indexterm></indexterm>
+<indexterm>terminology lists<indexterm>ways of creating</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Depending on the type of terminology list to be created, there are different
+ways to do this: 
+<ul>
+<li>New terms lists or found terms lists are usually created during the analysis
+of a document. An overview of how to do this is given in <xref href="doc_AnalyzeDictionary.dita#doc_AnalyzeDictionary"/>.</li>
+<li>Exclusion lists can be created in a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> window as described in <xref href="term_CreateExclusion.dita#term_CreateExclusion"/>. 
+<p>You can also create an exclusion list from an existing
+new terms list or found terms list. This is explained in <xref href="term_Change.dita#term_Change"/>.</p></li>
+</ul></p>
+<p>Another general way is to create an external terminology list outside of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>,
+which can be imported. This is explained in <xref href="term_CreateExternal.dita#term_CreateExternal"/>.</p>
+</body></topic>

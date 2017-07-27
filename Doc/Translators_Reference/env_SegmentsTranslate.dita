@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_SegmentsTranslate">
+  <title>Checking how segments were translated</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>segments<indexterm>checking method of translation</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Translated segments can have been translated from scratch, copied from a Translation Memory and changed, or copied from a 
+      Translation Memory and not changed.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> lets you know how many of the translated segments have been translated by
+      one of these methods. When you save the translation, you can request a summary in the <q>Document List</q> window showing how many 
+      segments have been: 
+      <ul>
+        <li>Translated from scratch</li>
+        <li>Copied from a Translation Memory proposal</li>
+        <li>Copied from a Translation Memory proposal and then changed</li>
+      </ul>
+    </p>
+    <p>This feature can be useful if translations are paid depending on the way they have been translated. Translated segments that have been 
+      translated from scratch may be paid higher than segments that have been copied from a proposal in the Translation Memory. It helps to find 
+      out how many segments have been translated in one of the above ways.</p>
+  </body>
+</topic>

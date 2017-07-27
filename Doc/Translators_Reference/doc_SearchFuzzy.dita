@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_SearchFuzzy">
+  <title>Search segments with fuzzy matches</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a function called
+          <q>Search Segments with Fuzzy Matches</q>, which works across all or some documents of a
+          folder or a group of folders.</p>
+      <p>This function is helpful in e.g. the pre-translation process to identify segments which can
+         be easily translated by using a fuzzy memory proposal and change some tagging or a few words.</p>
+      <p>Note that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches and replaces
+         only pieces of text that can be translated. Markup tags cannot be changed. Users can control
+         whether <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches in protected
+         text areas, like inline tags, for translatable text. This is helpful if users want to
+         include markup tag attribute values in the search process.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-folder must exist, and its
+         documents must have been analyzed.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Start this function from a <q>Folder List</q> window or from a <q>Document List</q> window.
+         In this description, the start from the <q>Document List</q>window is described.</p>
+      <p><b><u>Select</u></b>: 
+        <ol>
+          <li>One or more documents you want to have searched through from the <q>Document List</q> window</li>
+          <li><b>Fuzzy Segment Search...</b> from the menu</li>
+        </ol>
+      </p>
+      <p>The <q>Search Segments With Fuzzy matches</q> window is displayed. 
+        <fig id="fuzzySearch" expanse="column">
+          <title>Search Segments With Fuzzy matches window</title>
+          <image placement="break" href="doc_SearchFuzzy.gif">
+            <alt>Figure shows Search Segments With Fuzzy matches window</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Search fuzzy matches </pt>
+          <pd>Select in which <q>range of classes</q> should be searched. 
+            <ul>
+              <li><q>With selected class or higher</q>: searches starting with the selected class and ending at the highest class.</li>
+              <li><q>Having the selected class only</q>: searches only in the selected class.</li>
+              <li><q>Up to and including the selected class</q>: searches starting from the lowest class up to the selected class.</li>
+            </ul>
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Fuzzy search class </pt>
+          <pd>Select the class of the segments with fuzzy matches being searched. <p>The <q>class</q> is
+              the number of different words between the segment and the memory proposal.</p>
+            <p>Differences in white spaces and inline tagging are ignored.</p>
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Show and export differences in search results </pt>
+          <pd>Show or hide the differences in the search result. 
+            <ul>
+              <li>If selected: the differences in the segments are highligted.</li>
+              <li>If not selected: the differences in the segments are not highligted.</li>
+            </ul>
+            <p>This selection works for both, the <b>display</b> function in the section <q>Search
+               results</q>, as well as when the search results are <b>exported</b> into an XML file.</p>
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Documents being searched </pt>
+          <pd>In this area all searched documents are displayed.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>Search results </pt>
+          <pd>In this area the <b>results</b> of the search process are displayed. <p>For each entry, the folder
+              name, the class name, the word count, the document name, the segment number, the
+              source-segment data and the source of the memory proposal is shown.</p>
+            <p>The <b>differences</b> between the source-text in the segment to be translated, and the source-text 
+               of the memory proposal are highlighted in case the option <q>Show and export differences in search 
+               results</q> is activated.</p>
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Start search </pt>
+          <pd>Starts the search for segments with fuzzy matches. <p>The segments matching the
+              selected class are displayed in the result area.</p>
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Stop search </pt>
+          <pd>Stops the current search process. </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Open document </pt>
+          <pd>Opens the document, which contains the selected segment, in the translation editor, and makes the segment the active one. 
+            <p>You can also open the document and position to the segment by <b>double-clicking</b> the entry in the result list. </p>
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Export results </pt>
+          <pd>Exports the found segments as shown in section <q>Search results</q> into an XML-document. In case of
+            having selected <q>Show and export differences in search results</q>, the exported
+            document contains the differences in tags. &lt;hp1&gt;... &lt;/hp1&gt; indicates <b>inserted</b> text, and
+            &lt;hp2&gt;... &lt;/hp2&gt; indicates <b>changed</b> text. 
+          </pd>
+        </plentry>
+
+        <plentry>
+          <pt>Cancel </pt>
+          <pd>Stops the search and the interaction with this window and returns you to the starting
+            point.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>Help </pt>
+          <pd>Help Gives information to help you interact with this window.</pd>
+        </plentry>
+      </parml>
+    </section>
+
+    <section>
+      <title>Results</title>
+      <p>The segments matching the selected class are displayed in the result area.</p>
+      <p>Results displayed in the Search Segments With Fuzzy matches window. 
+        <fig id="fuzzySearchResult" expanse="column">
+          <title>Search Segments With Fuzzy matches window</title>
+          <image placement="break" href="changes_131_FuzzySearch.gif">
+            <alt>Search Segments With Fuzzy matches window</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+  </refbody>
+</reference>

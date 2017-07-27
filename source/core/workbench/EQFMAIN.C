@@ -7,6 +7,8 @@
 	Corporation and others. All rights reserved
 */
 
+//  #define STARTUP2_LOGGING  
+
   #undef _WINDLL
 
 #define INCL_EQF_MORPH            // morphologic functions
@@ -1841,6 +1843,24 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
   mp1;                                 // avoid compiler warnings
   mp2;
 
+#ifdef STARTUP2_LOGGING
+   FILE *hStartLog = NULL;
+   CHAR szLogFile[MAX_EQF_PATH];
+   time_t lCurTime = 0;
+
+ //  UtlMakeEQFPath( szLogFile, NULC, SYSTEM_PATH, NULL );
+   strcpy( szLogFile, "\\OTM\\LOGS" );
+   UtlMkDir( szLogFile, 0L, FALSE );
+
+   strcat( szLogFile, "\\OpenTM2Startup.LOG2" );
+   hStartLog = fopen( szLogFile, "wb" );
+   if ( hStartLog )
+   {
+      time( &lCurTime );
+      fprintf( hStartLog, "------ OpenTM2 startup2:               %s", asctime( localtime( &lCurTime ) ) );
+   } /* endif */
+#endif
+
   UtlSetULong( QL_TWBCLIENT, (ULONG)hwnd );
 
   UtlSetUShort( QS_CURMENUID, ID_TWBM_WINDOW );
@@ -1892,6 +1912,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
                                  (HINSTANCE) hAB,
                                  (LPSTR)&stClientCreate );
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 1.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
       if ( fMFCEnabled )
       {
         UtlSetULong( QL_TWBCLIENT, (ULONG) hwnd );
@@ -1916,6 +1944,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
 
     pIda->hPropSys = EqfQuerySystemPropHnd();
     pIda->pPropSys = GetSystemPropPtr();
+
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 2.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
     // do necessary startup handling for older Tmgr versions
     if ( pIda->pPropSys->lCodeVersion < CURRENT_CODE_VERSION )
@@ -1970,11 +2006,27 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
       } /* endif */
     } /* endif */
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 3.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
     /************************************************************/
     /* force a refresh of QST_VALIDEQFDRIVES string             */
     /************************************************************/
     UtlGetCheckedEqfDrives( szMsgBuf );
 
+
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 4.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
     /************************************************************/
     /* Register window procedure as TWB handler                 */
     /************************************************************/
@@ -1985,6 +2037,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
     /* Start TWB initialization                                 */
     /************************************************************/
     WinPostMsg( hwnd, WM_EQF_INITIALIZE, MP1FROMSHORT(1), NULL);
+
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 5.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
     /************************************************************/
     /* Correct saved window position if it is larger than the   */
@@ -2052,6 +2112,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
                                  | EQF_SWP_SIZE | EQF_SWP_MOVE ));
     } /* endif */
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
     /******************************************************************/
     /* Show registry dialogs                                          */
     /* (only if the selected panel language is not Japanese as there  */
@@ -2060,11 +2128,25 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
     {
       GetStringFromRegistry( APPL_Name, KEY_SYSLANGUAGE, szEqfSysLanguage, sizeof( szEqfSysLanguage ), DEFAULT_SYSTEM_LANGUAGE);
     }
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6a.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
     /******************************************************************/
     /* Initialize all handlers                                        */
     /******************************************************************/
     EqfSend2AllHandlers( WM_EQF_INITIALIZE, MP1FROMSHORT(0), 0L );
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6b.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
     /************************************************************/
     /* restart previously saved objects (for folderlist,        */
@@ -2079,12 +2161,40 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
                  WM_MDISETMENU,
                  (WPARAM)(HWND) UtlQueryULong( QL_TWBMENU ),
                  (LPARAM)(HWND) UtlQueryULong( QL_TWBWINDOWMENU ) );
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6c.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
     DrawMenuBar( (HWND)UtlQueryULong( QL_TWBFRAME ) );
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6d.                         %s   [%s]", asctime( localtime( &lCurTime ) ),pIda->szObject );
+  } /* endif */
+#endif
     TwbRestart( FOLDERLISTHANDLER, pIda->szObject );
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6e.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
     // delete any folder list item under file pulldown
     DeleteMenu( GetSubMenu( (HMENU)UtlQueryULong( QL_TWBMENU ), 0 ),
                 ID_FLIST_WINDOW, MF_BYCOMMAND );
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6f.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
     /*************************************************************/
     /* delete toolbar selection from VIEW -- it is starting at   */
@@ -2104,6 +2214,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
       } /* endif */
     } /* endif */
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 7.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
     pIda->szObject[0] = X15;
     UtlMakeEQFPath( pIda->szObject + 1, NULC, SYSTEM_PATH, NULL );
@@ -2118,6 +2236,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
     strcat( pIda->szObject, BACKSLASH_STR );
     strcat( pIda->szObject, DICT_PROPERTIES_NAME );
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 8.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
 #ifndef _TLEX
 #ifndef _TQM
@@ -2128,13 +2254,45 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
 #endif
 
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 9.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 #ifndef _TQM
 #ifndef _TLEX
     TwbRestart( TAGTABLEHANDLER, pIda->pPropSys->RestartTagTables );
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 10.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
     TwbRestart( LISTHANDLER, pIda->pPropSys->RestartLists );
+
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 11.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
     TwbRestart( MTLISTHANDLER, pIda->pPropSys->RestartMTList );
     pIda->pPropSys->RestartMTList[0] = EOS; // clear this entry
+
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 12.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 #endif
 #endif
 
@@ -2164,6 +2322,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
 #endif
 #endif
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 13.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
     if( SetPropAccess( pIda->hPropSys, PROP_ACCESS_WRITE))
     {
       *pIda->pPropSys->RestartDocs    = NULC;
@@ -2183,6 +2349,14 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
        } /* endif */
     } /* endif */
 
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 14.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
     // open system preferenced dialog if no default target language
     // has been specified
     {
@@ -2195,6 +2369,15 @@ MRESULT TwbCreateMsg( HWND hwnd, WPARAM mp1, LPARAM mp2 )
 
 
   } /* endif */
+
+#ifdef STARTUP2_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "------ OpenTM2 startup2 end:           %s", asctime( localtime( &lCurTime ) ) );
+    fclose( hStartLog ) ;
+  } /* endif */
+#endif
 
   return( mResult );
 

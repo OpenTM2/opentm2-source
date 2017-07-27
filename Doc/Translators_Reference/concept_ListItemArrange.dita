@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="concept_ListItemArrange">
+  <title>Arranging list items</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>list windows<indexterm>arranging list items</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides several sort keys that
+        enable you to arrange the items in the list windows according to your needs.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The respective list window is selected.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Sort...</b> from the <b>View</b> menu.</p>
+      <p>The <q>Sort List Items</q> window is displayed (see <xref
+          href="#concept_ListItemArrange/sortlistitemwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Sort List
+          Items</indexterm></indexterm></required-cleanup><fig id="sortlistitemwin" expanse="column">
+          <title>Sort List Items window</title><image placement="break" href="concept_ListItemArrange.gif"
+              ><alt>Figure shows Sort List Items window</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <dl>
+        <dlentry>
+          <dt>1st sort key</dt>
+          <dd>Select the detail according to which the list is to be sorted, for example, markup
+            table. Also decide whether items are to be sorted in ascending or descending order.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>2nd sort key</dt>
+          <dd>Select the detail according to which the list is to be sorted within the first sort
+            and decide whether the items are to be sorted in ascending or descending order. <p>For
+              example, when you decide to sort your folders by markup table (1st sort key) and
+              several folders have the same markup table, these folders are automatically sorted by
+              name within the markup table. If, however, you want to sort the folders that use the
+              same markup table by their description, you select <b>Description </b> as the 2nd sort
+              key.</p></dd>
+        </dlentry>
+        <dlentry>
+          <dt>3rd sort key</dt>
+          <dd>Select the detail to be used as third sort key and specify the direction of the
+            sort.</dd>
+        </dlentry>
+      </dl>
+      <p>After selecting your sort keys, click <b>Sort</b> to reflect your specifications in the
+        appropriate list window.</p>
+      <p>Click <b>Cancel</b> to leave the <q>Sort List Items</q> window without rearranging the
+        items on your list window.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The list window displays the items sorted according to your specifications.</p>
+    </section>
+  </refbody>
+</reference>

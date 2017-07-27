@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_Import">
+  <title>Importing a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>importing<indexterm><keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+          databases</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>importing</indexterm></indexterm>
+      <p>If you receive an external <keyword conref="common-symbols.dita#common-symbols/xlmem"/>,
+        you can import it into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p>During the import, you can also merge the data from an external <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> into a <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> that already exists in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p><indexterm>Translation Memory<indexterm>Unicode
+          enablement</indexterm></indexterm>Importing a Translation Memory can also be part of the
+        conversion of a Translation Memory into Unicode. To convert a Translation Memory into
+        Unicode, you must first export it from <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> and then import it again. In both
+        cases, you select <b>SGML Unicode</b> as export or import format.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be imported must
+          exist.</li>
+        <li>If you want to merge the data from the external <keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/> into an existing <keyword
+            conref="common-symbols.dita#common-symbols/xlmem"/>, both <keyword
+            conref="common-symbols.dita#common-symbols/xlmems"/> must have the same source
+          language.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Translation Memory List</q> window from the main window</li>
+          <li>Optionally the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> into which
+            to import the external <keyword conref="common-symbols.dita#common-symbols/xlmem"/></li>
+          <li><b>Import…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Import Translation Memory</q> window (see <xref
+          href="#memory_Import/importtransmemwin"/>) is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Import <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"
+              /></indexterm></indexterm></required-cleanup><fig id="importtransmemwin" expanse="column">
+          <title>Import <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+            window</title><image placement="break" href="memory_Import.gif"><alt>Figure shows Import
+              window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Look in</pt>
+          <pd>Select the directory where Translation Memory to be imported is currently
+            stored.</pd>
+        </plentry>
+        <plentry>
+          <pt>File name</pt>
+          <pd>Enter the file name of the Translation Memory to be imported or select one
+            or more entries in the list box.</pd>
+        </plentry>
+        <plentry>
+          <pt>Format</pt>
+          <pd><!--<xref href=""/>-->
+          Select the format of the Translation Memory to be imported 
+          <ul>
+              <li>SGML ANSI for the import of external memory databases in the SGML (.EXP) format in
+                ANSI encoding</li>
+              <li>SGML ASCII for the import of external memory databases in the SGML (.EXP) format
+                in ASCII encoding</li>
+              <li>SGML UTF16 for the import of external memory databases in the SGML (.EXP) format
+                in Unicode (UTF-16) encoding</li>
+              <li>TMX for the import of external memory databases in the TMX (Translation Memory
+                Exchange) format</li>
+              <li>TMX (Trados) for the import of external memory databases in the TMX (Translation
+                Memory Exchange) format which have been exported using the Trados translation tool,
+                for this special import format any RTF tagging contained in the imported segment
+                data is removed</li>
+            </ul>S</pd>
+        </plentry>
+        <plentry>
+          <pt>To memory</pt>
+          <pd>Contains the name of the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> to be imported. You can overwrite
+            this name or select one from the list box. <p>If you specify a <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> that does not exist yet, the
+                <q>New Translation Memory</q> window is displayed for you to create it (see <xref
+                href="memory_Create.dita#memory_Create"/>).</p>
+            <p>If you select or specify an existing <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>, the contents of the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> to be imported are merged into
+              it.</p></pd>
+        </plentry>
+      </parml>
+      <p>When you have specified your input, click <b>Import</b>.</p>
+      <p>For information on importing <keyword conref="common-symbols.dita#common-symbols/xlmems"/>
+        from other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> products, see <xref
+          href="appExchange_Overview.dita#appExchange_Overview"/>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> data is imported into the
+        selected target <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and you can
+        begin to work with it. The external <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> remains unchanged.</p>
+    </section>
+  </refbody>
+</reference>

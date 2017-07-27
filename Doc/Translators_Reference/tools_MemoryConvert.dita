@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="tools_MemoryConvert">
+  <title>Converting a NLV memory to a source/source memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>In order to convert <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-<b>internal</b> 
+         translation memories (translation memories containing source <b>and</b> translated segments) into 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-<b>internal</b> source/source Translation 
+         Memories, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> offers the DOS line command 
+         utility <i>OtmCreateITMFromMemory</i>. This tool reads a translation memory and only writes the <b>source</b> 
+         segments of this memory into a new translation memory replacing the <b>target</b> of the segments with the content 
+         of the <b>source</b> segment.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OtmCreateITMFromMemory</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>INmem</kwd>
+          <oper>=</oper>
+          <var>inmemdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>OUTmem</kwd>
+          <oper>=</oper>
+          <var>outmemdb</var>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/INmem = <i>inmemdb</i></pt>
+          <pd><i>inmemdb</i> specifies the name of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-internal 
+              translation memory that you want to use as input translation memory. 
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTmem = <i>outmemdb</i></pt>
+          <pd><i>outmemdb</i> is the name of a new <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-internal 
+              translation memory which is meant to receive the converted segments from the input translation memory. 
+              The translation memory <q>outmemdb</q> is automtically created by the DOS line command utility 
+              <q>OtmCreateITMFromMemory</q>.
+          </pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to use the DOS line command utility OtmCreateITMFromMemory.</p>
+      <p>Enter the OtmCreateITMFromMemory command as follows:</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OtmCreateITMFromMemory /INmem=MyNlvMem /OUTmem=MySourceSourceMem</codeblock>
+          <p>In this example all segments contained in the translation memory <q>MyNlvMem</q> are written 
+             to the new output translation memory <q>MySourceSourceMem</q> and the target of the segments is
+             replaced by the source of the segments.</p>
+        </section>-->
+      <p> <codeblock>OtmCreateITMFromMemory /INmem=MyNlvMem /OUTmem=MySourceSourceMem</codeblock></p>
+      <p>In this example all segments contained in the translation memory <q>MyNlvMem</q> are written 
+             to the new output translation memory <q>MySourceSourceMem</q> and the target of the segments is
+             replaced by the source of the segments.</p>
+<!--      </required-cleanup>-->
+    </example>
+  </refbody>
+</reference>

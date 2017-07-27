@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_GetFolderProp_Structure">
+  <title>Parameters for structExtFolProp</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <example>
+      <codeblock>typedef struct _EXTFOLPROP { CHAR chDrive; CHAR szTargetLang[MAX_LANG_LENGTH]; CHAR
+        szRWMemory[MAX_LONGFILESPEC]; CHAR szROMemTbl[MAX_NUM_OF_READONLY_MDB][MAX_LONGFILESPEC];
+        CHAR szDicTbl[ NUM_OF_FOLDER_DICS][MAX_FILESPEC]; } EXTFOLPROP, *PEXTFOLPROP;</codeblock>
+    </example>
+    <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="40*"/>
+        <colspec colname="col2" colwidth="127*"/>
+        <colspec colname="col3" colwidth="119*"/>
+        <thead valign="top">
+          <row>
+            <entry align="left">Type</entry>
+            <entry align="left">Parameter</entry>
+            <entry align="left">Description </entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">CHAR</entry>
+            <entry colname="col2">chDrive</entry>
+            <entry colname="col3">Returns the target drive of the folder.</entry>
+          </row>
+          <row>
+            <entry colname="col1">CHAR</entry>
+            <entry colname="col2">szTargetLang [MAX_LANG_LENGTH]</entry>
+            <entry colname="col3">Returns the target language.</entry>
+          </row>
+          <row>
+            <entry colname="col1">CHAR</entry>
+            <entry colname="col2">szRWMemory [MAX_LONGFILESPEC]</entry>
+            <entry colname="col3">Returns the read-write memory. </entry>
+          </row>
+          <row>
+            <entry colname="col1">CHAR</entry>
+            <entry colname="col2">szROMemTbl [MAX_NUM_OF_READONLY_MDB] [MAX_LONGFILESPEC]</entry>
+            <entry colname="col3">Returns a list of read-only memories.</entry>
+          </row>
+          <row>
+            <entry colname="col1">CHAR</entry>
+            <entry colname="col2">szDicTbl [NUM_OF_FOLDER_DICS] [MAX_FILESPEC]</entry>
+            <entry colname="col3">Returns the list of dictionaries.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </refbody>
+</reference>

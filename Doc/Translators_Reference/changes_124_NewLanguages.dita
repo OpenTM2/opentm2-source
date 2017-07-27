@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_124_NewLanguages">
+  <title>OpenTM2 to support the languages Bosnian and Montenegrin</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>OpenTM2 now supports two more languages - <b>Bosnian</b> and <b>Montenegrin</b>. 
+       Both languages can be selected as source and/or target languages.</p>
+  </body>
+</topic>

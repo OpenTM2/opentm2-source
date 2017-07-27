@@ -1,5 +1,5 @@
 /*! \brief TMXFactory.CPP - Module with TMX format related functions
-	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2017, International Business Machines Corporation and others. All rights reserved.
 	Description: This module contains functions to wrap parameters in the JSON format and to retrieve parameters from JSON strings
 */
 
@@ -137,6 +137,70 @@ typedef struct _TMXELEMENT
 } TMXELEMENT, *PTMXELEMENT;
 
 
+const static int TOTALNUMS = 7;
+const static std::wstring XMLSTRWN[TOTALNUMS] = {L"&amp;", L"&lt;", L"&gt;", L"&quot;", L"&apos;", L"@@", L"/tmspath"};
+const static std::wstring TUSTRWN[TOTALNUMS]  = {L"&",     L"<",    L">",    L"\"",     L"\'",     L"\n", L"\\"};
+
+const static std::wstring XMLSTRWNR[TOTALNUMS] = {L"&lt;", L"&gt;", L"&quot;", L"&apos;", L"@@", L"/tmspath",L"&amp;"};
+const static std::wstring TUSTRWNR[TOTALNUMS]  = {L"<",    L">",    L"\"",     L"\'",     L"\n", L"\\",      L"&"};
+std::wstring& xmlTuFormatW(std::wstring& line,bool toXml)
+{
+	const std::wstring *srcStr, *relpStr;
+	if(toXml)
+	{
+		srcStr = TUSTRWN;
+        relpStr = XMLSTRWN; 
+	}
+	else
+	{
+		srcStr = XMLSTRWNR;
+		relpStr = TUSTRWNR;
+	}
+
+	for(int i=0; i<TOTALNUMS; i++)
+	{
+		std::wstring temp = srcStr[i];
+		std::wstring::size_type idx = line.find(temp);
+		while(idx != std::wstring::npos)
+		{
+			line.replace(idx,temp.length(),relpStr[i]);
+			idx = line.find(temp,idx+relpStr[i].length());
+		}
+	}
+
+	return line;
+}
+
+
+const static int SIMNUMS = 2;
+const static std::string XMLSTRS[SIMNUMS] = {"@@", "/tmspath"};
+const static std::string TUSTRS[SIMNUMS]  = {"\n", "\\"};
+std::string& xmlTuFormat(std::string& line, bool toXml)
+{
+	const std::string *srcStr, *relpStr;
+	if(toXml)
+	{
+		srcStr = TUSTRS;
+        relpStr = XMLSTRS; 
+	}
+	else
+	{
+		srcStr = XMLSTRS;
+		relpStr = TUSTRS;
+	}
+
+	for(int i=0; i<SIMNUMS; i++)
+	{
+		std::string temp = srcStr[i];
+		std::string::size_type idx = line.find(temp);
+		while(idx != std::wstring::npos)
+		{
+			line.replace(idx,temp.length(),relpStr[i]);
+			idx = line.find(temp,idx+relpStr[i].length());
+		}
+	}
+	return line;
+}
 
 //
 // class for our SAX handler
@@ -175,9 +239,7 @@ public:
   void warning(const SAXParseException& exc);
   void error(const SAXParseException& exc );
   void fatalError(const SAXParseException& exc);
-  //void resetErrors();
-
-
+ 
 private:
   ELEMENTID GetElementID( PSZ_W pszName );
   void Push( PTMXELEMENT pElement );
@@ -190,8 +252,6 @@ private:
   int GetDaysOfMonth( const int iMonth, const int iYear );
   int GetDaysOfYear( const int iYear );
   int GetYearDay( const int iDay, const int iMonth, const int iYear );
-
-  CHAR_W* TMXParseHandler::replace2NewLine(CHAR_W *pIn);
 
   // name list for name conversions
   CNameList *pLangTmx2Tmgr;
@@ -209,7 +269,6 @@ private:
   LONG  lTime;                         // segment date/time
   BOOL  fMachineTranslation;           // machine translation flag
   int   iNumOfTu;
-  //OtmProposal *pProposal;              // proposal receiving the segment data;
   std::vector<OtmProposal*> proposals;
   // buffers
   #define DATABUFFERSIZE 4098
@@ -388,15 +447,7 @@ int TMXFactory::ProposalToTUString
   {
     strcpy( szTMXTime, "19800101T000000Z" );
   }
-  // Now don't take accesstime with proposal in TU now,
-  // it could let Server to decide time, the time is consistent for all clients
-  // it's the best solution for download update counter control
-
-  // get current time
-  //char str[50+1]={0};
-  //sprintf(str,"%lld",getCurrentMillions());
-  //ltoa(getCurrentMillions(),str,10);
-
+ 
   // combine TMX string
   szTMXLang[0] = EOS;
   pData->LangTmgr2Tmx.FindName( pData->szSourceLanguage, szTMXLang, sizeof(szTMXLang) );
@@ -415,9 +466,6 @@ int TMXFactory::ProposalToTUString
 	  pCurrent = this->copyString( L"", pData->szTMXBuffer );
   }
 
- 
-  //pCurrent = this->copyString(L"<tu tuid=\"1\" datatype=\"", pCurrent );
-  //pCurrent = this->copyString( szDataType, pCurrent );
   pCurrent = this->copyString(L"<tu tuid=\"1\" ", pCurrent );
   pCurrent = this->copyString( L"creationdate=\"", pCurrent );
   pCurrent = this->copyString( szTMXTime, pCurrent );
@@ -427,18 +475,17 @@ int TMXFactory::ProposalToTUString
   pCurrent = this->copyString( L"</prop><prop type=\"tmgr-markup\">", pCurrent );
   pCurrent = this->copyString( pData->szMarkup, pCurrent );
   pCurrent = this->copyString( L"</prop><prop type=\"tmgr-docname\">", pCurrent );
-  pCurrent = this->copyString( pData->szDocName, pCurrent );
+
+  //pCurrent = this->copyString( pData->szDocName, pCurrent );
+  std::string docName(pData->szDocName);
+  xmlTuFormat(docName, true);
+  pCurrent = this->copyString( const_cast<char*>(docName.c_str()), pCurrent );
 
   // set short doc name
   char shortDocName[20+1]={0};
   Proposal.getDocShortName(shortDocName,sizeof(shortDocName)/sizeof(char));
   pCurrent = this->copyString( L"</prop><prop type=\"tmgr-short-docname\">", pCurrent );
   pCurrent = this->copyString( shortDocName, pCurrent );
-
-  //set last accessed time
-  //pCurrent = this->copyString( L"</prop><prop type=\"lastAccessTime\">", pCurrent );
-  //pCurrent = this->copyString( str, pCurrent );
-
 
   pCurrent = this->copyString( L"</prop><tuv xml:lang=\"", pCurrent );
   szTMXLang[0] = EOS;
@@ -447,27 +494,14 @@ int TMXFactory::ProposalToTUString
   pCurrent = this->copyString( L"\"><prop type=\"tmgr-language\">", pCurrent );
   pCurrent = this->copyString( pData->szSourceLanguage, pCurrent );
 
-   // set last accessed time for monolingual
-  //pCurrent = this->copyString( L"</prop><prop type=\"lastAccessTime\">", pCurrent );
-  //pCurrent = this->copyString( str, pCurrent );
 
   pCurrent = this->copyString( L"</prop><seg>", pCurrent );
   Proposal.getSource( pData->szSegmentBuffer, sizeof(pData->szSegmentBuffer) / sizeof(wchar_t) );
 
-  // format xml escape characters
-  size_t outBufferSize = sizeof(pData->szSegmentBuffer) / sizeof(wchar_t)+20;
-  wchar_t *pOutBuffer = new wchar_t[outBufferSize];
-  iRC = -1;
-  if(pOutBuffer != NULL)
-  {
-    memset(pOutBuffer,0,outBufferSize*sizeof(wchar_t));
-    iRC = xmlFormat(pData->szSegmentBuffer,pOutBuffer,outBufferSize);
-  }
+  std::wstring srcline(pData->szSegmentBuffer);
+  xmlTuFormatW(srcline, true);
+  pCurrent = this->copyString( const_cast<wchar_t*>(srcline.c_str()), pCurrent );
 
-  if(iRC == 0)
-    pCurrent = this->copyString( pOutBuffer, pCurrent );
-  else // if out of memory or format failed, still used the old
-    pCurrent = this->copyString( pData->szSegmentBuffer, pCurrent );
 
   pCurrent = this->copyString( L"</seg></tuv><tuv xml:lang=\"", pCurrent );
   szTMXLang[0] = EOS;
@@ -476,27 +510,12 @@ int TMXFactory::ProposalToTUString
   pCurrent = this->copyString( L"\"><prop type=\"tmgr-language\">", pCurrent );
   pCurrent = this->copyString( pData->szTargetLanguage, pCurrent );
 
-   // set last accessed time for monolingual
-  //pCurrent = this->copyString( L"</prop><prop type=\"lastAccessTime\">", pCurrent );
-  //pCurrent = this->copyString( str, pCurrent );
-
   pCurrent = this->copyString( L"</prop><seg>", pCurrent );
   Proposal.getTarget( pData->szSegmentBuffer, sizeof(pData->szSegmentBuffer) / sizeof(wchar_t) );
 
-  // format xml escape characters
-  memset(pOutBuffer,0,outBufferSize*sizeof(wchar_t));
-  iRC = xmlFormat(pData->szSegmentBuffer,pOutBuffer,outBufferSize);
-
-  if(iRC == 0)
-    pCurrent = this->copyString( pOutBuffer, pCurrent );
-  else // if out of memory or format failed, still used the old
-    pCurrent = this->copyString( pData->szSegmentBuffer, pCurrent );
-
-  if(pOutBuffer != NULL) 
-  {
-    delete []pOutBuffer;
-    pOutBuffer = NULL;
-  }
+  std::wstring tgtline(pData->szSegmentBuffer);
+  xmlTuFormatW(tgtline, true);
+  pCurrent = this->copyString( const_cast<wchar_t*>(tgtline.c_str()), pCurrent );
 
   pCurrent = this->copyString( L"</seg></tuv></tu>",pCurrent);
 
@@ -510,6 +529,7 @@ int TMXFactory::ProposalToTUString
 
   return( iRC );
 }
+
 
 /*! \brief Converts a TMX formatted string into an OtmProposal 
 
@@ -789,64 +809,6 @@ int TMXFactory::loadNames
   return( usRC );
 }
 
-/*! \brief replace xml escape charaters in pSrc
-
-    \param pSrc  pointer to stringbeing formatted
-    \param pOut  pointer to buffer for outputing
-    \param outCapcity the capcity of pOut
-  	\returns 0 if success
-*/
-int TMXFactory::xmlFormat(wchar_t *pSrc, wchar_t *pOut,size_t outCapcity)
-{
-  if(pSrc==NULL || pOut==NULL)
-    return -1;
-  wchar_t  srcCh[] = {L'<', L'>', L'"', L'\'',L'\r',L'\n'};
-  wchar_t  *replStr[] = {L"&lt;", L"&gt;", L"&quot;", L"&apos;",L"",L"@@"};
-
-  wchar_t *pOutCurrent = pOut;
-
-  for(size_t srcIndex = 0; srcIndex<wcslen(pSrc); srcIndex++)
-  {
-    size_t j;
-    for(j=0; j<sizeof(srcCh)/sizeof(srcCh[0]); j++)
-    {
-      if(pSrc[srcIndex] == srcCh[j])
-        break;
-    }
-     
-    if(j < sizeof(srcCh)/sizeof(srcCh[0]))
-    {
-      wcsncpy(pOutCurrent,replStr[j],wcslen(replStr[j]));
-      pOutCurrent += wcslen(replStr[j]);
-    }
-    else
-    {
-      *pOutCurrent = pSrc[srcIndex];
-      pOutCurrent++;
-
-      if(pSrc[srcIndex]==L'&')
-      {
-        if(wcsncmp(pSrc+srcIndex+1, L"lt;",3)!=0 &&
-           wcsncmp(pSrc+srcIndex+1, L"gt;",3)!=0 &&
-           wcsncmp(pSrc+srcIndex+1, L"quot;",5)!=0 &&
-           wcsncmp(pSrc+srcIndex+1, L"apos;",5)!=0 &&
-           wcsncmp(pSrc+srcIndex+1, L"amp;",4)!=0)
-        {
-          // it's &, and & has been copied previous
-          wcsncpy(pOutCurrent,L"amp;",wcslen(L"amp;"));
-          pOutCurrent += wcslen(L"amp;");
-        }
-      }
-    }
-
-    if((pOutCurrent-pOut) >= outCapcity)
-      return -2;
-  }//end for
-
-  *pOutCurrent = 0;
-
-  return 0;
-}
 
 /*! \brief whether the year is leap
     \param year  pointer to stringbeing formatted
@@ -1262,7 +1224,7 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
           }
           else
           {
-            strcpy( CurElement.szTMMarkup, "OTMANSI" );
+             strcpy( CurElement.szTMMarkup, "OTMANSI" );
             fWithTagging = FALSE;
           } /* endif */
         }
@@ -1354,7 +1316,9 @@ void TMXParseHandler::fillSegmentInfo
 
   if ( pBuf->szDocument[0] )
   {
-    pProposal->setDocName( pBuf->szDocument );
+	std::string docName(pBuf->szDocument);
+    xmlTuFormat(docName, false);
+    pProposal->setDocName( const_cast<char*>(docName.c_str()) );
   }
   else
   {
@@ -1372,11 +1336,7 @@ void TMXParseHandler::fillSegmentInfo
     pProposal->setDocShortName( "" );
   } /* endif */
 
-
   pProposal->setType( fMachineTranslation ? OtmProposal::eptMachine : OtmProposal::eptManual );
-
-  //if ( lTime == 0 ) time( (time_t *)&lTime);
-  //pProposal->setUpdateTime( lTime );
 
   // source info
   if ( pSource != NULL )
@@ -1384,9 +1344,11 @@ void TMXParseHandler::fillSegmentInfo
     pProposal->setSourceLanguage( pSource->szLang );
 
 	wchar_t* pDecoded = g_sb64.decode(pSource->szText);
-	replace2NewLine(pDecoded);
+	//replace2NewLine(pDecoded);
 
-    pProposal->setSource( pDecoded );
+	std::wstring srcline(pDecoded);
+	xmlTuFormatW(srcline, false);
+    pProposal->setSource( const_cast<wchar_t*>(srcline.c_str()) );
   } /* endif */
 
   // target info
@@ -1395,9 +1357,10 @@ void TMXParseHandler::fillSegmentInfo
     pProposal->setTargetLanguage( pTarget->szLang );
 
 	wchar_t*  pDecoded =  g_sb64.decode(pTarget->szText);
-	replace2NewLine(pDecoded);
-
-    pProposal->setTarget( pDecoded );
+	//replace2NewLine(pDecoded);
+	std::wstring tgtline(pDecoded);
+	xmlTuFormatW(tgtline,false);
+	pProposal->setTarget( const_cast<wchar_t*>(tgtline.c_str()) );
 
 	// use target time to set updatetime
 	char timeInSecs[10+1]={0};
@@ -1823,14 +1786,6 @@ BOOL TMXParseHandler::TMXLanguage2TMLanguage( PSZ pszTMLanguage, PSZ pszTMXLangu
   return( fOK );
 } /* end of method TMXParseHandler::GeValue */
 
-
-//void TMXParseHandler::SetProposal( OtmProposal *pInProposal )
-//{
-  // I think maybe write wrong, it should be pInProposal
-  //this->pProposal = pInProposal;//pProposal;
-//} /* end of method TMXParseHandler::SetProposal */
-
-
 // help functions for date conversion
 BOOL TMXParseHandler::IsLeapYear( const int iYear )
 {
@@ -1906,44 +1861,6 @@ void TMXParseHandler::GetErrorText( char *pszTextBuffer, int iBufSize )
   } /* endif */
 }
 
-CHAR_W* TMXParseHandler::replace2NewLine(CHAR_W *pIn)
-{
-	if(pIn == NULL)
-		return NULL;
-	
-	CHAR_W *ptrCur = pIn;
-	CHAR_W *ptrKept = pIn;
-	while(*(ptrCur+1) != '\0')
-	{
-		if(*ptrCur=='@' &&  *(ptrCur+1)=='@' )
-		{
-			*ptrKept = '\n';
-			ptrKept++;
-			ptrCur += 2;
-			if(*ptrCur == '\0')
-				break;
-		}
-		else
-		{
-			if(ptrCur == ptrKept )
-			{
-			    ptrCur++;
-			    ptrKept++;
-			}
-			else
-			{
-				*ptrKept++ = *ptrCur++ ;
-			}
-		}
-	}
-
-	if(ptrCur!=ptrKept && ptrKept!= NULL)
-	{
-		*ptrKept++ = *ptrCur++;
-		*ptrKept = '\0';
-	}
-	return pIn;
-}
 
 std::vector<OtmProposal*>&  TMXParseHandler::getProposals()
 {

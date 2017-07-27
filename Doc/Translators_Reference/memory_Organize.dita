@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_Organize">
+<title>Organizing a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>Translation Memory<indexterm>organizing</indexterm></indexterm><indexterm>organizing<indexterm>Translation Memory databases</indexterm></indexterm><indexterm>Translation Memory<indexterm>removing obsolete segments</indexterm></indexterm><indexterm>Translation Memory<indexterm>repairing defective ones</indexterm></indexterm><indexterm>Translation Memory<indexterm>upgrading backlevel versions</indexterm></indexterm>
+<p>Occasionally <keyword conref="common-symbols.dita#common-symbols/tm4w"/> prompts you to <i>organize</i> a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+A <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must be organized to delete obsolete segments, to repair
+a defective <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, or to upgrade a backlevel <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be organized must exist.</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select:
+<ol>
+<li>The <q>Translation Memory List</q> window</li>
+<li>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> to be organized</li>
+<li><b>Organize</b> from the <b>File</b> menu</li>
+</ol></p>
+<p>Organizing begins immediately. As it may take some time to organize
+a large <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, a window is displayed showing you the progress.</p>
+</section>
+<section><title>Options and parameters</title>
+<p>None.</p>
+</section>
+<section><title>Results</title>
+<p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is now organized and the new number of segments in
+the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is displayed. You can continue to use it.</p>
+</section></refbody></reference>

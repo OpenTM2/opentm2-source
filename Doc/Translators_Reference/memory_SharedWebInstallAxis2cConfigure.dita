@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_SharedWebInstallAxis2cConfigure">
+  <title>Configure Axis2c on the OpenTM2 Client</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>Ensure you are on the client PC.</p>
+    <p>In order to make the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> client working, add the 
+       Axis2c root directory to you system environment variables as following (For example: Axis2C is installed in <q>C:\axis2c</q>:):
+      <ul>
+        <li>Open the system environment as following, and add a new system variable. The name is: <q>AXIS2C_HOME</q>, and the value is <q>C:\axis2c</q>.</li>
+        <li>Add <q>;%AXIS2C_HOME%\lib;</q> to the <q>Path</q> system variable.</li>  
+      </ul>
+    </p>
+  </body>
+</topic>

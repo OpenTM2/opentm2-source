@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_ParsLoadMarkup">
+  <title>ParsLoadMarkup</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>programming interface calls<indexterm>ParsLoadMarkup</indexterm></indexterm>
+      <indexterm>ParsLoadMarkup</indexterm>
+      <indexterm>parser API<indexterm>ParsLoadMarkup</indexterm></indexterm>
+      <p><i>ParsLoadMarkup</i> loads a markup table into memory for usage with the
+          <i>ParsTokenize</i> or <i>ParsTokenizeW</i> function. The markup table is loaded from the
+          <codeph>\otm\table</codeph> directory.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>ParsLoadMarkup</kwd>
+          <delim>(</delim>
+          <var>hParser</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>phMarkup</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszMarkup</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="80*"/>
+          <colspec colname="col2" colwidth="80*"/>
+          <colspec colname="col3" colwidth="160*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HPARSER</entry>
+              <entry colname="col2">hParser</entry>
+              <entry colname="col3">The parser API handle, created by the <i>ParsInitialize</i>
+                function.</entry>
+            </row>
+            <row>
+              <entry colname="col1">HPARSMARKUP*</entry>
+              <entry colname="col2">phMarkup</entry>
+              <entry colname="col3">The pointer to the buffer in memory that receives the markup
+                handle.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CHAR</entry>
+              <entry colname="col2">pszMarkup</entry>
+              <entry colname="col3">The pointer to the zero-terminated markup table name (without
+                path and extension, for example, <codeph>EQFANSI</codeph>).</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>Integer of <codeph>0</codeph>, if the markup table is successfully loaded, or an error
+        code.</p>
+    </section>
+  </refbody>
+</reference>

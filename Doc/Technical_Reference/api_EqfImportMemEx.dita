@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfImportMemEx" rev="GF_07122015">
+  <title>EqfImportMemEx</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfImportMemEx</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfImportMemEx</indexterm></indexterm>
+      <p><i>EqfImportMemEx</i> imports a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+         into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p>This API-call imports a translation memory the same way as with <b>EqfImportMem</b>. In addition, 
+         a <b>match segment ID</b> is created, if the memory proposal does not contain a match segment ID yet, 
+         and one (or both) of the new parameters <b>pszStoreID</b> and <b>pszTM_ID</b> has/have been specified. 
+         Using the new option <b>FORCENEWMATCHID_OPT</b> any existing match segment ID is ignored and a new 
+         match segment ID is always created.</p>
+      <p>This API-call performs the import in small units. Call it repetitively until it returns a return code 
+         other than CONTINUE_RC.</p>
+    </section>
+
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfImportMem</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszMemName</var>
+          <sep>,</sep>
+          <var>pszInFile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszStoreID</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszTM_ID</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszUnUsed1</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <groupseq importance="optional">
+            <var>pszUnUsed2</var>
+          </groupseq>
+          <sep>,</sep>
+        </groupseq>
+
+        <groupseq>
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd>ANSI_OPT</kwd>
+              <kwd>ASCII_OPT</kwd>
+              <kwd>UTF16_OPT</kwd>
+              <groupseq>
+                <kwd>TMX_OPT</kwd>
+                <groupseq importance="optional">
+                  <kwd>CLEANRTF_OPT</kwd>
+                </groupseq>
+              </groupseq>
+            </groupchoice>
+          </groupseq>
+          <groupseq>
+            <groupchoice importance="optional">
+              <kwd>IGNORE_OPT</kwd>
+              <kwd>FORCENEWMATCHID_OPT</kwd>
+            </groupchoice>
+            <delim>)</delim>
+            <sep>;</sep>
+          </groupseq>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszMemName</entry>
+              <entry colname="col3">The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> 
+                to be imported. If a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> with this name 
+                already exists, the imported data is merged into the existing 
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszInFile</entry>
+              <entry colname="col3">The fully qualified name of the file containing the 
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> data.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszStoreID</entry>
+              <entry colname="col3">Identifier of the origin of the translation memory.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTM_ID</entry>
+              <entry colname="col3">Identifier for the memory within the StoreID.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszUnUsed1</entry>
+              <entry colname="col3">Unused parameter, free for future enhancements.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszUnUsed2</entry>
+              <entry colname="col3">Unused parameter, free for future enhancements.</entry>
+            </row>
+
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3"><p>The options to be used for the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> import:</p> 
+                <p>
+                <ul>
+                  <li>Import Mode:
+                    <ul>
+                      <li>ANSI_OPT (The translation memory is ANSI encoded).</li>
+                      <li>ASCII_OPT (The translation memory is ASCII encoded).</li>
+                      <li>TMX_OPT (The translation memory is a TMX memory).</li>
+                      <li>UTF16_OPT (The translation memory is UTF-16 encoded).</li>
+                      <li>XLIFF_MT_OPT (The translation memory is a XLIFF memory).</li>
+                    </ul> 
+                  </li>
+                  <li>Markup Table Handling:
+                    <ul>
+                      <li>CANCEL_UNKNOWN_MARKUP_OPT (Cancel import if unknown markup detected).</li>
+                      <li>GENRIC_UNKNOWN_MARKUP_OPT (Put a generic markup table to unknown markup).</li>
+                      <li>SKIP_UNKNOWN_MARKUP_OPT (Skip segments with unknown markup).</li>
+                    </ul> 
+                  </li>
+                  <li>Other:
+                    <ul>
+                      <li>CLEANRTF_OPT can be used together with the <b>TMX_OPT</b> to remove <b>RTF tags</b> from the imported data.</li>
+                      <li>FORCENEWMATCHID_OPT (Ignore existing match segment ID's. New match segment IDs are always created).</li>
+                      <li>IGNORE_OPT (Ignore invalid segments and continue with the import).</li>
+                    </ul>  
+                  </li>
+                </ul>
+                </p>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The translation memory has been imported successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">10003 (CONTINUE_RC)</entry>
+              <entry colname="col2">The <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+                import has not completed yet. Call <i>EqfImportMemEX</i> again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph otherprops="print">Error code (EQF message number). Use <i>EqfGetLastError</i>
+                  (see <ph otherprops="print">page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></ph>
+                  <xref otherprops="display" href="api_EqfGetLastError.dita#api_EqfGetLastError"/>)
+                  to retrieve the complete error information.</ph>
+                <ph otherprops="display">Error code (EQF message number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> 
+                  to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+USHORT usRC = 0; 
+HSESSION hSession = 0L;
+// start the OpenTM2 API session 
+usRC = EqfStartSession( &amp;hSession );
+// Import the external Translation Memory MEM1.EXP into Translation 
+// Memory MEMDB1 and create a match segment ID using the provided
+// StoreID "TMB" and the TM_ID "ACP005AV2" 
+if ( !usRC ) 
+{ 
+  do 
+  { 
+    usRC = EqfImportMemEx( hSession, "MEMDB1", "C:\\MEM1.EXP", "TMB",
+                           "ACP005AV2", NULL, NULL, 0L ); 
+  } while ( usRC == CONTINUE_RC ); 
+} /* endif */
+// terminate the session 
+EqfEndSession( hSession );
+}
+      </codeblock>
+    </example>
+  </refbody>
+</reference>

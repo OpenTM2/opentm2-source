@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_PropertiesChange">
+  <title>Changing the properties of a document</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>document<indexterm>changing properties</indexterm></indexterm>
+      <p>The properties must be defined individually for each document when you import documents in
+        external format. They can be changed later.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The document must be in a folder.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>A document from the <q>Document List</q> window</li>
+          <li><b>Properties…</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Document Properties</q> window (see <xref href="#doc_PropertiesChange/dicprp"/>) is
+        displayed. <required-cleanup><indexterm>windows<indexterm>Document
+          Properties</indexterm></indexterm></required-cleanup><fig id="dicprp" expanse="column">
+          <title>Document Properties window</title><image placement="break" href="doc_PropertiesChange.gif"
+              ><alt>Figure shows Document Properties window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>On the <q>Settings</q> page:</p>
+      <parml>
+        <plentry>
+          <pt>Short name</pt>
+          <pd>This field shows the document short name. This name is the internally used file name
+            of the document.</pd>
+        </plentry>
+        <plentry>
+          <pt>Alias</pt>
+          <pd>Either this field contains the alias name that you specified during the import of the
+            document or you can specify an alias name here. <p>An alias name is useful if you want
+              to get the same exact matches from the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> as for another document that you
+              already translated. You then assign the name of the other document as alias name for
+              this document. Assume, for example, that document <codeph>docupdate</codeph> is an
+              update of <codeph>docnew</codeph> and you want to get the same exact matches from the
+                <keyword conref="common-symbols.dita#common-symbols/xlmem"/> that
+                <codeph>docnew</codeph> received. In this case, you would assign
+                <codeph>docnew</codeph> as the alias name to <codeph>docupdate</codeph>.</p>
+            <p>If an alias name exists, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+              uses this name instead of the actual document name to access the correct <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+            <p>The same alias name can be assigned to several documents. An alias name can have up
+              to 256 characters.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Folder settings</pt>
+          <pd>This box contains the properties that are specified for the folder in general. They
+            cannot be changed in this window.</pd>
+        </plentry>
+        <plentry>
+          <pt>Document settings</pt>
+          <pd>This box contains the individual settings per document. Initially these boxes are
+            empty. <p>If the document has the same properties as the folder, you do not have to
+              enter anything, and the document “inherits” the folder properties. Document properties
+              that are different from the folder properties can be selected from the respective list
+              boxes. In the <b><keyword conref="common-symbols.dita#common-symbols/xlmem"/></b>
+              field, you can type the name of a new <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>.</p></pd>
+        </plentry>
+      </parml>
+      <p id="docpropadmin">On the <q>Admin</q> page: <parml>
+          <plentry><pt>Folder administration</pt>
+            <pd>Contains part of the information specified on the <q>Admin</q> page of the <q>Folder
+                Properties</q> window. You cannot change any of the fields.</pd></plentry>
+          <plentry><pt>Document administration</pt>
+            <pd>Contains administration information about the document: <parml>
+                <plentry><pt>Translator’s name</pt>
+                  <pd>If the document is still to be translated, specify or select the name of the
+                    person to receive this document next. This can be the actual translator or the
+                    vendor, for example. If the document is already translated and on its way back
+                    to the project coordinator, leave this field blank.</pd></plentry>
+                <plentry><pt>Translator’s e-mail</pt>
+                  <pd>If the document is still to be translated, specify or select the e-mail
+                    address of the person to receive this document next. This can be the actual
+                    translator or the vendor, for example. If the document is already translated and
+                    on its way back to the project coordinator, leave this field
+                  blank.</pd></plentry>
+                <plentry><pt>Shipment number</pt>
+                  <pd>Contains the shipment number assigned to the folder containing this document.
+                    You cannot change this field.</pd></plentry>
+              </parml></pd></plentry>
+        </parml></p>
+      <p>The <q>Statistics</q> page contains information about the translation status of
+        the document. The data cannot be changed in this window.</p>
+      <parml>
+        <plentry>
+          <pt>Date of source file</pt>
+          <!--Open: Check relative position of this item.-->
+          <pd><indexterm>date<indexterm>of source file</indexterm></indexterm><indexterm>source
+                file<indexterm>date of</indexterm></indexterm><indexterm>statistics<indexterm>date
+                of source
+                file</indexterm></indexterm><indexterm>document<indexterm>properties</indexterm></indexterm>The
+            date and time at which the source file was last modified outside <keyword
+              conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Size</pt>
+          <pd>The number of bytes the document occupies on your disk.</pd>
+        </plentry>
+        <plentry>
+          <pt>Translated</pt>
+          <pd>The date and time at which translation was completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>Analyzed</pt>
+          <pd>The date and time at which the document was analyzed.</pd>
+        </plentry>
+        <plentry>
+          <pt>Date of export</pt>
+          <pd>The date and time at which the document was last exported.</pd>
+        </plentry>
+        <plentry>
+          <pt>Date of import</pt>
+          <pd>The date and time at which the document was last imported.</pd>
+        </plentry>
+        <plentry>
+          <pt>Last update</pt>
+          <pd>The date and time at which the document was last updated in the <keyword
+              conref="common-symbols.dita#common-symbols/xlenv"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Completion rate</pt>
+          <pd>The percentage to which the document is already translated.</pd>
+        </plentry>
+        <plentry>
+          <pt>Changed segments</pt>
+          <pd>The number of segments that were copied during the translation from the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> and then changed.</pd>
+        </plentry>
+        <plentry>
+          <pt>New segments</pt>
+          <pd>The number of segments that were entered entirely new without copying a match from the
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Copied segments</pt>
+          <pd>The number of segments that were copied from the <keyword
+              conref="common-symbols.dita#common-symbols/xlmem"/> and saved unchanged.</pd>
+        </plentry>
+      </parml>
+      <p>To save the specified properties for this document, click <b>Change</b>.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The properties are saved for this document.</p>
+    </section>
+  </refbody>
+</reference>

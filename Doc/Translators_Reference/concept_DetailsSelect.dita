@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="concept_DetailsSelect">
+  <title>Viewing selected details</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Prerequisites</title>
+      <p>The respective list window is already selected. </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Details</b> from the <b>View</b> menu. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The list window contains for each list item the detail information as previously defined.
+        As an example, the <q>Document List</q> window is shown in <xref
+          href="#concept_DetailsSelect/doclstc"/>. <fig id="doclstc" expanse="column">
+          <title>Document List window sample with selected details</title><image placement="break"
+            href="concept_DetailsSelect.gif"><alt>Figure shows Document List window sample with selected
+              details</alt></image></fig></p>
+      <p>As a default setting, only the names are displayed. You can change the details to be
+        displayed (see <xref href="concept_DetailsChange.dita#concept_DetailsChange"/>). Once you have defined
+        your setting of the details, they are displayed as selected. </p>
+    </section>
+  </refbody>
+</reference>

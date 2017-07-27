@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_EQFCHECKSEGW">
+<title><!--rev=ng020-->EQFCHECKSEGW</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFCHECKSEGW</indexterm></indexterm><indexterm>EQFCHECKSEGW</indexterm>
+<p><i>EQFCHECKSEGW</i> is called during the translation
+of a document after a segment has been translated but not saved yet
+in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>. It can modify the segment, for example change lowercase
+characters to uppercase, and prevent the segment from being saved,
+for example if specific length limits have been exceeded.</p>
+<p><i>EQFCHECKSEGW</i> is also called when exact
+matches are automatically substituted during the analysis of a document.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFCHECKSEGW</kwd><delim>(</delim><var>PreviousSourceSegment</var><sep>,</sep><var>CurrentSourceSegment</var><sep>,</sep></groupseq>
+<groupseq><var>Translation</var><sep>,</sep><var>ModifyFlag</var><sep>,</sep><var>MessageFlag</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>PreviousSourceSegment</var></synph></pt>
+<pd>The pointer to the text of the previous source segment.</pd></plentry>
+<plentry><pt><synph><var>CurrentSourceSegment</var></synph></pt>
+<pd>The pointer to the text of the current source segment.</pd></plentry>
+<plentry><pt><synph><var>Translation</var></synph></pt>
+<pd>The pointer to the translation of the current segment.</pd></plentry>
+<plentry><pt><synph><var>ModifyFlag</var></synph></pt>
+<pd>The pointer to the flag that is set when the user exit has modified
+the translated segment.</pd></plentry>
+<plentry><pt><synph><var>MessageFlag</var></synph></pt>
+<pd>The flag indicating whether a message box is shown.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The return code indicates if the segment can be saved.</p>
+</section></refbody></reference>

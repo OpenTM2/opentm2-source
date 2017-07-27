@@ -1,4 +1,4 @@
-# Copyright (c) 2014, International Business Machines
+# Copyright (c) 2014-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 
 #------------------------------------------------------------------------------
@@ -42,6 +42,6 @@ $(_DLL)\standard.DLL: $(_OBJ)\eqfbmain.obj
 $(_OBJ)\eqfbmain.obj
 /OUT:$(_DLL)\standard.dll
 $(_LINK_OPTIONS) /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.LIB $(_LIB)\OtmAlloc.LIB $(_LIB)\OtmDll.LIB $(_LIB)\OtmAPI.LIB
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.LIB $(_LIB)\OtmDll.LIB $(_LIB)\OtmAPI.LIB
 <<
 

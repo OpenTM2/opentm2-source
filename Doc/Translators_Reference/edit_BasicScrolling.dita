@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_BasicScrolling">
+  <title>Scrolling</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>editor functions<indexterm>scrolling</indexterm></indexterm>
+        <indexterm>scrolling</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Scroll...</entry>
+            <entry valign="top" rowsep="1">Action</entry>
+            <entry valign="top" rowsep="1">Comment</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Dictionary proposal down</entry>
+            <entry valign="top">Alt+down</entry>
+            <entry valign="top">Moves text 1 line down.</entry>
+          </row>
+          <row>
+            <entry valign="top">Dictionary proposal up</entry>
+            <entry valign="top">Alt+up</entry>
+            <entry valign="top">Moves text 1 line up.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation down</entry>
+            <entry valign="top">Shift+F4</entry>
+            <entry valign="top">Moves text 1 line down.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation left</entry>
+            <entry valign="top">Shift+F5</entry>
+            <entry valign="top">Moves text 1 character to the left.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation right</entry>
+            <entry valign="top">Shift+F2</entry>
+            <entry valign="top">Moves text 1 character to the right.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation up</entry>
+            <entry valign="top">Shift+F3</entry>
+            <entry valign="top">Moves text 1 line up.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation Memory proposal down</entry>
+            <entry valign="top">Ctrl+down</entry>
+            <entry valign="top">Moves text 1 line down.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation Memory proposal up</entry>
+            <entry valign="top">Ctrl+up</entry>
+            <entry valign="top">Moves text 1 line up.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation down</entry>
+            <entry valign="top">Page Down</entry>
+            <entry valign="top">Moves text 1 page down.</entry>
+          </row>
+          <row>
+            <entry valign="top">Translation up</entry>
+            <entry valign="top">Page Up</entry>
+            <entry valign="top">Moves text 1 page up.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

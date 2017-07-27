@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_ExportExternalPath">
+  <title>Exporting a document in external format with a path</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>documents in external format with path</indexterm></indexterm>
+      <indexterm>document<indexterm>exporting in external format with path</indexterm></indexterm>
+      <p>You can export a document in external format with its entire path information. You use this
+        format to distribute a translated document for checking, for example, using the relative
+        path information of the document to build the fully qualified name for the document to be
+        exported. </p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To export a document in external format, select <b>External Format with relative path</b>
+        from <b>Export as</b>.</p>
+      <p>The <q>External Format with relative path</q> page is displayed (see <xref
+          href="#doc_ExportExternalPath/expdocexpathwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Export Documents (External format with
+              path information)</indexterm></indexterm></required-cleanup><fig id="expdocexpathwin"
+          expanse="column">
+          <title>Export Documents window (External format with path information)</title><image
+            placement="break" href="doc_ExportExternalPath.gif"><alt>Figure shows Export Documents window
+              (External format with path information)</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <p>The page displayed differs from the <q>External</q> page in only one field, <b>Start
+          path</b> instead of <b>Path</b>. The following sections describe only this field. For an
+        explanation of all other fields, refer to <xref href="doc_ExportExternal.dita#doc_ExportExternal"
+        />.</p>
+      <parml>
+        <plentry>
+          <pt>Start path</pt>
+          <pd>Type the path name on the selected drive where you want the translated or original
+            document to be stored. Use a trailing backslash (\). The path that you specify in this
+            field will also be stored as part of its name. For example, if the document name is
+              <codeph>vers\docs\device.html</codeph> and the start path is
+            <codeph>\target\</codeph>, the document is exported under
+              <codeph>\target\vers\docs\device.html</codeph>.</pd>
+        </plentry>
+      </parml>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is exported in external format under its name and path information and stored
+        as an HTML file in the directory under the file name you specified. The document can then be
+        further processed with the corresponding word-processing system.</p>
+      <p>If the path that you specified does not exist yet, you are asked whether you want to create
+        the new path. If you are exporting one document, click <b>Yes</b>. If you are exporting
+        several documents and the path is to apply to all documents, click <b>Yes to All</b>.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_BasicMovingMarkedText">
+  <title>Moving around marked text</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>editor functions<indexterm>working with marked blocks of text</indexterm></indexterm>
+        <indexterm>copying<indexterm>marked text</indexterm></indexterm>
+        <indexterm>deleting<indexterm>marked text</indexterm></indexterm>
+        <indexterm>moving<indexterm>marked text</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>To copy, move, or delete a section of text within a segment, the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+      editor provides key combinations. Selecting a section of the text is called <b>marking</b>. You can mark text across several segments or 
+      lines. Marked text is displayed in reverse image.</p>
+    <p>To work with a text section: 
+      <ol>
+        <li>Mark the text to be copied, moved, or deleted by using the respective key combination. The 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor highlights the area to show you what you have marked.</li>
+        <li>Move the cursor to the position where you want to copy or move the highlighted text.</li>
+        <li>Use the respective key combination depending on what you want to do with the marked text (copy, move, or delete).</li>
+      </ol>
+    </p>
+    <p>To manipulate a block of text, use one of the following key combinations:</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Task</entry>
+            <entry valign="top" rowsep="1">Action</entry>
+            <entry valign="top" rowsep="1">Comment</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Copy block</entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Copies a marked text section to the current cursor position.</entry>
+          </row>
+          <row>
+            <entry valign="top">Copy block to clipboard</entry>
+            <entry valign="top">Ctrl+Insert</entry>
+            <entry valign="top">Copies a marked text section to the 
+              <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> clipboard.</entry>
+          </row>
+          <row>
+            <entry valign="top">Copy proposal block to clipboard</entry>
+            <entry valign="top">Ctrl+letter of proposal</entry>
+            <entry valign="top"><indexterm>copying<indexterm>Translation Memory proposals</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>copying proposals</indexterm></indexterm>Copies a marked 
+              <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposal, or part of it, to the active segment in the 
+              <q>Translation</q> window. Marking is only possible within one proposal. If you specified line wrapping for this translation, 
+              the copied text is also wrapped.</entry>
+          </row>
+          <row>
+            <entry valign="top">Cut block to clipboard</entry>
+            <entry valign="top">Shift+Delete</entry>
+            <entry valign="top">Copies a marked text section to the 
+              <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> clipboard and then removes 
+              the block.</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete block</entry>
+            <entry valign="top">Key or command to be assigned</entry>
+            <entry valign="top">Removes a marked text section.</entry>
+          </row>
+          <row>
+            <entry valign="top">Find block</entry>
+            <entry valign="top">Cursor menu, "Find block"</entry>
+            <entry valign="top">Moves cursor to marked text section.</entry>
+          </row>
+          <row>
+            <entry valign="top">Mark block</entry>
+            <entry valign="top">Shift+Cursor, or mouse</entry>
+            <entry valign="top">Marks a text section.</entry>
+          </row>
+          <row>
+            <entry valign="top">Mark word</entry>
+            <entry valign="top">Key or command to be assigned</entry>
+            <entry valign="top">Marks the word where the cursor is positioned.</entry>
+          </row>
+          <row>
+            <entry valign="top">Move block</entry>
+            <entry valign="top">Key or command to be assigned</entry>
+            <entry valign="top">Moves a marked text section to another position.</entry>
+          </row>
+          <row>
+            <entry valign="top">Paste block from clipboard</entry>
+            <entry valign="top">Shift+Insert</entry>
+            <entry valign="top">Inserts marked text section from clipboard into text.</entry>
+          </row>
+          <row>
+            <entry valign="top">Unmark block</entry>
+            <entry valign="top">Edit menu, "Unmark block"</entry>
+            <entry valign="top">Removes marking from text section.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <note>
+      <ol>
+        <li>Only the active segment or, if in postediting mode, translated segments can be cut to the 
+          <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> clipboard.</li>
+        <li>Marked areas can only be moved within the active segment or, if in postediting mode, the translated segments.</li>
+        <li>When copying text, remember that a segment can have a maximum size of 2 KB.</li>
+      </ol>
+    </note>
+  </body>
+</topic>

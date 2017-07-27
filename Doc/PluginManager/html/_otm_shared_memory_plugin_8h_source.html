@@ -190,44 +190,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00309"></a>00309       std::vector&lt;std::string&gt; &amp;users
 <a name="l00310"></a>00310     ) = 0;
 <a name="l00311"></a>00311 
-<a name="l00312"></a>00312 
-<a name="l00313"></a>00313   <span class="keyword">virtual</span> <span class="keywordtype">int</span> replicateWithServer(
-<a name="l00314"></a>00314            PSZ pszName,
-<a name="l00315"></a>00315            <a class="code" href="class_otm_memory.html" title="Abstract base-class for translation memory objects.">OtmMemory</a>* pLocalMem, 
-<a name="l00316"></a>00316            <span class="keywordtype">bool</span> isUpload
-<a name="l00317"></a>00317            ) = 0;
+<a name="l00312"></a>00312 <span class="comment">/* \brief add a new memory information to memory list</span>
+<a name="l00313"></a>00313 <span class="comment">    \param pszName memory name</span>
+<a name="l00314"></a>00314 <span class="comment">    \param chToDrive drive letter</span>
+<a name="l00315"></a>00315 <span class="comment">    \returns 0 if success</span>
+<a name="l00316"></a>00316 <span class="comment">*/</span>
+<a name="l00317"></a>00317  <span class="keyword">virtual</span> <span class="keywordtype">int</span> addMemoryToList(PSZ pszName, CHAR chToDrive)=0;
 <a name="l00318"></a>00318 
-<a name="l00319"></a>00319 <span class="comment">/* \brief add a new memory information to memory list</span>
-<a name="l00320"></a>00320 <span class="comment">    \param pszName memory name</span>
-<a name="l00321"></a>00321 <span class="comment">    \param chToDrive drive letter</span>
-<a name="l00322"></a>00322 <span class="comment">    \returns 0 if success</span>
-<a name="l00323"></a>00323 <span class="comment">*/</span>
-<a name="l00324"></a>00324  <span class="keyword">virtual</span> <span class="keywordtype">int</span> addMemoryToList(PSZ pszName, CHAR chToDrive)=0;
-<a name="l00325"></a>00325 
-<a name="l00326"></a>00326 <span class="comment">/* \brief remove a memory information from memory list</span>
-<a name="l00327"></a>00327 <span class="comment">   \param  pszName memory name</span>
+<a name="l00319"></a>00319 <span class="comment">/* \brief remove a memory information from memory list</span>
+<a name="l00320"></a>00320 <span class="comment">   \param  pszName memory name</span>
+<a name="l00321"></a>00321 <span class="comment">   \returns 0 if success</span>
+<a name="l00322"></a>00322 <span class="comment">*/</span>
+<a name="l00323"></a>00323  <span class="keyword">virtual</span> <span class="keywordtype">int</span> removeMemoryFromList(PSZ pszName)=0;
+<a name="l00324"></a>00324 
+<a name="l00325"></a>00325  <span class="comment">/* \brief set the owner of the memory</span>
+<a name="l00326"></a>00326 <span class="comment">    \param pszMemoryName memory name</span>
+<a name="l00327"></a>00327 <span class="comment">    \param  pszOwner new owner for the memory</span>
 <a name="l00328"></a>00328 <span class="comment">   \returns 0 if success</span>
 <a name="l00329"></a>00329 <span class="comment">*/</span>
-<a name="l00330"></a>00330  <span class="keyword">virtual</span> <span class="keywordtype">int</span> removeMemoryFromList(PSZ pszName)=0;
+<a name="l00330"></a>00330  <span class="keyword">virtual</span> <span class="keywordtype">int</span> setOwner( PSZ pszMemoryName, PSZ pszOwner)=0;
 <a name="l00331"></a>00331 
-<a name="l00332"></a>00332  <span class="comment">/* \brief set the owner of the memory</span>
-<a name="l00333"></a>00333 <span class="comment">    \param pszMemoryName memory name</span>
-<a name="l00334"></a>00334 <span class="comment">    \param  pszOwner new owner for the memory</span>
+<a name="l00332"></a>00332  <span class="comment">/* \brief Replace the data of one memory with the data of another memory and delete the remains of the second memory</span>
+<a name="l00333"></a>00333 <span class="comment">    \param pszReplace name of the memory whose data is being replaced</span>
+<a name="l00334"></a>00334 <span class="comment">    \param pszReplaceWith name of the memory whose data will be used to replace the data of the other memory</span>
 <a name="l00335"></a>00335 <span class="comment">   \returns 0 if success</span>
 <a name="l00336"></a>00336 <span class="comment">*/</span>
-<a name="l00337"></a>00337  <span class="keyword">virtual</span> <span class="keywordtype">int</span> setOwner( PSZ pszMemoryName, PSZ pszOwner)=0;
+<a name="l00337"></a>00337  <span class="keyword">virtual</span> <span class="keywordtype">int</span> replaceMemory( PSZ pszReplace, PSZ pszReplaceWith ) = 0;
 <a name="l00338"></a>00338 
-<a name="l00339"></a>00339  <span class="comment">/* \brief Replace the data of one memory with the data of another memory and delete the remains of the second memory</span>
-<a name="l00340"></a>00340 <span class="comment">    \param pszReplace name of the memory whose data is being replaced</span>
-<a name="l00341"></a>00341 <span class="comment">    \param pszReplaceWith name of the memory whose data will be used to replace the data of the other memory</span>
-<a name="l00342"></a>00342 <span class="comment">   \returns 0 if success</span>
-<a name="l00343"></a>00343 <span class="comment">*/</span>
-<a name="l00344"></a>00344  <span class="keyword">virtual</span> <span class="keywordtype">int</span> replaceMemory( PSZ pszReplace, PSZ pszReplaceWith ) = 0;
-<a name="l00345"></a>00345 
-<a name="l00346"></a>00346 };
-<a name="l00347"></a>00347 
-<a name="l00348"></a>00348 <span class="preprocessor">#endif // #ifndef _OTMSHAREDMEMORYPLUGIN_H_</span>
-<a name="l00349"></a>00349 <span class="preprocessor"></span> 
+<a name="l00339"></a>00339 };
+<a name="l00340"></a>00340 
+<a name="l00341"></a>00341 <span class="preprocessor">#endif // #ifndef _OTMSHAREDMEMORYPLUGIN_H_</span>
+<a name="l00342"></a>00342 <span class="preprocessor"></span> 
 </pre></div></div>
 </div>
 <!--- window showing the filter options -->
@@ -244,7 +237,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 4 2017 17:30:19 for PluginManager by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 27 2017 15:35:44 for PluginManager by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.2 </small></address>
 </body>

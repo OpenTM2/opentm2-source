@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appHint_WordPicture">
+<title>Problem: Word files with embedded picture data cannot be exported</title>
+<prolog><metadata><keywords>
+
+<indexterm>tips<indexterm>no export with Word files</indexterm></indexterm>
+<indexterm>Word files<indexterm>no export possible</indexterm></indexterm>
+<indexterm>exporting<indexterm>fails with Word Files</indexterm></indexterm>
+<indexterm>embedded objects<indexterm>in Word documents</indexterm></indexterm>
+<indexterm>convert<indexterm>embedded objects in Word files</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The export of .doc and .rtf documents might fail if they contain embedded
+objects in a format other than Word's native format. To overcome this problem,
+convert the embedded objects into graphics before importing.</p>
+<p>
+<ol>
+<li>Open a document in <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word and locate all pictures,
+one after the other.</li>
+<li>Click a picture, and observe the status line.</li>
+<li>If the status line shows <q>Double-click to edit Unknown</q>, this picture
+is not stored in native format.</li>
+<li>Mark this picture and press CTRL-SHIFT-F9, which converts the embedded
+object into a graphic.</li>
+<li>For verification, click the picture again. The <q>Double-click to edit
+Unknown</q> message should not appear.</li>
+<li>Continue until all pictures are processed this way.</li>
+</ol></p>
+</body></topic>

@@ -7090,6 +7090,10 @@ USHORT TAFuncAnalysisProcess
          pInD->fUseLatestTMMatch = pTAInput->fUseLatestTMMatch;
          pInD->fExactContextTMMatch = pTAInput->fExactContextTMMatch;
          pInD->fProtXmp = pTAInput->fProtXmp;
+         pInD->fProtMsgNum = pTAInput->fProtMsgNum;           /* 4-13-14 */
+         pInD->fProtScreen = pTAInput->fProtScreen;
+         pInD->fProtMeta = pTAInput->fProtMeta;
+         pInD->fProtCodeBlock = pTAInput->fProtCodeBlock;
 
          pData->usProgress = 0;
 

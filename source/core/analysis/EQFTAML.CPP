@@ -1,5 +1,5 @@
 /*! \brief EQFTAML.CPP
-	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2017, International Business Machines Corporation and others. All rights reserved.
 	Description: XML Output related functions of TranslationManager
 */
 
@@ -995,11 +995,12 @@ static int MakeOutFileName
 
   switch ( Format )
   {
-    case HTML_VALEXPFORMAT : pszFormatExtension = ".HTM"; break;
-    case XML_VALEXPFORMAT  : pszFormatExtension = ".XML"; break;
-    case DOC_VALEXPFORMAT  : pszFormatExtension = ".DOC"; break;
+    case HTML_VALEXPFORMAT     : pszFormatExtension = ".HTM"; break;
+    case XML_VALEXPFORMAT      : pszFormatExtension = ".XML"; break;
+    case DOC_VALEXPFORMAT      : pszFormatExtension = ".DOC"; break;
     case PLAINXML_VALEXPFORMAT : pszFormatExtension = ".XML"; break;
-    case ODT_VALEXPFORMAT :  pszFormatExtension = ".ODT"; break;
+    case ODT_VALEXPFORMAT      : pszFormatExtension = ".ODT"; break;
+    case DOCX_VALEXPFORMAT     : pszFormatExtension = ".DOCX"; break;
   } /*endswitch */
   if ( !fUserName || (strchr( pszName, '.' ) == NULL) )
   {
@@ -1021,6 +1022,7 @@ static int MakeOutFileName
       case PLAINXML_VALEXPFORMAT :
       case XML_VALEXPFORMAT  :
       case DOC_VALEXPFORMAT  :
+      case DOCX_VALEXPFORMAT  :
         if ( stricmp( pszExt, pszFormatExtension ) != 0 )
         {
           strcat( pszExt, pszFormatExtension );
@@ -1402,7 +1404,8 @@ static int ConvertHtml2Doc
 (
   PDOCEXPVALFORMATDATA pData,                    // data area
   PSZ         pszHtmlFile,                       // name of file containing the HTML document
-  PSZ         pszDocFile                         // name of file receiving the document in DOC format
+  PSZ         pszDocFile,                        // name of file receiving the document in DOC format
+  int         DocFormat                          // type of document to create (DOC or DOCX)
 )
 {
   int iRC = 0;
@@ -1517,6 +1520,8 @@ static int ConvertHtml2Doc
     parm.bstrVal = EQFAnsiToUnicode(pszDocFile);
     VARIANT parm1;
     parm1.vt = VT_I4;
+    if ( DocFormat == DOCX_VALEXPFORMAT) 
+       num = 16;       // use DOCX format for save-as
     parm1.lVal = num;
     fOleOK = EQFAutoWrap( DISPATCH_METHOD, &result, pDispDoc, "SaveAs", 2,  parm1, parm);
     if ( !fOleOK ) iRC = ERROR_CALL_WORD_APPLICATION;
@@ -1804,7 +1809,7 @@ static int CreateFinalOutputFile
       } /* endif */
 
     }
-    else if ( pData->Options.ValFormat == DOC_VALEXPFORMAT )
+    else if ( (pData->Options.ValFormat == DOC_VALEXPFORMAT) || (pData->Options.ValFormat == DOCX_VALEXPFORMAT) )
     {
       //
       // DOC output
@@ -1821,7 +1826,7 @@ static int CreateFinalOutputFile
       } /* endif */
 
       // convert HTML to DOC
-      if ( !iRC ) iRC = ConvertHtml2Doc( pData, pData->szHtmlFile, pData->szFinalOutFile );
+      if ( !iRC ) iRC = ConvertHtml2Doc( pData, pData->szHtmlFile, pData->szFinalOutFile, pData->Options.ValFormat );
 
       // delete temp files
       UtlDelete( pszXmlFile, 0L, FALSE );

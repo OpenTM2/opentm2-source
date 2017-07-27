@@ -8,7 +8,6 @@
 # +----------------------------------------------------------------------------+
 
 !include $(_BLD)\EQFMSG.MAK
-!include $(_BLD)\OtmAlloc.MAK
 !include $(_BLD)\OtmBase.MAK
 !include $(_BLD)\PluginManager.MAK
 !include $(_BLD)\PluginMgrAssist.mak
@@ -52,5 +51,6 @@
 !include $(_BLD)\OtmGetToolInfo.mak
 !include $(_BLD)\OtmSetToolPathEnv.mak
 !include $(_BLD)\OtmProfileMgrPlugin.mak
+!include $(_BLD)\OtmProofReadImportPlugin.mak
 !include $(_BLD)\BUILDRELEASE.MAK
 

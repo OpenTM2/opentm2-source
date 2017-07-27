@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="tools_MemoryMeta">
+  <title>Changing the markup, target language and date of segments</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>Translation Memory<indexterm>changing markup table, target language and date of segments</indexterm></indexterm>
+      <indexterm>segments<indexterm>changing markup table, target language and date</indexterm></indexterm>
+      <indexterm>markup table language<indexterm>changing</indexterm></indexterm>
+      <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to change the markup table name, 
+         the target language or the date of segments stored in a <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OtmMemoryTool</indexterm>
+      <indexterm>commands<indexterm>OtmMemoryTool</indexterm></indexterm>
+      <p>The following syntax diagram describes how to change the <b>markup table name</b>, 
+         the <b>target language</b> or the <b>date</b> of segments using the 
+         DOS line command utility OtmMemoryTool. Note that lowercase letters in a parameter name are 
+         optional and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OtmMemoryTool</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TASK</kwd>
+          <oper>=</oper>
+          <kwd>ChgProposalMeta</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupchoice importance="required">
+          <groupseq>
+            <delim>/</delim>
+            <kwd>FromMarkup</kwd>
+            <oper>=</oper>
+            <var>frommu</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>ToMarkup</kwd>
+            <oper>=</oper>
+            <var>tomu</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>FromLang</kwd>
+            <oper>=</oper>
+            <var>fromlang</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>ToLang</kwd>
+            <oper>=</oper>
+            <var>tolang</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>DAte</kwd>
+            <oper>=</oper>
+            <var>newdate</var>
+          </groupseq>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>DOc</kwd>
+            <oper>=</oper>
+            <var>document</var>
+          </groupseq>
+        </groupchoice>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TYpe</kwd>
+          <oper>=</oper>
+          <kwd>NOCONF</kwd>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TASK=<synph><var>ChgProposalMeta</var></synph></pt>
+          <pd><synph><var>ChgProposalMeta</var></synph> specifies the task to change meta data in a translation memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MEm=<synph><var>memdb</var></synph></pt>
+          <pd><synph><var>memdb</var></synph> specifies the name of the Translation Memory to work with.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FromMarkup=</pt>
+          <pd><synph><var>frommu</var></synph> is the name of the markup table to be changed. The
+              name can contain wildcard characters. For example, <codeph>/FROMMARKUP=OTM*</codeph>
+              would change all segments with a markup table name starting with OTM. If this parameter is
+              omitted, the markup tabel name of <b>all</b> segments is changed. This parameter 
+              can also be used to restrict the number of segments being changed when changing languages 
+              or segment dates. If specified without the /ToMarkup parameter, only segments from the 
+              specified markup table will be changed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/ToMarkup=</pt>
+          <pd><synph><var>tomu</var></synph> is the new markup table name to be used for either the
+              segments with the markup table name <synph><var>frommu</var></synph> or all segments if the
+              /FROMMARKUP parameter is omitted.
+              <p><b>Note: </b>When the markup table name of segments has been changed, the tool performs 
+              an organize of the memory at the end of the processing. This ensures that the memory 
+              lookup works correctly after a change of the markup table name.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>/FromLang=</pt>
+          <pd><synph><var>fromlang</var></synph> is the name of the target language to be changed.
+            The name can contain wildcard characters. For example, <codeph>/FROMLANG=Eng*</codeph>
+            would change all segments with a target language starting with <q>Eng</q>. If this parameter 
+            is omitted, the target language of all segments is changed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/ToLang=</pt>
+          <pd><synph><var>tolang</var></synph> is the new target language to be used for either the
+            segments with target language <synph><var>fromlang</var></synph> or all segments if the
+            /FROMLANG parameter is omitted.</pd>
+        </plentry>
+        <plentry>
+          <pt>/DAte=</pt>
+          <pd><synph><var>newdate</var></synph> is the new date to be set for the segments. The
+            format of newdate is YYYY-MM-DD HH:MM:SS. The time part (HH:MM:SS) is optional. You can
+            also specify an asterisk (<q>*</q>) as newdate, which instructs the OtmMemoryTool to use the
+            current system date as segment date. For example, <codeph>/DATE=2016-01-01</codeph>
+            would change the segment date of all changed segments to the 1st January 2016.</pd>
+        </plentry>
+        <plentry>
+          <pt>/DOC=</pt>
+          <pd>By using this parameter, the changed segments can be restricted to segments from dedicated 
+              document names. The name can contain wildcard characters. For example, <codeph>/
+              DOC=A*</codeph> would change all segments from documents starting with the letter A.</pd>
+        </plentry>
+        <plentry>
+          <pt>/TYpe=NOCONF</pt>
+          <pd>If you specify this parameter, no confirmation message is displayed. This is useful if
+              you do not want to be interrupted by progress messages while you are working. <p>If you
+              do not specify this parameter, the <q>Change Markup and Target Language</q> window is
+              displayed.</p>
+            <p>This window contains the following information: <ul>
+                <li>The name of the Translation Memory</li>
+                <li>The number of the current segment</li>
+                <li>The number of segments whose markup was changed</li>
+                <li>The number of segments whose target language was changed</li>
+                <li>The number of segments whose date was changed</li>
+              </ul></p>
+            <p>At the end of the process, you get a completion message showing the number of
+               segments processed and changed.</p></pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following examples show how to change the markup or language of segments using the OtmMemoryTool.</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example 1</title>
+          <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=mymem /FromMarkup=OTMASCII /ToMarkup=OTMANSI</codeblock>
+        </section>-->
+      <p> <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=mymem /FromMarkup=OTMASCII /ToMarkup=OTMANSI</codeblock></p>
+<!--      </required-cleanup>-->
+      <p>In this example, the markup table of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+         <codeph>mymem</codeph> is changed from (<codeph>OTMASCII</codeph>) to (<codeph>OTMANSI</codeph>).</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example 2</title>
+          <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=mymem /fromlang=English(U.S.) /tolang=German(Reform)</codeblock>
+        </section>-->
+      <p> <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=mymem /fromlang=English(U.S.) /tolang=German(Reform)</codeblock></p>
+<!--      </required-cleanup>-->
+      <p>In this example, the target language is changed from English to German.</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example 3</title>
+          <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=mymem /doc=A* /date=*</codeblock>
+        </section>-->
+     <p>  <codeblock>OtmMemoryTool /TASK=ChgProposalMeta /MEM=mymem /doc=A* /date=*</codeblock></p>
+<!--      </required-cleanup>-->
+      <p>In this example, the date of all segments from documents starting with the letter <q>A</q> in the
+         Translation Memory <codeph>mymem</codeph> is changed to the current system date.</p>
+    </example>
+  </refbody>
+</reference>

@@ -32,6 +32,7 @@ public class CfgUtil {
 	private Map<String, String> dbCfg  = new HashMap<String, String>();;
 	private String url = null;
 	private  int downloadsize= 0;
+	private boolean filtDuplicated = false;
 	
 	private static CfgUtil instance = null;
 	
@@ -44,6 +45,10 @@ public class CfgUtil {
 	
 	public int getDonwloadSize() {
 		return downloadsize;
+	}
+	
+	public boolean isDuplicatedFilt() {
+		return filtDuplicated;
 	}
 	
 	public String getUrl() {
@@ -136,6 +141,16 @@ public class CfgUtil {
 			downloadsize = Integer.valueOf(dwdsize)*1024*1024;	
 		}
 		
+		//filtDuplicated
+		List<?> duplicates = root.getChildren("filtduplicated");
+		if(!duplicates.isEmpty()) {
+			Element element = (Element)duplicates.get(0);
+			if(element != null) {
+				String temp = element.getValue();
+				filtDuplicated = Boolean.valueOf(temp);
+			}	
+		}
+		
 	}
 	
 	public boolean saveToXml() {
@@ -145,6 +160,10 @@ public class CfgUtil {
 		root.addElement("downloadsize")
 			.addAttribute("name", "maxsize_per_time")
 			.addText(String.valueOf(downloadsize/(1024*1024)));
+		
+		root.addElement("filtduplicated")
+		    .addAttribute("name", "filter_duplicate_segment")
+		    .addText(String.valueOf(filtDuplicated));
 		
 		org.dom4j.Element dbElement = root.addElement("db");
 		

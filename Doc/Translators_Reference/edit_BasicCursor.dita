@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_BasicCursor">
+  <title>Querying and setting the cursor position</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>cursor<indexterm>querying the position</indexterm></indexterm>
+        <indexterm>cursor<indexterm>setting the position</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Use the options <b>Query line</b> or <b>Go to line...</b> from the <b>Cursor</b> menu in the Translation Environment to query the line 
+      where the cursor is located or to move the cursor to a certain line within your document. </p>
+  </body>
+</topic>

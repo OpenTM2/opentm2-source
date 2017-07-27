@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_123_GlobalFind">
+  <title>Improved Global Find and Replace function</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The function "Global find and replace" was entirely reworked.</p>
+    <p>See the new reworked and new functionality in the description of the "Global Find and Replace" panel at
+      <xref href="doc_Search.dita#doc_Search"/>.</p>
+  </body>
+</topic>

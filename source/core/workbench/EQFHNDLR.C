@@ -515,7 +515,7 @@ MRESULT APIENTRY GENERICHANDLERWP
         }
         break;
 
-      case WM_EQF_READINQUE:
+      //case WM_EQF_READINQUE:
       case WM_EQF_ADDMEMTOLIST:
       case WM_EQF_REMOVEMEMFROMLIST:
           pIda = ACCESSWNDIDA( hwnd, PGENHANDLERIDA );
@@ -2579,8 +2579,8 @@ void HandlePopupMenu( HWND hwnd, POINT point, SHORT sMenuID )
        AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_ADDUSER, "Add User");
        AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_REMOVEUSER, "Remove User");
        AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_LISTUSER, "List User");
-	   AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_UPLOADTOSERVER, "Batch upload");
-	   AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_DOWNFROMSERVER, "Batch download");
+	   //AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_UPLOADTOSERVER, "Batch upload");
+	   //AppendMenu(hMenuTrackPopup,MF_ENABLED, PID_FILE_MI_DOWNFROMSERVER, "Batch download");
      } 
 	
   }  

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folder_PropertiesView">
+  <title>Viewing the properties of a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>displaying properties</indexterm></indexterm>
+      <indexterm>folder<indexterm>properties</indexterm></indexterm>
+      <p>The properties of a folder are: <parml>
+          <plentry><pt>Folder name</pt>
+            <pd>The name of the folder.</pd></plentry>
+          <plentry><pt>Document format</pt>
+            <pd>The format of the documents contained in the folder.</pd></plentry>
+          <plentry><pt>Source language</pt>
+            <pd>The language of the original documents in the folder. A different language can be
+              specified for individual documents in the folder.</pd></plentry>
+          <plentry><pt>Target language</pt>
+            <pd>The language of the translated documents in the folder. A different language can be
+              specified for individual documents in the folder.</pd></plentry>
+          <plentry><pt>Description</pt>
+            <pd>The description of the folder. The description can be up to 40 alphanumeric
+              characters long, including blanks. This description is for your use and is not used by
+                <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</pd></plentry>
+          <plentry><pt>Editor</pt>
+            <pd>The text editor used (default value STANDARD).</pd></plentry>
+          <plentry><pt>Memory</pt>
+            <pd>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> associated with the
+              folder. This <keyword conref="common-symbols.dita#common-symbols/xlmem"/> is searched
+              during segment matches and is updated when documents in this folder are being
+              translated.</pd></plentry>
+          <plentry><pt>Dictionary</pt>
+            <pd>The dictionaries associated with the folder. These dictionaries are used in
+              conjunction with the selected exclusion lists during analysis. They are also used for
+              looking up a term. The order in which you select the dictionaries determines the
+              search order associated with the folder.</pd></plentry>
+          <plentry><pt>Conversion</pt>
+            <pd>The conversion to be used for all documents in this folder.</pd></plentry>
+          <plentry><pt><keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be
+              searched</pt>
+            <pd>The <keyword conref="common-symbols.dita#common-symbols/xlmems"/> to be searched for
+              segment matches in addition to the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> to be used and updated during
+              translation. These additional databases are not updated during
+            translation.</pd></plentry>
+        </parml></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The folder must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>A folder from the <q>Folder List</q> window</li>
+          <li><b>Properties Summary…</b> from the <b>File</b> menu</li>
+        </ol></p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>A document in HTML format is displayed containing a summary of the folder properties (see
+        <xref href="#folder_PropertiesView/folprop1win"/>). <fig id="folprop1win" expanse="column">
+          <title>Folder Properties document</title><image placement="break" href="folder_PropertiesView.gif"
+              ><alt>Figure shows Folder Properties document</alt></image></fig></p>
+      <p>If you want to view more properties or change the properties of a folder, refer to <xref
+          href="folder_PropertiesChange.dita#folder_PropertiesChange"/>.</p>
+    </section>
+  </refbody>
+</reference>

@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # EqfMemoryPlugin.MAK    - Makefile for standard Translation Memory Plugin DLL
-# Copyright (c) 2013, International Business Machines
+# Copyright (c) 2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -78,7 +78,6 @@ $(_DLL)\EqfMemoryPlugin.DLL:	$(_OBJ)\EQFNTM.OBJ \
 								$(_OBJ)\EQFTMEXT.OBJ \
 								$(_OBJ)\EqfMemoryPlugin.OBJ \
 								$(_OBJ)\EqfMemory.OBJ \
-								$(_LIB)\OtmAlloc.lib \
 								$(_LIB)\OtmBase.lib \
 								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
@@ -113,7 +112,7 @@ $(_DLL)\EqfMemoryPlugin.DLL:
 					$(_OBJ)\EqfMemory.OBJ
 /OUT:$(_DLL)\EqfMemoryPlugin.DLL
 /MAP:$(_MAP)\EqfMemoryPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib $(_LIB)\OTMGLOBM.lib
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib $(_LIB)\OTMGLOBM.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\EqfMemoryPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

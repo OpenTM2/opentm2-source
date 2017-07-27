@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="tools_MemoryRemoveInline">
+  <title>Removing inline tagging from an external memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to remove inline
+        tagging from the segments in an external (= exported memory). For security reasons the
+        segments are not updated in the original translation memory, but a new translation memory 
+        is created containing the updated segments.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMREMOVETAGS</indexterm>
+      <indexterm>commands<indexterm>OTMREMOVETAGS</indexterm></indexterm>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMREMOVETAGS</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>INMEM</kwd>
+          <oper>=</oper>
+          <var>inmemdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>INTYPE</kwd>
+          <oper>=</oper>
+          <var>intype</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>OUTMEM</kwd>
+          <oper>=</oper>
+          <var>outmemdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>OUTTYPE</kwd>
+          <oper>=</oper>
+          <var>outtype</var>
+        </groupseq>
+        <groupchoice>
+          <kwd>─</kwd>
+          <groupseq>
+            <delim>/</delim>
+            <kwd>MArkup</kwd>
+            <oper>=</oper>
+            <var>markup</var>
+          </groupseq>
+        </groupchoice>
+        <groupseq/>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/INMEM =<i>inmemdb</i></pt>
+          <pd><i>/INMEM </i> inmemdb specifies the fully qualified name of the external translation
+              memory that you want to use as input translation memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/INTYPE=<i>intype</i></pt>
+          <pd>intype specifies the format of the input memory and can be ASCII, ANSI, UTF16 or TMX</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTMEM =<i>outmemdb</i></pt>
+          <pd>outmemdb is the fully qualified name of a new external translation memory which is to
+              receive all segments from the input translation memory with the inline tagging removed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/OUTTYPE=<i>outtype</i></pt>
+          <pd>outtype specifies the format of the output memory and can be ASCII, ANSI, UTF16 or TMX or 
+              INTERNAL (to create an internal memory instead of an external)</pd>
+        </plentry>
+        <plentry id="newparametervalueforeqfremovetags">
+          <pt>/MARKUP=<i>markup</i></pt>
+          <pd>markup specifies the markup to use for the recognition of inline tagging. The special
+            value <b>RTF</b> can be used to remove pure RTF tagging from the segments, using the
+            standard markup table EQFRTF will also remove HTML like tags beside the pure RTF tags.
+            If not specified the markup information of the segment itself is used for the inline tag recognition. </pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+            use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to use the OTMREMOVETAGS command.</p>
+      <p>Enter the OTMREMOVETAGS command as follows:</p>
+<!--      <required-cleanup>-->
+<!--    <section>
+          <title>Example</title>
+          <codeblock>otmremovetags /inmem=c:\mymem.tmx /intype=TMX /outmem=c:\mymem-cleaned.exp 
+/outtype=UTF16 /markup=EQFRTF</codeblock>
+        </section>-->
+       <p><codeblock>otmremovetags /inmem=c:\mymem.tmx /intype=TMX /outmem=c:\mymem-cleaned.exp 
+/outtype=UTF16 /markup=EQFRTF</codeblock></p>
+<!--      </required-cleanup>-->
+      <p>In this example all segments contained in translation memory <q>mymem.tmx</q> are written to the new
+        output translation memory <q>mymem-cleaned.exp</q> except for segments having the same source and target string. </p>
+    </example>
+  </refbody>
+</reference>

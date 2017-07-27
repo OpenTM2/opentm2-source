@@ -1056,7 +1056,7 @@ USHORT TASegOpenFiles (PTAINPUT pTAInput)
 
      if ( sRc == NO_ERROR )
      {
-       sRc = EQFBCntAllSrcWords( pInD->pDoc, pInD->TolstControl.sLangID,
+       sRc = EQFBCntAllSrcWords( pInD->pDoc, pInD->pDoc, pInD->TolstControl.sLangID,
                                   pInD->pDoc->ulOemCodePage);
      } /* endif */
 
@@ -1322,6 +1322,7 @@ USHORT TASegAutoJoin( HWND hwnd, PTAINPUT pTAInput )
 {
    BOOL       fOK = TRUE;              // processing flag
    PTBSEGMENT pSeg = NULL;             // pointer to segments
+   PTBSEGMENT pSSeg = NULL;            // pointer to current source segment
    PTAINSTDATA pInD;                   // pointer to instance data
    MATCHTYPE CurMatchType;             // match type of joined segments
    USHORT usCurFuzzyness;              // fuzzyness of joined segments
@@ -1526,7 +1527,7 @@ USHORT TASegAutoJoin( HWND hwnd, PTAINPUT pTAInput )
 
            // update segmented source
            {
-             PTBSEGMENT pSSeg, pSNextSeg;
+             PTBSEGMENT pSNextSeg;
              pSSeg = EQFBGetSegW( pInD->pSourceDoc, pInD->ulSegNum );
 
              fOK = UtlAlloc( (PVOID *)&pTempSegData, 0L,
@@ -1566,7 +1567,7 @@ USHORT TASegAutoJoin( HWND hwnd, PTAINPUT pTAInput )
                  if (!usRc)
                  {
                    // some way to fool the compiler
-                   pSeg->usSrcWords = (USHORT) ulSrcWords;
+                   usCurSegWords = pSeg->usSrcWords = (USHORT) ulSrcWords;
                    if ( pTAInput->fTMMatch || pTAInput->fInsertTMMatches )
                    {
                      TACountMatch( pInD, (MATCHTYPE) pSeg->ulShrinkLen,
@@ -1690,7 +1691,7 @@ USHORT TASegAutoJoin( HWND hwnd, PTAINPUT pTAInput )
 
        fOK = TAMachTransAddSeg( pTAInput, usCurSegWords,
                                 fContainsTagging, CurMatchType,
-                                usCurFuzzyness, pSeg->ulSegNum, pSeg->pDataW, pSeg );
+                                usCurFuzzyness, pSeg->ulSegNum, (pSSeg != NULL) ? pSSeg->pDataW : pSeg->pDataW, pSeg );
 
      } /* endif */
    } /* endif */
@@ -6482,8 +6483,8 @@ BOOL TAWriteMTSegmentToXliffFile( PTAINPUT pTAInput, PMTOUTDATA pData, PMTOUTFIL
       // write d element up to document name
       swprintf ( pData->szUTF16Buffer, L"\r\n<file original=\"" );
       if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
-      pOutFile->iCurSeg = 1;
-      iCurSeg = 1;
+      // GQ 2017/06/14 fix for P403726, do not reset iCurSeg (old code: pOutFile->iCurSeg = 1;)
+      // iCurSeg = 1;
       
       // escape and write document name (use UTF8 buffer as temporary storage)
       MultiByteToWideChar( CP_ACP, 0, pData->szCurDoc, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );

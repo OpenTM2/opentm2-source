@@ -4,7 +4,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (C) 1990-2012, International Business Machines              |
+//|      Copyright (C) 1990-2017, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 
@@ -116,10 +116,10 @@ BOOL UtlAllocHwnd
 
   hwnd;
   usMessageNo;
-//  if ( !fOK && (usMessageNo != NOMSG ))
-//  {
-//    UtlErrorHwnd( usMessageNo, MB_CANCEL, 0, NULL, EQF_ERROR, hwnd );
-//  } /* endif */
+  if ( !fOK && (usMessageNo != NOMSG ))
+  {
+    UtlErrorHwnd( usMessageNo, MB_CANCEL, 0, NULL, EQF_ERROR, hwnd );
+  } /* endif */
   return( fOK );
 } /* end of UtlAllocHwnd */
 
@@ -297,13 +297,13 @@ PVOID UtlIntAlloc
     *( (PULONG) ((PBYTE)pStorage + ulLength)) = ulLength;
     memset( pStorage, 0, ulLength );
   }
-//  else 
-//  {
-//    if ( usMessageNo != NOMSG )
-//    {
-//      UtlError( usMessageNo, MB_CANCEL, 0, NULL, EQF_ERROR );
-//    } /* endif */
-//  } /* endif */
+  else 
+  {
+    if ( usMessageNo != NOMSG )
+    {
+      UtlError( usMessageNo, MB_CANCEL, 0, NULL, EQF_ERROR );
+    } /* endif */
+  } /* endif */
   return( pStorage );
 }
 

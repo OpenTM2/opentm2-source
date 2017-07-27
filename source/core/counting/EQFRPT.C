@@ -386,6 +386,7 @@ LPARAM           mp2
     case WM_CREATE :
         // mp2 contains pointer to RPT structure
         pRpt = (PRPT)mp2;
+        pRpt->hwndErrMsg = hwnd;
 
         // set column listbox title string
         sprintf (szListWindowTitle, "%s - %s", pRpt->szReport, pRpt->szOption);

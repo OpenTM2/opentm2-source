@@ -119,15 +119,6 @@ private:
     wchar_t *pszBuffer
   ); 
 
-/*! \brief replace xml escape charaters in pSrc
-
-    \param pSrc  pointer to stringbeing formatted
-    \param pOut  pointer to buffer for outputing
-    \param outCapcity the capcity of pOut
-  	\returns 0 if success
-*/
-  int xmlFormat(wchar_t *pSrc, wchar_t *pOut, size_t outCapcity);
-
 /*! \brief whether the year is leap
     \param year  pointer to stringbeing formatted
   	\returns true if is leap

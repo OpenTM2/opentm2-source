@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folder_Search">
+  <title>Searching and replacing text across several documents in a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>folder<indexterm>searching and replacing text in its
+        documents</indexterm></indexterm>
+      <p><!--<xref href=""/>-->
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a
+        Global Find and Replace function, which works across several folders or across all or some
+        documents of a folder.</p>
+      <p>This function might be helpful if you are looking for a particular piece of text whose
+        source document you are not sure of. Also, you may need to change a particular wording, but
+        do not want to type the new text manually at each occurrence. <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> can search through a series of
+        documents to locate the required text and change it as specified. Any change is
+        automatically reflected in the associated Translation Memory to be available for future
+        translations.</p>
+      <p>Note that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches and changes
+        only pieces of text that can be translated. Markup tags cannot be changed.</p>
+      <p>Wildcard search as well as AND / OR combinations of the search terms are
+        possible.</p>
+      <p>For information on how to search and replace text, refer to <xref href="doc_Search.dita#doc_Search"/>.</p>
+    </section>
+  </refbody>
+</reference>

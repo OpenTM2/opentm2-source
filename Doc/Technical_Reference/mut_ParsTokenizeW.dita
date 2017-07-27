@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_ParsTokenizeW">
+<title>ParsTokenizeW</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsTokenizeW</indexterm></indexterm><indexterm>ParsTokenizeW</indexterm><indexterm>parser API<indexterm>ParsTokenizeW</indexterm></indexterm>
+<p><i>ParsTokenizeW</i> looks for tags in the supplied
+text area of the markup table loaded into memory. The result is a
+tag token list that can be processed by the <i>ParsGetNextToken</i> function.</p>
+<p>If the supplied text area is not in Unicode format, use <xref href="mut_ParsTokenize.dita#mut_ParsTokenize"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsTokenizeW</kwd><delim>(</delim><var>hMarkup</var><sep>,</sep></groupseq>
+<groupseq><var>pszData</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSMARKUP</entry>
+<entry colname="col2">hMarkup</entry>
+<entry colname="col3">The markup handle, created by the <i>ParsLoadMarkup</i> function.</entry></row>
+<row>
+<entry colname="col1">WCHAR*</entry>
+<entry colname="col2">pszData</entry>
+<entry colname="col3">The pointer to the zero-terminated Unicode text
+area that is to be tokenized. </entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the markup table is successfully tokenized,
+or an error code.</p>
+</section></refbody></reference>

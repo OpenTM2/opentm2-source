@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="prep_InstallingComponents">
+  <title>Installing components</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>installing<indexterm>components</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following <keyword conref="common-symbols.dita#common-symbols/tm4w"/> components can be installed: <dl>
+        <dlentry>
+          <dt><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Base</dt>
+          <dd>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> base product are the base program and data files.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Samples</dt>
+          <dd>Sample files which are necessary to work through the sample session described in <xref href="sample_Chapter.dita#sample_Chapter"/>.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>Basic Dictionaries</dt>
+          <dd>Basic dictionaries containing general vocabulary (English-Arabic, English-French, English-German, English-Italian, 
+            English-Spanish, French-English, German-English, Italian-English, and Spanish-English).
+          </dd>
+        </dlentry>
+        <dlentry>
+          <dt>Language-Support Files</dt>
+          <dd>Morphological, monolingual data files for the source languages supported. To work with
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> at least one of the available language-support files must be
+            installed. To do a spellcheck on translated documents, you must install the language-support file for the target language. 
+            <p>Note that these language-support files have no influence on the language in which 
+              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows and messages are presented.</p>
+          </dd>
+        </dlentry>
+      </dl></p>
+  </body>
+</topic>

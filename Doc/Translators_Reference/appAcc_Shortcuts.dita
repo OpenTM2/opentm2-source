@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_Shortcuts">
+  <title>Keyboard shortcuts</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides you can use keyboard
+      shortcuts for the most frequently used tasks. These keyboard shortcuts are described in the
+      following sections.</p>
+  </body>
+</topic>

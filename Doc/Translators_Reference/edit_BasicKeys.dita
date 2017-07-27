@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_BasicKeys">
+  <title>Assigning keys</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>editor functions<indexterm>assigning keys</indexterm></indexterm>
+        <indexterm>keys, assigning</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>For some functions you can define your own keys or key combinations by selecting <b>Keys...</b> from the <b>Options</b> menu. In the 
+      <q>Assign Keys</q> window select the function you want to define a key for. These are the functions for which no menu commands are
+      available and no keys have been predefined. In the <q>Assign Keys</q> window they are indicated by <b>*none*</b>.</p>
+    <p>Click <b>Assign new key</b>. You are prompted to press the key or key combination you want to assign to a function. Then click 
+      <b>Assign</b> to save your settings and leave the window.</p>
+    <p>Clicking <b>Print</b> lets you print all functions and their assigned keys.</p>
+    <p>To remove a key assignment, click <b>Clear key</b> in the <q>Assign Keys</q> window after you have selected a function.</p>
+    <p><xref href="appEdit_Overview.dita#appEdit_Overview"/> gives you an overview of the tasks to which you can assign keys.</p>
+  </body>
+</topic>

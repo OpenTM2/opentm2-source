@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appDict_TagsRepeat">
+<title>The &lt;repeat...&gt; attributes</title>
+<prolog><metadata><keywords>
+
+<indexterm>format files<indexterm>&lt;repeat...&gt; attributes</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>
+<dl>
+<dlentry><dt><codeph>name</codeph>=<synph><var>xxx</var></synph></dt>
+<dd>Specifies that the information between <codeph>&lt;repeat...&gt;</codeph> and <codeph>&lt;/repeat&gt;</codeph> is repeated as long as the contents of
+the <synph><var>xxx</var></synph> entry field is the same while processing the
+templates of an entry.</dd></dlentry>
+<dlentry><dt><codeph>level</codeph>=<codeph>entry|hom|sense|target</codeph></dt>
+<dd>Specifies that the information between <codeph>&lt;repeat...&gt;</codeph> and <codeph>&lt;/repeat&gt;</codeph> is repeated as long as the contents
+of all fields of the specified level is the same. For a description of the
+individual levels, refer to <xref href="dict_EntryStructure.dita#dict_EntryStructure"/>.</dd></dlentry>
+</dl></p>
+</body></topic>

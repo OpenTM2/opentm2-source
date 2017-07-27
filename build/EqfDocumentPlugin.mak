@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # EqfDocumentPlugin.MAK    - Makefile for standard document Plugin DLL
-# Copyright (c) 2014, International Business Machines
+# Copyright (c) 2014-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -44,7 +44,6 @@ $(_DLL)\EqfDocumentPlugin.DLL:	$(_OBJ)\EQFBFILE.OBJ \
 								$(_OBJ)\EQFBDOC.OBJ \
 								$(_OBJ)\EqfDocumentPlugin.OBJ \
 								$(_OBJ)\EqfDocument.OBJ \
-								$(_LIB)\OtmAlloc.lib \
 								$(_LIB)\OtmBase.lib \
 								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
@@ -63,7 +62,7 @@ $(_DLL)\EqfDocumentPlugin.DLL:
 					$(_OBJ)\EqfDocument.OBJ
 /OUT:$(_DLL)\EqfDocumentPlugin.DLL
 /MAP:$(_MAP)\EqfDocumentPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\OtmAPI.lib $(_LIB)\PluginManager.lib
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\OtmAPI.lib $(_LIB)\PluginManager.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\EqfDocumentPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

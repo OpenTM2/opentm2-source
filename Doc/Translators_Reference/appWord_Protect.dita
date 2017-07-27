@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appWord_Protect">
+<title>Markup data that must not be changed</title>
+<prolog><metadata><keywords>
+
+<indexterm>Word documents<indexterm>markup information not to be changed</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following table lists markup data that must not be changed. It is essential
+that the markup data remains in its original form. Only the position within
+the segment may change.</p>
+<p>When you  copy a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposal that contains one of these tags and there
+the source segment does not contain such a tag, you must delete this tag after
+you have copied the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposal.</p>
+<p>If your source segment contains such a tag, keep this tag, no matter which
+type of tags are contained within your <keyword conref="common-symbols.dita#common-symbols/xlmem"/> proposal.</p>
+<p>The variables <i>var1</i> and <i>var2</i> are relevant only for <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="2*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="3*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Tag name</entry>
+<entry valign="top" rowsep="1">End tag</entry>
+<entry valign="top" rowsep="1">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">[auto footnote:<i>ref</i> <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">An autonumbered footnote is inserted; <i>ref</i> is the reference number of the footnote. </entry></row>
+<row>
+<entry valign="top">[auto endnote:<i>ref</i> <i>var1</i>,<i>var2</i>]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">An autonumbered end note is inserted; <i>ref</i> is the reference number of the end note. </entry></row>
+<row>
+<entry valign="top">[efield]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The end of a field, even after all nested fields. </entry></row>
+<row>
+<entry valign="top">[field end: <i>code</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">The end of the previously inserted field; fields may be
+nested, the <i>code</i> indicates the type of end field. </entry></row>
+<row>
+<entry valign="top">[field sep]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Field separator. </entry></row>
+<row>
+<entry valign="top">[field sep: <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Field separator of embedded objects. </entry></row>
+<row>
+<entry valign="top">[field: <i>code</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Anything that can be inserted with <b>Insert
+Field</b> or <b>Insert Symbol</b> in <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm>
+Word for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>; <i>code</i> indicates the
+type of field. </entry></row>
+<row>
+<entry valign="top">[fld]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">A field entry follows. </entry></row>
+<row>
+<entry valign="top">[footnote:<i>ref</i> <i>var1</i>,<i>var2</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">A custom footnote is inserted; <i>ref</i> is the reference mark of the footnote. </entry></row>
+<row>
+<entry valign="top">[endnote:<i>ref</i> <i>var1</i>,<i>var2</i>]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A custom referenced end note is inserted; <i>ref</i> is the reference mark of the end note. </entry></row>
+<row>
+<entry valign="top">[comment ref: <i>var1</i>,<i>var2</i>]<xref href="appWord_Change.dita#appWord_Change/word6"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">An annotation is inserted. </entry></row>
+<row>
+<entry valign="top">[index entry]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">An index entry follows. </entry></row>
+<row>
+<entry valign="top">[index field] <ph>[ix
+fld]<xref href="appWord_Change.dita#appWord_Change/word6"/></ph></entry>
+<entry valign="top">no</entry>
+<entry valign="top">An index entry follows. </entry></row>
+<row>
+<entry valign="top">[picture: <i>offset</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">A graphic or picture is inserted in the document; where <i>offset</i> is used by <keyword conref="common-symbols.dita#common-symbols/tm4w"/> internally. </entry></row>
+<row>
+<entry valign="top">[object: <i>offset</i>]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">An object link is inserted in the document; where <i>offset</i> is used by <keyword conref="common-symbols.dita#common-symbols/tm4w"/> internally. </entry></row>
+<row>
+<entry valign="top">[toc entry]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">A table of contents entry follows. </entry></row>
+<row>
+<entry valign="top">[toc field] <ph>[toc
+fld]<xref href="appWord_Change.dita#appWord_Change/word6"/></ph></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A table of contents entry follows. </entry></row>
+<row>
+<entry valign="top">[toa entry]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">A table of authority entry follows.</entry></row>
+<row>
+<entry valign="top">[toa fld]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">A table of authority entry follows. </entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

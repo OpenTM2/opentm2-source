@@ -1,5 +1,5 @@
 /*! match list processing functions
-	Copyright (c) 1990-2015, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2017, International Business Machines Corporation and others. All rights reserved.
 */
 
 #ifdef EQFTAML_MATCHLISTFUNCTIONS
@@ -49,6 +49,7 @@ typedef enum _VALFORMATID
   XML_VALEXPFORMAT,
   DOC_VALEXPFORMAT,
   PLAINXML_VALEXPFORMAT,
+  DOCX_VALEXPFORMAT,
   ODT_VALEXPFORMAT
 } VALFORMATID;
 

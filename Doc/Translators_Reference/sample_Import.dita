@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="sample_Import">
+<title>Importing and opening a sample folder and its documents</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>sample material<indexterm>importing sample folders and
+documents</indexterm></indexterm><indexterm>importing<indexterm>sample folders and documents</indexterm></indexterm><indexterm>opening<indexterm>sample folders and documents</indexterm></indexterm>
+<p>To import a sample folder and to start a translation exercise is described
+using the folder <codeph>samplehtml1</codeph> as an example.</p>
+</section>
+<section><title>Prerequisites</title>
+<ul>
+<li>The samples must have been installed.</li>
+<li>The language-support file for English (U.S.) must have been installed.</li>
+</ul>
+</section>
+<section><title>Calling sequence</title>
+<ol>
+<li>Select the <q>Folder List</q> window.</li>
+<li>Select <b>Import...</b> from the <b>File</b> menu.  The <q>Import Folder</q> window is displayed.</li>
+<li>Select the drive where <keyword conref="common-symbols.dita#common-symbols/tm4w"/> is installed, for example, <b>C</b>. The <b>Folder</b> list box displays all folders that
+can be imported.</li>
+<li>Select <codeph>samplehtml1</codeph> from the <b>Folder</b> list
+box.</li>
+<li>Click <b>Details…</b>. This displays the note that
+is attached to <codeph>samplehtml1</codeph>.</li>
+<li>Click <b>OK</b> to leave the <q>Folder Details</q> window.</li>
+<li>Click the destination drive where you want to store <codeph>samplehtml1</codeph>.</li>
+<li>Click <b>Import</b> to begin importing the folder. Several
+windows are displayed showing the progress of the import procedure.</li>
+<li>Click <b>OK</b> when you have read the completion message.This
+takes you back to the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> main window.</li>
+<li>Double-click folder <codeph>samplehtml1</codeph> in the <q>Folder List</q> window.
+The <q>Document List</q> window is displayed.</li>
+<li>Double-click <codeph>device.html</codeph> in the <q>Document List</q> window.
+The <keyword conref="common-symbols.dita#common-symbols/xlenv"/> is displayed and the document appears in the Translation window
+ready for translation.</li>
+</ol>
+</section>
+<section><title>Results</title>
+<p>The folder <codeph>samplehtml1</codeph> is imported into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. The analyzed
+document <codeph>device.html</codeph> is opened. You can start translating it.</p>
+</section></refbody></reference>

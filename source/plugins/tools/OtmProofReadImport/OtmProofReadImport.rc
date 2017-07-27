@@ -1,0 +1,56 @@
+//
+//  OtmProofReadImport.RC - Dialog template for proof read import panel
+//
+//  Copyright Notice:                           
+//
+//      Copyright (C) 1990-2017, International Business Machines
+//      Corporation and others. All rights reserved
+//
+
+#include <windows.h>
+#include <commctrl.h>
+#include <richedit.h>
+#include "OtmProofReadImportPlugin.id"
+
+LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US
+
+ID_PROOFREADIMPORT_DIALOG DIALOG 9, 12, 650, 600
+STYLE DS_MODALFRAME | DS_CONTEXTHELP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_BORDER
+CAPTION "Validation Document Import and Processing"
+FONT 8, "MS Sans Serif"
+BEGIN
+
+  GROUPBOX "Filter Options and Documents", ID_PROOFIMP_FILTER_GB,     10,  10, 500, 166, BS_LEFT
+  GROUPBOX "Display Options", ID_PROOFIMP_DISPFILTER_GB,               14,  20, 120, 150, BS_LEFT
+  AUTOCHECKBOX "Show unchanged segments", ID_PROOFIMP_SHOWUNCHANGED_CHK,  18,  32, 100, 10,  WS_TABSTOP
+  AUTOCHECKBOX "Show modified segments", ID_PROOFIMP_SHOWMODIFIED_CHK, 18,  46, 100, 10,  WS_TABSTOP
+  AUTOCHECKBOX "Show processed segments", ID_PROOFIMP_SHOWPROCESSED_CHK, 18,  60, 100, 10,  WS_TABSTOP
+  PUSHBUTTON "Set Colors", ID_PROOFIMP_SETCOLOR_PB,                   30, 150, 60, 12,  WS_TABSTOP
+  
+  
+  GROUPBOX "Parameters", ID_PROOFIMP_PARAMETER_GB,                    140, 20, 120, 150, BS_LEFT
+  AUTOCHECKBOX "Update translated segment", ID_PROOFIMP_UPDTRANS_CHK, 144, 32, 100, 10,  WS_TABSTOP
+  AUTOCHECKBOX "Update translation memory", ID_PROOFIMP_UPDMEM_CHK,   144, 46, 100, 10,  WS_TABSTOP
+  AUTOCHECKBOX "Show differences in translation", ID_PROOFIMP_SHOWDIFF_CHK,144, 60, 100, 10,  WS_TABSTOP
+
+  GROUPBOX "Documents", ID_PROOFIMP_DOCUMENTS_GB,                     300, 20, 120, 150, BS_LEFT
+  LISTBOX  ID_PROOFIMP_DOCUMENTS_LB,                                  304, 30, 108, 140, LBS_MULTIPLESEL | LBS_EXTENDEDSEL | WS_VSCROLL | WS_HSCROLL
+  
+  GROUPBOX "Imported validation segments", ID_PROOFIMP_SEGMENTS_GB,             10, 180, 580, 456, BS_LEFT
+  CONTROL  "Header", ID_PROOFREAD_HEADER_TEXT, STATIC, WS_CHILD | WS_VISIBLE | SS_OWNERDRAW, 14, 188, 570, 9
+  CONTROL "", ID_PROOFREAD_TABLE_LV, LISTBOX, WS_BORDER | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY | WS_VSCROLL | WS_VISIBLE, 14, 197, 570, 431
+
+  PUSHBUTTON "Select All", ID_PROOFIMP_SELECTALL_PB,                  14, 620, 50, 12,  WS_TABSTOP
+  PUSHBUTTON "Deselect All", ID_PROOFIMP_DESELECTALL_PB,              70, 620, 50, 12,  WS_TABSTOP
+  PUSHBUTTON "Auto-update selected", ID_PROOFIMP_AUTOUPDATE_PB,       120, 620, 80, 12,  WS_TABSTOP
+  PUSHBUTTON "Open active in Editor", ID_PROOFIMP_OPEN_PB,          230, 620, 90, 12,  WS_TABSTOP
+  PUSHBUTTON "Import validation documents", ID_PROOFIMP_IMPORT_PB,     340, 620, 100, 12,  WS_TABSTOP
+  PUSHBUTTON "Save current list", ID_PROOFIMP_SAVE_PB,                450, 620, 70, 12,  WS_TABSTOP
+  PUSHBUTTON "Load list", ID_PROOFIMP_LOAD_PB,                        530, 620, 70, 12,  WS_TABSTOP
+
+  PUSHBUTTON "Close", ID_PROOFIMP_CLOSE_PB,                           640, 620, 50, 12,  WS_TABSTOP
+  CONTROL    "Help", ID_PROOFIMP_HELP_PB, "EqfHelpButton", WS_TABSTOP,690, 620, 38, 15
+
+END
+
+

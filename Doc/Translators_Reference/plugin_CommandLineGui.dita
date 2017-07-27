@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="plugin_CommandLineGui">
+  <title>The Plugin GUI for Command Line Tools</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides a bunch of DOS Line Command Utilities, 
+       and their command-syntax is sometimes hard to use, and even harder to remember. The plugin <q>GUI for Command Line Tools</q> 
+       has been implemented into <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to help users in using
+       the DOS Line Command Utilities in a user friendly way.       
+    </p>
+    <p>In the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> workbench, open the 
+       <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Tools Launcher</q> via <q>Utilities</q> => <q>Tools</q>. 
+       This function allows to start <keyword conref="common-symbols.dita#common-symbols/tm4w"/> DOS Line Command Utilities via 
+       a GUI interface. 16 tools have been integrated. In order to select one or more of the tools, users need to mark the tool(s)
+       in the left hand <q>Available Tools</q>, and move it to the right hand side <q>Selected tools</q>q>. Each tool gets it's 
+       own tab at the top of the panel.
+    </p>
+    <p><b>Example</b>: All available tools are located in the left hand frame <q>Available Tools</q>. In order to 
+       <q>activate</q> a tool (e.g. <q>OtmExp2Tmx</q>), move it to the right hand frame either by double clicking on the tool, 
+       or by selecting it and then clicking on the arrow <q>--&gt;</q>. For each of the selected tools, a new tab appears next to 
+       the tab <q>Launcher</q> (which is static and always visible). Tools no longer needed can be <q>removed</q> by moving 
+       it from the right hand <q>Selected tools</q> section into the left hand <q>Available Tools</q> section. All the tool 
+       entries in <q>Available Tools</q> can <b>not</b> be deleted.
+    </p>
+    <p>
+      In section <q>Run GUI Apps</q> the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Scripter GUI can be started.
+      By clicking on the button <q>OpenTM2ScripterGUI</q>, the tool <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+      Scripter</q> is started.
+    </p>
+    <p>
+      <fig id="GuiForCommandLineTools" expanse="column">
+        <title>The panel <q><b>GUI For Command Line Tools</b></q></title>
+        <image placement="break" href="plugin_CommandLineGui.gif">
+          <alt>The panel <!--q-->OpenTM2ToolsLauncher<!--/q--></alt>
+        </image>
+      </fig>
+    </p>      
+  </body>
+</topic>

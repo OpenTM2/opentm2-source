@@ -1,0 +1,22 @@
+/*+----------------------------------------------------------------------------+
+  |  OtmCleanupPlugin.ID - IDs used by clean up tool                           |
+  +----------------------------------------------------------------------------+
+  |  Copyright Notice:                                                         |
+  |                                                                            |
+  |      Copyright (C) 1990-2014, International Business Machines              |
+  |      Corporation and others. All rights reserved                           |  
+  +----------------------------------------------------------------------------+
+*/
+
+#define ID_CLEANUP_DIALOG      1000
+
+#define ID_CLEANUP_TREE        1001
+#define ID_CLEANUP_DELETE      1002
+#define ID_CLEANUP_CANCEL      1003
+#define ID_CLEANUP_FILES       1004
+#define ID_CLEANUP_SIZE        1005
+#define ID_CLEANUP_SELECTALL   1006
+#define ID_CLEANUP_DESELECTALL 1007
+
+#define ID_CLEANUP_COMMAND      1020
+

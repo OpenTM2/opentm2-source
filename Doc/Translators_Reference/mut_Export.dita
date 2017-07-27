@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_Export">
+  <title>Exporting a markup table</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>exporting<indexterm>markup tables</indexterm></indexterm>
+      <indexterm>markup tables<indexterm>exporting</indexterm></indexterm>
+      <p>You can export a markup table to give it to other users, for example, other translators who
+        must use the same modified markup table in their translation environment.</p>
+      <p>Markup tables can only be exported in external format.</p>
+      <p>Each markup tag described in the markup table is exported together with its nondefault
+        data. You can find a table that contains the definition of markup table SGML tags and the
+        data defaults that are used for <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        in the OpenTM2 Technical Reference.
+        <!--<xref href="eqfr5mst-00520.dita#eqfr5mst-00520"/>-->
+        </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <ul>
+        <li>The <q>Markup Table List</q> window must be active.</li>
+        <li>The markup table to be exported must be selected.</li>
+      </ul>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Export…</b> from the <b>File</b> menu. </p>
+      <p>The <q>Export Markup Table</q> window is displayed.
+              <required-cleanup><indexterm>windows<indexterm>Export Markup
+            Table</indexterm></indexterm></required-cleanup><fig id="exportmarkuptablewin"
+          expanse="column">
+          <title>Export Markup Table window</title><image placement="break" href="mut_Export.gif"
+              ><alt>Figure shows Export Markup Table window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Format</pt>
+          <pd><b>External</b> is selected automatically.</pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Enter the required parameters where to store the exported markup table: <p>Select the
+              drive to which you want to export the markup table.</p>
+            <parml>
+              <plentry><pt>Name</pt>
+                <pd>Define the file name for the exported markup table.</pd></plentry>
+              <plentry><pt>Current directory</pt>
+                <pd>Displays the directory selected from the <b>Directories</b> list
+                box.</pd></plentry>
+              <plentry><pt>Directories</pt>
+                <pd>This list box contains all available directories on the selected drive. Select
+                  the directory where to store the markup table.</pd></plentry>
+            </parml></pd>
+        </plentry>
+      </parml>
+      <p>To start the exporting function, select the <b>Export</b> button. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The selected markup table is exported to the specified file and saved on the selected drive
+        and directory.</p>
+    </section>
+  </refbody>
+</reference>

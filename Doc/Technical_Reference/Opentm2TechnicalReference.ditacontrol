@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE style-control PUBLIC "-//IBM//DTD DITA Style Control//EN" "stylecontrol.dtd">
+<style-control>
+  <bookStyle>
+    <company value="none"/>
+<!--    <brand value="none"/>-->
+<!--    <documentStyle value="ibm8x11"/>-->
+<!--    <layout value="OneCol"/>-->
+<!--    <cover value="yes"/>-->
+<!--    <titlePage value="no"/>-->
+  </bookStyle>
+</style-control>

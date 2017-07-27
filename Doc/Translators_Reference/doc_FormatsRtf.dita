@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_FormatsRtf">
+<title>RTF documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>RTF</indexterm></indexterm>
+<indexterm>RTF documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Rich Text Format (RTF) is a document format supported by many word
+processors. Import these documents using the EQFRTF markup table.</p>
+<p>Select <b>Check for changes of inline tags</b> during
+translation to ensure that braces ({ }) are not misplaced
+or deleted unintentionally. Otherwise the translated document may
+no longer be accepted by the original word processor.</p>
+</body></topic>

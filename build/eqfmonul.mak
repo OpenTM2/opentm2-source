@@ -1,5 +1,5 @@
 # EQFMONUL.MAK - Makefile for the Dummy Morphologic Functions Module      
-# Copyright (c) 2013, International Business Machines
+# Copyright (c) 2017, International Business Machines
 # Corporation and others.  All rights reserved.
 
 
@@ -15,7 +15,6 @@ $(_OBJ)\EQFMONUL.OBJ:	$(_SRC)\plugins\linguistic\EQFMONUL.CPP \
 								$(_SRC)\core\morph\MorphFactory.h
 
 $(_DLL)\EQFMONUL.DLL:	$(_OBJ)\EQFMONUL.OBJ \
-								$(_LIB)\OtmAlloc.lib \
 								$(_LIB)\OtmBase.lib \
 								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
@@ -32,5 +31,5 @@ $(_DLL)\EQFMONUL.DLL:
 $(_OBJ)\EQFMONUL.OBJ
 /OUT:$(_DLL)\EQFMONUL.DLL
 $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib 
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib 
 <<

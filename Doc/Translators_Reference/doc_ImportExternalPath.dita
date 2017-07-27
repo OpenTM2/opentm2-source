@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_ImportExternalPath">
+  <title>Importing a document in external format with a path</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>importing<indexterm>documents in external format with path</indexterm></indexterm>
+      <indexterm>document<indexterm>importing in external format with path</indexterm></indexterm>
+      <p>You can import a document in external format with its entire path information. You can then
+        have several documents in a folder that have the same name provided that the path
+        differs.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>To import a document produced by word-processing systems, select <b>External
+          Format with relative path</b> from <b>Import from</b>.</p>
+      <p>The <q>External Format with relative path</q> page is displayed (see <xref
+          href="#doc_ImportExternalPath/impdocexpathwin"/>).
+              <required-cleanup><indexterm>windows<indexterm>Import Documents (External format with
+                path information)</indexterm></indexterm></required-cleanup><fig id="impdocexpathwin" expanse="column">
+          <title>Import Documents window (External format with path information)</title><image
+            placement="break" href="doc_ImportExternalPath.gif"><alt>Figure shows Import Documents window
+              (External format with path information)</alt></image></fig></p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Start path</pt>
+          <pd>Specify the drive on which the documents to be imported reside or specify
+            the entire path in which they are stored. What you specify depends on which path
+            information you want to become part of the documents’ name. If you do not want the full
+            path information become part of the documents’ name, type the directory to be omitted in
+            this field. For example, if you do not want directory <codeph>tm</codeph> to be part of
+            the documents’ name, type <codeph>TM</codeph> in the <b>Start path</b> field. Document
+              <codeph>part01.doc</codeph> is then imported under the name
+              <codeph>project\part01.doc</codeph>. <p>You can also select the path from the
+                <q>Browse for Folder</q> window after clicking <b>Browse</b>.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Name</pt>
+          <pd>Type the name of the document to be imported. You can use global file name
+            characters in this field as follows: <p>Type only the common part of the file name to
+              display a subset of the available files in the files list. Then add an asterisk (*) to
+              represent the part of the file names that is different. For example, to import the
+              files <codeph>part01.doc</codeph>, <codeph>part02.doc</codeph>,
+                <codeph>part03.doc</codeph>, and <codeph>part04.doc</codeph>, type
+                <codeph>part*.doc</codeph> in the <b>Name</b> field and then press Enter. The files
+              list then lists all documents whose name matches your specifications. The name of the
+              documents listed also contains the path information that you did not specify in the
+                <b>Start path</b> field and therefore becomes part of the documents’ name.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>Files</pt>
+          <pd>Displays the files that match the specifications you entered in the
+              <b>Start path</b> and <b>Name</b> fields.</pd>
+        </plentry>
+        <plentry>
+          <pt>To folder</pt>
+          <pd>Shows the name of the folder to which you want to import the documents.</pd>
+        </plentry>
+      </parml>
+      <p>Select the documents you want to import from the files list. To import all documents listed
+        in the files list, click <b>Select all</b>. To start a new selection of documents, click
+          <b>Deselect all</b>. Click <b>Import</b> to start the import procedure.</p>
+      <p>The <q>Document Properties</q> window is displayed for the first document (see <xref
+          href="doc_ImportExternal.dita#doc_ImportExternal/docnew"/>). For more information about the
+        contents of this window, refer to <xref href="doc_ImportExternal.dita#doc_ImportExternal"/>. </p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The selected documents are imported. If you left the <b>Start path</b> field empty, the
+        documents are imported under their name and full path information. If you specified a path
+        in the <b>Start path</b> field, the path information of the imported documents excludes the
+        specified path.</p>
+      <p>You can now start analyzing and translating the imported documents.</p>
+    </section>
+  </refbody>
+</reference>

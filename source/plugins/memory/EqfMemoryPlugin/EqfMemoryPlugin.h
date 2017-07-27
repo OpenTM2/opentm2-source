@@ -10,7 +10,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 #include "core\PluginManager\OtmMemoryPlugin.h"
 
 class OtmMemory;

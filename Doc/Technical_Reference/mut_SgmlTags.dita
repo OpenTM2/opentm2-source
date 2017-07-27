@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="mut_SgmlTags">
+<title>SGML tags for markup tags and markup attributes</title>
+<prolog><metadata><keywords>
+
+<indexterm>markup
+tables<indexterm>SGML tags</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following table contains the definition of the SGML tags that
+you can use to define markup tags and markup attributes in a markup
+table.</p>
+<table id="sgml_tags_tags_attribs" pgwide="0" frame="topbot">
+<title>SGML
+tags for markup tags and markup attributes</title>
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="118*"/>
+<colspec colname="col2" colwidth="369*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">SGML tag</entry>
+<entry valign="top" rowsep="1">Definition</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">STRING</entry>
+<entry valign="top">Specifies the name of the markup tag or markup
+attribute.  The specification of STRING is
+required for an entry in the markup table. </entry></row>
+<row>
+<entry valign="top">ENDDELIM</entry>
+<entry valign="top">Specifies one character as end delimiter
+of the markup tag or markup attribute, if it has any. You can enter
+more than one end delimiter. <keyword conref="common-symbols.dita#common-symbols/tm4w"/> checks for all possible string
+combinations to determine the end of the tag or attribute. A string
+as end delimiter is not possible. 
+<p>When a tag or attribute has an
+end delimiter, the specification of its length is omitted or can be
+set to 0. If a tag or attribute has no end delimiter, its length must
+be specified.</p>
+<p>The specification of ENDDELIM is required for
+an entry in the markup table, if LENGTH is not defined. </p></entry></row>
+<row>
+<entry valign="top">LENGTH</entry>
+<entry valign="top">Defines the length of a markup tag
+or markup attribute. It must be specified only if the length of the
+tag or attribute cannot be determined by a delimiter specified by
+ENDDELIM. </entry></row>
+<row>
+<entry valign="top">COLPOSITION</entry>
+<entry valign="top">Specifies the column position where the markup
+tag starts. If a markup tag has no special start position and can
+occur anywhere in a line, COLPOSITION is omitted or can be set to
+0. The default is 0.</entry></row>
+<row>
+<entry valign="top">TYPE</entry>
+<entry valign="top">Defines the type of the markup tag. If TYPE is
+not specified, STDEL is taken as the default. 
+<p>The following types
+are possible: 
+<dl>
+<dlentry><dt>STDEL</dt>
+<dd>Indicates the start of a new text segment.</dd></dlentry>
+<dlentry><dt>ENDDEL</dt>
+<dd>Indicates the end of a text segment.</dd></dlentry>
+<dlentry><dt>SELFC</dt>
+<dd>The markup tag is self-contained, that is, it is a text segment
+by itself.</dd></dlentry>
+<dlentry><dt>STNEUTRAL</dt>
+<dd>The markup tag is a start tag, which has no influence on segmenting.</dd></dlentry>
+<dlentry><dt>ENDNEUTRAL</dt>
+<dd>The markup tag is an end tag, which has no influence on segmenting.</dd></dlentry>
+</dl> </p></entry></row>
+<row>
+<entry valign="top">SEGINFO</entry>
+<entry valign="top">Determines whether the text following the markup
+tag is to be segmented. If SEGINFO is not specified, SEGNEUTRAL is
+taken as the default. 
+<p>
+<dl>
+<dlentry><dt>SEGOFF</dt>
+<dd>Sets segmenting off, that is, no segmentation is done until
+the next markup tag is found that sets segmenting on again. If two
+tags follow each other that set segmenting off, it needs two tags
+that set segmenting on to start segmentation again.</dd></dlentry>
+<dlentry><dt>SEGON</dt>
+<dd>Sets segmenting on again.</dd></dlentry>
+<dlentry><dt>SEGNEUTRAL</dt>
+<dd>Does not influence the segmenting status.</dd></dlentry>
+<dlentry><dt>SEGRESET</dt>
+<dd>Resets the segmenting status to on, even if the segmenting level
+requires more than one SEGON tag to set segmentation on.</dd></dlentry>
+<dlentry><dt>PROTECTON</dt>
+<dd>All following text, including segmentation control flags, is
+protected until a markup tag with <b>PROTECTOFF</b> is
+encountered.</dd></dlentry>
+<dlentry><dt>PROTECTOFF</dt>
+<dd>Turns off text protection. The following text is handled using
+normal segmentation rules.</dd></dlentry>
+</dl> </p></entry></row>
+<row>
+<entry valign="top">ASSTEXT</entry>
+<entry valign="top">Defines types of text following the markup tag.
+If ASSTEXT is not specified, NOEXPL is taken as the default. 
+<p>
+<dl>
+<dlentry><dt>TSNL</dt>
+<dd>Text follows on the same or the next line and will be associated
+with the markup tag.</dd></dlentry>
+<dlentry><dt>TSL</dt>
+<dd>Text follows on the same line and will be associated with the
+makeup tag.</dd></dlentry>
+<dlentry><dt>NOEXPL</dt>
+<dd>No special processing for associated text is required.</dd></dlentry>
+</dl> </p></entry></row>
+<row>
+<entry valign="top">ADDINFO</entry>
+<entry valign="top">Specifies whether specific text is to be ignored
+when segments are aligned during the creation of an <keyword conref="common-symbols.dita#common-symbols/ITM"/>:
+<dl>
+<dlentry><dt>4</dt>
+<dd>Marks the start of an area to be ignored.</dd></dlentry>
+<dlentry><dt>6</dt>
+<dd>Marks the start of an area to be partly ignored. This applies
+to tags containing a <codeph>%</codeph> sign, for example <codeph>HEADER]%</codeph>.</dd></dlentry>
+<dlentry><dt>8</dt>
+<dd>Marks the end of an area to be ignored.</dd></dlentry>
+<dlentry><dt>10</dt>
+<dd>Marks the end of an area to be partly ignored. This applies
+to tags containing a % sign, for example <codeph>HEADER %</codeph>.</dd></dlentry>
+</dl></entry></row>
+<row id="classid">
+<entry valign="top">CLASSID<indexterm>creating<indexterm>tables of contents</indexterm></indexterm><indexterm>table of contents<indexterm>creating</indexterm></indexterm><indexterm>document<indexterm>creating its table of contents</indexterm></indexterm></entry>
+<entry valign="top">Specifies how the contents of STRING is handled.
+The only class is <b>CLS_HEAD</b>. This means that
+the text specified for STRING becomes an entry of the table of contents
+that you can display during the translation of a document using the <b>Special go to...</b> dialog.</entry></row>
+<row>
+<entry valign="top">ATTRINFO</entry>
+<entry valign="top">Specifies whether a markup tag has attached attributes
+(YES/NO). NO is the default. If YES is specified, the ATTRIBUTE SGML
+tag must be used to specify the attributes. </entry></row>
+<row>
+<entry valign="top">TRANSLATEINFO</entry>
+<entry valign="top">Specifies whether the segment associated
+with the markup tag or markup attribute must be translated or not
+(YES/NO). If TRANSLATEINFO is not specified, NO is taken as the default.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

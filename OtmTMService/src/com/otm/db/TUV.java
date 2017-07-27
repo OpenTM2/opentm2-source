@@ -14,6 +14,15 @@ public class TUV {
 				+ ", language=" + language + "]";
 	}
 
+	@Override
+	public int hashCode() {
+        int result = 1;
+        result = result*31 + segment.hashCode();
+        //result = result*31 + lang.hashCode();
+        //result = result*31 + language.hashCode();
+		return result;
+	}
+	
 	private String createtionDate;
 	private String updateCounter;
 	private String segment;
@@ -21,6 +30,8 @@ public class TUV {
 	private String language;
 	private String creator;
 	  
+	
+
 	public void set(String name, String value) {
 		if ("xml:lang".equals(name) || "tmgr-lang".equals(name)) {
 			setLang(value);

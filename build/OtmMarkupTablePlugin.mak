@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------------
 # OtmMarkupTablePlugin.mak    - Makefile for the OTM markup table plugin DLL
 #                               and the related markup table user exits 
-# Copyright (c) 2013,2016 International Business Machines
+# Copyright (c) 2013,2017 International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -50,7 +50,6 @@ $(_OTMMARKUP_OBJ)\OtmMarkupTable.OBJ:	      $(_OTMMARKUP_SRC)\OtmMarkupTable.cpp
                                               $(_SRC)\core\pluginmanager\OtmMarkup.h
 $(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL:   $(_OTMMARKUP_OBJ)\OtmMarkupTablePlugin.OBJ \
                                               $(_OTMMARKUP_OBJ)\OtmMarkupTable.OBJ \
-                                              $(_LIB)\OtmAlloc.lib \
                                               $(_LIB)\OtmBase.lib \
                                               $(_LIB)\OtmDll.lib \
                                               $(_LIB)\PluginManager.lib
@@ -70,7 +69,7 @@ $(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL:
         $(_OTMMARKUP_OBJ)\OtmMarkupTable.OBJ
 /OUT:$(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL
 /MAP:$(_OTMMARKUP_MAP)\OtmMarkupTablePlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS      
-    $(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib  $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib
+    $(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib  $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib
 <<
 
 $(_OTMMARKUP_RELEASE_DIR)\TABLE\OtmMarkupTablePlugin.XML:

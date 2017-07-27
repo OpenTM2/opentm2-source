@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_Translation">
+  <title>Translation Menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Translation Menu</title>
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="127*"/>
+        <colspec colname="col2" colwidth="71*"/>
+        <colspec colname="colspec0" colwidth="70*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Menu bar choices</entry>
+            <entry colname="col2" valign="top">Actions</entry>
+            <entry colname="colspec0" valign="top">Keyboard shortcuts</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Translate =&gt; Translate Segment</entry>
+            <entry colname="col2">Confirming a translation and activating next segment.</entry>
+            <entry colname="colspec0">Ctrl+Newline</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Next Untranslated Segment =&gt; Any</entry>
+            <entry colname="col2">Jump to next untranslated segment.</entry>
+            <entry colname="colspec0">Alt+N</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Next Untranslated Segment =&gt; With EXACT match</entry>
+            <entry colname="col2">Jump to next untranslated segment with EXACT match proposal.</entry>
+            <entry colname="colspec0">(Define via =&gt; Options =&gt; Keys)</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Next Untranslated Segment =&gt; With FUZZY match</entry>
+            <entry colname="col2">Jump to next untranslated segment with FUZZY match proposal.</entry>
+            <entry colname="colspec0">(Define via =&gt; Options =&gt; Keys)</entry>
+          </row>
+
+          <row>
+            <entry colname="col1">Translate =&gt; Next Untranslated Segment =&gt; With GLOBAL MEMORY match</entry>
+            <entry colname="col2">Jump to next untranslated segment with GLOBAL MEMORY match proposal.</entry>
+            <entry colname="colspec0">(Define via =&gt; Options =&gt; Keys)</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Next Untranslated Segment =&gt; With MT match</entry>
+            <entry colname="col2">Jump to next untranslated segment with MT match proposal.</entry>
+            <entry colname="colspec0">(Define via =&gt; Options =&gt; Keys)</entry>
+          </row>
+		  
+          <row>
+            <entry colname="col1">Translate =&gt; Next Untranslated Segment =&gt; With NO match</entry>
+            <entry colname="col2">Jump to next untranslated segment with NO proposal.</entry>
+            <entry colname="colspec0">(Define via =&gt; Options =&gt; Keys)</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Untranslate Segment</entry>
+            <entry colname="col2">Deleting the translated segment from translation memory.</entry>
+            <entry colname="colspec0">Alt+U</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Look Up a Term...</entry>
+            <entry colname="col2">Opening the 'Look Up a Term' window.</entry>
+            <entry colname="colspec0">Alt+L</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Edit a Term...</entry>
+            <entry colname="col2">Opening the 'Edit Entry in Dictionary' window.</entry>
+            <entry colname="colspec0">Alt+E</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Add an User Abbreviation</entry>
+            <entry colname="col2">Adding selected word to the <b>user</b> abbreviation list.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Edit User Abbreviations...</entry>
+            <entry colname="col2">Editing the <b>user</b> abbreviation list.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Go To Active Segment</entry>
+            <entry colname="col2">Going to active segment.</entry>
+            <entry colname="colspec0">Alt+G</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Join Segments</entry>
+            <entry colname="col2">Joining segments.</entry>
+            <entry colname="colspec0">Alt+J</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Split Joined Segments</entry>
+            <entry colname="col2">Splitting joined segments.</entry>
+            <entry colname="colspec0">Alt+S</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Set Bookmark</entry>
+            <entry colname="col2">Setting a bookmark into the translation window (segmentation
+              based).</entry>
+            <entry colname="colspec0">Alt+B</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Go To Bookmark</entry>
+            <entry colname="col2">Going to a created bookmark.</entry>
+            <entry colname="colspec0">Alt+k</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Clear Bookmark</entry>
+            <entry colname="col2">Clearing created bookmarks.</entry>
+            <entry colname="colspec0">Alt+C</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Postediting</entry>
+            <entry colname="col2">Reviewing the translation and checking the spelling.</entry>
+            <entry colname="colspec0">Alt+P</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Automatic Substitution</entry>
+            <entry colname="col2">Copying automatically existing translated segments into the
+              translation document as long as exact matches for the source segments are
+              found.</entry>
+            <entry colname="colspec0">Alt+A</entry>
+          </row>
+          <row>
+            <entry colname="col1">Translate =&gt; Show Translation</entry>
+            <entry colname="col2">Showing translated file in a preview window.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

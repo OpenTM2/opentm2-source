@@ -584,12 +584,8 @@ MRESULT CMainFrame:: On_WM_COPYDATA( WPARAM mp1, LPARAM mp2)
 {
   //::MessageBox( NULL, "receive message", "TranslationManager", MB_CANCEL );
   PCOPYDATASTRUCT	pMyCDS = (PCOPYDATASTRUCT) mp2;
-  // used to notify read queue for shared translation memory webservice based
-  if(pMyCDS->dwData==0)
-  {
-      (USHORT)EqfSend2Handler( MEMORYHANDLER, WM_EQF_READINQUE, mp1,MP2FROMP(pMyCDS->lpData));
-  }
-  else if(pMyCDS->dwData==1)
+
+  if(pMyCDS->dwData==1)
   {  // refresh memory list when created memory not from OpenTM2 GUI
      (USHORT)EqfSend2Handler( MEMORYHANDLER, WM_EQF_ADDMEMTOLIST, mp1,MP2FROMP(pMyCDS->lpData)); 
   }

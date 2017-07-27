@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_EQFPREUNSEGW">
+  <title>EQFPREUNSEGW</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>programming interface calls<indexterm>EQFPREUNSEGW</indexterm></indexterm>
+      <indexterm>EQFPREUNSEGW</indexterm>
+      <p><i>EQFPREUNSEGW</i> is called during the export of a document before the
+        segmentation tags inserted by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        are removed. It decides whether the segmentation tags are removed by <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> or <i>EQFPREUNSEGW</i> itself. However,
+        it is normally used to remove the segmentation tags. If an error occurs, it can stop the
+        export.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFPREUNSEGW</kwd>
+          <delim>(</delim>
+          <var>Editor</var>
+          <sep>,</sep>
+          <var>Path</var>
+          <sep>,</sep>
+          <var>SegmentedTargetFile</var>
+          <sep>,</sep>
+          <var>Buffer</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>SegmentationTags</var>
+          <sep>,</sep>
+          <var>OutputFlag</var>
+          <sep>,</sep>
+          <var>SliderWindowHandle</var>
+          <sep>,</sep>
+          <var>ReturnFlag</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Editor</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the editor.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Path</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the program path.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SegmentedTargetFile</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the segmented target file (with full path).</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Buffer</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the buffer containing the name of the temporary output file.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SegmentationTags</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the tags inserted during text segmentation.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>OutputFlag</var>
+            </synph>
+          </pt>
+          <pd>The output flag indicating whether the segmentation tags are removed by EQFPREUNSEGW
+            instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SliderWindowHandle</var>
+            </synph>
+          </pt>
+          <pd>The handle of the slider window.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>ReturnFlag</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the return flag. If this flag changes to TRUE, the user exit must
+            return immediately.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

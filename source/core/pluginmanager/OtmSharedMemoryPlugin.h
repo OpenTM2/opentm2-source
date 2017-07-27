@@ -309,13 +309,6 @@ virtual int importFromMemoryFiles
       std::vector<std::string> &users
     ) = 0;
 
-
-  virtual int replicateWithServer(
-	   PSZ pszName,
-	   OtmMemory* pLocalMem, 
-	   bool isUpload
-	   ) = 0;
-
 /* \brief add a new memory information to memory list
     \param pszName memory name
     \param chToDrive drive letter

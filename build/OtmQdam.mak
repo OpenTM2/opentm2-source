@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # OTMQdam.MAK - Makefile for database access
-# Copyright (c) 2013, International Business Machines
+# Copyright (c) 2013-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -58,5 +58,5 @@ $(_DLL)\OTMQDAM.DLL:
 			$(_OBJ)\EQFQDSRV.OBJ
 /OUT:$(_DLL)\OTMQDAM.DLL
 /MAP:$(_MAP)\EqfQdam.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OTMBase.lib $(_LIB)\OTMDll.lib
+$(_LINK_LIB_CRT) $(_LIB)\OTMBase.lib $(_LIB)\OTMDll.lib
 <<

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="api_DataTypes">
+  <title>Data types</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>data types<indexterm>for non-DDE interfaces</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The non-DDE interface for <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+      functions uses the following data types for parameters and return codes: <table pgwide="0"
+        frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">The session handle that is created by <i>EqfStartSession</i>. It
+                must be specified in all other functions of the non-DDE interface.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PHSESSION</entry>
+              <entry colname="col2">The pointer to a HSESSION variable.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">A long (32-bit) signed integer. In the non-DDE interface, this
+                data type is used for option flags. Use 0L if no options are to be specified.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">The pointer to a zero-terminated string (C-language string). 
+                 Use <codeph>NULL</codeph> if no parameter is specified.</entry>
+            </row>
+            <row>
+              <entry colname="col1">USHORT</entry>
+              <entry colname="col2">A short (16-bit) unsigned integer value. This data type is used for return codes.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PUSHORT</entry>
+              <entry colname="col2">The pointer to a variable of type USHORT.</entry>
+            </row>
+            <row id="formlist">
+              <entry colname="col1">FORMLIST</entry>
+              <entry colname="col2">A structure consisting of two length fields and a memory block.
+                The byte <codeph>ch</codeph> indicates the start of the memory block: <codeblock>typedef struct
+{
+   ULONG ulAllocated;
+   ULONG ulUsed;
+   BYTE ch;
+} FORMLIST, *PFORMLIST; </codeblock></entry></row>
+          </tbody>
+        </tgroup>
+      </table></p>
+  </body>
+</topic>

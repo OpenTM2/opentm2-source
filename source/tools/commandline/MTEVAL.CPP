@@ -76,7 +76,7 @@ protected:
   int WriteTimePerCategory( const char *pszName, const char *type, ULONG ulCounts[3] );
   int AddNumbers( ULONG ulCountSum[3], ULONG ulCountAdd[3] );
   int CopyNumbers( ULONG ulCountTo[3], ULONG ulCountFrom[3] );
-  int CopyAndClean( PSZ_W pszTarget, PSZ_W pszSource  );
+  int CMTEval::CopyAndClean( PSZ_W pszTarget, int iTargetSize, PSZ_W pszSource, int iSourceSize  );
   int ClearNumbers( ULONG ulCount[3] );
   int AddFolderNumbersToTotal( void );
   int WriteFolderNumbers( void );
@@ -1258,11 +1258,12 @@ BOOL CMTEval::CheckNewRecord2( PACTSEGLOGENH2 pEntry, int iRemaining )
   {
     PBYTE pbData = (PBYTE)pEntry + ulBaseRecSize;
     PPESEGLOGDATA pPEData = (PPESEGLOGDATA)pbData;
-    if ( pPEData->ulTargetLen > MAX_SEGMENT_SIZE ) return( FALSE );
-    if ( pPEData->ulMTTargetLen > MAX_SEGMENT_SIZE ) return( FALSE );
-    if ( pPEData->ulMTMatchIDLen > MAX_SEGMENT_SIZE ) return( FALSE );
-    if ( pPEData->ulCopiedTargetLen > MAX_SEGMENT_SIZE ) return( FALSE );
-    if ( pPEData->ulCopiedMatchIDLen > MAX_SEGMENT_SIZE ) return( FALSE );
+    ULONG ulMaxSize = (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W);
+    if ( pPEData->ulTargetLen > ulMaxSize ) return( FALSE );
+    if ( pPEData->ulMTTargetLen > ulMaxSize ) return( FALSE );
+    if ( pPEData->ulMTMatchIDLen > ulMaxSize ) return( FALSE );
+    if ( pPEData->ulCopiedTargetLen > ulMaxSize ) return( FALSE );
+    if ( pPEData->ulCopiedMatchIDLen > ulMaxSize ) return( FALSE );
   } /* endif */
 
   return( TRUE );
@@ -1635,11 +1636,11 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
             } /* endif */
           } /* endif */
 
-          if ( pPEData->ulTargetLen != 0 ) CopyAndClean( m_PEData.szTarget, (PSZ_W)(pbData + pPEData->ulTargetOffs) );
-          if ( pPEData->ulMTTargetLen != 0 ) CopyAndClean( m_PEData.szMTTarget, (PSZ_W)(pbData + pPEData->ulMTTargetOffs) );
-          if ( pPEData->ulMTMatchIDLen != 0 ) wcscpy( m_PEData.szMTMatchID, (PSZ_W)(pbData + pPEData->ulMTMatchIDOffs) );
-          if ( pPEData->ulCopiedTargetLen != 0 ) CopyAndClean( m_PEData.szCopiedTarget, (PSZ_W)(pbData + pPEData->ulCopiedTargetOffs) );
-          if ( pPEData->ulCopiedMatchIDLen != 0 ) wcscpy( m_PEData.szCopiedMatchID, (PSZ_W)(pbData + pPEData->ulCopiedMatchIDOffs) );
+          if ( pPEData->ulTargetLen != 0 ) CopyAndClean( m_PEData.szTarget, sizeof(m_PEData.szTarget), (PSZ_W)(pbData + pPEData->ulTargetOffs), pPEData->ulTargetLen );
+          if ( pPEData->ulMTTargetLen != 0 ) CopyAndClean( m_PEData.szMTTarget, sizeof(m_PEData.szMTTarget), (PSZ_W)(pbData + pPEData->ulMTTargetOffs), pPEData->ulMTTargetLen );
+          if ( pPEData->ulMTMatchIDLen != 0 ) CopyAndClean( m_PEData.szMTMatchID, sizeof(m_PEData.szMTMatchID), (PSZ_W)(pbData + pPEData->ulMTMatchIDOffs), pPEData->ulMTMatchIDLen );
+          if ( pPEData->ulCopiedTargetLen != 0 ) CopyAndClean( m_PEData.szCopiedTarget, sizeof(m_PEData.szCopiedTarget), (PSZ_W)(pbData + pPEData->ulCopiedTargetOffs), pPEData->ulCopiedTargetLen );
+          if ( pPEData->ulCopiedMatchIDLen != 0 ) CopyAndClean( m_PEData.szCopiedMatchID, sizeof(m_PEData.szCopiedMatchID), (PSZ_W)(pbData + pPEData->ulCopiedMatchIDOffs), pPEData->ulCopiedMatchIDLen );
         } /* endif */
       }
       else if ( pTemp->ulEyeCatcher == ACTSEGLOG_EYECATCHER )
@@ -1733,6 +1734,28 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
         m_xw->WriteStartAttribute( "words" );
         m_xw->WriteInt( (int)m_ActSegLog.usWordCnt );
         m_xw->WriteEndAttribute();
+
+        // GQ2017/06/21 fix for P403767: correct process time when it is shorter when the thinktime
+        if ( !fOldRecord )
+        {
+          if ( m_ActSegLog.ulThinkTime != ((ULONG)-1) ) // do we have a think time?
+          {
+            if ( m_ActSegLog.ulThinkTime > m_ActSegLog.ulTime )
+            {
+              if ( m_ActSegLog.PropTypeCopied.Exact || m_ActSegLog.PropTypeCopied.Fuzzy || m_ActSegLog.PropTypeCopied.Replace ||
+                   m_ActSegLog.PropTypeCopied.MT || m_ActSegLog.PropTypeCopied.GlobMem || m_ActSegLog.PropTypeCopied.GlobMemFuzzy )
+              {
+                // a proposal has been copied, so use the think time as process time...
+                m_ActSegLog.ulTime = m_ActSegLog.ulThinkTime;
+              }
+              else
+              {
+                // use total time if nothing has been copied
+                m_ActSegLog.ulTime = m_ActSegLog.ulTotalTime;
+              } /* endif */
+            }
+          }
+        }
 
         if ( fOldRecord )
         {
@@ -2436,19 +2459,23 @@ int CMTEval::WriteMTMetaData( CXmlWriter *pWriter, PSZ_W pszMetaData )
 }
 
 // copy segment string and do any required cleanup
-int CMTEval::CopyAndClean( PSZ_W pszTarget, PSZ_W pszSource  )
+int CMTEval::CopyAndClean( PSZ_W pszTarget, int iTargetSize, PSZ_W pszSource, int iSourceSize  )
 {
+  int iMaxTargetChars = (iTargetSize / sizeof(CHAR_W)) - 1;
+  int iSourceChars = iSourceSize / sizeof(CHAR_W);
   int iCharsCopied = 0;
 
-  while( *pszSource != 0 )
+  while( (*pszSource != 0) && (iSourceChars > 0) && (iCharsCopied < iMaxTargetChars) )
   {
     if ( *pszSource == SOFTLF_CHAR )
     {
+      iSourceChars--;
       pszSource++;
     } 
     else
     {
       *pszTarget++ = *pszSource++;
+      iSourceChars--;
       iCharsCopied++;
     } /* endif */
   } /* endwhile */

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_EQFSHOW">
+<title>EQFSHOW</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFSHOW</indexterm></indexterm><indexterm>EQFSHOW</indexterm>
+<p><i>EQFSHOW</i> is called during the translation
+of a document when the user selects the "Show Translation" menu item.
+It is up to the user exit to prepare and display the document in a
+window. The user exit can use the API calls <xref href="mut_EQFGETNEXTSEG.dita#mut_EQFGETNEXTSEG"/>, <xref href="mut_EQFGETNEXTSEGW.dita#mut_EQFGETNEXTSEGW"/>, <xref href="mut_EQFGETPREVSEG.dita#mut_EQFGETPREVSEG"/>, <xref href="mut_EQFGETPREVSEGW.dita#mut_EQFGETPREVSEGW"/>, <xref href="mut_EQFGETCURSEG.dita#mut_EQFGETCURSEG"/>, <xref href="mut_EQFGETCURSEGW.dita#mut_EQFGETCURSEGW"/> and <xref href="mut_EQFGETINFO.dita#mut_EQFGETINFO"/> to retrieve the document segments and to get other document
+information.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFSHOW</kwd><delim>(</delim><var>lInfo</var><sep>,</sep><var>hwndParent</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>lInfo</var></synph></pt>
+<pd>A handle to the target document. This handle has to be specified
+in the API calls for accessing the segment text.</pd></plentry>
+<plentry><pt><synph><var>hwndParent</var></synph></pt>
+<pd>The handle of the window which should be specified as parent
+window for the window displaying the document.</pd></plentry>
+</parml>
+</section>
+<section><title>Return code</title>
+<p>The user exit should return TRUE if the document could be displayed
+and FALSE in case of errors.</p>
+</section></refbody></reference>

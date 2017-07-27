@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appHint_WordMarkup">
+<title>EQFRTF/EQFMSWRD markup table and third-party program limitations </title>
+<prolog><metadata><keywords>
+
+<indexterm>technical notices<indexterm>EQFRTF markup</indexterm><indexterm>EQFMSWRD markup</indexterm></indexterm>
+<indexterm>Mac file format<indexterm>limitations</indexterm></indexterm>
+<indexterm>font embedding<indexterm>limitations</indexterm></indexterm>
+<indexterm>EQFRTF markup<indexterm>limitations</indexterm></indexterm>
+<indexterm>EQFMSWRD markup<indexterm>limitations</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>If you use the markup tables EQFRTF (for Rich Text Format documents) or
+EQFMSWRD (for <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word documents), note the following limitations:
+<ul>
+<li>The Mac file format is currently not supported.</li>
+<li>Font Embedding is currently not supported.</li>
+<li>For bidirectional languages, note that the Visual C++ help compiler versions
+4.01.0950 and 4.03.0002 (part of Visual C++ versions 5.0 and 6.0) do not support
+the reordering of table columns; therefore table columns are not automatically
+displayed in reversed order.<indexterm>bidirectional languages<indexterm>limitations<indexterm>help compiler</indexterm></indexterm></indexterm><indexterm>limitations<indexterm>help compiler</indexterm></indexterm></li>
+</ul></p>
+<p>See also <xref href="appHint_BidiWord.dita#appHint_BidiWord"/>.</p>
+</body></topic>

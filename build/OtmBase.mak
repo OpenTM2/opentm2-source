@@ -30,7 +30,7 @@ build:    $(_DLL)\OTMBase.DLL
 #------------------------------------------------------------------------------
 # Dependencies
 #------------------------------------------------------------------------------
-
+$(_OBJ)\UtlAlloc.OBJ:	$(_SRC)\core\utilities\UtlAlloc.c $(_SRC)\core\utilities\Utility.h
 $(_OBJ)\UtlMATVal.OBJ:	$(_SRC)\core\utilities\UtlMATVal.c
 $(_OBJ)\UtlLangCP.OBJ:	$(_SRC)\core\utilities\UtlLangCP.c
 $(_OBJ)\UtlString.OBJ:	$(_SRC)\core\utilities\UtlString.c
@@ -72,7 +72,8 @@ $(_DLL)\OTMBase.DLL:	$(_OBJ)\UtlMATVal.OBJ \
 						$(_OBJ)\OtmProposal.OBJ \
 						$(_OBJ)\zip.OBJ \
 						$(_OBJ)\unzip.OBJ \
-						$(_OBJ)\LogWriter.OBJ
+						$(_OBJ)\LogWriter.OBJ \
+                                                $(_OBJ)\UtlAlloc.OBJ
 
 #------------------------------------------------------------------------------
 # Build OTMBase.DLL
@@ -102,7 +103,8 @@ $(_DLL)\OTMBase.DLL:
   					$(_OBJ)\zip.OBJ 
 					$(_OBJ)\unzip.OBJ 
 					$(_OBJ)\LogWriter.OBJ
+                                        $(_OBJ)\UtlAlloc.OBJ
 /OUT:$(_DLL)\OTMBase.DLL
 /MAP:$(_MAP)\OTMBase.MAP $(_LINK_OPTIONS) /MAPINFO:EXPORTS /DLL
-$(_LINK_LIB_CRT) imm32.lib $(_LIB)\OtmAlloc.lib $(_LIBOTHER)\xerces-c_3.lib
+$(_LINK_LIB_CRT) imm32.lib $(_LIBOTHER)\xerces-c_3.lib
 <<

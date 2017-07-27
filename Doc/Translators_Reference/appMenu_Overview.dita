@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appMenu_Overview">
+    <title>Overview of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> menus</title>
+    <prolog>
+        <metadata>
+            <keywords>
+                <indexterm>menu overview</indexterm>
+            </keywords>
+        </metadata>
+    </prolog>
+    <body>
+        <p>The following table shows which tasks can be selected for which <keyword conref="common-symbols.dita#common-symbols/tm4w"/> components.</p>
+        <p>Note that for every list window you can open a list-specific menu where you can select the same commands as from the 
+          <keyword conref="common-symbols.dita#common-symbols/tm4w"/> menu bar. You open this menu by pressing the right mouse button. The 
+          menu shows only the selection of tasks that can be started from the list window for which you opened the menu. </p>
+        <table pgwide="0" frame="topbot">
+            <tgroup cols="5" colsep="0" rowsep="1">
+                <colspec colname="col1" colwidth="1*"/>
+                <colspec colname="col2" colwidth="1*"/>
+                <colspec colname="col3" colwidth="1*"/>
+                <colspec colname="col4" colwidth="1*"/>
+                <colspec colname="col5" colwidth="1*"/>
+                <thead>
+                    <row>
+                        <entry valign="top" rowsep="1">Documents</entry>
+                        <entry valign="top" rowsep="1">Folders</entry>
+                        <entry valign="top" rowsep="1">
+                            <keyword conref="common-symbols.dita#common-symbols/xlmems"/>
+                        </entry>
+                        <entry valign="top" rowsep="1">Dictionaries</entry>
+                        <entry valign="top" rowsep="1">Markup tables</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/opn"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/opn"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/opn"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/opn"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/new"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/new"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/new"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/prp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/prp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/prp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/prp"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">Properties Summary</entry>
+                        <entry valign="top">Properties Summary</entry>
+                        <entry valign="top">Properties Summary</entry>
+                        <entry valign="top">Properties Summary</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">Delete</entry>
+                        <entry valign="top">Delete</entry>
+                        <entry valign="top">Delete</entry>
+                        <entry valign="top">Delete</entry>
+                        <entry valign="top">Delete</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">Rename...</entry>
+                        <entry valign="top">Rename...</entry>
+                        <entry valign="top">Rename...</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/mrg"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/org"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/org"/>
+                        </entry>
+                        <entry valign="top">—-</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/ana"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/ana"/>
+                        </entry>
+                        <entry valign="top">— </entry>
+                        <entry valign="top">— </entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/prt"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/exp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/exp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/exp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/exp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/exp"/>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/imp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/imp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/imp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/imp"/>
+                        </entry>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/imp"/>
+                        </entry>
+                    </row>
+                    <row>
+                        <entry valign="top">Count words...</entry>
+                        <entry valign="top">Count words...</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">Create Counting Report...</entry>
+                        <entry valign="top">Create Counting Report...</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">Delete exported folder...</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">Global find and replace...</entry>
+                        <entry valign="top">Global find and replace...</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/sel"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">
+                            <keyword conref="common-symbols.dita#common-symbols/des"/>
+                        </entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                    <row>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">—</entry>
+                        <entry valign="top">Connect shared resources...</entry>
+                        <entry valign="top">Connect shared resources...</entry>
+                        <entry valign="top">—</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+    </body>
+</topic>

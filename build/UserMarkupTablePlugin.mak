@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # UserMarkupTablePlugin.MAK    - Makefile for the EQF markup table plugin DLL
-# Copyright (c) 2013,2014 International Business Machines
+# Copyright (c) 2013-2017 International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -42,7 +42,6 @@ $(_USERMARKUP_OBJ)\UserMarkupTable.OBJ:	        $(_USERMARKUP_SRC)\UserMarkupTab
 		           		        $(_SRC)\core\pluginmanager\OtmMarkup.h
 $(_USERMARKUP_DLL)\UserMarkupTablePlugin.DLL:	$(_USERMARKUP_OBJ)\UserMarkupTablePlugin.OBJ \
 				                $(_USERMARKUP_OBJ)\UserMarkupTable.OBJ \
-                                                $(_LIB)\OtmAlloc.lib \
 				                $(_LIB)\OtmBase.lib \
 				                $(_LIB)\OtmDll.lib \
 				                $(_LIB)\PluginManager.lib
@@ -66,7 +65,7 @@ $(_USERMARKUP_DLL)\UserMarkupTablePlugin.DLL:
 	 $(_USERMARKUP_OBJ)\UserMarkupTable.OBJ
 /OUT:$(_USERMARKUP_DLL)\UserMarkupTablePlugin.DLL
 /MAP:$(_USERMARKUP_MAP)\UserMarkupTablePlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OTMBase.lib $(_LIB)\OTMDll.lib $(_LIB)\PluginManager.lib
+$(_LINK_LIB_CRT) $(_LIB)\OTMBase.lib $(_LIB)\OTMDll.lib $(_LIB)\PluginManager.lib
 <<
 
 

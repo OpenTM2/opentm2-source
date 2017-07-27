@@ -47,12 +47,21 @@ public class OtmTMServiceImpl implements OtmTMService {
 		paramHash = new JSONDeserializer<HashMap<String, String>>()
 				.deserialize(parameters);
 
-		String method = paramHash.get("method");
+		String method = paramHash.get(SyncParameters.METHOD);
 		if (method == null || method.isEmpty()) {
 			resultHash.put(SyncParameters.RESPONSESTATUSMSG, "empty method name");
 			return serialize(resultHash);
 		}
-
+        
+		// process middle line '-' in memory name
+		String memname = paramHash.get(SyncParameters.DATASOURCENAME);
+		String oldMemName = null;
+		if( memname!=null && memname.indexOf('-') != -1 ) {
+			oldMemName = memname;
+			paramHash.put(SyncParameters.DATASOURCENAME,memname.replaceAll("-", "_"));
+		}
+		
+		
 		// begin to call detail method
 		if("upload".equals(method)) {
 			resultHash = mSync.upload(paramHash);
@@ -79,6 +88,11 @@ public class OtmTMServiceImpl implements OtmTMService {
 		}  else if("listallmemories".equals(method)) {
 			resultHash = mSync.listMemories(paramHash);
 			
+		}
+		
+		// if already changed ,back to old
+		if( oldMemName != null ) {
+			resultHash.put(SyncParameters.DATASOURCENAME, oldMemName);
 		}
 		
 		return serialize(resultHash);

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|          Copyright (C) 1990-2016, International Business Machines          |
+//|          Copyright (C) 1990-2017, International Business Machines          |
 //|          Corporation and others. All rights reserved                       |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
@@ -2232,7 +2232,7 @@ void TMXParseHandler::endElement(const XMLCh* const name )
                 }
                 else
                 {
-                  if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "OTMANSI" );
+                   if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "OTMANSI" );
                   pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
                 } /* endif */
               } /* endif */

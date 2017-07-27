@@ -55,16 +55,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>EqfSharedMemoryPlugin.cpp File Reference</h1>  </div>
 </div>
 <div class="contents">
-<code>#include &quot;string&quot;</code><br/>
-<code>#include &quot;vector&quot;</code><br/>
+<code>#include &lt;map&gt;</code><br/>
+<code>#include &lt;fstream&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_plugin_manager_8h_source.html">core\PluginManager\PluginManager.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_eqf_shared_memory_plugin_8h_source.html">EqfSharedMemoryPlugin.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_eqf_shared_memory_8h_source.html">EqfSharedMemory.h</a>&quot;</code><br/>
 <code>#include &quot;TMXFactory.h&quot;</code><br/>
 <code>#include &quot;eqftmi.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_memory_web_service_client_8h_source.html">MemoryWebServiceClient.h</a>&quot;</code><br/>
+<code>#include &quot;FiFoQueue.h&quot;</code><br/>
+<code>#include &quot;ReplicateThread.h&quot;</code><br/>
 <code>#include &lt;TlHelp32.h&gt;</code><br/>
 <code>#include &lt;Shellapi.h&gt;</code><br/>
+<code>#include &lt;process.h&gt;</code><br/>
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -252,7 +255,7 @@ EXTERN_C IMAGE_DOS_HEADER&#160;</td><td class="memItemRight" valign="bottom"><b>
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 4 2017 17:30:20 for PluginManager by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 27 2017 15:35:44 for PluginManager by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.2 </small></address>
 </body>

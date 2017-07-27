@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="tools_FolderExportType">
+  <title>Changing the type of an exported folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>Exported <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folders can be
+          <q>master folders</q>, <q>child folders</q> or <q>standard folders</q>. When exporting a
+          <b>master folder</b>, it is automatically exported as a <b>child
+          folder</b> when not specified otherwise. The tool OTMCHANGEFXP can be used to change
+        the type of the exported folder whithout requiring a new export of the folder.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMCHANGEFXP</indexterm>
+      <indexterm>commands<indexterm>OTMCHANGEFXP</indexterm></indexterm>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMCHANGEFXP</kwd>
+        </groupseq>
+        <groupseq>
+          <kwd>folderfile</kwd>
+          <groupchoice>
+            <groupseq>
+              <kwd>-</kwd>
+            </groupseq>
+            <groupseq>
+              <kwd>/TYPE</kwd>
+              <oper>=</oper>
+              <groupchoice>
+                <groupseq>
+                  <kwd>MASTER</kwd>
+                </groupseq>
+                <groupseq>
+                  <kwd>CHILD</kwd>
+                </groupseq>
+                <groupseq>
+                  <kwd>STANDARD</kwd>
+                </groupseq>
+              </groupchoice>
+            </groupseq>
+          </groupchoice>
+          <groupchoice>
+            <groupseq>
+              <kwd>-</kwd>
+            </groupseq>
+            <groupseq>
+              <kwd>/PW</kwd>
+              <oper>=</oper>
+              <var>password</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>folderfile</pt>
+          <pd>folderfile is the fully qualified name of the exported folder, if no file extension is
+            specified "<q>.FXP</q>" is used as default </pd>
+        </plentry>
+        <plentry>
+          <pt>/TYPE=type</pt>
+          <pd>type is the new type of the folder and can be MASTER, CHILD, or STANDARD </pd>
+        </plentry>
+        <plentry>
+          <pt>/PW =password</pt>
+          <pd>password specifies the folder password for MASTER or CHILD folders </pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example show how to use the OTMCHANGEFXP command.</p>
+      <p>Enter the OTMCHANGEFXP command as follows:</p>
+<!--  <section>
+        <title>Example</title>
+        <codeblock>otmchangefxp c:\showme.fxp /TYPE=MASTER /PW=verysecret</codeblock>
+        <p>In this example the exported folder <q>showme.fxp</q> is converted into a <b>master
+            folder</b>, an the password is set to <q>verysecret</q></p>
+      </section>
+      <section>
+        <title>Example</title>
+        <codeblock>otmchangefxp c:\master.fxp /TYPE=STANDARD</codeblock>
+        <p>In this example the exported folder <q>master.fxp</q> is converted into a
+            <b>standard folder</b></p>
+      </section>-->
+      <p> <codeblock>otmchangefxp c:\showme.fxp /TYPE=MASTER /PW=verysecret</codeblock></p>
+      <p>In this example the exported folder <q>showme.fxp</q> is converted into a <b>master
+            folder</b>, an the password is set to <q>verysecret</q></p>
+      <p>  <codeblock>otmchangefxp c:\master.fxp /TYPE=STANDARD</codeblock></p>
+      <p>In this example the exported folder <q>master.fxp</q> is converted into a
+            <b>standard folder</b></p>
+    </example>
+  </refbody>
+</reference>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFGETDOCFORMAT">
+  <title>EQFGETDOCFORMAT</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EQFGETDOCFORMAT</indexterm>
+      <indexterm>programming interface calls<indexterm>EQFGETDOCFORMAT</indexterm></indexterm>
+      <p><i>EQFGETDOCFORMAT</i> retrieves the format (markup language) of the specified
+        document.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFGETDOCFORMAT</kwd>
+          <delim>(</delim>
+          <var>pszFolder</var>
+          <sep>,</sep>
+          <var>pszFileName</var>
+          <sep>,</sep>
+          <var>pszFormat</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt><synph><var>pszFolder(PSTRING)</var></synph> — input</pt>
+          <pd>The name of the folder with path information, for example
+                <codeph><i>&lt;folder_drive&gt;</i>:\otm\<i>&lt;folder_name&gt;</i>.f00</codeph>.
+                <codeph><i>&lt;folder_name&gt;</i></codeph> can be extracted from
+              <codeph>pSegTarget</codeph> or <codeph>pSegSource</codeph> as defined in
+              <codeph>eqf_xstart</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>pszFileName(PSTRING)</var></synph> — input</pt>
+          <pd>The short file name (8.3 DOS naming convention) without path information.</pd>
+        </plentry>
+        <plentry>
+          <pt><synph><var>pszFormat(PSTRING)</var></synph> — output</pt>
+          <pd>The format (markup language) of the specified document.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

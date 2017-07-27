@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="concept_ListItems">
+  <title>Arranging and filtering list items</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>In the list windows, all items are listed and sorted by name in alphabetical order. For
+      example, in the <q>Folder List</q> window, you always find all the folders that you created
+      in, or imported into, <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, sorted by
+      name.</p>
+    <p>You can change this by arranging the items according to specific details and by filtering
+      specific items. For example, you can arrange the folders by name in descending order, or by
+      markup table and within the same markup table by description. In addition, you can define that
+      only those folders are displayed whose name starts with a <b>W</b>.</p>
+    <p>You can arrange and filter items in the following list windows: <ul>
+        <li><q>Folder List</q></li>
+        <li><q>Document List</q></li>
+        <li><q>Dictionary List</q></li>
+        <li><q>Translation Memory List</q></li>
+        <li><q>New Terms Lists</q></li>
+        <li><q>Found Terms Lists</q></li>
+        <li><q>Exclusion Lists</q></li>
+        <li>Markup table list</li>
+      </ul></p>
+  </body>
+</topic>

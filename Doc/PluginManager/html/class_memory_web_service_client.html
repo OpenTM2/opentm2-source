@@ -83,10 +83,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getMemoryInfo</b> (cha
 int&#160;</td><td class="memItemRight" valign="bottom"><b>createMemory</b> (std::vector&lt; std::string &gt; *pvOptions)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ef9b72ef0e34a7564f461cb9a6d183d"></a><!-- doxytag: member="MemoryWebServiceClient::deleteMemory" ref="a9ef9b72ef0e34a7564f461cb9a6d183d" args="(std::vector&lt; std::string &gt; *pvOptions)" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>deleteMemory</b> (std::vector&lt; std::string &gt; *pvOptions)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67dbe46b43626933c56393849c929f8e"></a><!-- doxytag: member="MemoryWebServiceClient::uploadProposal" ref="a67dbe46b43626933c56393849c929f8e" args="(char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>uploadProposal</b> (char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b500425c584e8dcbbc7cc311202544b"></a><!-- doxytag: member="MemoryWebServiceClient::downloadProposal" ref="a7b500425c584e8dcbbc7cc311202544b" args="(char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal, std::string &amp;strUpdateCounter)" -->
-int&#160;</td><td class="memItemRight" valign="bottom"><b>downloadProposal</b> (char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal, std::string &amp;strUpdateCounter)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac89869ced3aeecf67a37e005c5c7f0fe"></a><!-- doxytag: member="MemoryWebServiceClient::uploadProposal" ref="ac89869ced3aeecf67a37e005c5c7f0fe" args="(char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal, std::string &amp;uploadedCounter)" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>uploadProposal</b> (char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal, std::string &amp;uploadedCounter)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad01f92b62e282af1b0dd17bb67462c38"></a><!-- doxytag: member="MemoryWebServiceClient::downloadProposal" ref="ad01f92b62e282af1b0dd17bb67462c38" args="(char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal, std::string &amp;strUpdateCounter, std::set&lt; std::string &gt; &amp;ownUpCounterSet)" -->
+int&#160;</td><td class="memItemRight" valign="bottom"><b>downloadProposal</b> (char *pszName, char *pszUserID, char *pszPassword, std::string &amp;strTMXProposal, std::string &amp;strUpdateCounter, std::set&lt; std::string &gt; &amp;ownUpCounterSet)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3628939a0505a42d484f006f27274b1"></a><!-- doxytag: member="MemoryWebServiceClient::getCreator" ref="ab3628939a0505a42d484f006f27274b1" args="(char *pszUser, char *pszPassword, char *pszMemory, std::string &amp;creator)" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>getCreator</b> (char *pszUser, char *pszPassword, char *pszMemory, std::string &amp;creator)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_web_service_client.html#a1031c70d3e8d57dd03c15978b3b13e02">getLastError</a> (std::string &amp;strError)</td></tr>
@@ -99,10 +99,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>addMemoryUser</b> (std
 int&#160;</td><td class="memItemRight" valign="bottom"><b>removeMemoryUser</b> (std::vector&lt; std::string &gt; *pvOptions)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3154572b8bf84b025dfa1c7d39d6cee2"></a><!-- doxytag: member="MemoryWebServiceClient::listMemoryUsers" ref="a3154572b8bf84b025dfa1c7d39d6cee2" args="(std::vector&lt; std::string &gt; &amp;options, std::vector&lt; std::string &gt; &amp;users)" -->
 int&#160;</td><td class="memItemRight" valign="bottom"><b>listMemoryUsers</b> (std::vector&lt; std::string &gt; &amp;options, std::vector&lt; std::string &gt; &amp;users)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af82719bcc2b74e6bc59db4d18350c491"></a><!-- doxytag: member="MemoryWebServiceClient::loadUpdateCounter" ref="af82719bcc2b74e6bc59db4d18350c491" args="(std::string &amp;strPropPath, std::string &amp;strPropFileName, std::string &amp;strUpdateCounter)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>loadUpdateCounter</b> (std::string &amp;strPropPath, std::string &amp;strPropFileName, std::string &amp;strUpdateCounter)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a01d1e77f1fe88410fc97e96f54f8a75d"></a><!-- doxytag: member="MemoryWebServiceClient::writeUpdateCounter" ref="a01d1e77f1fe88410fc97e96f54f8a75d" args="(std::string &amp;strPropPath, std::string &amp;strPropFileName, std::string &amp;strUpdateCounter)" -->
-void&#160;</td><td class="memItemRight" valign="bottom"><b>writeUpdateCounter</b> (std::string &amp;strPropPath, std::string &amp;strPropFileName, std::string &amp;strUpdateCounter)</td></tr>
 <tr><td colspan="2"><h2><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5651d2b638bac888b3325e3023ca0dc"></a><!-- doxytag: member="MemoryWebServiceClient::Error_AxutilEnvCreateAll_failed" ref="ae5651d2b638bac888b3325e3023ca0dc" args="" -->
@@ -144,32 +140,6 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>Error_Int
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a1031c70d3e8d57dd03c15978b3b13e02"></a><!-- doxytag: member="MemoryWebServiceClient::getLastError" ref="a1031c70d3e8d57dd03c15978b3b13e02" args="(std::string &amp;strError)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int MemoryWebServiceClient::getLastError </td>
-          <td>(</td>
-          <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"> <em>strError</em>&#160;)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Get the error message for the last error occured. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">strError</td><td>reference to a string receiving the error mesage text </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>last error code </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a133712ef7de122aab1c4e40d683f9bd0"></a><!-- doxytag: member="MemoryWebServiceClient::getLastError" ref="a133712ef7de122aab1c4e40d683f9bd0" args="(char *pszError, int iBufSize)" -->
 <div class="memitem">
 <div class="memproto">
@@ -200,6 +170,32 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>Error_Int
   <table class="params">
     <tr><td class="paramname">pszError</td><td>pointer to a buffer for the error text </td></tr>
     <tr><td class="paramname">iBufSize</td><td>size of error text buffer in number of characters </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>last error code </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1031c70d3e8d57dd03c15978b3b13e02"></a><!-- doxytag: member="MemoryWebServiceClient::getLastError" ref="a1031c70d3e8d57dd03c15978b3b13e02" args="(std::string &amp;strError)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MemoryWebServiceClient::getLastError </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"> <em>strError</em>&#160;)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Get the error message for the last error occured. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strError</td><td>reference to a string receiving the error mesage text </td></tr>
   </table>
   </dd>
 </dl>
@@ -278,7 +274,7 @@ static const int&#160;</td><td class="memItemRight" valign="bottom"><b>Error_Int
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue Apr 4 2017 17:30:24 for PluginManager by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Thu Jul 27 2017 15:35:46 for PluginManager by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.2 </small></address>
 </body>

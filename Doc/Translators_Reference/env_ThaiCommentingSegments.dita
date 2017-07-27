@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_ThaiCommentingSegments">
+  <title>Commenting segments in the editor</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Thai language<indexterm>Commenting segments in the editor</indexterm></indexterm>
+        <indexterm>Commenting segments in the editor</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The segment comments is used to exclude specific memory proposals from the usage in automatic substitution. These memory proposals may 
+      contain special translations which make only sense in very rare situations or the target of the memory proposal may not match the source 
+      of the proposal because of errors in the document which had to be corrected by the translator.</p>
+    <p>The comments are entered in the segment properties window in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor
+      and are saved to the memory when the segment is saved.</p>
+    <p>The segment comments in the Translation Environment are maintained using the segment properties window. This window is opened using 
+      the <q>Segment properties window</q> menu item of the <q>File</q> pulldown or by assigning a key to the <q>Segment properties</q> 
+      function and pressing this key.</p>
+    <p>
+      <fig id="segmentproperties" expanse="column">
+        <title>Segment properties window</title>
+        <image placement="break" href="env_ThaiSegmentProperties.gif">
+          <alt>Figure shows Segment properties window</alt>
+        </image>
+      </fig>
+    </p>
+    <p>For normal documents the segment properties window shows the comment style and the comment text, for documents in XLIFF folders 
+      additional properties are shown. The window is a modeless window: i.e. it can be left open while working with the other windows of 
+      the Translation Environment.</p>
+    <p>The windows always shows the properties of the currently activated segment. </p>
+    <p>
+      <b>Storing segment comments in the Translation Memory</b>
+    </p>
+    <p>Whenever a segment with a comment is saved in the Translation Environment (e.g. by pressing Ctrl-Enter) its comment and comment 
+      style is saved together with the segment source and segment translation in the Translation Memory. </p>
+    <p>In the memory proposal window the proposals with comments are prefixed with [Note].</p>
+    <p>
+      <fig id="translmemwindow" expanse="column">
+        <title>Translation Memory window</title>
+        <image placement="break" href="env_ThaiMemoryWindow.gif">
+          <alt>Figure shows Translation memory window</alt>
+        </image>
+      </fig>
+    </p>
+    <p>By double clicking the [Note] indicator the comment of the proposal is displayed in the <q>Proposal comment </q> window</p>
+    <p>
+      <fig id="proposalcomment" expanse="column">
+        <title>Proposal comment window</title>
+        <image placement="break" href="env_ThaiProposalComment.gif">
+          <alt>Figure shows memory proposal comment window</alt>
+        </image>
+      </fig>
+    </p>
+    <p>
+      <b>Handling of commented segments in the automatic substitution of the analysis</b>
+    </p>
+    <p>The new option <q>Ignore memory proposals with comments</q> controls the way memory proposals with comments are processed. When this 
+      option is selected memory proposals with comments are not used for automatic substitution. The same option is available for the 
+      EqfAnalyzeDoc API call and for the OTMBATCH comment line tool.</p>
+  </body>
+</topic>

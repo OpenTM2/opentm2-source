@@ -148,8 +148,6 @@ SET _TOCNAME=Contents
 SET _IPFDBCS=N
 
 call setvar_otmmarkup.bat
-call setvar_ibmmarkup.bat
 call setvar_usermarkup.bat
-call setvar_chkpii.bat
 
 PROMPT [OpenTM2]$p$g

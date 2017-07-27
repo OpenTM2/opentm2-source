@@ -382,8 +382,7 @@ $(_DLL)\OTMDLL.DLL:		$(_OBJ)\EQFCOPYR.OBJ \
 						$(_OBJ)\EQFTMMV.OBJ \
 						$(_OBJ)\EQFSEGEXPORT.OBJ \
 						$(_OBJ)\MarkupPluginMapper.OBJ \
-						$(_OBJ)\SpecialCharDlg.OBJ 
-
+						$(_OBJ)\SpecialCharDlg.OBJ \
 #						$(_OBJ)\eqfx_api.obj \
 #						$(_OBJ)\eqfx1api.obj \
 
@@ -548,5 +547,5 @@ $(_DLL)\OTMDLL.DLL:
 
 /OUT:$(_DLL)\OTMDLL.DLL
 /MAP:$(_MAP)\OTMDLL.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) imm32.lib SHELL32.LIB COMCTL32.LIB oleaut32.lib uuid.lib ole32.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmAlloc.lib $(_LIB)\OtmAPI.lib $(_LIB)\PluginManager.lib $(_LIB)\PluginMgrAssist.lib $(_LIB)\OTMGLOBM.lib $(_LIBOTHER)\xerces-c_3.lib
+$(_LINK_LIB_CRT) imm32.lib SHELL32.LIB COMCTL32.LIB oleaut32.lib uuid.lib ole32.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmAPI.lib $(_LIB)\PluginManager.lib $(_LIB)\PluginMgrAssist.lib $(_LIB)\OTMGLOBM.lib $(_LIBOTHER)\xerces-c_3.lib
 <<

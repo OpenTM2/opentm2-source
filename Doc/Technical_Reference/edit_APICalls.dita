@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_APICalls">
+  <title>API calls</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>programming interface calls</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following sections describe the individual API calls for the interface provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>. 
+      The following calls are available: 
+      <table otherprops="print" pgwide="0" frame="all">
+        <tgroup cols="2" colsep="0" rowsep="1">
+          <colspec colname="col1" colwidth="3*"/>
+          <colspec colname="col2" colwidth="2*"/>
+          <thead>
+            <row>
+              <entry valign="bottom" align="left">Call...</entry>
+              <entry valign="bottom" align="right">described on page...</entry></row>
+          </thead>
+          <tbody>
+            <row>
+              <entry valign="top" align="left">EQFCLEAR</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFCLEAR.dita#edit_EQFCLEAR"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFCLOSE</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFCLOSE.dita#edit_EQFCLOSE"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFCONVERTFILENAMES</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFCONVERTFILENAMES.dita#edit_EQFCONVERTFILENAMES"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFDELSEG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFDELSEG.dita#edit_EQFDELSEG"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFDICTLOOK</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFDICTLOOK.dita#edit_EQFDICTLOOK"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFFILECONVERSIONEX</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFFILECONVERSIONEX.dita#edit_EQFFILECONVERSIONEX"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETDICT</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFGETDICT.dita#edit_EQFGETDICT"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETDOCFORMAT</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFGETDOCFORMAT.dita#edit_EQFGETDOCFORMAT"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETPROP</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFGETPROP.dita#edit_EQFGETPROP"/></entry></row>
+            <row>
+              <entry colname="col1">EQFGETSEGNUM</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetSegNum.dita#api_EqfGetSegNum"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETSOURCELANG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFGETSOURCELANG.dita#edit_EQFGETSOURCELANG"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFGETTARGETLANG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFGETTARGETLANG.dita#edit_EQFGETTARGETLANG"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFINIT</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFINIT.dita#edit_EQFINIT"/></entry></row>
+            <row>
+              <entry colname="col1">EQFQUERYEXITINFO</entry>
+              <entry colname="col2" align="right"><xref href="edit_EQFQUERYEXITINFO.dita#edit_EQFQUERYEXITINFO"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFSAVESEG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFSAVESEG.dita#edit_EQFSAVESEG"/></entry></row>
+            <row>
+              <entry colname="col1">EQFSEGFILECONVERTASCII2UNICODE</entry>
+              <entry colname="col2" align="right"><xref href="edit_EQFSEGFILECONVERTASCII2UNICODE.dita#edit_EQFSEGFILECONVERTASCII2UNICODE"/></entry></row>
+            <row>
+              <entry colname="col1">EQFSEGFILECONVERTUNICODE2ASCII</entry>
+              <entry colname="col2" align="right"><xref href="edit_EQFSEGFILECONVERTUNICODE2ASCII.dita#edit_EQFSEGFILECONVERTUNICODE2ASCII"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFTRANSSEG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFTRANSSEG.dita#edit_EQFTRANSSEG"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFWORDCNTPERSEG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFWORDCNTPERSEG.dita#edit_EQFWORDCNTPERSEG"/></entry></row>
+            <row>
+              <entry valign="top" align="left">EQFWRITEHISTLOG</entry>
+              <entry valign="top" align="right"><xref href="edit_EQFWRITEHISTLOG.dita#edit_EQFWRITEHISTLOG"/></entry></row>
+          </tbody>
+        </tgroup>
+      </table>
+      <ul otherprops="display">
+        <li><xref href="edit_EQFCLEAR.dita#edit_EQFCLEAR"/></li>
+        <li><xref href="edit_EQFCLOSE.dita#edit_EQFCLOSE"/></li>
+        <li><xref href="edit_EQFCONVERTFILENAMES.dita#edit_EQFCONVERTFILENAMES"/></li>
+        <li><xref href="edit_EQFDELSEG.dita#edit_EQFDELSEG"/></li>
+        <li><xref href="edit_EQFDICTLOOK.dita#edit_EQFDICTLOOK"/></li>
+        <li><xref href="edit_EQFFILECONVERSIONEX.dita#edit_EQFFILECONVERSIONEX"/></li>
+        <li><xref href="edit_EQFGETDICT.dita#edit_EQFGETDICT"/></li>
+        <li><xref href="edit_EQFGETDOCFORMAT.dita#edit_EQFGETDOCFORMAT"/></li>
+        <li><xref href="edit_EQFGETPROP.dita#edit_EQFGETPROP"/></li>
+        <li><xref href="edit_EQFGETSOURCELANG.dita#edit_EQFGETSOURCELANG"/></li>
+        <li><xref href="edit_EQFGETTARGETLANG.dita#edit_EQFGETTARGETLANG"/></li>
+        <li><xref href="edit_EQFINIT.dita#edit_EQFINIT"/></li>
+        <li><xref href="edit_EQFSAVESEG.dita#edit_EQFSAVESEG"/></li>
+        <li><xref href="edit_EQFSEGFILECONVERTASCII2UNICODE.dita#edit_EQFSEGFILECONVERTASCII2UNICODE"/></li>
+        <li><xref href="edit_EQFTRANSSEG.dita#edit_EQFTRANSSEG"/></li>
+        <li><xref href="edit_EQFWORDCNTPERSEG.dita#edit_EQFWORDCNTPERSEG"/></li>
+        <li><xref href="edit_EQFWRITEHISTLOG.dita#edit_EQFWRITEHISTLOG"/></li>
+      </ul>
+    </p>
+  </body>
+</topic>

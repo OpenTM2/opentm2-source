@@ -6,204 +6,236 @@
 #ifndef _FIFOQUEUE_H_
 #define _FIFOQUEUE_H_
 
-#include "string"
+#include <string>
+#include <vector>
 
-/*! \brief class for a primitive FirstIn-FirstOut queue 
- 
-  This class is a singleton and provides functions for the processing
-  of JSON formatted strings
-
-*/
-class FifoQueue
+////////////////////////////////////////////////////////////////////////////////
+//                    LOCK CLASS UTILITY                                      //
+////////////////////////////////////////////////////////////////////////////////
+class CSyncLock
 {
-
 public:
+    virtual void lock() = 0;
+	virtual void unlock() = 0;
+	virtual bool tryLock() = 0;
+};
 
-  /*! \brief return codes resturned by FifoClass
-  */
-  static const int ERROR_NODATAPATH                 = 4001;
-  static const int ERROR_FILEWRITEERROR             = 4002;
-  static const int ERROR_FILEREADERROR              = 4003;
-  static const int ERROR_INSUFFICIENTMEMORY         = 4004;
-  static const int ERROR_INVALIDMODE                = 4005;
-  static const int ERROR_QUEUEISFULL                = 4006;
-  static const int ERROR_QUEUEISEMPTY               = 4007;
-  static const int ERROR_BUFFERTOOSMALL             = 4008;
+class CThreadLock : public CSyncLock
+{
+public:
+    CThreadLock()
+	{
+		InitializeCriticalSection(&cs);
+	}
 
-  /*! \brief queue open modes
-  */
-  typedef enum _OPENMODE { OM_READ, OM_WRITE, OM_UNDEFINED } OPENMODE;
+	~CThreadLock()
+	{
+        DeleteCriticalSection(&cs);
+	}
 
-  /*! \brief Constructor
-  */
-  FifoQueue::FifoQueue();
+	void lock()
+	{
+		EnterCriticalSection(&cs);
+	}
 
+	void unlock()
+	{
+        LeaveCriticalSection(&cs);
+	}
 
-  /*! \brief destructor
-  */
-  FifoQueue::~FifoQueue();
-
-  /*! \brief Sets the path to be used for queue data
-
-    This sets the path there any queue data is to be stored
-    when no path is set, the OpenTM2\QueueData directory in the user's
-    APPDATA directory is being used
-    \param pszQueuePath Name of the queue
-  	\returns 0 or error code in case of errors
-  */
-  int setDataPath
-  (
-    char *pszDataPath
-  );
-
-  /*! \brief Opens a fifo queue
-
-    This opens a fifo queue for reading or writing. When
-    the queue does not exist it is created
-
-    \param pszQueueName Name of the queue
-    \param OpenMode mode for access to queue: OM_READ or OM_WRITE
-  	\returns 0 or error code in case of errors
-  */
-  int open
-  (
-    char *pszQueueName,
-    OPENMODE OpenMode
-  );
-
-  /*! \brief Close a fifo queue
-
-    This method closed a previously opened fifo queue 
-
-    \param pszQueueName Name of the queue
-
-  	\returns 0 or error code in case of errors
-  */
-  int close
-  (
-  );
-
-  /*! \brief Writes a data record to the fifo queue
-
-    This method writes a data record to the queue
-
-    \param pvRecord pointer to the data record
-    \param iRecordSize size of data record in number of bytes
-
-  	\returns 0 or error code in case of errors
-  */
-  int writeRecord
-  (
-    void *pvRecord,
-    int  iRecSize
-  );
-
-  /*! \brief Reads the next record from the queue
-
-    This method reads the next data record from the queue 
-
-    \param pvRecord pointer to the the buffer for the data record
-    \param iBufSize size of buffer in number of bytes
-
-  	\returns 0 or error code in case of errors
-  */
-  int readRecord
-  (
-    void *pvRecord,
-    int  iBufSize
-  );
-
-  /*! \brief Gets the size of the next record in the queue
-
-    This method returns the size of the the next data record in the queue 
-
-    \param pvRecord pointer to the the buffer for the data record
-    \param iBufSize size of buffer in number of bytes
-
-    \returns size if record or -1 in case of errors
-*/
-  int getRecordSize
-  (
-  );
-
-  /*! \brief Checks if the queue is empty
-
-  	\returns true if the queue is empty otherwise false
-  */
-  bool isEmpty();
-
-  /*! \brief Checks if the queue is open
-
-  	\returns true if the queue has been opened
-  */
-  bool isOpen();
-
-  /*! \brief Get the error message for the last error occured
-
-      \param strError reference to a string receiving the error mesage text
-  	  \returns last error code
-  */
-  int getLastError
-  (
-    std::string &strError
-  );
+    bool tryLock()
+	{
+        return TryEnterCriticalSection(&cs);		
+	}
 
 
 private:
-  // private queue data area
-  void *pvData; 
-
-  /*! \brief Get queue head
-  	\returns ID of queue head
-  */
-  unsigned long getHead();
-
-  /*! \brief Get queue tail
-  	\returns ID of queue tail
-  */
-  unsigned long getTail();
-
-  /*! \brief Write tail record
-    \param ulID ID to store in tail record
-    \returns 0 or error code
-  */
-
-  /*! \brief Read a record
-    \param pszRecordName pointer to name of record
-    \param pvRecordData pointer to buffer for record data
-    \param iRecordSize size of buffer
-    \returns 0 or error code
-  */
-  int readRecord( char *pszRecordName, void *pvRecordBuffer, int iBufferSize, int *piRecordSize = NULL );
-
-  int writeTail( unsigned long ulID );
-
-  /*! \brief Write head record
-    \param ulID ID to store in head record
-    \returns 0 or error code
-  */
-  int writeHead( unsigned long ulID );
-
-  /*! \brief Write a record
-    \param pszRecordName pointer to name of record
-    \param pvRecordData pointer to record data
-    \param iRecordSize size of record data
-    \returns 0 or error code
-  */
-  int writeRecord( char *pszRecordName, void *pvRecordData, int iRecordSize );
-
-  /*! \brief Delete a record
-    \param pszRecordName pointer to name of record
-    \returns 0 or error code
-  */
-  int deleteRecord( char *pszRecordName );
+    CRITICAL_SECTION cs;   
+};
 
 
-  /*! \brief Get path name for the queue
-    \returns 0 when successful or error code
-  */
-  int FifoQueue::getQueuePath();
+class CProcessLock : public CSyncLock
+{
+public:
+	CProcessLock(std::string &name=std::string("")):mutexName(name+".lock")
+	{
+		hMutexSem = OpenMutex( MUTEX_ALL_ACCESS, TRUE, mutexName.c_str() );
+
+		if ( hMutexSem == NULL) 
+			hMutexSem = CreateMutex( NULL, FALSE, mutexName.c_str() );
+	}
+
+	~CProcessLock()
+	{
+		if ( hMutexSem )
+        {  
+			ReleaseMutex( hMutexSem ); 
+			CloseHandle( hMutexSem ); 
+		}
+	}
+
+	void lock()
+    {
+		if ( hMutexSem ) 
+			WaitForSingleObject( hMutexSem, INFINITE ); 
+    }
+
+	bool tryLock()
+	{
+		if(hMutexSem)
+		{
+			if(WaitForSingleObject( hMutexSem, 100 ) == WAIT_OBJECT_0)
+				return true;
+		}
+		return false;
+	}
+
+	void unlock()
+	{
+		if ( hMutexSem )
+		{  
+			ReleaseMutex( hMutexSem ); 
+		}
+	}
+
+private:
+	HANDLE hMutexSem;
+	const std::string mutexName;
+};
+
+
+////////////////////////////////////////////////////////////////////////////////
+//                 DISK   SHARE FILE CLASS UTILITY                            //
+////////////////////////////////////////////////////////////////////////////////
+
+class CSharedFiles
+{
+public:
+	CSharedFiles(std::string &queName=std::string(""));
+	~CSharedFiles(){}
+	void write(const std::string &);
+	void read(std::string &);
+    bool isEmpty();
+protected:
+	std::string queuePath;
+	std::string queueName;
+	std::string fpath;
+
+    void getMetas(const std::string &fpath,int &header, int &tail);
+    void updateMetas(const std::string &fpath, const int &header, const int &tail);
+
+	void init(std::string &);
+};
+
+class COutQueue : public CSharedFiles
+{
+public:
+	COutQueue(std::string &queName=std::string("")):CSharedFiles(queName)
+	{
+		init(queuePath+".OUT");
+	}
+};
+
+class CInQueue : public CSharedFiles
+{
+public:
+	CInQueue(std::string &queName=std::string("")):CSharedFiles(queName)
+	{
+		init(queuePath+".IN");
+	}
 
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//                 MEMORY   SHARE FILE CLASS UTILITY                          //
+////////////////////////////////////////////////////////////////////////////////
+class CSharedBuffer
+{
+public:
+    const static int BUFFERSIZE=1024*1024;//1M
+    virtual void write(std::string &) = 0;
+	virtual void read(std::string &)  = 0;
+	virtual ~CSharedBuffer(){}
+};
+
+class CSharedBuffer4Thread : public CSharedBuffer
+{
+public:
+     CSharedBuffer4Thread( std::string &name=std::string("") ):syncFile(name){}
+
+    void write(std::string &);
+	void read(std::string &);
+	
+private:
+    CThreadLock   Lock;
+	COutQueue     syncFile;	
+	std::string   cache; 
+};
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//                    PROCESS COMMUNICATION                                                        //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class CUploadBuffer4Process
+{
+public:
+	const static int BUFFERSIZE=1024*1024;//1M
+	CUploadBuffer4Process(std::string &mutexName=std::string("")):Lock(mutexName),syncFile(mutexName),m_hFileHandle(NULL),m_pBuffer(NULL)
+	{
+	}
+	
+	virtual ~CUploadBuffer4Process()
+	{
+		if(m_pBuffer != NULL)
+		    UnmapViewOfFile(m_pBuffer);
+
+		if(m_hFileHandle != NULL)
+            CloseHandle(m_hFileHandle);
+
+	}
+	
+protected:
+	CProcessLock  Lock;
+	COutQueue     syncFile;
+    HANDLE        m_hFileHandle;
+    char*         m_pBuffer;
+};
+
+
+class CWriteToSharedBuffer:public CUploadBuffer4Process
+{
+public:
+
+	CWriteToSharedBuffer(LPCTSTR lpszFileName):CUploadBuffer4Process(std::string(lpszFileName))
+	{
+		m_hFileHandle = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,BUFFERSIZE,lpszFileName);
+		if(m_hFileHandle != NULL)
+		{
+		    m_pBuffer=(char*)MapViewOfFile(m_hFileHandle,FILE_MAP_ALL_ACCESS,0,0,BUFFERSIZE);
+			if( m_pBuffer != NULL )
+				*m_pBuffer = '\0';
+		}
+	}
+
+
+	bool write(const std::string &inStr);
+
+};
+
+class CReadFromSharedBuffer:public CUploadBuffer4Process
+{
+public:
+
+	CReadFromSharedBuffer(LPCTSTR lpszFileName):CUploadBuffer4Process(std::string(lpszFileName))
+	{
+		m_hFileHandle = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,lpszFileName);
+		if(m_hFileHandle != NULL)
+		{
+		    m_pBuffer=(char*)MapViewOfFile(m_hFileHandle,FILE_MAP_ALL_ACCESS,0,0,BUFFERSIZE);
+		}
+	}
+
+	void read(std::string &outStr);
+};
 #endif // ifndef _FIFOQUEUE_H_

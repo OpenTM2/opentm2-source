@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfExportDoc">
+  <title rev="GF_07122015">EqfExportDoc</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfExportDoc</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfExportDoc</indexterm></indexterm>
+      <p><i>EqfExportDoc</i> exports one or more documents.</p>
+      <p>This function performs the export in small units. Call it repetitively until it returns a return code other than CONTINUE_RC.</p>
+    </section>
+    <refsyn rev="GF_07122015">
+      <title>Format</title>
+      <syntaxdiagram>
+
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfExportDoc</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+<!--          <var>pszFiles</var>-->
+          <groupseq>
+            <repsep>,</repsep>
+            <var>pszFiles</var>
+          </groupseq>
+          <sep>,</sep>
+          <var>pszStartPath</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+<!--          <var>pszStartPath</var>-->
+<!--          <groupseq>
+            <repsep>,</repsep>
+            <var>pszFiles</var>
+          </groupseq>-->
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd importance="default">TARGET_OPT</kwd>
+              <kwd>OPENTM2FORMAT_OPT</kwd>
+              <kwd>PLAINXML_OPT</kwd>
+              <kwd>SNOMATCH_OPT</kwd>
+              <kwd>SOURCE_OPT</kwd>
+              <kwd>VALFORMAT_DOC_OPT</kwd>
+              <kwd>VALFORMAT_HTML_OPT</kwd>
+              <kwd>VALFORMAT_ODT_OPT</kwd>
+              <kwd>VALFORMAT_XML_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd importance="default">WITHRELATIVEPATH_OPT</kwd>
+              <kwd>WITHOUTRELATIVEPATH_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice>
+              <kwd>OVERWRITE_OPT</kwd>
+              <kwd>VALFORMAT_COMBINE_OPT</kwd>
+              <kwd>VALFORMAT_PROTSEGS_OPT</kwd>
+              <kwd>WITHTRACKID_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+
+      </syntaxdiagram>
+    </refsyn>
+
+    <section rev="GF_07122015">
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder containing the documents to be exported.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFiles</entry>
+              <entry colname="col3">The name, including the target path, of the documents to be exported.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszStartPath</entry>
+              <entry colname="col3">The start path if the documents are to be exported with relative path 
+                information. If a start path is specified, the files in the <synph><var>pszFiles</var></synph> 
+                list only contain the relative path.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options to be used for the document export: 
+                <sl>
+                  <sli>OPENTM2FORMAT_OPT</sli>
+                  <sli>PLAINXML_OPT</sli>
+                  <sli>SNOMATCH_OPT</sli>
+                  <sli>SOURCE_OPT</sli>
+                  <sli>TARGET_OPT, which is the default</sli>
+                  <sli>VALFORMAT_DOC_OPT to create MS WORD DOC outputs</sli>
+                  <sli>VALFORMAT_HTML_OPT to create HTML outputs</sli>
+                  <sli>VALFORMAT_ODT_OPT to create Open Office Writer outputs</sli>
+                  <sli>VALFORMAT_XML_OPT to create XML outputs</sli>
+                </sl>
+                <sl>
+                  <sli>WITHOUTRELATIVEPATH</sli>
+                  <sli>WITHRELATIVEPATH_OPT</sli>
+                </sl>
+                <sl>
+                  <sli>OVERWRITE_OPT to replace existing documents.</sli>
+                  <sli>VALFORMAT_COMBINE_OPT to combine validation format exports into one document.</sli>
+                  <sli>VALFORMAT_PROTSEGS_OPT to export with protected segments.</sli>
+                  <sli>WITHTRACKID_OPT to export documents with a tracking-ID per segment.</sli>
+                </sl>
+                <p>These options correspond to those in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+                   <q>Export Documents</q> window.</p>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The document export has not completed yet. Call <i>EqfExportDoc</i> again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph otherprops="print">Error code (EQF message number). Use <i>EqfGetLastError</i>
+                  (see <ph otherprops="print">page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></ph>
+                   <xref otherprops="display" href="api_EqfGetLastError.dita#api_EqfGetLastError"/>)
+                   to retrieve the complete error information.</ph>
+                   <ph otherprops="display">Error code (EQF message number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> 
+                   to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Export the translations of documents DOC1.TXT and DOC2.TXT of
+  // folder SAMPLE1
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfExportDoc( hSession, "SAMPLE1", NULL, 
+                           "C:\\DOC1.TXT,C:\\DOC2.TXT", 
+                           TARGET_OPT );
+
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

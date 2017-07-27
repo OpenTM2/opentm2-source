@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="doc_ExportOpenTM2">
+  <title>Exporting a document in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+    format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Calling sequence</title>
+      <indexterm>exporting<indexterm>documents in <keyword
+            conref="common-symbols.dita#common-symbols/tm4w"/> format</indexterm></indexterm>
+      <indexterm>document<indexterm>exporting in <keyword
+            conref="common-symbols.dita#common-symbols/tm4w"/> format</indexterm></indexterm>
+      <p>To export a document that is in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+        format, select <b><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Format</b>
+        from <b>Export as</b>.</p>
+      <p>The <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Format</q> page is
+        displayed (see <xref href="#doc_ExportOpenTM2/expdoctmwin"/>). <required-cleanup>
+          <indexterm>windows<indexterm>Export Documents (<keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> format)</indexterm></indexterm>
+        </required-cleanup>
+        <fig id="expdoctmwin" expanse="column">
+          <title>Export Documents window (<keyword conref="common-symbols.dita#common-symbols/tm4w"
+            /> format)</title>
+          <image placement="break" href="doc_ExportOpenTM2.gif">
+            <alt>Figure shows Export Documents window ( format)</alt>
+          </image>
+        </fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Export</pt>
+          <pd>This box contains a list of the documents you selected in the <q>Document List</q>
+            window.</pd>
+        </plentry>
+        <plentry>
+          <pt>To</pt>
+          <pd>Specify the drive to which you want to export the documents. You can also click
+              <b>Browse</b> to display the <q> Browse for Folder</q> window on which you can select
+            the appropriate drive.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Export</b> to start document export.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The document is exported and stored in <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> on the selected drive on your
+        workstation in a separate subdirectory of the <codeph>\otm\export</codeph> path under the
+        file name you specified. For example, if the document <codeph>device.html</codeph> is
+        exported from the folder <codeph>samplehtml3</codeph>, it is stored as
+          <codeph>\otm\export\samplehtml3.f00\device.html</codeph>. The document can be passed to
+        other <keyword conref="common-symbols.dita#common-symbols/tm4w"/> users for further
+        processing.</p>
+    </section>
+  </refbody>
+</reference>

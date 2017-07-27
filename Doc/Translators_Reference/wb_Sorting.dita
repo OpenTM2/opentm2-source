@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="wb_Sorting">
+  <title>Option to sort document list on file name and extension</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>There are two new display columns of the document list "Name without path" and "Extension". These new columns can be used as sort or 
+      filter criteria in the same way as the already existing document list columns.</p>
+    <p>The column "Name without path" shows the document name without the relative path part, if the document name does not contain a relative 
+      path this column shows the same name as the standard "Name" column.</p>
+    <p>The column "Extension" shows the extension of the document name which is the part of the document name following the last dot. If the 
+      document name has no extension its column is empty.</p>
+  </body>
+</topic>

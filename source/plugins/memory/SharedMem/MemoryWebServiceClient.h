@@ -11,7 +11,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include "core\pluginmanager\OtmMemoryPlugin.h"
+
 
 class __declspec(dllexport) MemoryWebServiceClient
 /*! \brief This class implements the interface to the memory web service of OpenTM2.
@@ -114,7 +116,8 @@ int deleteMemory
      char *pszName,
      char *pszUserID,
      char *pszPassword,
-     std::string &strTMXProposal
+     std::string &strTMXProposal,
+	 std::string &uploadedCounter
   );
 
 /* \brief Download proposal data
@@ -131,7 +134,8 @@ int deleteMemory
      char *pszUserID,
      char *pszPassword,
      std::string &strTMXProposal,
-     std::string &strUpdateCounter
+     std::string &strUpdateCounter,
+	 std::set<std::string> &ownUpCounterSet
   );
 
   /* \brief Get memory creator
@@ -198,12 +202,6 @@ int listMemoryUsers
 	std::vector<std::string> &users
 );
 
-// load current update counter value
-void loadUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter );
-// write new update counter value
-void writeUpdateCounter( std::string &strPropPath, std::string &strPropFileName, std::string &strUpdateCounter );
-
-
 /*! \brief Error codes returned by MemoryWebServiceClient.
 */
 static const int Error_AxutilEnvCreateAll_failed         = 9001;    
@@ -251,7 +249,6 @@ private:
 
   int  doSyncCall(std::map<std::string,std::string> &parameters, const std::string requiredVal, std::string &retVal );
 
-  void makeUpdateCounterFileName( std::string &strPropPath, std::string &strPropFile, std::string &strUpdateCounterFileName );
 };
 
 #endif // #ifndef _MEMORYWEBSERVICECLIENT_H_

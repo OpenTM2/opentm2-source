@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="prep_LanguageFiles">
+  <title id="languagesupportfiles"><!--rev=as230704-->Language-support files</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>languages<indexterm>supported by <keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm></indexterm>
+        <indexterm>language-support files<indexterm>definition of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Language-support files support the translation from a source language into a target language. You must have at least one 
+       language-support file installed for the source language from which you want to translate.</p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> can translate from the following source languages: 
+      <ul>
+        <li>Afrikaans</li>
+        <li>Arabic</li>
+        <li>Azerbaijani(Latin)</li>
+        <li>Basque</li>
+        <li>Belarusian</li>
+        <li>Bosnian</li>
+        <li>Bulgarian</li>
+        <li>Catalan</li>
+        <li>Chinese(simpl.)</li>
+        <li>Chinese(trad.)</li>
+        <li>Croatian</li>
+        <li>Czech</li>
+        <li>Danish</li>
+        <li>Dutch(permissive)</li>
+        <li>Dutch(restrictive)</li>
+        <li>English(U.K.)</li>
+        <li>English(U.S.)</li>
+        <li>Estonian</li>
+        <li>Finnish</li>
+        <li>French(Canadian)</li>
+        <li>French(national)</li>
+        <li>German(DPAnat)</li>
+        <li>German(reform)</li>
+        <li>German(Swiss)</li>
+        <li>Greek</li>
+        <li>Hebrew</li>
+        <li>Hungarian</li>
+        <li>Icelandic</li>
+        <li>Indonesian</li>
+        <li>Italian</li>
+        <li>Japanese</li>
+        <li>Kazakh</li>
+        <li>Korean</li>
+        <li>Latvian</li>
+        <li>Lithuanian</li>
+        <li>Malay</li>
+        <li>Macedonian</li>
+        <li>Mongolian</li>
+        <li>Montenegrin</li>
+        <li>Norwegian(Bokmal)</li>
+        <li>Norwegian(Nynorsk)</li>
+        <li>Other Languages</li>
+        <li>Polish</li>
+        <li>Portuguese(Br.New)</li>
+        <li>Portuguese(Brasil)</li>
+        <li>Portuguese(nat.)</li>
+        <li>Portuguese(nt.New)</li>
+        <li>Romanian</li>
+        <li>Russian</li>
+        <li>Serbian(Cyrillic)</li>
+        <li>Serbian(Latin)</li>
+        <li>Slovakian</li>
+        <li>Slovene</li>
+        <li>Spanish</li>
+        <li>Swedish</li>
+        <li>Thai</li>
+        <li>Turkish</li>
+        <li>Ukrainian</li>
+        <li>Vietnamese</li>
+        <li>Welsh</li>
+      </ul>
+    </p>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> accepts any target language that is supported by your operating system.</p>
+  </body>
+</topic>

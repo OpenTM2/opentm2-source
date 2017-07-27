@@ -1,6 +1,6 @@
 #-------------------------------------------------------------------------------
 # OtmMorphICUPlugin.MAK    - Makefile for Morphologic Plugin DLL using ICU
-# Copyright (c) 2013-2014, International Business Machines
+# Copyright (c) 2013-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #-------------------------------------------------------------------------------
 
@@ -47,7 +47,6 @@ $(_OBJ)\OtmMorphICU.OBJ:		$(_SRC)\plugins\morph\OtmMorphICUPlugin\OtmMorphICU.cp
 $(_DLL)\OtmMorphICUPlugin.DLL:	$(_OBJ)\OtmMorphICUPlugin.OBJ \
 								$(_OBJ)\OtmMorphICU.OBJ \
 								$(_OBJ)\HunspellObjManager.OBJ \
-								$(_LIB)\OtmAlloc.lib \
 								$(_LIB)\OtmBase.lib \
 								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
@@ -66,7 +65,7 @@ $(_DLL)\OtmMorphICUPlugin.DLL:
 					$(_OBJ)\OtmSpellHS.OBJ
 /OUT:$(_DLL)\OtmMorphICUPlugin.DLL
 /MAP:$(_MAP)\OtmMorphICUPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(HUNSPELLLIBDIR)\$(HUNSPELLLIB) $(ICULIB)\icuuc.lib $(ICULIB)\icudt.lib $(ICULIB)\icuin.lib $(ICULIB)\icuio.lib $(ICULIB)\icule.lib $(ICULIB)\iculx.lib $(ICULIB)\icutu.lib
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(HUNSPELLLIBDIR)\$(HUNSPELLLIB) $(ICULIB)\icuuc.lib $(ICULIB)\icudt.lib $(ICULIB)\icuin.lib $(ICULIB)\icuio.lib $(ICULIB)\icule.lib $(ICULIB)\iculx.lib $(ICULIB)\icutu.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmMorphICUPlugin md $(RELEASE_DIR)\OTM\Plugins\OtmMorphICUPlugin

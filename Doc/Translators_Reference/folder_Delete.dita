@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="folder_Delete">
+<title>Deleting a folder</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section/>
+<section><title/><indexterm>folder<indexterm>deleting</indexterm></indexterm><indexterm>deleting<indexterm>folders</indexterm></indexterm>
+<p>When you delete a folder, it is no longer listed in the <q>Folder
+List</q> window, and all subfolders and documents in the original
+and the translated version are also deleted. You might want to delete
+a folder when you completed working on the documents in the folder,
+exported it, and no longer require it. Also, if you have backed up
+the contents of the folder, you can delete the folder to free disk
+space on your workstation for other purposes.</p>
+<p>You can also delete a folder during or after export. For more information,
+see <xref href="folder_Export.dita#folder_Export"/> and <xref href="folder_DeletedExported.dita#folder_DeletedExported"/>.</p>
+</section>
+<section><title>Prerequisites</title>
+<p>The folder to be deleted must not be open (that is, the <q>Document
+List</q> window for the folder must not be displayed).</p>
+</section>
+<section><title>Calling sequence</title>
+<p>Select: 
+<ol>
+<li>The folder from the <q>Folder List</q> window</li>
+<li><b>Delete</b> from the <b>File</b> menu</li>
+</ol> </p>
+</section>
+<section><title>Options and parameters</title>
+<p>None.</p>
+<p>Before deleting the selected folder, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> prompts you to confirm
+that you want to delete the folder and its contents: 
+<ul>
+<li>Select <b>Yes</b> to delete the folder.</li>
+<li>Select <b>No</b> to leave the folder unchanged.</li>
+</ul> </p>
+</section>
+<section><title>Results</title>
+<p>If you select <b>Yes</b>, the folder and the documents
+in it are deleted. The disk space it occupied is freed.</p>
+<p>Dictionaries, markup tables, and the <keyword conref="common-symbols.dita#common-symbols/xlmems"/> associated with the
+folder or its documents are not deleted.</p>
+</section></refbody></reference>

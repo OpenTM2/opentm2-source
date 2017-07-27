@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_ExternalTags">
+<title>SGML tags for external <keyword conref="common-symbols.dita#common-symbols/xlmems"/></title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table pgwide="0" frame="topbot">
+<tgroup cols="2" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="1*"/>
+<colspec colname="col2" colwidth="1*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Start tag, end tag</entry>
+<entry valign="top" rowsep="1">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">&lt;NTMemoryDb&gt;, &lt;/NTMemoryDb&gt;</entry>
+<entry valign="top">Start and end of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/></entry></row>
+<row>
+<entry valign="top">&lt;Segment&gt;, &lt;/Segment&gt;</entry>
+<entry valign="top">Start and end of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> segment</entry></row>
+<row>
+<entry valign="top">&lt;Description&gt;, &lt;/Description&gt;</entry>
+<entry valign="top">Start and end of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> description</entry></row>
+<row>
+<entry valign="top">&lt;Control&gt;, &lt;/Control&gt;</entry>
+<entry valign="top">Start and end of the segment control information</entry></row>
+<row>
+<entry valign="top">&lt;Source&gt;, &lt;/Source&gt;</entry>
+<entry valign="top">Start and end of a source sentence</entry></row>
+<row>
+<entry valign="top">&lt;Target&gt;, &lt;/Target&gt;</entry>
+<entry valign="top">Start and end of a target sentence</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

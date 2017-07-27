@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="dict_CreateSgmlFields">
+<title><!--rev=as01042005-->List of dictionary-entry fields and their SGML tags</title>
+<prolog><metadata><keywords>
+
+<indexterm>dictionary<indexterm>SGML syntax</indexterm></indexterm>
+<indexterm>dictionary<indexterm>model dictionary, predefined entry fields</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following table shows a list of all dictionary-entry field tags as
+they are predefined in the <b>-Master-</b> model dictionary.</p>
+<table id="mastermodel" pgwide="0" frame="topbot">
+<tgroup cols="4" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="159*"/>
+<colspec colname="col2" colwidth="320*"/>
+<colspec colname="col3" colwidth="237*"/>
+<colspec colname="col4" colwidth="250*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Level</entry>
+<entry valign="top" rowsep="1">Entry field name</entry>
+<entry valign="top" rowsep="1">Start tag</entry>
+<entry valign="top" rowsep="1">End tag</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">Entry</entry>
+<entry valign="top">Headword</entry>
+<entry valign="top">&lt;hdterm&gt;</entry>
+<entry valign="top">&lt;/hdterm&gt;</entry></row>
+<row>
+<entry valign="top">Entry</entry>
+<entry valign="top">Reliability Code</entry>
+<entry valign="top">&lt;erlcode&gt;</entry>
+<entry valign="top">&lt;/erlcode&gt;</entry></row>
+<row>
+<entry valign="top">Entry</entry>
+<entry valign="top">Author</entry>
+<entry valign="top">&lt;eauthor&gt;</entry>
+<entry valign="top">&lt;/eauthor&gt;</entry></row>
+<row>
+<entry valign="top">Entry</entry>
+<entry valign="top">Creation Date</entry>
+<entry valign="top">&lt;ecrdate&gt;</entry>
+<entry valign="top">&lt;/ecrdate&gt;</entry></row>
+<row>
+<entry valign="top">Entry</entry>
+<entry valign="top">Status Code</entry>
+<entry valign="top">&lt;estatcode&gt;</entry>
+<entry valign="top">&lt;/estatcode&gt;</entry></row>
+<row>
+<entry valign="top">Homonym</entry>
+<entry valign="top">Part of Speech</entry>
+<entry valign="top">&lt;epos&gt;</entry>
+<entry valign="top">&lt;/epos&gt;</entry></row>
+<row>
+<entry valign="top">Homonym</entry>
+<entry valign="top">Morphology</entry>
+<entry valign="top">&lt;emorph&gt;</entry>
+<entry valign="top">&lt;/emorph&gt;</entry></row>
+<row>
+<entry valign="top">Homonym</entry>
+<entry valign="top">Hyphenation</entry>
+<entry valign="top">&lt;ehyph&gt;</entry>
+<entry valign="top">&lt;/ehyph&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Source of Headword</entry>
+<entry valign="top">&lt;esrc&gt;</entry>
+<entry valign="top">&lt;/esrc&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Abbrev./Fullform</entry>
+<entry valign="top">&lt;eabbr&gt;</entry>
+<entry valign="top">&lt;/eabbr&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Author of Update</entry>
+<entry valign="top">&lt;eauthupdate&gt;</entry>
+<entry valign="top">&lt;/eauthupdate&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Last Update</entry>
+<entry valign="top">&lt;elupdate&gt;</entry>
+<entry valign="top">&lt;/elupdate&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Definition</entry>
+<entry valign="top">&lt;edef&gt;</entry>
+<entry valign="top">&lt;/edef&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Source of Definition</entry>
+<entry valign="top">&lt;esdef&gt;</entry>
+<entry valign="top">&lt;/esdef&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Synonym</entry>
+<entry valign="top">&lt;esyn&gt;</entry>
+<entry valign="top">&lt;/esyn&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Other Related Terms</entry>
+<entry valign="top">&lt;erel&gt;</entry>
+<entry valign="top">&lt;/erel&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Context</entry>
+<entry valign="top">&lt;econtext&gt;</entry>
+<entry valign="top">&lt;/econtext&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Source of Context</entry>
+<entry valign="top">&lt;escontext&gt;</entry>
+<entry valign="top">&lt;/escontext&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Comments</entry>
+<entry valign="top">&lt;comment&gt;</entry>
+<entry valign="top">&lt;/comment&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Note on Usage</entry>
+<entry valign="top">&lt;eusage&gt;</entry>
+<entry valign="top">&lt;/eusage&gt;</entry></row>
+<row>
+<entry valign="top">Sense</entry>
+<entry valign="top">Idiom</entry>
+<entry valign="top">&lt;eidiom&gt;</entry>
+<entry valign="top">&lt;/eidiom&gt;</entry></row>
+<row>
+<entry colname="col1">Sense</entry>
+<entry colname="col2">Style</entry>
+<entry colname="col3">&lt;estyle&gt;</entry>
+<entry colname="col4">&lt;/estyle&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Language</entry>
+<entry valign="top">&lt;tlanguage&gt;</entry>
+<entry valign="top">&lt;/tlanguage&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Translation</entry>
+<entry valign="top">&lt;trans&gt;</entry>
+<entry valign="top">&lt;/trans&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Company/Subject Code</entry>
+<entry valign="top">&lt;tsubjcode&gt;</entry>
+<entry valign="top">&lt;/tsubjcode&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Source of Translation</entry>
+<entry valign="top">&lt;tsrc&gt;</entry>
+<entry valign="top">&lt;/tsrc&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Abbrev./Fullform</entry>
+<entry valign="top">&lt;tabbr&gt;</entry>
+<entry valign="top">&lt;/tabbr&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Reliability Code</entry>
+<entry valign="top">&lt;trlcode&gt;</entry>
+<entry valign="top">&lt;/trlcode&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Author</entry>
+<entry valign="top">&lt;tauthor&gt;</entry>
+<entry valign="top">&lt;/tauthor&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Author of Update</entry>
+<entry valign="top">&lt;tauthupdate&gt;</entry>
+<entry valign="top">&lt;/tauthupdate&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Creation Date</entry>
+<entry valign="top">&lt;tcrdate&gt;</entry>
+<entry valign="top">&lt;/tcrdate&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Last Update</entry>
+<entry valign="top">&lt;tlupdate&gt;</entry>
+<entry valign="top">&lt;/tlupdate&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Status Code</entry>
+<entry valign="top">&lt;tstatcode&gt;</entry>
+<entry valign="top">&lt;/tstatcode&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Part of Speech</entry>
+<entry valign="top">&lt;tpos&gt;</entry>
+<entry valign="top">&lt;/tpos&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Morphology</entry>
+<entry valign="top">&lt;tmorph&gt;</entry>
+<entry valign="top">&lt;/tmorph&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Hyphenation</entry>
+<entry valign="top">&lt;thyph&gt;</entry>
+<entry valign="top">&lt;/thyph&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Definition</entry>
+<entry valign="top">&lt;tdef&gt;</entry>
+<entry valign="top">&lt;/tdef&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Source of Definition</entry>
+<entry valign="top">&lt;tsdef&gt;</entry>
+<entry valign="top">&lt;/tsdef&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Synonym</entry>
+<entry valign="top">&lt;tsyn&gt;</entry>
+<entry valign="top">&lt;/tsyn&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Other Related Terms</entry>
+<entry valign="top">&lt;trel&gt;</entry>
+<entry valign="top">&lt;/trel&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Context</entry>
+<entry valign="top">&lt;tcontext&gt;</entry>
+<entry valign="top">&lt;/tcontext&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Source of Context</entry>
+<entry valign="top">&lt;tscontext&gt;</entry>
+<entry valign="top">&lt;/tscontext&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Comments</entry>
+<entry valign="top">&lt;tcomment&gt;</entry>
+<entry valign="top">&lt;/tcomment&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Note on Usage</entry>
+<entry valign="top">&lt;tusage&gt;</entry>
+<entry valign="top">&lt;/tusage&gt;</entry></row>
+<row>
+<entry valign="top">Target</entry>
+<entry valign="top">Idiom</entry>
+<entry valign="top">&lt;tidiom&gt;</entry>
+<entry valign="top">&lt;/tidiom&gt;</entry></row>
+<row>
+<entry colname="col1">Target</entry>
+<entry colname="col2">Trans Style</entry>
+<entry colname="col3">&lt;tstyle&gt;</entry>
+<entry colname="col4">&lt;/tstyle&gt;</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

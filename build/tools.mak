@@ -1,4 +1,4 @@
-# Copyright (c) 1999-2014, International Business Machines
+# Copyright (c) 1999-2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #
 # Make file for OpenTM2 commandline tools
@@ -115,7 +115,7 @@ $(_BIN)\OtmCreateITMFromMemory.exe: $(_OBJ)\OtmCreateITMFromMemory.obj
 $(_OBJ)\OtmCreateITMFromMemory.obj
 /OUT:$(_BIN)\OtmCreateITMFromMemory.exe
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\OTMALLOC.LIB $(_LIB)\PluginManager.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\PluginManager.LIB
 <<
 
 
@@ -131,7 +131,7 @@ $(_BIN)\OtmRemoveTags.exe: $(_OBJ)\OTMREMOVETAGS.obj
 $(_OBJ)\OTMREMOVETAGS.obj
 /OUT:$(_BIN)\OtmRemoveTags.exe
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\OTMALLOC.LIB $(_LIB)\PluginManager.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\PluginManager.LIB
 <<
 
 #------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ $(_BIN)\OtmMemoryTool.exe: $(_OBJ)\OtmMemoryTool.obj $(_OBJ)\eqfsetex.obj $(_OBJ
  $(_OBJ)\OtmMemoryTool.RBJ
  /OUT:$(_BIN)\OtmMemoryTool.exe
  /MAP:$(_MAP)\OtmMemoryTool.map $(_LINK_OPTIONS)
- $(_LINK_LIB_EXE) $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\OTMALLOC.LIB $(_LIB)\PluginManager.LIB $(_LIB)\OTMFUNC.LIB 
+ $(_LINK_LIB_EXE) $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\PluginManager.LIB $(_LIB)\OTMFUNC.LIB 
 <<
 
 #------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ $(_BIN)\OtmTmx2Exp.exe: $(_OBJ)\TMX2EXP.obj
 $(_OBJ)\TMX2EXP.obj
 /OUT:$(_BIN)\OtmTmx2Exp.exe
 $(_LINK_OPTIONS) 
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMTMXIE.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\OTMALLOC.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMTMXIE.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB
 <<
 
 #------------------------------------------------------------------------------
@@ -212,7 +212,7 @@ $(_BIN)\OtmXliff2Exp.exe: $(_OBJ)\XLIFF2EXP.obj
 $(_OBJ)\XLIFF2EXP.obj
 /OUT:$(_BIN)\OtmXliff2Exp.exe
 $(_LINK_OPTIONS) 
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMXLFMT.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\OTMALLOC.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMXLFMT.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB
 <<
 
 #------------------------------------------------------------------------------

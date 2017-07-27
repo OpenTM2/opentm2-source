@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.4.0"
+!define PRODUCT_VERSION "1.4.1"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -268,7 +268,7 @@ SectionEnd
    Caption "OpenTM2 ${PRODUCT_VERSION} Setup"
  
    ;OutFile "OpenTM2 ${PRODUCT_VERSION} Setup-${MyTIMESTAMP}.exe"
-   OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition-Setup.exe"  
+   OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition.Setup.exe"  
   
   ;Default installation folder
 
@@ -520,7 +520,6 @@ ${File} "WIN\" "OTMAPI.DLL"
 ${File} "WIN\" "OTMTMXIE.DLL"
 ${File} "WIN\" "OTMXLFMT.DLL"
 ${File} "WIN\" "OTMBASE.DLL"
-${File} "WIN\" "OTMALLOC.DLL"
 ${File} "WIN\" "OTMDLL.DLL"
 ${File} "WIN\" "PluginManager.DLL"
 ${File} "WIN\" "PluginMgrAssist.DLL"
@@ -555,7 +554,6 @@ ${File} "WIN\" "libeay32.dll"
 ${File} "WIN\" "libssh2.dll"
 ${File} "WIN\" "ssleay32.dll"
 ${File} "WIN\" "MemoryWebServiceClient.DLL"
-${File} "WIN\" "OtmMemReplicator.EXE"
 ${File} "WIN\" "OtmAutoVerUp.exe"
 ${File} "WIN\" "OpenTM2Starter.exe"
 ${File} "WIN\" "OtmGetToolInfo.exe"
@@ -586,7 +584,11 @@ ${File} "WIN\" "OtmIsOpenTM2FXP.EXE"
 ${File} "WIN\" "TM2OTMMigrator.EXE"
 ${File} "WIN\" "OpenTMSHelper.jar"
 ${File} "WIN\" "EQFXLIFF.DLL"
-
+${File} "WIN\" "OtmMemoryService.EXE"
+${File} "WIN\" "OtmMemoryServiceGUI.EXE"
+IfFileExists "$INSTDIR\WIN\OtmMemoryService.conf" OMSConfExists 0
+${File} "WIN\" "OtmMemoryService.conf"
+OMSConfExists:
 
 ${SetOutPath} "$INSTDIR\API"
 ${File} "API\" "OTMFUNC.LIB"
@@ -829,6 +831,18 @@ ${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Russian_abbrev.dic"
 ${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Spanish_abbrev.dic"
 ${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Swedish_abbrev.dic"
 ${File} "PLUGINS\OtmMorphICUPlugin\AbbrevLists\" "Thai_abbrev.dic"
+
+${SetOutPath} "$INSTDIR\PLUGINS\OtmProofReadImport"
+${File} "PLUGINS\OtmProofReadImport\" "OtmProofReadImportPlugin.DLL"
+
+${SetOutPath} "$INSTDIR\PLUGINS\OtmProofReadImport\filter"
+${File} "PLUGINS\OtmProofReadImport\filter\" "ValDocXML.DLL"
+${File} "PLUGINS\OtmProofReadImport\filter\" "ValDocPwb.DLL"
+${File} "PLUGINS\OtmProofReadImport\filter\" "ValDocDocx.DLL"
+${File} "PLUGINS\OtmProofReadImport\filter\" "UNZIP.EXE"
+
+${SetOutPath} "$INSTDIR\PLUGINS\OtmProofReadImport\filter\ValDocXML"
+${File} "PLUGINS\OtmProofReadImport\filter\ValDocXML\" "ValDocXML.XSL"
 
 ;Store installation folder
 WriteRegStr HKCU "Software\OpenTM2" "" $INSTDIR

@@ -5,7 +5,7 @@
 *
 *	Copyright Notice:
 *
-*	Copyright (C) 1990-2016, International Business Machines
+*	Copyright (C) 1990-2017, International Business Machines
 *	Corporation and others. All rights reserved
 **/
 
@@ -236,6 +236,8 @@ typedef struct _EXTFOLPROP
 #define VALFORMAT_DOC_OPT    0x00800000L  
 //export validation document in ODT format
 #define VALFORMAT_ODT_OPT    0x00100000L  
+//export validation document in DOCX format
+#define VALFORMAT_DOCX_OPT    0x08000000L  
 
 // flags which can be used together with the export options above
 

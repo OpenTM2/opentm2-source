@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mt_OtmMtEvalUsage.dita">
+  <title>Usage of the OtmMtEval tool</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p>The OtmMtEval tool is called from the DOS command line:</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OtmMtEval</kwd>
+        </groupseq>
+        <groupseq>
+          <kwd>filespec</kwd>
+        </groupseq>
+        <groupseq importance="optional">
+          <kwd>outfile</kwd>
+        </groupseq>
+        <groupseq importance="optional">
+          <kwd>/details</kwd>
+        </groupseq>
+      </syntaxdiagram>
+      <p>The <i>filespec</i> parameter specifies the input file(s) which can either be:</p>
+      <ul>
+        <li>the <b>long name</b> of an <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+            <b>internal</b> folder (e.g. "MyTestFolder")</li>
+        <li>the <b>short name</b> of an <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+          <b>internal</b> folder (e.g. "MYTES000.F00" )</li>
+        <li>the name (incl. path) of an <b>external</b> <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+            folder (e.g. "C:\MyTestFolders\MyTestFolder.FXP")</li>
+        <li>a generic name for a group of <b>external</b> <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+            folders (e.g. "C:\MyTestFolders\My*.FXP")</li>
+        <li>the name of a <b>directory</b> containing <b>external</b> 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folders (e.g. "C:\MyTestFolders)</li>
+      </ul>
+      <p>If a <b>directory</b> is specified, the evaluation is performed for all external 
+         <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folders in the directory, and in all sub-directories of this directory.</p>
+      <p>The optional <i>outfile</i> parameter specifies the <b>name</b> of the <b>output file</b>. If no output file is specified 
+         <q>C:\OtmMtEval.XML</q> is used as default name.</p>
+      <p>The optional <i>/details</i> parameter activates the output of the <b>segment detail information</b>.</p>
+    </section>
+  </refbody>
+</reference>

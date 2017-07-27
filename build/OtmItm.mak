@@ -3,7 +3,7 @@
 #-------------------------------------------------------------------------------
 # Copyright Notice:
 #
-#     Copyright (C) 1990-2013, International Business Machines
+#     Copyright (C) 1990-2017, International Business Machines
 #     Corporation and others. All rights reserved
 #-------------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ $(_OBJ)\eqfsetex.obj
 
 $(_OBJ)\eqfitm.rbj
 /OUT:$(_BIN)\OtmItm.exe $(_LINK_OPTIONS)
-$(_LIB)\OtmBase.lib $(_LIB)\OtmAlloc.lib $(_LINK_LIB_EXE) $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIB)\OTMITMD.LIB
+$(_LIB)\OtmBase.lib $(_LINK_LIB_EXE) $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIB)\OTMITMD.LIB
 <<
 
 #------ build OTMITMD.DLL --------
@@ -71,5 +71,5 @@ $(_OBJ)\eqflogo.obj
 $(_OBJ)\eqfsetex.obj
 /OUT:$(_DLL)\OTMITMD.DLL $(_LINK_OPTIONS) /MAPINFO:EXPORTS
 $(_LINK_LIB_CRT)
-$(_LIB)\OtmBase.lib $(_LIB)\OtmAlloc.lib $(_LIB)\OtmDll.lib SHELL32.LIB $(_LIB)\PluginManager.lib
+$(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib SHELL32.LIB $(_LIB)\PluginManager.lib
 <<

@@ -5,16 +5,19 @@
 	Corporation and others. All rights reserved
 */
 
-#include "string"
-#include "vector"
+#include <map>
+#include <fstream>
 #include "core\PluginManager\PluginManager.h"
 #include "EqfSharedMemoryPlugin.h"
 #include "EqfSharedMemory.h"
 #include "TMXFactory.h"
 #include "eqftmi.h"
 #include "MemoryWebServiceClient.h"
+#include "FiFoQueue.h"
+#include "ReplicateThread.h"
 #include <TlHelp32.h>
 #include <Shellapi.h>
+#include <process.h> 
 
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 
@@ -70,8 +73,8 @@ extern "C" {
 __declspec(dllexport)
   USHORT registerPlugins()
   {
-	  PluginManager::eRegRc eRc = PluginManager::eSuccess;
-	  PluginManager *manager = PluginManager::getInstance();
+	  PluginManager::eRegRc eRc     = PluginManager::eSuccess;
+	  PluginManager *manager        = PluginManager::getInstance();
 	  EqfSharedMemoryPlugin* plugin = new EqfSharedMemoryPlugin();
 	  eRc = manager->registerPlugin((OtmPlugin*) plugin);
       USHORT usRC = (USHORT) eRc;
@@ -93,11 +96,10 @@ EqfSharedMemoryPlugin::EqfSharedMemoryPlugin()
 	usableState = OtmPlugin::eUsable;
 
     initCreationDatas();
+    //this->fReplicatorIsRunning = false;
 
-  // start logging
-  //this->Log.open( "EqfSharedMemoryPlugin" );
-
-  this->fReplicatorIsRunning = false;
+    // start replicator thread to synchronize with server
+	startReplicateThread();
 }
 
 void EqfSharedMemoryPlugin::initCreationDatas()
@@ -299,51 +301,51 @@ OtmMemory* EqfSharedMemoryPlugin::openMemory(
   USHORT usAccessMode
 )
 {
-  int iRC = 0;
+	int iRC = 0;
+    usAccessMode;
+    
+	this->Log.writef( "Open the shared memory %s", pszName );
 
-  usAccessMode; // acess mode not used for this type of memory
+	// load properties
+	PSHAREDMEMPROP pProp = NULL;
+	iRC = this->loadProperties( pszName, &pProp );
+	if ( iRC != 0 )
+	{
+		this->iLastError = ERROR_WRITE_FAULT;
+		this->strLastError = "Error opening shared memory properties";
+		this->Log.writef( "   Load of properties failed, error is %s", this->strLastError.c_str() );
+		return( NULL );
+	} 
 
-  this->Log.writef( "Open the shared memory %s", pszName );
+	// create shared memory object
+	EqfSharedMemory *pSharedMem = new( EqfSharedMemory );
+	if ( pSharedMem != NULL )  
+	{
+		iRC = pSharedMem->initialize( this, pszName, pLocalMemory );
+		if ( iRC != NULL )
+		{
+	 
+			this->iLastError = pSharedMem->getLastError( this->strLastError );
+			this->Log.writef( "   Shared memory object could not be created, error is %s", this->strLastError.c_str() );
+			delete( pSharedMem );
+			pSharedMem = NULL;
+		}
+		else
+		{
+			this->Log.write( "   Shared memory opened successfully" );
+		}
+	}
+	else
+	{
+		this->iLastError = ERROR_NOT_ENOUGH_MEMORY;
+		this->strLastError = "Insufficient Memory, allocation of new memory obect failed";
+		this->Log.writef( "   Shared memory object could not be created, error is %s", this->strLastError.c_str() );
+	}  
 
-  // load properties
-  PSHAREDMEMPROP pProp = NULL;
-  iRC = this->loadProperties( pszName, &pProp );
-  if ( iRC != 0 )
-  {
-    this->iLastError = ERROR_WRITE_FAULT;
-    this->strLastError = "Error opening shared memory properties";
-    this->Log.writef( "   Load of properties failed, error is %s", this->strLastError.c_str() );
-    return( NULL );
-  } /* endif */     
+	//startReplicator();
 
-  // create shared memory object
-  EqfSharedMemory *pSharedMem = new( EqfSharedMemory );
-  if ( pSharedMem != NULL )  
-  {
-    iRC = pSharedMem->initialize( this, pszName, pLocalMemory );
-    if ( iRC != NULL )
-    {
-      this->iLastError = pSharedMem->getLastError( this->strLastError );
-      this->Log.writef( "   Shared memory object could not be created, error is %s", this->strLastError.c_str() );
-      delete( pSharedMem );
-      pSharedMem = NULL;
-    }
-    else
-    {
-      this->Log.write( "   Shared memory opened successfully" );
-    } /* endif */       
-  }
-  else
-  {
-    this->iLastError = ERROR_NOT_ENOUGH_MEMORY;
-    this->strLastError = "Insufficient Memory, allocation of new memory obect failed";
-    this->Log.writef( "   Shared memory object could not be created, error is %s", this->strLastError.c_str() );
-  } /* end */     
-
-  startReplicator();
-
-  return( (OtmMemory *)pSharedMem );
-  }
+	return( (OtmMemory *)pSharedMem );
+}
 
 /*! \brief Close a memory
   \param pMemory pointer to memory object
@@ -378,7 +380,7 @@ int EqfSharedMemoryPlugin::connectToMemory(
   std::vector<std::string> *pvOptions
 )
 {
-  startReplicator();
+  //startReplicator();
   return( this->createProperties( pszName,(*pvOptions)[0], (*pvOptions)[1], (*pvOptions)[2] ) ); 
 }
 
@@ -390,37 +392,7 @@ int EqfSharedMemoryPlugin::disconnectMemory(
 	PSZ pszName
 )
 {
-  int iRC = 0;
-
-  // load properties of shared memory
-  PSHAREDMEMPROP pProp = NULL;
-  iRC = this->loadProperties( pszName, &pProp );
-  if ( iRC != 0 )
-  {
-    this->iLastError = ERROR_WRITE_FAULT;
-    this->strLastError = "Error opening shared memory properties";
-  } /* endif */     
-
-  if(iRC == 0)
-  {
-    // delete property file
-    std::string strPropFile;
-    this->makePropFileName( pszName, strPropFile );
-    UtlDelete( (char *)strPropFile.c_str(), 0, FALSE );
-
-    // delete UDC file
-    char szUDCName[MAX_LONGPATH];
-    UtlMakeEQFPath( szUDCName, NULC, PROPERTY_PATH, NULL );
-    strcat( szUDCName, BACKSLASH_STR );
-    strcat( szUDCName, pszName );
-    strcat( szUDCName, ".UDC" );
-    UtlDelete( szUDCName, 0, FALSE );
-
-    //remove in queue and out queue
-  }
-  
-  if ( pProp ) UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
-
+  int iRC = deleteSharedProperties(pszName);
   return( iRC );
 }
 
@@ -448,12 +420,7 @@ int EqfSharedMemoryPlugin::createProperties(
   strcpy( pProp->szWebServiceURL, strServiceURL.c_str() );
   strcpy( pProp->szUserID, strUserID.c_str() );
   strcpy( pProp->szPassword, strPassword.c_str() );
-
-  strcpy( pProp->szInQueueName, pszName );
-  strcat( pProp->szInQueueName, ".IN" );
-  strcpy( pProp->szOutQueueName, pszName );
-  strcat( pProp->szOutQueueName, ".OUT" );
-  
+ 
   // write properties to "pszName".SHP file
   iRC = this->writeProperties( pszName, pProp );
   delete( pProp );
@@ -479,6 +446,9 @@ int EqfSharedMemoryPlugin::createProperties(
 		BOOL fWithDetails
 	)
   {
+	 pfnCallBack;
+	 pvData;
+	 fWithDetails;
     // function is not supported by this plugin (all memories are already listed by lokal memory plugin)
     return( 0 );
   }
@@ -674,63 +644,50 @@ int EqfSharedMemoryPlugin::deleteMemory(
 	PSZ pszName			  
 )
 {
-  PSHAREDMEMPROP pProp = NULL;
-  int iRC = 0;
+	PSHAREDMEMPROP pProp = NULL;
+	int iRC = 0;
 
-  this->Log.writef( "Load the shared memory %s", pszName );
+	this->Log.writef( "Load the shared memory %s", pszName );
 
-  // load properties
-  iRC = this->loadProperties( pszName, &pProp );
-  if ( iRC != 0 )
-  {
-    this->iLastError = ERROR_WRITE_FAULT;
-    this->strLastError = "Error loading shared memory properties";
-    this->Log.writef( "   Load of properties failed, error is %s", this->strLastError.c_str() );
-  } 
+	// load properties
+	iRC = this->loadProperties( pszName, &pProp );
+	if ( iRC != 0 )
+	{
+		this->iLastError = ERROR_WRITE_FAULT;
+		this->strLastError = "Error loading shared memory properties";
+		this->Log.writef( "   Load of properties failed, error is %s", this->strLastError.c_str() );
+	} 
 
-  if(iRC == 0)
-  {
-    // call web service to delete the data source
-    std::vector<std::string> options;
-    options.push_back(pszName);//name
-    options.push_back(pProp->szUserID);//user-id
-    options.push_back(pProp->szPassword);//password
-    options.push_back(pszName);//dataSourceName
+	if(iRC == 0)
+	{
+		// call web service to delete the data source
+		std::vector<std::string> options;
+		options.push_back(pszName);//name
+		options.push_back(pProp->szUserID);//user-id
+		options.push_back(pProp->szPassword);//password
+		options.push_back(pszName);//dataSourceName
 
-    this->WebService.setEndpointUrl(pProp->szWebServiceURL);
-	iRC = this->WebService.deleteMemory(&options);
-    if(iRC == 0)
-    {
-	   this->Log.writef( "%s is deleted successfully",pszName);
-    }
-    else // get last error information
-    {
-        this->iLastError = this->WebService.getLastError( this->strLastError );
-        this->Log.writef( "   WebService method deleteMemory, WebService returned %s", this->strLastError.c_str() );
-    }
-  }// end if
+		this->WebService.setEndpointUrl(pProp->szWebServiceURL);
+		iRC = this->WebService.deleteMemory(&options);
+		if(iRC == 0)
+		{
+			this->Log.writef( "%s is deleted successfully",pszName);
+		}
+		else // get last error information
+		{
+			this->iLastError = this->WebService.getLastError( this->strLastError );
+			this->Log.writef( "   WebService method deleteMemory, WebService returned %s", this->strLastError.c_str() );
+		}
+	}// end if
   
-  //delete shared memory properties on local
+
+	//delete shared memory properties on local
   if(iRC == 0)
-  {
-    // delete shared memory properties
-    std::string strPropFile;
-    this->makePropFileName( pszName, strPropFile );
-    iRC = UtlDelete( (char *)strPropFile.c_str(), 0, FALSE );
+      iRC = deleteSharedProperties(pszName);
+	if (pProp != NULL) UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
+    
 	
-    // delete UDC file
-    char szUDCName[MAX_LONGPATH];
-    UtlMakeEQFPath( szUDCName, NULC, PROPERTY_PATH, NULL );
-    strcat( szUDCName, BACKSLASH_STR );
-    strcat( szUDCName, pszName );
-    strcat( szUDCName, ".UDC" );
-    if(UtlFileExist(szUDCName))
-      iRC = UtlDelete( szUDCName, 0, FALSE );
-  }
-
-  if (pProp != NULL) UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
-
-  return( iRC );
+	return( iRC );
 }
 
 /*! \brief Clear (i.e. remove all entries) a translation memory
@@ -833,7 +790,7 @@ int EqfSharedMemoryPlugin::getCreateOptionFields(
 	  this->vCreateFieldDescr.clear();
 	  this->vCreateLabels.clear();
 
-	  for(int i=0; i<tempDataVec.size(); i++)
+	  for(std::size_t i=0; i<tempDataVec.size(); i++)
 	  {
 		  if(i>=4 && i<=10)
 			  continue;
@@ -1234,7 +1191,7 @@ int EqfSharedMemoryPlugin::writeProperties( char *pszMemory, PSHAREDMEMPROP pPro
 
 }
 
-  /*! \brief write the properties of a shared memory to disk
+  /*! \brief load the properties of a shared memory from disk
   \param pszMemoryName name of the memory
   \param pProps address of callers property structure pointer
 	\returns true if input is correct otherwise false
@@ -1512,64 +1469,6 @@ int EqfSharedMemoryPlugin::listMemoryUsers(
   return iRC;
 }
 
-// direction 1:upload,0:download
-int EqfSharedMemoryPlugin::replicateWithServer
-(
-  PSZ pszName,
-  OtmMemory* pLocalMem, 
-  bool isUpload
-)
-{
-  if(pLocalMem == NULL)
-	  return 1;
-
-  int iRC;
-  std::vector<std::string> vMemList;
-  std::vector<std::string> options;
-  PSHAREDMEMPROP pProp = NULL;
-  TMXFactory *pTMXFactory = TMXFactory::getInstance();
-
-  this->Log.writef( "Load the shared memory %s", pszName );
-
-  // load properties
-  iRC = this->loadProperties( pszName, &pProp );
-  if ( iRC != 0 )
-  {
-    this->iLastError = ERROR_WRITE_FAULT;
-    this->strLastError = "Error loading shared memory properties";
-    this->Log.writef( "   Load of properties failed, error is %s", this->strLastError.c_str() );
-
-    if (pProp != NULL) 
-      UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
-
-    return( ERROR_WRITE_FAULT );
-  } 
- 
-  this->WebService.setEndpointUrl(pProp->szWebServiceURL);
-
-  // from here to upload/download proposals to server
-  if(isUpload)
-  {
-      iRC = batchUpload(pszName,pProp->szUserID, pProp->szPassword,pLocalMem);
-  }
-  else
-  {
-	  iRC = batchDownload(pszName,pProp->szUserID, pProp->szPassword,pLocalMem);
-  }
- 
-  if ( iRC != 0 )
-  {
-    this->iLastError = this->WebService.getLastError( this->strLastError );
-    iRC = this->iLastError;
-    this->Log.writef( "   Web service client reported an error, error is %s", this->strLastError.c_str() );
-  }
-
-  if (pProp != NULL) UtlAlloc( (void **)&pProp, 0, 0, NOMSG );
-
-  return iRC;
-}
-
-
 bool EqfSharedMemoryPlugin::stopPlugin( bool fForce  )
 {
 
@@ -1583,8 +1482,8 @@ bool EqfSharedMemoryPlugin::stopPlugin( bool fForce  )
   }
 
   // terminate memory replicator application
-  stopReplicator();
-
+  //stopReplicator();
+  stopReplicateThread();
   // TODO: terminate active objects, cleanup, free allocated resources
 
   // de-register plugin
@@ -1594,60 +1493,6 @@ bool EqfSharedMemoryPlugin::stopPlugin( bool fForce  )
   return( true );
 }
 
-/*! \brief Stop the memory replicator application
-	\returns true when successful 
-*/
-BOOL EqfSharedMemoryPlugin::stopReplicator()
-{
-  bool fClosed = true;
-
-  // find memory replicator main window
-  HWND hwndMainWindow = FindWindow( NULL, "OpenTM2 Memory Replicator" );
-  if ( hwndMainWindow != NULLHANDLE )
-  {
-    SendMessage(hwndMainWindow, WM_CLOSE, NULL, NULL);
-    fClosed = true;
-  }
-  return( fClosed );
-}
-
-BOOL EqfSharedMemoryPlugin::startReplicator()
-{
-  // start our replicator program if it is not active yet
-  if ( this->fReplicatorIsRunning ) return( true );
-
-  // do not start replicator in API session mode
-  if ( UtlQueryUShort( QS_RUNMODE ) == FUNCCALL_RUNMODE ) return( false );
-
-  this->fReplicatorIsRunning = isProgramRunning( REPLICATOREXE );
-  if ( !this->fReplicatorIsRunning ) 
-  {
-    char szProgramPath[MAX_LONGPATH];
-    char szReplicator[MAX_LONGPATH];
-
-    // // get fully qualified path name of our plugin
-    //GetModuleFileName( (HINSTANCE)&__ImageBase, szProgramPath, MAX_LONGPATH );
-
-    // // cut off plugin DLL name
-    // char *pszEndPath = strrchr( szProgramPath, '\\' );
-    // if ( pszEndPath != NULL ) *pszEndPath = '\0';
-
-    // in the current version we use the program path!
-    UtlMakeEQFPath( szProgramPath, NULC, PROGRAM_PATH, NULL );
-
-    // build replicator exe path
-    strcpy( szReplicator, szProgramPath );
-    strcat( szReplicator, "\\" );
-    strcat( szReplicator, REPLICATOREXE );
-
-    // start our replicator exe
-    ShellExecute( NULL, "open", szReplicator, NULL, szProgramPath, SW_SHOWMINNOACTIVE );
-
-    this->fReplicatorIsRunning = true;
-  } /* endif */       
-  return( this->fReplicatorIsRunning );
-}
-
 /* \brief add a new memory information to memory list
    \param pszName memory name
    \param chToDrive drive letter
@@ -1655,6 +1500,7 @@ BOOL EqfSharedMemoryPlugin::startReplicator()
 */
 int EqfSharedMemoryPlugin::addMemoryToList(PSZ pszName, CHAR chDrive)
 {
+	pszName;chDrive;
     //user can't create such memory from commandline,so leave it here for future
   return OtmMemoryPlugin::eNotSupported;
 }
@@ -1665,6 +1511,7 @@ int EqfSharedMemoryPlugin::addMemoryToList(PSZ pszName, CHAR chDrive)
 */
 int EqfSharedMemoryPlugin::removeMemoryFromList(PSZ pszName)
 {
+	pszName;
     //user can't create such memory from commandline,so leave it here for future
   return OtmMemoryPlugin::eNotSupported;
 }
@@ -1676,6 +1523,7 @@ int EqfSharedMemoryPlugin::removeMemoryFromList(PSZ pszName)
 */
 int EqfSharedMemoryPlugin::setOwner( PSZ pszMemoryName, PSZ pszOwner )
 {
+	pszMemoryName;pszOwner;
     // the setting of owner is not supported in this plugin
   return OtmMemoryPlugin::eNotSupported;
 }
@@ -1687,90 +1535,25 @@ int EqfSharedMemoryPlugin::setOwner( PSZ pszMemoryName, PSZ pszOwner )
 */
 int EqfSharedMemoryPlugin::replaceMemory( PSZ pszReplace, PSZ pszReplaceWith )
 {
-    // the setting of owner is not supported in this plugin
+  pszReplace;pszReplaceWith;
+  // the setting of owner is not supported in this plugin
   return OtmMemoryPlugin::eNotSupported;
 }
 
-int EqfSharedMemoryPlugin::batchUpload( PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem)
+CSharedBuffer4Thread* EqfSharedMemoryPlugin::getSyncBuffer(std::string &memName)
 {
-  std::string strTmx;
-  std::string strOneTU;
-  OtmProposal proposal;
-  TMXFactory *pTMXFactory = TMXFactory::getInstance();
-  int iRes = 0;
-  int iMemRC = pLocalMem->getFirstProposal( proposal );
-  if ( iMemRC == NO_ERROR )
-  {
-	iRes = pTMXFactory->ProposalToTUString(proposal, strTmx,true,false);
-	proposal.clear();
-	iMemRC = pLocalMem->getNextProposal( proposal );
-  }
-
-  int iRC = 0;
-
-  while(iMemRC==NO_ERROR && iRes==0)
-  {   
-	strOneTU.erase(strOneTU.begin(),strOneTU.end());
-	iRes = pTMXFactory->ProposalToTUString(proposal, strOneTU,false,false);
-	if(iRes==0 && strOneTU.size()+strTmx.size()<BATCHSIZE)
-	{
-		strTmx += strOneTU;
-	}
-	else if(iRes==0)
-	{
-		strTmx += "</body></tmx>";
-		iRC = this->WebService.uploadProposal( pszName, userID, password,strTmx );
-		if(iRC != 0)
-			break;
-
-		strTmx.erase(strTmx.begin(),strTmx.end());
-		iRes = pTMXFactory->ProposalToTUString(proposal, strTmx,true,false);
-	}
-	proposal.clear();
-	iMemRC = pLocalMem->getNextProposal( proposal );
-  }
-
-  if(strTmx.size()>0 && iRC==0)
-  {
-    strTmx += "</body></tmx>";
-	iRC = this->WebService.uploadProposal( pszName, userID, password,strTmx );
-  }
-
-  return iRC;
+	if(syncBuffMap.find(memName) == syncBuffMap.end())
+		syncBuffMap[memName] = new CSharedBuffer4Thread(memName);
+	return syncBuffMap[memName];
 }
 
-int EqfSharedMemoryPlugin::batchDownload(PSZ pszName, PSZ userID, PSZ password, OtmMemory* pLocalMem)
+int EqfSharedMemoryPlugin::deleteSharedProperties(PSZ pszName)
 {
-  TMXFactory *pTMXFactory = TMXFactory::getInstance();
-  
-  char szPropPath[MAX_LONGPATH];
-  UtlMakeEQFPath( szPropPath, NULC, PROPERTY_PATH, NULL );
+    //delete .SHP file
+    std::string strPropFile;
+    this->makePropFileName( pszName, strPropFile );
 
-  std::string strUpdateCounter = "0";
-  this->WebService.loadUpdateCounter( std::string(szPropPath), std::string(pszName)+".SHP", strUpdateCounter );
-
-
-  std::string strTmx;
-  int iRC = this->WebService.downloadProposal( pszName, userID, password,strTmx, strUpdateCounter );
-  while(iRC==0 && strTmx.find("<tu ")!=std::string::npos)
-  {
-	  std::vector<OtmProposal* > proposals;
-	  iRC = pTMXFactory->TMX2Proposal( strTmx, proposals );
-	  if(iRC != 0 || proposals.size()==0)
-		  break;
-
-	  for(std::vector<OtmProposal* >::iterator iter=proposals.begin();
-		  iter != proposals.end();
-		  iter++)
-	  {
-	      pLocalMem->putProposal(**iter);
-	  }
-
-	  iRC = this->WebService.downloadProposal( pszName, userID, password,strTmx, strUpdateCounter );
-  }
-
-  this->WebService.writeUpdateCounter( std::string(szPropPath), std::string(pszName)+".SHP", strUpdateCounter );
-
-  return 0;
+	int iRC = UtlDelete( (char *)strPropFile.c_str(), 0, FALSE );
+   
+    return iRC;
 }
-

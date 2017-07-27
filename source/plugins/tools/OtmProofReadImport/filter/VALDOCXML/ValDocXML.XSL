@@ -67,10 +67,10 @@
 	<xsl:param name="seg"/>
     <Segment Number="{$seg/@Number}" Selected="no" Processed="no">
 	  <Source><xsl:value-of select="$seg/Source"/></Source>
-	  <Target><xsl:value-of select="$seg/Target"/></Target>
+	  <OrgTarget><xsl:value-of select="$seg/Target"/></OrgTarget>
 	  <ModTarget><xsl:value-of select="$seg/ModTarget"/></ModTarget>
 	  <NewTarget></NewTarget>
-	  <Comment></Comment>
+	  <Comment><xsl:value-of select="$seg/Comment"/></Comment>
     </Segment>
 </xsl:template>
 

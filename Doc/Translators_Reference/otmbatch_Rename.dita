@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="otmbatch_Rename">
+  <title>Renaming a folder, a dictionary or a Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>organizing<indexterm>OTMBATCH: Renaming a folder, a dictionary or a Translation
+          Memory (from command area)</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>OTMBATCH: rename (from command
+        area)</indexterm></indexterm>
+      <p>If you want to rename a folder, a dictionary or a Translation Memory using a command typed
+        in your system's command area instead of <keyword
+          conref="common-symbols.dita#common-symbols/tm4w"/> windows might be quicker and more
+        convenient.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>rename a folder, a dictionary or a Translation
+          Memory</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">rename a folder, a dictionary
+            or a Translation Memory</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you rename a folder, a dictionary or a
+        TranslationMemory with the OTMBATCH command. Note that lowercase letters in a parameter name
+        are optional and need not be typed.</p>
+      <syntaxdiagram>
+        <title>For the rename of folders:</title>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <var>RENAME</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>NEW</kwd>
+          <oper>=</oper>
+          <var>newname</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+      <syntaxdiagram>
+        <title>For the rename of dictionaries:</title>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <var>RENAME</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>DIct</kwd>
+          <oper>=</oper>
+          <var>dicname</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>NEW</kwd>
+          <oper>=</oper>
+          <var>newname</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+      <syntaxdiagram>
+        <title>For the rename of Translation Memory databases:</title>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <var>RENAME</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>MEm</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>NEW</kwd>
+          <oper>=</oper>
+          <var>newname</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>ADJust=YES</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=RENAME</pt>
+          <pd><codeph>RENAME</codeph> specifies that you want to rename a folder, dictionary or a
+            TranslationMemory. </pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd>Specifies the name of the folder that you want to rename. </pd>
+        </plentry>
+        <plentry>
+          <pt>/DICT=<synph><var>dicname</var></synph></pt>
+          <pd>Specifies the name of the dictionary that you want to rename. </pd>
+        </plentry>
+        <plentry>
+          <pt>/MEM=<synph><var>memdb </var></synph></pt>
+          <pd>Specifies the name of the Translation Memory that you want to rename.</pd>
+        </plentry>
+        <plentry>
+          <pt>/NEW= <synph><var>newname </var></synph></pt>
+          <pd>Specifies the new name for the folder, dictionary or Translation
+            Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/ADJust=YES</pt>
+          <pd>When specified OTMBATCH will change all occurences of the
+            TranslationMemory name or dictionary name in the properties of folders and
+            documents</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any
+            message window. If you do not specify any of the /quiet paramaters, a message window
+            pops up whenever an error occurs or when the task has successfully completed. </pd>
+        </plentry>
+        <plentry>
+          <pt>QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message
+            window. Any error message text is routed to stdout. </pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to rename a folder using the OTMBATCH command.</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=rename /fld=pharma /new=pharmaceutical /quiet</codeblock>
+        </section> -->
+      <p> <codeblock>OTMBATCH /task=rename /fld=pharma /new=pharmaceutical /quiet</codeblock></p>
+      <p>In this example, the folder pharma is renamed to <codeph>pharmaceutical</codeph> without
+        prompting the user.</p>
+      <p>The following example shows how to rename a TranslationMemory and adjust all references to
+        the Translation Memory name automatically.</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=rename /mem=MyMem /new=MyNewMem /adjust=yes</codeblock>
+        </section> -->
+      <p><codeblock>OTMBATCH /task=rename /mem=MyMem /new=MyNewMem /adjust=yes</codeblock></p>
+      <p>In this example, the Translation Memory <codeph>MyMem</codeph> is renamed to
+         <codeph>MyNewMem</codeph> and all references to this memory in the properties of folders
+         and documents are adjusted to use the new name.</p>
+    </example>
+  </refbody>
+</reference>

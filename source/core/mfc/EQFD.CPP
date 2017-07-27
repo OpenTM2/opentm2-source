@@ -12,6 +12,9 @@
   #define CREATEMINIDUMP
 #endif
 
+// activate define to enable startup logging
+//  #define STARTUP_LOGGING  
+
 /**********************************************************************/
 /* private prototypes                                                 */
 /**********************************************************************/
@@ -186,6 +189,23 @@ BOOL CEQFDApp::InitInstance()
   SHORT sLogGroups[30] = { -1 };   // group of events to be logged
   SHORT sNoOfGroups    = 0;        // number of groups
 
+#ifdef STARTUP_LOGGING
+   FILE *hStartLog = NULL;
+   CHAR szLogFile[MAX_EQF_PATH];
+   time_t lCurTime = 0;
+
+ //  UtlMakeEQFPath( szLogFile, NULC, SYSTEM_PATH, NULL );
+   strcpy( szLogFile, "\\OTM\\LOGS" );
+   UtlMkDir( szLogFile, 0L, FALSE );
+
+   strcat( szLogFile, "\\OpenTM2Startup.LOG" );
+   hStartLog = fopen( szLogFile, "wb" );
+   if ( hStartLog )
+   {
+      time( &lCurTime );
+      fprintf( hStartLog, "------ OpenTM2 startup:               %s", asctime( localtime( &lCurTime ) ) );
+   } /* endif */
+#endif
 
   // check if OpenTM has been installed already
   BOOL fInstalled = FALSE;
@@ -223,6 +243,14 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     // do a on-the-fly installation
     SetupMAT( (HAB)0, m_pszHelpFilePath[0], "", ' ' );
   } /* endif */
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 1.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
   COleMessageFilter *pFilter;
 
@@ -307,6 +335,15 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     UtlError(ERROR_DID_NOT_START, MB_CANCEL, 1, &pData, EQF_ERROR);
   } /* endif */
 
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 2.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
+
   // install exception handler
  	::SetUnhandledExceptionFilter( TopLevelFilter );
 
@@ -324,6 +361,15 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     AfxMessageBox("OLE_INIT_FAILED");
     return FALSE;
   }
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 3.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
   // Disable "system busy" popup when using OLE automation to
   // invoke MS Word during document validation export.   9-22-16
@@ -348,6 +394,15 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
   // store path of EXE in system property path
   strcpy( EqfSystemPropPath, m_pszHelpFilePath );
   UtlSplitFnameFromPath( EqfSystemPropPath );
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 4.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
 
 
@@ -448,9 +503,27 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
   INFOEVENT2( TWBSTART_LOC, NA_EVENT, 0, GENERAL_GROUP, NULL );
 
 
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 5.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
+
 #ifndef _TQM
   QDAMInit();
 #endif
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
   if ( TwbGetCheckProfileData(EqfSystemMsgFile,EqfSystemPropPath,szEqfResFile) )
   {
@@ -480,6 +553,15 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     RegisterMDIDialog( hInstance );
 
 
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 6.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
+
     /******************************************************************/
     /* check expiration date                                          */
     /******************************************************************/
@@ -490,6 +572,15 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
       return ( FALSE );
     } /* endif */
 #endif
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 7.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
     /******************************************************************/
     /* check time of logo display and display it or not               */
@@ -536,6 +627,15 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
     return FALSE;
   } /* endif */
 
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 8.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
   // cv
   // register custom clipboard format
   // set format id to global buffer
@@ -565,10 +665,55 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
         }
         // Add end
 
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 9.                          %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 		InitTMPluginWrapper();
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 10.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 		InitDictPluginWrapper();
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 11.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 		InitMarkupPluginMapper();
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 12.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 		InitDocumentPluginMapper();
+
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 13.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
 
 	}
 
@@ -576,6 +721,13 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
   // Register the application's document templates.  Document templates
   //  serve as the connection between documents, frame windows and views.
   AddAvailTemplates();
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 14.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
   // create main MDI Frame window
   CMainFrame* pMainFrame = new CMainFrame;
@@ -593,6 +745,13 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
 
   // set MT logging flag
   UtlSetUShort( QS_MTLOGGING, GetMTLogingState() );
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 15.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
   /******************************************************************/
   /* For Windows: register help message, set hook for help messages */
@@ -600,14 +759,43 @@ Current location is %s\n\nthe OTM folder should reside in the root directory of 
   TwbSetMessageFilterHook( hInstance, m_pMainWnd->m_hWnd );
 
   TwbCreateMsg( pMainFrame->m_hWnd, NULL, NULL );
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 16.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
   // activate any tool plugins modifying the workbench action bar
   {
 		PluginManager* thePluginManager = PluginManager::getInstance();
     thePluginManager->activateToolPlugins();
   }
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 17.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
 
   PluginManagerAutoProps();
+#ifdef STARTUP_LOGGING
+  if ( hStartLog )
+  {
+     time( &lCurTime );
+     fprintf( hStartLog, "---  Step 18.                         %s", asctime( localtime( &lCurTime ) ) );
+  } /* endif */
+#endif
+
+#ifdef STARTUP_LOGGING
+   {
+      time( &lCurTime );
+      fprintf( hStartLog, "------ OpenTM2 startup end:           %s", asctime( localtime( &lCurTime ) ) );
+     fclose( hStartLog ) ;
+   }
+#endif
 
   return TRUE;
 }

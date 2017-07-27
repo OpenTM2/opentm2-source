@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="otmbatch_DictionaryDelete">
+  <title>Deleting documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>document<indexterm>OTMBATCH: deleting (from command area)</indexterm></indexterm>
+      <indexterm>deleting<indexterm>OTMBATCH: documents (from command area)</indexterm></indexterm>
+      <p>If you want to delete a document, using a command typed in your system’s command area
+        instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows might be
+        quicker and more convenient.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>deleting documents</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">deleting
+          documents</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you delete documents with the OTMBATCH command.
+        Note that lowercase letters in a parameter name are optional and need not be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>DOCDEL</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FIles</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>file_name</var>
+            </groupseq>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <var>file_name</var>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>list_file_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=DOCDEL</pt>
+          <pd><codeph>DOCDEL</codeph> specifies that you want to remove documents.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd>Specifies the name of the folder that contains the documents to be removed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>file_name</var></synph></pt>
+          <pd><synph><var>file_name</var></synph> specifies the name of the document you
+            want to remove. The <synph><var>file_name</var></synph> specification can include the
+            drive and directory where the file to be removed is found. <p>If you specify several
+              documents, enclose the document names in brackets and separate them by commas.</p>
+            <p>If you want to specify a list of document names in a list file, refer to this list
+              file by preceding the list file name with the <codeph>@</codeph> symbol
+                (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+              enclose the document names in brackets and separate them by commas.</p>
+          </pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to delete documents using the OTMBATCH command.</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=docdel /fld=pharma /files=(med.txt) /quiet</codeblock>
+        </section> -->
+      <p><codeblock>OTMBATCH /task=docdel /fld=pharma /files=(med.txt) /quiet</codeblock></p>
+      <p>In this example, the document <codeph>med.txt</codeph> is removed from folder <codeph>pharma</codeph> without prompting the user.</p>
+    </example>
+  </refbody>
+</reference>

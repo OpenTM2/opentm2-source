@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="api_SampleCode">
+  <title>Sample code</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following sample is written in the C programming language. It shows how to <b>create a new folder</b> 
+      using the API-call <q>EqfCreateFolder</q>, how to <b>import documents</b> using the API-call <q>EqfImportDoc</q>,
+      and how to <b>analyze documents</b> using the API-call <q>EqfAnalyzeDoc</q>.</p>
+    <codeblock>USHORT usRC = 0;
+HSESSION hSession = 0L;
+
+// start the Eqf session
+usRC = EqfStartSession( &amp;hSession );
+
+// create the folder SAMPLE1
+if ( !usRC )
+{
+  usRC = EqfCreateFolder( hSession, "SAMPLE1", NULL, '\0', "MEM1",
+                          "EQFASCII", NULL, NULL, "English(U.S.)",
+                          "German(national)" );
+}
+
+// import the documents TEST1.DOC and TEXT2.DOC into folder SAMPLE1 
+if ( !usRC )
+{
+  do
+  {
+      usRC = EqfImportDoc( hSession, "SAMPLE1", NULL,
+                          "C:\\TEXT1.DOC,C:\\TEXT2.DOC", 
+                          NULL, NULL, NULL, NULL, NULL, NULL, 0L );
+  } while( usRC == CONTINUE_RC );
+}
+
+// Analyze all documents of folder SAMPLE1
+if ( !usRC )
+{
+  do
+  {
+      usRC = EqfAnalyzeDoc( hSession, "SAMPLE1", NULL, NULL, 0L ); 
+  } while( usRC == CONTINUE_RC );
+}
+
+// end the Eqf session 
+if ( hSession != 0L )
+{
+  EqfEndSession( hSession );
+}</codeblock>
+  </body>
+</topic>

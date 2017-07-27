@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_130" rev="GF_07122015">
+  <title>New APIs in OpenTM2 v1.3.0</title>
+<prolog>
+  <metadata>
+    <keywords><!--Insert <indexterm> tags here--></keywords>
+  </metadata>
+</prolog>
+<body>
+  <p>This chapter is listing <b>new APIs</b> implemented in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> v1.3.0.</p>
+  <p>
+    <ul>
+      <li>API <q>EqfAddMatchSegID</q>: see <xref href="api_EqfAddMatchSegID.dita#api_EqfAddMatchSegID"/>.</li>
+      <li>API <q>EqfCreateCntReportEx</q>: see <xref href="api_EqfCreateCntReportEx.dita#api_EqfCreateCntReportEx"/>.</li>
+      <li>API <q>EqfCreateCountReportEx</q>: see <xref href="api_EqfCreateCountReportEx.dita#api_EqfCreateCountReportEx"/>.</li>
+      <li>API <q>EqfGetFolderPropEx</q>: see <xref href="api_EqfGetFolderPropEx.dita#api_EqfGetFolderPropEx"/>.</li>
+      <li>API <q>EqfGetVersionEx</q>: see <xref href="api_EqfGetVersionEx.dita#api_EqfGetVersionEx"/>.</li>
+      <li>API <q>EqfImportFolderAs</q>: see <xref href="api_EqfImportFolderAs.dita#api_EqfImportFolderAs"/>.</li>
+      <li>API <q>EqfImportMemEx</q>: see <xref href="api_EqfImportMemEx.dita#api_EqfImportMemEx"/>.</li>
+    </ul>
+  </p> 
+</body>
+</topic>

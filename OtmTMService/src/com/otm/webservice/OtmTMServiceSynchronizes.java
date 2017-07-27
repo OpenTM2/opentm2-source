@@ -10,6 +10,7 @@ import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class OtmTMServiceSynchronizes {
             }
             
 			result.put("method",  paramHash.get(SyncParameters.METHOD));
-			result.put("name", memoryname);
+			result.put(SyncParameters.DATASOURCENAME, memoryname);
            
 			try {
 				mDao.createMemory(memoryname, user,password,userList);
@@ -95,7 +96,7 @@ public class OtmTMServiceSynchronizes {
 		String user = paramHash.get(SyncParameters.USER_ID);
 		
 		result.put("method",  paramHash.get(SyncParameters.METHOD));
-		result.put("name", memoryName);
+		result.put(SyncParameters.DATASOURCENAME, memoryName);
 
 		try {
 			// no user accessed memory, returned directly
@@ -107,7 +108,7 @@ public class OtmTMServiceSynchronizes {
 			}	
 						
 			String creatorName = mDao.getCreatorName(memoryName);
-			mLogger.info(creatorName);
+			//mLogger.info(creatorName);
 			if(creatorName!=null && creatorName.equals(userid)) {
 				mDao.deleteMemory(memoryName);
 			}
@@ -136,7 +137,7 @@ public class OtmTMServiceSynchronizes {
 		String memoryName = paramHash.get(SyncParameters.DATASOURCENAME);
 		String user = paramHash.get(SyncParameters.USER_ID);
 		result.put("method", paramHash.get(SyncParameters.METHOD));
-		result.put("name", memoryName);
+		result.put(SyncParameters.DATASOURCENAME, memoryName);
 		
 		mLogger.debug(result);
 		
@@ -182,7 +183,7 @@ public class OtmTMServiceSynchronizes {
 		String userToAdd = paramHash.get(SyncParameters.USERTOADD);
 		String user = paramHash.get(SyncParameters.USER_ID);
 		result.put("method", paramHash.get(SyncParameters.METHOD));
-		result.put("name", memoryName);
+		result.put(SyncParameters.DATASOURCENAME, memoryName);
 
 		try {
 			
@@ -226,7 +227,7 @@ public class OtmTMServiceSynchronizes {
 		String userToRemove = paramHash.get(SyncParameters.USERTOREMOVE);
 		String user = paramHash.get(SyncParameters.USER_ID);
 		result.put("method", paramHash.get(SyncParameters.METHOD));
-		result.put("name", memoryName);
+		result.put(SyncParameters.DATASOURCENAME, memoryName);
 		
 		try {
 			// no user accessed memory, returned directly
@@ -290,13 +291,14 @@ public class OtmTMServiceSynchronizes {
 	
 	public HashMap<String, String> upload(HashMap<String, String> paramHash) {
 		HashMap<String, String> result = new HashMap<String, String>();
-		
+	
 		String memoryname = paramHash.get(SyncParameters.DATASOURCENAME);
 		String contents = paramHash.get("tmx-document");
+		mLogger.debug(contents);
 		String user = paramHash.get(SyncParameters.USER_ID);
 		
 		result.put("method", paramHash.get(SyncParameters.METHOD));
-		result.put("name", memoryname);
+		result.put(SyncParameters.DATASOURCENAME, memoryname);
         
 		// call 
 		if(contents.isEmpty()) {
@@ -306,6 +308,7 @@ public class OtmTMServiceSynchronizes {
 			try {
 				// no user accessed memory, returned directly
 				String memories = mDao.listMemories(user);
+//System.out.println(user+"--->"+memories);
 				if(memories==null || memories.indexOf(memoryname)==-1 ) {
 					result.put(SyncParameters.RESPONSESTATUSMSG, "no such memory existed or user can't access to it");
 					mLogger.error(result);
@@ -314,8 +317,15 @@ public class OtmTMServiceSynchronizes {
 				
 				TmxSaxParser tmx = new TmxSaxParser();
 			    List<TU> tus = tmx.parseTmxForTU(contents,false);
-                mDao.upload(user, memoryname, tus);
+			    mLogger.info(tus.size());
+                long upcounter = mDao.upload(user, memoryname, tus);
+                
+                if( upcounter == -1)
+                	result.put(SyncParameters.LOADEDCOUNTER, "");
+                else 
+                	result.put(SyncParameters.LOADEDCOUNTER, String.valueOf(upcounter));
 			    result.put(SyncParameters.RESPONSESTATUSMSG, "success");
+			    
 			} catch ( SQLException | ParserConfigurationException |SAXException |IOException e) {
 				result.put(SyncParameters.RESPONSESTATUSMSG, e.getMessage());
 				e.printStackTrace();
@@ -323,7 +333,7 @@ public class OtmTMServiceSynchronizes {
 			}
 		}
 
-		mLogger.debug(result);
+		mLogger.info(result);
 		return result;
 	}
 	
@@ -336,10 +346,22 @@ public class OtmTMServiceSynchronizes {
 		
 		result.put("method", paramHash.get(SyncParameters.METHOD));
 		result.put("userid", userid);
-		result.put("name", memoryName);
+		result.put(SyncParameters.DATASOURCENAME, memoryName);
+		
+		// get thread's own uploaded counter list
+		HashSet<Long> ownUploadedCounters = new HashSet<Long>();
+		String strUploadedCounters = paramHash.get(SyncParameters.OWNUPLOADCOUNTERS);
+        if( strUploadedCounters!=null && !strUploadedCounters.isEmpty() ) {
+			String []arrs = strUploadedCounters.split(",");
+			for(String cp:arrs) {
+				if(cp.isEmpty())
+					continue;
+				ownUploadedCounters.add(Long.valueOf(cp));
+			}
+        }
 		
 		
-		mLogger.debug(result);
+		mLogger.info(result);
 		
 		try {
 			// no user accessed memory, returned directly
@@ -350,7 +372,7 @@ public class OtmTMServiceSynchronizes {
 				return result;
 			}	
 			
-			Map<String,String> tmxStr = mDao.download(userid, memoryName,Long.valueOf(updateCounter));
+			Map<String,String> tmxStr = mDao.download(userid, memoryName,Long.valueOf(updateCounter),ownUploadedCounters);
 			if(!tmxStr.isEmpty()) {
 
 				result.put(SyncParameters.TMXDOCUMENT, tmxStr.get(SyncParameters.TMXDOCUMENT));

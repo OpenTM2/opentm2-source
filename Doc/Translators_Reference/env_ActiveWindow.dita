@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_ActiveWindow">
+  <title>Making a window active</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Window menu</indexterm>
+        <indexterm>Translation Environment<indexterm>activating a window</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following windows are listed when you open the <b>File</b> menu in the Translation Environment: 
+      <ul>
+        <li><q>Translation</q></li>
+        <li><q>Translation Memory</q></li>
+        <li><q>Dictionary</q></li>
+        <li><q>Original</q></li>
+        <li><q>Source of Proposal</q></li>
+      </ul></p>
+    <p>All documents you opened for reference purposes, in addition to the document you translate are listed. You open another document by 
+      selecting <b>Open...</b> from the <b>File</b> menu of the Translation Environment.</p>
+    <p>Use this option to quickly move to a certain window while working in the Translation Environment. It is especially helpful if a window 
+      is hidden behind another window. If you select this window from the list, it becomes immediately active and is displayed in the foreground.</p>
+  </body>
+</topic>

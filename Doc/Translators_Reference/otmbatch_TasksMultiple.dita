@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="otmbatch_TasksMultiple">
+  <title>Performing several tasks in one step</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <p>Instead of typing all parameters in one line, you can use the /TASKLIST option and specify
+        the parameters for any task in a separate file.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TASKLIST</kwd>
+          <oper>=</oper>
+          <var>list_of_tasks</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TASKLIST=<i>list_of_tasks</i></pt>
+          <pd><i>list_of_tasks</i> is the name of a file containing a task description on each line,
+            for example, parameters for several import or export requests (see examples).</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*).</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to specify the export parameters in a separate file
+        (taskexp.fil) to export several documents (med1.txt and med2.txt) and then call the OTMBATCH
+        command with a reference to this file.</p>
+<!--    <section>
+          <title>taskexp.fil</title>
+          <codeblock>/task=docexp /fld=pharma /files=c:\med1.txt /options=target /overwrite=yes
+/task=docexp /fld=pharma /files=c:\med2.txt /options=target /overwrite=yes</codeblock>
+        </section>-->
+        <p> <codeblock>/task=docexp /fld=pharma /files=c:\med1.txt /options=target /overwrite=yes
+/task=docexp /fld=pharma /files=c:\med2.txt /options=target /overwrite=yes</codeblock></p>
+      <p>Enter the OTMBATCH command as follows:</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /tasklist=taskexp.fil</codeblock>
+        </section> -->
+      <p><codeblock>OTMBATCH /tasklist=taskexp.fil</codeblock></p>
+      <p>This lets you export more than one document with one command. All OTMBATCH tasks can be
+        combined.</p>
+      <p>The next example shows how to specify the import parameters in a separate file
+        (taskimp.fil) to import several documents listed in two files (@meddoca.lst and
+        @meddocb.lst) and then call the OTMBATCH command with a reference to this file.</p>
+<!--    <section>
+          <title>taskimp.fil</title>
+          <codeblock>/task=docimp /fld=pharma /files=@meddoca.lst /overwrite=no
+/task=docimp /fld=pharma /files=@meddocb.lst /overwrite=no</codeblock>
+        </section> -->
+      <p> <codeblock>/task=docimp /fld=pharma /files=@meddoca.lst /overwrite=no
+/task=docimp /fld=pharma /files=@meddocb.lst /overwrite=no</codeblock></p>
+      <p>Enter the OTMBATCH command as follows:</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /tasklist=taskimp.fil</codeblock>
+        </section> -->
+      <p> <codeblock>OTMBATCH /tasklist=taskimp.fil</codeblock></p>
+      <p>This lets you import more than one document with one command. All OTMBATCH tasks can be combined.</p>
+    </example>
+  </refbody>
+</reference>

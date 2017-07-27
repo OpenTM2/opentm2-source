@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFDICTLOOK">
+<title>EQFDICTLOOK</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFDICTLOOK</indexterm><indexterm>programming interface calls<indexterm>EQFDICTLOOK</indexterm></indexterm>
+<p><i>EQFDICTLOOK</i> invokes the dictionary lookup
+dialog.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFDICTLOOK</kwd><delim>(</delim><var>pszBuffer1</var><sep>,</sep><var>pszBuffer2</var><sep>,</sep><var>usCursorPos</var><sep>,</sep></groupseq>
+<groupseq><var>fSource</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszBuffer1(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the active segment. It must have a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>pszBuffer2(PSTRING)</var></synph> — input</pt>
+<pd>The buffer for the marked area. It must have a length of <codeph>EQF_BUFFERLEN</codeph>. <codeph>EQF_BUFFERLEN</codeph> is
+defined in the file <codeph>EQFTWBS.H</codeph>.</pd></plentry>
+<plentry><pt><synph><var>usCursorPos(USHORT)</var></synph> — output</pt>
+<pd>The position of the input cursor.</pd></plentry>
+<plentry><pt><synph><var>fSource</var></synph> — output</pt>
+<pd>Determines whether the term looked up is in the source or target
+language (not used in the current <keyword conref="common-symbols.dita#common-symbols/tm4w"/> version).</pd></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFERR_DICTLOOK_NOT_FOUND</dt>
+<dd>The dictionary lookup dialog could not be loaded.</dd></dlentry>
+<dlentry><dt>EQF_OKAY</dt>
+<dd>The dictionary term is selected and copied into the provided
+buffer.</dd></dlentry>
+<dlentry><dt>EQFERR_INIT</dt>
+<dd>The system must first be initialized.</dd></dlentry>
+<dlentry><dt>EQFERR_DICT_LOOKUP_PENDING</dt>
+<dd>The dictionary lookup request is pending.</dd></dlentry>
+<dlentry><dt>EQFERR_NO_ENTRY_AVAIL</dt>
+<dd>The dictionary entry is not available.</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>EQFERR_DICT_LOOKUP_PENDING indicates that a dictionary
+lookup is active. After selecting an entry or leaving the dictionary
+lookup dialog, the return code is reset to either EQF_OKAY or EQF_NO_ENTRY_AVAIL.</p>
+<p>From an editor’s point of view, this call is handled in the
+same way as EQFGETDICT (see <ph otherprops="print">page <xref href="edit_EQFGETDICT.dita#edit_EQFGETDICT"/></ph><xref otherprops="display" href="edit_EQFGETDICT.dita#edit_EQFGETDICT"/>).</p>
+</section></refbody></reference>

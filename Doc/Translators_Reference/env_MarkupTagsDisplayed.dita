@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_MarkupTagsDisplayed">
+  <title>Changing the display of markup information</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Style menu</indexterm>
+        <indexterm>markup tags<indexterm>changing the display style of</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can change the tag representation style by opening the <b>Style</b> menu and selecting a
+      style command of your choice.</p>
+    <p><xref href="#env_MarkupTagsDisplayed/mds"/> contains examples of a <tm trademark="Microsoft"
+        tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> WORD document
+      that show you how the text is presented, depending on the selected style. The following
+      symbols are used to show information that is protected and cannot be translated: <dl>
+        <dlentry>
+          <dt>&lt;&gt;</dt>
+          <dd>Appears when you select shrink and compact style. The symbol is a placeholder for
+            information that cannot be translated.</dd>
+        </dlentry>
+        <dlentry>
+          <dt>#</dt>
+          <dd>Appears when you select compact style. This symbol shows that there is information in
+            a segment that cannot be translated.</dd>
+        </dlentry>
+      </dl>
+    </p>
+    <p>These symbols are protected and have the same color as markup tags (the default is red). You
+      can change them as follows: <ol>
+        <li>Select <b>Profile settings...</b> from the <b>Options</b> menu of the Translation
+          Environment.</li>
+        <li>Select the <b>Display</b> page.</li>
+        <li>In the <b>Display Settings</b> box, change the respective symbols.</li>
+      </ol>
+    </p>
+    <p>The shrink and compact styles are useful when you translate documents that contain numerous
+      markup tags, such as RTF documents. The various style options let you display the text in a
+      less cluttered form. The markup information is replaced by the symbols of your choice, and you
+      can concentrate on the text that is to be translated.</p>
+    <p>If two or more markup tags appear after one another in a text, they are replaced by only one
+      symbol depending on the style you chose. <indexterm>markup tags<indexterm>example of display
+          styles</indexterm></indexterm>
+      <fig id="mds" expanse="column">
+        <title>Markup display styles</title>
+        <codeblock><b>Protected/Unprotected:</b>
+          <b>[style:heading 2]</b>
+          Planning Forms
+          <b>[paragraph: 0005,E8]</b>
+          <b>[style:Normal]</b>
+          While reading this chapter, you will complete one or more of the following 
+          planning forms, which are included in <b>[italic]</b>
+          Planning Forms<b>[/italic]</b>,
+          GX24-4093:
+          <b>[paragraph: 0005,F5]
+            [style:Normal]
+            [field: 3913]SYMBOL 183 \.f "Symbol" \.s 10 \h[field end: 0015] [efield]</b>
+          • Processor Configuration (Forms B3, B5, or B7)
+          <b>[paragraph: 0005,ED]
+            [style:Normal]
+            [field: 3913]SYMBOL 183 \.f "Symbol" \.s 10 \h[field end: 0015] [efield]</b>
+          • Integrated DASD/Tape Devices (Form C2).
+          <b>Hide:</b>
+          Planning Forms
+          While reading this chapter, you will complete one or more 
+          of the following planning forms, which are included in 
+          Planning Forms, 
+          GX24-4093:
+          • Processor Configuration (Forms B3, B5, or B7)
+          • Integrated DASD/Tape Devices (Form C2).
+
+          <b>Shrink:</b>
+          <b>&lt;&gt;</b>
+          Planning Forms
+          <b>&lt;&gt;</b>
+          While reading this chapter, you will complete one or more 
+          of the following planning forms, which are included in
+          <b>[italic]</b>Planning Forms<b>[/italic]</b>, GX24-4093:
+          <b>&lt;&gt;</b>
+          • Processor Configuration (Forms B3, B5, or B7)
+          <b>&lt;&gt;</b>
+          • Integrated DASD/Tape Devices (Form C2).
+          
+          <b>Compact:</b>
+          <b>&lt;&gt;</b>
+          Planning Forms
+          <b>&lt;&gt;</b> While reading this chapter, you will complete one or more
+          of the following planning forms, which are included in
+          <b>#</b>Planning Forms<b>#</b>, GX24-4093:
+          <b>&lt;&gt;</b>
+          <b>#</b>Processor Configuration (Forms B3, B5, or B7)
+          <b>&lt;&gt;</b>
+          <b>#</b>Integrated DASD/Tape Devices (Form C2).
+  </codeblock></fig></p>
+  </body>
+</topic>

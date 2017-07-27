@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_PropertiesView">
+  <title>Viewing the properties of a <keyword conref="common-symbols.dita#common-symbols/xlmem"
+    /></title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title/>
+      <indexterm>Translation Memory<indexterm>displaying properties</indexterm></indexterm>
+      <indexterm>Translation Memory<indexterm>properties</indexterm></indexterm>
+      <p>The properties of a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> are: <parml>
+          <plentry><pt>Memory Name</pt>
+            <pd>The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>.
+            </pd></plentry>
+          <plentry><pt>Full Memory Name</pt>
+            <pd>The name of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+              including its location.</pd></plentry>
+          <plentry><pt>Description</pt>
+            <pd>The description of the <keyword conref="common-symbols.dita#common-symbols/xlmem"
+              />.</pd></plentry>
+          <plentry><pt>Source language</pt>
+            <pd>The source of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, this
+              means, the language of the terms (headwords).</pd></plentry>
+          <plentry><pt>Drive</pt>
+            <pd>The drive where the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>
+              resides.</pd></plentry>
+          <plentry><pt>Last update</pt>
+            <pd>The date and time of the last update of the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>.</pd></plentry>
+          <plentry><pt>Size of index file</pt>
+            <pd>The total size of the <keyword conref="common-symbols.dita#common-symbols/xlmem"/>,
+              in bytes.</pd></plentry>
+          <plentry><pt>Different Segments</pt>
+            <pd>The total number of different segments stored in the <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>, which have different
+              translations, which are from different languages or which have different markup
+              tables.</pd></plentry>
+          <plentry><pt>Markup</pt>
+            <pd>A list of all markup tables used by the segments of this <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>.</pd></plentry>
+          <plentry><pt>Documents</pt>
+            <pd>A list of the documents for which segments are stored in this <keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>.</pd></plentry>
+        </parml></p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>A <keyword conref="common-symbols.dita#common-symbols/xlmem"/> from the <q><keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/> List</q> window.</li>
+          <li><b>Properties Summary…</b> from the <b>File</b> menu</li>
+        </ol></p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>A document in HTML format is displayed containing a summary of the <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> properties (see <xref
+            href="#memory_PropertiesView/tmprop1win"/>) is displayed. <fig id="tmprop1win" expanse="column">
+          <title>Memory Properties document</title><image placement="break" href="memory_PropertiesView.gif"
+              ><alt>Figure shows Memory Properties document</alt></image></fig></p>
+      <p>If you want to view more properties or change the properties of a Translation Memory, refer
+        to <xref href="memory_PropertiesChange.dita#memory_PropertiesChange"/>.</p>
+    </section>
+  </refbody>
+</reference>

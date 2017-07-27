@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task_FolderExchange">
+  <title>Exchanging folders</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Folders cannot be exported to an external format. Exported folders remain in 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> format with the data being compressed to save storage. When you export a
+      folder, you can choose which of the documents it contains should also be exported. In addition, you can decide whether the associated 
+      dictionaries and Translation Memory databases should be exported with the folder. For future reference, you can add a note describing the
+      contents of the exported folder. Folders can be copied on a diskette or any suitable media for distribution.</p>
+  </body>
+</topic>

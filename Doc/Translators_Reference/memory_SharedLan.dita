@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_SharedLan">
+  <title>Sharing LAN-based Translation Memories</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides <b>two different solutions</b> to share Translation Memory 
+       databases amongst several translators. One solution is based on <b>LAN-technology</b>, and one solution is based on a <b>WEB-Server
+       technology</b> (see <xref href="memory_SharedWeb.dita#memory_SharedWeb"/>). This section describes the <b>LAN</b> (Local Area Network) 
+       based solution.</p>
+    <p>Sharing Translation Memory databases with other translators in a <b>LAN</b> (Local Area Network) system not only helps to 
+       keep the local disk space small, but you can work with a Translation Memory even if another translator is using it at the 
+       same time. You may find this especially convenient when you work with other translators on the same project. For example, 
+       if you must translate a sentence that a fellow translator has translated only recently for the same project, you can 
+       instantly use your colleague&apos;s translation by copying it from the LAN-based shared Translation Memory.</p>
+    <p>If you wish to work with a LAN-based shared Translation Memory, you must note the following prerequisites: 
+      <ol>
+        <li><b>Install the LAN software on the server.</b> The appropriate LAN software must be installed (see
+            <xref href="prep_Software.dita#prep_Software"/> for the supported software). </li>
+        <li><b>Log on to the LAN.</b> You must be logged on to the LAN. </li>
+        <li><b>Define a shared disk.</b> At least one of your disks must be defined as shared disk.
+            In <b><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm></b>
+            you do this using the FileManager. In NOVELL Netware and 
+            <tm trademark="IBM" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">IBM</tm> LAN Manager LANs you 
+            use the NET USE command. It is recommended to share the entire disk because 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> creates its own subdirectory structure on this disk.</li>
+        <li><b>Specify a LAN-based shared Translation Memory as a <b>shared</b> Translation Memory.</b> The Translation Memory you 
+            want to share must be defined to reside on a shared disk. This can only be done when a new Translation Memory is created. 
+            See <xref href="memory_Create.dita#memory_Create"/> for the creation of LAN-based shared Translation Memory databases. 
+            Note that it is not possible to redefine a local Translation Memory as a LAN-based shared Translation Memory at a later 
+            point in time. It must be done when it is <b>created</b>. If you created the Translation Memory, you can now start working 
+            with it. If you want to use a Translation Memory created by someone else, see the next step.</li>
+        <li><b>Connect to the LAN-based shared Translation Memory.</b> To use a Translation Memory that is defined as LAN-based shared 
+            Translation Memory, but <b>not</b> created by you, you must add it to your Translation Memory List. See 
+            <xref href="memory_SharedWeb.dita#memory_SharedWeb"/> to learn how to do this.</li>
+      </ol>
+    </p>
+  </body>
+</topic>

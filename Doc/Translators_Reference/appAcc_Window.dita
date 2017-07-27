@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_Window">
+<title>Window Menu</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog>
+<body>
+<table>
+<title>Window Menu</title>
+<tgroup cols="3">
+<colspec colname="col1" colwidth="127*"/>
+<colspec colname="col2" colwidth="71*"/>
+<colspec colname="colspec0" colwidth="70*"/>
+<thead>
+<row>
+<entry colname="col1" valign="top">Menu bar choices</entry>
+<entry colname="col2" valign="top">Actions</entry>
+<entry colname="colspec0" valign="top">Keyboard shortcuts</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">Window =&gt; Minimize All</entry>
+<entry colname="col2">Minimizing all open windows.</entry>
+<entry colname="colspec0">Alt+M</entry></row>
+<row>
+<entry colname="col1">Window =&gt; Restore All</entry>
+<entry colname="col2">Restoring all active windows.</entry>
+<entry colname="colspec0">Alt+R</entry></row>
+<row>
+<entry colname="col1">Window =&gt; Tile Window</entry>
+<entry colname="col2">Tiling all windows in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Workbench.</entry>
+<entry colname="colspec0">Alt+T</entry></row>
+<row>
+<entry colname="col1">Window =&gt; Cascade Window</entry>
+<entry colname="col2">Cascading all windows in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Workbench.</entry>
+<entry colname="colspec0">Alt+C</entry></row>
+<row>
+<entry colname="col1">Window =&gt; 1) Folder List</entry>
+<entry colname="col2">Bringing the 'Folder List' window to front.</entry>
+<entry colname="colspec0">Alt+1</entry></row>
+<row>
+<entry colname="col1">Window =&gt; 2) Translation Memory List [Some]</entry>
+<entry colname="col2">Bringing the 'Translation Memory List [Some]' window
+to front.</entry>
+<entry colname="colspec0">Alt+2</entry></row>
+<row>
+<entry colname="col1">Window =&gt; 3) Dictionary List [Some]</entry>
+<entry colname="col2">Bringing the 'Dictionary List [Some]' window to front.</entry>
+<entry colname="colspec0">Alt+3</entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

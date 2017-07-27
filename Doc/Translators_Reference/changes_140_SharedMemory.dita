@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_140_SharedMemory">
+  <title>Updated WEB-based Shared Memory solution</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>We updated the WEB-based shared translation memory to provide a better performance with <b>MariaDB</b> or <b>MySQL</b>.</p>
+    <p>For more information, go to page <xref href="memory_SharedWeb.dita#memory_SharedWeb"/>.</p>
+  </body>
+</topic>

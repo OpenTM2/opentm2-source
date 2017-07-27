@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="env_BidiMemory">
+  <title>Translation Memory considerations</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>Translation Memory<indexterm>bidirectional language considerations</indexterm></indexterm>
+        <indexterm>bidirectional languages<indexterm>Translation Memory</indexterm><indexterm>Initial Translation Memory</indexterm></indexterm>
+        <indexterm>Initial Translation Memory (ITM)<indexterm>bidirectional language considerations</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>When you edit a Translation Memory with the Translation Memory editor, Arabic and Hebrew source and target segments are aligned to the left, 
+      with a reading order from right to the left.</p>
+    <p>During the creation of an Initial Translation Memory (with the <b>Create</b> option, which causes a visual presentation on the screen), the 
+      contents of Arabic and Hebrew documents are aligned to the left, with a reading order from right to the left.</p>
+  </body>
+</topic>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appWord_Change">
+<title>Markup data that can be changed</title>
+<prolog><metadata><keywords>
+
+<indexterm>Word documents<indexterm>changing markup information in</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>The following table lists markup data that may be deleted, inserted, or
+moved depending on the structure in the target language. These tags are parts
+of a segment that is to be translated.</p>
+<p><fn id="except">Do not change the variables, because they are calculated
+automatically by <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm>.</fn><fn id="word6">Changed or added markup data when dealing with documents
+originated in <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word 6.0.</fn></p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="2*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="3*"/>
+<thead>
+<row>
+<entry valign="top" rowsep="1">Tag name</entry>
+<entry valign="top" rowsep="1">End tag</entry>
+<entry valign="top" rowsep="1">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry valign="top">[-]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Required hyphen. </entry></row>
+<row>
+<entry valign="top">[blank]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Required blank. </entry></row>
+<row>
+<entry valign="top">[bold]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in bold. </entry></row>
+<row>
+<entry valign="top">[caps]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed as capital letters. </entry></row>
+<row>
+<entry valign="top">[color: <i>code</i>]<xref href="#appWord_Change/except"/> [⁄color]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed colored; the <i>code</i> is the color used. </entry></row>
+<row>
+<entry valign="top">[condensed: <i>space</i>]<xref href="#appWord_Change/except"/> [⁄condensed]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in condensed form, the respective
+space between the characters is coded with <i>space</i>. </entry></row>
+<row>
+<entry valign="top">[extended: <i>space</i>]<xref href="#appWord_Change/except"/> <ph>[expanded: <i>space</i>]<xref href="#appWord_Change/word6"/> [⁄extended] [⁄expanded]<xref href="#appWord_Change/word6"/></ph></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in expanded form, the respective space
+between the characters is coded with <i>space</i>. </entry></row>
+<row>
+<entry valign="top">[font: <i>name</i>]<xref href="#appWord_Change/except"/> [⁄font]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in a special font; the font name is
+given with <i>name</i>. </entry></row>
+<row>
+<entry valign="top">[fontsize: <i>size</i>]<xref href="#appWord_Change/except"/> [⁄fontsize]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in a special size; the fontsize is
+coded with <i>size</i>. </entry></row>
+<row>
+<entry valign="top">[italic]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in italic. </entry></row>
+<row>
+<entry valign="top">[lid: <i>lid code</i>]<xref href="#appWord_Change/except"/> [⁄lid]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text has a specific language reference; refer to your <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word for <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> documentation for the meaning. </entry></row>
+<row>
+<entry valign="top">[line break]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Soft line feed. </entry></row>
+<row>
+<entry valign="top">[page]</entry>
+<entry valign="top">no</entry>
+<entry valign="top">Start of a new page. </entry></row>
+<row>
+<entry valign="top">[rev mark]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is revised. </entry></row>
+<row>
+<entry valign="top">[rev strike]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is revised by strikethrough. </entry></row>
+<row>
+<entry valign="top">[small caps]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed as small capital letters. </entry></row>
+<row>
+<entry valign="top">[strike]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed strikethrough. </entry></row>
+<row>
+<entry valign="top">[subscript: <i>size</i>]<xref href="#appWord_Change/except"/> [lowered: <i>size</i>]<xref href="#appWord_Change/word6"/> [⁄subscript] [⁄lowered]<xref href="#appWord_Change/word6"/></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in subscript; the amount of space
+the text is lowered is given in <i>size</i>. </entry></row>
+<row>
+<entry valign="top">[superscript: <i>size</i>]<xref href="#appWord_Change/except"/> [raised: <i>size</i>]<xref href="#appWord_Change/word6"/> [⁄superscript] [⁄raised]<xref href="#appWord_Change/word6"/></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in superscript; the amount of space
+the text is raised is given in <i>size</i>. </entry></row>
+<row>
+<entry valign="top">[subscript]<xref href="#appWord_Change/word6"/></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in subscript. </entry></row>
+<row>
+<entry valign="top">[superscript]<xref href="#appWord_Change/word6"/></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed in superscript. </entry></row>
+<row>
+<entry valign="top">[underline: <i>code</i>]<xref href="#appWord_Change/except"/> [⁄underline]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed underlined; the type of underline
+is given with <i>code</i>. </entry></row>
+<row>
+<entry valign="top">[vanish][hidden]<xref href="#appWord_Change/word6"/></entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is not printed because it is hidden; the text
+is not to be translated. </entry></row>
+</tbody>
+</tgroup>
+</table>
+<p>The following markup has been added to support MS Word 6.0: </p>
+<table pgwide="0" frame="topbot">
+<tgroup cols="3" colsep="0" rowsep="1">
+<colspec colname="col1" colwidth="2*"/>
+<colspec colname="col2" colwidth="1*"/>
+<colspec colname="col3" colwidth="3*"/>
+<tbody>
+<row>
+<entry valign="top">[shadow]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">The text is printed shadowed. </entry></row>
+<row>
+<entry valign="top">[bkf: <i>attribute</i>]<xref href="#appWord_Change/except"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A bookmark starts at this position in text; where <i>attribute</i> is an index to the bookmark end entry. </entry></row>
+<row>
+<entry valign="top">[bkl: <i>attribute</i>]<xref href="#appWord_Change/except"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">A bookmark ends at this position in text; where <i>attribute</i> is the value to which the bookmark start points to. </entry></row>
+<row>
+<entry valign="top">[rev auth: <i>attribute</i>]<xref href="#appWord_Change/except"/> [⁄rev auth]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">Used when revision marking was set to on in Word; is indicator
+for the author who did the revision. </entry></row>
+<row>
+<entry valign="top">[DTTM: <i>attribute</i>]<xref href="#appWord_Change/except"/> [⁄DTTM]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">Used when revision marking was set to on in Word; is indicator
+for date and time when revision took place. </entry></row>
+<row>
+<entry valign="top">[symb font: <i>name char</i>]<xref href="#appWord_Change/except"/></entry>
+<entry valign="top">no</entry>
+<entry valign="top">Indicates that the character given with <i>char</i> is to be printed in the font given with <i>name</i>. </entry></row>
+<row>
+<entry valign="top">[csty: <i>name</i>]<xref href="#appWord_Change/except"/> [⁄csty]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">For the run of text enclosed in start and ending tag the
+style given with <i>name</i> is used. </entry></row>
+<row>
+<entry valign="top">[kerning: <i>value</i>]<xref href="#appWord_Change/except"/> [⁄kerning]</entry>
+<entry valign="top">yes</entry>
+<entry valign="top">For the run of text enclosed in start and ending tag automatic
+kerning was used; where <i>value</i> is the kerning distance. </entry></row>
+</tbody>
+</tgroup>
+</table>
+</body></topic>

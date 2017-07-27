@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_Ruler">
+  <title>Displaying a ruler</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>rulers, displaying</indexterm>
+        <indexterm>Translation Environment<indexterm>displaying rulers</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Sometimes it is necessary to position text at a specific place in a translation. For this purpose, 
+      <keyword conref="common-symbols.dita#common-symbols/tm4w"/> enables you to display a ruler in the <q>Translation</q> window or the 
+      window that contains the original document or another document. The ruler has the same size as the currently selected font.</p>
+    <p>To display a ruler in the <q>Translation</q> window, select <b>Tailor</b> from the <b>Options</b> menu or the context-sensitive popup 
+      menu and choose <b>Ruler</b>. To display a ruler in the window containing the original document or another document, select
+      <b>Tailor</b> from the context-sensitive popup menu and choose <b>Ruler</b>. You get the context-sensitive popup menu by pressing the 
+      right mouse button.</p>
+  </body>
+</topic>

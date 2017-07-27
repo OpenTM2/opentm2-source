@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_SharedLanConnect">
+  <title>Connecting or disconnecting a LAN-based shared Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>shared Translation Memory databases, accessing</indexterm>
+      <p>In order to use a LAN-based shared Translation Memory that is shared by many translators you must include 
+         it in your list of local Translation Memory databases. To remove it from this list you must disconnect it.</p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The LAN-based shared <keyword conref="common-symbols.dita#common-symbols/xlmem"/> must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: 
+        <ol>
+          <li>The <q>Translation Memory List</q> window from the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> workbench</li>
+          <li><b>Connect shared resources...</b> from the <b>Utilities</b> menu</li>
+        </ol>
+      </p>
+      <p>The <q>Connect Shared Translation Memories</q> window is displayed.</p>
+      <fig id="ConnectSharedMemory" expanse="column">
+        <title>Connect Shared Translation Memories window</title>
+        <image placement="break" href="memory_SharedLanConnect.gif">
+          <alt>Graphic shows the Connect Shared Translation Memory window</alt>
+        </image>
+      </fig>
+    </section>
+
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Available</pt>
+          <pd>This box lists all Translation Memory databases available on shared drives you have access to.</pd>
+        </plentry>
+        <plentry>
+          <pt>Add --&gt;&gt;</pt>
+          <pd>Pressing this button <b>adds</b> the selected Translation Memory name to the <b>Selected</b> box.</pd>
+        </plentry>
+        <plentry>
+          <pt>&lt;&lt;-- Remove</pt>
+          <pd>Pressing this button <b>removes</b> the selected Translation Memory name from the <b>Selected</b> box, 
+              so that you are <b>disconnected</b> from this Translation Memory. It does <b>not</b> delete the Translation Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>Selected</pt>
+          <pd>This box lists all Translation Memory databases that you have selected, and where you want to connect to. 
+              When you pres the button <b>Connect</b>, the listed Translation Memory databases will be <b>connected</b>
+              as <q>Shared Translation Memories</q>. Translation Memory databases removed from this list are <b>disconnected</b>.</pd>
+        </plentry>
+      </parml>
+    </section>
+
+    <section>
+      <title>Results</title>
+      <p>The selected Translation Memory has been added to your local list window and can now be used like any other 
+         Translation Memory. If you selected to <b>remove</b> it from your list window, it is <b>disconnected</b>.</p>
+    </section>
+  </refbody>
+</reference>

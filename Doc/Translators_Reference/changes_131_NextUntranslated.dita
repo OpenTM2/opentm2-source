@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_131_NextUntranslated">
+  <title>Two more entries in function Next Untranslated Segment</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Within the translation editor, translators can jump to the next <b>untranslated</b> segment, and this function received two more options:
+      <ol>
+        <li>Next untranslated segment with <b>GLOBAL MEMORY</b> match. This means, the next <b>untranslated</b> segment 
+            is identified, for which a <b>Global Memory</b> match (aka HAMSTER match) is found. Other untranslated segments are ignored.</li>
+        <li>Next untranslated segment with <b>MT</b> match. This means, the next <b>untranslated</b> segment 
+            is identified, for which an <b>Machine Translation</b> match is found. Other untranslated segments are ignored.</li>
+      </ol>  
+    </p>
+    <p>
+      The default hot-key assigned for <q>Next Untranslated Segment =&gt; Any</q> is still <q>Alt+n</q>. However, users can assign their
+      own hotkeys for <b>With EXACT match</b>, <b>With FUZZY match</b>, <b>With NO match</b>, <b>With GLOBAL MEMORY match</b> and 
+	  <b>With MT match</b> using the function <q>Options</q> =&gt; <q>Keys...</q> (see page <xref href="appAcc_Keys.dita#appAcc_Keys"/>).
+    </p>
+    <p>
+      <fig id="nextUntranslatedSegment_2" expanse="column">
+        <title>Context Menu <q><b>Next Untranslated Segment</b></q></title>
+        <image placement="break" href="changes_NextUntranslated.gif">
+          <alt>Jump to a segment with specific match proposals</alt>
+        </image>
+      </fig>
+    </p>  
+    <p>See also the information on page <xref href="appAcc_Translation.dita#appAcc_Translation"/>.</p>
+  </body>
+</topic>

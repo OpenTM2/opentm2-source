@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_140" rev="GF_03104017">
+  <title>New APIs in OpenTM2 v1.4.0</title>
+<prolog>
+  <metadata>
+    <keywords><!--Insert <indexterm> tags here--></keywords>
+  </metadata>
+</prolog>
+<body>
+  <p>This chapter is listing <b>new APIs</b> implemented in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> v1.4.0.</p>
+  <p>
+    <ul>
+      <li>API <q>EqfImportMemInInternalFormat</q>: see <xref href="api_EqfImportMemInInternalFormat.dita#api_EqfImportMemInInternalFormat"/>.</li>
+      <li>API <q>EqfExportMemInInternalFormat</q>: see <xref href="api_EqfExportMemInInternalFormat.dita#api_EqfExportMemInInternalFormat"/>.</li>
+      <li>API <q>EqfOpenMem</q>: see <xref href="api_EqfOpenMem.dita#api_EqfOpenMem"/>.</li>
+      <li>API <q>EqfCloseMem</q>: see <xref href="api_EqfCloseMem.dita#api_EqfCloseMem"/>.</li>
+      <li>API <q>EqfQueryMem</q>: see <xref href="api_EqfQueryMem.dita#api_EqfQueryMem"/>.</li>
+      <li>API <q>EqfSearchMem</q>: see <xref href="api_EqfSearchMem.dita#api_EqfSearchMem"/>.</li>
+      <li>API <q>EqfUpdateMem</q>: see <xref href="api_EqfUpdateMem.dita#api_EqfUpdateMem"/>.</li>
+      <li>API <q>EqfListMem</q>: see <xref href="api_EqfListMem.dita#api_EqfListMem"/>.</li>
+    </ul>
+  </p> 
+</body>
+</topic>

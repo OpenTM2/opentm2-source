@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_ParsSplitSeg">
+<title>ParsSplitSeg</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsSplitSeg</indexterm></indexterm><indexterm>ParsSplitSeg</indexterm><indexterm>parser API<indexterm>ParsSplitSeg</indexterm></indexterm>
+<p><i>ParsSplitSeg</i> splits text data into segments
+by using <keyword conref="common-symbols.dita#common-symbols/tm4w"/>'s morphological functions. The function
+looks for segment breaks in the supplied data by applying the morphology
+for the document source language. The segment breaks are returned
+as a list of segment breaks. This list is a list of offsets of segment
+breaks within the data. The last element in this list is zero.</p>
+<p>If the buffer for this list is too small, the function returns
+an error and the first element of the list contains the required size
+of the list (in number of list elements).</p>
+<p>If the text data is in Unicode format, use <xref href="mut_ParsSplitSegW.dita#mut_ParsSplitSegW"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsSplitSeg</kwd><delim>(</delim><var>hParser</var><sep>,</sep></groupseq>
+<groupseq><var>pszData</var><sep>,</sep></groupseq>
+<groupseq><var>usDataLength</var><sep>,</sep></groupseq>
+<groupseq><var>pusSegBreaks</var><sep>,</sep></groupseq>
+<groupseq><var>usElements</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSER</entry>
+<entry colname="col2">hParser</entry>
+<entry colname="col3">The parser API handle, created by the <i>ParsInitialize</i> function.</entry></row>
+<row>
+<entry colname="col1">CHAR</entry>
+<entry colname="col2">pszData</entry>
+<entry colname="col3">The pointer to the zero-terminated text data
+that is to be split into segments.</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">usDataLength</entry>
+<entry colname="col3">The length of the text data, as number of characters.</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">pusSegBreaks</entry>
+<entry colname="col3">The pointer to the buffer that receives the
+list of segment breaks.</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">usElements</entry>
+<entry colname="col3">The size of the buffer that receives the list
+of segment breaks, in number of list elements.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the segment is successfully split,
+or an error code.</p>
+</section></refbody></reference>

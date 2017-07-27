@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="SpecialNotices">
+  <title/>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <note type="other" othertype="Note!">Before using this information and the product it supports,
+      be sure to read the general information under <xref href="Notices.dita#Notices"/>. 
+    </note>
+  </body>
+</topic>

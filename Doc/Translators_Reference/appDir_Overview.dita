@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appDir_Overview">
+  <title>Directory structure of <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>directory structure</indexterm>
+        <indexterm>structure of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> directory</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>This chapter gives you an overview of the directory structure of a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> installation.</p>
+    <table pgwide="0" frame="none" colsep="1" rowsep="1">
+      <tgroup cols="2">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry>Subdirectory</entry>
+            <entry>Content</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">
+              <codeph>otm</codeph>
+            </entry>
+            <entry colname="col2">All <keyword conref="common-symbols.dita#common-symbols/tm4w"/> objects</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>win</codeph>
+            </entry>
+            <entry colname="col2">All executable programs</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>table</codeph>
+            </entry>
+            <entry colname="col2">All markup tables</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>prtform</codeph>
+            </entry>
+            <entry colname="col2">Print-format files used for printing dictionary data</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>msg</codeph>
+            </entry>
+            <entry colname="col2">Messages and helps</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>property</codeph>
+            </entry>
+            <entry colname="col2">Property files for folders, <keyword conref="common-symbols.dita#common-symbols/xlmems"/>, and dictionaries</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>export</codeph>
+            </entry>
+            <entry colname="col2">Subdirectory for exported folders</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>document</codeph>
+            </entry>
+            <entry colname="col2"><keyword conref="common-symbols.dita#common-symbols/tm4w"/> documentation</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>mem</codeph>
+            </entry>
+            <entry colname="col2">
+              <keyword conref="common-symbols.dita#common-symbols/xlmems"/>
+            </entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>dict</codeph>
+            </entry>
+            <entry colname="col2">Dictionaries</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>list</codeph>
+            </entry>
+            <entry colname="col2">Generated lists</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>*.f00</codeph>
+            </entry>
+            <entry colname="col2">Folders</entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>$$S*****.f00</codeph>
+            </entry>
+            <entry colname="col2">Temporary folders for source documents from the <keyword conref="common-symbols.dita#common-symbols/ITM"/>
+              <p>This directory is created by the <keyword conref="common-symbols.dita#common-symbols/ITM"/> and deleted when the 
+                <keyword conref="common-symbols.dita#common-symbols/ITM"/> has finished (***** always stands as a variable - these are 
+                numbers/characters which are generated freely during ITM process).</p></entry>
+          </row>
+          <row>
+            <entry colname="col1">
+              <codeph>$$T*****.f00</codeph>
+            </entry>
+            <entry colname="col2">Temporary folders for target documents from the <keyword conref="common-symbols.dita#common-symbols/ITM"/>
+              <p>This directory is created by the <keyword conref="common-symbols.dita#common-symbols/ITM"/> and deleted when the 
+                <keyword conref="common-symbols.dita#common-symbols/ITM"/> has finished (***** always stands as a variable - these are 
+                numbers/characters which are generated freely during ITM process).</p></entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+    <p>The subdirectories with the extension <codeph>*.f00</codeph>, which contain the folders, have the following structure: 
+      <table pgwide="0" frame="none" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" colwidth="1*"/>
+          <colspec colname="col2" colwidth="2*"/>
+          <thead>
+            <row>
+              <entry>Subdirectory</entry>
+              <entry>Content</entry></row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1"><codeph>property</codeph></entry>
+              <entry colname="col2">Property files for documents</entry></row>
+            <row>
+              <entry colname="col1"><codeph>source</codeph></entry>
+              <entry colname="col2">Source documents</entry></row>
+            <row>
+              <entry colname="col1"><codeph>ssource</codeph></entry>
+              <entry colname="col2">Segmented source files</entry></row>
+            <row>
+              <entry colname="col1"><codeph>starget</codeph></entry>
+              <entry colname="col2">Segmented target files</entry></row>
+            <row>
+              <entry colname="col1"><codeph>target</codeph></entry>
+              <entry colname="col2">Target files; only used during the export of documents</entry></row>
+            <row>
+              <entry colname="col1"><codeph>eadata</codeph></entry>
+              <entry colname="col2">Extended attribute data</entry></row>
+            <row>
+              <entry colname="col1"><codeph>mtlog</codeph></entry>
+              <entry colname="col2">MT logging information</entry></row>
+            <row>
+              <entry colname="col1"><codeph>misc</codeph></entry>
+              <entry colname="col2">Intermediate decument source files required by some markup tables</entry></row>
+            <row>
+              <entry colname="col1"><codeph>RTF</codeph></entry>
+              <entry colname="col2">RTF source of MS Word documents</entry></row>
+          </tbody>
+        </tgroup>
+      </table></p>
+  </body>
+</topic>

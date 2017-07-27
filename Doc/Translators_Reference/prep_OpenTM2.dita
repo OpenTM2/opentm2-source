@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="prep_OpenTM2">
+  <title><!--rev=wst-->What you get from <keyword conref="common-symbols.dita#common-symbols/tm4w"/></title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>deliverables</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You receive an install-package containing:</p>
+    <ul>
+      <li>The installation program</li>
+      <li>The program files</li>
+      <li>The sample files</li>
+      <li>Basic dictionaries</li>
+      <li>Language-support files.</li>
+    </ul>
+  </body>
+</topic>

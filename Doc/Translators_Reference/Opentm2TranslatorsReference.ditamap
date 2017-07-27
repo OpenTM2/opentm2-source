@@ -18,7 +18,7 @@
     <prodinfo>
       <prodname>OpenTM2 for Windows</prodname>
       <vrmlist>
-        <vrm version="Version 1.4.0"/>
+        <vrm version="Version 1.4.1"/>
       </vrmlist>
     </prodinfo>
     <bookrights>
@@ -37,655 +37,659 @@
   
   <!-- ********************************************************************************************** -->
   <ibmfrontmatter>
-    <specialnotices href="eqfr5mst02.dita"> </specialnotices>
-    <editionnotices href="eqfr5mst03.dita" navtitle="7th Edition, April 2017"> </editionnotices>
+    <specialnotices href="Notices.dita"> </specialnotices>
+    <editionnotices href="EditionNotices.dita" navtitle="8th Edition, July 2017"> </editionnotices>
     <frontbooklists>
       <toc/>
     </frontbooklists>
 
     <preface href="preface.dita" navtitle="About this book">
-      <topicref href="eqfr5mst-00001.dita" navtitle="Related information"> </topicref>
+      <topicref href="front_Chapter.dita" navtitle="Related information"> </topicref>
     </preface>
     
-    <topicref href="SummaryOfChanges.dita" navtitle="Summary of changes"> </topicref>
+    <topicref href="changes_Summary.dita" navtitle="Summary of changes">
+      <topicref href="changes_141.dita" navtitle="New features and functions in OpenTM2 v1.4.1">
+        <topicref href="changes_141_SharedMemory.dita" navtitle="Updated WEB-based Shared Memory solution"> </topicref>
+        <topicref href="changes_141_ValidationImport.dita" navtitle="Call CHKPII from within OpenTM2"> </topicref>
+      </topicref>
+      <topicref href="changes_140.dita" navtitle="New features and functions in OpenTM2 v1.4.0">
+        <topicref href="changes_140_SharedMemory.dita" navtitle="Updated WEB-based Shared Memory solution"> </topicref>
+        <topicref href="changes_140_CHKPII.dita" navtitle="Call CHKPII from within OpenTM2"> </topicref>
+      </topicref>
+      <topicref href="changes_132.dita" navtitle="New features and functions in OpenTM2 v1.3.2">
+        <topicref href="changes_132_SharedMemory.dita" navtitle="Reworked WEB-based Shared Memory solution"> </topicref>
+      </topicref>    
+      <topicref href="changes_131.dita" navtitle="New features and functions in OpenTM2 v1.3.1">
+        <topicref href="changes_131_FuzzySearch.dita" navtitle="Changes in the Fuzzy Segment Search function"> </topicref>
+        <topicref href="changes_131_NextUntranslated.dita" navtitle="Two more entries in function Next Untranslated Segment"> </topicref>
+      </topicref>
+      <topicref href="changes_130.dita" navtitle="New features and functions in OpenTM2 v1.3.0">
+        <topicref href="changes_130_ExactFuzzyNomatch.dita" navtitle="Shortcut keys for next EXACT, FUZZY, NO match segment"> </topicref>
+        <topicref href="changes_130_ProfileSettings.dita" navtitle="Plugin to backup and restore Profile Settings"> </topicref>      
+        <topicref href="changes_130_Spellcheck.dita" navtitle="Spellchecking across multiple Folders or Documents"> </topicref>
+        <topicref href="changes_130_MatchSegmentId.dita" navtitle="Add Match Segment ID to support Machine Translation"> </topicref>
+        <topicref href="changes_130_ChangeViewDetails.dita" navtitle="Change View Details"> </topicref>      
+        <topicref href="changes_130_SharedMemory.dita" navtitle="Updated WEB-based Shared Translation Memory concept"> </topicref>
+      </topicref>
+    </topicref>
 
-    <topicref href="eqfr5mst-NF122.dita" navtitle="New features and functions in OpenTM2 v1.2.2">
-      <topicref href="eqfr5mst-NF122-2.dita" navtitle="Additional analysis options to protect text"> </topicref>
-      <topicref href="eqfr5mst-NF122-3.dita" navtitle="OpenTM2 Dictionary XML support"> </topicref>
-      <topicref href="eqfr5mst-NF122-4.dita" navtitle="Frequently used DOS line-command utilites integrated into UI"> </topicref>
-      <topicref href="eqfr5mst-NF122-5.dita" navtitle="Target language entry in calculation report"> </topicref>
-      <topicref href="eqfr5mst-NF122-6.dita" navtitle="XML Preview function"> </topicref>
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    <topicref href="changes_124.dita" navtitle="New features and functions in OpenTM2 v1.2.4">
+      <topicref href="changes_124_DocumentReimport.dita" navtitle="Re-import document"> </topicref>
+      <topicref href="changes_124_DictionarySelectionPID.dita" navtitle="Allow selecting PID of glossary terms to be displayed during editing"> </topicref>
+      <topicref href="changes_124_AddFolderName.dita" navtitle="Adding Folder Name in Title Bar"> </topicref>
+      <topicref href="changes_124_NewLanguages.dita" navtitle="OpenTM2 to support the languages Bosnian and Montenegrin"> </topicref>
+      <topicref href="changes_124_SmartTVT.dita" navtitle="Support SmartTVT project by providing a unique Segment-ID"> </topicref>
     </topicref>
-    <topicref href="eqfr5mst-NF123.dita" navtitle="New features and functions in OpenTM2 v1.2.3">
-      <topicref href="eqfr5mst-NF123-1.dita" navtitle="Improved Global Find and Replace function"> </topicref>
-      <topicref href="eqfr5mst-NF123-2.dita" navtitle="Frequently used DOS line-command utilites integrated into UI"> </topicref>
-      <topicref href="eqfr5mst-NF123-3.dita" navtitle="XML Preview function"> </topicref>
-      <topicref href="eqfr5mst-NF123-4.dita" navtitle="Interface to allow easy entry of characters not on keyboard"> </topicref>
-      <topicref href="eqfr5mst-NF123-5.dita" navtitle="Dictionary proposal merge function is not implemented properly"> </topicref>
-      <topicref href="eqfr5mst-NF123-6.dita" navtitle="Export XLIFF folder with search Translation Memory Databases"> </topicref>
+    <topicref href="changes_123.dita" navtitle="New features and functions in OpenTM2 v1.2.3">
+      <topicref href="changes_123_GlobalFind.dita" navtitle="Improved Global Find and Replace function"> </topicref>
+      <topicref href="changes_123_DosCommandGUI.dita" navtitle="Frequently used DOS line-command utilites integrated into UI"> </topicref>
+      <topicref href="changes_123_XMLPreview.dita" navtitle="XML Preview function"> </topicref>
+      <topicref href="changes_123_EnterCharacters.dita" navtitle="Interface to allow easy entry of characters not on keyboard"> </topicref>
+      <topicref href="changes_123DictionaryProposalMerge.dita" navtitle="Dictionary proposal merge function is not implemented properly"> </topicref>
+      <topicref href="changes_123_XLIFFWithMemoryEntries.dita" navtitle="Export XLIFF folder with search Translation Memory Databases"> </topicref>
     </topicref>
-    <topicref href="eqfr5mst-NF124.dita" navtitle="New features and functions in OpenTM2 v1.2.4">
-      <topicref href="eqfr5mst-NF124-1.dita" navtitle="Re-import document"> </topicref>
-      <topicref href="eqfr5mst-NF124-2.dita" navtitle="Allow selecting PID of glossary terms to be displayed during editing"> </topicref>
-      <topicref href="eqfr5mst-NF124-3.dita" navtitle="Adding Folder Name in Title Bar"> </topicref>
-      <topicref href="eqfr5mst-NF124-4.dita" navtitle="OpenTM2 to support the languages Bosnian and Montenegrin"> </topicref>
-      <topicref href="eqfr5mst-NF124-5.dita" navtitle="Support SmartTVT project by providing a unique Segment-ID"> </topicref>
+    <topicref href="changes_122.dita" navtitle="New features and functions in OpenTM2 v1.2.2">
+      <topicref href="changes_122_AnalysisOptions.dita" navtitle="Additional analysis options to protect text"> </topicref>
+      <topicref href="changes_122_DictionaryXML.dita" navtitle="OpenTM2 Dictionary XML support"> </topicref>
+      <topicref href="changes_122_DosCommandGUI.dita" navtitle="Frequently used DOS line-command utilites integrated into UI"> </topicref>
+      <topicref href="changes_122_CalcReport.dita" navtitle="Target language entry in calculation report"> </topicref>
+      <topicref href="changes_122_XMLPreview.dita" navtitle="XML Preview function"> </topicref>
     </topicref>
-    <topicref href="eqfr5mst-NF130.dita" navtitle="New features and functions in OpenTM2 v1.3.0">
-      <topicref href="eqfr5mst-NF130-1.dita" navtitle="Shortcut keys for next EXACT, FUZZY, NO match segment"> </topicref>
-      <topicref href="eqfr5mst-NF130-2.dita" navtitle="Plugin to backup and restore Profile Settings"> </topicref>      
-      <topicref href="eqfr5mst-NF130-3.dita" navtitle="Spellchecking across multiple Folders or Documents"> </topicref>
-      <topicref href="eqfr5mst-NF130-4.dita" navtitle="Add Match Segment ID to support Machine Translation"> </topicref>
-      <topicref href="eqfr5mst-NF130-5.dita" navtitle="Change View Details"> </topicref>      
-      <topicref href="eqfr5mst-NF130-6.dita" navtitle="Updated WEB-based Shared Translation Memory concept"> </topicref>
-    </topicref>
-    <topicref href="eqfr5mst-NF131.dita" navtitle="New features and functions in OpenTM2 v1.3.1">
-      <topicref href="eqfr5mst-NF131-1.dita" navtitle="Changes in the Fuzzy Segment Search function"> </topicref>
-      <topicref href="eqfr5mst-NF131-2.dita" navtitle="Two more entries in function Next Untranslated Segment"> </topicref>
-    </topicref>
-    <topicref href="eqfr5mst-NF132.dita" navtitle="New features and functions in OpenTM2 v1.3.2">
-      <topicref href="eqfr5mst-NF132-1.dita" navtitle="Reworked WEB-based Shared Memory solution"> </topicref>
-    </topicref>    
-    <!-- ********************************************************************************************** -->
-    <!-- *** Changes for OpenTM2 v1.4.0 to be deployed on April 04, 2017 ****************************** -->
-    <topicref href="eqfr5mst-NF140.dita" navtitle="New features and functions in OpenTM2 v1.4.0">
-      <topicref href="eqfr5mst-NF140-1.dita" navtitle="Updated WEB-based Shared Memory solution"> </topicref>
-      <topicref href="eqfr5mst-NF140-2.dita" navtitle="Call CHKPII from within OpenTM2"> </topicref>
-    </topicref>
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
   </ibmfrontmatter>
   <!-- ************************************************************************************************ -->
 
   <!-- ************************************************************************************************ -->
-  <part href="eqfr5mst04.dita" navtitle="Starting with OpenTM2">
-    <chapter href="eqfr5mst-00018.dita" navtitle="Before you start">
-      <topicref href="eqfr5mst-00019.dita" navtitle="Hardware requirements"> </topicref>
-      <topicref href="eqfr5mst-00020.dita" navtitle="Software requirements"> </topicref>
-      <topicref href="eqfr5mst-00021.dita" navtitle="What you get from OpenTM2">
-        <topicref href="eqfr5mst-00022.dita" navtitle="Language-support files"> </topicref>
-        <topicref href="eqfr5mst-00023.dita" navtitle="Dictionaries"> </topicref>
+  <part href="prep_Section.dita" navtitle="Starting with OpenTM2">
+    <chapter href="prep_Chapter.dita" navtitle="Before you start">
+      <topicref href="prep_Hardware.dita" navtitle="Hardware requirements"> </topicref>
+      <topicref href="prep_Software.dita" navtitle="Software requirements"> </topicref>
+      <topicref href="prep_OpenTM2.dita" navtitle="What you get from OpenTM2">
+        <topicref href="prep_LanguageFiles.dita" navtitle="Language-support files"> </topicref>
+        <topicref href="prep_Dictionaries.dita" navtitle="Dictionaries"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00025.dita" navtitle="Installing OpenTM2">
-        <topicref href="eqfr5mst-00026.dita" navtitle="Installing components"> </topicref>
-        <topicref href="eqfr5mst-00027.dita" navtitle="Installation procedure">
+      <topicref href="prep_InstallingOpenTM2.dita" navtitle="Installing OpenTM2">
+        <topicref href="prep_InstallingComponents.dita" navtitle="Installing components"> </topicref>
+        <topicref href="prep_InstallProcedure.dita" navtitle="Installation procedure">
         </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00032.dita" navtitle="Required settings"> </topicref>
-      <topicref href="eqfr5mst-00033.dita" navtitle="Starting OpenTM2"> </topicref>
-      <topicref href="eqfr5mst-00034.dita" navtitle="Getting help"> </topicref>
-      <topicref href="eqfr5mst-00035.dita" navtitle="Backing up your translation material"> </topicref>
-      <topicref href="eqfr5mst-00036.dita" navtitle="Defining additional drives"> </topicref>
+      <topicref href="prep_Settings.dita" navtitle="Required settings"> </topicref>
+      <topicref href="prep_StartingOpenTM2.dita" navtitle="Starting OpenTM2"> </topicref>
+      <topicref href="prep_GettingHelp.dita" navtitle="Getting help"> </topicref>
+      <topicref href="prep_BackingUpTranslation.dita" navtitle="Backing up your translation material"> </topicref>
+      <topicref href="prep_AdditionalDrives.dita" navtitle="Defining additional drives"> </topicref>
     </chapter>
-    <chapter href="eqfr5mst-00037.dita" navtitle="Working with the Translation Workbench">
-      <topicref href="eqfr5mst-00038.dita" navtitle="The Workbench"> </topicref>
-      <topicref href="eqfr5mst-00039.dita" navtitle="Arranging the windows"> </topicref>
-      <topicref href="eqfr5mst-00040.dita" navtitle="Defining the view details"> </topicref>
-      <topicref href="eqfr5mst-00041.dita" navtitle="Hiding and shrinking path names"> </topicref>
-      <topicref href="eqfr5mst-00042.dita" navtitle="Option to sort document list on file name and extension"> </topicref>
-      <topicref href="eqfr5mst-00043.dita" navtitle="Saving the Workbench"> </topicref>
+    <chapter href="wb_Chapter.dita" navtitle="Working with the Translation Workbench">
+      <topicref href="wb_Workbench.dita" navtitle="The Workbench"> </topicref>
+      <topicref href="wb_Windows.dita" navtitle="Arranging the windows"> </topicref>
+      <topicref href="wb_ViewDetails.dita" navtitle="Defining the view details"> </topicref>
+      <topicref href="wb_PathNames.dita" navtitle="Hiding and shrinking path names"> </topicref>
+      <topicref href="wb_Sorting.dita" navtitle="Option to sort document list on file name and extension"> </topicref>
+      <topicref href="wb_Saving.dita" navtitle="Saving the Workbench"> </topicref>
     </chapter>
-    <chapter href="eqfr5mst-00044.dita" navtitle="Working with the Translation Environment">
-      <topicref href="eqfr5mst-00045.dita" navtitle="The Translation Environment"> </topicref>
-      <topicref href="eqfr5mst-00046.dita" navtitle="The meaning of the colors"> </topicref>
-      <topicref href="eqfr5mst-00047.dita" navtitle="How markup tags are displayed"> </topicref>
-      <topicref href="eqfr5mst-00048.dita" navtitle="Changing the display of markup information"> </topicref>
-      <topicref href="eqfr5mst-00049.dita" navtitle="Displaying the original of a translation proposal"> </topicref>
-      <topicref href="eqfr5mst-00050.dita" navtitle="Making a window active"> </topicref>
-      <topicref href="eqfr5mst-00051.dita" navtitle="Checking how segments were translated"> </topicref>
-      <topicref href="eqfr5mst-00052.dita" navtitle="Influence of Windows regional settings (Windows control panel =&gt; “Regional and Language Options”)"> </topicref>
-      <topicref href="eqfr5mst-00053.dita" navtitle="Working with bidirectional language documents">
-        <topicref href="eqfr5mst-00054.dita" navtitle="Prerequisites for bidirectional language support"> </topicref>
-        <topicref href="eqfr5mst-00055.dita" navtitle="Controlling the bidirectional display"> </topicref>
-        <topicref href="eqfr5mst-00056.dita" navtitle="Translation Environment with an Arabic document"> </topicref>
-        <topicref href="eqfr5mst-00057.dita" navtitle="Translation Environment with a Hebrew document"> </topicref>
-        <topicref href="eqfr5mst-00058.dita" navtitle="Further considerations">
-          <topicref href="eqfr5mst-00059.dita" navtitle="Defining shortcut keys"> </topicref>
-          <topicref href="eqfr5mst-00060.dita" navtitle="The treatment of braces - no symmetrical swapping"> </topicref>
-          <topicref href="eqfr5mst-00061.dita" navtitle="The treatment of text in dialog boxes"> </topicref>
-          <topicref href="eqfr5mst-00062.dita" navtitle="Translation Memory considerations"> </topicref>
+    <chapter href="env_Chapter.dita" navtitle="Working with the Translation Environment">
+      <topicref href="env_TranslationEnvironment.dita" navtitle="The Translation Environment"> </topicref>
+      <topicref href="env_Colors.dita" navtitle="The meaning of the colors"> </topicref>
+      <topicref href="env_MarkupTags.dita" navtitle="How markup tags are displayed"> </topicref>
+      <topicref href="env_MarkupTagsDisplayed.dita" navtitle="Changing the display of markup information"> </topicref>
+      <topicref href="env_TranslationProposalDisplay.dita" navtitle="Displaying the original of a translation proposal"> </topicref>
+      <topicref href="env_ActiveWindow.dita" navtitle="Making a window active"> </topicref>
+      <topicref href="env_SegmentsTranslate.dita" navtitle="Checking how segments were translated"> </topicref>
+      <topicref href="env_RegionalSettings.dita" navtitle="Influence of Windows regional settings (Windows control panel =&gt; “Regional and Language Options”)"> </topicref>
+      <topicref href="env_BidirectionalWorking.dita" navtitle="Working with bidirectional language documents">
+        <topicref href="env_BidiPrerequisites.dita" navtitle="Prerequisites for bidirectional language support"> </topicref>
+        <topicref href="env_BidiControlling.dita" navtitle="Controlling the bidirectional display"> </topicref>
+        <topicref href="env_BidiArabic.dita" navtitle="Translation Environment with an Arabic document"> </topicref>
+        <topicref href="env_BidiHebrew.dita" navtitle="Translation Environment with a Hebrew document"> </topicref>
+        <topicref href="env_BidiConsiderations.dita" navtitle="Further considerations">
+          <topicref href="env_BidiShortcutKeys.dita" navtitle="Defining shortcut keys"> </topicref>
+          <topicref href="env_BidiSwappingBraces.dita" navtitle="The treatment of braces - no symmetrical swapping"> </topicref>
+          <topicref href="env_BidiTextInDialogs.dita" navtitle="The treatment of text in dialog boxes"> </topicref>
+          <topicref href="env_BidiMemory.dita" navtitle="Translation Memory considerations"> </topicref>
         </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00063.dita" navtitle="Working with Thai language documents">
-        <topicref href="eqfr5mst-00064.dita" navtitle="Preparing for a translation"> </topicref>
-        <topicref href="eqfr5mst-00065.dita" navtitle="Translation Environment with a Thai document"> </topicref>
-        <topicref href="eqfr5mst-00066.dita" navtitle="Using Find and Replace"> </topicref>
-        <topicref href="eqfr5mst-00067.dita" navtitle="Using Thai dictionaries and abbreviation lists"> </topicref>
-        <topicref href="eqfr5mst-00068.dita" navtitle="Translating HTML documents"> </topicref>
-        <topicref href="eqfr5mst-00069.dita" navtitle="Limitations of the current Thai support"> </topicref>
-        <topicref href="eqfr5mst-00070.dita" navtitle="Commenting segments in the editor"> </topicref>
+      <topicref href="env_ThaiWorking.dita" navtitle="Working with Thai language documents">
+        <topicref href="env_ThaiPreparing.dita" navtitle="Preparing for a translation"> </topicref>
+        <topicref href="env_ThaiDocument.dita" navtitle="Translation Environment with a Thai document"> </topicref>
+        <topicref href="env_ThaiFindReplace.dita" navtitle="Using Find and Replace"> </topicref>
+        <topicref href="env_ThaiDictionaries.dita" navtitle="Using Thai dictionaries and abbreviation lists"> </topicref>
+        <topicref href="env_ThaiHtml.dita" navtitle="Translating HTML documents"> </topicref>
+        <topicref href="env_ThaiLimitations.dita" navtitle="Limitations of the current Thai support"> </topicref>
+        <topicref href="env_ThaiCommentingSegments.dita" navtitle="Commenting segments in the editor"> </topicref>
       </topicref>
     </chapter>
-    <chapter href="eqfr5mst-00071.dita" navtitle="Working with the OpenTM2 editor">
-      <topicref href="eqfr5mst-00072.dita" navtitle="The OpenTM2 editor"> </topicref>
-      <topicref href="eqfr5mst-00073.dita" navtitle="Basic functions">
-        <topicref href="eqfr5mst-00074.dita" navtitle="Assigning keys"> </topicref>
-        <topicref href="eqfr5mst-00075.dita" navtitle="Finding and replacing terms"> </topicref>
-        <topicref href="eqfr5mst-00076.dita" navtitle="Searching for terms in Translation Memory databases"> </topicref>
-        <topicref href="eqfr5mst-00077.dita" navtitle="Moving around the text">
-          <topicref href="eqfr5mst-00078.dita" navtitle="Scrolling"> </topicref>
-          <topicref href="eqfr5mst-00079.dita" navtitle="Querying and setting the cursor position"> </topicref>
+    <chapter href="edit_Chapter.dita" navtitle="Working with the OpenTM2 editor">
+      <topicref href="edit_Overview.dita" navtitle="The OpenTM2 editor"> </topicref>
+      <topicref href="edit_BasicFunctions.dita" navtitle="Basic functions">
+        <topicref href="edit_BasicKeys.dita" navtitle="Assigning keys"> </topicref>
+        <topicref href="edit_BasicFindReplace.dita" navtitle="Finding and replacing terms"> </topicref>
+        <topicref href="edit_BasicSearchingForTerms.dita" navtitle="Searching for terms in Translation Memory databases"> </topicref>
+        <topicref href="edit_BasicMovingText.dita" navtitle="Moving around the text">
+          <topicref href="edit_BasicScrolling.dita" navtitle="Scrolling"> </topicref>
+          <topicref href="edit_BasicCursor.dita" navtitle="Querying and setting the cursor position"> </topicref>
         </topicref>
-        <topicref href="eqfr5mst-00080.dita" navtitle="Moving around marked text"> </topicref>
-        <topicref href="eqfr5mst-00081.dita" navtitle="Working with bookmarks"> </topicref>
-        <topicref href="eqfr5mst-00082.dita" navtitle="Working with lines and words"> </topicref>
+        <topicref href="edit_BasicMovingMarkedText.dita" navtitle="Moving around marked text"> </topicref>
+        <topicref href="edit_BasicBookmarks.dita" navtitle="Working with bookmarks"> </topicref>
+        <topicref href="edit_BasicLinesWords.dita" navtitle="Working with lines and words"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00083.dita" navtitle="Translation-specific functions">
-        <topicref href="eqfr5mst-00084.dita" navtitle="Manipulating segments"> </topicref>
-        <topicref href="eqfr5mst-00085.dita" navtitle="Manipulating documents">
-          <topicref href="eqfr5mst-00086.dita" navtitle="Spellchecking"> </topicref>
-          <topicref href="eqfr5mst-00087.dita" navtitle="Viewing other documents while translating"> </topicref>
+      <topicref href="edit_SpecificFunctions.dita" navtitle="Translation-specific functions">
+        <topicref href="edit_ManipulatingSegments.dita" navtitle="Manipulating segments"> </topicref>
+        <topicref href="edit_ManipulatingDocuments.dita" navtitle="Manipulating documents">
+          <topicref href="edit_Spellcheck.dita" navtitle="Spellchecking"> </topicref>
+          <topicref href="edit_ViewOtherDocuments.dita" navtitle="Viewing other documents while translating"> </topicref>
         </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00088.dita" navtitle="Configuring the editor">
-        <topicref href="eqfr5mst-00089.dita" navtitle="Customizing colors and fonts"> </topicref>
-        <topicref href="eqfr5mst-00090.dita" navtitle="Displaying a ruler"> </topicref>
-        <topicref href="eqfr5mst-00091.dita" navtitle="Displaying the cursor position"> </topicref>
-        <topicref href="eqfr5mst-00092.dita" navtitle="Setting up the profile"> </topicref>
-        <topicref href="eqfr5mst-00093.dita" navtitle="Sharing a profile"> </topicref>
+      <topicref href="edit_Configuring.dita" navtitle="Configuring the editor">
+        <topicref href="edit_ColorsFonts.dita" navtitle="Customizing colors and fonts"> </topicref>
+        <topicref href="edit_Ruler.dita" navtitle="Displaying a ruler"> </topicref>
+        <topicref href="edit_CursorPosition.dita" navtitle="Displaying the cursor position"> </topicref>
+        <topicref href="edit_Profile.dita" navtitle="Setting up the profile"> </topicref>
+        <topicref href="edit_ProfileSharing.dita" navtitle="Sharing a profile"> </topicref>
       </topicref>
     </chapter>
   </part>
   <!-- ************************************************************************************************ -->
   
   <!-- ************************************************************************************************ -->
-  <part href="eqfr5mst05.dita" navtitle="Using OpenTM2 in the translation business">
-    <chapter href="eqfr5mst-00094.dita" navtitle="Translation scenarios">
-      <topicref href="eqfr5mst-00095.dita" navtitle="Translating a new document">
-        <topicref href="eqfr5mst-00096.dita" navtitle="Creating a folder"> </topicref>
-        <topicref href="eqfr5mst-00097.dita" navtitle="Importing a new document"> </topicref>
-        <topicref href="eqfr5mst-00098.dita" navtitle="Translating the document"> </topicref>
-        <topicref href="eqfr5mst-00099.dita" navtitle="Postediting and viewing the translated document"> </topicref>
-        <topicref href="eqfr5mst-00100.dita" navtitle="Exporting the translated document"> </topicref>
+  <part href="task_Section.dita" navtitle="Using OpenTM2 in the translation business">
+    <chapter href="task_Chapter.dita" navtitle="Translation scenarios">
+      <topicref href="task_DocumentNew.dita" navtitle="Translating a new document">
+        <topicref href="task_FolderCreate.dita" navtitle="Creating a folder"> </topicref>
+        <topicref href="task_DocumentImport.dita" navtitle="Importing a new document"> </topicref>
+        <topicref href="task_DocumentTranslate.dita" navtitle="Translating the document"> </topicref>
+        <topicref href="task_DocumentPostedit.dita" navtitle="Postediting and viewing the translated document"> </topicref>
+        <topicref href="task_DocumentExport.dita" navtitle="Exporting the translated document"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00101.dita" navtitle="Translating updated documents"> </topicref>
-      <topicref href="eqfr5mst-00102.dita" navtitle="Translating with one translator">
-        <topicref href="eqfr5mst-00103.dita" navtitle="Working with the Workbench"> </topicref>
-        <topicref href="eqfr5mst-00104.dita" navtitle="Working with the Translation Environment"> </topicref>
+      <topicref href="task_DocumentTranslateUpdates.dita" navtitle="Translating updated documents"> </topicref>
+      <topicref href="task_TranslatorsOne.dita" navtitle="Translating with one translator">
+        <topicref href="task_Workbench.dita" navtitle="Working with the Workbench"> </topicref>
+        <topicref href="task_TranslationEnvironment.dita" navtitle="Working with the Translation Environment"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00105.dita" navtitle="Translating with several translators">
-        <topicref href="eqfr5mst-00106.dita" navtitle="Sharing translation resources"> </topicref>
+      <topicref href="task_TranslatorsTwo.dita" navtitle="Translating with several translators">
+        <topicref href="task_ResourceShare.dita" navtitle="Sharing translation resources"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00107.dita" navtitle="Exchanging data with other people and systems">
-        <topicref href="eqfr5mst-00108.dita" navtitle="Exchanging documents"> </topicref>
-        <topicref href="eqfr5mst-00109.dita" navtitle="Exchanging dictionaries"> </topicref>
-        <topicref href="eqfr5mst-00110.dita" navtitle="Exchanging terminology lists"> </topicref>
-        <topicref href="eqfr5mst-00111.dita" navtitle="Exchanging Translation Memory databases"> </topicref>
-        <topicref href="eqfr5mst-00112.dita" navtitle="Exchanging folders"> </topicref>
-        <topicref href="eqfr5mst-00113.dita" navtitle="Exchanging markup tables"> </topicref>
+      <topicref href="task_DataExchange.dita" navtitle="Exchanging data with other people and systems">
+        <topicref href="task_DocumentExchange.dita" navtitle="Exchanging documents"> </topicref>
+        <topicref href="task_DictionaryExchange.dita" navtitle="Exchanging dictionaries"> </topicref>
+        <topicref href="task_TermExchange.dita" navtitle="Exchanging terminology lists"> </topicref>
+        <topicref href="task_MemoryExchange.dita" navtitle="Exchanging Translation Memory databases"> </topicref>
+        <topicref href="task_FolderExchange.dita" navtitle="Exchanging folders"> </topicref>
+        <topicref href="task_MarkupExchange.dita" navtitle="Exchanging markup tables"> </topicref>
       </topicref>
     </chapter>
   </part>
   <!-- ************************************************************************************************ -->
   
   <!-- ************************************************************************************************ -->
-  <part href="eqfr5mst06.dita" navtitle="Working with OpenTM2 components and functions">
-    <chapter href="eqfr5mst-00114.dita" navtitle="General concepts">
-      <topicref href="eqfr5mst-00115.dita" navtitle="How a task is described"> </topicref>
-      <topicref href="eqfr5mst-00116.dita" navtitle="Export and import"> </topicref>
-      <topicref href="eqfr5mst-00117.dita" navtitle="Printing">
-        <topicref href="eqfr5mst-00118.dita" navtitle="Printing list windows"> </topicref>
+  <part href="concept_Section.dita" navtitle="Working with OpenTM2 components and functions">
+    <chapter href="concept_Chapter.dita" navtitle="General concepts">
+      <topicref href="concept_TaskDescription.dita" navtitle="How a task is described"> </topicref>
+      <topicref href="concept_ExportImport.dita" navtitle="Export and import"> </topicref>
+      <topicref href="concept_Print.dita" navtitle="Printing">
+        <topicref href="concept_PrintLists.dita" navtitle="Printing list windows"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00119.dita" navtitle="Windows">
-        <topicref href="eqfr5mst-00120.dita" navtitle="Message windows"> </topicref>
-        <topicref href="eqfr5mst-00121.dita" navtitle="Progress windows"> </topicref>
+      <topicref href="concept_Windows.dita" navtitle="Windows">
+        <topicref href="concept_WindowsMessage.dita" navtitle="Message windows"> </topicref>
+        <topicref href="concept_WindowsProgress.dita" navtitle="Progress windows"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00122.dita" navtitle="Menus"> </topicref>
-      <topicref href="eqfr5mst-00123.dita" navtitle="Specifying an output file"> </topicref>
-      <topicref href="eqfr5mst-00124.dita" navtitle="Selecting multiple objects in list windows"> </topicref>
-      <topicref href="eqfr5mst-00125.dita" navtitle="Viewing and changing the details of a list item">
-        <topicref href="eqfr5mst-00126.dita" navtitle="Viewing selected details"> </topicref>
-        <topicref href="eqfr5mst-00127.dita" navtitle="Changing the details setting"> </topicref>
+      <topicref href="concept_Menus.dita" navtitle="Menus"> </topicref>
+      <topicref href="concept_OutputFile.dita" navtitle="Specifying an output file"> </topicref>
+      <topicref href="concept_MultipleObjectSelect.dita" navtitle="Selecting multiple objects in list windows"> </topicref>
+      <topicref href="concept_DetailsViewChange.dita" navtitle="Viewing and changing the details of a list item">
+        <topicref href="concept_DetailsSelect.dita" navtitle="Viewing selected details"> </topicref>
+        <topicref href="concept_DetailsChange.dita" navtitle="Changing the details setting"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00128.dita" navtitle="Arranging and filtering list items">
-        <topicref href="eqfr5mst-00129.dita" navtitle="Arranging list items"> </topicref>
-        <topicref href="eqfr5mst-00130.dita" navtitle="Filtering list items"> </topicref>
+      <topicref href="concept_ListItems.dita" navtitle="Arranging and filtering list items">
+        <topicref href="concept_ListItemArrange.dita" navtitle="Arranging list items"> </topicref>
+        <topicref href="concept_ListItemsFilter.dita" navtitle="Filtering list items"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00131.dita" navtitle="Viewing and changing the system preferences"> </topicref>
+      <topicref href="concept_SystemPreferences.dita" navtitle="Viewing and changing the system preferences"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00132.dita" navtitle="Working with documents">
-      <topicref href="eqfr5mst-00133.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00134.dita" navtitle="What you can do with documents"> </topicref>
-      <topicref href="eqfr5mst-00135.dita" navtitle="Analyzing a document">
-        <topicref href="eqfr5mst-00136.dita" navtitle="Analyzing documents using defaults"> </topicref>
-        <topicref href="eqfr5mst-00137.dita" navtitle="Analyzing documents using Translation Memory databases"> </topicref>
-        <topicref href="eqfr5mst-00138.dita" navtitle="Editing analysis Profiles"> </topicref>
-        <topicref href="eqfr5mst-00139.dita" navtitle="Analyzing documents using dictionaries"> </topicref>
-        <topicref href="eqfr5mst-00140.dita" navtitle="Maintaining abbreviation lists"> </topicref>
+    <chapter href="doc_Chapter.dita" navtitle="Working with documents">
+      <topicref href="doc_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="doc_WhatCanYouDo.dita" navtitle="What you can do with documents"> </topicref>
+      <topicref href="doc_Analyze.dita" navtitle="Analyzing a document">
+        <topicref href="doc_AnalyzeDefaults.dita" navtitle="Analyzing documents using defaults"> </topicref>
+        <topicref href="doc_AnalyzeMemory.dita" navtitle="Analyzing documents using Translation Memory databases"> </topicref>
+        <topicref href="doc_AnalyzeProfile.dita" navtitle="Editing analysis Profiles"> </topicref>
+        <topicref href="doc_AnalyzeDictionary.dita" navtitle="Analyzing documents using dictionaries"> </topicref>
+        <topicref href="doc_AnalyzeAbbreviation.dita" navtitle="Maintaining abbreviation lists"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00141.dita" navtitle="Closing a document"> </topicref>
-      <topicref href="eqfr5mst-00142.dita" navtitle="Counting the number of words in a document"> </topicref>
-      <topicref href="eqfr5mst-00143.dita" navtitle="Counting duplicate words in a document"> </topicref>
-      <topicref href="eqfr5mst-00144.dita" navtitle="Counting the number and type of matches in a document"> </topicref>
-      <topicref href="eqfr5mst-00145.dita" navtitle="Counting words in segments with fuzzy matches"> </topicref>
-      <topicref href="eqfr5mst-00146.dita" navtitle="Dealing with specific document formats">
-        <topicref href="eqfr5mst-00148.dita" navtitle="ANSI documents"> </topicref>
-        <topicref href="eqfr5mst-00149.dita" navtitle="ASCII documents"> </topicref>
-        <topicref href="eqfr5mst-00150.dita" navtitle="Assembler documents"> </topicref>
-        <topicref href="eqfr5mst-00151.dita" navtitle="BookMaster and Information Presentation Facility documents"> </topicref>
-        <topicref href="eqfr5mst-00152.dita" navtitle="FrameBuilder files"> </topicref>
-        <topicref href="eqfr5mst-00153.dita" navtitle="HTML documents"> </topicref>
-        <topicref href="eqfr5mst-00154.dita" navtitle="Interleaf files"> </topicref>
-        <topicref href="eqfr5mst-00156.dita" navtitle="Microsoft PowerPoint documents"> </topicref>
-        <topicref href="eqfr5mst-00157.dita" navtitle="Microsoft Word for Windows documents"> </topicref>
-        <topicref href="eqfr5mst-00158.dita" navtitle="RTF documents"> </topicref>
-        <topicref href="eqfr5mst-00159.dita" navtitle="SGML documents"> </topicref>
-        <topicref href="eqfr5mst-00160.dita" navtitle="Unicode documents"> </topicref>
-        <topicref href="eqfr5mst-00161.dita" navtitle="Windows help files"> </topicref>
+      <topicref href="doc_Close.dita" navtitle="Closing a document"> </topicref>
+      <topicref href="doc_CountWords.dita" navtitle="Counting the number of words in a document"> </topicref>
+      <topicref href="doc_CountWordsDuplicate.dita" navtitle="Counting duplicate words in a document"> </topicref>
+      <topicref href="doc_CountMatches.dita" navtitle="Counting the number and type of matches in a document"> </topicref>
+      <topicref href="doc_CountFuzzy.dita" navtitle="Counting words in segments with fuzzy matches"> </topicref>
+      <topicref href="doc_Formats.dita" navtitle="Dealing with specific document formats">
+        <topicref href="doc_FormatsAnsi.dita" navtitle="ANSI documents"> </topicref>
+        <topicref href="doc_FormatsAscii.dita" navtitle="ASCII documents"> </topicref>
+        <topicref href="doc_FormatsAssembler.dita" navtitle="Assembler documents"> </topicref>
+        <topicref href="doc_FormatsBookmaster.dita" navtitle="BookMaster and Information Presentation Facility documents"> </topicref>
+        <topicref href="doc_FormatsFrameBuilder.dita" navtitle="FrameBuilder files"> </topicref>
+        <topicref href="doc_FormatsHtml.dita" navtitle="HTML documents"> </topicref>
+        <topicref href="doc_FormatsInterleaf.dita" navtitle="Interleaf files"> </topicref>
+        <topicref href="doc_FormatsPowerpoint.dita" navtitle="Microsoft PowerPoint documents"> </topicref>
+        <topicref href="doc_FormatsWord.dita" navtitle="Microsoft Word for Windows documents"> </topicref>
+        <topicref href="doc_FormatsRtf.dita" navtitle="RTF documents"> </topicref>
+        <topicref href="doc_FormatsSgml.dita" navtitle="SGML documents"> </topicref>
+        <topicref href="doc_FormatsUnicode.dita" navtitle="Unicode documents"> </topicref>
+        <topicref href="doc_FormatsWindowsHelp.dita" navtitle="Windows help files"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00163.dita" navtitle="Deleting a document"> </topicref>
-      <topicref href="eqfr5mst-00164.dita" navtitle="Deleting documents from a folder based on a list"> </topicref>
-      <topicref href="eqfr5mst-00165.dita" navtitle="Restore Deleted documents"> </topicref>
-      <topicref href="eqfr5mst-00166.dita" navtitle="Exporting a document in OpenTM2 format"> </topicref>
-      <topicref href="eqfr5mst-00167.dita" navtitle="Exporting a document in external format"> </topicref>
-      <topicref href="eqfr5mst-00168.dita" navtitle="Exporting a document in external format with a path"> </topicref>
-      <topicref href="eqfr5mst-00169.dita" navtitle="Exporting a document in validation format"> </topicref>
-      <topicref href="eqfr5mst-00170.dita" navtitle="Exporting a document in plain XML format"> </topicref>
-      <topicref href="eqfr5mst-00171.dita" navtitle="Export segments in tag groups"> </topicref>
-      <topicref href="eqfr5mst-00173.dita" navtitle="Editing document revision marks for export"> </topicref>
-      <topicref href="eqfr5mst-00174.dita" navtitle="Importing a document"> </topicref>
-      <topicref href="eqfr5mst-00175.dita" navtitle="Importing a document in OpenTM2 format"> </topicref>
-      <topicref href="eqfr5mst-00176.dita" navtitle="Importing a document in external format"> </topicref>
-      <topicref href="eqfr5mst-00177.dita" navtitle="Importing a document in external format with a path"> </topicref>
-      <topicref href="eqfr5mst-00179.dita" navtitle="Copying and moving documents between folders"> </topicref>
-      <topicref href="eqfr5mst-00180.dita" navtitle="Opening a document"> </topicref>
-      <topicref href="eqfr5mst-00181.dita" navtitle="Searching and replacing text in documents"> </topicref>
-      <topicref href="eqfr5mst-00182.dita" navtitle="Search segments with fuzzy matches"> </topicref>
-      <topicref href="eqfr5mst-00183.dita" navtitle="Spellchecking Documents or Folders"> </topicref>
-      <topicref href="eqfr5mst-00184.dita" navtitle="Editing the spellcheck addendum"> </topicref>
-      <topicref href="eqfr5mst-00185.dita" navtitle="Translating a document"> </topicref>
-      <topicref href="eqfr5mst-00186.dita" navtitle="Opening and translating several documents"> </topicref>
-      <topicref href="eqfr5mst-00187.dita" navtitle="Viewing the properties of a document"> </topicref>
-      <topicref href="eqfr5mst-00188.dita" navtitle="Changing the properties of a document"> </topicref>
-      <topicref href="eqfr5mst-00189.dita" navtitle="Viewing the details of a document"> </topicref>
-      <topicref href="eqfr5mst-00190.dita" navtitle="Including notes for the translator">
-        <topicref href="eqfr5mst-00191.dita" navtitle="Translator's notes in a source document"> </topicref>
-        <topicref href="eqfr5mst-00192.dita" navtitle="Translator's notes in the Translation Environment"> </topicref>
+      <topicref href="doc_Delete.dita" navtitle="Deleting a document"> </topicref>
+      <topicref href="doc_DeleteList.dita" navtitle="Deleting documents from a folder based on a list"> </topicref>
+      <topicref href="doc_DeleteRestore.dita" navtitle="Restore Deleted documents"> </topicref>
+      <topicref href="doc_ExportOpenTM2.dita" navtitle="Exporting a document in OpenTM2 format"> </topicref>
+      <topicref href="doc_ExportExternal.dita" navtitle="Exporting a document in external format"> </topicref>
+      <topicref href="doc_ExportExternalPath.dita" navtitle="Exporting a document in external format with a path"> </topicref>
+      <topicref href="doc_ExportValidation.dita" navtitle="Exporting a document in validation format"> </topicref>
+      <topicref href="doc_ExportXml.dita" navtitle="Exporting a document in plain XML format"> </topicref>
+      <topicref href="doc_ExportTagGroup.dita" navtitle="Export segments in tag groups"> </topicref>
+      <topicref href="doc_ExportRevision.dita" navtitle="Editing document revision marks for export"> </topicref>
+      <topicref href="doc_Import.dita" navtitle="Importing a document"> </topicref>
+      <topicref href="doc_ImportOpenTM2.dita" navtitle="Importing a document in OpenTM2 format"> </topicref>
+      <topicref href="doc_ImportExternal.dita" navtitle="Importing a document in external format"> </topicref>
+      <topicref href="doc_ImportExternalPath.dita" navtitle="Importing a document in external format with a path"> </topicref>
+      <topicref href="doc_ImportValidation.dita" navtitle="Importing validation documents"> </topicref>
+      <topicref href="doc_CopyMove.dita" navtitle="Copying and moving documents between folders"> </topicref>
+      <topicref href="doc_Open.dita" navtitle="Opening a document"> </topicref>
+      <topicref href="doc_Search.dita" navtitle="Searching and replacing text in documents"> </topicref>
+      <topicref href="doc_SearchFuzzy.dita" navtitle="Search segments with fuzzy matches"> </topicref>
+      <topicref href="doc_Spellcheck.dita" navtitle="Spellchecking Documents or Folders"> </topicref>
+      <topicref href="doc_SpellcheckAddendum.dita" navtitle="Editing the spellcheck addendum"> </topicref>
+      <topicref href="doc_Translate.dita" navtitle="Translating a document"> </topicref>
+      <topicref href="doc_OpenDocuments.dita" navtitle="Opening and translating several documents"> </topicref>
+      <topicref href="doc_PropertiesView.dita" navtitle="Viewing the properties of a document"> </topicref>
+      <topicref href="doc_PropertiesChange.dita" navtitle="Changing the properties of a document"> </topicref>
+      <topicref href="doc_DetailsView.dita" navtitle="Viewing the details of a document"> </topicref>
+      <topicref href="doc_NoteToTranslators.dita" navtitle="Including notes for the translator">
+        <topicref href="doc_TranslatorNotes.dita" navtitle="Translator's notes in a source document"> </topicref>
+        <topicref href="doc_TranslatorNotesEnvironment.dita" navtitle="Translator's notes in the Translation Environment"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00193.dita" navtitle="Preview XML documents">
-        <topicref href="eqfr5mst-00194.dita" navtitle="Step by step description to preview a XML document"> </topicref>
+      <topicref href="doc_PreviewXml.dita" navtitle="Preview XML documents">
+        <topicref href="doc_PreviewXmlSteps.dita" navtitle="Step by step description to preview a XML document"> </topicref>
       </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00195.dita" navtitle="Working with folders">
-      <topicref href="eqfr5mst-00196.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00197.dita" navtitle="What you can do with folders"> </topicref>
-      <topicref href="eqfr5mst-00198.dita" navtitle="Analyzing all the documents in a folder"> </topicref>
-      <topicref href="eqfr5mst-00199.dita" navtitle="Closing a folder"> </topicref>
-      <topicref href="eqfr5mst-00200.dita" navtitle="Counting the words in all documents of a folder"> </topicref>
-      <topicref href="eqfr5mst-00201.dita" navtitle="Creating a folder"> </topicref>
-      <topicref href="eqfr5mst-00202.dita" navtitle="Dictionary Selection window"> </topicref>
-      <topicref href="eqfr5mst-00203.dita" navtitle="Translation Memory Selection window"> </topicref>
-      <topicref href="eqfr5mst-00204.dita" navtitle="Creating a subfolder"> </topicref>
-      <topicref href="eqfr5mst-00205.dita" navtitle="Renaming a folder"> </topicref>
-      <topicref href="eqfr5mst-00206.dita" navtitle="Deleting a folder"> </topicref>
-      <topicref href="eqfr5mst-00207.dita" navtitle="Deleting a folder exported to the otm\export subdirectory"> </topicref>
-      <topicref href="eqfr5mst-00208.dita" navtitle="Exporting a folder"> </topicref>
-      <topicref href="eqfr5mst-00209.dita" navtitle="Importing a folder"> </topicref>
-      <topicref href="eqfr5mst-00210.dita" navtitle="Importing a XLIFF folder"> </topicref>
-      <topicref href="eqfr5mst-00211.dita" navtitle="Importing a folder into controlled folder"> </topicref>
-      <topicref href="eqfr5mst-00212.dita" navtitle="Opening a folder"> </topicref>
-      <topicref href="eqfr5mst-00213.dita" navtitle="Searching and replacing text across several documents in a folder"> </topicref>
-      <topicref href="eqfr5mst-00214.dita" navtitle="Viewing the properties of a folder"> </topicref>
-      <topicref href="eqfr5mst-00215.dita" navtitle="Changing the properties of a folder"> </topicref>
-      <topicref href="eqfr5mst-00216.dita" navtitle="Viewing the details of a folder"> </topicref>
+    <chapter href="folder_Chapter.dita" navtitle="Working with folders">
+      <topicref href="folder_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="folder_WhatCanYouDo.dita" navtitle="What you can do with folders"> </topicref>
+      <topicref href="folder_Analyze.dita" navtitle="Analyzing all the documents in a folder"> </topicref>
+      <topicref href="folder_Close.dita" navtitle="Closing a folder"> </topicref>
+      <topicref href="folder_CountWords.dita" navtitle="Counting the words in all documents of a folder"> </topicref>
+      <topicref href="folder_Create.dita" navtitle="Creating a folder"> </topicref>
+      <topicref href="folder_Dictionary.dita" navtitle="Dictionary Selection window"> </topicref>
+      <topicref href="folder_Memory.dita" navtitle="Translation Memory Selection window"> </topicref>
+      <topicref href="folder_CreateSubfolder.dita" navtitle="Creating a subfolder"> </topicref>
+      <topicref href="folder_Rename.dita" navtitle="Renaming a folder"> </topicref>
+      <topicref href="folder_Delete.dita" navtitle="Deleting a folder"> </topicref>
+      <topicref href="folder_DeletedExported.dita" navtitle="Deleting a folder exported to the otm\export subdirectory"> </topicref>
+      <topicref href="folder_Export.dita" navtitle="Exporting a folder"> </topicref>
+      <topicref href="folder_Import.dita" navtitle="Importing a folder"> </topicref>
+      <topicref href="folder_ImportXliff.dita" navtitle="Importing an XLIFF folder"> </topicref>
+      <topicref href="folder_ImportControlled.dita" navtitle="Importing a folder into controlled folder"> </topicref>
+      <topicref href="folder_Open.dita" navtitle="Opening a folder"> </topicref>
+      <topicref href="folder_Search.dita" navtitle="Searching and replacing text across several documents in a folder"> </topicref>
+      <topicref href="folder_PropertiesView.dita" navtitle="Viewing the properties of a folder"> </topicref>
+      <topicref href="folder_PropertiesChange.dita" navtitle="Changing the properties of a folder"> </topicref>
+      <topicref href="folder_Details.dita" navtitle="Viewing the details of a folder"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00217.dita" navtitle="Working with Translation Memory databases">
-      <topicref href="eqfr5mst-00218.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00219.dita" navtitle="Translation Memory matches"> </topicref>
-      <topicref href="eqfr5mst-00220.dita" navtitle="What you can do with Translation Memory databases"> </topicref>
-      <topicref href="eqfr5mst-00221.dita" navtitle="Creating a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00222.dita" navtitle="Creating an external Translation Memory">
-        <topicref href="eqfr5mst-00223.dita" navtitle="Format of an external Translation Memory"> </topicref>
-        <topicref href="eqfr5mst-00224.dita" navtitle="The Translation Memory format"> </topicref>
-        <topicref href="eqfr5mst-00225.dita" navtitle="SGML tags for external Translation Memory databases"> </topicref>
-        <topicref href="eqfr5mst-00226.dita" navtitle="Control information of a Translation Memory segment"> </topicref>
+    <chapter href="memory_Chapter.dita" navtitle="Working with Translation Memory databases">
+      <topicref href="memory_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="memory_Matches.dita" navtitle="Translation Memory matches"> </topicref>
+      <topicref href="memory_WhatCanYouDo.dita" navtitle="What you can do with Translation Memory databases"> </topicref>
+      <topicref href="memory_Create.dita" navtitle="Creating a Translation Memory"> </topicref>
+      <topicref href="memory_ExternalCreate.dita" navtitle="Creating an external Translation Memory">
+        <topicref href="memory_ExternalFormat.dita" navtitle="Format of an external Translation Memory"> </topicref>
+        <topicref href="memory_ExternalFormat2.dita" navtitle="The Translation Memory format"> </topicref>
+        <topicref href="memory_ExternalTags.dita" navtitle="SGML tags for external Translation Memory databases"> </topicref>
+        <topicref href="memory_ExternalControlInfo.dita" navtitle="Control information of a Translation Memory segment"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00227.dita" navtitle="Renaming a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00228.dita" navtitle="Deleting a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00229.dita" navtitle="Exporting a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00230.dita" navtitle="Creating an Initial Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00231.dita" navtitle="Importing a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00232.dita" navtitle="Merging Translation Memory databases"> </topicref>
-      <topicref href="eqfr5mst-00233.dita" navtitle="Archiving a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00234.dita" navtitle="Organizing a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00235.dita" navtitle="Revising an Initial Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00236.dita" navtitle="The Initial Translation Memory editor">
-        <topicref href="eqfr5mst-00237.dita" navtitle="File menu"> </topicref>
-        <topicref href="eqfr5mst-00238.dita" navtitle="Edit menu"> </topicref>
-        <topicref href="eqfr5mst-00239.dita" navtitle="Align menu"> </topicref>
-        <topicref href="eqfr5mst-00240.dita" navtitle="Options menu"> </topicref>
-        <topicref href="eqfr5mst-00241.dita" navtitle="Cursor menu"> </topicref>
-        <topicref href="eqfr5mst-00242.dita" navtitle="Style menu"> </topicref>
+      <topicref href="memory_Rename.dita" navtitle="Renaming a Translation Memory"> </topicref>
+      <topicref href="memory_Delete.dita" navtitle="Deleting a Translation Memory"> </topicref>
+      <topicref href="memory_Export.dita" navtitle="Exporting a Translation Memory"> </topicref>
+      <topicref href="memory_ItmCreate.dita" navtitle="Creating an Initial Translation Memory"> </topicref>
+      <topicref href="memory_Import.dita" navtitle="Importing a Translation Memory"> </topicref>
+      <topicref href="memory_Merge.dita" navtitle="Merging Translation Memory databases"> </topicref>
+      <topicref href="memory_Archive.dita" navtitle="Archiving a Translation Memory"> </topicref>
+      <topicref href="memory_Organize.dita" navtitle="Organizing a Translation Memory"> </topicref>
+      <topicref href="memory_ItmRevise.dita" navtitle="Revising an Initial Translation Memory"> </topicref>
+      <topicref href="memory_ItmEditor.dita" navtitle="The Initial Translation Memory editor">
+        <topicref href="memory_ItmEditorFile.dita" navtitle="File menu"> </topicref>
+        <topicref href="memory_ItmEditorEdit.dita" navtitle="Edit menu"> </topicref>
+        <topicref href="memory_ItmEditorAlign.dita" navtitle="Align menu"> </topicref>
+        <topicref href="memory_ItmEditorOptions.dita" navtitle="Options menu"> </topicref>
+        <topicref href="memory_ItmEditorCursor.dita" navtitle="Cursor menu"> </topicref>
+        <topicref href="memory_ItmEditorStyle.dita" navtitle="Style menu"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00243.dita" navtitle="Revising a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00244.dita" navtitle="Searching a translation"> </topicref>
-      <topicref href="eqfr5mst-00245.dita" navtitle="The Translation Memory editor">
-        <topicref href="eqfr5mst-00246.dita" navtitle="File menu"> </topicref>
-        <topicref href="eqfr5mst-00247.dita" navtitle="Edit menu"> </topicref>
-        <topicref href="eqfr5mst-00248.dita" navtitle="Options menu"> </topicref>
-        <topicref href="eqfr5mst-00249.dita" navtitle="Style menu"> </topicref>
+      <topicref href="memory_Revise.dita" navtitle="Revising a Translation Memory"> </topicref>
+      <topicref href="memory_Search.dita" navtitle="Searching a translation"> </topicref>
+      <topicref href="memory_Editor.dita" navtitle="The Translation Memory editor">
+        <topicref href="memory_EditorFile.dita" navtitle="File menu"> </topicref>
+        <topicref href="memory_EditorEdit.dita" navtitle="Edit menu"> </topicref>
+        <topicref href="memory_EditorOptions.dita" navtitle="Options menu"> </topicref>
+        <topicref href="memory_EditorStyle.dita" navtitle="Style menu"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00250.dita" navtitle="Revising external Translation Memory databases"> </topicref>
-      <topicref href="eqfr5mst-00251.dita" navtitle="Sharing LAN-based Translation Memories">
-        <topicref href="eqfr5mst-00251-A.dita" navtitle="Connecting or disconnecting a LAN-based shared Translation Memory"> </topicref>
-        <topicref href="eqfr5mst-00251-B.dita" navtitle="Deleting a LAN-based shared Translation Memory"> </topicref>
-        <topicref href="eqfr5mst-00251-C.dita" navtitle="Finding the owner of a LAN-based shared Translation Memory"> </topicref>
+      <topicref href="memory_ExternalRevise.dita" navtitle="Revising external Translation Memory databases"> </topicref>
+      <topicref href="memory_SharedLan.dita" navtitle="Sharing LAN-based Translation Memories">
+        <topicref href="memory_SharedLanConnect.dita" navtitle="Connecting or disconnecting a LAN-based shared Translation Memory"> </topicref>
+        <topicref href="memory_SharedLanDelete.dita" navtitle="Deleting a LAN-based shared Translation Memory"> </topicref>
+        <topicref href="memory_SharedLanFindOwner.dita" navtitle="Finding the owner of a LAN-based shared Translation Memory"> </topicref>
       </topicref>
 <!-- ========================================================================================================= -->
 <!-- == Begin WEB-based shared memory ======================================================================== -->
-      <topicref href="eqfr5mst-00252.dita" navtitle="Sharing WEB-based Translation Memories">
-        <topicref href="eqfr5mst-00252-1.dita" navtitle="Installation of important Client components">
-          <topicref href="eqfr5mst-00252-1A.dita" navtitle="Downloading Axis2C to the OpenTM2 Client PC"> </topicref>
-          <topicref href="eqfr5mst-00252-1B.dita" navtitle="Installing Axis2C on the OpenTM2 Client PC"> </topicref>
-          <topicref href="eqfr5mst-00252-1C.dita" navtitle="Configure Axis2c on the OpenTM2 Client"> </topicref>
+      <topicref href="memory_SharedWeb.dita" navtitle="Sharing WEB-based Translation Memories">
+        <topicref href="memory_SharedWebInstall.dita" navtitle="Installation of important Client components">
+          <topicref href="memory_SharedWebInstallAxis2cDownload.dita" navtitle="Downloading Axis2C to the OpenTM2 Client PC"> </topicref>
+          <topicref href="memory_SharedWebInstallAxis2cInstall.dita" navtitle="Installing Axis2C on the OpenTM2 Client PC"> </topicref>
+          <topicref href="memory_SharedWebInstallAxis2cConfigure.dita" navtitle="Configure Axis2c on the OpenTM2 Client"> </topicref>
         </topicref>  
-        <topicref href="eqfr5mst-00252-2.dita" navtitle="Installation of important Server components">
-          <topicref href="eqfr5mst-00252-2A.dita" navtitle="Installing MariaDB on the Server"> </topicref>
-          <topicref href="eqfr5mst-00252-2B.dita" navtitle="Setup and configure MariaDB on the Server"> </topicref>
-          <topicref href="eqfr5mst-00252-2C.dita" navtitle="Create a Shared Translation Memory on the Server"> </topicref>
+        <topicref href="memory_SharedWebInstallSteps.dita" navtitle="Installation of important Server components">
+          <topicref href="memory_SharedWebInstallMariaDBInstall.dita" navtitle="Installing MariaDB on the Server"> </topicref>
+          <topicref href="memory_SharedWebInstallMariaDBSetup.dita" navtitle="Setup and configure MariaDB on the Server"> </topicref>
+          <topicref href="memory_SharedWebInstallMariaDBCreate.dita" navtitle="Create a Shared Translation Memory on the Server"> </topicref>
         </topicref>
-        <topicref href="eqfr5mst-00252-3.dita" navtitle="A Translation Scenario using the OpenTM2 WEB-based Shared Translation Memory"> 
-          <topicref href="eqfr5mst-00252-3A.dita" navtitle="Creating a WEB-based Shared Translation Memory"> </topicref>
-          <topicref href="eqfr5mst-00252-3B.dita" navtitle="Connecting or Disconnecting a WEB-based Shared Translation Memory"> </topicref>
-          <topicref href="eqfr5mst-00252-3C.dita" navtitle="Deleting a WEB-based Shared Translation Memory"> </topicref>
-          <topicref href="eqfr5mst-00252-3D.dita" navtitle="User List Operations"> </topicref>
-          <topicref href="eqfr5mst-00252-3E.dita" navtitle="Synchronization (Upload and Download) with WEB-based Shared Translation Memory Server"> </topicref>
-          <topicref href="eqfr5mst-00252-3F.dita" navtitle="Batch Processing WEB-based Shared Translation Memory Content"> </topicref>
-          <topicref href="eqfr5mst-00252-3G.dita" navtitle="Finding the owner of a WEB-based Shared Translation Memory"> </topicref>
-          <topicref href="eqfr5mst-00252-3H.dita" navtitle="How to backup a WEB-based Shared Translation Memory DB"> </topicref>
+        <topicref href="memory_SharedWebUsing.dita" navtitle="A Translation Scenario using the OpenTM2 WEB-based Shared Translation Memory"> 
+          <topicref href="memory_SharedWebUsingCreate.dita" navtitle="Creating a WEB-based Shared Translation Memory"> </topicref>
+          <topicref href="memory_SharedWebUsingConnect.dita" navtitle="Connecting or Disconnecting a WEB-based Shared Translation Memory"> </topicref>
+          <topicref href="memory_SharedWebUsingDelete.dita" navtitle="Deleting a WEB-based Shared Translation Memory"> </topicref>
+          <topicref href="memory_SharedWebUsingUsers.dita" navtitle="User List Operations"> </topicref>
+          <topicref href="memory_SharedWebUsingFindOwner.dita" navtitle="Finding the owner of a WEB-based Shared Translation Memory"> </topicref>
+          <topicref href="memory_SharedWebUsingBackup.dita" navtitle="How to backup a WEB-based Shared Translation Memory DB"> </topicref>
         </topicref>
       </topicref>
 <!-- == End WEB-based shared memory ========================================================================== -->
 <!-- ========================================================================================================= -->      
-      <topicref href="eqfr5mst-00255.dita" navtitle="Viewing the properties of a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00256.dita" navtitle="Changing the properties of a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00257.dita" navtitle="Viewing the details of a Translation Memory"> </topicref>
+      <topicref href="memory_PropertiesView.dita" navtitle="Viewing the properties of a Translation Memory"> </topicref>
+      <topicref href="memory_PropertiesChange.dita" navtitle="Changing the properties of a Translation Memory"> </topicref>
+      <topicref href="memory_DetailsView.dita" navtitle="Viewing the details of a Translation Memory"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00258.dita" navtitle="Working with dictionaries">
-      <topicref href="eqfr5mst-00259.dita" navtitle="Dictionary entry structure"> </topicref>
-      <topicref href="eqfr5mst-00260.dita" navtitle="Dictionary search criteria"> </topicref>
-      <topicref href="eqfr5mst-00261.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00262.dita" navtitle="What you can do with dictionaries"> </topicref>
-      <topicref href="eqfr5mst-00263.dita" navtitle="Creating an SGML-based dictionary">
-        <topicref href="eqfr5mst-00264.dita" navtitle="The structure of an SGML-based dictionary">
-          <topicref href="eqfr5mst-00265.dita" navtitle="Header section"> </topicref>
-          <topicref href="eqfr5mst-00266.dita" navtitle="Maptable section"> </topicref>
-          <topicref href="eqfr5mst-00267.dita" navtitle="Entry section"> </topicref>
+    <chapter href="dict_Chapter.dita" navtitle="Working with dictionaries">
+      <topicref href="dict_EntryStructure.dita" navtitle="Dictionary entry structure"> </topicref>
+      <topicref href="dict_SearchCriteria.dita" navtitle="Dictionary search criteria"> </topicref>
+      <topicref href="dict_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="dict_WhatCanYouDo.dita" navtitle="What you can do with dictionaries"> </topicref>
+      <topicref href="dict_SgmlCreate.dita" navtitle="Creating an SGML-based dictionary">
+        <topicref href="dict_CreateSgmlStructure.dita" navtitle="The structure of an SGML-based dictionary">
+          <topicref href="dict_CreateSgmlStructureHeader.dita" navtitle="Header section"> </topicref>
+          <topicref href="dict_CreateSgmlStructureMaptable.dita" navtitle="Maptable section"> </topicref>
+          <topicref href="dict_CreateSgmlStrucutreEntry.dita" navtitle="Entry section"> </topicref>
         </topicref>
-        <topicref href="eqfr5mst-00268.dita" navtitle="List of dictionary-entry fields and their SGML tags"> </topicref>
-        <topicref href="eqfr5mst-00269.dita" navtitle="Sample of an SGML-based dictionary"> </topicref>
+        <topicref href="dict_CreateSgmlFields.dita" navtitle="List of dictionary-entry fields and their SGML tags"> </topicref>
+        <topicref href="dict_CreateSgmlSample.dita" navtitle="Sample of an SGML-based dictionary"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00270.dita" navtitle="Creating a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00271.dita" navtitle="Using an existing dictionary as model"> </topicref>
-      <topicref href="eqfr5mst-00272.dita" navtitle="Changing dictionary entry fields"> </topicref>
-      <topicref href="eqfr5mst-00273.dita" navtitle="Renaming a dictionary entry field"> </topicref>
-      <topicref href="eqfr5mst-00274.dita" navtitle="Adding a user-defined entry field"> </topicref>
-      <topicref href="eqfr5mst-00275.dita" navtitle="Defining a dictionary filter"> </topicref>
-      <topicref href="eqfr5mst-00276.dita" navtitle="Renaming a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00277.dita" navtitle="Deleting a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00278.dita" navtitle="Editing a dictionary entry"> </topicref>
-      <topicref href="eqfr5mst-00279.dita" navtitle="Exporting a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00280.dita" navtitle="Importing a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00281.dita" navtitle="Looking up a dictionary entry"> </topicref>
-      <topicref href="eqfr5mst-00282.dita" navtitle="Merging dictionaries"> </topicref>
-      <topicref href="eqfr5mst-00283.dita" navtitle="Opening a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00284.dita" navtitle="Organizing a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00285.dita" navtitle="Printing a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00286.dita" navtitle="Defining the printout format"> </topicref>
-      <topicref href="eqfr5mst-00287.dita" navtitle="Protecting a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00288.dita" navtitle="Searching for a dictionary entry"> </topicref>
-      <topicref href="eqfr5mst-00289.dita" navtitle="Sharing dictionaries">
-        <topicref href="eqfr5mst-00290.dita" navtitle="Accessing or disconnecting a shared dictionary"> </topicref>
-        <topicref href="eqfr5mst-00291.dita" navtitle="Deleting a shared dictionary"> </topicref>
-        <topicref href="eqfr5mst-00292.dita" navtitle="Hints and tips when working with a shared dictionary"> </topicref>
-        <topicref href="eqfr5mst-00293.dita" navtitle="Finding the owner of a shared dictionary"> </topicref>
+      <topicref href="dict_Create.dita" navtitle="Creating a dictionary"> </topicref>
+      <topicref href="dict_CreateModel.dita" navtitle="Using an existing dictionary as model"> </topicref>
+      <topicref href="dict_FieldChange.dita" navtitle="Changing dictionary entry fields"> </topicref>
+      <topicref href="dict_FieldRename.dita" navtitle="Renaming a dictionary entry field"> </topicref>
+      <topicref href="dict_FieldAdd.dita" navtitle="Adding a user-defined entry field"> </topicref>
+      <topicref href="dict_Filter.dita" navtitle="Defining a dictionary filter"> </topicref>
+      <topicref href="dict_Rename.dita" navtitle="Renaming a dictionary"> </topicref>
+      <topicref href="dict_Delete.dita" navtitle="Deleting a dictionary"> </topicref>
+      <topicref href="dict_Edit.dita" navtitle="Editing a dictionary entry"> </topicref>
+      <topicref href="dict_Export.dita" navtitle="Exporting a dictionary"> </topicref>
+      <topicref href="dict_Import.dita" navtitle="Importing a dictionary"> </topicref>
+      <topicref href="dict_Lookup.dita" navtitle="Looking up a dictionary entry"> </topicref>
+      <topicref href="dict_Merge.dita" navtitle="Merging dictionaries"> </topicref>
+      <topicref href="dict_Open.dita" navtitle="Opening a dictionary"> </topicref>
+      <topicref href="dict_Organize.dita" navtitle="Organizing a dictionary"> </topicref>
+      <topicref href="dict_Print.dita" navtitle="Printing a dictionary"> </topicref>
+      <topicref href="dict_PrintFormat.dita" navtitle="Defining the printout format"> </topicref>
+      <topicref href="dict_Protect.dita" navtitle="Protecting a dictionary"> </topicref>
+      <topicref href="dict_Search.dita" navtitle="Searching for a dictionary entry"> </topicref>
+      <topicref href="dict_Share.dita" navtitle="Sharing dictionaries">
+        <topicref href="dict_SharedAccess.dita" navtitle="Accessing or disconnecting a shared dictionary"> </topicref>
+        <topicref href="dict_SharedDelete.dita" navtitle="Deleting a shared dictionary"> </topicref>
+        <topicref href="dict_SharedHints.dita" navtitle="Hints and tips when working with a shared dictionary"> </topicref>
+        <topicref href="dict_SharedOwner.dita" navtitle="Finding the owner of a shared dictionary"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00294.dita" navtitle="Viewing the properties of a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00295.dita" navtitle="Changing the properties of a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00296.dita" navtitle="Viewing the details of a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00297.dita" navtitle="Option to select dictionary lookup for compound words in editor"> </topicref>
-      <topicref href="eqfr5mst-00298.dita" navtitle="Viewing style indicators for dictionary terms"
+      <topicref href="dict_PropertiesView.dita" navtitle="Viewing the properties of a dictionary"> </topicref>
+      <topicref href="dict_PropertiesChange.dita" navtitle="Changing the properties of a dictionary"> </topicref>
+      <topicref href="dict_DetailsView.dita" navtitle="Viewing the details of a dictionary"> </topicref>
+      <topicref href="dict_CompoundWords.dita" navtitle="Option to select dictionary lookup for compound words in editor"> </topicref>
+      <topicref href="dict_Styles.dita" navtitle="Viewing style indicators for dictionary terms"
       > </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00299.dita" navtitle="Working with terminology lists">
-      <topicref href="eqfr5mst-00300.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00301.dita" navtitle="What you can do with terminology lists"> </topicref>
-      <topicref href="eqfr5mst-00302.dita" navtitle="Creating a terminology list">
-        <topicref href="eqfr5mst-00303.dita" navtitle="Creating a list of new terms or found terms"> </topicref>
-        <topicref href="eqfr5mst-00304.dita" navtitle="Creating an exclusion list"> </topicref>
+    <chapter href="term_Chapter.dita" navtitle="Working with terminology lists">
+      <topicref href="term_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="term_WhatCanYouDo.dita" navtitle="What you can do with terminology lists"> </topicref>
+      <topicref href="term_Create.dita" navtitle="Creating a terminology list">
+        <topicref href="term_CreateNewFound.dita" navtitle="Creating a list of new terms or found terms"> </topicref>
+        <topicref href="term_CreateExclusion.dita" navtitle="Creating an exclusion list"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00305.dita" navtitle="Creating an external terminology list"> </topicref>
-      <topicref href="eqfr5mst-00306.dita" navtitle="Deleting a terminology list"> </topicref>
-      <topicref href="eqfr5mst-00307.dita" navtitle="Exporting a terminology list"> </topicref>
-      <topicref href="eqfr5mst-00308.dita" navtitle="Importing a terminology list"> </topicref>
-      <topicref href="eqfr5mst-00309.dita" navtitle="Opening and changing a terminology list"> </topicref>
-      <topicref href="eqfr5mst-00310.dita" navtitle="Marking a term for a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00311.dita" navtitle="Editing an exclusion list"> </topicref>
-      <topicref href="eqfr5mst-00312.dita" navtitle="Printing a terminology list"> </topicref>
-      <topicref href="eqfr5mst-00313.dita" navtitle="Viewing the details of a terminology list"
+      <topicref href="term_CreateExternal.dita" navtitle="Creating an external terminology list"> </topicref>
+      <topicref href="term_Delete.dita" navtitle="Deleting a terminology list"> </topicref>
+      <topicref href="term_Export.dita" navtitle="Exporting a terminology list"> </topicref>
+      <topicref href="term_Import.dita" navtitle="Importing a terminology list"> </topicref>
+      <topicref href="term_Change.dita" navtitle="Opening and changing a terminology list"> </topicref>
+      <topicref href="term_MarkTerm.dita" navtitle="Marking a term for a dictionary"> </topicref>
+      <topicref href="term_ExitExclusion.dita" navtitle="Editing an exclusion list"> </topicref>
+      <topicref href="term_Print.dita" navtitle="Printing a terminology list"> </topicref>
+      <topicref href="term_DetailsView.dita" navtitle="Viewing the details of a terminology list"
       > </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00314.dita" navtitle="Working with markup tables">
-      <topicref href="eqfr5mst-00315.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00316.dita" navtitle="What you can do with markup tables"> </topicref>
-      <topicref href="eqfr5mst-00317.dita" navtitle="Changing a markup table"> </topicref>
-      <topicref href="eqfr5mst-00318.dita" navtitle="Creating a markup table"> </topicref>
-      <topicref href="eqfr5mst-00319.dita" navtitle="Deleting a markup table"> </topicref>
-      <topicref href="eqfr5mst-00320.dita" navtitle="Exporting a markup table"> </topicref>
-      <topicref href="eqfr5mst-00321.dita" navtitle="Importing a markup table"> </topicref>
-      <topicref href="eqfr5mst-00322.dita" navtitle="Changing the properties of a markup table"> </topicref>
+    <chapter href="mut_Chapter.dita" navtitle="Working with markup tables">
+      <topicref href="mut_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="mut_WhatCanYouDo.dita" navtitle="What you can do with markup tables"> </topicref>
+      <topicref href="mut_Change.dita" navtitle="Changing a markup table"> </topicref>
+      <topicref href="mut_Create.dita" navtitle="Creating a markup table"> </topicref>
+      <topicref href="mut_Delete.dita" navtitle="Deleting a markup table"> </topicref>
+      <topicref href="mut_Export.dita" navtitle="Exporting a markup table"> </topicref>
+      <topicref href="mut_Import.dita" navtitle="Importing a markup table"> </topicref>
+      <topicref href="mut_PropertiesChange.dita" navtitle="Changing the properties of a markup table"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00323.dita" navtitle="Working with language-support files">
-      <topicref href="eqfr5mst-00324.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00325.dita" navtitle="What you can do with language-support files"> </topicref>
-      <topicref href="eqfr5mst-00326.dita" navtitle="Deleting language-support files"> </topicref>
-      <topicref href="eqfr5mst-00327.dita" navtitle="Extending language-support files"> </topicref>
-      <topicref href="eqfr5mst-00329.dita" navtitle="What you can do for other languages"> </topicref>
+    <chapter href="lang_Chapter.dita" navtitle="Working with language-support files">
+      <topicref href="lang_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="lang_WhatCanYouDo.dita" navtitle="What you can do with language-support files"> </topicref>
+      <topicref href="lang_Delete.dita" navtitle="Deleting language-support files"> </topicref>
+      <topicref href="lang_Extend.dita" navtitle="Extending language-support files"> </topicref>
+      <topicref href="lang_Other.dita" navtitle="What you can do for other languages"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00330.dita" navtitle="Working with the samples">
-      <topicref href="eqfr5mst-00331.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00332.dita" navtitle="What you can do with the samples"> </topicref>
-      <topicref href="eqfr5mst-00333.dita" navtitle="Deleting a sample folder"> </topicref>
-      <topicref href="eqfr5mst-00334.dita" navtitle="Importing and opening a sample folder and its documents"> </topicref>
-      <topicref href="eqfr5mst-00335.dita" navtitle="Translation exercise with a sample document"> </topicref>
+    <chapter href="sample_Chapter.dita" navtitle="Working with the samples">
+      <topicref href="sample_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="sample_WhatCanYouDo.dita" navtitle="What you can do with the samples"> </topicref>
+      <topicref href="sample_Delete.dita" navtitle="Deleting a sample folder"> </topicref>
+      <topicref href="sample_Import.dita" navtitle="Importing and opening a sample folder and its documents"> </topicref>
+      <topicref href="sample_Exercise.dita" navtitle="Translation exercise with a sample document"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00336.dita" navtitle="Creating reports">
-      <topicref href="eqfr5mst-00337.dita" navtitle="Overview and terminology"> </topicref>
-      <topicref href="eqfr5mst-00338.dita" navtitle="Creating a History Report"> </topicref>
-      <topicref href="eqfr5mst-00339.dita" navtitle="Creating a Counting Report"> </topicref>
-      <topicref href="eqfr5mst-00340.dita" navtitle="Creating a Calculating Report"> </topicref>
-      <topicref href="eqfr5mst-00341.dita" navtitle="Creating a Preanalysis Report"> </topicref>
-      <topicref href="eqfr5mst-00342.dita" navtitle="Creating a Redundancy Report"> </topicref>
-      <topicref href="eqfr5mst-00343.dita" navtitle="Creating a Redundant Segment List"> </topicref>
-      <topicref href="eqfr5mst-00344.dita" navtitle="Changing the layout of a report">
-        <topicref href="eqfr5mst-00345.dita" navtitle="The report layout"> </topicref>
-        <topicref href="eqfr5mst-00346.dita" navtitle="Changing the layout"> </topicref>
+    <chapter href="report_Chapter.dita" navtitle="Creating reports">
+      <topicref href="report_Overview.dita" navtitle="Overview and terminology"> </topicref>
+      <topicref href="report_History.dita" navtitle="Creating a History Report"> </topicref>
+      <topicref href="report_Counting.dita" navtitle="Creating a Counting Report"> </topicref>
+      <topicref href="report_Calculate.dita" navtitle="Creating a Calculating Report"> </topicref>
+      <topicref href="report_Preanalysis.dita" navtitle="Creating a Preanalysis Report"> </topicref>
+      <topicref href="report_Redundancy.dita" navtitle="Creating a Redundancy Report"> </topicref>
+      <topicref href="report_RedundantSegment.dita" navtitle="Creating a Redundant Segment List"> </topicref>
+      <topicref href="report_Layout.dita" navtitle="Changing the layout of a report">
+        <topicref href="report_LayoutBasic.dita" navtitle="The report layout"> </topicref>
+        <topicref href="report_LayoutChange.dita" navtitle="Changing the layout"> </topicref>
       </topicref>
-      <topicref href="eqfr5mst-00347.dita" navtitle="Setting the factors for cost calculation"> </topicref>
+      <topicref href="report_CostCalculation.dita" navtitle="Setting the factors for cost calculation"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00370.dita" navtitle="Working from the command area (OTMBATCH)">
-      <topicref href="eqfr5mst-00371.dita" navtitle="How to read syntax diagrams"> </topicref>
-      <topicref href="eqfr5mst-00372.dita" navtitle="Analyzing a document or folder"> </topicref>
-      <topicref href="eqfr5mst-00373.dita" navtitle="Archiving a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00374.dita" navtitle="Changing the properties of a folder"> </topicref>
-      <topicref href="eqfr5mst-00375.dita" navtitle="Creating reports"> </topicref>
-      <topicref href="eqfr5mst-00376.dita" navtitle="Counting words"> </topicref>
-      <topicref href="eqfr5mst-00377.dita" navtitle="Exporting a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00378.dita" navtitle="Importing a dictionary"> </topicref>
-      <topicref href="eqfr5mst-00379.dita" navtitle="Deleting documents"> </topicref>
-      <topicref href="eqfr5mst-00380.dita" navtitle="Removing documents based on a list"> </topicref>
-      <topicref href="eqfr5mst-00381.dita" navtitle="Restoring documents"> </topicref>
-      <topicref href="eqfr5mst-00382.dita" navtitle="Exporting documents"> </topicref>
-      <topicref href="eqfr5mst-00383.dita" navtitle="Importing documents"> </topicref>
-      <topicref href="eqfr5mst-00384.dita" navtitle="Creating a folder"> </topicref>
-      <topicref href="eqfr5mst-00385.dita" navtitle="Deleting a folder"> </topicref>
-      <topicref href="eqfr5mst-00386.dita" navtitle="Exporting a folder"> </topicref>
-      <topicref href="eqfr5mst-00387.dita" navtitle="Importing a folder"> </topicref>
-      <topicref href="eqfr5mst-00388.dita" navtitle="Creating a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00389.dita" navtitle="Deleting a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00390.dita" navtitle="Exporting a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00391.dita" navtitle="Importing a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00392.dita" navtitle="Opening a document"> </topicref>
-      <topicref href="eqfr5mst-00393.dita" navtitle="Organizing a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00394.dita" navtitle="Renaming a folder, a dictionary or a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00395.dita" navtitle="Performing several tasks in one step"> </topicref>
+    <chapter href="otmbatch_Chapter.dita" navtitle="Working from the command area (OTMBATCH)">
+      <topicref href="otmbatch_Diagram.dita" navtitle="How to read syntax diagrams"> </topicref>
+      <topicref href="otmbatch_FolderAnalyze.dita" navtitle="Analyzing a document or folder"> </topicref>
+      <topicref href="otmbatch_MemoryArchive.dita" navtitle="Archiving a Translation Memory"> </topicref>
+      <topicref href="otmbatch_FolderChange.dita" navtitle="Changing the properties of a folder"> </topicref>
+      <topicref href="otmbatch_ReportCreate.dita" navtitle="Creating reports"> </topicref>
+      <topicref href="otmbatch_Count.dita" navtitle="Counting words"> </topicref>
+      <topicref href="otmbatch_Dictionaryexport.dita" navtitle="Exporting a dictionary"> </topicref>
+      <topicref href="otmbatch_DictionaryImport.dita" navtitle="Importing a dictionary"> </topicref>
+      <topicref href="otmbatch_DictionaryDelete.dita" navtitle="Deleting documents"> </topicref>
+      <topicref href="otmbatch_DocumentRemove.dita" navtitle="Removing documents based on a list"> </topicref>
+      <topicref href="otmbatch_DocumentRestore.dita" navtitle="Restoring documents"> </topicref>
+      <topicref href="otmbatch_DocumentExport.dita" navtitle="Exporting documents"> </topicref>
+      <topicref href="otmbatch_DocumentImport.dita" navtitle="Importing documents"> </topicref>
+      <topicref href="otmbatch_FolderCreate.dita" navtitle="Creating a folder"> </topicref>
+      <topicref href="otmbatch_FolderDelete.dita" navtitle="Deleting a folder"> </topicref>
+      <topicref href="otmbatch_FolderExport.dita" navtitle="Exporting a folder"> </topicref>
+      <topicref href="otmbatch_FolderImport.dita" navtitle="Importing a folder"> </topicref>
+      <topicref href="otmbatch_MemoryCreate.dita" navtitle="Creating a Translation Memory"> </topicref>
+      <topicref href="otmbatch_MemoryDelete.dita" navtitle="Deleting a Translation Memory"> </topicref>
+      <topicref href="otmbatch_MemoryExport.dita" navtitle="Exporting a Translation Memory"> </topicref>
+      <topicref href="otmbatch_MemoryImport.dita" navtitle="Importing a Translation Memory"> </topicref>
+      <topicref href="otmbatch_DocumentOpen.dita" navtitle="Opening a document"> </topicref>
+      <topicref href="otmbatch_MemoryOrganize.dita" navtitle="Organizing a Translation Memory"> </topicref>
+      <topicref href="otmbatch_Rename.dita" navtitle="Renaming a folder, a dictionary or a Translation Memory"> </topicref>
+      <topicref href="otmbatch_TasksMultiple.dita" navtitle="Performing several tasks in one step"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00396.dita" navtitle="Working from the command area (Other Tools)">
-      <topicref href="eqfr5mst-00397.dita" navtitle="How to read syntax diagrams"> </topicref>
-      <topicref href="eqfr5mst-00398.dita" navtitle="Converting a NLV memory to a source/source memory"> </topicref>
-      <topicref href="eqfr5mst-00399.dita" navtitle="Creating an Initial Translation Memory from the command line"> </topicref>
-      <topicref href="eqfr5mst-00400.dita" navtitle="Revising an Initial Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00401.dita" navtitle="Reversing a Translation Memory"> </topicref>
-      <topicref href="eqfr5mst-00402.dita" navtitle="Changing m-flagged segments"> </topicref>
-      <topicref href="eqfr5mst-00403.dita" navtitle="Specifying the quality of m-flagged segments"> </topicref>
-      <topicref href="eqfr5mst-00404.dita" navtitle="Changing the markup, target language and date of segments"> </topicref>
-      <topicref href="eqfr5mst-00405.dita" navtitle="Removing segments with identical source and target strings"> </topicref>
-      <topicref href="eqfr5mst-00406.dita" navtitle="Removing inline tagging from an external memory"> </topicref>
-      <topicref href="eqfr5mst-00407.dita" navtitle="Showing the contents of exported folders"> </topicref>
-<!--      <topicref href="eqfr5mst-00408.dita" navtitle="Restoring vital OpenTM2 property files"> </topicref>-->
-      <topicref href="eqfr5mst-00409.dita" navtitle="Checking the folder history data"> </topicref>
-      <topicref href="eqfr5mst-00410.dita" navtitle="Correcting the drive letter information of Translation Manager files"> </topicref>
-      <topicref href="eqfr5mst-00411.dita" navtitle="Converting SGML memory databases into TMX format"> </topicref>
-      <topicref href="eqfr5mst-00412.dita" navtitle="Converting external Memory databases from the TMX format into the EXP format"> </topicref>
-      <topicref href="eqfr5mst-00413.dita" navtitle="Changing the type of an exported folder"> </topicref>
+    <chapter href="tools_Chapter.dita" navtitle="Working from the command area (Other Tools)">
+      <topicref href="tools_Diagram.dita" navtitle="How to read syntax diagrams"> </topicref>
+      <topicref href="tools_MemoryConvert.dita" navtitle="Converting a NLV memory to a source/source memory"> </topicref>
+      <topicref href="tools_ItmCreate.dita" navtitle="Creating an Initial Translation Memory from the command line"> </topicref>
+      <topicref href="tools_ItmRevise.dita" navtitle="Revising an Initial Translation Memory"> </topicref>
+      <topicref href="tools_MemoryReverse.dita" navtitle="Reversing a Translation Memory"> </topicref>
+      <topicref href="tools_MemoryMflag.dita" navtitle="Changing m-flagged segments"> </topicref>
+      <topicref href="tools_MemoryQuality.dita" navtitle="Specifying the quality of m-flagged segments"> </topicref>
+      <topicref href="tools_MemoryMeta.dita" navtitle="Changing the markup, target language and date of segments"> </topicref>
+      <topicref href="tools_MemoryRemoveSegments.dita" navtitle="Removing segments with identical source and target strings"> </topicref>
+      <topicref href="tools_MemoryRemoveInline.dita" navtitle="Removing inline tagging from an external memory"> </topicref>
+      <topicref href="tools_FolderContents.dita" navtitle="Showing the contents of exported folders"> </topicref>
+<!--      <topicref href="tools_PropertiesRestore.dita" navtitle="Restoring vital OpenTM2 property files"> </topicref>-->
+      <topicref href="tools_FolderHistory.dita" navtitle="Checking the folder history data"> </topicref>
+      <topicref href="tools_DriveChange.dita" navtitle="Correcting the drive letter information of Translation Manager files"> </topicref>
+      <topicref href="tools_MemoryToTmx.dita" navtitle="Converting SGML memory databases into TMX format"> </topicref>
+      <topicref href="tools_MemoryFromTmx.dita" navtitle="Converting external Memory databases from the TMX format into the EXP format"> </topicref>
+      <topicref href="tools_FolderExportType.dita" navtitle="Changing the type of an exported folder"> </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00414.dita" navtitle="Machine Translation (MT) Support">
-<!--    <topicref href="eqfr5mst-00415.dita" navtitle="WebSphere Translation Server Access From OpenTM2">
+    <chapter href="mt_Chapter.dita" navtitle="Machine Translation (MT) Support">
+<!--    <topicref href="mt_Overview.dita" navtitle="WebSphere Translation Server Access From OpenTM2">
           <topicref href="eqfr5mst-00417.dita" navtitle="Invocation and User Interface"> </topicref>
           <topicref href="eqfr5mst-00419.dita" navtitle="Subject Area Selection"> </topicref>
           <topicref href="eqfr5mst-00420.dita" navtitle="Pre-requisites"> </topicref>
           <topicref href="eqfr5mst-00421.dita" navtitle="Display of MT Job Info in Folder Properties Summary"> </topicref>
           <topicref href="eqfr5mst-00422.dita" navtitle="MTI Installation Instructions"> </topicref>
         </topicref>  -->
-      <topicref href="eqfr5mst-00415.dita" navtitle="Machine Translation Evaluation in OpenTM2">
+      <topicref href="mt_Overview.dita" navtitle="Machine Translation Evaluation in OpenTM2">
 <!--        <topicref href="eqfr5mst-00423.dita" navtitle="The OtmMtEval tool"> </topicref>
         <topicref href="eqfr5mst07.dita" navtitle="Usage of the OtmMtEval tool"> </topicref>
         <topicref href="eqfr5mst08.dita" navtitle="Output created by the OtmMtEval tool"> </topicref>-->
-        <topicref href="eqfr5mst-00415A.dita" navtitle="Preparing for MT-processing"> </topicref>
-        <topicref href="eqfr5mst-00415B.dita" navtitle="The OtmMtEval tool"> </topicref>
-        <topicref href="eqfr5mst-00415C.dita" navtitle="Usage of the OtmMtEval tool"> </topicref>
-        <topicref href="eqfr5mst-00415D.dita" navtitle="Output created by the OtmMtEval tool"> </topicref>
+        <topicref href="mt_Prepare.dita" navtitle="Preparing for MT-processing"> </topicref>
+        <topicref href="mt_OtmMtEval.dita" navtitle="The OtmMtEval tool"> </topicref>
+        <topicref href="mt_OtmMtEvalUsage.dita" navtitle="Usage of the OtmMtEval tool"> </topicref>
+        <topicref href="mt_OtmMtEvalOutput.dita" navtitle="Output created by the OtmMtEval tool"> </topicref>
       </topicref>
     </chapter>
 
-    <chapter href="eqfr5mst-00416.dita" navtitle="Working with Plug-Ins">
-        <topicref href="eqfr5mst-00416A.dita" navtitle="The Plugin Manager"> </topicref>
-        <topicref href="eqfr5mst-00416B.dita" navtitle="The Plugin Auto Version Upgrade"> </topicref>
-        <topicref href="eqfr5mst-00416C.dita" navtitle="The Plugin Profile Settings Management"> </topicref>
-        <topicref href="eqfr5mst-00416D.dita" navtitle="The Plugin GUI for Command Line Tools"> </topicref>
-        <topicref href="eqfr5mst-00416E.dita" navtitle="The Plugin Remove Temporary Files"> </topicref>      
+    <chapter href="plugin_Chapter.dita" navtitle="Working with Plug-Ins">
+        <topicref href="plugin_Manager.dita" navtitle="The Plugin Manager"> </topicref>
+        <topicref href="plugin_AutoVersionUpgrade.dita" navtitle="The Plugin Auto Version Upgrade"> </topicref>
+        <topicref href="plugin_ProfileSettingManagement.dita" navtitle="The Plugin Profile Settings Management"> </topicref>
+        <topicref href="plugin_CommandLineGui.dita" navtitle="The Plugin GUI for Command Line Tools"> </topicref>
+        <topicref href="plugin_RemoveTemporaryFiles.dita" navtitle="The Plugin Remove Temporary Files"> </topicref>      
     </chapter>
   </part>
   <!-- ************************************************************************************************ -->
 
   <!-- ************************************************************************************************ -->
-  <appendix href="eqfr5mst-00582.dita" navtitle="Overview of the OpenTM2 menus"> </appendix>
+  <appendix href="appMenu_Overview.dita" navtitle="Overview of the OpenTM2 menus"> </appendix>
 
-  <appendix href="eqfr5mst-00583.dita" navtitle="Editor functions reference">
-    <topicref href="eqfr5mst-00584.dita" navtitle="Editor functions inside the Translation window">
-      <topicref href="eqfr5mst-00585.dita" navtitle="Cursor movement in window"> </topicref>
-      <topicref href="eqfr5mst-00586.dita" navtitle="Scrolling"> </topicref>
-      <topicref href="eqfr5mst-00587.dita" navtitle="Editing"> </topicref>
-      <topicref href="eqfr5mst-00588.dita" navtitle="Modes of editing"> </topicref>
-      <topicref href="eqfr5mst-00589.dita" navtitle="Changing the presentation of control tags"> </topicref>
-      <topicref href="eqfr5mst-00590.dita" navtitle="Document overall functions"> </topicref>
-      <topicref href="eqfr5mst-00591.dita" navtitle="Switching to other windows"> </topicref>
+  <appendix href="appEdit_Overview.dita" navtitle="Editor functions reference">
+    <topicref href="appEdit_Translation.dita" navtitle="Editor functions inside the Translation window">
+      <topicref href="appEdit_TranslationCursor.dita" navtitle="Cursor movement in window"> </topicref>
+      <topicref href="appEdit_TranslationScroll.dita" navtitle="Scrolling"> </topicref>
+      <topicref href="appEdit_TranslationEdit.dita" navtitle="Editing"> </topicref>
+      <topicref href="appEdit_TranslationEditMode.dita" navtitle="Modes of editing"> </topicref>
+      <topicref href="appEdit_TranslationTags.dita" navtitle="Changing the presentation of control tags"> </topicref>
+      <topicref href="appEdit_TranslationDocument.dita" navtitle="Document overall functions"> </topicref>
+      <topicref href="appEdit_TranslationSwitchTo.dita" navtitle="Switching to other windows"> </topicref>
     </topicref>
-    <topicref href="eqfr5mst-00592.dita" navtitle="Editor functions outside the Translation window">
-      <topicref href="eqfr5mst-00593.dita" navtitle="Using the clipboard"> </topicref>
-      <topicref href="eqfr5mst-00594.dita" navtitle="Switching to other windows"> </topicref>
-      <topicref href="eqfr5mst-00595.dita" navtitle="Functions in the Translation Memory window"> </topicref>
-      <topicref href="eqfr5mst-00596.dita" navtitle="Functions in the Dictionary window"> </topicref>
-    </topicref>
-  </appendix>
-
-  <appendix href="eqfr5mst-00597.dita" navtitle="Format files for printing a dictionary">
-    <topicref href="eqfr5mst-00598.dita" navtitle="Sample format files">
-      <topicref href="eqfr5mst-00599.dita" navtitle="FORMAT1.FRM"> </topicref>
-      <topicref href="eqfr5mst-00600.dita" navtitle="FORMAT2.FRM"> </topicref>
-      <topicref href="eqfr5mst-00601.dita" navtitle="FORMAT3.FRM"> </topicref>
-      <topicref href="eqfr5mst-00602.dita" navtitle="FORMAT4.FRM"> </topicref>
-    </topicref>
-    <topicref href="eqfr5mst-00603.dita" navtitle="Defining your own format file"> </topicref>
-    <topicref href="eqfr5mst-00604.dita" navtitle="Tags for defining the format of a dictionary printout">
-      <topicref href="eqfr5mst-00605.dita" navtitle="The &lt;set...&gt; attributes"> </topicref>
-      <topicref href="eqfr5mst-00606.dita" navtitle="The &lt;repeat...&gt; attributes"> </topicref>
-      <topicref href="eqfr5mst-00607.dita" navtitle="The &lt;var...&gt; attributes"> </topicref>
+    <topicref href="appEdit_Other.dita" navtitle="Editor functions outside the Translation window">
+      <topicref href="appEdit_OtherClipboard.dita" navtitle="Using the clipboard"> </topicref>
+      <topicref href="appEdit_OtherSwitchTo.dita" navtitle="Switching to other windows"> </topicref>
+      <topicref href="appEdit_OtherMemory.dita" navtitle="Functions in the Translation Memory window"> </topicref>
+      <topicref href="appEdit_OtherDictionary.dita" navtitle="Functions in the Dictionary window"> </topicref>
     </topicref>
   </appendix>
 
-  <appendix href="eqfr5mst-00608.dita" navtitle="Displaying markup information for Word documents">
-    <topicref href="eqfr5mst-00609.dita" navtitle="Markup data that can be changed"> </topicref>
-    <topicref href="eqfr5mst-00610.dita" navtitle="Markup data that must not be changed"> </topicref>
-    <topicref href="eqfr5mst-00611.dita" navtitle="Markup data outside translatable segments"> </topicref>
-  </appendix>
-
-  <appendix href="eqfr5mst-00612.dita" navtitle="Exchanging data with other OpenTM2 products">
-    <topicref href="eqfr5mst-00613.dita" navtitle="Untranslated segments file"> </topicref>
-  </appendix>
-
-  <appendix href="eqfr5mst-00614.dita" navtitle="Directory structure of OpenTM2"> </appendix>
-  <appendix href="eqfr5mst-00615.dita" navtitle="Inline Tag pre-processing for machine translation - Overview"> </appendix>
-  <appendix href="eqfr5mst-00616.dita" navtitle="MT Client Interface via MQ Series -"> </appendix>
-  <appendix href="eqfr5mst-00617.dita" navtitle="System limitations"> </appendix>
-
-  <appendix href="eqfr5mst-00618.dita" navtitle="Hints, tips, and technical notices">
-    <topicref href="eqfr5mst-00619.dita" navtitle="About Microsoft Word documents">
-      <topicref href="eqfr5mst-00620.dita" navtitle="Disk space consumption with .doc files"> </topicref>
-      <topicref href="eqfr5mst-00621.dita" navtitle="Problem: Word files with embedded picture data cannot be exported"> </topicref>
-      <topicref href="eqfr5mst-00622.dita" navtitle="Automatic font conversion for translated RTF documents"> </topicref>
-      <topicref href="eqfr5mst-00623.dita" navtitle="Translating TOC and index sections in Word documents"> </topicref>
-      <topicref href="eqfr5mst-00624.dita" navtitle="EQFRTF/EQFMSWRD markup table and third-party program limitations"> </topicref>
+  <appendix href="appDict_Overview.dita" navtitle="Format files for printing a dictionary">
+    <topicref href="appDict_Sample.dita" navtitle="Sample format files">
+      <topicref href="appDict_SampleFormat1.frm.dita" navtitle="FORMAT1.FRM"> </topicref>
+      <topicref href="appDict_SampleFormat2.frm.dita" navtitle="FORMAT2.FRM"> </topicref>
+      <topicref href="appDict_SampleFormat3.frm.dita" navtitle="FORMAT3.FRM"> </topicref>
+      <topicref href="appDict_SampleFormat4.frm.dita" navtitle="FORMAT4.FRM"> </topicref>
     </topicref>
-    <topicref href="eqfr5mst-00625.dita" navtitle="About bidirectional language processing">
-      <topicref href="eqfr5mst-00626.dita" navtitle="Windows Help/RTF – Table columns not in reverse order"> </topicref>
+    <topicref href="appDict_FormatUser.dita" navtitle="Defining your own format file"> </topicref>
+    <topicref href="appDict_Tags.dita" navtitle="Tags for defining the format of a dictionary printout">
+      <topicref href="appDict_TagsSet.dita" navtitle="The &lt;set...&gt; attributes"> </topicref>
+      <topicref href="appDict_TagsRepeat.dita" navtitle="The &lt;repeat...&gt; attributes"> </topicref>
+      <topicref href="appDict_TagsVar.dita" navtitle="The &lt;var...&gt; attributes"> </topicref>
     </topicref>
   </appendix>
 
-  <appendix href="eqfr5mst-00627.dita" navtitle="Problem determination">
-    <topicref href="eqfr5mst-00628.dita" navtitle="Problems when starting OpenTM2"> </topicref>
+  <appendix href="appWord_Overview.dita" navtitle="Displaying markup information for Word documents">
+    <topicref href="appWord_Change.dita" navtitle="Markup data that can be changed"> </topicref>
+    <topicref href="appWord_Protect.dita" navtitle="Markup data that must not be changed"> </topicref>
+    <topicref href="appWord_NotTranslatable.dita" navtitle="Markup data outside translatable segments"> </topicref>
   </appendix>
 
-  <appendix href="eqfr5mst-00629.dita" navtitle="Accessibility">
-    <topicref href="eqfr5mst-00630.dita" navtitle="Colors, fonts and key assignment">
-      <topicref href="eqfr5mst-00631.dita" navtitle="Set colors"> </topicref>
-      <topicref href="eqfr5mst-00632.dita" navtitle="Set fonts"> </topicref>
-      <topicref href="eqfr5mst-00633.dita" navtitle="Assign keys"> </topicref>
-    </topicref>
-    <topicref href="eqfr5mst-00634.dita" navtitle="Keyboard shortcuts">
-      <topicref href="eqfr5mst-00635.dita" navtitle="Opening menus"> </topicref>
-      <topicref href="eqfr5mst-00636.dita" navtitle="Navigating in windows (Folder List window, Document List window, Translation Memory List window or Dictionary List window)"> </topicref>
-      <topicref href="eqfr5mst-00637.dita" navtitle="Default keyboard shortcuts in Translation window"> </topicref>
-      <topicref href="eqfr5mst-00638.dita" navtitle="Help"> </topicref>
-      <topicref href="eqfr5mst-00639.dita" navtitle="Special accessibility keyboard shortcuts"> </topicref>
-    </topicref>
-    <topicref href="eqfr5mst-00640.dita" navtitle="Menu bar choices"> </topicref>
-    <topicref href="eqfr5mst-00641.dita" navtitle="File Menu 1"> </topicref>
-    <topicref href="eqfr5mst-00642.dita" navtitle="File Menu 2"> </topicref>
-    <topicref href="eqfr5mst-00643.dita" navtitle="View Menu"> </topicref>
-    <topicref href="eqfr5mst-00644.dita" navtitle="Utilities Menu"> </topicref>
-    <topicref href="eqfr5mst-00645.dita" navtitle="Window Menu"> </topicref>
-    <topicref href="eqfr5mst-00646.dita" navtitle="Help Menu"> </topicref>
-    <topicref href="eqfr5mst-00647.dita" navtitle="Edit Menu"> </topicref>
-    <topicref href="eqfr5mst-00648.dita" navtitle="Options Menu"> </topicref>
-    <topicref href="eqfr5mst-00649.dita" navtitle="Cursor Menu"> </topicref>
-    <topicref href="eqfr5mst-00650.dita" navtitle="Translation Menu"> </topicref>
-    <topicref href="eqfr5mst-00651.dita" navtitle="Spellcheck Menu"> </topicref>
-    <topicref href="eqfr5mst-00652.dita" navtitle="Style Menu"> </topicref>
+  <appendix href="appExchange_Overview.dita" navtitle="Exchanging data with other OpenTM2 products">
+    <topicref href="appExchange_Untranslated.dita" navtitle="Untranslated segments file"> </topicref>
   </appendix>
 
-  <appendix href="eqfr5mst-00653.dita" navtitle="Notices">
-    <topicref href="eqfr5mst-00654.dita" navtitle="Trademarks"> </topicref>
+  <appendix href="appDir_Overview.dita" navtitle="Directory structure of OpenTM2"> </appendix>
+  <appendix href="appMt_Overview.dita" navtitle="Inline Tag pre-processing for machine translation - Overview"> </appendix>
+  <appendix href="appMQ_Overview.dita" navtitle="MT Client Interface via MQ Series -"> </appendix>
+  <appendix href="appLimit_Overview.dita" navtitle="System limitations"> </appendix>
+
+  <appendix href="appHint_Overview.dita" navtitle="Hints, tips, and technical notices">
+    <topicref href="appHint_Word.dita" navtitle="About Microsoft Word documents">
+      <topicref href="appHint_WordSpace.dita" navtitle="Disk space consumption with .doc files"> </topicref>
+      <topicref href="appHint_WordPicture.dita" navtitle="Problem: Word files with embedded picture data cannot be exported"> </topicref>
+      <topicref href="appHint_WordFont.dita" navtitle="Automatic font conversion for translated RTF documents"> </topicref>
+      <topicref href="appHint_WordIndex.dita" navtitle="Translating TOC and index sections in Word documents"> </topicref>
+      <topicref href="appHint_WordMarkup.dita" navtitle="EQFRTF/EQFMSWRD markup table and third-party program limitations"> </topicref>
+    </topicref>
+    <topicref href="appHint_Bidi.dita" navtitle="About bidirectional language processing">
+      <topicref href="appHint_BidiWord.dita" navtitle="Windows Help/RTF – Table columns not in reverse order"> </topicref>
+    </topicref>
+  </appendix>
+
+  <appendix href="appPrb_Overview.dita" navtitle="Problem determination">
+    <topicref href="appPrb_StartOpenTM2.dita" navtitle="Problems when starting OpenTM2"> </topicref>
+  </appendix>
+
+  <appendix href="appAcc_Overview.dita" navtitle="Accessibility">
+    <topicref href="appAcc_ColorFontKeys.dita" navtitle="Colors, fonts and key assignment">
+      <topicref href="appAcc_Color.dita" navtitle="Set colors"> </topicref>
+      <topicref href="appAcc_Font.dita" navtitle="Set fonts"> </topicref>
+      <topicref href="appAcc_Keys.dita" navtitle="Assign keys"> </topicref>
+    </topicref>
+    <topicref href="appAcc_Shortcuts.dita" navtitle="Keyboard shortcuts">
+      <topicref href="appAcc_ShortcutsMenu.dita" navtitle="Opening menus"> </topicref>
+      <topicref href="appAcc_ShortcutsWindow.dita" navtitle="Navigating in windows (Folder List window, Document List window, Translation Memory List window or Dictionary List window)"> </topicref>
+      <topicref href="appAcc_ShortcutsTransWindow.dita" navtitle="Default keyboard shortcuts in Translation window"> </topicref>
+      <topicref href="appAcc_ShortcutsHelp.dita" navtitle="Help"> </topicref>
+      <topicref href="appAcc_ShortcutsSpecial.dita" navtitle="Special accessibility keyboard shortcuts"> </topicref>
+    </topicref>
+    <topicref href="appAcc_Menu.dita" navtitle="Menu bar choices"> </topicref>
+    <topicref href="appAcc_MenuFile1.dita" navtitle="File Menu 1"> </topicref>
+    <topicref href="appAcc_MenuFile2.dita" navtitle="File Menu 2"> </topicref>
+    <topicref href="appAcc_View.dita" navtitle="View Menu"> </topicref>
+    <topicref href="appAcc_Utility.dita" navtitle="Utilities Menu"> </topicref>
+    <topicref href="appAcc_Window.dita" navtitle="Window Menu"> </topicref>
+    <topicref href="appAcc_Help.dita" navtitle="Help Menu"> </topicref>
+    <topicref href="appAcc_Edit.dita" navtitle="Edit Menu"> </topicref>
+    <topicref href="appAcc_Options.dita" navtitle="Options Menu"> </topicref>
+    <topicref href="appAcc_Cursor.dita" navtitle="Cursor Menu"> </topicref>
+    <topicref href="appAcc_Translation.dita" navtitle="Translation Menu"> </topicref>
+    <topicref href="appAcc_Spellcheck.dita" navtitle="Spellcheck Menu"> </topicref>
+    <topicref href="appAcc_Style.dita" navtitle="Style Menu"> </topicref>
+  </appendix>
+
+  <appendix href="appNotice_Overview.dita" navtitle="Notices">
+    <topicref href="appNotice_Trademarks.dita" navtitle="Trademarks"> </topicref>
   </appendix>
   <!-- ************************************************************************************************ -->
   

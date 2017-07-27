@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFSEGFILECONVERTUNICODE2ASCII">
+<title>EQFSEGFILECONVERTUNICODE2ASCII</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EQFSEGFILECONVERTUNICODE2ASCII</indexterm><indexterm>programming interface calls<indexterm>EQFSEGFILECONVERTUNICODE2ASCII</indexterm></indexterm>
+<p><i>EQFSEGFILECONVERTUNICODE2ASCII</i> gives the
+possibility to convert the segmented UTF16 -Unicode file to ASCII
+(EQFSEGFILECONVERTUNICODE2ASCII) </p>
+<p>EQFSegFileConvertUNICODE2ASCII are helper functions for user exits
+which require the segmented files to be in ASCII whereas <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+expects the segmented files to be saved in Unicode.</p>
+<p>The pszInFile is converted from Unicode to ASCII and written as
+the file pszOutFile. If the file pszOutFile already exists, it is
+overwritten.  Only files which are correctly segmented, can be converted
+with this API.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFSEGFILECONVERUNICODE2ASCII</kwd><delim>(</delim><var>pszInFile</var><sep>,</sep><var>pszOutFile</var><sep>,</sep><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>pszInFile(PSZ)</var></synph> — input</pt>
+<pd>The fully qualified filename of a segmented file in UTF16 Unicode
+format which should be converted .</pd></plentry>
+<plentry><pt><synph><var>pszOutFile(PSZ)</var></synph> — input</pt>
+<pd>the fully qualified filename of the file to which pszInFile
+should be converted.</pd></plentry>
+<plentry><pt><synph><var>usReturn(USHORT)</var></synph> — output</pt>
+<pd/></plentry>
+</parml>
+</section>
+<section><title>Return codes</title>
+<dl>
+<dlentry><dt>EQFRC_OK</dt>
+<dd>successfully completed</dd></dlentry>
+<dlentry><dt>ERROR_FILE_OPEN_FAILED</dt>
+<dd>file read error</dd></dlentry>
+<dlentry><dt>ERROR_STORAGE</dt>
+<dd>allocation of memory failed.</dd></dlentry>
+<dlentry><dt>ERROR_FILE_INVALID_DATA</dt>
+<dd>segmentation of file is erraneous</dd></dlentry>
+<dlentry><dt>EQFRS_INVALID_PARM</dt>
+<dd> table cannot be accessed</dd></dlentry>
+</dl>
+</section>
+<section><title>Remarks</title>
+<p>If the file pszOutFile exists already, it is overwritten. </p>
+</section></refbody></reference>

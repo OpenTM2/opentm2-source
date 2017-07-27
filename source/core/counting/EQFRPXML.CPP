@@ -383,6 +383,8 @@ BOOL RptGetStyleSheetNameForReportFormat( RPTTYPE Report, OPTION_FILE_FORMAT For
 BOOL RptCheckProfile( PRPT pRpt );
 BOOL RptWriteFuzzyLevel( CXmlWriter *xw, PSZ pszType, LONG lLevel );
 BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTime, PLONG pNextValidTime );
+ULONG RptGetRecordSize( PALLINFO pAllInfo );
+
 
 static VOID MergeResults
 (
@@ -596,7 +598,8 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
   FILE      *hfFileHandle = NULL;       // file handle
   USHORT    usFileRc = 0;               // return from file handle
   ULONG     ulBytesRead = 0;            // number of bytes read by UtlRead
-  ULONG     ulAllocs = 1;               // number of allocs of ALLINFOSs
+  ULONG     ulAllocEntries = 0;         // size of ALLINFOS pointer array in number of entries
+  ULONG     ulNewAllocEntries = 0;      // new size of pointer array during re-allocation
   PVOID     pArray;                     // pointer to allocated memory
   ULONG     ulRecordIndex = 1;          // index of record in file
   HWND      hwndRptLongLB = NULLHANDLE; // Listbox with long names
@@ -609,8 +612,12 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
   strcat (pRpt->szHistLogFile, RPT_HISTLOG_DIRECTORY);
   strcat (pRpt->szHistLogFile, HISTLOGFILE);
 
+  // allocate buffer for current record
+  fOK = UtlAllocHwnd((PVOID*)&pAllInfoTmp, 0L, sizeof(ALLINFO), ERROR_STORAGE, pRpt->hwndErrMsg );
+
   // allocate memory for PALLINFO array, initial size INIT_SIZE_A
-  fOK = UtlAllocHwnd((PVOID*)&pArray, 0L, (ULONG)(INIT_SIZE_A*sizeof(PALLINFO)), ERROR_STORAGE, pRpt->hwndErrMsg );
+  ulAllocEntries = INIT_SIZE_A;
+  if ( fOK ) fOK = UtlAllocHwnd((PVOID*)&pArray, 0L, (ULONG)(INIT_SIZE_A * sizeof(PALLINFO)), ERROR_STORAGE, pRpt->hwndErrMsg );
 
   if ( fOK )
   {
@@ -759,32 +766,27 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
   // loop over each histlog record of histlog file
   while ( fOK && fNext )
   {
+
     // check, if array is still large enough
-    if ( !(pRpt->ulAllInfoRecords % INIT_SIZE_A) && pRpt->ulAllInfoRecords )
+    if ( pRpt->ulAllInfoRecords >= ulAllocEntries )
     {
       // realloc memory for PALLINFO array
-      fOK = UtlAllocHwnd ((PVOID*)&pArray,
-                          (ULONG)(INIT_SIZE_A* ulAllocs *  sizeof(PALLINFO)),
-                          (ULONG)(INIT_SIZE_A*(ulAllocs+1)*sizeof(PALLINFO)),
-                          ERROR_STORAGE, pRpt->hwndErrMsg );
-      if ( !fOK ) pRpt->fErrorPosted = TRUE; // error msg has been shown
-
-      ulAllocs++;
+      ULONG ulOldSize = ulAllocEntries * (ULONG)sizeof(PALLINFO);
+      ulNewAllocEntries = ulAllocEntries + INIT_SIZE_A;
+      ULONG ulNewSize = ulNewAllocEntries * (ULONG)sizeof(PALLINFO);
+      fOK = UtlAllocHwnd ((PVOID*)&pArray, ulOldSize, ulNewSize, ERROR_STORAGE, pRpt->hwndErrMsg );
 
       if ( fOK )
       {
         pRpt->ppAllInfoField = (PPALLINFO)pArray;    // store memory address in RPT
         ppAllInfoFieldTmp = (PPALLINFO)pArray;       // set tmp pointer
         ppAllInfoFieldTmp += pRpt->ulAllInfoRecords; // update tmp pointer
+        ulAllocEntries = ulNewAllocEntries;
       }
-    } // end if
-
-    // allocate memory for ALLINFO, if necessary
-    if ( fAlloc )
-    {
-      fOK = UtlAllocHwnd ((PVOID*)&pAllInfoTmp, 0L,
-                          (ULONG)sizeof (ALLINFO), ERROR_STORAGE, pRpt->hwndErrMsg );
-      if ( !fOK ) pRpt->fErrorPosted = TRUE; // error msg has been shown
+      else
+      {
+        pRpt->fErrorPosted = TRUE; // error msg has been shown
+      }
     } // end if
 
     if ( fOK )
@@ -819,6 +821,7 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
 
         ppAllInfoFieldTmp = (PPALLINFO)pArray;    
         pRpt->ulAllInfoRecords = 0;
+        ulAllocEntries = 0;
         ulRecordIndex = 0;
       } 
       // skip not necssary logs
@@ -866,7 +869,6 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
         } /* endif */
 
         // read variable part and skip it
-        fAlloc = FALSE;
         if ( fOK && (pAllInfoTmp->histLogRecord.usAddInfoLength) )
         {
           ulBytesRead = fread( (PVOID)&pAllInfoTmp->variablePart, 1, pAllInfoTmp->histLogRecord.usAddInfoLength, hfFileHandle );
@@ -880,8 +882,6 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
       }
       else if ( usFileRc == NO_ERROR && ulBytesRead > 0 )
       {
-        fAlloc = TRUE;
-
         // check, if record is valid
         if ( pAllInfoTmp->histLogRecord.lEyeCatcher != HISTLOGEYECATCHER )
         {
@@ -997,9 +997,23 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
               pRpt->usSelectedDocuments++;
             } // end if
 
-            *ppAllInfoFieldTmp++ = pAllInfoTmp;  // store address in PALLINFOs
-            pRpt->ulAllInfoRecords++;            // update number of ALLINFOs in RPT
-            fAlloc = TRUE;                       // set allocation state
+            // just for debugging
+            if ( pRpt->ulAllInfoRecords >= ulAllocEntries )
+            {
+              int iSetBreakPointHere = 1;
+            } /* endif */
+
+
+            // allocate memory for this record
+            PALLINFO pTemp = NULL;
+            ULONG ulSize = RptGetRecordSize( pAllInfoTmp );
+            fOK = UtlAllocHwnd ((PVOID*)&pTemp, 0L, ulSize, ERROR_STORAGE, pRpt->hwndErrMsg );
+            if ( fOK )
+            {
+              memcpy( pTemp, pAllInfoTmp, ulSize );
+              *ppAllInfoFieldTmp++ = pTemp;  // store address in PALLINFOs
+              pRpt->ulAllInfoRecords++;            // update number of ALLINFOs in RPT
+            } // end if
           }
           // ---------------------------------------
           // files are selected
@@ -1030,14 +1044,19 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
 
             if ( sItem == -1 ) // document is not in LB -> not selected
             {
-              fAlloc = FALSE;  // set allocation state
             }
             else
             {
-              // document is selected
-              *ppAllInfoFieldTmp++ = pAllInfoTmp;  // store address in PALLINFOs
-              pRpt->ulAllInfoRecords++;            // update number of ALLINFOs in RPT
-              fAlloc = TRUE;                       // set allocation state
+              // document is selected, add record to our array
+              PALLINFO pTemp = NULL;
+              ULONG ulSize = RptGetRecordSize( pAllInfoTmp );
+              fOK = UtlAllocHwnd ((PVOID*)&pTemp, 0L, ulSize, ERROR_STORAGE, pRpt->hwndErrMsg );
+              if ( fOK )
+              {
+                memcpy( pTemp, pAllInfoTmp, ulSize );
+                *ppAllInfoFieldTmp++ = pTemp;  // store address in PALLINFOs
+                pRpt->ulAllInfoRecords++;            // update number of ALLINFOs in RPT
+              } // end if
             } // end if
           } // end if
         } // end if
@@ -1060,6 +1079,7 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
   // cleanup
   if ( hwndRptLongLB ) WinDestroyWindow(hwndRptLongLB);
   if ( hfFileHandle )  fclose( hfFileHandle );  
+  if ( pAllInfoTmp ) UtlAlloc((PVOID*)&pAllInfoTmp, 0L, 0, NOMSG );
 
   return fOK;
 } // end of RptGetRecords
@@ -1619,7 +1639,7 @@ BOOL RPTXMLREPORT( BOOL bDde, HWND hwnd, PRPT pRpt)
   fOK = RptGetRecords2( bDde, pRpt, &fCorrupted, &lLastValidTime, &lNextValidTime );
 
   // handle corrupted history log file
-  if ( fCorrupted )
+  if ( fOK && fCorrupted )
   {
     CHAR szTempHistLog[MAX_EQF_PATH];
 
@@ -1806,7 +1826,14 @@ BOOL RPTXMLREPORT( BOOL bDde, HWND hwnd, PRPT pRpt)
 
   if ( !fOK && bDde == TRUE)
   {
-    WinPostMsg( GETPARENT(hwnd), WM_CLOSE, NULL, NULL );
+    if ( hwnd != NULL )
+    {
+      WinPostMsg( GETPARENT(hwnd), WM_CLOSE, NULL, NULL );
+    }
+    else
+    {
+      WinPostMsg( pRpt->hwndErrMsg, WM_CLOSE, NULL, NULL );
+    } /* endif */
 
     if ( pRpt ) pRpt->usRptStatus = RPT_KILL;
     if ( !pRpt->fErrorPosted ) UtlErrorHwnd(ERROR_INTERNAL,MB_CANCEL,0,NULL, INTERNAL_ERROR, pRpt->hwndErrMsg);
@@ -4775,7 +4802,7 @@ BOOL RptMakeCalculationRecordsX (PRPT pRpt)
   PPCALCINFO     ppCalcInfoFieldTmp = NULL;  // pointer to PCALCINFO array
   PPALLINFO      ppAllInfoFieldTmp = NULL;   // pointer to PALLINFO array
   PALLINFO       pAllInfoFieldTmp = NULL;    // pointer tp PALLINFOs
-  ULONG          ulAllocs = 1;        // number of allocs of CALCIFOs
+  ULONG          ulAllocEntries = 0;        // number of allocated CALCIFOs entries
   PCALCINFO      pCalcInfoTmp = NULL;        // pointer to CALCINFO structure
   PCALCINFO      pCalcInfoSum = NULL;        // pointer to CALCINFO structure
   PDOCSAVEHISTEX pDocInfoAnalBase = NULL;   // CALCINFO structure with base info
@@ -4831,8 +4858,8 @@ BOOL RptMakeCalculationRecordsX (PRPT pRpt)
   // alloc memory for PCALCINFO array, initial size INIT_SIZE_C
   if ( fOK )
   {
-    fOK = UtlAlloc ((PVOID*)&pArray, 0L,
-                    (ULONG)(INIT_SIZE_C*sizeof(CALCINFO)), ERROR_STORAGE);
+    ulAllocEntries = INIT_SIZE_C;
+    fOK = UtlAlloc ((PVOID*)&pArray, 0L, (ULONG)(ulAllocEntries * sizeof(PCALCINFO)), ERROR_STORAGE);
   } // end if
 
   if ( fOK )
@@ -4861,15 +4888,15 @@ BOOL RptMakeCalculationRecordsX (PRPT pRpt)
     while ( pRpt && fOK && (usIndex++ < pRpt->ulAllInfoRecords) )
     {
       // check, if array is still large enough
-      if ( !(pRpt->ulCalcInfoRecords % INIT_SIZE_C) && pRpt->ulCalcInfoRecords )
+      if ( pRpt->ulCalcInfoRecords >= ulAllocEntries )
       {
         // realloc memory for PCALCINFO array
         fOK = UtlAlloc ((PVOID*)&pArray,
-                        (ULONG)(INIT_SIZE_C* ulAllocs *  sizeof(PCALCINFO)),
-                        (ULONG)(INIT_SIZE_C*(ulAllocs+1)*sizeof(PCALCINFO)),
+                        (ULONG)(ulAllocEntries * (ULONG)sizeof(PCALCINFO)),
+                        (ULONG)(INIT_SIZE_C + ulAllocEntries) * (ULONG)sizeof(PCALCINFO),
                         ERROR_STORAGE);
 
-        ulAllocs++;
+        ulAllocEntries += INIT_SIZE_C;
         if ( fOK )
         {
           pRpt->ppCalcInfoField = (PPCALCINFO)pArray;    // store memory address in RPT
@@ -5954,17 +5981,18 @@ BOOL RptMakeCalculationRecordsX (PRPT pRpt)
 
     // add one PCALCINFO for summary CALCINFO in PCALCINFO array
     // if necessary, realloc PCALCINFO array
-    if ( !(pRpt->ulCalcInfoRecords % INIT_SIZE_C) && pRpt->ulCalcInfoRecords )
+    if ( pRpt->ulCalcInfoRecords >= ulAllocEntries )
     {
       // realloc memory for PCALCINFO array
       fOK = UtlAlloc ((PVOID*)&pArray,
-                      (ULONG)( INIT_SIZE_C*ulAllocs *  sizeof(PCALCINFO)),
-                      (ULONG)((INIT_SIZE_C*(ulAllocs+1))*sizeof(PCALCINFO)),
+                      (ULONG)(ulAllocEntries * (ULONG)sizeof(PCALCINFO)),
+                      (ULONG)(ulAllocEntries + INIT_SIZE_C) * (ULONG)sizeof(PCALCINFO),
                       ERROR_STORAGE);
 
       if ( fOK )
       {
         pRpt->ppCalcInfoField = (PPCALCINFO)pArray;  // store memory address in RPT
+        ulAllocEntries += INIT_SIZE_C;
       }
     } // end if
 
@@ -8113,3 +8141,22 @@ BOOL RptCheckDocNames( PRPT pRpt, PRPT_REDUND pRPT_REDUND_START, PDOCNAME pDocNa
   return( fOK );
 
 } /* end of function RptCheckDocNames */
+
+// compute actual ALLINFO record size
+ULONG RptGetRecordSize( PALLINFO pAllInfo )
+{
+  // layout of ALLINFO record: 
+  //    ULONG         ulRecord;       // number of record
+  //    HISTLOGRECORD histLogRecord;  // HISTLOGRECORD
+  //    CHAR          szLongName[MAX_LONGFILESPEC]; // document long name
+  //    VARPART       variablePart;  
+  
+  // the histLogRecord.usSize contains the size of the record in the file, so the size of the variable part of the record
+  // is usSize - sizeof(HISTLOGRECORD) - length of the document long name
+  USHORT usVarPartSize = pAllInfo->histLogRecord.usSize - sizeof(pAllInfo->histLogRecord) - strlen(pAllInfo->szLongName);
+
+  ULONG ulSize = (PBYTE)&(pAllInfo->variablePart) - (PBYTE)pAllInfo;
+  ulSize += usVarPartSize;
+
+  return( ulSize );
+}

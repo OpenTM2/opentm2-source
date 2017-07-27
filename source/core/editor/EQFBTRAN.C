@@ -1893,6 +1893,11 @@ VOID  EQFBActivateSegm
             // from case with 2 matches, one "r" and one "f" match.
             // Fix for P019381: do not set pSeg->CountFlag.ReplExist = TRUE;
           }
+          else if (usState & GLOBMEMFUZZY_TRANS_PROP )
+          {
+            // count global memory fuzzzies as normal fuzzy matches
+            pSeg->CountFlag.FuzzyExist = TRUE;
+          }
           else if (usState & FUZZY_PROP )
           {
             pSeg->CountFlag.FuzzyExist = TRUE;
@@ -4542,47 +4547,50 @@ EQFBActTrans
 //------------------------------------------------------------------------------
 SHORT EQFBCntAllSrcWords
 (
-  PTBDOCUMENT  pDoc,                   // pointer to document
+  PTBDOCUMENT  pSourceDoc,              // pointer to source document
+  PTBDOCUMENT  pTargetDoc,              // pointer to target document
   SHORT        sSourceLang,             // language ID for source language
   ULONG        ulOemCP
 )
 {
    ULONG       ulSegNum;
    SHORT       sRc = 0;
-   PTBSEGMENT  pSeg;                     // pointer to segment
+   PTBSEGMENT  pSourceSeg, pTargetSeg;                     // pointer to segment
    ULONG       ulSrcWords = 0L;
    ULONG       ulSrcMarkUp = 0L;
+   ULONG       ulTempSeg = 0; 
 
    /*****************************************************************/
    /* force count of all source words                               */
    /*****************************************************************/
-   ulSegNum = 1;
-   pSeg = EQFBGetVisSeg(pDoc, &ulSegNum);
-   while ( pSeg && !sRc )
+   ulTempSeg = ulSegNum = 1;
+   pSourceSeg = EQFBGetVisSeg( pSourceDoc, &ulTempSeg );
+   pTargetSeg = EQFBGetVisSeg( pTargetDoc, &ulSegNum);
+   while ( pTargetSeg && !sRc )
    {
-     switch ( pSeg->qStatus )
+     switch ( pTargetSeg->qStatus )
      {
        case  QF_ATTR:
        case  QF_TOBE:
        case  QF_CURRENT:
-         if ((pSeg->usSrcWords == 0 )&& (!pSeg->SegFlags.NoCount))
+         if ((pTargetSeg->usSrcWords == 0 )&& (!pTargetSeg->SegFlags.NoCount))
          {
            ulSrcWords = 0L;
            ulSrcMarkUp = 0L;
            sRc = EQFBWordCntPerSeg(
-                        (PLOADEDTABLE)pDoc->pDocTagTable,
-                        (PTOKENENTRY) pDoc->pTokBuf,
-                        pSeg->pDataW,
+                        (PLOADEDTABLE)pTargetDoc->pDocTagTable,
+                        (PTOKENENTRY) pTargetDoc->pTokBuf,
+                        pSourceSeg->pDataW,
                         sSourceLang,
                         &ulSrcWords, &ulSrcMarkUp, ulOemCP );
            if (!sRc)
            {
-             pSeg->usSrcWords = (USHORT) ulSrcWords;
+             pTargetSeg->usSrcWords = (USHORT) ulSrcWords;
            } /* endif */
          }
          else
          {
-           pSeg->usSrcWords = 0;
+           pTargetSeg->usSrcWords = 0;
          } /* endif */
          break;
 
@@ -4592,7 +4600,9 @@ SHORT EQFBCntAllSrcWords
          break;
      } /* endswitch */
      ulSegNum ++;
-     pSeg = EQFBGetVisSeg(pDoc, &ulSegNum);
+     ulTempSeg = ulSegNum;
+     pSourceSeg = EQFBGetVisSeg( pSourceDoc, &ulTempSeg );
+     pTargetSeg = EQFBGetVisSeg( pTargetDoc, &ulSegNum);
    } /* endwhile */
 
    return ( sRc );

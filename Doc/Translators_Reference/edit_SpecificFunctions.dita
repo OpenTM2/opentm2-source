@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_SpecificFunctions">
+  <title>Translation-specific functions</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> editor particularly supports you when you translate in the Translation
+      Environment.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Task</entry>
+            <entry valign="top" rowsep="1">Key or Menu</entry>
+            <entry valign="top" rowsep="1">Comment</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Add an abbreviation<indexterm>abbreviations<indexterm>adding new ones</indexterm></indexterm></entry>
+            <entry valign="top">Translate menu, "Add an abbreviation"</entry>
+            <entry valign="top">Adds the term where the cursor is positioned to your abbreviation list.</entry>
+          </row>
+          <row>
+            <entry valign="top">Automatic substitution <indexterm>automatic substitution</indexterm></entry>
+            <entry valign="top">Translate menu, "Automatic substitution"</entry>
+            <entry valign="top">Replaces segments for which a translation has been found in the Translation Memory by their previous translation. 
+              Automatic substitution stops when no exact match or more than one exact match has been found.</entry>
+          </row>
+          <row>
+            <entry valign="top">Change display style of markup tags </entry>
+            <entry valign="top">Style menu, "Protect", "Unprotect", "Hide", "Shrink", "Compact"</entry>
+            <entry valign="top">Displays the markup information in a document according to the selected style. To avoid overtyping by mistake, 
+              all markup tags are protected by default.</entry>
+          </row>
+          <row>
+            <entry valign="top">Copy dictionary proposal <indexterm>dictionary<indexterm>copying proposals</indexterm></indexterm>
+              <indexterm>copying<indexterm>dictionary proposals</indexterm></indexterm></entry>
+            <entry valign="top">Ctrl+letter of proposal</entry>
+            <entry valign="top">Inserts the translation proposal at the current cursor position. The first 26 dictionary entries are preceded 
+              by a to z, the entries 27 to 52 are preceded by A to Z. Entries beyond 52 are preceded by an asterisk (*) and must be
+              copied from the clipboard using Copy and Paste.</entry>
+          </row>
+          <row>
+            <entry valign="top">Copy Translation Memory proposal 
+              <indexterm>copying<indexterm>Translation Memory proposals</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>copying proposals</indexterm></indexterm></entry>
+            <entry valign="top">Ctrl+number of proposal</entry>
+            <entry valign="top">Replaces the active segment with the translation proposal. See 
+              <xref href="edit_BasicMovingMarkedText.dita#edit_BasicMovingMarkedText"/> for information on how to copy a marked part of a translation proposal.</entry>
+          </row>
+          <row>
+            <entry valign="top">Delete Translation Memory proposal 
+              <indexterm>deleting<indexterm>Translation Memory proposals</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>deleting proposals</indexterm></indexterm></entry>
+            <entry valign="top">"Delete" key while cursor is on proposal</entry>
+            <entry valign="top">Lets you remove translation proposals from the Translation Memory, for example, translations that have been 
+              added by mistake.</entry>
+          </row>
+          <row>
+            <entry valign="top">Display exact <b>and</b> fuzzy proposals </entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Displays fuzzy translation proposals in addition to an exact one in the <q>Translation Memory</q> window. 
+              Is useful for viewing more than one translation possibility for a segment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Edit abbreviations<indexterm>abbreviations<indexterm>updating</indexterm></indexterm></entry>
+            <entry valign="top">Translate menu, "Edit abbreviations..."</entry>
+            <entry valign="top">Enables the extension and update of abbreviations defined for the selected language-support file.</entry>
+          </row>
+          <row>
+            <entry valign="top">Edit addendum terms <indexterm>spellchecker addendum, updating</indexterm></entry>
+            <entry valign="top">Spellcheck menu, "Edit addendum terms..."</entry>
+            <entry valign="top">Lets you modify or remove terms which have been added to the spellchecker addendum (for example, terms 
+              that have been added by mistake).</entry>
+          </row>
+          <row>
+            <entry valign="top">Edit an entry in a dictionary </entry>
+            <entry valign="top">Translate menu, "Edit a term...", or positioning cursor on term in <q>Dictionary</q> window and 
+              double-clicking mouse button 2</entry>
+            <entry valign="top">Lets you edit a found entry or add a new one while translating. To edit a multiword term, all components 
+              of the term must be marked first.</entry>
+          </row>
+          <row>
+            <entry valign="top">Look up a sentence in the Translation Memory 
+              <indexterm>looking up<indexterm>sentences in a Translation Memory</indexterm></indexterm>
+              <indexterm>Translation Memory<indexterm>looking up sentences</indexterm></indexterm></entry>
+            <entry valign="top">Options menu, "Sentence lookup..."</entry>
+            <entry valign="top">Looks up a sentence in the Translation Memory while you translate.</entry>
+          </row>
+          <row>
+            <entry valign="top">Look up a term in a dictionary 
+              <indexterm>looking up<indexterm>terms in a dictionary</indexterm></indexterm>
+              <indexterm>editing<indexterm>dictionary entries</indexterm></indexterm>
+              <indexterm>dictionary<indexterm>looking up terms</indexterm></indexterm>
+              <indexterm>dictionary<indexterm>editing entries</indexterm></indexterm></entry>
+            <entry valign="top">Translate menu, "Look up a term...", or positioning cursor on term in <q>Dictionary</q> window and 
+              double-clicking mouse button 1</entry>
+            <entry valign="top">Looks up entry of term where the cursor is positioned. To look up a multiword term, all components of the 
+              term must be marked first.</entry>
+          </row>
+          <row>
+            <entry valign="top">Postedit<indexterm>postediting</indexterm><indexterm>translations<indexterm>revising</indexterm></indexterm></entry>
+            <entry valign="top">Translate menu, "Postediting"</entry>
+            <entry valign="top">Lets you revise what you translated. Whatever you change in the translation is automatically changed in the 
+              Translation Memory.</entry>
+          </row>
+          <row>
+            <entry valign="top">Spellcheck <indexterm>translations<indexterm>spellchecking</indexterm></indexterm></entry>
+            <entry valign="top">Spellcheck menu, "File" or "Segment"</entry>
+            <entry valign="top">Checks the spelling of a translated document or an individual segment.</entry>
+          </row>
+          <row>
+            <entry valign="top"><indexterm>toggling first character of dictionary</indexterm>
+              Toggle first character of dictionary proposal
+              <indexterm>editor functions<indexterm>toggling first character of dictionary proposal</indexterm></indexterm>
+              <indexterm>dictionary<indexterm>toggling first character of proposal</indexterm></indexterm></entry>
+            <entry valign="top">Options menu, "Keys..."</entry>
+            <entry valign="top">Changes the first character of the dictionary proposal from uppercase to lowercase, and vice versa. 
+              If the dictionary proposal consists of several words, it changes the first character of the word where the cursor is placed. 
+              This function does not apply to DBCS characters.</entry>
+          </row>
+          <row>
+            <entry valign="top">View another document 
+              <indexterm>translations<indexterm>referring to other documents while translating</indexterm></indexterm>
+              <indexterm>document<indexterm>opening more documents while translating</indexterm></indexterm></entry>
+            <entry valign="top">File menu, "Open..."</entry>
+            <entry valign="top">Opens another document for checking purposes while translating. Parts of this document can be marked for 
+              copying into the document you currently translate.</entry>
+          </row>
+          <row>
+            <entry valign="top">View original <indexterm>document<indexterm>displaying original while translating</indexterm></indexterm>
+              <indexterm>original document, viewing</indexterm></entry>
+            <entry valign="top">File menu, "Original window"</entry>
+            <entry valign="top">Displays the source document while translating.</entry>
+          </row>
+          <row>
+            <entry valign="top">View source of a translation proposal 
+              <indexterm>Translation Memory matches<indexterm>displaying corresponding sources</indexterm></indexterm>
+              <indexterm>matches<indexterm>displaying corresponding sources</indexterm></indexterm></entry>
+            <entry valign="top">Filemenu, "Source of Proposal", or double-clicking mouse button 1 while being in proposal window</entry>
+            <entry valign="top">Displays the source of a translation proposal.</entry>
+          </row>
+          <row>
+            <entry valign="top">View table of contents
+              <indexterm>Translation Environment<indexterm>displaying tables of contents</indexterm></indexterm>
+              <indexterm>document<indexterm>displaying tables of contents</indexterm></indexterm>
+              <indexterm>viewing<indexterm>tables of contents</indexterm></indexterm>
+              <indexterm>displaying<indexterm>tables of contents</indexterm></indexterm>
+              <indexterm>table of contents<indexterm>displaying</indexterm></indexterm></entry>
+            <entry valign="top">Cursor menu, "Special go to..."</entry>
+            <entry valign="top">Displays a table of contents of the document being translated. Double-clicking an item directly takes you 
+              to this item in the document. <p>To enable the display, you must include a specific tag in your markup table 
+              (see the &quot;Technical Reference&quot;, chapter &quot;SGML tags for markup tags and markup attributes&quot;).</p></entry>
+          </row>
+          <row>
+            <entry valign="top">View translation
+              <indexterm>Translation Environment<indexterm>displaying translations</indexterm></indexterm>
+              <indexterm>document<indexterm>displaying translations</indexterm></indexterm>
+              <indexterm>viewing<indexterm>translations</indexterm></indexterm>
+              <indexterm>displaying<indexterm>translations</indexterm></indexterm></entry>
+            <entry valign="top">Translate menu, "Show translation"</entry>
+            <entry valign="top">Displays the translation document in HTML, RTF, or 
+              <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word format. 
+              Prerequisite is the availability of the WebBrowser control.</entry>
+          </row>
+          <row>
+            <entry valign="top">View translator’s notes
+              <indexterm>Translation Environment<indexterm>displaying translator’s notes</indexterm></indexterm>
+              <indexterm>document<indexterm>displaying notes</indexterm></indexterm>
+              <indexterm>viewing<indexterm>translator’s notes</indexterm></indexterm>
+              <indexterm>displaying<indexterm>translator’s notes</indexterm></indexterm></entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Displays the notes for the translator that are contained in the source document.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

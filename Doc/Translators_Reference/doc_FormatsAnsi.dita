@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_FormatsAnsi">
+<title>ANSI documents</title>
+<prolog><metadata><keywords>
+
+<indexterm>document
+types<indexterm>ANSI</indexterm></indexterm>
+<indexterm>ANSI documents</indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> provides the following markup tables to import different
+ANSI (Windows ISO 8859-x) documents:
+<ul>
+<li><codeph>EQFALINE</codeph> for files in which everything is translatable.</li>
+<li><codeph>EQFAQUOT</codeph> for files in which translatable text is enclosed
+in single quotes.</li>
+<li><codeph>EQFAMRI</codeph> for files in which translatable text is enclosed
+in double quotes.</li>
+<li><codeph>EQFANSI</codeph> for ANSI documents. This markup table is combined
+with a user exit.</li>
+</ul></p>
+<p>The <codeph>EQFALINE</codeph> markup table is used for ANSI documents
+that are completely translatable. In such documents, each line is
+translated separately. This means that text segmentation is based
+on a line basis. Such documents do not contain comments.</p>
+<p>The <codeph>EQFAQUOT</codeph> markup table is used for files in which
+translatable text is enclosed in single quotes (') and the <codeph>EQFAMRI</codeph> markup
+table for files in which translatable text is enclosed in double quotes
+("). Comments, which are not translatable, begin with two backslashes
+(\\) and end with the end of the current line or begin
+with \* and end with *\. In the latter
+case, comments can span several lines. Replacement variables that
+start with a percent sign (%) and have a well-defined format
+like %8.8s or %ld, are not translatable.</p>
+</body></topic>

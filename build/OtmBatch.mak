@@ -3,7 +3,7 @@
 # +----------------------------------------------------------------------------+
 # |  Copyright Notice:                                                         |
 # |                                                                            |
-# |      Copyright (C) 1990-2013, International Business Machines              |
+# |      Copyright (C) 1990-2017, International Business Machines              |
 # |      Corporation and others. All rights reserved                           |
 # +----------------------------------------------------------------------------+
 
@@ -25,5 +25,5 @@ $(_BIN)\OtmBatch.EXE: $(_OBJ)\OtmBatch.obj
 $(_OBJ)\OtmBatch.obj
 /OUT:$(_BIN)\OtmBatch.EXE
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OtmAlloc.lib $(_LIB)\OtmBase.lib $(_LIB)\OTMDll.LIB $(_LIB)\OTMFUNC.LIB $(_LIB)\PluginManager.lib
+$(_LINK_LIB_EXE) $(_LIB)\OtmBase.lib $(_LIB)\OTMDll.LIB $(_LIB)\OTMFUNC.LIB $(_LIB)\PluginManager.lib
 <<

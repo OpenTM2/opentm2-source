@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_132_SharedMemory">
+  <title>Reworked WEB-based Shared Memory solution</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>We reworked the WEB-based shared translation memory which now either supports <b>MariaDB</b> or <b>MySQL</b>. Except of MariaDB or MySQL, 
+       all related modules are now fully based on <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-technology</p>
+    <p>For more information, go to page <xref href="memory_SharedWeb.dita#memory_SharedWeb"/>).</p>
+  </body>
+</topic>

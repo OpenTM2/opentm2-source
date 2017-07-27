@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_EQFSETTAOPTIONS">
+<title>EQFSETTAOPTIONS</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>EQFSETTAOPTIONS</indexterm></indexterm><indexterm>EQFSETTAOPTIONS</indexterm>
+<p><i>EQFSETTAOPTIONS</i> can be used
+by the markup table user exit to change the currently active analysis
+settings. The settings are passed to the API call in an <xref href="mut_EQFTAOPTIONS.dita#mut_EQFTAOPTIONS"/> structure. The analysis
+handle used by this call is passed to the user exit by the user exit
+entry points <xref href="mut_EQFPRESEGEX.dita#mut_EQFPRESEGEX"/>, and <xref href="mut_EQFPOSTSEGWEX.dita#mut_EQFPOSTSEGWEX"/>.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>EQFSETTAOPTIONS</kwd><delim>(</delim><var>AnalysisHandle</var><sep>,</sep><var>Options</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<parml>
+<plentry><pt><synph><var>AnalysisHandle</var></synph></pt>
+<pd>The analysis handle passed to the user exit by the entry points <xref href="mut_EQFPRESEGEX.dita#mut_EQFPRESEGEX"/>, and <xref href="mut_EQFPOSTSEGWEX.dita#mut_EQFPOSTSEGWEX"/>.</pd></plentry>
+<plentry><pt><synph><var>Options</var></synph></pt>
+<pd>The pointer to a <xref href="mut_EQFTAOPTIONS.dita#mut_EQFTAOPTIONS"/> structure
+containing the analysis settings being modified.</pd></plentry>
+</parml>
+</section></refbody></reference>

@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 # EQFTAML.MAK   - Makefile for EQFTAML.DLL                                  
-# Copyright (c) 2012, International Business Machines
+# Copyright (c) 2017, International Business Machines
 # Corporation and others.  All rights reserved.
 #------------------------------------------------------------------------------
 
@@ -33,5 +33,5 @@ $(_DLL)\EQFTAML.DLL: $(_OBJ)\EQFTAML.OBJ $(_OBJ)\CXMLWriter.OBJ
 $(_OBJ)\EQFTAML.OBJ $(_OBJ)\CXMLWriter.OBJ
 /OUT:$(_DLL)\EQFTAML.DLL /MAPINFO:EXPORTS
 /MAP:$(_MAP)\EQFTAML.MAP $(_LINK_OPTIONS)
-$(_LINK_LIB_CRT) $(_LIB)\OtmAlloc.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\OTMDLL.LIB oleaut32.lib uuid.lib ole32.lib
+$(_LINK_LIB_CRT) $(_LIB)\OTMBASE.LIB $(_LIB)\OTMDLL.LIB oleaut32.lib uuid.lib ole32.lib
 <<

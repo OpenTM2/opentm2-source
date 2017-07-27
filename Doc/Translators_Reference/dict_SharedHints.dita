@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="dict_SharedHints">
+  <title>Hints and tips when working with a shared dictionary</title>
+  <prolog>
+    <metadata>
+      <keywords>
+
+        <indexterm>dictionary<indexterm>hints and tips</indexterm></indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>If a term in a shared dictionary is locked although nobody is working with it, delete the
+      files with the dictionary name and extension <codeph>R-I</codeph> and <codeph>R-D</codeph> in
+      the directory <codeph>\otm\dict</codeph>. These files contain locking information. They are
+      usually synchronously updated unless there is a network failure.</p>
+    <p>If a shared dictionary is not available, that is, it is grayed, check if the drive on which
+      the dictionary resides is still connected using <b>net use</b> or the <tm trademark="Windows"
+        tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> Explorer.</p>
+  </body>
+</topic>

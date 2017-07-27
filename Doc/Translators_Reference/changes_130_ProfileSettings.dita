@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_130_ProfileSettings">
+  <title>Plugin to backup and restore Profile Settings</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The new plugin <q>Profiles Settings Management</q> allows to export (backup) and restore (import) vital 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/> settings.    
+       <fig id="profileSettingsManagement" expanse="column">
+       <title>The panel <q><b>Profile Settings Management</b></q></title>
+        <image placement="break" href="changes_130_ProfileSettings.gif">
+          <alt>Define the backup and restore profile settings</alt>
+        </image>
+       </fig>
+    </p>
+    <p>For more information see page <xref href="plugin_ProfileSettingManagement.dita#plugin_ProfileSettingManagement"/>.</p> 
+  </body>
+</topic>

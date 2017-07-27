@@ -2576,6 +2576,13 @@ USHORT __cdecl EQFWRITEHISTLOGFROMFILE
   PSZ         pszSegTargetFile                   // fully qualified file name of STARGET file of document
 );
 
+// API call to write counting information using the count data stored in a segmented target file
+__declspec(dllexport)
+USHORT __cdecl EQFADJUSTCOUNTINFO
+(
+  PSZ         pszSegTargetFile                   // fully qualified file name of STARGET file of document
+);
+
 
 
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
 /*! EQFTP.H       External header file for Translation Processor functions
-	Copyright (c) 1990-2016, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1990-2017, International Business Machines Corporation and others. All rights reserved.
 */
 
 #include <richedit.h>
@@ -1010,7 +1010,7 @@ int BiDitransform
 
 __declspec(dllexport)
   SHORT EQFBWordCntPerSeg (PVOID, PTOKENENTRY, PSZ_W, SHORT, PULONG,PULONG, ULONG);
-  SHORT EQFBCntAllSrcWords( PTBDOCUMENT, SHORT sSourceLang, ULONG ulOemCP );
+  SHORT EQFBCntAllSrcWords( PTBDOCUMENT pSourceDoc, PTBDOCUMENT pTargetDoc, SHORT sSourceLang, ULONG ulOemCP );
 __declspec(dllexport)
   SHORT EQFBHistDocSave(PSZ, PTBDOCUMENT, SHORT );
 __declspec(dllexport)

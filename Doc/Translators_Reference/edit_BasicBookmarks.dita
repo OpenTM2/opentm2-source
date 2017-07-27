@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_BasicBookmarks">
+  <title>Working with bookmarks</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>bookmarks</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> lets you set bookmarks in a text to temporarily indicate a place where 
+      you want to return to later.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Task</entry>
+            <entry valign="top" rowsep="1">Key or Menu</entry>
+            <entry valign="top" rowsep="1">Comment</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Set bookmark </entry>
+            <entry valign="top">Translate menu, "Set bookmark"</entry>
+            <entry valign="top">Sets a bookmark at the current cursor position. Makes it easier to return to this point in text later to complete 
+              the translation, for example.</entry>
+          </row>
+          <row>
+            <entry valign="top">Go to bookmark </entry>
+            <entry valign="top">Translate menu, "Go to bookmark"</entry>
+            <entry valign="top">Moves cursor to the position where you set a bookmark.</entry>
+          </row>
+          <row>
+            <entry valign="top">Clear bookmark </entry>
+            <entry valign="top">Translate menu, "Clear bookmark"</entry>
+            <entry valign="top">Removes a bookmark previously set.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

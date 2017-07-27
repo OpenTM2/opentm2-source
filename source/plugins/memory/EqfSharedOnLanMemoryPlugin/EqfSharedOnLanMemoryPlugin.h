@@ -397,10 +397,6 @@ int removeMemoryUser(PSZ pszName, PSZ userName);
 */
 int listMemoryUsers(PSZ pszName, std::vector<std::string> &users);
 
-int replicateWithServer(PSZ pszName,OtmMemory* pLocalMem, bool isUpload)
-{
-	return 0;
-}
 
 /*! \brief Stops the plugin. 
 	Terminating-function for the plugin, will be called directly before

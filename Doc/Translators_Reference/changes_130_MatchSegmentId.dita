@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_130_MatchSegmentId">
+  <title>Add Match Segment ID to support Machine Translation</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>By adding a <q>unique segment identifier</q> to segments (mainly when imported into 
+       <keyword conref="common-symbols.dita#common-symbols/tm4w"/>), an analysis can be run on the MTLOG file using 
+       the DOS line command utility <b>OtmMtEval.exe</b>. New meta-information elements such as <q>TM_ID</q>, 
+       <q>StoreID</q>, and <q>MatchSegID</q> allow analytics teams to analyze segments where translation memory 
+       proposals have been used or rejected.</p>
+    <p>The API <q>EqfImportMemEx</q> allows to add the identifier to each segment of a translation during the <b>imported</b> 
+       of the translation memory into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p> 
+    <p>The API <q>EqfAddMatchSegID</q> allows to add the identifier to each segment of a translation memory already 
+       imported into <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p> 
+    <p>Inside an external translation memory, all data is stored inside the <q>metadata</q> element.</p>
+    <p>Both APIs are described in the document <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> Technical Reference</q>, 
+       which is part of the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> distribution.</p>
+  </body>
+</topic>

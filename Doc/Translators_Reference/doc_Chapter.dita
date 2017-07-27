@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_Chapter">
+  <title>Working with documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>You can translate many document types with <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>, such as letters, brochures, booklets,
+      and manuals.</p>
+    <p>You can translate documents that were originally created with a variety of text editors, word
+      processors, and publishing systems. <indexterm>document<indexterm>formats you can use with
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/></indexterm></indexterm>The
+      file types you can use with <keyword conref="common-symbols.dita#common-symbols/tm4w"/>
+      include: <ul>
+        <li>ASCII text files</li>
+        <li>Documents from word processors and publishing systems: 
+          <ul>
+            <li>Ami Pro</li>
+            <li><tm trademark="BookMaster" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">BookMaster</tm> and IPF</li>
+            <li>HTML</li>
+            <li><tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg"
+                tmclass="special">Microsoft</tm> Word for <tm trademark="Windows"
+                tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm></li>
+            <li>RTF</li>
+            <li>WordPerfect</li>
+            <li>SGML</li>
+            <li>FrameMaker</li>
+            <li>Interleaf</li>
+            <li><tm trademark="Lotus" tmowner="Lotus Development Corporation" tmtype="reg" tmclass="ibmsub">Lotus</tm>
+              <tm trademark="Notes" tmowner="Lotus Development Corporation" tmtype="tm" tmclass="ibmsub">Notes</tm></li>
+            <li>Ventura</li>
+            <li>PageMaker</li>
+            <li>QuarkXpress</li>
+            <li>Machine-readable information (MRI)</li>
+            <li><tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm>
+              <tm trademark="PowerPoint" tmowner="Microsoft Corporation" tmtype="reg" tmclass="other">PowerPoint</tm></li>
+          </ul>
+        </li>
+        <li>Machine-readable information that is contained within: 
+          <ul>
+            <li>Assembler source code</li>
+            <li>Help files of <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg"
+                tmclass="special">Windows</tm> programs</li>
+            <li>Help and message files of <tm trademark="OS/2" tmowner="IBM Corporation"
+                tmtype="reg" tmclass="ibm">OS/2</tm> programs</li>
+            <li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg"
+                tmclass="special">Windows</tm> resource files</li>
+            <li><tm trademark="OS/2" tmowner="IBM Corporation" tmtype="reg" tmclass="ibm">OS/2</tm>
+              resource files</li>
+          </ul></li>
+        <li>Unicode documents</li>
+      </ul></p>
+    <p>A translation project can consist of one file or a set of files. In <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>, each file is treated as a document.</p>
+    <p>In their original formats, documents consist of text and layout information, called
+        <i>markup</i>. Markup defines things such as the positioning of page breaks and paragraph
+      endings, highlighting, and font sizes. <indexterm>layout information in a
+        document</indexterm><indexterm>formatting information in a
+        document</indexterm><indexterm>markup
+      language<indexterm>description</indexterm></indexterm></p>
+    <p>When translating a document, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> must
+      be able to distinguish between this markup and the text that is to be translated. By ignoring
+      the markup information during translation, <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> preserves the original format of the
+      document—although minor changes in the translated document can be necessary, such as adding
+      space to a table that is full or a translated term that does not fit within a column. <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/> uses a different <i>markup table</i> for
+      each document format type.</p>
+    <p>For more information on markup tables visit the Markup Table Development
+      Home Page at http://w3-03.ibm.com/globalization/page/2071</p>
+    <p>To find the correct markup table for a document you can use the CHKPII tool,
+      see Using CHKPII in the Markup Table Process at
+      http://w3-03.ibm.com/globalization/page/2080</p>
+    <p>Each document has a number of <i>properties</i>, such as the source and target languages, the
+      markup table to use with the document, and the name of the <keyword
+        conref="common-symbols.dita#common-symbols/xlmem"/> to use for translations.</p>
+    <p>You must specify the properties of a document when you import it into <keyword
+        conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p>By default, all documents in a folder have the same properties, although you can change them
+      for individual documents.</p>
+    <p>For further information on how to deal with document formats, see <xref
+        href="doc_Formats.dita#doc_Formats"/>.</p>
+  </body>
+</topic>

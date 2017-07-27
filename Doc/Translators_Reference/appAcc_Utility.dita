@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appAcc_Utility">
+  <title>Utilities Menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table>
+      <title>Utilities Menu</title>
+      <tgroup cols="3">
+        <colspec colname="col1" colwidth="127*"/>
+        <colspec colname="col2" colwidth="71*"/>
+        <colspec colname="colspec0" colwidth="70*"/>
+        <thead>
+          <row>
+            <entry colname="col1" valign="top">Menu bar choices</entry>
+            <entry colname="col2" valign="top">Actions</entry>
+            <entry colname="colspec0" valign="top">Keyboard shortcuts</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry colname="col1">Utilities =&gt; Count Words...</entry>
+            <entry colname="col2">Opening the <q>Count Words</q> window (<keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> folder or file based).</entry>
+            <entry colname="colspec0">Alt+W</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Create Counting Report...</entry>
+            <entry colname="col2">Opening the <q>Create Counting Report</q> window (<keyword
+                conref="common-symbols.dita#common-symbols/tm4w"/> folder or file based).</entry>
+            <entry colname="colspec0">Alt+R</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Configure Drives...</entry>
+            <entry colname="col2">Configuring drives.</entry>
+            <entry colname="colspec0">Alt+D</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Connect Shared Resources...</entry>
+            <entry colname="col2">Connecting shared resources.</entry>
+            <entry colname="colspec0">Alt+o</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Build Archive Translation Memory...</entry>
+            <entry colname="col2">Building an archive translation memory from the selected folder.</entry>
+            <entry colname="colspec0">Alt+B</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Display Markup Table List</entry>
+            <entry colname="col2">Displaying the window <q>Markup Table List</q>.</entry>
+            <entry colname="colspec0">Alt+M</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Display Language List</entry>
+            <entry colname="col2">Displaying the window <q>Language List</q>.</entry>
+            <entry colname="colspec0">Alt+L</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Display Terminology List</entry>
+            <entry colname="col2">Displaying the window <q>Terminology List</q>.</entry>
+            <entry colname="colspec0">Alt+T</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Display Machine Translation Job List</entry>
+            <entry colname="col2">Displaying the window <q>Machine Translation Job List</q>.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Plugin Manager...</entry>
+            <entry colname="col2">Displaying the window <q>Plugin Manager</q>.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Auto Version Upgrade...</entry>
+            <entry colname="col2">Displaying the window <q>Auto Version Upgrade</q>.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Profile Settings Management...</entry>
+            <entry colname="col2">Displaying the window <q>Profile Settings Management</q>.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; GUI for command line tools...</entry>
+            <entry colname="col2">Displaying the window <q>OpenTM2ToolsLauncher</q>.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+          <row>
+            <entry colname="col1">Utilities =&gt; Remove temporary files...</entry>
+            <entry colname="col2">Displaying the window <q>Remove temporary files</q>.</entry>
+            <entry colname="colspec0">—</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appNotice_Trademarks">
+  <title>Trademarks</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following terms are trademarks of IBM in the United States, other countries, or both: 
+      <lines>
+        IBM
+      </lines>
+    </p>
+    <p>Microsoft, Windows, Windows NT, and the Windows logo are trademarks of Microsoft Corporation in the United States, other countries, or both.</p>
+    <p>Java and all Java-based trademarks are trademarks of Sun Microsystems, Inc. in the United States, other countries, or both.</p>
+    <p>Other company, product, and service names may be trademarks or service marks of others.</p>
+  </body>
+</topic>

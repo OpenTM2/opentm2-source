@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="plugin_Manager">
+  <title>The Plugin Manager</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/>-plugin <q>Plugin Manager</q> is invoked via 
+      <q>Utilities</q> =&gt; <q>Plugin Manager...</q>. When the <q><keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+         Plugin Manager</q> panel is opened, 5 tabs are visible.
+    </p>
+    <section>
+      <title>The tab <q>Installed</q></title>
+      <p>On tab <q>Installed</q>, all installed plugins are listed in a table. The plugins, which a user can remove, 
+         are located on the top of the list, and can be selected individually by clicking on the entry in the list. 
+         Once selected, the icon on the left hand side of each plugin gets a check-mark, indicating that the plugin 
+         can now be removed. To finally remove the plugin, click on button <q>Remove Selected</q>.
+      </p>
+      <p>
+        <fig id="PluginManager_TabInstalled" expanse="column">
+          <title>Plugin manager tab <q><b>Installed</b></q></title>
+          <image placement="break" href="plugin_ManagerInstalled.gif">
+            <alt>The plugin manager, tab Installed</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+    <section>
+      <title>The tab <q>Available</q></title>
+      <p>On tab <q>Available</q>, all plugins are listed, which have either been deleted before (see tab <q>Installed</q>), or
+         which are newly provided by the community. If a plugin should be installed, select the appropriate plugin from the list,
+         and click on button <q>Install Selected</q>. After the installation, the plugin is removed from tab <q>Available</q>, and
+         it is then listed on tab <q>Installed</q>.</p>
+      <p>
+        <fig id="PluginManager_TabAvailable" expanse="column">
+          <title>Plugin manager tab <q><b>Available</b></q></title>
+          <image placement="break" href="plugin_ManagerAvailable.gif">
+            <alt>The plugin manager, tab Available</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+    <section>
+      <title>The tab <q>Updates</q></title>
+      <p>On tab <q>Updates</q>, all plugins are listed, for which an <b>update</b> is available. 
+         If a plugin should be updated, select the appropriate plugin-update from the list, and click on 
+         button <q>Update Selected</q>. After the installation, the plugin-update is removed from tab <q>Updates</q>.</p>
+      <p>
+        <fig id="PluginManager_TabUpdates" expanse="column">
+          <title>Plugin manager tab <q><b>Updates</b></q></title>
+          <image placement="break" href="plugin_ManagerUpdates.gif">
+            <alt>The plugin manager, tab Updates</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+    <section>
+      <title>The tab <q>Settings</q></title>
+      <p>On tab <q>Settings</q>, vital Plugin Manager settings can be managed and adjusted.</p>
+      <ul>
+        <li><b>In <q>URL:</q></b> the URL is listed, which links to the server keeping the 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> updates. This entry can 
+            <b>not</b> be adjusted by the user.</li>
+        <li><b>In <q>Proxy Address:</q></b> a proxy server adress could be entered. This is initially left 
+            blank, and must usually not be filled.</li>
+        <li><b>In <q>Proxy Port:</q></b> a proxy server port could be entered. This is initially left blank, 
+            and must usually not be filled.</li>
+        <li><b>Button <q>Test connection...</q>:</b> can be pressed to check whether 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can connect the server as listed in <q>URL:</q>. 
+            After some seconds, a message window appears, informing whether or not the connection could be established 
+            to the server.</li>
+        <li><b>In <q>Timeout:</q></b> enter a numerci valuse such as <q>5</q>, which shows the time in seconds 
+            to wait before <keyword conref="common-symbols.dita#common-symbols/tm4w"/> stops checking the connection to 
+            the server.</li>
+        <li><b>In section <q>Check Frequency Setting</q></b> users can select the frequence 
+            <keyword conref="common-symbols.dita#common-symbols/tm4w"/> should check for updates.
+            <ul>
+              <li><q>Check for updates <b>once per day</b></q> triggers 
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for updates once per <b>day</b>.</li>
+              <li><q>Check for updates <b>once per week</b></q> triggers 
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for updates once per <b>week.</b></li>
+              <li><q>Check for updates <b>once per month</b></q> triggers 
+                  <keyword conref="common-symbols.dita#common-symbols/tm4w"/> to check for updates once per <b>month</b>.</li>
+            </ul>          
+        </li>
+        <li><b>Check-box <q>Keep the downloaded package in \OTM\PLUGINS\Download</q></b> keeps all downloaded 
+            plugins in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> directory <q>\OTM\PLUGINS\Download</q>. 
+            This could be of interest for users, who like to distribute updates manually rather than asking every user 
+            to download the updates from the server, and to install these updates.</li>
+        <li><b>Button <q>Save Settings</q></b> saves all changes made on tab <q>Settings</q>.</li>
+        <li><b>Button <q>Cancel</q></b> is cancelling all changes made on tab <q>Settings</q>.</li>
+      </ul>  
+      <p>
+        <fig id="PluginManager_TabSettings" expanse="column">
+          <title>Plugin manager tab <q><b>Settings</b></q></title>
+          <image placement="break" href="plugin_ManagerSettings.gif">
+            <alt>The plugin manager, tab Settings</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+    <section>
+      <title>The tab <q>Help</q></title>
+      <p>On tab <q>Help</q>, a brief overview of the functions of each tab is listed.</p>
+      <p>
+        <fig id="PluginManager_TabHelp" expanse="column">
+          <title>Plugin manager tab <q><b>Help</b></q></title>
+          <image placement="break" href="plugin_ManagerHelp.gif">
+            <alt>The plugin manager, tab Help</alt>
+          </image>
+        </fig>
+      </p> 
+    </section>
+  </body>
+</topic>

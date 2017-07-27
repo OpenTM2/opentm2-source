@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_ParsInitialize">
+<title>ParsInitialize</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>programming interface calls<indexterm>ParsInitialize</indexterm></indexterm><indexterm>ParsInitialize</indexterm><indexterm>parser API<indexterm>ParsInitialize</indexterm></indexterm>
+<p><i>ParsInitialize</i> initializes the parser API
+environment and creates a parser API handle that is to be used in
+most of the other parser API functions.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>ParsInitialize</kwd><delim>(</delim><var>phParser</var><sep>,</sep></groupseq>
+<groupseq><var>pszDocPathName</var><delim>)</delim></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="80*"/>
+<colspec colname="col2" colwidth="80*"/>
+<colspec colname="col3" colwidth="160*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HPARSER</entry>
+<entry colname="col2">phParser</entry>
+<entry colname="col3">The pointer to the buffer for the parser API
+handle.</entry></row>
+<row>
+<entry colname="col1">CHAR</entry>
+<entry colname="col2">pszDocPathName</entry>
+<entry colname="col3">The pointer to the zero-terminated document
+path name.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>Integer of <codeph>0</codeph>, if the environment is successfully initialized,
+or an error code.</p>
+</section></refbody></reference>

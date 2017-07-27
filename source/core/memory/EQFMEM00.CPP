@@ -280,8 +280,8 @@ MRESULT MemListHandlerCallBack
         case PID_FILE_MI_ADDUSER:
         case PID_FILE_MI_REMOVEUSER:
         case PID_FILE_MI_LISTUSER:
-		case PID_FILE_MI_UPLOADTOSERVER:
-		case PID_FILE_MI_DOWNFROMSERVER:
+		//case PID_FILE_MI_UPLOADTOSERVER:
+		//case PID_FILE_MI_DOWNFROMSERVER:
           mResult = WinSendMsg( EqfQueryObject( NULL, clsMEMORY, OBJ_ACTIVE ),
                                 WM_EQF_PROCESSTASK, mp1, mp2 );
           break;
@@ -295,29 +295,6 @@ MRESULT MemListHandlerCallBack
         default:
           break;
       } /* endswitch */
-      break;
-
-      case WM_EQF_READINQUE:
-      {
-        int iRC = 0;
-        MemoryFactory *pFactory = MemoryFactory::getInstance();
-        OtmMemory *pMemory = pFactory->openMemory( NULL, (PSZ)PVOIDFROMMP2(mp2), NONEXCLUSIVE, &iRC );
-        if(pMemory != NULL)
-        {
-          // use an empty proposal to trigger updating
-          // also need to modify of the putProposal in EqfSharedMemory
-          //::MessageBox( NULL, "receive message", "TranslationManager", MB_CANCEL );
-          OtmProposal proposal;
-          pMemory->putProposal(proposal);
-          pFactory->closeMemory(pMemory);
-        }
-        else
-        {
-          // if no memory, maybe the memory is using, can't be accessed now
-          // So we have to do something here
-        }
-        mResult = (iRC==0)?TRUE:FALSE;
-      }
       break;
 
       case WM_EQF_ADDMEMTOLIST:
@@ -445,8 +422,8 @@ MRESULT MemListCallBack
           DeleteMenu( hMenu, PID_FILE_MI_ADDUSER, MF_BYCOMMAND );
           DeleteMenu( hMenu, PID_FILE_MI_REMOVEUSER, MF_BYCOMMAND );
           DeleteMenu( hMenu, PID_FILE_MI_LISTUSER, MF_BYCOMMAND );
-		  DeleteMenu( hMenu, PID_FILE_MI_UPLOADTOSERVER, MF_BYCOMMAND );
-		  DeleteMenu( hMenu, PID_FILE_MI_DOWNFROMSERVER, MF_BYCOMMAND );
+		 // DeleteMenu( hMenu, PID_FILE_MI_UPLOADTOSERVER, MF_BYCOMMAND );
+		 // DeleteMenu( hMenu, PID_FILE_MI_DOWNFROMSERVER, MF_BYCOMMAND );
         }
 		
         if ( iSelItems > 1 )
@@ -497,8 +474,8 @@ MRESULT MemListCallBack
                 InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_ADDUSER, "Add User");
                 InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_REMOVEUSER, "Remove User");
                 InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_LISTUSER, "List User");
-				InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_UPLOADTOSERVER, "Batch upload");
-				InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_DOWNFROMSERVER, "Batch download");
+				//InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_UPLOADTOSERVER, "Batch upload");
+				//InsertMenu(hMenu, PID_FILE_MI_EXIT, MF_BYCOMMAND|MF_STRING, PID_FILE_MI_DOWNFROMSERVER, "Batch download");
 				
               }
               else
@@ -549,8 +526,8 @@ MRESULT MemListCallBack
         case PID_FILE_MI_ADDUSER:
         case PID_FILE_MI_REMOVEUSER:
         case PID_FILE_MI_LISTUSER:
-		case PID_FILE_MI_UPLOADTOSERVER:
-		case PID_FILE_MI_DOWNFROMSERVER:
+		//case PID_FILE_MI_UPLOADTOSERVER:
+		//case PID_FILE_MI_DOWNFROMSERVER:
         {
           SHORT sItem = QUERYSELECTIONHWND( pCommArea->hwndLB );
           if ( sItem != LIT_NONE )
@@ -654,8 +631,8 @@ MRESULT MemListCallBack
         case PID_FILE_MI_ADDUSER:
         case PID_FILE_MI_REMOVEUSER:
         case PID_FILE_MI_LISTUSER:
-		case PID_FILE_MI_UPLOADTOSERVER:
-		case PID_FILE_MI_DOWNFROMSERVER:
+		//case PID_FILE_MI_UPLOADTOSERVER:
+		//case PID_FILE_MI_DOWNFROMSERVER:
           mResult = (MRESULT) MemListCommands( pCommArea, hwnd,
                                                SHORT1FROMMP1( mp1 ) );
           break;
@@ -1441,28 +1418,6 @@ MRESULT MemListCommands
         case PID_FILE_MI_LISTUSER:
           UtlListUserDlg(pIDA->szMemName, clsMEMORY);
           break;
-
-		case PID_FILE_MI_UPLOADTOSERVER: 
-		case PID_FILE_MI_DOWNFROMSERVER:
-			{
-				MemoryFactory *pFactory = MemoryFactory::getInstance();
-				int iRC = 0;
-				OtmMemory *pMem = pFactory->openMemory(NULL,pIDA->szMemName,0,&iRC);
-				if(pMem != NULL)
-				{
-					bool isUpload = false;
-					if(usMenuItem == PID_FILE_MI_UPLOADTOSERVER)
-						isUpload = true;
-
-					OtmSharedMemoryPlugin *pPlugin = NULL;
-					pFactory->isSharedMemory(pIDA->szMemName,&pPlugin);
-					if(pPlugin != NULL)
-					    pPlugin->replicateWithServer(pIDA->szMemName,pMem,isUpload);
-					pFactory->closeMemory(pMem);
-				}
-			}
-			
-			break;
 
 
         default:

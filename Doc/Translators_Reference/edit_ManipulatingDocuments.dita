@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="edit_ManipulatingDocuments">
+  <title>Manipulating documents</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following functions let you save your translation, print it, and leave the Translation Environment. There is also an option to 
+      spellcheck the complete translation.</p>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="3" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="1*"/>
+        <colspec colname="col3" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Task</entry>
+            <entry valign="top" rowsep="1">Action</entry>
+            <entry valign="top" rowsep="1">Comment</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Open</entry>
+            <entry valign="top">File menu, "Open..."</entry>
+            <entry valign="top">Opens another document.</entry>
+          </row>
+          <row>
+            <entry valign="top">Save</entry>
+            <entry valign="top">File menu, "Save" or F2</entry>
+            <entry valign="top">Saves the translation document.</entry>
+          </row>
+          <row>
+            <entry valign="top">Print <indexterm>translations<indexterm>printing</indexterm></indexterm>
+              <indexterm>printing<indexterm>document displayed in Translation window</indexterm></indexterm></entry>
+            <entry valign="top">File menu, "Print"</entry>
+            <entry valign="top">Prints the document displayed in the <q>Translation</q> window.</entry>
+          </row>
+          <row>
+            <entry colname="col1">Quit</entry>
+            <entry colname="col2">File menu, "Quit" or F3</entry>
+            <entry colname="col3">Closes the Translation Environment and returns you to the Translation Workbench.</entry>
+          </row>
+          <row>
+            <entry valign="top">End-Save <indexterm>translations<indexterm>saving</indexterm></indexterm></entry>
+            <entry valign="top">File menu, "End-Save" or F4</entry>
+            <entry valign="top">Saves the translation and leaves the Translation Environment.</entry>
+          </row>
+          <row>
+            <entry valign="top">Re-import document</entry>
+            <entry valign="top">File menu, <q>Re-import document</q> or an assigned key</entry>
+            <entry valign="top">Re-imports the source document into the editor.</entry>
+          </row>
+          <row>
+            <entry valign="top">Next</entry>
+            <entry valign="top">File menu, "Next"</entry>
+            <entry valign="top">Toggles between original, translation, and any other open document.</entry>
+          </row>
+          <row>
+            <entry valign="top">Previous</entry>
+            <entry valign="top">To be assigned</entry>
+            <entry valign="top">Toggles between original, translation, and any other open document in the ring.</entry>
+          </row>
+          <row>
+            <entry valign="top">Spellcheck file</entry>
+            <entry valign="top">Spellcheck menu, "File"</entry>
+            <entry valign="top">Checks the spelling of the document displayed in the <q>Translation</q> window.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

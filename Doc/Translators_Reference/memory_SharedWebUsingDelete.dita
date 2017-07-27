@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_SharedWebUsingDelete">
+  <title>Deleting a WEB-based Shared Translation Memory</title>
+  <prolog>
+    <metadata>
+<!--      <keywords><indexterm>sharing<indexterm>Translation Memory databases</indexterm></indexterm></keywords>-->
+    </metadata>
+  </prolog>
+  <body>
+    <p>Only the creator of a Web-based Shared Translation Memory can delete it on the server, other users can only 
+       delete their local copies of this translation memories.</p>
+    <ul>
+      <li>Inside the translation memory list window, right mouse click on the shared translation memory to be deleted.</li>
+      <li>From the context menu, select <q>Delete</q>.</li>
+    </ul>
+  </body>
+</topic>

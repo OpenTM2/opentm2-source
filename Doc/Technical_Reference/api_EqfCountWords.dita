@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCountWords">
+  <title>EqfCountWords</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfCountWords</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfCountWords</indexterm></indexterm>
+      <p><i>EqfCountWords</i> counts the words of one or more documents.</p>
+      <p>This function performs the counting in small units. Call it repetitively until it returns a
+        return code other than CONTINUE_RC.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCountWords</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszDocuments</var>
+          <sep>,</sep>
+          <var>lOptions</var>
+          <sep>,</sep>
+          <var>pszOutFile</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section id="enhancementforeqfprocesssnomatch">
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by
+                <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder containing the documents which are to be
+                counted.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszDocuments</entry>
+              <entry colname="col3">The pointer to a list of documents or NULL if no documents are specified. 
+                If no documents are specified, the words of all documents in the folder are counted.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options to be used for the counting: 
+                <sl>
+                  <sli>SOURCE_OPT (source word count)</sli>
+                  <sli>TARGET_OPT (translated/untranslated word count)</sli>
+                  <sli>TMMATCH_OPT (memory match count)</sli>
+                  <sli>DUPLICATE_OPT (count duplicate words)</sli>
+                  <sli>DUPMEMMATCH_OPT (count duplicate words and include memory match information)</sli>
+                </sl>
+                <p>For the TMMATCH_OPT the following option can be specified: 
+                  <sl>
+                    <sli>SEPERATEREPLMATCH_OPT to count replace matches seperately.</sli>
+                  </sl></p>
+                <p>These constants are mutually exclusive, the can by combined with the format of the output file:</p>
+                <sl>
+                  <sli>XML_OUTPUT_OPT (output as XML file)</sli>
+                </sl>
+                <p>or</p>
+                <sl>
+                  <sli>TEXT_OUTPUT_OPT (output in text format)</sli>
+                </sl>
+                <p>or</p>
+                <sl>
+                  <sli>HTML_OUTPUT_OPT (output in HTML format)</sli>
+                </sl>
+                <p>and the OVERWRITE_OPT (to overwrite existing output files) using "|" (bitwise OR operator).</p>
+                <p>If no output format is specified TEXT_OUTPUT_OPT is used as default.</p>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutFile</entry>
+              <entry colname="col3">The fully qualified name of the output file. If the file already
+                exists, specify the OVERWRITE_OPT option (otherwise this call fails).</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">Word counting has not completed yet. Call <i>EqfCountWords</i>
+                again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph otherprops="display">Error code (EQF message number). Use <xref
+                    href="api_EqfGetLastError.dita#api_EqfGetLastError"/> to retrieve the complete error
+                  information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Count the source (=original) words of all documents in folder 
+  // SAMPLE1 and store the counting results in file C:\COUNT.OUT
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfCountWords( hSession, "SAMPLE1", NULL, SOURCE_OPT, 
+                            "C:\\COUNT.OUT" );
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>

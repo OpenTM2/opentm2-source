@@ -1147,7 +1147,7 @@ HWND             hwnd                // owner handle for error messages
       } /* endif */
 
 
-      if ( pfDisabled != NULL )
+      if ( (pProp != NULL) && (pfDisabled != NULL) )
       {
         *pfDisabled = pProp->fDisabled_UserExitRefresh;
           fDone = FALSE;          // stay in loop until folder is reached

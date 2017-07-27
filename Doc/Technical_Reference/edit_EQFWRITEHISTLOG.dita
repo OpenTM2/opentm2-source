@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="edit_EQFWRITEHISTLOG">
+   <title>EQFWRITEHISTLOG</title>
+   <prolog>
+      <metadata>
+         <keywords><!--Insert <indexterm> tags here--></keywords>
+      </metadata>
+   </prolog>
+   <refbody>
+      <section>
+         <title>Purpose</title>
+         <indexterm>EQFWRITEHISTLOG</indexterm>
+         <indexterm>programming interface calls<indexterm>EQFWRITEHISTLOG</indexterm></indexterm>
+         <p><i>EQFWRITEHISTLOG</i> writes the word-counting information to the history log file of
+            the specified folder. The word-counting information for the entire document is
+            needed.</p>
+      </section>
+      <refsyn>
+         <title>Format</title>
+         <syntaxdiagram>
+            <groupseq>
+               <kwd>EQFWRITEHISTLOG</kwd>
+               <delim>(</delim>
+               <var>pszFolObjName</var>
+               <sep>,</sep>
+               <var>pszDocName</var>
+               <sep>,</sep>
+               <var>pszHistLogApi</var>
+               <delim>)</delim>
+            </groupseq>
+         </syntaxdiagram>
+      </refsyn>
+      <section>
+         <title>Parameters</title>
+         <parml>
+            <plentry>
+               <pt><synph><var>pszFolder(PSTRING)</var></synph> — input</pt>
+               <pd>The name of the folder with path information, for example
+                        <codeph><i>&lt;folder_drive&gt;</i>:\otm\<i>&lt;folder_name&gt;</i>.f00</codeph>.
+                        <codeph><i>&lt;folder_name&gt;</i></codeph> can be extracted from
+                     <codeph>pSegTarget</codeph> or <codeph>pSegSource</codeph> as defined in
+                     <codeph>eqf_xstart</codeph>.</pd>
+            </plentry>
+            <plentry>
+               <pt><synph><var>pszFileName(PSTRING)</var></synph> — input</pt>
+               <pd>The short file name (8.3 DOS naming convention) without path information.</pd>
+            </plentry>
+            <plentry>
+               <pt><synph><var>pszHistLogApi(PAPIDOCSAVEHIST)</var></synph> — input</pt>
+               <pd>The structure of the history log file: <codeblock>typedef struct _APISumPerClass
+   {
+      USHORT  usNumSegs;                 // number of segments in this class
+      ULONG   ulSrcWords;                // sum of all source words
+      ULONG   ulTgtWords;                // sum of all target words
+   }  APISUMPERCLASS, *PAPISUMPERCLASS;
+
+
+
+   typedef struct _APICriteriaSum
+   {
+      APISUMPERCLASS  SimpleSum;         // number of segments in this class
+      APISUMPERCLASS  MediumSum;         // number of segments in this class
+      APISUMPERCLASS  ComplexSum;        // number of segments in this class
+   }  APICRITERIASUM, *PAPICRITERIASUM;
+     typedef struct _APIDocSaveHist
+   {
+      APICRITERIASUM  EditAutoSubst;     // sums for segments translated by
+                                         // Edit Auto
+      APICRITERIASUM  ExactExist;        // sums for segments with exact
+                                         // proposals
+      APICRITERIASUM  ExactUsed;         // sums for segments with exact
+                                         // proposals used by translator
+      APICRITERIASUM  FuzzyExist;        // sums for segments with fuzzy
+                                         // proposals
+      APICRITERIASUM  FuzzyUsed;         // sums for segments with fuzzy
+                                         // proposals used by translator
+      APICRITERIASUM  FuzzyExist_1;      // sums for segments with fuzzy
+                                         // proposals
+      APICRITERIASUM  FuzzyUsed_1;       // sums for segments with fuzzy
+                                         // proposals used by translator
+      APICRITERIASUM  FuzzyExist_2;      // sums for segments with fuzzy
+                                         // proposals
+      APICRITERIASUM  FuzzyUsed_2;       // sums for segments with fuzzy
+                                         // proposals used by translator
+      APICRITERIASUM  FuzzyExist_3;      // sums for segments with fuzzy
+                                         // proposals
+      APICRITERIASUM  FuzzyUsed_3;       // sums for segments with fuzzy
+                                         // proposals used by translator
+      APICRITERIASUM  MachExist;         // sums for segments with machine
+                                         // proposals
+      APICRITERIASUM  MachUsed;          // sums for segments with machine
+                                         // proposals used by translator
+      APICRITERIASUM  NoneExist;         // sums for segments with no proposal
+      APICRITERIASUM  NotXlated;         // sums for TOBE, ATTR, CURRENT
+   }  APIDOCSAVEHIST, *PAPIDOCSAVEHIST;
+   </codeblock>
+                  <p>The various classes are described in the OpenTM2 Translator's Reference in chapter <q>The report layout</q>.
+<!--                     <xref href="eqfr5mst-00345.dita#eqfr5mst-00345"/>-->
+                  </p>
+                  <p>For this structure the thresholds of the standard editor were used, namely:
+                     <codeblock>// defines for fuzzy classes
+    #define FUZZY_THRESHOLD_1      0.7   // Threshold for different fuzzy
+                                         // classes
+    #define FUZZY_THRESHOLD_2      0.9   // Threshold for different fuzzy
+                                         // classes
+
+
+    // defines for the classes: simple sentences, medium sentences,
+    // complex sentences
+    #define SIMPLE_SENT_BOUND       5
+    #define MEDIUM_SENT_BOUND      15
+
+</codeblock></p></pd>
+            </plentry>
+         </parml>
+      </section>
+   </refbody>
+</reference>

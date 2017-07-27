@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="prep_Software">
+  <title>Software requirements</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>software prerequisites</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p><keyword conref="common-symbols.dita#common-symbols/tm4w"/> runs on any of the following operating systems: 
+      <ul>
+        <li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 7</li>
+        <li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 8</li>
+        <li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 8.1</li>
+        <li><tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 10</li>
+      </ul>
+    </p>
+    <p>To use <keyword conref="common-symbols.dita#common-symbols/tm4w"/> with Shared Translation Memories stored 
+      on a <b>LAN</b>-server (Local Area Network) environment, the appropriate LAN-server incl. the appropriate software is required.</p>
+    <p>To use <keyword conref="common-symbols.dita#common-symbols/tm4w"/> with Shared Translation Memories stored 
+      on a <b>WEB</b>-server, the WEB-server must be set up. That is mainly the relational DB such as MariaDB or MySQL.</p>
+    <p>To use <keyword conref="common-symbols.dita#common-symbols/tm4w"/> with Shared Translation Memories stored 
+      on a <b>WEB</b>-server, a JRE (Java Runtime Environment) must be installed on the <b>server</b>. We recommend JRE v1.7 or above.</p>
+  </body>
+</topic>

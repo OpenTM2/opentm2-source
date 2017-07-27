@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="memory_ItmEditorOptions">
+  <title>Options menu</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <table pgwide="0" frame="topbot">
+      <tgroup cols="2" colsep="0" rowsep="1">
+        <colspec colname="col1" colwidth="1*"/>
+        <colspec colname="col2" colwidth="2*"/>
+        <thead>
+          <row>
+            <entry valign="top" rowsep="1">Menu</entry>
+            <entry valign="top" rowsep="1">Function</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry valign="top">Colors...</entry>
+            <entry valign="top">Lets you define the colors for the segments in the <q>Source</q> and
+                <q>Target</q> windows.</entry>
+          </row>
+          <row>
+            <entry valign="top">Fonts...</entry>
+            <entry valign="top">Lets you set the font and font size for the <q>Source</q> and
+                <q>Target</q> windows in the <q>Set Fonts</q> window.</entry>
+          </row>
+          <row>
+            <entry valign="top">Arrange</entry>
+            <entry valign="top">Changes the arrangement of the <q>Source</q> and <q>Target</q>
+              windows. You can arrange them <b>vertically</b> (the target document is positioned
+              next to the source document on the right half of the screen) or <b>horizontally</b>
+              (the target document is positioned below the source document on the lower half of the
+              screen).</entry>
+          </row>
+          <row>
+            <entry valign="top">Parallel</entry>
+            <entry valign="top">Positions the segments in the <q>Source</q> window parallel to their
+              matches in the <q>Target</q> window. That means that lines may be inserted in either
+              the <q>Source</q> or the <q>Target</q> window to achieve that a segment is presented
+              at the same position as its counterpart.</entry>
+          </row>
+          <row>
+            <entry valign="top">Automatic linewrap</entry>
+            <entry valign="top">Wraps the text at the end of a line.</entry>
+          </row>
+          <row>
+            <entry valign="top">Visible white spaces</entry>
+            <entry valign="top">Replaces blanks in the text with a dot and displays a ¶ sign at the
+              end of a segment or in an empty line to make them visible.</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </body>
+</topic>

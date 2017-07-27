@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="api_CallingReference">
+  <title>Calling interface reference</title>
+  <prolog>
+    <metadata>
+      <keywords>
+        <indexterm>programming interface calls</indexterm>
+      </keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>The following sections describe the individual calls provided by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+    <p><b><u>The following calls are available</u></b>:
+        <table otherprops="print" pgwide="0" frame="all">
+        <tgroup cols="2" colsep="0" rowsep="1">
+          <colspec colname="col1" colwidth="191*"/>
+          <colspec colname="col2" colwidth="203*"/>
+          <thead>
+            <row>
+              <entry valign="bottom" align="left">API call name</entry>
+              <entry valign="bottom" align="right">Described on page</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1" align="left">EqfAddCTIDList</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfAddCTIDList.dita#api_EqfAddCTIDList"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfAddMatchSegID</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfAddMatchSegID.dita#api_EqfAddMatchSegID"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfAnalyzeDoc</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfAnalyzeDoc.dita#api_EqfAnalyzeDoc"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfAnalyzeDocEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfAnalyzeDocEx.dita#api_EqfAnalyzeDocEx"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfArchiveTM</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfArchiveTM.dita#api_EqfArchiveTM"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfBuildSegDocName</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfBuildSegDocName.dita#api_EqfBuildSegDocName"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfChangeFolProps</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfChangeFolProps.dita#api_EqfChangeFolProps"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfChangeFolPropsEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfChangeFolPropsEx.dita#api_EqfChangeFolPropsEx"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfChangeMFlag</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfChangeMFlag.dita#api_EqfChangeMFlag"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCleanMemory</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCleanMemory.dita#api_EqfCleanMemory"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfClearMTFlag</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfClearMTFlag.dita#api_EqfClearMTFlag"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfCloseMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCloseMem.dita#api_EqfCloseMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCountWords</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCountWords.dita#api_EqfCountWords"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCountWordsInString</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCountWordsInString.dita#api_EqfCountWordsInString"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateCntReport</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateCntReport.dita#api_EqfCreateCntReport"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCreateCntReportEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateCntReportEx.dita#api_EqfCreateCntReportEx"/></entry>
+            </row> 
+            <row>
+              <entry colname="col1" align="left">EqfCreateCountReport</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateCountReport.dita#api_EqfCreateCountReport"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCreateCountReportEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateCountReportEx.dita#api_EqfCreateCountReportEx"/></entry>
+            </row> 
+            <row>
+              <entry colname="col1" align="left">EqfCreateControlledFolder</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateControlledFolder.dita#api_EqfCreateControlledFolder"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateFolder</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateFolder.dita#api_EqfCreateFolder"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateITM</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateITM.dita#api_EqfCreateITM"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfCreateMarkup</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateMarkup.dita#api_EqfCreateMarkup"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateMem.dita#api_EqfCreateMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfCreateSubFolder</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfCreateSubFolder.dita#api_EqfCreateSubFolder"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfDeleteDict</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDeleteDict.dita#api_EqfDeleteDict"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDeleteDoc</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDeleteDoc.dita#api_EqfDeleteDoc"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDeleteFolder</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDeleteFolder.dita#api_EqfDeleteFolder"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDeleteMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDeleteMem.dita#api_EqfDeleteMem"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfDeleteMTLog</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDeleteMTLog.dita#api_EqfDeleteMTLog"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDictionaryExists</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDictionaryExists.dita#api_EqfDictionaryExists"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfDocumentExists</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfDocumentExists.dita#api_EqfDocumentExists"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfEndSession</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfEndSession.dita#api_EqfEndSession"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportDict</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportDict.dita#api_EqfExportDict"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportDoc</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportDoc.dita#api_EqfExportDoc"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportFolder</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportFolder.dita#api_EqfExportFolder"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportFolderFP</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportFolderFP.dita#api_EqfExportFolderFP"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportFolderFPas</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportFolderFPas.dita#api_EqfExportFolderFPas"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportMem.dita#api_EqfExportMem"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfExportMemInInternalFormat</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportMemInInternalFormat.dita#api_EqfExportMemInInternalFormat"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfExportSegs</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfExportSegs.dita#api_EqfExportSegs"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfFilterNoMatchFile</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfFilterNoMatchFile.dita#api_EqfFilterNoMatchFile"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfFolderExists</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfFolderExists.dita#api_EqfFolderExists"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfFreeSegFile</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfFreeSegFile.dita#api_EqfFreeSegFile"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetFolderProp</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetFolderProp.dita#api_EqfGetFolderProp"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetFolderPropEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetFolderPropEx.dita#api_EqfGetFolderPropEx"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetLastError</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetMatchLevel</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetMatchLevel.dita#api_EqfGetMatchLevel"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetProgress</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetProgress.dita#api_EqfGetProgress"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSegNum</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetSegNum.dita#api_EqfGetSegNum"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSegW</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetSegW.dita#api_EqfGetSegW"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSegmentNumber</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetSegmentNumber.dita#api_EqfGetSegmentNumber"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetShortName</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetShortName.dita#api_EqfGetShortName"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSourceLine</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetSourceLine.dita#api_EqfGetSourceLine"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetSysLanguage</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetSysLanguage.dita#api_EqfGetSysLanguage"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfGetVersion</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetVersion.dita#api_EqfGetVersion"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfGetVersionEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfGetVersionEx.dita#api_EqfGetVersionEx"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportDoc</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportDoc.dita#api_EqfImportDoc"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportDict</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportDict.dita#api_EqfImportDict"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportFolder</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportFolder.dita#api_EqfImportFolder"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfImportFolderAs</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportFolderAs.dita#api_EqfImportFolderAs"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportFolderFP</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportFolderFP.dita#api_EqfImportFolderFP"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportMem.dita#api_EqfImportMem"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfImportMemEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportMemEx.dita#api_EqfImportMemEx"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfImportMemInInternalFormat</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportMemInInternalFormat.dita#api_EqfImportMemInInternalFormat"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfListMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfListMem.dita#api_EqfListMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfLoadSegFile</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfLoadSegFile.dita#api_EqfLoadSegFile"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfMemoryExists</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfMemoryExists.dita#api_EqfMemoryExists"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfOpenDoc</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfOpenDoc.dita#api_EqfOpenDoc"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfOpenDocByTrack</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfOpenDocByTrack.dita#api_EqfOpenDocByTrack"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfOpenDocEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfOpenDocEx.dita#api_EqfOpenDocEx"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfOpenMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfOpenMem.dita#api_EqfOpenMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfOrganizeMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfOrganizeMem.dita#api_EqfOrganizeMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfProcessNomatch</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfProcessNomatch.dita#api_EqfProcessNomatch"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfProcessNomatchEx</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfProcessNomatchEx.dita#api_EqfProcessNomatchEx"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfQueryMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfQueryMem.dita#api_EqfQueryMem"/></entry>
+            </row>
+            <row rev="GF_07122015">
+              <entry colname="col1" align="left">EqfReduceToStemForm</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfReduceToStemForm.dita#api_EqfReduceToStemForm"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfRemoveDocs</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfRemoveDocs.dita#api_EqfRemoveDocs"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfRestoreDocs</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfRestoreDocs.dita#api_EqfRestoreDocs"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfRename</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfRename.dita#api_EqfRename"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+              <entry colname="col1" align="left">EqfSearchMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfSearchMem.dita#api_EqfSearchMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfSetSysLanguage</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfSetSysLanguage.dita#api_EqfSetSysLanguage"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfStartSession</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfStartSession.dita#api_EqfStartSession"/></entry>
+            </row>
+<!-- NEW --><row rev="GF_03042017">
+            <entry colname="col1" align="left">EqfUpdateMem</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfUpdateMem.dita#api_EqfUpdateMem"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfUpdateSegW</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfUpdateSegW.dita#api_EqfUpdateSegW"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfWriteSegFile</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfWriteSegFile.dita#api_EqfWriteSegFile"/></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      
+<!--        <ul otherprops="display">
+          <li><xref href="api_EqfAddCTIDList.dita#api_EqfAddCTIDList"/></li>
+          <li><xref href="api_EqfAnalyzeDoc.dita#api_EqfAnalyzeDoc"/></li>
+          <li><xref href="api_EqfAnalyzeDocEx.dita#api_EqfAnalyzeDocEx"/></li>
+          <li><xref href="api_EqfArchiveTM.dita#api_EqfArchiveTM"/></li>
+          <li><xref href="api_EqfBuildSegDocName.dita#api_EqfBuildSegDocName"/></li>
+          <li><xref href="api_EqfChangeFolProps.dita#api_EqfChangeFolProps"/></li>
+          <li><xref href="api_EqfChangeFolPropsEx.dita#api_EqfChangeFolPropsEx"/></li>
+          <li><xref href="api_EqfChangeMFlag.dita#api_EqfChangeMFlag"/></li>
+          <li><xref href="api_EqfCleanMemory.dita#api_EqfCleanMemory"/></li>
+          <li><xref href="api_EqfClearMTFlag.dita#api_EqfClearMTFlag"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfCloseMem.dita#api_EqfCloseMem"/></li>
+          <li><xref href="api_EqfCountWords.dita#api_EqfCountWords"/></li>
+          <li><xref href="api_EqfCountWordsInString.dita#api_EqfCountWordsInString"/></li>
+          <li><xref href="api_EqfCreateCntReport.dita#api_EqfCreateCntReport"/></li>
+<!-\- Next entry qas commented, and I do not know why -\->
+          <li><xref href="api_EqfCreateCntReportEx.dita#api_EqfCreateCntReportEx"/></li>-\->
+          <li><xref href="api_EqfCreateCountReport.dita#api_EqfCreateCountReport"/></li>
+          <li><xref href="api_EqfCreateCountReportEx.dita#api_EqfCreateCountReportEx"/></li>
+          <li><xref href="api_EqfCreateControlledFolder.dita#api_EqfCreateControlledFolder"/></li>
+          <li><xref href="api_EqfCreateFolder.dita#api_EqfCreateFolder"/></li>
+          <li><xref href="api_EqfCreateITM.dita#api_EqfCreateITM"/></li>
+          <li><xref href="api_EqfCreateMarkup.dita#api_EqfCreateMarkup"/></li>
+          <li><xref href="api_EqfCreateMem.dita#api_EqfCreateMem"/></li>
+          <li><xref href="api_EqfCreateSubFolder.dita#api_EqfCreateSubFolder"/></li>
+          <li><xref href="api_EqfDeleteDict.dita#api_EqfDeleteDict"/></li>
+          <li><xref href="api_EqfDeleteDoc.dita#api_EqfDeleteDoc"/></li>
+          <li><xref href="api_EqfDeleteFolder.dita#api_EqfDeleteFolder"/></li>
+          <li><xref href="api_EqfDeleteMem.dita#api_EqfDeleteMem"/></li>
+          <li><xref href="api_EqfDeleteMTLog.dita#api_EqfDeleteMTLog"/></li>
+          <li><xref href="api_EqfDictionaryExists.dita#api_EqfDictionaryExists"/></li>
+          <li><xref href="api_EqfDocumentExists.dita#api_EqfDocumentExists"/></li>
+          <li><xref href="api_EqfExportDict.dita#api_EqfExportDict"/></li>
+          <li><xref href="api_EqfExportDoc.dita#api_EqfExportDoc"/></li>
+          <li><xref href="api_EqfExportFolder.dita#api_EqfExportFolder"/></li>
+          <li><xref href="api_EqfExportFolderFP.dita#api_EqfExportFolderFP"/></li>
+          <li><xref href="api_EqfExportFolderFPas.dita#api_EqfExportFolderFPas"/></li>
+          <li><xref href="api_EqfExportMem.dita#api_EqfExportMem"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfExportMemInInternalFormat.dita#api_EqfExportMemInInternalFormat"/></li>
+          <li><xref href="api_EqfExportSegs.dita#api_EqfExportSegs"/></li>
+          <li><xref href="api_EqfFilterNoMatchFile.dita#api_EqfFilterNoMatchFile"/></li>
+          <li><xref href="api_EqfFolderExists.dita#api_EqfFolderExists"/></li>
+          <li><xref href="api_EqfFreeSegFile.dita#api_EqfFreeSegFile"/></li>
+          <li><xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></li>
+          <li><xref href="api_EqfGetProgress.dita#api_EqfGetProgress"/></li>
+          <li><xref href="api_EqfGetSegNum.dita#api_EqfGetSegNum"/></li>
+          <li><xref href="api_EqfGetSegW.dita#api_EqfGetSegW"/></li>
+          <li><xref href="api_EqfGetSegmentNumber.dita#api_EqfGetSegmentNumber"/></li>
+          <li><xref href="api_EqfGetShortName.dita#api_EqfGetShortName"/></li>
+          <li><xref href="api_EqfGetSourceLine.dita#api_EqfGetSourceLine"/></li>
+          <li><xref href="api_EqfGetSysLanguage.dita#api_EqfGetSysLanguage"/></li>
+          <li><xref href="api_EqfGetVersion.dita#api_EqfGetVersion"/></li>
+          <li><xref href="api_EqfGetVersionEx.dita#api_EqfGetVersionEx"/></li>
+          <li><xref href="api_EqfImportDoc.dita#api_EqfImportDoc"/></li>        
+          <li><xref href="api_EqfImportDict.dita#api_EqfImportDict"/></li>
+          <li><xref href="api_EqfImportFolder.dita#api_EqfImportFolder"/></li>
+          <li><xref href="api_EqfImportFolderFP.dita#api_EqfImportFolderFP"/></li>
+          <li><xref href="api_EqfImportMem.dita#api_EqfImportMem"/></li>
+          <li><xref href="api_EqfImportMemEx.dita#api_EqfImportMemEx"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfImportMemInInternalFormat.dita#api_EqfImportMemInInternalFormat"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfListMem.dita#api_EqfListMem"/></li>
+          <li><xref href="api_EqfLoadSegFile.dita#api_EqfLoadSegFile"/></li>
+          <li><xref href="api_EqfMemoryExists.dita#api_EqfMemoryExists"/></li>
+          <li><xref href="api_EqfOpenDoc.dita#api_EqfOpenDoc"/></li>
+          <li><xref href="api_EqfOpenDocByTrack.dita#api_EqfOpenDocByTrack"/></li>
+          <li><xref href="api_EqfOpenDocEx.dita#api_EqfOpenDocEx"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfOpenMem.dita#api_EqfOpenMem"/></li>
+          <li><xref href="api_EqfOrganizeMem.dita#api_EqfOrganizeMem"/></li>
+          <li><xref href="api_EqfProcessNomatch.dita#api_EqfProcessNomatch"/></li>
+          <li><xref href="api_EqfProcessNomatchEx.dita#api_EqfProcessNomatchEx"/></li>
+          <li><xref href="api_EqfReduceToStemForm.dita#api_EqfReduceToStemForm"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfQueryMem.dita#api_EqfQueryMem"/></li>
+          <li><xref href="api_EqfRemoveDocs.dita#api_EqfRemoveDocs"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfSearchMem.dita#api_EqfSearchMem"/></li>
+          <li><xref href="api_EqfStartSession.dita#api_EqfStartSession"/></li>
+<!-\-NEW-\-><li><xref href="api_EqfUpdateMem.dita#api_EqfUpdateMem"/></li>          
+          <li><xref href="api_EqfUpdateSegW.dita#api_EqfUpdateSegW"/></li>
+          <li><xref href="api_EqfWriteSegFile.dita#api_EqfWriteSegFile"/></li>
+        </ul>-->
+    </p>
+  </body>
+</topic>

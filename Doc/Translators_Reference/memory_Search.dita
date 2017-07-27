@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="memory_Search">
+  <title>Searching a translation</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm>Translation Memory<indexterm>searching a translation</indexterm></indexterm>
+      <p>Translation Memory files can be huge. You can search for a certain translation segment or
+        for specific translations.</p>
+      <p>In the <q>Translation Memory Editor</q> window you specify the individual
+        search criteria. The <b>Look up...</b> button starts the search in the Translation Memory
+        and displays the found Translation Memory contents in the <q>Edit Translation Memory</q>
+        window.</p>
+      <p>The following describes how to specify the search criteria. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>The Translation Memory you want to work with must exist.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select: <ol>
+          <li>The <q>Translation Memory List</q> window from the main window</li>
+          <li>The Translation Memory you wish to edit</li>
+          <li><b>Open</b> from the <b>File</b> menu</li>
+        </ol></p>
+      <p>The <q>Translation Memory Editor</q> window (see <xref
+          href="#memory_Search/tmquery"/>) is displayed.
+                <required-cleanup><indexterm>windows<indexterm><keyword
+                conref="common-symbols.dita#common-symbols/xlmem"/>
+                  Editor</indexterm></indexterm></required-cleanup><fig id="tmquery" expanse="column">
+          <title><keyword conref="common-symbols.dita#common-symbols/xlmem"/> Editor
+            window</title><image placement="break" href="memory_Search.gif"><alt>Figure shows Editor
+              window</alt></image></fig>
+      </p>
+    </section>
+    <section>
+      <title>Options and parameters</title>
+      <parml>
+        <plentry>
+          <pt>Search for segment number</pt>
+          <pd>Each segment in the <keyword conref="common-symbols.dita#common-symbols/xlmem"/> has a
+            number. It is displayed in the status bar of the <q>Edit Translation Memory</q> window
+            as part of the document name. Instead of specifying the segment to be searched, or part
+            of it, you can type its number here.</pd>
+        </plentry>
+        <plentry>
+          <pt>Search string or sentence</pt>
+          <pd>Type the term or sentence you are looking for. You can also use wildcard characters
+              (<b>Use '*' and '?' for wildcard search</b>). For example, if you are looking for a
+            product name beginning with “Star” and you are not sure about the product’s exact name,
+            you can type <codeph>Star*</codeph>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Case</pt>
+          <pd>Specify whether the search for the requested text string is to be case-sensitive
+              (<b>respect</b> case sensitivity). The default setting is <b>ignore</b> case
+            sensitivity.</pd>
+        </plentry>
+        <plentry>
+          <pt>Search in</pt>
+          <pd>Specify whether the search is to be performed on the original entries (<b>Source</b>)
+            or on the translations (<b>Target</b>). The default setting is <b>Source</b>.</pd>
+        </plentry>
+        <plentry>
+          <pt>Markup</pt>
+          <pd>Specify the markup language of the text you are looking for.</pd>
+        </plentry>
+        <plentry>
+          <pt>Find only matches with more than one translation</pt>
+          <pd>Specify whether you want to retrieve only original segments with more than one
+            translation. If there is only one translation for an original segment, this segment will
+            be ignored during the search in the Translation Memory and not displayed. Use this
+            option to revise translation variants.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use date range</pt>
+          <pd>Specify the period of time when translations were stored in the Translation Memory
+            selected. Only the original segments of those translations that were added to the
+            Translation Memory during the specified period are displayed in the <q>Edit Translation
+              Memory</q> window. The default setting for the time span is January 1992 until the
+            present time. Select <b>Select...</b> to alter this time span.</pd>
+        </plentry>
+        <plentry>
+          <pt>Use document(s)</pt>
+          <pd>Type the name of the document from which the translation is to originate. Select
+              <b>Select...</b> to type the name of a document. You may use <codeph>*</codeph> as
+            wildcard character.</pd>
+        </plentry>
+        <plentry>
+          <pt>Restrict search to</pt>
+          <pd>Specify whether you want to restrict your search to segments that were translated by
+              <b><i>machine</i></b> (<b>m-flagged segments only</b>) or segments that were
+            not translated by machine (<b>segments w/o m flag</b>).</pd>
+        </plentry>
+        <plentry id="maxnumsegloadas">
+          <pt>Maximum number of segments to load</pt>
+          <pd>The segments are loaded into the editor in stages. Specify the maximum number of
+            segments that you want to be loaded into the Translation Memory editor at one time. You
+            can specify a number between 5 and 99999. The default setting is 99999.</pd>
+        </plentry>
+      </parml>
+      <p>Click <b>Look up...</b> to start the search.</p>
+    </section>
+    <section>
+      <title>Results</title>
+      <p>The Translation Memory is searched according to the search criteria specified
+        in the <q>Translation Memory Editor</q> window.</p>
+      <p>The found matches are loaded into the editor and displayed in the <q>Edit Translation
+          Memory</q> window where you can revise them. How you revise Translation Memory entries is
+        described in <xref href="memory_Editor.dita#memory_Editor"/>.</p>
+    </section>
+  </refbody>
+</reference>

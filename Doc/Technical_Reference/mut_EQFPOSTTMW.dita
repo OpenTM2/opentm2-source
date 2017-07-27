@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_EQFPOSTTMW">
+  <title>EQFPOSTTMW</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>programming interface calls<indexterm>EQFPOSTTMW</indexterm></indexterm>
+      <indexterm>EQFPOSTTMW</indexterm>
+      <p><i>EQFPOSTTMW</i> is called during the analysis of a document after <keyword
+          conref="common-symbols.dita#common-symbols/xlmem"/> matches have been inserted and terms
+        lists have been created. It is used to modify the segments. If an error occurs, it can stop
+        the analysis.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>EQFPOSTTMW</kwd>
+          <delim>(</delim>
+          <var>Editor</var>
+          <sep>,</sep>
+          <var>Path</var>
+          <sep>,</sep>
+          <var>SegmentedSourceFile</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>SegmentedTargetFile</var>
+          <sep>,</sep>
+          <var>SegmentationTags</var>
+          <sep>,</sep>
+          <var>SourceTargetFlag</var>
+          <sep>,</sep>
+          <var>SliderWindowHandle</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>ReturnFlag</var>
+          <delim>)</delim>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Editor</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the editor.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>Path</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the program path.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SegmentedSourceFile</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the segmented source file.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SegmentedTargetFile</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the name of the segmented target file.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SegmentationTags</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the tags inserted during text segmentation.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SourceTargetFlag</var>
+            </synph>
+          </pt>
+          <pd>The flag indicating if the segmented source differs from the segmented target.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>SliderWindowHandle</var>
+            </synph>
+          </pt>
+          <pd>The handle of the slider window.</pd>
+        </plentry>
+        <plentry>
+          <pt>
+            <synph>
+              <var>ReturnFlag</var>
+            </synph>
+          </pt>
+          <pd>The pointer to the return flag. If this flag changes to TRUE, the user exit must
+            return immediately.</pd>
+        </plentry>
+      </parml>
+    </section>
+  </refbody>
+</reference>

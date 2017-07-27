@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfCleanMemory">
+  <title>EqfCleanMemory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfCleanMemory</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfCleanMemory</indexterm></indexterm>
+      <p> The API call <i>EqfCleanMemory</i> removes all segments which are not relevant for a given
+        translation package from an external memory. The “cleaned” memory can be created in internal
+        or external format. </p>
+      <p>This function performs the cleanup in small units. Call it repetitively until it returns a
+        return code other than CONTINUE_RC.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfCleanMemory</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolder</var>
+          <sep>,</sep>
+          <var>pszInMem</var>
+          <sep>,</sep>
+        </groupseq>
+        <groupseq>
+          <var>pszOutMem</var>
+          <sep>,</sep>
+          <var>lOptions</var>
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="52*"/>
+          <colspec colname="col2" colwidth="66*"/>
+          <colspec colname="col3" colwidth="169*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolder</entry>
+              <entry colname="col3">The name of a <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+                folder (already imported into TM and the documents have to be analyzed).</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszInMem</entry>
+              <entry colname="col3">The fully qualified file name of the input memory in Ansi or UTF-16 encoding.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszOutMem</entry>
+              <entry colname="col3">The name of an new internal memory or the fully qualified name of an external.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The option to be used for the cleanup of a memory: <sl>
+                  <sli>CLEANMEM_INTERNAL_MEMORY_OPT to create an internal memory</sli>
+                  <sli>CLEANMEM_EXTERNAL_MEMORY_OPT to create an external memory (default) </sli>
+                  <sli>OVERWRITE_OPT to overwrite any existing output memory</sli>
+                  <sli>CLEANMEM_COMPLETE_IN_ONE_CALL_OPT If set the API call does not return after
+                    each processing step but stays in the API call until the function has been completed</sli>
+                  <sli> CLEANMEM_BESTMATCH_OPT if set only the best match is written to the output
+                    memory, if not set the best three matches are written to the output memory</sli>
+                  <sli>CLEANMEM_MERGE_OPT when specified the cleaned memory matches are merged into
+                    an existing memory rather than creating a new one</sli>
+                  <sli>CLEANMEM_KEEP_DUPS_OPT when specified duplicate exact matches are left in the
+                    memory (without this option only the first exact match is left in the memory).
+                    Fuzzy matches are left in the memory as long there is no exact match for the
+                    same segment (withhout this option only the best fuzzy match is left in the memory)</sli>
+                </sl></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The memory cleanup has not been completed yet. Call <xref href="#api_EqfCleanMemory"/> again. </entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">Error code (EQF message number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> 
+                to retrieve the complete error information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>HSESSION hSession;
+USHORT usRC;
+
+usRC = EqfStartSession( &amp;hSession );
+usRC = EqfCleanMemory( "TestFolder", 
+"C:\EXPMEMORY\SAMPLE2.EXP", 
+"C:\\EXPMEMORY\SAMPLEOUT.EXP",
+CLEANMEM_EXTERNAL_MEMORY_OPT | CLEANMEM_COMPLETE_IN_ONE_CALL_OPT | OVERWRITE_OPT );
+
+usRC = EqfEndSession( hSession );</codeblock>
+    </example>
+  </refbody>
+</reference>

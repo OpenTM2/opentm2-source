@@ -14,11 +14,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -183,7 +185,7 @@ while(!bSuccess) {
 			if(conn != null)
 				stmt = (Statement) conn.createStatement();
 //System.out.println(memoryname);	
-			mLogger.info(memoryname);
+			//mLogger.info(memoryname);
 			// create database
 			if(stmt != null) {
 				// create tu table
@@ -194,8 +196,9 @@ while(!bSuccess) {
 				sbTuSql.append("UPDATECOUNTER INT(10),");
 				sbTuSql.append("SEGNUM INT(10),");  
 				sbTuSql.append("MARKUP VARCHAR(50),");
-				sbTuSql.append("DOCNAME VARCHAR(200),");
-				sbTuSql.append("SHORTDOCNAME VARCHAR(200),PRIMARY KEY(ID))");
+				sbTuSql.append("DOCNAME VARCHAR(500),");
+				sbTuSql.append("SHORTDOCNAME VARCHAR(200),");
+				sbTuSql.append("TUHASH INT(64),PRIMARY KEY(ID))");
 				
 				stmt.executeUpdate(sbTuSql.toString());
 				
@@ -209,7 +212,8 @@ while(!bSuccess) {
 				sbTuvSql.append("LANG VARCHAR(20),");
 				sbTuvSql.append("LANGUAGE VARCHAR(50),");
 				sbTuvSql.append("CREATOR VARCHAR(20),");
-				sbTuvSql.append("PARENTID INT(10),PRIMARY KEY(ID))");
+				sbTuvSql.append("PARENTID INT(10),");
+				sbTuvSql.append("PRIMARY KEY(ID))");
 				
 				stmt.executeUpdate(sbTuvSql.toString());
 				
@@ -581,19 +585,20 @@ while(!bSuccess) {
 	 * @throws SQLException
 	 */
 	@Override
-	public void upload(String user, String memoryname, List<TU> tus) throws SQLException {
+	public int upload(String user, String memoryname, List<TU> tus) throws SQLException {
 		if(user==null || tus==null || tus.isEmpty() || memoryname.isEmpty())
-			return;
+			return -1;
 		
 		// if size bigger than 10, use batch update
 		long begtime = System.currentTimeMillis();
-	
-		batchUpload(user,memoryname,tus);
-		System.out.println("batch insert seconds="+(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-begtime)));
+	    
+		int upcounter = batchUpload(user,memoryname,tus);
+
 		StringBuilder sbInfo = new StringBuilder();
 		sbInfo.append("batch insert seconds=").append(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()-begtime));
 		mLogger.info(sbInfo.toString());
-
+		
+		return upcounter;
 	}
 	
 	/**
@@ -643,11 +648,49 @@ while(!bSuccess) {
 
 	/**
 	 * 
+	 * @param memoryName
+	 * @return
+	 * @throws SQLException
+	 */
+	private int readMaxMemoryUpdateCounter(String memoryName) throws SQLException {
+	
+		StringBuilder sbQuery = new StringBuilder("select MEMORYUPCOUNTER from ").append(DBNAME).append(".").append(MEMORYINFOTABLE)
+				.append(" where MEMORYNAME='").append(memoryName).append("'");
+		
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		int upcounter = -1;
+		
+		try {
+			conn = mDs.getConnection();
+			stmt = (Statement) conn.createStatement();
+		
+			rs = stmt.executeQuery(sbQuery.toString());
+			if(rs.next()) {
+				upcounter = rs.getInt("MEMORYUPCOUNTER");
+			}
+			
+		} finally {
+			if(rs!=null)
+				rs.close();
+			if(stmt != null)
+			    stmt.close();
+			if(conn != null)
+				conn.close();	
+		}
+
+		return upcounter;
+	}
+	
+	
+	/**
+	 * 
 	 * @param memoryname
 	 * @param tus
 	 * @throws SQLException
 	 */
-    private void batchUpload(String user, String memoryname, List<TU> tus)  throws SQLException {
+    private int batchUpload(String user, String memoryname, List<TU> tus)  throws SQLException {
 
 		Connection conn = null; 
 		PreparedStatement pstmt = null;
@@ -655,25 +698,34 @@ while(!bSuccess) {
 		Statement stmt = null;
 		ResultSet rs = null;
 		boolean commitMode = true;
-		
+		int upcounter = -1;
 		try {
 			//TODO: "?useServerPrepStmts=false&rewriteBatchedStatements=true";
 			conn = mDs.getConnection();
 			commitMode = conn.getAutoCommit();
 			conn.setAutoCommit(false);
-
-
-			int upcounter = getMemoryUpdateCounter(memoryname);
-			if(-1==upcounter)
-				return;
+      
+			// filter duplicated enabled?
+			// maybe lost some concurrence from other users, but just make this as try best method
+			// otherwise program will runs slowly
+			if( CfgUtil.getInstance().isDuplicatedFilt() ) {
+				tus = filterDuplicatedTUS(memoryname,tus);
+				if( tus.size()==0 )
+					return -1;
+			}
+			//
+			
+			upcounter = getMemoryUpdateCounter(memoryname);
+			if(-1 == upcounter)
+				return -1;
 			
 			StringBuilder sbTuInsert = new StringBuilder();
-			sbTuInsert.append("INSERT INTO ").append(DBNAME).append(".").append(memoryname).append("_tu").append(" VALUES(?,?,?,?,?,?,?)");
+			sbTuInsert.append("INSERT INTO ").append(DBNAME).append(".").append(memoryname).append("_tu").append(" VALUES(?,?,?,?,?,?,?,?)");
 			pstmt = conn.prepareStatement(sbTuInsert.toString());
 
 			StringBuilder sbLockTable = new StringBuilder("LOCK TABLE ").
                     append(DBNAME).append(".").append(memoryname).append("_TU").append(" write");
-
+			
 			for(TU tu:tus) {
 				pstmt.setInt(1, 0);
 				pstmt.setString(2, tu.getCreatetionDate());
@@ -682,13 +734,13 @@ while(!bSuccess) {
 				pstmt.setString(5, tu.getMarkup());
 				pstmt.setString(6, tu.getDocName());
 				pstmt.setString(7, tu.getShortDocName());
+				pstmt.setInt(8, tu.hashCode());
 				pstmt.addBatch();
 			}
 			
 			//lock tu
 			stmt = conn.createStatement();
 			stmt.execute(sbLockTable.toString());
-			
 			pstmt.executeBatch();
 			conn.commit();
 			// unlock
@@ -737,85 +789,166 @@ while(!bSuccess) {
 			if(conn!=null)
 				conn.close();
 		}
-    
+		
+		return upcounter;
+
 	}
+    
+   
     
     /**
      * 
      * @param memoryname
-     * @param tus
+     * @param tu
+     * @return
      * @throws SQLException
      */
-    @SuppressWarnings("unused")
-	private void nonBatchUpload(String memoryname, List<TU> tus) throws SQLException {
-	
-		Connection conn = null; 
-		Statement stmt = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+    private Map<Integer,ArrayList<Integer>> getTUS(String memoryname) throws SQLException{
+		Connection conn = null;
+		Statement stmttu = null;
+		ResultSet rstu = null;
+
 		try {
-			
 			conn = mDs.getConnection();
-			stmt = (Statement) conn.createStatement();
-
-			int upcounter = getMemoryUpdateCounter(memoryname);
-			if(-1==upcounter)
-				return;
+			stmttu = (Statement) conn.createStatement();
 			
-			StringBuilder sbTuInsert = new StringBuilder();
-			for(TU tu:tus) {
-				sbTuInsert.delete(0, sbTuInsert.length());
-				sbTuInsert.append("INSERT INTO ").append(DBNAME).append(".").append(memoryname).append("_tu")
-				          .append(" VALUES(")
-				          .append("0")
-				          .append(",'").append(tu.getCreatetionDate()).append("'")
-				          .append(",").append(Integer.toString(upcounter))
-				          .append(",").append(Integer.toString(tu.getSegNum()) )
-				          .append(",'").append(tu.getMarkup()).append("'")
-				          .append(",'").append(tu.getDocName()).append("'")
-				          .append(",'").append(tu.getShortDocName()).append("')");
-				
-				//System.out.println(sbTuInsert.toString());
-				mLogger.debug(sbTuInsert.toString());
-				stmt.executeUpdate(sbTuInsert.toString(), Statement.RETURN_GENERATED_KEYS);
-				
-				// get auto generated keys
-				rs = stmt.getGeneratedKeys();
-				rs.next();
-				int tuid = rs.getInt(1);
-				//System.out.println(tuid);
-				
-				// insert tuvs
-				StringBuilder sbTuvInsert = new StringBuilder();
-				for(TUV tuv:tu.getTUVS()) {
-					sbTuvInsert.delete(0, sbTuvInsert.length());
-					sbTuvInsert.append("INSERT INTO ").append(DBNAME).append(".").append(memoryname).append("_TUV").append(" VALUES(?,?,?,?,?,?)");
-					pstmt = conn.prepareStatement(sbTuvInsert.toString());
-					int idx = 1;
-					pstmt.setInt(idx++,0);
-					//pstmt.setString(idx++, tuv.getCreatetionDate());
-					pstmt.setInt(idx++,upcounter);
-					pstmt.setString(idx++,tuv.getSegment());
-					pstmt.setString(idx++,tuv.getLang());
-					pstmt.setString(idx++,tuv.getLanguage());
-					pstmt.setInt(idx++,tuid);
-					pstmt.executeUpdate();
-				}
-			}
+			//
+			StringBuilder sbQueryTUHash = new StringBuilder("select ID,TUHASH from ").append(DBNAME).append(".")
+					                     .append(memoryname).append("_TU");
+					                                                      		
+            Map<Integer,ArrayList<Integer>> res = new HashMap<Integer,ArrayList<Integer>>();
+	        rstu = stmttu.executeQuery(sbQueryTUHash.toString());
+	        while( rstu.next() ) {
 
-		}  finally {
-			
-			if(rs!=null)
-				rs.close();
-			if(pstmt!=null)
-				pstmt.close();
-			if(stmt!=null)
-				stmt.close();
-			if(conn!=null)
-				conn.close();
+	        	int key = rstu.getInt(2);
+	        	if( res.containsKey(key) ) {
+	        		ArrayList<Integer> val = res.get(key);
+	        		val.add(rstu.getInt(1));
+	        	    res.put(key,val);
+	        	} else {
+	        		ArrayList<Integer> val = new ArrayList<Integer>();
+	        		val.add(rstu.getInt(1));
+	        		res.put(key, val);
+	        	}
+	        }
+	        rstu.close();
+            
+	        return res;
+
+		} finally {
+			if(rstu!=null)
+				rstu.close();
+			if(stmttu != null)
+			    stmttu.close();
+			if(conn != null)
+				conn.close();	
 		}
-    }
+	}
+    
+    private Map<Integer,ArrayList<DbTUV>> getTUVS(String memoryname) throws SQLException{
+		Connection conn = null;
+		Statement stmttuv = null;
+		ResultSet rstuv = null;
 
+		try {
+			conn = mDs.getConnection();
+			stmttuv = (Statement) conn.createStatement();
+			
+			//
+			StringBuilder sbQueryTUV = new StringBuilder("select PARENTID,SEGMENT,LANG from ").append(DBNAME).append(".")
+					                     .append(memoryname).append("_TUV");
+					                                                      		
+            Map<Integer,ArrayList<DbTUV>> res = new HashMap<Integer,ArrayList<DbTUV>>();
+	        rstuv = stmttuv.executeQuery(sbQueryTUV.toString());
+	        while( rstuv.next() ) {
+
+	        	int key = rstuv.getInt(1);
+	        	if( res.containsKey(key) ) {
+	        		ArrayList<DbTUV> val = res.get(key);
+	        		val.add( new DbTUV(rstuv.getString(2),rstuv.getString(3)) );
+	        	    res.put(key,val);
+	        	} else {
+	        		ArrayList<DbTUV> val = new ArrayList<DbTUV>();
+	        		val.add(new DbTUV(rstuv.getString(2),rstuv.getString(3)) );
+	        		res.put(key, val);
+	        	}
+	        }
+	        rstuv.close();
+            
+	        return res;
+
+		} finally {
+			if(rstuv!=null)
+				rstuv.close();
+			if(stmttuv != null)
+			    stmttuv.close();
+			if(conn != null)
+				conn.close();	
+		}
+	}
+    
+    
+    
+    private List<TU> filterDuplicatedTUS(String memoryName, List<TU> tus) throws SQLException {
+    	if( tus.isEmpty())
+    		return tus;
+    	
+    	Map<Integer,ArrayList<Integer>> tusMap = getTUS(memoryName);
+    	if(tusMap.isEmpty())
+    		return tus;
+        
+    	Map<Integer,ArrayList<DbTUV>> tuvMap = getTUVS(memoryName);
+    	if(tuvMap.isEmpty())
+    		return tus;
+    	
+    	Iterator<TU> iter = tus.iterator();
+    	while(iter.hasNext()) {
+    		
+    		TU tu = iter.next();
+    		if(tu.getTUVS().size()>2)
+    			continue;
+    		
+    		int key = tu.hashCode();
+    		
+    		if( !tusMap.containsKey(key) )
+    			continue;
+    		
+    		ArrayList<Integer> pids = tusMap.get(key);
+    		for(int pid:pids) {
+        		TUV srcTUV = tu.getSourceTUV();
+        		TUV tgtTUV = tu.getTargetTUV().get(0);
+        		
+        		boolean isSrcDuplicated = false;
+        		boolean isTgtDuplicated = false;
+        		ArrayList<DbTUV> tuvs = tuvMap.get(pid);
+        		for(DbTUV dbtuv:tuvs) {
+        			if( dbtuv.isSourceTUV() ) {
+        				if( srcTUV.getSegment().equals(dbtuv.segment) ) {
+        					isSrcDuplicated = true;
+        				}
+        			} else {
+        				
+        				if( tgtTUV.getLang().equalsIgnoreCase(dbtuv.lang) &&
+    							tgtTUV.getSegment().equalsIgnoreCase(dbtuv.segment) ) {
+        					isTgtDuplicated = true;
+    					}
+        					
+        			}
+        			if(isSrcDuplicated && isTgtDuplicated) {
+        				iter.remove();
+        				break;
+        			}
+        		}
+        		
+        		if(isSrcDuplicated && isTgtDuplicated) 
+        			break;
+        		
+    		}//end for
+
+    	}
+    	
+    	return tus;
+    }
     /**
      * 
      * @param memoryname
@@ -824,7 +957,7 @@ while(!bSuccess) {
      * @throws SQLException
      */
 	@Override
-	public Map<String,String> download(String user, String memoryname, long updateCounter)
+	public Map<String,String> download(String user, String memoryname, long updateCounter,Set<Long> ownUploadedCounters)
 			throws SQLException {
 		Map<String,String> resMap = new HashMap<String,String>();
 		boolean hasNext = true;
@@ -833,10 +966,19 @@ while(!bSuccess) {
 		resTmx.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
 		      .append("<tmx version=\"1.4\">")
 		      .append("<header datatype=\"plaintext\"/><body>");
-		 
+		
+		long maxCurCounter = readMaxMemoryUpdateCounter(memoryname);
 		while(hasNext) {
+			if(curCounter > maxCurCounter)
+				break;
+			
+			// skip update counter in own uploaded counter list
+			if( ownUploadedCounters.contains(curCounter) ) {
+				curCounter++;
+				continue;
+			}
+			
 			String temp = downloadOneCounter(user, memoryname,curCounter);
-            //System.out.println(temp.length()+" "+CfgUtil.getInstance().getDonwloadSize());
             mLogger.info(temp.length()+" "+CfgUtil.getInstance().getDonwloadSize());
 			if(temp!=null && !"".equals(temp)) {
 				if( (resTmx.length()+temp.length())<CfgUtil.getInstance().getDonwloadSize()) {
@@ -850,7 +992,6 @@ while(!bSuccess) {
 		
 		resTmx.append("</body></tmx>");
 
-		//String resTmxcontent = new BASE64Encoder().encode(resTmx.toString().getBytes());
 		resMap.put(SyncParameters.TMXDOCUMENT, resTmx.toString());
 		resMap.put(SyncParameters.UPDATECOUNTER,Long.toString(curCounter-1));
 
@@ -884,19 +1025,12 @@ while(!bSuccess) {
 			HashMap<Integer,StringBuilder> tuCache= new HashMap<Integer,StringBuilder>();
 			
 			while(rstuv.next()) {
-//System.out.println(rstuv.getString(6));
 
-			
-//				if(user.equals(rstuv.getString(6))) {
-//					continue;
-//				}
-				
 				StringBuilder tuvs = new StringBuilder();
 				tuvs.append("<tuv ").append("xml:lang=\"").append(rstuv.getString(4)).append("\">");
 				tuvs.append("<prop type=\"tmgr-language\">").append(rstuv.getString(5)).append("</prop>");
 				char[] encodedStr =  SimpleBase64.encode(rstuv.getString(3).getBytes());
 				tuvs.append("<seg>").append(encodedStr).append("</seg>");
-//System.out.println(new String(SimpleBase64.decode(encodedStr)));
 				tuvs.append("</tuv>");
 			
 				int parentID = rstuv.getInt(7);
@@ -974,6 +1108,9 @@ while(!bSuccess) {
 		return true;
 	}
 
+	
+
+	
 	@Override
 	public boolean restore(String infile) {
 		 try {
@@ -1060,6 +1197,25 @@ if(!"localhost".equals(IP) && !"127.0.0.1".equals(IP))
 				stmt.close();
 			if(conn != null)
 				conn.close();
+		}
+	}
+	
+	/**
+	 * store important TUV information in DB
+	 * @author ADMINIBM
+	 *
+	 */
+	private class DbTUV {
+		public String segment;
+		public String lang;
+		
+		public DbTUV(String seg,String lng){
+			segment = seg;
+			lang = lng;
+		}
+		
+		public boolean isSourceTUV() {
+			return  "en-US".equalsIgnoreCase(lang);
 		}
 	}
 		

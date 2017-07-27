@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mt_Prepare.dita">
+  <title>Preparing for MT-processing</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <indexterm><!-- OtmMtEval tool --></indexterm>
+      <p>In order to use the MT-support functionality in <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, 
+         a text-file named "EQFNFLUENT.TRG" must be updated and adjusted.</p>
+      <p>Open the file <q>EQFNFLUENT.TRG</q>, which is located in the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> directory
+        \otm\property\, in a TEXT editor like Notepad++. Locate the entry <q>MTLOGGING</q>, and remove a leading <q>*</q> 
+        (where a <q>*</q> indicates a comment line). This globally <q>activates</q> all MT-logging activities in 
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+      <p>More options can be set in the <q>EQFNFLUENT.TRG</q> file that control the creation of <b>various different MT-output formats</b>. 
+        These outputs formats are either in the *.<b>EXP</b> (the <keyword conref="common-symbols.dita#common-symbols/tm4w"/> 
+        native format of external translation memories), or in dedicated XML-formats.</p>
+        <ul>
+          <li>NOMATCH - creates an XML-file which contains <b>all</b> source-segments but <b>no</b> exact matches.</li>
+          <li>NOMATCH_NODUPLICATE - same output as NOMATCH, but <b>without</b> duplicate segments.</li>
+          <li>NOMATCHEXP - creates an EXP-file which contains <b>all</b> source-segments but <b>no</b> exact matches.</li>
+          <li>NOMATCHEXP_NODUPLICATE - same output as NOMATCHEXP, but <b>without</b> duplicate segments.</li>
+          <li>ALLSEGS - creates an XML-file which contains <b>all</b> source-segments <b>even</b> exact matches.</li>
+          <li>ALLSEGS_NODUPLICATE - Same output as ALLSEGS but <b>without</b> duplicate segments.</li>
+          <li>ALLSEGSEXP - creates an EXP-file which contains <b>all</b> source-segments <b>even</b> exact matches.</li>
+          <li>ALLSEGSEXP_NODUPLICATE - Same output as ALLSEGSEXP but <b>without</b> duplicate segments.</li>
+          <li>ALLWMATCH - creates an XML-file which contains <b>all</b> source-segments and <b>all</b> target-segments, 
+            including e.g. EXACT or FUZZY matches. In addition the <b>match</b>-rate is written into the output.</li>
+          <li>ALLWMATCH_NODUPLICATE  - same output as ALLWMATCH but <b>without</b> duplicate segments.</li>
+          <li>ALLWMATCHSOURCE - creates an XML-file which contains <b>all</b> source-segments and <b>all</b> target-segments
+              including e.g. EXACT or FUZZY matches. In addition the MATCH-rate and the SOURCE of the translation memory 
+              proposal is written into the output.</li>
+          <li>ALLWMATCHSOURCE_NODUPLICATE - Same output as ALLWMATCHSOURCE but <b>without</b> duplicate segments.</li>
+          <li>NOPROPOSAL - creates an XML-file which contains <b>all</b> source-segments which have no proposal at all.
+              This means no EXACT match, no MT-match, no GLOBAL MEMORY match, and no FUZZY match must exist in an 
+              attached translation memory.</li>
+          <li>NOPROPOSAL_NODUPLICATE - Same output as NOPROPOSAL but <b>without</b> duplicate segments.</li>
+          <li>NOPROPOSALEXP - creates an EXP-file which contains <b>all</b> source-segments which have no proposal at all.</li>
+          <li>NOPROPOSALEXP_NODUPLICATE - Same output as NOPROPOSAL but <b>without</b> duplicate segments.</li>
+          <li>XLIFF - creates an XLIFF-file which contains <b>all</b> source-segments, along with <b>all</b> proposals.</li>
+        </ul>  
+     </section>
+  </refbody>
+</reference>

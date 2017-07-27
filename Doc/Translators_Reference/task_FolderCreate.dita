@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="task_FolderCreate">
+  <title>Creating a folder</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>New documents must be included in a folder before you can translate them. Therefore your first step is to decide whether you want to create 
+      a new folder or include the new document in an existing folder. The folder concept allows you to group the entire translation material
+      belonging to a specific project into one folder. If the new document does not belong to an existing project, create a new folder. 
+      A folder can contain only one document or several documents.</p>
+    <p>When you create a new folder, choose a folder name that describes the subject of the project and is easy to remember.</p>
+    <p>Each folder is associated with a Translation Memory. You can either specify a new Translation Memory or use an existing one. You can 
+      use a new Translation Memory for each folder. If you later decide that several folders should share one Translation Memory, you can merge the
+      Translation Memory databases of these folders.</p>
+    <p>You can also specify whether you want to create a new dictionary with the folder or use one or more existing dictionaries. If you specify 
+      existing dictionaries, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> searches these dictionaries during translation and 
+      displays the translated terms for you to include them in the text.</p>
+  </body>
+</topic>

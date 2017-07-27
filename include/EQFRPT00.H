@@ -21,8 +21,8 @@
 #define RTF_OUTPUT_EXTENSION            "RTF"  // output file extension    RTF
 #define MAX_OBJECTS                        10  // max number of selected documents
 #define MAX_OUTPUT                       4096  // max size of output Strings  (4096)
-#define INIT_SIZE_A                        10  // init and increase value of PALLINFO array
-#define INIT_SIZE_C                         5  // init and increase value of PCALCINFO array
+#define INIT_SIZE_A                       400  // init and increase value of PALLINFO array
+#define INIT_SIZE_C                       400  // init and increase value of PCALCINFO array
 #define MAX_O_LINES                        50  // max output lines
 //#define MAX_O_LENGTH                     78  // max output line length
 #define MAX_O_LENGTH                       1000 // max output line length (400)

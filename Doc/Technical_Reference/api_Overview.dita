@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="api_Overview">
+  <title>Overview and terminology</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Each <keyword conref="common-symbols.dita#common-symbols/tm4w"/> function includes a generic
+      data block, which is encapsulated in the session handle. This session handle is created by the
+      <i>EqfStartSession</i> call (see <ph otherprops="print">page <xref href="api_EqfStartSession.dita#api_EqfStartSession"/></ph> 
+      <xref otherprops="display" href="api_EqfStartSession.dita#api_EqfStartSession"/>). 
+      It ensures that several <keyword conref="common-symbols.dita#common-symbols/tm4w"/> functions 
+      can run concurrently. The functions are delivered as a library and a dynamic-link library (DLL) 
+      following the standard PASCAL calling conventions. The include file <codeph>EQFFUNC.H</codeph> 
+      contains the prototypes of all available functions.</p>
+    <p>The long-running tasks, such as the export or the organization of a 
+       <keyword conref="common-symbols.dita#common-symbols/xlmem"/>, are split into small units of work. The
+      return code indicates if the task has completed successfully or if data is pending. The
+      calling application must allocate the memory and free it when no longer used. In this way, the
+      interface is independent of any compiler or runtime libraries used.</p>
+    <p><indexterm>folder<indexterm>definition in non-DDE
+      API</indexterm></indexterm><indexterm>subfolder<indexterm>definition in non-DDE
+      API</indexterm></indexterm>The term <q>folder</q> in the following descriptions also
+      implies subfolders. Whenever a function requires the specification of a folder as a parameter,
+      for example <codeph>"folder_main"</codeph>, you can also specify a subfolder, for example
+      <codeph>"folder_2001\\folder_sub1"</codeph>. You can even expand subfolder specifications,
+      up to the limits of the operating system, for example
+      <codeph>"folder_2001\\folder_sub1\\sub_sub\\sub_sub_sub\\..."</codeph>.</p>
+  </body>
+</topic>

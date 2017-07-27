@@ -1,6 +1,6 @@
 
 /*! \brief EQFANA00.CPP  Analysis Handler
-	Copyright (c) 1999-2016, International Business Machines Corporation and others. All rights reserved.
+	Copyright (c) 1999-2017, International Business Machines Corporation and others. All rights reserved.
 */
 
 #define INCL_EQF_TM               // general Transl. Memory functions
@@ -1517,11 +1517,11 @@ USHORT TAFuncPrepAnalysis
      }
      else
      {
-       pTAInput->fProtXmp             = (lOptions & PROTECTXMP_OPT );
-       pTAInput->fProtMsgNum          = (lOptions & PROTECTMSGNUM_OPT );
-       pTAInput->fProtMeta            = (lOptions & PROTECTMETA_OPT );
-       pTAInput->fProtScreen          = (lOptions & PROTECTSCREEN_OPT );
-       pTAInput->fProtCodeBlock       = (lOptions & PROTECTCODEBLOCK_OPT );
+       pTAInput->fProtXmp             = (lOptions & PROTECTXMP_OPT ) != 0;      /* 4-13-14 */
+       pTAInput->fProtMsgNum          = (lOptions & PROTECTMSGNUM_OPT ) != 0;
+       pTAInput->fProtMeta            = (lOptions & PROTECTMETA_OPT ) != 0;
+       pTAInput->fProtScreen          = (lOptions & PROTECTSCREEN_OPT ) != 0;
+       pTAInput->fProtCodeBlock       = (lOptions & PROTECTCODEBLOCK_OPT ) != 0;
      }
      pTAInput->fIgnorePath            = (lOptions & IGNOREPATH_OPT) != 0;
      pTAInput->fStopAtFirstExact      = (lOptions & STOPATFIRSTEXACT_OPT) != 0;

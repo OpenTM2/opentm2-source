@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="doc_Analyze">
+<title>Analyzing a document</title>
+<prolog><metadata><keywords>
+
+<indexterm>document<indexterm>analyzing</indexterm></indexterm>
+<indexterm>analyzing<indexterm>documents</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>Analyzing a document means splitting it up into translatable pieces
+called <i>segments</i>. <indexterm>analyzing<indexterm>definition
+of</indexterm></indexterm>Segments are in most cases equivalent to sentences.
+This segmentation is performed with the help of <i>markup
+tables</i> that contain specific information for the type of markup
+used in the document. You choose the markup table to use as one of
+the properties of the document.</p>
+<p>After the analysis of a document, <keyword conref="common-symbols.dita#common-symbols/tm4w"/> produces a copy of the
+original document to be used for the translation, this means, the
+original version of the document is kept unchanged by <keyword conref="common-symbols.dita#common-symbols/tm4w"/>.</p>
+<p>The system allows you to analyze documents with different results: 
+<ul>
+<li>The documents are segmented (default).</li>
+<li>The documents are segmented, segments can be substituted with
+segment translations, or a <keyword conref="common-symbols.dita#common-symbols/xlmem"/> can be filled with these translations.</li>
+<li>The documents are segmented, and terminology lists are created.</li>
+</ul></p>
+<p>To analyze all documents in a folder, see <xref href="folder_Analyze.dita#folder_Analyze"/>. </p>
+</body></topic>

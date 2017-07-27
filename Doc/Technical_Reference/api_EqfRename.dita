@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfRename">
+<title><!--rev=as25032008-->EqfRename</title>
+<prolog><metadata><keywords><!--Insert <indexterm> tags here--></keywords>
+</metadata>
+</prolog><refbody>
+<section><title>Purpose</title><indexterm>EqfRename</indexterm><indexterm>programming interface calls<indexterm>EqfRename</indexterm></indexterm>
+<p><i>EqfRename</i> renames a folder, a dictionary
+or a Translation Memory.</p>
+</section>
+<refsyn><title>Format</title>
+<syntaxdiagram>
+<groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfRename</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>usMode</var><sep>,</sep><var>pszOldName</var><sep>,</sep><var>pszNewName</var><sep>,</sep><var>lOptions</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
+</refsyn>
+<section><title>Parameters</title>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="3">
+<colspec colname="col1" colwidth="53*"/>
+<colspec colname="col2" colwidth="82*"/>
+<colspec colname="col3" colwidth="154*"/>
+<thead valign="top">
+<row>
+<entry align="left">Type</entry>
+<entry align="left">Parameter</entry>
+<entry align="left">Description </entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">HSESSION</entry>
+<entry colname="col2">hSession</entry>
+<entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry></row>
+<row>
+<entry colname="col1">USHORT</entry>
+<entry colname="col2">usMode</entry>
+<entry colname="col3">Descibes the type of object being renamed, valid
+are RENAME_FOLDER, RENAME_MEMORY or RENAME_DICTIONARY </entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszOldName</entry>
+<entry colname="col3">The name of the existing folder, dictionary
+or Translation Memory.</entry></row>
+<row>
+<entry colname="col1">PSZ</entry>
+<entry colname="col2">pszNewName</entry>
+<entry colname="col3">The new name for the folder, dictionary or Translation
+Memory.</entry></row>
+<row>
+<entry colname="col1">LONG</entry>
+<entry colname="col2">lOptions</entry>
+<entry colname="col3">Additional options for the rename function:
+ 
+<ul>
+<li>ADJUSTREFERENCES_OPT to adjust all references to the rename object
+(valid only for the rename of a Translation Memory)</li>
+</ul></entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<section><title>Return code</title>
+<p>USHORT</p>
+<table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+<tgroup cols="2">
+<colspec colname="col1" align="left" colwidth="40*"/>
+<colspec colname="col2" align="left" colwidth="157*"/>
+<thead valign="top">
+<row>
+<entry align="left">Value</entry>
+<entry align="left">Description</entry></row>
+</thead>
+<tbody>
+<row>
+<entry colname="col1">0 (NO_ERROR)</entry>
+<entry colname="col2">The function completed successfully.</entry></row>
+<row>
+<entry colname="col1">other</entry>
+<entry colname="col2">Error code (EQF message number). Use EqfGetLastError
+to retrieve the complete error information.</entry></row>
+</tbody>
+</tgroup>
+</table>
+</section>
+<example><title>Code sample</title>
+<codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+   // rename the Translation Memory MyMemory to MyNewMemory and adjust all references 
+  if ( !usRC )
+  {
+       usRC = EqfRename( hSession, RENAME_MEMORY, "MyMemory", 
+                        "MyNewMemory", ADJUSTREFERENCES_OPT );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+</example></refbody></reference>

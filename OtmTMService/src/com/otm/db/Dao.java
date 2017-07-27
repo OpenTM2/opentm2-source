@@ -10,6 +10,7 @@ import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 
@@ -35,9 +36,9 @@ public interface Dao {
 	 
 	 void deleteMemory(String memoryname) throws SQLException;
 	 
-	 void upload(String user, String memoryname, List<TU> tus) throws SQLException;
+	 int upload(String user, String memoryname, List<TU> tus) throws SQLException;
 	 
-	 Map<String,String> download(String user, String memoryname, long updateCounter) throws SQLException;
+	 Map<String,String> download(String user, String memoryname, long updateCounter,Set<Long> ownUploadedCounters) throws SQLException;
 	 
 	 String listMemories(String userid) throws SQLException;
 	 

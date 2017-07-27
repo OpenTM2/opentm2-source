@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic
+  PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="appHint_WordSpace">
+<title>Disk space consumption with .doc files</title>
+<prolog><metadata><keywords>
+
+<indexterm>technical notices<indexterm>disk space with .doc
+files</indexterm></indexterm>
+<indexterm>disk space<indexterm>problem with insufficient</indexterm></indexterm>
+<indexterm>.doc files<indexterm>insufficient disk pace</indexterm></indexterm>
+<indexterm>.rtf files<indexterm>temporary use with .doc files</indexterm></indexterm>
+</keywords>
+</metadata>
+</prolog>
+<body>
+<p>When <keyword conref="common-symbols.dita#common-symbols/tm4w"/> processes <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word files, it temporarily needs
+disk space that might be a multiple of the size of the .doc file to be processed.
+Especially files that contain graphics require more disk space.</p>
+<p>The reason is that <keyword conref="common-symbols.dita#common-symbols/tm4w"/> uses an internal conversion from
+.doc to .rtf format to process <tm trademark="Microsoft" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Microsoft</tm> Word files.</p>
+</body></topic>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="mut_WhatCanYouDo">
+  <title>What you can do with markup tables</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title/>
+      <p>Start the functions related to markup tables from the <q>Markup Table List</q> window. </p>
+    </section>
+    <section>
+      <title>Prerequisites</title>
+      <p>None.</p>
+    </section>
+    <section>
+      <title>Calling sequence</title>
+      <p>Select <b>Display markup table list</b> from the <b>Utilities</b> menu.</p>
+      <p>The <q>Markup Table List</q> window is displayed.</p>
+      <p>The window contains all existing markup tables in your system. </p>
+      <p>Most of the actions related to markup tables can be started by selecting a list name and an
+        action from the <b>File</b> menu, such as <b>Delete</b>, <b>Export…</b>, or
+        <b>Import…</b>.</p>
+    </section>
+  </refbody>
+</reference>
