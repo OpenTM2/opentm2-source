@@ -97,6 +97,9 @@ typedef struct _PROOFREADPROCESSDATA
   // buffer areas
   CHAR_W szSegmentContext[MAX_SEGMENT_SIZE+1]; // buffer for segment context
   char szMessageBuffer[MAX_SEGMENT_SIZE]; // buffer for error messages
+  CHAR_W szAdjustedTarget[MAX_SEGMENT_SIZE+1]; // buffer for target segment with adjusted white space
+  BYTE bDiffInputBuffer[30000L];       // input buffer for EQFBFindDiff function
+  BYTE bDiffTokenBuffer[10000];        // token buffer for EQFBFindDiff function
 
   // counters and logging
   int iDocSegmentFailed;               // number of document segment updates failed    
@@ -123,7 +126,8 @@ BOOL ProofReadSingleDoc( PPROOFREADPROCESSDATA pData, BOOL fTargetDoc );
 VOID ProofReadProcess( HWND hwnd, PPROOFREADPROCESSDATA pData );
 void ProofReadShowProgress( PPROOFREADPROCESSDATA pData );
 BOOL ProofReadSingleDoc( PPROOFREADPROCESSDATA pData, BOOL fTargetDoc );
-BOOL ProofReadWriteEntryToLog( PPROOFREADPROCESSDATA pData, PSZ_W pszSegSource, PSZ_W pszError );
+BOOL ProofReadWriteEntryToLog( PPROOFREADPROCESSDATA pData, PSZ_W pszSegSource, PSZ_W pszError, BOOL fSource  );
+BOOL ProofReadAdjustWhiteSpaceInTarget( PPROOFREADPROCESSDATA pData, PSZ_W pszOrgTarget, PSZ_W pszValDocTarget, PSZ_W pszValDocModTarget, PSZ_W pszNewTarget );
 SHORT ProofReadstrcmp( PSZ_W  pSrc, PSZ_W  pTgt );
 
 BOOL ProofReadProcessList( OtmProofReadList *pListIn, BOOL fProcessDocIn, BOOL fProcessMemIn, HWND hwndDialog, int iNumOfRuns )
@@ -611,8 +615,9 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
 
   // get source and target text
   PSZ_W pszSourceText = (PSZ_W)pData->pEntry->getSource();
-  PSZ_W pszTargetText = (PSZ_W)pData->pEntry->getNewTarget();
-  if ( pszTargetText[0] == 0 ) pszTargetText = (PSZ_W)pData->pEntry->getModTarget();
+  PSZ_W pszTargetText = (PSZ_W)pData->pEntry->getTarget();
+  PSZ_W pszModTargetText = (PSZ_W)pData->pEntry->getNewTarget();
+  if ( pszModTargetText[0] == 0 ) pszModTargetText = (PSZ_W)pData->pEntry->getModTarget();
 
   // get segment data
   pSourceSeg = EQFBGetSegW( pData->pSourceDoc, ulSegNum );
@@ -624,21 +629,28 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
   {
     sprintf( pData->szMessageBuffer, "Could not access segment %lu of document %s in folder %s.\n\nDo you want to continue with the next entry?", ulSegNum, pData->szDocLongName, pData->szFolLongName );
     iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
-    ProofReadWriteEntryToLog( pData, NULL, L"Could not access the segment in the document" );
+    ProofReadWriteEntryToLog( pData, NULL, L"Could not access the segment in the document", TRUE );
     pData->iDocSegmentFailed++;
   }
   else if ( ProofReadstrcmp( pszSourceText, pSourceSeg->pDataW ) != 0 )
   {
     sprintf( pData->szMessageBuffer, "Source text of segment %lu in document %s in folder %s does not match the entry in the validation document.\n\nDo you want to continue with the next entry?", ulSegNum, pData->szDocLongName, pData->szFolLongName );
     iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
-    ProofReadWriteEntryToLog( pData, pSourceSeg->pDataW, L"Segment source in document does not match the entry in the validation document" );
+    ProofReadWriteEntryToLog( pData, pSourceSeg->pDataW, L"Segment source in document does not match the entry in the validation document", TRUE );
     pData->iDocSegmentFailed++;
   } 
+  //else if ( ProofReadstrcmp( pszTargetText, pTargetSeg->pDataW ) != 0 )
+  //{
+  //  sprintf( pData->szMessageBuffer, "Target text of segment %lu in document %s in folder %s does not match the entry in the validation document.\n\nDo you want to continue with the next entry?", ulSegNum, pData->szDocLongName, pData->szFolLongName );
+  //  iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
+  //  ProofReadWriteEntryToLog( pData, pTargetSeg->pDataW, L"Segment target in document does not match the entry in the validation document", FALSE );
+  //  pData->iDocSegmentFailed++;
+  //} 
   else if ( wcslen( pszTargetText ) >= MAX_SEGMENT_SIZE )
   {
     sprintf( pData->szMessageBuffer, "The new text of segment %lu in document %s in folder %s is too large, segment could not be changed.\n\nDo you want to continue with the next entry?", ulSegNum, pData->szDocLongName, pData->szFolLongName );
     iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
-    ProofReadWriteEntryToLog( pData, NULL, L"The new segment text is too large" );
+    ProofReadWriteEntryToLog( pData, NULL, L"The new segment text is too large", TRUE );
     pData->iDocSegmentFailed++;
   } /* endif */
   if ( iMBCode != IDYES )
@@ -646,11 +658,17 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
     fOK = FALSE;
   } 
 
+  // adjust white space in target segment
+  if ( fOK )
+  {
+    fOK = ProofReadAdjustWhiteSpaceInTarget( pData, pTargetSeg->pDataW, pszTargetText, pszModTargetText, pData->szAdjustedTarget );
+  } /* endif */
+
   // update the segment target text
   if ( fOK )
   {
     ULONG ulDataLen = wcslen( pTargetSeg->pDataW ) + 1;
-    ULONG ulNewLen = wcslen( pszTargetText ) + 1;
+    ULONG ulNewLen = wcslen( pData->szAdjustedTarget ) + 1;
 
     // Allocate segment data buffer for changed segment and change segment data 
     PSZ_W pNewData;
@@ -658,7 +676,7 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
     fOK = UtlAlloc( (PVOID *)&pNewData, 0L, ulNewLen * sizeof(CHAR_W), ERROR_STORAGE );
     if ( fOK )
     {
-      wcscpy( pNewData, pszTargetText );
+      wcscpy( pNewData, pData->szAdjustedTarget );
       UtlAlloc( (PVOID *)&pTargetSeg->pDataW, 0L, 0L, NOMSG );
       pTargetSeg->pDataW = pNewData;
       pTargetSeg->usLength = (USHORT)ulNewLen;
@@ -667,10 +685,10 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
       pData->iDocSegmentChanged++;
 
       // re-compute target words
-      //ULONG ulTgtWords = 0;
-      //ULONG ulTgtMarkUp = 0;
-      //EQFBWordCntPerSeg( pData->pTagTable, (PTOKENENTRY)pData->pTargetDoc->pTokBuf, pTargetSeg->pDataW, pData->sTargetLangID, &ulTgtWords, &ulTgtMarkUp, pData->ulTargetOemCP);
-      //pTargetSeg->usTgtWords = (USHORT) ulTgtWords;
+      ULONG ulTgtWords = 0;
+      ULONG ulTgtMarkUp = 0;
+      EQFBWordCntPerSeg( pData->pTagTable, (PTOKENENTRY)pData->pTargetDoc->pTokBuf, pTargetSeg->pDataW, pData->sTargetLangID, &ulTgtWords, &ulTgtMarkUp, pData->ulTargetOemCP);
+      pTargetSeg->usTgtWords = (USHORT) ulTgtWords;
     } /* endif */
   } /* endif */
 
@@ -816,7 +834,7 @@ void ProofReadShowProgress( PPROOFREADPROCESSDATA pData )
 }
 
 
-BOOL ProofReadWriteEntryToLog( PPROOFREADPROCESSDATA pData, PSZ_W pszSegSource, PSZ_W pszError )
+BOOL ProofReadWriteEntryToLog( PPROOFREADPROCESSDATA pData, PSZ_W pszSegSource, PSZ_W pszError, BOOL fSource )
 {
   // open log file if not done yet
   if ( pData->hfLog == NULL )
@@ -832,19 +850,33 @@ BOOL ProofReadWriteEntryToLog( PPROOFREADPROCESSDATA pData, PSZ_W pszSegSource, 
   ULONG ulSegNum = pData->pEntry->getSegmentNumber();
   PSZ_W pszSourceText = (PSZ_W)pData->pEntry->getSource();
   PSZ_W pszTargetText = (PSZ_W)pData->pEntry->getNewTarget();
-  if ( pszTargetText[0] == 0 ) pszTargetText = (PSZ_W)pData->pEntry->getModTarget();
+  PSZ_W pszModTargetText = (PSZ_W)pData->pEntry->getNewTarget();
+  if ( pszModTargetText[0] == 0 ) pszModTargetText = (PSZ_W)pData->pEntry->getModTarget();
 
   fwprintf( pData->hfLog, L"Error when processing entry %ld\r\n", pData->iProcessed );
   fwprintf( pData->hfLog, L"  Folder     : %S\r\n", pData->szFolLongName );
   fwprintf( pData->hfLog, L"  Document   : %S\r\n", pData->szDocLongName );
   fwprintf( pData->hfLog, L"  Segment    : %lu\r\n", ulSegNum );
   fwprintf( pData->hfLog, L"  Error      : %s\r\n", pszError );
-  if ( pszSegSource != NULL )
+
+  if ( fSource )
   {
-    fwprintf( pData->hfLog, L"--- Segment source from OpenTM2 document ---\r\n%s\r\n", pszSegSource );
+    if ( pszSegSource != NULL )
+    {
+      fwprintf( pData->hfLog, L"--- Segment source from OpenTM2 document ---\r\n%s\r\n", pszSegSource );
+    } /* endif */
+    fwprintf( pData->hfLog, L"--- Segment source in validation document ---\r\n%s\r\n", pszSourceText );
+    fwprintf( pData->hfLog, L"--- New target from validation document ---\r\n%s\r\n----------------------------\r\n\r\n", pszModTargetText );
+  }
+  else
+  {
+    if ( pszSegSource != NULL )
+    {
+      fwprintf( pData->hfLog, L"--- Segment target from OpenTM2 document ---\r\n%s\r\n", pszSegSource );
+    } /* endif */
+    fwprintf( pData->hfLog, L"--- Segment target in validation document ---\r\n%s\r\n", pszTargetText );
+    fwprintf( pData->hfLog, L"--- New target from validation document ---\r\n%s\r\n----------------------------\r\n\r\n", pszModTargetText );
   } /* endif */
-  fwprintf( pData->hfLog, L"--- Segment source in validation document ---\r\n%s\r\n", pszSourceText );
-  fwprintf( pData->hfLog, L"--- New target from validation document ---\r\n%s\r\n----------------------------\r\n\r\n", pszTargetText );
 
   return( TRUE );
 }
@@ -884,7 +916,117 @@ SHORT ProofReadstrcmp( PSZ_W  pSrc, PSZ_W  pTgt )
     else
     {
       // we are dealing with Equal characters
+
+      // for whitespaces: skip any folloing whitespace
+      if ( iswspace(s) && iswspace(t) )
+      {
+        while (iswspace( *pSrc ) ) pSrc++;
+        while (iswspace( *pTgt ) ) pTgt++;
+      } /* endif */
+
     } /* endif */
   } /* endwhile */
   return sResult;
+}
+
+// copy data from original target until given position in validation document target has been reached
+BOOL ProofReadCopyUpTo( PSZ_W *ppszOrgTarget, PSZ_W *ppszValDocTarget, PSZ_W *ppszNewTarget, PSZ_W pszStopPos ) 
+{
+  PSZ_W pszOrgTarget = *ppszOrgTarget;
+  PSZ_W pszValDocTarget = *ppszValDocTarget;
+  PSZ_W pszNewTarget = *ppszNewTarget;
+
+  while ( pszValDocTarget < pszStopPos )
+  {
+
+  } /* endwhile */
+
+  *ppszOrgTarget = pszOrgTarget;
+  *ppszOrgTarget = pszValDocTarget;
+  *ppszNewTarget = pszNewTarget;
+
+  return( TRUE );
+}
+
+// adjust white space in the modified target string to macth the white space in the original target segment
+BOOL ProofReadAdjustWhiteSpaceInTarget( PPROOFREADPROCESSDATA pData, PSZ_W pszOrgTarget, PSZ_W pszValDocTarget, PSZ_W pszValDocModTarget, PSZ_W pszNewTarget ) 
+{
+  BOOL fOK = TRUE;
+  PFUZZYTOK pFuzzyTgt = NULL;
+  PFUZZYTOK pFuzzyTok = NULL;
+  PSZ_W pszOutPos = pszNewTarget;
+
+  // find differences between target and modified target from the validation document
+  if ( fOK )
+  {
+    fOK = EQFBFindDiffEx( pData->pTagTable, pData->bDiffInputBuffer, pData->bDiffTokenBuffer, pszOrgTarget, pszValDocModTarget, pData->sTargetLangID, 
+      (PVOID *)&pFuzzyTok, (PVOID *)&pFuzzyTgt, pData->ulTargetOemCP );
+    //fOK = EQFBFindDiffEx( pData->pTagTable, pData->bDiffInputBuffer, pData->bDiffTokenBuffer, pszValDocTarget, pszValDocModTarget, pData->sTargetLangID, 
+    //  (PVOID *)&pFuzzyTok, (PVOID *)&pFuzzyTgt, pData->ulTargetOemCP );
+  } /* endif */
+
+  // combine original target and imported modifications
+  PFUZZYTOK pToken = pFuzzyTok;
+  PFUZZYTOK pOldToken = pFuzzyTgt;
+  while ( pToken->ulHash ) 
+  {
+    // handle tokens
+    if ( pToken->sType == MARK_EQUAL )
+    {
+      // copy orginal target
+      int iLen = (pOldToken->usStop - pOldToken->usStart) + 1;
+      wcsncpy( pszOutPos, pOldToken->pData, iLen );
+      pszOutPos += iLen;
+    }
+    else if ( pToken->sType == MARK_INSERTED ) 
+    {
+      // copy new text token
+      int iLen = (pToken->usStop - pToken->usStart) + 1;
+      wcsncpy( pszOutPos, pToken->pData, iLen );
+      pszOutPos += iLen;
+    }
+    else if ( pToken->sType == MARK_MODIFIED ) 
+    {
+      // copy new text token but use trailing white space from old target
+
+      // find whitespace at end of changed text
+      int iLen = (pToken->usStop - pToken->usStart) + 1;
+      while ( iLen && iswspace( pToken->pData[iLen-1] ) ) iLen--;
+
+      // find whitespace at end of original text
+      USHORT usWhiteSpacePos = pOldToken->usStop;
+      while ( (usWhiteSpacePos > pOldToken->usStart) && iswspace( pszOrgTarget[usWhiteSpacePos] ) ) usWhiteSpacePos--;
+      int iWhiteSpaceLen = (pOldToken->usStop - usWhiteSpacePos);
+      PSZ_W pszOldWhiteSpace = pszOrgTarget + (usWhiteSpacePos + 1);
+
+
+      // copy changed text w/o tailing whitespace
+      if ( iLen )
+      {
+        wcsncpy( pszOutPos, pToken->pData, iLen );
+        pszOutPos += iLen;
+      } /* endif */
+
+      // copy original whitespace
+      if ( iWhiteSpaceLen )
+      {
+        wcsncpy( pszOutPos, pszOldWhiteSpace, iWhiteSpaceLen );
+        pszOutPos += iWhiteSpaceLen;
+      } /* endif */
+    }
+    else if ( pToken->sType == MARK_DELETED ) 
+    {
+      // ignore deleted text
+    } /* endif */
+    pToken++;
+    pOldToken++;
+  } /* endwhile */
+
+  *pszOutPos = 0;
+
+  // cleanup
+  if ( pFuzzyTgt ) UtlAlloc( (PVOID *)&pFuzzyTgt, 0L, 0L, NOMSG );
+  if ( pFuzzyTok ) UtlAlloc( (PVOID *)&pFuzzyTok, 0L, 0L, NOMSG );
+
+  return( fOK );
 }

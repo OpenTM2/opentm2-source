@@ -75,7 +75,7 @@ static CHAR_W chSingleSubst;
 #define DEFAULT_SINGLE_WILDCARD L'?'
 
 // number of pushbuttons in push button row at the bottom of the dialog window
-#define NUM_OF_FUZZYSEARCH_PB 7
+#define NUM_OF_FUZZYSEARCH_PB 8
 
 // array of custom colors used by fuzzy search
 static COLORREF CustomColors[16];
@@ -333,6 +333,10 @@ typedef struct _FSEARCHIDAX
 
   // current color settings
   COLORCHOOSERDATA ColorData;
+
+  LOGFONT lf; // current font settings
+  HFONT hFontControl;                             // currently activa draw font
+
 } FSEARCHIDAX, *PFSEARCHIDAX;
 
 
@@ -391,7 +395,7 @@ int FS_GetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTabl
 void FS_ShowResult( PFSEARCHIDAX pIda, int iMatch );
 void FS_MeasureItem( HWND hwnd, LONG lParam );
 BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam );
-int FS_ComputeItemHeight( HWND hwndDlg, int iControlID );
+int FS_ComputeItemHeight( PFSEARCHIDAX pIda, HWND hwndDlg, int iControlID );
 void FS_OpenDocInTenv( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch );
 static SHORT FS_CloseFolderMemory( PFSEARCHIDAX pIda );
 USHORT FS_RemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PVOID pbTokBuf, LONG lTokBufSize, ULONG ulCP );
@@ -596,6 +600,32 @@ MRESULT EXPENTRY FSearchDlgProc
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_EXPORT_PB,          FALSE );
         } /* endif */
 
+          // prepare font information
+        if ( fOK )
+        {
+          // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
+          HFONT   hFontDlg;
+
+          hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
+          if ( hFontDlg != NULL )
+          {
+            if ( GetObject( hFontDlg, sizeof(LOGFONT), (LPSTR) &(pIda->lf) ) )
+            {
+              pIda->lf.lfCharSet  = (UCHAR)GetCharSet();
+              if (pIda->lf.lfHeight > 0 )
+              {
+                pIda->lf.lfHeight -=  SHEIGHTINCTRL;
+              }
+              else
+              {
+                pIda->lf.lfWeight = FW_NORMAL;
+              } /* endif */
+              pIda->lf.lfOutPrecision = OUT_TT_PRECIS;
+              strcpy( pIda->lf.lfFaceName, "Arial" );
+            }
+          }
+        }
+
          if ( fOK )
          {
           EQFINFO     ErrorInfo;       // error code of property handler calls
@@ -669,6 +699,26 @@ MRESULT EXPENTRY FSearchDlgProc
               } /* endfor */
             } /* endif */
 
+            if ( pFllProp->szFSFontFaceName[0] != 0 )
+            {
+              // get last used font settings
+              memset( &(pIda->lf), 0, sizeof(pIda->lf) );
+              pIda->lf.lfHeight = pFllProp->lFSFontHeight;
+              pIda->lf.lfWidth = pFllProp->lFSFontWidth;
+              pIda->lf.lfEscapement = pFllProp->lFSFontEscapement;
+              pIda->lf.lfOrientation = pFllProp->lFSFontOrientation;
+              pIda->lf.lfWeight = pFllProp->lFSFontWeight;
+              pIda->lf.lfItalic = pFllProp->bFSFontItalic;
+              pIda->lf.lfUnderline = pFllProp->bFSFontUnderline;
+              pIda->lf.lfStrikeOut = pFllProp->bFSFontStrikeOut;
+              pIda->lf.lfCharSet = pFllProp->bFSFontCharSet;
+              pIda->lf.lfOutPrecision = pFllProp->bFSFontOutPrecision;
+              pIda->lf.lfClipPrecision = pFllProp->bFSFontClipPrecision;
+              pIda->lf.lfQuality = pFllProp->bFSFontQuality;
+              pIda->lf.lfPitchAndFamily = pFllProp->bFSFontPitchAndFamily;
+              strcpy( pIda->lf.lfFaceName, pFllProp->szFSFontFaceName );
+            } /* endif */
+
 
             CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
           } /* endif */
@@ -690,8 +740,9 @@ MRESULT EXPENTRY FSearchDlgProc
           pIda->hwndButton[2] = GetDlgItem( hwnd, ID_FUZZYSEARCH_OPEN_PB );
           pIda->hwndButton[3] = GetDlgItem( hwnd, ID_FUZZYSEARCH_EXPORT_PB );
           pIda->hwndButton[4] = GetDlgItem( hwnd, ID_FUZZYSEARCH_COLOR_PB );
-          pIda->hwndButton[5] = GetDlgItem( hwnd, ID_FUZZYSEARCH_CANCEL_PB );
-          pIda->hwndButton[6] = GetDlgItem( hwnd, ID_FUZZYSEARCH_HELP_PB );
+          pIda->hwndButton[5] = GetDlgItem( hwnd, ID_FUZZYSEARCH_FONT_PB );
+          pIda->hwndButton[6] = GetDlgItem( hwnd, ID_FUZZYSEARCH_CANCEL_PB );
+          pIda->hwndButton[7] = GetDlgItem( hwnd, ID_FUZZYSEARCH_HELP_PB );
           for ( i = 0; i < NUM_OF_FUZZYSEARCH_PB; i++ )
           {
             RECT rect;
@@ -707,6 +758,9 @@ MRESULT EXPENTRY FSearchDlgProc
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_OPEN_PB, FALSE );
           ENABLECTRL( hwnd, ID_FUZZYSEARCH_EXPORT_PB, FALSE );
         } /* endif */
+
+        // create font to be used for result area
+        pIda->hFontControl = CreateFontIndirect( &(pIda->lf) );
 
         // Show the dialog window                                     
         if ( fOK )
@@ -854,6 +908,34 @@ MRESULT EXPENTRY FSearchDlgProc
           } 
           break;
 
+        case ID_FUZZYSEARCH_FONT_PB:
+          {
+            CHOOSEFONT ChooseFontData;
+
+            memset( &ChooseFontData, 0, sizeof(ChooseFontData) );
+            ChooseFontData.lStructSize = sizeof(ChooseFontData);
+            ChooseFontData.hwndOwner = hwnd;
+            ChooseFontData.Flags = CF_FORCEFONTEXIST | CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT;
+            ChooseFontData.lpLogFont = &(pIda->lf);
+
+            if ( ChooseFont( &ChooseFontData ) )
+            {
+              // free any previously created font
+              if ( pIda->hFontControl ) DeleteObject( pIda->hFontControl );
+
+              // create new font to be used
+              pIda->hFontControl = CreateFontIndirect( &(pIda->lf) );
+
+              // compute new item height
+              pIda->lItemHeight = FS_ComputeItemHeight( pIda, hwnd, ID_FUZZYSEARCH_RESULT_LB );
+              SendDlgItemMessage( hwnd, ID_FUZZYSEARCH_RESULT_LB, LB_SETITEMHEIGHT, 0, pIda->lItemHeight );
+
+              // refresh result list
+              InvalidateRect( GetDlgItem( hwnd, ID_FUZZYSEARCH_RESULT_LB ), NULL, TRUE );
+            } /* endif */
+          }
+          break;
+
         case ID_FUZZYSEARCH_FIND_PB:
           fOK = TRUE;
  
@@ -868,7 +950,7 @@ MRESULT EXPENTRY FSearchDlgProc
           // compute listbox item height if not done yet
           if ( pIda->lItemHeight == 0 )
           {
-            pIda->lItemHeight = FS_ComputeItemHeight( hwnd, ID_FUZZYSEARCH_RESULT_LB );
+            pIda->lItemHeight = FS_ComputeItemHeight( pIda, hwnd, ID_FUZZYSEARCH_RESULT_LB );
 
           } /* endif */             
 
@@ -1197,6 +1279,22 @@ MRESULT EXPENTRY FSearchDlgProc
               pFllProp->aclrFSLastUsedBackground[i] = pIda->ColorData.ColorSetting[i].cBackground;
             } /* endfor */
 
+            // save font information
+            pFllProp->lFSFontHeight = pIda->lf.lfHeight;
+            pFllProp->lFSFontWidth = pIda->lf.lfWidth;
+            pFllProp->lFSFontEscapement = pIda->lf.lfEscapement;
+            pFllProp->lFSFontOrientation = pIda->lf.lfOrientation;
+            pFllProp->lFSFontWeight = pIda->lf.lfWeight;
+            pFllProp->bFSFontItalic = pIda->lf.lfItalic;
+            pFllProp->bFSFontUnderline = pIda->lf.lfUnderline;
+            pFllProp->bFSFontStrikeOut = pIda->lf.lfStrikeOut;
+            pFllProp->bFSFontCharSet = pIda->lf.lfCharSet;
+            pFllProp->bFSFontOutPrecision = pIda->lf.lfOutPrecision;
+            pFllProp->bFSFontClipPrecision = pIda->lf.lfClipPrecision;
+            pFllProp->bFSFontQuality = pIda->lf.lfQuality;
+            pFllProp->bFSFontPitchAndFamily = pIda->lf.lfPitchAndFamily;
+            strcpy( pFllProp->szFSFontFaceName, pIda->lf.lfFaceName );
+
             SaveProperties( hFllProp, &ErrorInfo);
           } /* endif */
           CloseProperties( hFllProp, PROP_QUIT, &ErrorInfo );
@@ -1228,10 +1326,8 @@ MRESULT EXPENTRY FSearchDlgProc
       pIda = ACCESSDLGIDA( hwnd, PFSEARCHIDAX );
       if (pIda)
       {
-        if ( pIda->hwndLB )
-        {
-          WinDestroyWindow( pIda->hwndLB );
-        } /* endif */
+        if ( pIda->hFontControl ) DeleteObject( pIda->hFontControl );
+        if ( pIda->hwndLB ) WinDestroyWindow( pIda->hwndLB );
         if ( pIda->fRegistered )
         {
           EqfRemoveObject( TWBFORCE, hwnd );
@@ -1282,14 +1378,14 @@ MRESULT EXPENTRY FSearchDlgProc
            HDWP hdwp = BeginDeferWindowPos( 11 );
 
            // re-arrange pushbuttons
-           for ( i = 0; i < 6; i++ )
+           for ( i = 0; i < NUM_OF_FUZZYSEARCH_PB; i++ )
            {
              lTotSize += pIda->sButtonWidth[i];
            } /* endfor */
 
            lTotGaps = (cxAvail > lTotSize) ? (cxAvail - lTotSize) : 0;
-           lGap = lTotGaps / 6;
-           lCorrect = (cxAvail > lTotSize) ? ((cxAvail - (lGap * 6) - lTotSize) / 2) : 0;
+           lGap = lTotGaps / NUM_OF_FUZZYSEARCH_PB;
+           lCorrect = (cxAvail > lTotSize) ? ((cxAvail - (lGap * NUM_OF_FUZZYSEARCH_PB) - lTotSize) / 2) : 0;
            lXPos    = pIda->sBorderSize;
            for ( i = 0; (i < NUM_OF_FUZZYSEARCH_PB) && (hdwp != NULL); i++ )
            {
@@ -3151,15 +3247,23 @@ int FS_DrawDifferences( PFSEARCHIDAX pIda, HDC hdc, PSZ_W pszText, PFS_STARTSTOP
 }
 
 // compute listbox item height
-int FS_ComputeItemHeight( HWND hwndDlg, int iControlID )
+int FS_ComputeItemHeight( PFSEARCHIDAX pIda, HWND hwndDlg, int iControlID )
 {
+  HFONT hFont = 0;
   int iHeight = 0;
   HWND hwndLB = GetDlgItem( hwndDlg, iControlID );
   HDC hDC = GetDC( hwndLB );
   if ( hDC != NULLHANDLE )
   {
     TEXTMETRIC tm;
-    HFONT hFont = (HFONT)SendMessage( hwndLB, WM_GETFONT, 0, 0 );
+    if ( pIda->hFontControl ) 
+    {
+      hFont = pIda->hFontControl;
+    }
+    else
+    {
+      hFont = (HFONT)SendMessage( hwndLB, WM_GETFONT, 0, 0 );
+    } /* endif */
     HFONT hFontOld = (HFONT)SelectObject( hDC, hFont );
     GetTextMetrics( hDC, &tm);
     SelectObject( hDC, hFontOld );
@@ -3183,6 +3287,10 @@ BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
   { 
       return( TRUE ); 
   } 
+
+  HFONT hFontOld = NULL;
+  
+  if ( pIda->hFontControl ) hFontOld = (HFONT)SelectObject( lpdis->hDC, pIda->hFontControl );
 
   // Draw the bitmap and text for the list box item. Draw a 
   // rectangle around the bitmap if it is selected. 
@@ -3330,6 +3438,9 @@ BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam )
       }
       break; 
   } 
+
+  if ( hFontOld ) SelectObject( lpdis->hDC, hFontOld );
+
   return TRUE; 
 } 
 

@@ -702,6 +702,8 @@ typedef struct _TAINSTDATA
   int              iNumOfActiveEndTags;     // number of entries in list of active end tags
   XMPTAG           aActiveStartTags[MAXNUMOFPROTECTTAGGROUPS]; // list of active start tags
   XMPTAG           aActiveEndTags[MAXNUMOFPROTECTTAGGROUPS]; // list of active end tags
+  BOOL             fProtectedSelfContainedTag; // TRUE = a protected self contained tag is currently active
+
 } TAINSTDATA, *PTAINSTDATA;
 
 /*----------------------------------------------------------------------------*/

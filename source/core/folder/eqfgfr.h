@@ -244,7 +244,22 @@ typedef struct _FOLFINDLASTUSED
    BOOL      fRespectLineFeeds;                  // TRUE = break lines at line feeds, FALSE = ignore line feeds and show text as a single block
    COLORREF  aclrForeground[40];                 // array with user defined foreround colors
    COLORREF  aclrBackground[40];                 // array with user defined background colors
-   CHAR      szFiller[6332];                     // room for future enhancements
+  // info on last used font
+  LONG lfHeight;
+  LONG lfWidth;
+  LONG lfEscapement;
+  LONG lfOrientation;
+  LONG lfWeight;
+  BYTE lfItalic;
+  BYTE lfUnderline;
+  BYTE lfStrikeOut;
+  BYTE lfCharSet;
+  BYTE lfOutPrecision;
+  BYTE lfClipPrecision;
+  BYTE lfQuality;
+  BYTE lfPitchAndFamily;
+  TCHAR lfFaceName[40];
+  CHAR      szFiller[6364];                     // room for future enhancements
 } FOLFINDLASTUSED, *PFOLFINDLASTUSED;
 
 // structure passed to/from batch list result dialog
@@ -415,6 +430,7 @@ typedef struct _FOLFINDDATA
   
   // font to be used for result area and othere controls
   HFONT hFontControl;
+  LOGFONT     lf;                               // settings of currently used font
 } FOLFINDDATA, *PFOLFINDDATA;
 
 

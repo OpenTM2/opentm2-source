@@ -460,7 +460,7 @@ typedef struct _JSONPARSEDATA
 */
 typedef struct _JSONPARSEDATAW
 {
-  std::wstring JSONString;   // string being parsed 
+  wchar_t     *pszJSONString;// string being parsed 
   int         iPos;          // current position within the string
   int         iSize;         // overall length of JSON string
   int         iCurlyBraces;  // curly brace nesting level
@@ -542,12 +542,13 @@ void *JSONFactory::parseJSONStartW
   PJSONPARSEDATAW pData = new(JSONPARSEDATAW);
   if ( pData != NULL )
   {
-    pData->JSONString = JSONStringIn; 
+    pData->pszJSONString = new( wchar_t[iSize + 1] );
+    wcscpy( pData->pszJSONString, JSONStringIn.c_str() );
     pData->iPos = iPos + 1;
     pData->iSize = iEnd;
     pData->iBrackets = 0;
     pData->iCurlyBraces = 0;
-    while ( (pData->iPos < pData->iSize) && iswspace(pData->JSONString[pData->iPos]) ) pData->iPos++;
+    while ( (pData->iPos < pData->iSize) && iswspace(pData->pszJSONString[pData->iPos]) ) pData->iPos++;
   } /* endif */     
   return( (void *)pData );
 }
@@ -580,6 +581,7 @@ void JSONFactory::parseJSONStopW
   if ( pvParseHandle != NULL )
   {
     PJSONPARSEDATAW pData = (PJSONPARSEDATAW)pvParseHandle;
+    if ( pData->pszJSONString ) free( pData->pszJSONString );
     free( pData );
   } /* endif */     
 }
@@ -651,10 +653,10 @@ int JSONFactory::parseJSONGetNextW
   PJSONPARSEDATAW pData = (PJSONPARSEDATAW)pvParseHandle;
 
   // skip whitespace up to start of name
-  while ( iswspace(pData->JSONString[pData->iPos]) )  pData->iPos++;
+  while ( iswspace(pData->pszJSONString[pData->iPos]) )  pData->iPos++;
 
   // handle ending curly braces
-  while( pData->JSONString[pData->iPos] == L'}' )
+  while( pData->pszJSONString[pData->iPos] == L'}' )
   {
     if ( pData->iCurlyBraces == 0 )
     {
@@ -664,16 +666,16 @@ int JSONFactory::parseJSONGetNextW
     {
       pData->iCurlyBraces--;
       pData->iPos++;
-      while ( iswspace(pData->JSONString[pData->iPos]) )  pData->iPos++;
+      while ( iswspace(pData->pszJSONString[pData->iPos]) )  pData->iPos++;
 
       // skip any following comma
-      if ( pData->JSONString[pData->iPos] == ',' )  pData->iPos++;
-      while ( iswspace( pData->JSONString[pData->iPos] ) )  pData->iPos++;
+      if ( pData->pszJSONString[pData->iPos] == ',' )  pData->iPos++;
+      while ( iswspace( pData->pszJSONString[pData->iPos] ) )  pData->iPos++;
     }
   } /* endwhile */
 
   // handle beginning curly brace
-  if ( pData->JSONString[pData->iPos] == L'{' )
+  if ( pData->pszJSONString[pData->iPos] == L'{' )
   {
     pData->iCurlyBraces++;
     pData->iPos++;
@@ -681,21 +683,21 @@ int JSONFactory::parseJSONGetNextW
   }
 
   // iPos should now point to start of parameter name enclosed in double quotes
-  while ( iswspace(pData->JSONString[pData->iPos]) )  pData->iPos++;
-  if ( pData->JSONString[pData->iPos] != L'\"' ) return( ERROR_INVALIDJSONSYNTAX );
+  while ( iswspace(pData->pszJSONString[pData->iPos]) )  pData->iPos++;
+  if ( pData->pszJSONString[pData->iPos] != L'\"' ) return( ERROR_INVALIDJSONSYNTAX );
 
   // extract parameter name
   iRC = this->extractStringW( pvParseHandle, strName );
   if ( iRC != 0 ) return( iRC );
 
   // iPos should now point to name/value separator 
-  while ( iswspace(pData->JSONString[pData->iPos]) )  pData->iPos++;
-  if ( pData->JSONString[pData->iPos] != L':' ) return( ERROR_INVALIDJSONSYNTAX );
+  while ( iswspace(pData->pszJSONString[pData->iPos]) )  pData->iPos++;
+  if ( pData->pszJSONString[pData->iPos] != L':' ) return( ERROR_INVALIDJSONSYNTAX );
   pData->iPos++;
 
   // handle beginning curly brace
-  while ( iswspace(pData->JSONString[pData->iPos]) )  pData->iPos++;
-  if ( pData->JSONString[pData->iPos] == L'{' )
+  while ( iswspace(pData->pszJSONString[pData->iPos]) )  pData->iPos++;
+  if ( pData->pszJSONString[pData->iPos] == L'{' )
   {
     pData->iCurlyBraces++;
     pData->iPos++;
@@ -706,8 +708,8 @@ int JSONFactory::parseJSONGetNextW
   iRC = this->extractStringW( pvParseHandle, strValue );
 
   // skip any parameter separator
-  while ( iswspace( pData->JSONString[pData->iPos] ) )  pData->iPos++;
-  if ( pData->JSONString[pData->iPos] == L',' ) pData->iPos++;
+  while ( iswspace( pData->pszJSONString[pData->iPos] ) )  pData->iPos++;
+  if ( pData->pszJSONString[pData->iPos] == L',' ) pData->iPos++;
   
   return( iRC );
 }
@@ -894,7 +896,7 @@ int JSONFactory::extractStringW
 {
   PJSONPARSEDATAW pData = (PJSONPARSEDATAW)pvData;
 
-  if ( pData->JSONString[pData->iPos] == L'\"'  )
+  if ( pData->pszJSONString[pData->iPos] == L'\"'  )
   {
     // skip starting double quote
     pData->iPos++;
@@ -902,11 +904,11 @@ int JSONFactory::extractStringW
     // find string end delimiter and evaluate length of string
     int iTargetLen = 0;
     int iCurPos = pData->iPos;
-    while ( ( iCurPos < pData->iSize ) && ( pData->JSONString[iCurPos] != L'\"' ) )
+    while ( ( iCurPos < pData->iSize ) && ( pData->pszJSONString[iCurPos] != L'\"' ) )
     {
-      if ( pData->JSONString[iCurPos] == L'\\' )
+      if ( pData->pszJSONString[iCurPos] == L'\\' )
       {
-        wchar_t chNextChar = pData->JSONString[iCurPos + 1];
+        wchar_t chNextChar = pData->pszJSONString[iCurPos + 1];
         switch ( chNextChar )
         {
           case L'\\':
@@ -937,16 +939,16 @@ int JSONFactory::extractStringW
     } /* endwhile */ 
 
     // verify that string end is indicated by a double quote
-    if ( pData->JSONString[iCurPos] != L'\"' ) return( ERROR_INVALIDJSONSYNTAX );
+    if ( pData->pszJSONString[iCurPos] != L'\"' ) return( ERROR_INVALIDJSONSYNTAX );
 
     // copy characters to target string and unescape escaped characters
     string.resize( iTargetLen, ' ' );
     int iTargetPos = 0;
     while ( pData->iPos < iCurPos )
     {
-      if ( pData->JSONString[pData->iPos] == L'\\' )
+      if ( pData->pszJSONString[pData->iPos] == L'\\' )
       {
-        wchar_t chNextChar = pData->JSONString[pData->iPos + 1];
+        wchar_t chNextChar = pData->pszJSONString[pData->iPos + 1];
         switch ( chNextChar )
         {
           case L'\\':
@@ -988,7 +990,7 @@ int JSONFactory::extractStringW
             pData->iPos += 2;
             while ( ( pData->iPos < iCurPos ) && ( iHexNumberLen < 4 ) )
             {
-              szHexNumber[iHexNumberLen++] = pData->JSONString[pData->iPos++];
+              szHexNumber[iHexNumberLen++] = pData->pszJSONString[pData->iPos++];
             }
             szHexNumber[iHexNumberLen] = 0;
             wchar_t c = (wchar_t)wcstol( szHexNumber, 0, 16 );
@@ -997,13 +999,13 @@ int JSONFactory::extractStringW
           break;
           default:
             // treat as normal character
-            string[iTargetPos++] = pData->JSONString[pData->iPos++];
+            string[iTargetPos++] = pData->pszJSONString[pData->iPos++];
         }
       }
       else
       {
         // handle normal character
-        string[iTargetPos++] = pData->JSONString[pData->iPos++];
+        string[iTargetPos++] = pData->pszJSONString[pData->iPos++];
       } /* end */
     } /* endwhile */
 
@@ -1015,7 +1017,7 @@ int JSONFactory::extractStringW
     // find end delimiter and evaluate length of string
     int iTargetLen = 0;
     int iCurPos = pData->iPos;
-    while ( (iCurPos < pData->iSize) && (pData->JSONString[iCurPos] != '}') && (pData->JSONString[iCurPos] != ','))
+    while ( (iCurPos < pData->iSize) && (pData->pszJSONString[iCurPos] != '}') && (pData->pszJSONString[iCurPos] != ','))
     {
       iCurPos++; iTargetLen++; 
     } /* endwhile */ 
@@ -1025,7 +1027,7 @@ int JSONFactory::extractStringW
     int iTargetPos = 0;
     while ( pData->iPos < iCurPos )
     {
-      string[iTargetPos++] = pData->JSONString[pData->iPos++];
+      string[iTargetPos++] = pData->pszJSONString[pData->iPos++];
     } /* endwhile */ 
 
     // special handling for the value "null"
@@ -1082,6 +1084,8 @@ int JSONFactory::parseJSON
     return( iRC );
   } /* end */       
 
+  
+
   while ( iRC == 0 )
   {
     std::wstring name;
@@ -1135,7 +1139,10 @@ int JSONFactory::parseJSON
     {
       iRC = 0;
     } /* endif */
-  } /* endwhile */     
+  } /* endwhile */    
+
+  parseJSONStopW( parseHandle );
+
   return( (iRC == INFO_ENDOFPARAMETERLISTREACHED) ? 0 : iRC );
 }
 

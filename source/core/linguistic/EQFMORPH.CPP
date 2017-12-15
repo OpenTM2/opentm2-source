@@ -2999,8 +2999,7 @@ USHORT MorphGetStemForm
          pLCB->ulCacheRequests++;
       #endif
 
-      if ( MorphHashSearch( pLCB->HashCache, pszInTermW,
-                            &ulLemmaListLength, &pszLemmaList ) )
+      if ( MorphHashSearch( pLCB->HashCache, pszInTermW, &ulLemmaListLength, &pszLemmaList ) )
       {
         TermState = TERM_IN_CACHE;
         #if defined(MEASURETIME)
@@ -5981,13 +5980,13 @@ USHORT MorphCopyStringListUnicode2ASCII
 //------------------------------------------------------------------------------
 PMORPHHASH MorphHashCreate
 (
-  USHORT   usMaxElements               // size of hash table
+  ULONG        ulMaxElements               // size of hash table
 )
 {
   BOOL         fOK = TRUE;             // internal O.K. flag
   PMORPHHASH   pMorphHash = NULL;      // ptr to hash control area
   PHASHENTRY   pElement;               // pointer to hash elements
-  USHORT       usI;                    // general loop index
+  ULONG        ulI;                    // general loop index
 
   /********************************************************************/
   /* Allocate hash control area                                       */
@@ -6002,9 +6001,9 @@ PMORPHHASH MorphHashCreate
   /********************************************************************/
   if ( fOK )
   {
-    pMorphHash->usMaxElements = min( usMaxElements,
+    pMorphHash->ulMaxElements = min( ulMaxElements,
                                      (MAX_SEG_SIZE / sizeof(HASHENTRY)) );
-    pMorphHash->usElements  = 0;
+    pMorphHash->ulElements  = 0;
   } /* endif */
 
   /********************************************************************/
@@ -6012,9 +6011,7 @@ PMORPHHASH MorphHashCreate
   /********************************************************************/
   if ( fOK )
   {
-    fOK = UtlAlloc( (PVOID *)&pMorphHash->pElements, 0L,
-                    (LONG)(pMorphHash->usMaxElements * sizeof(HASHENTRY)),
-                    ERROR_STORAGE );
+    fOK = UtlAlloc( (PVOID *)&pMorphHash->pElements, 0L, pMorphHash->ulMaxElements * sizeof(HASHENTRY), ERROR_STORAGE );
   } /* endif */
 
   /********************************************************************/
@@ -6022,13 +6019,13 @@ PMORPHHASH MorphHashCreate
   /********************************************************************/
   if ( fOK )
   {
-    pMorphHash->usFirstFree = END_OF_ELEMENTS;
+    pMorphHash->ulFirstFree = END_OF_ELEMENTS;
     pElement = pMorphHash->pElements;
-    for ( usI = 0; usI < pMorphHash->usMaxElements; usI++ )
+    for ( ulI = 0; ulI < pMorphHash->ulMaxElements; ulI++ )
     {
-      pElement->usKey  = usI;
-      pElement->usNext = pMorphHash->usFirstFree;
-      pMorphHash->usFirstFree = usI;
+      pElement->ulKey  = ulI;
+      pElement->ulNext = pMorphHash->ulFirstFree;
+      pMorphHash->ulFirstFree = ulI;
       pElement++;
     } /* endfor */
   } /* endif */
@@ -6038,8 +6035,8 @@ PMORPHHASH MorphHashCreate
   /********************************************************************/
   if ( fOK )
   {
-    pMorphHash->usFirstUsed = END_OF_ELEMENTS;
-    pMorphHash->usLastUsed  = END_OF_ELEMENTS;
+    pMorphHash->ulFirstUsed = END_OF_ELEMENTS;
+    pMorphHash->ulLastUsed  = END_OF_ELEMENTS;
   } /* endif */
 
   /********************************************************************/
@@ -6048,7 +6045,7 @@ PMORPHHASH MorphHashCreate
   if ( fOK  )
   {
     pMorphHash->pHash = (PHASH)HashCreate( sizeof(HASHENTRY),
-                                    (USHORT)(pMorphHash->usMaxElements * 2),
+                                    pMorphHash->ulMaxElements * 2,
                                     (PFN_HASHVALUE)MorphHashKeyValue,
                                     (PFN_HASHCOMP)MorphHashCompare,
                                     (PFN_HASHFREE)MorphHashFree,
@@ -6255,7 +6252,7 @@ BOOL MorphHashAdd
 {
   HASHENTRY    HashEntry;              // buffer for new hash entry
   PHASHENTRY   pHashEntry;             // pointer to found/created hash entry
-  USHORT       usEntry;                // number (index) of new entry
+  ULONG        ulEntry;                // number (index) of new entry
 
   /********************************************************************/
   /* Check if term is already in cash                                 */
@@ -6268,13 +6265,12 @@ BOOL MorphHashAdd
   /********************************************************************/
   if ( !pHashEntry )                   // if not in cache yet ...
   {
-    if ( pMorphHash->usElements == pMorphHash->usMaxElements  )
+    if ( pMorphHash->ulElements == pMorphHash->ulMaxElements  )
     {
       /****************************************************************/
       /* Cache is full: remove oldest element from cache              */
       /****************************************************************/
-      pHashEntry = pMorphHash->pElements + pMorphHash->usFirstUsed;
-      HashDelete( pMorphHash->pHash, pHashEntry );
+      MorphHashDelete( pMorphHash, pMorphHash->pElements + pMorphHash->ulFirstUsed );
       pHashEntry = NULL;
     } /* endif */
   } /* endif */
@@ -6285,7 +6281,7 @@ BOOL MorphHashAdd
   if ( !pHashEntry )                   // if not in cache yet ...
   {
     HashEntry.pszTerm = PoolAddStringW( pMorphHash->StringPool, pszTerm );
-    HashEntry.usListLength = (USHORT)ulLemmaListLen;
+    HashEntry.ulListLength = ulLemmaListLen;
     if ( pszLemmaList )
     {
       HashEntry.pLemmaList = (PSZ_W) PoolAddData( pMorphHash->StringPool,
@@ -6306,31 +6302,31 @@ BOOL MorphHashAdd
     /******************************************************************/
     /* Get entry from free chain                                      */
     /******************************************************************/
-    usEntry = pMorphHash->usFirstFree;
-    pHashEntry = pMorphHash->pElements + usEntry;
-    pMorphHash->usFirstFree = pHashEntry->usNext;
-    pMorphHash->usElements++;
+    ulEntry = pMorphHash->ulFirstFree;
+    pHashEntry = pMorphHash->pElements + ulEntry;
+    pMorphHash->ulFirstFree = pHashEntry->ulNext;
+    pMorphHash->ulElements++;
 
     /******************************************************************/
     /* Fill-in element data                                           */
     /******************************************************************/
     pHashEntry->pszTerm      = HashEntry.pszTerm;
-    pHashEntry->usListLength = HashEntry.usListLength;
+    pHashEntry->ulListLength = HashEntry.ulListLength;
     pHashEntry->pLemmaList   = HashEntry.pLemmaList;
 
     /******************************************************************/
     /* add element to end of recently used chain                      */
     /******************************************************************/
-    pHashEntry->usNext = END_OF_ELEMENTS;
-    pHashEntry->usPrev = pMorphHash->usLastUsed;
-    if ( pMorphHash->usLastUsed != END_OF_ELEMENTS )
+    pHashEntry->ulNext = END_OF_ELEMENTS;
+    pHashEntry->ulPrev = pMorphHash->ulLastUsed;
+    if ( pMorphHash->ulLastUsed != END_OF_ELEMENTS )
     {
-      pMorphHash->pElements[pMorphHash->usLastUsed].usNext = pHashEntry->usKey;
+      pMorphHash->pElements[pMorphHash->ulLastUsed].ulNext = pHashEntry->ulKey;
     } /* endif */
-    pMorphHash->usLastUsed = usEntry;
-    if ( pMorphHash->usFirstUsed == END_OF_ELEMENTS )
+    pMorphHash->ulLastUsed = ulEntry;
+    if ( pMorphHash->ulFirstUsed == END_OF_ELEMENTS )
     {
-      pMorphHash->usFirstUsed = usEntry;
+      pMorphHash->ulFirstUsed = ulEntry;
     } /* endif */
 
     /******************************************************************/
@@ -6374,13 +6370,19 @@ BOOL MorphHashAdd
 BOOL MorphHashDelete
 (
   PMORPHHASH   pMorphHash,             // pointer to our hash control strucuture
-  PSZ_W        pszTerm                 // name of term being deleted
+  PHASHENTRY   pEntry                  // pointer to the entry being sdeleted
 )
 {
-  HASHENTRY    HashEntry;              // buffer for deleted hash entry
 
-  HashEntry.pszTerm = pszTerm;
-  HashDelete( pMorphHash->pHash, &HashEntry );
+  // delete the hash entry, the callback function MorphHassFree will be called (which adjusts the recently used chain and the free entries chain)
+  if ( HashDelete( pMorphHash->pHash, pEntry ) )
+  {
+    return( TRUE ); // nothing to do any more, MorphHashFree has done the house keeping
+  } /* endif */
+
+  // this part of the function is called when HashDelete failed to delete the entry,
+  // we will have to remove the entry from the MorphHash table ...
+  MorphHashFree( pEntry, (PVOID)pMorphHash );
 
   return( TRUE );
 } /* end of function MorphHashDelete */
@@ -6464,7 +6466,7 @@ BOOL MorphHashSearch
     /******************************************************************/
     if ( pulLemmaListLen )
     {
-      *pulLemmaListLen = pHashEntry->usListLength;
+      *pulLemmaListLen = pHashEntry->ulListLength;
     } /* endif */
     if ( ppszLemmaList )
     {
@@ -6474,36 +6476,36 @@ BOOL MorphHashSearch
     /******************************************************************/
     /* remove element from recently used chain                        */
     /******************************************************************/
-    if ( pHashEntry->usPrev != END_OF_ELEMENTS )
+    if ( pHashEntry->ulPrev != END_OF_ELEMENTS )
     {
-      pMorphHash->pElements[pHashEntry->usPrev].usNext = pHashEntry->usNext;
+      pMorphHash->pElements[pHashEntry->ulPrev].ulNext = pHashEntry->ulNext;
     }
     else
     {
-      pMorphHash->usFirstUsed = pHashEntry->usNext;
+      pMorphHash->ulFirstUsed = pHashEntry->ulNext;
     } /* endif */
-    if ( pHashEntry->usNext != END_OF_ELEMENTS )
+    if ( pHashEntry->ulNext != END_OF_ELEMENTS )
     {
-      pMorphHash->pElements[pHashEntry->usNext].usPrev = pHashEntry->usPrev;
+      pMorphHash->pElements[pHashEntry->ulNext].ulPrev = pHashEntry->ulPrev;
     }
     else
     {
-      pMorphHash->usLastUsed = pHashEntry->usPrev;
+      pMorphHash->ulLastUsed = pHashEntry->ulPrev;
     } /* endif */
 
     /******************************************************************/
     /* add element to end of recently used chain                      */
     /******************************************************************/
-    pHashEntry->usNext = END_OF_ELEMENTS;
-    pHashEntry->usPrev = pMorphHash->usLastUsed;
-    if ( pMorphHash->usLastUsed != END_OF_ELEMENTS )
+    pHashEntry->ulNext = END_OF_ELEMENTS;
+    pHashEntry->ulPrev = pMorphHash->ulLastUsed;
+    if ( pMorphHash->ulLastUsed != END_OF_ELEMENTS )
     {
-      pMorphHash->pElements[pMorphHash->usLastUsed].usNext = pHashEntry->usKey;
+      pMorphHash->pElements[pMorphHash->ulLastUsed].ulNext = pHashEntry->ulKey;
     } /* endif */
-    pMorphHash->usLastUsed = pHashEntry->usKey;
-    if ( pMorphHash->usFirstUsed == END_OF_ELEMENTS )
+    pMorphHash->ulLastUsed = pHashEntry->ulKey;
+    if ( pMorphHash->ulFirstUsed == END_OF_ELEMENTS )
     {
-      pMorphHash->usFirstUsed = pHashEntry->usKey;
+      pMorphHash->ulFirstUsed = pHashEntry->ulKey;
     } /* endif */
   } /* endif */
 
@@ -6559,7 +6561,7 @@ BOOL MorphHashWrite
   BOOL         fOK   = TRUE;           // internal O.K. flag
   USHORT       usDosRC;                // return code of DosXXX calls
   PHASHENTRY   pElement;               // pointer to current hash element
-  USHORT       usElement;              // index of current hash element
+  ULONG        ulElement;              // index of current hash element
   ULONG        ulRecLen;               // length of current record
 
   /********************************************************************/
@@ -6575,11 +6577,11 @@ BOOL MorphHashWrite
   if ( fOK )
   {
 	USHORT usTmpLen = 0;
-    usElement = pMorphHash->usFirstUsed;
-    while ( usElement != END_OF_ELEMENTS )
+    ulElement = pMorphHash->ulFirstUsed;
+    while ( ulElement != END_OF_ELEMENTS )
     {
 
-      pElement = pMorphHash->pElements + usElement;
+      pElement = pMorphHash->pElements + ulElement;
 
       /****************************************************************/
       /* write record length field                                                       */
@@ -6587,7 +6589,7 @@ BOOL MorphHashWrite
       ulRecLen = UTF16strlenBYTE(pElement->pszTerm) + sizeof(CHAR_W) + sizeof(USHORT);
       if ( pElement->pLemmaList )
       {
-        ulRecLen += pElement->usListLength * sizeof(CHAR_W);
+        ulRecLen += pElement->ulListLength * sizeof(CHAR_W);
       } /* endif */
 
       usTmpLen = (USHORT)ulRecLen;
@@ -6601,7 +6603,7 @@ BOOL MorphHashWrite
 
       if ( !usRC )
       {
-        usRC = UtlBufWrite( pBufCB, (PSZ)&pElement->usListLength,
+        usRC = UtlBufWrite( pBufCB, (PSZ)&pElement->ulListLength,
                             sizeof(USHORT), FALSE );
       } /* endif */
 
@@ -6613,10 +6615,10 @@ BOOL MorphHashWrite
         if ( pElement->pLemmaList )
         {
           usRC = UtlBufWriteW( pBufCB, pElement->pLemmaList,
-                              (USHORT)(pElement->usListLength * sizeof(CHAR_W)), FALSE );
+                              (USHORT)(pElement->ulListLength * sizeof(CHAR_W)), FALSE );
         } /* endif */
       } /* endif */
-      usElement = pElement->usNext;
+      ulElement = pElement->ulNext;
     } /* endwhile */
   } /* endif */
 
@@ -6848,29 +6850,29 @@ SHORT MorphHashFree( PHASHENTRY pEntry, PVOID pUserPtr )
   /********************************************************************/
   /* Remove element from recently used chain                          */
   /********************************************************************/
-  if ( pEntry->usPrev != END_OF_ELEMENTS )
+  if ( pEntry->ulPrev != END_OF_ELEMENTS )
   {
-    pMorphHash->pElements[pEntry->usPrev].usNext = pEntry->usNext;
+    pMorphHash->pElements[pEntry->ulPrev].ulNext = pEntry->ulNext;
   }
   else
   {
-    pMorphHash->usFirstUsed = pEntry->usNext;
+    pMorphHash->ulFirstUsed = pEntry->ulNext;
   } /* endif */
-  if ( pEntry->usNext != END_OF_ELEMENTS )
+  if ( pEntry->ulNext != END_OF_ELEMENTS )
   {
-    pMorphHash->pElements[pEntry->usNext].usPrev = pEntry->usPrev;
+    pMorphHash->pElements[pEntry->ulNext].ulPrev = pEntry->ulPrev;
   }
   else
   {
-    pMorphHash->usLastUsed = pEntry->usPrev;
+    pMorphHash->ulLastUsed = pEntry->ulPrev;
   } /* endif */
 
   /********************************************************************/
   /* Add element to free list                                         */
   /********************************************************************/
-  pEntry->usNext = pMorphHash->usFirstFree;
-  pMorphHash->usFirstFree = pEntry->usKey;
-  pMorphHash->usElements--;
+  pEntry->ulNext = pMorphHash->ulFirstFree;
+  pMorphHash->ulFirstFree = pEntry->ulKey;
+  pMorphHash->ulElements--;
 
   return( TRUE );
 } /* end of function MorphHashFree */
@@ -6947,7 +6949,7 @@ static BYTE random2[256] = {
 //------------------------------------------------------------------------------
 USHORT MorphHashKeyValue
 (
-  USHORT     usSize,                   // size of hash table
+  ULONG     ulSize,                   // size of hash table
   PHASHENTRY pEntry                    // point to hash entry
 )
 {
@@ -6955,7 +6957,7 @@ USHORT MorphHashKeyValue
   USHORT hash1 = 0;
   USHORT hash2 = 0;
 
-  usSize;                              // avoid compiler warning
+  ulSize;                              // avoid compiler warning
 
   while ( *pbTerm )
   {

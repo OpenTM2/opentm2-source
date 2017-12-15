@@ -8,7 +8,13 @@
 
  
     CHANGES:
-        5/10/17   DAW   Inital version
+       When     Why    Who  What                                                
+     -------- -------  ---  -------------------------                           
+      4/11/17           DAW  Created from IBMXMWRD                              
+      8/16/17 P403835   DAW  Improve performance. Read file only once and       
+                             save text in linked list rather than read twice.   
+      9/08/17 P403868   DAW  Abend. 1st file has no entries, fails on 2nd file. 
+      9/18/17 P403874   DAW  Handle completely deleted changed text.                 
 */
 
 #include "EQF.H"
@@ -118,56 +124,57 @@ typedef struct {
 
 
 
-   char     *szXML_Declare             = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" ;
-   char     *szXML_Root                = "<ProofReadingResults>\n" ;
-   char     *szXML_Header              = " <Header>\n" ;
-   char     *szXML_Header_Folder       = "  <Folder>%s</Folder>\n" ;
-   char     *szXML_Header_Creation     = "  <CreationDate>%s</CreationDate>\n" ;
-   char     *szXML_Header_Proofread    = "  <ProofReadDate></ProofReadDate>\n" ;
-   char     *szXML_Header_Translator   = "  <Translator></Translator>\n" ;
-   char     *szXML_Header_Proofreader  = "  <ProofReader></ProofReader>\n" ;
-   char     *szXML_Header_LogFile      = "  <LogFile>%s</LogFile>\n" ;
-   char     *szXML_Header_End          = " </Header>\n" ;
-   char     *szXML_DocumentList        = " <DocumentList>\n" ;
-   char     *szXML_Document            = "  <Document Name=\"%s\" SourceLang=\"%s\" TargetLang=\"%s\" Markup=\"%s\">\n" ;
-   char     *szXML_SegmentList         = "   <SegmentList>\n" ;
-   char     *szXML_Segment             = "    <Segment Number=\"%d\" Selected=\"no\" Processed=\"no\">\n" ;
-   char     *szXML_Segment_2           = "    <Segment Number=\"%d\" Length=\"%d\" Selected=\"no\" Processed=\"no\">\n" ;
-   char     *szXML_Segment_Source      = "     <Source>%s</Source>\n" ;
-   char     *szXML_Segment_OrgTarget   = "     <OrgTarget>%s</OrgTarget>\n" ;
-   char     *szXML_Segment_ModTarget   = "     <ModTarget>%s</ModTarget>\n" ;
-   char     *szXML_Segment_NewTarget   = "     <NewTarget>%s</NewTarget>\n" ;
-   char     *szXML_Segment_Comment     = "     <Comment>%s</Comment>\n" ;
-   char     *szXML_Segment_Problem     = "     <Problem>%s</Problem>\n" ;
-   char     *szXML_Segment_End         = "    </Segment>\n" ;
-   char     *szXML_SegmentList_End     = "   </SegmentList>\n" ;
-   char     *szXML_Document_End        = "  </Document>\n" ;
-   char     *szXML_DocumentList_End    = " </DocumentList>\n" ;
-   char     *szXML_Root_End            = "</ProofReadingResults>\n" ;
-
-   char     *szLOGOUT_Separator        = "----------------------------------------------------------------------------------------------------\n" ;
-   char     *szLOGOUT_SeparatorLine    = "Validation\n--Line----------------------------------------------------------------------------------------------\n" ;
-   char     *szLOGOUT_H1               = "Extraction of Validation Changes from Validation DOC/DOCX file                 %02d/%02d/%02d %02d:%02d \n" ;
-   char     *szLOGOUT_H2               = "    OpenTM2 Folder:      %s\n" ;
-   char     *szLOGOUT_H3               = "    OpenTM2 Document:    %s\n" ;
-   char     *szLOGOUT_H4               = "    Validation File:     %s\n" ;
-   char     *szLOGOUT_H5               = "    Source Language:     %s\n" ;
-   char     *szLOGOUT_H6               = "    Target Language:     %s\n" ;
-            
-   char     *szLOGOUT_S1               = "    Strings:\n" ;
-   char     *szLOGOUT_S2               = "        Changed:       %d\n" ;
-   char     *szLOGOUT_S3               = "        Unchanged:     %d\n" ;
-   char     *szLOGOUT_S4               = "        Invalid:       %d\n" ;
-   char     *szLOGOUT_S5               = "        Total:         %d\n" ;
-   char     *szLOGOUT_S6               = "    Segments (changed strings only):\n" ;
-   char     *szLOGOUT_S7               = "        Changed:       %d\n" ;
-   char     *szLOGOUT_S8               = "        Unchanged:     %d\n" ;
-   char     *szLOGOUT_S9               = "        Invalid:       %d\n" ;
-   char     *szLOGOUT_S10              = "        Total:         %d\n" ;
-   char     *szLOGOUT_S11              = "                                                                               %02d/%02d/%02d %02d:%02d \n" ;
-
-   char     *szLOGOUT_ERROR            = "\n  *** NOTE:  Processing was terminated by the user.\n\n" ;
-   char     *szLOGOUT_NewFile          = "    New OpenTM2 document:    %s\n" ;
+   char     *szXML_Declare                = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" ;
+   char     *szXML_Root                   = "<ProofReadingResults>\n" ;
+   char     *szXML_Header                 = " <Header>\n" ;
+   char     *szXML_Header_Folder          = "  <Folder>%s</Folder>\n" ;
+   char     *szXML_Header_Creation        = "  <CreationDate>%s</CreationDate>\n" ;
+   char     *szXML_Header_Proofread       = "  <ProofReadDate></ProofReadDate>\n" ;
+   char     *szXML_Header_Translator      = "  <Translator></Translator>\n" ;
+   char     *szXML_Header_Proofreader     = "  <ProofReader></ProofReader>\n" ;
+   char     *szXML_Header_LogFile         = "  <LogFile>%s</LogFile>\n" ;
+   char     *szXML_Header_End             = " </Header>\n" ;
+   char     *szXML_DocumentList           = " <DocumentList>\n" ;
+   char     *szXML_Document               = "  <Document Name=\"%s\" SourceLang=\"%s\" TargetLang=\"%s\" Markup=\"%s\">\n" ;
+   char     *szXML_SegmentList            = "   <SegmentList>\n" ;
+   char     *szXML_Segment                = "    <Segment Number=\"%d\" Selected=\"no\" Processed=\"no\">\n" ;
+   char     *szXML_Segment_2              = "    <Segment Number=\"%d\" Length=\"%d\" Selected=\"no\" Processed=\"no\">\n" ;
+   char     *szXML_Segment_Source         = "     <Source>%s</Source>\n" ;
+   char     *szXML_Segment_OrgTarget      = "     <OrgTarget>%s</OrgTarget>\n" ;
+   char     *szXML_Segment_ModTarget      = "     <ModTarget>%s</ModTarget>\n" ;
+   char     *szXML_Segment_ModTarget_Del  = "     <ModTarget type=\"deleted\"></ModTarget>\n" ;
+   char     *szXML_Segment_NewTarget      = "     <NewTarget>%s</NewTarget>\n" ;
+   char     *szXML_Segment_Comment        = "     <Comment>%s</Comment>\n" ;
+   char     *szXML_Segment_Problem        = "     <Problem>%s</Problem>\n" ;
+   char     *szXML_Segment_End            = "    </Segment>\n" ;
+   char     *szXML_SegmentList_End        = "   </SegmentList>\n" ;
+   char     *szXML_Document_End           = "  </Document>\n" ;
+   char     *szXML_DocumentList_End       = " </DocumentList>\n" ;
+   char     *szXML_Root_End               = "</ProofReadingResults>\n" ;
+                                         
+   char     *szLOGOUT_Separator           = "----------------------------------------------------------------------------------------------------\n" ;
+   char     *szLOGOUT_SeparatorLine       = "Validation\n--Line----------------------------------------------------------------------------------------------\n" ;
+   char     *szLOGOUT_H1                  = "Extraction of Validation Changes from Validation DOC/DOCX file                 %02d/%02d/%02d %02d:%02d \n" ;
+   char     *szLOGOUT_H2                  = "    OpenTM2 Folder:      %s\n" ;
+   char     *szLOGOUT_H3                  = "    OpenTM2 Document:    %s\n" ;
+   char     *szLOGOUT_H4                  = "    Validation File:     %s\n" ;
+   char     *szLOGOUT_H5                  = "    Source Language:     %s\n" ;
+   char     *szLOGOUT_H6                  = "    Target Language:     %s\n" ;
+                                         
+   char     *szLOGOUT_S1                  = "    Strings:\n" ;
+   char     *szLOGOUT_S2                  = "        Changed:       %d\n" ;
+   char     *szLOGOUT_S3                  = "        Unchanged:     %d\n" ;
+   char     *szLOGOUT_S4                  = "        Invalid:       %d\n" ;
+   char     *szLOGOUT_S5                  = "        Total:         %d\n" ;
+   char     *szLOGOUT_S6                  = "    Segments (changed strings only):\n" ;
+   char     *szLOGOUT_S7                  = "        Changed:       %d\n" ;
+   char     *szLOGOUT_S8                  = "        Unchanged:     %d\n" ;
+   char     *szLOGOUT_S9                  = "        Invalid:       %d\n" ;
+   char     *szLOGOUT_S10                 = "        Total:         %d\n" ;
+   char     *szLOGOUT_S11                 = "                                                                               %02d/%02d/%02d %02d:%02d \n" ;
+                                         
+   char     *szLOGOUT_ERROR               = "\n  *** NOTE:  Processing was terminated by the user.\n\n" ;
+   char     *szLOGOUT_NewFile             = "    New OpenTM2 document:    %s\n" ;
 
    char     cMATCH_CHAR = '\x1F' ;
 
@@ -203,8 +210,8 @@ typedef struct {
 
    USHORT   usWarnAction ;
 
-USHORT  StripText( char *, char *, USHORT );
-BOOL    WriteXmlSegment( FILE *, ULONG, USHORT, char *, char *, char *, char *, char * ) ;
+USHORT  StripText( char *, char *, USHORT, BOOL * );
+BOOL    WriteXmlSegment( FILE *, ULONG, USHORT, char *, char *, char *, char *, char *, BOOL ) ;
 BOOL    ConvertFile( char *, char *, USHORT ) ;
 void    BuildMsg( char *, char *, int, char *, ULONG ) ;
 void    AddLogError( char * ) ;
@@ -218,6 +225,9 @@ BOOL    AutomationWrapper(int,VARIANT*,IDispatch*,char*,char*,int ...);
 
 
 BOOL   bMainDebug = FALSE ;
+BOOL   bTimeDebug = FALSE ;
+FILE   *fTimeDebug ;
+char   szTimeDebug[256] ;
 
 
 /*! \brief Convert a file returned from the proof reading process into the internal proof read XML document format
@@ -277,6 +287,7 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
 
     char    TempFile1[512], TempFile2[512], TempFile3[512] ;
     int     rc;
+    BOOL    bSegTextDeleted = FALSE ;
     BOOL    bReturn = TRUE ;
 
 
@@ -290,9 +301,22 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
     *ptr2 = 0 ; 
     strcpy( TempFile2, TempFile1 ) ;
     strcpy( TempFile3, TempFile1 ) ;
+    strcpy( szTimeDebug, TempFile1 ) ;
     strcat( TempFile1, ".$TEMP1$" ) ;
     strcat( TempFile2, ".$TEMP2$" ) ;
     strcat( TempFile3, ".$TEMP3$" ) ;
+
+    if ( bTimeDebug ) {
+       strcat( szTimeDebug,".$DEBUG$" ) ;
+       fTimeDebug = fopen( szTimeDebug, "wb");
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+       fprintf( fTimeDebug, "Input:    %s\n",pszProofReadInFile);
+       fprintf( fTimeDebug, "Output:   %s\n",pszProofReadXMLOut);
+       fprintf( fTimeDebug, "Temp1:    %s\n",TempFile1);
+       fprintf( fTimeDebug, "Temp2:    %s\n",TempFile2);
+       fprintf( fTimeDebug, "Temp3:    %s\n",TempFile3);
+    }
 
 
     /*------------------------------------------------------------------------*/
@@ -303,7 +327,15 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
        strcpy( szTemp, ptr1+1 ) ;
        strupr( szTemp ) ;
        if ( ! strcmp( szTemp, "DOC" ) ) {
+          if ( bTimeDebug ) {
+             GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+             fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   DOC->DOCX\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+          }
           if ( ConvertDocToDocx( (char*)pszProofReadInFile, TempFile1, TempFile2, szErrMsg ) ) {
+             if ( bTimeDebug ) {
+                GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+                fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   EXTRACT XML FROM ZIP\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+             }
              if ( ! ExtractXmlFromZip( TempFile1, TempFile2, TempFile3, szErrMsg ) ) {
                 ShowIBMMessage( TITLE_XMWRD_WORD_XML_ERROR, szErrMsg, FALSE, FALSE ) ;
                 usReturn = RC_ERROR ;
@@ -316,6 +348,10 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
           remove( TempFile1 ) ;
           remove( TempFile3 ) ;
        } else {
+          if ( bTimeDebug ) {
+             GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+             fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   EXTRACT XML FROM ZIP\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+          }
           if ( ! ExtractXmlFromZip( (char*)pszProofReadInFile, TempFile2, TempFile3, szErrMsg ) ) {
              ShowIBMMessage( TITLE_XMWRD_WORD_XML_ERROR, szErrMsg, FALSE, FALSE ) ;
              usReturn = RC_ERROR ;
@@ -327,8 +363,16 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
     }
 
     if ( usReturn == RC_OK ) {
+       if ( bTimeDebug ) {
+          GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+          fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   PARSE XML\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+       }
        bReturn = Parse( TempFile2, TempFile1 ) ;
        if ( bReturn ) {
+          if ( bTimeDebug ) {
+             GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+             fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   UTF8->UTF16\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+          }
           rc = ConvertFile( TempFile1, TempFile2, UTF162UTF8 ) ;
           if ( !rc ) {
               ShowIBMMessage( TITLE_FILE_CONVERSION, MSG_FILE_CONVERSION, FALSE, FALSE ) ;
@@ -350,6 +394,10 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
     /*  Initialize processing.                                                */
     /*------------------------------------------------------------------------*/
     fLog = NULL ;
+    if ( bTimeDebug ) {
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   CREATE XML\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+    }
 
     szDocument[0] = 0 ; 
     szFolder[0] = 0 ;
@@ -461,7 +509,7 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
              if ( ( usDocState == DOC_STATE_BODY ) &&
                   ( usBodyColumn == 0 ) &&
                   ( strstr( ptrText, "Document" ) ) ) {
-                StripText( ptrText, szTemp, (USHORT)1 ) ;
+                StripText( ptrText, szTemp, (USHORT)1, NULL ) ;
                 if ( ! strcmp( szTemp, "Document:" ) ) {
                    ulFilePos = ftell( fIn ) ;
                    if ( ( fgets( szTemp, MAX_RCD_LENGTH, fIn ) != NULL ) &&
@@ -473,10 +521,11 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                       ptr1 = strchr( szTemp, '>' ) ;
                       if ( ptr1 ) {
                          ++ptr1 ;
-                         StripText( ptr1, szTemp2, (USHORT)1 ) ;
+                         StripText( ptr1, szTemp2, (USHORT)1, NULL ) ;
                          if ( ! strcmp( szTemp2, "Folder:" ) ) {
                             usDocState = DOC_STATE_NONE ;
-                            usWriteHeader = 2 ;
+                            if ( usWriteHeader == 0 )         /* 9-8-17 */
+                               usWriteHeader = 2 ;
                          }
                       }
                    }
@@ -488,7 +537,7 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
              /*  Handle header part of document.                                    */
              /*---------------------------------------------------------------------*/
              if ( usDocState != DOC_STATE_BODY ) {
-                StripText( ptrText, szTemp, (USHORT)1 ) ;
+                StripText( ptrText, szTemp, (USHORT)1, NULL ) ;
                 if ( ! strcmp( szTemp, "Document:" ) ) {
                    usDocState = DOC_STATE_HDR_DOCUMENT ; 
                 } else
@@ -678,12 +727,12 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                    ++ulStringsUnchanged ;
                 } else
                 if ( usBodyColumn == usColSrc ) {              /* Source text       */
-                   StripText( ptrText, szSegmentSource, (USHORT)1 ) ;
+                   StripText( ptrText, szSegmentSource, (USHORT)1, NULL ) ;
                 } else
                 if ( usBodyColumn == usColTgt ) {              /* Target text       */ 
                    usBodyColumn = 0 ;
-                   StripText( ptrText, szSegmentTarget, (USHORT)2 ) ;
-                   StripText( ptrText, szSegmentChanged, (USHORT)3 ) ;
+                   StripText( ptrText, szSegmentTarget, (USHORT)2, NULL ) ;
+                   StripText( ptrText, szSegmentChanged, (USHORT)3, &bSegTextDeleted ) ;
 
 //                 if ( ( szSegmentSource[0]  ) &&     /* If different changed text */
 //                      ( szSegmentTarget[0]  ) &&
@@ -744,10 +793,11 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                                        szSegmentSource,
                                        szSegmentTarget,
                                        szSegmentChanged, 
-                                       NULL, szProblemMsg ) ;
+                                       NULL, szProblemMsg, FALSE ) ;
                       break ;
                    } else {
-                      if ( ( szSegmentChanged[0] ) &&
+                      if ( ( ( szSegmentChanged[0] ) ||
+                             ( bSegTextDeleted     ) ) &&
                            ( strcmp( szSegmentChanged, szSegmentTarget ) ) ) {
                          ++ulStringsChanged ;
                          --ulStringsUnchanged ;
@@ -759,7 +809,7 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                                        szSegmentSource,
                                        szSegmentTarget,
                                        szSegmentChanged,
-                                       "", "" ) ;
+                                       "", "", bSegTextDeleted ) ;
                       if ( usReturn2 != RC_OK ) {
                          if ( usReturn2 == RC_WARNING ) 
                             usReturn = RC_WARNING ; 
@@ -813,6 +863,11 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
        remove( TempFile2 ) ;
        remove( TempFile3 ) ;
     }
+    if ( bTimeDebug ) {
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   DONE\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+       fclose(fTimeDebug);
+    }
 
     if ( usReturn == RC_ERROR ) {      /* If error, delete output XML file */
        remove( pszProofReadXMLOut ) ;
@@ -837,17 +892,22 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
 /*                                2 = Previous translated text.             */
 /*                                3 = New translated text.                  */
 /* Output:     szOut         - Output string with inline tags removed.      */
+/*             bTextDeleted  - TRUE=Changed text was deleted (Type=3 only). */
 /* Return:     RC_OK         - String value is returned.                    */
 /*             RC_ERROR      - String is incorrectly formatted.             */
 /*                                                                          */
 /****************************************************************************/
 
-USHORT  StripText( char *szIn, char *szOut, USHORT usType ) 
+USHORT  StripText( char *szIn, char *szOut, USHORT usType, BOOL *bSegDeleted ) 
 {
    char     *ptrIn, *ptrOut ;
    BOOL     bInsert = FALSE ; 
    BOOL     bDelete = FALSE ; 
+   BOOL     bTextDeleted = FALSE ; 
    USHORT   usReturn = RC_OK ;
+
+   if ( bSegDeleted ) 
+      *bSegDeleted = FALSE ;
 
    for ( ptrIn=szIn, ptrOut=szOut ;  *ptrIn ; ++ptrIn ) {
 
@@ -876,6 +936,7 @@ USHORT  StripText( char *szIn, char *szOut, USHORT usType )
           }
           if ( ! strncmp( ptrIn, "<DeL>", 5 ) ) {
              bDelete = TRUE ; 
+             bTextDeleted = TRUE ;
              ptrIn += 4 ;
              continue ;
           }
@@ -897,6 +958,16 @@ USHORT  StripText( char *szIn, char *szOut, USHORT usType )
               ( ! bDelete   ) ) ) {
           *ptrOut++ = *ptrIn ;
        }
+   }
+
+   /*--------------------------------------------------------------------*/
+   /*  Handle entire segment's text was deleted.                         */
+   /*--------------------------------------------------------------------*/
+   if ( ( usType == 3      ) &&
+        ( bTextDeleted     ) &&
+        ( bSegDeleted      ) &&
+        ( szOut[0] == NULL ) ) {
+      *bSegDeleted = TRUE ;
    }
 
    *ptrOut = 0 ;
@@ -921,6 +992,7 @@ USHORT  StripText( char *szIn, char *szOut, USHORT usType )
 /*             szChanged     - Changed text.                                */
 /*             szComment     - Comment text.                                */
 /*             szProblem     - !NULL. Include error message text.           */
+/*             bChangeDeleted- TRUE=All changed text was deleted.            */
 /* Output:     None.                                                        */
 /* Return:     TRUE          - Segment written successfully.                */
 /*             FALSE         - Segment could not be written.                */
@@ -929,7 +1001,8 @@ USHORT  StripText( char *szIn, char *szOut, USHORT usType )
 
 BOOL  WriteXmlSegment( FILE *fOut, ULONG ulSegNum, USHORT usSegCount, 
                        char *szSource, char *szTarget, char *szChanged, 
-                       char *szComment, char *szProblem ) 
+                       char *szComment, char *szProblem,
+                       BOOL bChangeDeleted ) 
 {
    if ( usSegCount > 1 ) {
       fprintf( fOut, szXML_Segment_2, ulSegNum, usSegCount ) ;
@@ -938,7 +1011,10 @@ BOOL  WriteXmlSegment( FILE *fOut, ULONG ulSegNum, USHORT usSegCount,
    }
    fprintf( fOut, szXML_Segment_Source, szSource ) ;
    fprintf( fOut, szXML_Segment_OrgTarget, szTarget ) ;
-   fprintf( fOut, szXML_Segment_ModTarget, szChanged ) ;
+   if ( bChangeDeleted ) 
+      fprintf( fOut, szXML_Segment_ModTarget_Del ) ;
+   else
+      fprintf( fOut, szXML_Segment_ModTarget, szChanged ) ;
    fprintf( fOut, szXML_Segment_NewTarget, "" ) ;
    fprintf( fOut, szXML_Segment_Comment, szComment ) ;
    if ( szProblem[0] ) 

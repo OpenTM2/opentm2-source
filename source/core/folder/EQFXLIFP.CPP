@@ -25,6 +25,7 @@
 #define INCL_EQF_TAGTABLE         // tagtable defines and functions
 #include "eqf.h"                  // General .H for EQF
 #include "EQFMEMIE.H"
+#include "TMXNames.H"
 #include "EQFXLIFF.H"
 #include "EQFMETADATA.H"
 
@@ -52,7 +53,8 @@
 
 XERCES_CPP_NAMESPACE_USE
 
-
+// helper function for the access to the name mapping tables
+BOOL FindName( PNAMETABLE pTable, const char *pszName, char *pszValue, int iBufSize );
 
 #include "eqfxlifi.h"
 
@@ -87,7 +89,6 @@ class CXLIFFExportImport
     int FolderImportStop( PFOLIMPEXPXLIFF pData );
 
   protected:
-    USHORT LoadNames( PSZ pszNameFile );
 //    USHORT WriteTUV( PSZ pszLanguage, PSZ pszMarkup, PSZ_W pszSegmentData );
     int GetFolderProperties();
     int WriteDocument( PSZ pszDocShortName); 
@@ -107,10 +108,6 @@ class CXLIFFExportImport
     XMLPScanToken m_SaxToken; 
     unsigned int m_iSourceSize;          // size of source file
 
-    CNameList m_LangTmgr2Tmx;
-    CNameList m_LangTmx2Tmgr;
-    CNameList m_Markup2Type;
-    CNameList m_Type2Markup;
     PTOKENENTRY m_pTokBuf;               // buffer for TaTagTokenize tokens
     CHAR m_szActiveTagTable[50];         // buffer for name of currently loaded markup table
     PLOADEDTABLE m_pLoadedTable;         // pointer to currently loaded markup table
@@ -420,15 +417,6 @@ int CXLIFFExportImport::Import
 {
   int iRC = 0;
 
-  // load names file
-  {
-    CHAR szNameFile[128];
-  
-    UtlMakeEQFPath( szNameFile, NULC, TABLE_PATH, NULL );
-    strcat( szNameFile, "\\tmxnames.lst" );
-    LoadNames( szNameFile );
-  }
-
   // get document long name
   m_Util->BuildTMFileName( m_szSourceFile, chDrive, SYSTEM_PATH, pszFolShortName, pszDocShortName ); 
   DocQueryInfo2( m_szSourceFile, NULL,NULL,NULL,NULL, m_szLongDocName, NULL,NULL,FALSE);
@@ -478,7 +466,6 @@ int CXLIFFExportImport::Import
       m_handler->SetFile( DIRSEGTARGETDOC_PATH, m_hfSegTarget );
       m_handler->SetFile( METADATA_PATH, m_hfMetaData );
       m_handler->SetLanguagePointer( pszSourceLanguage, pszTargetLanguage );
-      m_handler->SetNameLists( &m_LangTmx2Tmgr, &m_Type2Markup );
       m_handler->SetSourceFileName( this->m_szLongDocName );
 
       //  install our SAX handler as the document and error handler.
@@ -761,126 +748,6 @@ int CXLIFFExportImport::Export
 //}
 
 
-// load name list file for Tmgr <-> TMX name conversions
-USHORT CXLIFFExportImport::LoadNames
-( 
-  PSZ pszNameFile
-)
-{
-  FILE *hf = NULL;
-  char szLine[512];
-  CNameList *pActiveList = NULL;
-  USHORT usRC = 0;
-
-  // load and process name file
-  hf = fopen( pszNameFile, "r" );
-  if ( hf )
-  {
-    // read first line
-    fgets( szLine, sizeof(szLine), hf );
-
-    do
-    {
-      // strip-off LF at end of line
-      int iLen = strlen(szLine);
-      if ( iLen && (szLine[iLen-1] == '\n') ) szLine[iLen-1] = '\0';
-
-      // handle line
-      if ( szLine[0] == '*' )
-      {
-        // ignore comment line
-      }
-      else
-      {
-        // strip leading and trailing blanks
-        {
-          PSZ pszSource = szLine;
-          PSZ pszTarget = szLine;
-
-          while ( *pszSource == ' ') pszSource++;
-          while ( *pszSource ) *pszTarget++ = *pszSource++; 
-          *pszTarget = '\0';
-          
-          if ( szLine[0] )
-          {
-            pszSource = szLine + strlen(szLine) - 1;
-            while ( (pszSource > szLine) && (*pszSource == ' ') )
-            {
-              *pszSource = '\0';
-              pszSource--;
-            } /*endwhile */
-          } /* endif */
-        }
-
-        // handle data line
-        if ( szLine[0] == '\0' )
-        {
-          // ignore empty line
-        }
-        else if ( szLine[0] == '[' )
-        {
-          // process new group header
-
-          // find end of group name and cut-off rest of line
-          char *pszEndBracket = strchr( szLine, ']' );
-          if ( pszEndBracket ) *pszEndBracket = '\0';
-
-          // check name of group
-          if ( _stricmp( szLine + 1, "Language-Tmgr2TMX" ) == 0 )
-          {
-            // init name groups
-            pActiveList = &m_LangTmgr2Tmx;
-          }
-          else if ( _stricmp( szLine + 1, "Language-TMX2Tmgr" ) == 0 )
-          {
-            pActiveList = &m_LangTmx2Tmgr;
-          }
-          else if ( _stricmp( szLine + 1, "Markup2Type" ) == 0 )
-          {
-            pActiveList = &m_Markup2Type;
-          }
-          else if ( _stricmp( szLine + 1, "Type2Markup" ) == 0 )
-          {
-            pActiveList = &m_Type2Markup;
-          }
-          else 
-          {
-            // no or no supported group
-            pActiveList = NULL;
-          } /* endif */
-        }
-        else if ( pActiveList != NULL  )
-        {
-          // handle text line
-          char *pszValue = strchr( szLine, '=' );
-          if ( *pszValue )
-          {
-            *pszValue = '\0';          // split line
-            pszValue++;                // position to start of value
-//TODO            UtlStripBlanks( pszValue );//  
-//TODO            UtlStripBlanks( szLine );
-            pActiveList->AddName( szLine, pszValue );
-          } /* endif */
-        } 
-        else 
-        {
-          // ignore text line outside of a group
-        } /* endif */
-      } /* endif */
-
-      // read next line
-      fgets( szLine, sizeof(szLine), hf );
-
-    } while ( !feof(hf) );
-  }
-  else
-  {
-    usRC = 123; // ERROR_FILE_OPEN_FAILED;
-  } /* endif */
-
-  return( usRC );
-}
-
 //
 // start XLIFF export of a folder
 //
@@ -903,15 +770,6 @@ int CXLIFFExportImport::FolderExportStart
 
   // get instance of XLIFF utils 
   m_Util = new CXLIFFUtil();
-
-  // load names file
-  {
-    CHAR szNameFile[128];
-  
-    UtlMakeEQFPath( szNameFile, NULC, TABLE_PATH, NULL );
-    strcat( szNameFile, "\\tmxnames.lst" );
-    LoadNames( szNameFile );
-  }
 
   // create an XML writer object for the output XLIFF file
   m_xw = new CXmlWriter( pData->szExportName );
@@ -1024,15 +882,6 @@ int CXLIFFExportImport::FolderImportStart
   // anchor folder import/export area
   m_pData = pData;
 
-  // load names file
-  {
-    CHAR szNameFile[128];
-  
-    UtlMakeEQFPath( szNameFile, NULC, TABLE_PATH, NULL );
-    strcat( szNameFile, "\\tmxnames.lst" );
-    LoadNames( szNameFile );
-  }
-
   // get size of input file
   if ( !iRC )
   {
@@ -1069,7 +918,6 @@ int CXLIFFExportImport::FolderImportStart
       m_handlerf = new FolXliffParseHandler();
 
       // pass language and markup name list to handler
-      m_handlerf->SetNameLists( &m_LangTmx2Tmgr, &m_Type2Markup ); 
       m_handlerf->SetImpExpData( pData ); 
 
       //  install our SAX handler as the document and error handler.
@@ -1307,7 +1155,7 @@ int CXLIFFExportImport::WriteDocument
       m_ulTargetCP = GetLangOEMCP( m_szDocTargetLang );
       MorphGetLanguageID( m_szDocSourceLang, &sLangID );
 
-      if ( !m_Markup2Type.FindName( m_szDocMarkup, szName, sizeof(szName) ) )
+      if ( !FindName( Markup2Type, m_szDocMarkup, szName, sizeof(szName) ) )
       {
         strcpy( szName, "plaintext" );
       } /* endif */
@@ -1317,10 +1165,10 @@ int CXLIFFExportImport::WriteDocument
       m_xw->WriteAttributeString( "original", pProp->szLongName[0] ? pProp->szLongName : pProp->PropHead.szName ); 
       ANSITOOEM( pProp->szLongName ) ;
 
-      m_LangTmgr2Tmx.FindName( m_szDocSourceLang, szName, sizeof(szName) );
+      FindName( Language_Tmgr2TMX, m_szDocSourceLang, szName, sizeof(szName) );
       m_xw->WriteAttributeString( "source-language", szName ); 
 
-      m_LangTmgr2Tmx.FindName( m_szDocTargetLang, szName, sizeof(szName) );
+      FindName( Language_Tmgr2TMX, m_szDocTargetLang, szName, sizeof(szName) );
       m_xw->WriteAttributeString( "target-language", szName ); 
 
       m_xw->WriteAttributeString( "tool", "OpenTM2" ); 
@@ -2026,4 +1874,28 @@ static PSZ_W ScanForKeywordW
   } /*endwhile */
 
   return( pszFound );
+}
+
+// find the given name and return its value in the supplied buffer
+BOOL FindName( PNAMETABLE pTable, const char *pszName, char *pszValue, int iBufSize )
+{
+  BOOL fFound = FALSE;
+  PNAMETABLE  pEntry = pTable;
+
+  while ( !fFound && (pEntry->pszName != NULL) )
+  {
+    if ( _stricmp( pEntry->pszName, pszName ) == 0 )
+    {
+      memset( pszValue, 0, iBufSize );
+      strncpy( pszValue, pEntry->pszValue, iBufSize - 1 );
+      fFound = TRUE;
+    }
+    else
+    {
+      // try next entry
+      pEntry++;
+    } /* endif */
+  } /*endwhile */
+
+  return( fFound );
 }

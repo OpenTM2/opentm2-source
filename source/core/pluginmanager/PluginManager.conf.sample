@@ -14,4 +14,5 @@ MinCnt=0
 [NonRemovablePlugins]
 Name=UserMarkupTablePlugin,EqfMemoryPlugin,EqfDocumentPlugin,OtmSpellHSCheckPlugin,OtmMorphICUPlugin,EqfDictionaryPlugin
 [Settings]
+
 Frequency=0

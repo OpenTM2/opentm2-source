@@ -89,9 +89,9 @@
 	<cpASCII>936</cpASCII>
 	<cpANSI>936</cpANSI>
 	<cpName>gb2312</cpName>
-	<iso>zh-CHS</iso>
+	<iso>zh-CN</iso>
 	<icu>zh-CHS</icu>
-	<preferred>no</preferred>
+	<preferred>yes</preferred>
 	<group>Chinese(simpl.)</group>
 	<isSourceLanguage>yes</isSourceLanguage>
 	<isTargetLanguage>yes</isTargetLanguage>
@@ -102,7 +102,7 @@
 	<cpASCII>950</cpASCII>
 	<cpANSI>950</cpANSI>
 	<cpName>big5</cpName>
-	<iso>zh-CHT</iso>
+	<iso>zh-TW</iso>
 	<icu>zh-CHT</icu>
 	<preferred>no</preferred>
 	<group>Chinese(trad.)</group>

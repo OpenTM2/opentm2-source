@@ -28,14 +28,19 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID)
    return TRUE;
 }
 
+static char *pszPluginName = "OtmToolsLauncherPlugin";
+static char *pszShortDescription = "ToolsLauncherPlugin";
+static char *pszLongDescription	= "This is a plugin to launcher OpenTM2 tools";
+static char *pszVersion = "1.0";
+static char *pszSupplier = "International Business Machines Corporation";
+
 OtmToolsLauncherPlugin::OtmToolsLauncherPlugin()
 {
-    
-    name        = "OtmToolsLauncherPlugin";
-    shortDesc   = "ToolsLauncherPlugin";
-    longDesc    = "This is a plugin to launcher OpenTM2 tools";
-    version     = "1.0";
-    supplier    = "International Business Machines Corporation";
+	  name = pszPluginName;
+	  shortDesc = pszShortDescription;
+	  longDesc = pszLongDescription;
+	  version = pszVersion;
+	  supplier = pszSupplier;
     pluginType  = OtmPlugin::eToolType;
     usableState = OtmPlugin::eUsable;
 }
@@ -148,4 +153,20 @@ USHORT registerPlugins()
 void executeCommand()
 {
 
+}
+
+extern "C" {
+  __declspec(dllexport)
+  unsigned short getPluginInfo( POTMPLUGININFO pPluginInfo )
+  {
+    strcpy( pPluginInfo->szName, pszPluginName );
+    strcpy( pPluginInfo->szShortDescription, pszShortDescription );
+    strcpy( pPluginInfo->szLongDescription, pszLongDescription );
+    strcpy( pPluginInfo->szVersion, pszVersion );
+    strcpy( pPluginInfo->szSupplier, pszSupplier );
+	  pPluginInfo->eType = OtmPlugin::eToolType;
+    strcpy( pPluginInfo->szDependencies, "" );
+    pPluginInfo->iMinOpenTM2Version = -1;
+    return( 0 );
+  }
 }

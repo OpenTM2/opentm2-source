@@ -124,11 +124,12 @@ BOOL ProofReadLoadTagTable( PPROOFREADDATA pIda, const char *pszTagTable );
 BOOL ProofReadFindDifferences( PPROOFREADDATA pIda, OtmProofReadEntry *pEntry );
 BOOL ProofReadMakeDiffLists( PPROOFREADDATA pIda, int iStartIndex, int iEndIndex );
 BOOL ProofReadFillDocumentList( PPROOFREADDATA pIda );
-void ProofReadDrawItemColumn( PPROOFREADDATA pIda, HDC hdc, int iColumn, const CHAR_W *pszString, LPRECT prcClip, OtmProofReadEntry *pEntry, PPROOFREADCHANGE pChanges, int iFoundEntries, int TextColumn, int iBaseColorIndex );
+int ProofReadDrawItemColumn( PPROOFREADDATA pIda, HDC hdc, int iColumn, const CHAR_W *pszString, LPRECT prcClip, OtmProofReadEntry *pEntry, PPROOFREADCHANGE pChanges, int iFoundEntries, int TextColumn, int iBaseColorIndex );
 BOOL ProofReadImport( PPROOFREADDATA pIda );
 BOOL ProofReadLoadXMLFiles( PPROOFREADDATA pIda, std::vector<std::string> *pvXMLFiles, HWND hwndParent  );
 BOOL ProofReadSetDefaults( PPROOFREADDATA pIda );
 BOOL ProofReadEditCell( PPROOFREADDATA pIda, HWND hwndListbox, int iItem );
+BOOL ProofReadIsLineSplitChar( PPROOFREADDATA pIda, CHAR_W c );
 
 BOOL ProofReadWindow
 (
@@ -190,32 +191,6 @@ MRESULT EXPENTRY ProofReadDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
           pIda->sBorderSize  = (SHORT) WinQuerySysValue (HWND_DESKTOP, SV_CXSIZEBORDER);
           pIda->hResultListBox = GetDlgItem( hwnd, ID_PROOFREAD_TABLE_LV );
 
-          // create font to be used for the controls
-          {
-            // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
-            HFONT   hFontDlg;
-
-            hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
-            if ( hFontDlg != NULL )
-            {
-              LOGFONT lFont;
-              if ( GetObject( hFontDlg, sizeof(LOGFONT), (LPSTR) &lFont ))
-              {
-                lFont.lfCharSet  = (UCHAR)GetCharSet();
-                if (lFont.lfHeight > 0 )
-                {
-                  lFont.lfHeight -=  SHEIGHTINCTRL;
-                }
-                else
-                {
-                  lFont.lfWeight = FW_NORMAL;
-                } /* endif */
-                lFont.lfOutPrecision = OUT_TT_PRECIS;
-                strcpy( lFont.lfFaceName, "Arial" );
-                pIda->hFontControl = CreateFontIndirect( &lFont );
-              }
-            }
-          }
 
           // get dialog position and size
           WinQueryWindowPos( hwnd, &pIda->swpDlg );
@@ -262,7 +237,7 @@ MRESULT EXPENTRY ProofReadDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
           } /* endwhile */
 
           // set any user defined colors
-          if ( pIda->pLastUsed && (pIda->pLastUsed->aclrBackground[0] != 0) && (pIda->pLastUsed->aclrForeground[0] != 0) )
+          if ( pIda->pLastUsed && ((pIda->pLastUsed->aclrBackground[0] != 0) || (pIda->pLastUsed->aclrForeground[0] != 0) ) )
           {
               int i = 0;
               while( pIda->ColorData.ColorSetting[i].szElement[0] != EOS )
@@ -273,6 +248,32 @@ MRESULT EXPENTRY ProofReadDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
               } /* endwhile */
           } /* endif */
 
+          // preset font settings
+          {
+            // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
+            HFONT   hFontDlg;
+
+            memset( &(pIda->lf), 0, sizeof(pIda->lf) );
+            hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
+            if ( hFontDlg != NULL )
+            {
+              if ( GetObject( hFontDlg, sizeof(pIda->lf), (LPSTR) &(pIda->lf) ))
+              {
+                pIda->lf.lfCharSet  = (UCHAR)GetCharSet();
+                if (pIda->lf.lfHeight > 0 )
+                {
+                  pIda->lf.lfHeight -=  SHEIGHTINCTRL;
+                }
+                else
+                {
+                  pIda->lf.lfWeight = FW_NORMAL;
+                } /* endif */
+                pIda->lf.lfOutPrecision = OUT_TT_PRECIS;
+                strcpy( pIda->lf.lfFaceName, "Arial" );
+              }
+            }
+          }
+
           // set other last used values
           if ( pIda->pLastUsed )
           {
@@ -282,7 +283,32 @@ MRESULT EXPENTRY ProofReadDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
               pIda->fProcessDoc = pIda->pLastUsed->fProcessDoc;
               pIda->fProcessMem = pIda->pLastUsed->fProcessMem;
               pIda->fShowDifferences = pIda->pLastUsed->fShowDifferences;
+
+              if ( pIda->pLastUsed->lfFaceName[0] != 0 )
+              {
+                // get last used font settings
+                memset( &(pIda->lf), 0, sizeof(pIda->lf) );
+                pIda->lf.lfHeight = pIda->pLastUsed->lfHeight;
+                pIda->lf.lfWidth = pIda->pLastUsed->lfWidth;
+                pIda->lf.lfEscapement = pIda->pLastUsed->lfEscapement;
+                pIda->lf.lfOrientation = pIda->pLastUsed->lfOrientation;
+                pIda->lf.lfWeight = pIda->pLastUsed->lfWeight;
+                pIda->lf.lfItalic = pIda->pLastUsed->lfItalic;
+                pIda->lf.lfUnderline = pIda->pLastUsed->lfUnderline;
+                pIda->lf.lfStrikeOut = pIda->pLastUsed->lfStrikeOut;
+                pIda->lf.lfCharSet = pIda->pLastUsed->lfCharSet;
+                pIda->lf.lfOutPrecision = pIda->pLastUsed->lfOutPrecision;
+                pIda->lf.lfClipPrecision = pIda->pLastUsed->lfClipPrecision;
+                pIda->lf.lfQuality = pIda->pLastUsed->lfQuality;
+                pIda->lf.lfPitchAndFamily = pIda->pLastUsed->lfPitchAndFamily;
+                strcpy( pIda->lf.lfFaceName, pIda->pLastUsed->lfFaceName );
+              } /* endif */
           } /* endif */
+
+          // create font to be used for the controls
+          {
+            pIda->hFontControl = CreateFontIndirect( &(pIda->lf) );
+          }
 
           // get handles and sizes of dialog controls
           if ( fOK )
@@ -725,6 +751,56 @@ MRESULT EXPENTRY ProofReadDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2
           } /* endif */
           break;
 
+        case ID_PROOFIMP_SETFONT_PB:
+          {
+            CHOOSEFONT ChooseFontData;
+
+            memset( &ChooseFontData, 0, sizeof(ChooseFontData) );
+            ChooseFontData.lStructSize = sizeof(ChooseFontData);
+            ChooseFontData.hwndOwner = hwnd;
+            ChooseFontData.Flags = CF_FORCEFONTEXIST | CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT; //  | CF_USESTYLE;
+            ChooseFontData.lpLogFont = &(pIda->lf);
+
+            if ( ChooseFont( &ChooseFontData ) )
+            {
+              // free any previously created font
+              if ( pIda->hFontControl ) DeleteObject( pIda->hFontControl );
+
+              // create new font to be used
+              pIda->hFontControl = CreateFontIndirect( &(pIda->lf) );
+
+              // update last used values
+              if ( pIda->pLastUsed )
+              {
+                pIda->pLastUsed->lfHeight = pIda->lf.lfHeight;
+                pIda->pLastUsed->lfWidth = pIda->lf.lfWidth;
+                pIda->pLastUsed->lfEscapement = pIda->lf.lfEscapement;
+                pIda->pLastUsed->lfOrientation = pIda->lf.lfOrientation;
+                pIda->pLastUsed->lfWeight = pIda->lf.lfWeight;
+                pIda->pLastUsed->lfItalic = pIda->lf.lfItalic;
+                pIda->pLastUsed->lfUnderline = pIda->lf.lfUnderline;
+                pIda->pLastUsed->lfStrikeOut = pIda->lf.lfStrikeOut;
+                pIda->pLastUsed->lfCharSet = pIda->lf.lfCharSet;
+                pIda->pLastUsed->lfOutPrecision = pIda->lf.lfOutPrecision;
+                pIda->pLastUsed->lfClipPrecision = pIda->lf.lfClipPrecision;
+                pIda->pLastUsed->lfQuality = pIda->lf.lfQuality;
+                pIda->pLastUsed->lfPitchAndFamily = pIda->lf.lfPitchAndFamily;
+                strcpy( pIda->pLastUsed->lfFaceName, pIda->lf.lfFaceName );
+              } /* endif */
+
+              // refresh the contents of the listbox to force a re-computation of the item heights
+              SendMessage( pIda->hResultListBox, WM_SETREDRAW, FALSE, 0 );
+              int iTopIndex = SendMessage( pIda->hResultListBox, LB_GETTOPINDEX, 0, 0 );
+              ProofReadRefreshListbox( pIda );
+              if ( iTopIndex >= 0 ) SendMessage( pIda->hResultListBox, LB_SETTOPINDEX, iTopIndex, 0 );
+              SendMessage( pIda->hResultListBox, WM_SETREDRAW, TRUE, 0 );
+
+              // refresh result list
+              //InvalidateRect( pIda->hResultListBox, NULL, TRUE );
+            } /* endif */
+          }
+          break;
+
         case ID_PROOFIMP_SAVE_PB:
           ProofReadSaveList( pIda );
           break;
@@ -1053,10 +1129,6 @@ void ProofReadDrawItem( PPROOFREADDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
   RECT rcClip;
   int iBaseColorIndex = 0;
 
-  HFONT hFontOld = NULL;
-  
-  if ( pIda->hFontControl ) hFontOld = (HFONT)SelectObject( lpDrawItem->hDC, pIda->hFontControl );
-
   if ( lpDrawItem->hwndItem == GetDlgItem( pIda->hwnd, ID_PROOFREAD_HEADER_TEXT ) )
   {
     PSZ_W pszText;
@@ -1130,8 +1202,12 @@ void ProofReadDrawItem( PPROOFREADDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
   }
   else
   {
+    HFONT hFontOld = NULL;
+
     // If there are no list box items, skip this message. 
     if (lpDrawItem->itemID == -1) return; 
+
+    if ( pIda->hFontControl ) hFontOld = (HFONT)SelectObject( lpDrawItem->hDC, pIda->hFontControl );
 
     // only handle normal draw operations
     if ( (lpDrawItem->itemAction != ODA_FOCUS) && (lpDrawItem->itemAction != ODA_SELECT) && (lpDrawItem->itemAction != ODA_DRAWENTIRE) ) return;
@@ -1156,6 +1232,9 @@ void ProofReadDrawItem( PPROOFREADDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
 
     // get the entry for the painted item
     OtmProofReadEntry *pEntry = (OtmProofReadEntry *) QUERYITEMHANDLEHWND( pIda->hResultListBox, lpDrawItem->itemID );
+    int iOrgItemHeight = pEntry->getItemHeight();
+    int iDrawItemHeight = 0;
+
     if ( pEntry->getProcessed() )
     {
       iBaseColorIndex += PRI_PROCESSED_ENTRY;
@@ -1208,13 +1287,16 @@ void ProofReadDrawItem( PPROOFREADDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
     // draw source text
     rcClip.left = rcClip.right;
     rcClip.right = rcClip.left + pIda->aiListViewColWidth[3];
-    ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 3, pEntry->getSource(), &rcClip, pEntry, NULL, 0, 0, iBaseColorIndex );
+    iDrawItemHeight = ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 3, pEntry->getSource(), &rcClip, pEntry, NULL, 0, 0, iBaseColorIndex );
 
     // draw target text
     rcClip.left = rcClip.right;
     rcClip.right = rcClip.left + pIda->aiListViewColWidth[4];
     PPROOFREADCHANGE pChangeList = ( pIda->fShowDifferences ) ? (PPROOFREADCHANGE)pEntry->getTargetChangeList() : NULL;
-    ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 4, pEntry->getTarget(), &rcClip, pEntry, pChangeList, 0, 1, iBaseColorIndex );
+    int iHeight = ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 4, pEntry->getTarget(), &rcClip, pEntry, pChangeList, 0, 1, iBaseColorIndex );
+    iDrawItemHeight = max( iHeight, iDrawItemHeight );
+    
+
 
     // draw modified target text
     rcClip.left = rcClip.right;
@@ -1222,33 +1304,54 @@ void ProofReadDrawItem( PPROOFREADDATA pIda, LPDRAWITEMSTRUCT lpDrawItem )
     const wchar_t *pszText = pEntry->getNewTarget();
     if ( *pszText == 0 ) pszText = pEntry->getModTarget();
     pChangeList = ( pIda->fShowDifferences ) ? (PPROOFREADCHANGE)pEntry->getModTargetChangeList() : NULL;
-    ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 5, pszText, &rcClip, pEntry, pChangeList, 0, 2, iBaseColorIndex );
+    iHeight = ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 5, pszText, &rcClip, pEntry, pChangeList, 0, 2, iBaseColorIndex );
+    iDrawItemHeight = max( iHeight, iDrawItemHeight );
 
     // draw comment text
     rcClip.left = rcClip.right;
     rcClip.right = lpDrawItem->rcItem.right;
-    ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 6, pEntry->getComment(), &rcClip, pEntry, NULL, 0, 3, iBaseColorIndex );
+    iHeight = ProofReadDrawItemColumn( pIda, lpDrawItem->hDC, 6, pEntry->getComment(), &rcClip, pEntry, NULL, 0, 3, iBaseColorIndex );
+    iDrawItemHeight = max( iHeight, iDrawItemHeight );
 
     // draw focus rectangle if the item the focus
     if (lpDrawItem->itemState & ODS_FOCUS) 
     { 
         DrawFocusRect( lpDrawItem->hDC, &(lpDrawItem->rcItem) ); 
     } 
-  } /* endif */
 
-  if ( hFontOld ) SelectObject( lpDrawItem->hDC, hFontOld );
+    if ( hFontOld ) SelectObject( lpDrawItem->hDC, hFontOld );
+
+    // resize item if actual draw height is larger than item height
+    if ( iDrawItemHeight > iOrgItemHeight )
+    {
+      pEntry->setItemHeight( iDrawItemHeight );
+      SendMessage( pIda->hResultListBox, LB_SETITEMHEIGHT, lpDrawItem->itemID, iDrawItemHeight );
+    }
+  } /* endif */
 
   return; 
 } 
 
-BOOL ProofReadIsLineSplitChar( CHAR_W c ) 
+BOOL ProofReadIsLineSplitChar( PPROOFREADDATA pIda, CHAR_W c ) 
 {
-  return( iswspace( c) || (c == L'-') || (c == L'/') || (c == L'.') || (c == L',') );
+  // test for whitespace or punctuation
+  if ( iswspace( c) || (c == L'-') || (c == L'/') || (c == L'.') || (c == L',') || (c == L';') )
+  {
+    return( TRUE );
+  }
 
+  // test for DBCS character
+  CHAR_W chW[2];
+	char ch[5];
+
+	chW[0] = c; chW[1] = EOS;
+	memset (ch, 0, sizeof(ch));
+  int len = WideCharToMultiByte( pIda->ulOEMCP, 0, chW, 1, ch, sizeof(ch), NULL, NULL );
+  return( len == 2 );
 }
 
 // get text height in number of lines
-int ProofReadGetTextHeight( HDC hdc, int iAvail, PSZ_W pszString, int iLen )
+int ProofReadGetTextHeight( PPROOFREADDATA pIda, HDC hdc, int iAvail, PSZ_W pszString, int iLen )
 {
   SIZE size;
   int iLines = 0;
@@ -1266,7 +1369,7 @@ int ProofReadGetTextHeight( HDC hdc, int iAvail, PSZ_W pszString, int iLen )
       do
       {
         // find preceeding whitespace char
-        while ( (i > 0) && !ProofReadIsLineSplitChar( pszString[i] ) ) i--;
+        while ( (i > 0) && !ProofReadIsLineSplitChar( pIda, pszString[i] ) ) i--;
 
         // split text at found position and test if it fits
         if ( i != 0 ) 
@@ -1405,8 +1508,8 @@ void ProofReadDrawText( PPROOFREADDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt,
       BOOL fTextFits = FALSE;
       do
       {
-        // find preceeding whitespace char
-        while ( (i > 0) && !ProofReadIsLineSplitChar( pszString[i] ) ) i--;
+        // find preceeding whitespace or DBCS char
+        while ( (i > 0) && !ProofReadIsLineSplitChar( pIda, pszString[i] ) ) i--;
 
         // split text at found position and test if it fits
         if ( i != 0 ) 
@@ -1501,7 +1604,7 @@ void ProofReadDrawText( PPROOFREADDATA pIda, HDC hdc, PRECT prcClip, PPOINT pPt,
   } while ( iLen != 0 );
 }
 
-void ProofReadDrawItemColumn( PPROOFREADDATA pIda, HDC hdc, int iColumn, const CHAR_W *pszString, LPRECT prcClip, OtmProofReadEntry *pEntry, PPROOFREADCHANGE pChanges, int iFoundEntries, int TextColumn, int iBaseColorIndex )
+int ProofReadDrawItemColumn( PPROOFREADDATA pIda, HDC hdc, int iColumn, const CHAR_W *pszString, LPRECT prcClip, OtmProofReadEntry *pEntry, PPROOFREADCHANGE pChanges, int iFoundEntries, int TextColumn, int iBaseColorIndex )
 {
   int iCurPos = 0; // current position within text
   int iLineHeight = 0;
@@ -1605,7 +1708,7 @@ void ProofReadDrawItemColumn( PPROOFREADDATA pIda, HDC hdc, int iColumn, const C
       }
       break;
   } /* endswitch */
-  return;
+  return ( pt.y + iLineHeight - prcClip->top );
 }
 
 // draw a frame
@@ -1695,7 +1798,11 @@ int ProofReadGetTextHeight( PPROOFREADDATA  pIda, HWND hwndControl, HDC hdc, Otm
 
 int ProofReadMeasureItem( PPROOFREADDATA  pIda, LPMEASUREITEMSTRUCT pMeasureItem )
 {
-  HDC hdc = GetDC(NULL);
+  HDC hdc = GetDC( pIda->hResultListBox );
+  HFONT hFontOld = NULL;
+
+  if ( pIda->hFontControl ) hFontOld = (HFONT)SelectObject( hdc, pIda->hFontControl );
+
   TEXTMETRIC tm;
   GetTextMetrics( hdc, &tm );
   OtmProofReadEntry *pEntry = (OtmProofReadEntry *)pMeasureItem->itemData;
@@ -1716,8 +1823,10 @@ int ProofReadMeasureItem( PPROOFREADDATA  pIda, LPMEASUREITEMSTRUCT pMeasureItem
   //{
   //  iMaxHeight = ProofReadGetTextHeight( pIda, pIda->hResultListBox, hdc, pEntry, TRUE );
   //} /* endif */
+  if ( hFontOld ) SelectObject( hdc, hFontOld );
   ReleaseDC( NULL, hdc );
-  pMeasureItem->itemHeight = iMaxHeight;
+  pMeasureItem->itemHeight = iMaxHeight + 4;
+  pEntry->setItemHeight( pMeasureItem->itemHeight );
 
   return( 0 );
 }
@@ -1821,9 +1930,10 @@ void ProofReadRefreshListbox( PPROOFREADDATA pIda )
     for( int i = 0; i < iEntries; i++ )
     {
       OtmProofReadEntry *pEntry = (*pIda->pList)[i];
+      pEntry->setItemHeight( 0 );
       const CHAR_W *pszTarget = pEntry->getTarget(); 
       const CHAR_W *pszModTarget = pEntry->getModTarget(); 
-      BOOL fModified = (*pszModTarget != 0) && (wcscmp( pszTarget, pszModTarget ) != 0);
+      BOOL fModified = !pEntry->isUnChanged();
       BOOL fShow = FALSE;
       BOOL fProcessed = pEntry->getProcessed();
       if ( fProcessed && pIda->fShowProcessed ) fShow = TRUE;
@@ -2188,9 +2298,10 @@ BOOL ProofReadLoadList( PPROOFREADDATA pIda )
   \param pIda pointer to dialog's instance data area
   \param pToken pointer to a fuzzy token list
   \param pChanges pointer to a list of PROOFREADCHANGE entries
+  \param pModToken pointer to a fuzzy token list for the modified text
   \returns number of entries added to the list
 */
-int ProofReadCopyToChangesList( PPROOFREADDATA pIda, PFUZZYTOK pToken, PPROOFREADCHANGE pChanges )
+int ProofReadCopyToChangesList( PPROOFREADDATA pIda, PFUZZYTOK pToken, PPROOFREADCHANGE pChanges, PFUZZYTOK pModToken )
 {
   int iEntries = 0;                       
   USHORT usLastType = 0;
@@ -2198,7 +2309,33 @@ int ProofReadCopyToChangesList( PPROOFREADDATA pIda, PFUZZYTOK pToken, PPROOFREA
   // process tokens of source list
   while ( pToken->ulHash && (iEntries < (MAX_PROOFREADCHANGES - 1) ) ) 
   {
-    if ( (pToken->sType == MARK_INSERTED) || (pToken->sType == MARK_MODIFIED) ) 
+    if ( pToken->sType == MARK_EQUAL) 
+    {
+      // look for whitespace changes
+      USHORT usLen = pToken->usStop - pToken->usStart + 1;
+      USHORT usModLen = pModToken->usStop - pModToken->usStart + 1;
+      if ( (usLen != usModLen) || (memcmp( pToken->pData, pModToken->pData, usLen ) != 0) )
+      {
+        // skip equal part of the token
+        USHORT usPos = 1;
+        while ( (usPos < usLen) && (usPos < usModLen) && (pToken->pData[usPos] == pModToken->pData[usPos]) ) usPos++;
+
+        // add change entry for whitespace difference
+        if ( usPos < usLen )
+        {
+          pChanges[iEntries].usOffs = pToken->usStart + usPos;
+          pChanges[iEntries].usLen  = usLen - usPos;
+          pChanges[iEntries].usType = usLastType = (USHORT)MARK_MODIFIED;
+          iEntries++;
+        } /* endif */
+      }
+      else
+      {
+        // no differences found, reset current token type
+        usLastType = 0;
+      } /* endif */
+    }
+    else if ( (pToken->sType == MARK_INSERTED) || (pToken->sType == MARK_MODIFIED) ) 
     {
       if ( (iEntries != 0) && ((USHORT)pToken->sType == usLastType) )
       {
@@ -2220,6 +2357,7 @@ int ProofReadCopyToChangesList( PPROOFREADDATA pIda, PFUZZYTOK pToken, PPROOFREA
       usLastType = 0;
     } /* endif */
     pToken++;
+    pModToken++;
   }
 
   // terminate start stop list
@@ -2258,6 +2396,33 @@ BOOL ProofReadFindDifferences( PPROOFREADDATA pIda, OtmProofReadEntry *pEntry )
   USHORT       usWords = 0;            // number of words/tokens
   BOOL         fOK = TRUE; 
 
+  // special mode for deleted target strings
+  if ( pEntry->getModTargetDeletedFlag() )
+  {
+    PSZ_W pszTarget = (PSZ_W)pEntry->getTarget();
+
+    PPROOFREADCHANGE pTargetChanges = new( PROOFREADCHANGE[MAX_PROOFREADCHANGES] );
+    PPROOFREADCHANGE pModTargetChanges = new( PROOFREADCHANGE[MAX_PROOFREADCHANGES] );
+
+    // add deleted/inserted entry
+    pModTargetChanges[0].usOffs = pTargetChanges[0].usOffs = 0;
+    pModTargetChanges[0].usLen  = pTargetChanges[0].usLen = wcslen(pszTarget);
+    pModTargetChanges[0].usType = MARK_INSERTED;
+    pTargetChanges[0].usType = MARK_DELETED;
+
+    // terminate lists
+    pModTargetChanges[1].usOffs = pTargetChanges[1].usOffs = 0;
+    pModTargetChanges[1].usLen  = pTargetChanges[1].usLen = 0;
+    pTargetChanges[1].usType = pModTargetChanges[1].usType = 0;
+
+    PPROOFREADCHANGE pOldTargetChanges = (PPROOFREADCHANGE)(pEntry->getTargetChangeList() );  
+    PPROOFREADCHANGE pOldModTargetChanges = (PPROOFREADCHANGE)(pEntry->getModTargetChangeList() );  
+    pEntry->setTargetChangeList( pTargetChanges );
+    pEntry->setModTargetChangeList( pModTargetChanges );
+    if ( pOldTargetChanges ) delete( pOldTargetChanges  );
+    if ( pOldModTargetChanges ) delete( pOldModTargetChanges  );
+  }
+
   // fast exit if one or both strings are empty...
   PSZ_W pszModTarget = (PSZ_W)pEntry->getNewTarget();
   if ( *pszModTarget == EOS) pszModTarget = (PSZ_W)pEntry->getModTarget();
@@ -2283,8 +2448,8 @@ BOOL ProofReadFindDifferences( PPROOFREADDATA pIda, OtmProofReadEntry *pEntry )
     PPROOFREADCHANGE pTargetChanges = new( PROOFREADCHANGE[MAX_PROOFREADCHANGES] );
     PPROOFREADCHANGE pModTargetChanges = new( PROOFREADCHANGE[MAX_PROOFREADCHANGES] );
 
-    int iTargetEntries = ProofReadCopyToChangesList( pIda, pFuzzyTgt, pTargetChanges );
-    int iModTargetEntries = ProofReadCopyToChangesList( pIda, pFuzzyTok, pModTargetChanges );
+    int iTargetEntries = ProofReadCopyToChangesList( pIda, pFuzzyTgt, pTargetChanges, pFuzzyTok );
+    int iModTargetEntries = ProofReadCopyToChangesList( pIda, pFuzzyTok, pModTargetChanges, pFuzzyTgt );
 
     PPROOFREADCHANGE pOldTargetChanges = (PPROOFREADCHANGE)(pEntry->getTargetChangeList() );  
     PPROOFREADCHANGE pOldModTargetChanges = (PPROOFREADCHANGE)(pEntry->getModTargetChangeList() );  

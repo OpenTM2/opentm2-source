@@ -130,7 +130,9 @@ typedef struct                               // Structure to define paragraph <w
    ULONG     CommonProperty ;                // Run number if common properties used
    BOOL      PreserveBlanks ;                // TRUE=Preserve leading/trailing blanks (export)        
    BOOL      StartTableRow ;                 // TRUE=Start of table row.
+   BOOL      TextDel;                        // TRUE=Para is deleted text.
    WCHAR     *Tag ;                          // Name of tag for this node
+   WCHAR     *Text ;                         // Text defined in this paragraph
    VOID      *ptrRunList ;                   // Pointer to <w:r> information
    VOID      *ptrNext ;                      // Pointer to next item in linked list 
    VOID      *ptrPrev ;                      // Pointer to previous item in linked list 
@@ -156,8 +158,9 @@ typedef struct                               // Structure to define run-level <w
    BOOL      PreserveBlanks ;                // TRUE=Preserve leading/trailing blanks (export)        
    BOOL      BreakBeforeText;                // TRUE=<w:br> before text in same run
    BOOL      TextIns;                        // TRUE=Run is inserted text.
-   BOOL      TextDel;                           // TRUE=Run is deleted text.
+   BOOL      TextDel;                        // TRUE=Run is deleted text.
    WCHAR     *Tag ;                          // Name of tag for this node
+   WCHAR     *Text ;                         // Text defined in this run 
    WCHAR     *Properties ;                   // Properties associated with this run
    VOID      *ptrTextList ;                  // Pointer to <w:t> information
    VOID      *ptrNext ;                      // Pointer to next item in linked list 
@@ -178,19 +181,19 @@ typedef struct                               // Structure to define text-level <
    ULONG     BlockStartPos ;                 // Starting file position of text   (fseek)
    ULONG     BlockEndPos ;                   // Ending   file position of text   (fseek)
    WCHAR     *Tag ;                          // Name of tag for this node
+   WCHAR     *Text ;                         // Text defined in this node      
    VOID      *ptrNext ;                      // Pointer to next item in linked list 
    VOID      *ptrPrev ;                      // Pointer to previous item in linked list 
 } T_INFO ;
 
 
     USHORT     fnCreateInputList( P_INFO ** ) ;
-    USHORT     fnGetXMLTag( WCHAR *, ULONG *, ULONG *, WCHAR *, WCHAR *,ULONG *, ULONG *, BOOL * ) ;
+    USHORT     fnGetXMLTag( WCHAR *, ULONG *, ULONG *, WCHAR *, WCHAR *,ULONG *, ULONG *, BOOL *, WCHAR* ) ;
     BOOL       fnGetAttributeValue( WCHAR *, WCHAR *, WCHAR * ) ;
     BOOL       fnGetNextAttributeValue( WCHAR *, USHORT, WCHAR *, WCHAR *, WCHAR **, ULONG ) ;
     BOOL       fnGetCompleteString( WCHAR *, WCHAR *, WCHAR *, LONG ) ;
     USHORT     fnGetXMLRcd( WCHAR *, ULONG * ) ;
-    USHORT     fnWriteBlock( USHORT, ULONG, ULONG, wofstream*, BOOL ) ;
-    USHORT     fnReadBlock( USHORT, ULONG, ULONG, WCHAR*, ULONG ) ;
+    USHORT     fnWriteBlock( WCHAR *, wofstream* ) ;
     BOOL       fnAllocateParaNode( P_INFO**, P_INFO**, WCHAR*, BOOL ) ;
     BOOL       fnAllocateRunNode( R_INFO**, R_INFO**, P_INFO*, WCHAR*, BOOL ) ;
     BOOL       fnAllocateTextNode( T_INFO**, T_INFO**, R_INFO*, WCHAR*, BOOL ) ;

@@ -99,7 +99,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 // handler for unhandled excpetions
-LONG CALLBACK unhandled_handler( EXCEPTION_POINTERS* e ){  if ( !fProcessingUnhandledException )  {    fProcessingUnhandledException = TRUE;    WriteCrashLog( szLogFileDir );  }  return EXCEPTION_CONTINUE_SEARCH;}
+LONG CALLBACK unhandled_handler( EXCEPTION_POINTERS* e )
+{
+  if ( !fProcessingUnhandledException )
+  {
+    fProcessingUnhandledException = TRUE;
+    WriteCrashLog( szLogFileDir );
+  }
+  return EXCEPTION_CONTINUE_SEARCH;
+}
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 	LPSTR lpCmdLine, int nCmdShow)
 {

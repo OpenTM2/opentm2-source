@@ -27,7 +27,7 @@
               <entry colname="col1" align="left">EqfAddCTIDList</entry>
               <entry colname="col2" align="right"><xref href="api_EqfAddCTIDList.dita#api_EqfAddCTIDList"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfAddMatchSegID</entry>
               <entry colname="col2" align="right"><xref href="api_EqfAddMatchSegID.dita#api_EqfAddMatchSegID"/></entry>
             </row>
@@ -63,11 +63,11 @@
               <entry colname="col1" align="left">EqfCleanMemory</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCleanMemory.dita#api_EqfCleanMemory"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfClearMTFlag</entry>
               <entry colname="col2" align="right"><xref href="api_EqfClearMTFlag.dita#api_EqfClearMTFlag"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfCloseMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCloseMem.dita#api_EqfCloseMem"/></entry>
             </row>
@@ -75,7 +75,7 @@
               <entry colname="col1" align="left">EqfCountWords</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCountWords.dita#api_EqfCountWords"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfCountWordsInString</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCountWordsInString.dita#api_EqfCountWordsInString"/></entry>
             </row>
@@ -83,7 +83,7 @@
               <entry colname="col1" align="left">EqfCreateCntReport</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateCntReport.dita#api_EqfCreateCntReport"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfCreateCntReportEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateCntReportEx.dita#api_EqfCreateCntReportEx"/></entry>
             </row> 
@@ -91,7 +91,7 @@
               <entry colname="col1" align="left">EqfCreateCountReport</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateCountReport.dita#api_EqfCreateCountReport"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfCreateCountReportEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateCountReportEx.dita#api_EqfCreateCountReportEx"/></entry>
             </row> 
@@ -107,7 +107,7 @@
               <entry colname="col1" align="left">EqfCreateITM</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateITM.dita#api_EqfCreateITM"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfCreateMarkup</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateMarkup.dita#api_EqfCreateMarkup"/></entry>
             </row>
@@ -119,7 +119,7 @@
               <entry colname="col1" align="left">EqfCreateSubFolder</entry>
               <entry colname="col2" align="right"><xref href="api_EqfCreateSubFolder.dita#api_EqfCreateSubFolder"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfDeleteDict</entry>
               <entry colname="col2" align="right"><xref href="api_EqfDeleteDict.dita#api_EqfDeleteDict"/></entry>
             </row>
@@ -135,7 +135,7 @@
               <entry colname="col1" align="left">EqfDeleteMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfDeleteMem.dita#api_EqfDeleteMem"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfDeleteMTLog</entry>
               <entry colname="col2" align="right"><xref href="api_EqfDeleteMTLog.dita#api_EqfDeleteMTLog"/></entry>
             </row>
@@ -175,7 +175,7 @@
               <entry colname="col1" align="left">EqfExportMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfExportMem.dita#api_EqfExportMem"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfExportMemInInternalFormat</entry>
               <entry colname="col2" align="right"><xref href="api_EqfExportMemInInternalFormat.dita#api_EqfExportMemInInternalFormat"/></entry>
             </row>
@@ -183,7 +183,7 @@
               <entry colname="col1" align="left">EqfExportSegs</entry>
               <entry colname="col2" align="right"><xref href="api_EqfExportSegs.dita#api_EqfExportSegs"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfFilterNoMatchFile</entry>
               <entry colname="col2" align="right"><xref href="api_EqfFilterNoMatchFile.dita#api_EqfFilterNoMatchFile"/></entry>
             </row>
@@ -195,11 +195,11 @@
               <entry colname="col1" align="left">EqfFreeSegFile</entry>
               <entry colname="col2" align="right"><xref href="api_EqfFreeSegFile.dita#api_EqfFreeSegFile"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfGetFolderProp</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetFolderProp.dita#api_EqfGetFolderProp"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfGetFolderPropEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetFolderPropEx.dita#api_EqfGetFolderPropEx"/></entry>
             </row>
@@ -207,7 +207,7 @@
               <entry colname="col1" align="left">EqfGetLastError</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfGetMatchLevel</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetMatchLevel.dita#api_EqfGetMatchLevel"/></entry>
             </row>
@@ -227,7 +227,7 @@
               <entry colname="col1" align="left">EqfGetSegmentNumber</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetSegmentNumber.dita#api_EqfGetSegmentNumber"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfGetShortName</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetShortName.dita#api_EqfGetShortName"/></entry>
             </row>
@@ -243,7 +243,7 @@
               <entry colname="col1" align="left">EqfGetVersion</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetVersion.dita#api_EqfGetVersion"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfGetVersionEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfGetVersionEx.dita#api_EqfGetVersionEx"/></entry>
             </row>
@@ -259,7 +259,7 @@
               <entry colname="col1" align="left">EqfImportFolder</entry>
               <entry colname="col2" align="right"><xref href="api_EqfImportFolder.dita#api_EqfImportFolder"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfImportFolderAs</entry>
               <entry colname="col2" align="right"><xref href="api_EqfImportFolderAs.dita#api_EqfImportFolderAs"/></entry>
             </row>
@@ -271,15 +271,15 @@
               <entry colname="col1" align="left">EqfImportMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfImportMem.dita#api_EqfImportMem"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfImportMemEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfImportMemEx.dita#api_EqfImportMemEx"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfImportMemInInternalFormat</entry>
               <entry colname="col2" align="right"><xref href="api_EqfImportMemInInternalFormat.dita#api_EqfImportMemInInternalFormat"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfListMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfListMem.dita#api_EqfListMem"/></entry>
             </row>
@@ -295,7 +295,7 @@
               <entry colname="col1" align="left">EqfOpenDoc</entry>
               <entry colname="col2" align="right"><xref href="api_EqfOpenDoc.dita#api_EqfOpenDoc"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfOpenDocByTrack</entry>
               <entry colname="col2" align="right"><xref href="api_EqfOpenDocByTrack.dita#api_EqfOpenDocByTrack"/></entry>
             </row>
@@ -303,7 +303,7 @@
               <entry colname="col1" align="left">EqfOpenDocEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfOpenDocEx.dita#api_EqfOpenDocEx"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfOpenMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfOpenMem.dita#api_EqfOpenMem"/></entry>
             </row>
@@ -319,11 +319,11 @@
               <entry colname="col1" align="left">EqfProcessNomatchEx</entry>
               <entry colname="col2" align="right"><xref href="api_EqfProcessNomatchEx.dita#api_EqfProcessNomatchEx"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfQueryMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfQueryMem.dita#api_EqfQueryMem"/></entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1" align="left">EqfReduceToStemForm</entry>
               <entry colname="col2" align="right"><xref href="api_EqfReduceToStemForm.dita#api_EqfReduceToStemForm"/></entry>
             </row>
@@ -339,7 +339,7 @@
               <entry colname="col1" align="left">EqfRename</entry>
               <entry colname="col2" align="right"><xref href="api_EqfRename.dita#api_EqfRename"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
               <entry colname="col1" align="left">EqfSearchMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfSearchMem.dita#api_EqfSearchMem"/></entry>
             </row>
@@ -351,7 +351,7 @@
               <entry colname="col1" align="left">EqfStartSession</entry>
               <entry colname="col2" align="right"><xref href="api_EqfStartSession.dita#api_EqfStartSession"/></entry>
             </row>
-<!-- NEW --><row rev="GF_03042017">
+            <row>
             <entry colname="col1" align="left">EqfUpdateMem</entry>
               <entry colname="col2" align="right"><xref href="api_EqfUpdateMem.dita#api_EqfUpdateMem"/></entry>
             </row>

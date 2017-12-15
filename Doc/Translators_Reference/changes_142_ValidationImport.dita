@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_141_ValidationImport">
+  <title>Improvements for Importing Validation Documents Utility</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Several improvements have been implemented for the <b>Import Validation Documents</b> utility:
+      <ol>
+        <li>The <b>Validation Document Import and Processing</b> window has been improved to allow 
+            customization of the font being used in the <b>Imported validation segments</b> list.</li>
+        <li>Whitespace differences in the changed translatable text will now be identified as changed text.</li>
+        <li>When importing a *.DOC or *.DOCX document, the performance has been improved by about 50%.</li>
+      </ol>
+    </p>
+    <p>For more information, go to <xref href="doc_ImportValidation.dita#doc_ImportValidation"/>.</p>
+  </body>
+</topic>

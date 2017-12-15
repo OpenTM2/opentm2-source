@@ -382,7 +382,7 @@ $(_DLL)\OTMDLL.DLL:		$(_OBJ)\EQFCOPYR.OBJ \
 						$(_OBJ)\EQFTMMV.OBJ \
 						$(_OBJ)\EQFSEGEXPORT.OBJ \
 						$(_OBJ)\MarkupPluginMapper.OBJ \
-						$(_OBJ)\SpecialCharDlg.OBJ \
+						$(_OBJ)\SpecialCharDlg.OBJ 
 #						$(_OBJ)\eqfx_api.obj \
 #						$(_OBJ)\eqfx1api.obj \
 

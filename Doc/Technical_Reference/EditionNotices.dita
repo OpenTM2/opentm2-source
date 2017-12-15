@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
-<topic xml:lang="en-us" id="EditionNotices" rev="GF_03042017">
+<topic xml:lang="en-us" id="EditionNotices">
   <title>Fourth Edition, April 2017</title>
   <prolog>
     <metadata>
@@ -8,6 +8,6 @@
     </metadata>
   </prolog>
   <body>
-    <p>This edition applies to <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 1.4.0</p>
+    <p>This edition applies to <keyword conref="common-symbols.dita#common-symbols/tm4w"/> Version 1.4.1</p>
   </body>
 </topic>

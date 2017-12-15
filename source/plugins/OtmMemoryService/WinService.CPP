@@ -120,7 +120,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 }
 
 // handler for unhandled excpetions
-LONG CALLBACK unhandled_handler( EXCEPTION_POINTERS* e ){  if ( !fProcessingUnhandledException )  {    fProcessingUnhandledException = TRUE;    WriteLogEntry( "Error: Unhandled exception detected\n" );    WriteCrashLog( szLogFileDir );  }  return EXCEPTION_CONTINUE_SEARCH;}
+LONG CALLBACK unhandled_handler( EXCEPTION_POINTERS* e )
+{
+  if ( !fProcessingUnhandledException )
+  {
+    fProcessingUnhandledException = TRUE;
+    WriteLogEntry( "Error: Unhandled exception detected\n" );
+    WriteCrashLog( szLogFileDir );
+  }
+  return EXCEPTION_CONTINUE_SEARCH;
+}
 
 // Service Entry Point
 VOID WINAPI ServiceMain( DWORD argc, LPTSTR *argv )

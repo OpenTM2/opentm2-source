@@ -1,0 +1,35 @@
+Changes in OpenTM2 v1.4.2
+
+List of requirements and fixes in OpenTM2 release v1.4.2:
+  (A) Requirements:
+
+
+  (B) Fixes:	 
+     P402993: Calculating report higher than CNT report                
+     P403320: Search function does not find string spreading over 2 lines when Line wrap is activated
+     P403376: The OpenTM2 UNINSTALL program doesn't remove all files   
+     P403631: Editor: Please enable changing style in Translation Memory window
+     P403767: OtmMtEval.exe produces a strange value                   
+     P403783: Protect section function partially working for  <msgnum>
+     P403785: OTM supports counting Japanese characters?               
+     P403787: question about protecting <meta> section                 
+     P403804: OtmGetToolInfo: No version info for markup table plugins 
+     P403805: Import validation: Handle whitespace differences         
+     P403813: OpenTM2 EQF9999 (dump) still references 1.3.2
+     P403818: OtmGetToolInfo: Add access time info to the drive list section
+     P403825: Problems when importing validation DOCs from reviewers   
+     P403827: There are special characters in nomatch file             
+     P403832: Incorrect pre-analyze word count                         
+     P403835: Import validation: Improve performance of handling DOCX files
+     P403844: Imported Validation Segments: please support character based wrapping in target/modified target  columns
+     P403846: OpenTM2 abends during SGM dictionary import              
+     P403848: Validation Document Import: "Set Colors" settings are reset when the window is closed 
+     P403849: Validation Document Import: Can we find removed blank spaces?
+     P403850: Validation Document Import: Please provide Font Size seting dialog 
+     P403851: Nomatch word count is far larger than total word count   
+     P403868: Import validation document: Import abends                
+     P403871: Analysis: Missing machine translation flag in MT output files in TMX format
+     P403874: Validation Document Import: Deleted translation is not shown as changed
+     P403889: MT Logging: MTLOG not merged when importing a folder     
+     P403893: Bad segmentation in files    
+     nn: Solved some of the memory leakage in memory service interface

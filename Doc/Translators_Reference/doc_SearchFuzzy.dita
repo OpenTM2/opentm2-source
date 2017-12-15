@@ -124,6 +124,16 @@
         </plentry>
 
         <plentry>
+          <pt>Set colors</pt>
+          <pd>Opens the "Set Fuzzy Segment Search Colors" dialog, which allows customization of the colors being used in the <b>Search results</b> list.</pd>
+        </plentry>
+
+        <plentry>
+          <pt>Set font</pt>
+          <pd>Opens the "Font" dialog, which allows customization of the font being used in the <b>Search results</b> list.</pd>
+        </plentry>
+
+        <plentry>
           <pt>Cancel </pt>
           <pd>Stops the search and the interaction with this window and returns you to the starting
             point.</pd>

@@ -2,7 +2,7 @@
 <!DOCTYPE reference
   PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
 <reference xml:lang="en-us" id="api_EqfExportDoc">
-  <title rev="GF_07122015">EqfExportDoc</title>
+  <title>EqfExportDoc</title>
   <prolog>
     <metadata>
       <keywords><!--Insert <indexterm> tags here--></keywords>
@@ -16,7 +16,7 @@
       <p><i>EqfExportDoc</i> exports one or more documents.</p>
       <p>This function performs the export in small units. Call it repetitively until it returns a return code other than CONTINUE_RC.</p>
     </section>
-    <refsyn rev="GF_07122015">
+    <refsyn>
       <title>Format</title>
       <syntaxdiagram>
 
@@ -83,7 +83,7 @@
       </syntaxdiagram>
     </refsyn>
 
-    <section rev="GF_07122015">
+    <section>
       <title>Parameters</title>
       <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
         <tgroup cols="3">

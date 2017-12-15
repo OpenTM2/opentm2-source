@@ -20,7 +20,7 @@ class OtmProofReadEntry
 public:
 /*! \brief Constructor
 */
-  OtmProofReadEntry() { m_pvTargetChangeList = NULL; m_fSelected = FALSE; m_fProcessed = FALSE; m_iDocNumber = 0; m_iFolNumber = 0; m_pvModTargetChangeList = NULL; };
+  OtmProofReadEntry() { m_pvTargetChangeList = NULL; m_fSelected = FALSE; m_fProcessed = FALSE; m_iDocNumber = 0; m_iFolNumber = 0; m_pvModTargetChangeList = NULL; m_iItemHeight = 0; };
 
 /*! \brief Destructor
 */
@@ -147,10 +147,30 @@ public:
 	void setModTargetChangeList( PVOID pvChangeList ) { m_pvModTargetChangeList = pvChangeList; };
 
 
+  /*! \brief Gets the modified target deleted flag of a proof read entry
+  \returns modified target deleted flag 
+*/
+  BOOL getModTargetDeletedFlag(){ return( m_fModTargetDeleted ); };
+
+/*! \brief Sets the modified target deleted flag of a proof read entry
+  \param pvChangeList modified target deleted flag 
+*/
+	void setModTargetDeletedFlag( BOOL fModTargetDeleted ) { m_fModTargetDeleted = fModTargetDeleted; };
+
   /*! \brief Checks if a proof read entry is an unchanged (by the proof reader) entry
   \returns TRUE when entry is unchanged
 */
-  BOOL isUnChanged(){ return( m_strModTarget.empty() || (m_strModTarget.compare( m_strTarget ) == 0) ); };
+  BOOL isUnChanged(){ return( !m_fModTargetDeleted && (m_strModTarget.empty() || (m_strModTarget.compare( m_strTarget ) == 0) )); };
+
+/*! \brief Gets the item height of the entry in the result listbox
+  \returns item height value
+*/
+  int getItemHeight(){ return( m_iItemHeight ); };
+
+/*! \brief Sets the item height of the entry
+  \param iItemHeight new item height value
+*/
+	void setItemHeight( int iItemHeight ) { m_iItemHeight = iItemHeight; };
 
  
 private:
@@ -164,8 +184,10 @@ private:
   BOOL m_fProcessed;
   int m_iDocNumber;
   int m_iFolNumber;
+  int m_iItemHeight;
   PVOID m_pvTargetChangeList;
   PVOID m_pvModTargetChangeList;
+  BOOL m_fModTargetDeleted;
 };
 
 

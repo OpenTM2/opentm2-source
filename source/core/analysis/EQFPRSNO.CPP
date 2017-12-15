@@ -1213,8 +1213,20 @@ USHORT ProcessNomatch
               CHAR szIso[20];
               pData->iCurPar = pData->iCurSeg = 1;
               TAGetIsoLang( pData->szSegSourceLang, szIso );
-              swprintf ( pData->szUTF16Buffer, L"    <d lang=\"%S\" dt=\"ndoc\" url=\"%S\" markup=\"%S\">\r\n", szIso, pData->szCurDoc, pData->szSegMarkup );
+              
+              // write attributes up to document name
+              swprintf ( pData->szUTF16Buffer, L"    <d lang=\"%S\" dt=\"ndoc\" url=\"", szIso );
               if ( fOK ) fOK = WriteInUTF8( pData, pData->hfOutNomatchXml, pData->szUTF16Buffer );
+
+              // write escaped document name
+              MultiByteToWideChar( CP_ACP, 0, pData->szCurDoc, -1, (PSZ_W)pData->bUTF8Buffer, sizeof(pData->bUTF8Buffer)/sizeof(CHAR_W) );
+              EscapeChars( (PSZ_W)pData->bUTF8Buffer, pData->szUTF16Buffer );
+              if ( fOK ) fOK = WriteInUTF8( pData, pData->hfOutNomatchXml, pData->szUTF16Buffer );
+
+              // write the rest of the attributes
+              swprintf ( pData->szUTF16Buffer, L"\" markup=\"%S\">\r\n", pData->szSegMarkup );
+              if ( fOK ) fOK = WriteInUTF8( pData, pData->hfOutNomatchXml, pData->szUTF16Buffer );
+
               swprintf ( pData->szUTF16Buffer, L"      <p pid=\"%ld\">\r\n", pData->iCurPar );
               pData->iCurPar++;
               if ( fOK ) fOK = WriteInUTF8( pData, pData->hfOutNomatchXml, pData->szUTF16Buffer );

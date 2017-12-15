@@ -12,6 +12,9 @@
 /*   When     Why    Who  What                                              */
 /* -------- -------  ---  -------------------------                         */
 /*  4/11/17           DAW  Created from IBMXMWRD                            */
+/*  8/16/17 P403835   DAW  Improve performance. Read file only once and     */
+/*                         save text in linked list rather than read twice. */
+/*  9/18/17 P403874   DAW  Handle completely deleted translated text.       */
 /*                                                                          */
 /****************************************************************************/
 /*                                                                          */
@@ -229,7 +232,7 @@ wifstream  *InputFile2 ;
        WCHAR     ENDL[4] = L"\r\n";
        WCHAR     TWB_FILENAME[8] = L"TWBFILE";
        WCHAR     szPrevXMLInputText[MAX_XML_RCD_LENGTH] ;
-       BOOL      bReadSource ;
+//     BOOL      bReadSource ;
        BOOL      bFileExport ;
        BOOL      bInGfxdata ;
        BOOL      bInLongAttr ;
@@ -257,37 +260,6 @@ typedef struct {
 
 #define NUM_NEUTRAL_TAGS     35
 static NEUTRALTAG      NEUTRAL_TAGS[ NUM_NEUTRAL_TAGS ] =  {
-
-
-// ###############################################
-//
-//  STILL NEED TO HANDLE:
-//
-//         aml:annotation        w:type="Word.Insertion"
-//         aml:annotation        w:type="Word.Deletion"
-//         aml:annotation        w:type="Word.Comment"
-//         aml:content           insertion, deletion, formatting change, comment, or bookmark
-//         wx:t
-//         w:tblCaption          w:val="translatable text"/>
-//         w:tblDescription      w:val="translatable text"/>
-//         w:placeholder         w:val="translatable text"/>
-//         w:alias               w:val="translatable text"/>
-//         w:docPartCategory     w:val="translatable text"/>
-//
-//         fldSimple
-//         subDoc
-//
-/*        commentReference     Comment content reference mark                  */
-/*        delInstrText         Deleted field code                              */
-/*        delText              Deleted text                                    */
-/*        endnoteRef           Endnote reference mark        append to next text */
-/*        endnoteReference     Endnote reference             append to end of previous text, like footnote */
-/*        footnoteReference    Footnote reference            append to end of previous text */
-/*        ruby                 Phonetic guide                                  */
-//
-// ###############################################
-
-
 
    L"/br"                     , L"BRE"     , /*TAG_ACTION_SKIP  ,*/ TAG_ACTION_KEEP   , TAG_TYPE_END      , TAG_ID_BR_END,          /* END   5-14-12 */
    L"/hlink"                  , L"HLE"     , /*TAG_ACTION_KEEP  ,*/ TAG_ACTION_KEEP   , TAG_TYPE_END      , TAG_ID_HLINK_END,
@@ -332,29 +304,13 @@ static NEUTRALTAG      NEUTRAL_TAGS[ NUM_NEUTRAL_TAGS ] =  {
  CHAR  *MSG_XMWRD_PARSING_ERROR               ="File could not be parsed.\n\nProcessing is terminated.";
 
 
-
-// ###############################################
-//
-//  STILL NEED TO HANDLE translatable attributes
-//
-//         hlink          screenTip
-//         v:imagedata    o:title  
-// 
-// 
-// 
-// 
-// 
-// 
-// ###############################################
-
-
-
     FILE      *fDebug ;
     CHAR      *szDebugFile = "C:\\ibmxmwrd.body.debug" ;
     BOOL      bDebugBody = FALSE ;
     BOOL      bDebugFree = FALSE ;
-FILE *fdaw;
 
+extern    BOOL      bTimeDebug ;
+extern    FILE      *fTimeDebug ;
 
 
 
@@ -401,16 +357,19 @@ BOOL Parse(PSZ in, PSZ out )
     BOOL       bConcatAllText = FALSE ;
     BOOL       bReturn = TRUE;
 
-    i;
 
 
     if ( bDebugBody || bDebugFree ) {
        fDebug=fopen(szDebugFile,"ab");
     }
+    if ( bTimeDebug ) {
+       SYSTEMTIME  TimeStamp ;
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   BEFORE PARSE XML\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+    }
 
 
     bUTF16 = (*InputFile).IsUTF16();
-    bReadSource = TRUE ;
     bInGfxdata = FALSE ;
     bInLongAttr = FALSE ;
     bSetCommonProperty = FALSE ;
@@ -426,6 +385,11 @@ BOOL Parse(PSZ in, PSZ out )
        bReturn = FALSE ;
     }
 
+    if ( bTimeDebug ) {
+       SYSTEMTIME  TimeStamp ;
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   AFTER PARSE XML\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+    }
 
     /*************************************************************************/
     /*  Create the output file for the translatable text.                    */
@@ -481,23 +445,13 @@ BOOL Parse(PSZ in, PSZ out )
              /*************************************************************/
              /*  Write out paragraph tag.                                 */
              /*************************************************************/
-             if ( ! wcscmp( ptrParaCur->Tag, L"sheet" ) ) {
-                if ( ( ptrParaCur->CommonProperty ) &&          /* 2-3-14 */
-                     ( ! bConcatAllText ) )
-                   swprintf( szErrText, L"<w:p n=\"%ld\" t=\"%s\" max=\"31\" cp=\"%d\">", 
-                             ptrParaCur->SeqNum,ptrParaCur->Tag,ptrParaCur->CommonProperty ) ;
-                else
-                   swprintf( szErrText, L"<w:p n=\"%ld\" t=\"%s\" max=\"31\">", 
-                             ptrParaCur->SeqNum,ptrParaCur->Tag ) ;
-             } else {
-                if ( ( ptrParaCur->CommonProperty ) &&          /* 2-3-14 */
-                     ( ! bConcatAllText ) )
-                   swprintf( szErrText, L"<w:p n=\"%ld\" t=\"%s\" cp=\"%d\">", 
-                             ptrParaCur->SeqNum,ptrParaCur->Tag,ptrParaCur->CommonProperty ) ;
-                else
-                   swprintf( szErrText, L"<w:p n=\"%ld\" t=\"%s\" tr=\"%d\">", 
-                             ptrParaCur->SeqNum,ptrParaCur->Tag,ptrParaCur->StartTableRow ) ;
-             }
+             if ( ( ptrParaCur->CommonProperty ) &&          /* 2-3-14 */
+                  ( ! bConcatAllText ) )
+                swprintf( szErrText, L"<w:p n=\"%ld\" t=\"%s\" cp=\"%d\">", 
+                          ptrParaCur->SeqNum,ptrParaCur->Tag,ptrParaCur->CommonProperty ) ;
+             else
+                swprintf( szErrText, L"<w:p n=\"%ld\" t=\"%s\" tr=\"%d\">", 
+                          ptrParaCur->SeqNum,ptrParaCur->Tag,ptrParaCur->StartTableRow ) ;
              OutFile << szErrText ;
 
              /****************************************************************/
@@ -506,10 +460,11 @@ BOOL Parse(PSZ in, PSZ out )
              /*  paragraph.                                                  */
              /****************************************************************/
              if ( ptrParaCur->ptrRunList == 0 ) {  
-                fnWriteBlock( WRITE_SOURCE, 
-                              ptrParaCur->BlockStartPos, 
-                              ptrParaCur->BlockEndPos, 
-                              &OutFile, FALSE ) ;
+                if ( ptrParaCur->TextDel ) 
+                   OutFile << L"<DeL>";
+                fnWriteBlock( ptrParaCur->Text, &OutFile ) ;
+                if ( ptrParaCur->TextDel ) 
+                   OutFile << L"</DeL>";
                 szPrevXMLInputText[0] = NULL ;
              } else {
 
@@ -555,10 +510,7 @@ BOOL Parse(PSZ in, PSZ out )
                             }
                          }
 
-                         fnWriteBlock( WRITE_SOURCE, 
-                                       ptrRunCur->BlockStartPos, 
-                                       ptrRunCur->BlockEndPos, 
-                                       &OutFile, FALSE ) ;
+                         fnWriteBlock( ptrRunCur->Text, &OutFile ) ;
                          szPrevXMLInputText[0] = NULL ;
 
                          if ( ptrParaCur->NumTextTags > 1 ) { /* If > 1 text */
@@ -637,10 +589,7 @@ BOOL Parse(PSZ in, PSZ out )
                             }
 
 
-                            fnWriteBlock( WRITE_SOURCE, 
-                                          ptrTextCur->BlockStartPos, 
-                                          ptrTextCur->BlockEndPos, 
-                                          &OutFile, FALSE ) ;
+                            fnWriteBlock( ptrTextCur->Text, &OutFile ) ;
 
                             if ( ptrParaCur->NumTextTags > 1 ) { /* If > 1 text  */
                                swprintf( szErrText, L"</%s%ld>", STYLE_TAG_LONG, ptrTextCur->SeqNum ) ;
@@ -739,6 +688,12 @@ BOOL Parse(PSZ in, PSZ out )
        }
     }
 
+    if ( bTimeDebug ) {
+       SYSTEMTIME  TimeStamp ;
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   AFTER2 PARSE XML\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
+    }
+
 
     /*************************************************************************/
     /*  Free linked list space.                                              */
@@ -749,6 +704,12 @@ BOOL Parse(PSZ in, PSZ out )
 
     if ( bDebugBody || bDebugFree ) {
        fclose( fDebug ) ;
+    }
+
+    if ( bTimeDebug ) {
+       SYSTEMTIME  TimeStamp ;
+       GetLocalTime( (LPSYSTEMTIME) &TimeStamp ) ;
+       fprintf( fTimeDebug, "-----------       %02d/%02d/%02d %02d:%02d:%02d   EXIT\n",TimeStamp.wYear-2000, TimeStamp.wMonth, TimeStamp.wDay,TimeStamp.wHour, TimeStamp.wMinute, TimeStamp.wSecond ) ;                  
     }
 
     return(bReturn);
@@ -799,6 +760,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
     WCHAR     szPrevTag[XML_TAG_LEN] ;
     WCHAR     szPrevBaseTag[XML_TAG_LEN] ;
     WCHAR     szTagText[MAX_XML_RCD_LENGTH2*2] ;
+    WCHAR     szTextBeforeTag[MAX_XML_RCD_LENGTH2*2] ;
     WCHAR     szValue[MAX_XML_RCD_LENGTH] ;
 //  WCHAR     szValue2[MAX_XML_RCD_LENGTH] ;
 //  WCHAR     swErrMsg[1000];
@@ -870,9 +832,6 @@ USHORT fnCreateInputList( P_INFO** ptrList )
     szPrevXMLInputText[0] = NULL ;
 
 
-//if (! bReadSource) 
-// bDebugBody = TRUE ;
-
     /***********************************************************************/
     /*  Read through the file to determine where the text is defined.      */
     /***********************************************************************/
@@ -907,7 +866,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
                       bInDebugBinData = FALSE ;
                 }
                 rc = fnGetXMLTag( szIn, &i, &ulFilePos, szTag, szTagText,
-                                  &ulTagStartPos, &ulTagEndPos, &bPartialTag ) ;
+                                  &ulTagStartPos, &ulTagEndPos, &bPartialTag, szTextBeforeTag ) ;
              }
 
              if ( rc == 1 ) {
@@ -1110,7 +1069,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
 
   
        /* ----------   DEBUG   --------------------------------------- */
-///    if ( ! wcscmp( szTag, L"w:body" ) /*&& !bReadSource*/ ) 
+///    if ( ! wcscmp( szTag, L"w:body" ) ) 
 ///       bDebugBody = TRUE ;
 ///    if ( bDebugBody ) {
 ///       fDebug=fopen(szDebugFile,"ab");    
@@ -1218,8 +1177,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
 
           continue ;
        }
-       if ( ( bReadSource ) &&
-            ( ! wcscmp( szBaseTag, L"/pPr" ) ) &&
+       if ( ( ! wcscmp( szBaseTag, L"/pPr" ) ) &&
             ( ptrParaHead ) &&
             ( ptrRunHead ) &&
             ( ptrParaTail->NumTextTags == 0 ) ) {
@@ -1256,207 +1214,215 @@ USHORT fnCreateInputList( P_INFO** ptrList )
                 /*  Remove any trailing non-text run tags after the last     */
                 /*  text unit.  Condenses trailing neutral tags into 1.      */
                 /*************************************************************/
-                if ( bReadSource ) {
-                   if ( ( ptrRunTail ) &&                          /* 7-9-14 */
-                        ( ptrRunTail->ptrPrev ) &&
-                        ( wcsstr( ptrRunTail->Tag, L"endParaRPr" ) ) ) { 
-                      ptrRunLastKeep = (R_INFO*)ptrRunTail->ptrPrev ;
+                if ( ( ptrRunTail ) &&                          /* 7-9-14 */
+                     ( ptrRunTail->ptrPrev ) &&
+                     ( wcsstr( ptrRunTail->Tag, L"endParaRPr" ) ) ) { 
+                   ptrRunLastKeep = (R_INFO*)ptrRunTail->ptrPrev ;
+                }
+                if ( ( ptrRunLastKeep ) &&
+                     ( ptrRunLastKeep != ptrRunTail ) ) {
+                   ptrRunTemp = (R_INFO*)ptrRunLastKeep->ptrNext ;
+                   fnFreeRunList( &ptrRunTemp ) ;
+                   ptrRunTail = ptrRunLastKeep ;
+                   ptrRunLastKeep = 0 ;
+                   ptrRunTail->ptrNext = 0 ;
+                }
+
+                if ( ( bInsertedTag ) &&
+                     ( ptrRunTail   ) &&
+                     ( ptrRunTail != ptrRunHead ) &&
+                     ( ptrRunTail->NumTextTags == 0 ) && 
+                     ( ptrRunTail->TagId == TAG_ID_UNKNOWN ) ) {
+                   for( ptrTextTemp=(T_INFO*)ptrRunTail->ptrTextList ; 
+                        ptrTextTemp ; 
+                        ptrTextTemp=(T_INFO*)ptrTextTemp->ptrNext ) {
+                      if ( ( ptrTextTemp->TagId != TAG_ID_UNKNOWN   ) ||
+                           ( ptrTextTemp->TagType != TAG_TYPE_BEGIN ) ) 
+                         break ;
                    }
-                   if ( ( ptrRunLastKeep ) &&
-                        ( ptrRunLastKeep != ptrRunTail ) ) {
-                      ptrRunTemp = (R_INFO*)ptrRunLastKeep->ptrNext ;
-                      fnFreeRunList( &ptrRunTemp ) ;
-                      ptrRunTail = ptrRunLastKeep ;
-                      ptrRunLastKeep = 0 ;
+                   if ( ! ptrTextTemp ) {
+                      ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;
+                      fnFreeRunList( &ptrRunTail ) ;
+                      ptrRunTail = ptrRunTemp ;
                       ptrRunTail->ptrNext = 0 ;
                    }
+                }
 
-                   if ( ( bInsertedTag ) &&
-                        ( ptrRunTail   ) &&
-                        ( ptrRunTail != ptrRunHead ) &&
-                        ( ptrRunTail->NumTextTags == 0 ) && 
-                        ( ptrRunTail->TagId == TAG_ID_UNKNOWN ) ) {
-                      for( ptrTextTemp=(T_INFO*)ptrRunTail->ptrTextList ; 
-                           ptrTextTemp ; 
-                           ptrTextTemp=(T_INFO*)ptrTextTemp->ptrNext ) {
-                         if ( ( ptrTextTemp->TagId != TAG_ID_UNKNOWN   ) ||
-                              ( ptrTextTemp->TagType != TAG_TYPE_BEGIN ) ) 
-                            break ;
-                      }
-                      if ( ! ptrTextTemp ) {
-                         ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;
-                         fnFreeRunList( &ptrRunTail ) ;
-                         ptrRunTail = ptrRunTemp ;
-                         ptrRunTail->ptrNext = 0 ;
-                      }
-                   }
+                ptrParaTail->BlockStartPos = ptrRunHead->StartPos ;
+                ptrParaTail->BlockEndPos   = ptrRunTail->EndPos ;
 
-                   ptrParaTail->BlockStartPos = ptrRunHead->StartPos ;
-                   ptrParaTail->BlockEndPos   = ptrRunTail->EndPos ;
-
-                   /* ----  SOURCE: If only 1 text node, reduce to para node  ---- */
-                   if ( ptrParaTail->NumTextTags == 1 ) {
+                /* ----  SOURCE: If only 1 text node, reduce to para node  ---- */
+                if ( ptrParaTail->NumTextTags == 1 ) {
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"/PARA-1textnode...%lx-%lx\n",ptrParaTail->BlockStartPos,ptrParaTail->BlockEndPos);
 //fclose(fDebug);
-                      for( ptrRunCur=ptrRunHead; ptrRunCur ; ptrRunCur=(R_INFO*)ptrRunCur->ptrNext ) {
-                         if ( ptrRunCur->NodeType == NODE_TYPE_TEXT ) {
-                            ptrParaTail->BlockStartPos = ptrRunCur->BlockStartPos ;
-                            ptrParaTail->BlockEndPos   = ptrRunCur->BlockEndPos ;
+                   for( ptrRunCur=ptrRunHead; ptrRunCur ; ptrRunCur=(R_INFO*)ptrRunCur->ptrNext ) {
+                      if ( ptrRunCur->NodeType == NODE_TYPE_TEXT ) {
+                         ptrParaTail->BlockStartPos = ptrRunCur->BlockStartPos ;
+                         ptrParaTail->BlockEndPos   = ptrRunCur->BlockEndPos ;
+                         ptrParaTail->TextDel = ptrRunCur->TextDel ;
+                         if ( ( ptrRunCur->Text ) &&
+                              ( ptrRunCur->Text[0] != NULL ) ) {
+                            ptrParaTail->Text = (WCHAR*)malloc( (wcslen(ptrRunCur->Text)+1) * sizeof(WCHAR) ) ;
+                            wcscpy( ptrParaTail->Text, ptrRunCur->Text ) ;
+                         }
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"/PARA-1textnode-text...%lx-%lx\n",ptrParaTail->BlockStartPos,ptrParaTail->BlockEndPos);
 //fclose(fDebug);
-                            ptrParaTail->ptrRunList = 0 ;
+                         ptrParaTail->ptrRunList = 0 ;
 
-                            fnFreeRunList( &ptrRunHead ) ;
-                            ptrRunHead = 0 ;
-                            ptrRunTail = 0 ;
-                            ptrRunLastKeep = 0 ;
-                            break ;
-                         }
+                         fnFreeRunList( &ptrRunHead ) ;
+                         ptrRunHead = 0 ;
+                         ptrRunTail = 0 ;
+                         ptrRunLastKeep = 0 ;
+                         break ;
                       }
                    }
+                }
 
-                   /* ----  SOURCE: If only 1 run node, change para node  ---- */
+                /* ----  SOURCE: If only 1 run node, change para node  ---- */
 /* ############################################################################################################################*/
-                   if ( ( ptrRunHead ) &&
-                        ( ptrRunHead->ptrNext == NULL ) && 
-                        ( ptrRunHead->NodeType == NODE_TYPE_TEXT ) ) {
-                      ptrParaTail->BlockStartPos = ptrRunHead->BlockStartPos ;
-                      ptrParaTail->BlockEndPos   = ptrRunHead->BlockEndPos ;
-                      ptrRunHead->StartPos = 0 ;
-                      ptrRunHead->EndPos = 0 ;
-                      ptrRunHead->BlockStartPos = 0 ;
-                      ptrRunHead->BlockEndPos = 0 ;
+                if ( ( ptrRunHead ) &&
+                     ( ptrRunHead->ptrNext == NULL ) && 
+                     ( ptrRunHead->NodeType == NODE_TYPE_TEXT ) ) {
+                   ptrParaTail->BlockStartPos = ptrRunHead->BlockStartPos ;
+                   ptrParaTail->BlockEndPos   = ptrRunHead->BlockEndPos ;
+                   if ( ( ptrRunHead->Text ) &&
+                        ( ptrRunHead->Text[0] != NULL ) ) {
+                      ptrParaTail->Text = (WCHAR*)malloc( (wcslen(ptrRunHead->Text)+1) * sizeof(WCHAR) ) ;
+                      wcscpy( ptrParaTail->Text, ptrRunHead->Text ) ;
                    }
+                   ptrRunHead->StartPos = 0 ;
+                   ptrRunHead->EndPos = 0 ;
+                   ptrRunHead->BlockStartPos = 0 ;
+                   ptrRunHead->BlockEndPos = 0 ;
+                }
 
 
-                   /* ----  SOURCE: If > 1 text nodes, check to see if any text nodes  ---- */
-                   /* ----          use the same properties as another node.           ---- */
-                   /* ----          If so, use this as the common properties.   2-3-14 ---- */
-                   if ( ( bSetCommonProperty              ) &&
-                        ( ptrParaTail->NumTextTags    > 1 ) &&
-                        ( ptrRunHead ) ) {
-                      usRunMaxMatch = 0 ;
-                      usRunMaxID = 0 ;
-                      j = 0 ;
-                      bCheckCommonProp = TRUE ;
-                      bCheckCommonPropBold = FALSE ;
-                      ptrCheckCommonPropText = 0 ;
-                      usRunCommonPropID = 0 ;
-                      for( ptrRunTemp=ptrRunHead ; ptrRunTemp ; ptrRunTemp=(R_INFO*)ptrRunTemp->ptrNext ) {
-                         if ( ( ptrRunTemp->NumTextTags > 1 ) ||        /* If > 1 text nodes, or         */
-                              ( ( ptrRunTemp->NumTextTags == 1 ) &&     /* If text and tags in same run, */
-                                ( ptrRunTemp->NumNeutralTags >= 1 ) ) ) { /* Cannot simplify properties  */
-                            usRunMaxID = 0 ;
-                            break ;
-                         }
-                         usRunCount = 0 ;
-                         ptrRunCur = 0 ;
-                         ++j ;
-                         if ( ( ptrRunTemp->BlockStartPos > ptrRunTemp->BlockEndPos ) || /* Empty text node   */
-                              ( ptrRunTemp->CommonProperty == COMMONPROPERTY_FORCE_OFF ) ) /* Force break     */
-                            continue ; 
-                         if ( ( bCheckCommonProp ) &&
-                              ( usRunMaxID == 0  ) &&
-                              ( ptrRunTemp->NumTextTags == 1 ) &&  
-                              ( ptrRunTemp->Concat != CONCAT_TEXT_YES ) ) { 
-                            if ( fnCheckCommonProp( ptrRunTemp->Properties ) ) {
-                               if ( bCheckCommonPropBold ) 
-                                  bCheckCommonProp = FALSE ;
-                               else
-                                  bCheckCommonPropBold = TRUE ; 
+                /* ----  SOURCE: If > 1 text nodes, check to see if any text nodes  ---- */
+                /* ----          use the same properties as another node.           ---- */
+                /* ----          If so, use this as the common properties.   2-3-14 ---- */
+                if ( ( bSetCommonProperty              ) &&
+                     ( ptrParaTail->NumTextTags    > 1 ) &&
+                     ( ptrRunHead ) ) {
+                   usRunMaxMatch = 0 ;
+                   usRunMaxID = 0 ;
+                   j = 0 ;
+                   bCheckCommonProp = TRUE ;
+                   bCheckCommonPropBold = FALSE ;
+                   ptrCheckCommonPropText = 0 ;
+                   usRunCommonPropID = 0 ;
+                   for( ptrRunTemp=ptrRunHead ; ptrRunTemp ; ptrRunTemp=(R_INFO*)ptrRunTemp->ptrNext ) {
+                      if ( ( ptrRunTemp->NumTextTags > 1 ) ||        /* If > 1 text nodes, or         */
+                           ( ( ptrRunTemp->NumTextTags == 1 ) &&     /* If text and tags in same run, */
+                             ( ptrRunTemp->NumNeutralTags >= 1 ) ) ) { /* Cannot simplify properties  */
+                         usRunMaxID = 0 ;
+                         break ;
+                      }
+                      usRunCount = 0 ;
+                      ptrRunCur = 0 ;
+                      ++j ;
+                      if ( ( ptrRunTemp->BlockStartPos > ptrRunTemp->BlockEndPos ) || /* Empty text node   */
+                           ( ptrRunTemp->CommonProperty == COMMONPROPERTY_FORCE_OFF ) ) /* Force break     */
+                         continue ; 
+                      if ( ( bCheckCommonProp ) &&
+                           ( usRunMaxID == 0  ) &&
+                           ( ptrRunTemp->NumTextTags == 1 ) &&  
+                           ( ptrRunTemp->Concat != CONCAT_TEXT_YES ) ) { 
+                         if ( fnCheckCommonProp( ptrRunTemp->Properties ) ) {
+                            if ( bCheckCommonPropBold ) 
+                               bCheckCommonProp = FALSE ;
+                            else
+                               bCheckCommonPropBold = TRUE ; 
+                         } else {
+                            if ( ptrCheckCommonPropText ) {
+                               bCheckCommonProp = FALSE ;
                             } else {
-                               if ( ptrCheckCommonPropText ) {
-                                  bCheckCommonProp = FALSE ;
-                               } else {
-                                  ptrCheckCommonPropText = &(ptrRunTemp->CommonProperty) ;
-                                  usRunCommonPropID = (USHORT)j ;     
-                               }
+                               ptrCheckCommonPropText = &(ptrRunTemp->CommonProperty) ;
+                               usRunCommonPropID = (USHORT)j ;     
                             }
                          }
+                      }
 
-                         for( ptrRunTemp2=ptrRunTemp ; ptrRunTemp2 ; ptrRunTemp2=(R_INFO*)ptrRunTemp2->ptrNext ) {
-                            if ( ( ptrRunTemp2->NumTextTags == 1 ) &&    /* Only 1 text block in run   */
-                                 ( ( ptrRunTemp2->CommonProperty == 0 ) ||
-                                   ( ptrRunTemp2->CommonProperty == COMMONPROPERTY_FORCE_OFF ) ) ) {
-                               if ( ptrRunTemp2->BlockStartPos > ptrRunTemp2->BlockEndPos ) { /* Empty text node   */
-                                  if ( ( ptrRunTemp2->Concat == CONCAT_TEXT_YES ) &&          /* Concat text 4-14-14 */
-                                       ( ptrRunTemp2->ptrPrev ) &&
-                                       ( ((R_INFO*)(ptrRunTemp2->ptrPrev))->CommonProperty ) ) {
-                                     ptrRunTemp2->CommonProperty = j ;
-                                     ++usRunCount ; 
-                                  }
-                                  continue ; 
+                      for( ptrRunTemp2=ptrRunTemp ; ptrRunTemp2 ; ptrRunTemp2=(R_INFO*)ptrRunTemp2->ptrNext ) {
+                         if ( ( ptrRunTemp2->NumTextTags == 1 ) &&    /* Only 1 text block in run   */
+                              ( ( ptrRunTemp2->CommonProperty == 0 ) ||
+                                ( ptrRunTemp2->CommonProperty == COMMONPROPERTY_FORCE_OFF ) ) ) {
+                            if ( ptrRunTemp2->BlockStartPos > ptrRunTemp2->BlockEndPos ) { /* Empty text node   */
+                               if ( ( ptrRunTemp2->Concat == CONCAT_TEXT_YES ) &&          /* Concat text 4-14-14 */
+                                    ( ptrRunTemp2->ptrPrev ) &&
+                                    ( ((R_INFO*)(ptrRunTemp2->ptrPrev))->CommonProperty ) ) {
+                                  ptrRunTemp2->CommonProperty = j ;
+                                  ++usRunCount ; 
                                }
+                               continue ; 
+                            }
 
-                               if ( ptrRunCur == 0 ) {              /* Identify base properties   */
-                                  ptrRunCur = ptrRunTemp2 ; 
+                            if ( ptrRunCur == 0 ) {              /* Identify base properties   */
+                               ptrRunCur = ptrRunTemp2 ; 
 //
 //       Too big of on an impact on memory reuse.
 //                                ptrRunCur->CommonProperty = j ;   /* At least remove tagging    */
 //                                usRunCount = 1 ;                  /*   around 1st text node.    */
 //
-                               } else {
-                                  if ( ( ( ptrRunCur->Properties ) &&
-                                         ( ptrRunTemp2->Properties  ) &&
-                                         ( ! wcscmp( ptrRunCur->Properties, ptrRunTemp2->Properties ) ) ) ||
-                                       ( ( ptrRunCur->Properties == NULL ) &&
-                                         ( ptrRunTemp2->Properties == NULL  ) ) ) {
-                                     ptrRunCur->CommonProperty = j ;  /* Run uses default properties */
-                                     ptrRunTemp2->CommonProperty = j ;
-                                     ++usRunCount ; 
-                                     if ( bDebugBody ) {
-                                        fwprintf(fDebug,L"CmnPR_RUN  %d  C=%d  %d",j,usRunCount,bCheckCommonProp);
-                                        if ( ptrRunCur->Properties )
-                                           fwprintf(fDebug,L"  %d=[%s]",ptrRunCur->SeqNum,ptrRunCur->Properties);
-                                        if ( ptrRunTemp2->Properties )
-                                           fwprintf(fDebug,L"  %d=[%s]",ptrRunTemp2->SeqNum,ptrRunTemp2->Properties);
-                                        fwprintf(fDebug,L"\n");
-                                        fflush(fDebug);
-                                     }
+                            } else {
+                               if ( ( ( ptrRunCur->Properties ) &&
+                                      ( ptrRunTemp2->Properties  ) &&
+                                      ( ! wcscmp( ptrRunCur->Properties, ptrRunTemp2->Properties ) ) ) ||
+                                    ( ( ptrRunCur->Properties == NULL ) &&
+                                      ( ptrRunTemp2->Properties == NULL  ) ) ) {
+                                  ptrRunCur->CommonProperty = j ;  /* Run uses default properties */
+                                  ptrRunTemp2->CommonProperty = j ;
+                                  ++usRunCount ; 
+                                  if ( bDebugBody ) {
+                                     fwprintf(fDebug,L"CmnPR_RUN  %d  C=%d  %d",j,usRunCount,bCheckCommonProp);
+                                     if ( ptrRunCur->Properties )
+                                        fwprintf(fDebug,L"  %d=[%s]",ptrRunCur->SeqNum,ptrRunCur->Properties);
+                                     if ( ptrRunTemp2->Properties )
+                                        fwprintf(fDebug,L"  %d=[%s]",ptrRunTemp2->SeqNum,ptrRunTemp2->Properties);
+                                     fwprintf(fDebug,L"\n");
+                                     fflush(fDebug);
                                   }
                                }
                             }
                          }
-                         if ( usRunCount > usRunMaxMatch ) {
-                            usRunMaxMatch = usRunCount ;
-                            usRunMaxID = (USHORT)j ;
-                         }
                       }
-                      if ( bDebugBody ) {
-                         fwprintf(fDebug,L"CmnPR_xxx  ID=%d  %d  %d\n",usRunMaxID,usRunMaxMatch,bCheckCommonProp);
-                         fflush(fDebug);
+                      if ( usRunCount > usRunMaxMatch ) {
+                         usRunMaxMatch = usRunCount ;
+                         usRunMaxID = (USHORT)j ;
                       }
-                      if ( ( bCheckCommonProp ) &&
-                           ( usRunMaxID == 0  ) &&
-                           ( bCheckCommonPropBold ) &&
-                           ( ptrCheckCommonPropText ) ) {
-                         usRunMaxMatch = 1 ;
-                         usRunMaxID = usRunCommonPropID ;
-                         *ptrCheckCommonPropText = usRunCommonPropID ;
-                      }
+                   }
+                   if ( bDebugBody ) {
+                      fwprintf(fDebug,L"CmnPR_xxx  ID=%d  %d  %d\n",usRunMaxID,usRunMaxMatch,bCheckCommonProp);
+                      fflush(fDebug);
+                   }
+                   if ( ( bCheckCommonProp ) &&
+                        ( usRunMaxID == 0  ) &&
+                        ( bCheckCommonPropBold ) &&
+                        ( ptrCheckCommonPropText ) ) {
+                      usRunMaxMatch = 1 ;
+                      usRunMaxID = usRunCommonPropID ;
+                      *ptrCheckCommonPropText = usRunCommonPropID ;
+                   }
 
 
-                      for( ptrRunCur=ptrRunHead ; ptrRunCur ; ptrRunCur=(R_INFO*)ptrRunCur->ptrNext ) {
-                         if ( ptrRunCur->CommonProperty != usRunMaxID ) {
-                            if ( ptrRunCur->CommonProperty != COMMONPROPERTY_FORCE_OFF ) 
-                               ptrRunCur->CommonProperty = 0 ;
-                         } else
-                         if ( ( ptrRunCur->CommonProperty != 0 ) &&
-                              ( ptrRunCur->CommonProperty != COMMONPROPERTY_FORCE_OFF ) &&
-                              ( ptrParaTail->CommonProperty == 0 ) ) {
-                            ptrParaTail->CommonProperty = ptrRunCur->SeqNum ; 
+                   for( ptrRunCur=ptrRunHead ; ptrRunCur ; ptrRunCur=(R_INFO*)ptrRunCur->ptrNext ) {
+                      if ( ptrRunCur->CommonProperty != usRunMaxID ) {
+                         if ( ptrRunCur->CommonProperty != COMMONPROPERTY_FORCE_OFF ) 
+                            ptrRunCur->CommonProperty = 0 ;
+                      } else
+                      if ( ( ptrRunCur->CommonProperty != 0 ) &&
+                           ( ptrRunCur->CommonProperty != COMMONPROPERTY_FORCE_OFF ) &&
+                           ( ptrParaTail->CommonProperty == 0 ) ) {
+                         ptrParaTail->CommonProperty = ptrRunCur->SeqNum ; 
 
-                            /* ----------   DEBUG   --------------------------------------- */
-                            if ( bDebugBody ) {
-                               fwprintf(fDebug,L"CmnPR_PARA=%d\n",ptrParaTail->CommonProperty);
-                               fflush(fDebug);
-                            }
+                         /* ----------   DEBUG   --------------------------------------- */
+                         if ( bDebugBody ) {
+                            fwprintf(fDebug,L"CmnPR_PARA=%d\n",ptrParaTail->CommonProperty);
+                            fflush(fDebug);
                          }
                       }
                    }
-
                 }
              }
 
@@ -1493,8 +1459,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
        /**********************************************************************/
        /*  Handle start of run of text <w:r> or a neutral tag at run level.  */
        /**********************************************************************/
-       if ( ( usRunState == RUN_STATE_NONE ) &&
-            ( bReadSource ) ) {
+       if ( usRunState == RUN_STATE_NONE ) {
 
           ++ulRunSeqNum ;                           /* Increment sequence #  */
           if ( ulPrevRunStartPos == 0 )             /* Save prev start pos   */
@@ -1831,152 +1796,168 @@ USHORT fnCreateInputList( P_INFO** ptrList )
                 /*  Remove any trailing non-text run tags after the last     */
                 /*  text unit.  Condenses trailing neutral tags into 1.      */
                 /*************************************************************/
-                if ( bReadSource ) {
-                   if ( ( ptrTextLastKeep ) &&
-                        ( ptrTextLastKeep != ptrTextTail ) ) {
-                      for( ptrTextTemp=(T_INFO*)ptrTextLastKeep->ptrNext ;
-                           ptrTextTemp ; 
-                           ptrTextTemp=(T_INFO*)ptrTextTemp->ptrNext ) {
-                         --(ptrParaTail->NumNeutralTags) ; 
-                         --(ptrRunTail->NumNeutralTags) ; 
-                      }
-                      ptrTextTemp = (T_INFO*)ptrTextLastKeep->ptrNext ;
-                      fnFreeTextList( &ptrTextTemp ) ;
-                      ptrTextTail = ptrTextLastKeep ;
-                      ptrTextLastKeep = 0 ;
-                      ptrTextTail->ptrNext = 0 ;
-
+                if ( ( ptrTextLastKeep ) &&
+                     ( ptrTextLastKeep != ptrTextTail ) ) {
+                   for( ptrTextTemp=(T_INFO*)ptrTextLastKeep->ptrNext ;
+                        ptrTextTemp ; 
+                        ptrTextTemp=(T_INFO*)ptrTextTemp->ptrNext ) {
+                      --(ptrParaTail->NumNeutralTags) ; 
+                      --(ptrRunTail->NumNeutralTags) ; 
                    }
-                   ptrRunTail->BlockStartPos = ptrTextHead->StartPos ;
-                   ptrRunTail->BlockEndPos   = ptrTextTail->EndPos ;
+                   ptrTextTemp = (T_INFO*)ptrTextLastKeep->ptrNext ;
+                   fnFreeTextList( &ptrTextTemp ) ;
+                   ptrTextTail = ptrTextLastKeep ;
+                   ptrTextLastKeep = 0 ;
+                   ptrTextTail->ptrNext = 0 ;
+
+                }
+                ptrRunTail->BlockStartPos = ptrTextHead->StartPos ;
+                ptrRunTail->BlockEndPos   = ptrTextTail->EndPos ;
 
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"/RUN-?textnode...%lx  %lx\n",ptrRunTail->NumTextTags,ptrRunTail->NumNeutralTags);
 //if ( ptrRunHead != ptrRunTail ) 
 //fwprintf(fDebug,L"/RUN-?textnode...%lx  \n",((R_INFO*)(ptrRunTail->ptrPrev))->SeqNum);
 //fclose(fDebug);
-                   if ( ( ptrRunTail->NumTextTags == 1 ) &&
-                        ( ptrRunTail->NumNeutralTags > 0 ) ) {
+                if ( ( ptrRunTail->NumTextTags == 1 ) &&
+                     ( ptrRunTail->NumNeutralTags > 0 ) ) {
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"/RUN-1textnode...%lx-%lx\n",ptrRunTail->BlockStartPos,ptrRunTail->BlockEndPos);
 //fclose(fDebug);
-                      ptrParaTail->NumNeutralTags -= ptrRunTail->NumNeutralTags ; 
-                      bFoundText = FALSE ;
-                      for( ptrTextCur=ptrTextHead; ptrTextCur ; ptrTextCur=(T_INFO*)ptrTextCur->ptrNext ) {
-                         if ( ptrTextCur->NodeType == NODE_TYPE_TEXT ) {
-                            ptrRunTail->BlockStartPos = ptrTextCur->BlockStartPos ;
-                            ptrRunTail->BlockEndPos   = ptrTextCur->BlockEndPos ;
-                            bFoundText = TRUE ;
+                   ptrParaTail->NumNeutralTags -= ptrRunTail->NumNeutralTags ; 
+                   bFoundText = FALSE ;
+                   for( ptrTextCur=ptrTextHead; ptrTextCur ; ptrTextCur=(T_INFO*)ptrTextCur->ptrNext ) {
+                      if ( ptrTextCur->NodeType == NODE_TYPE_TEXT ) {
+                         ptrRunTail->BlockStartPos = ptrTextCur->BlockStartPos ;
+                         ptrRunTail->BlockEndPos   = ptrTextCur->BlockEndPos ;
+                         bFoundText = TRUE ;
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"/RUN-1textnode-text...%lx-%lx\n",ptrRunTail->BlockStartPos,ptrRunTail->BlockEndPos);
 //fclose(fDebug);
-                            if ( ptrRunHead == ptrRunTail ) 
-                               ulRunSeqNum = 1 ;
-                            else
-                               ulRunSeqNum = ((R_INFO*)(ptrRunTail->ptrPrev))->SeqNum + 1 ;
-                            ptrRunTail->SeqNum = ulRunSeqNum ;
-
-
-                            /*************************************************************/
-                            /*  Remove <lastRenderedPageBreak/> when first tag in a      */
-                            /*  run block.                                       1-10-14 */
-                            /*************************************************************/
-                            ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;       
-                            ptrTextTemp = (T_INFO*)ptrTextTail->ptrPrev ;
-                            if ( ( ptrRunTail->NumNeutralTags == 1 ) &&
-                                 ( ptrRunTemp  ) &&
-                                 ( ptrTextTemp == ptrTextHead ) &&
-                                 ( ptrRunTemp->NumTextTags == 1    ) &&  /* Only 1 text block and 0 neutral */
-                                 ( ptrRunTemp->NumNeutralTags == 0 ) &&  /*  tags in previous run.          */
-                                 ( bSetCommonProperty ) &&               /* 2-21-14 */
-                                 ( ptrTextTemp->TagId == TAG_ID_LASTRENDEREDPAGEBREAK ) &&
-                                 ( ptrRunTemp->Concat != CONCAT_TEXT_NO ) &&
-                                 ( ptrRunTail->Concat != CONCAT_TEXT_NO ) &&
-                                 ( ( ( ptrRunTemp->Properties ) &&       /* Same properties          5-9-14 */
-                                     ( ptrRunTail->Properties  ) &&
-                                     ( ! wcscmp( ptrRunTemp->Properties, ptrRunTail->Properties ) ) ) ||
-                                   ( ( ptrRunTemp->Properties == NULL ) &&
-                                     ( ptrRunTail->Properties == NULL  ) ) ) ) {
-                               ptrRunTail->Concat = CONCAT_TEXT_YES ;
-                               ptrRunTail->SeqNum = ptrRunTemp->SeqNum ; 
-                               ulRunSeqNum = ptrRunTail->SeqNum ; 
-                               --(ptrParaTail->NumNeutralTags) ; 
-                               --(ptrRunTail->NumNeutralTags) ; 
+                         if ( ptrRunHead == ptrRunTail ) 
+                            ulRunSeqNum = 1 ;
+                         else
+                            ulRunSeqNum = ((R_INFO*)(ptrRunTail->ptrPrev))->SeqNum + 1 ;
+                         ptrRunTail->SeqNum = ulRunSeqNum ;
+                         if ( ( ptrTextCur->Text ) &&
+                              ( ptrTextCur->Text[0] != NULL ) ) {
+                            if ( ( ptrRunTail->Text ) &&
+                                 ( ptrRunTail->Text[0] != NULL ) ) {
+                               ptrChar = (WCHAR*)malloc( (wcslen(ptrRunTail->Text)+wcslen(ptrTextCur->Text)+1) * sizeof(WCHAR) ) ;
+                               wcscpy( ptrChar, ptrRunTail->Text ) ;
+                               wcscat( ptrChar, ptrTextCur->Text ) ;
+                               free( ptrRunTail->Text ) ;
+                               ptrRunTail->Text = ptrChar ;
+                            } else {
+                               ptrRunTail->Text = (WCHAR*)malloc( (wcslen(ptrTextCur->Text)+1) * sizeof(WCHAR) ) ;
+                               wcscpy( ptrRunTail->Text, ptrTextCur->Text ) ;
                             }
-
-                         
-                            ptrRunTail->ptrTextList = 0 ;
-
-                            fnFreeTextList( &ptrTextHead ) ;
-                            ptrTextHead = 0 ;
-                            ptrTextTail = 0 ;
-                            ptrTextLastKeep = 0 ;
-                            break;                        /* 1-21-15 */
-                         } else 
-                         if ( ( ! bFoundText ) &&         /* 8-19-15 */
-                              ( ptrTextCur->TagId == TAG_ID_BR ) ) {
-                            ptrRunTail->BreakBeforeText = TRUE ;
                          }
+
+
+                         /*************************************************************/
+                         /*  Remove <lastRenderedPageBreak/> when first tag in a      */
+                         /*  run block.                                       1-10-14 */
+                         /*************************************************************/
+                         ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;       
+                         ptrTextTemp = (T_INFO*)ptrTextTail->ptrPrev ;
+                         if ( ( ptrRunTail->NumNeutralTags == 1 ) &&
+                              ( ptrRunTemp  ) &&
+                              ( ptrTextTemp == ptrTextHead ) &&
+                              ( ptrRunTemp->NumTextTags == 1    ) &&  /* Only 1 text block and 0 neutral */
+                              ( ptrRunTemp->NumNeutralTags == 0 ) &&  /*  tags in previous run.          */
+                              ( bSetCommonProperty ) &&               /* 2-21-14 */
+                              ( ptrTextTemp->TagId == TAG_ID_LASTRENDEREDPAGEBREAK ) &&
+                              ( ptrRunTemp->Concat != CONCAT_TEXT_NO ) &&
+                              ( ptrRunTail->Concat != CONCAT_TEXT_NO ) &&
+                              ( ( ( ptrRunTemp->Properties ) &&       /* Same properties          5-9-14 */
+                                  ( ptrRunTail->Properties  ) &&
+                                  ( ! wcscmp( ptrRunTemp->Properties, ptrRunTail->Properties ) ) ) ||
+                                ( ( ptrRunTemp->Properties == NULL ) &&
+                                  ( ptrRunTail->Properties == NULL  ) ) ) ) {
+                            ptrRunTail->Concat = CONCAT_TEXT_YES ;
+                            ptrRunTail->SeqNum = ptrRunTemp->SeqNum ; 
+                            ulRunSeqNum = ptrRunTail->SeqNum ; 
+                            --(ptrParaTail->NumNeutralTags) ; 
+                            --(ptrRunTail->NumNeutralTags) ; 
+                         }
+
+                      
+                         ptrRunTail->ptrTextList = 0 ;
+
+                         fnFreeTextList( &ptrTextHead ) ;
+                         ptrTextHead = 0 ;
+                         ptrTextTail = 0 ;
+                         ptrTextLastKeep = 0 ;
+                         break;                        /* 1-21-15 */
+                      } else 
+                      if ( ( ! bFoundText ) &&         /* 8-19-15 */
+                           ( ptrTextCur->TagId == TAG_ID_BR ) ) {
+                         ptrRunTail->BreakBeforeText = TRUE ;
                       }
                    }
                 }
              }
 
-             if ( bReadSource ) {
 
-                /* ----------   DEBUG   ------------------------------------ */
-                if ( bDebugBody ) {
-                   fwprintf(fDebug,L"RUN_/...T#=%d  N#=%d\n",ptrRunTail->NumTextTags,ptrRunTail->NumNeutralTags);
-                   fflush(fDebug);
+             /* ----------   DEBUG   ------------------------------------ */
+             if ( bDebugBody ) {
+                fwprintf(fDebug,L"RUN_/...T#=%d  N#=%d\n",ptrRunTail->NumTextTags,ptrRunTail->NumNeutralTags);
+                fflush(fDebug);
+             }
+
+             /* ----  Run consists of only 1 text node.  ---------------- */
+             if ( ( ptrRunTail->NumTextTags == 1    ) &&  /* Only 1 text block in run block */
+                  ( ptrRunTail->NumNeutralTags == 0 ) &&  /*  and 0 neutral tags in block   */
+                  ( ptrRunTail->Concat != CONCAT_TEXT_YES ) ) { /* not concatenated  1-10-14*/
+                ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
+                ptrRunTail->BlockStartPos = ptrTextHead->BlockStartPos ;
+                ptrRunTail->BlockEndPos   = ptrTextHead->BlockEndPos ;
+                if ( ( ptrTextHead->Text ) &&
+                     ( ptrTextHead->Text[0] != NULL ) ) {
+                   ptrRunTail->Text = (WCHAR*)malloc( (wcslen(ptrTextHead->Text)+1) * sizeof(WCHAR) ) ;
+                   wcscpy( ptrRunTail->Text, ptrTextHead->Text ) ;
                 }
+                ptrRunTail->ptrTextList = 0 ;
 
-                /* ----  Run consists of only 1 text node.  ---------------- */
-                if ( ( ptrRunTail->NumTextTags == 1    ) &&  /* Only 1 text block in run block */
-                     ( ptrRunTail->NumNeutralTags == 0 ) &&  /*  and 0 neutral tags in block   */
-                     ( ptrRunTail->Concat != CONCAT_TEXT_YES ) ) { /* not concatenated  1-10-14*/
-                   ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
-                   ptrRunTail->BlockStartPos = ptrTextHead->BlockStartPos ;
-                   ptrRunTail->BlockEndPos   = ptrTextHead->BlockEndPos ;
-                   ptrRunTail->ptrTextList = 0 ;
-
-                   fnFreeTextList( &ptrTextHead ) ;
-                   ptrTextHead = 0 ;
-                   ptrTextTail = 0 ;
-                   ptrTextLastKeep = 0 ;
-                   ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;
+                fnFreeTextList( &ptrTextHead ) ;
+                ptrTextHead = 0 ;
+                ptrTextTail = 0 ;
+                ptrTextLastKeep = 0 ;
+                ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;
 //if ( ptrRunTemp ) {
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"     ... CONCAT?  {%lx} {%lx} [%s]  [%s]  T=%d  N=%d\n",ptrRunTemp->Properties,ptrRunTail->Properties,ptrRunTemp->Properties,ptrRunTail->Properties,ptrRunTemp->NumTextTags,ptrRunTemp->NumNeutralTags);
 //fwprintf(fDebug,L"                  %ld   %ld\n",ptrParaTail->SeqNum,ptrRunTail->SeqNum);
 //fclose(fDebug);
 //}
-                   if ( ( ptrRunTemp ) &&
-                        ( ptrRunTemp->Properties ) &&
-                        ( ptrRunTail->Properties ) &&
-                        ( ptrRunTemp->NumTextTags == 1    ) &&  /* Only 1 text block in run block */
-                        ( ptrRunTemp->NumNeutralTags == 0 ) &&  /*  and 0 neutral tags in block   */
-                        ( ptrRunTemp->Concat != CONCAT_TEXT_NO ) &&
-                        ( ptrRunTail->Concat != CONCAT_TEXT_NO ) &&
-                        ( ptrRunTemp->CommonProperty != COMMONPROPERTY_FORCE_OFF ) &&
-                        ( ptrRunTail->CommonProperty != COMMONPROPERTY_FORCE_OFF ) &&
-                        ( ( ! wcscmp( ptrRunTemp->Properties, ptrRunTail->Properties ) ) ||
-                          ( wcsstr( ptrRunTemp->Properties, L"<w:hyphen" ) ) ||       /* 11-10-10 */
-                          ( wcsstr( ptrRunTail->Properties, L"<w:hyphen" ) ) ) ) {
-                      ptrRunTail->Concat = CONCAT_TEXT_YES ;
-                      ptrRunTail->SeqNum = ptrRunTemp->SeqNum ; 
-                      --ulRunSeqNum ;
+                if ( ( ptrRunTemp ) &&
+                     ( ptrRunTemp->Properties ) &&
+                     ( ptrRunTail->Properties ) &&
+                     ( ptrRunTemp->NumTextTags == 1    ) &&  /* Only 1 text block in run block */
+                     ( ptrRunTemp->NumNeutralTags == 0 ) &&  /*  and 0 neutral tags in block   */
+                     ( ptrRunTemp->Concat != CONCAT_TEXT_NO ) &&
+                     ( ptrRunTail->Concat != CONCAT_TEXT_NO ) &&
+                     ( ptrRunTemp->CommonProperty != COMMONPROPERTY_FORCE_OFF ) &&
+                     ( ptrRunTail->CommonProperty != COMMONPROPERTY_FORCE_OFF ) &&
+                     ( ( ! wcscmp( ptrRunTemp->Properties, ptrRunTail->Properties ) ) ||
+                       ( wcsstr( ptrRunTemp->Properties, L"<w:hyphen" ) ) ||       /* 11-10-10 */
+                       ( wcsstr( ptrRunTail->Properties, L"<w:hyphen" ) ) ) ) {
+                   ptrRunTail->Concat = CONCAT_TEXT_YES ;
+                   ptrRunTail->SeqNum = ptrRunTemp->SeqNum ; 
+                   --ulRunSeqNum ;
 
 
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"     ... CONCAT  {%s}   {%s}\n",ptrRunTemp->Properties,ptrRunTail->Properties);
 //fclose(fDebug);
-                   } 
+                } 
 
-                } else {
+             } else {
 
-                   /* ----  Run consists of only 1 neutral node.  ------------- */
-                   if ( ( ptrRunTail->NumTextTags == 0    ) &&  /* Only 1 neutral tag in run block*/
-                        ( ptrRunTail->NumNeutralTags == 1 ) ) { /*  and 0 text tags in block      */
+                /* ----  Run consists of only 1 neutral node.  ------------- */
+                if ( ( ptrRunTail->NumTextTags == 0    ) &&  /* Only 1 neutral tag in run block*/
+                     ( ptrRunTail->NumNeutralTags == 1 ) ) { /*  and 0 text tags in block      */
 
 //fDebug=fopen(szDebugFile,"ab");    
 //fwprintf(fDebug,L"NEUTRAL/RUN..RUN:...#%ld  %lx-%lx   %lx-%lx\n",
@@ -1986,42 +1967,41 @@ USHORT fnCreateInputList( P_INFO** ptrList )
 //                ptrTextHead->SeqNum,ptrTextHead->StartPos,ptrTextHead->BlockStartPos,ptrTextHead->BlockEndPos,ptrTextHead->EndPos);
 //fclose(fDebug);
 
-                      if ( ptrTextHead )                             /* 11-8-11 */
-                         ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
-                      ptrRunTail->ptrTextList = 0 ;
+                   if ( ptrTextHead )                             /* 11-8-11 */
+                      ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
+                   ptrRunTail->ptrTextList = 0 ;
 
-                      fnFreeTextList( &ptrTextHead ) ;
-                      ptrTextHead = 0 ;
-                      ptrTextTail = 0 ;
-                      ptrTextLastKeep = 0 ;
-                   } else
-                
-                   /* ----  Run consists of only several neutral node.  -------4-22-15------ */
-                   if ( ( ptrRunTail->NumTextTags == 0   ) &&  /* Only several neutral tag in run block*/
-                        ( ptrRunTail->NumNeutralTags > 1 ) &&  /*  and 0 text tags in block            */
-                        ( ptrParaTail->ptrRunList == ptrRunTail ) ) { /* at beginning of paragraph.    */
-                      ptrParaTail->EndPos = ptrRunTail->BlockEndPos + 1*sizeof(WCHAR)  ;
-                      ptrParaTail->ptrRunList = 0 ;
-                
-                      fnFreeRunList( &ptrRunHead ) ;
-                      ptrRunHead = 0 ;
-                      ptrRunTail = 0 ;
-                      ptrRunLastKeep = 0 ;
-                      ptrTextHead = 0 ;
-                      ptrTextTail = 0 ;
-                      ptrTextLastKeep = 0 ;
-                   } else
+                   fnFreeTextList( &ptrTextHead ) ;
+                   ptrTextHead = 0 ;
+                   ptrTextTail = 0 ;
+                   ptrTextLastKeep = 0 ;
+                } else
+              
+                /* ----  Run consists of only several neutral node.  -------4-22-15------ */
+                if ( ( ptrRunTail->NumTextTags == 0   ) &&  /* Only several neutral tag in run block*/
+                     ( ptrRunTail->NumNeutralTags > 1 ) &&  /*  and 0 text tags in block            */
+                     ( ptrParaTail->ptrRunList == ptrRunTail ) ) { /* at beginning of paragraph.    */
+                   ptrParaTail->EndPos = ptrRunTail->BlockEndPos + 1*sizeof(WCHAR)  ;
+                   ptrParaTail->ptrRunList = 0 ;
+              
+                   fnFreeRunList( &ptrRunHead ) ;
+                   ptrRunHead = 0 ;
+                   ptrRunTail = 0 ;
+                   ptrRunLastKeep = 0 ;
+                   ptrTextHead = 0 ;
+                   ptrTextTail = 0 ;
+                   ptrTextLastKeep = 0 ;
+                } else
 
-                   /* ----  Run consists of 2 or more text/neutral nodes.  ---- */
-                   if ( ptrRunTail->NumTextTags + ptrRunTail->NumNeutralTags > 1 ) {
-                      ++(ptrParaTail->NumNeutralTags) ; 
-                      ++(ptrRunTail->NumNeutralTags) ; 
-                      ptrRunTail->SeqNum = ptrParaTail->NumTextTags + ptrParaTail->NumNeutralTags ;
-                   } else {
+                /* ----  Run consists of 2 or more text/neutral nodes.  ---- */
+                if ( ptrRunTail->NumTextTags + ptrRunTail->NumNeutralTags > 1 ) {
+                   ++(ptrParaTail->NumNeutralTags) ; 
+                   ++(ptrRunTail->NumNeutralTags) ; 
+                   ptrRunTail->SeqNum = ptrParaTail->NumTextTags + ptrParaTail->NumNeutralTags ;
+                } else {
 
-                      /* ----  Run consists of 0 nodes.  ---------------------- */
-                      // ????????????????????????????????????????????????????????????????????????
-                   }
+                   /* ----  Run consists of 0 nodes.  ---------------------- */
+                   // ????????????????????????????????????????????????????????????????????????
                 }
              }
           }
@@ -2039,8 +2019,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
        }  
        if ( ( ! wcscmp( szBaseTag, L"/r" ) ) &&              /* 11-8-11 */
             ( usFieldState == FIELD_STATE_BEGIN ) ) {
-          if ( ( bReadSource ) &&
-               ( ptrRunTail  ) &&
+          if ( ( ptrRunTail  ) &&
                ( ptrTextHead ) ) {
              if ( ( ptrRunTail->NumTextTags == 0    ) &&  /* Only 1 neutral tag in run block*/
                   ( ptrRunTail->NumNeutralTags == 1 ) ) { /*  and 0 text tags in block      */
@@ -2169,13 +2148,17 @@ USHORT fnCreateInputList( P_INFO** ptrList )
                ( ! wcscmp( szBaseTag, L"/delText"   ) ) ) {
              ptrRunTail->Concat = CONCAT_TEXT_NO ;
              if ( ! wcscmp( szBaseTag, L"/delText"   ) ) {
-             ptrRunTail->CommonProperty = COMMONPROPERTY_FORCE_OFF ; /* Force break */
-             ptrParaTail->CommonProperty = COMMONPROPERTY_FORCE_OFF ; /* Force break */
+                ptrRunTail->CommonProperty = COMMONPROPERTY_FORCE_OFF ; /* Force break */
+                ptrParaTail->CommonProperty = COMMONPROPERTY_FORCE_OFF ; /* Force break */
              }
           }
           if ( ptrTextHead ) {
              ptrTextTail->EndPos  = ulTagEndPos ;
              ptrTextTail->BlockEndPos = ulTagStartPos - 1*sizeof(WCHAR) ;
+             if ( szTextBeforeTag[0] != NULL ) {
+                ptrTextTail->Text = (WCHAR*)malloc( (wcslen(szTextBeforeTag)+1) * sizeof(WCHAR) ) ;
+                wcscpy( ptrTextTail->Text, szTextBeforeTag ) ;
+             }
 
              /* ----------   DEBUG   --------------------------------------- */
              if ( bDebugBody ) {
@@ -2191,8 +2174,7 @@ USHORT fnCreateInputList( P_INFO** ptrList )
        /***********************************************************************/
        /*  Handle other items imbedded in a run of text.                      */
        /***********************************************************************/
-       if ( ( usRunState == RUN_STATE_RUN ) &&
-            ( bReadSource ) ) {
+       if ( usRunState == RUN_STATE_RUN ) {
     
           /*******************************************************************/
           /*  Save neutral element information.                              */
@@ -2452,7 +2434,8 @@ USHORT fnCreateInputList( P_INFO** ptrList )
 
 USHORT fnGetXMLTag( WCHAR *szInput, ULONG *ulIndex,
                     ULONG *ulInputPos, WCHAR *szTag, WCHAR *szTagText, 
-                    ULONG *ulStartPos, ULONG *ulEndPos, BOOL *bPartialTag ) 
+                    ULONG *ulStartPos, ULONG *ulEndPos, BOOL *bPartialTag, 
+                    WCHAR *szTextBeforeTag ) 
 {
 
    WCHAR     szTagName[XML_TAG_LEN] ;
@@ -2474,6 +2457,7 @@ USHORT fnGetXMLTag( WCHAR *szInput, ULONG *ulIndex,
    *ulStartPos = 0 ;
    *ulEndPos = 0 ;
    szTagText[0] = 0 ;
+   szTextBeforeTag[0] = 0 ;
    i = (USHORT)*ulIndex ;
    ulBaseIndex = i ;
    if ( *bPartialTag ) {
@@ -2484,6 +2468,8 @@ USHORT fnGetXMLTag( WCHAR *szInput, ULONG *ulIndex,
    } else {
       szTag[0] = 0 ;
    }
+   wcscpy( szTextBeforeTag,&szInput[i]);
+
    --i ;
    t = 0 ;
 
@@ -2495,6 +2481,7 @@ USHORT fnGetXMLTag( WCHAR *szInput, ULONG *ulIndex,
       /***********************************************************************/
       if ( szInput[i] == NULL ) {
          if ( fnGetXMLRcd( szInput, ulInputPos ) ) {
+            wcscat( szTextBeforeTag, szInput ) ;
             if ( bTagFound ) {
                t = (USHORT)wcslen( szTagText ) ;
                wcscat( szTagText, szInput ) ;
@@ -2687,6 +2674,7 @@ USHORT fnGetXMLTag( WCHAR *szInput, ULONG *ulIndex,
                if ( fnGetXMLRcd( szInput, ulInputPos ) ) {
                   t = (USHORT)wcslen( szTagText ) ;
                   wcscat( szTagText, szInput ) ;
+                  wcscat( szTextBeforeTag, szInput ) ;
                   ulBaseIndex = 0 ;
                   i = 0 ;
                } else {
@@ -2733,6 +2721,9 @@ USHORT fnGetXMLTag( WCHAR *szInput, ULONG *ulIndex,
 
    t += (USHORT)(i - ulBaseIndex + 1);
    szTagText[t] = NULL ;
+   ptr = wcsstr(szTextBeforeTag, szTagText ) ;
+   if ( ptr )
+      *ptr = NULL ;
    if ( *ulEndPos > 0 ) {
       ++i ;
    } else {
@@ -2919,14 +2910,9 @@ BOOL fnGetCompleteString( WCHAR  *szText, WCHAR  *szEndChars, WCHAR  *szValue,
       /*  Read ahead to find end of this string                         */
       /******************************************************************/
       if ( lSize > 0 ) {
-         if ( bReadSource )                        /* Save file position   */
-            save_pos = (*InputFile).ftellt() ;
-         else
-            save_pos = (*InputFile2).ftellt() ;
-         while( ( ( bReadSource ) &&              /* Read until find end char 2-6-17 */
-                  ( (*InputFile).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) ) ||
-                ( ( ! bReadSource ) &&
-                  ( (*InputFile2).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) ) ) {
+         save_pos = (*InputFile).ftellt() ;
+                                                  /* Read until find end char 2-6-17 */
+         while( (*InputFile).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) {
             if ( (LONG)(wcslen(szValue) + wcslen(szTemp)) < lValueSize ) {
                wcscat( szValue, szTemp ) ;
                for( ptrChar2=szTemp ; *ptrChar2 ; ++ptrChar2 ) {
@@ -2940,10 +2926,7 @@ BOOL fnGetCompleteString( WCHAR  *szText, WCHAR  *szEndChars, WCHAR  *szValue,
                break ;
             }
          }
-         if ( bReadSource )                        /* Save file position   */
-            (*InputFile).fseekt( save_pos, SEEK_SET ) ;  /* Reset for next read */
-         else
-            (*InputFile2).fseekt( save_pos, SEEK_SET ) ;  /* Reset for next read */
+         (*InputFile).fseekt( save_pos, SEEK_SET ) ;  /* Reset for next read */
       }
 
       for( ; *ptrChar ; ++ptrChar ) {
@@ -2988,14 +2971,8 @@ USHORT fnGetXMLRcd( WCHAR  *szInput, ULONG * ulFilePos )
    wcscpy( szInput, szPrevXMLInputText ) ;
    j = (USHORT)wcslen( szInput ) ;
    szPrevXMLInputText[0] = NULL ;
-   if ( bReadSource )
-      *ulFilePos = (*InputFile).ftellt() ;
-   else
-      *ulFilePos = (*InputFile2).ftellt() ;
-   if ( ( ( bReadSource ) &&
-          ( (*InputFile).get((WCHAR*)(szInput+j), MAX_XML_RCD_LENGTH, bUTF16, TRUE) != NULL ) ) ||
-        ( ( ! bReadSource ) &&
-          ( (*InputFile2).get((WCHAR*)(szInput+j), MAX_XML_RCD_LENGTH, bUTF16, TRUE) != NULL ) ) ) {
+   *ulFilePos = (*InputFile).ftellt() ;
+   if ( (*InputFile).get((WCHAR*)(szInput+j), MAX_XML_RCD_LENGTH, bUTF16, TRUE) != NULL ) {
       *ulFilePos -= j * sizeof(WCHAR) ; 
       k = (USHORT)wcslen( &szInput[j] ) ;
       if ( k == MAX_XML_RCD_LENGTH - 1 ) {
@@ -3031,167 +3008,24 @@ USHORT fnGetXMLRcd( WCHAR  *szInput, ULONG * ulFilePos )
 /*                                                                          */
 /* Write a block of text from the input file.                               */
 /*                                                                          */
-/* Input:      Type      - Read from source or target file.                 */
-/*             StartPos  - Starting position to read from.                  */
-/*             EndPos    - Ending position to read from.                    */
+/* Input:      Text      - Text to write out.                               */
 /*             OutFile   - File to write to.                                */
-/*             PreserveBlanks - TRUE=add xml:space="preserve" to <w:t>.     */
 /* Output:     None.                                                        */
 /* Return:     0         - Block written                                    */
 /*             1         - Failure.                                         */
 /*                                                                          */
 /****************************************************************************/
 
-USHORT fnWriteBlock( USHORT Type, ULONG StartPos, ULONG EndPos,
-                     wofstream *OutFile, BOOL bPreserveBlanks )
+USHORT fnWriteBlock( WCHAR *Text, wofstream *OutFile )
 {
-   WCHAR     szIn[MAX_XML_RCD_LENGTH2*2] ;
-   ULONG     ulBlockLen = 0 ;
-   ULONG     ulWriteLen = 0 ;
-   ULONG     ulFilePos = 0 ;
-   ULONG     i ;
    USHORT    usReturn = 0 ;
-   BOOL      bReadEOF = FALSE ;
 
-   if ( EndPos == 0 ) {
-      bReadEOF = TRUE ;
-   } else {
-      if ( StartPos > EndPos ) {
-         usReturn = 1 ;
-         ulBlockLen = 0 ;
-      } else {
-         ulBlockLen = ( EndPos - StartPos ) / sizeof(WCHAR) + 1 ;
-      }
-   }
-
-   if ( Type == WRITE_SOURCE ) {
-      bReadSource = TRUE ;
-      (*InputFile).fseekt(StartPos, std::ios::beg) ;
-   } else {
-      bReadSource = FALSE ;
-      (*InputFile2).fseekt(StartPos, std::ios::beg) ;
-   }
-
-   ulWriteLen = ulBlockLen ;
-   szPrevXMLInputText[0] = NULL ;
-
-//fDebug=fopen("C:\\daw.daw","ab");
-//if ( Type == WRITE_SOURCE ) 
-//   fwprintf(fDebug,L"    S-WRITE    %lx-%lx     Length=%lx   PB=%d\n",StartPos,EndPos,ulWriteLen,bPreserveBlanks);
-//else
-//   fwprintf(fDebug,L"    T-WRITE    %lx-%lx     Length=%lx   PB=%d\n",StartPos,EndPos,ulWriteLen,bPreserveBlanks);
-//fclose(fDebug);
-  
-   while( ( usReturn == 0  ) &&
-          ( ( ulWriteLen > 0 ) ||
-            ( bReadEOF       ) ) ) {
-      if ( fnGetXMLRcd( szIn, &ulFilePos ) ) {
-         i = wcslen( szIn ) ;
-//fDebug=fopen("C:\\daw.daw","ab");
-//fwprintf(fDebug,L"1.    L=%lx      ##%s##\n",i, szIn);
-//fclose(fDebug);
-        if ( ( i > ulWriteLen ) &&
-             ( ! bReadEOF     ) ) {
-           i = ulWriteLen ;
-           szIn[i] = NULL ;
-           if ( ( bPreserveBlanks ) &&              /* 7-18-13 */
-                ( i > 5 ) ) {
-              if ( ! wcsncmp( &szIn[i-5], L"<w:t>", 5 ) ) {
-                 wcscpy( &szIn[i-1], L" xml:space=\"preserve\">" ) ;
-              } else
-              if ( ! wcsncmp( &szIn[i-3], L"<t>", 3 ) ) {   /* 2-17-17 */
-                 wcscpy( &szIn[i-1], L" xml:space=\"preserve\">" ) ;
-              }
-           }
-        }
-//fDebug=fopen("C:\\daw.daw","ab");
-//fwprintf(fDebug,L"2.    L=%lx      ##%s##\n",i, szIn);
-//fclose(fDebug);
-         *OutFile << szIn ;   
-         ulWriteLen -= i ; 
-      } else {
-         usReturn = 1 ;
-      }
+   if ( ( Text ) &&
+        ( Text[0] != NULL ) ) {
+      *OutFile << Text ;   
    }
 
 //////*OutFile << L"XX\n" ;    //DEBUG      DEBUG      DEBUG   #######################################################################
-
-   return( usReturn ) ;
-}
-
-
-
-
-/****************************************************************************/
-/*                                                                          */
-/* fnReadBlock                                                              */
-/*                                                                          */
-/* Read a block of text from the input file.                                */
-/*                                                                          */
-/* Input:      Type      - Read from source or target file.                 */
-/*             StartPos  - Starting position to read from.                  */
-/*             EndPos    - Ending position to read from.                    */
-/* OutPut:     Value     - Retrieved text.                                  */
-/* Return:     0         - Block read                                       */
-/*             1         - Failure.                                         */
-/*                                                                          */
-/****************************************************************************/
-
-USHORT fnReadBlock( USHORT Type, ULONG StartPos, ULONG EndPos,
-                    WCHAR *Value, ULONG ulValueSize )
-{
-   WCHAR     szIn[MAX_XML_RCD_LENGTH2*2] ;
-   ULONG     ulBlockLen = 0 ;
-   ULONG     ulWriteLen = 0 ;
-   ULONG     ulFilePos = 0 ;
-   ULONG     i, j ;
-   USHORT    usReturn = 0 ;
-   BOOL      bReadEOF = FALSE ;
-
-   Value[0] = NULL ;
-
-   if ( EndPos == 0 ) {
-      bReadEOF = TRUE ;
-   } else {
-      if ( StartPos > EndPos ) {
-         usReturn = 1 ;
-         ulBlockLen = 0 ;
-      } else {
-         ulBlockLen = ( EndPos - StartPos ) / sizeof(WCHAR) + 1 ;
-      }
-   }
-
-   if ( Type == WRITE_SOURCE ) {
-      bReadSource = TRUE ;
-      (*InputFile).fseekt(StartPos, std::ios::beg) ;
-   } else {
-      bReadSource = FALSE ;
-      (*InputFile2).fseekt(StartPos, std::ios::beg) ;
-   }
-
-   ulWriteLen = ulBlockLen ;
-   szPrevXMLInputText[0] = NULL ;
-
-   while( ( usReturn == 0  ) &&
-          ( ( ulWriteLen > 0 ) ||
-            ( bReadEOF       ) ) ) {
-      if ( fnGetXMLRcd( szIn, &ulFilePos ) ) {
-         i = wcslen( szIn ) ;
-        if ( ( i > ulWriteLen ) &&
-             ( ! bReadEOF     ) ) {
-           i = ulWriteLen ;
-           szIn[i] = NULL ;
-        }
-        if ( wcslen(Value)+i > ulValueSize/sizeof(WCHAR) ) {
-           j = (ulValueSize-1)/sizeof(WCHAR) - wcslen(Value) ;
-           szIn[j] = NULL ;
-        }
-        wcscat( Value, szIn ) ;
-        ulWriteLen -= i ; 
-      } else {
-        usReturn = 1 ;
-      }
-   }
 
    return( usReturn ) ;
 }
@@ -3671,20 +3505,22 @@ VOID fnFreeParaList( P_INFO** ptrList )
     while ( ptrParaHead ) {
   
        if ( bDebugBody || bDebugFree ) {
-          fwprintf(fDebug,L"PARA_F...#%ld   NT=%ld   %lx-%lx   %lx-%lx       <",
+          fwprintf(fDebug,L"PARA_F...#%ld   NT=%ld   %lx-%lx   %lx-%lx       ",
               ptrParaHead->SeqNum,ptrParaHead->NodeType,ptrParaHead->StartPos,ptrParaHead->BlockStartPos,ptrParaHead->BlockEndPos,ptrParaHead->EndPos);
           fflush(fDebug);
           if ( ptrParaHead->Tag ) 
-             fwprintf(fDebug,L"%s",ptrParaHead->Tag);
-          fwprintf(fDebug,L">   T#=%ld  N#=%ld   RUN=%lx",
+             fwprintf(fDebug,L"<%s>   ",ptrParaHead->Tag);
+          if ( ptrParaHead->Text ) 
+             fwprintf(fDebug,L"[%s]   ",ptrParaHead->Text);
+          fwprintf(fDebug,L"T#=%ld  N#=%ld   RUN=%lx",
               ptrParaHead->NumTextTags,ptrParaHead->NumNeutralTags,ptrParaHead->ptrRunList);
           fflush(fDebug);
-          if ( ptrParaHead->PreserveBlanks ) 
-             fwprintf(fDebug,L"   PB=%d",ptrParaHead->PreserveBlanks);
           if ( ptrParaHead->CommonProperty ) 
              fwprintf(fDebug,L"   CP=%d",ptrParaHead->CommonProperty);
           if ( ptrParaHead->StartTableRow ) 
              fwprintf(fDebug,L"   StartRow");
+          if ( ptrParaHead->TextDel ) 
+             fwprintf(fDebug,L"   DELETE");
           fputws(L"\n",fDebug);
           fflush(fDebug);
        }
@@ -3692,6 +3528,8 @@ VOID fnFreeParaList( P_INFO** ptrList )
   
        if ( ptrParaHead->Tag ) 
           free( ptrParaHead->Tag ) ;
+       if ( ptrParaHead->Text ) 
+          free( ptrParaHead->Text ) ;
   
        ptrRunCur = (R_INFO*)ptrParaHead->ptrRunList ; 
        fnFreeRunList( &ptrRunCur ) ;
@@ -3736,16 +3574,16 @@ VOID fnFreeRunList( R_INFO** ptrList )
     while ( ptrRunHead ) {
 
        if ( bDebugBody || bDebugFree ) {
-          fwprintf(fDebug,L"   RUN_F...#%ld (%ld)   NT=%ld   %lx-%lx   %lx-%lx       <",
+          fwprintf(fDebug,L"   RUN_F...#%ld (%ld)   NT=%ld   %lx-%lx   %lx-%lx       ",
               ptrRunHead->SeqNum,ptrRunHead->BeginSeqNum,ptrRunHead->NodeType,ptrRunHead->StartPos,ptrRunHead->BlockStartPos,ptrRunHead->BlockEndPos,ptrRunHead->EndPos);
           if ( ptrRunHead->Tag ) 
-             fwprintf(fDebug,L"%s",ptrRunHead->Tag);
-          fwprintf(fDebug,L">     T#=%ld  N#=%ld   TA=%ld  TT=%ld  TID=%ld  TEXT=%lx",
+             fwprintf(fDebug,L"<%s>   ",ptrRunHead->Tag);
+          if ( ptrRunHead->Text ) 
+             fwprintf(fDebug,L"[%s]   ",ptrRunHead->Text);
+          fwprintf(fDebug,L"T#=%ld  N#=%ld   TA=%ld  TT=%ld  TID=%ld  TEXT=%lx",
               ptrRunHead->NumTextTags,ptrRunHead->NumNeutralTags,ptrRunHead->TagAction,ptrRunHead->TagType,ptrRunHead->TagId,ptrRunHead->ptrTextList);
           if ( ptrRunHead->Concat )
              fwprintf(fDebug,L"  CONCAT=%d ",ptrRunHead->Concat);
-          if ( ptrRunHead->PreserveBlanks ) 
-             fwprintf(fDebug,L"   PB=%d",ptrRunHead->PreserveBlanks);
           if ( ptrRunHead->CommonProperty ) 
              fwprintf(fDebug,L"   CP=%d",ptrRunHead->CommonProperty);
           if ( ptrRunHead->Properties ) 
@@ -3762,6 +3600,8 @@ VOID fnFreeRunList( R_INFO** ptrList )
 
        if ( ptrRunHead->Tag ) 
           free( ptrRunHead->Tag ) ;
+       if ( ptrRunHead->Text ) 
+          free( ptrRunHead->Text ) ;
        if ( ptrRunHead->Properties ) 
           free( ptrRunHead->Properties ) ;
 
@@ -3802,17 +3642,21 @@ VOID fnFreeTextList( T_INFO** ptrList )
     while ( ptrTextHead ) {
 
        if ( bDebugBody || bDebugFree ) {
-          fwprintf(fDebug,L"      TEXT_F...#%ld (%ld)  %lx  NT=%ld   %lx-%lx   %lx-%lx       <",
+          fwprintf(fDebug,L"      TEXT_F...#%ld (%ld)  %lx  NT=%ld   %lx-%lx   %lx-%lx       ",
               ptrTextHead->SeqNum,ptrTextHead->BeginSeqNum,ptrTextHead,ptrTextHead->NodeType,ptrTextHead->StartPos,ptrTextHead->BlockStartPos,ptrTextHead->BlockEndPos,ptrTextHead->EndPos);
           if ( ptrTextHead->Tag ) 
-             fwprintf(fDebug,L"%s",ptrTextHead->Tag);
-          fwprintf(fDebug,L">   TA=%ld  TT=%ld  TID=%ld\n",
+             fwprintf(fDebug,L"<%s>   ",ptrTextHead->Tag);
+          if ( ptrTextHead->Text ) 
+             fwprintf(fDebug,L"[%s]   ",ptrTextHead->Text);
+          fwprintf(fDebug,L"TA=%ld  TT=%ld  TID=%ld\n",
               ptrTextHead->TagAction,ptrTextHead->TagType,ptrTextHead->TagId);
           fflush(fDebug);
        }
 
        if ( ptrTextHead->Tag ) 
           free( ptrTextHead->Tag ) ;
+       if ( ptrTextHead->Text ) 
+          free( ptrTextHead->Text ) ;
 
        ptrTextCur = (T_INFO*)ptrTextHead->ptrNext ;
        free( ptrTextHead ) ;

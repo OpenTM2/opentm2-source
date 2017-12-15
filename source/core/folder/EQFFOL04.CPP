@@ -325,6 +325,56 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
             } /* endif */
           }
 
+          // prepare font information
+          {
+            // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
+            HFONT   hFontDlg;
+
+            hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
+            if ( hFontDlg != NULL )
+            {
+              if ( GetObject( hFontDlg, sizeof(LOGFONT), (LPSTR) &(pIda->lf) ) )
+              {
+                pIda->lf.lfCharSet  = (UCHAR)GetCharSet();
+                if (pIda->lf.lfHeight > 0 )
+                {
+                  pIda->lf.lfHeight -=  SHEIGHTINCTRL;
+                }
+                else
+                {
+                  pIda->lf.lfWeight = FW_NORMAL;
+                } /* endif */
+                pIda->lf.lfOutPrecision = OUT_TT_PRECIS;
+                strcpy( pIda->lf.lfFaceName, "Arial" );
+              }
+            }
+          }
+
+          // apply last used font info when available
+          if ( pIda->pLastUsed->lfFaceName[0] != 0 )
+          {
+            // get last used font settings
+            memset( &(pIda->lf), 0, sizeof(pIda->lf) );
+            pIda->lf.lfHeight = pIda->pLastUsed->lfHeight;
+            pIda->lf.lfWidth = pIda->pLastUsed->lfWidth;
+            pIda->lf.lfEscapement = pIda->pLastUsed->lfEscapement;
+            pIda->lf.lfOrientation = pIda->pLastUsed->lfOrientation;
+            pIda->lf.lfWeight = pIda->pLastUsed->lfWeight;
+            pIda->lf.lfItalic = pIda->pLastUsed->lfItalic;
+            pIda->lf.lfUnderline = pIda->pLastUsed->lfUnderline;
+            pIda->lf.lfStrikeOut = pIda->pLastUsed->lfStrikeOut;
+            pIda->lf.lfCharSet = pIda->pLastUsed->lfCharSet;
+            pIda->lf.lfOutPrecision = pIda->pLastUsed->lfOutPrecision;
+            pIda->lf.lfClipPrecision = pIda->pLastUsed->lfClipPrecision;
+            pIda->lf.lfQuality = pIda->pLastUsed->lfQuality;
+            pIda->lf.lfPitchAndFamily = pIda->pLastUsed->lfPitchAndFamily;
+            strcpy( pIda->lf.lfFaceName, pIda->pLastUsed->lfFaceName );
+          } /* endif */
+
+          // create font to be used for result area
+          pIda->hFontControl = CreateFontIndirect( &(pIda->lf) );
+
+
           // Center dialog within TWB
           if ( fOK && !fLastUsedPositionAvailable )
           {
@@ -339,33 +389,6 @@ MRESULT EXPENTRY FolFindDlgProc( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 )
               pIda->swpDlg.y = (swpTWB.cy - pIda->swpDlg.cy) / 2;
             } /* endif */
           } /* endif */
-
-          // create font to be used for the controls
-          {
-            // this code has been borrowed from function SetCtrlFont in file EQFOSWIN.C
-            HFONT   hFontDlg;
-
-            hFontDlg = (HFONT)SendMessage( hwnd, WM_GETFONT, 0, 0L );
-            if ( hFontDlg != NULL )
-            {
-              LOGFONT lFont;
-              if ( GetObject( hFontDlg, sizeof(LOGFONT), (LPSTR) &lFont ))
-              {
-                lFont.lfCharSet  = (UCHAR)GetCharSet();
-                if (lFont.lfHeight > 0 )
-                {
-                  lFont.lfHeight -=  SHEIGHTINCTRL;
-                }
-                else
-                {
-                  lFont.lfWeight = FW_NORMAL;
-                } /* endif */
-                lFont.lfOutPrecision = OUT_TT_PRECIS;
-                strcpy( lFont.lfFaceName, "Arial" );
-                pIda->hFontControl = CreateFontIndirect( &lFont );
-              }
-            }
-          }
 
           // postpone sizing of dialog window
           if ( fOK ) WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(INITDLG_TASK), 0L );
@@ -1071,6 +1094,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_RESPECTLF_CHK ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SHOW_GB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_COLOR_PB ), iShowCmd );
+              ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_FONT_PB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SEGSBEFORE_TEXT ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_SEGSAROUND_CB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_DOCS_GB ), iShowCmd );
@@ -1214,6 +1238,49 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
                 InvalidateRect( GetDlgItem( hwnd, ID_FOLFIND_RESULT_LISTBOX ), NULL, TRUE );
               } /* endif */
             } 
+            break;
+
+          case ID_FOLFIND_FONT_PB:
+            {
+              CHOOSEFONT ChooseFontData;
+
+              memset( &ChooseFontData, 0, sizeof(ChooseFontData) );
+              ChooseFontData.lStructSize = sizeof(ChooseFontData);
+              ChooseFontData.hwndOwner = hwnd;
+              ChooseFontData.Flags = CF_FORCEFONTEXIST | CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT;
+              ChooseFontData.lpLogFont = &(pIda->lf);
+
+              if ( ChooseFont( &ChooseFontData ) )
+              {
+                // free any previously created font
+                if ( pIda->hFontControl ) DeleteObject( pIda->hFontControl );
+
+                // create new font to be used
+                pIda->hFontControl = CreateFontIndirect( &(pIda->lf) );
+
+                // update last used values
+                if ( pIda->pLastUsed )
+                {
+                  pIda->pLastUsed->lfHeight = pIda->lf.lfHeight;
+                  pIda->pLastUsed->lfWidth = pIda->lf.lfWidth;
+                  pIda->pLastUsed->lfEscapement = pIda->lf.lfEscapement;
+                  pIda->pLastUsed->lfOrientation = pIda->lf.lfOrientation;
+                  pIda->pLastUsed->lfWeight = pIda->lf.lfWeight;
+                  pIda->pLastUsed->lfItalic = pIda->lf.lfItalic;
+                  pIda->pLastUsed->lfUnderline = pIda->lf.lfUnderline;
+                  pIda->pLastUsed->lfStrikeOut = pIda->lf.lfStrikeOut;
+                  pIda->pLastUsed->lfCharSet = pIda->lf.lfCharSet;
+                  pIda->pLastUsed->lfOutPrecision = pIda->lf.lfOutPrecision;
+                  pIda->pLastUsed->lfClipPrecision = pIda->lf.lfClipPrecision;
+                  pIda->pLastUsed->lfQuality = pIda->lf.lfQuality;
+                  pIda->pLastUsed->lfPitchAndFamily = pIda->lf.lfPitchAndFamily;
+                  strcpy( pIda->pLastUsed->lfFaceName, pIda->lf.lfFaceName );
+                } /* endif */
+
+                // refresh result list
+                InvalidateRect( pIda->hResultListBox, NULL, TRUE );
+              } /* endif */
+            }
             break;
 
 

@@ -1490,6 +1490,8 @@ int OtmMemoryServiceWorker::updateEntry
   // parse input parameters
   PLOOKUPINMEMORYDATA pData = new( LOOKUPINMEMORYDATA );
   memset( pData, 0, sizeof( LOOKUPINMEMORYDATA ) );
+
+
   JSONFactory *pJsonFactory = JSONFactory::getInstance();
   JSONFactory::JSONPARSECONTROL parseControl[] = { 
   { L"source",         JSONFactory::UTF16_STRING_PARM_TYPE, &( pData->szSource ), sizeof( pData->szSource ) / sizeof( pData->szSource[0] ) },
@@ -1507,6 +1509,7 @@ int OtmMemoryServiceWorker::updateEntry
   { L"",               JSONFactory::ASCII_STRING_PARM_TYPE, NULL, 0 } };
 
   iRC = pJsonFactory->parseJSON( strInputParmsW, parseControl );
+
   if ( iRC != 0 )
   {
     iRC = ERROR_INTERNALFUNCTION_FAILED;
@@ -1561,7 +1564,7 @@ int OtmMemoryServiceWorker::updateEntry
     return( httpRC );
   } /* endif */
 
-    // prepare the proposal data
+  // prepare the proposal data
   PMEMPROPOSAL pProp = new ( MEMPROPOSAL );
   memset( pProp, 0, sizeof( *pProp ) );
   wcscpy( pProp->szSource, pData->szSource );
@@ -1611,6 +1614,7 @@ int OtmMemoryServiceWorker::updateEntry
     unsigned short usRC = 0;
     EqfGetLastErrorW( this->hSession, &usRC, pData->szError, sizeof( pData->szError ) / sizeof( pData->szError[0] ) );
     buildErrorReturn( iRC, pData->szError, strOutputParms );
+    delete pProp;
     delete pData;
     return( restbed::INTERNAL_SERVER_ERROR );
   } /* endif */
@@ -1631,6 +1635,7 @@ int OtmMemoryServiceWorker::updateEntry
   strOutputParms = convertToUTF8( strOutputParmsW );
 
   iRC = restbed::OK;
+  delete pProp;
   delete pData;
 
   return( iRC );

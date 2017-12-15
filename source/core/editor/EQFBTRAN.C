@@ -1786,6 +1786,7 @@ VOID  EQFBActivateSegm
    ULONG       ulSegNum                    // segment number
 )
 {
+    PTBSEGMENT     pSourceSeg;               // pointer to segment in source document
     PTBSEGMENT     pSeg;                     // pointer to segment
     ULONG          ulSrcWords = 0L;
     ULONG          ulSrcMarkUp = 0L;
@@ -1842,11 +1843,11 @@ VOID  EQFBActivateSegm
       if (pSeg->usSrcWords == 0 )
       {
         pIdaDoc = (PDOCUMENT_IDA) ((PSTEQFGEN)pDoc->pstEQFGen)->pDoc;
-
+        pSourceSeg = EQFBGetSegW( pDoc->twin, ulSegNum);
         usRc = EQFBWordCntPerSeg(
                      (PLOADEDTABLE)pDoc->pDocTagTable,
                      (PTOKENENTRY) pDoc->pTokBuf,
-                     pSeg->pDataW,
+                     pSourceSeg->pDataW,
                      pIdaDoc->sSrcLanguage,
                      &ulSrcWords, &ulSrcMarkUp,
                      pDoc->twin->ulOemCodePage);

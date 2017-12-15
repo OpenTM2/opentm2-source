@@ -200,6 +200,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html"><param name="Name" value="_TMXELEMENT"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a550a666bb38e79ce23f1fb2007b9605e"><param name="Name" value="fInlineTagging"></OBJECT>
+    <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a14d635595a9b17acf000904023cdbffd"><param name="Name" value="fInsideTagging"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a6d4ecdc6ed73743ae39ce666beeb4f29"><param name="Name" value="ID"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a1d81b38c9a606510870c812b6717f0db"><param name="Name" value="lSegNum"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#afed4a3c1a68b654c60a0a2f23164077f"><param name="Name" value="PropID"></OBJECT>
@@ -580,14 +581,10 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af8d030d0a6115acd3820764deb28dfb2"><param name="Name" value="EndImport"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af03f9ecfea64de694b2ba0b83b54dd22"><param name="Name" value="getLastError"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a417b027d3e54547cf32cc09d5db98194"><param name="Name" value="ImportNext"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a1d164297bfa50ec91aefe2186ff03823"><param name="Name" value="LoadNames"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a4cc9a2144d36bea3f366c3d38a4111e7"><param name="Name" value="m_bBuffer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a9b3cf410678776c6021cf54ec82a805c"><param name="Name" value="m_currentTu"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a714174b2643954cfa12d826081c82ed8"><param name="Name" value="m_handler"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#adf1094527eada5874ed19bbecc44815e"><param name="Name" value="m_iSourceSize"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a9f106d6395bd18cfc160937b5b5aac18"><param name="Name" value="m_LangTmgr2Tmx"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#adf8517d7627e78aa465f69eb4030bc65"><param name="Name" value="m_LangTmx2Tmgr"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a4d2e9ce8da5d2ff0829106dcde8ccad6"><param name="Name" value="m_Markup2Type"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#accd115edf8b26910f65dbd1c67a3c97f"><param name="Name" value="m_parser"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a3f3140464a4d36e2067bef8c815cbe74"><param name="Name" value="m_pLoadedRTFTable"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a0422231d2e68ac4c51b34c6812294ebc"><param name="Name" value="m_pLoadedTable"></OBJECT>
@@ -598,7 +595,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#ac47ad0ccd1eca509478b6e1ff27ceeec"><param name="Name" value="m_szInFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a862bd37568e702c3b28dd101b71c5705"><param name="Name" value="m_szSegBuffer"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a8affa4fcd469db4778cd6d046f0a1a40"><param name="Name" value="m_TempFile"></OBJECT>
-    <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a59f75d1498c58778b0a80aa41e01f97f"><param name="Name" value="m_Type2Markup"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af0a8f4a739ba0ca368e1442a8ffb3325"><param name="Name" value="m_xw"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a5ea5da7061052467e5dbcb2066520f6a"><param name="Name" value="PreProcessInFile"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a18846e48f8e670c902d22d5e76ee6412"><param name="Name" value="StartImport"></OBJECT>
@@ -1182,6 +1178,7 @@
   <LI><OBJECT type="text/sitemap"><param name="Local" value="_e_q_f_n_t_p_u_t_8_c.html#a8384db65949f1c59b80e165d2a8fa567"><param name="Name" value="FillTmRecord"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_name_list.html#a21f2b21615b10ef88096f0e1b687a285"><param name="Name" value="FindName"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a550a666bb38e79ce23f1fb2007b9605e"><param name="Name" value="fInlineTagging"></OBJECT>
+  <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___t_m_x_e_l_e_m_e_n_t.html#a14d635595a9b17acf000904023cdbffd"><param name="Name" value="fInsideTagging"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_replicate_helper.html#a2c71bfa15608fe324640d792f91455f3"><param name="Name" value="fixInconsistence"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___f_i_x_p_a_c_k.html#a98bf362a1579623c75ffb78af860f6e4"><param name="Name" value="fixpackCopies"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="struct___c_p_l_u_g_i_n_m_a_i_n.html#a20c0bc26058d9367e0b0ee615d26ea58"><param name="Name" value="fixPacks"></OBJECT>
@@ -1782,7 +1779,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_loaded_plugin_d_l_l.html#a0a8397359d844fd9d3a4a73a8c874491"><param name="Name" value="strDll"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="struct_loaded_plugin_d_l_l.html#ae935d07892f71680a96ff0ed6a93839e"><param name="Name" value="vPluginList"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a1d164297bfa50ec91aefe2186ff03823"><param name="Name" value="LoadNames"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager_impl.html#ac653c7b0bff2ec8d49bb763ae6aa93ae"><param name="Name" value="loadPluginDll"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_plugin_manager.html#a892a44599d539c258352d72ebb4f4618"><param name="Name" value="loadPluginDlls"></OBJECT>
   <UL>
@@ -1835,9 +1831,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#adf1094527eada5874ed19bbecc44815e"><param name="Name" value="CTMXExportImport"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#a4df0cdfa7466fccb62a30d2310943efb"><param name="Name" value="CXLFImport"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a9f106d6395bd18cfc160937b5b5aac18"><param name="Name" value="m_LangTmgr2Tmx"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#adf8517d7627e78aa465f69eb4030bc65"><param name="Name" value="m_LangTmx2Tmgr"></OBJECT>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a4d2e9ce8da5d2ff0829106dcde8ccad6"><param name="Name" value="m_Markup2Type"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#accd115edf8b26910f65dbd1c67a3c97f"><param name="Name" value="m_parser"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#accd115edf8b26910f65dbd1c67a3c97f"><param name="Name" value="CTMXExportImport"></OBJECT>
@@ -1882,7 +1875,6 @@
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a8affa4fcd469db4778cd6d046f0a1a40"><param name="Name" value="CTMXExportImport"></OBJECT>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_x_l_f_import.html#aa8e2d5ff311a220e4b44b73f50318ad2"><param name="Name" value="CXLFImport"></OBJECT>
   </UL>
-  <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#a59f75d1498c58778b0a80aa41e01f97f"><param name="Name" value="m_Type2Markup"></OBJECT>
   <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af0a8f4a739ba0ca368e1442a8ffb3325"><param name="Name" value="m_xw"></OBJECT>
   <UL>
     <LI><OBJECT type="text/sitemap"><param name="Local" value="class_c_t_m_x_export_import.html#af0a8f4a739ba0ca368e1442a8ffb3325"><param name="Name" value="CTMXExportImport"></OBJECT>

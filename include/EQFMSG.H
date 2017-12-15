@@ -7644,8 +7644,10 @@
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 
-#define FREE_0684_xxxxxxxxxxxxxxxxxxxxx                    684
-// Text:       !! No message text defined !!
+#define RESET_WORDCOUNT_INFO                  684
+// Text:       The wordcount information in the folder history log has been reset.\n
+//             \nRe-analyze the folder with automatic substitution to remove any word count information 
+//             contained in the documents.
 // HelpTitle:  OpenTM2 - Help
 // Help:       !! No help text defined !!
 

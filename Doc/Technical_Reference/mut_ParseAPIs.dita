@@ -24,7 +24,7 @@
       Unicode documents.</p>
     <p>Note that these functions are not called at defined <keyword
         conref="common-symbols.dita#common-symbols/tm4w"/> processing steps (as opposed to the
-      descriptions in <xref href="#unresolvedid/gen_user_exit_entry_points"/> and <xref
+      descriptions in <xref href="mut_UserExitEntryPoints.dita#mut_UserExitEntryPoints"/> and <xref
         href="mut_UserExitEntryPoints_Context.dita#mut_UserExitEntryPoints_Context"/>. However, they are well suited to be used in the
       code of one or more of these entry points. For example, they can be used to create or clean up
       markup tables. A sample parser that uses these parser API functions can be found in file

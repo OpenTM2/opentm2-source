@@ -1368,7 +1368,7 @@ BEGIN
 
 683 "The specified memory handle is not invalid."
 
-684 "!! No message text defined !!"
+684 "The wordcount information in the folder history log has been reset.\012 \012Re-analyze the folder with automatic substitution to remove any word count information  contained in the documents."
 
 685 "Error creating folder '%1'. File or directory exists."
 

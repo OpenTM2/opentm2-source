@@ -4938,7 +4938,7 @@ typedef struct _POOL
 typedef SHORT (*PFN_HASHCOMP)(PVOID obj1, PVOID obj2, PVOID pUserPtr );
 typedef SHORT (*PFN_HASHFREE)(PVOID obj1, PVOID pUserPtr );
 typedef SHORT (*PFN_HASHITERATE)(PVOID obj, PVOID ptr );
-typedef USHORT (*PFN_HASHVALUE)(USHORT hash_size,PVOID obj);
+typedef ULONG (*PFN_HASHVALUE)(ULONG hash_size,PVOID obj);
 
 //------------------------------------------------------------------------------
 //   Hash Table Link (Hash element view of low level hash routines)
@@ -4955,7 +4955,7 @@ typedef struct _HASHLINK
 typedef struct _HASH
 {
   USHORT           usElementSize;
-  USHORT           usHashSize;
+  ULONG            ulHashSize;
   PFN_HASHVALUE    pfnHashValue;
   PFN_HASHFREE     pfnFree;
   PFN_HASHCOMP     pfnCompare;
@@ -4984,7 +4984,7 @@ PVOID PoolAddData( PPOOL pPool, LONG lDataLen, PVOID pData );
 //   Prototypes for the low level hash routines
 //------------------------------------------------------------------------------
 __declspec(dllexport)
-PHASH  HashCreate( USHORT, USHORT, PFN_HASHVALUE, PFN_HASHCOMP, PFN_HASHFREE, PVOID );
+PHASH  HashCreate( USHORT, ULONG, PFN_HASHVALUE, PFN_HASHCOMP, PFN_HASHFREE, PVOID );
 __declspec(dllexport)
 BOOL   HashAdd( PHASH, PVOID );
 __declspec(dllexport)
@@ -5959,6 +5959,8 @@ typedef struct _PROPFOLDERLIST
    USHORT    usFolExpFormat;                     // LU: format of folder export
    USHORT    usFolImpFormat;                     // LU: format of folder import
    EQF_SWP   swpTEnvCFindSizePos;                // LU: TranslationEnvironment concordance search dialog size and position
+
+   // fuzz segment search related stuff
    EQF_SWP   swpFSearchSizePos;                  // LU: fuzzy search dialog size and position
    
    int       iFSLastUsedClass;                   // LU: class selected in fuzzy search dialog
@@ -5970,7 +5972,22 @@ typedef struct _PROPFOLDERLIST
    COLORREF  aclrFSLastUsedForeground[10];        // LU: user foreground color settings in the fuzzy segment search 
    COLORREF  aclrFSLastUsedBackground[10];        // LU: user background color settings in the fuzzy segment search 
 
-   CHAR chReserve[3914];                          // reserve space/filler
+   LONG lFSFontHeight;
+   LONG lFSFontWidth;
+   LONG lFSFontEscapement;
+   LONG lFSFontOrientation;
+   LONG lFSFontWeight;
+   BYTE bFSFontItalic;
+   BYTE bFSFontUnderline;
+   BYTE bFSFontStrikeOut;
+   BYTE bFSFontCharSet;
+   BYTE bFSFontOutPrecision;
+   BYTE bFSFontClipPrecision;
+   BYTE bFSFontQuality;
+   BYTE bFSFontPitchAndFamily;
+   TCHAR szFSFontFaceName[40];
+
+   CHAR chReserve[3846];                          // reserve space/filler
 
 } PROPFOLDERLIST, *PPROPFOLDERLIST;
 

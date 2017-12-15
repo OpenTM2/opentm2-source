@@ -59,7 +59,11 @@
         </plentry>
         <plentry>
           <pt>Set colors</pt>
-          <pd>Opens the "Set Validation Document Import Colors" dialog, which allows customization of the colors being used in the <b>Imported Validation Segments</b> list.</pd>
+          <pd>Opens the "Set Validation Document Import Colors" dialog, which allows customization of the colors being used in the <b>Imported validation segments</b> list.</pd>
+        </plentry>
+        <plentry>
+          <pt>Set font</pt>
+          <pd>Opens the "Font" dialog, which allows customization of the font being used in the <b>Imported validation segments</b> list.</pd>
         </plentry>
         <plentry>
           <pt>Update translated segment</pt>

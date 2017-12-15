@@ -451,6 +451,24 @@ void ProofReadParseHandler::startElement(const XMLCh* const name, AttributeList&
           pCurEntry->setProcessed( fProcessed );
         }
         break;
+      case MODTARGET_ELEMENT:
+        {
+          int iAttribs = attributes.getLength(); 
+          pCurEntry->setModTargetDeletedFlag( FALSE );
+          for( int i = 0; i < iAttribs; i++ )
+          {
+            PSZ_W pszName = (PSZ_W)attributes.getName( i );
+            if ( _wcsicmp( pszName, L"type" ) == 0 )
+            {
+              PSZ_W pszValue = (PSZ_W)attributes.getValue( i );
+              if ( _wcsicmp( pszValue, L"deleted" ) == 0 )
+              {
+                pCurEntry->setModTargetDeletedFlag( TRUE );
+              } /* endif */
+            } /* endif */
+          } /* endfor */
+        }
+        break;
       case UNKNOWN_ELEMENT:
       default:
         break;

@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|  Copyright Notice:                                                         |
 //|                                                                            |
-//|      Copyright (C) 1990-2013, International Business Machines              |
+//|      Copyright (C) 1990-2017, International Business Machines              |
 //|      Corporation and others. All rights reserved                           |
 //+----------------------------------------------------------------------------+
 //|  Description:                                                              |
@@ -16,7 +16,7 @@
 #define DICTHANDLE         USHORT      // map to Nlp dictionary handles
 #define PDICTHANDLE        PUSHORT     // map to Nlp dictionary handles
 #define MORPHCODEPAGE      850         // default codepage
-#define END_OF_ELEMENTS    0xFFFF      // end delimiter for element chain
+#define END_OF_ELEMENTS    0xFFFFFFFF  // end delimiter for element chain
 #define INITIAL_POOL_SIZE  20000       // initial size of string pools
 #define MAX_SEG_SIZE       0xFF00      // max size for a single segment
 #define TERMLIST_INCR      1024        // increment for term list buffer size
@@ -70,11 +70,11 @@ typedef struct _HASHENTRY
   HASHLINK HashLink;                   // link used by low level hash routines
   PSZ_W    pszTerm;                    // pointer to term (= key of entry)
   PSZ_W    pLemmaList;                 // pointer to lemma list for term
-  USHORT   usKey;                      // key (= index) of this element
-  USHORT   usNext;                     // next element in recently used chain
+  ULONG    ulKey;                      // key (= index) of this element
+  ULONG    ulNext;                     // next element in recently used chain
                                        // (is also used by free element chain)
-  USHORT   usPrev;                     // previous element in recently used chain
-  USHORT   usListLength;               // length of lemma list for term
+  ULONG    ulPrev;                     // previous element in recently used chain
+  ULONG    ulListLength;               // length of lemma list for term
 } HASHENTRY, *PHASHENTRY;
 
 //+----------------------------------------------------------------------------+
@@ -83,11 +83,11 @@ typedef struct _HASHENTRY
 typedef struct _MORPHHASH
 {
   PHASH            pHash;              // hash of low level hash routines
-  USHORT           usElements;         // number of elements in hash
-  USHORT           usMaxElements;      // max number of elements
-  USHORT           usFirstFree;        // index of first element in free list
-  USHORT           usFirstUsed;        // index of first elment in used chain
-  USHORT           usLastUsed;         // index of last elment in used chain
+  ULONG            ulElements;         // number of elements in hash
+  ULONG            ulMaxElements;      // max number of elements
+  ULONG            ulFirstFree;        // index of first element in free list
+  ULONG            ulFirstUsed;        // index of first elment in used chain
+  ULONG            ulLastUsed;         // index of last elment in used chain
   PHASHENTRY       pElements;          // ptr to allocated element table
   PPOOL            StringPool;         // string pool
 } MORPHHASH, *PMORPHHASH;
@@ -192,11 +192,11 @@ USHORT MorphCheck4Refresh( PLCB pLCB );
 //+----------------------------------------------------------------------------+
 //|  Prototypes for morph hash functions                                       |
 //+----------------------------------------------------------------------------+
-PMORPHHASH MorphHashCreate( USHORT usMaxElements );
+PMORPHHASH MorphHashCreate( ULONG ulMaxElements );
 BOOL       MorphHashDestroy( PMORPHHASH pMorphHash );
 BOOL       MorphHashReset( PMORPHHASH pMorphHash );
 BOOL       MorphHashAdd( PMORPHHASH, PSZ_W, ULONG, PSZ_W );
-BOOL       MorphHashDelete( PMORPHHASH, PSZ_W );
+BOOL       MorphHashDelete( PMORPHHASH, PHASHENTRY pEntry );
 BOOL       MorphHashSearch( PMORPHHASH, PSZ_W, PULONG, PSZ_W * );
 BOOL       MorphHashWrite( PMORPHHASH pMorphHash, PSZ pszFileName );
 BOOL       MorphHashRead( PMORPHHASH, PSZ, BOOL );
@@ -206,7 +206,7 @@ BOOL       MorphHashRead( PMORPHHASH, PSZ, BOOL );
 //+----------------------------------------------------------------------------+
 SHORT  MorphHashCompare( PHASHENTRY pEntry, PHASHENTRY pEntry2, PVOID pUserPtr );
 SHORT  MorphHashFree( PHASHENTRY pEntry, PVOID pUserPtr  );
-USHORT MorphHashKeyValue( USHORT, PHASHENTRY );
+USHORT MorphHashKeyValue( ULONG, PHASHENTRY );
 SHORT  MorphHashWriteElement( PHASHENTRY pEntry, PBUFCB pBufCB  );
 
 

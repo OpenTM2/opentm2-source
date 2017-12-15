@@ -459,6 +459,7 @@ int AddToTransActLog( TRANSACTID Id, const char *pszMemory )
       }
       i++;
     }
+    i = iOldestEntry;
   }
 
   // return if no entry in transaction log is available

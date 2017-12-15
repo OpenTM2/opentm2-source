@@ -59,6 +59,7 @@ extern "C"
   #include "EQFMEMIE.H"
   #include "EQFSERNO.H"
   #include "OTMFUNC.H"
+  #include "TMXNames.H"
 
   #pragma pack( pop, TM2StructPacking )
 #ifndef CPPTEST
@@ -198,6 +199,7 @@ typedef struct _TMXELEMENT
 {
   ELEMENTID ID;                        // ID of element 
   BOOL      fInlineTagging;            // TRUE = we are processing inline tagging
+  BOOL      fInsideTagging;            // TRUE = we are currently inside inline tagging
   TMXPROPID PropID;                    // ID of prop element (only used for props)
   CHAR      szDataType[50];            // data type of current element
   CHAR      szTMXLanguage[50];         // TMX language of element
@@ -206,24 +208,10 @@ typedef struct _TMXELEMENT
   LONG      lSegNum;                   // TM segment number
 } TMXELEMENT, *PTMXELEMENT;
 
+// helper function for the access to the name mapping tables
+BOOL FindName( PNAMETABLE pTable, const char *pszName, char *pszValue, int iBufSize );
 
-//+----------------------------------------------------------------------------+
-//| Class for name lists                                                       |
-//|                                                                            |
-//+----------------------------------------------------------------------------+
-class CNameList
-{
-  public:
-	  CNameList();
-	  ~CNameList();
-    BOOL AddName( const char *pszName, const char *pszValue );  // add a name/value pair to the list
-    BOOL FindName( const char *pszName, char *pszValue, int iBufSize );  // find a name and returns its value
-  protected:
-    PSZ m_pList;                       // points to list data buffer
-    int m_iListSize;                   // size of list in # of bytes
-};
-
-
+void EscapeXMLChars( PSZ_W pszText, PSZ_W pszBuffer );
 
 //
 // class for our SAX handler
@@ -238,7 +226,6 @@ public:
   virtual ~TMXParseHandler();
 
   // setter functions for import info
-  void SetNameLists( CNameList *pLangTmx2Tmgr, CNameList *pType2Markup );
   void SetMemInfo( PMEMEXPIMPINFO m_pMemInfo ); 
   void SetMemInterface( PFN_MEMINSERTSEGMENT pfnInsertSegment, LONG lMemHandle, PLOADEDTABLE pTable, PTOKENENTRY pTokBuf, int iTokBufSize ); 
   void SetSourceLanguage( char *pszSourceLang );
@@ -288,15 +275,13 @@ private:
   PFN_MEMINSERTSEGMENT pfnInsertSegment;
   LONG lMemHandle;
 
-  // name list for name conversions
-  CNameList *pLangTmx2Tmgr;
-  CNameList *pType2Markup;
-
   // processing flags
   BOOL fSource;                        // TRUE = source data collected  
   BOOL fTarget;                        // TRUE = target data collected
   BOOL fCatchData;                     // TRUE = catch data
   BOOL fWithTagging;                   // TRUE = add tagging to data
+  BOOL fWithTMXTags;                   // TRUE = segment contains TMX tags
+  BOOL fTMXTagStarted;                 // TRUE = TMX inline tag started
   BOOL fHeaderDone;                    // TRUE = header has been processed
   BOOL fError;                         // TRUE = parsing ended with error
 
@@ -387,7 +372,6 @@ class CTMXExportImport
     USHORT getLastError( PSZ pszErrorBuffer, int iBufferLength );
 
   protected:
-    USHORT LoadNames();
     USHORT WriteTUV( PSZ pszLanguage, PSZ pszMarkup, PSZ_W pszSegmentData );
     USHORT PreProcessInFile( const char *pszInFile, const char *pszOutFile );
 
@@ -397,10 +381,6 @@ class CTMXExportImport
     SAXParser* m_parser;
     XMLPScanToken m_SaxToken; 
     unsigned int m_iSourceSize;          // size of source file
-    CNameList m_LangTmgr2Tmx;
-    CNameList m_LangTmx2Tmgr;
-    CNameList m_Markup2Type;
-    CNameList m_Type2Markup;
     PTOKENENTRY m_pTokBuf;               // buffer for TaTagTokenize tokens
     CHAR m_szActiveTagTable[50];         // buffer for name of currently loaded markup table
     PLOADEDTABLE m_pLoadedTable;         // pointer to currently loaded markup table
@@ -579,9 +559,6 @@ USHORT CTMXExportImport::WriteHeader
   this->m_pMemInfo = pMemInfo;
   this->m_currentTu = 1;
 
-  // load tmgr<->TMX name tables
-  LoadNames();
-
   // write TMX header
   m_xw.SetFileName( pszOutFile );
   m_xw.Formatting = CXmlWriter::Indented;
@@ -612,7 +589,7 @@ USHORT CTMXExportImport::WriteHeader
     // get TMX language name
     CHAR szTMXLang[20];                  // buffer for TMX language
     szTMXLang[0] = EOS;
-    m_LangTmgr2Tmx.FindName( pMemInfo->szSourceLang, szTMXLang, sizeof(szTMXLang) );
+    FindName( Language_Tmgr2TMX, pMemInfo->szSourceLang, szTMXLang, sizeof(szTMXLang) );
     m_xw.WriteAttributeString( "srclang", szTMXLang ); 
   }
  
@@ -624,7 +601,7 @@ USHORT CTMXExportImport::WriteHeader
     CHAR  szDataType[40];
 
     szDataType[0] = EOS;
-    m_Markup2Type.FindName( pMemInfo->szFormat, szDataType, sizeof(szDataType) );
+    FindName( Markup2Type, pMemInfo->szFormat, szDataType, sizeof(szDataType) );
     if ( szDataType[0] )
     {
       m_xw.WriteStartAttribute( "datatype" );
@@ -672,7 +649,7 @@ USHORT CTMXExportImport::WriteSegment
     CHAR  szDataType[40];
 
     szDataType[0] = EOS;
-    m_Markup2Type.FindName( pSegment->szFormat, szDataType, sizeof(szDataType) );
+    FindName( Markup2Type, pSegment->szFormat, szDataType, sizeof(szDataType) );
     if ( szDataType[0] )
     {
       m_xw.WriteStartAttribute( "datatype" );
@@ -842,7 +819,7 @@ USHORT CTMXExportImport::WriteTUV
 
   // get TMX language name
   szTMXLang[0] = EOS;
-  m_LangTmgr2Tmx.FindName( pszLanguage, szTMXLang, sizeof(szTMXLang) );
+  FindName( Language_Tmgr2TMX, pszLanguage, szTMXLang, sizeof(szTMXLang) );
 
   // start TUV
   m_xw.WriteStartElement( "tuv" );
@@ -858,6 +835,13 @@ USHORT CTMXExportImport::WriteTUV
   m_xw.WriteStartElement( "seg" );
   m_xw.Formatting = CXmlWriter::None;             // no indention within segment
 
+  // write segment data as-is when one of the XLIFF markup tables is being used
+  if ( (stricmp( pszMarkup, "OTMXUXLF" ) == 0) || (stricmp( pszMarkup, "OTMXMXLF" ) == 0 ) || (stricmp( pszMarkup, "OTMXAXLF" ) == 0 ) )
+  {
+    m_xw.WriteString( L"" ); // needed to properly close the start element tag
+    m_xw.WriteRaw( pszSegmentData );
+  }
+  else
   {
     USHORT usRC = 0;
 
@@ -1008,9 +992,6 @@ USHORT CTMXExportImport::StartImport
     //TALoadTagTableExHwnd( "EQFRTF", &m_pLoadedRTFTable, FALSE, TALOADUSEREXIT | TALOADPROTTABLEFUNC, FALSE, HWND_FUNCIF );
   } /* endif */
 
-  // load tmgr<->TMX name tables
-  LoadNames();
-
   // preprocess TMX file
   if ( !usRC )
   {
@@ -1064,8 +1045,7 @@ USHORT CTMXExportImport::StartImport
       // create an instance of our handler
       m_handler = new TMXParseHandler();
 
-      // pass language and markup name list to handler
-      m_handler->SetNameLists( &m_LangTmx2Tmgr, &m_Type2Markup ); 
+      // pass memory info to handler
       m_handler->SetMemInfo( m_pMemInfo ); 
 
       //  install our SAX handler as the document and error handler.
@@ -1376,199 +1356,25 @@ USHORT CTMXExportImport::PreProcessInFile
 
 
 
-// load name list file for Tmgr <-> TMX name conversions
-USHORT CTMXExportImport::LoadNames
-( 
-)
-{
-  FILE *hf = NULL;
-  char szLine[512];
-  CNameList *pActiveList = NULL;
-  USHORT usRC = 0;
-
-  // setup list file name in our line buffer
-  UtlMakeEQFPath( szLine, NULC, TABLE_PATH, NULL );
-  strcat( szLine, "\\TMXNAMES.LST" );
-
-  // load and process name file
-  hf = fopen( szLine, "r" );
-  if ( hf )
-  {
-    // read first line
-    fgets( szLine, sizeof(szLine), hf );
-
-    do
-    {
-      // strip-off LF at end of line
-      int iLen = strlen(szLine);
-      if ( iLen && (szLine[iLen-1] == '\n') ) szLine[iLen-1] = '\0';
-
-      // handle line
-      if ( szLine[0] == '*' )
-      {
-        // ignore comment line
-      }
-      else
-      {
-        // strip leading and trailing blanks
-        {
-          PSZ pszSource = szLine;
-          PSZ pszTarget = szLine;
-
-          while ( *pszSource == ' ') pszSource++;
-          while ( *pszSource ) *pszTarget++ = *pszSource++; 
-          *pszTarget = '\0';
-          
-          if ( szLine[0] )
-          {
-            pszSource = szLine + strlen(szLine) - 1;
-            while ( (pszSource > szLine) && (*pszSource == ' ') )
-            {
-              *pszSource = '\0';
-              pszSource--;
-            } /*endwhile */
-          } /* endif */
-        }
-
-        // handle data line
-        if ( szLine[0] == '\0' )
-        {
-          // ignore empty line
-        }
-        else if ( szLine[0] == '[' )
-        {
-          // process new group header
-
-          // find end of group name and cut-off rest of line
-          char *pszEndBracket = strchr( szLine, ']' );
-          if ( pszEndBracket ) *pszEndBracket = '\0';
-
-          // check name of group
-          if ( _stricmp( szLine + 1, "Language-Tmgr2TMX" ) == 0 )
-          {
-            // init name groups
-            pActiveList = &m_LangTmgr2Tmx;
-          }
-          else if ( _stricmp( szLine + 1, "Language-TMX2Tmgr" ) == 0 )
-          {
-            pActiveList = &m_LangTmx2Tmgr;
-          }
-          else if ( _stricmp( szLine + 1, "Markup2Type" ) == 0 )
-          {
-            pActiveList = &m_Markup2Type;
-          }
-          else if ( _stricmp( szLine + 1, "Type2Markup" ) == 0 )
-          {
-            pActiveList = &m_Type2Markup;
-          }
-          else 
-          {
-            // no or no supported group
-            pActiveList = NULL;
-          } /* endif */
-        }
-        else if ( pActiveList != NULL  )
-        {
-          // handle text line
-          char *pszValue = strchr( szLine, '=' );
-          if ( *pszValue )
-          {
-            *pszValue = '\0';          // split line
-            pszValue++;                // position to start of value
-//TODO            UtlStripBlanks( pszValue );//  
-//TODO            UtlStripBlanks( szLine );
-            pActiveList->AddName( szLine, pszValue );
-          } /* endif */
-        } 
-        else 
-        {
-          // ignore text line outside of a group
-        } /* endif */
-      } /* endif */
-
-      // read next line
-      fgets( szLine, sizeof(szLine), hf );
-
-    } while ( !feof(hf) );
-  }
-  else
-  {
-    usRC = 123; // ERROR_FILE_OPEN_FAILED;
-  } /* endif */
-
-  return( usRC );
-}
-
-//
-// implementation of name list class
-//
-
-// construct an empty name list
-CNameList::CNameList()
-{
-  m_pList = NULL;
-  m_iListSize = 0;
-}
-
-// destructor
-CNameList::~CNameList() 
-{
-  if ( m_pList ) free( m_pList );
-}
-
-// add the given name and value to the list
-BOOL CNameList::AddName( const char *pszName, const char *pszValue )
-{
-  BOOL fOK = TRUE;
-
-  int iNameLen = strlen(pszName) + 1;
-  int iValueLen = strlen(pszValue) + 1;  
-
-  m_pList = (PSZ)realloc( m_pList, m_iListSize + iNameLen + iValueLen );
-
-  if ( m_pList )
-  {
-    PSZ pszListEnd = m_pList + m_iListSize;
-    strcpy( pszListEnd, pszName );
-    pszListEnd  += iNameLen;
-    strcpy( pszListEnd, pszValue );
-    m_iListSize += iNameLen + iValueLen;
-  }
-  else
-  {
-    fOK = FALSE;
-    m_pList = NULL;
-    m_iListSize = 0;
-  } /* endif */
-  
-  return( fOK );
-}
 
 // find the given name and return its value in the supplied buffer
-BOOL CNameList::FindName( const char *pszName, char *pszValue, int iBufSize )
+BOOL FindName( PNAMETABLE pTable, const char *pszName, char *pszValue, int iBufSize )
 {
   BOOL fFound = FALSE;
-  PSZ  pszEntry = m_pList;
-  PSZ  pszListEnd = m_pList + m_iListSize;
+  PNAMETABLE  pEntry = pTable;
 
-  while ( !fFound && (pszEntry < pszListEnd) )
+  while ( !fFound && (pEntry->pszName != NULL) )
   {
-    if ( _stricmp( pszEntry, pszName ) == 0 )
+    if ( _stricmp( pEntry->pszName, pszName ) == 0 )
     {
-      // entry found
-      while ( *pszEntry ) pszEntry++; // skip name
-      pszEntry++;
       memset( pszValue, 0, iBufSize );
-      strncpy( pszValue, pszEntry, iBufSize - 1 );
+      strncpy( pszValue, pEntry->pszValue, iBufSize - 1 );
       fFound = TRUE;
     }
     else
     {
       // try next entry
-      while ( *pszEntry ) pszEntry++; // skip name
-      pszEntry++;
-      while ( *pszEntry ) pszEntry++; // skip value
-      pszEntry++;
+      pEntry++;
     } /* endif */
   } /*endwhile */
 
@@ -1604,6 +1410,12 @@ TMXParseHandler::TMXParseHandler()
   pfnInsertSegment = NULL;
   lMemHandle = 0;
   fHeaderDone = FALSE;
+  fSource = FALSE;
+  fTarget= FALSE;
+  fCatchData= FALSE;
+  fWithTagging= FALSE;
+  fWithTMXTags= FALSE;
+  fTMXTagStarted= FALSE;
 
   // initialize TUV array
   pTuvArray = NULL;
@@ -1734,6 +1546,7 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
       case HEADER_ELEMENT:
         // reset element info
         CurElement.fInlineTagging = FALSE;
+        CurElement.fInsideTagging = FALSE;
         CurElement.PropID = UNKNOWN_PROP;
         CurElement.szDataType[0] = 0;
         CurElement.szDataType[0] = 0;
@@ -1865,7 +1678,9 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
         CurElement.szTMLanguage[0] = 0;
         this->fInvalidChars = FALSE;
         this->fInlineTags = FALSE;
-
+        this->fTMXTagStarted = FALSE;
+        this->fWithTMXTags = FALSE;
+        this->fWithTagging = FALSE;
         // scan tuv attributes, currently only the language is of interest
         for( int i = 0; i < iAttribs; i++ )
         {
@@ -1883,54 +1698,13 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
         } /* endfor */
 
         // set fWithTagging switch depending on datatype or TM markup
-        if ( CurElement.szTMMarkup[0] )
-        {
-          // TM markup available: add inline tags as well
-          fWithTagging = TRUE;
-        }
-        else if ( CurElement.szDataType[0] )
-        {
-          // check if TMX data type maps to a TM markup (only if no user define markup is available)
-          if ( m_pMemInfo->pszMarkupList != NULL )
-          {
-            fWithTagging = TRUE;
-          }
-          else if ( m_pMemInfo->szFormat[0] != EOS )
-          {
-            strcpy( CurElement.szTMMarkup, m_pMemInfo->szFormat );
-            fWithTagging = TRUE;
-          }
-          else if ( pType2Markup->FindName( CurElement.szDataType, CurElement.szTMMarkup, sizeof(CurElement.szTMMarkup) ) )
-          {
-            fWithTagging = TRUE;
-          }
-          else
-          {
-            fWithTagging = FALSE;
-          } /* endif */
-        }
-        else
-        {
-          if ( m_pMemInfo->pszMarkupList != NULL )
-          {
-            fWithTagging = TRUE;
-          }
-          else if ( m_pMemInfo->szFormat[0] != EOS )
-          {
-            strcpy( CurElement.szTMMarkup, m_pMemInfo->szFormat );
-            fWithTagging = TRUE;
-          }
-          else
-          {
-            // no data type or markup
-            fWithTagging = FALSE;
-          } /* endif */
-        } /* endif */
+       fWithTagging = FALSE;
         break;
       case BODY_ELEMENT:
         break;
       case SEG_ELEMENT:
         CurElement.fInlineTagging = FALSE;
+        CurElement.fInsideTagging = FALSE;
         pBuf->szData[0] = 0;                 // reset data buffer
         fCatchData = TRUE; 
         break;
@@ -1939,11 +1713,59 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
       case PH_ELEMENT:
       case HI_ELEMENT:
       case IT_ELEMENT:
-        CurElement.fInlineTagging = TRUE;
-        break;
       case SUB_ELEMENT:
-        break;
       case UT_ELEMENT:
+        {
+          CurElement.fInlineTagging = FALSE;
+          CurElement.fInsideTagging = TRUE;
+          this->fWithTMXTags = TRUE;
+          this->fWithTagging = TRUE;
+
+          int iCurLen = wcslen( pBuf->szData );
+
+          // close any previous TMX tag
+          if ( this->fTMXTagStarted )
+          {
+            // close open TMX inline tag
+            if ( (iCurLen + 2) < DATABUFFERSIZE)
+            {
+              pBuf->szData[iCurLen++] = '>';
+              pBuf->szData[iCurLen] = 0;
+            } /* endif */
+            this->fTMXTagStarted = FALSE;
+          } /* endif */
+
+          // add tag start and text of tag to current text buffer 
+          this->fTMXTagStarted = TRUE;
+          int iTagLen = wcslen( pszName );
+          if ( (iCurLen + iTagLen + 1 + 1) < DATABUFFERSIZE)
+          {
+            pBuf->szData[iCurLen] = L'<';
+            wcsncpy( pBuf->szData + iCurLen + 1, pszName, iTagLen );
+            iCurLen += iTagLen + 1;
+          } /* endif */
+
+          // add any attributes to current text buffer 
+          for( int i = 0; i < iAttribs; i++ )
+          {
+            PSZ_W pszAttrName = (PSZ_W)attributes.getName( i );
+            PSZ_W pszAttrValue = (PSZ_W)attributes.getValue( i );
+            int iAttrNameLen = wcslen( pszAttrName );
+            int iAttrValueLen = wcslen( pszAttrValue );
+            if ( (iCurLen + iAttrNameLen + iAttrValueLen + 1 + 4) < DATABUFFERSIZE)
+            {
+              pBuf->szData[iCurLen++] = L' ';
+              wcsncpy( pBuf->szData + iCurLen, pszAttrName, iAttrNameLen );
+              iCurLen += iAttrNameLen;
+              pBuf->szData[iCurLen++] = L'=';
+              pBuf->szData[iCurLen++] = L'\"';
+              wcsncpy( pBuf->szData + iCurLen, pszAttrValue, iAttrValueLen );
+              iCurLen += iAttrValueLen;
+              pBuf->szData[iCurLen++] = L'\"';
+            } /* endif */
+          } /* endfor */
+          pBuf->szData[iCurLen] = 0;
+        }
         break;
       case INVCHAR_ELEMENT:
         // segment contains invalid data
@@ -1998,7 +1820,7 @@ void TMXParseHandler::fillSegmentInfo
   }
   else if ( CurElement.szDataType[0] ) 
   {
-    pType2Markup->FindName( CurElement.szDataType, pSegment->szFormat, sizeof(pSegment->szFormat) );
+    FindName(  Type2Markup, CurElement.szDataType, pSegment->szFormat, sizeof(pSegment->szFormat) );
   } /* endif */
 
   if ( pBuf->szDocument[0] )
@@ -2086,6 +1908,11 @@ void TMXParseHandler::endElement(const XMLCh* const name )
         int iCurrent = 0;
         PTMXTUV pSourceTuv = NULL;
 
+        // change markup table to XLIFF when segment data contains TMX inline tags
+        if ( this->fWithTMXTags )
+        {
+          strcpy( CurElement.szTMMarkup, "OTMXUXLF" );
+        } /* endif */
         // find <tuv> containing the source data
         iCurrent = 0;
         PTMXTUV pCurrentTuv = pTuvArray;
@@ -2269,14 +2096,14 @@ void TMXParseHandler::endElement(const XMLCh* const name )
           else
           {
             // convert TMX language to Tmgr language name
-            if ( !pLangTmx2Tmgr->FindName( CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
+            if ( !FindName( Language_TMX2Tmgr, CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
             {
               // language not found, strip language code and try again
               PSZ pszDelim = strchr( CurElement.szTMXLanguage, '-' );
               if ( pszDelim )
               {
                 *pszDelim = '\0';
-                if ( !pLangTmx2Tmgr->FindName( CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
+                if ( !FindName( Language_TMX2Tmgr, CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
                 {
                   fTuvLangInvalid = TRUE;          // language not supported
                 } /* endif */
@@ -2344,11 +2171,41 @@ void TMXParseHandler::endElement(const XMLCh* const name )
     case PH_ELEMENT:
     case HI_ELEMENT:
     case IT_ELEMENT:
-      CurElement.fInlineTagging = FALSE;
-      break;
     case SUB_ELEMENT:
-      break;
     case UT_ELEMENT:
+      {
+        CurElement.fInsideTagging = FALSE;
+        // close self contained tag or add end tag
+        if ( this->fTMXTagStarted )
+        {
+          // close self contained inline tag
+          int iCurLen = wcslen( pBuf->szData );
+          if ( (iCurLen + 4) < DATABUFFERSIZE)
+          {
+            pBuf->szData[iCurLen++] = L' ';
+            pBuf->szData[iCurLen++] = L'/';
+            pBuf->szData[iCurLen++] = L'>';
+            pBuf->szData[iCurLen++] = 0;
+          } /* endif */
+          this->fTMXTagStarted = FALSE;
+        }
+        else
+        {
+          // add end tag to current text buffer 
+          int iCurLen = wcslen( pBuf->szData );
+          int iTagLen = wcslen( pszName );
+          if ( (iCurLen + iTagLen + 3) < DATABUFFERSIZE)
+          {
+            pBuf->szData[iCurLen++] = L'<';
+            pBuf->szData[iCurLen++] = L'/';
+            wcsncpy( pBuf->szData + iCurLen, pszName, iTagLen );
+            iCurLen += iTagLen;
+            pBuf->szData[iCurLen++] = L'>';
+            pBuf->szData[iCurLen++] = 0;
+          } /* endif */
+        } /* endif */
+        this->fWithTagging = FALSE;
+      }
       break;
     case INVCHAR_ELEMENT:
       break;
@@ -2481,6 +2338,18 @@ void TMXParseHandler::characters(const XMLCh* const chars, const XMLSize_t lengt
   PSZ_W pszChars = (PSZ_W)chars;
   int iLength = length;
 
+  if ( this->fTMXTagStarted )
+  {
+    // close open TMX inline tag
+    int iCurLen = wcslen( pBuf->szData );
+    if ( (iCurLen + 2) < DATABUFFERSIZE)
+    {
+      pBuf->szData[iCurLen++] = '>';
+      pBuf->szData[iCurLen] = 0;
+    } /* endif */
+    this->fTMXTagStarted = FALSE;
+  } /* endif */
+
   if ( hfLog ) fprintf( hfLog, "%ld Characters; \"%S\"\n", length, pszChars );
 
   if ( (CurElement.ID == PROP_ELEMENT) && (CurElement.PropID != UNKNOWN_PROP) )
@@ -2517,8 +2386,16 @@ void TMXParseHandler::characters(const XMLCh* const chars, const XMLSize_t lengt
     int iCurLen = wcslen( pBuf->szData );
     if ( (iCurLen + length + 1) < DATABUFFERSIZE)
     {
-      wcsncpy( pBuf->szData + iCurLen, pszChars, length );
-      pBuf->szData[iCurLen+length] = 0;
+      if ( CurElement.fInsideTagging )
+      {
+        // escape any special characters in inline tags
+        EscapeXMLChars( pszChars, pBuf->szData + iCurLen );
+      }
+      else
+      {
+        wcsncpy( pBuf->szData + iCurLen, pszChars, length );
+        pBuf->szData[iCurLen+length] = 0;
+      }
     } /* endif */
     if ( CurElement.fInlineTagging ) this->fInlineTags = TRUE;
   } /* endif */
@@ -2605,11 +2482,6 @@ void TMXParseHandler::Pop( PTMXELEMENT pElement )
   return;
 } /* end of method TMXParseHandler::Pop */
 
-void TMXParseHandler::SetNameLists( CNameList *pLangList, CNameList *pTypeList )
-{
-  pLangTmx2Tmgr = pLangList;
-  pType2Markup = pTypeList;
-} /* end of method TMXParseHandler::SetNameLists */
 
 void TMXParseHandler::SetMemInfo( PMEMEXPIMPINFO pMemInfo)
 {
@@ -2661,14 +2533,14 @@ BOOL TMXParseHandler::TMXLanguage2TMLanguage( PSZ pszTMLanguage, PSZ pszTMXLangu
   }
   else if ( *pszTMXLanguage )
   {
-    if ( !pLangTmx2Tmgr->FindName( pszTMXLanguage, pszResultingLanguage, 50 ) )
+    if ( !FindName( Language_TMX2Tmgr, pszTMXLanguage, pszResultingLanguage, 50 ) )
     {
       // try first part of language only
       PSZ pszDelim = strchr( pszTMXLanguage, '-' );
       if ( pszDelim )
       {
         *pszDelim = '\0';
-        pLangTmx2Tmgr->FindName( pszTMXLanguage, pszResultingLanguage, 50 );
+        FindName( Language_TMX2Tmgr, pszTMXLanguage, pszResultingLanguage, 50 );
         *pszDelim = '-';
       } /* endif */
     } /* endif */
@@ -4498,4 +4370,51 @@ PSZ_W MADSkipWhitespace( PSZ_W pszData )
 {
   while ( *pszData == L' ' ) pszData++;
   return( pszData );
+}
+
+// escape characters in segment data to form valid XML
+void EscapeXMLChars( PSZ_W pszText, PSZ_W pszBuffer )
+{
+  while ( *pszText )
+  {
+    if ( *pszText == L'\n' )
+    {
+      wcscpy( pszBuffer, L"\r\n" );
+      pszBuffer += wcslen( pszBuffer );
+    }
+    else if ( *pszText == L'\r' )
+    {
+    }
+    else if ( *pszText == L'&' )
+    {
+      wcscpy( pszBuffer, L"&amp;" );
+      pszBuffer += wcslen( pszBuffer );
+    }
+    else if ( *pszText == L'<' )
+    {
+      wcscpy( pszBuffer, L"&lt;" );
+      pszBuffer += wcslen( pszBuffer );
+    }
+    else if ( *pszText == L'>' )
+    {
+      wcscpy( pszBuffer, L"&gt;" );
+      pszBuffer += wcslen( pszBuffer );
+    }
+    else if ( *pszText == L'\"' )
+    {
+      wcscpy( pszBuffer, L"&quot;" );
+      pszBuffer += wcslen( pszBuffer );
+    }
+    else if ( (*pszText == L'\x1F') || (*pszText == L'\t') )
+    {
+      // suppress some special characters
+      *pszBuffer++ = L' ';
+    }
+    else
+    {
+      *pszBuffer++ = *pszText;
+    } /* endif */
+    pszText++;
+  } /*endwhile */
+  *pszBuffer = 0;
 }

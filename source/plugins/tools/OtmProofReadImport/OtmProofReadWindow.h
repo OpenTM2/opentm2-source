@@ -60,7 +60,23 @@ typedef struct _PROOFREADIMPORTLASTUSED
   BOOL      fProcessMem;                        // process memory flag
   CHAR      szSaveDir[MAX_PATH];                // last used direcory to save or load lists
   BOOL      fShowDifferences;                   // show differences flag
-  CHAR      szFiller[6048];                     // room for future enhancements
+  // info on last used font
+  LONG lfHeight;
+  LONG lfWidth;
+  LONG lfEscapement;
+  LONG lfOrientation;
+  LONG lfWeight;
+  BYTE lfItalic;
+  BYTE lfUnderline;
+  BYTE lfStrikeOut;
+  BYTE lfCharSet;
+  BYTE lfOutPrecision;
+  BYTE lfClipPrecision;
+  BYTE lfQuality;
+  BYTE lfPitchAndFamily;
+  TCHAR lfFaceName[40];
+  //
+  CHAR      szFiller[5980];                     // room for future enhancements
 } PROOFREADIMPORTLASTUSED, *PPROOFREADIMPORTLASTUSED;
 
 // fixed width of first two columns
@@ -163,6 +179,7 @@ typedef struct _PROOFREADDATA
   ULONG       ulOEMCP;                      // OEM CP for current language
   BOOL        fShowDifferences;             // show differences flag
   int         iProcessRuns;                 // number of auto-processings donw
+  LOGFONT     lf;                           // settings of currently used font
 } PROOFREADDATA, *PPROOFREADDATA;
 
 BOOL PRI_PropertySheetLoad( HWND hwnd, PPROOFREADDATA pIda );

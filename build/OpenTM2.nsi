@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.4.1"
+!define PRODUCT_VERSION "1.4.2"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -267,7 +267,6 @@ SectionEnd
    
    Caption "OpenTM2 ${PRODUCT_VERSION} Setup"
  
-   ;OutFile "OpenTM2 ${PRODUCT_VERSION} Setup-${MyTIMESTAMP}.exe"
    OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition.Setup.exe"  
   
   ;Default installation folder
@@ -498,7 +497,9 @@ ${File} "TABLE\" "RESLUTF16.XSL"
 ${File} "TABLE\" "TLIST.IBL"
 ${File} "TABLE\" "VALDOC2HTML.XSL"
 ${File} "TABLE\" "VALDOC3HTML.XSL"
-${File} "TABLE\" "TMXNAMES.LST"
+IfFileExists "$INSTDIR\TABLE\TMXNAMES.LST" 0 NoTMXNAMESLST
+Delete "$INSTDIR\TABLE\TMXNAMES.LST"
+NoTMXNAMESLST:
 ${File} "TABLE\" "OtmCleanup.lst"
 ${File} "TABLE\" "languages.xml"
 IfFileExists "$INSTDIR\DOC\eqfr5mst.PDF" 0 NoOldDocFile
@@ -1097,7 +1098,37 @@ notRunning:
  LoopDone:
  FileClose $UninstLog
  Delete "$INSTDIR\${UninstLog}"
+ Delete "$INSTDIR\PROPERTY\EQFEVENT.LOG"
+ Delete "$INSTDIR\PROPERTY\EQFDICT.PRP"
+ Delete "$INSTDIR\PROPERTY\EQFSYSW.PRP"
+ Delete "$INSTDIR\PROPERTY\EQFIMEX.PRP"
+ Delete "$INSTDIR\PROPERTY\EQFMEMLU.PRP"
+ Delete "$INSTDIR\PROPERTY\EQFMEMN.PRP"
+ Delete "$INSTDIR\PROPERTY\FLIST.L00"
+ Delete "$INSTDIR\WIN\TMSEM.DAT"
+ RMDir /r "$INSTDIR\LIST"
+ RMDir /r "$INSTDIR\MT"
+ RMDir /r "$INSTDIR\PLUGINS"
+ RMDir /r "$INSTDIR\LOGS"
+ RMDir /r "$INSTDIR\WIN"
+ RMDir /r "$INSTDIR\MEM_TM611_VERSION"
+ RMDir /r "$INSTDIR\EXPORT"
+ Delete "$INSTDIR\MEM\*.MEMINFO"
+ Delete "$INSTDIR\MEM\*.OUT"
+ RMDir "$INSTDIR\MEM"
+ RMDir "$INSTDIR\ProofReadLists"
+ Delete "$INSTDIR\property.htm"
+ Delete "$INSTDIR\PROPERTY\EQFNFLUENT.*"
+ Delete "$INSTDIR\PROPERTY\selected_exes.history"
+ RMDir "$INSTDIR\PROPERTY"
+ Delete "$INSTDIR\TABLE\*.MUTINFO"
+ Delete "$INSTDIR\TABLE\PROPERTY.LNG.DONOTUSE"
+ Delete "$INSTDIR\TABLE\SOURCE.LNG.DONOTUSE"
+ Delete "$INSTDIR\TABLE\TARGET.LNG.DONOTUSE"
+ RMDir "$INSTDIR\TABLE"
  RMDir "$INSTDIR"
+
+ 
  Pop $R2
  Pop $R1
  Pop $R0

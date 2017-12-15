@@ -16,6 +16,13 @@
   //#define SESSIONLOG
 #endif
 
+// GQ 2017/10/31 activate the following define to protect the attributes of protected tags
+// the protection of tag attributes had been added to fix P403787
+// as the attributes of of <meta> tags sometimes have to be translated and no rules
+// could be defined when to protect the attributes and when not the fix had to be
+// deactivated
+//#define PROTECT_ATTRIBUTES_OF_PROTECTED_TAGS
+
 #define INCL_EQF_TM               // general Transl. Memory functions
 #define INCL_EQF_MORPH            // morphologic functions
 #define INCL_EQF_ASD              // dictionary access functions (Asd...)
@@ -112,8 +119,10 @@ static CHAR szCloseSeqUnicode[] = "\x0D\x00\x0A\x00\x1A\x00"; // file close sequ
 #endif
 
 
-  BOOL isXMPScreenStartTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup, PBOOL pfIsSelfContainedProtectTag  );
-  BOOL isXMPScreenEndTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup );
+BOOL isXMPScreenStartTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup, PBOOL pfIsSelfContainedProtectTag  );
+BOOL isXMPScreenEndTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup );
+BOOL isSelfContainedTagEnd( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup );
+
 
 /** Prepare the list of start and stop tags based on user selection and current markup table name 
  \param pInD pointer to analysis instance data area
@@ -4016,6 +4025,8 @@ BOOL SetSegInfo(
    BOOL    fText;                        // is there a text token in assoc. text?
    SEGTYPE SegType;                      // segmenting type     /* 1@KIT1110A */
    BOOL    fIsSelfContainedProtectTag = FALSE; // TRUE this is a self contained tag which should be protected
+   BOOL    fProtectSectionTagFound = FALSE; // TRUE the start of a protected section has been detected
+   BOOL    fProtectSectionEnds = FALSE; // TRUE a protected section ends at the current tag
 
    pSegTok = *ppSegTokenEntry;
    pCurSB = *ppCurSegBoundary;
@@ -4035,20 +4046,40 @@ BOOL SetSegInfo(
         pSegTok->pDataStringW[pSegTok->usLength] = chTemp;
       } /* endif */
 #endif
-   usSegValue =  (SEGSTATE)GetSegValue( pTag[pSegTok->sTokenid],
-                                       sSegState);
+    usSegValue =  (SEGSTATE)GetSegValue( pTag[pSegTok->sTokenid],
+                                        sSegState);
 
 
-   if ( (pInD->iNumOfActiveStartTags > 0) && isXMPScreenStartTag( pInD, pSegTok->pDataStringW, pSegTok->usLength, pInD->szCurFormat, &fIsSelfContainedProtectTag ) )
+#ifdef PROTECT_ATTRIBUTES_OF_PROTECTED_TAGS
+  if ( pInD->fProtectedSelfContainedTag && isSelfContainedTagEnd( pInD, pSegTok->pDataStringW, pSegTok->usLength, pInD->szCurFormat ) )
+    {
+      pInD->fProtectMode = FALSE;
+      pInD->fProtectedSelfContainedTag = FALSE;
+      fProtectSectionEnds = TRUE;
+    }
+    else 
+#endif
+    if ( (pInD->iNumOfActiveStartTags > 0) && isXMPScreenStartTag( pInD, pSegTok->pDataStringW, pSegTok->usLength, pInD->szCurFormat, &fIsSelfContainedProtectTag ) )
     {
       pInD->fProtectMode = TRUE;
+      fProtectSectionTagFound = TRUE;
     }
     else if ( (pInD->iNumOfActiveEndTags > 0) && isXMPScreenEndTag( pInD, pSegTok->pDataStringW, pSegTok->usLength, pInD->szCurFormat ) )
     {
       pInD->fProtectMode = FALSE;
+      fProtectSectionEnds = TRUE;
     }
 
-   switch (usSegValue)
+#ifdef PROTECT_ATTRIBUTES_OF_PROTECTED_TAGS
+    if ( fIsSelfContainedProtectTag )
+    {
+      pInD->fProtectedSelfContainedTag = TRUE;
+      pInD->fProtectMode = TRUE;
+      fProtectSectionTagFound = TRUE;
+    } /* endif */
+#endif
+
+    switch (usSegValue)
       {
       case NOASSOC_NODEL_OFF_SEGOFF :
       case NOASSOC_NODEL_OFF_SEGON  :
@@ -4199,6 +4230,28 @@ BOOL SetSegInfo(
          fSegboundary2 = FALSE;
          break;
       } /* endswitch */
+
+      // ensure that a segment boundary is set when a protection section starts
+      if ( fProtectSectionTagFound )
+      {
+        fSegboundary1 = TRUE;
+        Seginfo1 = NOSEG;
+
+        // when there is already a segment boundary at the tag start, ensure that the segment state is set correctly
+        if ( pSegTok->pDataStringW == pCurSB->pBoundary)
+        {
+          pCurSB->XlateState = NOP;
+        } /* endif */
+      } /* endif */
+
+      // speciall handling at the end of the protected section
+      if ( fProtectSectionEnds )
+      {
+         Seginfo1 = SEG;
+         Seginfo2 = SEG;
+         fSegboundary1 = TRUE;
+         fSegboundary2 = TRUE;
+      }
 
 #ifdef TSEGM_SEGLOGGING
       if ( hSegLog )
@@ -9311,6 +9364,37 @@ BOOL isXMPTag( PSZ_W pszTag, USHORT usLen, PXMPTAG pTagList )
   return( fFound );
 
 } /* end of isXMPTag */
+
+
+BOOL isSelfContainedTagEnd( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup )
+{
+  BOOL        fTagEnd = FALSE;
+  PSZ_W pszTagToTest;
+
+  CHAR_W chTemp = pszTag[usTagLen];
+  pszTag[usTagLen] = EOS;
+
+  // skip any "<twb--" prefix of tag
+  if ( wcsnicmp( pszTag, L"<twb--", 6) == 0 )
+  {
+    pszTagToTest = pszTag + 6;
+  }
+  else
+  {
+    pszTagToTest = pszTag;
+  } /* endif */     
+
+  if ( pszTagToTest[0] == L'"' ) pszTagToTest++;
+  if ( (pszTagToTest[0] == L'/') && (pszTagToTest[1] == L'>') )
+  {
+    fTagEnd = TRUE;
+  } /* endif */
+
+  pszTag[usTagLen] = chTemp;
+
+  return( fTagEnd );
+} /* end of isSelfContainedTagEnd */
+
 
 BOOL isXMPScreenStartTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup, PBOOL pfIsSelfContainedProtectTag  )
 {

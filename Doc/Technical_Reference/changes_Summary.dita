@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
-<topic xml:lang="en-us" id="SummaryOfChanges" rev="GF_03042017">
+<topic xml:lang="en-us" id="SummaryOfChanges">
   <title>Summary of Changes</title>
   <prolog>
     <metadata>
@@ -10,11 +10,5 @@
   <body>
     <p>This section provides a summary of changes compared to the previous version of the product. 
        Changes in the book are marked with a vertical bar.</p>
-    <p>
-      <ul>
-        <li><b>New</b> API-calls added to the document (see revision bars in the 
-            document, or see <xref href="changes_140.dita#changes_140"/>).</li>
-      </ul>
-    </p>
   </body>
 </topic>

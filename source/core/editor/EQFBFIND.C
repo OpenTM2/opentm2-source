@@ -120,6 +120,7 @@ PFINDDATA pFindData                // ptr to FindData
   PTBSEGMENT pSeg;                    //ptr to segment
   CHAR_W chChar;                      //temporarily store current char
   CHAR_W c;                           //temporarily hold *pData
+  USHORT usMatchLen;                  //length of matches string
 
   // copy, otherwise chFindTarget is empty
   UTF16strcpy( pFindData->chFindTarget, pFindData->chFind );
@@ -133,7 +134,7 @@ PFINDDATA pFindData                // ptr to FindData
   }
   else
   {
-    usLen = (USHORT) UTF16strlenCHAR(pFindData->chFindTarget);
+    usMatchLen = usLen = (USHORT) UTF16strlenCHAR(pFindData->chFindTarget);
     ulSegNum = pFindData->ulSegNumBegin;
     usSegOffset = pFindData->usSegOffsetBegin;
     sRc = 0;
@@ -253,6 +254,15 @@ PFINDDATA pFindData                // ptr to FindData
             {
               found = TRUE;
               usSegOffset = (USHORT)(pData - pText);
+
+              // GQ 20170926 Adjust usMatchLen, the segment may contain softline feeds which are not contained in usLen yet
+              for( USHORT usI = 0; usI < usLen; usI++ )
+              {
+                if ( pData[usI] == SOFTLF_CHAR )
+                {
+                  usMatchLen++;
+                } /* endif */
+              } /* endfor */
             }
             else         // no match; go on if possible
             {
@@ -352,7 +362,7 @@ PFINDDATA pFindData                // ptr to FindData
         {
           pFindData->usFirstCall =  CH_CHNGEFIND;
           //goto segment , position TBRowOffset and TBCursor
-          EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usLen);
+          EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usMatchLen);
         } /* endif */
         /**************************************************************/
         /* set begin position for consecutive calls                   */
@@ -363,7 +373,7 @@ PFINDDATA pFindData                // ptr to FindData
       else
       {
         pFindData->usFirstCall =  CH_CHNGEFIND;
-        EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usLen);
+        EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usMatchLen);
         sRc = 0;
       } /* endif */
     } /* endif */
@@ -435,10 +445,11 @@ PFINDDATA pFindData                // ptr to FindData
   BOOL   fWrapped = FALSE;
   USHORT  usLen2;
   USHORT  usNextAfterFirstSegOffs = 1;  // is 2 if usFirstSegOffset == DBCS1st
+  USHORT usMatchLen;                  //length of match in segment data
  
   pSeg = EQFBGetVisSeg(pDoc, &(pFindData->ulFirstSegNum));
 
-  usLen = (USHORT) UTF16strlenCHAR(pFindData->chFindTarget);
+  usMatchLen = usLen = (USHORT) UTF16strlenCHAR(pFindData->chFindTarget);
   ulSegNum = pFindData->ulSegNumBegin;                         /* @X3C */
   usSegOffset = pFindData->usSegOffsetBegin;                   /* @X3C */
   sRc = 0;
@@ -597,6 +608,16 @@ PFINDDATA pFindData                // ptr to FindData
           {
             found = TRUE;
             usSegOffset = (USHORT) (pData - pText);
+
+            // GQ 20170926 Adjust usMatchLen, the segment may contain softline feeds which are not contained in usLen yet
+            for( USHORT usI = 0; usI < usLen; usI++ )
+            {
+              if ( pData[usI] == SOFTLF_CHAR )
+              {
+                usMatchLen++;
+              } /* endif */
+            } /* endfor */
+
           }
           else         // no match; go on if possible
           {
@@ -678,7 +699,7 @@ PFINDDATA pFindData                // ptr to FindData
                           + usNextAfterFirstSegOffs);
         } /* endif */
         //goto segment , position TBRowOffset and TBCursor
-        EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usLen);
+        EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usMatchLen);
       } /* endif */
       /**************************************************************/
       /* set begin position for consecutive calls                   */
@@ -703,7 +724,7 @@ PFINDDATA pFindData                // ptr to FindData
       {
         usSegOffset += (pFindData->usFirstSegOffset + usNextAfterFirstSegOffs);
       } /* endif */
-      EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usLen);
+      EQFBFindGotoSeg(pDoc,ulSegNum,usSegOffset,usMatchLen);
       sRc = 0;
     } /* endif */
 
@@ -800,7 +821,9 @@ VOID EQFBBlanksAndLFSubst
     p2 = pSeg->pDataW;
     while ( (c = *p1 = *p2) != NULC )
     {
-        if ( (c == LF) || (c == SOFTLF_CHAR) )
+        // GQ 2017/09/25 Leave SOFT LF as-is
+        // if ( (c == LF) || (c == SOFTLF_CHAR) )
+        if ( c == LF ) 
         {
           if (!IsDBCS_CP(pDoc->ulOemCodePage) )           //for SBCS only
           {
@@ -2334,7 +2357,11 @@ PSZ_W   pSearch
       pData ++;
       pSearch ++;
     }
-    else if ( (c == LF) || (c == SOFTLF_CHAR) )
+    else if ( c == SOFTLF_CHAR )
+    {
+      pData ++;
+    }
+    else if ( c == LF )
     {
       pData ++;
       if (d == BLANK )

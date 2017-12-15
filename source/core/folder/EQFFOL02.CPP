@@ -2921,7 +2921,7 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
             char szCode[10];
             itoa( iFileRC, szCode, 10 );
             pszParms[1] = szCode;
-            UtlErrorHwnd( iFileRC, MB_CANCEL, 2, pszParms, EQF_ERROR, pIda->hwndErrMsg );
+            UtlErrorHwnd( (SHORT)iFileRC, MB_CANCEL, 2, pszParms, EQF_ERROR, pIda->hwndErrMsg );
           }
           pIda->fReserved = FALSE; // property file is not a dummy file anymore
         }
@@ -4604,7 +4604,7 @@ PFOLIMPIDA  pIda                     // ptr to folder import IDA
             SegLog.AddFlags.ShipmentRec = TRUE;
             WriteToMTLog( hMTLog, &SegLog, NULL, NULL, NULL, NULL );
             fclose( hMTLog );          
-          } /* endif */             
+          } /* endif */       
         } /* endif */
 
 		
@@ -4733,7 +4733,7 @@ PFOLIMPIDA  pIda                     // ptr to folder import IDA
                             TRUE , pIda->hwndErrMsg );
         } /* endif */
 
-        // move MT log file
+        // copy/merge MT log file(s)
         if ( UtlFileExist( pData->szImpMTLog ) )
         {
           // create MTLOG directory if necessary
@@ -4874,7 +4874,7 @@ PFOLIMPIDA  pIda                     // ptr to folder import IDA
                             TRUE , pIda->hwndErrMsg );
         } /* endif */
 
-        // move MT log file
+        // move or merge MT log file
         if ( UtlFileExist( pData->szImpMTLog ) )
         {
           // create MTLOG directory if necessary
@@ -4885,9 +4885,15 @@ PFOLIMPIDA  pIda                     // ptr to folder import IDA
             UtlMkDir( pData->szDirBuffer, 0, FALSE );
           } /* endif */
 
+          if ( UtlFileExist( pData->szMTLog ) )
+          {
+            FolMergeMTLog( pData->szImpMTLog, pData->szMTLog  );
+          }
+          else
+          {
+            UtlSmartMoveHwnd( pData->szImpMTLog, pData->szMTLog, TRUE , pIda->hwndErrMsg );
+          } /* endif */             
 
-          UtlSmartMoveHwnd( pData->szImpMTLog, pData->szMTLog,
-                            TRUE , pIda->hwndErrMsg );
         } /* endif */
 
         // move Misc file

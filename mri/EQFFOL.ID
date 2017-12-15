@@ -383,6 +383,7 @@
 #define ID_FOLFIND_SEGSBEFORE_TEXT     ID_FOLFIND_DLG + 53
 #define ID_FOLFIND_STOP_PB             ID_FOLFIND_DLG + 54
 #define ID_FOLFIND_COLOR_PB            ID_FOLFIND_DLG + 55
+#define ID_FOLFIND_FONT_PB             ID_FOLFIND_DLG + 56
  
 #define ID_FOLFIND_BATCHLIST_LISTVIEW  ID_FOLFIND_BATCHLIST_TAB + 1
 #define ID_FOLFIND_BATCHLIST_UP_PB     ID_FOLFIND_BATCHLIST_TAB + 2
@@ -420,6 +421,7 @@
 #define ID_FUZZYSEARCH_DISPLAYOPT_GB       ID_FUZZYSEARCH_DLG + 15
 #define ID_FUZZYSEARCH_OPTIONS_GB          ID_FUZZYSEARCH_DLG + 16
 #define ID_FUZZYSEARCH_COLOR_PB            ID_FUZZYSEARCH_DLG + 17
+#define ID_FUZZYSEARCH_FONT_PB             ID_FUZZYSEARCH_DLG + 18
 
 /**********************************************************************/
 /* IDs for Document Processing Options dialog                         */

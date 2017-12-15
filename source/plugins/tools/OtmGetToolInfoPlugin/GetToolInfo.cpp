@@ -35,6 +35,9 @@ typedef unsigned short (__cdecl *PLUGINPROC) ();
 */
 typedef unsigned short (__cdecl *PLUGININFOPROC) ( POTMPLUGININFO pInfo );  
 
+
+USHORT GetDriveList( BYTE *szList, PULONG pulDriveListTime );
+
 //
 // GQ: The functions below have been borrowed from the OtmBase DLL in order to create a stand-alone version of the OtmGetToolInfo tool
 //
@@ -162,11 +165,13 @@ BYTE UtlQCurDisk()
     return (BYTE)szCurDir[0];
 }
 
-USHORT UtlGetDriveList( BYTE *szList)
+USHORT GetDriveList( BYTE *szList, PULONG pulDriveListTime )
 {
     BYTE   bDrive;                     // currently logged drive
     WORD   wReturn;                    // return value from GetDriveType
     register int i;
+
+    ULONG ulTime = GetTickCount();
 
     for (i=0, wReturn=0; i<26;i++)
     {
@@ -193,6 +198,11 @@ USHORT UtlGetDriveList( BYTE *szList)
     *szList = '\0';
 
     bDrive = UtlQCurDisk();
+
+    if ( pulDriveListTime != NULL )
+    {
+      *pulDriveListTime = GetTickCount() - ulTime;
+    } /* endif */
     return( (USHORT) (bDrive - 'A' + 1));   // set index relative to 0
 }
 
@@ -202,7 +212,7 @@ USHORT UtlGetLANDriveList( PBYTE pszList )
   SHORT sDriveType;                    // type of currently tested drive
   USHORT usRC;
 
-  usRC = UtlGetDriveList( pszList);    // get all available drives
+  usRC = GetDriveList( pszList, NULL );    // get all available drives
 
   pSource = pTarget = pszList;         // start at begin of drive list
 
@@ -546,11 +556,14 @@ int GetToolInfo::ShowDrivesInfo()
 
     // Get the Drive Info
     CHAR szDrives[MAX_DRIVELIST];
-    UtlGetDriveList((BYTE *) szDrives);
+    ULONG ulDriveListTime = 0;
+    GetDriveList((BYTE *) szDrives, &ulDriveListTime );
 
     sprintf(strShowMsg, DRIVE_INFO_TITLE_STR);
     ShowInfoMsg(strShowMsg);
     ShowDriveInfo(szDrives);
+    sprintf(strShowMsg, DRIVE_LIST_TIME_FORMAT_STR, ulDriveListTime );
+    ShowInfoMsg(strShowMsg);
     ShowInfoMsg(LINE_BREAK_STR);
 
     // Get the LAN Drives
@@ -1891,16 +1904,24 @@ void GetToolInfo::ShowDriveInfo(const char * strDrives)
         unsigned _int64 i64FreeBytesToCaller;
         unsigned _int64 i64TotalBytes;
         unsigned _int64 i64FreeBytes;
+        ULONG ulAccessTime = GetTickCount();
         fResult = GetDiskFreeSpaceEx(strDir,
                                      (PULARGE_INTEGER)&i64FreeBytesToCaller, 
                                      (PULARGE_INTEGER)&i64TotalBytes, 
                                      (PULARGE_INTEGER)&i64FreeBytes);
-
+        ulAccessTime = GetTickCount() - ulAccessTime;
         if (fResult)
         {
             char strShowMsg[MAX_LEN_MSG];
             memset(strShowMsg, 0x00, sizeof(strShowMsg));
-            sprintf(strShowMsg, DRIVE_SIZE_FORMAT_STR, strDrives[iInx], (float)i64TotalBytes/1000/1000, (float)i64FreeBytesToCaller/1000/1000);
+            sprintf(strShowMsg, DRIVE_SIZE_FORMAT_STR, strDrives[iInx], (float)i64TotalBytes/1000/1000, (float)i64FreeBytesToCaller/1000/1000, ulAccessTime );
+            ShowInfoMsg(strShowMsg);
+        }
+        else
+        {
+            char strShowMsg[MAX_LEN_MSG];
+            memset(strShowMsg, 0x00, sizeof(strShowMsg));
+            sprintf(strShowMsg, DRIVE_NOSIZE_AVAIL_STR, strDrives[iInx], ulAccessTime );
             ShowInfoMsg(strShowMsg);
         }
     }

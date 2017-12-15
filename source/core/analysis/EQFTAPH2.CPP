@@ -6386,6 +6386,8 @@ BOOL TAWriteMTSegmentToTmxFile( PTAINPUT pTAInput, PMTOUTDATA pData, PMTOUTFILE 
   if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
   swprintf ( pData->szUTF16Buffer, L"      <prop type=\"tmgr:docname\">%S</prop>\r\n", pTAInput->pInD->pszCurSourceFile );
   if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
+  swprintf ( pData->szUTF16Buffer, L"      <prop type=\"tmgr:translFlag\">1</prop>\r\n" );
+  if ( fOK ) fOK = TAWriteInUTF8( pData, pOutFile->hfOut, pData->szUTF16Buffer );
   if ( pOutFile->fIncludeWordCountInfo )
   {
     swprintf ( pData->szUTF16Buffer, L"      <prop type=\"tmgr:words\">%lu</prop>\r\n", ulSegSourceWords );
@@ -6430,7 +6432,7 @@ BOOL TAWriteMTSegmentToExpFile( PTAINPUT pTAInput, PMTOUTFILE pOutFile, PSZ_W ps
   fwprintf( pOutFile->hfOut, L"%ld\r\n", pOutFile->iCurSeg );
   fputws( MEM_CONTROL_BEGIN_TAGW, pOutFile->hfOut );
 
-  fwprintf( pOutFile->hfOut, L"%06hu%s%c%s%016lu%s%S%s%S%s%S%s%S%s%S%s%S", ulSegNum, X15_STRW, L'0', X15_STRW,
+  fwprintf( pOutFile->hfOut, L"%06hu%s%c%s%016lu%s%S%s%S%s%S%s%S%s%S%s%S", ulSegNum, X15_STRW, L'1', X15_STRW,
                         0L, X15_STRW, pTAInput->pInD->szDocSourceLang, X15_STRW,
                         pTAInput->pInD->szDocTargetLang, X15_STRW, "", X15_STRW,
                         pTAInput->pInD->szDocFormat, X15_STRW, pTAInput->pInD->pszCurSourceFile, X15_STRW, pTemp );

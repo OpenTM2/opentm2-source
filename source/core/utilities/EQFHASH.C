@@ -32,142 +32,6 @@
 //+----------------------------------------------------------------------------+
 //|To be done / known limitations / caveats:                                   |
 //+----------------------------------------------------------------------------+
-//| PVCS Section                                                               |
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 30 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 27 Jun 2003
-//  -- New Release TM6.0.2!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 24 Feb 2003
-// --RJ: delete obsolete code and remove (if possible)compiler warnings
-// 
-//
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-//
-//
-// $Revision: 1.2 $ ----------- 29 Jul 2002
-// --RJ: R7197: add CP to WInFindAtomW, WIndAddAtomW conversions;
-//       del. WinQUeryAtomNameW - it is not used
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jul 2002
-//  -- New Release TM6.0!!
-//
-//
-// $Revision: 1.4 $ ----------- 25 Sep 2001
-// --Unicode enabling: add WinAddAtomW, WinFindAtomW
-//
-//
-// $Revision: 1.3 $ ----------- 18 Sep 2001
-// --Unicode enabling: add WinAddAtomW, WinFindAtomW
-//
-//
-// $Revision: 1.2 $ ----------- 3 Sep 2001
-// -- RJ: Unicode enablement
-//
-//
-//
-// $Revision: 1.1 $ ----------- 16 Aug 2001
-//  -- New Release TM2.7.2!!
-//
-//
-// $Revision: 1.2 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-//
-/*
- * $Header:   J:\DATA\EQFHASH.CV_   1.2   09 Feb 1998 17:30:38   BUILD  $
- *
- * $Log:   J:\DATA\EQFHASH.CV_  $
- *
- *    Rev 1.2   09 Feb 1998 17:30:38   BUILD
- * - Win32: avoid compiler warnings
- *
- *    Rev 1.1   08 Sep 1997 10:40:12   BUILD
- * -- KBT0067:  allocate POOL to what is really needed, not only to MAX_EQF_PATH.
- *
- *    Rev 1.0   09 Jan 1996 09:07:16   BUILD
- * Initial revision.
-*/
-//+----------------------------------------------------------------------------+
 
 #include "eqf.h"                  // General .H for EQF
 
@@ -212,7 +76,7 @@
 PHASH HashCreate
 (
   USHORT        usElementSize,
-  USHORT        usHashSize,                                 /* No of buckets  */
+  ULONG         ulHashSize,                                 /* No of buckets  */
   PFN_HASHVALUE pfnHashValue,
   PFN_HASHCOMP  pfnCompare,
   PFN_HASHFREE  pfnFree,
@@ -220,9 +84,9 @@ PHASH HashCreate
 )
 {
   PHASH pNewHash;
-  USHORT usI;
+  ULONG ulI;
 
-  if (usHashSize==0 || usElementSize==0)                     /* Illegal parms  */
+  if (ulHashSize==0 || usElementSize==0)                     /* Illegal parms  */
     return NULL;
 
   if (pfnHashValue==NULL || pfnCompare==NULL)    /* Ditto          */
@@ -235,10 +99,7 @@ PHASH HashCreate
   UtlAlloc( (PVOID *)&pNewHash, 0L, (LONG)sizeof(HASH), NOMSG );
   if (pNewHash!=NULL)                                      /* Out of memory ?*/
   {
-    UtlAlloc( (PVOID *)&pNewHash->apHashElements,
-              0L,
-              (LONG)(sizeof(PHASHLINK )*usHashSize),
-              NOMSG );
+    UtlAlloc( (PVOID *)&pNewHash->apHashElements, 0L, sizeof(PHASHLINK )*ulHashSize, NOMSG );
     if (pNewHash->apHashElements==NULL)
     {
       UtlAlloc( (PVOID *)&pNewHash, 0L, 0L, NOMSG );
@@ -247,7 +108,7 @@ PHASH HashCreate
     else
     {
       pNewHash->usElementSize=usElementSize;
-      pNewHash->usHashSize=usHashSize;
+      pNewHash->ulHashSize=ulHashSize;
       pNewHash->pfnHashValue=pfnHashValue;
       pNewHash->pfnCompare=pfnCompare;
       pNewHash->pfnFree=pfnFree;
@@ -256,9 +117,9 @@ PHASH HashCreate
       /***********************************************************************/
       /* Set all buckets to empty                                            */
       /***********************************************************************/
-      for ( usI=0; usI < usHashSize; ++usI )
+      for ( ulI=0; ulI < ulHashSize; ++ulI )
       {
-        pNewHash->apHashElements[usI] = NULL;
+        pNewHash->apHashElements[ulI] = NULL;
       } /* endfor */
     }
   }
@@ -308,7 +169,7 @@ BOOL HashAdd
   PVOID pAddElement
 )
 {
-  USHORT usHashValue;                  /* Which bucket   */
+  ULONG ulHashValue;                  /* Which bucket   */
   PHASHLINK    pElement;               /* Start of list  */
   PHASHLINK    *ppInsElement;          /* Where to insert*/
   int sCompResult;                     /* Add < Item     */
@@ -317,9 +178,9 @@ BOOL HashAdd
   /* Calculate which bucket to access                                        */
   /* Round to the hash size                                                  */
   /***************************************************************************/
-  usHashValue = (*pHash->pfnHashValue)( pHash->usHashSize, pAddElement);
-  usHashValue = usHashValue % pHash->usHashSize;
-  pElement    = pHash->apHashElements[usHashValue];
+  ulHashValue = (*pHash->pfnHashValue)( pHash->ulHashSize, pAddElement); 
+  ulHashValue = ulHashValue % pHash->ulHashSize;
+  pElement    = pHash->apHashElements[ulHashValue];
 
   /***************************************************************************/
   /* Search the table looking for the element that is being added.           */
@@ -330,9 +191,7 @@ BOOL HashAdd
     /*************************************************************************/
     /* If the item is already in the structure, then do not add it.          */
     /*************************************************************************/
-    sCompResult = (*pHash->pfnCompare)( pElement,
-                                                         pAddElement,
-                                                         pHash->pUserPtr );
+    sCompResult = (*pHash->pfnCompare)( pElement, pAddElement, pHash->pUserPtr );
     if (sCompResult==0)
       return FALSE;
 
@@ -353,7 +212,7 @@ BOOL HashAdd
   /***************************************************************************/
   /* Assume that we're going to insert at the beginning of the list.         */
   /***************************************************************************/
-  ppInsElement= &pHash->apHashElements[usHashValue];
+  ppInsElement= &pHash->apHashElements[ulHashValue];
 
   /***************************************************************************/
   /* Set up the links so that the element is part of the list                */
@@ -362,9 +221,7 @@ BOOL HashAdd
   /***************************************************************************/
   while ( *ppInsElement != NULL )
   {
-    if ((*pHash->pfnCompare)( *ppInsElement,
-                                         pAddElement,
-                                         pHash->pUserPtr) > 0)
+    if ((*pHash->pfnCompare)( *ppInsElement, pAddElement, pHash->pUserPtr) > 0)
       break;
     ppInsElement= &(*ppInsElement)->pNext;
   }
@@ -418,16 +275,16 @@ BOOL HashDelete
 {
   PHASHLINK  *ppElement;               // adress of current element pointer
   PHASHLINK  pNextElement;             // pointer to next element
-  USHORT     usHashValue;              // hash value for element
+  ULONG      ulHashValue;              // hash value for element
   SHORT      sCompResult;              // result of compare function
 
   /***************************************************************************/
   /* Calculate which bucket to access                                        */
   /* Round to the hash size                                                  */
   /***************************************************************************/
-  usHashValue  = (*pHash->pfnHashValue)( pHash->usHashSize, pDelElement );
-  usHashValue  %= pHash->usHashSize;
-  ppElement    = &pHash->apHashElements[usHashValue];
+  ulHashValue  = (*pHash->pfnHashValue)( pHash->ulHashSize, pDelElement );
+  ulHashValue  %= pHash->ulHashSize;
+  ppElement    = &pHash->apHashElements[ulHashValue];
 
   /***************************************************************************/
   /* Search the linear list looking for the element that is being deleted.   */
@@ -446,10 +303,6 @@ BOOL HashDelete
       (*pHash->pfnFree)( *ppElement, pHash->pUserPtr );
       *ppElement=pNextElement;                              /* Connect link   */
       return TRUE;                                         /* Found match    */
-    }
-    else if (sCompResult > 0)
-    {
-      return FALSE;
     }
     ppElement= &(*ppElement)->pNext;
   }
@@ -492,13 +345,13 @@ BOOL HashReset
 {
   PHASHLINK element;
   PHASHLINK next_item;
-  USHORT hash_index;
+  ULONG hash_index;
 
   /***************************************************************************/
   /* Iterate over all of the hash table lists and free the associated linked */
   /* list                                                                    */
   /***************************************************************************/
-  for (hash_index=0;hash_index<pHash->usHashSize;++hash_index)
+  for (hash_index=0;hash_index<pHash->ulHashSize;++hash_index)
   {
     element=pHash->apHashElements[hash_index];
     pHash->apHashElements[hash_index]=NULL;
@@ -591,16 +444,16 @@ PVOID HashSearch
   PVOID pSearchElement
 )
 {
-  USHORT    usHashValue;
+  ULONG     ulHashValue;
   int       sCompResult;
   PHASHLINK *ppElement;
 
   /***************************************************************************/
   /* Go to the correct bucket as determined by the hash function             */
   /***************************************************************************/
-  usHashValue = (*pHash->pfnHashValue)( pHash->usHashSize, pSearchElement) %
-                pHash->usHashSize;
-  ppElement= &pHash->apHashElements[usHashValue];
+  ulHashValue = (*pHash->pfnHashValue)( pHash->ulHashSize, pSearchElement) %
+                pHash->ulHashSize;
+  ppElement= &pHash->apHashElements[ulHashValue];
 
   /***************************************************************************/
   /* Search the chain looking for the element                                */
@@ -682,11 +535,11 @@ PVOID HashIterate
 {
   PHASHLINK pElement;                                 /*Iterated element*/
   PHASHLINK pNext;
-  USHORT    usIndex;
+  ULONG     ulIndex;
 
-  for ( usIndex = 0; usIndex < pHash->usHashSize; ++usIndex )
+  for ( ulIndex = 0; ulIndex < pHash->ulHashSize; ++ulIndex )
   {
-    pElement = pHash->apHashElements[usIndex];               /* First element  */
+    pElement = pHash->apHashElements[ulIndex];               /* First element  */
 
     /*************************************************************************/
     /* Iterate over the list calling the function for each element           */
@@ -1001,7 +854,7 @@ VOID PoolDestroy
 /**********************************************************************/
 LONG   AtomHashCompare( PATOMENTRY pEntry, PATOMENTRY pEntry2, PVOID pUserPtr );
 SHORT  AtomHashFree( PATOMENTRY pEntry, PVOID pUserPtr  );
-USHORT AtomHashKeyValue( LONG, PATOMENTRY );
+ULONG AtomHashKeyValue( ULONG, PVOID );
 
 HATOMTBL APIENTRY WinCreateAtomTable
 (
@@ -1028,7 +881,7 @@ HATOMTBL APIENTRY WinCreateAtomTable
  if ( fOK  )
  {
    pAtomTable->pHash = (PHASH)HashCreate( sizeof(ATOMENTRY),
-                                   (USHORT)(( cBuckets ) ? cBuckets : 1024),
+                                   (( cBuckets ) ? cBuckets : 1024),
                                    (PFN_HASHVALUE)AtomHashKeyValue,
                                    (PFN_HASHCOMP)AtomHashCompare,
                                    (PFN_HASHFREE)AtomHashFree,
@@ -1230,7 +1083,7 @@ static BYTE random2[256] = {
 //+----------------------------------------------------------------------------+
 //|Function call:     AtomHashKeyValue( lSize, pEntry );                      |
 //+----------------------------------------------------------------------------+
-//|Input parameter:   USHORT     lSize       size of hash table               |
+//|Input parameter:   ULONG     ulSize        size of hash table               |
 //|                   PATOMENTRY pEntry       point to hash entry              |
 //+----------------------------------------------------------------------------+
 //|Returncode type:   USHORT                                                   |
@@ -1246,17 +1099,18 @@ static BYTE random2[256] = {
 //|                   endwhile                                                 |
 //|                   return ushort from hash1 and hash2 value                 |
 //+----------------------------------------------------------------------------+
-USHORT AtomHashKeyValue
+ULONG AtomHashKeyValue
 (
-  LONG       lSize,                   // size of hash table
-  PATOMENTRY pEntry                    // point to hash entry
+  ULONG       ulSize,                   // size of hash table
+  PVOID       pvEntry                    // point to hash entry
 )
 {
+  PATOMENTRY pEntry = (PATOMENTRY)pvEntry;
   PBYTE pbTerm = (PBYTE)pEntry->szAtomName;
-  USHORT hash1 = 0;
-  USHORT hash2 = 0;
+  ULONG hash1 = 0;
+  ULONG hash2 = 0;
 
-  lSize;                              // avoid compiler warning
+  ulSize;                              // avoid compiler warning
 
   while ( *pbTerm )
   {

@@ -20,7 +20,7 @@
     <refsyn>
       <title>Format</title>
 <!-- ********************************************************************************************* -->
-      <syntaxdiagram rev="GF_18112016">
+      <syntaxdiagram>
         <groupseq>
           <kwd>usRC</kwd>
           <oper> = </oper>
@@ -132,7 +132,7 @@
                 if no analysis profile is to be used.</entry>
             </row>
 
-            <row rev="GF_18112016">
+            <row>
               <entry colname="col1">PSZ</entry>
               <entry colname="col2">pszMTOutput</entry>
               <entry colname="col3">This parameter can be used to control which MT-output files are to be created, 
@@ -175,7 +175,7 @@
 <!-- ****************************************************************************************** -->
 
 <!-- ****************************************************************************************** -->
-    <section rev="GF_18112016">
+    <section>
       <title>pszMTOutput option description</title>
       <p>The option <b>SENDTOMT_OPT</b> is used to control the MT output creation.</p>
       <p>When the option <b>SENDTOMT_OPT</b> has been specified, the parameter <b>pszMTOutput</b> can be used to 
@@ -191,7 +191,7 @@ outputfile-n(options for output file n)</codeblock>
 <!-- ****************************************************************************************** -->
 
 <!-- ****************************************************************************************** -->
-    <section rev="GF_18112016">
+    <section>
       <title>Keywords for pszMTOutput</title>
       <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
         <tgroup cols="2">
@@ -242,7 +242,7 @@ outputfile-n(options for output file n)</codeblock>
 <!-- ****************************************************************************************** -->
 
 <!-- ****************************************************************************************** -->
-    <section rev="GF_18112016">
+    <section>
       <title>Parameters for pszMTOutput</title>
       <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
         <tgroup cols="2">
@@ -315,7 +315,7 @@ outputfile-n(options for output file n)</codeblock>
 <!-- ****************************************************************************************** -->
 
 <!-- ****************************************************************************************** -->
-    <section rev="GF_18112016">
+    <section>
       <title>Samples</title>
       <p>pszMTOutput parameter to create a NOMATCH file in EXP format which does not contain segments with 
          exact matches, Hamster matches, MT matches and fuzzy matches with a fuzziness of 20% or better and 

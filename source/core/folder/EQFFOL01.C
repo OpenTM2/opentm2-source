@@ -6414,6 +6414,9 @@ LPARAM mp2
           EQFBWriteHistLog2( pIda->szBuffer1, "", HISTDATA_RESET_LOGTASK, 0, NULL, FALSE, NULLHANDLE, "" );
 
           FolFillHistlogSize( pIda, hwndDlg  );
+
+          UtlErrorHwnd( RESET_WORDCOUNT_INFO, MB_OK, 0, (PSZ *)NULP, EQF_INFO, hwndDlg );
+
           break;
 
 

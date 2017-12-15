@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_141_ValidationImport">
+  <title>Improvements for Fuzzy Segment Search Utility</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>Several improvements have been implemented for the <b>Fuzzy Segment Search</b> utility:
+      <ol>
+        <li>The <b>Search Segments With Fuzzy Matches</b> window has been improved to allow 
+            customization of the font being used in the <b>Search results</b> list.</li>
+        <li>The <b>Search Segments With Fuzzy Matches</b> window has been improved to allow 
+            customization of the color being used in the <b>Search results</b> list.</li>
+      </ol>
+    </p>
+    <p>For more information, go to <xref href="doc_SearchFuzzy.dita#doc_SearchFuzzy"/>.</p>
+  </body>
+</topic>

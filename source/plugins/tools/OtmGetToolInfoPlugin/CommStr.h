@@ -107,7 +107,9 @@
 #define WIN_FLD_TITLE_STR                             "   3.3 Listing of the files contained in %s:\n"
 #define PLUGIN_FLD_TITLE_STR                          "   3.4 Listing of the files contained in %s:\n"
 
-#define DRIVE_SIZE_FORMAT_STR                         "     - %c: Total MB = %-9.0f, Free MB = %-9.0f\n"
+#define DRIVE_SIZE_FORMAT_STR                         "     - %c: Total MB = %-9.0f, Free MB = %-9.0f, Access time = %lu [ms]\n"
+#define DRIVE_NOSIZE_AVAIL_STR                        "     - %c: No size info available, Access time = %lu [ms]\n"
+#define DRIVE_LIST_TIME_FORMAT_STR                    "     - Time needed to get the list of available drives = %lu [ms]\n"
 #define SYS_TYPE_STR                                  "       System Type    : %s\n"
 #define PATH_FORMAT_STR                               "       PATH = %s\n"
 #define LOCPATH_FORMAT_STR                            "       LOCPATH = %s\n"
@@ -126,4 +128,4 @@
 #define COMPLETE_SUCCESS_STR                          "The OpenTM2 related information was successfully collected, and the report %s was stored to %s.\n"
 #define COMPLETE_FAIL_STR                             "Collect the OpenTM2 related information with Failure(%d).\n"
 
-#define ERROR_INFO_MISSING_STR                        "       Missing %s entries.\n"
+#define ERROR_INFO_MISSING_STR                        " ERROR==>   Missing %s entries.\n"

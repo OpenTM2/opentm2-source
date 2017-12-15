@@ -257,6 +257,14 @@
           </pd>
         </plentry>
         <plentry>
+          <pt>Set colors</pt>
+          <pd>Opens the "Set Global Find &amp; Replace Colors" dialog, which allows customization of the colors being used in the <b>Search results</b> box.</pd>
+        </plentry>
+        <plentry>
+          <pt>Set font</pt>
+          <pd>Opens the "Font" dialog, which allows customization of the font being used in the <b>Search results</b> box.</pd>
+        </plentry>
+        <plentry>
           <pt>The <q>Searched documents</q> box</pt>
           <pd>Displays the list of documents that are to be searched.</pd>
         </plentry>

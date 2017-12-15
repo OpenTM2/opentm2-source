@@ -5891,6 +5891,36 @@ USHORT AdjustCountInfo( PTBDOCUMENT pDoc, PSZ pszDocObjName )
     usRC = ERROR_NOT_ENOUGH_MEMORY;  
   } /* endif */     
 
+  // clear all counters in the data area
+  pData->ulNoProps = 0;
+  pData->ulFuzzy = 0;
+  pData->ulExactExact = 0;
+  pData->ulExactOne = 0;
+  pData->ulExactMore = 0;
+  pData->ulRepl = 0;
+  pData->ulFuzzyRepl = 0;
+  pData->ulMachineMatch = 0;
+  pData->ulTotal = 0;
+  pData->ulSegNoProps = 0;
+  pData->ulSegFuzzy = 0;
+  pData->ulSegExactExact = 0;
+  pData->ulSegExactOne = 0;
+  pData->ulSegExactMore = 0;
+  pData->ulSegTotal = 0;
+  pData->ulSegRepl = 0;
+  pData->ulSegFuzzyRepl = 0;
+  pData->ulSegMachineMatch = 0;
+  memset( &(pData->Total), 0, sizeof(pData->Total) );
+  memset( &(pData->ExactExact), 0, sizeof(pData->ExactExact) );
+  memset( &(pData->ExactOne), 0, sizeof(pData->ExactOne) );
+  memset( &(pData->Fuzzy1), 0, sizeof(pData->Fuzzy1) );
+  memset( &(pData->Fuzzy2), 0, sizeof(pData->Fuzzy2) );
+  memset( &(pData->Fuzzy3), 0, sizeof(pData->Fuzzy3) );
+  memset( &(pData->NoProps), 0, sizeof(pData->NoProps) );
+  memset( &(pData->MTProps), 0, sizeof(pData->MTProps) );
+  memset( &(pData->Repl), 0, sizeof(pData->Repl) );
+  memset( &(pData->ExactMore), 0, sizeof(pData->ExactMore) );
+
   // open document and folder memories
   if ( usRC == 0 ) ACI_OpenMemory( pData, pszDocObjName );
 

@@ -73,13 +73,13 @@
           </groupseq>
           <sep>,</sep>
         </groupseq>
-        <groupseq rev="GF_07122015">
+        <groupseq>
           <groupseq importance="optional">
             <var>pszProfile</var>
           </groupseq>
           <sep>,</sep>
         </groupseq>
-        <groupseq rev="GF_07122015">
+        <groupseq>
           <groupseq importance="optional">
             <var>pszShipment</var>
           </groupseq>
@@ -154,12 +154,12 @@
               <entry colname="col2">pszDescription</entry>
               <entry colname="col3">The folder description or <codeph>NULL</codeph> when folder description should not be changed.</entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1">PSZ</entry>
               <entry colname="col2">pszProfile</entry>
               <entry colname="col3">The folder analysis profile, or <codeph>NULL</codeph> when no profile name is used.</entry>
             </row>
-            <row rev="GF_07122015">
+            <row>
               <entry colname="col1">PSZ</entry>
               <entry colname="col2">pszShipment</entry>
               <entry colname="col3">The shipment number, or <codeph>NULL</codeph> when no shipment number is used.</entry>
