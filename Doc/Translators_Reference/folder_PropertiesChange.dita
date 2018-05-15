@@ -136,16 +136,35 @@
         time, export and import again any documents that this folder already contains. This is
         necessary to get a correct Calculating, Preanalysis, or Redundancy Report (see <xref
           href="report_Chapter.dita#report_Chapter"/>). </p>
-      <p>The "Admin" page contains also two buttons for the maintenance of the folder history log.
+
+      <p>The "Admin" page also contains three buttons for the maintenance of the folder history log.
         The folder history log contains all information concerning the folder history and is vital
         for the creation of calculation reports.</p>
       <ul>
-        <li>The "Delete history log" button deletes the complete history log. No calculation reports
-          can be performed for this folder anymore. Use this button only when an existing folder is
-          re-used for another translation job or for another shipment and the counting information
-          of the previous shipment is not required anymore.</li>
+        <li>The "Delete history log" button physically deletes the complete history log. 
+        No information remains for generating calculation or history reports.
+        Use this button only when an existing folder is to be re-used for a new translation job,
+        and the counting information for the previous translation project is no longer needed.
+        This activity also will clean the history log and will reset the payable word count.
+        </li>
+
         <li>The "Clean history log" button tries to reduce the size of the history log by removing
-          superfluos entries from the history log.</li>
+        records which have no influence on the calculation report.  
+        This function is useful to reduce the size of the history log file for folders which contain many documents
+        and have had a lot of translation activity.
+        For example, a document may have multiple entries in the history log, but only the latest entry is needed
+        for the calculation reports.  All previous entries for that document can be deleted, since they will not be
+        used when creating the calculation reports.
+        A cleaned log file can still be used for calculation reports and history reports, but the
+        history report will show fewer activities, since entries which do not influence the calculation report 
+        have been removed.</li>
+
+        <li>The "Reset payable word count" button leaves the history log as-is, but adds a "reset word count" record to the
+        history log.                                                      
+        As a result, all records before the reset record will be ignored when creating a calculation report. 
+        The history report will still lists all translations activities done in the folder.
+        This function should be used to avoid that pre-translation activities 
+        (e.g. manual translation of some special segments) will show up in the calculation report.</li>
       </ul>
       <p>When the folder has an associated global memory option file the additional page <q>Global
           Memory</q> is available: <required-cleanup><indexterm>windows<indexterm>Folder Properties

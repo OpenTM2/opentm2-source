@@ -123,6 +123,8 @@ typedef enum _BATCHTASK
   TASK_RESTOREDOCS,                    // restore a group of documents
   TASK_FLDPROP,                        // change folder properties
   TASK_MARKUPCRT,                      // create a markup table (TBL)     2-19-14
+  TASK_CONNECT,
+  TASK_DISCONNECT,
   TASK_END
 } BATCHTASK;
 
@@ -281,6 +283,8 @@ USHORT BatchRemoveDocs( PBATCHDATA pData );
 USHORT BatchRestoreDocs( PBATCHDATA pData );
 USHORT BatchChangeFolProps( PBATCHDATA pData );
 USHORT BatchCreateMarkup( PBATCHDATA pData );
+USHORT BatchConnectSharedMem(PBATCHDATA pData);
+USHORT BatchDisconnectSharedMem(PBATCHDATA pData);
 
 // our function parameter structure
 static BATCHPARAMETER Parm = { 0 };
@@ -364,9 +368,11 @@ static TASKLIST EQFTaskList[TASK_END+1] =
  {TASK_DOCOPE,     "DOCOPEN", BatchOpenDoc },
  {TASK_REMOVEDOCS, "REMOVEDOCS", BatchRemoveDocs },
  {TASK_RESTOREDOCS,"RESTOREDOCS", BatchRestoreDocs },
- {TASK_FLDPROP,    "FLDPROP",  BatchChangeFolProps },         
- {TASK_MARKUPCRT,  "MARKUPCRT",  BatchCreateMarkup },         //Create markup table (TBL)  2-19-14
- {TASK_END,        "",        BatchNotImplemented }
+ {TASK_FLDPROP,    "FLDPROP",   BatchChangeFolProps },         
+ {TASK_MARKUPCRT,  "MARKUPCRT", BatchCreateMarkup },         //Create markup table (TBL)  2-19-14
+ {TASK_CONNECT,    "CONNECT",   BatchConnectSharedMem},
+ {TASK_DISCONNECT, "DISCONNECT", BatchDisconnectSharedMem},
+ {TASK_END,        "",        BatchNotImplemented}
 } ;
 
 
@@ -479,6 +485,7 @@ BATCHOPTION FolderExportOptions[] =
   { "DELETE",      DELETE_OPT },
   { "MASTERFOLDER",MASTERFOLDER_OPT },
   { "XLIFF",       XLIFF_OPT },
+  { "NOREDUND",    WO_REDUNDANCY_DATA_OPT },
   { "", 0 } };
 
 BATCHOPTION MemoryCreateOptions[] =
@@ -772,6 +779,14 @@ BATCHPARM MarkupCreateParms[] =                                        /* 2-19-1
   { BATCH_NAME,       NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
   { BATCH_OUT,        NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
   { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
+
+
+BATCHPARM ConnectSharedMemParms[] =                                   
+{ 
+  { BATCH_FROMDRIVE,  LETTER_PARMTYPE,    &(Parm.chFromDrive),      1, NULL }, 
+  { BATCH_MEM,        NAME_PARMTYPE,      Parm.szMemory,          MAX_LONGFILESPEC, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
+
 
 //+----------------------------------------------------------------------------+
 //| main                                                                       |
@@ -2931,6 +2946,38 @@ USHORT BatchDriveParm( PBATCHDATA pData, PSZ pStart, CHAR *pchDrive, BATCHCMD cm
   return( usRC );
 } /* end of function BatchDriveParm */
 
+USHORT BatchConnectSharedMem(PBATCHDATA pData )
+{
+  USHORT usRC = 0;
+
+  usRC = BatchGetParameters( pData, ConnectSharedMemParms );
+  if ( !usRC )
+  {
+    usRC = EqfConnectSharedMem( pData->hSession,Parm.chFromDrive,Parm.szMemory);
+    if ( usRC ) BatchHandleAPIError( pData, usRC );
+  }
+
+  BatchCleanParms( pData );
+
+  return( usRC );
+} 
+
+USHORT BatchDisconnectSharedMem( PBATCHDATA pData )
+{
+  USHORT usRC = 0;
+
+  usRC = BatchGetParameters( pData, ConnectSharedMemParms );
+  if ( !usRC )
+  {
+    usRC = EqfDisconnectSharedMem( pData->hSession,Parm.chFromDrive,Parm.szMemory);
+    if ( usRC ) BatchHandleAPIError( pData, usRC );
+  }
+
+  BatchCleanParms( pData );
+
+  return( usRC );
+} 
+
 void showHelp()
 {
     printf( "OtmCmd.EXE       : OpenTM2 command line\n" );
@@ -3014,6 +3061,10 @@ void showHelp()
     printf( "                     or\n");
 
     printf("                    OtmCmd /TASK=CNTRPT /FLD=folder [FIles=doc[s]]  /OUT=output_name /REport=[HISTORY|COUNTING|CALCULATING|PREANALYSIS|REDUNDANCY|REDSEGLIST] /TYpe=[DATE|BRIEF|DETAIL|WITH_TOTALS|WITHOUT_TOTALS|BASE|BASE_SUMMARY|BASE_SUMMARY_FACT|SUMMARY_FACT|FACT][/OVerwrite=[Yes|No]] [/PRofile=profile][/FOrmat=[XML|ASCII|HTML]] [/QUIET]\n");
+    printf("\n");
+    printf( "                     or\n");
+
+	printf("                    OtmCmd /TASK=CONNECT|DISCONNECT /FRomdrive=drive /MEm=memdb  [/QUIET]\n");
     printf("\n");
     printf( "                     or\n");
 

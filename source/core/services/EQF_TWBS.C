@@ -1663,6 +1663,8 @@ BOOL PropDictWndCreate
     PVIOFONTCELLSIZE pVioFont;               // pointer to font
     USHORT  usWinId;                         // window resource id
     CHAR    chTemp[3];
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
 
     pstEQFGen = pDoc->pstEQFGen;
     hab = (HAB) UtlQueryULong( QL_HAB );
@@ -2771,6 +2773,8 @@ MRESULT APIENTRY TWBSERVICEWP
                 HMENU hMenu;
                 HMENU hMenuTrackPopup;
                 ULONG ulFrameFlags;
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
 
                 /* Get the menu for the popup from the resource file. */
                 hMenu = LoadMenu( hResMod, MAKEINTRESOURCE( ID_POPUP_MENU ) );
@@ -5166,6 +5170,7 @@ VOID InsertDictionary
           ulLinelen = pTBDoc->xClient;
           if ( pstEQFSab->fDAReady & DICT_IN_USE )
           {
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
             CHAR chText[40];
 
             WinLoadString ((HAB) UtlQueryULong( QL_HAB ), hResMod,
@@ -7441,6 +7446,7 @@ VOID  EQFR_XDocAct
               /*************************************************************/
               if ( fOK )
               {
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                 USHORT usI;
                 PSZ pData;
                 pData = pDoc->szBuf + 2* MAX_PATH144;
@@ -7467,6 +7473,7 @@ VOID  EQFR_XDocAct
                 } /* endif */
                 if ( pData )
                 {
+
                   ULONG  Length;
                   WinLoadString ((HAB) UtlQueryULong( QL_HAB ), hResMod, SID_PROP_TITLE,
                                  EQF_MSGBUF_SIZE, (pDoc->szBuf+MAX_PATH144));
@@ -8100,6 +8107,8 @@ VOID PrepDictTitle( PDOCUMENT_IDA pDoc, BOOL fDispDictName )
   static CHAR szLongName[MAX_LONGFILESPEC];
   CHAR szShortName[MAX_FNAME];
   PSZ  pData;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
 
   WinLoadString ((HAB) UtlQueryULong( QL_HAB ), hResMod, SID_DCT_TITLE, EQF_MSGBUF_SIZE, pDoc->szBuf );
 
@@ -8158,6 +8167,7 @@ static VOID PrepMemTitle
   static CHAR szLongName[MAX_LONGFILESPEC];
   ULONG  Length;
   PSZ  pData;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   pData = pDoc->szBuf + 2* MAX_PATH144;
   strcpy( szLongName, pDoc->szMemory[0] );
@@ -8483,7 +8493,7 @@ USHORT EqfGetPropFuzzyness
       while ( (usFuzzy == 0) && (i < EQF_NPROP_TGTS) )
       {
         USHORT usCurFuzzy = pstEQFSab->usFuzzyPercents[i];
-        if ( usCurFuzzy < 100 ) usFuzzy = usCurFuzzy;
+        if ( usCurFuzzy <= 100 ) usFuzzy = usCurFuzzy;
         i++;
       } /* endwhile */
 	   *pulFuzzyness = usFuzzy;
@@ -8587,3 +8597,405 @@ static BOOL ContainsSegmentNote( PVOID pvAddInfo )
 
   return( fContainsNote );
 }
+
+//------------------------------------------------------------------------------
+// Internal function
+//------------------------------------------------------------------------------
+// Function name:     AddDocToList
+//------------------------------------------------------------------------------
+// Function call:     fOK = AddDocToList( pIda, pDocName, usType );
+//------------------------------------------------------------------------------
+// Description:       add the provided document to a list of selected docs
+//                    and mark the document to be in use.
+//------------------------------------------------------------------------------
+// Parameters:        PDOCUMENT_IDA pointer to document ida
+//                    PSZ           document name
+//                    USHORT        Insertion point - top or bottom of list
+//------------------------------------------------------------------------------
+// Returncode type:   BOOL
+//------------------------------------------------------------------------------
+// Returncodes:       TRUE  - doc is added to list
+//                    FALSE - not enough memory to add document to list
+//------------------------------------------------------------------------------
+// Function flow:     create a document pool (if not done yet)
+//                    check if document is already in list
+//                      if so move it to the required position
+//                      else add it to list (at required position) and mark
+//                           document to be in use
+//                    return success
+//------------------------------------------------------------------------------
+BOOL AddDocToList
+(
+  PDOCUMENT_IDA pDocIda,
+  PSZ           pDocName,
+  USHORT        usType
+)
+{
+  BOOL   fOK = TRUE;
+  SHORT  sIndex = 0;
+  PSZ    pszPool = NULL;
+
+  /********************************************************************/
+  /* do initial create if not done yet                                */
+  /********************************************************************/
+  if ( !pDocIda->pDocNamePool )
+  {
+    pDocIda->pDocNamePool = PoolCreate( MAX_EQF_PATH );
+    fOK = (pDocIda->pDocNamePool != NULL);
+  } /* endif */
+
+  if ( fOK && pDocIda->usDocNamesAllocated <= (pDocIda->usDocNamesUsed+2) )
+  {
+    UtlAlloc( (PVOID *)&pDocIda->apszDocNames,
+              (LONG) sizeof(PSZ) * pDocIda->usDocNamesAllocated,
+              (LONG) sizeof(PSZ) * (pDocIda->usDocNamesAllocated+50),
+              ERROR_STORAGE );
+    if ( pDocIda->apszDocNames )
+    {
+      pDocIda->usDocNamesAllocated += 50;
+    }
+    else
+    {
+      fOK = FALSE;
+    } /* endif */
+  } /* endif */
+  /********************************************************************/
+  /* check if document is part of list already                        */
+  /********************************************************************/
+  if ( fOK )
+  {
+    while ( pDocIda->apszDocNames[sIndex] &&
+            strcmp( pDocIda->apszDocNames[sIndex], pDocName ) != 0  )
+    {
+      sIndex++;
+    } /* endwhile */
+
+    if ( pDocIda->apszDocNames[sIndex]  )
+    {
+      short i;
+      pszPool = pDocIda->apszDocNames[ sIndex ];
+      if ( usType == TOP_OF_LIST )
+      {
+        for ( i=sIndex;i>0;i-- )
+        {
+          pDocIda->apszDocNames[i] = pDocIda->apszDocNames[ i-1 ];
+        } /* endfor */
+        pDocIda->apszDocNames[0] = pszPool;
+      }
+      else
+      {
+        for ( i=sIndex;i<(SHORT) pDocIda->usDocNamesUsed;i++ )
+        {
+          pDocIda->apszDocNames[i] = pDocIda->apszDocNames[ i+1 ];
+        } /* endfor */
+        pDocIda->apszDocNames[pDocIda->usDocNamesUsed-1] = pszPool;
+      } /* endif */
+    }
+    else
+    {
+      pszPool = PoolAddString( pDocIda->pDocNamePool, pDocName );
+      fOK = ( pszPool != NULL );
+
+      if ( fOK )
+      {
+        if ( usType == TOP_OF_LIST )
+        {
+          memmove( &pDocIda->apszDocNames[1], & pDocIda->apszDocNames[0],
+                   sizeof(PSZ) * (pDocIda->usDocNamesUsed+1) );
+          pDocIda->usDocNamesUsed ++;
+          pDocIda->apszDocNames[ 0 ] = pszPool;
+        }
+        else
+        {
+          pDocIda->apszDocNames[ pDocIda->usDocNamesUsed ] = pszPool;
+          pDocIda->usDocNamesUsed ++;
+        } /* endif */
+        if ( QUERYSYMBOL(pDocName) != -1 )
+        {
+           PSZ pData = UtlGetFnameFromPath( pDocName );
+           UtlError( ERROR_DOC_LOCKED, MB_CANCEL, 1, &pData, EQF_ERROR );
+           fOK = FALSE;
+        }
+        else
+        {
+          SETSYMBOL( pDocName );
+        } /* endif */
+      } /* endif */
+    } /* endif */
+  } /* endif */
+  return fOK;
+} /* end of function AddDocToList */
+
+
+//------------------------------------------------------------------------------
+// Internal function
+//------------------------------------------------------------------------------
+// Function name:     QueryDocInList
+//------------------------------------------------------------------------------
+// Function call:     fOK = QueryDocInList( pIda, pDocName, &i );
+//------------------------------------------------------------------------------
+// Description:       check if the provided document is already in the list
+//                    Return success indicator and set the index of the
+//                    document in the list
+//------------------------------------------------------------------------------
+// Parameters:        PDOCUMENT_IDA pointer to document ida
+//                    PSZ           document name
+//                    PUSHORT       index
+//------------------------------------------------------------------------------
+// Returncode type:   BOOL
+//------------------------------------------------------------------------------
+// Returncodes:       TRUE  - doc is in list
+//                    FALSE - not in list
+//------------------------------------------------------------------------------
+// Function flow:     consistency check
+//                    check if document is already in list
+//                      if so set index and return
+//                      else set failure
+//                    return success
+//------------------------------------------------------------------------------
+BOOL QueryDocInList
+(
+  PDOCUMENT_IDA pDocIda,
+  PSZ           pDocName,
+  PUSHORT       pusI
+)
+{
+  BOOL   fOK = TRUE;
+  SHORT  sIndex = 0;
+  /********************************************************************/
+  /* check if document is part of list already                        */
+  /********************************************************************/
+  while ( pDocIda->apszDocNames[sIndex] &&
+          (sIndex < (SHORT)pDocIda->usDocNamesUsed) &&
+          strcmp( pDocIda->apszDocNames[sIndex], pDocName ) != 0  )
+  {
+    sIndex++;
+  } /* endwhile */
+
+  if ( pDocIda->apszDocNames[sIndex]  )
+  {
+    *pusI = sIndex;
+  }
+  else
+  {
+    fOK = FALSE;
+    *pusI = 0;
+  } /* endif */
+  return fOK;
+} /* end of function QueryDocInList */
+
+//------------------------------------------------------------------------------
+// External function
+//------------------------------------------------------------------------------
+// Function name:     RemoveDocFromList
+//------------------------------------------------------------------------------
+// Function call:     RemoveDocFromList( pIda, pDocName );
+//------------------------------------------------------------------------------
+// Description:       remove the document from the list of worked on documents
+//                    and mark it unused.
+//------------------------------------------------------------------------------
+// Parameters:        PDOCUMENT_IDA    -- document ida
+//                    PSZ              -- document to be removed
+//------------------------------------------------------------------------------
+// Returncode type:   VOID
+//------------------------------------------------------------------------------
+// Function flow:     consistency check
+//                    find document position in list
+//                      -- if found - move everything following one up
+//                                    and remove symbol
+//                         else  ignore request
+//------------------------------------------------------------------------------
+
+VOID RemoveDocFromList
+(
+  PDOCUMENT_IDA   pDocIda,
+  PSZ             pDocName
+)
+{
+  BOOL   fOK = TRUE;
+  SHORT  sIndex = 0;
+
+  /********************************************************************/
+  /* consistency checking                                             */
+  /********************************************************************/
+  fOK = ( pDocIda->pDocNamePool && pDocIda->apszDocNames );
+
+  /********************************************************************/
+  /* check if document is part of list already                        */
+  /********************************************************************/
+  if ( fOK )
+  {
+    while ( pDocIda->apszDocNames[sIndex] &&
+            strcmp( pDocIda->apszDocNames[sIndex], pDocName ) != 0  )
+    {
+      sIndex++;
+    } /* endwhile */
+
+    if ( pDocIda->apszDocNames[sIndex]  )
+    {
+      short i;
+
+      REMOVESYMBOL( pDocName );      // remove document from used list
+      for ( i=sIndex;i<(SHORT)pDocIda->usDocNamesUsed;i++ )
+      {
+        pDocIda->apszDocNames[i] = pDocIda->apszDocNames[ i+1 ];
+      } /* endfor */
+      pDocIda->usDocNamesUsed--;
+    }
+    else
+    {
+      /****************************************************************/
+      /* document not part of list -- ignore request ...              */
+      /****************************************************************/
+    } /* endif */
+  } /* endif */
+
+} /* end of function RemoveDocFromList */
+
+//------------------------------------------------------------------------------
+// External function
+//------------------------------------------------------------------------------
+// Function name:     FindNextDocInList
+//------------------------------------------------------------------------------
+// Function call:     fOK = FindNextDocInList(pDocIda,pInDocName, pOutDocName);
+//------------------------------------------------------------------------------
+// Description:       Find next document in list.
+//                    Prereq is that the pNextDoc is pointing to space large
+//                    enough
+//------------------------------------------------------------------------------
+// Parameters:        PDOCUMENT_IDA    -- pointer to ida
+//                    PSZ              -- pointer to prov. start document
+//                    PSZ              -- pointer to returned next document
+//------------------------------------------------------------------------------
+// Returncode type:   BOOL
+//------------------------------------------------------------------------------
+// Returncodes:       TRUE             -- success
+//                    FALSE            -- no further document found
+//------------------------------------------------------------------------------
+// Function flow:     consistency check
+//                    try to find start document
+//                      if found -- copy next document into pOutDocName
+//                      else set error return and init pOutDocName
+//                    return success
+//------------------------------------------------------------------------------
+BOOL FindNextDocInList
+(
+  PDOCUMENT_IDA   pDocIda,
+  PSZ             pInDocName,
+  PSZ             pOutDocName
+)
+{
+  BOOL   fOK = TRUE;
+  SHORT  sIndex = 0;
+
+  /********************************************************************/
+  /* consistency checking                                             */
+  /********************************************************************/
+  fOK = ( pDocIda->pDocNamePool && pDocIda->apszDocNames &&
+          pInDocName && pOutDocName );
+
+  /********************************************************************/
+  /* check if document is part of list already                        */
+  /********************************************************************/
+  if ( fOK )
+  {
+    if ( *pInDocName )
+    {
+      while ( pDocIda->apszDocNames[sIndex] &&
+              strcmp( pDocIda->apszDocNames[sIndex], pInDocName ) != 0  )
+      {
+        sIndex++;
+      } /* endwhile */
+
+      if ( pDocIda->apszDocNames[sIndex]  )
+      {
+        sIndex++;
+        if ( sIndex < (SHORT)pDocIda->usDocNamesUsed)
+        {
+          strcpy( pOutDocName, pDocIda->apszDocNames[ sIndex ]);
+        }
+        else
+        {
+          *pOutDocName = EOS;
+        } /* endif */
+      }
+      else
+      {
+        /****************************************************************/
+        /* document not part of list -- ignore request ...              */
+        /****************************************************************/
+        *pOutDocName = EOS;
+      } /* endif */
+    }
+    else if (pDocIda->apszDocNames[0])
+    {
+      strcpy( pOutDocName, pDocIda->apszDocNames[ 0 ]);
+    }
+    else
+    {
+      *pOutDocName = EOS;
+    } /* endif */
+  }
+  else
+  {
+    /******************************************************************/
+    /* init for error return                                          */
+    /******************************************************************/
+    fOK = FALSE;
+  } /* endif */
+  return fOK;
+} /* end of function FindNextDocInList */
+
+//------------------------------------------------------------------------------
+// Function name:     FindDocInList
+//------------------------------------------------------------------------------
+// Function call:     fOK = FindDocInList(pDocIda, usI, pOutDocName);
+//------------------------------------------------------------------------------
+// Description:       Find document i in list
+//------------------------------------------------------------------------------
+// Parameters:        PDOCUMENT_IDA    -- pointer to ida
+//                    USHORT           -- number of document
+//                    PSZ              -- pointer to returned next document
+//------------------------------------------------------------------------------
+// Returncode type:   BOOL
+//------------------------------------------------------------------------------
+// Returncodes:       TRUE             -- success
+//                    FALSE            -- failure
+//------------------------------------------------------------------------------
+// Function flow:     consistency check
+//                    if ok copy i-th document to output buffer, else error
+//                    return success indicator
+BOOL FindDocInList
+(
+  PDOCUMENT_IDA   pDocIda,
+  USHORT          usI,
+  PSZ             pOutDocName
+)
+{
+  BOOL   fOK;
+  /********************************************************************/
+  /* consistency checking                                             */
+  /********************************************************************/
+  fOK = ( pDocIda->pDocNamePool && pDocIda->apszDocNames && pOutDocName
+          && (usI < pDocIda->usDocNamesUsed) && pDocIda->apszDocNames[ usI ]);
+
+  /********************************************************************/
+  /* return i-th document                                             */
+  /********************************************************************/
+  if ( fOK )
+  {
+    strcpy( pOutDocName, pDocIda->apszDocNames[ usI ]);
+  }
+  else
+  {
+    /******************************************************************/
+    /* init for error return                                          */
+    /******************************************************************/
+    if ( pOutDocName )
+    {
+      *pOutDocName = EOS;
+    } /* endif */
+  } /* endif */
+  return fOK;
+} /* end of function FindDocInList */
+

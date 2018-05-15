@@ -295,6 +295,8 @@ LPARAM           mp2
 
         if (fOk && !pRpt->fBatch)   // processing ok so far
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
           // start Counting Report dialog
           BOOL fReturn = 0;
           DIALOGBOX( EqfQueryTwbClient(),COUNTINGPROPDLGPROC, hResMod, ID_RPTPROP_DLG, pRpt, fReturn  );
@@ -394,6 +396,7 @@ LPARAM           mp2
         // supply all information required to create a report list
         if (fOk)
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 #ifdef CALCRPT_WNDSIZE_LOGGING
             FILE *hfLog = NULL;
             CHAR szLogFile[MAX_EQF_PATH];
@@ -785,6 +788,7 @@ PDDECNTRPT       pCntRpt             // wordcount data structure
     HFILE  hfFile;                      // file handle
     PSZ    pszTemp;
     CHAR             szShortName[MAX_FILESPEC]; // buffer for folder short name
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
     /********************************************************************/
     /* Create invisible listbox for names of folder/documents/...       */

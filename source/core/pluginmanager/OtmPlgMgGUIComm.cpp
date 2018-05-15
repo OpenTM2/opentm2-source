@@ -82,6 +82,8 @@ char * OtmGetMessageFromCode(int nCode)
         return ERROR_HTTPS_CONNECT_A_STR;
     case ERROR_SFTP_CONNECT_A:                           // 1025
         return ERROR_SFTP_CONNECT_A_STR;
+	case ERROR_LOAD_ENTRY_POINT_A:
+		return ERROR_LOAD_ENTRY_POINT_A_STR;
     case ERROR_WRONG_PLUGIN_NAME_A:                      // 2001
         return ERROR_WRONG_PLUGIN_NAME_A_STR;
     case ERROR_GET_PLUGIN_PATH_A:                        // 2002

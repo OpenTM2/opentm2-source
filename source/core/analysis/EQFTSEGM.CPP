@@ -619,6 +619,7 @@ VOID EQFTAMnl (HWND hwnd,                   // text analysis window handle
                    {
                       if ( !pTAInput->fBatch )
                       {
+                        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                         LOADSTRING( NULLHANDLE, hResMod, IDS_POSTTM,
                                     pTAInput->pInD->szTempDisp);
 
@@ -681,6 +682,7 @@ VOID EQFTAMnl (HWND hwnd,                   // text analysis window handle
                     {
                       if ( !pTAInput->fBatch )
                       {
+                        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                         LOADSTRING( NULLHANDLE, hResMod, IDS_TMP,
                                     pTAInput->pInD->szTempDisp);
 
@@ -754,6 +756,7 @@ VOID EQFTAMnl (HWND hwnd,                   // text analysis window handle
               {
                  if ( !pTAInput->fBatch )
                  {
+                   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                    LOADSTRING( NULLHANDLE, hResMod, IDS_LISTOUT,
                                pTAInput->pInD->szTempDisp);
 
@@ -784,6 +787,7 @@ VOID EQFTAMnl (HWND hwnd,                   // text analysis window handle
               {
                  if ( !pTAInput->fBatch && (usRedCountPhase == EQFTA_INIT) )
                  {
+                   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                    LOADSTRING( NULLHANDLE, hResMod, IDS_REDUNDCOUNT,
                                pTAInput->pInD->szTempDisp);
 
@@ -1236,6 +1240,7 @@ USHORT TAFileProcessing
 
               if ( !pTAInput->fBatch )
               {
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                 LOADSTRING( NULLHANDLE, hResMod, IDS_PRESEGM,
                             pTAInput->pInD->szTempDisp);
 
@@ -1358,6 +1363,7 @@ USHORT TAFileProcessing
 
               if ( !pTAInput->fBatch )
               {
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                 LOADSTRING( NULLHANDLE, hResMod, IDS_TEXTSEGM,
                             pTAInput->pInD->szTempDisp);
 
@@ -1450,6 +1456,7 @@ USHORT TAFileProcessing
          case EQFTA_POSTSEG:  //--------- do post segmentation
             if ( !pTAInput->fBatch )
             {
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
               LOADSTRING( NULLHANDLE, hResMod, IDS_POSTSEGM,
                           pTAInput->pInD->szTempDisp);
 
@@ -8200,7 +8207,7 @@ USHORT TASegFileConvertUnicode2ASCII( PSZ pInFile, PSZ pOutFile, PSZ pszDocLang)
          TAFreeTagTable( (PLOADEDTABLE) pDoc->pQFTagTable );
       } /* endif */
       // free document resources
-      ParseFreeDoc((PVOID *) &pDoc );
+      SegFileFreeDoc((PVOID *) &pDoc );
   }
 
   return usRc;
@@ -8314,7 +8321,7 @@ USHORT TASegFileConvertASCII2Unicode( PSZ pInFile, PSZ pOutFile, PSZ pszDocLang 
          TAFreeTagTable( (PLOADEDTABLE) pDoc->pQFTagTable );
       } /* endif */
       // free document resources
-      ParseFreeDoc((PVOID *) &pDoc );
+      SegFileFreeDoc((PVOID *) &pDoc );
   }
   return usRc;
 }

@@ -19,6 +19,7 @@
 #include "EQFB.ID"                // Translation Processor IDs
 #include "EQFBDLG.ID"             // Translation Processor dialog control IDs
 #include <EQFPROGR.H>             // progress control defines 
+#include "ReImportDoc.h"
 
 /*! \brief Data area for the re-import document function
 */

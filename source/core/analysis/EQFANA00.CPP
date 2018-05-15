@@ -3,6 +3,7 @@
 	Copyright (c) 1999-2017, International Business Machines Corporation and others. All rights reserved.
 */
 
+#define TADUMMYTAG_INIT
 #define INCL_EQF_TM               // general Transl. Memory functions
 #define INCL_EQF_ANALYSIS         // analysis functions
 #define INCL_EQF_TAGTABLE         // tagtable defines and functions
@@ -19,19 +20,6 @@
 #ifdef _DEBUG
   #define SESSIONLOG
 #endif
-
-
-TATAG TADummyTag [] = { { ":qfa n=%lu.", ":eqfa." },     // attribute
-                        { ":qff n=%lu.", ":eqff." },     // to be translated
-                        { ":qfn n=%lu.", ":eqfn." },     // no operation
-                        { ":qfx n=%lu s=%i.", ":eqfx." },// translated
-                        { ":qfc n=%lu.", ":eqfc." },     // current element
-                        { ":qfj.",      ":eqfj." },     // joined segments
-                        { ":qfs.",      ":eqfs." },     // splitted segments
-                        { ":none.", "" },
-                        { ":qfmark.", "" },
-                        { "", "" } };
-
 
 MRESULT AnalysisCallBack
 (
@@ -186,6 +174,7 @@ MRESULT APIENTRY ANALYSISHANDLERWP
            INT_PTR        iRc;         // return from WinDlgBox of Analysis
            USHORT         usRc;        // return code
            HWND           hwndActive;  // handle of active window
+           HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
            //get Active folder and fill listbox with selected documents
            hwndActive = EqfQueryActiveFolderHwnd();
@@ -315,68 +304,72 @@ MRESULT AnalysisCallBack
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Anchor IDA                                                 */
-      /**************************************************************/
-      pIda                =(PANALYSIS_IDA) PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pIda;
-
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_TEXTANALYSIS;
-      pCommArea->sProcessObjClass = clsANALYSIS;
-      if ( pIda->ProcParm->fBatch )
       {
-        pCommArea->Style            = PROCWIN_BATCH;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
         /**************************************************************/
-        /* Using a process window of type PROCWIN_BATCH will NOT      */
-        /* create oru document listboxes so we will create these      */
-        /* listboxes here instead                                     */
+        /* Anchor IDA                                                 */
         /**************************************************************/
-        pCommArea->hwndLB1 = WinCreateWindow( hwnd, WC_LISTBOX, "",
-                                             WS_CHILDWINDOW | LBS_STANDARD,
-                                             0,0,10,10, NULLHANDLE, HWND_TOP,
-                                             1, NULL, NULL);
-        pCommArea->hwndLB2 = WinCreateWindow( hwnd, WC_LISTBOX, "",
-                                             WS_CHILDWINDOW | LBS_STANDARD,
-                                             0,0,10,10, NULLHANDLE, HWND_TOP,
-                                             2, NULL, NULL);
+        pIda                =(PANALYSIS_IDA) PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pIda;
+
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_TEXTANALYSIS;
+        pCommArea->sProcessObjClass = clsANALYSIS;
+        if ( pIda->ProcParm->fBatch )
+        {
+          pCommArea->Style            = PROCWIN_BATCH;
+
+          /**************************************************************/
+          /* Using a process window of type PROCWIN_BATCH will NOT      */
+          /* create oru document listboxes so we will create these      */
+          /* listboxes here instead                                     */
+          /**************************************************************/
+          pCommArea->hwndLB1 = WinCreateWindow( hwnd, WC_LISTBOX, "",
+                                               WS_CHILDWINDOW | LBS_STANDARD,
+                                               0,0,10,10, NULLHANDLE, HWND_TOP,
+                                               1, NULL, NULL);
+          pCommArea->hwndLB2 = WinCreateWindow( hwnd, WC_LISTBOX, "",
+                                               WS_CHILDWINDOW | LBS_STANDARD,
+                                               0,0,10,10, NULLHANDLE, HWND_TOP,
+                                               2, NULL, NULL);
+        }
+        else
+        {
+          pCommArea->Style            = PROCWIN_TEXTSLIDERLISTBOX;
+        } /* endif */
+
+        pCommArea->sSliderID        = ID_TASLIDER;
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TATITLEBAR, pCommArea->szTitle );
+
+        SubFolObjectNameToName( pIda->szFolder, pCommArea->szBuffer );
+        OEMTOANSI(pCommArea->szBuffer);
+        strcpy( pCommArea->szTitle + strlen(pCommArea->szTitle), pCommArea->szBuffer );
+
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON); //hiconANA;
+        pCommArea->fNoClose         = FALSE;
+
+        pCommArea->swpSizePos.x     = ANALYSIS_X;
+        pCommArea->swpSizePos.y     = ANALYSIS_Y;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 80;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 15;
+
+        pCommArea->sTextID          = ID_TAINFO_TEXT;
+        pCommArea->sLB1TextID       = ID_TATODO_TEXT;
+        pCommArea->sLB2TextID       = ID_TADONE_TEXT;
+        pCommArea->sLB1ID           = 1;
+        pCommArea->sLB2ID           = 2;
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TATODO, pCommArea->szLB1Text );
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TADONE, pCommArea->szLB2Text );
+
+        pCommArea->asMsgsWanted[0]  = WM_EQF_SLIDER_SETTEXT;
+        pCommArea->asMsgsWanted[1]  = 0;
+
+        pCommArea->usComplete       = 0;
       }
-      else
-      {
-        pCommArea->Style            = PROCWIN_TEXTSLIDERLISTBOX;
-      } /* endif */
-
-      pCommArea->sSliderID        = ID_TASLIDER;
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TATITLEBAR, pCommArea->szTitle );
-
-      SubFolObjectNameToName( pIda->szFolder, pCommArea->szBuffer );
-      OEMTOANSI(pCommArea->szBuffer);
-      strcpy( pCommArea->szTitle + strlen(pCommArea->szTitle), pCommArea->szBuffer );
-
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON); //hiconANA;
-      pCommArea->fNoClose         = FALSE;
-
-      pCommArea->swpSizePos.x     = ANALYSIS_X;
-      pCommArea->swpSizePos.y     = ANALYSIS_Y;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 80;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 15;
-
-      pCommArea->sTextID          = ID_TAINFO_TEXT;
-      pCommArea->sLB1TextID       = ID_TATODO_TEXT;
-      pCommArea->sLB2TextID       = ID_TADONE_TEXT;
-      pCommArea->sLB1ID           = 1;
-      pCommArea->sLB2ID           = 2;
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TATODO, pCommArea->szLB1Text );
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TADONE, pCommArea->szLB2Text );
-
-      pCommArea->asMsgsWanted[0]  = WM_EQF_SLIDER_SETTEXT;
-      pCommArea->asMsgsWanted[1]  = 0;
-
-      pCommArea->usComplete       = 0;
       break;
 
 

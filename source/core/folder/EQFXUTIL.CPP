@@ -314,7 +314,7 @@ int CXLIFFUtil::FreeSegmentedFile
 
   TAFreeTagTable( (PLOADEDTABLE)pDoc->pQFTagTable );
 
-  TAFreeDoc( (PVOID *)ppDoc );
+  SegFileFreeDoc( (PVOID *)ppDoc );
 
   return( 0 );
 } /* end of FreeSegmentedFile */ 

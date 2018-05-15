@@ -141,9 +141,9 @@ SHORT EQFBHistDocSave(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID)
 {
 	return theDocument->CPP_EQFBHistDocSave(pszFileName, pDoc, sLogTaskID);
 }
-SHORT EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID, BOOL fAdjustCountInfo )
+SHORT EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID )
 {
-	return theDocument->CPP_EQFBHistDocSaveEx(pszFileName, pDoc, sLogTaskID, fAdjustCountInfo );
+	return theDocument->CPP_EQFBHistDocSaveEx(pszFileName, pDoc, sLogTaskID );
 }
 USHORT EQFBFileRead(PSZ pszFileName, PTBDOCUMENT pDoc)
 {

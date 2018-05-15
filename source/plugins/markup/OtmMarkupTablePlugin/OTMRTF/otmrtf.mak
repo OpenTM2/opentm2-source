@@ -42,7 +42,12 @@ $(_OTMMARKUP_OBJ)\usrcalls.obj
 $(_OTMMARKUP_OBJ)\eqfcalls.obj 
 /OUT:$(_OTMMARKUP_DLL)\otmrtf.dll $(LINKFLAGS)
 /MAP:$(_OTMMARKUP_MAP)\otmrtf.map
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib
+$(_LIB)\OtmLinguistic.lib
+$(_LIB)\OtmSegmentedFile.lib
+$(_LIB)\OtmTagTableFunctions.lib
+$(_LIB)\OtmAnalysisFunctions.lib
 <<
     @copy $(_OTMMARKUP_DLL)\otmrtf.dll $(_OTMMARKUP_RELEASE_DIR)\BIN /Y>$(_ERR)
     @copy $(_OTMMARKUP_SRC)\otmrtf\otmrtf.tbl $(_OTMMARKUP_RELEASE_DIR)\TABLE /Y>$(_ERR)

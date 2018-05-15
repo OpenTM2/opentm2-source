@@ -463,11 +463,11 @@ BOOL ProofReadFreeDoc( PPROOFREADPROCESSDATA pData )
         } /* endif */
       } /* endif */
     } /* endif */
-    EQFBFreeDoc( &(pData->pTargetDoc), EQFBFREEDOC_NOTAGTABLEFREE | EQFBFREEDOC_NOPROTECTFREE );
+    SegFileFreeDoc( (PVOID *)&(pData->pTargetDoc) );
     pData->pTargetDoc = NULL;
   } /* endif */
 
-  if ( pData->pSourceDoc != NULL ) EQFBFreeDoc( &(pData->pSourceDoc), EQFBFREEDOC_NOTAGTABLEFREE | EQFBFREEDOC_NOPROTECTFREE );
+  if ( pData->pSourceDoc != NULL ) SegFileFreeDoc( (PVOID *)&(pData->pSourceDoc) );
   pData->pSourceDoc = NULL;
 
 
@@ -702,10 +702,22 @@ BOOL ProofReadUpdateMem( PPROOFREADPROCESSDATA pData )
 
   if ( !pData->fProcessMem ) return( TRUE );
 
+  PTBSEGMENT pTargetSeg;            
+
+  ULONG ulSegNum = pData->pEntry->getSegmentNumber();
+  pTargetSeg = EQFBGetSegW( pData->pTargetDoc, ulSegNum );
+  PSZ_W pszTargetText = (PSZ_W)pData->pEntry->getTarget();
+  PSZ_W pszModTargetText = (PSZ_W)pData->pEntry->getNewTarget();
+  if ( pszModTargetText[0] == 0 ) pszModTargetText = (PSZ_W)pData->pEntry->getModTarget();
+
+  // adjust white space in target segment
+  if ( fOK )
+  {
+    fOK = ProofReadAdjustWhiteSpaceInTarget( pData, pTargetSeg->pDataW, pszTargetText, pszModTargetText, pData->szAdjustedTarget );
+  } /* endif */
+
   Prop.setSource( (wchar_t *)pData->pEntry->getSource() );
-  const wchar_t *pszTarget = pData->pEntry->getNewTarget();
-  if ( *pszTarget == 0 ) pszTarget = pData->pEntry->getModTarget();
-  Prop.setTarget( (wchar_t *)pszTarget  );
+  Prop.setTarget( (wchar_t *)pData->szAdjustedTarget );
   Prop.setDocShortName( pData->szDocShortName );
   Prop.setDocName( pData->szDocLongName );
   Prop.setSegmentNum( pData->pEntry->getSegmentNumber() );
@@ -973,10 +985,21 @@ BOOL ProofReadAdjustWhiteSpaceInTarget( PPROOFREADPROCESSDATA pData, PSZ_W pszOr
     // handle tokens
     if ( pToken->sType == MARK_EQUAL )
     {
-      // copy orginal target
-      int iLen = (pOldToken->usStop - pOldToken->usStart) + 1;
-      wcsncpy( pszOutPos, pOldToken->pData, iLen );
-      pszOutPos += iLen;
+      int iNewLen = (pToken->usStop - pToken->usStart) + 1;
+      int iOldLen = (pOldToken->usStop - pOldToken->usStart) + 1;
+
+      // we have to check the trailing whitespaces of the tokens, if one of the tokens has no whitespace at all we must use the new token
+      // as the change in the whitespace my be intentionally by the user
+      if ( iswspace( pOldToken->pData[iOldLen - 1] ) != iswspace( pToken->pData[iNewLen - 1] ) )
+      {
+        wcsncpy( pszOutPos, pToken->pData, iNewLen );
+        pszOutPos += iNewLen;
+      }
+      else
+      {
+        wcsncpy( pszOutPos, pOldToken->pData, iOldLen );
+        pszOutPos += iOldLen;
+      } /* endif */
     }
     else if ( pToken->sType == MARK_INSERTED ) 
     {
@@ -992,6 +1015,7 @@ BOOL ProofReadAdjustWhiteSpaceInTarget( PPROOFREADPROCESSDATA pData, PSZ_W pszOr
       // find whitespace at end of changed text
       int iLen = (pToken->usStop - pToken->usStart) + 1;
       while ( iLen && iswspace( pToken->pData[iLen-1] ) ) iLen--;
+      int iChangedWhiteSpaceLen = (pToken->usStop - pToken->usStart) + 1 - iLen;
 
       // find whitespace at end of original text
       USHORT usWhiteSpacePos = pOldToken->usStop;
@@ -999,19 +1023,28 @@ BOOL ProofReadAdjustWhiteSpaceInTarget( PPROOFREADPROCESSDATA pData, PSZ_W pszOr
       int iWhiteSpaceLen = (pOldToken->usStop - usWhiteSpacePos);
       PSZ_W pszOldWhiteSpace = pszOrgTarget + (usWhiteSpacePos + 1);
 
-
-      // copy changed text w/o tailing whitespace
-      if ( iLen )
+      // use changed text with trailing whitespace when unchanged target or new target doesn't have any trailing whitespace
+      if ( (iWhiteSpaceLen == 0) || (iChangedWhiteSpaceLen == 0) )
       {
+        iLen = (pToken->usStop - pToken->usStart) + 1; // restore original length
         wcsncpy( pszOutPos, pToken->pData, iLen );
         pszOutPos += iLen;
-      } /* endif */
-
-      // copy original whitespace
-      if ( iWhiteSpaceLen )
+      }
+      else
       {
-        wcsncpy( pszOutPos, pszOldWhiteSpace, iWhiteSpaceLen );
-        pszOutPos += iWhiteSpaceLen;
+        // copy changed text w/o trailing whitespace
+        if ( iLen )
+        {
+          wcsncpy( pszOutPos, pToken->pData, iLen );
+          pszOutPos += iLen;
+        } /* endif */
+
+        // copy original whitespace
+        if ( iWhiteSpaceLen )
+        {
+          wcsncpy( pszOutPos, pszOldWhiteSpace, iWhiteSpaceLen );
+          pszOutPos += iWhiteSpaceLen;
+        } /* endif */
       } /* endif */
     }
     else if ( pToken->sType == MARK_DELETED ) 

@@ -75,6 +75,7 @@ XERCES_CPP_NAMESPACE_USE
 #define KEY_ATTRI_RESTART                             "restart"
 #define KEY_ATTRI_NEED_WAIT                           "needwait"
 #define KEY_ARRTI_TRUE_STR                            "true"
+#define KEY_OTM_VER                                   "OtmVersion"
 #define KEY_DEPENDENCIES                              "dependencies"
 #define KEY_DEPENDENCY                                "dependency"
 
@@ -128,6 +129,10 @@ typedef struct _CPLUGIN
     char strSeverity[PLUGIN_SEV_MAX_LEN];
     char strImpact[PLUGIN_IMP_MAX_LEN];
     char strAfterAction[PLUGIN_AFTIST_MAX_LEN];
+
+	// WLP P403853
+	string strOtmVersion;
+
     vector <CPLUGINMAIN> pluginMains;
     vector <CPLUGINDEPN> pluginDepends;
 
@@ -155,6 +160,10 @@ public:
     int GetPluginMainCnt(int nInx);
     char * GetMainVersion(int iInx, int jInx);
     
+	//WLP P403853
+	//string&  GetOtmVersion(int iInx);
+	const char* CPlgMgXmlParser::GetOtmVersionByName(const char* pPlugginName);
+
     char * GetMainDLUrl(int iInx, int jInx);
     char * GetMainDLType(int iInx, int jInx);
     char * GetMainMethod(int iInx, int jInx);

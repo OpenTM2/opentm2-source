@@ -24,9 +24,6 @@
 //cv
 #include "eqfdoc01.h"
 
-extern HWND hwndExportInstance;   // handle of export instance window (EQFFOL06.C)
-extern HWND hwndImportInstance;   // handle of import instance window (EQFFOL02.C)
-
 static CHAR ColHdr[MAX_DEFINEDCOLUMNS][80];       // Buffer for column header texts
 static CLBCOLDATA ColTable[] =
 { { "",               1,              TEXT_DATA,      DT_LEFT},        // object name
@@ -128,11 +125,15 @@ LPARAM           mp2
     break;
 
   case WM_EQFN_TASKDONE:
-    // post task done notification to import instance
-    if ( hwndImportInstance )
     {
-      WinPostMsg( hwndImportInstance, message, mp1, mp2 );
-    } /* endif */
+      HWND hwndImportInstance = GetFolderImportHandle();
+
+      // post task done notification to import instance
+      if ( hwndImportInstance )
+      {
+        WinPostMsg( hwndImportInstance, message, mp1, mp2 );
+      } /* endif */
+    }
     break;
 
   case WM_EQF_DELETE:
@@ -299,36 +300,42 @@ LPARAM           mp2
     HWND       hwndObj;
 
     case PID_FILE_MI_EXPORT:
-      if ( hwndExportInstance )
       {
-        ActivateMDIChild( hwndExportInstance );
+        HWND hwndExportInstance = GetFolderExportHandle();
+        if ( hwndExportInstance )
+        {
+          ActivateMDIChild( hwndExportInstance );
+        }
+        else if ( (hwndObj = EqfQueryObject( (PSZ)mp2, clsFOLDER, 0)) != NULLHANDLE )
+        {
+          PSZ        pszParm;
+          Utlstrccpy( pCommArea->szBuffer, UtlGetFnameFromPath( (PSZ)mp2 ), DOT );
+          ObjShortToLongName( pCommArea->szBuffer, pCommArea->szBuffer, FOLDER_OBJECT );
+          OEMTOANSI(pCommArea->szBuffer);
+          pszParm = pCommArea->szBuffer;
+          UtlError( ERROR_EXPORT_OPEN_FOLDER, MB_CANCEL, 1, &pszParm, EQF_ERROR );
+          ActivateMDIChild( hwndObj );
+          mResult = MRFROMSHORT(TRUE);
+        }
+        else
+        {
+          FolderExport( hwnd, (PSZ) mp2, NULL );
+        } /* endif */
       }
-      else if ( (hwndObj = EqfQueryObject( (PSZ)mp2, clsFOLDER, 0)) != NULLHANDLE )
-      {
-        PSZ        pszParm;
-        Utlstrccpy( pCommArea->szBuffer, UtlGetFnameFromPath( (PSZ)mp2 ), DOT );
-        ObjShortToLongName( pCommArea->szBuffer, pCommArea->szBuffer, FOLDER_OBJECT );
-        OEMTOANSI(pCommArea->szBuffer);
-        pszParm = pCommArea->szBuffer;
-        UtlError( ERROR_EXPORT_OPEN_FOLDER, MB_CANCEL, 1, &pszParm, EQF_ERROR );
-        ActivateMDIChild( hwndObj );
-        mResult = MRFROMSHORT(TRUE);
-      }
-      else
-      {
-        FolderExport( hwnd, (PSZ) mp2, NULL );
-      } /* endif */
       break;
 
     case PID_FILE_MI_IMPORT:
-      if ( hwndImportInstance )
       {
-        ActivateMDIChild( hwndImportInstance );
+        HWND hwndImportInstance = GetFolderImportHandle();
+        if ( hwndImportInstance )
+        {
+          ActivateMDIChild( hwndImportInstance );
+        }
+        else
+        {
+          FolderImport( hwnd, NULL );
+        } /* endif */
       }
-      else
-      {
-        FolderImport( hwnd, NULL );
-      } /* endif */
       break;
 
     //case PID_UTILS_MI_DELEXPMAT:
@@ -1265,6 +1272,8 @@ LPARAM           mp2
     case PID_FILE_MI_IMPORT:
       {
         INT_PTR iRC;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         DIALOGBOX( DIALOG_OWNER, FIMPODLGPROPPROC, hResMod, ID_DOCIMP_PROP_DLG,
                    NULL, iRC );
       }
@@ -1273,6 +1282,8 @@ LPARAM           mp2
     case PID_FILE_MI_EXPORT:
       {
         INT_PTR iRC;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         DIALOGBOX( DIALOG_OWNER, FEXPORTDLGPROPPROC, hResMod, ID_DOCEXP_PROP_DLG,
                    NULL, iRC );
         }
@@ -1707,121 +1718,6 @@ BOOL FolDeleteFolder
 } /* end of function FolDeleteFolder */
 
 
-//------------------------------------------------------------------------------
-// Create a document list listbox item
-//------------------------------------------------------------------------------
-BOOL FOLMakeDocListItem
-(
-PPROPDOCUMENT  pProp,               // property pointer
-PSZ       pszFormat,                // name of folder format table
-PSZ       pszMemory,                // name of folder translation memory
-PSZ       pszSourceLang,            // name of folder source language
-PSZ       pszTargetLang,            // name of folder target language
-PSZ       pszEditor,                // name of folder editor
-PSZ       pszBuffer                 // buffer to fill with folderlist item
-)
-{
-  CHAR            szDocPath[MAX_EQF_PATH]; // path to source document
-  USHORT           usCount = 1;        // For UtlFindFirst
-  HDIR             hSearch = HDIR_CREATE; // Directory handle for UtlFindFirst
-  FILEFINDBUF      stFile;             // Output buffer of UtlFindFirst
-  PSZ              pszExtension;       // points to file name extension
-  PSZ              pszDocName;         // points to document name
-  PSZ              pszName;            // points to file name without path info
-
-  /*******************************************************************/
-  /* Build document path                                             */
-  /*******************************************************************/
-  strcpy( szDocPath, pProp->PropHead.szPath );
-  strcat( szDocPath, BACKSLASH_STR );
-  UtlQueryString( QST_SOURCEDIR, szDocPath + strlen(szDocPath), MAX_FILESPEC );
-  strcat( szDocPath, BACKSLASH_STR );
-  strcat( szDocPath, pProp->PropHead.szName );
-
-  /*******************************************************************/
-  /* Get document size                                               */
-  /*******************************************************************/
-  memset( &stFile, 0, sizeof(stFile) );
-  UtlFindFirst( szDocPath, &hSearch, 0, &stFile, sizeof(stFile), &usCount,
-                0L, FALSE );
-  UtlFindClose( hSearch, FALSE );
-
-  /*******************************************************************/
-  /* Use document specific memory, format and languages              */
-  /*******************************************************************/
-  if ( pProp->szLongMemory[0] != EOS )
-    pszMemory = pProp->szLongMemory;
-  else
-    if ( pProp->szMemory[0] != EOS )     pszMemory = pProp->szMemory;
-  if ( pProp->szFormat[0] != EOS )     pszFormat = pProp->szFormat;
-  if ( pProp->szSourceLang[0] != EOS ) pszSourceLang = pProp->szSourceLang;
-  if ( pProp->szTargetLang[0] != EOS ) pszTargetLang = pProp->szTargetLang;
-  if ( pProp->szEditor[0] != EOS )     pszEditor = pProp->szEditor;
-  /*******************************************************************/
-  /* build complete item string                                      */
-  /*******************************************************************/
-
-  OEMTOANSI( pProp->szLongName );
-  OEMTOANSI( pProp->szVendor );
-
-  // get file name without path part
-  pszDocName = ( pProp->szLongName[0] != EOS ) ? pProp->szLongName : pProp->PropHead.szName;
-  pszName = strrchr( pszDocName, BACKSLASH );
-  if ( pszName )
-  {
-    pszName = pszName + 1;
-  }
-  else
-  {
-    pszName = pszDocName;
-  } /* endif */
-
-  // get file name extension (if any)
-  pszExtension = strrchr( pszName, '.' );
-  if ( pszExtension )
-  {
-    pszExtension = pszExtension + 1;
-  }
-  else
-  {
-    pszExtension = pszName + strlen( pszName ); // position to string end character
-  } /* endif */
-
-  sprintf( pszBuffer,
-//           "%s\\%s\x15%s\x15%lu\x15%lu\x15%lu\x15%lu\x15%lu\x15%lu\x15%lu\x15%.1lu\x15%d\x15%d\x15%d\x15%d\x15%s\x15%s\x15%s\x15%s\x15%s\x15%s\x15%lu\x15" ,
-           "%s\\%s\x15%s\x15%lu\x15%lu\x15%lu\x15%lu\x15%lu\x15%s\x15%lu\x15%.1lu\x15%d\x15%d\x15%s\x15%d\x15%s\x15%s\x15%s\x15%s\x15%s\x15%s\x15%lu\x15%s\x15%s\x15" ,
-           pProp->PropHead.szPath,    // FOL_OBJECT_IND
-           pProp->PropHead.szName,
-           ( pProp->szLongName[0] == EOS ) ?  // FOL_NAME_IND
-           pProp->PropHead.szName : pProp->szLongName,
-           pProp->Format,             // FOL_FORMAT_IND
-           pProp->ulXLated,           // FOL_TRANSLATED_IND
-           pProp->ulSeg,              // FOL_SEGMENTED_IND
-           pProp->ulExp,              // FOL_EXPORTED_IND
-           pProp->ulImp,              // FOL_IMPORTED_IND
-//           pProp->ulTouched,          // FOL_TOUCHED_IND
-           pProp->szVendor,           // FOL_TRANSLATOR_IND
-           pProp->ulTouched,          // FOL_TOUCHEDTIME_IND
-           RESBUFSIZE(stFile),        // FOL_SIZE_IND
-           pProp->usComplete,         // FOL_COMPLETE_IND
-           pProp->usModified,         // FOL_MODIFIED_IND
-           pProp->szShipment,         //                    (was pProp->usScratch),  FOL_SCRATCH_IND
-           0,                         // currently not used (was pProp->usCopied),   FOL_COPIED_IND
-           pszFormat,
-           pszMemory,
-           pszSourceLang,
-           pszTargetLang,
-           pszEditor,
-           pProp->szAlias,
-           pProp->ulSrc,
-           pszName,
-           pszExtension
-         );
-  ANSITOOEM( pProp->szLongName );
-  ANSITOOEM( pProp->szVendor );
-  return( TRUE );
-}
-
 /**********************************************************************/
 /* Create the folder list                                             */
 /**********************************************************************/
@@ -1834,6 +1730,7 @@ MRESULT FolderCreateCall( PLISTCOMMAREA pCommArea )
   PPROPFOLDER pProp = NULL;      // ptr to folder properties
   BOOL       fSubFolder = FALSE; // TRUE = a subfolder list is being opened
   BOOL       fSetWidth = TRUE;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   fSubFolder = FolIsSubFolderObject( pCommArea->szObjName );
 

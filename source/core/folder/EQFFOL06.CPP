@@ -113,7 +113,12 @@ PFCTDATA    pData                    // function I/F session data
 MRESULT FolExpPropCommand(HWND hwnd, WPARAM mp1, LPARAM mp2);
 
 
-HWND hwndExportInstance;                  // handle of export instance window
+HWND hwndExportInstance = NULLHANDLE;                  // handle of export instance window
+
+HWND GetFolderExportHandle()
+{
+  return( hwndExportInstance );
+}
 
 VOID FolderExport( HWND hwnd, PSZ pSelFolderName, PSZ pszObjList )
 {
@@ -154,6 +159,8 @@ VOID FolderExport( HWND hwnd, PSZ pSelFolderName, PSZ pszObjList )
 
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
     strcpy( pIda->szObjName, pSelFolderName );
     strcpy( pIda->szFolderObjName, pSelFolderName );
     pIda->pszObjList = pIda->pszActiveObj = pszObjList;
@@ -211,42 +218,45 @@ LPARAM           mp2                 // second message parameter
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Set global export instance window handle and anchor IDA    */
-      /**************************************************************/
-      hwndExportInstance  = hwnd;
-      pIda                = (PFOLEXPIDA)PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pIda;
-
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_FOLEXP_WINDOW;
-      pCommArea->sProcessObjClass = clsFOLDEREXP;
-      if ( pIda->pDDEFolExp == NULL )
       {
-        pCommArea->Style            = PROCWIN_SLIDERONLY;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+        /**************************************************************/
+        /* Set global export instance window handle and anchor IDA    */
+        /**************************************************************/
+        hwndExportInstance  = hwnd;
+        pIda                = (PFOLEXPIDA)PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pIda;
+
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_FOLEXP_WINDOW;
+        pCommArea->sProcessObjClass = clsFOLDEREXP;
+        if ( pIda->pDDEFolExp == NULL )
+        {
+          pCommArea->Style            = PROCWIN_SLIDERONLY;
+        }
+        else
+        {
+          pCommArea->Style            = PROCWIN_BATCH;
+        } /* endif */
+        pCommArea->sSliderID        = ID_FOLEXP_SLIDER;
+        LOADSTRING( NULLHANDLE, hResMod, SID_FOLEXP_TITLE, pCommArea->szTitle );
+
+        strcat ( pCommArea->szTitle, pIda->szFolLongName );
+
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_FOLEXPICON); //hiconFOLEXP;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = WM_EQF_ABOUTTODELETE;
+        pCommArea->asMsgsWanted[3]  = 0;
+        pCommArea->usComplete       = 0;
       }
-      else
-      {
-        pCommArea->Style            = PROCWIN_BATCH;
-      } /* endif */
-      pCommArea->sSliderID        = ID_FOLEXP_SLIDER;
-      LOADSTRING( NULLHANDLE, hResMod, SID_FOLEXP_TITLE, pCommArea->szTitle );
-
-      strcat ( pCommArea->szTitle, pIda->szFolLongName );
-
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_FOLEXPICON); //hiconFOLEXP;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = WM_EQF_ABOUTTODELETE;
-      pCommArea->asMsgsWanted[3]  = 0;
-      pCommArea->usComplete       = 0;
       break;
 
       /****************************************************************/
@@ -530,6 +540,7 @@ LPARAM           mp2                 // second message parameter
                         // show new folder name in export window title bar
                         if ( fOK )
                         {
+                          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                           LOADSTRING( NULLHANDLE, hResMod, SID_FOLEXP_TITLE, pCommArea->szTitle );
                           strcat ( pCommArea->szTitle, pIda->szFolLongName );
                           SendMessage( hwnd, WM_SETTEXT, 0, (LPARAM)pCommArea->szTitle );
@@ -629,6 +640,7 @@ LPARAM           mp2                 // second message parameter
                         // update process window title and restart export process
                         if ( fOK )
                         {
+                          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                           LOADSTRING( NULLHANDLE, hResMod, SID_FOLEXP_TITLE, pCommArea->szTitle );
                           strcat ( pCommArea->szTitle, pIda->szFolLongName );
                           WinPostMsg( hwnd, WM_EQF_PROCESSTASK, MP1FROMSHORT(FOL_EXPORT_TASK), 0l );
@@ -2689,6 +2701,7 @@ HWND             hwndOwner           // owner window handle for error msgs
     }
     else
     {
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
       DIALOGBOX( hwndOwner, FolExpNoteDlgProc, hResMod, ID_FOLNOTE_DLG,
                  pIda, fOK );
     } /* endif */
@@ -2765,7 +2778,7 @@ HWND             hwndOwner           // owner window handle for error msgs
         } /* endif */
 
         //--- add redundant segment list of files for export
-        if ( fOK )
+        if ( fOK && pIda->fWithRedundancyData )
         {
           CHAR           chTempName[MAX_EQF_PATH];
 
@@ -4126,7 +4139,7 @@ PSZ         pszMemoryExportAs
       pIda->fDelete =
       pIda->pHeader->BitFlags.fDeleted = (USHORT)(lOptions & DELETE_OPT) != 0L;
       pIda->pHeader->BitFlags.fSelectedDocs = (USHORT)(lBufferUsed != 0);
-	  pIda->fWithDict = (EQF_BOOL)((lOptions & WITHDICT_OPT) != 0L);
+	    pIda->fWithDict = (EQF_BOOL)((lOptions & WITHDICT_OPT) != 0L);
       pIda->pHeader->fContainsDict = (EQF_BOOL)((lOptions & WITHDICT_OPT) != 0L);
       pIda->pHeader->BitFlags.fContainsMem = (USHORT)((lOptions & (WITHMEM_OPT | WITHREADONLYMEM_OPT | WITHDOCMEM_OPT)) != 0L);
       pIda->pHeader->BitFlags.fOverWrite = (USHORT)((lOptions & OVERWRITE_OPT) != 0L);
@@ -4137,23 +4150,25 @@ PSZ         pszMemoryExportAs
       pIda->pHeader->BitFlags.fMasterFolder = (USHORT)((lOptions & MASTERFOLDER_OPT) != 0L);
       pIda->usExportFormat = ((lOptions & XLIFF_OPT) != 0L) ? FOL_XLIFF_FORMAT : FOL_TMGR_FORMAT;
       if ( (pszExportAs != NULL) && (*pszExportAs != EOS) )
-	  {
-	     pIda->fExportAs = 1;
-	     strcpy( pIda->szExportAs, pszExportAs );
-	  }
-	  else
-	  {
-	     pIda->fExportAs = 0;
+	    {
+	       pIda->fExportAs = 1;
+	       strcpy( pIda->szExportAs, pszExportAs );
+	    }
+	    else
+	    {
+  	     pIda->fExportAs = 0;
       } /* endif */
       if ( (pszMemoryExportAs != NULL) && (*pszMemoryExportAs != EOS) )
-	  {
-		 pIda->fMemoryExportAs = 1;
-		 strcpy( pIda->szMemoryExportAs, pszMemoryExportAs );
-	  }
-	  else
-	  {
-		 pIda->fMemoryExportAs = 0;
+	    {
+		    pIda->fMemoryExportAs = 1;
+		    strcpy( pIda->szMemoryExportAs, pszMemoryExportAs );
+	    }
+  	  else
+	    {
+		    pIda->fMemoryExportAs = 0;
       } /* endif */
+      pIda->fWithRedundancyData = ((lOptions & WO_REDUNDANCY_DATA_OPT) == 0L);
+      pIda->pHeader->BitFlags.fWithRedundancyData = pIda->fWithRedundancyData;
     } /* endif */
 
     // load names of all folder documents if none specified
@@ -4817,7 +4832,15 @@ void FolPropSetEnableState
     SETCHECK( hwndDlg, ID_FOLEXP_NOTE_CHK,     pFllProp->fFolExpAddNote );
     ENABLECTRL( hwndDlg, ID_FOLEXP_OLDVERS_CHK, TRUE );
     SETCHECK( hwndDlg, ID_FOLEXP_OLDVERS_CHK,  pFllProp->fFolNonUnicode );
+    {
+      CHAR           chTempName[MAX_EQF_PATH];
 
+      UtlMakeEQFPath( chTempName, pIda->szObjName[0], PROPERTY_PATH, pIda->szFolName );
+      strcat( chTempName, BACKSLASH_STR  );
+      strcat( chTempName, REDUNDCOUNTFILE );
+      BOOL fEnable = UtlFileExist( chTempName ); 
+      ENABLECTRL( hwndDlg, ID_FOLEXP_WITH_REDUNDANCY_DATA_CHK, fEnable  );
+    }
     //--- check if folder is open, set delete flag accordingly ---
     if ( EqfQueryObject( pIda->szObjName, clsFOLDER, 0) )
     {
@@ -4869,6 +4892,8 @@ void FolPropSetEnableState
     SETCHECK_FALSE( hwndDlg, ID_FOLEXP_HISTLOG_CHK );
     ENABLECTRL( hwndDlg, ID_FOLEXP_HISTLOG_CHK, FALSE );
     ENABLECTRL( hwndDlg, ID_FOLEXP_MASTER_CHK, FALSE );
+    ENABLECTRL( hwndDlg, ID_FOLEXP_WITH_REDUNDANCY_DATA_CHK, FALSE );
+
   } /* endif */
 }
 
@@ -5012,6 +5037,7 @@ LPARAM  mp2
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           TC_ITEM Item;
           HWND hwndTabCtrl = GetDlgItem( hwnd, ID_FOLEXP_PROP_TABCTRL );
           memset( &Item, 0, sizeof(Item) );
@@ -5081,6 +5107,8 @@ PFOLEXPIDA     pIda
   if ( fOk )
   {
     RECT rect;
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
     // remember adress of user area
     hInst = GETINSTANCE( hwnd );
     hwndTabCtrl = GetDlgItem( hwnd, ID_FOLEXP_PROP_TABCTRL );
@@ -6083,6 +6111,8 @@ LPARAM mp2
               pIda->fWithFolderMem = QUERYCHECK( hwnd, ID_FOLEXP_WITHMEM_CHK );
               pIda->pHeader->BitFlags.fContainsMem = (USHORT)(pIda->fWithROMem || pIda->fWithDocMem || pIda->fWithFolderMem);
                           pIda->pHeader->BitFlags.fMasterFolder = QUERYCHECK( hwnd, ID_FOLEXP_MASTER_CHK );
+              pIda->fWithRedundancyData = QUERYCHECK( hwnd, ID_FOLEXP_WITH_REDUNDANCY_DATA_CHK );
+              pIda->pHeader->BitFlags.fWithRedundancyData = pIda->fWithRedundancyData;
             } /* endif */
 
             // Get Originator name and e-mail

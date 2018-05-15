@@ -15,7 +15,7 @@ typedef LONG HSESSION;
 INT_PTR CALLBACK COUNTINGPROPDLGPROC (HWND, WINMSG, WPARAM, LPARAM);
 
 
-MRESULT ReportListHandlerCallBack
+__declspec(dllexport) MRESULT ReportListHandlerCallBack
 (
   PHANDLERCOMMAREA pCommArea,
   HWND             hwnd,

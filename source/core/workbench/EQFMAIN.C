@@ -31,47 +31,9 @@
 #include "EQFART.H"                    // ART registry functions
 #include "EQFRPT.H"                    // report handler defines
 
+
 // should be removed
 #include "EQFMT00.H"
-
-//------------------------------------------------------------------------------
-//  Helptable include files
-//     - ID files for dialogs and windows
-//     - help ID file
-//     - message ID file
-//     - help table
-//------------------------------------------------------------------------------
-#include "eqfutils.id"
-#include "eqfdoc01.id"
-#include "eqfiana1.id"
-#include "eqfmem.id"
-#include "eqffol.id"
-#include "eqffll.id"
-#include "eqftag00.id"                 // tag handler IDs
-#include <EQFTIMP.ID>
-#include <EQFTEXP.ID>
-#include <EQFLNG00.ID>
-#include "eqfdic00.id"
-#include "eqfutclb.id"
-#include "EQFDIMP.ID"
-#include "EQFDEX.ID"
-#include "EQFTIMP.ID"
-#include "EQFTEXP.ID"
-#include "EQFCNT01.ID"
-#include "EQFFILT.ID"
-#include "EQFQDPR.ID"
-#include "EQFTwb.ID"                   // IDs of Twb dialogs
-#include "EQFB.ID"                     // IDs of Translation Processor window
-#include "EQFITMD.ID"                  // IDs of ITM dialogs and windows
-#include "EQFBDLG.ID"                  // IDs of Translation Processor dialogs
-#include "EQFDPROP.ID"                 // IDs of Dictionary Dialogs - 1 -
-#include "EQFDDLG.ID"                  // IDs of Dictionary Dialogs - 2 -
-#include "EQFRDICS.ID"                 // IDs for remote dictionary
-#include "EQFLIST.ID"                  // IDs of list handler windows and dialogs
-#include "EQFTMM.ID"                   // IDs of TMM window
-#include "EQFTMFUN.ID"                 // IDs of TMM dialogs
-#include "eqfrpt.id"                   // IDs report handler dialog
-#include "eqfmt.id"                    // IDs Machine Translation Properties
 
 #undef _WPTMIF                         // we don't care about WP I/F
 #include "eqfhelp.id"                  // help resource IDs
@@ -164,6 +126,7 @@ HWND TwbInit( BOOL fMFC, BOOL fMinTWB )
    BOOL fOK = TRUE;                    // internal ok flag
    PSZ      pszErrParm;                // parameter for UtlError call
    HMODULE  hmod;                      // buffer for resource module handle
+   HMODULE  hResMod;
 
    hAB = (HAB)UtlQueryULong( QL_HAB );
    fMinimize = fMinTWB;
@@ -574,6 +537,7 @@ HWND TwbWinInit( BOOL fMFC )
     HWND hframe = NULLHANDLE;          // handle of Twb frame window
     BOOL fOK = TRUE;                   // internal OK flag
     PSZ  pszParm;                      // parameter for UtlError calls
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
     /******************************************************************/
     /* Register class for superclassed MDI class                      */
@@ -715,6 +679,7 @@ HWND TwbWinInit( BOOL fMFC )
 __declspec(dllexport)
 VOID TwbWinInitCS( CREATESTRUCT * pCS )
 {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     ULONG flStyle;                     // window creation flags
 
     /******************************************************************/
@@ -1386,7 +1351,10 @@ MRESULT APIENTRY TwbMainWP
                {
                   case clsMEMORY :
                   case clsDICTIONARY :
-                     TWBConnect( hwnd, hResMod, usClass );
+                     {
+                       HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+                       TWBConnect( hwnd, hResMod, usClass );
+                     }
                      break;
                   case clsFOLDERLIST :
                   case clsFOLDER :
@@ -1509,11 +1477,14 @@ MRESULT APIENTRY TwbMainWP
               break;
 
            case PID_UTILS_MI_DRIVES:
-              /********************************************************/
-              /* handle drive configuration request                   */
-              /********************************************************/
-              TWBDrives( hwnd, hResMod, FALSE );
-              return( (MRESULT)NULL);                 // return w/o default frame proc
+              {
+                /********************************************************/
+                /* handle drive configuration request                   */
+                /********************************************************/
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+                TWBDrives( hwnd, hResMod, FALSE );
+                return( (MRESULT)NULL);                 // return w/o default frame proc
+              }
               break;
 
            case PID_HELP_FOR_HELP :
@@ -3297,6 +3268,7 @@ static BOOL bSizeChanged=FALSE;
       GetStringFromRegistry( APPL_Name, KEY_BG_BITMAP, szMsgBuf, sizeof(szMsgBuf), "NO" );
       if ( stricmp( szMsgBuf, "YES" ) == 0 )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         hbm = LoadBitmap( hResMod, MAKEINTRESOURCE(ID_BACKGROUND_BMP) );
       } /* endif */
       break;
@@ -3722,7 +3694,7 @@ VOID TwbFreeResources( VOID )
       DosFreeModule( pUserHandler[i].hModule );
     } /* endfor */
   } /* endif */
-
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
   DosFreeModule ( hResMod );
 
 } /* end of function TwbFreeResources */
@@ -3791,33 +3763,6 @@ VOID EqfDisplayHelpForHelp()
 VOID EqfIELookAndFeel (BOOL fIE)
 {
   fIELookAndFeel = fIE;
-}
-
-
-VOID EqfDisplayContextHelp( HWND hItemHandle, PHELPSUBTABLE pHlpTable )
-{
-
-  /********************************************************************/
-  /* copy our help subtable, whose entries are SHORTs into a table as */
-  /* requested  by Windows with long entries                          */
-  /********************************************************************/
-  LONG aItem[500];
-  PLONG plItem = &aItem[0];
-  PSHORT pS = (PSHORT) pHlpTable;
-  pS++;                                // skip index
-
-  memset( &aItem[0], 0, sizeof( aItem ));
-  while ( *pS )
-  {
-    *plItem = (LONG) *pS;
-    plItem++; pS++;
-    *plItem = (LONG) *pS;
-    plItem++; pS++;
-
-  } /* endwhile */
-
-  WinHelp( hItemHandle, EqfSystemHlpFile, HELP_WM_HELP, (LONG) &aItem[0]);
-
 }
 
 //------------------------------------------------------------------------------

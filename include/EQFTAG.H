@@ -345,6 +345,7 @@ typedef struct _LOADEDTABLE
  #define ERR_READFILE   -3
 #endif
 
+__declspec(dllexport)
 VOID   TAFastTokenize( PSZ, PLOADEDTABLE, BOOL, PSZ *, USHORT *, TOKENENTRY *, USHORT, ULONG );
 __declspec(dllexport)
 VOID   TAFastTokenizeW( PSZ_W, PLOADEDTABLE, BOOL, PSZ_W *, USHORT *, TOKENENTRY *, USHORT );
@@ -420,8 +421,7 @@ USHORT TALoadTagTableExHwnd            // loads/accesses a tag table
 /**********************************************************************/
 /* Free a tag table logically                                         */
 /**********************************************************************/
-__declspec(dllexport)
-USHORT TAFreeTagTable                  // frees a tag table
+__declspec(dllexport) USHORT TAFreeTagTable                  // frees a tag table
 (
   PLOADEDTABLE     pTagTable           // tag table pointer returned by TALoadTagTable
 );
@@ -430,17 +430,15 @@ USHORT TAFreeTagTable                  // frees a tag table
 /* Invalidate a loaded tag table ==> indicate that the tag table      */
 /* has to be reloaded if another user wants to access the tag table   */
 /**********************************************************************/
-USHORT TAInvalidateTagTable
+__declspec(dllexport) USHORT TAInvalidateTagTable
 (
   PSZ  pszTableName
 );
 
 // load user exit not tried yet and user exit is avialable
-__declspec(dllexport)
-USHORT TALoadExitIfAvailable( PLOADEDTABLE pTable );
+__declspec(dllexport) USHORT TALoadExitIfAvailable( PLOADEDTABLE pTable );
 // load user exit protect function if not tried yet and user exit is avialable
-__declspec(dllexport)
-USHORT TALoadProtectFunctionIfAvailable( PLOADEDTABLE pTable );
+__declspec(dllexport) USHORT TALoadProtectFunctionIfAvailable( PLOADEDTABLE pTable );
 
 
 #define MAX_FORMAT    80               // max lenght of a symbolic format name

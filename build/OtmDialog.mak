@@ -31,7 +31,7 @@ build:    $(_DLL)\OTMDialog.DLL
 # Dependencies
 #------------------------------------------------------------------------------
 
-$(_OBJ)\eqfutdlg.OBJ:	$(_SRC)\core\utilities\eqfutdlg.c
+$(_OBJ)\eqfutdlg.OBJ:	$(_SRC)\core\utilities\eqfutdlg.cpp
 $(_OBJ)\eqfutmdi.OBJ:	$(_SRC)\core\utilities\eqfutmdi.c
 
 $(_DLL)\OTMDialog.DLL:	$(_OBJ)\eqfutdlg.OBJ \
@@ -49,5 +49,11 @@ $(_DLL)\OTMDialog.DLL:
 					$(_OBJ)\eqfutmdi.OBJ
 /OUT:$(_DLL)\OTMDialog.DLL
 /MAP:$(_MAP)\OTMDialog.MAP $(_LINK_OPTIONS) /MAPINFO:EXPORTS /DLL
-$(_LINK_LIB_CRT) $(_LIB)\OTMBase.lib
+          $(_LINK_LIB_CRT) 
+          $(_LIB)\OTMMemoryFunctions.lib
+          $(_LIB)\OTMBase.lib
+          $(_LIB)\OTMDictionaryFunctions.lib
+          $(_LIB)\OTMLinguistic.lib
+          $(_LIB)\OTMTagTableFunctions.lib
+          $(_LIB)\OTMFolderUtils.lib
 <<

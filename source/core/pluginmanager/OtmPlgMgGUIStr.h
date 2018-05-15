@@ -113,6 +113,7 @@
 #define ERROR_CANNOT_GET_MODULE_NAME_A_STR            "Cannot get the download module name from the xml file." // 1023
 #define ERROR_HTTPS_CONNECT_A_STR                     "Connect to HTTP server failed." // 1024
 #define ERROR_SFTP_CONNECT_A_STR                      "Connect to SFTP server failed." // 1025
+#define ERROR_LOAD_ENTRY_POINT_A_STR                  "Load entry point failed."
 #define ERROR_WRONG_PLUGIN_NAME_A_STR                 "The plugin name is wrong." // 2001
 #define ERROR_GET_PLUGIN_PATH_A_STR                   "Cannot get the path of the plugin." // 2002
 #define ERROR_PLUGIN_NOT_FOUND_A_STR                  "Failed to find the plugin." // 2003

@@ -25,7 +25,6 @@
 // Returncodes:       NO_ERROR          function completed OK                   
 //                    other             DOS error codes                         
 //+----------------------------------------------------------------------------+
-__declspec(dllexport)
-USHORT  LstReadNoiseExclList( PSZ, PULONG, PEXCLUSIONLIST *);
-BOOL    LstEditAddenda( PSZ pszLanguage );
-BOOL    LstEditAbbrev( PSZ pszLanguage );
+__declspec(dllexport) USHORT  LstReadNoiseExclList( PSZ, PULONG, PEXCLUSIONLIST *);
+__declspec(dllexport) BOOL    LstEditAddenda( PSZ pszLanguage );
+__declspec(dllexport) BOOL    LstEditAbbrev( PSZ pszLanguage );

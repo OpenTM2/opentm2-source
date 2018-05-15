@@ -151,9 +151,9 @@ SHORT EqfDocument::CPP_EQFBHistDocSave(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT 
 {
 	return EQFBHistDocSave(pszFileName, pDoc, sLogTaskID);
 }
-SHORT EqfDocument::CPP_EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID, BOOL fAdjustCountInfo )
+SHORT EqfDocument::CPP_EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID )
 {
-	return EQFBHistDocSaveEx(pszFileName, pDoc, sLogTaskID, fAdjustCountInfo );
+	return EQFBHistDocSaveEx(pszFileName, pDoc, sLogTaskID );
 }
 USHORT EqfDocument::CPP_EQFBFileRead(PSZ pszFileName, PTBDOCUMENT pDoc)
 {

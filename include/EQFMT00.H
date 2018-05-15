@@ -297,7 +297,7 @@ typedef struct _MTLISTPROP
 } MTLISTPROP, * PMTLISTPROP;
 
 
-MRESULT MTListHandlerCallBack
+__declspec(dllexport) MRESULT MTListHandlerCallBack
 (
   PHANDLERCOMMAREA pCommArea,
   HWND             hwnd,

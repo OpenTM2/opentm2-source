@@ -17,13 +17,10 @@ INCLUDE EqfCreateITM.script
 
 INCLUDE EqfFilterNomatchFile.script
 
-
-
 INCLUDE EqfImportMemEx.script
-
-
 
 INCLUDE EqfAddMatchSegID.script
 
+INCLUDE MemConnect.script
 
 

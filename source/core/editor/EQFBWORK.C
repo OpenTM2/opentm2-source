@@ -920,23 +920,19 @@ EQFBFuncNextMisspelled
     /********************************************************************/
     if (!pDoc->pvSpellData)
     {
-       UtlAlloc( (PVOID *) &(pDoc->pvSpellData), 0L,
-                 (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
+       UtlAlloc( (PVOID *) &(pDoc->pvSpellData), 0L, (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
        if (pDoc->pvSpellData)                    //if 1st call to Spellcheck
        {                                         //init ptr to ignorelist
 
           pSpellData = (PSPELLDATA) pDoc->pvSpellData;
-          UtlAlloc( (PVOID *)&(pSpellData->pIgnoreData) ,
-                    0L, (LONG) MAX_SEGMENT_SIZE * sizeof(CHAR_W), ERROR_STORAGE );
+          UtlAlloc( (PVOID *)&(pSpellData->pIgnoreData) , 0L, (LONG) MAX_SEGMENT_SIZE * sizeof(CHAR_W), ERROR_STORAGE );
           if ( pSpellData->pIgnoreData )
           {
             pSpellData->usIgnoreLen = MAX_SEGMENT_SIZE;
             pSpellData->pIgnoreNextFree = pSpellData->pIgnoreData;
           } /* endif */
-          UtlAlloc( (PVOID *) &(pSpellData->pSpellWorkSegW),
-		             0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
-		  UtlAlloc( (PVOID *) &(pSpellData->pSpellSeg),
-                        0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
+          UtlAlloc( (PVOID *) &(pSpellData->pSpellWorkSegW), 0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
+		      UtlAlloc( (PVOID *) &(pSpellData->pSpellSeg), 0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
           pSpellData->ulProofSeg = 1;
           pSpellData->pDoc = pDoc;
           pSpellData->FindData.fChange = FALSE;

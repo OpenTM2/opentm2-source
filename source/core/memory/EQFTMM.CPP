@@ -77,6 +77,7 @@ BOOL EQFTMMaintain( PSZ pszTMName )
   HWND hwndFrame;                    // Frame window handle
   PTMMIDA pTMMIda;                   // pointer to main structure
   BOOL fOK = TRUE;                     // success indicator
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   /******************************************************************/
   /* allocate ida                                                   */
@@ -776,6 +777,7 @@ MRESULT APIENTRY TMMWNDPROC
            pTMMIda = ACCESSWNDIDA( hwnd, PTMMIDA );
            if ( !pTMMIda->hwndMenu )
            {
+             HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
              pTMMIda->hwndMenu = LoadMenu( hResMod, MAKEINTRESOURCE(ID_TMM_WINDOW));
              /********************************************************/
              /* the windows pulldown is the 5th entry in the AAB     */
@@ -3550,6 +3552,7 @@ VOID BackToQuery
 
      if ( !usRc )
      {
+       HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
        FreeTMIdaForSave( pTMMIda->pTMIda );
        pTMMIda->TBSourceDoc.tbActSeg.ulSegNum = 0;
        pTMMIda->TBTargetDoc.tbActSeg.ulSegNum = 0;

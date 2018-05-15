@@ -3415,76 +3415,80 @@ INT_PTR CALLBACK FOLDERPROPSDLG
       break;
 /*--------------------------------------------------------------------------*/
     case WM_INITDLG:
-      //--- create IDA and anchor it ---
-      UtlAlloc( (PVOID *)&pIda, 0L, (LONG) sizeof( FOLPROPIDA), ERROR_STORAGE );
-      if ( !pIda )
       {
-        WinDismissDlg( hwndDlg, FALSE );
-        return( MRFROMSHORT(FALSE) );
-      } /* endif */
-      ANCHORDLGIDA( hwndDlg, pIda);
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
+        //--- create IDA and anchor it ---
+        UtlAlloc( (PVOID *)&pIda, 0L, (LONG) sizeof( FOLPROPIDA), ERROR_STORAGE );
+        if ( !pIda )
+        {
+          WinDismissDlg( hwndDlg, FALSE );
+          return( MRFROMSHORT(FALSE) );
+        } /* endif */
+        ANCHORDLGIDA( hwndDlg, pIda);
 
 
 
-      //--- remember pointer to properties ---
-      pIda->pProp = (PPROPFOLDER)PVOIDFROMMP2(mp2);
-      pIda->hwndDlg = hwndDlg;
+        //--- remember pointer to properties ---
+        pIda->pProp = (PPROPFOLDER)PVOIDFROMMP2(mp2);
+        pIda->hwndDlg = hwndDlg;
 
-      //-- get pointer to system properties ---
-      pSysProp = (PPROPSYSTEM)MakePropPtrFromHnd( EqfQuerySystemPropHnd() );
+        //-- get pointer to system properties ---
+        pSysProp = (PPROPSYSTEM)MakePropPtrFromHnd( EqfQuerySystemPropHnd() );
 
-      //--- set ID of dialog to 'Folder Properties' or 'Create Folder' dlg
-      if ( pIda->pProp->PropHead.chType == PROP_TYPE_NEW)
-      {
-        SETWINDOWID( hwndDlg, ID_NEWFOLDERPROPS_DLG );
+        //--- set ID of dialog to 'Folder Properties' or 'Create Folder' dlg
+        if ( pIda->pProp->PropHead.chType == PROP_TYPE_NEW)
+        {
+          SETWINDOWID( hwndDlg, ID_NEWFOLDERPROPS_DLG );
+        }
+        else
+        {
+          SETWINDOWID( hwndDlg, ID_FOLDERPROPS_DLG );
+        } /* endif */
+
+
+        if ( !fOk )
+        {
+          //--- close analysis dialog, FALSE means: - do not start analysis instance
+          //Close_proc( hwnd, FALSE );
+        }
+        else
+        {
+          FolderPropertySheetLoad( hwndDlg, pIda );
+        } /* endif */
+
+        if ( pIda->pProp->PropHead.chType != PROP_TYPE_NEW)
+        {
+
+          // --- title of panel ("New Properties" or "Folder Properties") ---
+
+          LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_PROPFOL_TITLE1,
+                      pIda->szBuffer1);
+          SETTEXTHWND( hwndDlg, pIda->szBuffer1 );
+
+
+
+          // --- name of first pushbutton ("Create" or "Change")---
+
+          LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_FOLDERPROPS_CHANGE,
+                      pIda->szBuffer1);
+          SETTEXT( hwndDlg, ID_FOLDERPROPS_SET_PB, pIda->szBuffer1);
+        }
+        else
+        {
+          // --- name of first pushbutton ---
+          LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_FOLDERPROPS_CREATE,
+                      pIda->szBuffer1);
+          SETTEXT( hwndDlg, ID_FOLDERPROPS_SET_PB, pIda->szBuffer1);
+
+        }
+
+
+
+        mResult = DIALOGINITRETURN( mResult );
+
+        pIda->fInitComplete = TRUE;
       }
-      else
-      {
-        SETWINDOWID( hwndDlg, ID_FOLDERPROPS_DLG );
-      } /* endif */
-
-
-      if ( !fOk )
-      {
-        //--- close analysis dialog, FALSE means: - do not start analysis instance
-        //Close_proc( hwnd, FALSE );
-      }
-      else
-      {
-        FolderPropertySheetLoad( hwndDlg, pIda );
-      } /* endif */
-
-      if ( pIda->pProp->PropHead.chType != PROP_TYPE_NEW)
-      {
-
-        // --- title of panel ("New Properties" or "Folder Properties") ---
-
-        LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_PROPFOL_TITLE1,
-                    pIda->szBuffer1);
-        SETTEXTHWND( hwndDlg, pIda->szBuffer1 );
-
-
-
-        // --- name of first pushbutton ("Create" or "Change")---
-
-        LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_FOLDERPROPS_CHANGE,
-                    pIda->szBuffer1);
-        SETTEXT( hwndDlg, ID_FOLDERPROPS_SET_PB, pIda->szBuffer1);
-      }
-      else
-      {
-        // --- name of first pushbutton ---
-        LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_FOLDERPROPS_CREATE,
-                    pIda->szBuffer1);
-        SETTEXT( hwndDlg, ID_FOLDERPROPS_SET_PB, pIda->szBuffer1);
-
-      }
-
-
-
-      mResult = DIALOGINITRETURN( mResult );
-
-      pIda->fInitComplete = TRUE;
       break;
 
 /*--------------------------------------------------------------------------*/
@@ -3644,7 +3648,7 @@ BOOL FolderPropertySheetLoad ( HWND hwnd, PFOLPROPIDA pFolIda )
   CHAR      szBuffer[80];
   int       iDisplayTab = 0;
   BOOL      fOk = TRUE;
-
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( fOk )
   {
@@ -3930,6 +3934,7 @@ LPARAM  mp2
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           TC_ITEM Item;
           HWND hwndTabCtrl = GetDlgItem( hwndDlg, ID_FOLDERPROPS_TABCTRL );
           memset( &Item, 0, sizeof(Item) );
@@ -5316,6 +5321,7 @@ LPARAM mp2
           break;
         case ID_FOLNEW_BASEFOLDER_PB:
           {
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
             pIda = ACCESSDLGIDA(hwndDlg, PFOLPROPIDA );
 
             DIALOGBOX( hwndDlg, FOLMODELDLGPROC, hResMod, ID_FOLMODEL_DLG, pIda, iMBRC );
@@ -6387,6 +6393,7 @@ LPARAM mp2
 
         case ID_FOLNEW_DELHISTLOG_PB:
           {
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
             BOOL fDelete = FALSE;
 
             pIda = ACCESSDLGIDA(hwndDlg, PFOLPROPIDA );
@@ -7222,6 +7229,7 @@ BOOL FolShowSelectionDialog
 
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     DIALOGBOX( hwndDlg, FOLMEMSEL_DLGPROC, hResMod, ID_FOLMEMSEL_DLG, pSelDlgIda, fOK );
   } /* endif */
 

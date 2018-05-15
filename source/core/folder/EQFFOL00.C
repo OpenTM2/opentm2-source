@@ -22,7 +22,8 @@
 #include "EQFFUNCI.H"           // private defines for function call interface
 #include <OTMGLOBMem.h>         // Global Memory defines
 
-
+#define SEARCH_ALL_STR  "*.*"     // search the whole folder
+#define MAX_POOL_SIZE     1000
 // debug messages
 // #define DEBUGMESSAGES
 
@@ -89,6 +90,7 @@ PSZ             pszObjName
 
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     UtlMakeEQFPath( pProp->PropHead.szPath, NULC, SYSTEM_PATH, NULL );
     pProp->PropHead.usClass = PROP_CLASS_FOLDER;
     pProp->PropHead.chType = PROP_TYPE_NEW;  // new folder !
@@ -117,459 +119,6 @@ PSZ             pszObjName
 
   return( (SHORT) rc );
 }
-
-
-//+----------------------------------------------------------------------------+
-//|  Fill List Box with document names                                         |
-//   Special mode if listbox handle is HWND_FUNCIF in this case
-//   the pszBuffer is the address!!! of a buffer pointer and the area
-//   pointed to by this pointer will contain the names of the documents on
-//   return
-//+----------------------------------------------------------------------------+
-USHORT LoadDocumentNames( PSZ folder, HWND hlbox, LONG flg, PSZ pszBuffer )
-{
-  EQFINFO     ErrorInfo;               // error info from EQF API call
-  PPROPSYSTEM pSysp;                   // EQF system properties
-  FILEFINDBUF stResultBuf;             // DOS file find struct
-  USHORT      usCount = 1;             // number of files requested
-  USHORT      usRC;                    // return code of called functions
-  HDIR        hDirHandle = HDIR_CREATE;// DosFind routine handle
-  char       *ppath, *pform;
-  PVOID           hProp;               // handle of document properties
-  SHORT        sItem;
-  CHAR szFormat[MAX_FILESPEC];         // folder format / Tag Table
-  static CHAR szMemory[MAX_LONGFILESPEC]; // folder Translation Memory
-  static CHAR szFolObjName[MAX_EQF_PATH]; // folder object name
-  CHAR szSourceLang[MAX_LANG_LENGTH];  // folder source language
-  CHAR szTargetLang[MAX_LANG_LENGTH];  // folder target language
-  CHAR szEditor[MAX_FILESPEC];         // folder editor
-  PSZ  pszName = RESBUFNAME(stResultBuf);     // address name field in result buffer
-  USHORT      usDocs  = 0;             // number of documents found
-  PSUBFOLINFO pInfo = NULL;            // subfolder information table
-
-  // variables for document name buffer
-  LONG        lBufferSize = 0L;        // size of document buffer
-  LONG        lBufferUsed = 0L;        // used bytes in document buffer
-  PSZ         pDocNameBuffer = NULL;   // ptr to document buffer
-  ULONG       ulFolderID = 0L;         // ID of current folder/subfolder
-  BOOL        fDisabled = FALSE;       // folder is disabled flag
-
-
-#ifdef MEASURETIME
-  LONG64 lDummy = 0;
-  LONG64 lOther = 0;
-  LONG64 lMakeDocListItem = 0;
-  LONG64 lInsertItem = 0;
-  LONG64 lSubFolCreateInfoTable = 9;
-  LONG64 lFolQueryInfo = 0;
-  LONG64 lFind = 0;
-  LONG64 lPropUpdate = 0;
-#endif
-
-  // strip off with-documents-from-included-subfolders flag
-  BOOL fWithSubFolderDocs = flg & LOADDOCNAMES_INCLSUBFOLDERS;
-  flg &= ~LOADDOCNAMES_INCLSUBFOLDERS;
-
-#ifdef MEASURETIME
-  GetElapsedTime( &lDummy );
-#endif
-
-
-  /***********************************************************/
-  /* Get settings from folder                                */
-  /***********************************************************/
-  strcpy( szFolObjName, folder );
-  ulFolderID = FolGetSubFolderIdFromObjName( folder );
-
-  // get subfolder information structure for current folder
-  if ( fWithSubFolderDocs )
-  {
-#ifdef MEASURETIME
-    GetElapsedTime( &lOther );
-#endif
-    // build table containing info on all subfolders of active folder
-    SubFolCreateInfoTable( folder, &pInfo );
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lSubFolCreateInfoTable );
-#endif
-
-    // flag all subfolders belonging to current (sub)folder
-    {
-      PSUBFOLINFO pCurEntry = pInfo;
-      while ( pCurEntry->szName[0] != EOS )
-      {
-        if ( pCurEntry->ulParentFolder == ulFolderID )
-        {
-          pCurEntry->fFlag = TRUE;
-          pCurEntry->ulValue = TRUE; // we have to check the childs of this entry ...
-        } /* endif */
-        pCurEntry++;
-      } /* endwhile */
-
-      // now process all subfolders with ulValue set
-      pCurEntry = pInfo;
-      while ( pCurEntry->szName[0] != EOS )
-      {
-        if ( pCurEntry->ulValue )
-        {
-          PSUBFOLINFO pSubEntry = pInfo;
-          while ( pSubEntry->szName[0] != EOS )
-          {
-            if ( pSubEntry->ulParentFolder == pCurEntry->ulID )
-            {
-              pSubEntry->fFlag = TRUE;
-              pSubEntry->ulValue = TRUE; // we have to check the childs of this entry ...
-            } /* endif */
-            pSubEntry++;
-          } /* endwhile */
-
-          pCurEntry->ulValue = FALSE;// check for child subfolders has been done
-          pCurEntry = pInfo;         // restart at the beginning
-        }
-        else
-        {
-          pCurEntry++;
-        } /* endif */
-      } /* endwhile */
-    }
-  } /* endif */
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lDummy );
-#endif
-
-  FolQueryInfoEx( folder, szMemory, szFormat, szSourceLang, szTargetLang, szEditor, NULL, NULL, NULL, &fDisabled, NULL, NULL, FALSE, NULLHANDLE );
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lFolQueryInfo );
-#endif
-
-  if ( hlbox != HWND_FUNCIF )
-  {
-    ENABLEUPDATEHWND_FALSE( hlbox );
-    SETCURSOR( SPTR_WAIT );
-  } /* endif */
-
-  pSysp = (PPROPSYSTEM)MakePropPtrFromHnd( EqfQuerySystemPropHnd());
-  UtlAlloc( (PVOID *)&ppath, 0L, (LONG) (2 * MAX_PATH144), ERROR_STORAGE );
-  pform = ppath + MAX_PATH144;
-  if ( FolIsSubFolderObject( folder ) )
-  {
-    strcpy( szFolObjName, folder );
-    UtlSplitFnameFromPath( szFolObjName );  // cut off subfolder name
-    UtlSplitFnameFromPath( szFolObjName );  // cut off property directory
-  } /* endif */
-  sprintf( ppath, "%s\\%s\\*%s", szFolObjName, pSysp->szDirSourceDoc, EXT_DOCUMENT);
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lOther );
-#endif
-
-  usRC = UtlFindFirst( ppath, &hDirHandle, FILE_NORMAL, &stResultBuf, sizeof( stResultBuf), &usCount, 0L, 0);
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lFind );
-#endif
-
-  while ( (usRC == NO_ERROR) && usCount )
-  {
-    //--- check properties of document ---
-#ifdef MEASURETIME
-    GetElapsedTime( &lOther );
-#endif
-
-    hProp = OpenProperties( pszName, szFolObjName, PROP_ACCESS_READ, &ErrorInfo);
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lFind );
-#endif
-    if ( hProp )
-    {
-      PPROPDOCUMENT pProp = (PPROPDOCUMENT)MakePropPtrFromHnd( hProp );
-      BOOL fContainedInFolder = FALSE;
-
-      if ( pProp->ulParentFolder == ulFolderID )
-      {
-        // document belongs to our subfolder
-        fContainedInFolder = TRUE;
-      }
-      else if ( fWithSubFolderDocs )
-      {
-        // loop through subfolder info table and check if document belongs
-        // to an included subfolder
-        PSUBFOLINFO pCurEntry = pInfo;
-        while ( pCurEntry->szName[0] != EOS )
-        {
-          if ( pCurEntry->fFlag && (pCurEntry->ulID == pProp->ulParentFolder) )
-          {
-            fContainedInFolder = TRUE;
-            break;
-          }
-          else
-          {
-            pCurEntry++;
-          } /* endif */
-        } /* endwhile */
-      } /* endif */
-
-      if ( !fContainedInFolder )
-      {
-        // ignore this document, it does not belong to our subfolder
-      }
-      else if ( (flg == LOADDOCNAMES_ITEMTEXT) && (hlbox != HWND_FUNCIF) )
-      {
-        // update document properties if one of the parent settings is the same
-        // as the document settings
-        BOOL fUpdate = FALSE;
-
-        PSZ  pszDocMem = pProp->szLongMemory;
-        if (*pszDocMem == EOS )
-        {
-          pszDocMem = pProp->szMemory;
-        } /* endif */
-
-        if ( strcmp( szMemory, pszDocMem ) == 0 )
-        {
-          // memory is identical to parent memory, blank it out
-          pProp->szMemory[0] = EOS;
-          pProp->szLongMemory[0] = EOS;
-          fUpdate = TRUE;
-        } /* endif */
-
-        // fix for S613005 do not update markup table automatically!!!
-        //if ( strcmp( szFormat, pProp->szFormat ) == 0 )
-        //{
-        //  // markup is identical to parent markup, blank it out
-        //  pProp->szFormat[0] = EOS;
-        //  fUpdate = TRUE;
-        //} /* endif */
-
-        if ( strcmp( szSourceLang, pProp->szSourceLang ) == 0 )
-        {
-          // source language is identical to parent source language, blank it out
-          pProp->szSourceLang[0] = EOS;
-          fUpdate = TRUE;
-        } /* endif */
-
-        if ( strcmp( szTargetLang, pProp->szTargetLang ) == 0 )
-        {
-          // Target language is identical to parent target language, blank it out
-          pProp->szTargetLang[0] = EOS;
-          fUpdate = TRUE;
-        } /* endif */
-
-        // update document properties if required
-        if ( fUpdate )
-        {
-#ifdef MEASURETIME
-    GetElapsedTime( &lOther );
-#endif
-          if ( SetPropAccess( hProp, PROP_ACCESS_WRITE) )
-          {
-            SaveProperties( hProp, &ErrorInfo);
-            ResetPropAccess( hProp, PROP_ACCESS_WRITE );
-          } /* endif */
-#ifdef MEASURETIME
-    GetElapsedTime( &lPropUpdate );
-#endif
-
-        } /* endif */
-
-        // create listbox item
-#ifdef MEASURETIME
-    GetElapsedTime( &lOther );
-#endif
-
-        FOLMakeDocListItem ( pProp, szFormat, szMemory, szSourceLang, szTargetLang, szEditor, pszBuffer );
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lMakeDocListItem );
-#endif
-
-        sItem = INSERTITEMHWND( hlbox, pszBuffer );
-        if ( fDisabled && (sItem != LIT_NONE) )
-        {
-          WinSendMsg( hlbox, LM_EQF_SETITEMSTATE, MP1FROMSHORT( sItem ), MP2FROMSHORT( FALSE ) );
-        } /* endif */
-
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lInsertItem );
-#endif
-
-        usDocs++;
-      }
-      else
-      {
-        if ( hlbox != HWND_FUNCIF )
-        {
-          if ( flg == LOADDOCNAMES_OBJNAME )
-          {
-            OBJNAME szDocObjName;
-            strcpy( szDocObjName, pProp->PropHead.szPath );
-            strcat( szDocObjName, BACKSLASH_STR );
-            strcat( szDocObjName, pProp->PropHead.szName );
-            INSERTITEMHWND( hlbox, szDocObjName );
-          }
-          else if ( flg == LOADDOCNAMES_LONGNAME )
-          {
-            PSZ pszLongName = pProp->szLongName;
-            if ( *pszLongName == EOS ) pszLongName = pszName;
-
-            INSERTITEMHWND( hlbox, pszLongName );
-          }
-          else
-          {
-            INSERTITEMHWND( hlbox, pszName );
-          } /* endif */
-        }
-        else
-        {
-          // document name buffer mode of function
-          OBJNAME szDocObjName;
-          PSZ pszInsertName;
-          LONG lAddLen; 
-          
-          // get/build document name
-          if ( flg == LOADDOCNAMES_OBJNAME )
-          {
-            strcpy( szDocObjName, pProp->PropHead.szPath );
-            strcat( szDocObjName, BACKSLASH_STR );
-            strcat( szDocObjName, pProp->PropHead.szName );
-            pszInsertName = szDocObjName;
-          }
-          else if ( flg == LOADDOCNAMES_LONGNAME )
-          {
-            pszInsertName = pProp->szLongName;
-            if ( *pszInsertName == EOS ) pszInsertName = pszName;
-          }
-          else
-          {
-            pszInsertName = pszName;
-          } /* endif */
-
-          // add document name to document name buffer
-          lAddLen = strlen(pszInsertName) + 1;
-          if ( lBufferSize < (lBufferUsed + lAddLen) )
-          {
-            UtlAllocHwnd( (PVOID *)&pDocNameBuffer, lBufferSize,
-                          lBufferSize + 8096L, ERROR_STORAGE, HWND_FUNCIF );
-            lBufferSize += 8096L;
-          } /* endif */
-
-          if ( pDocNameBuffer != NULL )
-          {
-            strcpy( pDocNameBuffer + lBufferUsed, pszInsertName );
-            lBufferUsed += lAddLen;
-          } /* endif */
-        } /* endif */
-        usDocs++;
-      } /* endif */
-
-      CloseProperties( hProp, PROP_QUIT, &ErrorInfo );
-    }
-    else
-    {
-      /*************************************************************/
-      /* Insert as disabled item                                  */
-      /*************************************************************/
-      if ( (flg == LOADDOCNAMES_ITEMTEXT) && (hlbox != HWND_FUNCIF) )
-      {
-        sprintf( pszBuffer,
-                 "%s\\%s\x15%s\x15 \x15%lu\x15%lu\x15%lu\x15%lu\x15%lu\x15%lu\x15 \x15 \x15 \x15 \x15 \x15",
-                 szFolObjName,              // FOL_OBJECT_IND
-                 pszName,
-                 pszName,                   // FOL_NAME_IND
-                 0L,                        // FOL_TRANSLATED_IND
-                 0L,                        // FOL_SEGMENTED_IND
-                 0L,                        // FOL_EXPORTED_IND
-                 0L,                        // FOL_IMPORTED_IND
-                 0L,                        // FOL_TOUCHED_IND
-                 0L                         // FOL_TOUCHEDTIME_IND
-               );
-        sItem = INSERTITEMHWND( hlbox, pszBuffer );
-        usDocs++;
-        if ( sItem != LIT_NONE )
-        {
-          WinSendMsg( hlbox, LM_EQF_SETITEMSTATE, MP1FROMSHORT( sItem ), MP2FROMSHORT( FALSE ) );
-        } /* endif */
-      } /* endif */
-    } /* endif */
-
-#ifdef MEASURETIME
-    GetElapsedTime( &lOther );
-#endif
-    usRC = UtlFindNext( hDirHandle, &stResultBuf, sizeof( stResultBuf),
-                        &usCount, 0);
-#ifdef MEASURETIME
-    GetElapsedTime( &lFind );
-#endif
-  } /* endwhile */
-  // close search file handle
-  if ( hDirHandle != HDIR_CREATE ) UtlFindClose( hDirHandle, FALSE );
-
-
-  UtlAlloc( (PVOID *)&ppath, 0L, 0L, NOMSG );
-
-
-  if ( hlbox != HWND_FUNCIF )
-  {
-    ENABLEUPDATEHWND_TRUE( hlbox);
-    SETCURSOR( SPTR_ARROW );
-  }
-  else
-  {
-    if ( pDocNameBuffer == NULL )
-    {
-      UtlAllocHwnd( (PVOID *)&pDocNameBuffer, 0L, 8096L, ERROR_STORAGE, HWND_FUNCIF );
-    } /* endif */
-
-    if ( pDocNameBuffer != NULL )
-    {
-      // terminate document buffer and return pointer to it
-      // it is up to the caller to free the document buffer
-      *(pDocNameBuffer + lBufferUsed) = EOS;
-    } /* endif */
-    *((PSZ *)pszBuffer) = pDocNameBuffer;
-  } /* endif */
-
-  if ( pInfo ) UtlAlloc( (PVOID *)&pInfo, 0L, 0L, NOMSG );
-
-#ifdef MEASURETIME
-  GetElapsedTime( &lOther );
-
-  {
-    FILE *hfLog = NULL;
-    CHAR szLogFile[MAX_EQF_PATH];
-
-    UtlMakeEQFPath( szLogFile, NULC, LOG_PATH, NULL );
-    strcat( szLogFile, "\\FOLLIST.LOG" );
-
-    hfLog = fopen( szLogFile, "a" );
-
-    if ( hfLog )
-    {
-      fprintf( hfLog, "**** INSERTNAMES for %s ********\n", folder );
-
-      fprintf( hfLog, "Time for MakeDocListItem   : %10I64d ms\n", lMakeDocListItem );
-      fprintf( hfLog, "INSERTITEM in listbox time : %10I64d ms\n", lInsertItem );
-      fprintf( hfLog, "SubFolCreateInfoTable time : %10I64d ms\n", lSubFolCreateInfoTable );
-      fprintf( hfLog, "FolQueryInfo time          : %10I64d ms\n", lFolQueryInfo );
-      fprintf( hfLog, "FindFirst/FindNext time    : %10I64d ms\n", lFind );
-      fprintf( hfLog, "DocPropUpdate time         : %10I64d ms\n", lPropUpdate );
-      fprintf( hfLog, "Other times                : %10I64d ms\n", lOther );
- 
-      fclose( hfLog );
-    } /* endif */
-
-
-  }
-#endif
-
-  return( usDocs );
-}
-
 
 
 //+----------------------------------------------------------------------------+
@@ -875,603 +424,7 @@ HWND             hwnd                // owner handle for error messages
 } /* end of function FolUpdLangFromMemory */
 
 
-//+----------------------------------------------------------------------------+
-//|External function                                                           |
-//+----------------------------------------------------------------------------+
-//|Function name:     FolQueryInfo                                             |
-//+----------------------------------------------------------------------------+
-//|Description:       Queries information from folder properties.              |
-//+----------------------------------------------------------------------------+
-//|Parameters:        PSZ     pszFolName  object name of folder                |
-//|                   PSZ     pszMemory   buffer for translation memory or NULL|
-//|                   PSZ     pszFormat   buffer for document format or NULL   |
-//|                   PSZ     pszSrcLng   buffer for source language or NULL   |
-//|                   PSZ     pszTrgLng   buffer for target language or NULL   |
-//|                   BOOL    fMsg        do-message-handling flag             |
-//+----------------------------------------------------------------------------+
-//|Returncode type:   USHORT                                                   |
-//+----------------------------------------------------------------------------+
-//|Returncodes:       NO_ERROR          function completed successfully        |
-//|                   other             TM/2 error code                        |
-//+----------------------------------------------------------------------------+
-USHORT FolQueryInfo
-(
-PSZ              pszFolName,         // object name of folder
-PSZ              pszMemory,          // buffer for translation memory or NULL
-PSZ              pszFormat,          // buffer for folder format or NULL
-PSZ              pszSrcLng,          // buffer for source language or NULL
-PSZ              pszTrgLng,          // buffer for target language or NULL
-BOOL             fMsg                // do-message-handling flag
-)
-{
-  return( FolQueryInfo2Hwnd( pszFolName, pszMemory, pszFormat, pszSrcLng,
-                             pszTrgLng, NULL, fMsg, NULLHANDLE ) );
-}
 
-USHORT FolQueryInfo2
-(
-PSZ              pszFolName,         // object name of folder
-PSZ              pszMemory,          // buffer for translation memory or NULL
-PSZ              pszFormat,          // buffer for folder format or NULL
-PSZ              pszSrcLng,          // buffer for source language or NULL
-PSZ              pszTrgLng,          // buffer for target language or NULL
-PSZ              pszEditor,          // buffer for editor or NULL
-BOOL             fMsg                // do-message-handling flag
-)
-{
-  return( FolQueryInfoEx( pszFolName, pszMemory, pszFormat, pszSrcLng,
-                          pszTrgLng, pszEditor,
-                          NULL, NULL, NULL, NULL, NULL, NULL,
-                          fMsg, NULLHANDLE ) );
-}
-
-USHORT FolQueryInfoHwnd
-(
-PSZ              pszFolName,         // object name of folder
-PSZ              pszMemory,          // buffer for translation memory or NULL
-PSZ              pszFormat,          // buffer for folder format or NULL
-PSZ              pszSrcLng,          // buffer for source language or NULL
-PSZ              pszTrgLng,          // buffer for target language or NULL
-BOOL             fMsg,               // do-message-handling flag
-HWND             hwnd                // owner handle for error messages
-)
-{
-  return( FolQueryInfoEx( pszFolName, pszMemory, pszFormat, pszSrcLng,
-                          pszTrgLng, NULL, NULL, NULL, NULL, NULL, NULL, NULL, fMsg, hwnd ) );
-}
-
-
-USHORT FolQueryInfo2Hwnd
-(
-PSZ              pszFolName,         // object name of folder
-PSZ              pszMemory,          // buffer for translation memory or NULL
-PSZ              pszFormat,          // buffer for folder format or NULL
-PSZ              pszSrcLng,          // buffer for source language or NULL
-PSZ              pszTrgLng,          // buffer for target language or NULL
-PSZ              pszEditor,          // buffer for editor or NULL
-BOOL             fMsg,               // do-message-handling flag
-HWND             hwnd                // owner handle for error messages
-)
-{
-  return( FolQueryInfoEx( pszFolName, pszMemory, pszFormat, pszSrcLng,
-                          pszTrgLng, pszEditor,
-                          NULL, NULL, NULL, NULL, NULL, NULL,
-                          fMsg, hwnd ) );
-}
-
-USHORT FolQueryInfoEx
-(
-PSZ              pszFolName,         // object name of folder
-PSZ              pszMemory,          // buffer for translation memory or NULL
-PSZ              pszFormat,          // buffer for folder format or NULL
-PSZ              pszSrcLng,          // buffer for source language or NULL
-PSZ              pszTrgLng,          // buffer for target language or NULL
-PSZ              pszEditor,          // buffer for editor or NULL
-PSZ              pszConversion,      // buffer for conversion or NULL
-PSZ              pszVendor,          // buffer for translator name or NULL
-PSZ              pszVendorEMail,     // buffer for eMail address or NULL
-PBOOL            pfDisabled,         // folder disabled flag
-PVOID            pvUnused1,
-PVOID            pvUnused2,
-BOOL             fMsg,               // do-message-handling flag
-HWND             hwnd                // owner handle for error messages
-)
-{
-  PPROPFOLDER      pProp = NULL;       // pointer to folder properties
-  USHORT           usRC = NO_ERROR;    // function return code
-  CHAR             szSysDrive[MAX_DRIVE]; // buffer for system drive
-  PSZ              pszPropName = NULL; // ptr to property file name
-  PSZ              pszObjName = NULL;  // ptr to object name
-  BOOL             fOK = TRUE;         // success indicator
-  BOOL             fSubFolder = FALSE; // TRUE = object is a subfolder
-  BOOL             fDone = FALSE;      // completed flag
-
-  pvUnused1; pvUnused2;
-
-  /********************************************************************/
-  /* Preset caller's buffers                                          */
-  /********************************************************************/
-  if ( pszMemory != NULL )      *pszMemory = EOS;
-  if ( pszFormat != NULL )      *pszFormat = EOS;
-  if ( pszSrcLng != NULL )      *pszSrcLng = EOS;
-  if ( pszTrgLng != NULL )      *pszTrgLng = EOS;
-  if ( pszEditor != NULL )      *pszEditor = EOS;
-  if ( pszConversion != NULL )  *pszConversion = EOS;
-  if ( pszVendor != NULL )      *pszVendor = EOS;
-  if ( pszVendorEMail != NULL ) *pszVendorEMail = EOS;
-  if ( pfDisabled!= NULL )      *pfDisabled = FALSE;
-
-  // allocate buffer for property file names
-  fOK = UtlAlloc( (PVOID *) &pszObjName, 0L, (LONG)(2 * MAX_LONGPATH), NOMSG );
-  if ( !fOK )
-  {
-    if ( fMsg )
-    {
-      UtlErrorHwnd( ERROR_STORAGE, MB_CANCEL, 0, NULL, EQF_ERROR, hwnd );
-    } /* endif */
-    usRC = ERROR_STORAGE;
-  } /* endif */
-
-  // loop over parent subfolder/folder chain until all required data can be supplied
-  if ( fOK )
-  {
-    // start with supplied folder/subfolder object name
-    pszPropName = pszObjName + MAX_LONGPATH;
-    strcpy( pszObjName, pszFolName );
-
-    do
-    {
-      fSubFolder = FolIsSubFolderObject( pszObjName );
-
-      if ( fSubFolder )
-      {
-        // object name is already the fully qualified property file name
-        strcpy( pszPropName, pszObjName );
-      }
-      else
-      {
-        // setup folder property file name
-        PSZ pszName = strrchr( pszObjName, BACKSLASH );
-        if ( pszName )
-        {
-          *pszName = EOS;
-          UtlQueryString( QST_PRIMARYDRIVE, szSysDrive, sizeof(szSysDrive) );
-          sprintf( pszPropName, "%c%s\\%s\\%s", szSysDrive[0], pszObjName + 1, PROPDIR, pszName + 1 );
-          *pszName = BACKSLASH;
-        }
-        else
-        {
-          fOK = FALSE;
-        } /* endif */
-      } /* endif */
-
-      // load property file
-      if ( fOK )
-      {
-        ULONG ulLen;
-        fOK = UtlLoadFileL( pszPropName, (PVOID *)&pProp, &ulLen, FALSE, FALSE );
-      } /* endif */
-
-      // do any error handling
-      if ( !fOK )
-      {
-        // Error accessing properties
-        if ( fMsg )
-        {
-          UtlErrorHwnd( ERROR_PROPERTY_ACCESS, MB_CANCEL, 1, &pszFolName,
-                        EQF_ERROR, hwnd );
-        } /* endif */
-        usRC = ERROR_PROPERTY_ACCESS;
-      } /* endif */
-
-      // complete caller data with data from properties
-      if ( fOK )
-      {
-        fDone = TRUE;                // assume all info can be provided ...
-
-        if ( pszMemory != NULL )
-        {
-          if ( pProp->szLongMemory[0] != EOS )
-            strcpy( pszMemory, pProp->szLongMemory );
-          else if ( pProp->szMemory[0] != EOS )
-            strcpy( pszMemory, pProp->szMemory );
-
-          if ( *pszMemory != EOS )
-            pszMemory = NULL;       // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszFormat != NULL )
-        {
-          strcpy( pszFormat, pProp->szFormat );
-          if ( *pszFormat != EOS )
-            pszFormat = NULL;       // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszSrcLng != NULL )
-        {
-          strcpy( pszSrcLng, pProp->szSourceLang );
-          if ( *pszSrcLng != EOS )
-            pszSrcLng = NULL;      // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszTrgLng != NULL )
-        {
-          strcpy( pszTrgLng, pProp->szTargetLang);
-          if ( *pszTrgLng != EOS )
-            pszTrgLng = NULL;      // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszEditor != NULL )
-        {
-          strcpy( pszEditor, pProp->szEditor );
-          if ( *pszEditor != EOS )
-            pszEditor = NULL;      // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszConversion != NULL )
-        {
-          strcpy( pszConversion, pProp->szConversion );
-          if ( *pszConversion != EOS )
-            pszConversion = NULL;  // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszVendor != NULL )
-        {
-          strcpy( pszVendor, pProp->szVendor );
-          if ( *pszVendor != EOS )
-            pszVendor = NULL;      // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-
-        if ( pszVendorEMail != NULL )
-        {
-          strcpy( pszVendorEMail, pProp->szVendorEMail );
-          if ( *pszVendorEMail != EOS )
-            pszVendorEMail = NULL;       // data has been supplied
-          else
-            fDone = FALSE;          // still data missing
-        } /* endif */
-      } /* endif */
-
-
-      if ( (pProp != NULL) && (pfDisabled != NULL) )
-      {
-        *pfDisabled = pProp->fDisabled_UserExitRefresh;
-          fDone = FALSE;          // stay in loop until folder is reached
-      } /* endif */
-
-
-
-      // prepare data lookup from parent if necessary
-      if ( fOK && !fDone )
-      {
-        if ( !fSubFolder )
-        {
-          fDone = TRUE;                // no parent for folders available
-        }
-        else
-        {
-          if ( pProp->ulParentFolder == 0 )
-          {
-            // next parent is the main folder, cut off subfolder name and property
-            // directory to create the main folder object name
-            PSZ pszName = strrchr( pszObjName, BACKSLASH );
-            if ( pszName )
-            {
-              *pszName = EOS;
-              pszName = strrchr( pszObjName, BACKSLASH );
-            } /* endif */
-            if ( pszName )
-            {
-              *pszName = EOS;
-            }
-            else
-            {
-              // subfolder object name is damaged
-              fOK = FALSE;
-            } /* endif */
-          }
-          else
-          {
-            // next parent is a subfolder, replace name part of object name
-            // with name of parent folder
-            PSZ pszName = strrchr( pszObjName, BACKSLASH );
-            if ( pszName )
-            {
-              pszName++;               // position to name part
-              sprintf( pszName, "%8.8ld%s", pProp->ulParentFolder, EXT_OF_SUBFOLDER );
-            }
-            else
-            {
-              // subfolder object name is damaged
-              fOK = FALSE;
-            } /* endif */
-          } /* endif */
-        } /* endif */
-      } /* endif */
-
-      if ( pProp )
-      {
-        UtlAlloc( (PVOID *)&pProp, 0L, 0L, NOMSG );
-        pProp = NULL;
-      } /* endif */
-    } while ( fOK && !fDone );
-  } /* endif */
-
-  // Cleanup
-  if ( pszObjName )  UtlAlloc( (PVOID *)&pszObjName, 0L, 0L, NOMSG );
-
-  return( usRC );
-} /* end of function FolQueryInfoEx */
-
-
-//+----------------------------------------------------------------------------+
-//|External function                                                           |
-//+----------------------------------------------------------------------------+
-//|Function name:     FolLongToShortDocName                                    |
-//+----------------------------------------------------------------------------+
-//|Description:       Converts a long document name to a short one and         |
-//|                   ensures that the short names are unique within the       |
-//|                   folder.                                                  |
-//|                   Do not use UtlMakeEQFPath and OpenProperties because     |
-//|                   this function is called from our API, too.               |
-//+----------------------------------------------------------------------------+
-//|Parameters:        PSZ     pszFolObjName  object name of folder             |
-//|                   PSZ     pszLongName    ptr to long file name of document |
-//|                   PSZ     pszShortName   buffer for document short name    |
-//|                   PBOOL   pfIsNew        TRUE if document is a new one     |
-//+----------------------------------------------------------------------------+
-//|Returncode type:   BOOL                                                     |
-//+----------------------------------------------------------------------------+
-//|Returncodes:       TRUE              function completed successfully        |
-//|                   other             TM/2 error code                        |
-//+----------------------------------------------------------------------------+
-USHORT FolLongToShortDocName
-(
-PSZ              pszFolObjName,      // object name of folder
-PSZ              pszLongName,        // long document name
-PSZ              pszShortName,       // buffer for short document name
-PBOOL            pfIsNew             // TRUE if document is a new one
-)
-{
-  // our private data area
-  typedef struct _L2SDATA
-  {
-    CHAR      szShortName[MAX_FILESPEC];    // buffer for short document name
-    CHAR      szFolder[MAX_FILESPEC];       // buffer for folder name
-    CHAR      szSearchPath[MAX_EQF_PATH];   // document search path
-    CHAR      szDocFullPath[MAX_EQF_PATH];  // fully qualified document name
-    FILEFINDBUF stResultBuf;                // DOS file find structure
-  } L2SDATA, *PL2SDATA;
-
-  // local variables
-  PSZ         pszFileName = NULL;      // ptr to private filename area
-  PL2SDATA    pData = NULL;            // ptr to private data area
-  USHORT      usRC = NO_ERROR;         // function return code
-  BOOL        fIsLongName = UtlIsLongFileName( pszLongName );
-
-  // preset callers's variables
-  *pfIsNew = TRUE;
-  pszShortName[0] = EOS;
-
-  // allocate our private data area
-  if ( !UtlAlloc( (PVOID *)&pData, 0L, (LONG)sizeof(L2SDATA), ERROR_STORAGE ) )
-  {
-    usRC = ERROR_NOT_ENOUGH_MEMORY;
-  } /* endif */
-
-  // first try: for short names and mixed-cased names check if document
-  // properties exist for the given name
-  if ( usRC == NO_ERROR )
-  {
-    if ( (fIsLongName == 2) ||         // a normal but mixed-case file name
-         (fIsLongName == FALSE) )      // or a uppercase short name???
-    {
-      // Check if we have a document with the given name
-
-      strcpy( pszShortName, pszLongName );
-
-      strcpy( pData->szFolder, UtlGetFnameFromPath( pszFolObjName ) );
-      /******************************************************************/
-      /* Build path ..                                                  */
-      /******************************************************************/
-      sprintf( pData->szSearchPath, "%c:\\%s\\%s\\%s", pszFolObjName[0], PATH,
-               pData->szFolder, SOURCEDIR );
-
-      strcat( pData->szSearchPath, BACKSLASH_STR );
-      strcat( pData->szSearchPath, pszLongName );
-      strupr( pData->szSearchPath );
-      if ( UtlFileExist( pData->szSearchPath ) ) // is there a document with
-      // this name???
-      {
-        // use the name of the existing document as short name
-        strcpy( pszShortName, pszLongName );
-        strupr( pszShortName );
-        *pfIsNew = FALSE;
-
-        // cleanup
-        if ( pData != NULL ) UtlAlloc( (PVOID *)&pData, 0L, 0L,NOMSG );
-
-        // return
-        return( usRC );
-      } /* endif */
-    } /* endif */
-  } /* endif */
-
-  // get document short name and setup search path
-  if ( usRC == NO_ERROR )
-  {
-    UtlLongToShortName( pszLongName, pData->szShortName );
-    strcpy( pData->szFolder, UtlGetFnameFromPath( pszFolObjName ) );
-    /******************************************************************/
-    /* Build path ..                                                  */
-    /******************************************************************/
-    sprintf( pData->szSearchPath, "%c:\\%s\\%s\\%s", pszFolObjName[0], PATH,
-             pData->szFolder, SOURCEDIR );
-
-    strcat( pData->szSearchPath, BACKSLASH_STR );
-    strcat( pData->szSearchPath, pData->szShortName );
-    strcat( pData->szSearchPath, DEFAULT_PATTERN_EXT );
-  } /* endif */
-
-  if ( usRC == NO_ERROR )
-  {
-    UtlAlloc( (PVOID *) &pszFileName, 0L, (LONG) MAX_LONGPATH, NOMSG );
-    if ( !pszFileName )
-    {
-      usRC = ERROR_NOT_ENOUGH_MEMORY;
-    } /* endif */
-  } /* endif */
-
-  // look for documents having the same short name
-  if ( usRC == NO_ERROR )
-  {
-    USHORT usDosRC = NO_ERROR;         // return code of called DOS functions
-    USHORT usCount = 1;                // number of files requested
-    HDIR   hDir = HDIR_CREATE;         // file find handle
-    BOOL   fOK;
-    CHAR   szShortNameCaseMismatch[MAX_FILESPEC]; // buffer for short name which does not match case
-    BOOL   fCaseMismatchFound = FALSE; // TRUE = found matching file with different casing
-
-    usDosRC = UtlFindFirst( pData->szSearchPath, &hDir, FILE_NORMAL,
-                            &(pData->stResultBuf), sizeof(pData->stResultBuf),
-                            &usCount, 0L, FALSE );
-
-    while ( *pfIsNew && (usDosRC == NO_ERROR) && usCount )
-    {
-      PPROPDOCUMENT pProp = NULL;      // ptr to document properties
-      ULONG ulBytesRead;
-
-      sprintf( pszFileName, "%c:\\%s\\%s\\%s\\%s", pszFolObjName[0], PATH,
-               pData->szFolder, PROPDIR, RESBUFNAME( pData->stResultBuf ) );
-
-      fOK = UtlLoadFileL( pszFileName,            // name of file to be loaded
-                         (PVOID *)&pProp,        // return pointer to loaded file
-                         &ulBytesRead,           // length of loaded file
-                         FALSE,
-                         FALSE );
-      if ( !fOK )
-      {
-        usDosRC = ERROR_PROPERTY_ACCESS;
-      } /* endif */
-
-      if ( usDosRC == NO_ERROR )
-      {
-        BOOL fFound;
-
-        // for real long names use case-sensitive compare else
-        // use case-insensitive compare
-        if ( fIsLongName == TRUE ) // compare with 1!!! (2 is mixed-case name!)
-        {
-          // the long name in the properties is stored in ASCII ...
-          OEMTOANSI( pProp->szLongName );
-
-          fFound = (strcmp( pszLongName, pProp->szLongName ) == 0);
-          if ( !fFound && !fCaseMismatchFound )
-          {
-            fCaseMismatchFound = (stricmp( pszLongName, pProp->szLongName ) == 0);
-            if ( fCaseMismatchFound )
-            {
-              strcpy( szShortNameCaseMismatch, RESBUFNAME( pData->stResultBuf ) );
-            } /* endif */
-          } /* endif */
-        }
-        else
-        {
-          fFound = (stricmp( pszLongName, pProp->szLongName ) == 0);
-        } /* endif */
-
-
-        if ( fFound )
-        {
-          *pfIsNew = FALSE;
-          strcpy( pszShortName, RESBUFNAME( pData->stResultBuf ) );
-        } /* endif */
-
-        UtlAlloc( (PVOID *) &pProp, 0L, 0L, NOMSG );
-      } /* endif */
-
-      // try next document
-      if ( *pfIsNew )
-      {
-        usCount = 1;
-        usDosRC = UtlFindNext( hDir, &pData->stResultBuf,
-                               sizeof(pData->stResultBuf), &usCount, FALSE );
-      } /* endif */
-    } /* endwhile */
-
-    UtlFindClose( hDir, FALSE );
-
-    if ( *pfIsNew && fCaseMismatchFound )
-    {
-      *pfIsNew = FALSE;
-      strcpy( pszShortName, szShortNameCaseMismatch );
-    } /* endif */
-
-  } /* endif */
-
-  // find a unique name if document is not contained in the folder
-  if ( (usRC == NO_ERROR) && *pfIsNew )
-  {
-    SHORT i1 = 0;                      // counter for document extension 
-    SHORT i2 = 0;                      // counter for document extension 
-    SHORT i3 = 0;                      // counter for document extension 
-    BOOL  fOverFlow = FALSE;
-    CHAR chLetters[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    CHAR szExt[4] = "000";
-
-    sprintf( pData->szSearchPath, "%c:\\%s\\%s\\%s", pszFolObjName[0], PATH,
-             pData->szFolder, SOURCEDIR );
-
-    do
-    {
-      szExt[0] = chLetters[i3];
-      szExt[1] = chLetters[i2];
-      szExt[2] = chLetters[i1];
-
-      sprintf( pData->szDocFullPath, "%s\\%s.%s", pData->szSearchPath, pData->szShortName, szExt );
-
-      // get next number
-      i1 += 1;
-      if ( i1 >= 36 )
-      {
-        i1 = 0;
-        i2 += 1;
-        if ( i2 >= 36 )
-        {
-          i2 = 0;
-          i3 += 1;
-          if ( i3 >= 36 )
-          {
-            fOverFlow = TRUE;
-          } /* endif */
-        } /* endif */
-      } /* endif */
-    } while ( !fOverFlow && UtlFileExist( pData->szDocFullPath ) ); /* enddo */
-
-    strcpy( pszShortName, UtlGetFnameFromPath( pData->szDocFullPath ) );
-  } /* endif */
-
-  // cleanup
-  if ( pData != NULL ) UtlAlloc( (PVOID *)&pData, 0L, 0L,NOMSG );
-
-  if ( pszFileName != NULL ) UtlAlloc( (PVOID *)&pszFileName, 0L, 0L,NOMSG );
-
-  return( usRC );
-} /* end of function FolLongToShortDocName */
 
 //+----------------------------------------------------------------------------+
 //|Internal function                                                           |
@@ -1613,257 +566,6 @@ PDDEFOLDEL       pFolDel             // folder create data structure
 
   return( pFolDel->DDEReturn.usRc );
 } /* end of function FolBatchFolderDelete */
-
-//+----------------------------------------------------------------------------+
-//|Internal function                                                           |
-//+----------------------------------------------------------------------------+
-//|Function name:     FolRenameFolder                                          |
-//+----------------------------------------------------------------------------+
-//|Description:       Physically rename folder and all                         |
-//|                   associated files                                         |
-//+----------------------------------------------------------------------------+
-//|Input parameter:   BOOL        fMsg,              show-error-messages flag  |
-//|                   PSZ         pszOldAndNewName   old and new folder name   |
-//|                                                  seperated by 0x15         |
-//|                                                  (old name = object name,  |
-//|                                                  new name = file name only)|
-//|                              e.g. H:\EQF\SAMPLE1.F000x15NEWNAME0x00        |
-//+----------------------------------------------------------------------------+
-//|Returncode type:   USHORT              error code or 0 if success           |
-//+----------------------------------------------------------------------------+
-BOOL FolRenameFolder
-(
-PSZ         pszOldAndNewName,        // old and new folder name (x15 seperated)
-BOOL        fMsg                     // show-error-messages flag
-)
-{
-  // our private data area
-  typedef struct _PRIVATEDATA
-  {
-    CHAR       szOldObject[MAX_EQF_PATH];// buffer for old object name
-    CHAR       szNewObject[MAX_EQF_PATH];// buffer for new object name
-    CHAR       szFolProp[MAX_EQF_PATH]; // buffer for folder property file name
-    CHAR       szFolPropDir[MAX_EQF_PATH]; // buffer for folder property directory
-    CHAR       szDocPropName[MAX_EQF_PATH]; // buffer for document prop. file name
-    CHAR       szOldName[MAX_FNAME];    // buffer for old name
-    CHAR       szNewName[MAX_FNAME];    // buffer for new name
-    CHAR       szOldPath[MAX_EQF_PATH]; // buffer for old path name
-    CHAR       szNewPath[MAX_EQF_PATH]; // buffer for new path name
-    CHAR       szFullFolderName[MAX_FILESPEC]; // buffer for new folder name (w/ .EXT)
-    PROPFOLDER stFolProp;               // buffer for folder properties
-    CHAR       szLongName[MAX_LONGFILESPEC]; // buffer for new long name
-    CHAR       szOldLongName[MAX_LONGFILESPEC]; // buffer for old long name
-  } PRIVATEDATA, *PPRIVATEDATA;
-
-  BOOL        fOK = TRUE;              // internal O.K. flag and return value
-  PPRIVATEDATA pData = NULL;           // ptr to private data area
-
-  // allocate our private data area
-  fOK = UtlAlloc( (PVOID *)&pData, 0L, (LONG)sizeof(PRIVATEDATA),
-                  (USHORT)(( fMsg ) ? ERROR_STORAGE : NOMSG ) );
-
-  // split input data and store old and new folder name
-  if ( fOK )
-  {
-    PSZ pszNewName = strchr( pszOldAndNewName, X15 );
-    if ( pszNewName != NULL )
-    {
-      PSZ pszNewLongName;
-      *pszNewName = EOS;
-      pszNewName++;
-      pszNewLongName = strchr( pszNewName, X15 );
-      if ( pszNewLongName != NULL )
-      {
-        *pszNewLongName = EOS;
-        pszNewLongName++;
-        strcpy( pData->szLongName, pszNewLongName );
-      }
-      else
-      {
-        pData->szLongName[0] = EOS;
-      } /* endif */
-      strcpy( pData->szNewName, pszNewName );
-    } /* endif */
-    strcpy( pData->szOldObject, pszOldAndNewName );
-    Utlstrccpy( pData->szOldName, UtlGetFnameFromPath( pData->szOldObject ),
-                DOT );
-  } /* endif */
-
-  // setup folder property file name
-  if ( fOK )
-  {
-    UtlMakeEQFPath( pData->szFolProp, NULC, PROPERTY_PATH, NULL );
-    strcat( pData->szFolProp, BACKSLASH_STR );
-    strcat( pData->szFolProp, pData->szOldName );
-    strcat( pData->szFolProp, EXT_FOLDER_MAIN );
-  } /* endif */
-
-  // load folder property file
-  if ( fOK )
-  {
-    ULONG ulRead;     // number of bytes read from disk
-    PVOID pvTemp = (PVOID)&(pData->stFolProp);
-    fOK = UtlLoadFileL( pData->szFolProp, &pvTemp, &ulRead,
-                       FALSE, fMsg );
-  } /* endif */
-
-  // rename folder directory
-  if ( fOK )
-  {
-    // setup old path name
-    UtlMakeEQFPath( pData->szOldPath, pData->stFolProp.chDrive,
-                    SYSTEM_PATH, NULL );
-    strcat( pData->szOldPath, BACKSLASH_STR );
-    strcat( pData->szOldPath, pData->szOldName );
-    strcat( pData->szOldPath, EXT_FOLDER_MAIN );
-
-    // setup new path name
-    UtlMakeEQFPath( pData->szNewPath, pData->stFolProp.chDrive,
-                    SYSTEM_PATH, NULL );
-    strcat( pData->szNewPath, BACKSLASH_STR );
-    strcat( pData->szNewPath, pData->szNewName );
-    strcat( pData->szNewPath, EXT_FOLDER_MAIN );
-
-    // actually rename directory using UtlMove...
-    fOK = UtlMove( pData->szOldPath, pData->szNewPath, 0L,
-                   fMsg ) == NO_ERROR;
-  } /* endif */
-
-  // rename folder property file
-  if ( fOK )
-  {
-    // setup old path name
-    UtlMakeEQFPath( pData->szOldPath, NULC, PROPERTY_PATH, NULL );
-    strcat( pData->szOldPath, BACKSLASH_STR );
-    strcat( pData->szOldPath, pData->szOldName );
-    strcat( pData->szOldPath, EXT_FOLDER_MAIN );
-
-    // setup new path name
-    UtlMakeEQFPath( pData->szNewPath, NULC, PROPERTY_PATH, NULL );
-    strcat( pData->szNewPath, BACKSLASH_STR );
-    strcat( pData->szNewPath, pData->szNewName );
-    strcat( pData->szNewPath, EXT_FOLDER_MAIN );
-
-    // actually rename property file using UtlMove...
-    fOK = UtlMove( pData->szOldPath, pData->szNewPath, 0L,
-                   fMsg ) == NO_ERROR;
-  } /* endif */
-
-  // adjust name in folder property file
-  if ( fOK )
-  {
-    if ( pData->stFolProp.szLongName[0] != EOS )
-    {
-      strcpy( pData->szOldLongName, pData->stFolProp.szLongName );
-    }
-    else
-    {
-      Utlstrccpy( pData->szOldLongName, pData->stFolProp.PropHead.szName, DOT );
-    } /* endif */
-    strcpy( pData->stFolProp.PropHead.szName, pData->szNewName );
-    strcat( pData->stFolProp.PropHead.szName, EXT_FOLDER_MAIN );
-
-    if ( pData->stFolProp.szOrgName[0] == EOS )
-    {
-      strcpy( pData->stFolProp.szOrgName, pData->szOldName );
-    } /* endif */
-
-    if ( pData->stFolProp.szOrgLongName[0] == EOS )
-    {
-      if ( pData->stFolProp.szLongName[0] != EOS )
-      {
-        strcpy( pData->stFolProp.szOrgLongName, pData->stFolProp.szLongName );
-      } /* endif */
-    } /* endif */
-
-    // adjust long name
-    if ( strcmp( pData->szLongName, pData->szNewName ) != EOS )
-    {
-      strcpy( pData->stFolProp.szLongName, pData->szLongName );
-    }
-    else
-    {
-      pData->stFolProp.szLongName[0] = EOS;
-    } /* endif */
-  } /* endif */
-
-  // rewrite folder property file
-  if ( fOK )
-  {
-    fOK = UtlWriteFile( pData->szNewPath,
-                        sizeof(pData->stFolProp),
-                        &(pData->stFolProp), fMsg ) == NO_ERROR;
-  } /* endif */
-
-  // adjust names in property files of the documents contained in this folder
-  if ( fOK )
-  {
-    WIN32_FIND_DATA FileFindData;
-    HANDLE hDir = HDIR_CREATE;
-
-    // setup search path: folder document source directory
-    {
-      strcpy( pData->szFullFolderName, pData->szNewName );
-      strcat( pData->szFullFolderName, EXT_FOLDER_MAIN );
-      UtlMakeEQFPath( pData->szFolPropDir, pData->stFolProp.chDrive,
-                      DIRSOURCEDOC_PATH, pData->szFullFolderName );
-      strcat( pData->szFolPropDir, BACKSLASH_STR );
-      strcat( pData->szFolPropDir, DEFAULT_PATTERN );
-    }
-
-    // loop over all documents and correct property header
-    hDir = FindFirstFile( pData->szFolPropDir, &FileFindData );
-    if ( hDir != INVALID_HANDLE_VALUE )
-    {
-      BOOL fMoreFiles = TRUE;
-
-      // setup new path for document property header
-      UtlMakeEQFPath( pData->szFolPropDir, pData->stFolProp.chDrive, SYSTEM_PATH, NULL );
-      strcat( pData->szFolPropDir, BACKSLASH_STR );
-      strcat( pData->szFolPropDir, pData->szNewName );
-      strcat( pData->szFolPropDir, EXT_FOLDER_MAIN );
-
-      while ( fOK && fMoreFiles )
-      {
-        if ( (FileFindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0 )
-        {
-          // get property file name of current item
-          UtlMakeEQFPath( pData->szDocPropName, pData->stFolProp.chDrive, PROPERTY_PATH, pData->szFullFolderName );
-          strcat( pData->szDocPropName, BACKSLASH_STR );
-          strcat( pData->szDocPropName, FileFindData.cFileName );
-
-          // adjust property header
-          fOK = FolCorrectPropHead( pData->szDocPropName, NULC, pData->szFolPropDir, NULL, NULLHANDLE );
-        } /* endif */
-
-        // continue with next document
-        fMoreFiles = FindNextFile( hDir, &FileFindData );
-      } /* endwhile */
-      FindClose( hDir );
-    }
-  } /* endif */
-
-  // broadcast changed folder name
-  if ( fOK )
-  {
-    // remove original folder name
-    EqfSend2AllHandlers( WM_EQFN_DELETED,
-                         MP1FROMSHORT(clsFOLDER),
-                         MP2FROMP(pData->szOldObject) );
-    OEMTOANSI( pData->szOldLongName );
-    EqfSend2AllHandlers( WM_EQFN_DELETEDNAME,
-                         MP1FROMSHORT( clsFOLDER ),
-                         MP2FROMP( pData->szOldLongName ));
-
-    // add new folder name
-    UtlMakeEQFPath( pData->szNewObject, NULC, SYSTEM_PATH, NULL );
-    strcat( pData->szNewObject, BACKSLASH_STR );
-    strcat( pData->szNewObject, pData->stFolProp.PropHead.szName );
-    EqfSend2AllHandlers( WM_EQFN_CREATED, MP1FROMSHORT( clsFOLDER ),
-                         MP2FROMP(pData->szNewObject) );
-  } /* endif */
-  return( fOK );
-} /* end of function FolRenameFolder */
 
 USHORT FolFuncDeleteFolder
 (
@@ -2446,6 +1148,7 @@ PSZ             pszParentObjName   // object name of parent (sub)folder
 {
   BOOL             fOK = TRUE;         // function return code
   PSUBFOLDERDLGIDA pIda = NULL;        // pointer to subfolder dlg IDA
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   // Allocate document property dialog IDA
   fOK = UtlAlloc( (PVOID *)&pIda, 0L, (LONG)sizeof(SUBFOLDERDLGIDA), ERROR_STORAGE );
@@ -2476,6 +1179,7 @@ PSZ             pszObjName          // object name of subfolder
 {
   BOOL             fOK = TRUE;         // function return code
   PSUBFOLDERDLGIDA pIda = NULL;        // pointer to subfolder dlg IDA
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   // Allocate document property dialog IDA
   fOK = UtlAlloc( (PVOID *)&pIda, 0L, (LONG)sizeof(SUBFOLDERDLGIDA), ERROR_STORAGE );
@@ -2526,283 +1230,287 @@ LPARAM           mp2                 // second message parameter
       break;
 
     case WM_INITDLG :
-      fOK = TRUE;
-
-      // get and anchor subfolder dialog IDA pointer
-      pIda = (PSUBFOLDERDLGIDA)mp2;
-      ANCHORDLGIDA( hwnd, pIda );
-
-      SetCtrlFnt (hwnd, GetCharSet(), ID_SUBFOLDER_NAME_TEXT, 0);
-
-      // load or create subfolder properties
-      if ( pIda->fPropDlg )
       {
-        // load subfolder properties
-        ULONG ulLen;
-        fOK = UtlLoadFileL( pIda->szObjectName, (PVOID *)&(pIda->pProp), &ulLen, FALSE, TRUE );
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-        // get subfolder parent (is only set for create dialog)
+        fOK = TRUE;
+
+        // get and anchor subfolder dialog IDA pointer
+        pIda = (PSUBFOLDERDLGIDA)mp2;
+        ANCHORDLGIDA( hwnd, pIda );
+
+        SetCtrlFnt (hwnd, GetCharSet(), ID_SUBFOLDER_NAME_TEXT, 0);
+
+        // load or create subfolder properties
+        if ( pIda->fPropDlg )
+        {
+          // load subfolder properties
+          ULONG ulLen;
+          fOK = UtlLoadFileL( pIda->szObjectName, (PVOID *)&(pIda->pProp), &ulLen, FALSE, TRUE );
+
+          // get subfolder parent (is only set for create dialog)
+          if ( fOK )
+          {
+            if ( pIda->pProp->ulParentFolder == 0 )
+            {
+              // parent is the main folder, we have to cut off subfolder name and propdir
+              strcpy( pIda->szParentObjName, pIda->szObjectName );
+              UtlSplitFnameFromPath( pIda->szParentObjName );
+              UtlSplitFnameFromPath( pIda->szParentObjName );
+            }
+            else
+            {
+              // parent is a subfolder, cut off subfolder name and replace with parent ID
+              strcpy( pIda->szParentObjName, pIda->szObjectName );
+              UtlSplitFnameFromPath( pIda->szParentObjName );
+              sprintf( pIda->szParentObjName+strlen(pIda->szParentObjName),
+                       "\\%8.8ld%s", pIda->pProp->ulParentFolder, EXT_OF_SUBFOLDER );
+            } /* endif */
+          } /* endif */
+
+
+          ENABLECTRL( hwnd, ID_SUBFOLDER_NAME_TEXT, FALSE );
+
+          // change dialog title
+          LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_SUBFOL_PROP_TITLE,
+                      pIda->szBuffer );
+          SETTEXTHWND( hwnd, pIda->szBuffer );
+
+        }
+        else
+        {
+          // allocate empty property area
+          fOK = UtlAlloc( (PVOID *)&(pIda->pProp), 0L, sizeof(PROPFOLDER), TRUE );
+
+          // store parent (sub)folder ID in properties
+          pIda->pProp->ulParentFolder = FolGetSubFolderIdFromObjName( pIda->szParentObjName );
+        } /* endif */
+
+
+        // get full parent (sub)foldername
         if ( fOK )
         {
-          if ( pIda->pProp->ulParentFolder == 0 )
+          SubFolObjectNameToName( pIda->szParentObjName, pIda->szParentFolder );
+        } /* endif */
+
+        // build main folder object and property file name
+        if ( fOK )
+        {
+          if ( strchr( pIda->szParentFolder, BACKSLASH ) != NULL )
           {
-            // parent is the main folder, we have to cut off subfolder name and propdir
-            strcpy( pIda->szParentObjName, pIda->szObjectName );
-            UtlSplitFnameFromPath( pIda->szParentObjName );
-            UtlSplitFnameFromPath( pIda->szParentObjName );
+            // parent folder is a subfolder, locate end of folder path in subfolder object name
+            PSZ pszFolderEnd;
+            strcpy( pIda->szMainFolderObjName, pIda->szParentObjName );
+            pszFolderEnd = strchr( pIda->szMainFolderObjName, BACKSLASH );
+            if ( pszFolderEnd ) pszFolderEnd = strchr( pszFolderEnd+1, BACKSLASH );
+            if ( pszFolderEnd ) pszFolderEnd = strchr( pszFolderEnd+1, BACKSLASH );
+            if ( pszFolderEnd ) *pszFolderEnd = EOS;
           }
           else
           {
-            // parent is a subfolder, cut off subfolder name and replace with parent ID
-            strcpy( pIda->szParentObjName, pIda->szObjectName );
-            UtlSplitFnameFromPath( pIda->szParentObjName );
-            sprintf( pIda->szParentObjName+strlen(pIda->szParentObjName),
-                     "\\%8.8ld%s", pIda->pProp->ulParentFolder, EXT_OF_SUBFOLDER );
-          } /* endif */
-        } /* endif */
-
-
-        ENABLECTRL( hwnd, ID_SUBFOLDER_NAME_TEXT, FALSE );
-
-        // change dialog title
-        LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_SUBFOL_PROP_TITLE,
-                    pIda->szBuffer );
-        SETTEXTHWND( hwnd, pIda->szBuffer );
-
-      }
-      else
-      {
-        // allocate empty property area
-        fOK = UtlAlloc( (PVOID *)&(pIda->pProp), 0L, sizeof(PROPFOLDER), TRUE );
-
-        // store parent (sub)folder ID in properties
-        pIda->pProp->ulParentFolder = FolGetSubFolderIdFromObjName( pIda->szParentObjName );
-      } /* endif */
-
-
-      // get full parent (sub)foldername
-      if ( fOK )
-      {
-        SubFolObjectNameToName( pIda->szParentObjName, pIda->szParentFolder );
-      } /* endif */
-
-      // build main folder object and property file name
-      if ( fOK )
-      {
-        if ( strchr( pIda->szParentFolder, BACKSLASH ) != NULL )
-        {
-          // parent folder is a subfolder, locate end of folder path in subfolder object name
-          PSZ pszFolderEnd;
-          strcpy( pIda->szMainFolderObjName, pIda->szParentObjName );
-          pszFolderEnd = strchr( pIda->szMainFolderObjName, BACKSLASH );
-          if ( pszFolderEnd ) pszFolderEnd = strchr( pszFolderEnd+1, BACKSLASH );
-          if ( pszFolderEnd ) pszFolderEnd = strchr( pszFolderEnd+1, BACKSLASH );
-          if ( pszFolderEnd ) *pszFolderEnd = EOS;
-        }
-        else
-        {
-          // parent folder is a main folder, parent object name is object name of main folder
-          strcpy( pIda->szMainFolderObjName, pIda->szParentObjName );
-        } /* endif */
-
-        // insert property directory in main folder object name to create property file name
-        {
-          // tk 2001-07-20
-          PSZ pszTemp;
-          UtlMakeEQFPath( pIda->szMainFolderPropName, NULC, PROPERTY_PATH, NULL );
-          pszTemp = strrchr( pIda->szMainFolderObjName, BACKSLASH );
-          if ( pszTemp ) strcat( pIda->szMainFolderPropName, pszTemp );
-        }
-      } /* endif */
-
-      // Fill dialog fields with available data
-      if ( fOK )
-      {
-        SETTEXTLIMIT( hwnd, ID_SUBFOLDER_NAME_TEXT, MAX_LONGPATH - 1 );
-
-        // Fill listbox part of comboboxes
-        EqfSend2Handler( TAGTABLEHANDLER, WM_EQF_INSERTNAMES,
-                         MP1FROMHWND( WinWindowFromID( hwnd, ID_SUBFOLDER_FORMAT_CB) ),
-                         0L );
-        CBINSERTITEM( hwnd, ID_SUBFOLDER_FORMAT_CB, EMPTY_STRING );
-
-
-        UtlFillTableLB( WinWindowFromID( hwnd, ID_SUBFOLDER_SRCLNG_CB ),
-                        SOURCE_LANGUAGES );
-        CBINSERTITEM( hwnd, ID_SUBFOLDER_SRCLNG_CB, EMPTY_STRING );
-
-        UtlFillTableLB( WinWindowFromID( hwnd, ID_SUBFOLDER_TRGLNG_CB ),
-                        ALL_TARGET_LANGUAGES );
-        CBINSERTITEM( hwnd, ID_SUBFOLDER_TRGLNG_CB, EMPTY_STRING );
-
-        EqfSend2Handler( MEMORYHANDLER, WM_EQF_INSERTNAMES,
-                         MP1FROMHWND( WinWindowFromID( hwnd,
-                                                       ID_SUBFOLDER_TM_CB )),
-                         MP2FROMP( MEMORY_ALL ) );
-        CBINSERTITEM( hwnd, ID_SUBFOLDER_TM_CB, EMPTY_STRING );
-
-        CBSETTEXTLIMIT( hwnd, ID_SUBFOLDER_TM_CB, MAX_LONGFILESPEC - 1 );
-
-        // fill editor combobox
-        UtlMakeEQFPath( pIda->szBuffer, NULC, PROPERTY_PATH, NULL );
-        UtlMakeFullPath( pIda->szBuffer2, NULL, pIda->szBuffer,
-                         DEFAULT_PATTERN_NAME, EXT_OF_EDITOR );
-        UtlLoadFileNames( pIda->szBuffer2, FILE_NORMAL,
-                          WinWindowFromID( hwnd, ID_SUBFOLDER_EDITOR_CB),
-                          NAMFMT_NOEXT );
-        CBINSERTITEM( hwnd, ID_SUBFOLDER_EDITOR_CB, EMPTY_STRING );
-
-        // fill conversion combobox
-        //UtlHandleConversionStrings( CONVLOAD_MODE,
-        //                            WinWindowFromID( hwnd, ID_SUBFOLDER_CONV_CB ),
-        //                            NULL, NULL, NULL  );
-        //CBINSERTITEM( hwnd, ID_SUBFOLDER_CONV_CB, EMPTY_STRING );
-        HIDECONTROL( hwnd, ID_SUBFOLDER_CONV_CB );
-
-
-        // fill last used values in translator combobox
-        {
-
-          HPROP           hFLLProp;   // folder list properties handler
-          PPROPFOLDERLIST pFLLProp;   // folder list properties pointer
-          EQFINFO         ErrorInfo;  // error returned by property handler
-          int             i;
-
-          UtlMakeEQFPath( pIda->szBuffer, NULC, SYSTEM_PATH, NULL );
-          strcat( pIda->szBuffer, BACKSLASH_STR );
-          strcat( pIda->szBuffer, DEFAULT_FOLDERLIST_NAME );
-          hFLLProp = OpenProperties( pIda->szBuffer, NULL,
-                                     PROP_ACCESS_READ, &ErrorInfo);
-          if ( hFLLProp )
-          {
-            pFLLProp = (PPROPFOLDERLIST)MakePropPtrFromHnd( hFLLProp );
-
-            i=0;
-            while (i < 5 && pFLLProp->szTranslatorList[i][0] != EOS)
-            {
-              OEMTOANSI( pFLLProp->szTranslatorList[i] );
-              CBINSERTITEMEND( hwnd, ID_SUBFOLDER_TRANSL_CB, pFLLProp->szTranslatorList[i] );
-              ANSITOOEM( pFLLProp->szTranslatorList[i] );
-              i++;
-            } // end while
-            CloseProperties( hFLLProp, PROP_QUIT, &ErrorInfo);
-          } /* endif */
-        }
-
-        // show current settings for property dialogs
-        if ( pIda->fPropDlg )
-        {
-          // change name of create pushbutton to "Set"
-          LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_NFOL_CHANGE,
-                      pIda->szBuffer);
-          SETTEXT( hwnd, ID_SUBFOLDER_CHANGE_PB, pIda->szBuffer );
-
-          // show subfolder name
-          OEMTOANSI( pIda->pProp->szLongName );
-          SETTEXT( hwnd, ID_SUBFOLDER_NAME_TEXT, pIda->pProp->szLongName );
-          ANSITOOEM( pIda->pProp->szLongName );
-
-          if ( pIda->pProp->szFormat[0] != EOS )
-          {
-            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_FORMAT_CB, pIda->pProp->szFormat );
-            if ( sItem == LIT_NONE )
-            {
-              PSZ pszErrParm = pIda->pProp->szFormat;
-              UtlError( ERROR_FORMAT_NOTFOUND, MB_OK, 1, &pszErrParm, EQF_ERROR );
-              CBSELECTITEM( hwnd, ID_SUBFOLDER_FORMAT_CB, 0 );
-            } /* endif */
+            // parent folder is a main folder, parent object name is object name of main folder
+            strcpy( pIda->szMainFolderObjName, pIda->szParentObjName );
           } /* endif */
 
-          if ( pIda->pProp->szLongMemory[0] != EOS )
+          // insert property directory in main folder object name to create property file name
           {
-            OEMTOANSI( pIda->pProp->szLongMemory );
-            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szLongMemory );
-            if ( sItem == LIT_NONE)
-            {
-              PSZ pszErrParm = pIda->pProp->szLongMemory;
-              UtlError( ERROR_MEMORY_NOTFOUND, MB_OK, 1, &pszErrParm, EQF_ERROR );
-              SETTEXT( hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szLongMemory );
-            } /* endif */
-            ANSITOOEM( pIda->pProp->szLongMemory );
+            // tk 2001-07-20
+            PSZ pszTemp;
+            UtlMakeEQFPath( pIda->szMainFolderPropName, NULC, PROPERTY_PATH, NULL );
+            pszTemp = strrchr( pIda->szMainFolderObjName, BACKSLASH );
+            if ( pszTemp ) strcat( pIda->szMainFolderPropName, pszTemp );
           }
-          else if ( pIda->pProp->szMemory[0] != EOS )
-          {
-            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szMemory );
-            if ( sItem == LIT_NONE)
-            {
-              PSZ pszErrParm = pIda->pProp->szMemory;
-              UtlError( ERROR_MEMORY_NOTFOUND, MB_OK, 1, &pszErrParm, EQF_ERROR );
-              SETTEXT( hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szMemory );
-            } /* endif */
-          } /* endif */
-
-
-          CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_SRCLNG_CB, pIda->pProp->szSourceLang );
-          CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TRGLNG_CB, pIda->pProp->szTargetLang );
-
-          CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_EDITOR_CB, pIda->pProp->szEditor );
-//        CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_CONV_CB, pIda->pProp->szConversion );
-
-          if ( pIda->pProp->szVendor[0] != EOS )
-          {
-            OEMTOANSI(pIda->pProp->szVendor);
-            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TRANSL_CB, pIda->pProp->szVendor );
-            if ( sItem == LIT_NONE )
-            {
-              CBINSERTITEM( hwnd, ID_SUBFOLDER_TRANSL_CB , pIda->pProp->szVendor );
-              CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TRANSL_CB , pIda->pProp->szVendor );
-            } /* endif */
-            ANSITOOEM(pIda->pProp->szVendor);
-          } /* endif */
-
-          if ( pIda->pProp->szVendorEMail[0] != EOS )
-          {
-            OEMSETTEXT( hwnd, ID_SUBFOLDER_EMAIL_EF, pIda->pProp->szVendorEMail );
-          } /* endif */
-        }
-        else
-        {
         } /* endif */
 
-        // Fill folder info fields
-        FolQueryInfoEx( pIda->szParentObjName,    // parent (sub)folder object name
-                        pIda->szMemory,
-                        pIda->szFormat,
-                        pIda->szSourceLang,
-                        pIda->szTargetLang,
-                        pIda->szEditor,
-                        pIda->szConversion,
-                        pIda->szVendor,
-                        pIda->szVendorEMail, NULL, NULL, NULL, TRUE, hwnd );
-
-        SETTEXT( hwnd, ID_SUBFOLDER_PARFORMAT_TEXT, pIda->szFormat );
-        SETTEXT( hwnd, ID_SUBFOLDER_PARTM_TEXT,     pIda->szMemory );
-        SETTEXT( hwnd, ID_SUBFOLDER_PARSRCLNG_TEXT, pIda->szSourceLang );
-        SETTEXT( hwnd, ID_SUBFOLDER_PARTRGLNG_TEXT, pIda->szTargetLang );
-        SETTEXT( hwnd, ID_SUBFOLDER_PAREDITOR_TEXT, pIda->szEditor );
-        SETTEXT( hwnd, ID_SUBFOLDER_PARCONV_TEXT,   pIda->szConversion );
-        OEMSETTEXT( hwnd, ID_SUBFOLDER_PARTRANSL_TEXT, pIda->szVendor );
-        OEMSETTEXT( hwnd, ID_SUBFOLDER_PAREMAIL_TEXT,  pIda->szVendorEMail );
-        OEMSETTEXT( hwnd, ID_SUBFOLDER_PARENTNAME_TEXT, pIda->szParentFolder );
-      } /* endif */
-
-      // End dialog in case of failures or set focus to first control of dialog                                          */
-      if ( fOK )
-      {
-        UtlCheckDlgPos( hwnd, FALSE );
-        if ( pIda->fPropDlg )
+        // Fill dialog fields with available data
+        if ( fOK )
         {
-          SETFOCUS( hwnd, ID_SUBFOLDER_TM_CB );
+          SETTEXTLIMIT( hwnd, ID_SUBFOLDER_NAME_TEXT, MAX_LONGPATH - 1 );
+
+          // Fill listbox part of comboboxes
+          EqfSend2Handler( TAGTABLEHANDLER, WM_EQF_INSERTNAMES,
+                           MP1FROMHWND( WinWindowFromID( hwnd, ID_SUBFOLDER_FORMAT_CB) ),
+                           0L );
+          CBINSERTITEM( hwnd, ID_SUBFOLDER_FORMAT_CB, EMPTY_STRING );
+
+
+          UtlFillTableLB( WinWindowFromID( hwnd, ID_SUBFOLDER_SRCLNG_CB ),
+                          SOURCE_LANGUAGES );
+          CBINSERTITEM( hwnd, ID_SUBFOLDER_SRCLNG_CB, EMPTY_STRING );
+
+          UtlFillTableLB( WinWindowFromID( hwnd, ID_SUBFOLDER_TRGLNG_CB ),
+                          ALL_TARGET_LANGUAGES );
+          CBINSERTITEM( hwnd, ID_SUBFOLDER_TRGLNG_CB, EMPTY_STRING );
+
+          EqfSend2Handler( MEMORYHANDLER, WM_EQF_INSERTNAMES,
+                           MP1FROMHWND( WinWindowFromID( hwnd,
+                                                         ID_SUBFOLDER_TM_CB )),
+                           MP2FROMP( MEMORY_ALL ) );
+          CBINSERTITEM( hwnd, ID_SUBFOLDER_TM_CB, EMPTY_STRING );
+
+          CBSETTEXTLIMIT( hwnd, ID_SUBFOLDER_TM_CB, MAX_LONGFILESPEC - 1 );
+
+          // fill editor combobox
+          UtlMakeEQFPath( pIda->szBuffer, NULC, PROPERTY_PATH, NULL );
+          UtlMakeFullPath( pIda->szBuffer2, NULL, pIda->szBuffer,
+                           DEFAULT_PATTERN_NAME, EXT_OF_EDITOR );
+          UtlLoadFileNames( pIda->szBuffer2, FILE_NORMAL,
+                            WinWindowFromID( hwnd, ID_SUBFOLDER_EDITOR_CB),
+                            NAMFMT_NOEXT );
+          CBINSERTITEM( hwnd, ID_SUBFOLDER_EDITOR_CB, EMPTY_STRING );
+
+          // fill conversion combobox
+          //UtlHandleConversionStrings( CONVLOAD_MODE,
+          //                            WinWindowFromID( hwnd, ID_SUBFOLDER_CONV_CB ),
+          //                            NULL, NULL, NULL  );
+          //CBINSERTITEM( hwnd, ID_SUBFOLDER_CONV_CB, EMPTY_STRING );
+          HIDECONTROL( hwnd, ID_SUBFOLDER_CONV_CB );
+
+
+          // fill last used values in translator combobox
+          {
+
+            HPROP           hFLLProp;   // folder list properties handler
+            PPROPFOLDERLIST pFLLProp;   // folder list properties pointer
+            EQFINFO         ErrorInfo;  // error returned by property handler
+            int             i;
+
+            UtlMakeEQFPath( pIda->szBuffer, NULC, SYSTEM_PATH, NULL );
+            strcat( pIda->szBuffer, BACKSLASH_STR );
+            strcat( pIda->szBuffer, DEFAULT_FOLDERLIST_NAME );
+            hFLLProp = OpenProperties( pIda->szBuffer, NULL,
+                                       PROP_ACCESS_READ, &ErrorInfo);
+            if ( hFLLProp )
+            {
+              pFLLProp = (PPROPFOLDERLIST)MakePropPtrFromHnd( hFLLProp );
+
+              i=0;
+              while (i < 5 && pFLLProp->szTranslatorList[i][0] != EOS)
+              {
+                OEMTOANSI( pFLLProp->szTranslatorList[i] );
+                CBINSERTITEMEND( hwnd, ID_SUBFOLDER_TRANSL_CB, pFLLProp->szTranslatorList[i] );
+                ANSITOOEM( pFLLProp->szTranslatorList[i] );
+                i++;
+              } // end while
+              CloseProperties( hFLLProp, PROP_QUIT, &ErrorInfo);
+            } /* endif */
+          }
+
+          // show current settings for property dialogs
+          if ( pIda->fPropDlg )
+          {
+            // change name of create pushbutton to "Set"
+            LOADSTRING( (HAB)UtlQueryULong(QL_HAB), hResMod, SID_NFOL_CHANGE,
+                        pIda->szBuffer);
+            SETTEXT( hwnd, ID_SUBFOLDER_CHANGE_PB, pIda->szBuffer );
+
+            // show subfolder name
+            OEMTOANSI( pIda->pProp->szLongName );
+            SETTEXT( hwnd, ID_SUBFOLDER_NAME_TEXT, pIda->pProp->szLongName );
+            ANSITOOEM( pIda->pProp->szLongName );
+
+            if ( pIda->pProp->szFormat[0] != EOS )
+            {
+              CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_FORMAT_CB, pIda->pProp->szFormat );
+              if ( sItem == LIT_NONE )
+              {
+                PSZ pszErrParm = pIda->pProp->szFormat;
+                UtlError( ERROR_FORMAT_NOTFOUND, MB_OK, 1, &pszErrParm, EQF_ERROR );
+                CBSELECTITEM( hwnd, ID_SUBFOLDER_FORMAT_CB, 0 );
+              } /* endif */
+            } /* endif */
+
+            if ( pIda->pProp->szLongMemory[0] != EOS )
+            {
+              OEMTOANSI( pIda->pProp->szLongMemory );
+              CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szLongMemory );
+              if ( sItem == LIT_NONE)
+              {
+                PSZ pszErrParm = pIda->pProp->szLongMemory;
+                UtlError( ERROR_MEMORY_NOTFOUND, MB_OK, 1, &pszErrParm, EQF_ERROR );
+                SETTEXT( hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szLongMemory );
+              } /* endif */
+              ANSITOOEM( pIda->pProp->szLongMemory );
+            }
+            else if ( pIda->pProp->szMemory[0] != EOS )
+            {
+              CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szMemory );
+              if ( sItem == LIT_NONE)
+              {
+                PSZ pszErrParm = pIda->pProp->szMemory;
+                UtlError( ERROR_MEMORY_NOTFOUND, MB_OK, 1, &pszErrParm, EQF_ERROR );
+                SETTEXT( hwnd, ID_SUBFOLDER_TM_CB, pIda->pProp->szMemory );
+              } /* endif */
+            } /* endif */
+
+
+            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_SRCLNG_CB, pIda->pProp->szSourceLang );
+            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TRGLNG_CB, pIda->pProp->szTargetLang );
+
+            CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_EDITOR_CB, pIda->pProp->szEditor );
+  //        CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_CONV_CB, pIda->pProp->szConversion );
+
+            if ( pIda->pProp->szVendor[0] != EOS )
+            {
+              OEMTOANSI(pIda->pProp->szVendor);
+              CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TRANSL_CB, pIda->pProp->szVendor );
+              if ( sItem == LIT_NONE )
+              {
+                CBINSERTITEM( hwnd, ID_SUBFOLDER_TRANSL_CB , pIda->pProp->szVendor );
+                CBSEARCHSELECT( sItem, hwnd, ID_SUBFOLDER_TRANSL_CB , pIda->pProp->szVendor );
+              } /* endif */
+              ANSITOOEM(pIda->pProp->szVendor);
+            } /* endif */
+
+            if ( pIda->pProp->szVendorEMail[0] != EOS )
+            {
+              OEMSETTEXT( hwnd, ID_SUBFOLDER_EMAIL_EF, pIda->pProp->szVendorEMail );
+            } /* endif */
+          }
+          else
+          {
+          } /* endif */
+
+          // Fill folder info fields
+          FolQueryInfoEx( pIda->szParentObjName,    // parent (sub)folder object name
+                          pIda->szMemory,
+                          pIda->szFormat,
+                          pIda->szSourceLang,
+                          pIda->szTargetLang,
+                          pIda->szEditor,
+                          pIda->szConversion,
+                          pIda->szVendor,
+                          pIda->szVendorEMail, NULL, NULL, NULL, TRUE, hwnd );
+
+          SETTEXT( hwnd, ID_SUBFOLDER_PARFORMAT_TEXT, pIda->szFormat );
+          SETTEXT( hwnd, ID_SUBFOLDER_PARTM_TEXT,     pIda->szMemory );
+          SETTEXT( hwnd, ID_SUBFOLDER_PARSRCLNG_TEXT, pIda->szSourceLang );
+          SETTEXT( hwnd, ID_SUBFOLDER_PARTRGLNG_TEXT, pIda->szTargetLang );
+          SETTEXT( hwnd, ID_SUBFOLDER_PAREDITOR_TEXT, pIda->szEditor );
+          SETTEXT( hwnd, ID_SUBFOLDER_PARCONV_TEXT,   pIda->szConversion );
+          OEMSETTEXT( hwnd, ID_SUBFOLDER_PARTRANSL_TEXT, pIda->szVendor );
+          OEMSETTEXT( hwnd, ID_SUBFOLDER_PAREMAIL_TEXT,  pIda->szVendorEMail );
+          OEMSETTEXT( hwnd, ID_SUBFOLDER_PARENTNAME_TEXT, pIda->szParentFolder );
+        } /* endif */
+
+        // End dialog in case of failures or set focus to first control of dialog                                          */
+        if ( fOK )
+        {
+          UtlCheckDlgPos( hwnd, FALSE );
+          if ( pIda->fPropDlg )
+          {
+            SETFOCUS( hwnd, ID_SUBFOLDER_TM_CB );
+          }
+          else
+          {
+            SETFOCUS( hwnd, ID_SUBFOLDER_NAME_TEXT );
+          } /* endif */
         }
         else
         {
-          SETFOCUS( hwnd, ID_SUBFOLDER_NAME_TEXT );
+          WinPostMsg( hwnd, WM_EQF_CLOSE, MP1FROMSHORT(FALSE), NULL );
         } /* endif */
       }
-      else
-      {
-        WinPostMsg( hwnd, WM_EQF_CLOSE, MP1FROMSHORT(FALSE), NULL );
-      } /* endif */
       break;
 
     case WM_EQF_CLOSE :
@@ -3344,313 +2052,6 @@ LPARAM           mp2                 // second message parameter
   return( mResult );
 } /* end of function SubFolderDlgProc */
 
-// convert a folder or subfolder object name to a folder/subfolder name
-BOOL SubFolObjectNameToName( PSZ pszObjName, PSZ pszName )
-{
-  BOOL        fOK = TRUE;              // function return code
-  PSZ         pszExtention;            // points to extention of object name
-  PPROPFOLDER pProp = NULL;            // loaded property file
-  PSZ         pszObjNameBuf = NULL;    // buffer for object name
-
-  // handle folder and subfolder object name differently:
-  // the subfolder object name is the fully qualified property file path
-  // the folder object name is the path name of the property file w/o the
-  // property directory
-  pszExtention = strchr( pszObjName, DOT );
-  if ( pszExtention == NULL )
-  {
-    // passed name is no valid object name
-    fOK = FALSE;
-  }
-  else
-  {
-    // allocate buffer for object names of parent (sub)folders
-    fOK = UtlAlloc( (PVOID *)&pszObjNameBuf, 0L, MAX_EQF_PATH, NOMSG );
-
-    // handle folder or subfolder object name
-    if ( fOK )
-    {
-      if ( strcmp( pszExtention, EXT_FOLDER_MAIN ) == 0 )
-      {
-        ULONG ulLen = 0;
-
-        // process folder
-
-        // insert property directory into object name
-        {
-          PSZ pszName = strrchr( pszObjName, BACKSLASH );
-          if ( pszName )
-          {
-            *pszName = EOS;
-            strcpy( pszObjNameBuf, pszObjName );
-            strcat( pszObjNameBuf, BACKSLASH_STR );
-            strcat( pszObjNameBuf, PROPDIR );
-            *pszName = BACKSLASH;
-            strcat( pszObjNameBuf, pszName );
-
-            // replace drive letter with system drive letter
-            {
-              CHAR szPrimaryDrive[20];
-              UtlQueryString( QST_PRIMARYDRIVE, szPrimaryDrive, sizeof(szPrimaryDrive) );
-              *pszObjNameBuf = szPrimaryDrive[0];
-            }
-          }
-          else
-          {
-            // supplied object name is invalid
-            fOK = FALSE;
-          } /* endif */
-        }
-
-        // load folder property file
-        if ( fOK )
-        {
-          fOK = UtlLoadFileL( pszObjNameBuf, (PVOID *)&pProp, &ulLen, FALSE, FALSE );
-        } /* endif */
-
-        // extract folder name
-        if ( fOK )
-        {
-          if ( pProp->szLongName[0] )
-          {
-            strcpy( pszName, pProp->szLongName );
-          }
-          else
-          {
-            Utlstrccpy( pszName, pProp->PropHead.szName, DOT );
-          } /* endif */
-        } /* endif */
-
-      }
-      else
-      {
-        // process subfolder
-
-        // load subfolder property file and get parent ID
-        if ( fOK )
-        {
-          ULONG ulLen;
-          fOK = UtlLoadFileL( pszObjName, (PVOID *)&pProp, &ulLen, FALSE, FALSE );
-        } /* endif */
-
-        // recursively call function again to get the name of the parent folder
-        if ( fOK )
-        {
-          // build main folder object name
-          {
-            PSZ pszEndOfFolder;
-
-            strcpy( pszObjNameBuf, pszObjName );
-            pszEndOfFolder = strrchr( pszObjNameBuf, BACKSLASH );
-            if ( pszEndOfFolder )
-            {
-              *pszEndOfFolder = EOS;
-              pszEndOfFolder = strrchr( pszObjNameBuf, BACKSLASH );
-            } /* endif */
-            if ( pszEndOfFolder )
-            {
-              *pszEndOfFolder = EOS;
-            }
-            else
-            {
-              fOK = FALSE;           // invalid subfolder object name
-            } /* endif */
-          }
-
-
-          if ( pProp->ulParentFolder )
-          {
-            // there are parent subfolders, call function to get parent subfolder name
-
-            // build name of parent subfolder (main folder name already in buffer)
-            sprintf( pszObjNameBuf + strlen(pszObjNameBuf), "\\%s\\%8.8ld%s",
-                     PROPDIR, pProp->ulParentFolder, EXT_OF_SUBFOLDER );
-
-            // recursively call for parent subfolder name
-            if ( fOK )
-            {
-              fOK =  SubFolObjectNameToName( pszObjNameBuf, pszName );
-            } /* endif */
-          }
-          else
-          {
-            // no more parent folder, call function to get main folder name
-
-            // recursively call for parent folder name
-            if ( fOK )
-            {
-              fOK =  SubFolObjectNameToName( pszObjNameBuf, pszName );
-            } /* endif */
-          } /* endif */
-        } /* endif */
-
-        // concatenate name of this subfolder to name already in buffer
-        if ( fOK )
-        {
-          strcat( pszName, BACKSLASH_STR );
-          strcat( pszName, pProp->szLongName );
-        } /* endif */
-      } /* endif */
-    } /* endif */
-  } /* endif */
-
-  // cleanup
-  if ( pProp ) UtlAlloc( (PVOID *)&pProp, 0L, 0L, NOMSG );
-  if ( pszObjNameBuf ) UtlAlloc( (PVOID *)&pszObjNameBuf, 0L, 0L, NOMSG );
-
-  return( fOK );
-} /* end of function SubFolObjectNameToName*/
-
-
-// Private data structure used by function SubFolNameToObjectName
-typedef struct _SUBFOLNAMETOOBJECTNAMEDATA
-{
-  PROPFOLDER  Prop;                    // buffer for folder properties
-  CHAR        szObjName[MAX_EQF_PATH]; // buffer for object names
-  CHAR        szPropName[MAX_EQF_PATH];// buffer for property file names
-  CHAR        szShortName[MAX_FILESPEC]; // buffer for folder short name
-  CHAR        szFolPropPath[MAX_EQF_PATH]; // buffer for folder property directory path
-  CHAR        szSearchPath[MAX_EQF_PATH]; // buffer for subfolder search path
-  FILEFINDBUF stFileFindBuf;           // file find buffer
-} SUBFOLNAMETOOBJECTNAMEDATA, *PSUBFOLNAMETOOBJECTNAMEDATA;
-
-// convert a folder/subFolder name to a subfolder object name
-BOOL SubFolNameToObjectName( PSZ pszName, PSZ pszObjName )
-{
-  BOOL        fOK = TRUE;              // function return code
-  PSZ         pszEndOfName = NULL;     // points to end of currently processed name
-  PSUBFOLNAMETOOBJECTNAMEDATA pData = NULL; // ptr to private data area
-  ULONG       ulCurParentID = 0;       // ID of current parent
-  CHAR        chDrive = EOS;
-
-  // allocate private data area
-  fOK = UtlAlloc( (PVOID *)&pData, 0L, sizeof(SUBFOLNAMETOOBJECTNAMEDATA), NOMSG );
-
-  // start with folder name ...
-  if ( fOK )
-  {
-    BOOL fIsNew;
-
-    // isolate folder name
-    pszEndOfName = strchr( pszName, BACKSLASH );
-    if ( pszEndOfName ) *pszEndOfName =EOS;
-
-    // get folder short name
-    ObjLongToShortName( pszName, pData->szShortName, FOLDER_OBJECT, &fIsNew );
-    if ( fIsNew )
-    {
-      fOK = FALSE;                     // folder does not exist
-    } /* endif */
-
-    // build folder property file name
-    if ( fOK )
-    {
-      strcat( pData->szShortName, EXT_FOLDER_MAIN );
-      UtlMakeEQFPath( pData->szObjName, SYSTEM_PATH, NULC, NULL );
-      strcat( pData->szObjName, BACKSLASH_STR );
-      strcat( pData->szObjName, pData->szShortName );
-    } /* endif */
-
-    // load folder properties to get correct drive letter
-    if ( fOK )
-    {
-//      PVOID pvTemp = &pData->Prop;
-//      ULONG ulLen = sizeof(pData->Prop);
-//      fOK = UtlLoadFileL( pData->szObjName, &pvTemp, &ulLen, FALSE, TRUE );
-        HPROP   hFolProp;
-        EQFINFO ErrorInfo;
-        hFolProp = OpenProperties( pData->szObjName, NULL, PROP_ACCESS_READ, &ErrorInfo);
-        if (hFolProp)
-        {
-			PPROPFOLDER pProp;
-			pProp = (PPROPFOLDER)MakePropPtrFromHnd( hFolProp );
-			chDrive = pProp->chDrive;
-			CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo);
-	    }
-	    else
-	    {
-			fOK = FALSE;
-	    }
-
-    } /* endif */
-
-    // build folder object and path name of folders property directory
-    if ( fOK )
-    {
-      UtlMakeEQFPath( pData->szObjName, chDrive /*pData->Prop.chDrive*/, SYSTEM_PATH, pData->szShortName );
-      UtlMakeEQFPath( pData->szPropName, chDrive /*pData->Prop.chDrive*/, PROPERTY_PATH, pData->szShortName );
-      strcpy( pData->szFolPropPath, pData->szPropName );
-    } /* endif */
-  } /* endif */
-
-  // look for current subfolder
-  if ( fOK )
-  {
-    while ( fOK && pszEndOfName )      // while OK and miore subfolders to follow ...
-    {
-      // isolate next subfolder name
-      PSZ pszSubFolder = pszEndOfName + 1;
-      *pszEndOfName = BACKSLASH;
-      pszEndOfName = strchr( pszSubFolder, BACKSLASH );
-      if ( pszEndOfName ) *pszEndOfName = EOS;
-
-      // search all subfolders for given name
-      {
-        HDIR hdir = HDIR_CREATE;
-        USHORT usCount = 1;
-        USHORT usRC;
-        BOOL   fFound = FALSE;
-
-        // setup subfolder search path
-        sprintf( pData->szSearchPath, "%s\\*%s", pData->szFolPropPath, EXT_OF_SUBFOLDER );
-
-        // loop over all subfolders
-        usRC = UtlFindFirst( pData->szSearchPath, &hdir, FILE_NORMAL, &(pData->stFileFindBuf),
-                             sizeof(pData->stFileFindBuf), &usCount, 0L, FALSE );
-        while ( !fFound && fOK && (usRC == NO_ERROR) && usCount )
-        {
-          // load subfolders property file and check parent ID and name
-          {
-            PVOID pvTemp = &pData->Prop;
-            ULONG ulLen = sizeof(pData->Prop);
-
-            sprintf( pData->szObjName, "%s\\%s", pData->szFolPropPath, pData->stFileFindBuf.cFileName );
-
-            fOK = UtlLoadFileL( pData->szObjName, &pvTemp, &ulLen, FALSE, TRUE );
-            if ( fOK )
-            {
-              if ( (pData->Prop.ulParentFolder == ulCurParentID) &&
-                   (strcmp( pData->Prop.szLongName, pszSubFolder ) == 0) )
-              {
-                fFound = TRUE;
-                ulCurParentID = pData->Prop.ulSubFolderID;
-              } /* endif */
-            } /* endif */
-          }
-
-          // try next subfolder
-          if ( !fFound )
-          {
-            usRC = UtlFindNext( hdir, &(pData->stFileFindBuf), sizeof(pData->stFileFindBuf),
-                                &usCount, 0);
-          } /* endif */
-        } /* endwhile */
-
-        // close search file handle
-        if ( hdir != HDIR_CREATE ) UtlFindClose( hdir, FALSE );
-
-        // end loop if subfolder was not found
-        if ( !fFound ) fOK = FALSE;
-      }
-    } /* endwhile */
-  } /* endif */
-
-  // cleanup
-  if ( fOK ) strcpy( pszObjName, pData->szObjName );
-  if ( pData ) UtlAlloc( (PVOID *)&pData, 0L, 0L, NOMSG );
-
-  return( fOK );
-} /* end of function SubFolNameToObjectName */
 
 
 //  Fill List Box with subfolder names
@@ -4024,180 +2425,6 @@ BOOL FolIsSubFolderItem( PSZ pszItem )
   return( fSubFolder );
 } /* end of function FolIsSubFolderItem */
 
-// check if the given object name is the object name of a subfolder
-BOOL FolIsSubFolderObject( PSZ pszObjName )
-{
-  // subfolders object names have an extention of .F01 thereas folders have an
-  // exten of .F00, subfolders have the property directory between the folder
-  // directory and the subfolder name
-  BOOL fSubFolder = FALSE;
-  PSZ pszSubFolExt = EXT_OF_SUBFOLDER;
-  PSZ pszPropDir = PROPDIR;
-  int iLen= strlen(pszSubFolExt );
-
-  if ( strcmp( pszObjName + strlen(pszObjName) - iLen, pszSubFolExt ) == 0 )
-  {
-    // extention is O.K. now check the property directory name
-    PSZ pszPropDirPos = strchr( pszObjName, BACKSLASH );
-    if ( pszPropDirPos ) pszPropDirPos = strchr( pszPropDirPos+1, BACKSLASH );
-    if ( pszPropDirPos ) pszPropDirPos = strchr( pszPropDirPos+1, BACKSLASH );
-    if ( pszPropDirPos )
-    {
-      iLen = strlen(pszPropDir);
-      if ( (strncmp( pszPropDirPos+1, pszPropDir, iLen ) == 0) &&
-           (pszPropDirPos[iLen+1] == BACKSLASH) )
-      {
-        fSubFolder = TRUE;
-      } /* endif */
-    } /* endif */
-  } /* endif */
-  return( fSubFolder );
-} /* end of function FolIsSubFolderObject */
-
-// function to get the ID of a folder or subfolder using the object name
-// for folders an ID of 0 is returned
-ULONG FolGetSubFolderIdFromObjName( PSZ pszObjName )
-{
-  ULONG ulID = 0L;                     // subfolder ID, default is zero
-
-  if ( FolIsSubFolderObject( pszObjName ) )
-  {
-    // position to subfolder name within object name
-    PSZ pszName = strrchr( pszObjName, BACKSLASH );
-    if ( pszName )
-    {
-      PSZ pszExtention = strchr( pszName, DOT );
-      if ( pszExtention )
-      {
-        *pszExtention = EOS;
-        ulID = atol( pszName + 1 );
-        *pszExtention = DOT;
-      } /* endif */
-    } /* endif */
-  } /* endif */
-
-  return( ulID );
-} /* end of function FolGetSubFolderIdFromObjName */
-
-// convert a main folder object name and a subfolder ID to a subfolder object name
-BOOL SubFolIdToObjectName( PSZ pszMainFolderObjName, ULONG ulID, PSZ pszObjName )
-{
-  BOOL        fOK = TRUE;              // function return code
-
-  sprintf( pszObjName, "%s\\%s\\%8.8ld%s", pszMainFolderObjName, PROPDIR, ulID, EXT_OF_SUBFOLDER );
-
-  return( fOK );
-} /* end of function SubFolIdToObjectName */
-
-
-// create the subfolder information table for the given folder
-BOOL SubFolCreateInfoTable( PSZ pszFolderObjName, PSUBFOLINFO *ppInfo )
-{
-  FILEFINDBUF stResultBuf;             // DOS file find struct
-  USHORT      usCount = 1;             // number of files requested
-  USHORT      usRC;                    // return code of called functions
-  HDIR        hDirHandle = HDIR_CREATE;// DosFind routine handle
-
-  PSZ          pszPath;
-  PSZ          pszFileName = NULL;     // subfolder properties file name
-  PSZ          pszSearchName = NULL;   // subfolder properties search path
-  PPROPFOLDER  pProp = NULL;           // subfolder properties
-  PSZ  pszName = RESBUFNAME(stResultBuf);// address name field in result buffer
-  BOOL        fOK = TRUE;              // function return code
-  int         iCurEntry = 0;           // current entry in info table
-  int         iTableSize = 0;          // current size (elements) of info table
-  PSUBFOLINFO pInfo = NULL;            // ptr to subfolder info table
-
-
-
-  fOK = UtlAlloc( (PVOID *)&pszPath, 0L, (LONG) (3 * MAX_PATH144), ERROR_STORAGE );
-  if ( fOK )
-  {
-    pszFileName = pszPath + MAX_PATH144;
-    pszSearchName = pszFileName + MAX_PATH144;
-  } /* endif */
-
-  // allocate initial subfolder info table with minimal size (for folders which have no subfolders)
-  if ( fOK )
-  {
-    int iNewSize = 1;
-    fOK = UtlAlloc( (PVOID *)&pInfo, (iTableSize * sizeof(SUBFOLINFO)),
-                    (iNewSize * sizeof(SUBFOLINFO)), NOMSG );
-    if ( fOK ) iTableSize = iNewSize;
-  } /* endif */
-
-  // build subfolder search path
-  if ( fOK )
-  {
-    strcpy( pszSearchName, pszFolderObjName );
-    if ( FolIsSubFolderObject( pszFolderObjName ) )
-    {
-      UtlSplitFnameFromPath( pszSearchName );  // cut off subfolder name
-      UtlSplitFnameFromPath( pszSearchName );  // cut off property directory
-    } /* endif */
-    strcpy( pszPath, pszSearchName );
-    strcat( pszSearchName, BACKSLASH_STR );
-    strcat( pszSearchName, PROPDIR );
-    strcat( pszSearchName, "\\*" );
-    strcat( pszSearchName, EXT_OF_SUBFOLDER );
-  } /* endif */
-
-  if ( fOK )
-  {
-    usRC = UtlFindFirst( pszSearchName, &hDirHandle, FILE_NORMAL, &stResultBuf, sizeof( stResultBuf), &usCount, 0L, 0);
-    while ( (usRC == NO_ERROR) && usCount )
-    {
-      ULONG ulLen;
-
-      // load subfolder properties
-      sprintf( pszFileName, "%s\\%s\\%s", pszPath, PROPDIR, pszName );
-      if ( UtlLoadFileL( pszFileName, (PVOID *)&pProp, &ulLen, FALSE, FALSE ) )
-      {
-        // enlarge info table if necessary
-        if ( (iCurEntry + 1) >= iTableSize )
-        {
-          int iNewSize = iTableSize + 20;
-
-          fOK = UtlAlloc( (PVOID *)&pInfo, (iTableSize * sizeof(SUBFOLINFO)),
-                          (iNewSize * sizeof(SUBFOLINFO)), NOMSG );
-          if ( fOK ) iTableSize = iNewSize;
-        } /* endif */
-
-        // add current subfolder to table
-        if ( fOK )
-        {
-          strcpy( pInfo[iCurEntry].szName,  pProp->szLongName );
-          pInfo[iCurEntry].ulParentFolder = pProp->ulParentFolder;
-          pInfo[iCurEntry].ulID           = pProp->ulSubFolderID;
-          iCurEntry++;
-        } /* endif */
-        UtlAlloc( (PVOID *)&pProp, 0L, 0L, NOMSG );
-        pProp = NULL;
-      } /* endif */
-
-      usRC = UtlFindNext( hDirHandle, &stResultBuf, sizeof( stResultBuf),
-                          &usCount, 0);
-    } /* endwhile */
-  } /* endif */
-
-  // close search file handle
-  if ( hDirHandle != HDIR_CREATE ) UtlFindClose( hDirHandle, FALSE );
-
-  UtlAlloc( (PVOID *)&pszPath, 0L, 0L, NOMSG );
-
-  if ( fOK )
-  {
-    *ppInfo = pInfo;
-  }
-  else
-  {
-    *ppInfo = NULL;
-    if ( pInfo ) UtlAlloc( (PVOID *)&pInfo, 0L, 0L, NOMSG );
-  } /* endif */
-
-  return( fOK );
-
-} /* end of function SubFolCreateInfoTable */
 
 // checks if the given subfolder is contained in the parent folder
 BOOL IsSubFolContainedInParent( ULONG ulParent, ULONG ulChild, PSUBFOLINFO pInfo )
@@ -4719,6 +2946,319 @@ USHORT FolFuncAddCTIDList
 
   return( usRC );
 } /* end of function FolFuncAddCTIDList */
+
+//+----------------------------------------------------------------------------+
+//|Internal function                                                           |
+//+----------------------------------------------------------------------------+
+//|Function name:     ResolveLongMultFileNames                                 |
+//+----------------------------------------------------------------------------+
+//|Function call:     fOK = ResolveLongMultFileNames( pInFile, &ppOutFiles );  |
+//+----------------------------------------------------------------------------+
+//|Description:       This function will resolve any single or multiple subst. |
+//|                   symbols and returns a list of longfilenames.             |
+//|                   If no single or multiple substitution is nec. NO output  |
+//|                   file list will be allocated                              |
+//+----------------------------------------------------------------------------+
+//|Parameters:        PSZ   pInFile     input file name                        |
+//|                   PSZ  *ppOutFiles  output file list                       |
+//+----------------------------------------------------------------------------+
+//|Returncode type:   BOOL                                                     |
+//+----------------------------------------------------------------------------+
+//|Returncodes:       FALSE    problems in allocating memory                   |
+//|                   TRUE     everything okay                                 |
+//+----------------------------------------------------------------------------+
+//|Function flow:     check if single or multiple substitution available       |
+//|                   allocate pool for filename strings                       |
+//|                   if okay                                                  |
+//|                     call UtlFindFirst with *.* to setup the loop           |
+//|                     while files found                                      |
+//|                       get short/dummy filenames out of                     |
+//|                         SOURCE or TARGET directory                         |
+//|                       get corresponding long filename                      |
+//|                         out of PROPERTIES                                  |
+//|                       if  long filename fullfills search criterium         |
+//|                          store the filename; increase pool if necessary    |
+//|                       end if                                               |
+//|                       call UtlFindNext with *.*                            |
+//|                     wend                                                   |
+//|                     set ppOutFile pointer                                  |
+//|                   endif                                                    |
+//|                   return success indicator                                 |
+//+----------------------------------------------------------------------------+
+BOOL ResolveLongMultFileNames
+(
+  PSZ  pInFile,                        // input file name
+  PSZ  pSearchName,                    // searched file name
+  PSZ  *ppOutFiles,                    // pointer to list array
+  ULONG ulParentFolder                 // document parent folder
+)
+{
+  BOOL   fOK = TRUE;
+  BOOL   fMult = FALSE;                // multiple or single substitution
+  PSZ    pFileName;                    // pointer to FileName
+  CHAR   c;                            // active character
+  PCHAR  pStrPool = NULL;              // string pool
+  PCHAR  pStartPool;                   // string pool start
+  HDIR   hDir;
+
+  PSZ    pBuffer;                      // pointer to file name
+  PSZ    pszSearchCriterium = NULL;    // search criterium for
+                                       // multi-file-names
+  PSZ    pszPropertyPath = NULL;       // Full Pathname of File-Property
+  PSZ    pszLongFileName = NULL;       // Long file name out of properties
+  PSZ    pszShortFileName = NULL;      // Short file name
+
+  FILEFINDBUF   stResultBuf;
+
+  USHORT usCount;
+  ULONG  ulLen, ulLeft;                // length of strings
+  ULONG  ulPathLen;                    // path length of mult/single subst.
+  ULONG  ulAllocLen;                   // allocated length
+  BOOL   fMatch;                       // matching strings flag
+
+  int    nFiles=0;                     // number of files with matches
+
+  PSUBFOLINFO pSubFolInfo = NULL;      // subfolder information table
+
+
+   // alloc memory for different file names in use
+   fOK=UtlAlloc((PVOID *) &pszSearchCriterium,0L,
+                (LONG) MAX_LONGPATH,ERROR_STORAGE);
+   if (fOK) fOK=UtlAlloc((PVOID *) &pszPropertyPath,0L,
+                (LONG) MAX_LONGPATH,ERROR_STORAGE);
+   if (fOK) fOK=UtlAlloc((PVOID *) &pszLongFileName,0L,
+                (LONG) MAX_LONGPATH,ERROR_STORAGE);
+   if (fOK) fOK=UtlAlloc((PVOID *) &pszShortFileName,0L,
+                (LONG) MAX_LONGPATH,ERROR_STORAGE);
+
+
+
+  /********************************************************************/
+  /* check if some of the list files are not explicitly specified,    */
+  /* i.e. if they contain single or multiple substitution characters  */
+  /* if so allocate new space and use UtlFindFirst and UtlFindNext    */
+  /* to resolve any multiple file names, first get the short/dummy    */
+  /* filename, then the corresponding long name                       */
+  /********************************************************************/
+
+  pFileName = pSearchName;
+  while ( ((c = *pFileName++)!= NULC) && !fMult )
+  {
+    fMult = (c == MULTIPLE_SUBSTITUTION) || (c == SINGLE_SUBSTITUTION);
+  } /* endwhile */
+
+  if ( fMult && fOK )
+  {
+    // get folder info table for current folder if ulParenFolder specified
+    if ( fOK && ulParentFolder )
+    {
+       strcpy(pszPropertyPath,pInFile);
+       pBuffer=UtlSplitFnameFromPath(pszPropertyPath);
+       pBuffer=UtlSplitFnameFromPath(pszPropertyPath);
+       SubFolCreateInfoTable( pszPropertyPath, &pSubFolInfo );
+    } /* endif */
+
+     // check for the actual search criterium
+     pBuffer=UtlGetFnameFromPath(pInFile);
+     strcpy(pszSearchCriterium,pSearchName);
+
+     // remove search criterium; insert *.*
+     pBuffer=UtlSplitFnameFromPath(pInFile);
+     if (*pInFile)
+     {
+        strcat(pInFile,BACKSLASH_STR);
+        strcat(pInFile,SEARCH_ALL_STR);
+     }
+     else
+     {
+        strcpy(pInFile,SEARCH_ALL_STR);
+     }
+
+    /******************************************************************/
+    /* resolve it, i.e.                                               */
+    /*   allocate memory                                              */
+    /*   loop thru all files in folder                                */
+    /*     fetch longfilename, compare with search criterium          */
+    /*     either copy entries without multi/single substitutions     */
+    /*     or run resolution of single/multiple                       */
+    /*   endwhile                                                     */
+    /******************************************************************/
+    fOK = UtlAlloc( (PVOID *) &pStartPool, 0L, (LONG) MAX_POOL_SIZE, ERROR_STORAGE );
+
+    if ( fOK )
+    {
+      ulAllocLen = ulLeft = MAX_POOL_SIZE;
+      pStrPool = pStartPool;
+      /**************************************************************/
+      /* Search for filenames                                       */
+      /**************************************************************/
+      usCount = 1;
+      hDir = HDIR_CREATE;
+
+
+      if ( UtlFindFirst( pInFile, &hDir, FILE_NORMAL,
+                    &stResultBuf, sizeof( stResultBuf), &usCount, 0L, 0) )
+      {
+        usCount = 0;  // no files as return code is set
+      } /* endif */
+
+      /************************************************************/
+      /* extract the path info (if any )...                       */
+      /************************************************************/
+      pFileName = UtlGetFnameFromPath( pInFile );
+      if ( pFileName )
+      {
+        *pFileName = EOS;            // extract the path info
+        ulPathLen = strlen( pInFile );
+      }
+      else
+      {
+        pFileName = pInFile;
+        *pFileName = EOS;
+        ulPathLen = 0;
+      } /* endif */
+
+      /************************************************************/
+      /* Loop all files in the folder                             */
+      /* then check matches                                       */
+      /************************************************************/
+      while ( usCount && fOK )
+      {
+        ULONG ulParentID;            // ID of documents parent folder
+
+        /************************************************************/
+        /* Get Property Name  and                                   */
+        /* Long Filename out of properties                          */
+        /* Check long filename for search criterium                 */
+        /************************************************************/
+
+        // get all short resp. shrinked filenames
+        strcpy(pszShortFileName, RESBUFNAME(stResultBuf));
+
+        // construct property path
+        strcpy(pszPropertyPath,pInFile);
+        pBuffer=UtlSplitFnameFromPath(pszPropertyPath);
+        pBuffer=UtlSplitFnameFromPath(pszPropertyPath);
+
+        if(*pszPropertyPath)
+        {
+          strcat(pszPropertyPath,BACKSLASH_STR);
+          UtlQueryString( QST_PROPDIR, pszPropertyPath + strlen(pszPropertyPath), 20 );
+          strcat(pszPropertyPath,BACKSLASH_STR);
+          strcat(pszPropertyPath,pszShortFileName);
+        }
+        else
+        {
+          strcat(pszPropertyPath,pszShortFileName);
+        }
+
+
+        // get long name and parent (sub)folder ID
+        {
+          PPROPDOCUMENT pProp = NULL;
+          ULONG  ulLen;
+
+          ulParentID = 0;
+          *pszLongFileName = EOS;
+
+          if ( UtlLoadFileL( pszPropertyPath, (PVOID *)&pProp, &ulLen, FALSE, FALSE ) )
+          {
+            // remember long name and parent ID
+            strcpy( pszLongFileName, pProp->szLongName );
+            ulParentID = pProp->ulParentFolder;
+            UtlAlloc( (PVOID *)&pProp, 0L, 0L, NOMSG );
+          } /* endif */
+        }
+
+        // if no longfilename use short one
+        if (*pszLongFileName==EOS) strcpy(pszLongFileName,pszShortFileName);
+
+        // check LongFileName for search criterium
+//      fMatch = WildCompares(pszLongFileName,pszSearchCriterium);
+        UtlMatchStrings( pszLongFileName, pszSearchCriterium, &fMatch );
+
+        // if parent folder specified check if document belongs to this parent folder
+        if ( fMatch && ulParentFolder && pSubFolInfo && (ulParentFolder != ulParentID) )
+        {
+          fMatch = IsSubFolContainedInParent( ulParentFolder, ulParentID, pSubFolInfo );
+        } /* endif */
+
+        if ( fMatch )
+        {
+
+          /************************************************************/
+          /* Add items to our list                                    */
+          /* do a realloc if necessary                                */
+          /************************************************************/
+
+          ulLen = strlen(pszLongFileName) + ulPathLen + 1;
+
+          if ( ulLen >= ulLeft )
+          {
+            fOK = UtlAlloc( (PVOID *) &pStartPool, (LONG) ulAllocLen,
+                                         (LONG) ulAllocLen + MAX_POOL_SIZE,
+                                         ERROR_STORAGE );
+            if ( fOK )
+            {
+              pStrPool = pStartPool + ulAllocLen - ulLeft;
+              ulLeft += MAX_POOL_SIZE;
+              ulAllocLen += MAX_POOL_SIZE;
+            } /* endif */
+          } /* endif */
+
+          if ( ulLen < ulLeft )
+          {
+            nFiles++;
+            strcpy(pStrPool, pInFile );
+            strcat(pStrPool, pszLongFileName);
+
+            pStrPool += ulLen;
+            ulLeft -= ulLen;
+          } /* endif */
+
+        } /* endif WildCompares */
+
+       /************************************************************/
+       /* Find next list                                           */
+       /************************************************************/
+
+        if (fOK)
+        {
+           UtlFindNext( hDir, &stResultBuf, sizeof( stResultBuf),
+                 &usCount, 0);
+        }/* endif fOK */
+
+      } /* endwhile */
+
+      // close search file handle
+      if ( hDir != HDIR_CREATE ) UtlFindClose( hDir, FALSE );
+
+
+      /****************************************************************/
+      /* set the pointer to the string pool - will be freed by caller */
+      /****************************************************************/
+      *ppOutFiles = pStartPool;
+
+    } /* endif */
+  } /* endif  mult*/
+
+
+   if (fMult && nFiles==0)
+   {
+     strcpy(pStrPool, pszSearchCriterium);
+     fOK=FALSE;
+   } /* end if */
+
+
+  // free memory for different file names in use
+   UtlAlloc((PVOID *) &pszSearchCriterium,0L,0L,NOMSG);
+   UtlAlloc((PVOID *) &pszPropertyPath,0L,0L,NOMSG);
+   UtlAlloc((PVOID *) &pszLongFileName,0L,0L,NOMSG);
+   UtlAlloc((PVOID *) &pszShortFileName,0L,0L,NOMSG);
+   if ( pSubFolInfo ) UtlAlloc((PVOID *)&pSubFolInfo,0L,0L,NOMSG);
+
+  return fOK;
+} /* end of function ResolveLongMultFileNames */
 
 
 //--------------------------- End of EQFFOL00.C --------------------------------

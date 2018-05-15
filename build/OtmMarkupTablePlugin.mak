@@ -51,7 +51,6 @@ $(_OTMMARKUP_OBJ)\OtmMarkupTable.OBJ:	      $(_OTMMARKUP_SRC)\OtmMarkupTable.cpp
 $(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL:   $(_OTMMARKUP_OBJ)\OtmMarkupTablePlugin.OBJ \
                                               $(_OTMMARKUP_OBJ)\OtmMarkupTable.OBJ \
                                               $(_LIB)\OtmBase.lib \
-                                              $(_LIB)\OtmDll.lib \
                                               $(_LIB)\PluginManager.lib
 $(_OTMMARKUP_RELEASE_DIR)\TABLE\OtmMarkupTablePlugin.XML:   $(_OTMMARKUP_SRC)\OtmMarkupTablePlugin.XML
 
@@ -69,7 +68,9 @@ $(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL:
         $(_OTMMARKUP_OBJ)\OtmMarkupTable.OBJ
 /OUT:$(_OTMMARKUP_DLL)\OtmMarkupTablePlugin.DLL
 /MAP:$(_OTMMARKUP_MAP)\OtmMarkupTablePlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS      
-    $(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib  $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib
+    $(_LINK_LIB_CRT) 
+    $(_LIB)\OtmBase.lib  
+    $(_LIB)\PluginManager.lib
 <<
 
 $(_OTMMARKUP_RELEASE_DIR)\TABLE\OtmMarkupTablePlugin.XML:

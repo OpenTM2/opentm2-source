@@ -1407,6 +1407,7 @@ VOID EQFBKeysFillListbox
    PKEYPROFTABLE pKeyTemp;             // temp pointer
    CHAR        szItemName[256];        // buffer for item names
    USHORT      usFuncValid = 0;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    ENABLEUPDATE_FALSE( hwndDlg, usId );
    DELETEALL( hwndDlg, usId );
@@ -1609,6 +1610,7 @@ MRESULT EQFBOpenInit
 )
 {
    MRESULT     mResult = MRFROMSHORT(TRUE); // result of message processing
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
    USHORT      usButtonID;             // ID of button to be checked
    HWND        hwndLB;                 // handle of listbox
    POPENIDA    pIda;                   // ptr to dialog IDA
@@ -3306,6 +3308,7 @@ VOID EQFBKeysPrint
    CHAR        szKeyName[100 ];        // key name buffer
    CHAR_W      szTempNameW[100];
    PSZ         pTab;                   // position of TAB character
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    /*******************************************************************/
    /* set hour glass                                                  */
@@ -3453,6 +3456,7 @@ BOOL EQFBShowSegmentComment
 
   if ( UtlAlloc((PVOID *) &pIda, 0L, (LONG) sizeof(COMMENTDLGIDA), ERROR_STORAGE ) )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     pIda->hwndParent = hwnd;
     pIda->pDoc = pDoc;
     pIda->pvAddInfo = pvAddInfo;

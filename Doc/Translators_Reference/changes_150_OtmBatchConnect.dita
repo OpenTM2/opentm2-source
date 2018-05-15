@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_141_ValidationImport">
+  <title>New functions CONNECT and DISCONNECT in the Otmbatch tool</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>New functions of the <b>OTMBATCH</b> commandline tool:
+      <ol>
+        <li>The <b>CONNECT</b> function has been added.
+        Use this function to connect a LAN-based shared Translation Memory using the OtmBatch tool.
+        For more information, go to <xref href="otmbatch_MemoryConnect.dita#otmbatch_MemoryConnect"/>.
+        </li>
+        <li>The <b>DISCONNECT</b> function has been added.
+        Use this function to disconnect a LAN-based shared Translation Memory using the OtmBatch tool.
+        For more information, go to <xref href="otmbatch_MemoryDisconnect.dita#otmbatch_MemoryDisconnect"/>.
+        </li>
+      </ol>
+    </p>
+  </body>
+</topic>

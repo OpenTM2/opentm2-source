@@ -48,7 +48,6 @@ $(_DLL)\OtmMorphICUPlugin.DLL:	$(_OBJ)\OtmMorphICUPlugin.OBJ \
 								$(_OBJ)\OtmMorphICU.OBJ \
 								$(_OBJ)\HunspellObjManager.OBJ \
 								$(_LIB)\OtmBase.lib \
-								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
 
 #------------------------------------------------------------------------------
@@ -65,7 +64,10 @@ $(_DLL)\OtmMorphICUPlugin.DLL:
 					$(_OBJ)\OtmSpellHS.OBJ
 /OUT:$(_DLL)\OtmMorphICUPlugin.DLL
 /MAP:$(_MAP)\OtmMorphICUPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(HUNSPELLLIBDIR)\$(HUNSPELLLIB) $(ICULIB)\icuuc.lib $(ICULIB)\icudt.lib $(ICULIB)\icuin.lib $(ICULIB)\icuio.lib $(ICULIB)\icule.lib $(ICULIB)\iculx.lib $(ICULIB)\icutu.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\PluginManager.lib 
+$(HUNSPELLLIBDIR)\$(HUNSPELLLIB) $(ICULIB)\icuuc.lib $(ICULIB)\icudt.lib $(ICULIB)\icuin.lib $(ICULIB)\icuio.lib $(ICULIB)\icule.lib $(ICULIB)\iculx.lib $(ICULIB)\icutu.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmMorphICUPlugin md $(RELEASE_DIR)\OTM\Plugins\OtmMorphICUPlugin

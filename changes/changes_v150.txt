@@ -1,0 +1,34 @@
+Changes in OpenTM2 v1.4.1
+
+List of requirements and fixes in OpenTM2 release v1.5.0:
+
+  (A) Requirements:
+    R012580: Option for excluding the redundancy report during folder export
+    R012645: Memory matching: Support "families" of markup tables
+    R012648: Keep context info for memory segments from XLIFF file
+
+  (B) Fixes:	 
+     P403163: The OTM Analyze function doesn't work correctly at URL sentence
+     P403785: OTM supports counting Japanese characters?
+     P403926: OTM does not create calculating report
+     P403939: Import validation document: space added/deleted unexpectedly
+     P503950: Segments in archive memory should not get current timestamp
+     P403976: Unable to connect to plugin manager URL and then OpenTM2 abends
+     P402783: TMO: tries to load the XML-replacement list from \EQF\matchlist\ instead of \OTM\matchlist\
+     P403382: Strange behaviour of Spellcheck editor functions
+     P403471: Ignore metadata fields above the internal limit of the OTM2 dictionary import function
+     P403532: Wrong handling of keyboard commands across line boundaries
+     P403568: API to connect shared TM?
+     P403646: Editor line wrap function behavior is wrong
+     P403853: Plugin Manager: Need a way to restrict an update for a specific version of OpenTM2
+     P403914: Why last memory was not used?
+     P403918: OtmMemoryTool: /TOMARKUP parameter does not accept valid markup table names
+     P403923: OpenTM2 Installer: Can't install golden driver over test drivers
+     P403944: Cannot see translated segments on the memory after build archive
+     P403956: Memory cannot be organized
+     P403959: The MTEval report fails to log the existingProposal field in a certain situation
+     P403960: Does OTMShowFXP work as expected?
+     P403973: OTM upgrade OpenSSL from v1.2.0k to v1.2.0n
+     P403980: Invalid Char in nomatch xml file
+     P403578: OTM2 reports corrupted data
+

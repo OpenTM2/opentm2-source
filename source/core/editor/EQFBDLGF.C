@@ -209,6 +209,7 @@ MRESULT EQFBFontColInit
    USHORT      usI;                    // loop index
    SHORT       sItem;                  // index of a listbox item
    HAB         hab;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    mp1 = mp1;                          // suppress 'unreferenced parameter' msg
    mp2 = mp2;                          // suppress 'unreferenced parameter' msg
@@ -896,6 +897,9 @@ INT_PTR CALLBACK EQFBFONTSIZEDLGPROC
          break;
 
      case WM_INITDLG:
+       {
+         HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
           // remember adress of user area
           SETWINDOWID( hwndDlg, ID_TB_FONTSIZE_DLG );
 
@@ -999,7 +1003,8 @@ INT_PTR CALLBACK EQFBFONTSIZEDLGPROC
           SELECTITEM( hwndDlg, ID_TB_FONTSIZE_WINDOW_LB, 0 );
 
           mResult = DIALOGINITRETURN( mResult );
-          break;
+        }
+        break;
 
       case WM_COMMAND:
          mResult = EQFBFontSizeCommand( hwndDlg, mp1, mp2 );

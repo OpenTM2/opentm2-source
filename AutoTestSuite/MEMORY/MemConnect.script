@@ -1,0 +1,86 @@
+****************************************************************************************************
+** Script name...: MEMCONNECT.script                                                              **
+** Purpose.......: Script testing the Connect/Disconnect Shared Memory API calls                  **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: March 8, 2018                                                                  **
+** Update........: March 14, 2018                                                                 **
+** Copyright.....: Copyright (C) 1990-2018, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+* Prepare test data and cleanup any files left over from previous runs... 
+EqfDeleteMem ConnectTestMem
+EqfCreateMem ConnectTestMem, , , English(U.S.), SHARED_OPT
+
+TESTCASE MEM_CONNECT_001,Test the EqfConnectSharedMem API call without parameters
+  EqfConnectSharedMem 
+  TESTRESULT 803, EqfConnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_002,Test the EqfConnectSharedMem API call with an invalid drive letter
+  EqfConnectSharedMem ?
+  TESTRESULT 5, EqfConnectSharedMem returned wrong retun code
+End
+  
+
+TESTCASE MEM_CONNECT_003,Test the EqfConnectSharedMem API call with an not existing drive
+  EqfConnectSharedMem W
+  TESTRESULT 5, EqfConnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_004,Test the EqfConnectSharedMem API call with an valid OTM drive but without memory
+  EqfConnectSharedMem %OTMDRIVE%
+  TESTRESULT 803, EqfConnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_005,Test the EqfConnectSharedMem API call with not existing memory
+  EqfConnectSharedMem %OTMDRIVE%,ImNotThere
+  TESTRESULT 133, EqfConnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_006,Test the EqfConnectSharedMem API call with valid parameters
+  EqfConnectSharedMem %OTMDRIVE%,ConnectTestMem
+  TESTRESULT 0, EqfConnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_007,Test the EqfDisconnectSharedMem API call without parameters
+  EqfDisconnectSharedMem 
+  TESTRESULT 803, EqfDisconnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_008,Test the EqfDisconnectSharedMem API call with an invalid drive letter
+  EqfDisconnectSharedMem ?
+  TESTRESULT 5, EqfDisconnectSharedMem returned wrong retun code
+End
+  
+
+TESTCASE MEM_CONNECT_009,Test the EqfDisconnectSharedMem API call with an not existing drive
+  EqfDisconnectSharedMem W
+  TESTRESULT 5, EqfDisconnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_010,Test the EqfDisconnectSharedMem API call with an valid OTM drive but without memory
+  EqfDisconnectSharedMem %OTMDRIVE%
+  TESTRESULT 803, EqfDisconnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_011,Test the EqfDisconnectSharedMem API call with not existing memory
+  EqfDisconnectSharedMem %OTMDRIVE%,ImNotThere
+  TESTRESULT 133, EqfDisconnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_012,Test the EqfDisconnectSharedMem API call with valid parameters
+  EqfDisconnectSharedMem %OTMDRIVE%,ConnectTestMem
+  TESTRESULT 0, EqfDisconnectSharedMem returned wrong retun code
+End
+
+TESTCASE MEM_CONNECT_013,Test the EqfDisconnectSharedMem API call with disconnected memory
+  EqfDisconnectSharedMem %OTMDRIVE%,ConnectTestMem
+  TESTRESULT 0, EqfDisconnectSharedMem returned wrong retun code
+End
+

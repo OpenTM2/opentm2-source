@@ -617,16 +617,17 @@ typedef struct _BATCHIMPORTPARMS
 HGLOBAL MakeDDEDataSeg(USHORT, PSZ, PVOID, USHORT, USHORT );
 
 static BOOL EQFFunctionCmdLine (PDDECLIENT );
-BOOL ListOfFiles ( PDDECLIENT, PSZ **, PSZ , PSZ **);
 static BATCHCMD ValidateToken ( PSZ  *ppToken, PBATCHLIST  pBatchList );
 static BOOL CheckBatchOccurrence (PDDECLIENT, PUSHORT);
 static DDETASK ValidateTask ( PDDECLIENT pDDEClient );
 
-BOOL ResolveMultFileNames(PSZ, PSZ, PSZ *); // resolve single/multiple subst.
-BOOL ResolveMultFileNamesEx(PSZ, PSZ, PSZ *, BOOL ); // resolve single/multiple subst.
-BOOL ResolveLongMultFileNames(PSZ, PSZ, PSZ *, ULONG ); // resolve single/multiple
-BOOL DDEDocLoadWork ( PDOCIMPEXP,PSZ); // do the dirty work
-BOOL DDEDocUnLoadWork(PDOCIMPEXP, PSZ, PSZ, PSZ ); // do the dirty work
+__declspec(dllexport) BOOL DDEDocUnLoad( PDOCIMPEXP pDocExpIda );
+__declspec(dllexport) BOOL DDEDocLoad( PDOCIMPEXP pDocImpIda );
+
+__declspec(dllexport) BOOL ResolveMultFileNames(PSZ, PSZ, PSZ *); // resolve single/multiple subst.
+__declspec(dllexport) BOOL ResolveMultFileNamesEx(PSZ, PSZ, PSZ *, BOOL ); // resolve single/multiple subst.
+__declspec(dllexport) BOOL DDEDocLoadWork ( PDOCIMPEXP,PSZ); // do the dirty work
+__declspec(dllexport) BOOL DDEDocUnLoadWork(PDOCIMPEXP, PSZ, PSZ, PSZ ); // do the dirty work
 
 
 MRESULT APIENTRY DDEINSTWNDPROC( HWND, WINMSG, WPARAM, LPARAM );

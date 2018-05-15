@@ -766,7 +766,8 @@ typedef struct _TAGIMPORT
  /* 1           = Reflow allowed                                    */
  /* 2           = no Reflow, for MRI etc                            */
  /*******************************************************************/
-   BOOL          fReflow;                //status of Reflow
+   BOOL          fReflow;                // status of Reflow
+   HWND          hwndToCombo;              // handle of To: combo box
 } TAGIMPORT, *PTAGIMPORT;
 
 // external interface to build tag tables from scratch

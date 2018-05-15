@@ -315,6 +315,7 @@ MRESULT ListCallBack
         PPROPLIST  pProp = NULL;       // ptr to list properties
         CHAR       szParm[20];         // buffer for error parameters
         PSZ        pParm;              // ptr to error parameter(s)
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
         /*******************************************************************/
         /* Allocate list instance data area (IDA)                          */
@@ -999,6 +1000,7 @@ MRESULT ListCallBack
                   UtlAlloc( (PVOID *) &pDlgIda, 0L, (LONG)sizeof(LISTEDITIDA), ERROR_STORAGE );
                   if ( pDlgIda )
                   {
+                    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                     pDlgIda->usListType = (USHORT)pIda->Type;
                     pDlgIda->szListPath[0] = EOS;
                     pDlgIda->szListName[0] = EOS;
@@ -1034,6 +1036,7 @@ MRESULT ListCallBack
                       if ( pDlgIda )
                       {
                         BOOL   fOK;
+                        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
                         pDlgIda->usListType = (USHORT)pIda->Type;
                         strcpy( pDlgIda->szListPath, pszObjName );
@@ -1055,6 +1058,7 @@ MRESULT ListCallBack
                       UtlAlloc( (PVOID *) &pDlgIda, 0L, (LONG)sizeof(LISTEDITIDA), ERROR_STORAGE );
                       if ( pDlgIda )
                       {
+                        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                         pDlgIda->usListType = (USHORT)pIda->Type;
                         strcpy( pDlgIda->szListPath, pszObjName );
                         strcpy( pDlgIda->szListName,
@@ -1091,6 +1095,7 @@ MRESULT ListCallBack
               } /* endswitch */
               if ( pszList != NULL )
               {
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                 DIALOGBOX( hwnd, LSTIMPORTDLG, hResMod, ID_LISTIMP_NTL_DLG,
                            pszList, fOK  );
               } /* endif */
@@ -1112,6 +1117,7 @@ MRESULT ListCallBack
               }
               else
               {
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                 DIALOGBOX( hwnd, LSTEXPORTDLG, hResMod, ID_LISTEXP_NTL_DLG,
                            pszObjName, fOK );
               } /* endif */
@@ -1179,6 +1185,7 @@ BOOL LstEditAddenda
                   ERROR_STORAGE );
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     hwnd = (HWND)UtlQueryULong( QL_TWBCLIENT );
     pDlgIda->usListType = ADD_TYPE;
     strcpy( pDlgIda->szListPath, pszLanguage );
@@ -1214,6 +1221,7 @@ BOOL LstEditAbbrev
                   ERROR_STORAGE );
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     hwnd = (HWND)UtlQueryULong( QL_TWBCLIENT );
     pDlgIda->usListType = ABR_TYPE;
     strcpy( pDlgIda->szListPath, pszLanguage );

@@ -203,108 +203,112 @@ LPARAM mp2
       break;
 
     case WM_INITDLG :
-      /****************************************************************/
-      /* Anchor IDA                                                   */
-      /****************************************************************/
-      usRC = NO_ERROR;
-      pIda = (PWWLDLGIDA)mp2;
-      pIda->hwnd = hwnd;
-      ANCHORDLGIDA( hwnd, pIda );
-
-      /****************************************************************/
-      /* Switch dialog ID to allow different helps for the dialog     */
-      /****************************************************************/
-      if ( pIda->usListType == NTL_TYPE )
       {
-        SETWINDOWID( hwnd, ID_LISTWORK_NTL_DLG );
-      }
-      else
-      {
-        SETWINDOWID( hwnd, ID_LISTWORK_FTL_DLG );
-      } /* endif */
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* Set text limits                                              */
-      /****************************************************************/
-      CBSETTEXTLIMIT( hwnd, ID_LISTWORK_EXCL_CB, MAX_FNAME - 1 );
+        /****************************************************************/
+        /* Anchor IDA                                                   */
+        /****************************************************************/
+        usRC = NO_ERROR;
+        pIda = (PWWLDLGIDA)mp2;
+        pIda->hwnd = hwnd;
+        ANCHORDLGIDA( hwnd, pIda );
 
-      /****************************************************************/
-      /* Fill-in title bar text                                       */
-      /****************************************************************/
-      LOADSTRING( NULLHANDLE, hResMod, ( pIda->usListType == NTL_TYPE ) ?
-                  SID_LSTWORK_NTL_TITLE_TEXT  :
-                  SID_LSTWORK_FTL_TITLE_TEXT, pIda->szBuffer );
-      pszParm = pIda->szListName;
-      {
-        ULONG Length;
-
-        DosInsMessage( &pszParm, 1, pIda->szBuffer,
-                       (strlen( pIda->szBuffer ) + 1),
-                       pIda->szBuffer2,
-                       sizeof( pIda->szBuffer2 ), &Length );
-      }
-      SETTEXTHWND( hwnd, pIda->szBuffer2 );
-
-      /****************************************************************/
-      /* Load bitmaps and strings used as marks in term listbox       */
-      /****************************************************************/
-      LOADSTRING( NULLHANDLE, hResMod, SID_LISTWORK_MKNOT_PB, pIda->szNotMarkedText );
-      LOADSTRING( NULLHANDLE, hResMod, SID_LISTWORK_MKALL_PB, pIda->szAllMarkedText );
-
-      pIda->hbmDict   = LoadBitmap( hResMod, MAKEINTRESOURCE(DICT_BMP) );
-      pIda->hbmDel    = LoadBitmap( hResMod, MAKEINTRESOURCE(DELETE_BMP) );
-      pIda->hbmExcl   = LoadBitmap( hResMod, MAKEINTRESOURCE(EXCL_BMP) );
-      pIda->hbmNoMark = LoadBitmap( hResMod, "Unmarked" );
-      pIda->hbmDictG   = LoadBitmap( hResMod, "Dictionary");
-      pIda->hbmDelG    = LoadBitmap( hResMod, "Deleted" );
-      pIda->hbmExclG   = LoadBitmap( hResMod, "Excluded" );
-      pIda->hbmNoMarkG = LoadBitmap( hResMod, MAKEINTRESOURCE(NOMARKG_BMP) );
-     // pIda->hbmAllG    = LoadBitmap( hResMod, MAKEINTRESOURCE(ALL_BMP) );
-      pIda->hbmAllG    = LoadBitmap( hResMod, "All");
-      /****************************************************************/
-      /* Set initial view mode                                        */
-      /****************************************************************/
-      pIda->usView = VIEWALL_FLAG;       // switch to view all mode
-
-      /****************************************************************/
-      /* Fill exclusion list combobox                                 */
-      /****************************************************************/
-      EqfSend2Handler( LISTHANDLER, WM_EQF_INSERTNAMES,
-                       MP1FROMHWND( WinWindowFromID( hwnd, ID_LISTWORK_EXCL_CB) ),
-                       MP2FROMP( EXCLUSIONLISTOBJ ) );
-
-      /****************************************************************/
-      /* Create dictionary name dummy box                             */
-      /****************************************************************/
-      if ( usRC == NO_ERROR )
-      {
-        pIda->hwndDictLB = WinCreateWindow( hwnd, WC_LISTBOX,
-                                            "",
-                                            WS_CHILD | LBS_STANDARD,
-                                            0, 0, 10, 10,
-                                            hwnd, HWND_TOP,
-                                            1, NULL, NULL );
-        if ( !pIda->hwndDictLB )
+        /****************************************************************/
+        /* Switch dialog ID to allow different helps for the dialog     */
+        /****************************************************************/
+        if ( pIda->usListType == NTL_TYPE )
         {
-          UtlErrorHwnd( 0, MB_CANCEL, 0, NULL, SYSTEM_ERROR, hwnd );
-          usRC = ERROR_INVALID_FUNCTION;
+          SETWINDOWID( hwnd, ID_LISTWORK_NTL_DLG );
+        }
+        else
+        {
+          SETWINDOWID( hwnd, ID_LISTWORK_FTL_DLG );
         } /* endif */
-      } /* endif */
 
-      /****************************************************************/
-      /* End dialog in case of errors during initialization or start  */
-      /* second part of initialization                                */
-      /****************************************************************/
-      if ( usRC )
-      {
-        WinDismissDlg( hwnd, FALSE );
+        /****************************************************************/
+        /* Set text limits                                              */
+        /****************************************************************/
+        CBSETTEXTLIMIT( hwnd, ID_LISTWORK_EXCL_CB, MAX_FNAME - 1 );
+
+        /****************************************************************/
+        /* Fill-in title bar text                                       */
+        /****************************************************************/
+        LOADSTRING( NULLHANDLE, hResMod, ( pIda->usListType == NTL_TYPE ) ?
+                    SID_LSTWORK_NTL_TITLE_TEXT  :
+                    SID_LSTWORK_FTL_TITLE_TEXT, pIda->szBuffer );
+        pszParm = pIda->szListName;
+        {
+          ULONG Length;
+
+          DosInsMessage( &pszParm, 1, pIda->szBuffer,
+                         (strlen( pIda->szBuffer ) + 1),
+                         pIda->szBuffer2,
+                         sizeof( pIda->szBuffer2 ), &Length );
+        }
+        SETTEXTHWND( hwnd, pIda->szBuffer2 );
+
+        /****************************************************************/
+        /* Load bitmaps and strings used as marks in term listbox       */
+        /****************************************************************/
+        LOADSTRING( NULLHANDLE, hResMod, SID_LISTWORK_MKNOT_PB, pIda->szNotMarkedText );
+        LOADSTRING( NULLHANDLE, hResMod, SID_LISTWORK_MKALL_PB, pIda->szAllMarkedText );
+
+        pIda->hbmDict   = LoadBitmap( hResMod, MAKEINTRESOURCE(DICT_BMP) );
+        pIda->hbmDel    = LoadBitmap( hResMod, MAKEINTRESOURCE(DELETE_BMP) );
+        pIda->hbmExcl   = LoadBitmap( hResMod, MAKEINTRESOURCE(EXCL_BMP) );
+        pIda->hbmNoMark = LoadBitmap( hResMod, "Unmarked" );
+        pIda->hbmDictG   = LoadBitmap( hResMod, "Dictionary");
+        pIda->hbmDelG    = LoadBitmap( hResMod, "Deleted" );
+        pIda->hbmExclG   = LoadBitmap( hResMod, "Excluded" );
+        pIda->hbmNoMarkG = LoadBitmap( hResMod, MAKEINTRESOURCE(NOMARKG_BMP) );
+       // pIda->hbmAllG    = LoadBitmap( hResMod, MAKEINTRESOURCE(ALL_BMP) );
+        pIda->hbmAllG    = LoadBitmap( hResMod, "All");
+        /****************************************************************/
+        /* Set initial view mode                                        */
+        /****************************************************************/
+        pIda->usView = VIEWALL_FLAG;       // switch to view all mode
+
+        /****************************************************************/
+        /* Fill exclusion list combobox                                 */
+        /****************************************************************/
+        EqfSend2Handler( LISTHANDLER, WM_EQF_INSERTNAMES,
+                         MP1FROMHWND( WinWindowFromID( hwnd, ID_LISTWORK_EXCL_CB) ),
+                         MP2FROMP( EXCLUSIONLISTOBJ ) );
+
+        /****************************************************************/
+        /* Create dictionary name dummy box                             */
+        /****************************************************************/
+        if ( usRC == NO_ERROR )
+        {
+          pIda->hwndDictLB = WinCreateWindow( hwnd, WC_LISTBOX,
+                                              "",
+                                              WS_CHILD | LBS_STANDARD,
+                                              0, 0, 10, 10,
+                                              hwnd, HWND_TOP,
+                                              1, NULL, NULL );
+          if ( !pIda->hwndDictLB )
+          {
+            UtlErrorHwnd( 0, MB_CANCEL, 0, NULL, SYSTEM_ERROR, hwnd );
+            usRC = ERROR_INVALID_FUNCTION;
+          } /* endif */
+        } /* endif */
+
+        /****************************************************************/
+        /* End dialog in case of errors during initialization or start  */
+        /* second part of initialization                                */
+        /****************************************************************/
+        if ( usRC )
+        {
+          WinDismissDlg( hwnd, FALSE );
+        }
+        else
+        {
+          ShowWindow( hwnd, SW_SHOW );
+
+          WinPostMsg( hwnd, WM_EQF_INITIALIZE, NULL, NULL );
+        } /* endif */
       }
-      else
-      {
-        ShowWindow( hwnd, SW_SHOW );
-
-        WinPostMsg( hwnd, WM_EQF_INITIALIZE, NULL, NULL );
-      } /* endif */
       break;
 
     case WM_EQF_INITIALIZE:
@@ -752,9 +756,12 @@ LPARAM mp2
             break;
 
           case ID_LISTWORK_DICTMARK_PB:
-            DIALOGBOX( hwnd, LSTMARKDICTDLG, hResMod, ID_LISTMARK_NTL_DLG,
-                       pIda, fOK );
-            SETFOCUS( hwnd, ID_LISTWORK_TERM_LB );
+            {
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+              DIALOGBOX( hwnd, LSTMARKDICTDLG, hResMod, ID_LISTMARK_NTL_DLG,
+                         pIda, fOK );
+              SETFOCUS( hwnd, ID_LISTWORK_TERM_LB );
+            }
             break;
 
           case ID_LISTWORK_MKALL_PB:
@@ -1979,6 +1986,8 @@ LPARAM mp2
       /****************************************************************/
       if ( fOK  )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         /**************************************************************/
         /* Get string ID for dialog title                             */
         /**************************************************************/
@@ -2418,9 +2427,11 @@ LPARAM mp2
               /* Get system abbreviation list.                      */
               /******************************************************/
               if ( ( !usMorphRC ) &&
-                   ( pIda->usListType == ABR_TYPE ) ) {
+                   ( pIda->usListType == ABR_TYPE ) ) 
+              {
                  RECT rect ;
                  HWND hwndMLE;
+                 HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                  hwndMLE = GetDlgItem( hwnd, ID_LISTEDIT_TERM_MLE ) ;
                  GetWindowRect(hwndMLE,&rect) ;
                  SetWindowPos( hwndMLE, HWND_TOP, 0, 0,

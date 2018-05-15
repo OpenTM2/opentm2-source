@@ -940,7 +940,7 @@ void MemoryFactory::copyBestMatches(
   int iMaxProposals
 )
 {
-  copyBestMatches( SourceProposals, TargetProposals, iMaxProposals, -1, FALSE );
+  copyBestMatches( SourceProposals, TargetProposals, iMaxProposals, -1, FALSE, 0 );
 }
 
 /*! \brief Copy best matches from one proposal vector into another
@@ -953,22 +953,22 @@ void MemoryFactory::copyBestMatches(
   When there are more proposals available proposals with lesser relevance will be replaced
   \param iMTDisplayFactor factor for the placement of machine matches within the table
   \param fExactAndFuzzies switch to control the handling of fuzzy matches when exact matches exist, TRUE = keep fuzzy matches even when exact matches exist
+  \param lOptions options for the sorting of the proposals
 */
 void MemoryFactory::copyBestMatches(
   std::vector<OtmProposal *> &SourceProposals,
   std::vector<OtmProposal *> &TargetProposals,
   int iMaxProposals, 
   int iMTDisplayFactor,
-  BOOL fExactAndFuzzies
+  BOOL fExactAndFuzzies,
+  LONG lOptions
 )
 {
-  iMTDisplayFactor; 
-
   for ( std::size_t i = 0; i < SourceProposals.size(); i++ )
   {
     if ( !SourceProposals[i]->isEmpty() )
     {
-      this->insertProposalData( SourceProposals[i], TargetProposals, iMaxProposals, (i+1) == SourceProposals.size() );
+      this->insertProposalData( SourceProposals[i], TargetProposals, iMaxProposals, (i+1) == SourceProposals.size(), iMTDisplayFactor, lOptions );
     } /* end */       
   } /* end */     
 
@@ -990,7 +990,7 @@ void MemoryFactory::copyBestMatches(
   // ignore all normal exact matches when there are exact-exact matches available
   if ( !fExactAndFuzzies )
   {
-    if ( (TargetProposals.size() > 1) && (TargetProposals[1]->getMatchType() == OtmProposal::emtExactExact)  )
+    if ( (TargetProposals.size() > 1) && (TargetProposals[0]->getMatchType() == OtmProposal::emtExactExact)  )
     {
       for ( std::size_t i = 0; i < TargetProposals.size(); i++ )
       {
@@ -1001,6 +1001,28 @@ void MemoryFactory::copyBestMatches(
       } /* end */     
     } /* end */
   } /* endif */
+
+//#define LISTPROPOSALS
+#ifdef LISTPROPOSALS
+  LogWriter Log;
+  CHAR_W *pszSegBuffer= (CHAR_W *)malloc( MAX_SEGMENT_SIZE * sizeof(CHAR_W) );
+  Log.open( "MemoryFactor.CopyBestMatches", LogWriter::OM_UTF16 | LogWriter::OM_APPEND );
+  Log.writewf( L"Returned Proposals\r\n\r\n" );
+  for ( std::size_t i = 0; i < TargetProposals.size(); i++ )
+  {
+    if ( !TargetProposals[i]->isEmpty()  )
+    {
+      int iKey = this->getProposalSortKey(( *(TargetProposals[i])) );
+      Log.writewf( L"Entry %d: SortKey=%d, MatchType=%d, Fuzziness=%d\r\n", i, iKey, (int)TargetProposals[i]->getMatchType(), TargetProposals[i]->getFuzziness() );
+      TargetProposals[i]->getSource( pszSegBuffer, MAX_SEGMENT_SIZE );
+      Log.writewf( L"  Source = %s\r\n", pszSegBuffer );
+      TargetProposals[i]->getTarget( pszSegBuffer, MAX_SEGMENT_SIZE );
+      Log.writewf( L"  Target = %s\r\n", pszSegBuffer );
+    } /* end */       
+  } /* end */     
+  free( pszSegBuffer );
+  Log.close();
+#endif
 }
 
 /*! \brief Insert proposal into proposal vector at the correct position and
@@ -1014,16 +1036,18 @@ void MemoryFactory::copyBestMatches(
   When there are more proposals available proposals with lesser relevance will be replaced
   \param fLastEntry true = this is the last entry in the table
   \param iMTDisplayFactor factor for the placement of machine matches within the table
+  \param lOptions options for the sorting of the proposals
 */
 void MemoryFactory::insertProposalData(
   OtmProposal *newProposal,
   std::vector<OtmProposal *> &Proposals,
   int iMaxProposals,
   BOOL fLastEntry, 
-  int iMTDisplayFactor
+  int iMTDisplayFactor,
+  LONG lOptions
 )
 {
-  int iNewProposalSortKey = this->getProposalSortKey( *newProposal, iMTDisplayFactor, 0, false );
+  int iNewProposalSortKey = this->getProposalSortKey( *newProposal, iMTDisplayFactor, 0, false, lOptions );
 
   fLastEntry;
 
@@ -1031,7 +1055,7 @@ void MemoryFactory::insertProposalData(
   for ( std::size_t i = 0; (i < Proposals.size()) && (i < (std::size_t)iMaxProposals); i++ )
   {
     BOOL fEndOfTable = ((i + 1) == Proposals.size()) || ((i +1) == (std::size_t)iMaxProposals);
-    int iExistingProposalSortKey = this->getProposalSortKey( *(Proposals[i]), iMTDisplayFactor, 0, fEndOfTable );
+    int iExistingProposalSortKey = this->getProposalSortKey( *(Proposals[i]), iMTDisplayFactor, 0, fEndOfTable, lOptions );
     if ( iNewProposalSortKey == iExistingProposalSortKey )
     {
       // check for same target string 
@@ -1127,7 +1151,7 @@ int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal )
  - Exact-Context              = 1300
  - Exact-Exact                = 1200
  - Exact-Context(Context<100) =  900-999
- - Exact-SameDoc              =  801
+ - Exact-SameDoc              =  801 (800 when flag LATESTPROPOSAL_FIRST has been specified)
  - Exact                      =  800
  - Global memory (Exact)      =  700
  - Global memory Star(Exact)  =  600
@@ -1151,17 +1175,18 @@ int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal )
   the vector may already contain proposals. The proposals are
   inserted on their relevance
   \param iMaxProposals maximum number of proposals to be filled in TargetProposals
+  \param lOptions options for the sort key generation
   When there are more proposals available proposals with lesser relevance will be replaced
   \returns the proposal sort key
 */
-int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable )
+int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable, LONG lOptions )
 {
   // when no context value is given, use context ranking of proposal
   if ( usContextRanking == 0 )
   {
     usContextRanking = (USHORT)Proposal.getContextRanking();
   } /* endif */
-  return( getProposalSortKey( Proposal.getMatchType(), Proposal.getType(), Proposal.getFuzziness(), iMTDisplayFactor, usContextRanking, fEndOfTable ) ); 
+  return( getProposalSortKey( Proposal.getMatchType(), Proposal.getType(), Proposal.getFuzziness(), iMTDisplayFactor, usContextRanking, fEndOfTable, lOptions  ) ); 
 }
 
  /*! \brief Get the sort order key for a memory match
@@ -1171,11 +1196,12 @@ int MemoryFactory::getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFac
   \param iMTDisplayFactor the machine translation display factor, -1 to use the system MT display factor
   \param usContextRanking the context ranking for the proposal
   \param fEndIfTable TRUE when this proposal is the last in a proposal table
+  \param lOptions options for the sort key generation
   When there are more proposals available proposals with lesser relevance will be replaced
   \returns the proposal sort key
 */
 int MemoryFactory::getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmProposal::eProposalType ProposalType, 
-    int iFuzziness, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable )
+    int iFuzziness, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable, LONG lOptions  )
 {
 
   // dummy (=empty) entries
@@ -1237,7 +1263,15 @@ int MemoryFactory::getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmPr
       } /* endif */  
       if ( MatchType == OtmProposal::emtExactSameDoc )
       {
-        return( 801 );  
+        if ( lOptions & LATESTPROPOSAL_FIRST )
+        {
+          // treat proposal from same document as normal exact proposal to ensure that the exact proposals are sorted on their timestamp correctly
+          return( 800 );  
+        }
+        else
+        {
+          return( 801 );  
+        } /* endif */
       } /* endif */  
       if ( MatchType == OtmProposal::emtExact )
       {

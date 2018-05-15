@@ -41,6 +41,12 @@
 #include "core\PluginManager\OtmMemoryPlugin.h"
 #include "core\PluginManager\OtmMemory.h"
 #include "MemoryFactory.h"
+#include "EQFMORPH.H"
+
+#undef _WPTMIF                         // we don't care about WP I/F
+#include "eqfhelp.id"                  // help resource IDs
+#include "eqfhlp1.h"                   // first part of help tables
+#include "eqfmsg.htb"                          // message help table
 
 
 #include "EQFDDE.H"               // Batch mode definitions
@@ -1890,7 +1896,9 @@ LONG        lOptions                 // type of new Translation Memory
   // check if source language is valid
   if ( usRC == NO_ERROR )
   {
-    if ( !UtlCheckIfExist( pszSourceLanguage, SOURCE_LANGUAGE_OBJECT ) )
+    SHORT sID = 0;
+
+    if ( MorphGetLanguageID( pszSourceLanguage, &sID ) != MORPH_OK )
     {
       usRC = ERROR_PROPERTY_LANG_DATA;
       UtlErrorHwnd( ERROR_PROPERTY_LANG_DATA, MB_CANCEL, 1,

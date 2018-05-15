@@ -34,5 +34,8 @@ $(_DLL)\OTMTMXIE.DLL: $(_OBJ)\OTMTMXIE.OBJ $(_OBJ)\CXMLWriter.OBJ
 $(_OBJ)\OTMTMXIE.OBJ $(_OBJ)\CXMLWriter.OBJ
 /OUT:$(_DLL)\OTMTMXIE.DLL /MAPINFO:EXPORTS
 $(_LINK_OPTIONS)
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib $(_LIBOTHER)\xerces-c_3.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMTagTableFunctions.lib 
+$(_LIBOTHER)\xerces-c_3.lib
 <<

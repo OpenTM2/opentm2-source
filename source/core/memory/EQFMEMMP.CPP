@@ -264,6 +264,7 @@ BOOL MemGUIMergeMemory
   if ( fOK )
   {
     int   iDlgRc = 1;
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
     // Fill  MEM_MERGE_IDA 
     pMIDA->pMergeMem = pMemory;
@@ -345,40 +346,43 @@ MRESULT MemMergeCallBack
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Anchor IDA                                                 */
-      /**************************************************************/
-      pMIDA               = (PMEM_MERGE_IDA)PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pMIDA;
+      {
+        /**************************************************************/
+        /* Anchor IDA                                                 */
+        /**************************************************************/
+        pMIDA               = (PMEM_MERGE_IDA)PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pMIDA;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_MEMMERGE_WINDOW;
-      pCommArea->sProcessObjClass = clsMEMORYMERGE;
-      pCommArea->Style            = PROCWIN_TEXTSLIDER;
-      pCommArea->sSliderID        = ID_MEMMERGE_SLIDER;
-      pCommArea->sTextID          = ID_MEMMERGE_TEXT;
-      LOADSTRING( NULLHANDLE, hResMod, MEM_METITLE, pCommArea->szBuffer );
-      OEMTOANSI( pMIDA->szNameMergeMem );
-      sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer,
-               pMIDA->szNameMergeMem );
-      ANSITOOEM( pMIDA->szNameMergeMem );
-      LOADSTRING( NULLHANDLE, hResMod, MEM_MELINE2, pCommArea->szBuffer );
-      OEMTOANSI( pMIDA->szNameMem );
-      sprintf( pCommArea->szText, "%s %s", pCommArea->szBuffer,
-               pMIDA->szNameMem );
-      ANSITOOEM( pMIDA->szNameMem );
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_TMEMMERGEICON); //hiconTMEMMERGE;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = 0;
-      pCommArea->usComplete       = 0;
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_MEMMERGE_WINDOW;
+        pCommArea->sProcessObjClass = clsMEMORYMERGE;
+        pCommArea->Style            = PROCWIN_TEXTSLIDER;
+        pCommArea->sSliderID        = ID_MEMMERGE_SLIDER;
+        pCommArea->sTextID          = ID_MEMMERGE_TEXT;
+        LOADSTRING( NULLHANDLE, hResMod, MEM_METITLE, pCommArea->szBuffer );
+        OEMTOANSI( pMIDA->szNameMergeMem );
+        sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer,
+                 pMIDA->szNameMergeMem );
+        ANSITOOEM( pMIDA->szNameMergeMem );
+        LOADSTRING( NULLHANDLE, hResMod, MEM_MELINE2, pCommArea->szBuffer );
+        OEMTOANSI( pMIDA->szNameMem );
+        sprintf( pCommArea->szText, "%s %s", pCommArea->szBuffer,
+                 pMIDA->szNameMem );
+        ANSITOOEM( pMIDA->szNameMem );
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_TMEMMERGEICON); //hiconTMEMMERGE;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = 0;
+        pCommArea->usComplete       = 0;
+      }
       break;
 
 

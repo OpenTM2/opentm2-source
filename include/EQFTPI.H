@@ -1242,28 +1242,22 @@ VOID ActivateMTLog( PSZ pDocName, PSZ pszTagTable );
 //藩様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様様夕
 SHORT EQFBCmdFind(PTBDOCUMENT, PFINDDATA);
 SHORT EQFBCmdChange( PTBDOCUMENT, PFINDDATA );
-__declspec(dllexport)
-VOID EQFBChangeStyle ( PTBDOCUMENT, USHORT);     // selected style
+__declspec(dllexport) VOID EQFBChangeStyle ( PTBDOCUMENT, USHORT);     // selected style
 #define TPRO_MAPKEY 0
 #define ITM_MAPKEY 1
-__declspec(dllexport)
-BOOL EQFBMapKey ( WINMSG, WPARAM, LPARAM, PUSHORT, PUCHAR , USHORT );
+__declspec(dllexport) BOOL EQFBMapKey ( WINMSG, WPARAM, LPARAM, PUSHORT, PUCHAR , USHORT );
 BOOL EQFBConvKey ( WPARAM, PUCHAR, PUCHAR );
-__declspec(dllexport)
-BOOL EQFBKeyName ( PSZ pszBuffer, UCHAR ucCode, UCHAR ucState );
+__declspec(dllexport) BOOL EQFBKeyName ( PSZ pszBuffer, UCHAR ucCode, UCHAR ucState );
 void EQFBKeyNameW(wchar_t * pwszKeyName, UCHAR ucCode, UCHAR ucState);    // Add for R012027
 VOID EQFBLoadResource (VOID);
 VOID EQFBSetKeyName ( HMENU hwndMenu, SHORT sItem, FUNCTION Function );
 BOOL EQFBBuildKeyTable ( PKEYPROFTABLE pKeyList );
-__declspec(dllexport)
-VOID EQFBBuildITMKeyTable ( PKEYPROFTABLE pKeyList, USHORT usLast );
-__declspec(dllexport)
-VOID EQFBAdaptKeyTable ( PKEYPROFTABLE pKeyList, PTBDOCUMENT pDoc );
+__declspec(dllexport) VOID EQFBBuildITMKeyTable ( PKEYPROFTABLE pKeyList, USHORT usLast );
+__declspec(dllexport) VOID EQFBAdaptKeyTable ( PKEYPROFTABLE pKeyList, PTBDOCUMENT pDoc );
 VOID EQFBExecuteKey ( PTBDOCUMENT, PKEYPROFTABLE );
 
 BOOL EQFBUtlSpell ( PSTEQFGEN );                 // check avail. of spell check
-__declspec(dllexport)
-BOOL EQFBCheckSpellLang ( PSZ pszLang );        // check avail. of spell check
+__declspec(dllexport) BOOL EQFBCheckSpellLang ( PSZ pszLang );        // check avail. of spell check
 BOOL EQFBCheckTags ( PTBDOCUMENT );              // check for equal tags..
 BOOL EQFBDoTagCheck( PTBDOCUMENT );              // check for same tags ..
 VOID EQFBFuncDoLineWrap ( PTBDOCUMENT pDoc );              // do line wrap
@@ -1276,12 +1270,10 @@ BOOL TACheckColumnPos ( PSZ_W         pData,          // ptr to data
 #define DELETE_SOSI 1                            // delete SHIFTIN SHIFTOUT
 #define INSERT_SOSI 2                            // insert SHIFTIN SHIFTOUT
 
-BOOL EQFBConvertSOSI ( PTBDOCUMENT, PTBSEGMENT , USHORT );
-__declspec(dllexport)
-BOOL EQFBUtlConvertSOSI( PSZ_W, PULONG, PSZ_W, USHORT, ULONG );
+__declspec(dllexport) BOOL EQFBConvertSOSI ( PTBDOCUMENT, PTBSEGMENT , USHORT );
+__declspec(dllexport) BOOL EQFBUtlConvertSOSI( PSZ_W, PULONG, PSZ_W, USHORT, ULONG );
 
-__declspec(dllexport)
-VOID EQFBDocPosOnScreen ( PLOADSTRUCT );
+__declspec(dllexport) VOID EQFBDocPosOnScreen ( PLOADSTRUCT );
 
 /**********************************************************************/
 /* defines used in display                                            */
@@ -1291,8 +1283,7 @@ VOID EQFBDocPosOnScreen ( PLOADSTRUCT );
 #define DISP_SEGMENT_START  4
 #define DISP_NOREORDER          8
 
-__declspec(dllexport)
- void EQFBSysInit(PTBDOCUMENT);
+__declspec(dllexport)  void EQFBSysInit(PTBDOCUMENT);
  void EQFBSysExit(PTBDOCUMENT);
  void EQFBSysScrnText(PTBDOCUMENT, ULONG, ULONG, PSZ_W, ULONG, COLOUR, BYTE, PSZ_W, PULONG );
  VOID EQFBSysScrnTextRTF ( PTBDOCUMENT, USHORT, USHORT, PSZ_W, USHORT, CHARFORMAT2 *, BYTE );
@@ -2225,15 +2216,14 @@ RESKEYTABLE* get_ResKeyTab();
 
 VOID PASCAL FAR TPCleanUp( USHORT );
 
-BOOL EQFBKeyState ( USHORT, PUCHAR, PUCHAR );
+__declspec(dllexport) BOOL EQFBKeyState ( USHORT, PUCHAR, PUCHAR );
 
 #if defined(INIT_TABLES)
   CHAR aszFontFacesGlobal[MAX_DIF_DOC][LF_FACESIZE];       // facenames for windows
 #else
 //  extern CHAR aszFontFacesGlobal[MAX_DIF_DOC][LF_FACESIZE];       // facenames for windows
 #endif
-__declspec(dllexport)
-CHAR* get_aszFontFacesGlobal();
+__declspec(dllexport) CHAR* get_aszFontFacesGlobal();
 /**********************************************************************/
 /* define stubs for BIDI if not available...                          */
 /**********************************************************************/

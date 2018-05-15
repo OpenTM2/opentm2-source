@@ -370,86 +370,34 @@ typedef struct _stFuzzyOrder
 * Function prototypes
 *-----------------------------------------------------------------------------*/
 // *** EQF_SUBS ***
-USHORT  EQF_Allocate    (BOOL);
-VOID    EQFDA           (PVOID);
-VOID    EQFMT           (PVOID);
+__declspec(dllexport) USHORT  EQF_Allocate    (BOOL);
+__declspec(dllexport) VOID    EQFDA           (PVOID);
+__declspec(dllexport) VOID    EQFMT           (PVOID);
 
 // prototypes for extended access to services
 
 
-__declspec(dllexport)
-USHORT EQFXINIT (PSTEQFGEN pstEQFGen, PSZ *apszTlm, PSZ *apszLDict);
-
-__declspec(dllexport)
-USHORT EQFXTRANSSEG ( PSTEQFGEN pstEQFGen, PSZ pszSrc,
-                               USHORT usSegNum, EQF_BOOL fForeground,
-                               USHORT fsFlags, PSHORT psExact );
-
-
-__declspec(dllexport)
-USHORT EQFXCLEAR ( PSTEQFGEN pstEQFGen, USHORT fsFlags );
-
-__declspec(dllexport)
-USHORT EQFXCLOSE ( PSTEQFGEN pstEQFGen, EQF_BOOL fShutdown );
-
-__declspec(dllexport)
-USHORT EQFXGETPROP ( PSTEQFGEN pstEQFGen, USHORT usNum,
-                              PSZ pszBuffer, PUSHORT pusLevel );
-
-
-__declspec(dllexport)
-USHORT EQFXSAVESEG ( PSTEQFGEN pstEQFGen, PSZ pszSrc,
-                              PSZ pszTgt, USHORT usSegNum );
-
-__declspec(dllexport)
-PSZ    EQFXERRINS ( PSTEQFGEN pstEQFGen );
-__declspec(dllexport)
-PSZ_W  EQFXERRINSW( PSTEQFGEN pstEQFGen );
-
-__declspec(dllexport)
-PSZ    EQFXERRMSG ( PSTEQFGEN pstEQFGen );
-
-__declspec(dllexport)
-USHORT EQFXDELSEG ( PSTEQFGEN pstEQFGen, PSZ pszSrc,
-                             PSZ pszTgt, USHORT usSegNum );
-__declspec(dllexport)
-USHORT EQFXGETSEGNUM ( PSTEQFGEN pstEQFGen, PULONG pulSegNum );
-
-__declspec(dllexport)
-USHORT EQFXEXTSEG ( PSTEQFGEN pstEQFGen, PSZ pszBuffer, USHORT usNum );
-
-__declspec(dllexport)
-USHORT EQFXDICTLOOK ( PSTEQFGEN pstEQFGen, PSZ pszSegBuf,
-                               PSZ pszWord, USHORT usPos, EQF_BOOL fSource );
-
-__declspec(dllexport)
-USHORT EQFXDICTEDIT ( PSTEQFGEN pstEQFGen, PSZ pszWord );
-
-__declspec(dllexport)
-USHORT EQFXGETDICT ( PSTEQFGEN pstEQFGen, USHORT usNum, PSZ pszBuffer);
-
-__declspec(dllexport)
-USHORT EQFXGETSOURCE ( PSTEQFGEN pstEQFGen, USHORT usAction );
-
-
-__declspec(dllexport)
-USHORT EQFXDUMPSEG (PSTEQFGEN pstEQFGen, PSZ pszSrc,
-                             PSZ pszFileName,
-                             USHORT usSegNum, USHORT usFlags,
-                             PCHAR pchProp,  PCHAR pchDict );
-
-
-__declspec(dllexport)
-USHORT EQFXPROOF ( PSTEQFGEN, PSZ, PCHAR, PUSHORT);
-
-__declspec(dllexport)
-USHORT EQFXPROOFAID ( PSTEQFGEN, PSZ, PCHAR, PUSHORT);
-
-__declspec(dllexport)
-USHORT EQFXPROOFADD ( PSTEQFGEN, PSZ );
-
-__declspec(dllexport)
-USHORT EQFXADDABBREV ( PSTEQFGEN, PSZ );
+__declspec(dllexport) USHORT EQFXINIT (PSTEQFGEN pstEQFGen, PSZ *apszTlm, PSZ *apszLDict);
+__declspec(dllexport) USHORT EQFXTRANSSEG ( PSTEQFGEN pstEQFGen, PSZ pszSrc, USHORT usSegNum, EQF_BOOL fForeground, USHORT fsFlags, PSHORT psExact );
+__declspec(dllexport) USHORT EQFXCLEAR ( PSTEQFGEN pstEQFGen, USHORT fsFlags );
+__declspec(dllexport) USHORT EQFXCLOSE ( PSTEQFGEN pstEQFGen, EQF_BOOL fShutdown );
+__declspec(dllexport) USHORT EQFXGETPROP ( PSTEQFGEN pstEQFGen, USHORT usNum, PSZ pszBuffer, PUSHORT pusLevel );
+__declspec(dllexport) USHORT EQFXSAVESEG ( PSTEQFGEN pstEQFGen, PSZ pszSrc, PSZ pszTgt, USHORT usSegNum );
+__declspec(dllexport) PSZ    EQFXERRINS ( PSTEQFGEN pstEQFGen );
+__declspec(dllexport) PSZ_W  EQFXERRINSW( PSTEQFGEN pstEQFGen );
+__declspec(dllexport) PSZ    EQFXERRMSG ( PSTEQFGEN pstEQFGen );
+__declspec(dllexport) USHORT EQFXDELSEG ( PSTEQFGEN pstEQFGen, PSZ pszSrc,PSZ pszTgt, USHORT usSegNum );
+__declspec(dllexport) USHORT EQFXGETSEGNUM ( PSTEQFGEN pstEQFGen, PULONG pulSegNum );
+__declspec(dllexport) USHORT EQFXEXTSEG ( PSTEQFGEN pstEQFGen, PSZ pszBuffer, USHORT usNum );
+__declspec(dllexport) USHORT EQFXDICTLOOK ( PSTEQFGEN pstEQFGen, PSZ pszSegBuf, PSZ pszWord, USHORT usPos, EQF_BOOL fSource );
+__declspec(dllexport) USHORT EQFXDICTEDIT ( PSTEQFGEN pstEQFGen, PSZ pszWord );
+__declspec(dllexport) USHORT EQFXGETDICT ( PSTEQFGEN pstEQFGen, USHORT usNum, PSZ pszBuffer);
+__declspec(dllexport) USHORT EQFXGETSOURCE ( PSTEQFGEN pstEQFGen, USHORT usAction );
+__declspec(dllexport) USHORT EQFXDUMPSEG (PSTEQFGEN pstEQFGen, PSZ pszSrc,PSZ pszFileName,USHORT usSegNum, USHORT usFlags,PCHAR pchProp,  PCHAR pchDict );
+__declspec(dllexport) USHORT EQFXPROOF ( PSTEQFGEN, PSZ, PCHAR, PUSHORT);
+__declspec(dllexport) USHORT EQFXPROOFAID ( PSTEQFGEN, PSZ, PCHAR, PUSHORT);
+__declspec(dllexport) USHORT EQFXPROOFADD ( PSTEQFGEN, PSZ );
+__declspec(dllexport) USHORT EQFXADDABBREV ( PSTEQFGEN, PSZ );
 
 /*------------------------------------------------------------------------------
 * EQF Msg Commands
@@ -484,95 +432,88 @@ USHORT EQFXADDABBREV ( PSTEQFGEN, PSZ );
 #define WM_EQFCMD_GETSEGNUM      WM_EQFCMD+25      // get segment number
 
 // *** EQF_REQ/EQF_REQF ***
-VOID    EQFR_Init       (PDOCUMENT_IDA);
-VOID    EQFR_Clear      (PDOCUMENT_IDA);
-VOID    EQFR_ClearDictUpd  (PDOCUMENT_IDA);
-VOID    EQFR_Close      (PDOCUMENT_IDA);
-VOID    EQFR_GetProp    (PDOCUMENT_IDA);
-VOID    EQFR_GetDict    (PDOCUMENT_IDA);
-VOID    EQFR_DictLook   (PDOCUMENT_IDA);
-VOID    EQFR_DictEdit   (PDOCUMENT_IDA);
-VOID    EQFR_SaveSeg    (PDOCUMENT_IDA);
-VOID    EQFR_TransSeg   (PDOCUMENT_IDA);
-VOID    EQFR_DelSeg     (PDOCUMENT_IDA);
-VOID    EQFR_GetSegNum  (PDOCUMENT_IDA);
-VOID    EQFR_ExtSeg     (PDOCUMENT_IDA);
-VOID    EQFR_DumpSeg     (PDOCUMENT_IDA);
-VOID    EQFR_ProofSeg    (PDOCUMENT_IDA);    // proof read segment
-VOID    EQFR_ProofAdd    (PDOCUMENT_IDA);    // add to addenda
-VOID    EQFR_ProofAid    (PDOCUMENT_IDA);    // get  help for misspelled word
-VOID    EQFR_GetSource   (PDOCUMENT_IDA);    // display source of proposal wind.
-VOID    EQFRepaint       (PDOCUMENT_IDA);    // repaint windows ....
-VOID    EQFR_AddAbbrev   (PDOCUMENT_IDA);    // add to abbreviation dictionary
-VOID    EQFR_XDocAct     (PDOCUMENT_IDA);    // activate specified doc with TM and Dict
-VOID    EQFR_XDocAdd     (PDOCUMENT_IDA);    // add specified doc to ring
-VOID    EQFR_XDocRemove  (PDOCUMENT_IDA);    // remove specified doc from ring
-VOID    EQFR_XDocNext    (PDOCUMENT_IDA);    // iterate to next document in ring
-VOID    EQFR_XDocNum     (PDOCUMENT_IDA);    // return i-th document (i=0..n)
-VOID    EQFR_XDocInList  (PDOCUMENT_IDA);    // check if document in list
-VOID    EQFR_WordCntPerSeg(PDOCUMENT_IDA);   // count words in segment
+__declspec(dllexport) VOID    EQFR_Init       (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_Clear      (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_ClearDictUpd  (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_Close      (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_GetProp    (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_GetDict    (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_DictLook   (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_DictEdit   (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_SaveSeg    (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_TransSeg   (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_DelSeg     (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_GetSegNum  (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_ExtSeg     (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_DumpSeg     (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFR_ProofSeg    (PDOCUMENT_IDA);    // proof read segment
+__declspec(dllexport) VOID    EQFR_ProofAdd    (PDOCUMENT_IDA);    // add to addenda
+__declspec(dllexport) VOID    EQFR_ProofAid    (PDOCUMENT_IDA);    // get  help for misspelled word
+__declspec(dllexport) VOID    EQFR_GetSource   (PDOCUMENT_IDA);    // display source of proposal wind.
+__declspec(dllexport) VOID    EQFRepaint       (PDOCUMENT_IDA);    // repaint windows ....
+__declspec(dllexport) VOID    EQFR_AddAbbrev   (PDOCUMENT_IDA);    // add to abbreviation dictionary
+__declspec(dllexport) VOID    EQFR_XDocAct     (PDOCUMENT_IDA);    // activate specified doc with TM and Dict
+__declspec(dllexport) VOID    EQFR_XDocAdd     (PDOCUMENT_IDA);    // add specified doc to ring
+__declspec(dllexport) VOID    EQFR_XDocRemove  (PDOCUMENT_IDA);    // remove specified doc from ring
+__declspec(dllexport) VOID    EQFR_XDocNext    (PDOCUMENT_IDA);    // iterate to next document in ring
+__declspec(dllexport) VOID    EQFR_XDocNum     (PDOCUMENT_IDA);    // return i-th document (i=0..n)
+__declspec(dllexport) VOID    EQFR_XDocInList  (PDOCUMENT_IDA);    // check if document in list
+__declspec(dllexport) VOID    EQFR_WordCntPerSeg(PDOCUMENT_IDA);   // count words in segment
 
 
 // *** EQF_TM ***
-VOID    EQFTM      (PDOCUMENT_IDA, USHORT, PSTEQFSAB);
-VOID    EQFDAInit ( PDOCUMENT_IDA pDoc );
-VOID    EQFDAEntries( PDOCUMENT_IDA pDoc );
-VOID    EQFDAClose ( PDOCUMENT_IDA pDoc );
+__declspec(dllexport) VOID    EQFTM      (PDOCUMENT_IDA, USHORT, PSTEQFSAB);
+__declspec(dllexport) VOID    EQFDAInit ( PDOCUMENT_IDA pDoc );
+__declspec(dllexport) VOID    EQFDAEntries( PDOCUMENT_IDA pDoc );
+__declspec(dllexport) VOID    EQFDAClose ( PDOCUMENT_IDA pDoc );
 
 
 /* Export window proc */
-MRESULT APIENTRY DOCUMENTHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-__declspec(dllexport)
-MRESULT APIENTRY DOCUMENTWP( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY TWBSERVICEWP( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY TWBSERVICEWPRTF( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY TWBSERVICEWPRTFCTRL( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY DOCUMENTHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY DOCUMENTWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY TWBSERVICEWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY TWBSERVICEWPRTF( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY TWBSERVICEWPRTFCTRL( HWND, WINMSG, WPARAM, LPARAM);
 
-BOOL InitMFE( PDOCUMENT_IDA );
-BOOL CheckResources( PDOCUMENT_IDA );
+__declspec(dllexport) BOOL InitMFE( PDOCUMENT_IDA );
+__declspec(dllexport) BOOL CheckResources( PDOCUMENT_IDA );
 
-VOID    EQFMTInit       (PDOCUMENT_IDA);
+__declspec(dllexport) VOID    EQFMTInit       (PDOCUMENT_IDA);
 
-BOOL   DocLoad ( PSZ   pFolder, PSZ   pInFile );
-BOOL   DocUnSegm ( PSZ   pFolder, PSZ   pInFile, PSZ pOutFile );
-MRESULT DocXCreateInst ( HWND hwnd, PSZ  pszObjName );
+__declspec(dllexport) BOOL   DocLoad ( PSZ   pFolder, PSZ   pInFile );
+__declspec(dllexport) BOOL   DocUnSegm ( PSZ   pFolder, PSZ   pInFile, PSZ pOutFile );
+__declspec(dllexport) MRESULT DocXCreateInst ( HWND hwnd, PSZ  pszObjName );
 
-__declspec(dllexport)
-BOOL EQFOverTransWindow ( PDOCUMENT_IDA, LONG, LONG );
+__declspec(dllexport) BOOL EQFOverTransWindow ( PDOCUMENT_IDA, LONG, LONG );
 
 
 #define TOP_OF_LIST     0
 #define BOTTOM_OF_LIST  1
-BOOL AddDocToList ( PDOCUMENT_IDA, PSZ, USHORT );
-BOOL QueryDocInList ( PDOCUMENT_IDA, PSZ, PUSHORT );
-VOID RemoveDocFromList( PDOCUMENT_IDA, PSZ );
-BOOL FindNextDocInList ( PDOCUMENT_IDA, PSZ, PSZ );
-BOOL FindDocInList ( PDOCUMENT_IDA, USHORT, PSZ );
-BOOL BuildGenericStructure ( PDOCUMENT_IDA, PSTEQFGEN, PSZ *, PSZ *, BOOL );
-USHORT  ActivateASD     ( PDOCUMENT_IDA );
-__declspec(dllexport)
-VOID SetDocWindowText ( PDOCUMENT_IDA, HWND, PSZ );
+__declspec(dllexport) BOOL AddDocToList ( PDOCUMENT_IDA, PSZ, USHORT );
+__declspec(dllexport) BOOL QueryDocInList ( PDOCUMENT_IDA, PSZ, PUSHORT );
+__declspec(dllexport) VOID RemoveDocFromList( PDOCUMENT_IDA, PSZ );
+__declspec(dllexport) BOOL FindNextDocInList ( PDOCUMENT_IDA, PSZ, PSZ );
+__declspec(dllexport) BOOL FindDocInList ( PDOCUMENT_IDA, USHORT, PSZ );
+__declspec(dllexport) BOOL BuildGenericStructure ( PDOCUMENT_IDA, PSTEQFGEN, PSZ *, PSZ *, BOOL );
+__declspec(dllexport) USHORT  ActivateASD     ( PDOCUMENT_IDA );
+__declspec(dllexport) VOID SetDocWindowText ( PDOCUMENT_IDA, HWND, PSZ );
 
-BOOL SetDictAccess ( PSZ );           // set dictionary access
-VOID ReleaseDictAccess ( PSZ );       // release dictionary access
+__declspec(dllexport) BOOL SetDictAccess ( PSZ );           // set dictionary access
+__declspec(dllexport) VOID ReleaseDictAccess ( PSZ );       // release dictionary access
 
-USHORT CreateTWBSInst ( HWND  hwnd );
-USHORT FreeTWBSInst ( HWND  hwnd );
-VOID CleanUp ( HWND );                                     // free resources
+__declspec(dllexport) USHORT CreateTWBSInst ( HWND  hwnd );
+__declspec(dllexport) USHORT FreeTWBSInst ( HWND  hwnd );
+__declspec(dllexport) VOID CleanUp ( HWND );                                     // free resources
 
-HKL    SwitchKeyboardForSpecLangs( PDOCUMENT_IDA pIda );
+__declspec(dllexport) HKL    SwitchKeyboardForSpecLangs( PDOCUMENT_IDA pIda );
 
-USHORT GetLangID( PDOCUMENT_IDA pIda );
+__declspec(dllexport) USHORT GetLangID( PDOCUMENT_IDA pIda );
 
 #endif
 
-__declspec(dllexport)
-USHORT EqfGetPropState (PSTEQFGEN pstEqfGen, USHORT usProp);
-USHORT CalcPercent(USHORT usDifferent, USHORT usTotal);
-
-__declspec(dllexport)
-VOID EQFBDocSetCodePage( PTBDOCUMENT pNewdoc, PDOCUMENT_IDA pIda);
-
-USHORT   EqfGetPropFuzzyness(PSTEQFGEN pstEqfGen, PULONG pulFuzzyness);
+__declspec(dllexport) USHORT EqfGetPropState (PSTEQFGEN pstEqfGen, USHORT usProp);
+__declspec(dllexport) USHORT CalcPercent(USHORT usDifferent, USHORT usTotal);
+__declspec(dllexport) VOID EQFBDocSetCodePage( PTBDOCUMENT pNewdoc, PDOCUMENT_IDA pIda);
+__declspec(dllexport) USHORT   EqfGetPropFuzzyness(PSTEQFGEN pstEqfGen, PULONG pulFuzzyness);
 //   End of EQFDOC00.H
 //ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß

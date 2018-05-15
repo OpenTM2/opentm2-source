@@ -4530,133 +4530,11 @@ EQFBActTrans
 } /* end of function EQFBActTrans */
 
 
-//------------------------------------------------------------------------------
-// Internal function
-//------------------------------------------------------------------------------
-// Function name:     EQFBCntAllSrcWords
-//------------------------------------------------------------------------------
-// Function call:     EQFBCntALlSrcWords ( PTBDOCUMENT )
-//------------------------------------------------------------------------------
-// Description:       this function will count all src words
-//                    this is nec for the new word count utility
-//------------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT
-//------------------------------------------------------------------------------
-// Returncode type:   SHORT
-//------------------------------------------------------------------------------
-// Function flow:     loop thru all segments and cnt the words
-//------------------------------------------------------------------------------
-SHORT EQFBCntAllSrcWords
-(
-  PTBDOCUMENT  pSourceDoc,              // pointer to source document
-  PTBDOCUMENT  pTargetDoc,              // pointer to target document
-  SHORT        sSourceLang,             // language ID for source language
-  ULONG        ulOemCP
-)
-{
-   ULONG       ulSegNum;
-   SHORT       sRc = 0;
-   PTBSEGMENT  pSourceSeg, pTargetSeg;                     // pointer to segment
-   ULONG       ulSrcWords = 0L;
-   ULONG       ulSrcMarkUp = 0L;
-   ULONG       ulTempSeg = 0; 
-
-   /*****************************************************************/
-   /* force count of all source words                               */
-   /*****************************************************************/
-   ulTempSeg = ulSegNum = 1;
-   pSourceSeg = EQFBGetVisSeg( pSourceDoc, &ulTempSeg );
-   pTargetSeg = EQFBGetVisSeg( pTargetDoc, &ulSegNum);
-   while ( pTargetSeg && !sRc )
-   {
-     switch ( pTargetSeg->qStatus )
-     {
-       case  QF_ATTR:
-       case  QF_TOBE:
-       case  QF_CURRENT:
-         if ((pTargetSeg->usSrcWords == 0 )&& (!pTargetSeg->SegFlags.NoCount))
-         {
-           ulSrcWords = 0L;
-           ulSrcMarkUp = 0L;
-           sRc = EQFBWordCntPerSeg(
-                        (PLOADEDTABLE)pTargetDoc->pDocTagTable,
-                        (PTOKENENTRY) pTargetDoc->pTokBuf,
-                        pSourceSeg->pDataW,
-                        sSourceLang,
-                        &ulSrcWords, &ulSrcMarkUp, ulOemCP );
-           if (!sRc)
-           {
-             pTargetSeg->usSrcWords = (USHORT) ulSrcWords;
-           } /* endif */
-         }
-         else
-         {
-           pTargetSeg->usSrcWords = 0;
-         } /* endif */
-         break;
-
-       case  QF_NOP:                             // segment not counted
-       case  QF_XLATED:
-       default :
-         break;
-     } /* endswitch */
-     ulSegNum ++;
-     ulTempSeg = ulSegNum;
-     pSourceSeg = EQFBGetVisSeg( pSourceDoc, &ulTempSeg );
-     pTargetSeg = EQFBGetVisSeg( pTargetDoc, &ulSegNum);
-   } /* endwhile */
-
-   return ( sRc );
-}
 
 // Determine if we are in active segment or on the first character of the next segment....
 BOOL EQFBStillInActSeg( PTBDOCUMENT pDoc )
 {
   return (pDoc->tbActSeg.ulSegNum == pDoc->TBCursor.ulSegNum); // || (((pDoc->tbActSeg.ulSegNum + 1) == pDoc->TBCursor.ulSegNum) && (pDoc->TBCursor.usSegOffset == 0));
-}
-
-SHORT EQFBIsNumLFEqual
-(
-	PSZ_W pData1,
-	PSZ_W pData2,
-	PSHORT psNumLF1,
-	PSHORT psNumLF2
-)
-{
-	PSZ_W  pTemp;
-	USHORT usChar;
-	SHORT  sLines = 0;
-
-	//if reflow not allowe copy only if #of lines equal
-										  //count # of lines in source
-	   pTemp = pData1;                    //which = # lines in workseg
-	   while ( (usChar = *pTemp++) != EOS )
-	   {
-		  if (usChar == LF)
-		  {
-			 sLines++;                   // #of lines in source
-		  } /* endif */
-	   } /* endwhile */
-       if (psNumLF1)
-       {
-         *psNumLF1 = sLines;
-       }
-
-	   pTemp = pData2;                     // is # equal?
-	   while ((usChar = *pTemp++) != EOS && (sLines >= 0) )
-	   {
-		  if (usChar == LF)
-		  {
-			 sLines--;
-		  } /* endif */
-	   } /* endwhile */
-
-       if (psNumLF2 && psNumLF1)
-       {
-	     *psNumLF2 = *psNumLF1 - sLines;     // num of LF in Data2
-       }
-
-	return (sLines);
 }
 
 void EQFBGetMatchFlags( PTBDOCUMENT pDoc )
@@ -4676,7 +4554,7 @@ void EQFBGetMatchFlags( PTBDOCUMENT pDoc )
     while ( (usFuzzy == 0) && (i < EQF_NPROP_TGTS) )
     {
       USHORT usCurFuzzy = (pDocIda->stEQFSab + pDocIda->usFI)->usFuzzyPercents[i];
-      if ( usCurFuzzy < 100 ) usFuzzy = usCurFuzzy;
+      if ( usCurFuzzy <= 100 ) usFuzzy = usCurFuzzy;
       i++;
     } /* endwhile */
   }

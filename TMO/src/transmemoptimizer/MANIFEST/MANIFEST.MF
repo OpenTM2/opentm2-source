@@ -1,0 +1,6 @@
+IBM-COPY-RIGHT-COMMENT: Copyright (C) 1990-2017, International Business Machines Corporation and others. All rights reserved
+Manifest-Version: 1.0
+Class-Path: ./libs/miglayout15-swing.jar ./libs/jdom.jar ./libs/antlr-3.4-complete.jar
+Main-Class: transmemoptimizer.MatchListMainApp
+
+

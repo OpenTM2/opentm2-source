@@ -391,14 +391,13 @@ BOOL FS_PrepFolderSearch( PFSEARCHIDAX pIda );
 void FS_ClearResults( PFSEARCHIDAX pIda );
 void FS_InitResults( PFSEARCHIDAX pIda );
 int FS_AddToResultList( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch );
-int FS_GetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBufer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords );
+int CntGetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBufer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords );
 void FS_ShowResult( PFSEARCHIDAX pIda, int iMatch );
 void FS_MeasureItem( HWND hwnd, LONG lParam );
 BOOL FS_DrawItem( PFSEARCHIDAX pIda, LONG lParam );
 int FS_ComputeItemHeight( PFSEARCHIDAX pIda, HWND hwndDlg, int iControlID );
 void FS_OpenDocInTenv( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch );
 static SHORT FS_CloseFolderMemory( PFSEARCHIDAX pIda );
-USHORT FS_RemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PVOID pbTokBuf, LONG lTokBufSize, ULONG ulCP );
 int FS_GetProposalDiffs( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBuffer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, 
                          PFS_STARTSTOP pSegmentChangesList, PLONG plSegmentChangesListLen, PFS_STARTSTOP pProposalChangesList, PLONG plProposalChangesListLen,
                          PBOOL fBelowThreshold );
@@ -469,6 +468,7 @@ BOOL FolFuzzySearch
   // Start fuzzy search dialog
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
       hwndFSearchDlg = CreateMDIDialogParam( hResMod, MAKEINTRESOURCE(ID_FUZZYSEARCH_DLG),
         (HWND)UtlQueryULong( QL_TWBCLIENT ), (FARPROC)FSearchDlgProc, MP2FROMP(pIda), TRUE,
         (HPOINTER) UtlQueryULong(QL_DICTENTRYDISPICO)); //hiconDICTDISP );
@@ -1925,7 +1925,7 @@ BOOL FS_SearchFuzzy
         UTF16strcpy( pIda->szTempProp, pIda->szBestMatchSource );
         FS_RemoveLF( pIda->szTempProp, pIda->ulSourceOemCP );
 
-        iClass = FS_GetProposalClass( pIda->szTempSeg, pIda->szTempProp, (PLOADEDTABLE)pDoc->pDocTagTable, 
+        iClass = CntGetProposalClass( pIda->szTempSeg, pIda->szTempProp, (PLOADEDTABLE)pDoc->pDocTagTable, 
                                             pDoc->pInBuf, pDoc->pTokBuf, pIda->sSrcLangID, pIda->ulSourceOemCP, &usWords );
         if ( ( (pIda->iSearchMode == UPTOSELECTEDCLASS_MODE ) && (iClass <= pIda->iSearchClass) ) ||
              ( (pIda->iSearchMode == ONLYSELECTEDCLASS_MODE ) && (iClass == pIda->iSearchClass) ) ||
@@ -1996,7 +1996,7 @@ VOID FS_FreeDoc( PFSEARCHIDAX pIda, PVOID pvDoc )
     pDoc->pDocTagTable = NULL;
   } /* endif */
 
-  EQFBFreeDoc( &pDoc, EQFBFREEDOC_NOTAGTABLEFREE | EQFBFREEDOC_NOPROTECTFREE );
+  SegFileFreeDoc( (PVOID *)&pDoc );
 } /* end of function FS_FreeDoc */
 
 
@@ -2977,50 +2977,6 @@ int FS_CopyToStartStopList( PFUZZYTOK pToken, PFS_STARTSTOP pStartStop )
 }
 
 // get the class of a proposal
-int FS_GetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBuffer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords )
-{
-  PFUZZYTOK    pFuzzyTgt = NULL;
-  PFUZZYTOK    pFuzzyTok = NULL;       // returned token list
-  USHORT       usDiff = 0;             // number of differences
-  USHORT       usWords = 0;            // number of words/tokens
-  BOOL         fOK = TRUE; 
-  static CHAR_W szCleanedSegment[MAX_SEGMENT_SIZE+1];
-  static CHAR_W szCleanedProposal[MAX_SEGMENT_SIZE+1];
-
-  // fast exit if one or both strings are empty...
-  if ( (*pszSegment == EOS) || (*pszProposal == EOS) )
-  {
-    return( -1 );
-  } /*   endif */
-
-  // remove inline tags from both strings
-  FS_RemoveTags( pTable, pszSegment, szCleanedSegment, pbTokBuf, TOK_BUFFER_SIZE, ulOemCP );
-  FS_RemoveTags( pTable, pszProposal, szCleanedProposal, pbTokBuf, TOK_BUFFER_SIZE, ulOemCP );
-
-  // call function to evaluate the differences
-  if ( fOK )
-  {
-    fOK = EQFBFindDiffEx( pTable, pbBuffer, pbTokBuf, szCleanedSegment, szCleanedProposal, sLangID, (PVOID *)&pFuzzyTok, (PVOID *)&pFuzzyTgt, ulOemCP );
-  } /* endif */
-
-  if ( fOK )
-  {
-    EQFBCountDiff( pFuzzyTok, &usWords, &usDiff );
-  } /* endif */
-
-  // free allocated buffers and lists
-  if ( pFuzzyTgt ) UtlAlloc( (PVOID *)&pFuzzyTgt, 0L, 0L, NOMSG );
-  if ( pFuzzyTok ) UtlAlloc( (PVOID *)&pFuzzyTok, 0L, 0L, NOMSG );
-
-  if ( pusWords != NULL ) *pusWords = usWords;
-
-  if ( usDiff > 6 ) usDiff = 6;
-
-  return  ( fOK ? usDiff : -1 );
-
-} /* end of function FS_GetProposalClass */
-
-// get the class of a proposal
 int FS_GetProposalDiffs( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBuffer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, 
                            PFS_STARTSTOP pSegmentChangesList, PLONG plSegmentChangesListLen, PFS_STARTSTOP pProposalChangesList, PLONG plProposalChangesListLen,
                            PBOOL pfBelowThreshold )
@@ -3467,47 +3423,6 @@ void FS_OpenDocInTenv( PFSEARCHIDAX pIda, PFOUNDFUZZYMATCH pMatch )
 
     EqfPost2Handler( DOCUMENTHANDLER, WM_EQF_PROCESSTASK, MP1FROMSHORT(OPEN_AND_POSITION_TASK), MP2FROMP(pOpen) );
   } /* endif */
-}
-
-// remove inline tagging from segment data and store result in supplied buffer
-USHORT FS_RemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PVOID pbTokBuf, LONG lTokBufSize, ULONG ulCP )
-{
-  USHORT usRC = 0;
-  PBYTE  pStartStop = NULL;
-
-  // build protect start/stop table for tag recognition
-  usRC = TACreateProtectTableW( pszSegment, pTable, 0, (PTOKENENTRY)pbTokBuf, (USHORT)lTokBufSize,
-                                (PSTARTSTOP *)&pStartStop, pTable->pfnProtTable, pTable->pfnProtTableW, ulCP );
-  if ( !usRC )
-  {
-    PSTARTSTOP pEntry = (PSTARTSTOP)pStartStop;
-    PSZ_W pszTarget = pszBuffer;
-    while ( (pEntry->usStart != 0) || (pEntry->usStop != 0)  || (pEntry->usType != 0) )
-    {
-      switch ( pEntry->usType )
-      {
-        case UNPROTECTED_CHAR :
-          // copy translatable text
-          {
-            USHORT usPos = pEntry->usStart; 
-            while ( usPos <= pEntry->usStop )
-            {
-              *pszTarget++ = pszSegment[usPos++];
-            } /*endwhile */
-          }
-          break;
-        default :
-          // ignore not-translatable data
-          break;
-      } /* endswitch */
-      pEntry++;
-    } /* endwhile */
-    *pszTarget = 0;
-  } /* endif */
-
-  UtlAlloc( (PVOID *)&pStartStop, 0L, 0L, NOMSG );
-
-  return( usRC );
 }
 
 void FSWriteSegmentWithDiffs( PFSEARCHIDAX pIda, CXmlWriter *xw, PSZ_W pszText, PFS_STARTSTOP pStartStop )

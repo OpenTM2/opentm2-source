@@ -173,7 +173,7 @@ LPARAM           mp2                 // second message parameter
       pCommArea->Style            = PROCWIN_SLIDERONLY;
       pCommArea->sSliderID        = ID_TASLIDER;
       strcpy( pCommArea->szTitle, "Exporting Segments" );
-      pCommArea->hIcon            = hiconANA;
+      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON);;
       pCommArea->fNoClose         = FALSE;
       pCommArea->swpSizePos.x     = 100;
       pCommArea->swpSizePos.y     = 100;
@@ -729,6 +729,7 @@ VOID ExportSegs( HWND hwnd, PSZ pSelFolderName )
   // show export segments dialog
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);    
     DIALOGBOX( EqfQueryTwbClient(), EXPORTSEGSDLGPROC, hResMod, ID_EXPORTSEGS_DLG, pIda, fOK );
   } /* endif */
 
@@ -1411,14 +1412,14 @@ USHORT ExportSegsProccess
       if ( pIda->pSourceDoc )
       {
         if ( pIda->pSourceDoc->pDocTagTable ) TAFreeTagTable( (PLOADEDTABLE)pIda->pSourceDoc->pDocTagTable );
-        TAFreeDoc( (PVOID *)&(pIda->pSourceDoc) );
+        SegFileFreeDoc( (PVOID *)&(pIda->pSourceDoc) );
         pIda->pSourceDoc = NULL;
       } /* endif */
 
       // free target document
       if ( pIda->pTargetDoc )
       {
-        TAFreeDoc( (PVOID *)&(pIda->pTargetDoc) );
+        SegFileFreeDoc( (PVOID *)&(pIda->pTargetDoc) );
         pIda->pTargetDoc = NULL;
       } /* endif */
 
@@ -1439,13 +1440,13 @@ USHORT ExportSegsProccess
       if ( pIda->pSourceDoc )
       {
         if ( pIda->pSourceDoc->pDocTagTable ) TAFreeTagTable( (PLOADEDTABLE)pIda->pSourceDoc->pDocTagTable  );
-        TAFreeDoc( (PVOID *)&(pIda->pSourceDoc) );
+        SegFileFreeDoc( (PVOID *)&(pIda->pSourceDoc) );
         pIda->pSourceDoc = NULL;
       } /* endif */
 
       if ( pIda->pTargetDoc )
       {
-        TAFreeDoc( (PVOID *)&(pIda->pTargetDoc) );
+        SegFileFreeDoc( (PVOID *)&(pIda->pTargetDoc) );
         pIda->pTargetDoc = NULL;
       } /* endif */
 

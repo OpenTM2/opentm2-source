@@ -422,6 +422,7 @@ static MRESULT LstExpInit( HWND hwnd, WPARAM mp1, LPARAM mp2 )
    /*******************************************************************/
    if ( fOK )
    {
+     HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
      switch ( pIda->usListType )
      {
        case NTL_TYPE :
@@ -1516,6 +1517,7 @@ static MRESULT LstImpInit
    /*******************************************************************/
    if ( fOK )
    {
+     HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
      switch ( pIda->usListType )
      {
        case NTL_TYPE :
@@ -2092,6 +2094,7 @@ MRESULT LstImpControl
         if ( (pIda->usFormatID == ID_LISTIMP_MAT_RB) ||
              pIda->fInitInProgress )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           /********************************************************/
           /* Show name, current directory, directory and file     */
           /* control                                              */
@@ -2131,6 +2134,7 @@ MRESULT LstImpControl
         if ( (pIda->usFormatID != ID_LISTIMP_MAT_RB) ||
              pIda->fInitInProgress )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           /********************************************************/
           /* Hide name, current directory, directory and file     */
           /* control                                              */

@@ -80,35 +80,38 @@ MRESULT MemOrganizeCallBack
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Anchor IDA                                                 */
-      /**************************************************************/
-      pRIDA               = (PMEM_ORGANIZE_IDA)PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pRIDA;
+      {
+        /**************************************************************/
+        /* Anchor IDA                                                 */
+        /**************************************************************/
+        pRIDA               = (PMEM_ORGANIZE_IDA)PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pRIDA;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_MEMORG_WINDOW;
-      pCommArea->sProcessObjClass = clsMEMORYORG;
-      pCommArea->Style            = pRIDA->fBatch ? PROCWIN_BATCH :
-                                                    PROCWIN_SLIDERONLY ;
-      pCommArea->sSliderID        = ID_MEMORG_SLIDER;
-      LOADSTRING( NULLHANDLE, hResMod, MEM_ORTITLE, pCommArea->szBuffer );
-      OEMTOANSI( pRIDA->szMemName );
-      sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer,
-               pRIDA->szMemName );
-      ANSITOOEM( pRIDA->szMemName );
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_TMEMORGICON); //hiconTMEMORG;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 8;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = 0;
-      pCommArea->usComplete       = 0;
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_MEMORG_WINDOW;
+        pCommArea->sProcessObjClass = clsMEMORYORG;
+        pCommArea->Style            = pRIDA->fBatch ? PROCWIN_BATCH :
+                                                      PROCWIN_SLIDERONLY ;
+        pCommArea->sSliderID        = ID_MEMORG_SLIDER;
+        LOADSTRING( NULLHANDLE, hResMod, MEM_ORTITLE, pCommArea->szBuffer );
+        OEMTOANSI( pRIDA->szMemName );
+        sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer,
+                 pRIDA->szMemName );
+        ANSITOOEM( pRIDA->szMemName );
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_TMEMORGICON); //hiconTMEMORG;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 8;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = 0;
+        pCommArea->usComplete       = 0;
+      }
       break;
 
 
@@ -388,6 +391,7 @@ USHORT EQFMemOrganizeStart
     // refresh titlebar text (may be a different TM right now)
     if ( !pRIDA->fBatch && (pRIDA->hwndErrMsg != HWND_FUNCIF) )
     {
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
       LOADSTRING( NULLHANDLE, hResMod, MEM_ORTITLE, pCommArea->szBuffer );
       OEMTOANSI( pRIDA->szMemName );
       sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer, pRIDA->szMemName );

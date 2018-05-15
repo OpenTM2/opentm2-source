@@ -10,6 +10,12 @@
 #include <eqf.h>                  // General Translation Manager include file
 
 #include "eqfiana1.id"            // Analysis IDs
+
+#undef _WPTMIF                         // we don't care about WP I/F
+#include "eqfhelp.id"                  // help resource IDs
+#include "eqfhlp1.h"                   // first part of help tables
+#include "eqfmsg.htb"                          // message help table
+
 #include "eqftai.h"               // Private include file of analysis
   #include "OTMFUNC.H"            // function call interface public defines
   #include "eqffunci.h"           // function call interface private defines
@@ -73,32 +79,36 @@ LPARAM           mp2                 // second message parameter
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Anchor IDA                                                 */
-      /**************************************************************/
-      pIda                = (PARCHTM_IDA) PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pIda;
-      pIda->hwndErrMsg = hwnd;
+      {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_ARCHTM_PROC_WINDOW;
-      pCommArea->sProcessObjClass = clsANALYSIS;
-      pCommArea->Style            = PROCWIN_SLIDERONLY;
-      pCommArea->sSliderID        = ID_TASLIDER;
-      LOADSTRING( NULLHANDLE, hResMod, IDS_ARCHTM_TITLE, pCommArea->szTitle );
-      strcat( pCommArea->szTitle, pIda->szArchTM );
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON); //hiconANA;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT)UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT)UtlQueryULong( QL_PELSPERLINE ) * 10;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = 0;
-      pCommArea->usComplete       = 0;
+        /**************************************************************/
+        /* Anchor IDA                                                 */
+        /**************************************************************/
+        pIda                = (PARCHTM_IDA) PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pIda;
+        pIda->hwndErrMsg = hwnd;
+
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_ARCHTM_PROC_WINDOW;
+        pCommArea->sProcessObjClass = clsANALYSIS;
+        pCommArea->Style            = PROCWIN_SLIDERONLY;
+        pCommArea->sSliderID        = ID_TASLIDER;
+        LOADSTRING( NULLHANDLE, hResMod, IDS_ARCHTM_TITLE, pCommArea->szTitle );
+        strcat( pCommArea->szTitle, pIda->szArchTM );
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON); //hiconANA;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT)UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT)UtlQueryULong( QL_PELSPERLINE ) * 10;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = 0;
+        pCommArea->usComplete       = 0;
+      }
       break;
 
       /******************************************************************/
@@ -326,16 +336,19 @@ LPARAM           mp2                 // second message parameter
                 strcat( pIda->szDocObjName, BACKSLASH_STR );
                 strcat( pIda->szDocObjName, pIda->szCurDoc );
 
-                DocQueryInfo2Hwnd( pIda->szDocObjName,   // document object name
-                                   NULL,                 // memory of document
-                                   pIda->szDocFormat,    // format of document
-                                   pIda->szDocSourceLang,// document source language
-                                   pIda->szDocTargetLang,// --   target language
-                                   pIda->szLongName,     // long document name
-                                   pIda->szAlias,        // alias
-                                   NULL,                 // editor
-                                   TRUE,                 // handle errors in function
-                                   pIda->hwndErrMsg );   // error message window
+                DocQueryInfoEx( pIda->szDocObjName,   // document object name
+                                NULL,                 // memory of document
+                                pIda->szDocFormat,    // format of document
+                                pIda->szDocSourceLang,// document source language
+                                pIda->szDocTargetLang,// --   target language
+                                pIda->szLongName,     // long document name
+                                pIda->szAlias,        // alias
+                                NULL,                 // editor
+                                NULL,                 // conversion
+                                &(pIda->ulMemTimeStamp),// document completion/update time
+                                NULL,                 // unused
+                                TRUE,                 // handle errors in function
+                                pIda->hwndErrMsg );   // error message window
 
                 if ( UtlIsLongFileName( pIda->szAlias ) )
                 {
@@ -477,6 +490,7 @@ LPARAM           mp2                 // second message parameter
                     {
                       OtmProposal Proposal;
 
+                      Proposal.setUpdateTime( pIda->ulMemTimeStamp );
                       Proposal.setSource( pSourceSeg->pDataW );
                       Proposal.setTarget( pTargetSeg->pDataW );
                       Proposal.setDocShortName( pIda->szCurDoc );
@@ -1099,6 +1113,7 @@ VOID TABuildArchTM( HWND hwnd, PSZ pSelFolderName )
   // show archive TM window
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     DIALOGBOX( EqfQueryTwbClient(), ARCHTMDLGPROC, hResMod, ID_ARCHTM_DLG,
                pIda, fOK );
   } /* endif */
@@ -2131,32 +2146,36 @@ LPARAM           mp2                 // second message parameter
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Anchor IDA                                                 */
-      /**************************************************************/
-      pData               = (PFCTDATA) PVOIDFROMMP2(mp2);
-      pIda = (PARCHTM_IDA)pData->pvArchTMIda;
-      pCommArea->pUserIDA = pData;
+      {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_ARCHTM_PROC_WINDOW;
-      pCommArea->sProcessObjClass = clsANALYSIS;
-      pCommArea->Style            = PROCWIN_BATCH;
-      pCommArea->sSliderID        = ID_TASLIDER;
-      LOADSTRING( NULLHANDLE, hResMod, IDS_ARCHTM_TITLE, pCommArea->szTitle );
-      strcat( pCommArea->szTitle, pIda->szArchTM );
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON); //hiconANA;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT)UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT)UtlQueryULong( QL_PELSPERLINE ) * 10;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = 0;
-      pCommArea->usComplete       = 0;
+        /**************************************************************/
+        /* Anchor IDA                                                 */
+        /**************************************************************/
+        pData               = (PFCTDATA) PVOIDFROMMP2(mp2);
+        pIda = (PARCHTM_IDA)pData->pvArchTMIda;
+        pCommArea->pUserIDA = pData;
+
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_ARCHTM_PROC_WINDOW;
+        pCommArea->sProcessObjClass = clsANALYSIS;
+        pCommArea->Style            = PROCWIN_BATCH;
+        pCommArea->sSliderID        = ID_TASLIDER;
+        LOADSTRING( NULLHANDLE, hResMod, IDS_ARCHTM_TITLE, pCommArea->szTitle );
+        strcat( pCommArea->szTitle, pIda->szArchTM );
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_ANAICON); //hiconANA;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT)UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT)UtlQueryULong( QL_PELSPERLINE ) * 10;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = 0;
+        pCommArea->usComplete       = 0;
+      }
       break;
 
       /******************************************************************/

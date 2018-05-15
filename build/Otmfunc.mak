@@ -27,7 +27,20 @@ $(_DLL)\OTMFUNC.DLL:
 						  $(_OBJ)\InitPlugins.obj
 /OUT:$(_DLL)\OTMFUNC.DLL
 /MAP:$(_MAP)\OTMFUNC.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OTMBase.LIB $(_LIB)\OTMITMD.LIB $(_LIB)\OTMDll.LIB $(_LIB)\PluginManager.LIB
+$(_LINK_LIB_CRT) 
+$(_LIB)\OTMBase.LIB 
+$(_LIB)\OTMITMD.LIB 
+$(_LIB)\OTMMemoryFunctions.lib 
+$(_LIB)\OTMFolderFunctions.lib 
+$(_LIB)\OTMLinguistic.LIB 
+$(_LIB)\OTMTagTableFunctions.lib 
+$(_LIB)\OTMEditorFunctions.lib 
+$(_LIB)\OTMCounting.LIB 
+$(_LIB)\OTMDictionaryFunctions.lib 
+$(_LIB)\OTMWorkbench.LIB 
+$(_LIB)\OTMAnalysisFunctions.lib 
+$(_LIB)\OTMUtilities.LIB 
+$(_LIB)\PluginManager.LIB
 <<
     @if not exist $(RELEASE_DIR)\OTM\API\ md $(RELEASE_DIR)\OTM\API
     @copy $(_LIB)\OtmFUNC.LIB $(RELEASE_DIR)\OTM\API /Y>$(_ERR)

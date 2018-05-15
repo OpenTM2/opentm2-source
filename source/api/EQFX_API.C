@@ -6960,7 +6960,17 @@ USHORT __cdecl EQFADJUSTCOUNTINFO
   // write history log save record from loaded file and adjust counting information
   if ( !usRC )
   {
-    usRC = EQFBHistDocSaveEx( pszSegTargetFile, pDocument, DOCAPI_LOGTASK3, TRUE );
+    usRC = EQFBHistDocSaveEx( pszSegTargetFile, pDocument, DOCAPI_LOGTASK3 );
+    if ( !usRC )
+    {
+      CHAR szDocObjName[MAX_EQF_PATH];
+      strcpy( szDocObjName, pDocument->szDocName );
+      PSZ pFileName = UtlSplitFnameFromPath( szDocObjName);   // ptr to filename
+      PSZ pTemp = UtlGetFnameFromPath( szDocObjName);         // ptr to starget
+      //copy filename at position where STARGET was !!
+      strcpy( pTemp, pFileName );                             // copy filename
+      EQFBAdjustCountInfo( pDocument, szDocObjName );
+    } /* endif */
   } /* endif */
 
   // cleanup

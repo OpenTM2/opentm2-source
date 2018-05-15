@@ -946,18 +946,10 @@ bool ChgProposalMeta::checkParameter(std::string& param, const BATCHCMD& cmd, bo
         if(!m_strToMarkup.empty())
         {
             // check if markup table exists
-            CHAR      chPathBuffer[MAX_EQF_PATH];
-            UtlQueryString( QST_PLUGINPATH, chPathBuffer, sizeof( chPathBuffer ));
-            UtlMakeEQFPath( chPathBuffer, NULC, PLUGIN_PATH, NULL );
-
-            std::string strMarkupPath(chPathBuffer);
-            std::string strFileName(m_strToMarkup);
-            strFileName += EXT_OF_FORMAT;
-            if(!isFileExisted(strMarkupPath,strFileName))
+            if ( !UtlCheckIfExist( (PSZ)m_strToMarkup.c_str(), MARKUP_OBJECT ) )
             {
-                PSZ pszParm = (char*)m_strToMarkup.c_str();
-                m_strLastError = std::string("The specified markup table ")+
-                                 std::string(pszParm)+
+                m_strLastError = std::string("The specified markup table ") +
+                                 m_strToMarkup +
                                  std::string(" is not available");
                 fOK = false;
             }

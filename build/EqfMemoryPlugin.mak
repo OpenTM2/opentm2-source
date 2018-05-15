@@ -79,7 +79,6 @@ $(_DLL)\EqfMemoryPlugin.DLL:	$(_OBJ)\EQFNTM.OBJ \
 								$(_OBJ)\EqfMemoryPlugin.OBJ \
 								$(_OBJ)\EqfMemory.OBJ \
 								$(_LIB)\OtmBase.lib \
-								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
 
 #------------------------------------------------------------------------------
@@ -112,7 +111,17 @@ $(_DLL)\EqfMemoryPlugin.DLL:
 					$(_OBJ)\EqfMemory.OBJ
 /OUT:$(_DLL)\EqfMemoryPlugin.DLL
 /MAP:$(_MAP)\EqfMemoryPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib $(_LIB)\OTMGLOBM.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMQDAM.LIB 
+$(_LIB)\OTMMemoryFunctions.lib 
+$(_LIB)\OTMTagTableFunctions.lib 
+$(_LIB)\OTMFuzzy.LIB
+$(_LIB)\OTMLinguistic.LIB
+$(_LIB)\OTMUtilities.LIB
+$(_LIB)\OTMWorkbench.LIB
+$(_LIB)\PluginManager.lib 
+$(_LIB)\OTMGLOBM.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\EqfMemoryPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

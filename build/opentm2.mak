@@ -69,5 +69,17 @@ $(_BIN)\OpenTM2.EXE:
 $(OBJS) $(_OBJ)\EQFD.RBJ
 $(_LINK_CPP_OPTIONS)
 /OUT:$(_BIN)\OpenTM2.EXE /pdb:"$(_BIN)\EQFD.pdb"
-   $(_LIB)\OTMBase.LIB $(_LIB)\OTMDll.LIB version.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib
+   $(_LIB)\OTMBase.LIB 
+   version.lib 
+   $(_LIB)\OTMQDAM.LIB 
+   $(_LIB)\OTMWorkbench.LIB 
+   $(_LIB)\OTMDictionaryFunctions.lib
+   $(_LIB)\OTMSegmentedFile.LIB
+   $(_LIB)\OTMTagTableFunctions.lib
+   $(_LIB)\OTMEditorFunctions.lib
+   $(_LIB)\OTMFolderFunctions.lib
+   $(_LIB)\OTMMemoryFunctions.lib
+   $(_LIB)\OTMUtilities.LIB
+   $(_LIB)\OTMAnalysisFunctions.lib
+   $(_LIB)\PluginManager.lib
 <<

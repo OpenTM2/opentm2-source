@@ -54,7 +54,7 @@ $(_DLL)\OtmCleanupPlugin.DLL:
     $(_OBJ)\OtmCleanupPlugin.OBJ $(_OBJ)\OtmCleanupPlugin.RBJ
 /OUT:$(_DLL)\OtmCleanupPlugin.DLL
 /MAP:$(_MAP)\OtmCleanupPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib
+$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\OtmCleanupPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

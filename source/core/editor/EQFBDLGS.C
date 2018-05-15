@@ -111,8 +111,7 @@ INT_PTR CALLBACK EQFBSPELLDLGPROC
              /* highlight all misspelled words in current segment     */
              /*********************************************************/
              EQFBAllSpellIgnoreCheck(pSpellData);
-             EQFBMisspelledHLType(pSpellData->pDoc,
-                                  pTBSeg, pData);
+             EQFBMisspelledHLType(pSpellData->pDoc, pTBSeg, pData);
 
              pSpellData = ACCESSDLGIDA(hwndDlg, PSPELLDATA);
              if ( pSpellData )
@@ -822,6 +821,14 @@ MRESULT EQFBSpellClose
       ulSegNum = 1;
       pSeg = EQFBGetSegW(pDoc, ulSegNum);
 
+  		 // force that thread recalcs pusHLType of screen
+		   PSPELLDATA pThreadSpellData = (PSPELLDATA) pDoc->pvSpellData;
+       if ( pThreadSpellData != NULL )
+       {
+		     pThreadSpellData->TBFirstLine.ulSegNum = 0;
+		     pThreadSpellData->TBFirstLine.usSegOffset = (USHORT)-1; // cannot be segoffs
+       }
+
       while (pSeg && (ulSegNum < pDoc->ulMaxSeg) )
       {
         if (pSeg->pusHLType )
@@ -932,28 +939,30 @@ PSPELLDATA   pSpellData
 {
   ULONG      ulNextFreePos = 0L;
 
-  if ( (pSpellData->pIgnoreNextFree + UTF16strlenCHAR(pSpellData->pProofCurrent)
-         >= pSpellData->pIgnoreData+pSpellData->usIgnoreLen-2 ))
+  // we use the ignore list of the global spell check area
+  PSPELLDATA pIgnoreSpellData = (PSPELLDATA)pSpellData->pDoc->pvSpellData;
+
+  if ( (pIgnoreSpellData->pIgnoreNextFree + UTF16strlenCHAR(pIgnoreSpellData->pProofCurrent)
+         >= pIgnoreSpellData->pIgnoreData + pIgnoreSpellData->usIgnoreLen-2 ))
   {
-    ulNextFreePos = pSpellData->pIgnoreNextFree - pSpellData->pIgnoreData;
-    UtlAlloc( (PVOID *)&(pSpellData->pIgnoreData) ,
-              (LONG) pSpellData->usIgnoreLen,
-              (LONG) (pSpellData->usIgnoreLen+MAX_SEGMENT_SIZE) * sizeof(CHAR_W), ERROR_STORAGE );
-    if ( pSpellData->pIgnoreData )
+    ulNextFreePos = pIgnoreSpellData->pIgnoreNextFree - pIgnoreSpellData->pIgnoreData;
+    UtlAlloc( (PVOID *)&(pIgnoreSpellData->pIgnoreData), (LONG)pIgnoreSpellData->usIgnoreLen, (LONG) (pIgnoreSpellData->usIgnoreLen + MAX_SEGMENT_SIZE) * sizeof(CHAR_W), ERROR_STORAGE );
+    if ( pIgnoreSpellData->pIgnoreData )
     {
-      pSpellData->pIgnoreNextFree = ulNextFreePos + pSpellData->pIgnoreData;
-      pSpellData->usIgnoreLen += MAX_SEGMENT_SIZE;
+      pIgnoreSpellData->pIgnoreNextFree = ulNextFreePos + pIgnoreSpellData->pIgnoreData;
+      pIgnoreSpellData->usIgnoreLen += MAX_SEGMENT_SIZE;
     } /* endif */
   } /* endif */
+
   // get word and pass it in ignorelist, reset pointer to next free
   // position in ignorelist
-  if (pSpellData->pIgnoreNextFree + UTF16strlenCHAR(pSpellData->pProofCurrent)
-      < pSpellData->pIgnoreData + pSpellData->usIgnoreLen - 2 )
+  if (pIgnoreSpellData->pIgnoreNextFree + UTF16strlenCHAR(pIgnoreSpellData->pProofCurrent)
+      < pIgnoreSpellData->pIgnoreData + pIgnoreSpellData->usIgnoreLen - 2 )
   {
-     UTF16strcpy(pSpellData->pIgnoreNextFree,pSpellData->pProofCurrent);
-     pSpellData->pIgnoreNextFree += UTF16strlenCHAR(pSpellData->pProofCurrent);
-     *(pSpellData->pIgnoreNextFree) = EOS;
-     pSpellData->pIgnoreNextFree ++;
+     UTF16strcpy( pIgnoreSpellData->pIgnoreNextFree, pSpellData->pProofCurrent);
+     pIgnoreSpellData->pIgnoreNextFree += UTF16strlenCHAR(pSpellData->pProofCurrent);
+     *(pIgnoreSpellData->pIgnoreNextFree) = EOS;
+     pIgnoreSpellData->pIgnoreNextFree ++;
   }
   else
   { //return error message : ignore list is full, no further word
@@ -1017,14 +1026,21 @@ BOOL EQFBSpellIgnoreCheck
   }
   else
   {
+    // we use the ignore list of the global spell check area if not set in active spell data
+    PSPELLDATA pIgnoreSpellData = pSpellData;
+    if ( pSpellData->pIgnoreData == NULL )
+    {
+      pIgnoreSpellData = (PSPELLDATA)pSpellData->pDoc->pvSpellData;
+    } /* endif */
+
     /******************************************************************/
     /* while not end of ignore list and no match found, compare words */
     /******************************************************************/
-    pIgnoreWord = pSpellData->pIgnoreData;
+    pIgnoreWord = pIgnoreSpellData->pIgnoreData;
 
-    while ((lComp != 0) && (pIgnoreWord != pSpellData->pIgnoreNextFree))
+    while ((lComp != 0) && (pIgnoreWord != pIgnoreSpellData->pIgnoreNextFree))
     {
-       lComp = UTF16strcmp(pIgnoreWord,pSpellData->pProofCurrent);
+       lComp = UTF16strcmp( pIgnoreWord, pSpellData->pProofCurrent );
        if (lComp == 0)
        {
           fReturn = TRUE;            // word found in ignorelist

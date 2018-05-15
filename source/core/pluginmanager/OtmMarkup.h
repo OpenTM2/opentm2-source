@@ -264,8 +264,14 @@ public:
         char   *pszMarkupName
 	) = 0;
 
+	/*! \brief Get the markup family name for a markup
 
+	This method looks for family name for a markup
+
+	\returns Family name if have, otherwise a empty string
+	*/
+	// For R012645
+	virtual std::string getFamilyName() = 0;
 };
-
 #endif // #ifndef _OTMMARKUP_H_
  

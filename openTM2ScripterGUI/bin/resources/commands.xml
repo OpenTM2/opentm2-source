@@ -168,7 +168,7 @@
       <parameter description="folder target drive" id="chtargetdrive" name="chTargetDrive" type="char"/>
       <parameter description="options for the folder export or 0L
 @Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
-@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }" id="loptions" name="lOptions" optional="true" type="long"/>
       <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
       <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
     </command>
@@ -177,7 +177,7 @@
       <parameter description="folder target path" id="psztargetpath" name="pszTargetPath"/>
       <parameter description="options for the folder export or 0L
 @Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
-@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }" id="loptions" name="lOptions" optional="true" type="long"/>
       <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
       <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
     </command>
@@ -187,7 +187,7 @@
       <parameter description="Export as - optional new name for exported folder" id="pszexportas" name="pszExportAs" optional="true"/>
       <parameter description="options for the folder export or 0L
 @Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
-@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+@Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }" id="loptions" name="lOptions" optional="true" type="long"/>
       <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
       <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
       <parameter description="export name for memory in folder" id="pszmemoryexportas" name="pszMemoryExportAs" optional="true"/>

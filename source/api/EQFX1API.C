@@ -31,207 +31,10 @@
 //|To be done / known limitations / caveats:                                   |
 //|                                                                            |
 //+----------------------------------------------------------------------------+
-//| PVCS Section                                                               |
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 25 Mar 2008
-// GQ: - added handling for EQF_UTF162UTF8BOM conversion mode
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 14 Aug 2006
-// GQ: - added code to free segment metadata
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 24 Oct 2005
-// GQ: - reworked API logging
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 8 Oct 2004
-// GQ: - added log statements for debugging of P020458 (conversion problems when
-//       being logged on as user under WinXP)
-// 
-//
-// $Revision: 1.1 $ ----------- 30 Aug 2004
-//  -- New Release TM6.0.6!!
-//
-//
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-//
-//
-// $Revision: 1.3 $ ----------- 20 Apr 2004
-// --RJ: P019381: do not set CountFlag.ReplExist/Copy for FUZZY_REPLACE_PROP
-//
-//
-// $Revision: 1.2 $ ----------- 8 Apr 2004
-// --RJ: P019381: EQFBuildSegAttrW: use Countflags in new sequence
-//
-//
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-//
-//
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-//
-//
-// $Revision: 1.4 $ ----------- 30 Jul 2003
-// GQ: - Added checksum to count attribute
-//
-//
-// $Revision: 1.3 $ ----------- 17 Jul 2003
-// --RJ: fix errors found during functional test of EQFFILECONVERSIONEX
-//
-//
-// $Revision: 1.2 $ ----------- 14 Jul 2003
-// --RJ: R007731: implement new conversion types for EQFFILECONVERSION
-//
-//
-// $Revision: 1.1 $ ----------- 27 Jun 2003
-//  -- New Release TM6.0.2!!
-//
-//
-// $Revision: 1.2 $ ----------- 17 Mar 2003
-// --RJ: removed compiler defines not needed any more and rework code to avoid warnings
-//
-//
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-//
-//
-// $Revision: 1.5 $ ----------- 16 Oct 2002
-// -- RJ: declare szNoCountAttr without compiler define
-//
-//
-// $Revision: 1.4 $ ----------- 20 Sep 2002
-// --RJ: re-assign input PSZ's in API calls - needed for 16/32 bit conversion
-//
-//
-// $Revision: 1.3 $ ----------- 16 Sep 2002
-// --RJ: add new API EQFFILECONVERSION
-//
-//
-// $Revision: 1.2 $ ----------- 29 Jul 2002
-// --RJ: fill Ansi/OEM cp in TBDOC of EQFWRITEHISTDOCSAVE API
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jul 2002
-//  -- New Release TM6.0!!
-//
-//
-// $Revision: 1.4 $ ----------- 21 Mar 2002
-// --RJ: add API functions EQFSEGFILECONVERTUNICODE2ASCII and EQFSEGFILECONVERTASCII2UNICODE
-//
-//
-// $Revision: 1.3 $ ----------- 31 Oct 2001
-// GQ: - Added code to free context areas in TBDOCUMENT
-//
-//
-// $Revision: 1.2 $ ----------- 3 Sep 2001
-// -- RJ: Unicode enhancements
-//
-//
-// $Revision: 1.1 $ ----------- 16 Aug 2001
-//  -- New Release TM2.7.2!!
-//
-// $Revision: 1.3 $ ----------- 25 Sep 2000
-// -- add support for more than 64k segments
-//
-//
-// $Revision: 1.2 $ ----------- 14 Dec 1999
-// -- add usRc = EQFS_FILE_OPEN_FAILED to WRITEHISTDOCSAVE
-//
-//
-//
-// $Revision: 1.1 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-//
-//
-// $CMVC
-//
-//
-// $Revision: 1.1 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-//
-/*
- * $Header:   K:\DATA\EQFX1API.CV_   1.1   29 Nov 1999 14:16:08   BUILD  $
- *
- * $Log:   K:\DATA\EQFX1API.CV_  $
- *
- *    Rev 1.1   29 Nov 1999 14:16:08   BUILD
- * -- new API's: further work
- *
- *    Rev 1.0   22 Nov 1999 19:03:30   BUILD
- * Initial revision.
- *
-*/
 //+----------------------------------------------------------------------------+
 
 // activate the following define to enable logging
-// #define API_LOGGING
-
-
+//#define API_LOGGING
 
 
 #define INCL_EQF_TM               // general Transl. Memory functions
@@ -1611,7 +1414,7 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
   HFILE    hInFile = NULL;
   HFILE    hOutFile = NULL;
   USHORT   usOpenAction = 0L;
-  CHAR        szTempFile[CCHMAXPATH];  // buffer for temporary file name
+  CHAR        szTempFile[MAX_LONGPATH];  // buffer for temporary file name
   ULONG       ulBytesToRead;           // number of bytes to read into buffer
   ULONG       ulBytesInBuffer;         // number of bytes in input buffer
   ULONG       ulRemaining = 0;            // number of not-read bytes
@@ -1645,12 +1448,16 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
   {
     UtlMakeEQFPath( szLogFile, NULC, LOG_PATH, NULL );
     if ( !UtlDirExist( szLogFile ) ) UtlMkDir( szLogFile, 0L, FALSE );
-    strcat( szLogFile, "\\EQFAPI.LOG" );
-    hLog = fopen( szLogFile, "a" );
+    strcat( szLogFile, "\\EQFX1API.LOG" );
+    BOOL fLogExists = UtlFileExist( szLogFile );
+    hLog = fopen( szLogFile, "ab" );
     if ( hLog )
     {
-      fprintf( hLog, "EQFFILECONVERSIONEX(\"%s\",\"%s\",\"%s\",%u)\n", pszInFile16, pszOutFile16, pszLang16, usConversionType );
-      fclose( hLog );
+      if ( !fLogExists )
+      {
+        fwrite( UNICODEFILEPREFIX, 2, 1, hLog );
+      } /* endif */
+      fwprintf( hLog, L"EQFFILECONVERSIONEX(\"%S\",\"%S\",\"%S\",%u)\r\n", pszInFile16, pszOutFile16, pszLang16, usConversionType );
     } /* endif */
   }
 #endif
@@ -1681,6 +1488,13 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
          (usConversionType == EQF_UTF162UTF8)  ))
   {
           usRC = EQFRS_INVALID_PARM;   // output file is not written!
+#ifdef API_LOGGING
+          if ( hLog )
+          {
+            fwprintf( hLog, L"Error: Invalid conversion type %u\r\n", usConversionType );
+          } /* endif */
+#endif
+
   }
 
   if (!usRC)
@@ -1711,6 +1525,12 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
   if ( !usRC && !UtlAlloc( (PVOID *)&pInBuf, 0L, (LONG)API_INBUF_SIZE + 2, ERROR_STORAGE ) )
   {
     usRC = ERROR_NOT_ENOUGH_MEMORY;
+#ifdef API_LOGGING
+    if ( hLog )
+    {
+      fwprintf( hLog, L"Error: Memory allocation of input buffer failed\r\n" );
+    } /* endif */
+#endif
   } /* endif */
   lBufLen = (LONG)API_INBUF_SIZE * sizeof(CHAR_W);
 
@@ -1718,22 +1538,31 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
                            lBufLen + 2, ERROR_STORAGE ) )
   {
       usRC = ERROR_NOT_ENOUGH_MEMORY;
+#ifdef API_LOGGING
+    if ( hLog )
+    {
+      fwprintf( hLog, L"Error: Memory allocation of output buffer failed\r\n" );
+    } /* endif */
+#endif
   } /* endif */
 
-  /*******************************************************************/
-  /* find extension and change it into temp extension '$$$'          */
-  /*******************************************************************/
+  // use output file name with the extension '.conv-tmp' as termporary file name
   if ( !usRC )
   {
-    char szTempPath[256];
+    strcpy( szTempFile, pszOutFile );
+    strcat( szTempFile, ".conv-tmp" );
+  } /* endif */
 
-    GetTempPath( sizeof(szTempPath), szTempPath );
-    GetTempFileName( szTempPath, "XAP", 0, szTempFile );
+  if ( !usRC )
+  {
     // open input file
-    usRC = UtlOpen(pszInFile, &hInFile, &usOpenAction, 0L,
-                     FILE_NORMAL, FILE_OPEN,
-                     OPEN_ACCESS_READONLY | OPEN_SHARE_DENYWRITE,
-                     0L, FALSE );
+    usRC = UtlOpen(pszInFile, &hInFile, &usOpenAction, 0L, FILE_NORMAL, FILE_OPEN, OPEN_ACCESS_READONLY | OPEN_SHARE_DENYWRITE, 0L, FALSE );
+#ifdef API_LOGGING
+    if ( usRC && hLog )
+    {
+      fwprintf( hLog, L"Error: Open of input file %S failed, return code is %u\r\n", pszInFile, usRC  );
+    } /* endif */
+#endif
   }
 
   /*******************************************************************/
@@ -1743,14 +1572,13 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
   {
      USHORT      usOpenAction;                             // action performed by DosOpen
 
-     usRC = UtlOpen( szTempFile,
-                     &hOutFile,
-                     &usOpenAction, 0L,
-                     FILE_NORMAL,
-                     FILE_TRUNCATE | FILE_CREATE,
-                     OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE,
-                     0L,
-                     FALSE );
+     usRC = UtlOpen( szTempFile, &hOutFile, &usOpenAction, 0L, FILE_NORMAL, FILE_TRUNCATE | FILE_CREATE, OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE, 0L, FALSE );
+#ifdef API_LOGGING
+    if ( usRC && hLog )
+    {
+      fwprintf( hLog, L"Error: Open of output file %S failed, return code is %u\r\n", szTempFile, usRC  );
+    } /* endif */
+#endif
   } /* endif */
 
   /*******************************************************************/
@@ -1759,67 +1587,72 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
   if ( !usRC )
   {
     FILESTATUS  stStatus;               // File status information
-    usRC = UtlQFileInfo( hInFile,
-                         1,
-                         (PBYTE)&stStatus,
-                         sizeof(FILESTATUS),
-                         FALSE );
+    usRC = UtlQFileInfo( hInFile, 1, (PBYTE)&stStatus, sizeof(FILESTATUS), FALSE );
     ulRemaining = stStatus.cbFile;
+#ifdef API_LOGGING
+    if ( usRC && hLog )
+    {
+      fwprintf( hLog, L"Error: UtlQFileInfo failed for input file %S, return code is %u\r\n", pszInFile, usRC  );
+    } /* endif */
+#endif
   } /* endif */
 
   if ( !usRC )
   { // if first read check for UTF16/UTF8 BOM / Unicode  file
 
-           PSZ pszPrefix = UNICODEFILEPREFIX;
-           PSZ pszUTF8Prefix = UTF8FILEPREFIX;
-           PSZ pData = (PSZ)(pInBuf);
-           int iLen = strlen(pszPrefix);
-           int iUTF8Len = strlen(pszUTF8Prefix);
-           ULONG ulTemp;
+    PSZ pszPrefix = UNICODEFILEPREFIX;
+    PSZ pszUTF8Prefix = UTF8FILEPREFIX;
+    PSZ pData = (PSZ)(pInBuf);
+    int iLen = strlen(pszPrefix);
+    int iUTF8Len = strlen(pszUTF8Prefix);
+    ULONG ulTemp;
 
-           usRC = UtlReadL( hInFile, pData, 8, &ulBytesInBuffer, FALSE );
-       if (!usRC)
-       {
-                   if ( (memcmp( pData, pszPrefix, iLen ) == 0) )
-                   {
-                           fUTF16BOMFound = TRUE;
-                   }
-                   else if ( memcmp( pData, pszUTF8Prefix, iUTF8Len ) == 0)
-                   {
-                           fUTF8BOMFound = TRUE;
-                   }
+    usRC = UtlReadL( hInFile, pData, 8, &ulBytesInBuffer, FALSE );
+#ifdef API_LOGGING
+    if ( usRC && hLog )
+    {
+      fwprintf( hLog, L"Error: Read of first 8 bytes of input file failed, return code is %u\r\n", usRC  );
+    } /* endif */
+#endif
+    if (!usRC)
+    {
+      if ( (memcmp( pData, pszPrefix, iLen ) == 0) )
+      {
+              fUTF16BOMFound = TRUE;
+      }
+      else if ( memcmp( pData, pszUTF8Prefix, iUTF8Len ) == 0)
+      {
+              fUTF8BOMFound = TRUE;
+      }
 
-                   if (fUTF16BOMFound != fInFileIsUTF16)
-                   {
-                          usRC = ERROR_FILE_INVALID_DATA;
-                   }
-                   else  if ( fUTF16BOMFound )
-                   {   // position right behind prefix
-                           usRC = UtlChgFilePtr( hInFile, iLen, FILE_BEGIN, &ulTemp, FALSE );
-                           ulRemaining -= iLen;
-                   }
-                   else if (fUTF8BOMFound )
-                   {
-                           if (!fInFileIsUTF8)
-                           {
-                                 usRC = ERROR_FILE_INVALID_DATA;
-                           }
-                           else
-                           {// position right behind prefix
-                                 usRC = UtlChgFilePtr( hInFile, iUTF8Len, FILE_BEGIN, &ulTemp, FALSE );
-                                 ulRemaining -= iUTF8Len;
-                           }
-                   }
-                   else
-                   {     // position back to start of file
-                           usRC = UtlChgFilePtr( hInFile, 0L, FILE_BEGIN, &ulTemp, FALSE );
-                   } /* endif */
-       }
-
+      if (fUTF16BOMFound != fInFileIsUTF16)
+      {
+            usRC = ERROR_FILE_INVALID_DATA;
+      }
+      else  if ( fUTF16BOMFound )
+      {   // position right behind prefix
+              usRC = UtlChgFilePtr( hInFile, iLen, FILE_BEGIN, &ulTemp, FALSE );
+              ulRemaining -= iLen;
+      }
+      else if (fUTF8BOMFound )
+      {
+              if (!fInFileIsUTF8)
+              {
+                    usRC = ERROR_FILE_INVALID_DATA;
+              }
+              else
+              {// position right behind prefix
+                    usRC = UtlChgFilePtr( hInFile, iUTF8Len, FILE_BEGIN, &ulTemp, FALSE );
+                    ulRemaining -= iUTF8Len;
+              }
+      }
+      else
+      {     // position back to start of file
+              usRC = UtlChgFilePtr( hInFile, 0L, FILE_BEGIN, &ulTemp, FALSE );
+      } /* endif */
+    }
   }
-  /*******************************************************************/
-  /* Mainloop of parser                                              */
-  /*******************************************************************/
+
   while ( !usRC && ulRemaining )
   {
 
@@ -1828,7 +1661,14 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
     /****************************************************************/
     ulBytesToRead = min( (LONG)API_INBUF_SIZE, ulRemaining );
     memset(pInBuf, 0L, API_INBUF_SIZE);
+    UtlChgFilePtr( hInFile, 0L, FILE_CURRENT,  &ulCurrentPos, FALSE );
     usRC = UtlReadL( hInFile, pInBuf, ulBytesToRead, &ulBytesInBuffer, FALSE);
+#ifdef API_LOGGING
+    if ( usRC && hLog )
+    {
+      fwprintf( hLog, L"Error: Read of %lu bytes at position %lu failed, return code is %u\r\n", ulBytesToRead, ulCurrentPos, usRC  );
+    } /* endif */
+#endif
     if ( !usRC )
     {
       ulRemaining -= ulBytesInBuffer;
@@ -1840,56 +1680,38 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
 
     if ( !usRC )
     {
-          LONG   lNewBufLen = 0;
-          ulBytesWrittenToOutBuf= UtlConvertBuf(usConversionType,
-                                                          pInBuf,
-                                                          pOutBuf,
-                                                          ulBytesInBuffer,
-                                                          lBufLen,   // in numb. of bytes! is this correct?
-                                           ulOemCP,
-                                           ulAnsiCP,
-                                           FALSE,      // no error msg inside
-                                           &lRc, &lBytesLeft);
+      LONG   lNewBufLen = 0;
+      ulBytesWrittenToOutBuf= UtlConvertBuf(usConversionType, pInBuf, pOutBuf, ulBytesInBuffer, lBufLen,   // in numb. of bytes! is this correct?
+                                        ulOemCP, ulAnsiCP, FALSE, &lRc, &lBytesLeft);
+      usRC = (USHORT)lRc;
+      if ((usRC == ERROR_INSUFFICIENT_BUFFER) )
+      { // get required size in number of bytes
+        lNewBufLen= UtlConvertBuf(usConversionType, pInBuf, pOutBuf, ulBytesInBuffer, 0L, ulOemCP, ulAnsiCP, FALSE, &lRc, &lBytesLeft);
+
+        lNewBufLen = 2*(lNewBufLen/2) + 1000;  // force Buflen to be even
+
+        if ( !UtlAlloc( (PVOID *)&pOutBuf, lBufLen,
+                                    lNewBufLen+1, ERROR_STORAGE ) )
+        {
+          usRC = ERROR_NOT_ENOUGH_MEMORY;
+        }
+        else
+        {
+          lBufLen = lNewBufLen;
+          ulBytesWrittenToOutBuf= UtlConvertBuf(usConversionType, pInBuf, pOutBuf, ulBytesInBuffer, lBufLen,   // size of outbuf in numb. of bytes
+                                          ulOemCP, ulAnsiCP, FALSE, &lRc, &lBytesLeft);
           usRC = (USHORT)lRc;
-          if ((usRC == ERROR_INSUFFICIENT_BUFFER) )
-          { // get required size in number of bytes
-                  lNewBufLen= UtlConvertBuf(usConversionType,
-                                                                          pInBuf,
-                                                                          pOutBuf,
-                                                                          ulBytesInBuffer,
-                                                                          0L,   // force ret. of req. bufsize
-                                                          ulOemCP,
-                                                          ulAnsiCP,
-                                                          FALSE,      // no error msg inside
-                                                          &lRc, &lBytesLeft);
-
-                  lNewBufLen = 2*(lNewBufLen/2) + 1000;  // force Buflen to be even
-
-                  if ( !UtlAlloc( (PVOID *)&pOutBuf, lBufLen,
-                                             lNewBufLen+1, ERROR_STORAGE ) )
-                  {
-                        usRC = ERROR_NOT_ENOUGH_MEMORY;
-          }
-          else
-          {
-                                lBufLen = lNewBufLen;
-                ulBytesWrittenToOutBuf= UtlConvertBuf(usConversionType,
-                                                          pInBuf,
-                                                          pOutBuf,
-                                                          ulBytesInBuffer,
-                                                          lBufLen,   // size of outbuf in numb. of bytes
-                                           ulOemCP,
-                                           ulAnsiCP,
-                                           FALSE,      // no error msg inside
-                                           &lRc, &lBytesLeft);
-                            usRC = (USHORT)lRc;
-              } /* endif */
+        } /* endif */
+#ifdef API_LOGGING
+        if ( usRC && hLog )
+        {
+          fwprintf( hLog, L"Error: Conversion of %lu bytes at position %lu failed, return code is %u\r\n", ulBytesInBuffer, ulCurrentPos, usRC  );
+        } /* endif */
+#endif
       } /* endif */
-
     } /* endif */
-    /******************************************************************/
+
     /* Write buffer to output file                                    */
-    /******************************************************************/
     if ( !usRC )
     {
       ULONG      ulBytesWritten;      // number of bytes written to file
@@ -1905,27 +1727,39 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
           usRC = UtlWriteL( hOutFile, UTF8FILEPREFIX, (SHORT)strlen(UTF8FILEPREFIX), &ulBytesWritten, FALSE );
         } /* endif */
         fFirstTry = FALSE;
+#ifdef API_LOGGING
+        if ( usRC && hLog )
+        {
+          fwprintf( hLog, L"Error: Writing of BOM to output file failed, return code is %u\r\n", usRC  );
+        } /* endif */
+#endif
       } /* endif */
 
       if (!usRC)
       {
         usRC = UtlWriteL( hOutFile, pOutBuf, ulBytesWrittenToOutBuf, &ulBytesWritten, FALSE );
+#ifdef API_LOGGING
+        if ( (usRC || (ulBytesWrittenToOutBuf != ulBytesWritten)) && hLog )
+        {
+          fwprintf( hLog, L"Error: Write of %lu bytes to output buffer failed, %lu bytes have been written, return code is %u\r\n", ulBytesWrittenToOutBuf, ulBytesWritten, usRC  );
+        } /* endif */
+#endif
         if (ulBytesWrittenToOutBuf != ulBytesWritten )
-            {
-                   usRC = ERROR_STORAGE;
+        {
+          usRC = ERROR_STORAGE;
         }
       }
 
     } /* endif */
     if (lBytesLeft)
-        {
-            // undo the last character read...
-            // reposition file pointer
-            UtlChgFilePtr( hInFile, 0L, FILE_CURRENT,  &ulCurrentPos, FALSE);
-            ulCurrentPos = ulCurrentPos - lBytesLeft;
-            UtlChgFilePtr( hInFile, ulCurrentPos, FILE_BEGIN,  &ulCurrentPos, FALSE);
-            ulRemaining = ulRemaining + lBytesLeft;         // one more byte to be converted...
-            lBytesLeft = 0;
+    {
+      // undo the last character read...
+      // reposition file pointer
+      UtlChgFilePtr( hInFile, 0L, FILE_CURRENT,  &ulCurrentPos, FALSE);
+      ulCurrentPos = ulCurrentPos - lBytesLeft;
+      UtlChgFilePtr( hInFile, ulCurrentPos, FILE_BEGIN,  &ulCurrentPos, FALSE);
+      ulRemaining = ulRemaining + lBytesLeft;         // one more byte to be converted...
+      lBytesLeft = 0;
     }
   } /* endwhile */
 
@@ -1934,9 +1768,7 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
    if ( hOutFile )
    {
       UtlClose( hOutFile, FALSE );
-      /****************************************************************/
-      /* delete output file in case of erros                          */
-      /****************************************************************/
+      // delete output file in case of erros                          
       if ( usRC )
       {
         UtlDelete( szTempFile, 0L, FALSE );
@@ -1953,14 +1785,19 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
    {
      UtlDelete( pszOutFile, 0L, FALSE );
      usRC = UtlMove( szTempFile, pszOutFile, 0L, FALSE );
+#ifdef API_LOGGING
+      if ( usRC && hLog )
+      {
+        fwprintf( hLog, L"Error: Rename/Move of temp file %S to output file %S failed, return code is %u\r\n", szTempFile, pszOutFile, usRC  );
+      } /* endif */
+#endif
    } /* endif */
 
 #ifdef API_LOGGING
   {
-    hLog = fopen( szLogFile, "a" );
     if ( usRC && hLog )
     {
-      fprintf( hLog, "EQFFILECONVERSIONEX Original RC=%u\n", usRC );
+      fwprintf( hLog, L"EQFFILECONVERSIONEX Original RC=%u\r\n", usRC );
     } /* endif */
   }
 #endif
@@ -1993,13 +1830,11 @@ USHORT __cdecl /*APIENTRY*/ EQFFILECONVERSIONEX
   }
 
 #ifdef API_LOGGING
+  if ( hLog )
   {
-    if ( hLog )
-    {
-      fprintf( hLog, "EQFFILECONVERSIONEX returns %u\n", usRC );
-      fclose( hLog );
-    } /* endif */
-  }
+    fwprintf( hLog, L"EQFFILECONVERSIONEX returns %u\r\n", usRC );
+    fclose( hLog );
+  } /* endif */
 #endif
 
 

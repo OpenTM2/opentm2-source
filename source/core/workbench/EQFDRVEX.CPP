@@ -1373,6 +1373,7 @@ LPARAM  mp2                         // second parameter of WM_INITDLG
   MRESULT     mResult = FALSE;        // result of message processing
   BOOL        fOK = TRUE;             // internal O.K. flag
   PTWBCONNECTIDA pIda;                // dialog IDA
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   mp1 = mp1;                          // avoid compiler warning
   mp2 = mp2;                          // avoid compiler warning
@@ -2345,6 +2346,7 @@ extern HELPSUBTABLE hlpsubtblTwbSysPropGeneral[];
 VOID TWBSystemProps()
 {
   INT_PTR sRc;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   DIALOGBOX( EqfQueryTwbClient(), TwbSysPropDlgProc,
              hResMod, ID_SYSPROP_DLG, NULL, sRc );
@@ -2508,6 +2510,7 @@ PTWBSYSPROPIDA  pIda
   HWND      hwndTabCtrl;
   HINSTANCE hInst;
   CHAR      szBuffer[80];
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( fOK )
   {
@@ -3364,11 +3367,13 @@ LPARAM  mp2
       break;
     case TTN_NEEDTEXT:
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
           TC_ITEM Item;
           HWND hwndTabCtrl = GetDlgItem( hwndDlg, ID_SYSPROP_TABCTRL );
+
           memset( &Item, 0, sizeof(Item) );
           Item.mask = TCIF_PARAM;
           TabCtrl_GetItem( hwndTabCtrl, pToolTipText->hdr.idFrom, &Item );

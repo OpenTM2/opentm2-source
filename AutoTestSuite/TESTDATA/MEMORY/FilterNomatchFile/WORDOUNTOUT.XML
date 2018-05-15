@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="CNT2HTML.XSL" ?>
 <tmwordcount>
   <description>
-    <report type="WordCount" counted="Target" generatedDate="    <report type="WordCount" counted="Target" generatedDate="17.07.2017" generatedTime="10:26:23" documentsSelected="1" />
+    <report type="WordCount" counted="Target" generatedDate="    <report type="WordCount" counted="Target" generatedDate="23.01.2018" generatedTime="17:58:18" documentsSelected="1" />
     <folder nameLong="na" nameShort="na" documentsAmount="1" />
-    <translationManager version="1" release="4" build="1" />
+    <translationManager version="1" release="5" build="0" />
   </description>
   <documents>
     <document nameLong="E:\GHE\opentm2\AUTOTESTSUITE\TESTDATA\MEMORY\FILTERNOMATCHFILE\NOMATCHIN.XML" nameShort="na">

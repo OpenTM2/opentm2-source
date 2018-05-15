@@ -79,8 +79,6 @@ VOID             SetAttributeDefaults(PATTRENTRY);
 static VOID      SetTRNoteDefaults(PTRNOTEENTRY);
 static BOOL      FillTRNote(PTAGIMPORT, PTOKENENTRY *, PSZ );
 
-INT_PTR CALLBACK IMPDLG( HWND, WINMSG, WPARAM, LPARAM );
-MRESULT          TagImpCommand( HWND, SHORT, SHORT );
 MRESULT          TagImportCallBack( PPROCESSCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
 static  SHORT    TagRemoveEscChars( PSZ pszString );
 static BOOL CreateTagTable ( PTAGIMPORT pTagImport, PTAGTABLE *ppTable );
@@ -88,341 +86,7 @@ static BOOL CreateTagTable ( PTAGIMPORT pTagImport, PTAGTABLE *ppTable );
 BOOL TagImpAddToTagList( PTAGIMPORT pTagImport, PTERMENTRY pNewTag );
 BOOL TagImpAddToAttrList( PTAGIMPORT pTagImport,  PATTRENTRY pNewAttr );
 
-
-
-INT_PTR CALLBACK IMPDLG( HWND hwndDlg,
-                         WINMSG msg,
-                         WPARAM mp1,
-                         LPARAM mp2 )
-{
-
-   PTAGIMPORT  pTagImport;                  //ptr to global structure
-   MRESULT     mResult = (MRESULT)FALSE;    //return code of this function
-   PPROPTAGTABLE pProp;                     // ptr to dictionary properties
-   EQFINFO     ErrorInfo;                   //property error information
-   PSZ         pszError;                    //ptr to string
-
-   switch ( msg )
-   {
-      case ( WM_INITDLG ) :     //initialize and display dialogbox
-        pTagImport = (PTAGIMPORT) mp2;
-        ANCHORDLGIDA( hwndDlg, pTagImport );
-
-        //open markup table properties
-        UtlMakeEQFPath( pTagImport->szDummy, NULC,
-                        SYSTEM_PATH, (PSZ) NULP );            // system drive
-        pTagImport->hTagListProp = OpenProperties(
-                                         TAGTABLE_PROPERTIES_NAME,
-                                         pTagImport->szDummy,
-                                         PROP_ACCESS_READ, &ErrorInfo );
-        if( !pTagImport->hTagListProp )
-        {
-           pszError = TAGTABLE_PROPERTIES_NAME;
-           UtlError( ERROR_OPEN_PROPERTIES,
-                     MB_CANCEL,
-                     1,
-                     &pszError,
-                     EQF_ERROR);
-           WinDismissDlg( hwndDlg, FALSE );
-           return( MRFROMSHORT( FALSE ) );
-        }
-
-        pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagImport->hTagListProp );
-
-        //load last used values from properties into special controls ida
-        //needed for dialog controls utility
-        pTagImport->Controls.chSavedDrive = pProp->chTimpDrive;
-        if ( pProp->chTimpPath[0] == EOS  )
-        {
-          strcpy( pProp->chTimpPath, pProp->chOldTimpPath );
-        } /* endif */
-        strcpy( pTagImport->Controls.szSavedPath, pProp->chTimpPath );
-        pTagImport->Controls.usSavedFormat = EXTERNAL;
-
-        //save handle of Path entry field to IDA
-        pTagImport->hwndPathEf = WinWindowFromID( hwndDlg, ID_TAGIMP_PATH_EF );
-
-        //save handle of Dir listbox to IDA
-        pTagImport->hwndDirLb = WinWindowFromID( hwndDlg, ID_TAGIMP_DIR_LB );
-
-        //save handle of Files listbox to IDA
-        pTagImport->hwndFilesLb = WinWindowFromID( hwndDlg,ID_TAGIMP_FILES_LB );
-
-        //save handle of To  entry field to IDA
-        pTagImport->hwndNewNameLb = WinWindowFromID( hwndDlg, ID_TAGIMP_TO_LB );
-
-        //save dialog ids to ida needed for dialog control utility
-        pTagImport->Controls.idFilesLB = ID_TAGIMP_FILES_LB;
-        pTagImport->Controls.idDirLB = ID_TAGIMP_DIR_LB;
-        pTagImport->Controls.idPathEF = ID_TAGIMP_PATH_EF;
-        pTagImport->Controls.idCurrentDirectoryEF =
-                                     ID_TAGIMP_NEWCURRENTDIR_TEXT;
-        pTagImport->Controls.idToLB = ID_TAGIMP_TO_LB;
-        pTagImport->Controls.idInternalRB = ID_TAGIMP_INTERNAL_RB;
-        pTagImport->Controls.idExternalRB = ID_TAGIMP_ASCII_RB;
-        pTagImport->Controls.idDriveBTN = ID_TAGIMP_DUMMY;
-        pTagImport->Controls.idControlsGB = ID_TAGIMP_IMPORT_GB;
-        pTagImport->Controls.idOkPB = ID_TAGIMP_OK_PB;
-
-        strcpy( pTagImport->Controls.szDefPattern, DEFAULT_PATTERN_NAME );
-        strcat( pTagImport->Controls.szDefPattern, EXT_OF_EXTERNAL_FORMAT );
-
-        //save name of object handler needed for controls utility
-        strcpy( pTagImport->Controls.szHandler, TAGTABLEHANDLER );
-
-        //save name of dictionary for merge needed for controls utility
-        strcpy( pTagImport->Controls.szSelectedName, pTagImport->szTargetName );
-
-        //stipulate that import process
-        pTagImport->Controls.fImport = TRUE;
-
-        //call up utility to initialize dialog controls
-        UtlControlsInit( hwndDlg, &pTagImport->Controls );
-
-        //grey out mat rb and activate external RB
-        ENABLECTRL( hwndDlg, ID_TAGIMP_INTERNAL_RB, FALSE );
-        SETCHECK_TRUE ( hwndDlg, ID_TAGIMP_ASCII_RB);
-
-        mResult = (MRESULT)FALSE;
-        break;
-
-      case ( WM_COMMAND ) :
-        mResult = TagImpCommand( hwndDlg, WMCOMMANDID( mp1, mp2 ),
-                                          WMCOMMANDCMD( mp1, mp2 ) );
-        break;
-
-      case ( WM_CLOSE ) :
-        // Get access to IDA
-        pTagImport = ACCESSDLGIDA( hwndDlg, PTAGIMPORT );
-
-        //close dictionary list properties
-        if ( pTagImport->hTagListProp )
-          CloseProperties( pTagImport->hTagListProp, PROP_QUIT, &ErrorInfo );
-
-        //distroy dialog
-        WinDismissDlg( hwndDlg, SHORT1FROMMP1( mp1 ) );
-        break;
-
-      case DM_GETDEFID:
-        pTagImport = ACCESSDLGIDA( hwndDlg, PTAGIMPORT );
-        mResult = UtlDMGETDEFID ( hwndDlg, mp1, mp2, &pTagImport->Controls );
-        break;
-
-      default :
-        //return to default dialog procedure
-        mResult = UTLDEFDIALOGPROC( hwndDlg, msg, mp1, mp2 );
-        break;
-   }/*end switch*/
-
-   return ( mResult );
-}
-
-MRESULT TagImpCommand
-(
-   HWND  hwndDlg,
-   SHORT sId,                          // id of button
-   SHORT sNotification                 // notification type
-)
-{
-   PTAGIMPORT  pTagImport = NULL;           // Load dialog IDA
-   USHORT      usRc;                        // Return code from Dos functions
-   SHORT       sIndexItem;                  // index of selected item in listb.
-   MRESULT     mResult = (MRESULT)FALSE;    // function return value
-   BOOL        fOK = TRUE;                  // success indicator
-   PSZ         pszTemp;                     // pointer to string
-   PSZ         pszError;                    // pointer to string
-   HDIR        hDirHandle = HDIR_CREATE;    // DosFind routine handle
-   USHORT      usCount = 1;                 // Dos parameter
-   PPROPTAGTABLE pProp;                     // ptr to markup table props
-   EQFINFO     ErrorInfo;                   // prop error code
-
-   sNotification;                           // get rid of compiler warning
-
-   pTagImport = ACCESSDLGIDA( hwndDlg, PTAGIMPORT );
-
-   switch ( sId )                           //switch on control ID
-   {
-	 case (ID_TAGIMP_HELP_PB ):
-	   mResult = UtlInvokeHelp();
-	   break;
-     case ( ID_TAGIMP_CANCEL_PB ) :   //CANCEL button selected
-     case ( DID_CANCEL ) :            //ESC key pressed
-       WinPostMsg( hwndDlg, WM_CLOSE, NULL, NULL );
-       break;
-
-     case ( ID_TAGIMP_OK_PB ) :
-       //initialize fNewTable
-       pTagImport->fNewTable = TRUE;
-
-       //get state of Internal format radio button
-       pTagImport->fAscii = QUERYCHECK( hwndDlg, ID_TAGIMP_ASCII_RB );
-
-       if ( !pTagImport->fAscii )
-       {
-          UtlErrorHwnd( NO_TROJA_FORMAT, MB_CANCEL,
-                        0, NULL, EQF_WARNING, hwndDlg );
-          fOK = FALSE;
-          SETFOCUS( hwndDlg,ID_TAGIMP_ASCII_RB );
-       }
-       else
-       {
-         //save new markup table selected in drop-down combo-box
-         QUERYTEXT( hwndDlg, ID_TAGIMP_TO_LB, pTagImport->szTargetName );
-         UtlStripBlanks( pTagImport->szTargetName );
-         UtlUpper( pTagImport->szTargetName );
-       } /* endif */
-
-       //if no markup table selected issue warning
-       if ( pTagImport->szTargetName[0] == NULC && fOK )
-       {
-          UtlErrorHwnd( NO_NEW_TAGTABLE_SELECTED, MB_CANCEL,
-                        0, NULL, EQF_WARNING, hwndDlg );
-          fOK = FALSE;
-          SETFOCUSHWND( pTagImport->hwndNewNameLb );
-       } /* endif */
-       if ( fOK )
-       {
-          //call utility to check if new path entered
-          pTagImport->Controls.fCommand = TRUE;
-          fOK = UtlEFValidityTest( &pTagImport->Controls, hwndDlg );
-          pTagImport->Controls.fCommand = FALSE;
-
-          if ( fOK )
-          {
-             //set values from controls ida
-             strcpy( pTagImport->szPathContent, pTagImport->Controls.szPathContent );
-             strcpy( pTagImport->szPatternName, pTagImport->Controls.szPatternName );
-             strcpy( pTagImport->szPath, pTagImport->Controls.szPath );
-             strcpy( pTagImport->szDrive, pTagImport->Controls.szDrive );
-
-             //does the markup table fit in size
-             usRc = UtlFindFirst( pTagImport->szPathContent,
-                                  &hDirHandle,
-                                  FILE_NORMAL,
-                                  &(pTagImport->ResultBuf),
-                                  sizeof( pTagImport->ResultBuf),
-                                  &usCount, 0L, FALSE);
-             if ( usRc )
-             {
-                //invalid file path
-                Utlstrccpy( pTagImport->szName, pTagImport->szPatternName, DOT );
-                pszError = pTagImport->szName;
-                UtlErrorHwnd( ERROR_FILENAME_NOT_VALID, MB_CANCEL,
-                              1, &pszError, EQF_ERROR, hwndDlg );
-                SETFOCUSHWND( pTagImport->hwndPathEf );
-                fOK = FALSE;
-             }
-             else
-             {
-                // close file search handle
-                if ( hDirHandle != HDIR_CREATE ) UtlFindClose( hDirHandle, FALSE );
-
-                //is the file empty - zero bytes
-                if ( RESBUFSIZE(pTagImport->ResultBuf) == 0 )
-                {
-                   Utlstrccpy( pTagImport->szString, pTagImport->szName, DOT );
-                   pszError = pTagImport->szString;
-                   UtlErrorHwnd( ERROR_FILE_IMP_SIZE, MB_CANCEL,
-                                 1, &pszError, EQF_ERROR, hwndDlg );
-                   fOK = FALSE;
-                   WinPostMsg( hwndDlg, WM_CLOSE, MP1FROMSHORT( fOK ), NULL );
-                } /* endif */
-             } /* endif */
-          } /* endif */
-       } /* endif */
-
-       if ( fOK )
-       {
-         //check if tagtable name valid os2 filename, only filename without ext
-         //remove trailing blanks
-         UtlStripBlanks( pTagImport->szTargetName );
-
-         //check name with leading and trailng blanks removed
-         pszTemp = pTagImport->szTargetName;
-         while ( *pszTemp && isalnum(*pszTemp) )
-         {
-            pszTemp++;
-         } /* endwhile */
-
-         if ( *pszTemp != NULC )
-         {
-            UtlErrorHwnd( INVALID_OS2_FILENAME, MB_CANCEL,
-                          0, NULL, EQF_ERROR, hwndDlg );
-            fOK = FALSE;
-            SETFOCUSHWND( pTagImport->hwndNewNameLb );
-         }
-         else
-         {
-            sIndexItem = CBSEARCHITEMHWND( pTagImport->hwndNewNameLb,
-                                           pTagImport->szTargetName );
-            //if table already exists query user whether he wants to merge
-            if ( (sIndexItem != LIT_NONE) && 
-                 (sIndexItem != LIT_ERROR) &&
-                 ( MUGetMarkupTableFilePath( pTagImport->szTargetName, 
-                                             "UserMarkupTablePlugin", 
-                                             pTagImport->szWork, 
-                                             sizeof(pTagImport->szWork) ) ) &&
-                 ( UtlFileExist( pTagImport->szWork ) ) ) {
-
-               //display message saying file will be overwritten
-               pszError =  pTagImport->szTargetName;
-               usRc = UtlErrorHwnd( ERROR_FILE_EXISTS_ALREADY,
-                                    MB_YESNO | MB_DEFBUTTON2,
-                                    1, &pszError, EQF_QUERY, hwndDlg );
-               if ( usRc != MBID_YES )
-               {
-                  fOK = FALSE;
-                  SETFOCUSHWND( pTagImport->hwndNewNameLb );
-               }
-               else
-               {
-                  pTagImport->fNewTable = FALSE;
-               } /* endif */
-            } /* endif */
-
-            if ( fOK ) {
-//             if ( ! MUUpdateMarkupTableFiles( pTagImport->szTargetName,
-//                               "UserMarkupTablePlugin", 
-//                               NULL, NULL, NULL, NULL, NULL ) ) {
-//                fOK = FALSE ;
-//             }
-            }
-            if ( ! MUGetMarkupTableFilePath( pTagImport->szTargetName, 
-                                             "UserMarkupTablePlugin", 
-                                             pTagImport->szWork, 
-                                             sizeof(pTagImport->szWork) ) ) {
-               fOK = FALSE ;
-            }
-            strcpy( pTagImport->szTargetName, pTagImport->szWork ) ;
-
-         } /* endif */
-       } /* endif */
-
-       // close dialog
-       if ( fOK )
-       {
-          //save last used values
-          if( SetPropAccess( pTagImport->hTagListProp, PROP_ACCESS_WRITE))
-          {
-             pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagImport->hTagListProp);
-             strcpy( pProp->chTimpPath, pTagImport->szPathContent );
-             pProp->chTimpDrive = pTagImport->szDrive[0];
-             SaveProperties( pTagImport->hTagListProp, &ErrorInfo);
-             if ( ErrorInfo == Err_NoStorage )
-             {
-                fOK = FALSE;
-             } /* endif */
-          } /* endif */
-          WinPostMsg( hwndDlg, WM_CLOSE, MP1FROMSHORT( fOK ), NULL );
-       } /* endif */
-       break;
-
-     default:
-       UtlWMControls( hwndDlg, WM_CONTROL, sId, sNotification, &pTagImport->Controls );
-       break;
-   } /*end switch*/
-   return mResult;
-} /* end of function ImpCommand */
+UINT_PTR CALLBACK TagImportOpenFileHook( HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam );
 
 
 VOID TagTableImport (HWND hwnd, PSZ pSelName )
@@ -435,20 +99,71 @@ VOID TagTableImport (HWND hwnd, PSZ pSelName )
 
    if ( fOK )
    {
+     PPROPTAGTABLE pProp;                     // ptr to dictionary properties
+     EQFINFO     ErrorInfo;                   //property error information
+     OPENFILENAME OpenStruct;
+
       //remember selected tagtable in Ida
       if ( *pSelName != EOS )
       {
           strcpy( pTagImport->szTargetName, pSelName );
       } /* endif */
 
+      // get last used values
+      UtlMakeEQFPath( pTagImport->szDummy, NULC, SYSTEM_PATH, (PSZ) NULP );
+      pTagImport->hTagListProp = OpenProperties( TAGTABLE_PROPERTIES_NAME, pTagImport->szDummy, PROP_ACCESS_READ, &ErrorInfo );
+      if( pTagImport->hTagListProp )
+      {
+        PPROPTAGTABLE pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagImport->hTagListProp );
+        pTagImport->Controls.chSavedDrive = pProp->chTimpDrive;
+        if ( pProp->chTimpPath[0] == EOS  )
+        {
+          strcpy( pProp->chTimpPath, pProp->chOldTimpPath );
+        } /* endif */
+        strcpy( pTagImport->Controls.szSavedPath, pProp->chTimpPath );
+      }
+
      // load import dialog
-     DIALOGBOX( EqfQueryTwbClient(), IMPDLG,
-                hResMod, ID_TAGIMP_DLG, pTagImport, fOK );
+     //DIALOGBOX( EqfQueryTwbClient(), IMPDLG,
+     //           hResMod, ID_TAGIMP_DLG, pTagImport, fOK );
+
+    // set last used path
+    //strcpy( pDimpIda->Controls.szSavedPath, pProp->chDimpPath  );
+    memset( &OpenStruct, 0, sizeof(OpenStruct) );
+    OpenStruct.lStructSize = sizeof(OpenStruct);
+    OpenStruct.hwndOwner = QUERYACTIVEWINDOW();
+    OpenStruct.lpstrInitialDir = pTagImport->Controls.szSavedPath ;
+    OpenStruct.lpstrFilter = "Exported Tag Table (*.TBX)\0*.TBX\0\0";
+    OpenStruct.lpstrCustomFilter = NULL;
+    OpenStruct.nFilterIndex = 1; 
+    //strcpy( pTagImport->szPathContent, pTagImport->szTargetName );
+    OpenStruct.lpstrFile = pTagImport->szPathContent;
+    OpenStruct.nMaxFile = sizeof(pTagImport->szPathContent) - 1;
+    OpenStruct.lpstrFileTitle = NULL;
+    OpenStruct.nMaxFileTitle = 0;
+    OpenStruct.lpstrTitle = "Tag Table Import";
+    OpenStruct.lpfnHook = TagImportOpenFileHook;
+    OpenStruct.lCustData = (LONG)pTagImport;
+    OpenStruct.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLEHOOK | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST;
+    fOK = GetOpenFileName( &OpenStruct );
+    if ( fOK )
+    {
+      //save last used values
+      if( SetPropAccess( pTagImport->hTagListProp, PROP_ACCESS_WRITE))
+      {
+        pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagImport->hTagListProp);
+        strcpy( pProp->chTimpPath, pTagImport->szPathContent );
+        pProp->chTimpDrive = pTagImport->szDrive[0];
+        SaveProperties( pTagImport->hTagListProp, &ErrorInfo);
+      } /* endif */
+    } /* endif */
    } /* endif */
 
    if ( fOK && WinIsWindow( (HAB)NULL, hwnd))   // WM_DESTROYed ?
    {
       strcpy (pTagImport->szSourceName, pTagImport->szPathContent);
+      strcat( pTagImport->szSourceName, BACKSLASH_STR );
+      strcat( pTagImport->szSourceName, pTagImport->Controls.szSelectedName );
       strcpy( pTagImport->IdaHead.szObjName, pTagImport->szTargetName );
       pTagImport->IdaHead.pszObjName =  pTagImport->IdaHead.szObjName;
       fOK = CreateProcessWindow( pTagImport->IdaHead.szObjName,
@@ -481,34 +196,38 @@ MRESULT TagImportCallBack
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      pTagImport          = (PTAGIMPORT) PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pTagImport;
-      pTagImport->hwnd    = hwnd;
+      {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_TAGIMP_WINDOW;
-      pCommArea->sProcessObjClass = clsTAGIMP;
-      pCommArea->Style            = PROCWIN_TEXTSLIDER;
-      pCommArea->sTextID          = ID_IMPORTTAG_TXT;
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TAGIMPORT_TAGTXT, pCommArea->szText );
-      strcat( pCommArea->szText, pTagImport->szSourceName );
-      pCommArea->sSliderID        = ID_IMPORTTAGSLIDER;
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TAGIMPORT_TITLEBAR, pCommArea->szTitle );
-      Utlstrccpy( pCommArea->szTitle + strlen(pCommArea->szTitle),
-                  UtlGetFnameFromPath( pTagImport->szTargetName ),
-                  DOT );
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_MARKUPIMPICON); //hiconMARKUPIMP;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 14;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = 0;
-      pCommArea->usComplete       = 0;
+        pTagImport          = (PTAGIMPORT) PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pTagImport;
+        pTagImport->hwnd    = hwnd;
+
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_TAGIMP_WINDOW;
+        pCommArea->sProcessObjClass = clsTAGIMP;
+        pCommArea->Style            = PROCWIN_TEXTSLIDER;
+        pCommArea->sTextID          = ID_IMPORTTAG_TXT;
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TAGIMPORT_TAGTXT, pCommArea->szText );
+        strcat( pCommArea->szText, pTagImport->szSourceName );
+        pCommArea->sSliderID        = ID_IMPORTTAGSLIDER;
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TAGIMPORT_TITLEBAR, pCommArea->szTitle );
+        Utlstrccpy( pCommArea->szTitle + strlen(pCommArea->szTitle),
+                    UtlGetFnameFromPath( pTagImport->szTargetName ),
+                    DOT );
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_MARKUPIMPICON); //hiconMARKUPIMP;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 14;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = 0;
+        pCommArea->usComplete       = 0;
+      }
       break;
 
 
@@ -3616,3 +3335,210 @@ PSZ         pszOutFile               // Output TBL file
 
   return( usRC );
 } /* end of function MarkupFuncCreateMarkup */
+
+//
+// hook procedure for standard file open dialog
+//
+UINT_PTR CALLBACK TagImportOpenFileHook
+(
+  HWND hdlg,      // handle to child dialog box
+  UINT uiMsg,     // message identifier
+  WPARAM wParam,  // message parameter
+  LPARAM lParam   // message parameter
+)
+{
+  UINT uiResult = 0;
+
+  wParam; 
+
+  switch ( uiMsg )
+  {
+    case WM_INITDIALOG:
+      {
+        BOOL fOK = TRUE;
+        LPOPENFILENAME pOf = (LPOPENFILENAME)lParam;
+        RECT rctFormatStatic, rctReadOnlyCheck, rctFormatCombo;
+        HWND hwndDialog = NULLHANDLE;
+        HWND hwndFormatStatic = NULLHANDLE;
+        HWND hwndReadOnlyCheck = NULLHANDLE;
+        HWND hwndToStatic  = NULLHANDLE;
+        HWND hwndFormatCombo = NULLHANDLE;
+        HWND hwndToCombo = NULLHANDLE;
+
+        PTAGIMPORT pTagImport = (PTAGIMPORT)pOf->lCustData;
+
+        // intialize RECT structures
+        memset( &rctReadOnlyCheck, 0, sizeof(rctReadOnlyCheck) );
+        memset( &rctFormatStatic, 0, sizeof(rctFormatStatic) );
+        memset( &rctFormatCombo, 0, sizeof(rctFormatCombo) );
+
+        // get dialog handle
+        hwndDialog = GetParent( hdlg );
+        fOK = (hwndDialog != NULLHANDLE);
+
+        // change to English labelled controls
+        SetDlgItemText( hwndDialog, 1091, "Look &in:" );
+        SetDlgItemText( hwndDialog, 1090, "File &name:" );
+        SetDlgItemText( hwndDialog, 1089, "&Format:" );
+        SetDlgItemText( hwndDialog, IDCANCEL, "Cancel" );
+        SetDlgItemText( hwndDialog, IDOK, "&Import" );
+
+        // get handle of dialog controls
+        if ( fOK )
+        {
+          hwndReadOnlyCheck = GetDlgItem( hwndDialog, 1040 );
+          hwndFormatStatic  = GetDlgItem( hwndDialog, 1089 );
+          hwndFormatCombo   = GetDlgItem( hwndDialog, 1136 );
+          fOK = (hwndReadOnlyCheck != NULLHANDLE) && 
+                (hwndFormatStatic != NULLHANDLE) && 
+                (hwndFormatCombo != NULLHANDLE) ; 
+        } /* endif */
+
+        // get size and position of dialog controls and map to window coordinates
+        if ( fOK )
+        {
+          GetWindowRect( hwndReadOnlyCheck, &rctReadOnlyCheck );
+          MapWindowPoints( HWND_DESKTOP, hwndDialog, (LPPOINT)&rctReadOnlyCheck, 2 );
+          GetWindowRect( hwndFormatStatic,  &rctFormatStatic );
+          MapWindowPoints( HWND_DESKTOP, hwndDialog, (LPPOINT)&rctFormatStatic, 2 );
+          GetWindowRect( hwndFormatCombo,   &rctFormatCombo );
+          MapWindowPoints( HWND_DESKTOP, hwndDialog, (LPPOINT)&rctFormatCombo, 2 );
+        } /* endif */
+
+        // create "To" static
+        hwndToStatic = CreateWindow( 	"STATIC", "&To Tag Table:", WS_CHILD | WS_VISIBLE | SS_LEFT, rctFormatStatic.left, rctReadOnlyCheck.top, rctFormatStatic.right - rctFormatStatic.left,
+        								rctFormatStatic.bottom - rctFormatStatic.top, hwndDialog, NULL,  (HINSTANCE)UtlQueryULong( QL_HAB ), NULL );
+         if ( hwndToStatic ) 
+         {
+           SetWindowLong( hwndToStatic, GWL_ID, ID_TAGIMP_TO_TEXT );
+           SetCtrlFnt( hwndDialog, GetCharSet(), ID_TAGIMP_TO_TEXT, 0 );
+         } /* endif */
+
+        // create "To" combo
+        hwndToCombo = CreateWindow( "COMBOBOX", "", WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWN | CBS_SORT | CBS_AUTOHSCROLL, 
+                                     rctFormatCombo.left, rctReadOnlyCheck.top - 2, rctFormatCombo.right - rctFormatCombo.left, 120,
+                                     hwndDialog, NULL, (HINSTANCE)UtlQueryULong( QL_HAB ), NULL );
+         if ( hwndToCombo ) 
+         {
+           SetWindowLong( hwndToCombo, GWL_ID,  ID_TAGIMP_TO_LB );
+           SetCtrlFnt( hwndDialog, GetCharSet(),  ID_TAGIMP_TO_LB, 0 );
+         } /* endif */
+
+        // hide read-only checkbox
+        ShowWindow( hwndReadOnlyCheck, SW_HIDE );
+
+        // correct Z_order of controls
+        SetWindowPos( hwndToCombo, hwndFormatCombo, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSIZE | SWP_NOSENDCHANGING );
+
+        // fill to combo box
+        EqfSend2Handler( TAGTABLEHANDLER, WM_EQF_INSERTNAMES, (WPARAM)hwndToCombo, 0L );
+
+        // remember handle of combo box
+        pTagImport->hwndToCombo = hwndToCombo;
+
+        // select the markuptable
+        {
+          SHORT sItem = 0;
+          CBSEARCHSELECTHWND( sItem, hwndToCombo, pTagImport->szName );
+        }
+      }
+      break;
+
+    case WM_NOTIFY:
+      {
+        LPOFNOTIFY pOfNotify = (LPOFNOTIFY)lParam;
+        if ( pOfNotify)
+        {
+          BOOL fOk = TRUE;
+          HWND hwndDialog = GetParent( hdlg );
+          LPOPENFILENAME pOf = pOfNotify->lpOFN;
+          PTAGIMPORT pTagImport = (PTAGIMPORT)pOf->lCustData;
+
+          switch ( pOfNotify->hdr.code )
+          {
+            case CDN_SELCHANGE :
+              // selection change in file list, use first selected file as tag table name
+                           
+              // get name of first selected file 
+              pTagImport->Controls.szSelectedName[0] = EOS;
+              SendMessage( hwndDialog, CDM_GETSPEC, (WPARAM)sizeof(pTagImport->Controls.szSelectedName),
+                           (LPARAM)pTagImport->Controls.szSelectedName );
+
+              // use file name up to DOT as tag table name
+              if ( pTagImport->Controls.szSelectedName[0] )
+              {
+                if ( pTagImport->Controls.szSelectedName[0] == '\"' )
+                {
+                  PSZ pszSource = pTagImport->Controls.szSelectedName + 1;
+                  PSZ pszTarget = pTagImport->szName;
+                  while ( *pszSource && (*pszSource != DOT) && (*pszSource != '\"') ) *pszTarget++ = *pszSource++;
+                  *pszTarget = EOS;
+                }
+                else
+                {
+                  Utlstrccpy( pTagImport->szName, pTagImport->Controls.szSelectedName, DOT );
+                } /* endif */
+                SETTEXTHWND( pTagImport->hwndToCombo, pTagImport->szName );
+
+              } /* endif */
+              break;
+
+            case CDN_FILEOK :
+              // user pressed OK button
+
+              // get currently selected tag table
+              pTagImport->Controls.szSavedPath[0] = EOS;
+              SendMessage( hwndDialog, CDM_GETFOLDERPATH, (WPARAM)sizeof(pTagImport->Controls.szSavedPath), (LPARAM)pTagImport->Controls.szSavedPath );
+              strcpy( pTagImport->Controls.szPath, pTagImport->Controls.szSavedPath );
+              strcpy( pTagImport->Controls.szPathContent, pTagImport->Controls.szSavedPath );
+
+              // check selected to tag table
+              if( !QUERYTEXTHWND( pTagImport->hwndToCombo, pTagImport->szTargetName ) )
+              {
+                UtlErrorHwnd( NO_NEW_DICTIONARY_SELECTED, MB_CANCEL, 0, NULL, EQF_WARNING, hdlg );
+                SETFOCUSHWND( pTagImport->hwndToCombo );
+                uiResult = 1;
+                SetWindowLong( hdlg, DWL_MSGRESULT, ERROR_NO_MEM_NAME ); 
+              }
+              else
+              {
+                // if table already exists query user whether he wants to overwrite
+                if ( MUGetMarkupTableFilePath( pTagImport->szTargetName, "UserMarkupTablePlugin", pTagImport->szWork, sizeof(pTagImport->szWork) ) &&
+                     UtlFileExist( pTagImport->szWork ) )
+                {
+                   PSZ pszError =  pTagImport->szTargetName;
+                   USHORT usRc = UtlError( ERROR_FILE_EXISTS_ALREADY, MB_YESNO | MB_DEFBUTTON2, 1, &pszError, EQF_QUERY );
+                   if ( usRc != MBID_YES )
+                   {
+                     uiResult = 1;
+                   } /* endif */
+
+                } /* endif */
+
+                //set values from controls ida
+                strcpy( pTagImport->szPathContent, pTagImport->Controls.szPathContent );
+                strcpy( pTagImport->szTargetName, pTagImport->szWork );
+                pTagImport->fNewTable = !UtlFileExist( pTagImport->szTargetName );
+
+                UtlStripBlanks( pTagImport->szName );
+                ANSITOOEM( pTagImport->szName );
+              } /* endif */
+              break;
+          } /*endswitch */
+        } /* endif */
+      }
+      break;
+
+    case WM_DESTROY:
+      {
+        HWND hwndDialog = GetParent( hdlg );
+        DelCtrlFont( hwndDialog, ID_TAGIMP_TO_TEXT );
+        DelCtrlFont( hwndDialog, ID_TAGIMP_TO_LB );
+      }
+      break;
+    default:
+        break;
+  } /*endswitch */
+  return( uiResult );
+} /* end of function TagImportOpenFileHook */
+

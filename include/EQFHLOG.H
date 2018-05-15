@@ -66,7 +66,8 @@ typedef enum
   DOCIMPNEWTARGET_LOGTASK3,            // new target document due to import in DOCSAVEHIST3 format
   HISTLOGDELETE_LOGTASK,               // history delete log record
   HISTDATA_RESET_LOGTASK,              // reset/ignore any previous calculating infos
-  FOLPROP_LOGTASK2                     // folder properties changed record (new format)
+  FOLPROP_LOGTASK2,                    // folder properties changed record (new format)
+  STARGET_CORRUPT_LOGTASK              // information in STARGET document was corrupted and has been corrected
 } LOGTASK;
 
 
@@ -475,7 +476,7 @@ typedef struct _DELHISTLOG
 } DELHISTLOG, *PDELHISTLOG;
 
 // function to correct size values in older records
-void HistLogCorrectRecSizes( PHISTLOGRECORD pRecord );
+__declspec(dllexport) void HistLogCorrectRecSizes( PHISTLOGRECORD pRecord );
 
 // union covering all types of the variable part of the histlog records
 // union of variable parts of histlog record
@@ -496,3 +497,9 @@ typedef union _HISTLOGVARPART
   BYTE           FillArea[12000];       // just to have enough free room in this union even for slightly larger variable parts ...
 } HISTLOGVARPART, *PHISTLOGVARPART;
 
+// max. size of history log records
+// the required size is: sizeof HISTLOGRECORD + max. length of long names + max. size of variable part
+#define MAXHISTLOGRECORDSIZE (sizeof(HISTLOGRECORD)+MAX_LONGFILESPEC+sizeof(HISTLOGVARPART))
+
+__declspec(dllexport) USHORT FolReadLogRecord( HFILE hFile, PHISTLOGRECORD pRecord, PBOOL pfEOF, BOOL fMsg, HWND hwnd );
+__declspec(dllexport) USHORT FolWriteLogRecord( HFILE hFile, PHISTLOGRECORD pRecord, BOOL fMsg, HWND hwnd );

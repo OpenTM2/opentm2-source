@@ -117,25 +117,6 @@
           <pt>Export folder as</pt>
           <pd>To export the folder using a <b>different</b> name.</pd>
         </plentry>
-        <!-- GF, August 03, 2015: We plan to remove this entry in OpenTM2 v1.2.4 in November 2015 -->
-        <plentry>
-          <pt>Export using folder short name</pt>
-          <pd>To export the folder using a <b>short</b> name. This is useful if you later want to import
-              the folder into a system that recognizes only file names with a length of eight characters 
-              plus a 3–character extension (e.g. TEST1234.fxp).</pd>
-        </plentry>
-        <!-- GF, August 03, 2015: We plan to remove this entry in OpenTM2 v1.2.4 in November 2015 -->
-        <plentry>
-          <pt>Export in non-Unicode format</pt>
-          <pd>This option exports the folder in a format which is compatible to TP5.5.1 and TP5.4
-              (non-Unicode versions of TM). Older versions of 
-              <keyword conref="common-symbols.dita#common-symbols/tm4w"/> can not use folders exported 
-              in non-Unicode format due to changes in the file structure. If you use this option the
-              segmented files, contained dictionaries and memories are converted to ASCII and stored
-              in TP5.5.1 format.If you import a folder which is in non-Unicode format you will need to
-              organize the contained memories and dictionaries after the import is completed to be
-              able to use them.</pd>
-        </plentry>
         <plentry>
           <pt>Add note</pt>
           <pd>To add some explanatory text for the recipient of the folder. You type the text in the
@@ -156,6 +137,13 @@
               master folder or to move a master folder to another PC. If you export a master
               folder <b>without</b> specifying this option, the folder will be exported as a <b>child
               folder</b>. This option is only active for master folders.</pd>
+        </plentry>
+        <plentry>
+          <pt>With redundancy report data</pt>
+          <pd>To include the data for the redundancy report and the redundant segment list into the 
+          exported folder. The amount of redundancy data can be quite large, 
+          so <b>not</b> selecting this option will reduce the size of the exported folder.
+          This option is only active for folders containing redundancy report data.</pd>
         </plentry>
         <plentry>
           <pt>Originator</pt>

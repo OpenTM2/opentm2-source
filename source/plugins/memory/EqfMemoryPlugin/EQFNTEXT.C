@@ -502,13 +502,16 @@ USHORT TmtXExtract
           /* setup new starting point (do this even in the case we are    */
           /* dealing with a corrupted TM )                                */
           /****************************************************************/
-          if ( (usRc == BTREE_NOT_FOUND) || ( usRc == BTREE_CORRUPTED ) )
+          if ( usRc != NO_ERROR )
           {
-            pTmExtIn->ulTmKey ++;
-            pTmExtIn->usNextTarget = 1;
-            pTmExtOut->ulTmKey = pTmExtIn->ulTmKey;
-            pTmExtOut->usNextTarget = pTmExtIn->usNextTarget;
-            //usRc = BTREE_NOT_FOUND;     // reset error condition
+            if ( (usRc == BTREE_NOT_FOUND) || ( usRc == BTREE_CORRUPTED ) || ((pTmClb->usAccessMode & ASD_ORGANIZE) != 0) )
+            {
+              pTmExtIn->ulTmKey ++;
+              pTmExtIn->usNextTarget = 1;
+              pTmExtOut->ulTmKey = pTmExtIn->ulTmKey;
+              pTmExtOut->usNextTarget = pTmExtIn->usNextTarget;
+              //usRc = BTREE_NOT_FOUND;     // reset error condition
+              } /* endif */
           } /* endif */
         } /* endwhile */
 
@@ -536,6 +539,12 @@ USHORT TmtXExtract
 
   //release memory
   UtlAlloc( (PVOID *) &pTmRecord, 0L, 0L, NOMSG );
+
+  // in organize mode only: change any error code (except BTREE_EOF_REACHED) to BTREE_CORRUPTED
+  if ( (usRc != NO_ERROR ) && (usRc != BTREE_EOF_REACHED) && ((pTmClb->usAccessMode & ASD_ORGANIZE) != 0) )
+  {
+    usRc = BTREE_CORRUPTED;
+  } /* endif */
 
   return( usRc );
 }

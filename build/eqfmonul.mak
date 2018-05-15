@@ -16,7 +16,6 @@ $(_OBJ)\EQFMONUL.OBJ:	$(_SRC)\plugins\linguistic\EQFMONUL.CPP \
 
 $(_DLL)\EQFMONUL.DLL:	$(_OBJ)\EQFMONUL.OBJ \
 								$(_LIB)\OtmBase.lib \
-								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
 
 
@@ -31,5 +30,5 @@ $(_DLL)\EQFMONUL.DLL:
 $(_OBJ)\EQFMONUL.OBJ
 /OUT:$(_DLL)\EQFMONUL.DLL
 $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib 
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\PluginManager.lib 
 <<

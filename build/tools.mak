@@ -9,26 +9,27 @@
 # target list                                                                 -
 #------------------------------------------------------------------------------
 build:    $(_BIN)\OtmTmxSplitSegments.EXE \
-		  $(_BIN)\OtmChangeFxp.EXE \
+          $(_BIN)\OtmChangeFxp.EXE \
           $(_BIN)\OtmStampProfile.EXE \
-		  $(_BIN)\OtmShowFxp.EXE \
-		  $(_BIN)\OtmAdl.EXE \
-		  $(_BIN)\OtmMtEval.EXE \
+          $(_BIN)\OtmShowFxp.EXE \
+          $(_BIN)\OtmAdl.EXE \
+          $(_BIN)\OtmMtEval.EXE \
           $(_BIN)\OtmChkCalc.EXE \
           $(_BIN)\OtmCreateITMFromMemory.EXE \
-		  $(_BIN)\OtmRemoveTags.EXE \
-		  $(_BIN)\OtmMemoryTool.EXE \
-		  $(_BIN)\OtmTmx2Exp.EXE \
-		  $(_BIN)\OtmExp2Tmx.EXE \
-		  $(_BIN)\OtmXliff2Exp.EXE \
+          $(_BIN)\OtmRemoveTags.EXE \
+          $(_BIN)\OtmMemoryTool.EXE \
+          $(_BIN)\OtmTmx2Exp.EXE \
+          $(_BIN)\OtmExp2Tmx.EXE \
+          $(_BIN)\OtmXliff2Exp.EXE \
           $(_BIN)\OtmIsOpenTM2FXP.EXE \
-		  $(_BIN)\TM2OTMMigrator.EXE \
-		  $(_BIN)\OtmTmxSource2Text.EXE
+          $(_BIN)\TM2OTMMigrator.EXE \
+          $(_BIN)\OtmTmxSource2Text.EXE \
+          $(_BIN)\OtmCheckRegistry.EXE 
 
 #------------------------------------------------------------------------------
 # OtmIsOpenTM2FXP - Test if an FXP package has been created by OpenTM2        -   
 #------------------------------------------------------------------------------
-$(_OBJ)\OtmIsOpenTM2FXP.exe: $(_SRC)\tools\commandline\OtmIsOpenTM2FXP.obj
+$(_OBJ)\OtmIsOpenTM2FXP.obj: $(_SRC)\tools\commandline\OtmIsOpenTM2FXP.c
 
 $(_BIN)\OtmIsOpenTM2FXP.exe: $(_OBJ)\OtmIsOpenTM2FXP.obj
     @echo ---- Linking $(_BIN)\OtmIsOpenTM2FXP.EXE
@@ -36,6 +37,21 @@ $(_BIN)\OtmIsOpenTM2FXP.exe: $(_OBJ)\OtmIsOpenTM2FXP.obj
     @$(_LINKER) >>$(_ERR) @<<lnk.rsp
 $(_OBJ)\OtmIsOpenTM2FXP.obj
 /OUT:$(_BIN)\OtmIsOpenTM2FXP.exe
+$(_LINK_OPTIONS)
+$(_LINK_LIB_EXE)
+<<
+
+#------------------------------------------------------------------------------
+# OtmCheckRegistry - Check (and correct) registry entries used by OpenTM2     -   
+#------------------------------------------------------------------------------
+$(_OBJ)\OtmCheckRegistry.obj: $(_SRC)\tools\commandline\OtmCheckRegistry.c
+
+$(_BIN)\OtmCheckRegistry.exe: $(_OBJ)\OtmCheckRegistry.obj
+    @echo ---- Linking $(_BIN)\OtmCheckRegistry.EXE
+    @echo ---- Linking $(_BIN)\OtmCheckRegistry.EXE >>$(_ERR)
+    @$(_LINKER) >>$(_ERR) @<<lnk.rsp
+$(_OBJ)\OtmCheckRegistry.obj
+/OUT:$(_BIN)\OtmCheckRegistry.exe
 $(_LINK_OPTIONS)
 $(_LINK_LIB_EXE)
 <<
@@ -98,7 +114,10 @@ $(_BIN)\OtmAdl.exe: $(_OBJ)\OtmAdl.obj
 $(_OBJ)\OtmAdl.obj
 /OUT:$(_BIN)\OtmAdl.exe
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB
+$(_LINK_LIB_EXE) 
+$(_LIB)\OTMBASE.LIB
+$(_LIB)\OTMUtilities.LIB
+$(_LIB)\OTMWorkbench.LIB
 <<
 
 
@@ -115,7 +134,11 @@ $(_BIN)\OtmCreateITMFromMemory.exe: $(_OBJ)\OtmCreateITMFromMemory.obj
 $(_OBJ)\OtmCreateITMFromMemory.obj
 /OUT:$(_BIN)\OtmCreateITMFromMemory.exe
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\PluginManager.LIB
+$(_LINK_LIB_EXE) 
+$(_LIB)\OTMFUNC.LIB 
+$(_LIB)\OTMBASE.LIB 
+$(_LIB)\OTMMemoryFunctions.lib 
+$(_LIB)\PluginManager.LIB
 <<
 
 
@@ -131,7 +154,12 @@ $(_BIN)\OtmRemoveTags.exe: $(_OBJ)\OTMREMOVETAGS.obj
 $(_OBJ)\OTMREMOVETAGS.obj
 /OUT:$(_BIN)\OtmRemoveTags.exe
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\PluginManager.LIB
+$(_LINK_LIB_EXE) 
+$(_LIB)\OTMFUNC.LIB 
+$(_LIB)\OTMBASE.LIB 
+$(_LIB)\OTMMemoryFunctions.lib 
+$(_LIB)\OTMTagTableFunctions.lib 
+$(_LIB)\PluginManager.LIB
 <<
 
 #------------------------------------------------------------------------------
@@ -151,7 +179,16 @@ $(_BIN)\OtmMemoryTool.exe: $(_OBJ)\OtmMemoryTool.obj $(_OBJ)\eqfsetex.obj $(_OBJ
  $(_OBJ)\OtmMemoryTool.RBJ
  /OUT:$(_BIN)\OtmMemoryTool.exe
  /MAP:$(_MAP)\OtmMemoryTool.map $(_LINK_OPTIONS)
- $(_LINK_LIB_EXE) $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB $(_LIB)\PluginManager.LIB $(_LIB)\OTMFUNC.LIB 
+ $(_LINK_LIB_EXE) 
+ $(_LIB)\OTMBASE.LIB 
+ $(_LIB)\PluginManager.LIB 
+ $(_LIB)\OTMFUNC.LIB 
+ $(_LIB)\OTMMemoryFunctions.lib 
+ $(_LIB)\OTMWorkbench.LIB 
+ $(_LIB)\OTMUtilities.LIB
+ $(_LIB)\OTMTagTableFunctions.lib  
+ $(_LIB)\OTMEditorFunctions.lib  
+ $(_LIB)\OTMDictionaryFunctions.lib  
 <<
 
 #------------------------------------------------------------------------------
@@ -166,7 +203,7 @@ $(_BIN)\OtmTmx2Exp.exe: $(_OBJ)\TMX2EXP.obj
 $(_OBJ)\TMX2EXP.obj
 /OUT:$(_BIN)\OtmTmx2Exp.exe
 $(_LINK_OPTIONS) 
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMTMXIE.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMTMXIE.LIB $(_LIB)\OTMBASE.LIB
 <<
 
 #------------------------------------------------------------------------------
@@ -197,7 +234,7 @@ $(_BIN)\OtmExp2Tmx.exe: $(_OBJ)\EXP2TMX.obj
 $(_OBJ)\EXP2TMX.obj
 /OUT:$(_BIN)\OtmExp2Tmx.exe
 $(_LINK_OPTIONS) 
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMTMXIE.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMTMXIE.LIB
 <<
 
 #------------------------------------------------------------------------------
@@ -212,7 +249,7 @@ $(_BIN)\OtmXliff2Exp.exe: $(_OBJ)\XLIFF2EXP.obj
 $(_OBJ)\XLIFF2EXP.obj
 /OUT:$(_BIN)\OtmXliff2Exp.exe
 $(_LINK_OPTIONS) 
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMXLFMT.LIB $(_LIB)\OTMDLL.LIB $(_LIB)\OTMBASE.LIB
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OTMXLFMT.LIB $(_LIB)\OTMBASE.LIB
 <<
 
 #------------------------------------------------------------------------------

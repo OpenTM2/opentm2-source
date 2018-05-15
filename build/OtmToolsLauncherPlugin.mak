@@ -49,7 +49,7 @@ $(_DLL)\OtmToolsLauncherPlugin.DLL:
     $(_OBJ)\OtmToolsLauncherPlugin.OBJ 
 /OUT:$(_DLL)\OtmToolsLauncherPlugin.DLL
 /MAP:$(_MAP)\OtmToolsLauncherPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib
+$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib 
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\OtmToolsLauncherPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

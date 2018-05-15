@@ -158,6 +158,8 @@ INT_PTR CALLBACK GFR_BATCHLIST_DLGPROC
           case ID_FOLFIND_BATCHLIST_EDIT_PB:
           case ID_FOLFIND_BATCHLIST_ADD_PB:
             {
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
               LV_ITEMW lvi;
               BOOL fAdd = WMCOMMANDID( mp1, mp2 ) == ID_FOLFIND_BATCHLIST_ADD_PB;
               HWND hwndListView = GetDlgItem( hwnd, ID_FOLFIND_BATCHLIST_LISTVIEW );

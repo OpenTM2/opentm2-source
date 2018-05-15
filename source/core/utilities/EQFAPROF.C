@@ -17,39 +17,6 @@
 //| To be done / known limitations / caveats:                                  |
 //|                                                                            |
 //+----------------------------------------------------------------------------+
-//
-// PVCS Section
-//
-// $CMVC
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 3 Sep 2008
-// GQ: - added handling for fCombineFlags in function AnaProfApplyProfile
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Aug 2008
-// GQ: - Initial put
-// 
-// 
 
 #define INCL_EQF_TM               // general Transl. Memory functions
 #define INCL_EQF_FOLDER           // folder related stuff
@@ -225,6 +192,7 @@ BOOL AnaProfileDialog( PSZ pszProfile, HWND hwndParent )
 {
   int   iRC = 0;
   BOOL  fOK = FALSE;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   DIALOGBOX( hwndParent, ANAPROFILEDLGPROC, hResMod, ID_ANAPROF_DLG, pszProfile, iRC );
 

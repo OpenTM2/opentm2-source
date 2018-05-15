@@ -52,13 +52,13 @@
 // 
 
 
-BOOL AnaProfApplyProfile( LONG hProfile, PVOID pvTAIn, PSZ pszMarkup, BOOL fCombineFlags );
-BOOL AnaProfileDialog( PSZ pszProfile, HWND hwndParent );
-BOOL AnaProfileCheckName( PSZ pszName, HWND hwndParent, BOOL fShowMessage  );
-BOOL AnaProfListProfiles( HWND hwndLB, BOOL fIsCombo );
-BOOL AnaProfLoadProfile( PSZ pszProfile, PLONG plProfileHandle, HWND hwndErrMsg );
-BOOL AnaProfFreeProfile( LONG lProfileHandle );
-BOOL AnaProfBuildFullProfileName( PSZ pszProfile, PSZ pszFullPathName );
+__declspec(dllexport) BOOL AnaProfApplyProfile( LONG hProfile, PVOID pvTAIn, PSZ pszMarkup, BOOL fCombineFlags );
+__declspec(dllexport) BOOL AnaProfileDialog( PSZ pszProfile, HWND hwndParent );
+__declspec(dllexport) BOOL AnaProfileCheckName( PSZ pszName, HWND hwndParent, BOOL fShowMessage  );
+__declspec(dllexport) BOOL AnaProfListProfiles( HWND hwndLB, BOOL fIsCombo );
+__declspec(dllexport) BOOL AnaProfLoadProfile( PSZ pszProfile, PLONG plProfileHandle, HWND hwndErrMsg );
+__declspec(dllexport) BOOL AnaProfFreeProfile( LONG lProfileHandle );
+__declspec(dllexport) BOOL AnaProfBuildFullProfileName( PSZ pszProfile, PSZ pszFullPathName );
 
 // file extention of analysis profile files
 #define EXT_OF_ANAPROFILE ".APR"

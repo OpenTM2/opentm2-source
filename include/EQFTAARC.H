@@ -96,6 +96,7 @@ typedef struct _ARCHTM_IDA
   CHAR        szMemSourceLang[MAX_LANG_LENGTH]; // memory source language
   CHAR_W      szContext[MAX_SEGMENT_SIZE+1]; // buffer for segment context
   CHAR_W      szMetaData[MAX_SEGMENT_SIZE+1]; // buffer for segment metadata
+  ULONG       ulMemTimeStamp;           // time stamp to be used for proposals written to the memory
 } ARCHTM_IDA, *PARCHTM_IDA;
 
 /**********************************************************************/

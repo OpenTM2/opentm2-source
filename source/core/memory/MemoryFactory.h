@@ -38,7 +38,11 @@ public:
   static const int ERROR_INVALIDOBJNAME       = 1005;
   static const int ERROR_MISSINGPARAMETER     = 1006;
 
-/*! \brief This static method returns a pointer to the MemoryFactory object.
+/*! \brief Options for proposal sorting
+*/
+  static const LONG LATESTPROPOSAL_FIRST = 0x00000001;
+
+  /*! \brief This static method returns a pointer to the MemoryFactory object.
 	The first call of the method creates the MemoryFactory instance.
 */
 	static MemoryFactory* getInstance();
@@ -391,13 +395,15 @@ void copyBestMatches(
   When there are more proposals available proposals with lesser relevance will be replaced
   \param iMTDisplayFactor factor for the placement of machine matches within the table
   \param fExactAndFuzzies switch to control the handling of fuzzy matches when exact matches exist, TRUE = keep fuzzy matches even when exact matches exist
+  \param lOptions options for the sorting of the proposals
 */
 void copyBestMatches(
   std::vector<OtmProposal *> &SourceProposals,
   std::vector<OtmProposal *> &TargetProposals,
   int iMaxProposals, 
   int iMTDisplayFactor,
-  BOOL fExactAndFuzzies
+  BOOL fExactAndFuzzies,
+  LONG lOptions = 0
 );
 
 /*! \brief Insert proposal into proposal vector at the correct position and
@@ -411,13 +417,15 @@ void copyBestMatches(
   When there are more proposals available proposals with lesser relevance will be replaced
   \param fLastEntry true = this is the last entry in the table
   \param iMTDisplayFactor factor for the placement of machine matches within the table
+  \param lOptions options for the sorting of the proposals
 */
 void insertProposalData(
   OtmProposal *newProposal,
   std::vector<OtmProposal *> &Proposals,
   int iMaxProposals,
   BOOL fLastEntry, 
-  int iMTDisplayFactor = -1
+  int iMTDisplayFactor = -1,
+  LONG lOptions = 0
 );
 
 /*! \brief Check if first proposal in the list can be used for automatic substitution 
@@ -509,7 +517,7 @@ int splitObjName( char *pszObjName, char *pszPluginName, int iPluginBufSize, cha
   When there are more proposals available proposals with lesser relevance will be replaced
   \returns the proposal sort key
 */
- int getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable );
+ int getProposalSortKey(  OtmProposal &Proposal, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable, LONG lOptions = 0 );
 
  /*! \brief Get the sort order key for a memory match
   \param Proposal reference to a proposal for which the sort key is evaluated
@@ -527,7 +535,7 @@ int getProposalSortKey(  OtmProposal &Proposal );
   When there are more proposals available proposals with lesser relevance will be replaced
   \returns the proposal sort key
 */
-int getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmProposal::eProposalType ProposalType, int iFuzzyness, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable );
+int getProposalSortKey(  OtmProposal::eMatchType MatchType, OtmProposal::eProposalType ProposalType, int iFuzzyness, int iMTDisplayFactor, USHORT usContextRanking, BOOL fEndOfTable, LONG lOptions = 0 );
 
 /* \brief add a new user to a shared memory user list
    \param pszPlugin  name of the shared memory plugin to be used

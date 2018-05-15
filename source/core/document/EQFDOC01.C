@@ -7,6 +7,7 @@
 	Corporation and others. All rights reserved
 */
 
+  #define TADUMMYTAG_INIT
   #define INCL_WINSTDFILE
   #define INCL_EQF_ANALYSIS         // analysis functions
   #define INCL_EQF_TAGTABLE         // tagtable defines and functions
@@ -36,8 +37,7 @@
     #include "EQFDDE.H"           // defines for event logging
   #endif
 
-  #define EQFTAML_DOCEXPVALFORMAT
-  #include "eqftaml.h"                 // validation format document export defines
+  #include "ValDocExp.h"            // validation format document export defines
 
 
 // prefix for folder name in folder name dummy file
@@ -752,6 +752,7 @@ USHORT DocumentUnload( PDOCEXPIDA pIda, HWND hwnd )
                                          (pIda->fSNoMatch && !UtlSupportsLongNames(pIda->szSelectedSnoDrive[0]  ) )    ) )
   {
     BOOL fOK;
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     INFOEVENT2( DOCUMENTUNLOAD_LOC, STATE_EVENT, 1, DOC_GROUP, NULL );
     DIALOGBOX( hwnd, LONGTOSHORTDLGPROC, hResMod, ID_DOCSHORT_DLG, pIda, fOK );
     if ( !fOK )
@@ -1193,6 +1194,7 @@ USHORT UnloadDocument( PDOCEXPIDA pIda, BOOL fTarget )
           // short name, if long-to-short name hasn't been called yet
           if ( strcmp( pIda->szExpName, pIda->szLongName ) == 0 )
           {
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
             // get a short name for the document
             DIALOGBOX( pIda->hwndDlg, LONGTOSHORTDLGPROC, hResMod,
                        ID_DOCSHORT_DLG, pIda, fOK );
@@ -1490,6 +1492,7 @@ LPARAM mp2
         HWND      hwndTabCtrl = GetDlgItem( hwnd, ID_DOCEXP_PROP_TABCTRL );
         HWND      hwndDlg;
         USHORT    nItem = 0;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
         GetClientRect( hwndTabCtrl, &rect );
         TabCtrl_AdjustRect( hwndTabCtrl, FALSE, &rect );
@@ -1582,6 +1585,7 @@ LPARAM mp2
       {
         HWND      hwndTabCtrl = GetDlgItem( hwnd, ID_DOCEXP_PROP_TABCTRL );
         RECT      rect;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
         GetClientRect( hwndTabCtrl, &rect );
 
@@ -1939,6 +1943,7 @@ SHORT  sNotification                // notification
     case ID_DOCEXP_IMPPATH_RB:
       if ( sNotification == BN_CLICKED )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         // switch to export in external format
         SHOWCONTROL( hwnd, ID_DOCEXP_TARGETPATH_CB );
         SETTEXTFROMRES( hwnd, ID_DOCEXP_EXPORT_GB, pIda->szString, hResMod, SID_DOCEXP_EXTEXPORT );
@@ -2045,6 +2050,8 @@ SHORT  sNotification                // notification
     case ID_DOCEXP_INTFORMAT_RB:
       if ( sNotification == BN_CLICKED )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         // switch to export in internal format
         SETTEXTFROMRES( hwnd, ID_DOCEXP_EXPORT_GB, pIda->szString, hResMod, SID_DOCEXP_INTEXPORT );
         SHOWCONTROL( hwnd, ID_DOCEXP_TARGETPATH_CB );
@@ -2130,6 +2137,8 @@ SHORT  sNotification                // notification
     case ID_DOCEXP_VALFORMAT_RB:
       if ( sNotification == BN_CLICKED )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         // switch to export in validation format
         SETTEXTFROMRES( hwnd, ID_DOCEXP_EXPORT_GB, pIda->szString, hResMod, SID_DOCEXP_INTEXPORT );
 
@@ -2213,6 +2222,8 @@ SHORT  sNotification                // notification
     case ID_DOCEXP_XMLFORMAT_RB:
       if ( sNotification == BN_CLICKED )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         // switch to export in plain XML format
         SETTEXTFROMRES( hwnd, ID_DOCEXP_EXPORT_GB, pIda->szString, hResMod, SID_DOCEXP_INTEXPORT );
 
@@ -2488,6 +2499,7 @@ SHORT sNotification                 // notification type
       }
       else
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         DIALOGBOX( hwnd, REVMARKDLGPROC, hResMod, ID_REVMARK_DLG, pIda, fOK );
 
         if ( fOK )
@@ -6974,9 +6986,7 @@ LONG        lOptions                 // document import options or 0L
                sizeof(pDocImpExp->chListName)-1 );
       UtlStripBlanks( pDocImpExp->chListName );
 
-      fOK = ListOfFiles( NULL, NULL,
-                         pDocImpExp->chListName,
-                         &(pDocImpExp->ppFileArray) );
+      fOK = UtlListOfFiles( NULL, pDocImpExp->chListName, &(pDocImpExp->ppFileArray) );
       if ( fOK )
       {
         // get number of files given
@@ -7303,8 +7313,7 @@ LONG        lOptions                 // options for document export
       // store the list file
       strncpy( pDocImpExp->chListName, pszFiles,
                sizeof(pDocImpExp->chListName)-1 );
-      fOK = ListOfFiles( NULL, NULL,
-                         pDocImpExp->chListName, &(pDocImpExp->ppFileArray) );
+      fOK = UtlListOfFiles( NULL, pDocImpExp->chListName, &(pDocImpExp->ppFileArray) );
       if ( fOK )
       {
         // get number of files given
@@ -8084,5 +8093,4 @@ static int DocValFormatSetMatchStates
 
   return( iRC );
 } /* end of function DocValFormatSetMatchStates */
-
 

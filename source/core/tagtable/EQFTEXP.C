@@ -42,286 +42,6 @@ MRESULT TagExportCallBack( PPROCESSCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
 INT_PTR CALLBACK EXPDLG( HWND, WINMSG, WPARAM, LPARAM );
 MRESULT ExpCommand( HWND, SHORT, SHORT );
 
-
-INT_PTR CALLBACK EXPDLG( HWND hwndDlg,
-                         WINMSG msg,
-                         WPARAM mp1,
-                         LPARAM mp2 )
-{
-   PTAGEXPORT    pTagExport;                  //export global structure
-   MRESULT       mResult = (MRESULT)FALSE;    //return code of this function
-   PSZ           pszError;                    //ptr to string
-   EQFINFO       ErrorInfo;                   //error return codes
-   PPROPTAGTABLE pProp;                       //ptr to tagtable properties
-
-   switch ( msg )
-   {
-      case ( WM_INITDLG ) :                 //initialize and display dialogbox
-        pTagExport= (PTAGEXPORT) mp2;
-        ANCHORDLGIDA( hwndDlg, pTagExport );
-
-        //open properties
-        UtlMakeEQFPath( pTagExport->szDummy, NULC,
-                        SYSTEM_PATH, (PSZ) NULP );       // system drive
-        pTagExport->hTagListProp = OpenProperties( TAGTABLE_PROPERTIES_NAME,
-                                           pTagExport->szDummy,
-                                           PROP_ACCESS_READ, &ErrorInfo );
-        if( !pTagExport->hTagListProp )
-        {
-           pszError = TAGTABLE_PROPERTIES_NAME;
-           UtlError( ERROR_OPEN_PROPERTIES,
-                     MB_CANCEL,
-                     1,
-                     &pszError,
-                     EQF_ERROR);
-           return( (MRESULT)TRUE);      // do not create the window
-        }
-
-        pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagExport->hTagListProp );
-        // load last used values
-        if ( pProp->chTexPath[0] == EOS  )
-        {
-          strcpy( pProp->chTexPath, pProp->chOldTexPath );
-        } /* endif */
-        pTagExport->ControlsIda.chSavedDrive = pProp->chTexDrive;
-        strcpy( pTagExport->ControlsIda.szSavedPath, pProp->chTexPath );
-        pTagExport->ControlsIda.usSavedFormat = EXTERNAL;
-
-        //save handle of directories listbox to IDA
-        pTagExport->hwndDirLb = WinWindowFromID( hwndDlg,ID_TEX_DIR_LB );
-
-        //save handle of name entry field to IDA
-        pTagExport->hwndNewNameSle = WinWindowFromID( hwndDlg,ID_TEX_NAME_EF );
-
-        //save dialog ids to ida needed for dialog control utility
-        pTagExport->ControlsIda.idDirLB = ID_TEX_DIR_LB;
-        pTagExport->ControlsIda.idPathEF = ID_TEX_NAME_EF;
-        pTagExport->ControlsIda.idCurrentDirectoryEF = ID_TEX_CURDIR_EF;
-        pTagExport->ControlsIda.idInternalRB = ID_TEX_TROJA_RB;
-        pTagExport->ControlsIda.idExternalRB = ID_TEX_EXTERNAL_RB;
-        pTagExport->ControlsIda.idDriveBTN = ID_TEX_DUMMY;
-        pTagExport->ControlsIda.idControlsGB = ID_TEX_TO_GB;
-        pTagExport->ControlsIda.idOkPB = ID_TEX_EXPORT_PB;
-        pTagExport->ControlsIda.idExportTEXT = ID_TEX_EXPORT_EF;
-
-        //save name of object extension
-        strcpy( pTagExport->ControlsIda.szExt, EXT_OF_EXTERNAL_FORMAT );
-
-        //save name of dictionary for export needed for controls utility
-        strcpy( pTagExport->ControlsIda.szSelectedName, pTagExport->szName );
-
-        //stipulate that not import process
-        pTagExport->ControlsIda.fImport = FALSE;
-
-        // initialze controls
-        UtlControlsInit( hwndDlg, &pTagExport->ControlsIda );
-
-        //grey out mat rb
-        ENABLECTRL( hwndDlg, ID_TEX_TROJA_RB, FALSE );
-        SETCHECK_TRUE( hwndDlg, ID_TEX_EXTERNAL_RB );
-
-        mResult = (MRESULT)FALSE;
-        break;
-
-      case ( WM_COMMAND ) :
-        mResult = ExpCommand( hwndDlg, WMCOMMANDID( mp1, mp2 ),
-                              WMCOMMANDCMD( mp1, mp2 ));
-        break;
-
-      case ( WM_CLOSE ) :
-        pTagExport = ACCESSDLGIDA( hwndDlg, PTAGEXPORT );
-
-        //close markup table list properties
-        CloseProperties( pTagExport->hTagListProp, PROP_QUIT, &ErrorInfo );
-
-        //distroy dialog
-        WinDismissDlg( hwndDlg, SHORT1FROMMP1( mp1 ) );
-        break;
-
-     case ( DM_GETDEFID ) :
-        pTagExport = ACCESSDLGIDA( hwndDlg, PTAGEXPORT );
-        mResult = UtlDMGETDEFID( hwndDlg, mp1, mp2, &pTagExport->ControlsIda );
-        break;
-
-      default :
-        //return to default dialog procedure
-        mResult = UTLDEFDIALOGPROC( hwndDlg, msg, mp1, mp2 );
-        break;
-   }/*end switch*/
-   return ( mResult );
-}
-
-MRESULT ExpCommand
-(
-  HWND  hwndDlg,
-   SHORT sId,                          // id of button
-   SHORT sNotification                 // notification type
-)
-{
-   PTAGEXPORT  pTagExport;                  // export dialog IDA
-   USHORT      usRc;                        // Return code from Dos functions
-   USHORT      usAction;                    // Action for DosOpen
-   BOOL        fOK = TRUE;                  // processing state
-   PSZ         pszError;                    // string for error messages
-   HDIR        hDirHandle = HDIR_CREATE;    // DosFind routine handle
-   USHORT      usCount = 1;                 // Dos parameter
-   EQFINFO     ErrorInfo;                   // error return codes
-   PPROPTAGTABLE pProp;                     // markup table list props
-   MRESULT     mResult = (MRESULT)FALSE;    // function return value
-
-   sNotification;                           // get rid of compiler warning
-
-   switch ( sId )
-   {
-	   case (ID_TEX_HELP_PB):
-	   mResult = UtlInvokeHelp();
-	   break;
-     case ( ID_TEX_CANCEL_PB ) :   //CANCEL button selected
-     case ( DID_CANCEL ) :          //ESC key pressed
-       WinPostMsg( hwndDlg, WM_CLOSE, NULL, NULL );
-       break;
-
-     case ( ID_TEX_EXPORT_PB ) :
-       pTagExport = ACCESSDLGIDA( hwndDlg, PTAGEXPORT );
-
-       //Get state of external format radio button
-       pTagExport->fAscii = QUERYCHECK( hwndDlg, ID_TEX_EXTERNAL_RB );
-       if ( !pTagExport->fAscii )
-       {
-          UtlErrorHwnd( NO_TROJA_FORMAT, MB_CANCEL,  //internal format selected
-                        0, NULL, EQF_WARNING, hwndDlg );
-          fOK = FALSE;
-          SETFOCUS( hwndDlg, ID_TEX_TROJA_RB );
-       } /* endif */
-
-       if ( fOK )
-       {
-          //call utility to check if new path entered
-          pTagExport->ControlsIda.fCommand = TRUE;
-          fOK = UtlEFValidityTest( &pTagExport->ControlsIda, hwndDlg );
-          pTagExport->ControlsIda.fCommand = FALSE;
-
-          if ( fOK )
-          {
-             //get values set in ControlsIda via dialog utilities
-             strcpy( pTagExport->szPath, pTagExport->ControlsIda.szPath );
-             strcpy( pTagExport->szTargetName, pTagExport->ControlsIda.szPathContent );
-             strcpy( pTagExport->szDrive, pTagExport->ControlsIda.szDrive );
-
-             if ( fOK )
-             {
-                if ( UtlFileExist( pTagExport->szTargetName ))
-                {
-                   //display message saying file will be overwritten
-                   pszError =  UtlGetFnameFromPath( pTagExport->szTargetName);
-
-                   usRc = UtlErrorHwnd( ERROR_FILE_EXISTS_ALREADY,
-                                        MB_YESNO | MB_DEFBUTTON2,
-                                        1, &pszError, EQF_QUERY, hwndDlg );
-                   if ( usRc != MBID_YES )
-                   {
-                      fOK = FALSE;
-                      SETFOCUSHWND( pTagExport->hwndNewNameSle );
-                   } /* endif */
-                } /* endif */
-
-                if ( fOK )
-                {
-                   //check if valid file name specification
-                   usRc = UtlOpen( pTagExport->szTargetName,
-                                   &(pTagExport->stBuffer.hTarget),
-                                   &usAction,
-                                   0L, FILE_NORMAL,
-                                   FILE_TRUNCATE |
-                                   FILE_CREATE,
-                                   OPEN_ACCESS_READWRITE |
-                                   OPEN_SHARE_DENYWRITE,
-                                   0L, FALSE );
-
-                   if ( usRc != NO_ERROR )
-                   {
-                      //display error message that sgml file specification incorrect
-                      pszError = pTagExport->szTargetName;
-                      UtlErrorHwnd( ERROR_FILENAME_NOT_VALID, MB_CANCEL,
-                                    1, &pszError, EQF_ERROR, hwndDlg );
-                      fOK = FALSE;
-                      SETFOCUSHWND( pTagExport->hwndNewNameSle );
-                   }
-                } /* endif */
-             } /* endif */
-          } /* endif */
-
-          if ( fOK )
-          {
-             //Build full specified filename of markup table for export
-//           UtlMakeEQFPath( pTagExport->szDummy, NULC,    //system drive &
-//                           TABLE_PATH, (PSZ) NULP );           //directory
-//           strcpy( pTagExport->szSourceName, pTagExport->szDummy );
-//           strcat( pTagExport->szSourceName, BACKSLASH_STR );
-//           strcat( pTagExport->szSourceName, pTagExport->szName );
-//           strcat( pTagExport->szSourceName, EXT_OF_FORMAT );
-
-             if ( ! MUGetMarkupTableFileName( pTagExport->szName, NULL, pTagExport->szSourceName, MAX_EQF_PATH ) ) {
-                fOK = FALSE ;
-                          /*  TODO   DAW  */
-             }
-
-             //check if enough room for export, get size of dict
-             usRc = UtlFindFirst( pTagExport->szSourceName, &hDirHandle,
-                                  FILE_NORMAL, &(pTagExport->ResultBuf),
-                                  sizeof( pTagExport->ResultBuf),
-                                  &usCount, 0L, FALSE);
-             if ( !usRc )
-             {
-                // close file search handle
-                if ( hDirHandle != HDIR_CREATE ) UtlFindClose( hDirHandle, FALSE );
-
-                if ( RESBUFSIZE(pTagExport->ResultBuf) == 0 ) //size = zero bytes
-                {
-                   pszError = pTagExport->szName;
-                   UtlErrorHwnd( ERROR_FILE_EXP_SIZE, MB_CANCEL,
-                                 1, &pszError, EQF_ERROR, hwndDlg );
-                   fOK = FALSE;
-                }
-             }
-             else
-             {
-                pszError = pTagExport->szName;
-                UtlErrorHwnd( ERROR_FILE_ACCESS_ERROR, MB_CANCEL,
-                              1, &pszError, EQF_ERROR, hwndDlg );
-                fOK = FALSE;
-             } /* endif */
-          } /* endif */
-
-          // close dialog
-          if ( fOK )
-          {
-             //save last used values
-             if( SetPropAccess( pTagExport->hTagListProp, PROP_ACCESS_WRITE))
-             {
-                pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagExport->hTagListProp);
-                strcpy( pProp->chTexPath, pTagExport->szPath );
-                pProp->chTexDrive = pTagExport->szDrive[0];
-                SaveProperties( pTagExport->hTagListProp, &ErrorInfo);
-                if ( ErrorInfo == Err_NoStorage )
-                {
-                   fOK = FALSE;
-                } /* endif */
-             } /* endif */
-
-             WinPostMsg( hwndDlg, WM_CLOSE, MP1FROMSHORT( fOK ), NULL );
-          } /* endif */
-       } /* endif*/
-       break;
-
-     default :
-       pTagExport = ACCESSDLGIDA( hwndDlg, PTAGEXPORT );
-       UtlWMControls( hwndDlg, WM_CONTROL, sId, sNotification, &pTagExport->ControlsIda );
-       break;
-   } /*endswitch*/
-   return mResult;
-} /* end of function ExpCommand */
-
 VOID TagTableExport( HWND hwnd, PSZ pSelName )
 {
    BOOL            fOK = TRUE;                  // return value
@@ -344,9 +64,187 @@ VOID TagTableExport( HWND hwnd, PSZ pSelName )
 
    if (fOK)
    {
-      //load export dialog
-      DIALOGBOX( EqfQueryTwbClient(), EXPDLG,
-                 hResMod, ID_TAGEXP_DLG, pTagExport, fOK );
+      // call standard save as dialog
+      {
+        BOOL fDone = TRUE;
+        BOOL fExtAdded = FALSE;
+
+        OPENFILENAME OpenFileName;
+
+        // get last used values
+        {
+          EQFINFO       ErrorInfo;                   //error return codes
+
+          UtlMakeEQFPath( pTagExport->szDummy, NULC, SYSTEM_PATH, (PSZ) NULP );   
+          pTagExport->hTagListProp = OpenProperties( TAGTABLE_PROPERTIES_NAME, pTagExport->szDummy, PROP_ACCESS_READ, &ErrorInfo );
+          if( pTagExport->hTagListProp )
+          {
+            PPROPTAGTABLE pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagExport->hTagListProp );
+            if ( pProp->chTexPath[0] == EOS  )
+            {
+              strcpy( pProp->chTexPath, pProp->chOldTexPath );
+            } /* endif */
+            pTagExport->ControlsIda.chSavedDrive = pProp->chTexDrive;
+            strcpy( pTagExport->ControlsIda.szSavedPath, pProp->chTexPath );
+            pTagExport->ControlsIda.usSavedFormat = EXTERNAL;
+          }
+        }
+
+        memset( &OpenFileName, 0, sizeof(OpenFileName) );
+        OpenFileName.lStructSize        = sizeof(OpenFileName);
+        OpenFileName.hwndOwner          = EqfQueryTwbClient();
+        OpenFileName.hInstance          = NULLHANDLE;
+        OpenFileName.lpstrFilter        = "Exported Tag Table (*.TBX)\0*.TBX\0\0";
+        OpenFileName.lpstrCustomFilter  = NULL;
+        OpenFileName.nMaxCustFilter     = 0;
+        OpenFileName.nFilterIndex       = 1;
+        strcpy( pTagExport->ControlsIda.szPathContent, pTagExport->szName );
+
+        OEMTOANSI( pTagExport->ControlsIda.szPathContent );
+        OpenFileName.lpstrFile          = pTagExport->ControlsIda.szPathContent;
+        OpenFileName.nMaxFile           = sizeof(pTagExport->ControlsIda.szPathContent);
+        OpenFileName.lpstrFileTitle     = NULL;
+        OpenFileName.nMaxFileTitle      = 0;
+        OpenFileName.lpstrInitialDir    = pTagExport->ControlsIda.szSavedPath;
+        sprintf( pTagExport->szTitle, "Export Markup Table %s", pTagExport->szName );
+        OpenFileName.lpstrTitle         = pTagExport->szTitle;
+        OpenFileName.Flags              = OFN_ENABLESIZING | OFN_EXPLORER | OFN_LONGNAMES | OFN_NODEREFERENCELINKS | OFN_NOTESTFILECREATE | OFN_NOCHANGEDIR | OFN_PATHMUSTEXIST;
+        OpenFileName.nFileOffset        = 0;
+        OpenFileName.nFileExtension     = 0;
+        OpenFileName.lpstrDefExt        = "TBX";
+        OpenFileName.lCustData          = 0L;
+        OpenFileName.lpfnHook           = NULL;
+        OpenFileName.lpTemplateName     = NULL;
+
+        do
+        {
+          fOK = (GetSaveFileName( &OpenFileName ) != 0 );
+
+          if ( fOK )
+          {
+            // set export file extension if none specified by user
+            {
+              // find file name within full path
+              PSZ pszFileName = strrchr( pTagExport->ControlsIda.szPathContent, '\\' );
+              if ( pszFileName != NULL )
+              {
+                pszFileName++;               
+              }
+              else
+              {
+                pszFileName = pTagExport->ControlsIda.szPathContent;
+              } /* endif */
+
+              // set default extension if none specified
+              if ( strchr( pszFileName, '.' ) == NULL )
+              {
+                strcat( pTagExport->ControlsIda.szPathContent, ".TBX" );
+              } /* endif */
+            }
+
+            // get overwrite confirmation (has to be done outside the dialog as the file extension
+            // is not available within the SaveAs dialog
+            fDone = TRUE;
+            if ( fOK && UtlFileExist(pTagExport->ControlsIda.szPathContent)  )
+            {
+              PSZ pszParms[2]; 
+
+              pszParms[0] = pTagExport->ControlsIda.szPathContent;
+              if ( UtlError( FILE_EXISTS, MB_OKCANCEL | MB_DEFBUTTON2, 1, pszParms, EQF_QUERY ) != MBID_OK )
+              {
+                PSZ pszName; 
+
+                fDone = FALSE;                   // redo SaveAs dialog
+
+                strcpy ( pTagExport->szDummy, pTagExport->ControlsIda.szPathContent );
+                pszName = UtlSplitFnameFromPath( pTagExport->szDummy );
+                if ( fExtAdded )
+                {
+                  Utlstrccpy( pTagExport->ControlsIda.szPathContent, pszName, DOT );
+                }
+                else
+                {
+                  strcpy( pTagExport->ControlsIda.szPathContent, pszName );
+                } /* endif */
+              } /* endif */
+            } /* endif */
+
+            // prepare export and do some checking
+            if ( fDone ) // no problem with overwrite confirmation ?
+            {
+              USHORT usRc = 0;
+              USHORT usAction = 0;
+
+              //get values set in ControlsIda via dialog utilities
+              strcpy( pTagExport->szPath, pTagExport->ControlsIda.szPathContent );
+              UtlSplitFnameFromPath( pTagExport->szPath );
+              strcpy( pTagExport->szTargetName, pTagExport->ControlsIda.szPathContent );
+              strncpy( pTagExport->szDrive, pTagExport->ControlsIda.szPathContent, 2 );
+              pTagExport->szDrive[2] = 0;
+
+              // save last used values
+              if( pTagExport->hTagListProp )
+              {
+                  if( SetPropAccess( pTagExport->hTagListProp, PROP_ACCESS_WRITE))
+                  {
+                    EQFINFO ErrorInfo;                  
+                    PPROPTAGTABLE pProp = (PPROPTAGTABLE) MakePropPtrFromHnd( pTagExport->hTagListProp);
+                    strcpy( pProp->chTexPath, pTagExport->szPath );
+                    pProp->chTexDrive = pTagExport->szDrive[0];
+                    SaveProperties( pTagExport->hTagListProp, &ErrorInfo);
+                  } /* endif */
+              } /* endif */
+            
+
+              //check for valid file name specification
+              usRc = UtlOpen( pTagExport->szTargetName, &(pTagExport->stBuffer.hTarget), &usAction, 0L, FILE_NORMAL,
+                              FILE_TRUNCATE | FILE_CREATE, OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE, 0L, FALSE );
+              if ( usRc != NO_ERROR )
+              {
+                //display error message that file specification is incorrect
+                PSZ pszError = pTagExport->szTargetName;
+                UtlError( ERROR_FILENAME_NOT_VALID, MB_CANCEL, 1, &pszError, EQF_ERROR );
+                fDone = FALSE;
+              }
+
+              if ( fDone )
+              {
+                 if ( !MUGetMarkupTableFileName( pTagExport->szName, NULL, pTagExport->szSourceName, MAX_EQF_PATH ) ) 
+                 {
+                   fDone = FALSE;
+                   /*  TODO   DAW  */
+                 }
+              }
+
+              if ( fDone )
+              {
+                //check if enough room for export, get size of MUT
+                HDIR hDirHandle = HDIR_CREATE;    
+                USHORT usCount = 0;
+                usRc = UtlFindFirst( pTagExport->szSourceName, &hDirHandle, FILE_NORMAL, &(pTagExport->ResultBuf), sizeof( pTagExport->ResultBuf), &usCount, 0L, FALSE);
+                if ( !usRc )
+                {
+                  // close file search handle
+                  if ( hDirHandle != HDIR_CREATE ) UtlFindClose( hDirHandle, FALSE );
+
+                  if ( RESBUFSIZE(pTagExport->ResultBuf) == 0 ) //size = zero bytes
+                  {
+                      PSZ pszError = pTagExport->szName;
+                      UtlError( ERROR_FILE_EXP_SIZE, MB_CANCEL, 1, &pszError, EQF_ERROR );
+                      fOK = FALSE;
+                  }
+                }
+                else
+                {
+                  PSZ pszError = pTagExport->szName;
+                  UtlError( ERROR_FILE_ACCESS_ERROR, MB_CANCEL, 1, &pszError, EQF_ERROR );
+                  fDone = FALSE;
+                } /* endif */
+              } /* endif */
+            } /* endif */
+          } /* endif fOK */
+        } while ( !fDone );
+      }
    } /* endif */
 
    if ( fOK )
@@ -364,6 +262,14 @@ VOID TagTableExport( HWND hwnd, PSZ pSelName )
        UtlAlloc( (PVOID *) &pTagExport, 0L, 0L, NOMSG) ;
        fOK = FALSE;
      } /* endif */
+   } /* endif */
+
+   // close any open properties
+   if ( pTagExport && pTagExport->hTagListProp )
+   {
+     EQFINFO       ErrorInfo;                   //error return codes
+     CloseProperties( pTagExport->hTagListProp, PROP_QUIT, &ErrorInfo );
+     pTagExport->hTagListProp = NULL;
    } /* endif */
 
    if ( fOK && WinIsWindow( (HAB)NULL, hwnd) )
@@ -399,38 +305,41 @@ MRESULT TagExportCallBack
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      pTagExport          = (PTAGEXPORT) PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pTagExport;
+      {
+        pTagExport          = (PTAGEXPORT) PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pTagExport;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_TAGEXP_WINDOW;
-      pCommArea->sProcessObjClass = clsTAGEXP;
-      pCommArea->Style            = PROCWIN_TEXTSLIDER;
-      pCommArea->sTextID          = ID_EXPORTTAG_TXT;
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_TAGEXP_WINDOW;
+        pCommArea->sProcessObjClass = clsTAGEXP;
+        pCommArea->Style            = PROCWIN_TEXTSLIDER;
+        pCommArea->sTextID          = ID_EXPORTTAG_TXT;
 
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TAGEXPORT_TAGTXT, pCommArea->szText );
-      strcat( pCommArea->szText, pTagExport->szTargetName );
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TAGEXPORT_TAGTXT, pCommArea->szText );
+        strcat( pCommArea->szText, pTagExport->szTargetName );
 
-      pCommArea->sSliderID        = ID_TAGSLIDER;
+        pCommArea->sSliderID        = ID_TAGSLIDER;
 
-      LOADSTRING( NULLHANDLE, hResMod, IDS_TAGEXPORT_TITLEBAR, pCommArea->szTitle );
-      Utlstrccpy( pCommArea->szTitle + strlen(pCommArea->szTitle),
-                  UtlGetFnameFromPath( pTagExport->szSourceName ),
-                  DOT );
+        LOADSTRING( NULLHANDLE, hResMod, IDS_TAGEXPORT_TITLEBAR, pCommArea->szTitle );
+        Utlstrccpy( pCommArea->szTitle + strlen(pCommArea->szTitle),
+                    UtlGetFnameFromPath( pTagExport->szSourceName ),
+                    DOT );
 
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_MARKUPEXPICON); //hiconMARKUPEXP;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 14;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = WM_EQF_ABOUTTODELETE;
-      pCommArea->asMsgsWanted[2]  = 0;
-      pCommArea->usComplete       = 0;
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_MARKUPEXPICON); //hiconMARKUPEXP;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 14;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = WM_EQF_ABOUTTODELETE;
+        pCommArea->asMsgsWanted[2]  = 0;
+        pCommArea->usComplete       = 0;
+      }
       break;
 
 

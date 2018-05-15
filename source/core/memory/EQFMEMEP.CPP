@@ -1181,6 +1181,7 @@ USHORT EQFMemExportEnd ( PPROCESSCOMMAREA pCommArea,
 
   if ( pExportIDA->pszNameList && pExportIDA->pszActiveName[0] )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);    
     // GQTODO update process window title bar and outfile static
     LOADSTRING( NULLHANDLE, hResMod, MEM_EPLINE2, pCommArea->szBuffer );
     sprintf( pCommArea->szText, "%s %s", pCommArea->szBuffer, pExportIDA->ControlsIda.szPathContent );

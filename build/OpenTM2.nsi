@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.4.2"
+!define PRODUCT_VERSION "1.5.0"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -267,6 +267,7 @@ SectionEnd
    
    Caption "OpenTM2 ${PRODUCT_VERSION} Setup"
  
+   ;OutFile "OpenTM2 ${PRODUCT_VERSION} Setup-${MyTIMESTAMP}.exe"
    OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition.Setup.exe"  
   
   ;Default installation folder
@@ -459,6 +460,7 @@ SetOverwrite on
 ${File} "PROPERTY\" "EQFNFLUENT.TRG"
 Continue7:
 ;End control trigger file
+SetOverwrite on
 
 ${SetOutPath} "$INSTDIR\PRTFORM"
 ${File} "PRTFORM\" "FORMAT1.FRM"
@@ -521,7 +523,26 @@ ${File} "WIN\" "OTMAPI.DLL"
 ${File} "WIN\" "OTMTMXIE.DLL"
 ${File} "WIN\" "OTMXLFMT.DLL"
 ${File} "WIN\" "OTMBASE.DLL"
-${File} "WIN\" "OTMDLL.DLL"
+IfFileExists "$INSTDIR\WIN\OTMDLL.DLL" 0 NoOTMDLL
+Delete "$INSTDIR\WIN\OTMDLL.DLL"
+NoOTMDLL:
+${File} "WIN\" "OtmMachTransl.DLL"
+${File} "WIN\" "OtmLinguistic.DLL"
+${File} "WIN\" "OtmFolderUtils.DLL"
+${File} "WIN\" "OtmTagTableFunctions.DLL"
+${File} "WIN\" "OtmDictionaryFunctions.DLL"
+${File} "WIN\" "OtmFuzzy.DLL"
+${File} "WIN\" "OtmSegmentedFile.DLL"
+${File} "WIN\" "OtmMemoryFunctions.DLL"
+${File} "WIN\" "OtmUtilities.DLL"
+${File} "WIN\" "OtmFolderUtils.DLL"
+${File} "WIN\" "OtmListFunctions.DLL"
+${File} "WIN\" "OtmDialog.DLL"
+${File} "WIN\" "OtmCounting.DLL"
+${File} "WIN\" "OtmAnalysisFunctions.DLL"
+${File} "WIN\" "OtmFolderFunctions.DLL"
+${File} "WIN\" "OtmEditorFunctions.DLL"
+${File} "WIN\" "OtmWorkbench.DLL"
 ${File} "WIN\" "PluginManager.DLL"
 ${File} "WIN\" "PluginMgrAssist.DLL"
 ${File} "WIN\" "OTMFUNC.DLL"
@@ -590,6 +611,7 @@ ${File} "WIN\" "OtmMemoryServiceGUI.EXE"
 IfFileExists "$INSTDIR\WIN\OtmMemoryService.conf" OMSConfExists 0
 ${File} "WIN\" "OtmMemoryService.conf"
 OMSConfExists:
+
 
 ${SetOutPath} "$INSTDIR\API"
 ${File} "API\" "OTMFUNC.LIB"
@@ -965,8 +987,19 @@ Function .onInit
 	     ; allow re-install over current version
 	     Goto continueInstallation
        ${EndIf}
+       ; check if we are installing a golden driver (w/o build number) over one of test drivers (w/ build number)
+       ;   the version string for the golden driver is something like "1.4.2"
+       ;   the version string for the test drivers is "1.4.2-b1234-Silver" and "1.4.2-b1234-MRT"
+       StrCpy $6 ${PRODUCT_VERSION} 5
+       StrCpy $7 $5 5
+       ${If} $6 == $7
+	     ; version numbers are identical, now check if installed version has no build number and test driver name
+             StrLen $8 ${PRODUCT_VERSION}
+             ${If} $8 == 5
+	           Goto continueInstallation
+             ${EndIf}
+       ${EndIf}
        ${If} $5 S>= ${PRODUCT_VERSION}
-
          ; this version is OLDER
 
               MessageBox MB_OK|MB_ICONSTOP "   You are trying to install same or older version of OpenTM2! $\nIf you really want to do this, first uninstall the current version$\n$\n$\tThe Installer will now quit." /SD IDOK

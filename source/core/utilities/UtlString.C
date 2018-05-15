@@ -2607,12 +2607,19 @@ int UTF16stricmp(PSZ_W pusTarget, PSZ_W pusSource)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-///  UTF16memset   initializes usLen wide characters with c                 ///
+///  UTF16memset   initializes ulLen wide characters with c                 ///
 ///////////////////////////////////////////////////////////////////////////////
 PSZ_W UTF16memset( PSZ_W pusString, CHAR_W c, USHORT usNum )
 {
   PSZ_W p = pusString;
   while ( usNum -- )
+    *pusString++ = c;
+  return p;
+}
+PSZ_W UTF16memsetL( PSZ_W pusString, CHAR_W c, ULONG ulNum )
+{
+  PSZ_W p = pusString;
+  while ( ulNum -- )
     *pusString++ = c;
   return p;
 }

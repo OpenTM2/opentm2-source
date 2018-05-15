@@ -45,7 +45,10 @@ $(_OTMMARKUP_OBJ)\eqfcalls.obj
 $(_OBJ)\eqfparse.obj 
 /OUT:$(_OTMMARKUP_DLL)\otmquote.dll /nologo /MACHINE:IX86 /ALIGN:0X1000 /DRIVER /DLL /NOD
 /MAP:$(_OTMMARKUP_MAP)\otmquote.map
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMLinguistic.lib 
+$(_LIB)\OTMTagTableFunctions.lib 
 <<
     @copy $(_OTMMARKUP_DLL)\otmquote.dll $(_OTMMARKUP_RELEASE_DIR)\BIN /Y>$(_ERR)
     @copy $(_OTMMARKUP_SRC)\otmquote\otmquote.tbl $(_OTMMARKUP_RELEASE_DIR)\TABLE /Y>$(_ERR)

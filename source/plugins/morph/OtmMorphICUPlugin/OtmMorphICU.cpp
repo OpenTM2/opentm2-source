@@ -208,7 +208,8 @@ int OtmMorphICU::tokenizeByTerm( const char* pszSection, STRINGLIST& vResult )
 bool OtmMorphICU::init()
 {
 	UErrorCode tStatus = U_ZERO_ERROR;
-	pWordBoundary = BreakIterator::createWordInstance(Locale::getUS(), tStatus);
+//	pWordBoundary = BreakIterator::createWordInstance(Locale::getUS(), tStatus);
+	pWordBoundary = BreakIterator::createWordInstance(Locale::getJapanese(), tStatus);
 	if (U_FAILURE(tStatus))
 	{
 		return false;
@@ -581,10 +582,12 @@ void OtmMorphICU::setupSentenceBoundary(UErrorCode &tStatus) {
   Log.open( "MORPHICUSETUP" );
   Log.writef( "Using default sentence segmentation rules." );
 #endif
-        pSentenceBoundary = BreakIterator::createSentenceInstance(Locale::getUS(), tStatus);
+//        pSentenceBoundary = BreakIterator::createSentenceInstance(Locale::getUS(), tStatus);
+        pSentenceBoundary = BreakIterator::createSentenceInstance(Locale::getJapanese(), tStatus);
     }
 
-    pWordBoundaryForSentence = BreakIterator::createWordInstance(Locale::getUS(), tStatus);
+//    pWordBoundaryForSentence = BreakIterator::createWordInstance(Locale::getUS(), tStatus);
+    pWordBoundaryForSentence = BreakIterator::createWordInstance(Locale::getJapanese(), tStatus);
     if (U_FAILURE(tStatus)) {
         return;
     }

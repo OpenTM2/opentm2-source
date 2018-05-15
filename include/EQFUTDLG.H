@@ -58,7 +58,6 @@ VOID UtlControlsInit( HWND, PCONTROLSIDA );
 
 __declspec(dllexport)
   MRESULT UtlDMGETDEFID( HWND, WPARAM, LPARAM, PCONTROLSIDA );
-  MRESULT UtlDMGETDEFID1( HWND, WPARAM, LPARAM, PCONTROLSIDA, USHORT );
 
 __declspec(dllexport)
 MRESULT UtlWMControls(  HWND, WINMSG, SHORT, SHORT, PCONTROLSIDA );
@@ -66,7 +65,6 @@ __declspec(dllexport)
 BOOL UtlEFValidityTest ( PCONTROLSIDA, HWND );
 __declspec(dllexport)
 SHORT UtlFillFileDir( HWND, PCONTROLSIDA, BOOL );
-VOID UtlMakeFNameAndPath( PSZ, PSZ, PSZ );
 BOOL UtlCheckFileName( PSZ );
 BOOL UtlCheckString( PSZ );
 BOOL UtlSetOutputFileNameDlg

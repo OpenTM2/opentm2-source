@@ -18,11 +18,6 @@
 #include <eqf.id>   
 
 /**********************************************************************/
-/* Handles of preloaded resources                                     */
-/**********************************************************************/
-HMODULE hResMod = NULL;// Handle to Twb main resource module
-
-/**********************************************************************/
 /* Handles of preloaded icons                                         */
 /**********************************************************************/
 HPOINTER hiconDICTIMP;                 // dictionary import icon
@@ -178,175 +173,6 @@ static PPROCESSCREATEPARMS pProcCreateParms; // ptr to current process create pa
 PFNWP            pfnOldListboxProc = NULL;// ptr to original listbox proc
 MRESULT APIENTRY ProcessListboxProc( register HWND hwnd, UINT msg,
                                       register WPARAM mp1, LPARAM mp2);
-/**********************************************************************/
-/**********************************************************************/
-/**********************************************************************/
-/***                                                                ***/
-/***                 Create-a-process-window function               ***/
-/***                                                                ***/
-/**********************************************************************/
-/**********************************************************************/
-/**********************************************************************/
-BOOL CreateProcessWindow
-(
-  PSZ                  pszObjName,     // ptr to object name for process window
-  PFN_PROCESSCALLBACK  pfnCallBack,    // callback function for process window
-  PVOID                pvUserData      // ptr to user data (is passed to callback
-                                       // function in mp2 of WM_CREATE message)
-)
-{
-  return( CreateProcessWindow2( pszObjName, pfnCallBack, pvUserData, TRUE ) );
-} /* end of function CreateProcessWindow */
-
-BOOL CreateProcessWindow2
-(
-  PSZ                  pszObjName,     // ptr to object name for process window
-  PFN_PROCESSCALLBACK  pfnCallBack,    // callback function for process window
-  PVOID                pvUserData,     // ptr to user data (is passed to callback
-                                       // function in mp2 of WM_CREATE message)
-  BOOL                 fVisible        // create-a-visible-process-window flag
-)
-{
-  HWND     hframe, hclient;            // handle of created windows
-  BOOL     fOK;                        // function return code
-  PROCESSCREATEPARMS CreateParms;      // process creation parameter
-
-  CreateParms.pvUserData  = pvUserData;
-  CreateParms.pfnCallBack = pfnCallBack;
-  CreateParms.fVisible    = fVisible;
-
-  {
-    /*********************************************************/
-    /* to avoid flickering during the creation of the MDI    */
-    /* Child window we have to position it outside of the    */
-    /* screen - we always reposition it to the last stored   */
-    /* positions via a WinSetWindowPos function after init.  */
-    /*********************************************************/
-    HWND  hwndMDIClient;
-    MDICREATESTRUCT mdicreate;
-
-    mdicreate.hOwner  = (HAB)UtlQueryULong( QL_HAB );
-    mdicreate.szClass = GENERICPROCESS;
-    mdicreate.szTitle = pszObjName;
-    mdicreate.x       = -100;
-    mdicreate.y       = -100;
-    mdicreate.cx      = 1;
-    mdicreate.cy      = 1;
-    mdicreate.style   = WS_CLIPCHILDREN;
-    mdicreate.lParam  = MP2FROMP(&CreateParms);
-
-    hwndMDIClient = (HWND)UtlQueryULong( QL_TWBCLIENT );
-
-    hframe = hclient =
-    (HWND)SendMessage( hwndMDIClient,
-                       WM_MDICREATE, 0,
-                       MP2FROMP((LPMDICREATESTRUCT)&mdicreate) );
-  }
-  if( hframe)
-  {
-    UtlDispatch();
-    WinPostMsg( hclient, WM_EQF_INITIALIZE, NULL, NULL);
-    fOK = TRUE;
-  }
-  else
-  {
-    fOK = FALSE;
-  } /* endif */
-  return( fOK );
-} /* end of function CreateProcessWindow */
-
-/**********************************************************************/
-/**********************************************************************/
-/**********************************************************************/
-/***                                                                ***/
-/***                 Create-a-list-window function                  ***/
-/***                                                                ***/
-/**********************************************************************/
-/**********************************************************************/
-/**********************************************************************/
-BOOL CreateListWindow
-(
-  PSZ                  pszObjName,     // ptr to object name for process window
-  PFN_LISTCALLBACK     pfnCallBack,    // callback function for list window
-  PVOID                pvUserData,     // ptr to user data (is passed to callback
-                                       // function in mp2 of WM_CREATE message)
-  BOOL                 fRestart        // TRUE = restarted by TWB
-)
-{
-  HWND     hframe, hclient;            // handle of created windows
-  BOOL     fOK;                        // function return code
-  LISTCREATEPARMS CreateParms;         // list creation parameter
-
-  CreateParms.pvUserData  = pvUserData;
-  CreateParms.pfnCallBack = pfnCallBack;
-  CreateParms.fRestart    = fRestart;
-  {
-    /*********************************************************/
-    /* to avoid flickering during the creation of the MDI    */
-    /* Child window we have to position it outside of the    */
-    /* screen - we always reposition it to the last stored   */
-    /* positions via a WinSetWindowPos function after init.  */
-    /*********************************************************/
-    HWND  hwndMDIClient;
-    MDICREATESTRUCT mdicreate;
-
-    mdicreate.hOwner  = (HAB)UtlQueryULong( QL_HAB );
-    mdicreate.szClass = GENERICLIST;
-    mdicreate.szTitle = pszObjName;
-    mdicreate.x       = -100;
-    mdicreate.y       = -100;
-    mdicreate.cx      = 1;
-    mdicreate.cy      = 1;
-    mdicreate.style   = WS_CLIPCHILDREN;
-    mdicreate.lParam  = MP2FROMP(&CreateParms);
-
-    hwndMDIClient = (HWND)UtlQueryULong( QL_TWBCLIENT );
-
-    hframe = hclient =
-    (HWND)SendMessage( hwndMDIClient,
-                       WM_MDICREATE, 0,
-                       MP2FROMP((LPMDICREATESTRUCT)&mdicreate) );
-  }
-  if( hframe)
-  {
-    WinPostMsg( hclient, WM_EQF_INITIALIZE, NULL, NULL);
-    fOK = TRUE;
-  }
-  else
-  {
-    fOK = FALSE;
-  } /* endif */
-  return( fOK );
-} /* end of function CreateListWindow */
-
-/**********************************************************************/
-/**********************************************************************/
-/**********************************************************************/
-/***                                                                ***/
-/***                 Activate-a-MDI-child-window function           ***/
-/***                                                                ***/
-/**********************************************************************/
-/**********************************************************************/
-/**********************************************************************/
-BOOL ActivateMDIChild
-(
-  HWND                 hwndChild       // handle of window being activated
-)
-{
-  /********************************************************************/
-  /* Under Windows activate the MDI child window and, if it is        */
-  /* minimized, restore it to its normal size                         */
-  /********************************************************************/
-  SendMessage( (HWND)UtlQueryULong( QL_TWBCLIENT ), WM_MDIACTIVATE,
-               MP1FROMHWND(hwndChild), 0L );
-  if ( IsIconic(hwndChild) )
-  {
-    SendMessage( (HWND)UtlQueryULong( QL_TWBCLIENT ), WM_MDIRESTORE,
-                 MP1FROMHWND(hwndChild), 0L );
-  } /* endif */
-  return( TRUE );
-}
-
 /**********************************************************************/
 /**********************************************************************/
 /**********************************************************************/
@@ -2531,6 +2357,7 @@ void HandlePopupMenu( HWND hwnd, POINT point, SHORT sMenuID )
   PGENLISTINSTIDA  pIda;
   int    iSelItems; 
   /* Get the menu for the popup from the resource file. */
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
   hMenu = LoadMenu( hResMod, MAKEINTRESOURCE( ID_POPUP_MENU ) );
   if ( !hMenu )
       return;
@@ -2643,26 +2470,6 @@ PVOID AccessGenListCommArea( HWND hwnd )
   } /* endif */
   return( pCommArea );
 } /* end of function AccessGenListCommArea */
-
-/**********************************************************************/
-/* Procedure to get or refresh the commarea pointer for a generic     */
-/* process window (e.g. adfter a call to UtlDispatch)                 */
-/*                                                                    */
-/* If NULL is returned either the list window has been destroyed or   */
-/* it's data areas have been freed                                    */
-/**********************************************************************/
-PVOID AccessGenProcCommArea( HWND hwnd )
-{
-  PPROCESSCOMMAREA   pCommArea = NULL;
-  PGENPROCESSINSTIDA pIda;
-
-  pIda = ACCESSWNDIDA( hwnd, PGENPROCESSINSTIDA );
-  if ( pIda != NULL )
-  {
-    pCommArea = &(pIda->CommArea);
-  } /* endif */
-  return( pCommArea );
-} /* end of function AccessGenProcCommArea */
 
 //   End of EQFHNDLR.C
 //ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß

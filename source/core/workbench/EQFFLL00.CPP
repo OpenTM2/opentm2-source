@@ -450,7 +450,7 @@ void FolderListFolderProperties
   PSZ pszObj;
   PSZ pszFolObj = NULL;
   mp1;
-
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( message == WM_EQF_FLLTREE_COMMAND )
   {
@@ -1436,6 +1436,7 @@ MRESULT  FolderListCreateCall( PLISTCOMMAREA pCommArea )
   HPROP      hProp = NULL;       // folder list properties handle
   PPROPFOLDERLIST pProp = NULL;  // ptr to folder list properties
   PSZ        pszParm;            // ptr to error message parameters
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
   //BOOL       fSetWidth = TRUE;
 
   /**************************************************************/
@@ -2016,34 +2017,6 @@ int FolBuildSelItemslist
   *ppszList = pszList;
   return( iItems );
 } /* end of function FolBuildSelItemslist */
-
-BOOL FolIsFolderEmpty( PSZ pszFolObjName )
-{
-  CHAR szDocPath[MAX_EQF_PATH];
-  USHORT    usCount = 1;
-  FILEFINDBUF ResultBuf;
-  USHORT    usRC;
-  HDIR      hDirHandle = HDIR_CREATE;
-  BOOL      fIsEmpty = TRUE;
-
-  // setup path to folder documents
-  strcpy( szDocPath, pszFolObjName );
-  strcat( szDocPath, BACKSLASH_STR );
-  UtlQueryString( QST_SOURCEDIR, szDocPath + strlen(szDocPath), MAX_FILESPEC );
-  strcat( szDocPath, BACKSLASH_STR );
-  strcat( szDocPath, DEFAULT_PATTERN );
-
-  // look for documents
-  usRC = UtlFindFirst( szDocPath, &hDirHandle, FILE_NORMAL, &ResultBuf,
-                       sizeof( ResultBuf), &usCount, 0L, FALSE );
-  if ( usRC == NO_ERROR )
-  {
-    UtlFindClose( hDirHandle, FALSE );
-    fIsEmpty = (usCount == 0);
-  } /* endif */
-  return( fIsEmpty );
-} /* end of function FolIsFolderEmpty */
-
 
 // check if directory for removed documents is empty
 BOOL FolIsRemovedDirEmpty( PSZ pszFolObjName )

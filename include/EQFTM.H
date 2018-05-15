@@ -965,7 +965,17 @@ typedef struct _TM_HEADER { /* tmh */
 /*         |   a size of more than 32kB  |                            */
 /*         |   (organize of TM required) |                            */
 /* --------+-----------------------------+----------------------------*/
-/*                                                                    */
+/*  7   0  | - OpenTM2 Memory Plugin     |                            */
+/*         |   driven memory             |                            */
+/* --------+-----------------------------+----------------------------*/
+/*  7   1  | - New HashTupel method for  |                            */
+/*         |   the handling of words with|                            */
+/*         |   more than 20 characters   |                            */
+/*         |   (organize of TM required  |                            */
+/*         |   to activate new method,   |                            */
+/*         |   w/o organize old method is|                            */
+/*         |   being used)               |                            */
+/* --------+-----------------------------+----------------------------*/
 /* Current version: 7.0                                               */
 /**********************************************************************/
 #define TM_VERSION_1        1
@@ -977,8 +987,11 @@ typedef struct _TM_HEADER { /* tmh */
 #define TM_MAJ_VERSION_6    6
 #define TM_MAJ_VERSION_7    7
 
+#define TMMIN_VERSION_0     0
+#define TMMIN_VERSION_1     1
+
 #define TM_MAJ_VERSION      7
-#define TM_MIN_VERSION      0
+#define TM_MIN_VERSION      1
 
 
 //#ifdef TM_LARGENAMETABLES
@@ -1889,14 +1902,9 @@ USHORT NTMReadWriteSegmentHwndW( HTM,      //Handle of Input TM
 
 
 
-__declspec(dllexport)
-BOOL fMemIsAvail( PSZ, PSZ, PSZ );      // memory is available and accessible
-__declspec(dllexport)
-USHORT MemFillCBNames( HWND, PSZ, PSZ );
-
-USHORT MemFillTableLB( HWND   hListBox,
-                       USHORT usBoxType,
-                       PSZ    pszLastUsed );
+__declspec(dllexport) BOOL fMemIsAvail( PSZ, PSZ, PSZ );      // memory is available and accessible
+__declspec(dllexport) USHORT MemFillCBNames( HWND, PSZ, PSZ );
+__declspec(dllexport) USHORT MemFillTableLB( HWND   hListBox, USHORT usBoxType, PSZ    pszLastUsed );
 
 /**********************************************************************/
 /* TmCreate                                                           */
@@ -1906,13 +1914,7 @@ USHORT TmCreate( PSZ, HTM *, HTM, PSZ, PSZ, PSZ, PSZ, USHORT, HWND );
 /**********************************************************************/
 /* TmOpen                                                             */
 /**********************************************************************/
-__declspec(dllexport)
-USHORT
-TmOpen( PSZ,       //(in)  full TM name x:\eqf\mem\mem.mem
-        HTM *,     //(out) TM handle
-        USHORT,    //(in)  access mode: NON_EXCLUSIVE
-                   //                   EXCLUSIVE
-        USHORT,    //(in)  location:    TM_LOCAL
+__declspec(dllexport) USHORT TmOpen( PSZ, HTM *, USHORT, USHORT,    //(in)  location:    TM_LOCAL
                    //                   TM_REMOTE
                    //                   TM_LOCAL_REMOTE
         USHORT,    //(in)  message handling parameter
@@ -2205,14 +2207,12 @@ USHORT TMCreateTempMem
 );
 
 // delete a temporary memory
-__declspec(dllexport)
-void TMDeleteTempMem
+__declspec(dllexport) void TMDeleteTempMem
 (
   PSZ         pszMemPath                                    // ptr to memory path
 );
 
-__declspec(dllexport)
-BOOL TMFuzzyness( PSZ, PSZ_W, PSZ_W, SHORT, PUSHORT, ULONG );
+__declspec(dllexport) BOOL TMFuzzyness( PSZ, PSZ_W, PSZ_W, SHORT, PUSHORT, ULONG );
 
 
 __declspec(dllexport)
@@ -2227,17 +2227,10 @@ BOOL TMFuzzynessEx
   PUSHORT     pusWords                 // number of words in segment
 );
 
-__declspec(dllexport)
-USHORT TokenizeSource( PTMX_CLB, PTMX_SENTENCE, PSZ, PSZ, USHORT );
-
-__declspec(dllexport)
-USHORT TokenizeSourceEx( PTMX_CLB, PTMX_SENTENCE, PSZ, PSZ, USHORT, ULONG );
-
-__declspec(dllexport)
-USHORT TokenizeSourceEx2( PTMX_CLB, PTMX_SENTENCE, PSZ, PSZ, USHORT, ULONG, int );
-
-__declspec(dllexport)
-USHORT NTMMorphTokenizeW( SHORT, PSZ_W, PULONG, PVOID*, USHORT, USHORT);
+__declspec(dllexport) USHORT TokenizeSource( PTMX_CLB, PTMX_SENTENCE, PSZ, PSZ, USHORT );
+__declspec(dllexport) USHORT TokenizeSourceEx( PTMX_CLB, PTMX_SENTENCE, PSZ, PSZ, USHORT, ULONG );
+__declspec(dllexport) USHORT TokenizeSourceEx2( PTMX_CLB, PTMX_SENTENCE, PSZ, PSZ, USHORT, ULONG, int );
+__declspec(dllexport) USHORT NTMMorphTokenizeW( SHORT, PSZ_W, PULONG, PVOID*, USHORT, USHORT);
 
 __declspec(dllexport)
 USHORT NTMTokenize

@@ -73,7 +73,6 @@ $(_DLL)\EqfSharedMemPlugin.DLL:		$(_OBJ)\EqfSharedMemoryPlugin.OBJ \
 					$(_OBJ)\FifoQueue.OBJ \
 					$(_OBJ)\TMXFactory.OBJ \
 					$(_LIB)\OtmBase.lib \
-					$(_LIB)\OtmDll.lib \
 					$(_LIB)\PluginManager.lib \
 					$(_LIB)\MemoryWebServiceClient.lib
 
@@ -93,7 +92,7 @@ $(_DLL)\EqfSharedMemPlugin.DLL:
 	$(_OBJ)\TMXFactory.OBJ 
 /OUT:$(_DLL)\EqfSharedMemPlugin.DLL
 /MAP:$(_MAP)\EqfSharedMemPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIBOTHER)\xerces-c_3.lib Shell32.lib $(_LIB)\MemoryWebServiceClient.lib
+$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\PluginManager.lib $(_LIBOTHER)\xerces-c_3.lib Shell32.lib $(_LIB)\MemoryWebServiceClient.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @echo ************ Info *****************  
@@ -121,7 +120,9 @@ $(_BIN)\MemoryWebServiceClient.DLL:
 	$(MEMWEBSERVICEOBJS)
 /OUT:$(_DLL)\MemoryWebServiceClient.DLL
 /MAP:$(_MAP)\MemoryWebServiceClient.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) Shell32.lib $(AXIS2C_HOME)\lib\axutil.lib $(AXIS2C_HOME)\lib\axiom.lib $(AXIS2C_HOME)\lib\axis2_engine.lib
+$(_LINK_LIB_CRT) 
+Shell32.lib 
+$(AXIS2C_HOME)\lib\axutil.lib $(AXIS2C_HOME)\lib\axiom.lib $(AXIS2C_HOME)\lib\axis2_engine.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\WIN\ md $(RELEASE_DIR)\OTM\WIN
     @copy $(_BIN)\MemoryWebServiceClient.DLL $(RELEASE_DIR)\OTM\WIN /Y>$(_ERR)

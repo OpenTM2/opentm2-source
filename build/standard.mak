@@ -42,6 +42,9 @@ $(_DLL)\standard.DLL: $(_OBJ)\eqfbmain.obj
 $(_OBJ)\eqfbmain.obj
 /OUT:$(_DLL)\standard.dll
 $(_LINK_OPTIONS) /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.LIB $(_LIB)\OtmDll.LIB $(_LIB)\OtmAPI.LIB
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.LIB 
+$(_LIB)\OtmAPI.LIB
+$(_LIB)\OTMEditorFunctions.lib 
 <<
 

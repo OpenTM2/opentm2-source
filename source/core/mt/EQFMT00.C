@@ -373,6 +373,7 @@ MRESULT MTListHandlerCallBack
           {
             PANAMTDATA pAnaData = (PANAMTDATA)PVOIDFROMMP2( mp2 );
             BOOL fOK = TRUE;
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
             DIALOGBOX( pAnaData->hwndParent, EQFMTPROPERTYDLGPROC, hResMod, ID_MTPROP_DLG, mp2, fOK );
             if ( fOK )
             {
@@ -1018,6 +1019,7 @@ MRESULT MTListCallBack
             if ( sItem != LIT_NONE )
             {
               BOOL fOk = TRUE;
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
               CHAR szObjName[MAX_EQF_PATH];
               SendMessage( pCommArea->hwndLB, LM_EQF_QUERYITEMTEXT, (WPARAM)sItem, (LPARAM)pCommArea->szBuffer );
 

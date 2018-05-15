@@ -38,10 +38,6 @@ extern HELPSUBTABLE hlpsubtblDicImpDlg[];
 
 
 //declare functions
-INT_PTR CALLBACK DICTIMPDLG( HWND, WINMSG, WPARAM, LPARAM );
-MRESULT DictImpCommand( HWND, SHORT, SHORT );
-MRESULT EXPENTRY DICTFRAMESUBPROC ( HWND, USHORT, WPARAM, LPARAM );
-
 MRESULT DicImportCallBack( PPROCESSCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
 
 static VOID DimpWork( HWND, PDIMPIDA );
@@ -78,7 +74,7 @@ static PVOID CreateTagTable ( PDIMPIDA, PSZ );
 static BOOL TextMatch ( PDIMPIDA, PTOKENENTRY *, PSZ_W * );
 static VOID SkipTag( PDIMPIDA, PTOKENENTRY *);
 static BOOL ValidTag( PDIMPIDA, PTOKENENTRY *, PBOOL, SHORT);
-static BOOL SaveString( PDIMPIDA, PSZ_W * , USHORT );
+static BOOL SaveString( PDIMPIDA, PSZ_W * , ULONG );
 static BOOL CheckForEnd( PDIMPIDA, PTOKENENTRY, SHORT );
 static BOOL FillMapTable( PDIMPIDA, PSZ_W , SHORT, SHORT,
                           USHORT, USHORT, BOOL, BOOL, USHORT );
@@ -143,656 +139,6 @@ CheckForCodePage
 	PBOOL    pfReadAgain,
 	PBOOL    pfMsgDisplayed
 );
-
-INT_PTR CALLBACK DICTIMPDLG( HWND hwndDlg,    // handle of dialog window
-                             WINMSG msg,      // message id
-                             WPARAM mp1,      // message parameter or NULL
-                             LPARAM mp2 )     // message parameter or NULL
-{
-
-  PDIMPIDA    pDimpIda;                 //global structure
-  MRESULT     mResult = (MRESULT)FALSE; //return code of this function
-  PPROPDICTLIST pProp;                 // ptr to dictionary properties
-  EQFINFO     ErrorInfo;               //property error information
-  PSZ         pszError;                //ptr to string
-  USHORT      usRc;                    //return code
-  CHAR        szCurPath[256];
-
-  memset(&ErrorInfo, 0, sizeof(ErrorInfo));
-  switch ( msg )
-  {
-
-    case WM_HELP:
-/*************************************************************/
-/* pass on a HELP_WM_HELP request                            */
-/*************************************************************/
-      EqfDisplayContextHelp((HWND)  ((LPHELPINFO) mp2)->hItemHandle,
-                             &hlpsubtblDicImpDlg[0] );
-      mResult = TRUE;  // message processed
-      break;
-
-
-
-    case ( WM_INITDLG ) :             //initialize and display dialogbox
-      usRc = TRUE;
-      pDimpIda = (PDIMPIDA) mp2;
-      ANCHORDLGIDA( hwndDlg, pDimpIda );
-      pDimpIda->usImpMode = DICT_FORMAT_SGML_ASCII;    // set default value
-
-      if ( usRc )
-      {
-        //open dictionary list properties
-        UtlMakeEQFPath((PSZ) pDimpIda->szDummy, NULC,
-                        SYSTEM_PATH,(PSZ) NULP );     // system drive
-        pDimpIda->hDictListProp = OpenProperties( DICT_PROPERTIES_NAME,
-                                                  pDimpIda->szDummy,
-                                                  PROP_ACCESS_READ, &ErrorInfo );
-        //error opening properties
-        if ( !pDimpIda->hDictListProp )
-        {
-          pszError = DICT_PROPERTIES_NAME;
-          UtlError( ERROR_OPEN_PROPERTIES, MB_CANCEL, 1,
-                    &pszError, EQF_ERROR);
-
-          //do not create the window
-          WinDismissDlg( hwndDlg, FALSE );
-        }
-        else
-        {
-          //set pProp to dictionary list properties
-          pProp = (PPROPDICTLIST) MakePropPtrFromHnd( pDimpIda->hDictListProp );
-
-          if ( pProp->chDimpPath[0] == EOS  )
-          {
-            strcpy( pProp->chDimpPath, pProp->chOldDimpPath );
-          } /* endif */
-
-          //load last used values from properties into special controls ida
-          //needed for dialog controls utility
-          pDimpIda->Controls.chSavedDrive = pProp->chDimpDrive;
-          strcpy( pDimpIda->Controls.szSavedPath, pProp->chDimpPath );
-          pDimpIda->Controls.usSavedFormat = EXTERNAL;
-          if ( pProp->usLastImpFormat ) pDimpIda->usImpMode = pProp->usLastImpFormat;
-
-          //save handle of Path entry field to IDA
-          pDimpIda->hwndPathEf = WinWindowFromID( hwndDlg,ID_DICTIMP_PATH_EF );
-
-          //save handle of Dir listbox to IDA
-          pDimpIda->hwndDirLb = WinWindowFromID( hwndDlg,ID_DICTIMP_DIR_LB );
-
-          //save handle of Files listbox to IDA
-          pDimpIda->hwndFilesLb = WinWindowFromID( hwndDlg,ID_DICTIMP_FILES_LB );
-
-          //save handle of To dictionary drop down combo box
-          pDimpIda->hwndNewNameLB = WinWindowFromID( hwndDlg,ID_DICTIMP_TO_LB );
-
-          //save dialog ids to ida needed for dialog control utility
-          pDimpIda->Controls.idFilesLB = ID_DICTIMP_FILES_LB;
-          pDimpIda->Controls.idDirLB = ID_DICTIMP_DIR_LB;
-          pDimpIda->Controls.idPathEF = ID_DICTIMP_PATH_EF;
-          pDimpIda->Controls.idCurrentDirectoryEF =
-          ID_DICTIMP_NEWCURRENTDIR_TEXT;
-          pDimpIda->Controls.idToLB = ID_DICTIMP_TO_LB;
-          pDimpIda->Controls.idInternalRB = ID_DICTIMP_INTERNAL_RB;
-          pDimpIda->Controls.idExternalRB = ID_DICTIMP_ASCII_RB;
-          pDimpIda->Controls.idDriveBTN = ID_DICTIMP_DUMMY;
-          pDimpIda->Controls.idControlsGB = ID_DICTIMP_IMPORT_GB;
-          pDimpIda->Controls.idOkPB = ID_DICTIMP_OK_PB;
-          pDimpIda->Controls.fLongFileNames = TRUE;
-          pDimpIda->Controls.fMultiSelectionLB = TRUE;
-
-          //save name of object handler needed for controls utility
-          strcpy( pDimpIda->Controls.szHandler, DICTIONARYHANDLER );
-
-          //save name of dictionary for merge needed for controls utility
-          strcpy( pDimpIda->Controls.szSelectedName, pDimpIda->szNewDictName );
-
-          strcpy( pDimpIda->Controls.szDefPattern, DEFAULT_PATTERN_NAME );
-          strcat( pDimpIda->Controls.szDefPattern, SGML_EXT );
-
-          //stipulate that import process
-          pDimpIda->Controls.fImport = TRUE;
-
-
-          // fill format combobox and select last used format
-          {
-            PSZ pszFormatList = SGML_FORMAT_FILTERS;
-            USHORT usIndex = 1;
-            while ( pszFormatList[0] != EOS )
-            {
-              SHORT sItem = CBINSERTITEM( hwndDlg, ID_DICTIMP_FORMAT_CB, pszFormatList );
-              if ( sItem != LIT_NONE )
-              {
-                CBSETITEMHANDLE( hwndDlg, ID_DICTIMP_FORMAT_CB, sItem, usIndex );
-                if ( usIndex == pDimpIda->usImpMode )
-                {
-                  CBSELECTITEM( hwndDlg, ID_DICTIMP_FORMAT_CB, sItem );
-                } /* endif */
-              } /* endif */
-              pszFormatList += strlen(pszFormatList) + 1;   // skip filter name
-              pszFormatList += strlen(pszFormatList) + 1;   // skip filter extention
-              usIndex++;
-            } /* endwhile */
-          }
-
-          //call up utility to initialize dialog controls
-          WinPostMsg( hwndDlg, WM_EQF_INITIALIZE, NULL, NULL );
-
-          mResult = (MRESULT)FALSE;
-        } /* endif */
-      } /* endif */
-      break;
-
-    case WM_EQF_INITIALIZE:
-      pDimpIda = ACCESSDLGIDA( hwndDlg, PDIMPIDA );
-      UtlControlsInit( hwndDlg, &pDimpIda->Controls );
-         // cv
-         // display path
-         if (strlen(pDimpIda->Controls.szPath) > 30)
-         {
-            CHAR szPath[256];
-            CHAR *psz;
-            int len;
-            strcpy(szPath,pDimpIda->Controls.szPath);
-            strcpy( szCurPath, pDimpIda->Controls.szDrive );
-            strcat( szCurPath, BACKSLASH_STR );
-            strcat( szCurPath, "...");
-            //get last directory entry
-            len = strlen(szPath);
-            szPath[len-1] = EOS;
-            psz = strrchr(szPath,BACKSLASH);
-            strcat(szCurPath, psz);
-            strcat( szCurPath, BACKSLASH_STR );
-
-            SETTEXT( hwndDlg, pDimpIda->Controls.idCurrentDirectoryEF+1,
-                     szCurPath );
-         }
-
-
-      ENABLECTRL( hwndDlg, ID_DICTIMP_INTERNAL_RB, FALSE );
-      SETTEXTLIMIT( hwndDlg, ID_DICTIMP_TO_LB, (MAX_LONGFILESPEC-1) );
-      break;
-
-    case ( WM_COMMAND ) :
-      mResult = DictImpCommand( hwndDlg, WMCOMMANDID( mp1, mp2 ),
-                                WMCOMMANDCMD( mp1, mp2 ) );
-      break;
-
-    case ( WM_CLOSE ) :
-      pDimpIda = ACCESSDLGIDA( hwndDlg, PDIMPIDA );
-
-      //close dictionary list properties
-      if ( pDimpIda->hDictListProp )
-        CloseProperties( pDimpIda->hDictListProp, PROP_QUIT, &ErrorInfo );
-      if ( ErrorInfo == Err_NoStorage )
-      {
-        mp1 = MP1FROMSHORT( FALSE );
-      } /* endif */
-
-      //distroy dialog
-      WinDismissDlg( hwndDlg, SHORT1FROMMP1( mp1 ) );
-      break;
-
-    case DM_GETDEFID:
-      pDimpIda = ACCESSDLGIDA( hwndDlg, PDIMPIDA );
-      mResult = UtlDMGETDEFID( hwndDlg, mp1, mp2, &pDimpIda->Controls );
-      break;
-
-    default :
-      //return to default dialog procedure
-      mResult = UTLDEFDIALOGPROC( hwndDlg, msg, mp1, mp2 );
-      break;
-  }/*end switch*/
-
-  return( mResult );
-}
-
-MRESULT DictImpCommand
-(
-HWND  hwndDlg,                           // handle of dialog window
-SHORT sId,                               // id of button
-SHORT sNotification                      // notification type
-)
-{
-  PDIMPIDA    pDimpIda = NULL;             //Load dialog IDA
-  USHORT      usRc;                        //Return code from Dos functions
-  USHORT      usResult;                    //return code
-  SHORT       sIndexItem;                  //index of selected item in listb.
-  MRESULT     mResult = (MRESULT)FALSE;    //function return value
-  BOOL        fOK = TRUE;                  //success indicator
-  PSZ         pszTemp;                     //temp. pointer to dict name
-  PSZ         pszMsgTable[2];              //error msg parameter list
-  HDIR        hDirHandle = HDIR_CREATE;    //DosFind routine handle
-  LONG        lBytesShort;                 //free space indicator
-  CHAR        szDrive[2];                  //array with drive letter
-  PPROPDICTLIST pProp;                     //ptr to dictionary properties
-  EQFINFO     ErrorInfo;                   //error msg
-  PPROPDICTIONARY pDictProp;               //ptr to dict prop
-  HPROP       hDictProp;                   //dict handle
-  PSZ         pMsgError[3];                // ptr to error array
-  PSZ         pszServer;                   // ptr to server
-
-  switch ( sId )                           //switch on control ID
-  {
-	case (ID_DICTIMP_HELP_PB ):
-	  mResult = UtlInvokeHelp();
-	      break;
-    case ( ID_DICTIMP_CANCEL_PB ) :   //CANCEL button selected
-    case ( DID_CANCEL ) :             //ESC key pressed
-      WinPostMsg( hwndDlg, WM_CLOSE, NULL, NULL );
-      break;
-
-    case ( ID_DICTIMP_OK_PB ) :
-      pDimpIda = ACCESSDLGIDA( hwndDlg, PDIMPIDA );
-
-      //get state of Internal format radio button
-      // we have no external/internal radiobutton anymore, so always use external format import
-      pDimpIda->fAscii = TRUE;
-      {
-        SHORT sItem = CBQUERYSELECTION( hwndDlg, ID_DICTIMP_FORMAT_CB );
-        if ( sItem >= 0 )
-        {
-          pDimpIda->usImpMode = (USHORT)CBQUERYITEMHANDLE( hwndDlg, ID_DICTIMP_FORMAT_CB, sItem );
-        }
-        else
-        {
-          // use default mode
-          pDimpIda->usImpMode = DICT_FORMAT_SGML_ASCII;
-        } /* endif */
-      }
-
-       // if multiple import files build list of import names as UtlEFValiditytest
-       // will re-fill the files listbox thus removing any selections...
-       {
-         int iSelItems = SendDlgItemMessage( hwndDlg, ID_DICTIMP_FILES_LB, LB_GETSELCOUNT, 0L, 0L );
-
-         // free any previously allocated file list buffer
-         if ( pDimpIda->pszList )
-         {
-           UtlAlloc( (PVOID *)&(pDimpIda->pszList), 0, 0, NOMSG );
-           pDimpIda->pszList = NULL;
-         } /* endif */
-
-         if ( iSelItems > 1 )
-         {
-           PSZ pszList = NULL;
-
-           // allocate buffer for the selected names list
-           BOOL fOK = UtlAlloc( (PVOID *)&pszList, 0, (MAX_LONGPATH*iSelItems)+10, ERROR_STORAGE );
-
-           // fill-in names of selected import files
-           if ( fOK )
-            {
-              PSZ pszCurPos = pszList;
-              int iItems = iSelItems;
-              SHORT sItem = LIT_FIRST;
-
-              while ( iItems )
-              {
-                sItem = QUERYNEXTSELECTION( hwndDlg, ID_DICTIMP_FILES_LB, sItem );
-                if ( sItem >= 0 )
-                {
-                  QUERYITEMTEXT( hwndDlg, ID_DICTIMP_FILES_LB, sItem, pDimpIda->szString );
-                  strcpy( pszCurPos, pDimpIda->szString );
-                  pszCurPos += strlen( pszCurPos ) + 1;
-                } /* endif */
-                iItems--;
-              } /* endwhile */
-              *pszCurPos = EOS;          // terminate list
-            } /* endif */
-            pDimpIda->pszList = pszList;
-          } /* endif */
-       }
-
-      if ( !pDimpIda->fAscii )
-      {
-        UtlErrorHwnd( NO_TROJA_FORMAT, MB_CANCEL, 0, NULL, EQF_WARNING, hwndDlg );
-        fOK = FALSE;
-        SETFOCUS( hwndDlg, ID_DICTIMP_INTERNAL_RB );
-      }
-      else
-      {
-
-        //save new dictionary name in drop-down combo-box
-        // if multiple import files were selected use name of first selected file as dict name
-        if ( pDimpIda->pszList )
-        {
-          Utlstrccpy( pDimpIda->szNewDictName, pDimpIda->pszList, DOT );
-          UtlSplitFnameFromPath( pDimpIda->Controls.szPathContent );
-          strcat( pDimpIda->Controls.szPathContent, BACKSLASH_STR );
-          strcat( pDimpIda->Controls.szPathContent, pDimpIda->pszList );
-          strcpy( pDimpIda->Controls.szPatternName, pDimpIda->pszList );
-        }
-        else
-        {
-          QUERYTEXT( hwndDlg, ID_DICTIMP_TO_LB, pDimpIda->szNewDictName );
-        } /* endif */
-      } /* endif */
-
-      //if no dictionary selected issue warning
-      if ( pDimpIda->szNewDictName[0] == NULC && fOK )
-      {
-        UtlErrorHwnd( NO_NEW_DICTIONARY_SELECTED, MB_CANCEL,
-                      0, NULL, EQF_WARNING, hwndDlg );
-        fOK = FALSE;
-        SETFOCUSHWND( pDimpIda->hwndNewNameLB );
-      } /* endif */
-
-      if ( fOK )
-      {
-        //call utility to check if new path entered (only for single selections)
-        if ( pDimpIda->pszList == NULL )
-        {
-          pDimpIda->Controls.fCommand = TRUE;
-          fOK = UtlEFValidityTest( &pDimpIda->Controls, hwndDlg );
-          pDimpIda->Controls.fCommand = FALSE;
-        } /* endif */
-
-        if ( fOK )
-        {
-          //set values from controls ida
-          strcpy( pDimpIda->szPathContent, pDimpIda->Controls.szPathContent );
-          strcpy( pDimpIda->szPatternName, pDimpIda->Controls.szPatternName );
-          strcpy( pDimpIda->szPath, pDimpIda->Controls.szPath );
-          strcpy( pDimpIda->szDrive, pDimpIda->Controls.szDrive );
-
-          //check size
-/* tk 2001-07-27
-          usRc = UtlFindFirst( pDimpIda->szPathContent,
-                               &hDirHandle,
-                               FILE_NORMAL,
-                               &(pDimpIda->TrojaResultBuf),
-                               sizeof( pDimpIda->TrojaResultBuf),
-                               &usCount, 0L, FALSE);
-*/
-          usRc = UtlFindFirstLong( pDimpIda->szPathContent,
-                                   &hDirHandle,
-                                   FILE_NORMAL,
-                                   &(pDimpIda->TrojaResultBufLong),
-                                   FALSE );
-
-          if ( usRc )
-          {
-            //invalid file path
-            Utlstrccpy( pDimpIda->szName, pDimpIda->szPatternName, DOT );
-            pszTemp = pDimpIda->szName;
-            UtlErrorHwnd( ERROR_FILENAME_NOT_VALID, MB_CANCEL,
-                          1, &pszTemp, EQF_ERROR, hwndDlg );
-            SETFOCUSHWND( pDimpIda->hwndPathEf );
-            fOK = FALSE;
-
-            //empty input field
-            SETTEXT( hwndDlg, ID_DICTIMP_PATH_EF, EMPTY_STRING );
-          }
-          else
-          {
-            // close search file handle
-            if ( hDirHandle != HDIR_CREATE ) UtlFindClose( hDirHandle, FALSE );
-/*
-            // tk 2001-07-27 Check isn't possible anymore, because pDimpIda->TrojaResultBufLong
-            //               would have to be used and this structure (LONGFILEFIND) does not
-            //               return the filesize.
-
-            //is the sgml file empty - zero bytes
-            if ( RESBUFSIZE( pDimpIda->TrojaResultBuf ) == 0L )
-            {
-              Utlstrccpy( pDimpIda->szString, pDimpIda->szName, DOT );
-              pszTemp = pDimpIda->szString;
-              UtlErrorHwnd( ERROR_FILE_IMP_SIZE, MB_CANCEL,
-                            1, &pszTemp, EQF_ERROR, hwndDlg );
-
-              fOK = FALSE;
-
-              //empty input field
-              SETTEXT( hwndDlg, ID_DICTIMP_PATH_EF, DEFAULT_PATTERN );
-*/
-          } /* endif */
-
-          if ( !fOK )
-          {
-            //fill the files listbox with all files on directory
-            strcpy( pDimpIda->Controls.szPathContent, pDimpIda->szPath );
-            strcat( pDimpIda->Controls.szPathContent, DEFAULT_PATTERN );
-
-            UtlFillFileDir( hwndDlg, &pDimpIda->Controls, TRUE );
-          } /* endif */
-        } /* endif */
-      } /* endif */
-
-      if ( fOK )
-      {
-        //check if dict name valid os2 filename, only filename without ext
-        //remove leading and trailing blanks
-        UtlStripBlanks( pDimpIda->szNewDictName );
-        {
-          BOOL fIsNew = FALSE;         // is-new flag
-          ANSITOOEM( pDimpIda->szNewDictName );
-          strcpy( pDimpIda->szLongName, pDimpIda->szNewDictName );
-          ObjLongToShortName( pDimpIda->szNewDictName,
-                              pDimpIda->szShortName,
-                              DICT_OBJECT, &fIsNew );
-          OEMTOANSI( pDimpIda->szNewDictName );
-          sIndexItem = (fIsNew) ? LIT_NONE : 0;
-          UtlMakeEQFPath( pDimpIda->szString, NULC, PROPERTY_PATH, NULL );
-          sprintf( pDimpIda->szPropPath, "%s\\%s%s",
-                   pDimpIda->szString, pDimpIda->szShortName,
-                   EXT_OF_DICTPROP );
-
-        }
-
-        //if dict already exists query user whether he wants to merge
-        //sgml data into specified dictionary
-        if ( sIndexItem != LIT_NONE && sIndexItem != LIT_ERROR && fOK )
-        {
-          //open properties
-          pszTemp = pDimpIda->szNewDictName;
-          PROPNAME ( pDimpIda->szString, pDimpIda->szShortName );
-
-          hDictProp = OpenProperties( pDimpIda->szString, NULL,
-                                      PROP_ACCESS_WRITE, &ErrorInfo);
-
-          if ( hDictProp )
-          {
-            pDictProp =(PPROPDICTIONARY) MakePropPtrFromHnd( hDictProp );
-
-            //if dictionary is remote check if drive has not been removed
-            //via the configure drives option on the file pulldown
-
-            if ( fOK )
-            {
-              pszMsgTable[0] = pDimpIda->szNewDictName;
-              pszMsgTable[1] = pDimpIda->szPatternName;
-              usResult = UtlError( MERGE_DICTIONARIES, MB_YESNO,
-                                   2, pszMsgTable, EQF_QUERY );
-
-              //if user wants to create new dict then place focus on combo box
-              //entry field and delete contents
-              if ( usResult == MBID_NO )
-              {
-                SETTEXTHWND( pDimpIda->hwndNewNameLB, "" );
-                SETFOCUSHWND( pDimpIda->hwndNewNameLB );
-                fOK = FALSE;
-
-                //fill the files listbox with all files on directory
-                strcpy( pDimpIda->Controls.szPathContent, pDimpIda->szPath );
-                strcat( pDimpIda->Controls.szPathContent, pDimpIda->Controls.szDefPattern );
-                SETTEXTHWND( pDimpIda->hwndPathEf, pDimpIda->Controls.szDefPattern );
-
-
-                UtlFillFileDir( hwndDlg, &pDimpIda->Controls, TRUE );
-              }
-              else
-              {
-                //check if the dict is copyrighted or not
-                if ( pDictProp->fCopyRight ) //dict copyrighted
-                {
-                  //dict is copyrighted and merge not permitted
-                  pszTemp = pDimpIda->szNewDictName;
-                  UtlErrorHwnd( ERROR_SYSTDICT_COPYRIGHTED, MB_CANCEL,
-                                1, &pszTemp, EQF_ERROR, hwndDlg );
-                  fOK = FALSE;
-                }
-                else
-                {
-                  //Is the dictionary protected?
-                  if ( pDictProp->fProtected )
-                  {
-					HMODULE hResMod;
-					hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
-
-                    //call up password checking dialog
-                    DIALOGBOX( hwndDlg, DICT1PASSWORDDLG,
-                               hResMod, ID_DICTPASSWORD_DLG, pDictProp, fOK );
-                    if ( fOK )
-                    {
-                      //allow merge
-                      pDimpIda->fMerge = TRUE;
-                    } /* endif */
-                  }
-                  else
-                  {
-                    pDimpIda->fMerge = TRUE; //dict not protected
-                  } /* endif */
-                } /* endif */
-
-                if ( fOK )
-                {
-                  //check if enough space for import
-                  szDrive[0] = pDictProp->szDictPath[0];
-                  szDrive[1] = EOS;
-                  pszTemp = szDrive;
-                  usRc = UtlCheckSpaceForFile( "", 100, MIN_DICT_SPACE,
-                                               &pszTemp,
-                                               &lBytesShort, FALSE );
-
-                  if ( !usRc )
-                  {
-                    //error handling
-                    usRc = DictRcHandling( usResult, pDictProp->szDictPath,
-                                           NULLHANDLE, pDictProp->szServer );
-                    fOK = FALSE;    //error occurred with server code
-                    if ( (usRc == ERROR_INVALID_DRIVE) ||
-                         (usRc == ERROR_PATH_NOT_FOUND) )
-                    {
-                      //remove entry from to dictionary list box
-                      SETTEXT( hwndDlg, ID_DICTIMP_TO_LB, EMPTY_STRING );
-
-                      //return sindexitem in dict list window
-                      sIndexItem = QUERYSELECTION( pDimpIda->DictLBhwnd,
-                                                   PID_DICTIONARY_LB );
-                      if ( sIndexItem != LIT_NONE )
-                      {
-                        CLBSETITEMSTATE( pDimpIda->DictLBhwnd, PID_DICTIONARY_LB,
-                                         sIndexItem, FALSE );
-                      } /* endif */
-                    } /* endif */
-                  }
-                  else
-                  {
-                    if ( usRc && lBytesShort )
-                    {
-                      pMsgError[0] = pDimpIda->szNewDictName;
-                      pMsgError[1] = pszTemp; //drive letter
-                      pMsgError[2] = ltoa( lBytesShort, pDimpIda->szString, 10 );
-                      usRc = UtlErrorHwnd( NO_SPACE_FOR_IMPORT, MB_YESNO |
-                                           MB_DEFBUTTON2, 3, pMsgError,
-                                           EQF_QUERY, hwndDlg );
-                      fOK = ( usRc == MBID_YES );
-                    } /* endif */
-                  } /* endif */
-                } /* endif */
-              } /* endif */
-            } /* endif */
-            CloseProperties( hDictProp, PROP_QUIT, &ErrorInfo );
-          }
-          else
-          {
-            //dict props of existing dict cannot be opened
-            pszTemp = pDimpIda->szNewDictName;
-            UtlErrorHwnd( ERROR_OPENING_PROPS, MB_CANCEL, 1,
-                          &pszTemp, EQF_ERROR, hwndDlg );
-            fOK = FALSE;
-
-            sIndexItem = QUERYSELECTION( pDimpIda->DictLBhwnd, PID_DICTIONARY_LB );
-            QUERYITEMTEXT( pDimpIda->DictLBhwnd, PID_DICTIONARY_LB , sIndexItem,
-                           pDimpIda->szString );
-            pszServer = UtlParseX15( pDimpIda->szString, DIC_SERVER_IND);
-            if ( pszServer[0] == NULC )
-            {
-              //grey out dictionary as it cannot be accessed
-              CLBSETITEMSTATE( pDimpIda->DictLBhwnd, PID_DICTIONARY_LB,
-                               sIndexItem, FALSE );
-            } /* endif */
-          } /* endif */
-        } /* endif */
-      } /* endif */
-
-      if ( fOK )
-      {
-        //fully qualified asd filename on szNewDictName
-        //system drive and dict path - later drive should be selectable
-        UtlMakeEQFPath( pDimpIda->szString, NULC,
-                        DIC_PATH,(PSZ) NULP );
-        strcat( pDimpIda->szString, BACKSLASH_STR );
-        strcat( pDimpIda->szString, pDimpIda->szShortName );
-        strcat( pDimpIda->szString, EXT_OF_DIC );
-        strcpy( pDimpIda->szNewDictName, pDimpIda->szString );
-
-        //fully qualified sgml filename onto szDictName
-        strupr( pDimpIda->szPathContent );
-        strcpy( pDimpIda->szDictName, pDimpIda->szPathContent );
-
-        //save last used values
-        if ( SetPropAccess( pDimpIda->hDictListProp, PROP_ACCESS_WRITE))
-        {
-          pProp = (PPROPDICTLIST)MakePropPtrFromHnd( pDimpIda->hDictListProp);
-          //save path
-          sprintf ( pProp->chDimpPath, "%s%s%s",
-                    pDimpIda->szPath, DEFAULT_PATTERN_NAME,
-                    DEFAULT_PATTERN_EXT );
-          //save drive
-          pProp->chDimpDrive = pDimpIda->szDrive[0];
-
-          //save format
-          pProp->usLastImpFormat = pDimpIda->usImpMode;
-          //save dict list properties
-          SaveProperties( pDimpIda->hDictListProp, &ErrorInfo);
-          if ( ErrorInfo == Err_NoStorage ) //no memory
-          {
-            fOK = FALSE;
-          }
-        }/* endif */
-
-
-        //close dialog
-        WinPostMsg( hwndDlg, WM_CLOSE, MP1FROMSHORT( fOK ), NULL );
-      } /* endif */
-      break;
-
-
-    case ID_DICTIMP_FILES_LB :
-    case ID_DICTIMP_DIR_LB :
-    case ID_DICTIMP_PATH_EF :
-    case ID_DICTIMP_TO_LB :
-    case ID_DICTIMP_INTERNAL_RB :
-    case ID_DICTIMP_ASCII_RB :
-      pDimpIda = ACCESSDLGIDA( hwndDlg, PDIMPIDA );
-      UtlWMControls( hwndDlg, WM_CONTROL, sId, sNotification,
-                     &pDimpIda->Controls );
-      mResult = (MRESULT)FALSE;
-      break;
-
-    default :
-      if ( (sId >= PID_DRIVEBUTTON_A) && (sId <= PID_DRIVEBUTTON_Z) )
-      {
-        pDimpIda = ACCESSDLGIDA( hwndDlg, PDIMPIDA );
-        UtlWMControls( hwndDlg, WM_CONTROL, sId, sNotification,
-                       &pDimpIda->Controls );
-        mResult = (MRESULT)FALSE;
-      } /* endif */
-  } /*end switch*/
-  return mResult;
-} /* end of function DictImpCommand */
 
 
 //This is the dictionary import main function which first calls up the dialog
@@ -941,12 +287,6 @@ HWND hwndErrMsg                      // parent handle for error message boxes
       pDimpIda->pSysProp = (PPROPSYSTEM)MakePropPtrFromHnd( EqfQuerySystemPropHnd() );
 
       memcpy(pDimpIda->sOrgToken, FORMATTABLE, sizeof(FORMATTABLE));
-
-
-      //DIALOGBOX( EqfQueryTwbClient(), DICTIMPDLG,
-      //           hResMod, ID_DICTIMP_DLG, pDimpIda, usResult );
-
-      //if ( usResult && WinIsWindow( (HAB)NULL, hwnd ))
 
       if (  DicImportFileOpenDialog( pDimpIda ) )
       {
@@ -2815,7 +2155,7 @@ BOOL DimpInit( HWND hwnd, PDIMPIDA pDimpIda )
 
   if ( fOK )
   {
-    pDimpIda->pMem->usAvail = MAXI_SIZE;       // available size in # of w's
+    pDimpIda->pMem->ulAvail = MAXI_SIZE;       // available size in # of w's
 
     //read in tag table list with which to create token list
     usRc = TALoadTagTable( DIMPTAGTABLE, (PLOADEDTABLE *)&pDimpIda->pTagTable,
@@ -3379,8 +2719,8 @@ BOOL DimpEntry ( PDIMPIDA pDimpIda, SHORT sToken, PTOKENENTRY *ppToken )
         pDimpIda->usSubTree = HW_LEVEL;
         pMem = pDimpIda->pMem;   // clear last entry data
         // init ulUsed many char_w's
-        UTF16memset( pMem->chBuffer, NULC, pMem->usUsed );
-        pMem->usUsed = 0;
+        UTF16memsetL( pMem->chBuffer, NULC, pMem->ulUsed );
+        pMem->ulUsed = 0;
         pDimpIda->Stack.sStack[++pDimpIda->Stack.sCurrent]
         = sToken;
         memset( pDimpIda->pEntry,
@@ -5347,7 +4687,7 @@ BOOL CheckForEnd( PDIMPIDA pDimpIda,         // pointer to dictionary import
 static
 BOOL SaveString( PDIMPIDA pDimpIda,          // buffer area
                  PSZ_W    * ppString ,            // string to be saved
-                 USHORT   usLength)          // length of passed string in # of w's
+                 ULONG   ulLength)          // length of passed string in # of w's
 { //@@ in DEBUG check usLength!!
   BOOL   fOK = TRUE;                        // true so far
   PMEM   pMem;                              // pointer to memory block
@@ -5356,18 +4696,18 @@ BOOL SaveString( PDIMPIDA pDimpIda,          // buffer area
 
   pMem = pDimpIda->pMem;                    // get address to pointer struct.
   // usAvail u.usUsed is in number of w's
-  if ( pMem->usAvail > (pMem->usUsed + usLength ))
+  if ( pMem->ulAvail > (pMem->ulUsed + ulLength ))
   {
     pszSource = *ppString;
-    pszTarget = &(pMem->chBuffer[ pMem->usUsed ]);
-    *ppString = &(pMem->chBuffer[ pMem->usUsed ]);
+    pszTarget = &(pMem->chBuffer[ pMem->ulUsed ]);
+    *ppString = &(pMem->chBuffer[ pMem->ulUsed ]);
 
-    while ( usLength > 0 )
+    while ( ulLength > 0 )
     {
       if ( *pszSource != LF && *pszSource != CR )
       {
         *pszTarget++ = *pszSource++;
-        pMem->usUsed++;
+        pMem->ulUsed++;
       }
       else
       {
@@ -5378,12 +4718,12 @@ BOOL SaveString( PDIMPIDA pDimpIda,          // buffer area
              (*pszSource != CR) )
         {
           *pszTarget++ = BLANK;
-          pMem->usUsed++;
+          pMem->ulUsed++;
         } /* endif */
       }
-      usLength--;
+      ulLength--;
     } /* endwhile */
-    pMem->chBuffer[pMem->usUsed++] = EOS;
+    pMem->chBuffer[pMem->ulUsed++] = EOS;
     //remove all blanks
     UtlStripBlanksW( *ppString );               //1136a
   }
@@ -5410,22 +4750,22 @@ PSZ_W Save3Strings( PDIMPIDA pDimpIda,          // buffer area
   PMEM     pMem = pDimpIda->pMem;                    // get address to pointer struct.
   PSZ_W    ptr[4]; 
   int i = 0;
-  USHORT usLength = 1;
+  ULONG ulLength = 1;
 
   ptr[0] = pString1; ptr[1] = pString2; ptr[2] = pString3; ptr[3] = NULL; 
 
   while ( ptr[i] != NULL )
   {
-    usLength = usLength + ((USHORT)wcslen(ptr[i]));
+    ulLength = ulLength + wcslen(ptr[i]);
     i++;
   } /* endwhile */
 
   // usAvail u.usUsed is in number of w's
-  if ( pMem->usAvail > (pMem->usUsed + usLength ))
+  if ( pMem->ulAvail > (pMem->ulUsed + ulLength ))
   {
     i = 0;
 
-    pszTarget = &(pMem->chBuffer[ pMem->usUsed ]);
+    pszTarget = &(pMem->chBuffer[ pMem->ulUsed ]);
     pszReturn = pszTarget;
 
     while ( ptr[i] != NULL )
@@ -5437,7 +4777,7 @@ PSZ_W Save3Strings( PDIMPIDA pDimpIda,          // buffer area
         if ( *pszSource != LF && *pszSource != CR )
         {
           *pszTarget++ = *pszSource++;
-          pMem->usUsed++;
+          pMem->ulUsed++;
         }
         else
         {
@@ -5445,7 +4785,7 @@ PSZ_W Save3Strings( PDIMPIDA pDimpIda,          // buffer area
           if ( (*(pszTarget-1) != BLANK) && (*pszSource != BLANK) && (*pszSource != LF) && (*pszSource != CR) )
           {
             *pszTarget++ = BLANK;
-            pMem->usUsed++;
+            pMem->ulUsed++;
           } /* endif */
         }
       } /* endwhile */
@@ -5453,7 +4793,7 @@ PSZ_W Save3Strings( PDIMPIDA pDimpIda,          // buffer area
       i++;
     } /* endwhile */
 
-    pMem->chBuffer[pMem->usUsed++] = EOS;
+    pMem->chBuffer[pMem->ulUsed++] = EOS;
 
     //remove all blanks
     UtlStripBlanksW( pszReturn );              

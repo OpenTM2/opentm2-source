@@ -28,6 +28,11 @@
 
   #include "SHLOBJ.H"           // folder browse function
 
+#undef _WPTMIF                         // we don't care about WP I/F
+#include "eqfhelp.id"                  // help resource IDs
+#include "eqfhlp1.h"                   // first part of help tables
+#include "eqfmsg.htb"                          // message help table
+
 extern HELPSUBTABLE hlpsubtblDocPropDlg[];
 extern HELPSUBTABLE hlpsubtblNewDocDlg[];
 
@@ -50,6 +55,7 @@ extern HELPSUBTABLE hlpsubtblPropSettingsDlg[];
 #define DOCIMPSTARTPATH "DOCIMPSTARTPATH"
 
 BOOL EQFDoImportDoc ( PDOCIMPIDA, PEXTRAPAGES );
+MRESULT UtlDMGETDEFID1( HWND, WPARAM, LPARAM, PCONTROLSIDA, USHORT );
 
 //f1////////////////////////////////////////////////////////////////////////////
 // dialog procedure long-to-short document name                               //
@@ -357,6 +363,7 @@ BOOL DocPropertyDlg
 {
   BOOL             fOK;                // function return code
   PDOCPROPIDA      pIda = NULL;        // pointer to document property dlg IDA
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   /********************************************************************/
   /* Allocate document property dialog IDA                            */
@@ -1265,6 +1272,7 @@ LPARAM  mp2
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           TC_ITEM Item;
           HWND hwndTabCtrl = GetDlgItem( hwnd, ID_DOC_PROP_TABCTRL );
           memset( &Item, 0, sizeof(Item) );
@@ -1336,6 +1344,7 @@ PDOCPROPIDA     pIda
   HWND      hwndTabCtrl;
   HINSTANCE hInst;
   CHAR      szBuffer[80];
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( fOk )
   {
@@ -3082,6 +3091,7 @@ LPARAM mp2
 
     case WM_INITDLG :             //initialize and display dialogbox
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         //CHAR      szBuffer[80];
         //TC_ITEM   TabCtrlItem;
         RECT      rect;
@@ -3165,6 +3175,7 @@ LPARAM mp2
 
         if (sNotification == CBN_SELCHANGE)
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           SHORT  sItem = CBQUERYSELECTION (hwnd, ID_DOCIMP_FORMAT_CB);
           USHORT usFormat = (USHORT)CBQUERYITEMHANDLE( hwnd, ID_DOCIMP_FORMAT_CB, sItem );
 
@@ -4406,6 +4417,7 @@ PrepExtFormDlg( PDOCIMPIDA pIda, HWND hwnd, SHORT sId )
 {
   if ( (pIda->usFormatID != (USHORT)sId) || pIda->fInitInProgress )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     DocImpStopThread( pIda );           // stop any running thread
     pIda->usFormatID = (USHORT)sId;
     SETTEXTFROMRES( hwnd, ID_DOCIMP_IMPORT_GB, pIda->szString,
@@ -4452,6 +4464,7 @@ PrepImpPathFormDlg( PDOCIMPIDA pIda, HWND hwnd, SHORT sId )
 {
   if ( (pIda->usFormatID != (USHORT)sId) || pIda->fInitInProgress )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     pIda->usFormatID = (USHORT)sId;
     DocImpStopThread( pIda );           // stop any running thread
     SETTEXTFROMRES( hwnd, ID_DOCIMP_IMPORT_GB, pIda->szString,
@@ -4494,6 +4507,7 @@ static VOID PrepIntFormDlg( PDOCIMPIDA pIda, HWND hwnd, SHORT sId )
 {
   if ( (pIda->usFormatID != (USHORT)sId) || pIda->fInitInProgress )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     DocImpStopThread( pIda );           // stop any running thread
     pIda->usFormatID = (USHORT)sId;
 
@@ -4971,4 +4985,127 @@ static VOID EnableImportControls (HWND hwnd, BOOL fEnable)
   ENABLECTRL( hwnd, ID_DOCIMP_STARTPATH_CB, fEnable);
   ENABLECTRL( hwnd, ID_DOCIMP_BROWSE_PB, fEnable);
 } /* end of function EnableImportControls */
+
+//+----------------------------------------------------------------------------+
+// Function name:  UtlDMGETDEFID                                                
+//+----------------------------------------------------------------------------+
+// Description:  processes DM_GETDEFID message of export and import dialogs     
+//+----------------------------------------------------------------------------+
+// Parameters:                                                                  
+//     HWND           hwndDlg             IN      dialog window handle          
+//     MPARAM         mp1                 IN      first message parameter       
+//     MPARAM         mp2                 IN      second message parameter      
+//     PCONTROLSIDA   pControlsIda        IN      ida with dialog control info  
+//+----------------------------------------------------------------------------+
+// Returncode type:  MRESULT                                                    
+//+----------------------------------------------------------------------------+
+// Returncodes: -                                                               
+//+----------------------------------------------------------------------------+
+// Prerequesites:                                                               
+//     The following fields in CONTROLSIDA need to be filled before the         
+//     function may be called:                                                  
+//     idPathEF              with the id of path entry field                    
+//     idDirLB               with the id of directories listbox                 
+//     idFilesLB             with the id of files listbox for import dialogs    
+//     idOkPB                with the id of btn that triggers process           
+//+----------------------------------------------------------------------------+
+// Side effects:                                                                
+//     IDA fields may be changed to reflect the new dialog status.              
+//     szPathContent         contains the fully qualified path name             
+//     szPath                contains drive and directory                       
+//     szPatternName         contains file name plus extension                  
+//     szDrive               contains drive with colon                          
+//     The rest of the fields in the ida are used for control processing        
+//+---------------------------------------------------------------------------- 
+// Function call: UtlDMGETDEFID( hwndDlg, mp1, mp2, &pIda->ControlsIda );       
+//+----------------------------------------------------------------------------+
+MRESULT UtlDMGETDEFID1
+(
+HWND             hwndDlg,            // dialog window handle
+WPARAM           mp1,                // first message parameter
+LPARAM           mp2,                // second message parameter
+PCONTROLSIDA pControlsIda,           // pointer to ida
+USHORT usFormatID                    // pointer to document import IDA
+)
+{
+  MRESULT     mResult = (MRESULT)FALSE; //return code of this function
+  HWND        hwndFocus;                //handle for input focus
+  mp1; mp2;
+  /************************************************************/
+  /* check if user pressed the ENTER key, but wants only to   */
+  /* select/deselect an item of the listbox via a simulated   */
+  /* (keystroke) double click or if the user is in the        */
+  /* file name entry field and tries to activate a new        */
+  /* search pattern                                           */
+  /************************************************************/
+  if ( GetKeyState(VK_RETURN) & 0x8000  )
+  {
+    HWND hwndParent;
+
+    hwndFocus = GetFocus();
+    hwndParent = GetParent( hwndFocus );
+
+    //UCD_ONE_PROPERTY
+
+    if ( (hwndFocus == GetDlgItem( hwndDlg, pControlsIda->idPathEF) )  ||
+         (hwndFocus == GetDlgItem( hwndDlg, pControlsIda->idCurrentDirectoryEF )  ) ||
+         (hwndParent == GetDlgItem( hwndDlg, pControlsIda->idPathEF ) )  ||
+         (hwndParent == GetDlgItem( hwndDlg, pControlsIda->idCurrentDirectoryEF )  ) )
+    {
+
+      if ( usFormatID == ID_DOCIMP_IMPPATH_RB)
+      {
+        // nothing to do
+      }
+      else if (usFormatID == ID_DOCIMP_EXTERNAL_RB)
+      {
+#ifndef _TQM
+        DocExpHandlePathInput(hwndDlg);
+#endif
+        UtlEFValidityTest( pControlsIda, hwndDlg );
+      }
+      else if (usFormatID == ID_DOCIMP_INTERNAL_RB)
+      {
+        USHORT usDrive;
+
+        //QUERYTEXT( hwndDlg, pControlsIda->idPathEF, pControlsIda->szPathContent );
+
+        //load content of current dir entryfield into szPath
+        QUERYTEXT( hwndDlg, pControlsIda->idCurrentDirectoryEF, pControlsIda->szDrive );
+
+        pControlsIda->szDrive[2] = EOS;
+
+        SETTEXT( hwndDlg, pControlsIda->idCurrentDirectoryEF, pControlsIda->szDrive );
+
+
+        usDrive = IDFROMDRIVE( PID_DRIVEBUTTON_A,
+                               pControlsIda->szDrive[0]);
+
+  #ifndef _TQM
+        DocImpControl (hwndDlg,usDrive,BN_CLICKED);
+  #endif
+
+
+      }
+      else
+      {
+        UtlEFValidityTest( pControlsIda, hwndDlg );
+
+      } // end if
+
+
+
+
+      mResult = TRUE;                  // do not process as default pushbutton
+    }
+    else if ( hwndFocus == GetDlgItem( hwndDlg, pControlsIda->idDirLB ) )
+    {
+      PostMessage( hwndDlg, WM_COMMAND,
+                   MP1FROMSHORT(pControlsIda->idDirLB),
+                   MP2FROM2SHORT( 0, LN_ENTER ) );
+      mResult = TRUE;                  // do not process as default pushbutton
+    } /* endif */
+  } /* endif */
+  return( mResult );
+} /* end of function UtlDMGETDEFID1 */
 

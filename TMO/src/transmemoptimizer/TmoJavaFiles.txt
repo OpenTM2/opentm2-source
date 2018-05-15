@@ -1,0 +1,31 @@
+#Copyright (C) 2017, International Business Machines
+#Corporation and others.  All Rights Reserved.
+..\tmo\src\transmemoptimizer\AboutDialog.java
+..\tmo\src\transmemoptimizer\ApplyChangesDialog.java
+..\tmo\src\transmemoptimizer\ChangeEntry.java
+..\tmo\src\transmemoptimizer\ChangeEntryDialog.java
+..\tmo\src\transmemoptimizer\ChangeList.java
+..\tmo\src\transmemoptimizer\ChangeListTableModel.java
+..\tmo\src\transmemoptimizer\ChangeMemoryJob.java
+..\tmo\src\transmemoptimizer\ChangeOptions.java
+..\tmo\src\transmemoptimizer\DataWriter.java
+..\tmo\src\transmemoptimizer\ExpFileFilter.java
+..\tmo\src\transmemoptimizer\ImageCanvas.java
+..\tmo\src\transmemoptimizer\Job.java
+..\tmo\src\transmemoptimizer\MatchEntry.java
+..\tmo\src\transmemoptimizer\MatchList.java
+..\tmo\src\transmemoptimizer\MatchListMainApp.java
+..\tmo\src\transmemoptimizer\MatchListTableModel.java
+..\tmo\src\transmemoptimizer\MatchListWindow.java
+..\tmo\src\transmemoptimizer\Messages.java
+..\tmo\src\transmemoptimizer\MultiLineCellRenderer.java
+..\tmo\src\transmemoptimizer\MultiLineLabel.java
+..\tmo\src\transmemoptimizer\MyTableCellRenderer.java
+..\tmo\src\transmemoptimizer\ProgressDialog.java
+..\tmo\src\transmemoptimizer\SpaceCanvas.java
+..\tmo\src\transmemoptimizer\StatusPanel.java
+..\tmo\src\transmemoptimizer\StripedTableCellRenderer.java
+..\tmo\src\transmemoptimizer\TableSorter.java
+..\tmo\src\transmemoptimizer\Utils.java
+..\tmo\src\transmemoptimizer\XmlFileFilter.java
+..\tmo\src\transmemoptimizer\XMLWriter.java

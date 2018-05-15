@@ -57,7 +57,7 @@ static USHORT usOutStyleProp =10;
 
  void EQFBSysScrnInit( PTBDOCUMENT);   // get initial sceen data
  VOID EQFBSysAttrib( COLOUR Color, PBYTE pCEll, BOOL fMark );
- VOID CleanDisplayString( PSZ_W pBidiText );
+ VOID CleanDisplayString( PTBDOCUMENT pDoc, HDC hDC, PSZ_W pBidiText );
 
 /**********************************************************************/
 /* Load and free special bidi variables                               */
@@ -441,7 +441,7 @@ VOID EQFBBidiDispReorder
      {
        CHAR_W ch = pText[ulLen];
        pText[ulLen] = EOS;
-       CleanDisplayString( pText );
+       CleanDisplayString( pDoc, hdc, pText );
        pText[ulLen] = ch;
      }
 
@@ -478,7 +478,7 @@ VOID EQFBBidiDispReorder
 			     }
                  memset( &chBidiText[0], 0, ulIndex * sizeof(CHAR_W));
                  UTF16strcpy(chBidiText, pText);
-                 CleanDisplayString( chBidiText );
+                 CleanDisplayString( pDoc, hdc, chBidiText );
                  UTF16strrev(&chBidiText[0]);
 
                  pText[ulLen] = c; chBidiText[ulIndex] = EOS;
@@ -533,7 +533,7 @@ VOID EQFBBidiDispReorder
                  ulIndex = ulLen;
                  memset( &chBidiText[0], 0, ulIndex);
                  UTF16strcpy(chBidiText, pText);
-                 CleanDisplayString( chBidiText );
+                 CleanDisplayString( pDoc, hdc, chBidiText );
                  UTF16strrev(&chBidiText[0]);
                  pText[ulLen] = c; chBidiText[ulIndex] = EOS;
 
@@ -576,7 +576,7 @@ VOID EQFBBidiDispReorder
                    ulIndex = ulLen;
                    memset( &chBidiText[0], 0, ulIndex);
                    UTF16strcpy(chBidiText, pText);
-                   CleanDisplayString( chBidiText );
+                   CleanDisplayString( pDoc, hdc, chBidiText );
                    UTF16strrev(&chBidiText[0]);
                    pText[ulLen] = c; chBidiText[ ulIndex ] = EOS;
 
@@ -1065,6 +1065,8 @@ VOID ReAllocArabicStruct( PTBDOCUMENT pDoc )
    CURSOR shape
  )
  {
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
      /*****************************************************************/
      /* if shape of cursor has changed and window is active, change   */
      /* cursor shape on the display                                   */
@@ -1449,6 +1451,7 @@ VOID  EQFBBidiSysScrnCurPos
   BOOL   fOK    = TRUE;
   ULONG  ulLen;
   LONG   lCurCol   = lCol;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   PBIDISTRUCT   pBidiStruct = pDoc->pBidiStruct;
   /******************************************************************/
@@ -2357,41 +2360,128 @@ static VOID AdjustForBidi
 
 
 
+
+// Get valid unicode ranges for current font and anchor them in the document structure
+LPGLYPHSET GetFontContRanges( PTBDOCUMENT pDoc, HDC hDC)
+{
+  LPGLYPHSET lpGlyphSet = NULL;
+
+  // check if a glypset is already available
+  if ( pDoc->pvGlyphSet != NULL )
+  {
+    return( (LPGLYPHSET)pDoc->pvGlyphSet );
+  } /* endif */
+
+  // get required size for glyphset
+  DWORD dwLen = GetFontUnicodeRanges( hDC, NULL );
+
+  // allocate glyphset structure
+  if ( !UtlAlloc( (PVOID *)&lpGlyphSet, 0, dwLen, ERROR_STORAGE ) )
+  {
+    return( NULL );
+  } /* endif */
+
+  // get glyphset
+  lpGlyphSet->cbThis = dwLen;
+  lpGlyphSet->flAccel = 0;
+  lpGlyphSet->cRanges = 0;
+  lpGlyphSet->cGlyphsSupported = 0;
+  dwLen = GetFontUnicodeRanges( hDC, lpGlyphSet );
+  pDoc->pvGlyphSet = (PVOID)lpGlyphSet;
+
+  return( lpGlyphSet );
+} /* end of GetFontContRanges */
+
+// check if a character is in the provided range (=0), or before the range (=-1) of following the range (=1)
+int CheckAgainstRange( CHAR_W chTest, CHAR_W chRangeStart, int iGlyphsInRange )
+{
+  if ( chTest < chRangeStart ) return( -1 );
+  if ( chTest >= chRangeStart + iGlyphsInRange ) return( 1 );
+  return( 0 );
+}
+
+// Check if given character is contained in the provided glyph list
+BOOL IsInGlyphSet( LPGLYPHSET lpGlyphSet, CHAR_W chTest )
+{
+  // this is the standard binary search algorythm, we could not use bsearch as the ranges complicates the compare function
+  const int iNotFound = -1;
+  int iLeft = 0;                       // first entry 
+  int iRight = lpGlyphSet->cRanges;    // last entry
+
+  // as long as the list being searched is not empty
+  while ( iLeft <= iRight )
+  {
+      int iMid = iLeft + ((iRight - iLeft) / 2); 
+      int iCompareResult = CheckAgainstRange( chTest, lpGlyphSet->ranges[iMid].wcLow, lpGlyphSet->ranges[iMid].cGlyphs );
+
+      if ( iCompareResult == 0)       // we found the correct range
+          return ( TRUE );
+      else
+          if ( iCompareResult < 0 )
+              iRight = iMid - 1;     // continue on the left side of the list
+          else 
+              iLeft = iMid + 1;      // continue on the right side of the list
+          /* end if */
+      /* end if */
+  }
+  return( FALSE );
+} /* end of IsInGlyphSet */
+
+// Replace all code points not contained in current font by a question mark
+void MaskInvalidCharacters( PTBDOCUMENT pDoc, HDC hDC, PSZ_W pszText )
+{
+  LPGLYPHSET lpGlyphSet = GetFontContRanges( pDoc, hDC );
+  if ( lpGlyphSet == NULL ) return;
+
+  while( *pszText )
+  {
+    if ( !IsInGlyphSet( lpGlyphSet, *pszText ) )
+    {
+      *pszText = L'?';
+    } /* endif */
+    pszText++;
+  } /* endwhile */
+} /* end of MaskInvalidCharacters */
+
 // Replace special characters in the display string
 //    tab to space
 //    control codes
 //    FFFC to bullet
 //
-VOID CleanDisplayString( PSZ_W pText )
+VOID CleanDisplayString( PTBDOCUMENT pDoc, HDC hDC, PSZ_W pText )
 {
   CHAR_W b;
-  while ((b = *pText) != NULC)
+  PSZ_W pszTest = pText;
+  while ((b = *pszTest) != NULC)
   {
     if ( b == '\t')
     {
-      *pText = ' ';
+      *pszTest = ' ';
     }
     else if (b == 0xFFFC)
     {
-  		*pText = 183;
+  		*pszTest = 183;
     }
     else if (b == 0x0006)
     {
-  		*pText = 0x002D;
+  		*pszTest = 0x002D;
     }
     else if (b == 0x0005)
   	{
-	  	*pText = 0x007C;
+	  	*pszTest = 0x007C;
     }
     else if ((b <= 0x0004) && (b>=0x0001))
 	  {
-		  *pText = 0x00B7;
+		  *pszTest = 0x00B7;
     }
     else if ((b == 0x0017) || (b == 0x0019))
     {
-		  *pText = 0x00B7;
+		  *pszTest = 0x00B7;
     }
-    pText++;
+    pszTest++;
   }
+
+  // mask all characters not valid for the currently selected font
+  MaskInvalidCharacters( pDoc, hDC, pText );
 }
 

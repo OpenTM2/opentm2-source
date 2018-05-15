@@ -15,6 +15,22 @@
 #include "Utility.h"
 #include "eqfutmdi.h"           // MDI Utilities
 #include "eqffol.h"
+#include <eqfutils.id>            // IDs used by dialog utilities
+#include "eqfta.h"                // required for TAAdjustWhiteSpace prototype
+
+// includes for Xalan XSLT
+
+// the Win32 Xerces/Xalan build requires the default structure packing...
+#pragma pack( push )
+#pragma pack(8)
+#include <iostream>
+#ifdef XALANCODEDOESWORK
+  #include <xercesc/util/PlatformUtils.hpp>
+  #include <xercesc/util/PlatformUtils.hpp>
+  #include <xalanc/XalanTransformer/XalanTransformer.hpp>
+#endif
+#pragma pack( pop )
+
 
 #define NATIONAL_SETTINGS     "intl"
 
@@ -3239,3 +3255,951 @@ HMENU UtlFindSubMenu( HMENU hMenu, const char *pszSubMenu )
   }
   return( hSubMenu );
 }
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+/***                                                                ***/
+/***                 Activate-a-MDI-child-window function           ***/
+/***                                                                ***/
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+BOOL ActivateMDIChild
+(
+  HWND                 hwndChild       // handle of window being activated
+)
+{
+  /********************************************************************/
+  /* Under Windows activate the MDI child window and, if it is        */
+  /* minimized, restore it to its normal size                         */
+  /********************************************************************/
+  SendMessage( (HWND)UtlQueryULong( QL_TWBCLIENT ), WM_MDIACTIVATE,
+               MP1FROMHWND(hwndChild), 0L );
+  if ( IsIconic(hwndChild) )
+  {
+    SendMessage( (HWND)UtlQueryULong( QL_TWBCLIENT ), WM_MDIRESTORE,
+                 MP1FROMHWND(hwndChild), 0L );
+  } /* endif */
+  return( TRUE );
+}
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+/***                                                                ***/
+/***                 Create-a-process-window function               ***/
+/***                                                                ***/
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+BOOL CreateProcessWindow
+(
+  PSZ                  pszObjName,     // ptr to object name for process window
+  PFN_PROCESSCALLBACK  pfnCallBack,    // callback function for process window
+  PVOID                pvUserData      // ptr to user data (is passed to callback
+                                       // function in mp2 of WM_CREATE message)
+)
+{
+  return( CreateProcessWindow2( pszObjName, pfnCallBack, pvUserData, TRUE ) );
+} /* end of function CreateProcessWindow */
+
+BOOL CreateProcessWindow2
+(
+  PSZ                  pszObjName,     // ptr to object name for process window
+  PFN_PROCESSCALLBACK  pfnCallBack,    // callback function for process window
+  PVOID                pvUserData,     // ptr to user data (is passed to callback
+                                       // function in mp2 of WM_CREATE message)
+  BOOL                 fVisible        // create-a-visible-process-window flag
+)
+{
+  HWND     hframe, hclient;            // handle of created windows
+  BOOL     fOK;                        // function return code
+  PROCESSCREATEPARMS CreateParms;      // process creation parameter
+
+  CreateParms.pvUserData  = pvUserData;
+  CreateParms.pfnCallBack = pfnCallBack;
+  CreateParms.fVisible    = fVisible;
+
+  {
+    /*********************************************************/
+    /* to avoid flickering during the creation of the MDI    */
+    /* Child window we have to position it outside of the    */
+    /* screen - we always reposition it to the last stored   */
+    /* positions via a WinSetWindowPos function after init.  */
+    /*********************************************************/
+    HWND  hwndMDIClient;
+    MDICREATESTRUCT mdicreate;
+
+    mdicreate.hOwner  = (HAB)UtlQueryULong( QL_HAB );
+    mdicreate.szClass = GENERICPROCESS;
+    mdicreate.szTitle = pszObjName;
+    mdicreate.x       = -100;
+    mdicreate.y       = -100;
+    mdicreate.cx      = 1;
+    mdicreate.cy      = 1;
+    mdicreate.style   = WS_CLIPCHILDREN;
+    mdicreate.lParam  = MP2FROMP(&CreateParms);
+
+    hwndMDIClient = (HWND)UtlQueryULong( QL_TWBCLIENT );
+
+    hframe = hclient =
+    (HWND)SendMessage( hwndMDIClient,
+                       WM_MDICREATE, 0,
+                       MP2FROMP((LPMDICREATESTRUCT)&mdicreate) );
+  }
+  if( hframe)
+  {
+    UtlDispatch();
+    WinPostMsg( hclient, WM_EQF_INITIALIZE, NULL, NULL);
+    fOK = TRUE;
+  }
+  else
+  {
+    fOK = FALSE;
+  } /* endif */
+  return( fOK );
+} /* end of function CreateProcessWindow */
+
+/**********************************************************************/
+/* Procedure to get or refresh the commarea pointer for a generic     */
+/* process window (e.g. adfter a call to UtlDispatch)                 */
+/*                                                                    */
+/* If NULL is returned either the list window has been destroyed or   */
+/* it's data areas have been freed                                    */
+/**********************************************************************/
+PVOID AccessGenProcCommArea( HWND hwnd )
+{
+  PPROCESSCOMMAREA   pCommArea = NULL;
+  PGENPROCESSINSTIDA pIda;
+
+  pIda = ACCESSWNDIDA( hwnd, PGENPROCESSINSTIDA );
+  if ( pIda != NULL )
+  {
+    pCommArea = &(pIda->CommArea);
+  } /* endif */
+  return( pCommArea );
+} /* end of function AccessGenProcCommArea */
+
+
+
+VOID EqfDisplayContextHelp( HWND hItemHandle, PHELPSUBTABLE pHlpTable )
+{
+
+  /********************************************************************/
+  /* copy our help subtable, whose entries are SHORTs into a table as */
+  /* requested  by Windows with long entries                          */
+  /********************************************************************/
+  LONG aItem[500];
+  PLONG plItem = &aItem[0];
+  PSHORT pS = (PSHORT) pHlpTable;
+  pS++;                                // skip index
+
+  memset( &aItem[0], 0, sizeof( aItem ));
+  while ( *pS )
+  {
+    *plItem = (LONG) *pS;
+    plItem++; pS++;
+    *plItem = (LONG) *pS;
+    plItem++; pS++;
+
+  } /* endwhile */
+
+  CHAR EqfSystemHlpFile[MAX_EQF_PATH];  
+  UtlQueryString( QST_HLPFILE, EqfSystemHlpFile, sizeof(EqfSystemHlpFile) );
+
+  WinHelp( hItemHandle, EqfSystemHlpFile, HELP_WM_HELP, (LONG) &aItem[0]);
+
+}
+
+static COLORREF acrCustomColors[16]; // array of custom colors 
+
+
+// instance data area for set colors dialog
+typedef struct _SETCOLORSIDA
+{
+  int  iCurElement;                  // index of currently active text element
+  COLORREF cForeground;              // currently selected foreground color
+  COLORREF cBackground;              // currently selected background color
+  COLORCHOOSERDATA InOutData;        // local copy of caller's color chooser data area
+} SETCOLORSIDA, *PSETCOLORSIDA;
+
+
+INT_PTR CALLBACK UTLCOLORCHOOSERDLG
+(
+  HWND   hwnd,                        // handle of window
+  WINMSG msg,                         // type of message
+  WPARAM mp1,                         // first message parameter
+  LPARAM mp2                          // second message parameter
+)
+{
+  /********************************************************************/
+  /*                         local variables                          */
+  /********************************************************************/
+  MRESULT              mResult = FALSE;// dlg procedure return value
+  PSETCOLORSIDA        pIDA;           // dialog IDA
+
+  switch ( msg )
+  {
+    case WM_EQF_QUERYID:
+      pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA);
+      HANDLEQUERYID( pIDA->InOutData.sID, mp2 );
+      break;
+
+    case WM_INITDLG :
+      {
+        // save the pointer to the IDA in the dialog reserved memory
+        pIDA = (PSETCOLORSIDA)PVOIDFROMMP2( mp2 );
+        ANCHORDLGIDA( hwnd, pIDA );
+
+        // fill type of text listbox
+        int i = 0;
+        while( pIDA->InOutData.ColorSetting[i].szElement[0] != EOS )
+        {
+          SHORT sItem = INSERTITEMEND( hwnd, ID_SETCOLOR_ITEM_LB, pIDA->InOutData.ColorSetting[i].szElement );
+          SETITEMHANDLE( hwnd, ID_SETCOLOR_ITEM_LB, sItem, i );
+          i++;
+        } /* endwhile */
+        SELECTITEM( hwnd, ID_SETCOLOR_ITEM_LB, 0 );
+
+        // adjust titlebar text
+        if ( pIDA->InOutData.szTitle [0] != EOS ) SETTEXTHWND(hwnd, pIDA->InOutData.szTitle );
+
+        // Keep dialog within TWB
+        {
+          SWP  swpDlg, swpTWB;
+          WinQueryWindowPos( hwnd, &swpDlg );
+
+          WinQueryWindowPos( (HWND)UtlQueryULong( QL_TWBCLIENT ), &swpTWB );
+          if ( (swpDlg.x > 0) && ((swpDlg.x + swpDlg.cx) < swpTWB.cx) )
+          {
+            swpDlg.x = (swpTWB.cx - swpDlg.cx) / 2;
+          } /* endif */
+          if ( (swpDlg.y > 0) && ((swpDlg.y + swpDlg.cy) < swpTWB.cy) )
+          {
+            swpDlg.y = (swpTWB.cy - swpDlg.cy) / 2;
+          } /* endif */
+          WinSetWindowPos( hwnd, HWND_TOP, swpDlg.x, swpDlg.y, swpDlg.cx, swpDlg.cy, EQF_SWP_MOVE | EQF_SWP_SHOW | EQF_SWP_ACTIVATE );
+        }
+
+        // leave the focus where we put it
+        mResult = MRFROMSHORT(DIALOGINITRETURN(TRUE));
+      }
+      break;
+
+    case WM_COMMAND :
+      {
+        pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA);
+
+        switch ( WMCOMMANDID( mp1, mp2 ) )
+        {
+          case ID_SETCOLOR_BACKGROUND_PB:
+            {
+              CHOOSECOLOR Colors;
+              memset( &Colors, 0, sizeof(Colors) );
+              Colors.lStructSize = sizeof(Colors);
+              Colors.hwndOwner = hwnd;
+              Colors.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
+              Colors.lpCustColors = acrCustomColors;
+              Colors.rgbResult = pIDA->cBackground;
+
+              if ( ChooseColor( &Colors ) )
+              {
+                pIDA->cBackground = Colors.rgbResult;
+                pIDA->InOutData.ColorSetting[pIDA->iCurElement].cBackground = Colors.rgbResult;
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_BACKGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_SAMPLE_STATIC ), NULL, TRUE );
+              } /* endif */
+            } 
+            break;
+
+          case ID_SETCOLOR_FOREGROUND_PB:
+            {
+              CHOOSECOLOR Colors;
+              memset( &Colors, 0, sizeof(Colors) );
+              Colors.lStructSize = sizeof(Colors);
+              Colors.hwndOwner = hwnd;
+              Colors.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
+              Colors.lpCustColors = acrCustomColors;
+              Colors.rgbResult = pIDA->cForeground;
+
+              if ( ChooseColor( &Colors ) )
+              {
+                pIDA->cForeground = Colors.rgbResult;
+                pIDA->InOutData.ColorSetting[pIDA->iCurElement].cForeground = Colors.rgbResult;
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_FOREGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_SAMPLE_STATIC ), NULL, TRUE );
+              } /* endif */
+            } 
+            break;
+
+          case ID_SETCOLOR_ITEM_LB:
+            if ( WMCOMMANDCMD( mp1, mp2 ) == LN_SELECT )
+            {
+              SHORT sItem = QUERYSELECTION( hwnd, ID_SETCOLOR_ITEM_LB );
+              if ( sItem != LIT_NONE )
+              {
+                SHORT sIndex = (SHORT)QUERYITEMHANDLE( hwnd, ID_SETCOLOR_ITEM_LB, sItem );
+                pIDA->cForeground = pIDA->InOutData.ColorSetting[sIndex].cForeground;
+                pIDA->cBackground = pIDA->InOutData.ColorSetting[sIndex].cBackground;
+                pIDA->iCurElement = sIndex;
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_FOREGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_BACKGROUND_STATIC ), NULL, TRUE );
+                InvalidateRect( GetDlgItem( hwnd, ID_SETCOLOR_SAMPLE_STATIC ), NULL, TRUE );
+              } /* endif */
+            } /* endif */
+            break;
+
+          case ID_SETCOLOR_CHANGE_PB :
+            WinDismissDlg( hwnd, TRUE );
+            break;
+
+          case ID_SETCOLOR_DEFAULT_PB:
+            {
+              // replace current colors with their default values
+              int i = 0;
+              while( pIDA->InOutData.ColorSetting[i].szElement[0] != EOS )
+              {
+                pIDA->InOutData.ColorSetting[i].cForeground = pIDA->InOutData.ColorSetting[i].cDefaultForeground; 
+                pIDA->InOutData.ColorSetting[i].cBackground = pIDA->InOutData.ColorSetting[i].cDefaultBackground;
+                i++;
+              } /* endwhile */
+
+              // force a refresh by posting a LN_SELECT message for the text item listbox
+              PostMessage( hwnd, WM_COMMAND, MAKEWPARAM( ID_SETCOLOR_ITEM_LB, LN_SELECT ), (LPARAM)GetDlgItem( hwnd, ID_SETCOLOR_ITEM_LB ) );
+            }
+            break;
+
+          case ID_SETCOLOR_CANCEL_PB :
+          case DID_CANCEL :
+            WinDismissDlg( hwnd, FALSE );
+            break;
+        } 
+      }
+      break;
+
+    case WM_CTLCOLORSTATIC:
+    {
+      DWORD CtrlID = GetDlgCtrlID((HWND)mp2);
+      if ( CtrlID == ID_SETCOLOR_FOREGROUND_STATIC )
+      {
+          pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA );
+          HDC hdcStatic = (HDC)mp1;
+          SetTextColor(hdcStatic, RGB(0,0,0));
+          SetBkColor(hdcStatic, pIDA->cForeground );
+        return (INT_PTR)CreateSolidBrush(pIDA->cForeground);
+      }
+      else if ( CtrlID == ID_SETCOLOR_BACKGROUND_STATIC )
+      {
+          pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA );
+          HDC hdcStatic = (HDC)mp1;
+          SetTextColor(hdcStatic, RGB(0,0,0));
+          SetBkColor(hdcStatic, pIDA->cBackground );
+        return (INT_PTR)CreateSolidBrush(pIDA->cBackground);
+      }
+      else if ( CtrlID == ID_SETCOLOR_SAMPLE_STATIC )
+      {
+          pIDA = ACCESSDLGIDA( hwnd, PSETCOLORSIDA );
+          HDC hdcStatic = (HDC)mp1;
+          SetTextColor(hdcStatic, pIDA->cForeground);
+          SetBkColor(hdcStatic, pIDA->cBackground );
+        return (INT_PTR)CreateSolidBrush(pIDA->cBackground);
+      } /* endif */
+    }
+    break;
+
+
+    default :
+      mResult = WinDefDlgProc( hwnd, msg, mp1, mp2 );
+      break;
+  } /* endswitch */
+
+  return( mResult );
+
+}
+
+// let the user select the color settings for a group of items
+USHORT UtlColorChooserDlg
+(
+  PCOLORCHOOSERDATA pColorChooserData  // pointer to caller's color chooser data structure
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PSETCOLORSIDA pIDA = NULL;           // color chooser dialog IDA
+
+  // check input parameters
+  if ( pColorChooserData == NULL )
+  {
+    usRC = ERROR_INVALID_DATA;
+  }
+
+  // allocate dialog IDA
+  if ( usRC == NO_ERROR )
+  {
+    if ( !UtlAlloc( (PVOID *)&pIDA, 0L, sizeof(SETCOLORSIDA), ERROR_STORAGE ) )
+    {
+        usRC = ERROR_NOT_ENOUGH_MEMORY;
+    }
+  }
+
+  // pop-up dialog
+  if ( usRC == NO_ERROR )
+  {
+    BOOL fOK;
+	  HMODULE hResMod;
+
+    memcpy( &(pIDA->InOutData), pColorChooserData, sizeof(pIDA->InOutData) );
+
+  	hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+    DIALOGBOX( QUERYACTIVEWINDOW(), UTLCOLORCHOOSERDLG, hResMod, ID_SETCOLOR_DLG, pIDA, fOK );
+
+    if ( fOK )
+    {
+      memcpy( pColorChooserData, &(pIDA->InOutData), sizeof(pIDA->InOutData) );
+    }
+    else
+    {
+      usRC = (USHORT)-1;   // user cancelled dialog
+    } /* endif */
+  }
+
+  if ( pIDA != NULL ) UtlAlloc( (PVOID *)&pIDA, 0L, 0L, NOMSG );
+  
+  // return to caller
+  return( usRC );
+
+}
+
+//+----------------------------------------------------------------------------+
+//|External function                                                           |
+//+----------------------------------------------------------------------------+
+//|Function name:     TAAdjustWhiteSpace                               |
+//+----------------------------------------------------------------------------+
+//|Description:       Adjust the whitespace of a segment; i.e. ensure          |
+//|                   that the target segment has the same leading and or      |
+//|                   trailing whitespace as the source segment                |
+//   GQ 2004/10/21    Do not touch whitespaces adjusted by the adjust leading
+//                    whitespaces part of the function when processing trailing
+//                    whitespaces.
+//+----------------------------------------------------------------------------+
+//|Input parameter:   PSZ     pszSourceSeg  ptr to source segment data         |
+//|                   PSZ     pszTargetSeg  ptr to target segment data         |
+//|                   PSZ     *ppszNewTargetSeg ptr to ptr for new target seg. |
+//|                                 if the ptr is NULL a new buffer            |
+//|                                 is allocated (in the length of the         |
+//|                                 new target segment)                        |
+//|                                 if the ptr is not NULL it must             |
+//|                                 point to a buffer large enough to          |
+//|                                 contain a segment (MAX_SEGMENT_SIZE).      |
+//|                   BOOL    fLeadingWS process leading whitespace flag       |
+//|                   BOOL    fTrailingWS process trailing whitespace flag     |
+//|                   PBOOL   pfChanged TRUE if target segment has been        |
+//|                                 changed                                    |
+//|                                 FALSE if no change is required (in this    |
+//|                                 case no new target segment is allocated!)  |
+//+----------------------------------------------------------------------------+
+//|Returncode type:   BOOL    FALSE  in case of errors (=UtlAlloc failed)      |
+//|                           TRUE   everything O.K.                           |
+//+----------------------------------------------------------------------------+
+
+
+#define TAISWHITESPACE( c ) \
+    ( (c == LF) || (c == CR) || (c == SPACE) || (c == 0x09) )
+
+static BOOL TACheckForWS
+(
+	CHAR_W c,
+	PSZ_W  pWSList
+)
+{
+	BOOL fIsWS = FALSE;
+
+	fIsWS = TAISWHITESPACE( c ) ;
+
+	if (pWSList && !fIsWS)
+	{
+		while (*pWSList && !fIsWS)
+		{
+			if (c == *pWSList)
+			{
+				fIsWS = TRUE;
+		    }
+		    else
+		    {
+				pWSList++;
+		    }
+	    } /* endwhile */
+    } /* endif */
+
+
+	return(fIsWS);
+}
+
+
+BOOL TAAdjustWhiteSpace
+(
+  PSZ_W         pszSourceSeg,            // ptr to source segment data
+  PSZ_W         pszTargetSeg,            // ptr to target segment
+  PSZ_W         *ppszNewTargetSeg,       // ptr to ptr of output buffer
+  BOOL        fLeadingWS,              // process leading whitespace flag
+  BOOL        fTrailingWS,             // process trailing whitespace flag
+  PBOOL       pfChanged,                // TRUE if target has been changed
+  PSZ_W       pWSList
+)
+{
+  BOOL        fOK = TRUE;              // function return code
+  PSZ_W         pszTargetWhiteSpace=NULL;// points to last whitespace in target
+  PSZ_W         pszSourceWhiteSpace=NULL;// points to last whitespace in source
+  PSZ_W         pszTempSegW = NULL;
+  int         iAdjustLen = 0;          // length of adjusted leading whitespace
+
+  // initialize callers change flag
+  *pfChanged = FALSE;
+
+  // allocate buffer for temporary segment
+  fOK = UtlAlloc( (PVOID *)&pszTempSegW, 0L, (2L*(LONG)MAX_SEGMENT_SIZE * sizeof(CHAR_W)),
+                           ERROR_STORAGE );
+
+  // handle leading whitespace
+  if ( fOK && fLeadingWS )
+  {
+    CHAR_W chFirstNonWSSource;
+    CHAR_W chFirstNonWSTarget;
+    PSZ_W pszNonWSSource = pszSourceSeg;
+    PSZ_W pszNonWSTarget = pszTargetSeg;
+
+
+    // position to first non-whitespace character in source and target
+    while ( TACheckForWS(*pszNonWSSource, pWSList) ) pszNonWSSource++;
+    while ( TACheckForWS(*pszNonWSTarget, pWSList) ) pszNonWSTarget++;
+
+    // temporarly terminate segment at found locations
+    chFirstNonWSSource = *pszNonWSSource;
+    *pszNonWSSource = EOS;
+    chFirstNonWSTarget = *pszNonWSTarget;
+    *pszNonWSTarget = EOS;
+
+    // compare leading whitespace and adjust if necessary
+    if ( UTF16strcmp( pszSourceSeg, pszTargetSeg ) != 0 )
+    {
+      // copy whitespace of source segment to our temp seg buffer
+      UTF16strcpy( pszTempSegW, pszSourceSeg );
+
+      iAdjustLen = UTF16strlenCHAR( pszTempSegW );
+
+      // restore end of leading whitespace
+      *pszNonWSSource = chFirstNonWSSource;
+      *pszNonWSTarget = chFirstNonWSTarget;
+
+      // copy data of target segment to our temp seg buffer
+      UTF16strcat( pszTempSegW, pszNonWSTarget );
+
+      // set caller's changed flag
+      *pfChanged = TRUE;
+    }
+    else
+    {
+      iAdjustLen = UTF16strlenCHAR( pszTargetSeg );
+
+      // restore end of leading whitespace
+      *pszNonWSSource = chFirstNonWSSource;
+      *pszNonWSTarget = chFirstNonWSTarget;
+    } /* endif */
+  } /* endif */
+
+  // if nothing has been changed copy complete target segment to
+  // our temp seg buffer
+  if ( fOK && !*pfChanged )
+  {
+    UTF16strcpy( pszTempSegW, pszTargetSeg );
+  } /* endif */
+
+  // locate trailing whitespace in target segment
+  if ( fOK && fTrailingWS )
+  {
+    int    iLen;
+
+    iLen = UTF16strlenCHAR(pszTempSegW);
+    if ( iLen > iAdjustLen )
+    {
+      pszTargetWhiteSpace = pszTempSegW + iLen - 1;
+      while ( (iLen > iAdjustLen) && TACheckForWS(*pszTargetWhiteSpace, pWSList) )
+      {
+        pszTargetWhiteSpace--;
+        iLen--;
+      } /* endwhile */
+      pszTargetWhiteSpace++;             // point to first byte of whitespace
+    } /* endif */
+  } /* endif */
+
+  // locate trailing whitespace in source segment
+  if ( fOK && fTrailingWS )
+  {
+    int      iLen;
+
+    iLen = UTF16strlenCHAR(pszSourceSeg);
+    if ( iLen > iAdjustLen )
+    {
+      pszSourceWhiteSpace = pszSourceSeg + iLen - 1;
+      while ( (iLen > iAdjustLen) && TACheckForWS(*pszSourceWhiteSpace, pWSList) )
+      {
+        pszSourceWhiteSpace--;
+        iLen--;
+      } /* endwhile */
+      pszSourceWhiteSpace++;             // point to first byte of whitespace
+    } /* endif */
+  } /* endif */
+
+  // setup new target if trailing whitespace differs
+  if ( fOK && fTrailingWS && pszSourceWhiteSpace && pszTargetWhiteSpace &&
+       UTF16strcmp( pszSourceWhiteSpace, pszTargetWhiteSpace ) != 0 )
+  {
+    // build new target segment
+    *pszTargetWhiteSpace = EOS;
+    UTF16strcat( pszTempSegW, pszSourceWhiteSpace );
+
+    // set caller's changed flag
+    *pfChanged = TRUE;
+  } /* endif */
+
+  // return modified temp segment to caller
+  if ( fOK && *pfChanged )
+  {
+    LONG lNewLen = UTF16strlenCHAR(pszTempSegW) + 1;
+
+    // if changed segment exceeds maximum segment size...
+    if ( lNewLen > MAX_SEGMENT_SIZE )
+    {
+      // .. ignore the changes
+      *pfChanged = FALSE;
+    }
+    else
+    {
+      if ( *ppszNewTargetSeg == NULL )
+      {
+        LONG lNewLen = UTF16strlenCHAR(pszTempSegW) + 1;
+        // GQ: allocate segment at least large enough for the :NONE. tag!
+        fOK = UtlAlloc( (PVOID *)ppszNewTargetSeg, 0L,
+                        max( lNewLen * sizeof(CHAR_W), (sizeof(EMPTY_TAG)+4)), ERROR_STORAGE );
+      } /* endif */
+
+      if ( fOK )
+      {
+        UTF16strcpy( *ppszNewTargetSeg, pszTempSegW );
+      } /* endif */
+    } /* endif */
+  } /* endif */
+
+  // cleanup
+  if ( pszTempSegW ) UtlAlloc( (PVOID *)&pszTempSegW, 0L, 0L, NOMSG );
+
+  return( fOK );
+} /* end of function TAAdjustWhiteSpace */
+
+//+----------------------------------------------------------------------------+
+// Function name:  UtlMakeFNameAndPath                                          
+//+----------------------------------------------------------------------------+
+// Description: Parses a string and returns the drive and directories           
+//              in second parameter and filename plus extension in the          
+//              third parameter                                                 
+//+----------------------------------------------------------------------------+
+// Parameters: PSZ file path                 IN                                 
+//             PSZ drive and directories     OUT                                
+//             PSZ filename plus extension   OUT                                
+//+----------------------------------------------------------------------------+
+// Returncode type:  VOID                                                       
+//+----------------------------------------------------------------------------+
+// Returncodes:  -                                                              
+//+----------------------------------------------------------------------------+
+// Prerequesites: none                                                          
+//+----------------------------------------------------------------------------+
+// Side effects: none                                                           
+//+----------------------------------------------------------------------------+
+// Function call:  UtlMakeFNameAndPath( szFullPath, szPath, szPatternName );    
+//+----------------------------------------------------------------------------+
+// Samples:                                                                     
+//   UtlMakeFNameAndPath is called as follows:                                  
+//                                                                              
+//   //get path and pattern from pControlsIda->szPathContent                    
+//   UtlMakeFNameAndPath( pControlsIda->szPathContent,   //input string         
+//                        pControlsIda->szDummy,         //path without fname   
+//                        pControlsIda->szPatternName);  //fname + ext          
+//+----------------------------------------------------------------------------+
+// Function flow:                                                               
+//   separate out path from fully qualified file path                           
+//   if there is path information then                                          
+//     add backslash to path                                                    
+//     save path and filename information                                       
+//   else                                                                       
+//     set path string to NULL                                                  
+//     save filename information (endif)                                        
+//+----------------------------------------------------------------------------+
+
+VOID UtlMakeFNameAndPath( PSZ pszFullPath,    //in- fully qualified pathname
+                          PSZ pszPath,        //out- drive and directories
+                          PSZ pszFileName )   //out- filename plus extension
+{
+  PSZ   pszPointer;
+  CHAR  szPath[MAX_LONGPATH];
+
+  strcpy( szPath, pszFullPath );
+  pszPointer = strrchr( szPath, BACKSLASH );
+  if ( pszPointer++ )
+  {
+    strcpy( pszFileName, pszPointer);
+    *(pszPointer) = EOS;
+    strcpy( pszPath, szPath );
+  }
+  else
+  {
+    strcpy( pszFileName, szPath );
+    strcpy( pszPath, EMPTY_STRING );
+  } /* endif */
+}  /* end UtlMakeFNameAndPath */
+
+// convert XML file to HTML using XSLT
+int XSLTConversion
+(
+  PSZ         pszXmlFile,                        // name of file containing the XML data
+  PSZ         pszHtmlFile,                       // name of file receiving the HTML output
+  PSZ         pszStyleSheet,                     // stylesheet to be used for conversion
+  BOOL        fMsg,                              // TRUE = show error messages
+  HWND        hwndErrMsg                         // window to use as parent for error message
+)
+{
+  int iRC = 0;
+
+  fMsg; hwndErrMsg;
+
+#ifdef XALANCODEDOESWORK
+  // call Xalan converter to do the conversion
+  try
+  {
+	  XALAN_USING_XERCES(XMLPlatformUtils)
+  	XALAN_USING_XALAN(XalanTransformer)
+
+  	// Call the static initializer for Xerces.
+	  XMLPlatformUtils::Initialize();
+
+  	// Initialize Xalan.
+	  XalanTransformer::initialize();
+
+		{
+			// Create a XalanTransformer.
+			XalanTransformer theXalanTransformer;
+
+			// Do the transform.
+			int iResult = theXalanTransformer.transform( pszXmlFile, pszStyleSheet, pszHtmlFile );
+
+			if( iResult != 0 )
+			{
+  			const char *pszError = theXalanTransformer.getLastError();
+        PSZ pszParms[3];
+
+        pszParms[0] = (PSZ)pszError;
+        pszParms[1] = pszXmlFile;
+        pszParms[2] = pszStyleSheet;
+        if ( fMsg ) UtlErrorHwnd( ERROR_XML_CONVERSION, MB_CANCEL, 3, pszParms, EQF_ERROR, hwndErrMsg );
+        iRC = ERROR_XML_CONVERSION;
+			}
+		}
+
+		// Terminate Xalan...
+		XalanTransformer::terminate();
+
+		// Terminate Xerces...
+		XMLPlatformUtils::Terminate();
+
+		// Clean up the ICU, if it's integrated...
+		XalanTransformer::ICUCleanUp();
+	}
+	catch(...)
+	{
+    PSZ pszParms[3];
+    PSZ pszError = "Unknown error in XML conversion";
+
+    pszParms[0] = pszError;
+    pszParms[1] = pszXmlFile;
+    pszParms[2] = pszStyleSheet;
+    if ( fMsg ) UtlErrorHwnd( ERROR_XML_CONVERSION, MB_CANCEL, 3, pszParms, EQF_ERROR, hwndErrMsg );
+    iRC = ERROR_XML_CONVERSION;
+	}
+#else
+  {
+    // use external conversion as there is no Xalan version available working with the Xerces 3.1.1 version
+    static CHAR szCommand[1024];
+
+    UtlMakeEQFPath( szCommand, NULC, SYSTEM_PATH, NULL );
+    strcat( szCommand, "\\WIN\\XalanTransform \"" );
+    strcat( szCommand, pszXmlFile );
+    strcat( szCommand, "\" \"" );
+    strcat( szCommand, pszStyleSheet );
+    strcat( szCommand, "\" \"" );
+    strcat( szCommand, pszHtmlFile );
+    strcat( szCommand, "\"" );
+
+    system( szCommand );
+  }
+#endif
+
+  return iRC;
+} /* end of XSLTConversion */
+
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+/***                                                                ***/
+/***                 Create-a-list-window function                  ***/
+/***                                                                ***/
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+BOOL CreateListWindow
+(
+  PSZ                  pszObjName,     // ptr to object name for process window
+  PFN_LISTCALLBACK     pfnCallBack,    // callback function for list window
+  PVOID                pvUserData,     // ptr to user data (is passed to callback
+                                       // function in mp2 of WM_CREATE message)
+  BOOL                 fRestart        // TRUE = restarted by TWB
+)
+{
+  HWND     hframe, hclient;            // handle of created windows
+  BOOL     fOK;                        // function return code
+  LISTCREATEPARMS CreateParms;         // list creation parameter
+
+  CreateParms.pvUserData  = pvUserData;
+  CreateParms.pfnCallBack = pfnCallBack;
+  CreateParms.fRestart    = fRestart;
+  {
+    /*********************************************************/
+    /* to avoid flickering during the creation of the MDI    */
+    /* Child window we have to position it outside of the    */
+    /* screen - we always reposition it to the last stored   */
+    /* positions via a WinSetWindowPos function after init.  */
+    /*********************************************************/
+    HWND  hwndMDIClient;
+    MDICREATESTRUCT mdicreate;
+
+    mdicreate.hOwner  = (HAB)UtlQueryULong( QL_HAB );
+    mdicreate.szClass = GENERICLIST;
+    mdicreate.szTitle = pszObjName;
+    mdicreate.x       = -100;
+    mdicreate.y       = -100;
+    mdicreate.cx      = 1;
+    mdicreate.cy      = 1;
+    mdicreate.style   = WS_CLIPCHILDREN;
+    mdicreate.lParam  = MP2FROMP(&CreateParms);
+
+    hwndMDIClient = (HWND)UtlQueryULong( QL_TWBCLIENT );
+
+    hframe = hclient =
+    (HWND)SendMessage( hwndMDIClient,
+                       WM_MDICREATE, 0,
+                       MP2FROMP((LPMDICREATESTRUCT)&mdicreate) );
+  }
+  if( hframe)
+  {
+    WinPostMsg( hclient, WM_EQF_INITIALIZE, NULL, NULL);
+    fOK = TRUE;
+  }
+  else
+  {
+    fOK = FALSE;
+  } /* endif */
+  return( fOK );
+} /* end of function CreateListWindow */
+
+//+----------------------------------------------------------------------------+
+//|Internal function                                                           |
+//+----------------------------------------------------------------------------+
+//|Function name:     ListOfFiles                                              |
+//+----------------------------------------------------------------------------+
+//|Function call:     ListOfFiles( pDDEClient, pCurDir, pFile, ppListIndex );  |
+//+----------------------------------------------------------------------------+
+//|Description:       read in the file and try to extract pointers to filenames|
+//+----------------------------------------------------------------------------+
+//|Parameters:        PDDECLIENT pDDEClient  ptr to DDE instance structure     |
+//|                   PSZ     pCurDir        ptr to current directory          |
+//|                   PSZ     pFile          pointer to file name              |
+//|                   PSZ     * ppListIndex  pointer to array of files         |
+//+----------------------------------------------------------------------------+
+//|Returncode type:   BOOL                                                     |
+//+----------------------------------------------------------------------------+
+//|Returncodes:       TRUE     file could be read in and pointers extracted    |
+//|                   FALSE    something went wrong - error message  displayed |
+//+----------------------------------------------------------------------------+
+//|Side Effects:      the allocated memory will not be freed, since only ptrs  |
+//|                   to it will be set up...                                  |
+//+----------------------------------------------------------------------------+
+//|Function flow:     update file name to be fully qualified                   |
+//|                   try to load the specified file                           |
+//|                   if okay                                                  |
+//|                     split it up into pointers                              |
+//|                   endif                                                    |
+//+----------------------------------------------------------------------------+
+BOOL UtlListOfFiles
+(
+  PSZ **pppCurDirIndex,             // pointer to curdir array
+  PSZ pFile,                        // name of list file
+  PSZ  **pppListIndex               // pointer to listindex array
+)
+{
+  PSZ  pData;                          // pointer to data
+  BOOL fOK = TRUE;                     // success indicator
+  ULONG   ulSize = 0;                      // size of the file
+  USHORT usChar;                       // character to be checked
+  CHAR   szBuf[MAX_LONGPATH+MAX_FILESPEC]; // temp buffer
+  CHAR   szOutBuf[ MAX_EQF_PATH ];
+
+  /********************************************************************/
+  /* ensure, that the list  file is fully qualified -- if not do it   */
+  /********************************************************************/
+  pData = UtlGetFnameFromPath( pFile );
+  if ( !pData && (pppCurDirIndex != NULL))
+  {
+    fOK = UtlInsertCurDir(pFile, pppCurDirIndex, szOutBuf);
+    if ( fOK )
+    {
+      pFile = szOutBuf;
+      strcpy( szBuf, pFile );
+    } /* endif */
+  }
+  else
+  {
+    strcpy( szBuf, pFile );
+  } /* endif */
+
+  /********************************************************************/
+  /* load the file - limited to files up to 64k                       */
+  /********************************************************************/
+  if ( fOK )
+  {
+    pData = NULL;
+    fOK = UtlLoadFileL( szBuf, (PVOID *)&pData, &ulSize, FALSE, FALSE );
+  } /* endif */
+
+  if ( fOK )
+  {
+    /******************************************************************/
+    /* get rid of the file ending symbols ....                        */
+    /******************************************************************/
+    if ( pData[ulSize-1] == EOFCHAR )
+    {
+      ulSize--;
+    } /* endif */
+    usChar = pData[ulSize-1];
+    while ( usChar ==  LF || usChar == CR || usChar == BLANK)
+    {
+      ulSize--;
+      usChar = pData[ulSize-1];
+    } /* endwhile */
+
+    pData[ulSize] = EOS;
+
+    fOK = UtlValidateList( pData, pppListIndex, MAX_LIST_FILES );
+  } /* endif */
+
+  return ( fOK );
+} /* end of function UtlListOfFiles */
+

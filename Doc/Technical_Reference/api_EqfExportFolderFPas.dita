@@ -41,6 +41,7 @@
             <kwd>WITHDOCMEM_OPT</kwd>
             <kwd>DELETE_OPT</kwd>
             <kwd>WITHDICT_OPT</kwd>
+            <kwd>WO_REDUNDANCY_DATA_OPT</kwd>
             <kwd>OVERWRITE_OPT</kwd>
           </groupchoice>
           <sep>,</sep>
@@ -106,6 +107,7 @@
                   <sli>WITHDOCMEM_OPT</sli>
                   <sli>DELETE_OPT</sli>
                   <sli>WITHDICT_OPT</sli>
+                  <sli>WO_REDUNDANCY_DATA_OPT</sli>
                   <sli>OVERWRITE_OPT</sli>
                 </sl>
                 <p>These options correspond to those in the <q>Export Folder</q> window in OpenTM2.</p>

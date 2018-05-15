@@ -204,6 +204,7 @@ MRESULT TagListCallBack
   {
     case WM_CREATE :
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         BOOL       fOK = TRUE;         // initialisation is O.K. flag
         EQFINFO    ErrorInfo;          // error info of property handler
         HPROP      hProp = NULL;       // tag table list properties handle

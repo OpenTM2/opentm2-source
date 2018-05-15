@@ -26,6 +26,7 @@
 #include "eqfcolw.id"             // column width string IDs
 #include "eqfserno.h"             // TM driver info
 #include "EQFCNT01.ID"
+#include "EQFWCNT.H"
 
 #include <string>
 #include <vector>
@@ -51,6 +52,7 @@ typedef struct _CNTMEMLOOKUPDATA
 /**********************************************************************/
 /* prototypes                                                         */
 /**********************************************************************/
+__declspec(dllexport) int CntGetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBufer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords );
 VOID EQFCNTProcess ( PCNTIDA );
 static VOID FreeDoc ( PTBDOCUMENT pDoc );
 static SHORT LoadCountFile ( PCNTIDA, USHORT );
@@ -80,6 +82,7 @@ static SHORT WCountOpenDocMemory( PCNTIDA, PSZ );
 static USHORT WCountGetFolMemMatchInfo( PCNTIDA pCNTIda, PTBSEGMENT pSeg );
 static int WCountGetFuzzyClass( PCNTIDA  pCNTIda, PSZ_W pszSegment, OtmProposal *pProposal, PUSHORT pusWords );
 static void WCountFreeMemLookupData( PCNTIDA pCNTIda );
+USHORT CntRemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PVOID pbTokBuf, LONG lTokBufSize, ULONG ulCP );
 
 SHORT DoCounting ( PCNTIDA );
 
@@ -130,7 +133,7 @@ PCNTIDA  pCNTIda                  // Initial Translation Memory ida
 )
 {
   SHORT  sRc = 0;                  // return code from EQFB functions
-  hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   /********************************************************************/
   /* loop until killed from outside                                   */
@@ -160,7 +163,7 @@ PCNTIDA  pCNTIda                  // Count ida
 )
 {
   SHORT  sRc = 0;                  // return code from EQFB functions
-  hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   /****************************************************************/
   /* reset error condition...                                     */
@@ -627,10 +630,10 @@ static SHORT EQFWCount
   memset( plCount, 0, sizeof(LCOUNT) ); // reset sum fields
 
   ulSegNum = 1;
-  pSrcSeg = EQFBGetVisSeg(pSrcDoc, &ulSegNum);
+  pSrcSeg = SegFileGetVisSeg(pSrcDoc, &ulSegNum);
   if ( !pCNTIda->pCnt->fOrg || (pCNTIda->pCnt->fOrg == DUPLICATE_STATE) || (pCNTIda->pCnt->fOrg == FUZZYMATCH_STATE) )
   {
-    pTgtSeg = EQFBGetVisSeg(pTgtDoc, &ulSegNum);
+    pTgtSeg = SegFileGetVisSeg(pTgtDoc, &ulSegNum);
   }
   else
   {
@@ -881,10 +884,10 @@ static SHORT EQFWCount
       } /* endif */
     } /* endif */
     ulSegNum ++;
-    pSrcSeg = EQFBGetVisSeg(pSrcDoc, &ulSegNum);
+    pSrcSeg = SegFileGetVisSeg(pSrcDoc, &ulSegNum);
     if ( !pCNTIda->pCnt->fOrg || (pCNTIda->pCnt->fOrg == DUPLICATE_STATE) || (pCNTIda->pCnt->fOrg == FUZZYMATCH_STATE))
     {
-      pTgtSeg = EQFBGetVisSeg(pTgtDoc, &ulSegNum);
+      pTgtSeg = SegFileGetVisSeg(pTgtDoc, &ulSegNum);
     }
     else
     {
@@ -1186,7 +1189,7 @@ USHORT            usType
 
   BOOL     fXML = pCNTIda->pCnt->fXMLOutput;
 
-  hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( pCNTIda->pCnt->hwndErrMsg == HWND_FUNCIF )
   {
@@ -2115,6 +2118,7 @@ static VOID CreateColums( PCNTIDA pCNTIda, HWND hwnd)
 {
   HAB hab;
   hwnd;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( pCNTIda->pCnt->hwndErrMsg == HWND_FUNCIF )
   {
@@ -2801,6 +2805,7 @@ PCNTIDA  pCNTIda                     // control block pointer
   ULONG  ulWords;                      // temp variable
   SHORT  sItem;                        // position where item is inserted
   HAB hab;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( pCNTIda->pCnt->hwndErrMsg == HWND_FUNCIF )
   {
@@ -3229,6 +3234,8 @@ LPARAM           mp2
   {
     case WM_CREATE :
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         /**************************************************************/
         /* mp2 contains pointer to count structure                    */
         /**************************************************************/
@@ -3687,6 +3694,7 @@ LPARAM           mp2
       /* Fill column listbox                                          */
       /****************************************************************/
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         PCNTIDA  pCNTIda = (PCNTIDA) pCommArea->pUserIDA;
         BOOL     fOK = TRUE;
 
@@ -4031,76 +4039,80 @@ PFCTDATA    pData                    // ptr to function call interface data
   switch ( pData->usWordCountPhase )
   {
     case FCTPHASE_INIT :
-      pCNTIda->fClose = FALSE;
-      pCNTIda->sIndexItem = 0;
-      pCNTIda->pCnt->pszCurDoc = pCNTIda->pCnt->pDocNameBuffer;
-      LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_COUNTING_TEXT, pCNTIda->szCounting);
-      LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_ERROR_TEXT, pCNTIda->szError);
-      LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_LOCKED_TEXT, pCNTIda->szLocked);
-      LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_NOINFO_TEXT, pCNTIda->szNoInfo);
-
-      // lock folder
-      if ( fOK )
       {
-        if ( QUERYSYMBOL( pCNTIda->pCnt->szFolderObjName ) != -1 )
-        {
-          PSZ pszParm;
-          fOK = FALSE;
-          pszParm = pCNTIda->pCnt->szDisplayName;
-          usRC = ERROR_FOLDER_LOCKED;
-          UtlErrorHwnd( ERROR_FOLDER_LOCKED, MB_CANCEL, 1, &pszParm,
-                        EQF_ERROR, HWND_FUNCIF );
-        }
-        else
-        {
-          SETSYMBOL( pCNTIda->pCnt->szFolderObjName );
-          pCNTIda->fFolderLocked = TRUE;
-        } /* endif */
-      } /* endif */
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      if ( fOK )
-      {
-        if ( pCNTIda->pCnt->fFile ) //--- output checkbox is selected
-        {
-          USHORT usRc;
-          USHORT usAction;
+        pCNTIda->fClose = FALSE;
+        pCNTIda->sIndexItem = 0;
+        pCNTIda->pCnt->pszCurDoc = pCNTIda->pCnt->pDocNameBuffer;
+        LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_COUNTING_TEXT, pCNTIda->szCounting);
+        LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_ERROR_TEXT, pCNTIda->szError);
+        LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_LOCKED_TEXT, pCNTIda->szLocked);
+        LOADSTRING( NULLHANDLE, hResMod, SID_CNT00_NOINFO_TEXT, pCNTIda->szNoInfo);
 
-          usRc = UtlOpenHwnd( pCNTIda->pCnt->szOutputFile,
-                              &pCNTIda->hfFileHandle,
-                              &usAction, 0L, FILE_NORMAL,
-                              OPEN_ACTION_FAIL_IF_EXISTS | OPEN_ACTION_CREATE_IF_NEW,
-                              OPEN_ACCESS_READWRITE |  OPEN_SHARE_DENYWRITE,
-                              0L, TRUE, pCNTIda->pCnt->hwndErrMsg );
-          if ( usRC )
+        // lock folder
+        if ( fOK )
+        {
+          if ( QUERYSYMBOL( pCNTIda->pCnt->szFolderObjName ) != -1 )
           {
+            PSZ pszParm;
             fOK = FALSE;
+            pszParm = pCNTIda->pCnt->szDisplayName;
+            usRC = ERROR_FOLDER_LOCKED;
+            UtlErrorHwnd( ERROR_FOLDER_LOCKED, MB_CANCEL, 1, &pszParm,
+                          EQF_ERROR, HWND_FUNCIF );
           }
           else
           {
-            fOK  = !CntWriteToFile( pCNTIda, HWND_FUNCIF, HEADER );
+            SETSYMBOL( pCNTIda->pCnt->szFolderObjName );
+            pCNTIda->fFolderLocked = TRUE;
+          } /* endif */
+        } /* endif */
+
+        if ( fOK )
+        {
+          if ( pCNTIda->pCnt->fFile ) //--- output checkbox is selected
+          {
+            USHORT usRc;
+            USHORT usAction;
+
+            usRc = UtlOpenHwnd( pCNTIda->pCnt->szOutputFile,
+                                &pCNTIda->hfFileHandle,
+                                &usAction, 0L, FILE_NORMAL,
+                                OPEN_ACTION_FAIL_IF_EXISTS | OPEN_ACTION_CREATE_IF_NEW,
+                                OPEN_ACCESS_READWRITE |  OPEN_SHARE_DENYWRITE,
+                                0L, TRUE, pCNTIda->pCnt->hwndErrMsg );
+            if ( usRC )
+            {
+              fOK = FALSE;
+            }
+            else
+            {
+              fOK  = !CntWriteToFile( pCNTIda, HWND_FUNCIF, HEADER );
+            }/*endif*/
           }/*endif*/
+        } /* endif */
+
+        if ( fOK )
+        {
+          fOK = CNTInit( pCNTIda );
+        } /* endif */
+
+        if ( fOK )
+        {
+          memset( &pCNTIda->lCountSum, 0, sizeof( pCNTIda->lCountSum ));
+          pCNTIda->sCountNum = pCNTIda->pCnt->usNoOfDocs;
         }/*endif*/
-      } /* endif */
 
-      if ( fOK )
-      {
-        fOK = CNTInit( pCNTIda );
-      } /* endif */
-
-      if ( fOK )
-      {
-        memset( &pCNTIda->lCountSum, 0, sizeof( pCNTIda->lCountSum ));
-        pCNTIda->sCountNum = pCNTIda->pCnt->usNoOfDocs;
-      }/*endif*/
-
-      if ( fOK )
-      {
-        pData->usWordCountPhase = FCTPHASE_NEXT;
+        if ( fOK )
+        {
+          pData->usWordCountPhase = FCTPHASE_NEXT;
+        }
+        else
+        {
+          pData->usWordCountPhase = FCTPHASE_ABORT;
+        } /* endif */
       }
-      else
-      {
-        pData->usWordCountPhase = FCTPHASE_ABORT;
-      } /* endif */
       break;
 
     case FCTPHASE_NEXT :
@@ -4570,8 +4582,6 @@ static SHORT WCountOpenDocMemory
   return( sRc );
 } /* end of function WCountOpenDocMemory */
 
-int FS_GetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBufer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords );
-
 int WCountGetFuzzyClass
 (
   PCNTIDA     pCNTIda,                 // control block
@@ -4581,7 +4591,7 @@ int WCountGetFuzzyClass
 )
 {
   pProposal->getSource( pCNTIda->szSegmentSource, sizeof(pCNTIda->szSegmentSource) / sizeof(CHAR_W) );
-  return( FS_GetProposalClass( pszSegment, pCNTIda->szSegmentSource, (PLOADEDTABLE) pCNTIda->TBSrcDoc.pDocTagTable, (PBYTE)pCNTIda->TBSrcDoc.pInBuf,
+  return( CntGetProposalClass( pszSegment, pCNTIda->szSegmentSource, (PLOADEDTABLE) pCNTIda->TBSrcDoc.pDocTagTable, (PBYTE)pCNTIda->TBSrcDoc.pInBuf,
                                (PBYTE)pCNTIda->TBSrcDoc.pTokBuf, pCNTIda->pCnt->sSrcLanguage, pCNTIda->pCnt->ulSrcOemCP, pusWords ) );
 } /* end of function WCountGetFuzzyClass */
 
@@ -4608,3 +4618,89 @@ static void WCountFreeMemLookupData
     pCNTIda->pvMemLookupData = NULL;
   } /* end */     
 }
+
+// get the class of a proposal
+int CntGetProposalClass( PSZ_W pszSegment, PSZ_W pszProposal, PLOADEDTABLE pTable, PBYTE pbBuffer, PBYTE pbTokBuf, SHORT sLangID, ULONG ulOemCP, PUSHORT pusWords )
+{
+  PFUZZYTOK    pFuzzyTgt = NULL;
+  PFUZZYTOK    pFuzzyTok = NULL;       // returned token list
+  USHORT       usDiff = 0;             // number of differences
+  USHORT       usWords = 0;            // number of words/tokens
+  BOOL         fOK = TRUE; 
+  static CHAR_W szCleanedSegment[MAX_SEGMENT_SIZE+1];
+  static CHAR_W szCleanedProposal[MAX_SEGMENT_SIZE+1];
+
+  // fast exit if one or both strings are empty...
+  if ( (*pszSegment == EOS) || (*pszProposal == EOS) )
+  {
+    return( -1 );
+  } /*   endif */
+
+  // remove inline tags from both strings
+  CntRemoveTags( pTable, pszSegment, szCleanedSegment, pbTokBuf, TOK_BUFFER_SIZE, ulOemCP );
+  CntRemoveTags( pTable, pszProposal, szCleanedProposal, pbTokBuf, TOK_BUFFER_SIZE, ulOemCP );
+
+  // call function to evaluate the differences
+  if ( fOK )
+  {
+    fOK = EQFBFindDiffEx( pTable, pbBuffer, pbTokBuf, szCleanedSegment, szCleanedProposal, sLangID, (PVOID *)&pFuzzyTok, (PVOID *)&pFuzzyTgt, ulOemCP );
+  } /* endif */
+
+  if ( fOK )
+  {
+    EQFBCountDiff( pFuzzyTok, &usWords, &usDiff );
+  } /* endif */
+
+  // free allocated buffers and lists
+  if ( pFuzzyTgt ) UtlAlloc( (PVOID *)&pFuzzyTgt, 0L, 0L, NOMSG );
+  if ( pFuzzyTok ) UtlAlloc( (PVOID *)&pFuzzyTok, 0L, 0L, NOMSG );
+
+  if ( pusWords != NULL ) *pusWords = usWords;
+
+  if ( usDiff > 6 ) usDiff = 6;
+
+  return  ( fOK ? usDiff : -1 );
+
+} /* end of function CntGetProposalClass */
+
+// remove inline tagging from segment data and store result in supplied buffer
+USHORT CntRemoveTags( PLOADEDTABLE pTable, PSZ_W pszSegment, PSZ_W pszBuffer, PVOID pbTokBuf, LONG lTokBufSize, ULONG ulCP )
+{
+  USHORT usRC = 0;
+  PBYTE  pStartStop = NULL;
+
+  // build protect start/stop table for tag recognition
+  usRC = TACreateProtectTableW( pszSegment, pTable, 0, (PTOKENENTRY)pbTokBuf, (USHORT)lTokBufSize,
+                                (PSTARTSTOP *)&pStartStop, pTable->pfnProtTable, pTable->pfnProtTableW, ulCP );
+  if ( !usRC )
+  {
+    PSTARTSTOP pEntry = (PSTARTSTOP)pStartStop;
+    PSZ_W pszTarget = pszBuffer;
+    while ( (pEntry->usStart != 0) || (pEntry->usStop != 0)  || (pEntry->usType != 0) )
+    {
+      switch ( pEntry->usType )
+      {
+        case UNPROTECTED_CHAR :
+          // copy translatable text
+          {
+            USHORT usPos = pEntry->usStart; 
+            while ( usPos <= pEntry->usStop )
+            {
+              *pszTarget++ = pszSegment[usPos++];
+            } /*endwhile */
+          }
+          break;
+        default :
+          // ignore not-translatable data
+          break;
+      } /* endswitch */
+      pEntry++;
+    } /* endwhile */
+    *pszTarget = 0;
+  } /* endif */
+
+  UtlAlloc( (PVOID *)&pStartStop, 0L, 0L, NOMSG );
+
+  return( usRC );
+}
+

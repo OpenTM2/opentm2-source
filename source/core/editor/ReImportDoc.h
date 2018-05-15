@@ -32,4 +32,4 @@ BOOL ReImport_Start( PVOID pvReImportHandle );
   \param pvReImportHandle the handle returned by a previous ReImport_Prepare call
 \returns TRUE if successful, FALSE in case of errors
 */
-BOOL ReImport_Process( HWND hwnd,  PVOID pvReImportHandle );
+__declspec(dllexport) BOOL ReImport_Process( HWND hwnd,  PVOID pvReImportHandle );

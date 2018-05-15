@@ -3,8 +3,8 @@
 ** Purpose.......: Script containging the general settings used in the OpenTM2 Auto Test Suite    **
 ** Version.......: 1.0.0                                                                          **
 ** Creation Date.: December 1, 2014                                                               **
-** Update........: December 1, 2014                                                               **
-** Copyright.....: Copyright (C) 1990-2014, International Business Machines Corporation           **
+** Update........: March 14, 2018                                                                 **
+** Copyright.....: Copyright (C) 1990-2018, International Business Machines Corporation           **
 **                 and others. All rights reserved                                                **
 ** Developer.....: Gerhard Queck                                                                  **
 **                 IBM Translation Technical Services                                             **
@@ -13,6 +13,9 @@
 
 * define the directory containing the test data
 DEFINE TESTDATALOCATION,E:\GHE\opentm2\AUTOTESTSUITE\TESTDATA
+
+* define the drive letter of the OTM installation
+DEFINE OTMDRIVE,E
 
 
 

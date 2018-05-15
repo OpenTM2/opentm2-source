@@ -2137,7 +2137,9 @@ BOOL AnaPropertySheetLoad
 
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     RECT rect;
+
     // remember adress of user area
     hInst = GETINSTANCE( hwndDlg );
     hwndTabCtrl = GetDlgItem( hwndDlg, ID_ANA_PROP_TABCTRL );
@@ -2622,6 +2624,7 @@ INT_PTR CALLBACK ANAPROP_GENERAL_DLGPROC
             if ( pIda->fAutSubst )
             {
               // add autsubst settings tab
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
               TC_ITEM   TabCtrlItem;
               LONG      nItem = 0;
               CHAR      szBuffer[80];
@@ -2667,6 +2670,7 @@ INT_PTR CALLBACK ANAPROP_GENERAL_DLGPROC
             if ( pIda->fListCreation )
             {
               // add list settings tab
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
               TC_ITEM   TabCtrlItem;
               LONG      nItem = 0;
               CHAR      szBuffer[80];
@@ -3943,6 +3947,7 @@ MRESULT AnaPropertySheetNotification
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           TC_ITEM Item;
           HWND hwndTabCtrl = GetDlgItem( hwndDlg, ID_ANA_PROP_TABCTRL );
           memset( &Item, 0, sizeof(Item) );

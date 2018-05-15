@@ -9,8 +9,7 @@
 //-----------------------------------------------------------------------------
 //  AsdBegin            Begin/Initialize ASD services (NlpBegAsd+NlpBegService)
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdBegin
+__declspec(dllexport) USHORT AsdBegin
 (
    USHORT usMaxDicts,                  // maximum number of dictionaries
    PHUCB  phUCB                        // ptr to user control block handle
@@ -19,8 +18,7 @@ USHORT AsdBegin
 //-----------------------------------------------------------------------------
 //  AsdEnd              Terminate ASD services (NlpEndAsd)
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdEnd
+__declspec(dllexport) USHORT AsdEnd
 (
    HUCB  hUCB                          // user control block handle
 );
@@ -28,8 +26,7 @@ USHORT AsdEnd
 //-----------------------------------------------------------------------------
 //  AsdOpen             Open a dictionary and its associated dictionaries and
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdOpen
+__declspec(dllexport) USHORT AsdOpen
 (
    HUCB     hUCB,                      // user control block handle
    USHORT   usOpenFlags,               // open flags, see defines below
@@ -43,8 +40,7 @@ USHORT AsdOpen
 //-----------------------------------------------------------------------------
 //  AsdClose            Close dictionaries opened by AsdOpen (NlpCloseAsd)
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdClose
+__declspec(dllexport) USHORT AsdClose
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB                       // dictionary control block handle
@@ -54,8 +50,7 @@ USHORT AsdClose
 //-----------------------------------------------------------------------------
 //  AsdInsEntry         Insert a new entry into a dictionary (NlpInsEntryAsd)
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdInsEntry
+__declspec(dllexport) USHORT AsdInsEntry
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -65,7 +60,7 @@ USHORT AsdInsEntry
    PULONG   pulTermNo                  // number of inserted term
 );
 
-USHORT AsdInsEntryNonUnicode
+__declspec(dllexport) USHORT AsdInsEntryNonUnicode
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -79,7 +74,7 @@ USHORT AsdInsEntryNonUnicode
 //-----------------------------------------------------------------------------
 //  AsdRepEntry         Replace a dictionary entry (NlpUpdEntryAsd)
 //----------------------------------------------------------------------------
-USHORT AsdRepEntry
+__declspec(dllexport) USHORT AsdRepEntry
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -93,8 +88,7 @@ USHORT AsdRepEntry
 //-----------------------------------------------------------------------------
 //  AsdDelEntry         Delete a dictionary entry (NlpDelEntryAsd)
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdDelEntry
+__declspec(dllexport) USHORT AsdDelEntry
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -105,8 +99,7 @@ USHORT AsdDelEntry
 //-----------------------------------------------------------------------------
 //  AsdBuild            Create a new dictionary
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdBuild
+__declspec(dllexport) USHORT AsdBuild
 (
    HUCB     hUCB,                      // user control block handle
    BOOL     fGuarded,                  // TRUE = open in guarded mode
@@ -136,8 +129,7 @@ USHORT AsdBuild
 //                        (these flags are mutual exclusive!)
 //                        ASDT_SINGLECOMP_LOOKUP lookup componenets of compound
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdTranslate
+__declspec(dllexport) USHORT AsdTranslate
 (
    HUCB     hUCB,                      //     user control block handle
    HDCB     hDCB,                      //     dictionary control block handle
@@ -149,7 +141,7 @@ USHORT AsdTranslate
    USHORT   usMode                     //     mode for AsdTranslate
 );
 
-USHORT AsdTranslateW
+__declspec(dllexport) USHORT AsdTranslateW
 (
    HUCB     hUCB,                      //     user control block handle
    HDCB     hDCB,                      //     dictionary control block handle
@@ -164,7 +156,7 @@ USHORT AsdTranslateW
 //-----------------------------------------------------------------------------
 //  AsdFndBegin         Asd interface for NlpFndBeginAsd call
 //----------------------------------------------------------------------------
-USHORT AsdFndBegin
+__declspec(dllexport) USHORT AsdFndBegin
 (
    PSZ_W    pucSubString,              // desired substring
    HDCB     hDCB,                      // dictionary control block handle
@@ -178,8 +170,7 @@ USHORT AsdFndBegin
 //-----------------------------------------------------------------------------
 //   AsdFndEquiv      - Asd interface for NlpFndEquivAsd
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdFndEquiv
+__declspec(dllexport) USHORT AsdFndEquiv
 (
    PUCHAR   pucTermIn,                 // desired term
    HDCB     hDCB,                      // dictionary control block handle
@@ -190,8 +181,7 @@ USHORT AsdFndEquiv
    PHDCB    phDCB                      // dictionary of match
 );
 
-__declspec(dllexport)
-USHORT AsdFndEquivW
+__declspec(dllexport) USHORT AsdFndEquivW
 (
    PSZ_W    pucTermIn,                 // desired term
    HDCB     hDCB,                      // dictionary control block handle
@@ -205,8 +195,7 @@ USHORT AsdFndEquivW
 //-----------------------------------------------------------------------------
 //  AsdFndMatch       - Asd interface for NlpFndMatchAsd
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdFndMatch
+__declspec(dllexport) USHORT AsdFndMatch
 (
    PSZ_W    pucTermIn,                 // desired term
    HDCB     hDCB,                      // dictionary control block handle
@@ -219,7 +208,7 @@ USHORT AsdFndMatch
 //-----------------------------------------------------------------------------
 //   AsdFndNumber     - Asd interface for NlpFndNumberAsd
 //----------------------------------------------------------------------------
-USHORT AsdFndNumber
+__declspec(dllexport) USHORT AsdFndNumber
 (
    ULONG    ulTermNumber,              // desired term number
    HDCB     hDCB,                      // dictionary control block handle
@@ -233,8 +222,7 @@ USHORT AsdFndNumber
 //-----------------------------------------------------------------------------
 //  AsdNxtTerm        - Asd interface for NlpNxtTermAsd
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdNxtTermW
+__declspec(dllexport) USHORT AsdNxtTermW
 (
    HDCB     hDCB,                      // dictionary control block handle
    HUCB     hUCB,                      // user control block handle
@@ -244,7 +232,7 @@ USHORT AsdNxtTermW
    PHDCB    phDCB                      // dictionary of match
 );
 
-USHORT AsdNxtTerm
+__declspec(dllexport) USHORT AsdNxtTerm
 (
    HDCB     hDCB,                      // dictionary control block handle
    HUCB     hUCB,                      // user control block handle
@@ -257,7 +245,7 @@ USHORT AsdNxtTerm
 //-----------------------------------------------------------------------------
 //   AsdPrvTerm       - Asd interface for NlpPrvTermAsd
 //----------------------------------------------------------------------------
-USHORT AsdPrvTerm
+__declspec(dllexport) USHORT AsdPrvTerm
 (
    HDCB     hDCB,                      // dictionary control block handle
    HUCB     hUCB,                      // user control block handle
@@ -270,7 +258,7 @@ USHORT AsdPrvTerm
 //-----------------------------------------------------------------------------
 //   AsdRenumber      - Asd interface for NlpRenumberAsd
 //----------------------------------------------------------------------------
-USHORT AsdRenumber
+__declspec(dllexport) USHORT AsdRenumber
 (
    HDCB     hDCB,                      // dictionary control block handle
    HUCB     hUCB                       // user control block handle
@@ -279,7 +267,7 @@ USHORT AsdRenumber
 //-----------------------------------------------------------------------------
 //   AsdRetEntry      - Asd interface for NlpRetEntryAsd
 //----------------------------------------------------------------------------
-USHORT AsdRetEntry
+__declspec(dllexport) USHORT AsdRetEntry
 (
    HDCB     hDCB,                      // dictionary control block handle
    HUCB     hUCB,                      // user control block handle
@@ -290,8 +278,7 @@ USHORT AsdRetEntry
    PHDCB    phDCB                      // dictionary of term
 );
 
-__declspec(dllexport)
-USHORT AsdRetEntryW
+__declspec(dllexport) USHORT AsdRetEntryW
 (
    HDCB     hDCB,                      // dictionary control block handle
    HUCB     hUCB,                      // user control block handle
@@ -305,8 +292,7 @@ USHORT AsdRetEntryW
 //-----------------------------------------------------------------------------
 //   AsdListIndex     - Get a list of terms from the index
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdListIndex
+__declspec(dllexport) USHORT AsdListIndex
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -322,8 +308,7 @@ USHORT AsdListIndex
 //-----------------------------------------------------------------------------
 //  AsdDelete         - Delete a dictionary (dictionary must be closed!)
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdDelete
+__declspec(dllexport) USHORT AsdDelete
 (
    PSZ      pszPropName                // name of dictionary property file
 );
@@ -331,7 +316,7 @@ USHORT AsdDelete
 //-----------------------------------------------------------------------------
 //  AsdRename         - Rename a dictionary (dictionary must be closed!)
 //----------------------------------------------------------------------------
-USHORT AsdRename
+__declspec(dllexport) USHORT AsdRename
 (
    PSZ      pszOldPropName,            // name of old dictionary property file
    PSZ      pszNewPropName             // name of new dictionary property file
@@ -340,8 +325,7 @@ USHORT AsdRename
 //-----------------------------------------------------------------------------
 //   AsdRetPropPtr    - Get pointer to properties for an open dictionary
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdRetPropPtr
+__declspec(dllexport) USHORT AsdRetPropPtr
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -351,8 +335,7 @@ USHORT AsdRetPropPtr
 //-----------------------------------------------------------------------------
 //  AsdGetStemForm         - get the stem form of a term
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdGetStemForm
+__declspec(dllexport) USHORT AsdGetStemForm
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -363,8 +346,7 @@ USHORT AsdGetStemForm
 //-----------------------------------------------------------------------------
 //   AsdEntryChange - Correct internal lookup tables after entry has changed.
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdEntryChange
+__declspec(dllexport) USHORT AsdEntryChange
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -374,7 +356,7 @@ USHORT AsdEntryChange
 //-----------------------------------------------------------------------------
 //   AsdIsUcbOK     - Check if an UCB is OK
 //----------------------------------------------------------------------------
-BOOL  AsdIsUcbOK
+__declspec(dllexport) BOOL  AsdIsUcbOK
 (
    HUCB     hUCB                       // user control block handle
 );
@@ -382,8 +364,7 @@ BOOL  AsdIsUcbOK
 //-----------------------------------------------------------------------------
 //   AsdIsDcbOK     - Check if an DCB is OK
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-BOOL  AsdIsDcbOK
+__declspec(dllexport) BOOL  AsdIsDcbOK
 (
    HDCB     hDCB                       // dictionary control block handle
 );
@@ -391,8 +372,7 @@ BOOL  AsdIsDcbOK
 //-----------------------------------------------------------------------------
 //   AsdQueryDictName    - Return (long) name of dictionary
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-BOOL  AsdQueryDictName
+__declspec(dllexport) BOOL  AsdQueryDictName
 (
    HDCB     hDCB,                      // dictionary control block handle
    PSZ      pszDictName                // ptr to buffer for dictionary name
@@ -402,7 +382,7 @@ BOOL  AsdQueryDictName
 //   AsdQueryDictName    - Return the short name of a dictionary (w/o path
 //                         and extension
 //----------------------------------------------------------------------------
-BOOL  AsdQueryDictShortName
+__declspec(dllexport) BOOL  AsdQueryDictShortName
 (
    HDCB     hDCB,                      // dictionary control block handle
    PSZ      pszDictName                // ptr to buffer for dictionary name
@@ -434,8 +414,7 @@ BOOL  AsdQueryDictShortName
 //  SideEffects:
 //     none
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdRetDictList
+__declspec(dllexport) USHORT AsdRetDictList
 (
    HDCB     hDCB,                      // dictionary control block handle
    HDCB     *ahDCB,                    // ptr to array for dictionary handles
@@ -467,7 +446,7 @@ USHORT AsdRetDictList
 //  SideEffects:
 //     none
 //----------------------------------------------------------------------------
-USHORT AsdRetUserHandle
+__declspec(dllexport) USHORT AsdRetUserHandle
 (
    HUCB     hUCB,                      // user control block handle
    PUSHORT  pusUserHandle              // Nlp user handle
@@ -497,7 +476,7 @@ USHORT AsdRetUserHandle
 //  SideEffects:
 //     none
 //----------------------------------------------------------------------------
-USHORT AsdRetServiceHandle
+__declspec(dllexport) USHORT AsdRetServiceHandle
 (
    HUCB     hUCB,                      // user control block handle
    PUSHORT  pusServiceHandle           // Nlp service handle
@@ -527,7 +506,7 @@ USHORT AsdRetServiceHandle
 //  SideEffects:
 //     none
 //----------------------------------------------------------------------------
-USHORT AsdRetMorphHandle
+__declspec(dllexport) USHORT AsdRetMorphHandle
 (
    HDCB     hDCB,                      // dictionary control block handle
    PUSHORT  pusMorphHandle             // NlpActDict dictionary handle
@@ -584,8 +563,7 @@ USHORT AsdRetMorphHandle
 //     The target dictionary is updated.
 //----------------------------------------------------------------------------
 
-__declspec(dllexport)
-USHORT AsdMergeEntry
+__declspec(dllexport) USHORT AsdMergeEntry
 (
    HUCB     hUCB,                      // handle of user control block
    HDCB     hDCBSource,                // handle of source dictionary
@@ -618,20 +596,19 @@ USHORT AsdMergeEntry
 //-----------------------------------------------------------------------------+
 //  SideEffects:
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdNumEntries
+__declspec(dllexport) USHORT AsdNumEntries
 (
    HDCB     hDCB,                      // dictionary control block handle
    PULONG   pulNumber                  // ptr to buffer for number of entries
 );
 
-USHORT AsdDictVersion
+__declspec(dllexport) USHORT AsdDictVersion
 (
    HDCB     hDCB,                      // dictionary control block handle
    PUSHORT  pusVersion                 // ptr to version of dictionary
 );
 
-USHORT AsdDictSetOldVersion
+__declspec(dllexport) USHORT AsdDictSetOldVersion
 (
     HDCB hDCB                          // dictionary control block handle
 );
@@ -658,7 +635,7 @@ USHORT AsdDictSetOldVersion
 //-----------------------------------------------------------------------------+
 // Samples:           _
 //----------------------------------------------------------------------------
-USHORT AsdLockDict
+__declspec(dllexport) USHORT AsdLockDict
 (
   HDCB     hDCB,                       // dictionary control block handle
   BOOL     fLock                       // lock flag (TRUE = lock,
@@ -691,8 +668,7 @@ USHORT AsdLockDict
 //-----------------------------------------------------------------------------+
 // Samples:           _
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdLockEntry
+__declspec(dllexport) USHORT AsdLockEntry
 (
   HDCB     hDCB,                       // dictionary control block handle
   PSZ_W    pszTerm,                    // ptr to term being locked/unlocked
@@ -727,8 +703,7 @@ USHORT AsdLockEntry
 //  SideEffects:
 //     None.
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdDeleteRemote
+__declspec(dllexport) USHORT AsdDeleteRemote
 (
    PSZ      pszPropName                // name of dictionary property file
 );
@@ -749,7 +724,7 @@ USHORT AsdDeleteRemote
 //-----------------------------------------------------------------------------+
 //  SideEffects:
 //----------------------------------------------------------------------------
-USHORT AsdHandleFromDCB
+__declspec(dllexport) USHORT AsdHandleFromDCB
 (
    HDCB     hDCB,                      //     dictionary control block handle
    PUSHORT  pusDictHandle,
@@ -761,7 +736,7 @@ USHORT AsdHandleFromDCB
 
 
 
-USHORT AsdCloseOrganize
+__declspec(dllexport) USHORT AsdCloseOrganize
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -798,8 +773,7 @@ USHORT AsdCloseOrganize
 //-----------------------------------------------------------------------------+
 // Returncodes:       return code of UtlError
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdRCHandling
+__declspec(dllexport) USHORT AsdRCHandling
 (
   USHORT    usAsdRC,                   // return code of Asd function
   HDCB      hDCB,                      // dictionary used during function
@@ -837,8 +811,7 @@ USHORT AsdRCHandling
 //-----------------------------------------------------------------------------+
 // Returncode type:   USHORT
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdTermList
+__declspec(dllexport) USHORT AsdTermList
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -875,8 +848,7 @@ USHORT AsdTermList
 //-----------------------------------------------------------------------------+
 // Returncode type:   USHORT
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdWildCardList
+__declspec(dllexport) USHORT AsdWildCardList
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB,                      // dictionary control block handle
@@ -888,8 +860,7 @@ USHORT AsdWildCardList
    USHORT   usLen                      // length of term list buffer
 );
 
-__declspec(dllexport)
-USHORT AsdGetTranslation
+__declspec(dllexport) USHORT AsdGetTranslation
 (
    HUCB     hUCB,                      //     user control block handle
    HDCB     hDCB,                      //     dictionary control block handle
@@ -899,7 +870,7 @@ USHORT AsdGetTranslation
    SHORT    sListType                  //     type of list requested
 );
 
-USHORT AsdGetTranslationW
+__declspec(dllexport) USHORT AsdGetTranslationW
 (
    HUCB     hUCB,                      //     user control block handle
    HDCB     hDCB,                      //     dictionary control block handle
@@ -931,7 +902,7 @@ USHORT AsdGetTranslationW
 //-----------------------------------------------------------------------------+
 //  SideEffects:
 //----------------------------------------------------------------------------
-USHORT AsdUpdTime
+__declspec(dllexport) USHORT AsdUpdTime
 (
    HDCB     hDCB,                      // dictionary control block handle
    PLONG    plUpdTime                  // ptr to buffer for dict update time
@@ -940,23 +911,32 @@ USHORT AsdUpdTime
 //-----------------------------------------------------------------------------
 //  AsdLoadDictProperties  - load dictionary propery file
 //----------------------------------------------------------------------------
-__declspec(dllexport)
-USHORT AsdLoadDictProperties
+__declspec(dllexport) USHORT AsdLoadDictProperties
 (
    PSZ             pszPropFile,        // fully qualified property file name
    PPROPDICTIONARY pDictProp           // buffer for property data
 
 );
 
-USHORT AsdResynch
+__declspec(dllexport) USHORT AsdResynch
 (
    HUCB     hUCB,                      // user control block handle
    HDCB     hDCB                       // dictionary control block handle
 );
 
-ULONG GetCPFromDCB
+__declspec(dllexport) ULONG GetCPFromDCB
 (
   HDCB     hDCB
 );
+
+__declspec(dllexport) BOOL DicRenameDict( PSZ pszOldAndNewName, BOOL fMsg );
+__declspec(dllexport) VOID DicBatchImp( HWND, PVOID );
+__declspec(dllexport) VOID DicBatchExp( HWND, PVOID );
+__declspec(dllexport) VOID DictionaryExport( HWND, PSZ, PVOID );
+__declspec(dllexport) VOID DictionaryOrganize( HWND, PSZ, PVOID );
+__declspec(dllexport) VOID DictionaryProp( HWND, PSZ );
+__declspec(dllexport) VOID DictionaryRemote( HWND );
+
+
 
 #endif

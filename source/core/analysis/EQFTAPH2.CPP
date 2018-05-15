@@ -2856,6 +2856,14 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
    ulTgtOemCP = GetLangOEMCP( pInD->szDocTargetLang);
    ulSrcOemCP = GetLangOEMCP( pInD->szDocSourceLang);
 
+   LONG lProposalOrderOptions = 0;
+   
+   // ensure that proposals are sorted using the timestamps when use latest exact match is active and use context match is not active
+   if ( !pInD->fExactContextTMMatch && pInD->fUseLatestTMMatch )
+   {
+     lProposalOrderOptions = MemoryFactory::LATESTPROPOSAL_FIRST;
+   } /* endif */
+
    pLookupData->SearchKey.clear();
    for ( int i = 0; i < (int)pLookupData->BestProposals.size(); i++ )
    {
@@ -2951,7 +2959,7 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
         fProposalAvailable = MDGetNextProposal( &MDProposal );
       } /*endwhile */
 
-      pFactory->copyBestMatches( pLookupData->FoundProposals, pLookupData->BestProposals, usNumMatches );
+      pFactory->copyBestMatches( pLookupData->FoundProposals, pLookupData->BestProposals, usNumMatches, -1, FALSE, lProposalOrderOptions );
    } /* endif */
 
    // get  best matches from translation memory list
@@ -3036,7 +3044,7 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
        } /* endif */
 
 
-       pFactory->copyBestMatches( pLookupData->FoundProposals, pLookupData->BestProposals, usNumMatches );
+       pFactory->copyBestMatches( pLookupData->FoundProposals, pLookupData->BestProposals, usNumMatches, -1, FALSE, lProposalOrderOptions );
        ADDTIME(pTAIn->ulCopyBest);
        i++;
      } /* endif */
@@ -3073,6 +3081,50 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
           OtmProposal::eProposalType eptProp1Type = pLookupData->BestProposals[1]->getType();
           OtmProposal::eMatchType emtProp0Match = pLookupData->BestProposals[0]->getMatchType();
           OtmProposal::eMatchType emtProp1Match = pLookupData->BestProposals[1]->getMatchType();
+
+          // WLP: for R012645
+          // if there are two or more exact-exact matches, same markup name one have higher priority
+          if( emtProp0Match==OtmProposal::emtExactExact &&
+              emtProp1Match==OtmProposal::emtExactExact )
+          {
+              char szMarkupName[MAX_FILESPEC+1] = {0};
+              std::vector<OtmProposal*> sameVec;
+              std::vector<OtmProposal*> diffVec;
+              for( auto iter=pLookupData->BestProposals.begin(); iter!=pLookupData->BestProposals.end(); iter++)
+              {
+                  OtmProposal *pTemp = *iter;
+                  if(pTemp->getMatchType()!=OtmProposal::emtExactExact)
+                      break;
+                  else
+                  {
+                      memset(szMarkupName,0,sizeof(szMarkupName));
+                      pTemp->getMarkup(szMarkupName,MAX_FILESPEC);
+                      if( strncmp(szMarkupName,pInD->szDocFormat,MAX_FILESPEC) == 0 )
+                          sameVec.push_back(pTemp);
+                      else
+                          // with different markup name exact-exact matches are from same family name
+                          diffVec.push_back(pTemp);
+                  }
+              }
+              // if diffVec is empty, then all the exact-exact are from same markup name
+              // if sameVec is empty, then all the exact-exact are from same family name
+              // so only when above mixed, need to re-order the matches
+              if( !diffVec.empty() && !sameVec.empty() )
+              {
+                  auto begIter = pLookupData->BestProposals.begin();
+                  // the sameVec are exact-exact match, so have higher priority
+                  for(auto sIter=sameVec.begin(); sIter!=sameVec.end(); sIter++)
+                      *begIter++ = *sIter;
+
+                  // the diffVec are exact match
+                  for(auto dIter= diffVec.begin(); dIter!=diffVec.end(); dIter++)
+                  {
+                      (*dIter)->setMatchType(OtmProposal::emtExact);
+                      *begIter++ = *dIter;
+                  }    
+              }
+          }//end 
+
 
           // when second match is a global memory match treat normal exact match as EXACTONE_MATCH to allow autosubstitution
           if ( (eptProp0Type == OtmProposal::eptManual)  && 
@@ -3347,277 +3399,10 @@ static int GetBestTMMatch
 /**********************************************************************/
 VOID TAFreeDoc( PVOID *ppvDoc )
 {
-  PTBDOCUMENT *ppDoc = (PTBDOCUMENT *)ppvDoc;
-  PTBDOCUMENT pDoc = *ppDoc;
-  PTBSEGMENTTABLE pSegTable;          // ptr for segment table deleting
-  ULONG           ulI, ulJ;           // loop counter
-  PTBSEGMENT      pSegment;           // ptr for segment deleting
-
-  if ( pDoc == NULL )
-  {
-    return;
-  } /* endif */
-
-  UtlAlloc( (PVOID *) &pDoc->pInBuf, 0L, 0L, NOMSG );
-  UtlAlloc( (PVOID *) &pDoc->pTokBuf, 0L, 0L, NOMSG );
-
-  pSegTable = pDoc->pSegTables;
-  for ( ulI = 0; ulI < pDoc->ulSegTables; ulI++ )
-  {
-     pSegment = pSegTable->pSegments;
-     for ( ulJ = 0; ulJ < pSegTable->ulSegments; ulJ++ )
-     {
-        if ( pSegment->pData ) UtlAlloc( (PVOID *) &pSegment->pData, 0L, 0L, NOMSG );
-        if ( pSegment->pDataW ) UtlAlloc( (PVOID *) &pSegment->pDataW, 0L, 0L, NOMSG );
-
-        if (pSegment->pusHLType) UtlAlloc((PVOID*)&(pSegment->pusHLType),0L,0L,NOMSG);
-        if (pSegment->pContext) UtlAlloc((PVOID *)&(pSegment->pContext),0L,0L,NOMSG);
-        if (pSegment->pvMetadata) UtlAlloc((PVOID *)&(pSegment->pvMetadata),0L,0L,NOMSG);
-        pSegment++;
-     } /* endfor */
-     UtlAlloc( (PVOID *) &pSegTable->pSegments, 0L, 0L, NOMSG );
-     pSegTable++;
-  } /* endfor */
-  pDoc->ulSegTables = 0;
-  UtlAlloc( (PVOID *) &pDoc->pSegTables, 0L, 0L, NOMSG );
-  if (pDoc->pUndoSeg) UtlAlloc( (PVOID *) &pDoc->pUndoSeg, 0L, 0L, NOMSG );  //free storage of Undo
-  if (pDoc->pUndoSegW) UtlAlloc( (PVOID *) &pDoc->pUndoSegW, 0L, 0L, NOMSG );
-  if ( pDoc->pContext )  UtlAlloc((PVOID *) &pDoc->pContext, 0L, 0L, NOMSG );
-  if ( pDoc->pSegmentBuffer )    UtlAlloc( (PVOID *)&(pDoc->pSegmentBuffer), 0L, 0L, NOMSG );
-  if ( pDoc->pSegmentBufferW )   UtlAlloc( (PVOID *)&(pDoc->pSegmentBufferW), 0L, 0L, NOMSG );
-  if ( pDoc->pEQFBWorkSegmentW ) UtlAlloc( (PVOID *) &(pDoc->pEQFBWorkSegmentW), 0L, 0L, NOMSG );
-  if (pDoc->pContext) UtlAlloc((PVOID *)&(pDoc->pContext),0L,0L,NOMSG);
-  UtlAlloc( (PVOID *) &pDoc, 0L, 0L, NOMSG );
-  *ppDoc = NULL;
-
+  SegFileFreeDoc( ppvDoc );
 } /* end of function TAFreeDoc */
 
 
-//+----------------------------------------------------------------------------+
-//|External function                                                           |
-//+----------------------------------------------------------------------------+
-//|Function name:     TAAdjustWhiteSpace                               |
-//+----------------------------------------------------------------------------+
-//|Description:       Adjust the whitespace of a segment; i.e. ensure          |
-//|                   that the target segment has the same leading and or      |
-//|                   trailing whitespace as the source segment                |
-//   GQ 2004/10/21    Do not touch whitespaces adjusted by the adjust leading
-//                    whitespaces part of the function when processing trailing
-//                    whitespaces.
-//+----------------------------------------------------------------------------+
-//|Input parameter:   PSZ     pszSourceSeg  ptr to source segment data         |
-//|                   PSZ     pszTargetSeg  ptr to target segment data         |
-//|                   PSZ     *ppszNewTargetSeg ptr to ptr for new target seg. |
-//|                                 if the ptr is NULL a new buffer            |
-//|                                 is allocated (in the length of the         |
-//|                                 new target segment)                        |
-//|                                 if the ptr is not NULL it must             |
-//|                                 point to a buffer large enough to          |
-//|                                 contain a segment (MAX_SEGMENT_SIZE).      |
-//|                   BOOL    fLeadingWS process leading whitespace flag       |
-//|                   BOOL    fTrailingWS process trailing whitespace flag     |
-//|                   PBOOL   pfChanged TRUE if target segment has been        |
-//|                                 changed                                    |
-//|                                 FALSE if no change is required (in this    |
-//|                                 case no new target segment is allocated!)  |
-//+----------------------------------------------------------------------------+
-//|Returncode type:   BOOL    FALSE  in case of errors (=UtlAlloc failed)      |
-//|                           TRUE   everything O.K.                           |
-//+----------------------------------------------------------------------------+
-
-
-#define TAISWHITESPACE( c ) \
-    ( (c == LF) || (c == CR) || (c == SPACE) || (c == 0x09) )
-
-static BOOL TACheckForWS
-(
-	CHAR_W c,
-	PSZ_W  pWSList
-)
-{
-	BOOL fIsWS = FALSE;
-
-	fIsWS = TAISWHITESPACE( c ) ;
-
-	if (pWSList && !fIsWS)
-	{
-		while (*pWSList && !fIsWS)
-		{
-			if (c == *pWSList)
-			{
-				fIsWS = TRUE;
-		    }
-		    else
-		    {
-				pWSList++;
-		    }
-	    } /* endwhile */
-    } /* endif */
-
-
-	return(fIsWS);
-}
-
-
-BOOL TAAdjustWhiteSpace
-(
-  PSZ_W         pszSourceSeg,            // ptr to source segment data
-  PSZ_W         pszTargetSeg,            // ptr to target segment
-  PSZ_W         *ppszNewTargetSeg,       // ptr to ptr of output buffer
-  BOOL        fLeadingWS,              // process leading whitespace flag
-  BOOL        fTrailingWS,             // process trailing whitespace flag
-  PBOOL       pfChanged,                // TRUE if target has been changed
-  PSZ_W       pWSList
-)
-{
-  BOOL        fOK = TRUE;              // function return code
-  PSZ_W         pszTargetWhiteSpace=NULL;// points to last whitespace in target
-  PSZ_W         pszSourceWhiteSpace=NULL;// points to last whitespace in source
-  PSZ_W         pszTempSegW = NULL;
-  int         iAdjustLen = 0;          // length of adjusted leading whitespace
-
-  // initialize callers change flag
-  *pfChanged = FALSE;
-
-  // allocate buffer for temporary segment
-  fOK = UtlAlloc( (PVOID *)&pszTempSegW, 0L, (2L*(LONG)MAX_SEGMENT_SIZE * sizeof(CHAR_W)),
-                           ERROR_STORAGE );
-
-  // handle leading whitespace
-  if ( fOK && fLeadingWS )
-  {
-    CHAR_W chFirstNonWSSource;
-    CHAR_W chFirstNonWSTarget;
-    PSZ_W pszNonWSSource = pszSourceSeg;
-    PSZ_W pszNonWSTarget = pszTargetSeg;
-
-
-    // position to first non-whitespace character in source and target
-    while ( TACheckForWS(*pszNonWSSource, pWSList) ) pszNonWSSource++;
-    while ( TACheckForWS(*pszNonWSTarget, pWSList) ) pszNonWSTarget++;
-
-    // temporarly terminate segment at found locations
-    chFirstNonWSSource = *pszNonWSSource;
-    *pszNonWSSource = EOS;
-    chFirstNonWSTarget = *pszNonWSTarget;
-    *pszNonWSTarget = EOS;
-
-    // compare leading whitespace and adjust if necessary
-    if ( UTF16strcmp( pszSourceSeg, pszTargetSeg ) != 0 )
-    {
-      // copy whitespace of source segment to our temp seg buffer
-      UTF16strcpy( pszTempSegW, pszSourceSeg );
-
-      iAdjustLen = UTF16strlenCHAR( pszTempSegW );
-
-      // restore end of leading whitespace
-      *pszNonWSSource = chFirstNonWSSource;
-      *pszNonWSTarget = chFirstNonWSTarget;
-
-      // copy data of target segment to our temp seg buffer
-      UTF16strcat( pszTempSegW, pszNonWSTarget );
-
-      // set caller's changed flag
-      *pfChanged = TRUE;
-    }
-    else
-    {
-      iAdjustLen = UTF16strlenCHAR( pszTargetSeg );
-
-      // restore end of leading whitespace
-      *pszNonWSSource = chFirstNonWSSource;
-      *pszNonWSTarget = chFirstNonWSTarget;
-    } /* endif */
-  } /* endif */
-
-  // if nothing has been changed copy complete target segment to
-  // our temp seg buffer
-  if ( fOK && !*pfChanged )
-  {
-    UTF16strcpy( pszTempSegW, pszTargetSeg );
-  } /* endif */
-
-  // locate trailing whitespace in target segment
-  if ( fOK && fTrailingWS )
-  {
-    int    iLen;
-
-    iLen = UTF16strlenCHAR(pszTempSegW);
-    if ( iLen > iAdjustLen )
-    {
-      pszTargetWhiteSpace = pszTempSegW + iLen - 1;
-      while ( (iLen > iAdjustLen) && TACheckForWS(*pszTargetWhiteSpace, pWSList) )
-      {
-        pszTargetWhiteSpace--;
-        iLen--;
-      } /* endwhile */
-      pszTargetWhiteSpace++;             // point to first byte of whitespace
-    } /* endif */
-  } /* endif */
-
-  // locate trailing whitespace in source segment
-  if ( fOK && fTrailingWS )
-  {
-    int      iLen;
-
-    iLen = UTF16strlenCHAR(pszSourceSeg);
-    if ( iLen > iAdjustLen )
-    {
-      pszSourceWhiteSpace = pszSourceSeg + iLen - 1;
-      while ( (iLen > iAdjustLen) && TACheckForWS(*pszSourceWhiteSpace, pWSList) )
-      {
-        pszSourceWhiteSpace--;
-        iLen--;
-      } /* endwhile */
-      pszSourceWhiteSpace++;             // point to first byte of whitespace
-    } /* endif */
-  } /* endif */
-
-  // setup new target if trailing whitespace differs
-  if ( fOK && fTrailingWS && pszSourceWhiteSpace && pszTargetWhiteSpace &&
-       UTF16strcmp( pszSourceWhiteSpace, pszTargetWhiteSpace ) != 0 )
-  {
-    // build new target segment
-    *pszTargetWhiteSpace = EOS;
-    UTF16strcat( pszTempSegW, pszSourceWhiteSpace );
-
-    // set caller's changed flag
-    *pfChanged = TRUE;
-  } /* endif */
-
-  // return modified temp segment to caller
-  if ( fOK && *pfChanged )
-  {
-    LONG lNewLen = UTF16strlenCHAR(pszTempSegW) + 1;
-
-    // if changed segment exceeds maximum segment size...
-    if ( lNewLen > MAX_SEGMENT_SIZE )
-    {
-      // .. ignore the changes
-      *pfChanged = FALSE;
-    }
-    else
-    {
-      if ( *ppszNewTargetSeg == NULL )
-      {
-        LONG lNewLen = UTF16strlenCHAR(pszTempSegW) + 1;
-        // GQ: allocate segment at least large enough for the :NONE. tag!
-        fOK = UtlAlloc( (PVOID *)ppszNewTargetSeg, 0L,
-                        max( lNewLen * sizeof(CHAR_W), (sizeof(EMPTY_TAG)+4)), ERROR_STORAGE );
-      } /* endif */
-
-      if ( fOK )
-      {
-        UTF16strcpy( *ppszNewTargetSeg, pszTempSegW );
-      } /* endif */
-    } /* endif */
-  } /* endif */
-
-  // cleanup
-  if ( pszTempSegW ) UtlAlloc( (PVOID *)&pszTempSegW, 0L, 0L, NOMSG );
-
-  return( fOK );
-} /* end of function TAAdjustTrailingWhiteSpace */
 
 
 
@@ -5783,12 +5568,12 @@ void TAEscapeChars( PSZ_W pszText, PSZ_W pszBuffer )
     }
     else if ( (*pszText == L'\x1F') || (*pszText == L'\t') )
     {
-      // suppress some special characters
+      // replace whitspace characters with a blank
       *pszBuffer++ = L' ';
     }
-    else if ( (*pszText >=1 ) && ( *pszText <= 8 ) )
+    else if ( (*pszText >=1 ) && ( *pszText < 32 ) )
     {
-      // replace invalid characters with a question mark
+      // replace remaining invalid characters with a question mark
       *pszBuffer++ = L'?';
     }
     else
@@ -5837,6 +5622,11 @@ void TAEscapeXliffChars( PSZ_W pszText, PSZ_W pszBuffer )
     {
       // suppress some special characters
       *pszBuffer++ = L' ';
+    }
+    else if ( (*pszText >=1 ) && ( *pszText < 32 ) )
+    {
+      // replace remaining invalid characters with a question mark
+      *pszBuffer++ = L'?';
     }
     else
     {

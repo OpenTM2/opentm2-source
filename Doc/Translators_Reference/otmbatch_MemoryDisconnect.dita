@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="otmbatch_MemoryConnect">
+  <title>Disconnecting a LAN-based shared Translation Memory</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>Translation Memory<indexterm>OTMBATCH: disconnecting (from command
+        area)</indexterm></indexterm>
+      <indexterm>disconnecting<indexterm>OTMBATCH: Translation Memory databases (from command
+          area)</indexterm></indexterm>
+      <p>If you want to disconnect a LAN-based shared Translation Memory, using a command typed in your system’s command
+        area instead of <keyword conref="common-symbols.dita#common-symbols/tm4w"/> windows might be
+        quicker and more convenient.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>disconnecting shared Translation Memory databases</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">disconnecting shared Translation Memory
+            databases</indexterm></indexterm></indexterm>
+      <p>The following syntax diagram describes how you disconnect a LAN-based shared Translation Memory with the
+        OTMBATCH command. Note that lowercase letters in a parameter name are optional and need not
+        be typed.</p>
+      <syntaxdiagram>
+        <groupseq>
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>DISCONNECT</kwd>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>FRomdrive</kwd>
+          <oper>=</oper>
+          <var>drive</var>
+        </groupseq>
+        <groupseq>
+          <delim>/</delim>
+          <kwd>NAme</kwd>
+          <oper>=</oper>
+          <var>memdb</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET</var>
+            </groupseq>
+            <groupseq>
+              <delim>/</delim>
+              <var>QUIET=NOMSG</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=DISCONNECT</pt>
+          <pd><codeph>DISCONNECT</codeph> specifies that you want to disconnect a shared Translation Memory.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FRomdrive=drive</pt>
+          <pd>Specifies the drive where the shared Translation Memory can be found.</pd>
+        </plentry>
+        <plentry>
+          <pt>/NAme=memdb</pt>
+          <pd>Specifies the name of the Translation Memory that you want to disconnect.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters. You may not
+        use any wildcard characters, such as an asterisk (*). </note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to disconnect a shared Translation Memory using the OTMBATCH command.</p>
+<!--    <section>
+          <title>Example</title>
+          <codeblock>OTMBATCH /task=disconnect /fr=F /na=ASharedMem/codeblock>
+        </section>-->
+      <p><codeblock>OTMBATCH /task=disconnect /fr=F /na=ASharedMem</codeblock></p>
+      <p>In this example, the Translation Memory <codeph>ASharedMem</codeph> located on drive <codeph>F</codeph> is disconnected. You will be prompted with a message window. </p>
+    </example>
+  </refbody>
+</reference>

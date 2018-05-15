@@ -117,7 +117,15 @@ $(_DLL)\OtmProofReadImportPlugin.DLL:
     $(_OBJ)\OtmProofReadWindow.OBJ $(_OBJ)\OtmProofReadEntry.OBJ $(_OBJ)\OtmProofReadList.OBJ $(_OBJ)\CXMLWriter.OBJ
 /OUT:$(_DLL)\OtmProofReadImportPlugin.DLL
 /MAP:$(_MAP)\OtmProofReadImportPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib $(_LIB)\PluginManager.lib $(_LIBOTHER)\xerces-c_3.lib Comctl32.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\PluginManager.lib 
+$(_LIBOTHER)\xerces-c_3.lib Comctl32.lib
+$(_LIB)\OTMLinguistic.lib
+$(_LIB)\OTMMemoryFunctions.lib
+$(_LIB)\OTMTagTableFunctions.lib
+$(_LIB)\OTMFuzzy.lib
+$(_LIB)\OTMSegmentedFile.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport md $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport
@@ -133,7 +141,7 @@ $(_DLL)\ValDocXML.DLL:
     $(_OBJ)\ValDocXML.OBJ 
 /OUT:$(_DLL)\ValDocXML.DLL
 /MAP:$(_MAP)\ValDocXML.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib
+$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport md $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport
@@ -157,7 +165,7 @@ $(_DLL)\ValDocPwb.DLL:
     $(_OBJ)\ValDocPwb.OBJ 
 /OUT:$(_DLL)\ValDocPwb.DLL
 /MAP:$(_MAP)\ValDocPwb.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib
+$(_LINK_LIB_CRT) $(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport md $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport
@@ -190,7 +198,8 @@ $(_DLL)\ValDocDocx.DLL:
     $(_OBJ)\ValDocDocxUtil.OBJ 
 /OUT:$(_DLL)\ValDocDocx.DLL
 /MAP:$(_MAP)\ValDocDocx.MAP $(_ValDocDocx_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LIB)\PluginManager.lib $(_LIB)\OtmBase.lib $(_LIB)\OtmDLL.lib
+$(_LIB)\PluginManager.lib 
+$(_LIB)\OtmBase.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport md $(RELEASE_DIR)\OTM\Plugins\OtmProofReadImport

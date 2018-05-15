@@ -53,14 +53,25 @@ typedef struct _ANAMTDATA
   CHAR        szFiller[1984];
 } ANAMTDATA, *PANAMTDATA;
 
+#ifdef TADUMMYTAG_INIT
+TATAG TADummyTag [] = { { ":qfa n=%lu.", ":eqfa." },     // attribute
+                        { ":qff n=%lu.", ":eqff." },     // to be translated
+                        { ":qfn n=%lu.", ":eqfn." },     // no operation
+                        { ":qfx n=%lu s=%i.", ":eqfx." },// translated
+                        { ":qfc n=%lu.", ":eqfc." },     // current element
+                        { ":qfj.",      ":eqfj." },     // joined segments
+                        { ":qfs.",      ":eqfs." },     // splitted segments
+                        { ":none.", "" },
+                        { ":qfmark.", "" },
+                        { "", "" } };
+#else
 extern  TATAG TADummyTag [];
+#endif
 
-__declspec(dllexport)
-BOOL EQFUnSeg( PSZ, PSZ, PTATAG, PBOOL, PSZ, USHORT); // remove segmenting tags
-BOOL EQFUnSeg2( PSZ, PSZ, PTATAG, PBOOL, PSZ, USHORT, PSZ); // remove segmenting tags
-__declspec(dllexport)
-VOID EQFNoiseFiltering(PSZ, PEXCLUSIONLIST, PTOKENENTRY);
-BOOL EQFUnSegRevMark
+__declspec(dllexport) BOOL EQFUnSeg( PSZ, PSZ, PTATAG, PBOOL, PSZ, USHORT); // remove segmenting tags
+__declspec(dllexport) BOOL EQFUnSeg2( PSZ, PSZ, PTATAG, PBOOL, PSZ, USHORT, PSZ); // remove segmenting tags
+__declspec(dllexport) VOID EQFNoiseFiltering(PSZ, PEXCLUSIONLIST, PTOKENENTRY);
+__declspec(dllexport) BOOL EQFUnSegRevMark
 (
   PSZ pSegTarget,                       // segm.target file
   PSZ pTarget,                          // target file name
@@ -71,7 +82,7 @@ BOOL EQFUnSegRevMark
   USHORT usTrackDocNum                  // not 0, TVT tracking document num
 );
 
-BOOL EQFUnSegRevMark2
+__declspec(dllexport) BOOL EQFUnSegRevMark2
 (
   PSZ pSegTarget,                       // segm.target file
   PSZ pTarget,                          // target file name
@@ -207,14 +218,14 @@ BOOL TAGetTagNameByIDW
 );
 
 
-void TAFillWSList
+__declspec(dllexport) void TAFillWSList
 (
 	PSZ  pszTagTableName,
 	PSZ_W  *ppWSList
 );
 
 
-BOOL TAAdjustWhiteSpace
+__declspec(dllexport) BOOL TAAdjustWhiteSpace
 (
   PSZ_W       pszSourceSeg,            // ptr to source segment data
   PSZ_W       pszTargetSeg,            // ptr to target segment
@@ -226,27 +237,22 @@ BOOL TAAdjustWhiteSpace
 );
 
 
-VOID TABuildArchTM( HWND hwnd, PSZ pSelFolderName );
-VOID ExportSegs( HWND hwnd, PSZ pSelFolderName );
+__declspec(dllexport) VOID TABuildArchTM( HWND hwnd, PSZ pSelFolderName );
+__declspec(dllexport) VOID ExportSegs( HWND hwnd, PSZ pSelFolderName );
 
 // free memory used for table space
-__declspec(dllexport)
-USHORT TAFreeTableSpace( PVOID pvTable );
-__declspec(dllexport)
-BOOL TATagsToUnicode( PVOID pvLoadedTable, USHORT usSize, ULONG ulCP);
+__declspec(dllexport) USHORT TAFreeTableSpace( PVOID pvTable );
+__declspec(dllexport) BOOL TATagsToUnicode( PVOID pvLoadedTable, USHORT usSize, ULONG ulCP);
 
 
 
 /**********************************************************************/
 /* Free a loaded document                                             */
 /**********************************************************************/
-__declspec(dllexport)
-VOID TAFreeDoc( PVOID *ppvDoc );
+__declspec(dllexport) VOID TAFreeDoc( PVOID *ppvDoc );
 
-__declspec(dllexport)
-USHORT TASegFileConvertASCII2Unicode( PSZ pInFile, PSZ pOutFile, PSZ pDocLang );
-__declspec(dllexport)
-USHORT TASegFileConvertUnicode2ASCII( PSZ pInFile, PSZ pOutFile, PSZ pDocLang );
+__declspec(dllexport) USHORT TASegFileConvertASCII2Unicode( PSZ pInFile, PSZ pOutFile, PSZ pDocLang );
+__declspec(dllexport) USHORT TASegFileConvertUnicode2ASCII( PSZ pInFile, PSZ pOutFile, PSZ pDocLang );
 
 
 //convert & copy contents TATag struct into unicode TATAG_W struct

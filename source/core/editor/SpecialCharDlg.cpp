@@ -42,6 +42,8 @@ SpecialCharDlg::~SpecialCharDlg()
 
 int SpecialCharDlg::SpecialCharDlgOpen(HWND hWndParent, int nMode)
 {
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
     // start dialog box
     m_hWndParent = hWndParent;
     m_nMode      = nMode;

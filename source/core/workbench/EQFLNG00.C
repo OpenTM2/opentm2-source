@@ -169,6 +169,7 @@ MRESULT LngListCallBack
   {
     case WM_CREATE :
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         BOOL       fOK = TRUE;         // initialisation is O.K. flag
 
         /**************************************************************/

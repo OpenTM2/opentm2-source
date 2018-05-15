@@ -241,6 +241,17 @@ class __declspec(dllexport) UserMarkupTable: public OtmMarkup
            char   *pszMarkupName 
    );
   
+    /*! \brief Get the markup family name for a markup
+
+	This method looks for family name for a markup
+
+	\returns Family name if have, otherwise a empty string
+	*/
+	std::string getFamilyName()
+	{
+		return "";
+	}
+	
 
 private:
 

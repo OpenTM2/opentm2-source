@@ -882,65 +882,10 @@ VOID ParseFreeDoc
 (
   PVOID * ppDoc
 )
-// function is obsolete, use TAFreeDoc instead
+// function is obsolete, use SefFileFreeDoc instead
 {
-  TAFreeDoc( ppDoc );
+  SegFileFreeDoc( ppDoc );
 }
-
-//{
-//   PTBSEGMENTTABLE pSegTable;          // ptr for segment table deleting
-//   ULONG           ulI, ulJ;           // loop counter
-//   PTBSEGMENT      pSegment;           // ptr for segment deleting
-//   PTBDOCUMENT     pDoc = (PTBDOCUMENT) *ppDoc;
-//   /* Free up the document space */
-//
-//   UtlAlloc( (PVOID *) &pDoc->pInBuf, 0L, 0L, NOMSG );
-//   UtlAlloc( (PVOID *) &pDoc->pTokBuf, 0L, 0L, NOMSG );
-//
-//   pSegTable = pDoc->pSegTables;
-//   for ( ulI = 0; ulI < pDoc->ulSegTables; ulI++ )
-//   {
-//      pSegment = pSegTable->pSegments;
-//      for ( ulJ = 0; ulJ < pSegTable->ulSegments; ulJ++ )
-//      {
-//         if ( pSegment->pData )
-//         {
-//            UtlAlloc( (PVOID *) &pSegment->pData, 0L, 0L, NOMSG );
-//         } /* endif */
-//         if ( pSegment->pDataW )
-//         {
-//            UtlAlloc( (PVOID *) &pSegment->pDataW, 0L, 0L, NOMSG );
-//         } /* endif */
-//
-//         if ( pSegment->pusBPET )
-//         {
-//            UtlAlloc( (PVOID *) &pSegment->pusBPET, 0L, 0L, NOMSG );
-//         } /* endif */
-//         if (pSegment->pusHLType )
-//         {
-//           UtlAlloc((PVOID *)&(pSegment->pusHLType),0L ,0L, NOMSG);
-//         } /* endif */
-//         if (pSegment->pContext) UtlAlloc((PVOID *)&(pSegment->pContext),0L,0L,NOMSG);
-//         //if (pSegment->pvMetadata) UtlAlloc((PVOID *)&(pSegment->pvMetadata),0L,0L,NOMSG);
-//         pSegment++;
-//      } /* endfor */
-//      UtlAlloc( (PVOID *) &pSegTable->pSegments, 0L, 0L, NOMSG );
-//      pSegTable++;
-//   } /* endfor */
-//   pDoc->ulSegTables = 0;
-//   UtlAlloc( (PVOID *) &pDoc->pSegTables, 0L, 0L, NOMSG );
-//   UtlAlloc( (PVOID *) &pDoc->pUndoSeg, 0L, 0L, NOMSG );   //free storage of Undo
-//   UtlAlloc( (PVOID *)&(pDoc->pSegmentBuffer), 0L, 0L, NOMSG );
-//   UtlAlloc( (PVOID *)&(pDoc->pSegmentBufferW), 0L, 0L, NOMSG );
-//   UtlAlloc( (PVOID *) &(pDoc->pEQFBWorkSegmentW), 0L, 0L, NOMSG );
-//   if (pDoc->pContext) UtlAlloc((PVOID *)&(pDoc->pContext),0L,0L,NOMSG);
-//   UtlAlloc( (PVOID *) &pDoc, 0L, 0L, NOMSG );
-//   /*******************************************************************/
-//   /* pass back new value for pDoc...                                 */
-//   /*******************************************************************/
-//   *ppDoc = pDoc;
-//} /* end of function ParseFreeDoc */
-
 
 //+----------------------------------------------------------------------------+
 //|Internal function                                                           |

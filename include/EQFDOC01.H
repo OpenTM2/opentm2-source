@@ -433,17 +433,12 @@ USHORT usGetNumberOfDocsInFolder (PSZ pszFolderObjectName);
 /* prototypes for document import/export functions                    */
 /**********************************************************************/
 
-__declspec(dllexport)
-USHORT DocImpInternal( PDOCIMPIDA pIda );
-__declspec(dllexport)
-int DocImpInternalDeletePackage
-(
-  PSZ pszPackage                       // fully qualified file name of package being deleted
-);
+__declspec(dllexport) USHORT DocImpInternal( PDOCIMPIDA pIda );
+__declspec(dllexport) int DocImpInternalDeletePackage( PSZ pszPackage );
 VOID DocImpSourceName( PSZ, PSZ, PSZ, USHORT, PSZ );
 VOID DocImpTargetName( PSZ pszTarget, PSZ pszFolder, USHORT usPathType,
                        PSZ pszDocName );
-USHORT DocExpExportInternal
+__declspec(dllexport) USHORT DocExpExportInternal
 ( 
   PSZ        pszFolderObjName,       // folder object name  
   PSZ        pszDocLongName,         // long name of exported document

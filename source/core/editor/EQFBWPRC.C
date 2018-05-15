@@ -43,7 +43,11 @@ static PFNWP TBFrameWndProc;
 
 PFINDDATA    pFindData = NULL; // ptr to data structure for find dialog
 
-static PSPELLDATA   pSpellData = NULL; // ptr to spelldata structure
+static PSPELLDATA   pGlobalSpellData = NULL; // ptr to global spelldata structure
+
+void ResetSpellData( PSPELLDATA pGlobalSpellData, PSTEQFGEN pstEQFGen );
+PSPELLDATA AllocSpellData( PTBDOCUMENT pDoc, PSTEQFGEN pstEQFGen, BOOL fResetIgnoreData );
+
 /**********************************************************************/
 /* ruler data                                                         */
 /* Standard ruler up to 1000 columns -- otherwise we use defaults only*/
@@ -227,6 +231,30 @@ EQFBWNDPROC( HWND hwnd,
                   usID = ID_TWBS_OTHER_WINDOW;
                   break;
              } /* endswitch */
+
+           // GQ Test: try to convert key to Unicode char
+           if ( msg == WM_KEYDOWN )
+           {
+             HKL hkl = GetKeyboardLayout( 0 );
+             BYTE kb[256];
+
+             GetKeyboardState(kb);
+             WCHAR uc[5] = {};
+
+             int i = 0;
+             switch( ToUnicodeEx( mp1, MapVirtualKey( mp1, MAPVK_VK_TO_VSC), kb, uc, 4, 0, hkl ))
+             {
+              case -1: /* dead key */ i = -1; break;
+              case  0: /* no idea! */; i = 0; break;
+              case  1:
+              case  2:
+              case  3:
+              case  4:
+                i = 4; 
+                break;
+             }
+           }
+
              PostMessage( (HWND)UtlQueryULong( QL_TWBFRAME ),
                           HM_HELPSUBITEM_NOT_FOUND,
                           0,
@@ -244,7 +272,6 @@ EQFBWNDPROC( HWND hwnd,
          /* - If Shift+Pad Slash combination is detected deactivate PushMode */
          /* - If Alt+Pad Slash combination is detected toggle Auto PushMode  */
          /* - If Auto PushMode is active, Check if key ends Auto PushMode    */
-
 
             if ( EQFBMapKey( msg, mp1, mp2, &usFunction, &pDoc->ucState, TPRO_MAPKEY) )
             {
@@ -1266,9 +1293,6 @@ VOID EQFBGenProcessing
 {
     BOOL        fUpdate = TRUE;        // force screen update
 
-    // set active resource handle ...
-    hResMod   = (HMODULE) UtlQueryULong(  QL_HRESMOD );
-
     switch ( usCmdId )
     {
 
@@ -1593,6 +1617,8 @@ void HandlePopupTEMenu( HWND hwnd, POINT point, SHORT sMenuID, PTBDOCUMENT pDoc)
   HMENU hMenu;
   HMENU hMenuTrackPopup;
   ULONG ulFrameFlags;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
 
   /* Get the menu for the popup from the resource file. */
   hMenu = LoadMenu( hResMod, MAKEINTRESOURCE( ID_POPUP_MENU ) );
@@ -1656,6 +1682,8 @@ void HandlePopupTEMenu( HWND hwnd, POINT point, SHORT sMenuID, PTBDOCUMENT pDoc)
 BOOL EQFBDocWndCreate ( PTBDOCUMENT pNewdoc,   // pointer to document structure
                         PLOADSTRUCT pLoad )  // pointer to load structure
 {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
     BOOL  fOK = TRUE;                         // success indicator
 
     HAB       hab;                            // anchor block handle
@@ -1786,16 +1814,7 @@ BOOL EQFBDocWndCreate ( PTBDOCUMENT pNewdoc,   // pointer to document structure
      VIOFONTCELLSIZE* pvioFontSize = get_vioFontSize();
      if ( pLoad->docType == STARGET_DOC )
      {
-       /*********************************************************/
-       /* init temp spellcheck buffer - if allocated   @KAT35 ??*/
-       /*********************************************************/
-       if ( pSpellData && pSpellData->pIgnoreData &&  !pstEQFGen->fLoadedBySpellcheck ) 
-       {
-         pSpellData->pIgnoreNextFree = pSpellData->pIgnoreData;
-         memset( pSpellData->pIgnoreData, 0, pSpellData->usIgnoreLen * sizeof(CHAR_W));
-       } /* endif */
-
-
+       ResetSpellData( pGlobalSpellData, pstEQFGen );
      } /* endif */
       ANCHORWNDIDA( pNewdoc->hwndFrame, pNewdoc );
       ANCHORWNDIDA( pNewdoc->hwndClient, pNewdoc );
@@ -2556,7 +2575,7 @@ VOID EQFBFuncFind
 {
    INT_PTR      iRc;                                       // return code
 
-   if ( hResMod == NULL ) hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    EQFBSetFindData( NULL );
 
@@ -2701,6 +2720,7 @@ VOID EQFBFuncOpen
    SWP           swpFrame;            // size and position of frame window
    HWND          hwnd = pDoc->hwndClient;
    OPENDATA*     pOpenData = get_OpenData();
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
    
    DIALOGBOX( pDoc->hwndClient, EQFBOPENDLGPROC, hResMod, ID_TB_OPEN_DLG,
               pOpenData, iRc);
@@ -2824,7 +2844,7 @@ VOID EQFBFuncFonts
    UtlAlloc( (PVOID *) &pFontColData, 0L, (LONG) sizeof(FONTCOLDATA), ERROR_STORAGE );
    if ( pFontColData )
    {
-      if ( hResMod == NULL ) hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
       pFontColData->pTextTypeTable = get_TextTypeTable();
       UtlAlloc( (PVOID *) &pIda, 0L, (LONG) sizeof(FONTCOLIDA), ERROR_STORAGE );
       if ( pIda )
@@ -2882,6 +2902,7 @@ VOID EQFBFuncKeys
    INT_PTR      iRc;
    PDOCUMENT_IDA pIdaDoc;
    PSTEQFGEN     pstEQFGen;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    UtlAlloc( (PVOID *) &pKeysData, 0L, (LONG) sizeof(KEYSDATA), ERROR_STORAGE );
    if ( pKeysData )
@@ -2944,6 +2965,7 @@ VOID EQFBFuncEntry
    INT_PTR      iRc;                            // return code
    PENTRYDATA   pEntryData;                     // pointer to data
    HWND         hwnd;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
 /**********************************************************************/
 /* test sentence dialog only possible if not in postedit              */
@@ -3068,52 +3090,34 @@ VOID EQFBFuncSpellSeg
    INT_PTR      iRc;                             // return code
    BOOL         fOK = TRUE;                      // true if spellcheck allowed
    PTBSEGMENT   pTBSeg;                          // pointer to segment
+   PSPELLDATA   pSpellData = NULL;
 
   if (pDoc->docType == STARGET_DOC)
   {
-    if ( pDoc->pvSpellData )
+    pTBSeg = EQFBGetVisSeg(pDoc, &(pDoc->TBCursor.ulSegNum));
+    fOK = ((pDoc->EQFBFlags.PostEdit && pTBSeg->qStatus == QF_XLATED) || (!pDoc->EQFBFlags.PostEdit && pTBSeg->qStatus == QF_CURRENT));
+    if (fOK)
     {
-      pSpellData = (PSPELLDATA)pDoc->pvSpellData;
-    }
+      // GQ 2017/10/13 New approach for spelldata area:
+      // the spell dialog uses a private area to avoid side effects with auto-spellcheck running in the background
+      // we share however the pIgnoreData list of the spell data area associated with the document
+      pSpellData = AllocSpellData( pDoc, (PSTEQFGEN)pDoc->pstEQFGen, FALSE );
 
-     pTBSeg = EQFBGetVisSeg(pDoc, &(pDoc->TBCursor.ulSegNum));
-     fOK=((pDoc->EQFBFlags.PostEdit && pTBSeg->qStatus == QF_XLATED)
-         || (!pDoc->EQFBFlags.PostEdit && pTBSeg->qStatus == QF_CURRENT));
-     if (fOK)
-     {
-        if (!pSpellData)
+      if ( pSpellData )
+      {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+        pSpellData->pDoc = pDoc;
+        pSpellData->fSegOnly = TRUE;
+
+        DIALOGBOX( pDoc->hwndClient, EQFBSPELLDLGPROC, hResMod, ID_TB_SPELL_DLG, pSpellData, iRc );
+
+        if ( iRc == DID_ERROR )
         {
-           UtlAlloc( (PVOID *) &pSpellData, 0L, (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
-           if (pSpellData)                           //if 1st call to Spellcheck
-           {                                         //init ptr to ignorelist
-
-              UtlAlloc( (PVOID *)&(pSpellData->pIgnoreData) ,
-                        0L, (LONG) MAX_SEGMENT_SIZE * sizeof(CHAR_W), ERROR_STORAGE );
-              if ( pSpellData->pIgnoreData )
-              {
-                pSpellData->usIgnoreLen = MAX_SEGMENT_SIZE;
-                pSpellData->pIgnoreNextFree = pSpellData->pIgnoreData;
-              } /* endif */
-              UtlAlloc( (PVOID *) &(pSpellData->pSpellWorkSegW),
-                        0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
-              UtlAlloc( (PVOID *) &(pSpellData->pSpellSeg),
-                        0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
-           } /* endif */
+          UtlError( ERROR_DIALOG_LOAD_FAILED, MB_CANCEL, 0 , NULL, EQF_ERROR );
         } /* endif */
-        if ( pSpellData )
-        {
-           pSpellData->pDoc = pDoc;
-           pSpellData->fSegOnly = TRUE;
-
-           DIALOGBOX( pDoc->hwndClient, EQFBSPELLDLGPROC, hResMod,
-                      ID_TB_SPELL_DLG, pSpellData, iRc );
-
-           if ( iRc == DID_ERROR )
-           {
-             UtlError( ERROR_DIALOG_LOAD_FAILED, MB_CANCEL, 0 , NULL, EQF_ERROR );
-           } /* endif */
-
-        } /* endif */
+                // release local spell check data area
+        if ( pSpellData ) UtlAlloc( (PVOID *)&pSpellData, 0, 0, NOMSG );
+      } /* endif */
      }
      else
      {
@@ -3145,129 +3149,115 @@ VOID EQFBFuncSpellFile
    PTBDOCUMENT pDoc                             // pointer to document ida
 )
 {
-   INT_PTR        iRc;                            // return code
+   INT_PTR        iRc = 0;                            // return code
+   PSPELLDATA pSpellData = NULL;
 
   if (pDoc->docType == STARGET_DOC)
   {
-    if ( pDoc->pvSpellData )
+    // GQ 2017/10/13 New approach for spelldata area:
+    // the spell dialog uses a private area to avoid side effects with auto-spellcheck running in the background
+    // we share however the pIgnoreData list of the spell data area associated with the document
+    pSpellData = AllocSpellData( pDoc, (PSTEQFGEN)pDoc->pstEQFGen, FALSE );
+
+    if ( pSpellData )
     {
-      pSpellData = (PSPELLDATA)pDoc->pvSpellData;
-    }
+      pSpellData->fSegOnly = FALSE;
+      pSpellData->pDoc = pDoc;
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-     if (!pSpellData)
-     {
-        UtlAlloc( (PVOID *) &pSpellData, 0L, (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
-        if (pSpellData)                           //if 1st call to Spellcheck
-        {                                         //init ptr to ignorelist
-           UtlAlloc( (PVOID *)&(pSpellData->pIgnoreData) ,
-                     0L, (LONG) MAX_SEGMENT_SIZE * sizeof(CHAR_W), ERROR_STORAGE );
-           if ( pSpellData->pIgnoreData )
-           {
-             pSpellData->usIgnoreLen = MAX_SEGMENT_SIZE;
-             pSpellData->pIgnoreNextFree = pSpellData->pIgnoreData;
-           } /* endif */
-           UtlAlloc( (PVOID *) &(pSpellData->pSpellWorkSegW),
-		                0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
-		   UtlAlloc( (PVOID *) &(pSpellData->pSpellSeg),
-                        0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
-        } /* endif */
-     } /* endif */
+      DIALOGBOX( pDoc->hwndClient, EQFBSPELLDLGPROC, hResMod, ID_TB_SPELL_DLG, pSpellData, iRc );
 
-     if ( pSpellData )
-     {
-        pSpellData->pDoc = pDoc;
-        pSpellData->fSegOnly = FALSE;
+      if ( iRc == DID_ERROR )
+      {
+        UtlError( ERROR_DIALOG_LOAD_FAILED, MB_CANCEL, 0 , NULL, EQF_ERROR );
+      }
+      else if ( iRc == SPELLCHECK_GO_TO_NEXT_DOC )   // current document has been processed completeley, go to the next document in the list
+      {
+          //PCHAR_W pSavedIgnoreNextFree = NULL;         // saved ptr next free pos in IgnoreData
+          //PCHAR_W pSavedIgnoreData = NULL;             // saved temp addenda buffer
+          //USHORT  usSavedIgnoreLen = 0;                // saved length of allocated ignore data
 
-        DIALOGBOX( pDoc->hwndClient, EQFBSPELLDLGPROC, hResMod, ID_TB_SPELL_DLG, pSpellData, iRc );
+        USHORT usI = 0;
+        PSTEQFGEN pstEQFGen = (PSTEQFGEN)pDoc->pstEQFGen;
 
-        if ( iRc == DID_ERROR )
+        // save spelldata pointer in pstEqfGen structure
+        pstEQFGen->pvSpellData = pDoc->pvSpellData;
+
+        // load the next document
+        if ( EQF_XDOCINLIST( pstEQFGen, pstEQFGen->pszCurSpellCheckDoc, &usI ) != 0)
         {
-          UtlError( ERROR_DIALOG_LOAD_FAILED, MB_CANCEL, 0 , NULL, EQF_ERROR );
-        }
-        else if ( iRc == SPELLCHECK_GO_TO_NEXT_DOC )   // current document has been processed completeley, go to the next document in the list
-        {
-           PCHAR_W pSavedIgnoreNextFree = NULL;         // saved ptr next free pos in IgnoreData
-           PCHAR_W pSavedIgnoreData = NULL;             // saved temp addenda buffer
-           USHORT  usSavedIgnoreLen = 0;                // saved length of allocated ignore data
-
-          USHORT usI = 0;
-          PSTEQFGEN pstEQFGen = (PSTEQFGEN)pDoc->pstEQFGen;
-
-          // save spelldata pointer in pstEqfGen structure
-          pstEQFGen->pvSpellData = pDoc->pvSpellData;
-
-          // load the next document
-          if ( EQF_XDOCINLIST( pstEQFGen, pstEQFGen->pszCurSpellCheckDoc, &usI ) != 0)
+          pstEQFGen->fLoadedBySpellcheck = TRUE; 
+          int iRc = EQF_XDOCADD( pstEQFGen, pstEQFGen->pszCurSpellCheckDoc );
+          if (iRc == 0)
           {
-            pstEQFGen->fLoadedBySpellcheck = TRUE; 
-            int iRc = EQF_XDOCADD( pstEQFGen, pstEQFGen->pszCurSpellCheckDoc );
-            if (iRc == 0)
-            {
-              PDOCUMENT_IDA pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
-              iRc = EQFBTenvStart ( pDoc, pstEQFGen->pszCurSpellCheckDoc, pstEQFGen );
+            PDOCUMENT_IDA pIdaDoc = (PDOCUMENT_IDA)pstEQFGen->pDoc;
+            iRc = EQFBTenvStart ( pDoc, pstEQFGen->pszCurSpellCheckDoc, pstEQFGen );
 
-              UtlDispatch(); // process all start messages
+            UtlDispatch(); // process all start messages
 
-              // update titlebar and object name
-              //SetDocWindowText( pIdaDoc, pIdaDoc->hwnd, pstEQFGen->pszCurSpellCheckDoc );
-              //EqfChangeObjectName( pDoc->hwnd, pszNewDoc );
-            } /* endif */
-          }
-          else
-          {
-            int iRc = 0;
-
-            // activate it
-            pstEQFGen->fLoadedBySpellcheck = TRUE; 
-            iRc =  EQF_XDOCNUM( pstEQFGen, usI, (PSZ)pDoc->pInBuf );
-            if ( !iRc && *pDoc->pInBuf )
-            {
-              iRc = EQFBTenvStart( pDoc, (PSZ)pDoc->pInBuf, pstEQFGen );
-            } /* endif */
-          }
-
-
-          // save and close the current document
-          EQFBFuncFile( pDoc );
-          UtlDispatch(); 
-
-          // start spellchecking of next document
-          if ( pstEQFGen->pNewSpellCheckDoc != NULL ) 
-          {
-            // restore any saved tem. addendum data
-            if ( pSavedIgnoreData != NULL )
-            {
-              PTBDOCUMENT pNewDoc = (PTBDOCUMENT)pstEQFGen->pNewSpellCheckDoc;
-
-
-              //if ( pNewDoc->pvSpellData != NULL )
-              //{
-              //  pSavedIgnoreNextFree = pSpellData->pIgnoreNextFree;
-              //  pSavedIgnoreData = pSpellData->pIgnoreData;
-              //  usSavedIgnoreLen = pSpellData->usIgnoreLen;
-              //} /* endif */
-            } /* endif */
-
-            PostMessage( ((PTBDOCUMENT)(pstEQFGen->pNewSpellCheckDoc))->hwndClient, WM_COMMAND, MAKELONG( IDM_PROOFALL, 0), 0L );
+            // update titlebar and object name
+            //SetDocWindowText( pIdaDoc, pIdaDoc->hwnd, pstEQFGen->pszCurSpellCheckDoc );
+            //EqfChangeObjectName( pDoc->hwnd, pszNewDoc );
           } /* endif */
-
-        }
-        else if ( iRc == SPELLCHECK_LAST_DOC_DONE  )   // the current document has been processed and no more document is following
-        {
-          // save and close the current document
-          PostMessage( pDoc->hwndClient, WM_COMMAND, MAKELONG( IDM_FILE, 0), 0L );
         }
         else
         {
-          if (pDoc->fAutoSpellCheck && pDoc->pvSpellData )
-    		  { 
-            // force that thread recalcs pusHLType
-		        PSPELLDATA pSpellData = (PSPELLDATA) pDoc->pvSpellData;
-		        pSpellData->TBFirstLine.ulSegNum = 0;
-		        pSpellData->TBFirstLine.usSegOffset = (USHORT)-1; // cannot be segoffs
-  	      }
+          int iRc = 0;
+
+          // activate it
+          pstEQFGen->fLoadedBySpellcheck = TRUE; 
+          iRc =  EQF_XDOCNUM( pstEQFGen, usI, (PSZ)pDoc->pInBuf );
+          if ( !iRc && *pDoc->pInBuf )
+          {
+            iRc = EQFBTenvStart( pDoc, (PSZ)pDoc->pInBuf, pstEQFGen );
+          } /* endif */
+        }
+
+
+        // save and close the current document
+        EQFBFuncFile( pDoc );
+        UtlDispatch(); 
+
+        // start spellchecking of next document
+        if ( pstEQFGen->pNewSpellCheckDoc != NULL ) 
+        {
+          // restore any saved tem. addendum data
+          //if ( pSavedIgnoreData != NULL )
+          //{
+          //  PTBDOCUMENT pNewDoc = (PTBDOCUMENT)pstEQFGen->pNewSpellCheckDoc;
+
+
+            //if ( pNewDoc->pvSpellData != NULL )
+            //{
+            //  pSavedIgnoreNextFree = pSpellData->pIgnoreNextFree;
+            //  pSavedIgnoreData = pSpellData->pIgnoreData;
+            //  usSavedIgnoreLen = pSpellData->usIgnoreLen;
+            //} /* endif */
+          } /* endif */
+
+          PostMessage( ((PTBDOCUMENT)(pstEQFGen->pNewSpellCheckDoc))->hwndClient, WM_COMMAND, MAKELONG( IDM_PROOFALL, 0), 0L );
         } /* endif */
-     } /* endif */
+
+      }
+      else if ( iRc == SPELLCHECK_LAST_DOC_DONE  )   // the current document has been processed and no more document is following
+      {
+        // release local spell check data area
+        if ( pSpellData ) UtlAlloc( (PVOID *)&pSpellData, 0, 0, NOMSG );
+
+        // save and close the current document
+        PostMessage( pDoc->hwndClient, WM_COMMAND, MAKELONG( IDM_FILE, 0), 0L );
+      }
+      else
+      {
+        if (pDoc->fAutoSpellCheck && pDoc->pvSpellData )
+    		{ 
+          // force that thread recalcs pusHLType
+		      PSPELLDATA pThreadSpellData = (PSPELLDATA) pDoc->pvSpellData;
+		      pThreadSpellData->TBFirstLine.ulSegNum = 0;
+		      pThreadSpellData->TBFirstLine.usSegOffset = (USHORT)-1; // cannot be segoffs
+  	    }
+      } /* endif */
+
   }
   else
   {
@@ -3300,8 +3290,7 @@ VOID EQFBFuncFontSize
    PFONTSIZEDATA pvioFontSize;                             // ptr to default font sizes
    USHORT       i;
 
-   if ( hResMod == NULL ) hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
-
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    UtlAlloc( (PVOID *) &pvioFontSize, 0L, (LONG) sizeof(FONTSIZEDATA), ERROR_STORAGE );
    if ( pvioFontSize )
@@ -3591,6 +3580,7 @@ EQFBCommand
 {
    INT_PTR      iRc;
    TPEXECUTE    tpExecute;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    tpExecute.pDoc = pDoc;
    tpExecute.pKey = NULL;
@@ -3630,6 +3620,7 @@ EQFBSettings
    PTBDOCUMENT pDoc
 )
 {
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
    INT_PTR     iRc;
    DIALOGBOX( pDoc->hwndClient, EQFBPROFINITDLGPROC, hResMod,
               ID_TB_PROPERTIES_DLG, pDoc, iRc );
@@ -3662,6 +3653,7 @@ EQFBGotoLine
    PTBDOCUMENT pDoc
 )
 {
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
    INT_PTR       iRc;
 
    if ( hResMod == NULL ) hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
@@ -3682,6 +3674,7 @@ VOID EQFBGotoSegment
    PTBDOCUMENT pDoc
 )
 {
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
    INT_PTR       iRc;
 
    pDoc->flags.fGotoSegMode = TRUE;
@@ -3980,13 +3973,9 @@ EQFBDispClass
               RECT rc;
               VIOFONTCELLSIZE* pvioFontSize = get_vioFontSize();
               GetClientRect(hwnd, &rc);
-              PostMessage( hwnd, WM_SIZE,
-                         0, MAKELPARAM( rc.right, rc.bottom ));
-              EQFBSetNewCellSize( pDoc,
-//                                vioFontSize[ pLoad->docType ].cx,
-//                                vioFontSize[ pLoad->docType ].cy );
-                                  (pvioFontSize + pDoc->docType)->cx,
-                                  (pvioFontSize + pDoc->docType)->cy );
+              if ( pDoc->pvGlyphSet ) UtlAlloc( &pDoc->pvGlyphSet, 0, 0, NOMSG );
+              PostMessage( hwnd, WM_SIZE, 0, MAKELPARAM( rc.right, rc.bottom ));
+              EQFBSetNewCellSize( pDoc, (pvioFontSize + pDoc->docType)->cx, (pvioFontSize + pDoc->docType)->cy );
             }
             break;
 
@@ -4728,7 +4717,7 @@ BOOL EQFBInit ( VOID )
    CHAR       szSysProps[MAX_EQF_PATH];// path to system properties
    ULONG      ulBytesRead;             // no of bytes read by UtlLoadFile
    WNDCLASSW  wndclassW;
-
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
    hab = (HAB)    UtlQueryULong( QL_HAB );    /* Anchor block handle          */
 
    // Unicode initialization
@@ -5395,6 +5384,7 @@ VOID EQFBSpellPullDown
   CHAR_W     c;
   USHORT     ulSegNum;
   PSPELLDATA pSpellData;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   /* Get the menu for the popup from the resource file. */
   hMenu = LoadMenu( hResMod, MAKEINTRESOURCE( ID_POPUP_MENU ) );
@@ -6022,3 +6012,52 @@ VOID EQFBDocSetCodePage
   return;
 } /* end of function EQFBDocSetCodePage  */
 
+// initialize spell check data area
+void ResetSpellData( PSPELLDATA pSpellData, PSTEQFGEN pstEQFGen )
+{
+  if ( pSpellData && pSpellData->pIgnoreData &&  !pstEQFGen->fLoadedBySpellcheck ) 
+  {
+    pSpellData->pIgnoreNextFree = pSpellData->pIgnoreData;
+    memset( pSpellData->pIgnoreData, 0, pSpellData->usIgnoreLen * sizeof(CHAR_W));
+  } /* endif */
+}
+
+// Allocate local spellcheck data area, allocate global spellcheck data area when needed
+PSPELLDATA AllocSpellData( PTBDOCUMENT pDoc, PSTEQFGEN pstEQFGen, BOOL fResetIgnoreData  )
+{
+  PSPELLDATA pDocSpellData = (PSPELLDATA)pDoc->pvSpellData;
+  PSPELLDATA pSpellData = NULL; // new spellcheck data area, function return value
+
+  // use any given spell data area as global data area or allocate a new one
+  if ( pDocSpellData != NULL )
+  {
+    pGlobalSpellData = pDocSpellData;
+  }
+  else
+  {
+    UtlAlloc( (PVOID *) &pGlobalSpellData, 0L, (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
+    if ( pGlobalSpellData)
+    {                     
+      UtlAlloc( (PVOID *)&(pGlobalSpellData->pIgnoreData), 0L, (LONG) MAX_SEGMENT_SIZE * sizeof(CHAR_W), ERROR_STORAGE );
+      if ( pGlobalSpellData->pIgnoreData )
+      {
+        pGlobalSpellData->usIgnoreLen = MAX_SEGMENT_SIZE;
+        pGlobalSpellData->pIgnoreNextFree = pGlobalSpellData->pIgnoreData;
+      } /* endif */
+      UtlAlloc( (PVOID *) &(pGlobalSpellData->pSpellWorkSegW), 0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
+      UtlAlloc( (PVOID *) &(pGlobalSpellData->pSpellSeg), 0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
+      pDoc->pvSpellData = (PVOID)pGlobalSpellData;
+    } /* endif */
+  } /* endif */
+
+  if ( fResetIgnoreData ) ResetSpellData( pGlobalSpellData, pstEQFGen );
+
+  UtlAlloc( (PVOID *) &pSpellData, 0L, (LONG) sizeof(SPELLDATA), ERROR_STORAGE );
+  if ( pSpellData )       
+  {                                       
+    // we use the ignore data list from the global spell data area
+    UtlAlloc( (PVOID *) &(pSpellData->pSpellWorkSegW), 0L, (LONG) (MAX_SEGMENT_SIZE + 1) * sizeof(CHAR_W), ERROR_STORAGE);
+    UtlAlloc( (PVOID *) &(pSpellData->pSpellSeg), 0L, (LONG) sizeof(TBSEGMENT), ERROR_STORAGE);
+  } /* endif */
+  return( pSpellData );
+}

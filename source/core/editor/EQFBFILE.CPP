@@ -36,12 +36,18 @@
  #define ERR_TAGSAREWRONG   -15        // error rc for tagging errors
 #define ADDINFO_DIR   "ADDINFO"
 
+#define NUM_TOKENS    100              // space in token table
+TOKENENTRY   astTokBuf[ NUM_TOKENS + 1 ];        // number of tokens
 
 // activate to debug EQFBHISTDOCSAVE function
 #ifdef _DEBUG
   // #define HISTDOCSAVELOG
   //#define WORDCOUNTLOG
 #endif
+
+// activate the following define to show error message EQF0055 and copy document files to temp directory in case of corrupted word count info
+// this define will also reset the segment data and add an error text to the segment
+//#define  SHOW_CORRUPTEDDATA_MSG
 
 
 #define GETNUMBER( pszTarget, ulValue ) \
@@ -70,22 +76,15 @@ BOOL   EQFBWCntCheckSeg(PTBDOCUMENT pDoc, PTBSEGMENT pSeg );
 PNODE  EQFBCreateTagTree( PTAGTABLE pTagTable );
 PNODE  EQFBCreateAttrTree( PTAGTABLE pTagTable );
 BOOL   EQFBAddNode ( PNODE *, PNODE, PUSHORT, PUSHORT );
-USHORT EQFBFilePrint ( PTBDOCUMENT  pDoc );
 int    EQFBTagCompare( const void *, const void * );
 static SHORT CountAttribs( PLOADEDTABLE, PSZ_W, SHORT, PULONG, PULONG, ULONG );/* @KIT0885A */
 static USHORT EQFBSumUpWords(PTBSEGMENT, PCRITERIASUM);
-static USHORT EQFBCheckCompactLF (PTBDOCUMENT,PTBSEGMENT,USHORT);
-static USHORT EQFBCheckInAbbrev ( PTBSEGMENT, PSTARTSTOP, USHORT );
-static VOID EQFBCompactPlusOne( PTBSEGMENT, PSTARTSTOP,
-                                  USHORT, PUSHORT );
 static VOID  EQFBWCntClearInfo(PTBDOCUMENT pDoc, PSZ pszFileName, PSZ pszSegmentList );
 static SHORT  EQFBCheckAndAddSeg( PTBDOCUMENT, PTBSEGMENT,
                                   PUSHORT, ULONG, PTBSEGMENT,
                                   PTBSEGMENT, LONG );
 static BOOL   EQFBCheckForTable( PTBSEGMENT, ULONG );
 static SHORT  EQFBAddSegEx( PTBDOCUMENT, PTBSEGMENT, USHORT, LONG );
-static VOID    EQFBReparseStartStop( PSTARTSTOP *, USHORT, SHORT);
-static VOID    EQFBReparseHLType( PSTARTSTOP *, USHORT, SHORT, PTBSEGMENT);
 SHORT EQFBWordCntPerSegUsingProtTable
 (
   PVOID        pVoidTable,             // ptr to loaded tag table
@@ -96,7 +95,6 @@ SHORT EQFBWordCntPerSegUsingProtTable
   PULONG       pulMarkUp,               // result for markup
   ULONG        ulOemCP
 );
-USHORT AdjustCountInfo( PTBDOCUMENT pDoc, PSZ pszDocObjName );
 
 
 USHORT usTablesMax = 0;                // number of tables allocated
@@ -749,6 +747,7 @@ USHORT EQFBFileReadExW
                             // to list of corrupted segments
                             if ( fSegError )
                             {
+#ifdef SHOW_CORRUPTEDDATA_MSG
                               PSZ_W pszNewData = NULL;
                               ULONG ulNewLen = (UTF16strlenCHAR( pszErrorSegText ) + 1 + ActSegment.usLength) * sizeof(CHAR_W) ;
                               if ( UtlAlloc((PVOID *) &pszNewData, 0L, ulNewLen, ERROR_STORAGE ) )
@@ -760,6 +759,7 @@ USHORT EQFBFileReadExW
                                 ActSegment.usLength = (USHORT)(UTF16strlenCHAR( ActSegment.pDataW ) + 1);
                               } /* endif */
                               ActSegment.qStatus = QF_TOBE; // set status to untranslated
+#endif
                               ActSegment.usSrcWords = ActSegment.usTgtWords = ActSegment.usModWords = 0;
                               if ( iCorruptedSegments < MAX_CORRUPTED_SEGMENTS )
                               {
@@ -2693,221 +2693,6 @@ EQFBWriteNextSegment
 
 
 //-----------------------------------------------------------------------------
-// External function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBFilePrint
-//-----------------------------------------------------------------------------
-// Function call:     EQFBFilePrint(PTBDOCUMENT)
-//-----------------------------------------------------------------------------
-// Description:       use the segment table information and print the document
-//
-//-----------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT  pDoc        - ptr to active doc structure
-//-----------------------------------------------------------------------------
-// Returncode type:   USHORT usRC
-//-----------------------------------------------------------------------------
-// Returncodes:       0              - success
-//                    ERR_OPENFILE   - error opening file
-//                    ERR_WRITEFILE  - error writing file
-//                    ERR_NOMEMORY   - memory allocation error
-//-----------------------------------------------------------------------------
-// Side effects:      calls to the following routines:
-//                          UtlPrintOpen, UtlPrintLine, UtlPrintClose
-//-----------------------------------------------------------------------------
-// Function flow:     - open printer
-//                    - get the EQF segment table information
-//                    - scan through the segment table and print the text
-//                      data of the segments
-//                    - close printer
-//-----------------------------------------------------------------------------
-USHORT EQFBFilePrint
-(
-   PTBDOCUMENT  pDoc                     // ptr to document control structure
-)
-{
-   HPRINT      hPrint = NULLHANDLE;    // print handle
-   ULONG       ulI;                    // general loop index
-   BOOL        fOK = TRUE;             // internal OK flag
-   PTBSEGMENT  pSeg;                   // ptr to segment
-   PSZ_W       pszLineFeed;            // position of next linefeed character
-   PSZ_W       pszBuffer;              // pointer to print buffer
-   PSZ_W       pszSource;              // pointer into segment data
-   PSZ_W       pszTarget;              // pointer into print buffer
-   ULONG       ulFilled;               // # of bytes in print buffer
-   ULONG       ulLength;               // length of currently processed string
-   CHAR_W      chChar;                 // temp character
-
-   // allocate the print line buffer
-   fOK = UtlAlloc((PVOID *) &pszBuffer, 0L, (LONG) (MAX_SEGMENT_SIZE+2)* sizeof(CHAR_W), ERROR_STORAGE );
-   pszTarget = pszBuffer;              // start at buffer begin
-   ulFilled = 0L;                       // nothing in print buffer yet
-
-
-   // open the printer device context
-   if ( fOK )
-   {
-      CHAR chTitle[ MAX_PATH144 ];
-      CHAR chEqfName[ MAX_EQF_PATH ];
-      CHAR chText[ 40 ];
-      PSZ  pFolder, pFile;
-	  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
-
-      switch ( pDoc->docType )
-      {
-        case SSOURCE_DOC:
-        case STARGET_DOC:
-          chTitle[ 0 ] = EOS;
-          strcpy( chEqfName, pDoc->szDocName );
-          pFile = UtlGetFnameFromPath( chEqfName );
-          if ( pFile )
-          {
-            /**********************************************************/
-            /* chEQFName = "c:\eqf\sample1.f00\sTarget\"              */
-            /**********************************************************/
-            pFolder = pFile - 1;
-            *pFolder = EOS;
-            pFolder = UtlGetFnameFromPath( chEqfName );
-            if ( pFolder )
-            {
-              pFolder -= 5;
-              *pFolder = EOS;
-              pFolder = UtlGetFnameFromPath( chEqfName );
-            } /* endif */
-            LOADSTRING( (HAB) UtlQueryULong( QL_HAB ),
-                        hResMod, IDS_TB_PRINTFILE_PRTJOB, chText );
-            sprintf( chTitle, chText, pFolder, pDoc->szDocLongName );
-          } /* endif */
-          break;
-        case  OTHER_DOC:
-          strcpy( chTitle, pDoc->szDocName );
-          break;
-        case TRNOTE_DOC:
-          LOADSTRING( (HAB) UtlQueryULong( QL_HAB ),
-                      hResMod, SID_TRNOTE_TITLE, chText );
-          break;
-        default :
-          strcpy( chTitle, pDoc->szDocName );
-          break;
-      } /* endswitch */
-
-      fOK = UtlPrintOpen( &hPrint, chTitle, NULLHANDLE );
-
-      /****************************************************************/
-      /* Print title string as header text ...                        */
-      /****************************************************************/
-      if ( fOK )
-      {
-    CHAR_W chTitleW[ 40 ];
-    ASCII2Unicode( chTitle, chTitleW, pDoc->ulOemCodePage );
-        if ( pDoc->ulOemCodePage == 874L )
-        {
-            UtlPrintSetAnsiConv( hPrint, FALSE );   // conversion disturbs Thai chars
-        }
-
-        fOK = UtlPrintLineW( hPrint, chTitleW );
-              UtlPrintLineW( hPrint, EMPTY_STRINGW );
-      } /* endif */
-   } /* endif */
-
-
-   // get the EQF segment table information
-   ulI = 0;                                                      /* @KAT0028C */
-
-   // scan through the segment table and write text data to the printer
-   if ( fOK )
-   {
-     do {
-        // get pointer to current segment
-        ulI ++;                                                  /* @KAT0028A */
-        pSeg = EQFBGetVisSeg(pDoc, &ulI);                        /* @KAT0028C */
-
-        if ( pSeg && pSeg->pDataW )
-        {
-          CHAR_W bEnd = 0;
-          CHAR_W c;
-          CHAR_W chTemp;
-           // start at begin of segment data
-           pszSource = pSeg->pDataW;
-
-           ulLength = UTF16strlenCHAR( pszSource );
-           if (ulLength > pSeg->usLength)
-           {
-             bEnd = pSeg->pDataW[ pSeg->usLength ];
-             pSeg->pDataW[ pSeg->usLength ] = EOS;
-           } /* endif */
-
-           // add data up to next linefeed or softlf character to print line
-           pszLineFeed = pszSource;
-           while ( ((c = *pszLineFeed)!= NULC) && (c != LF) && (c!=SOFTLF_CHAR) )
-           {
-             pszLineFeed++;
-           } /* endwhile */
-
-           while ( *pszLineFeed && fOK )
-           {
-              chTemp = *pszLineFeed;
-              *pszLineFeed = LF;
-
-              pszLineFeed ++;
-              chChar = *pszLineFeed;   // store character
-              *pszLineFeed = EOS;
-              ulLength = UTF16strlenCHAR( pszSource );
-              if ( ulLength + ulFilled >= MAX_SEGMENT_SIZE )
-              {
-                 fOK = UtlPrintLineW( hPrint, pszBuffer );
-                 ulFilled = 0;
-                 *pszBuffer = EOS;
-                 pszTarget = pszBuffer;
-              } /* endif */
-              if ( fOK  )
-              {
-                UTF16strcat( pszTarget, pszSource );
-                fOK = UtlPrintLineW( hPrint, pszBuffer );
-                ulFilled = 0;
-                *pszBuffer = EOS;
-                pszTarget = pszBuffer;
-                *(pszLineFeed-1) = chTemp;
-                *pszLineFeed = chChar;        // restore original character
-                pszSource = pszLineFeed ;
-                while ( ((c = *pszLineFeed) != NULC) && (c != LF) && (c!=SOFTLF_CHAR) )
-                {
-                  pszLineFeed++;
-                } /* endwhile */
-              } /* endif */
-           } /* endwhile*/
-
-           if ( fOK )
-           {
-             ulLength = UTF16strlenCHAR( pszSource );
-             if ( ulLength + ulFilled >= MAX_SEGMENT_SIZE )
-             {
-                fOK = UtlPrintLineW( hPrint, pszBuffer );
-                ulFilled = 0L;
-                *pszBuffer = EOS;
-                pszTarget = pszBuffer;
-             } /* endif */
-             UTF16strcat( pszTarget, pszSource );
-             ulFilled += ulLength;
-           } /* endif */
-           if (bEnd)
-           {
-             pSeg->pDataW[pSeg->usLength] = bEnd;
-             bEnd = EOS;
-           } /* endif */
-        } /* endif */
-     } while ( fOK && (ulI < pDoc->ulMaxSeg) ); /* enddo */
-   } /* endif */
-
-   if ( hPrint )         UtlPrintClose( hPrint );
-   if ( pszBuffer )
-   {
-      UtlAlloc((PVOID *) &pszBuffer, 0L, 0L, NOMSG );
-   } /* endif */
-
-   return( ( fOK ) ? 0 : ERR_NOMEMORY );
-} /* end of EQFBFilePrint */
-
-//-----------------------------------------------------------------------------
 // Internal function
 //-----------------------------------------------------------------------------
 // Function name:     EQFBGetFromBothTables
@@ -3079,829 +2864,6 @@ BOOL EQFBFileExists( PSZ pszFile )
 //                    endif
 //
 //-----------------------------------------------------------------------------
-
-USHORT EQFBCharType
-(
-   PTBDOCUMENT pDoc,                    // ptr to active document
-   PTBSEGMENT  pSeg,                    // number of active segment
-   USHORT      usOffs                   // offset in active segment
-)
-{
-   USHORT     usType= UNPROTECTED_CHAR;  // type of active character
-   PSTARTSTOP  pstCurrent= NULL;         // ptr to entries of start/stop table
-   static USHORT usMsg = ERROR_STORAGE;  // display message the first time
-   HWND        hwndTemp;                 // temp. window handle
-   PSTEQFGEN   pstEQFGen;                // pointer to generic structure
-   DISPSTYLE   DispStyle;                // local display style active
-   ULONG       ulInTagAbbrLen;           // length of compact inline tag
-   USHORT      usStart;                  // holds pstCurrent->usStart
-   USHORT      usRC = NO_ERROR;          // no error
-   USEROPT* pEQFBUserOpt = get_EQFBUserOpt();
-
-   /*******************************************************************/
-   /* correct local display style if current segment is expanded      */
-   /*******************************************************************/
-   if (pSeg )
-   {
-     DispStyle = (pSeg->SegFlags.Expanded) ?
-                        DISP_PROTECTED : (pDoc->DispStyle);
-
-
-     if ( pSeg->pusBPET == NULL )
-     {
-	   usRC = TAIteratedCreateProtectTableW(pDoc, pSeg, 10);
-
-       // issue a close request to the translation environment window
-       if ( pDoc->pstEQFGen && usRC )
-       {
-         if ( !pDoc->fErrorProcessed )
-         {
-           UtlError( ERROR_STORAGE, MB_CANCEL, 0, NULL, EQF_ERROR );
-         } /* endif */
-         pDoc->fErrorProcessed = TRUE;       // error is processed
-         pstEQFGen = (PSTEQFGEN) pDoc->pstEQFGen;
-         hwndTemp = pDoc->hwndFrame;
-         UtlDispatch();                       // display error message
-         pDoc = ACCESSWNDIDA( hwndTemp, PTBDOCUMENT );
-         WinPostMsg( pstEQFGen->hwndTWBS, WM_CLOSE, NULL, NULL );
-       } /* endif */
-     } /* endif */
-
-     if ( pDoc && !usRC)
-     {
-       if (pSeg->pusBPET )
-       {
-          // look for position in start/stop table
-          pstCurrent = (PSTARTSTOP) pSeg->pusBPET;
-          while ( (pstCurrent->usType != 0) && (usOffs > pstCurrent->usStop) )
-          {
-             pstCurrent++;
-          } /* endwhile */
-          if (pstCurrent->usType != 0)
-          {
-             usType = pstCurrent->usType;
-          }
-          else
-          {
-             usType = ENDOFSEG_CHAR;
-          } /* endif */
-       }
-       else
-       {
-          usType = UNPROTECTED_CHAR;          // use this as default
-       } /* endif */
-       if (pSeg->usLength <= usOffs )
-       {
-         usType = ENDOFSEG_CHAR;
-       }
-       else if ((usType != TRNOTE_CHAR) && (*(pSeg->pDataW+usOffs) == '\n' ) )
-       {
-         usType = LINEBREAK_CHAR;
-         if ( (DispStyle == DISP_COMPACT) && (pSeg->qStatus != QF_NOP) )
-         {
-           /************************************************************/
-           /* check whether linebreak is in a inline tag and whether   */
-           /* it is hidden or not                                      */
-           /************************************************************/
-           usType = EQFBCheckCompactLF(pDoc,pSeg,usOffs);
-         } /* endif */
-         if (DispStyle == DISP_SHORTEN )
-         {
-           /*************************************************************/
-           /* check whether linebreak is hidden or not                  */
-           /*************************************************************/
-           usType = EQFBCheckCompactLF(pDoc, pSeg, usOffs);
-         } /* endif */
-       } /* endif */
-
-       if ( pDoc->fLineWrap && pDoc->fAutoLineWrap
-            &&  (usType != ENDOFSEG_CHAR)
-            &&  (*(pSeg->pDataW+usOffs) == SOFTLF_CHAR))
-       {
-         if (*(pSeg->pDataW+usOffs+1) == SOFTLF_CHAR)
-         {
-           /*************************************************************/
-           /* next char is SOFTLF_CHAR too; use usType of BPET          */
-           /*************************************************************/
-         }
-         else if ( usOffs && (*(pSeg->pDataW+usOffs-1) == SOFTLF_CHAR) )
-         {
-           /*************************************************************/
-           /* double SOFTLF : display first one, hide 2nd one           */
-           /* ( if AutoLinewrap is ON, and SOFTLF occurrs in the file,  */
-           /* it has been duplicated )                                  */
-           /*************************************************************/
-           usType = HIDDEN_CHAR;                //prev.char is SOFTLF too
-         }
-         else
-         {
-           usType = LINEBREAK_CHAR;             // single SOFTLF is softlinefeed
-         } /* endif */
-       } /* endif */
-
-       //--- correct QF_NOP depending on current display style ---
-       if ( DispStyle == DISP_HIDE && (pSeg->qStatus == QF_NOP) )
-       {
-          switch ( usType )
-          {
-             case PROTECTED_CHAR:
-             case UNPROTECTED_CHAR:
-                usType = HIDDEN_CHAR;
-                break;
-             default:
-                break;
-          } /* endswitch */
-       } /* endif */
-
-       if (DispStyle == DISP_SHORTEN )
-       {
-         EQFBCompactPlusOne( pSeg, pstCurrent, usOffs, &usType);
-       }
-       else
-       {
-         //--- correct usType depending on current display style ---
-         if ( usType == PROTECTED_CHAR )
-         {
-            switch ( DispStyle )
-            {
-               case DISP_HIDE:
-                  usType = HIDDEN_CHAR;
-                  break;
-                case  DISP_COMPACT:
-                  ulInTagAbbrLen = strlen (pEQFBUserOpt->szInTagAbbr);
-                  if ( pSeg->qStatus != QF_NOP )       //now inline tag!!
-                  {
-                    usStart = pstCurrent->usStart;
-                    if ( usStart == pstCurrent->usStop)
-                    {
-            // leave character as it is...
-          }
-          else
-                    if ( (usStart <= usOffs) &&
-                         (usOffs <= (usStart + ulInTagAbbrLen-1)) )
-                    {
-
-                      if ( (pstCurrent == (PSTARTSTOP) pSeg->pusBPET) ||
-                            ((pstCurrent-1)->usType != PROTECTED_CHAR) )
-                      {
-                        usType = COMPACT_CHAR;
-                      }
-                      else
-                      {
-                        usType = HIDDEN_CHAR;
-                      } /* endif */
-                    }
-                    else
-                    {
-                      usType = HIDDEN_CHAR;
-                    } /* endif */
-                  } /* endif */
-                  break;
-      //       case DISP_PROTECTED:
-      //          usType = PROTECTED_CHAR;
-      //          break;
-               case DISP_UNPROTECTED:
-                  usType = UNPROTECTED_CHAR;
-                  break;
-            } /* endswitch */
-         } /* endif */
-       } /* endif */
-
-       /*****************************************************************/
-       /* correct type TRNOTE_CHAR depending on current display style   */
-       /*****************************************************************/
-       if (usType == TRNOTE_CHAR )
-       {
-         usType = EQFBCheckInAbbrev( pSeg, pstCurrent, usOffs);
-       } /* endif */
-     } /* endif */
-   }
-   else
-   {
-     usType = UNPROTECTED_CHAR;  // should not occur!
-   } /* endif */
-
-   return( usType );
-} /* end of EQFBCharType */
-
-//-----------------------------------------------------------------------------
-// Internal function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBCheckInAbbrev
-//-----------------------------------------------------------------------------
-// Function call:     EQFBCheckInAbbrev  (PTBDOCUMENT)
-//-----------------------------------------------------------------------------
-// Description:       check whether current offset is in visible part of trnote
-//-----------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT pDoc
-//                    PTBSEGMENT  pSeg
-//                    PSTARTSTOP  pstCurrent
-//                    USHORT      usOffs
-//-----------------------------------------------------------------------------
-// Returncode type:   USHORT
-//-----------------------------------------------------------------------------
-// Returncodes:       usType     TRNOTE_CHAR  if at begin of  tag
-//                               HIDDEN_CHAR  else
-//-----------------------------------------------------------------------------
-// Prerequesits:      start/stop table exists
-//-----------------------------------------------------------------------------
-// Function flow:     if at start of trnote: return TRNOTE_CHAR
-//                    else
-//                      if trnote contains a linebreak: return LINEBREAK_CHAR
-//                      else return HIDDEN_CHAR
-//-----------------------------------------------------------------------------
-static
-USHORT EQFBCheckInAbbrev
-(
-   PTBSEGMENT  pSeg,                    // number of active segment
-   PSTARTSTOP  pstCurrent,              // start-stop region of offset
-   USHORT      usOffs                   // offset in active segment
-)
-{
-   ULONG      ulLen;
-   USHORT     usStart;
-   USHORT     usType;
-   USEROPT* pEQFBUserOpt = get_EQFBUserOpt();
-
-   ulLen = strlen ( pEQFBUserOpt->chTRNoteAbbr);
-   usStart = pstCurrent->usStart;
-   if ((usStart <= usOffs) &&
-       (usOffs <= (usStart + ulLen - 1))  )
-   {
-      usType = TRNOTE_CHAR;     // type TRNOTE remains
-   }
-   else
-   {
-     if (  (usOffs == pSeg->usLength-1) &&
-            ( *(pSeg->pDataW + usOffs ) == '\n') )
-     {
-       usType = LINEBREAK_CHAR;
-     }
-     else
-     {
-       usType = HIDDEN_CHAR;
-     } /* endif */
-   } /* endif */
-   /*******************************************************************/
-   /* is it nec to distinguish between inline and NOP segments???     */
-   /*******************************************************************/
-   return( usType );
-} /* end of function EQFBCheckInAbbrev */
-
-//-----------------------------------------------------------------------------
-// Internal function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBCheckCompactLF
-//-----------------------------------------------------------------------------
-// Function call:     EQFBCheckCompactLF (PTBDOCUMENT)
-//-----------------------------------------------------------------------------
-// Description:       check whether current linefeed is the 1st in block
-//                    of inline tags
-//-----------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT pDoc
-//-----------------------------------------------------------------------------
-// Returncode type:   USHORT
-//-----------------------------------------------------------------------------
-// Returncodes:       usType     LINEBREAK_CHAR  if 1st LF in tag
-//                               HIDDEN_CHAR  else
-//-----------------------------------------------------------------------------
-// Prerequesits:      start/stop table exists
-//-----------------------------------------------------------------------------
-// Function flow:     _
-//-----------------------------------------------------------------------------
-static
-USHORT EQFBCheckCompactLF
-(
-   PTBDOCUMENT pDoc,
-   PTBSEGMENT  pSeg,                    // number of active segment
-   USHORT      usOffs                   // offset in active segment
-)
-{
-  PSTARTSTOP pstCurrent;                // ptr to entries in start/stop table
-  PSTARTSTOP pstTagBlockBegin;          // ptr to entries in start stop table
-  BOOL       fLineFeed = FALSE;
-  USHORT     usType = LINEBREAK_CHAR;
-  PSZ_W      pTemp;                     // ptr to data string in segment
-  PSZ_W      pDataOffs;
-
-  pDoc;
-
-   pstCurrent = (PSTARTSTOP) pSeg->pusBPET;
-   while ( (pstCurrent->usType != 0)
-             && (usOffs > (pstCurrent->usStop + 1)) )
-   {
-      pstCurrent++;
-   } /* endwhile */
-   if ( pstCurrent->usType == PROTECTED_CHAR )
-   {
-     /*****************************************************************/
-     /* loop back til begin of block of inline tags                   */
-     /*****************************************************************/
-     pstTagBlockBegin = pstCurrent;
-     while ( pstTagBlockBegin->usType == PROTECTED_CHAR
-             && pstTagBlockBegin != (PSTARTSTOP)pSeg->pusBPET )
-     {
-       pstTagBlockBegin --;
-     } /* endwhile */
-     if ( pstTagBlockBegin->usType != PROTECTED_CHAR )
-     {
-       pstTagBlockBegin ++;    //we went 1 too far
-     } /* endif */
-
-     pDataOffs = pSeg->pDataW + usOffs;
-     pTemp = pSeg->pDataW + (pstTagBlockBegin->usStart);
-     /*****************************************************************/
-     /* find 1st LF in this block                                     */
-     /*****************************************************************/
-     while ( !fLineFeed && (pTemp < pDataOffs) )
-     {
-       fLineFeed = ((*pTemp) == LF );
-       pTemp++;
-     } /* endwhile */
-     if ( fLineFeed )
-     {
-       usType = HIDDEN_CHAR;     //current LF is not 1st in block of
-     } /* endif */               //inline tags
-   } /* endif */
-   return( usType );
-} /* end of function EQFBCheckCompactLF */
-
-//-----------------------------------------------------------------------------
-// Internal function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBCompactPlusOne
-//-----------------------------------------------------------------------------
-// Function call:     EQFBCompactPlusOne (PTBDOCUMENT)
-//-----------------------------------------------------------------------------
-// Description:       correct usType for Compact plus one style
-//-----------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT pDoc
-//                    PTBSEGMENT  pSeg
-//                    PSTARTSTOP  pstCurrent
-//                    USHORT      usOffs
-//-----------------------------------------------------------------------------
-// Returncode type:   USHORT
-//-----------------------------------------------------------------------------
-// Returncodes:       usType     PROTECTED_CHAR  at begin of  tag
-//                               HIDDEN_CHAR  else
-//-----------------------------------------------------------------------------
-// Prerequesits:      start/stop table exists
-//-----------------------------------------------------------------------------
-// Function flow:     if at start o
-//-----------------------------------------------------------------------------
-static
-VOID EQFBCompactPlusOne
-(
-   PTBSEGMENT  pSeg,                    // number of active segment
-   PSTARTSTOP  pstCurrent,              // start-stop region of offset
-   USHORT      usOffs,                           // offset in active segment
-   PUSHORT     pusType
-)
-{
-   USHORT     usStart = 0;
-   USHORT     usType = *pusType;
-   BOOL       fBlankFound = FALSE;
-   BOOL       fCheckNec = FALSE;       // do not check type
-   USHORT     usShortStart = 0;
-   USHORT     usStop = 0;
-
-   /********************************************************/
-   /* display first word( blank and colon are word delimiter */
-   /* and last character of tag, hide all other characters   */
-   /********************************************************/
-   /********************************************************/
-   /* find start of protected parts                        */
-   /********************************************************/
-   if (pSeg->qStatus == QF_NOP )
-   {
-     if ((usType == PROTECTED_CHAR) || (usType == UNPROTECTED_CHAR) )
-     {
-       fCheckNec = TRUE;
-       usStart = 0;
-       usStop = pSeg->usLength-1;
-     } /* endif */
-   }
-   else
-   {
-     if (usType == PROTECTED_CHAR )
-     {
-       if (pstCurrent->usStop - pstCurrent->usStart >= 10 )
-       {
-         usStart = pstCurrent->usStart;
-         usStop = pstCurrent->usStop;
-         fCheckNec = TRUE;
-       } /* endif */
-     } /* endif */
-   } /* endif */
-   /***************************************************************/
-   /* find start of SHORTEN_CHAR: it is end of 1st word, but at   */
-   /* most the tenth character                                    */
-   /***************************************************************/
-   if (fCheckNec )
-   {
-     while ( !fBlankFound )      // find start of SHORTEN_CHAR
-     {
-       if (usShortStart > 10 )
-       {
-         fBlankFound = TRUE;
-       }
-       else if (*(pSeg->pDataW + usStart + usShortStart) == BLANK )
-       {
-           fBlankFound = TRUE;
-       } /* endif */
-       usShortStart++;
-     } /* endwhile */
-     /***************************************************************/
-     /* usOffs < usStart:  char is protected                        */
-     /* usStart-1 <= usOffs <=  usStart+1: char is SHORTEN_CHAR("...")*/
-     /* usStart+1 < usOffs: char is HIDDEN                          */
-     /* last char of NOP or tag: PROTECTED                          */
-     /***************************************************************/
-     usShortStart = (USHORT)(usShortStart + usStart);
-     // P018515: assure that tag does not become longer!
-
-		 if (usOffs == usStop)
-		 { // last char of NOP or last char of inline tag
-		   usType = PROTECTED_CHAR;
-		 }
-		 else if (usOffs > usShortStart + 1 )
-		 {
-		   usType = HIDDEN_CHAR;
-		 }
-	     else if ((usShortStart + 1 < usStop) &&
-	         ((usOffs == usShortStart + 1) || ( usOffs == usShortStart )
-					 || ( usOffs == usShortStart-1 ) ))
-		 {
-		   usType = SHORTEN_CHAR;
-		 }
-		 else
-		 {  // avoid UNPROTECTED_CHAR in NOP in compact+1 style!!!
-		   usType = PROTECTED_CHAR;
-		 } /* endif */
-   } /* endif */
-
-   *pusType = usType;
-   return;
-} /* end of function EQFBCompactPlusOne */
-
-//-----------------------------------------------------------------------------
-// External function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBDiffTag
-//-----------------------------------------------------------------------------
-// Function call:     EQFBDiffTag(PTBDOCUMENT,USHORT,USHORT)
-//-----------------------------------------------------------------------------
-// Description:       The function evaluates whether the current character
-//                    and the previous character belong to different tags
-//-----------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT   pDoc   ptr to the structure describing the
-//                                         active segment
-//                    USHORT        usSeg  entry number of active segment
-//                    USHORT        usOffs offset of current character in
-//                                         active segment
-//-----------------------------------------------------------------------------
-// Returncode type:   BOOL
-//-----------------------------------------------------------------------------
-// Returncodes:       TRUE      different tag
-//                    FALSE     the same tag
-//-----------------------------------------------------------------------------
-// Prerequesits:      document tag table must have been loaded
-//-----------------------------------------------------------------------------
-// Function flow:     init return indicator to FALSE
-//                    get start of start/stop table
-//                    find start/stop token which contains current offset
-//                    if offset is equal a start of a token
-//                      previous character belongs to another tag
-//                      set indicator fDifferent = TRUE
-//                      force reparse
-//-----------------------------------------------------------------------------
-
-BOOL EQFBDiffTag
-(
-   PTBDOCUMENT pDoc,                    // ptr to active document
-   ULONG       ulSeg,                   // number of active segment
-   USHORT      usOffs                   // offset in active segment
-)
-{
-   BOOL fDifferent = FALSE;            // same tag
-   PTBSEGMENT pSeg;                   // ptr to segment
-   PSTARTSTOP pstCurrent;             //ptr to current start/stop entry
-
-   pSeg = EQFBGetSegW( pDoc, ulSeg );
-   pstCurrent = (PSTARTSTOP) pSeg->pusBPET;
-   if (pstCurrent && pDoc->hwndRichEdit )
-   {
-      UtlAlloc((PVOID *)&(pSeg->pusBPET) ,0L ,0L , NOMSG);
-   } /* endif */
-
-   if ( pstCurrent )
-   {
-      while ((pstCurrent->usType) != 0 &&
-                   (pstCurrent->usStart) < usOffs )          /* @KIT0965M */
-      {
-         pstCurrent++;
-      } /* endwhile */
-                                           //if usOffs is start of entry,
-      if  (pstCurrent ->usStart == usOffs) //previous char belongs to other tag
-      {
-         fDifferent = TRUE;
-         // force reparse
-         UtlAlloc((PVOID *)&(pSeg->pusBPET) ,0L ,0L , NOMSG);
-      } /* endif */
-   } /*endif*/
-   return( fDifferent);
-} /* end of EQFBDiffTag */
-
-//-----------------------------------------------------------------------------
-// Internal function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBDiffProtectTag
-//-----------------------------------------------------------------------------
-// Function call:     EQFBDiffProtectTag(PTBDOCUMENT,USHORT,USHORT)
-//-----------------------------------------------------------------------------
-// Description:       checks whether typing allowed if cursor right of text
-//-----------------------------------------------------------------------------
-// Parameters:        PTBDOCUMENT pDoc,       ptr to active document
-//                    USHORT      usSeg,      number of active segment
-//                    USHORT      usOffs      offset in active segment
-//-----------------------------------------------------------------------------
-// Returncode type:   BOOL
-//-----------------------------------------------------------------------------
-// Returncodes:       TRUE   typing allowed
-//                    FALSE  typing not allowed
-//-----------------------------------------------------------------------------
-// Function flow:     init return value to true
-//                    if displaystyle is not unprotected
-//                      if startstop table exists
-//                        find start/stop node of current offset
-//                        if type of current start/stop is protected
-//                        and cursor is not equal stop of token
-//                          typing not allowed (return = FALSE)
-//                        endif
-//                      endif
-//                    endif
-//-----------------------------------------------------------------------------
-
-BOOL EQFBDiffProtectTag
-(
-   PTBDOCUMENT pDoc,                    // ptr to active document
-   ULONG       ulSeg,                   // number of active segment
-   USHORT      usOffs                            // offset in active segment
-)
-{
-   BOOL fOK = TRUE;            // typing allowed
-   PTBSEGMENT pSeg;                   // ptr to segment
-   PSTARTSTOP pstCurrent;             //ptr to current start/stop entry
-
-   if ( pDoc->DispStyle != DISP_UNPROTECTED)
-   {
-      pSeg = EQFBGetSegW( pDoc, ulSeg );
-      pstCurrent = (PSTARTSTOP) pSeg->pusBPET;
-      if (pstCurrent && pDoc->hwndRichEdit )
-      {
-         UtlAlloc((PVOID *)&(pSeg->pusBPET) ,0L ,0L , NOMSG);
-      } /* endif */
-      if ( pstCurrent )
-      {
-         while ((pstCurrent->usType) != 0 &&
-                      (pstCurrent->usStart) <= usOffs )
-         {
-            pstCurrent++;
-         } /* endwhile */
-
-         if ( (pstCurrent->usType != 0)
-             && (usOffs != (pstCurrent-1)->usStop)
-             && ((pstCurrent-1)->usType == PROTECTED_CHAR) )
-         {
-           fOK = FALSE;
-         } /* endif */
-         //P016804: add the following if-clause:
-         if ( (pstCurrent->usType != 0)
-		      && (usOffs == (pstCurrent-1)->usStop)
-		      && ((pstCurrent-1)->usType == PROTECTED_CHAR)
-		      && (*(pSeg->pDataW+usOffs) == '\n') )
-		 {
-	        fOK = FALSE;
-         } /* endif */
-      } /*endif*/
-   } /* endif */
-   return( fOK);
-} /* end of function EQFBDiffProtectTag */
-
-//-----------------------------------------------------------------------------
-// External function
-//-----------------------------------------------------------------------------
-// Function name:     EQFBReparse
-//-----------------------------------------------------------------------------
-// Function call:     EQFBReparse(PTBDOCUMENT, PTBSEGMENT,USHORT,SHORT)
-//-----------------------------------------------------------------------------
-// Description:       adjust all start-stop points by sDiff ,
-//                    starting at the current position in the
-//                    segment table
-//-----------------------------------------------------------------------------
-// Parameters:        PTBSEGMENT    pSeg   - ptr to segment
-//                    USHORT        usOffs - current offset in segment data
-//                    SHORT         sDiff  - differenz how much to shift
-//                                           (sDiff = 1 : insert  char
-//                                            sDiff = -1 : delete char
-//                                            sDiff = 10 : insert 10 blanks
-//                                                      at right end of line
-//-----------------------------------------------------------------------------
-// Returncode type:   VOID
-//-----------------------------------------------------------------------------
-// Function flow:     if at begin of segment
-//                      tokenize nec.
-//                    else
-//                      search for current position in start/stop table
-//                      if end reached and last triple is protected
-//                        force a recompute
-//                      else
-//                        adjust all following start/stops by sDiff
-//                      endif
-//                      if a character was deleted
-//                        remove one start/stop entry if empty
-//                        adjust start/stop table
-//                      endif
-//                    endif
-//-----------------------------------------------------------------------------
-
-VOID EQFBReparse
-(
-   PTBDOCUMENT pDoc,
-   PTBSEGMENT  pSeg,                    // ptr to active segment
-   USHORT      usOffs,                  // current offset in segment data
-   SHORT       sDiff                    // differenz how much to shift
-)
-{
-// at begin of segment status cannot be determined -> tokenize nec.
-   if ((usOffs == 0) || ((pDoc->lFontLangInfo & GCP_REORDER ) && !pDoc->pUserSettings->UserOptFlags.bBidiLogicDisplay))
-   {
-      UtlAlloc((PVOID *)&(pSeg->pusBPET) ,0L ,0L , NOMSG); // free old segment table
-   }
-   else
-   {
-       //search for current position in start/stop table
-       EQFBReparseStartStop((PSTARTSTOP *) &pSeg->pusBPET, usOffs, sDiff);
-   } /* endif */
-
-   if (pSeg->pusHLType)
-   {
- 	   EQFBReparseHLType((PSTARTSTOP *) &pSeg->pusHLType, usOffs, sDiff, pSeg);
-   }  /* endif */
-
-   return;
-} /* end of EQFBReparse */
-
-VOID
-EQFBReparseStartStop
-(
-	PSTARTSTOP *    ppstStart,
-	USHORT   		usOffs,					// current offset in segment data
-	SHORT			sDiff    			    // difference how much to shift
-)
-{
-	PSTARTSTOP  pstStart =*ppstStart;
-	PSTARTSTOP  pstCurrent = pstStart;
-    if ( pstCurrent )
-    {
-          while ((pstCurrent->usType) != 0 &&
-                       (pstCurrent->usStart) <= usOffs )
-          {
-             pstCurrent++;
-          } /* endwhile */
-          //  if last triple was protected, so force a recompute
-          if  ( ( (pstCurrent-1)->usType == PROTECTED_CHAR) || (pstCurrent == pstStart) )
-          {
-             // force reparse, i.e. free memory and set return value
-             UtlAlloc((PVOID *)&(pstStart) ,0L ,0L , NOMSG);
-             *ppstStart = NULL;
-          }
-          else
-          {
-			    pstCurrent--;
-                pstCurrent->usStop  = (USHORT)(pstCurrent->usStop + sDiff);  // adjust end position
-                                                     // adjust all others
-                pstCurrent++;
-                while ((pstCurrent->usType) != 0)
-                {
-                   pstCurrent->usStart = (USHORT)(pstCurrent->usStart + sDiff);
-                   pstCurrent->usStop  = (USHORT)(pstCurrent->usStop + sDiff);
-                   pstCurrent ++;
-                } /* endwhile */
-          } /* endif */
-    } /* endif */
-
-    // if character deleted, check if one triple has become empty
-    pstCurrent = pstStart;
-    if ( pstCurrent && sDiff < 0 )
-    {
-	  while ( pstCurrent->usType )
-	  {
-		 if ( pstCurrent->usStart > pstCurrent->usStop )
-		 {
-			// current entry has to be removed
-			while ( pstCurrent->usType )
-			{
-			   pstCurrent = (pstCurrent + 1);
-			   pstCurrent++;
-			} /* endwhile */
-		 }
-		 else
-		 {
-			pstCurrent ++;
-		 } /* endif */
-	  } /* endwhile */
-    } /* endif */
-
-	return;
-}
-
-
-VOID
-EQFBReparseHLType
-(
-	PSTARTSTOP *    ppstStart,
-	USHORT   		usOffs,							// current offset in segment data
-	SHORT			sDiff,							// difference how much to shift
-	PTBSEGMENT      pSeg
-)
-{   PSTARTSTOP  pstStart =*ppstStart;
-	PSTARTSTOP  pstCurrent = pstStart;
-	BOOL        fResetAll = FALSE;
-
-    if ( pstCurrent )
-    {
-        while ((pstCurrent->usType) != 0 &&
-                       (pstCurrent->usStart) <= usOffs )
-        {
-             pstCurrent++;
-        } /* endwhile */
-
-        if (pstCurrent != pstStart)
-        {
-            pstCurrent--;
-            if (pstCurrent->usStop >= usOffs )
-            {
-				if ( pstCurrent->usStop + sDiff >= 0 )
-				{
-	   			  pstCurrent->usStop = (USHORT)(pstCurrent->usStop + sDiff);
-			    }
-			    else
-			    {
-					fResetAll = TRUE;
-			    }
-		    }
-		    pstCurrent++;
-	    }
-
-    	  // adjust all others
-    	  while (!fResetAll && ((pstCurrent->usType) != 0))
-    	  {
-    		 if (pstCurrent->usStart + sDiff >= 0)
-    		 {
-    		   pstCurrent->usStart = (USHORT)(pstCurrent->usStart + sDiff);
-    		   pstCurrent->usStop  = (USHORT)(pstCurrent->usStop + sDiff);
-    		   pstCurrent ++;
-    		 }
-    		 else
-    		 {
-    			 fResetAll = TRUE;
-    		 }
-    	  } /* endwhile */
-
-	    if (fResetAll)
-	    {
-			UtlAlloc((PVOID *)&(pstStart) ,0L ,0L , NOMSG);
-			*ppstStart = NULL;
-			pSeg->SegFlags.Spellchecked = FALSE;
-	    }
-    } /* endif */
-
-    // if character deleted, check if one triple has become empty
-    pstCurrent = pstStart;
-    if ( pstCurrent && sDiff < 0 )
-    {
-	  while ( pstCurrent->usType )
-	  {
-		 if ( pstCurrent->usStart > pstCurrent->usStop )
-		 {
-			// current entry has to be removed
-			while ( pstCurrent->usType )
-			{
-			   pstCurrent = (pstCurrent + 1);
-			   pstCurrent++;
-			} /* endwhile */
-		 }
-		 else
-		 {
-			pstCurrent ++;
-		 } /* endif */
-	  } /* endwhile */
-    } /* endif */
-
-	return;
-}
-
 
 //-----------------------------------------------------------------------------
 // Internal function
@@ -4254,81 +3216,6 @@ USHORT EQFBWriteHistLog2
   // return to calling function
   return( usRC );
 } /* end of function EQFBWriteHistLog */
-
-// function to correct size values in older history log records (in these records
-// the usSize value was not set correctly)
-void HistLogCorrectRecSizes( PHISTLOGRECORD pRecord )
-{
-  // only process older records ....
-  if ( !pRecord->fLongNameRecord )
-  {
-    USHORT usTotalSize, usAddInfoSize, usNewSize;
-    usTotalSize = pRecord->usSize;
-    usAddInfoSize = pRecord->usAddInfoLength;
-    if ( usAddInfoSize != usTotalSize - sizeof(HISTLOGRECORD) )
-    {
-      switch ( pRecord->Task )
-      {
-        case DOCIMPORT_LOGTASK :
-          usNewSize = sizeof(DOCIMPORTHIST);
-          break;
-        case DOCIMPORT_LOGTASK2 :
-          usNewSize = sizeof(DOCIMPORTHIST2); //SHIPMENT_HANDLER
-          break;
-
-        case ANALYSIS_LOGTASK :
-          usNewSize = sizeof(ANALYSISHIST);
-          break;
-        case DOCDELETE_LOGTASK :
-          usNewSize = 0;
-          break;
-        case AUTOMATICSUBST_LOGTASK :
-        case DOCIMPNEWTARGET_LOGTASK :
-        case DOCSAVE_LOGTASK  :
-          usNewSize = sizeof(DOCSAVEHIST);
-          break;
-        case DOCEXPORT_LOGTASK :
-          usNewSize = sizeof(DOCEXPORTHIST);
-          break;
-        case DOCPROP_LOGTASK :
-          usNewSize = sizeof(DOCPROPHIST);
-          break;
-        case FOLPROP_LOGTASK :
-          usNewSize = sizeof(FOLPROPHIST);
-          break;
-        case FOLPROP_LOGTASK2 :
-          usNewSize = sizeof(FOLPROPHIST2);
-          break;
-        case FOLPROPSHIPMENT_LOGTASK :
-          usNewSize = sizeof(FOLPROPHISTSHIPMENT); //SHIPMENT_HANDLER
-          break;
-
-        case LONGNAME_LOGTASK :
-          usNewSize = sizeof(LONGNAMEHIST);
-          break;
-        case DOCIMPNEWTARGET_LOGTASK2 :
-        case DOCSAVE_LOGTASK2 :
-        case DOCAPI_LOGTASK :
-          usNewSize = sizeof(DOCSAVEHIST2);
-          break;
-        case ANALYSIS_LOGTASK3 :
-        case DOCIMPNEWTARGET_LOGTASK3 :
-        case DOCSAVE_LOGTASK3 :
-        case DOCAPI_LOGTASK3 :
-          usNewSize = sizeof(DOCSAVEHIST3);
-          break;
-        case VERSION_LOGTASK :
-          usNewSize = sizeof(VERSIONHIST);
-          break;
-        default:
-          usNewSize = usTotalSize - sizeof(HISTLOGRECORD);
-      } /* endswitch */
-      pRecord->usSize = usNewSize + sizeof(HISTLOGRECORD);
-      pRecord->usAddInfoLength = usNewSize;
-    } /* endif */
-  } /* endif */
-} /* end of function HistLogCorrectRecSizes */
-
 
 //-----------------------------------------------------------------------------
 // External function
@@ -4939,15 +3826,14 @@ SHORT EQFBHistDocSave
    SHORT        sLogTaskID             // log task ID or 0 for no log record
 )
 {
-  return( EQFBHistDocSaveEx( pszFileName, pDoc, sLogTaskID, FALSE ) );
+  return( EQFBHistDocSaveEx( pszFileName, pDoc, sLogTaskID ) );
 }
 
 SHORT EQFBHistDocSaveEx
 (
    PSZ          pszFileName,             // ptr to fully qualified file name
    PTBDOCUMENT  pDoc,                  // ptr to document control structure
-   SHORT        sLogTaskID,            // log task ID or 0 for no log record
-   BOOL         fAdjustCountInfo        // TRUE = adjust counting information in document properties
+   SHORT        sLogTaskID            // log task ID or 0 for no log record
 )
 {
   SHORT   sRc = 0;                     // success
@@ -5378,11 +4264,6 @@ SHORT EQFBHistDocSaveEx
     }
   } /* endif */
 
-  if ( !sRc && fAdjustCountInfo )
-  {
-    AdjustCountInfo( pDoc, szDocObjName );
-  } /* endif */     
-
   if (pHistSave3 ) UtlAlloc((PVOID *) &pHistSave3, 0L, 0L, NOMSG );
 
 //  fclose( hLog );
@@ -5523,8 +4404,13 @@ VOID  EQFBWCntClearInfo
       //              HISTDATA_INVALID_LOGTASK, 0,
       //              NULL, FALSE, (HWND) NULLHANDLE, pDoc->szDocLongName );
 
+
     if (pDoc->docType == STARGET_DOC )
     {
+      // write history log record for corrupted target document
+      EQFBWriteHistLog2( pszFolder, pszFileName, STARGET_CORRUPT_LOGTASK, 0, NULL, FALSE, (HWND) NULLHANDLE, pDoc->szDocLongName );
+
+#ifdef SHOW_CORRUPTEDDATA_MSG
       /********************************************************************/
       /* write additional info in extra ADDINFO subdirectory              */
       /********************************************************************/
@@ -5585,13 +4471,14 @@ VOID  EQFBWCntClearInfo
           pszMsgTable[1] = &chTempName[0];
           pszMsgTable[2] = pszSegmentList;
           UtlError( ERROR_WORDCOUNT_INVALID_ADDINFO, MB_OK, 3, pszMsgTable, EQF_ERROR);
-
-          /************************************************************/
-          /* force write of document with the updated info...         */
-          /************************************************************/
-          EQFBFileWriteEx( pszReadFileName, pDoc, 0, 0 );
         } /* endif */
       } /* endif */
+#endif
+
+      /************************************************************/
+      /* force write of document with the updated info...         */
+      /************************************************************/
+      EQFBFileWriteEx( pszReadFileName, pDoc, 0, 0 );
     } /* endif */
   } /* endif */
   return ;
@@ -5816,494 +4703,1147 @@ USHORT TAIteratedCreateProtectTableW
 }
 
 
-// type of memory matches
-typedef enum _MATCHTYPE
+//------------------------------------------------------------------------------
+// External function
+//------------------------------------------------------------------------------
+// Function name:     UtlConvertSOSI
+//------------------------------------------------------------------------------
+// Function call: BOOL UtlConvertSOSI( PSZ     pszOutBuffer,
+//                                     PUSHORT pusSizeOutBuffer,
+//                                     PSZ     pszInBuffer,
+//                                     USHORT  usConvert )
+//------------------------------------------------------------------------------
+// Description:       The SBCS/DBCS mixed string passed in the input buffer
+//                    is parsed, SO/SI is inserted or deleted before/after
+//                    each DBCS character sequence. The converted string is
+//                    then available in the output buffer. When inserting
+//                    DBCS characters the first DBCS character found is
+//                    interpreted as the start of a DBCS sequence and a
+//                    SO is inserted. After the last found DBCS character
+//                    a SI is inserted even when it is the last character
+//                    in the input buffer. The function should only be called
+//                    if a  DBCS codepage is active. If the function is called
+//                    and no DBCS code page is active, the input buffer is
+//                    copied to the output buffer with no insert/delete
+//                    of SO/SI and the size of the output buffer is returned.
+//------------------------------------------------------------------------------
+// Input parameter:   The function prototype, the definitions of types for
+//                    parameter usConvert are available in EQFxxxxx.H.
+//                    Use EQFxxxxx.LIB for linking.
+//                    The runtime function is available from EQFxxxxx.DLL
+//
+//  pszInBuffer must not start with the second byte of a DBCS character.
+//  If the last character of pszInBuffer is a DBCS character, the complete
+//  DBCS character (first and second byte) must be passed.
+//
+//  when called with usConvert == DELETE_SOSI
+//    pszOutBuffer    Pointer to output buffer where the
+//                    converted string should be copied to.
+//    pszInBuffer     Pointer to mixed string to be converted.
+//                    Must be NULL terminated !!
+//    usConvert       DELETE_SOSI, SO/SI characters should be deleted
+//    Note: pusSizeOutBuffer is not needed because SO/SI are deleted, so the
+//          outputbuffer can not overflow.
+//
+//  when called with usConvert == INSERT_SOSI
+//    pszOutBuffer      Pointer to output buffer where the
+//                      converted string should be copied to.
+//    pusSizeOutBuffer  Size of output buffer, needed to check if the output
+//                      buffer gets full, because SO/SI are inserted.
+//    pszInBuffer       Pointer to mixed string to be converted.
+//                      Must be NULL terminated !!
+//    usConvert         INSERT_SOSI, SO/SI characters should be deleted
+//------------------------------------------------------------------------------
+// Output parameter:
+//  when called with usConvert == DELETE_SOSI !! INSERT_SOSI
+//    pszOutBuffer      Contains the converted string (NULL terminated)
+//    pusSizeOutBuffer  Size of output buffer after conversion, including
+//                      terminating NULL character. Contains if the
+//                      outputbuffer gets full.
+//------------------------------------------------------------------------------
+// Returncode type:   BOOL
+//------------------------------------------------------------------------------
+// Returncodes:       TRUE   No error, string converted correctly.
+//                    FALSE  Function was called with wrong value for
+//                           parameter usConvert.
+//                           The output buffer gets full, pusSizeOutBuffer
+//                           returns 0;
+//------------------------------------------------------------------------------
+// Prerequesits:
+//  The function should only be called when a DBCS codepage is active.
+//  use initdbcs() and the global variable _dbcs_cp to check this.
+//  If the function is called even when  no DBCS code page is active,
+//  the input buffer is copied to the output buffer with no insert/delete
+//  of SO/SI and the size of the output buffer is returned.
+//
+//  pszInBuffer must be a NULL terminated string.
+//
+//  when called with usConvert == INSERT_SOSI
+//    The first byte of the input buffer must not be the second byte of a
+//    DBCS character. The last DBCS character must be completely (first and
+//    second byte) contained in the input buffer.
+//------------------------------------------------------------------------------
+// Samples:
+//  #include "eqf.h"
+//  #include "eqfxxxxx.h"
+//  #include <dbcs.h>
+//  #define BUFFER_SIZE 1024
+//
+//  VOID main ( INT argc, CHAR *argv[] )
+//  {
+//    CHAR     szIn[BUFFER_SIZE];
+//    CHAR     szOut[3*BUFFER_SIZE];
+//    HFILE    hf1;
+//    HFILE    hf2;
+//    USHORT   usActionTaken1, usActionTaken2, usOpenAction1, usOpenAction2;
+//    USHORT   usOpenMode1, usOpenMode2;
+//    USHORT   usBytesRead, usBytesWritten;
+//    USHORT   usSizeOut;
+//    USHORT   usConvert = 0;
+//    BOOL     fRc = 0;
+//
+//    initdbcs();
+//
+//    if ( argv[2][0] == 'I' ) usConvert = INSERT_SOSI;
+//    if ( argv[2][0] == 'D' ) usConvert = DELETE_SOSI;
+//
+//    usOpenAction1 = OPEN_ACTION_OPEN_IF_EXISTS |
+//                    OPEN_ACTION_FAIL_IF_NEW;
+//    usOpenAction2 = OPEN_ACTION_REPLACE_IF_EXISTS |
+//                    OPEN_ACTION_CREATE_IF_NEW;
+//    usOpenMode1   = OPEN_ACCESS_READONLY |
+//                    OPEN_SHARE_DENYWRITE |
+//                    OPEN_FLAGS_FAIL_ON_ERROR;
+//    usOpenMode2   = OPEN_ACCESS_READWRITE |
+//                    OPEN_SHARE_DENYREADWRITE |
+//                    OPEN_FLAGS_FAIL_ON_ERROR;
+//
+//    usRc = DosOpen( argv[1], &hf1, &usActionTaken1, 0L,
+//                    FILE_NORMAL, usOpenAction1, usOpenMode1, 0L);
+//
+//    usRc = DosOpen( "test.out", &hf2, &usActionTaken2, 0L,
+//                     FILE_NORMAL, usOpenAction2, usOpenMode2, 0L);
+//
+//    DosRead( hf1, szIn, sizeof(szIn), &usBytesRead );
+//
+//    strcat( szIn, "\0" );
+//    usSizeOut = sizeof(szOut);
+//
+//    if ( _dbcs_cp == DBCS_CP )
+//    {
+//      fRc = UtlConvertSOSI( szOut, &usSizeOut, szIn, usConvert );
+//      if ( !fRc )
+//      {
+//        // do error handling here
+//      }
+//      DosWrite( hf2, szOut, usSizeOut, &usBytesWritten );
+//    }
+//    else
+//    {
+//      DosWrite( hf2, szIn, sizeof(szIn), &usBytesWritten );
+//    } /* endif */
+//    DosClose( hf1 );
+//    DosClose( hf2 );
+//  } /* end main */
+//------------------------------------------------------------------------------
+// Function flow:
+//   if ( DBCS codepage is active )
+//   {
+//     set size of output buffer to 0
+//
+//     switch ( convert type )
+//     {
+//       case ( delete all SO and SI in input buffer )
+//
+//         loop through input buffer
+//         while (  no end of string found )
+//         {
+//           switch ( current character from input buffer )
+//           {
+//             case ( current character is SO ) :
+//             case ( current character is SI ) :
+//               break; == skip this charcter, do not copy it to output buffer
+//             default : //--- current character is no SO and no SI
+//               copy current char. to output buffer
+//               usSizeOutBuffer++;
+//               break;
+//           } /* endswitch */
+//         } /* endwhile */
+//
+//         xopy last char. (==EOS) to output buffer
+//         increase size of output buffer
+//         return size of output buffer
+//         break;
+//       case ( insert SO/SI before/after dbcs character sequence ):
+//         maximal output buffer size is output buffersize - SO - SI - EOS == -
+//
+//         loop through input buffer
+//         while ( not EOS and output buffer < maximal output buffer size )
+//         {
+//            if ( if current character is a SBCS character )
+//            {
+//              if ( SO was already inserted )
+//              {
+//                copy SI to, and increase output buffer
+//                increase size of output buffer
+//                reset SO inserted flag
+//              } /* endif */
+//
+//              copy current character to output buffer and increase
+//              increase size of output buffer
+//            }
+//            else //--- current character is a double byte character
+//            {
+//              //--- no SO was inserted to output buffer until now
+//              //--- this is start if a DBCS character sequence
+//              if ( no SO was inserted to output buffer until now )
+//              {
+//                start of a DBCS character sequence is found
+//                copy SO to output buffer and increase
+//                increase output buffer size
+//              } /* endif */
+//
+//              copy first byte of current dbcs character to output buffer
+//              increase output buffer size
+//
+//              copy second byte of current dbcs character to output buffer
+//              increase output buffer size
+//            } /* endif */
+//         } /* endwhile */
+//
+//         if ( output buffer < maximal output buffer size )
+//         {
+//            //--- if SO was inserted and the end of the input is reached,
+//            //--- SI has to be inserted at the end of the DBCS sequence,
+//            if ( SO was already inserted )
+//            {
+//              insert SI at the end of the DBCS character sequence
+//            } /* endif */
+//
+//            xopy last char. (==EOS) to output buffer
+//            increase output buffer size
+//         }
+//         else  //--- output buffer was exceeded
+//         {
+//            reset output buffer size to 0
+//            return function failed
+//         } /* endif */
+//
+//         return size of output buffer
+//         break;
+//       default :     //--- function was called with a wrong convert type
+//         return function failed
+//         break;
+//     } /* endswitch */
+//   }
+//   else //--- no DBCS codepage is active
+//   {
+//      copy input buffer to output buffer
+//      return size of buffer
+//     /* endif */
+//   return fRc;
+//------------------------------------------------------------------------------
+BOOL EQFBUtlConvertSOSI( PSZ_W pszOutBuffer, PULONG pulSizeOutBuffer,
+                         PSZ_W pszInBuffer,  USHORT usConvert, ULONG ulOemCodePage )
 {
-  NO_MATCH, FUZZY_MATCH, EXACTMORE_MATCH, EXACTONE_MATCH, EXACTEXACT_MATCH,
-  REPL_MATCH, FUZZYREPL_MATCH, MACHINE_MATCH, GLOBMEM_MATCH
-} MATCHTYPE, *PMATCHTYPE;
+  BOOL     fRc = TRUE;            // functions rc, set to no error
+  ULONG    ulSizeOutBuffer;       // returned size of output buffer
+  ULONG    ulMaxBufferSize;       // reduced output buffer size
+  BOOL     fSOInserted = FALSE;   // indicates if SO is already inserted or not
+  CHAR_W   ch;                    // temporary charcter
 
-// data structure for adjust count information
-typedef struct _ADJUSTCOUNTINFODATA
-{
-  // count fields
-  ULONG ulNoProps;
-  ULONG ulFuzzy;
-  ULONG ulExactExact;
-  ULONG ulExactOne;
-  ULONG ulExactMore;
-  ULONG ulRepl;
-  ULONG ulFuzzyRepl;
-  ULONG ulMachineMatch;
-  ULONG ulTotal;
-  ULONG ulSegNoProps;
-  ULONG ulSegFuzzy;
-  ULONG ulSegExactExact;
-  ULONG ulSegExactOne;
-  ULONG ulSegExactMore;
-  ULONG ulSegTotal;
-  ULONG ulSegRepl;
-  ULONG ulSegFuzzyRepl;
-  ULONG ulSegMachineMatch;
-  COUNTSUMS Total;
-  COUNTSUMS ExactExact;
-  COUNTSUMS ExactOne;
-  COUNTSUMS Fuzzy1;
-  COUNTSUMS Fuzzy2;
-  COUNTSUMS Fuzzy3;
-  COUNTSUMS NoProps;
-  COUNTSUMS MTProps;
-  COUNTSUMS Repl;
-  COUNTSUMS ExactMore;
-  // memory lookup fields
-  OtmProposal      SearchKey;                  // search key for memory lookup
-  std::vector<OtmMemory *> MemoryDBs;            // list of memory databases
-  std::vector<OtmProposal *> FoundProposals;     // list of found proposals
-  std::vector<OtmProposal *> BestProposals;      // list of best proposals
-  CHAR   szMemNames[MAX_NUM_OF_FOLDER_MDB+1][MAX_LONGFILESPEC]; // name of memories 
-  CHAR   szBuffer[2048];                        // general purpose buffer
-  CHAR   szTagTable[MAX_EQF_PATH];              // document format
-  CHAR   szSourceLanguage[MAX_EQF_PATH];        // source language
-  CHAR   szTargetLanguage[MAX_EQF_PATH];        // target language
-  CHAR   szLongName[MAX_LONGFILESPEC];          // LongName,
-
-} ADJUSTCOUNTINFODATA, *PADJUSTCOUNTINFODATA;
-
-// prototypes for helper functions
-USHORT ACI_UpdateDocProps( PADJUSTCOUNTINFODATA pData, PSZ pszDocObjectName );
-USHORT ACI_CloseMemory( PADJUSTCOUNTINFODATA pData );
-USHORT ACI_OpenMemory( PADJUSTCOUNTINFODATA pData, PSZ pszDocObjName );
-USHORT ACI_PrepareSearchKey( PADJUSTCOUNTINFODATA pData, PSZ pszDocObjName );
-USHORT ACI_GetmatchType( PADJUSTCOUNTINFODATA pData, PTBSEGMENT pSeg, PMATCHTYPE pMatchType );
-USHORT ACI_AddCounts( PCOUNTSUMS pSum, LONG lSegs, LONG lWords );
-
-// Adjust word count information in document properties
-USHORT AdjustCountInfo( PTBDOCUMENT pDoc, PSZ pszDocObjName )
-{
-  PADJUSTCOUNTINFODATA pData = NULL;
-  USHORT usRC = 0;
-
-  // allocate our data area
-  pData = new(ADJUSTCOUNTINFODATA);
-
-  if ( pData == NULL )
+  if ( IsDBCS_CP(ulOemCodePage) )      // DBCS codepage is active
   {
-    usRC = ERROR_NOT_ENOUGH_MEMORY;  
-  } /* endif */     
+    ulSizeOutBuffer = 0;          // initialize size of out buffer
 
-  // clear all counters in the data area
-  pData->ulNoProps = 0;
-  pData->ulFuzzy = 0;
-  pData->ulExactExact = 0;
-  pData->ulExactOne = 0;
-  pData->ulExactMore = 0;
-  pData->ulRepl = 0;
-  pData->ulFuzzyRepl = 0;
-  pData->ulMachineMatch = 0;
-  pData->ulTotal = 0;
-  pData->ulSegNoProps = 0;
-  pData->ulSegFuzzy = 0;
-  pData->ulSegExactExact = 0;
-  pData->ulSegExactOne = 0;
-  pData->ulSegExactMore = 0;
-  pData->ulSegTotal = 0;
-  pData->ulSegRepl = 0;
-  pData->ulSegFuzzyRepl = 0;
-  pData->ulSegMachineMatch = 0;
-  memset( &(pData->Total), 0, sizeof(pData->Total) );
-  memset( &(pData->ExactExact), 0, sizeof(pData->ExactExact) );
-  memset( &(pData->ExactOne), 0, sizeof(pData->ExactOne) );
-  memset( &(pData->Fuzzy1), 0, sizeof(pData->Fuzzy1) );
-  memset( &(pData->Fuzzy2), 0, sizeof(pData->Fuzzy2) );
-  memset( &(pData->Fuzzy3), 0, sizeof(pData->Fuzzy3) );
-  memset( &(pData->NoProps), 0, sizeof(pData->NoProps) );
-  memset( &(pData->MTProps), 0, sizeof(pData->MTProps) );
-  memset( &(pData->Repl), 0, sizeof(pData->Repl) );
-  memset( &(pData->ExactMore), 0, sizeof(pData->ExactMore) );
-
-  // open document and folder memories
-  if ( usRC == 0 ) ACI_OpenMemory( pData, pszDocObjName );
-
-  // loop over all segments and get count information
-  if ( usRC == 0 )
-  {
-    ULONG       ulSegNum = 1;
-    PTBSEGMENT pSeg = EQFBGetSegW( pDoc, ulSegNum );
-
-    ACI_PrepareSearchKey( pData, pszDocObjName );
-
-    while ( pSeg && (ulSegNum < pDoc->ulMaxSeg) )
+    switch ( usConvert )
     {
-      // for all segments with translatable data which are not joined...
-      if ( ((pSeg->qStatus == QF_XLATED) || (pSeg->qStatus == QF_TOBE ) || (pSeg->qStatus == QF_ATTR ) || (pSeg->qStatus == QF_CURRENT)) &&  
-            !pSeg->SegFlags.Joined )
+      //------------------------------------------------------------------------
+      case DELETE_SOSI :  //--- delete all SO and SI in input buffer
+        //--- loop through input buffer
+        while ( (ch = *pszInBuffer++) != NULC )  // while no end of string found
+        {
+          switch ( ch )  //--- current character from input buffer
+          {
+            //-----------------------------------------------------------------
+            case SO : //--- current character is SO or ...
+            case SI : //--- current character is SI
+              break;  //--- skip this charcter, do not copy it to output buffer
+            //-----------------------------------------------------------------
+            default : //--- current character is no SO and no SI
+              *pszOutBuffer++ = ch;   //--- copy current char. to output buffer
+              ulSizeOutBuffer++;      //--- increase size of output buffer
+              break;
+          } /* endswitch */
+        } /* endwhile */
+
+        *pszOutBuffer = ch;      //--- xopy last char. (==EOS) to output buffer
+        ulSizeOutBuffer++;       //--- increase size of output buffer
+
+        //--- return size of output buffer
+        *pulSizeOutBuffer = ulSizeOutBuffer;
+
+        break;
+      //-------------------------------------------------------------------------
+      case INSERT_SOSI :  //--- insert SO/SI before/after dbcs character sequence
+        //--- maximal output buffer size is output buffersize - SO - SI - EOS
+        //--- ==> -3
+        ulMaxBufferSize =  *pulSizeOutBuffer - 3;
+
+        //--- loop through input buffer
+        while ( ((ch = *pszInBuffer++)!= NULC)
+                 && (ulSizeOutBuffer < ulMaxBufferSize) )
+        {
+           switch ( ch )
+           {
+             case SO : //--- current character is SO or ...
+             case SI : //--- current character is SI
+               break;  //--- skip this charcter, do not copy it to output buffer
+             default :
+               //--- if current character is a SBCS character
+               if (!EQFIsDBCSChar(ch, ulOemCodePage ) )
+               {
+                 //--- if TRUE, found SBCS character indicates that this is the end
+                 //--- of a DBCS character sequence, SO was already inserted
+                 //--- and SI have to be inserted
+                 if ( fSOInserted )
+                 {
+                   //--- copy SI to, and increase output buffer
+                   *pszOutBuffer++ = SI;
+                   //--- increase size of output buffer
+                   ulSizeOutBuffer++;
+
+                   //--- end of DBCS character sequence found, reset SO inserted flag
+                   fSOInserted = FALSE;
+                 } /* endif */
+
+                 //--- copy current character to output buffer and increase
+                 *pszOutBuffer++ = ch;
+                 //--- increase size of output buffer
+                 ulSizeOutBuffer++;
+               }
+               else //--- current character is a double byte character
+               {
+                 //--- no SO was inserted to output buffer until now
+                 //--- this is start if a DBCS character sequence
+                 if ( !fSOInserted )
+                 {
+                   //--- start of a DBCS character sequence is found
+                   fSOInserted = TRUE;
+                   //--- copy SO to output buffer and increase
+                   *pszOutBuffer++ = SO;
+                   //--- increase output buffer size
+                   ulSizeOutBuffer++;
+                 } /* endif */
+
+                 //--- copy dbcs character to output buffer
+                 *pszOutBuffer++ = ch;
+                 //--- increase output buffer size
+                 ulSizeOutBuffer++;
+
+               } /* endif */
+               break;
+           } /* endswitch */
+        } /* endwhile */
+
+        if ( ulSizeOutBuffer < ulMaxBufferSize  )
+        {
+           //--- if SO was inserted and the end of the input is reached,
+           //--- SI has to be inserted at the end of the DBCS sequence,
+           if ( fSOInserted )
+           {
+             //--- insert SI at the end of the DBCS character sequence
+             *pszOutBuffer++ = SI;
+             //--- increase output buffer size
+             ulSizeOutBuffer++;
+           } /* endif */
+
+           //--- EOS was found
+          *pszOutBuffer = ch;  //--- xopy last char. (==EOS) to output buffer
+           //--- increase output buffer size
+           ulSizeOutBuffer++;
+        }
+        else  //--- output buffer was exceeded
+        {
+           ulSizeOutBuffer = 0;     //--- reset output buffer size
+           fRc = FALSE;             //--- return function failed
+        } /* endif */
+
+        //--- return size of output buffer
+        *pulSizeOutBuffer = ulSizeOutBuffer;
+        break;
+      //------------------------------------------------------------------------
+      default :        //--- function was called with a wrong convert type
+        fRc = FALSE;   //--- return function failed
+        break;
+    } /* endswitch */
+  }
+  else //--- no DBCS codepage is active
+  {
+    //--- copy input buffer to output buffer
+    UTF16strcpy( pszOutBuffer, pszInBuffer );
+    //--- return size of buffer
+     *pulSizeOutBuffer = (UTF16strlenCHAR( pszOutBuffer ) + 1);
+  } /* endif */
+  return fRc;
+} /* end of function EQFBUtlConvertSOSI */
+
+PTBSEGMENT EQFBGetSeg
+(
+   PTBDOCUMENT pDoc,                    // ptr to active document
+   ULONG       ulSeg                    // number of requested segment
+)
+{
+  PTBSEGMENT pSeg;
+  ULONG      ulLen = 0L;
+  BOOL       fResult = TRUE;
+
+  pSeg = EQFBGetSegW( pDoc, ulSeg);
+  if ( pSeg )
+  {
+    if ( pSeg->pData )
+    {
+        UtlAlloc((PVOID *) &pSeg->pData, 0L, 0L, NOMSG );
+    } /* endif */
+
+    if (!pDoc->pSegmentBuffer )
+    {
+      fResult = UtlAlloc((PVOID *) &(pDoc->pSegmentBuffer),
+                           0L, (LONG)(MAX_SEGMENT_SIZE + 1) * sizeof(CHAR),
+                            ERROR_STORAGE);
+    } /* endif */
+    if (fResult )
+    {
+      Unicode2ASCII( pSeg->pDataW, pDoc->pSegmentBuffer, pDoc->ulOemCodePage );
+      ulLen = strlen(pDoc->pSegmentBuffer);
+      ulLen = max( (ulLen+1) * sizeof(CHAR), MIN_ALLOC );
+
+      if ( UtlAlloc( (PVOID *) &pSeg->pData, 0L,
+                   (LONG) ulLen, ERROR_STORAGE ) )
       {
-        MATCHTYPE MatchType = NO_MATCH;
-        if (pSeg->qStatus == QF_XLATED )
-        { 
-          MatchType = EXACTONE_MATCH;
+         strcpy( pSeg->pData, pDoc->pSegmentBuffer );
+      }
+    }
+  }
+  return( pSeg);
+} /* end of EQFBGetSeg */
+
+//-----------------------------------------------------------------------------
+// External function
+//-----------------------------------------------------------------------------
+// Function name:     EQFBGetSeg
+//-----------------------------------------------------------------------------
+// Function call:     EQFBGetSeg(PTBDOCUMENT,USHORT)
+//-----------------------------------------------------------------------------
+// Description:       return a pointer to the segment number'usSeg'
+//-----------------------------------------------------------------------------
+// Parameters:        PTBDOCUMENT pDoc  ptr to doc structure
+//                    USHORT      usSeg segment number of target segment
+//-----------------------------------------------------------------------------
+// Returncode type:   PTBSEGMENT
+//-----------------------------------------------------------------------------
+// Returncodes:       pSeg      - pointer to segment entry, Null if error
+//-----------------------------------------------------------------------------
+// Prerequesits:      the document structure must contain the segment table
+//-----------------------------------------------------------------------------
+// Function flow:     if segment number >0 and < max.number
+//                      loop through segment table until pointer is found
+//-----------------------------------------------------------------------------
+PTBSEGMENT EQFBGetSegW
+(
+   PTBDOCUMENT pDoc,                    // ptr to active document
+   ULONG       ulSeg                    // number of requested segment
+)
+{
+   return( EQFBGetSegEx(pDoc, ulSeg, STANDARDTABLE) );
+} /* end of EQFBGetSegW */
+
+//-----------------------------------------------------------------------------
+// External function
+//-----------------------------------------------------------------------------
+// Function name:     EQFBGetSegEx
+//-----------------------------------------------------------------------------
+// Function call:     EQFBGetSegEx(PTBDOCUMENT,USHORT, USHORT)
+//-----------------------------------------------------------------------------
+// Description:       return a pointer to the segment number'usSeg'
+//-----------------------------------------------------------------------------
+// Parameters:        PTBDOCUMENT pDoc  ptr to doc structure
+//                    USHORT      usSeg segment number of target segment
+//                    USHORT      STANDARDTABLE or ADDITIONALTABLE
+//-----------------------------------------------------------------------------
+// Returncode type:   PTBSEGMENT
+//-----------------------------------------------------------------------------
+// Returncodes:       pSeg      - pointer to segment entry, Null if error
+//-----------------------------------------------------------------------------
+// Prerequesits:      the document structure must contain the segment table
+//-----------------------------------------------------------------------------
+// Function flow:     if segment number >0 and < max.number
+//                      loop through segment table until pointer is found
+//-----------------------------------------------------------------------------
+PTBSEGMENT EQFBGetSegEx
+(
+   PTBDOCUMENT pDoc,                    // ptr to active document
+   ULONG       ulSeg,                   // number of requested segment
+   USHORT      usTypeOfTable            // type of table where to pick up seg
+)
+{
+   PTBSEGMENTTABLE  pSegTable = NULL;      // ptr to segment table
+   PTBSEGMENT       pSeg = NULL;           // ptr to segment
+   ULONG            ulSegTables = 0;       // no of segment tables to process
+
+   if ( (ulSeg > 0) &&
+        ( (ulSeg < pDoc->ulMaxSeg) || (usTypeOfTable == ADDITIONALTABLE)) )
+   {
+     if (usTypeOfTable == STANDARDTABLE )
+     {
+       pSegTable = pDoc->pSegTables;
+       ulSegTables =  pDoc->ulSegTables;
+     }
+     else
+     {
+       pSegTable = pDoc->pAddSegTables;
+       ulSegTables =  pDoc->ulAddSegTables;
+     } /* endif */
+
+      while ( ulSegTables && ( ulSeg >= pSegTable->ulSegments) )
+      {
+         ulSeg -= pSegTable->ulSegments;
+         ulSegTables--;
+         pSegTable++;
+      } /* endwhile */
+      if ( ulSegTables && ( ulSeg <  pSegTable->ulSegments) )
+      {
+         pSeg = pSegTable->pSegments + ulSeg;
+      } /* endif */
+   } /* endif */
+
+   return( pSeg );
+} /* end of EQFBGetSegEx */
+
+
+/**********************************************************************/
+/* delete character at previous data position                         */
+/**********************************************************************/
+
+  #define SEGSOFTDELETE(p)                    \
+  {                                           \
+     PSZ_W pSrc = p;                          \
+     PSZ_W pTgt = p-1;                        \
+     while (*pSrc)                            \
+     {                                        \
+       *pTgt ++ = *pSrc++;                    \
+     }                                        \
+     *pTgt = EOS;                             \
+  }                                           \
+
+//------------------------------------------------------------------------------
+// Internal function
+//------------------------------------------------------------------------------
+// Function name:     EQFBBufRemoveSoftLF
+//------------------------------------------------------------------------------
+// Function call:     EQFBBufRemoveSoftLF(HWND, PCHAR, PUSHORT, PUSHORT)
+//------------------------------------------------------------------------------
+// Description:       removes soft lf'S in the given data
+//------------------------------------------------------------------------------
+// Parameters:        HWND    hwndRichEdit
+//                    PCHAR  pchData
+//                    PUSHORT pusBufSize    size of returned string
+//                    PUSHORT pusSegOffset  cursor offset
+//------------------------------------------------------------------------------
+// Returncode type:   VOID
+//------------------------------------------------------------------------------
+// Function flow:     while not at end of string
+//                      if current char is SOFTLF_CHAR
+//                         if it is a double SOFTLF_CHAR:
+//                            delete the duplicate
+//                         else
+//                           if at end of segment: delete SOFTLF_CHAR
+//                           if in DBCS in front of a DBCS character:
+//                             delete SOFTLF_CHAR
+//                           else
+//                             replace SOFTLF_CHAR by BLANK
+//                      endwhile
+//                      return resulting length
+//------------------------------------------------------------------------------
+VOID  EQFBBufRemoveSoftLF
+(
+   HWND        hwndRichEdit,
+   PCHAR_W     pchData,
+   PUSHORT     pusBufSize,
+   PUSHORT     pusSegOffOld
+)
+{
+  CHAR_W    ch1st;
+  CHAR_W    ch2nd;
+  PCHAR_W   pData;
+  USHORT    usCurOffset = 0;
+
+  if (!hwndRichEdit )
+  {
+    pData = pchData;
+    while (*pData != EOS )
+    {
+      ch1st = *pData;
+      if (ch1st == SOFTLF_CHAR )
+      {
+        ch2nd = *(pData+1);
+        if ((ch2nd != EOS ) && (ch2nd == SOFTLF_CHAR ) )
+        {
+          SEGSOFTDELETE(pData+1);        //delete the 2nd one of double softlfs
+          if (usCurOffset < *pusSegOffOld )
+          {
+            (*pusSegOffOld)--;
+          } /* endif */
         }
         else
         {
-          ACI_GetmatchType( pData, pSeg, &MatchType );
-        } /* endif */           
-
-        switch ( MatchType )
-        {
-          case NO_MATCH         : 
-            pData->ulNoProps += pSeg->usSrcWords; 
-            pData->ulSegNoProps++; 
-            ACI_AddCounts( &(pData->NoProps), 1, pSeg->usSrcWords );
-            break;
-          case REPL_MATCH       :
-          case FUZZYREPL_MATCH  :
-          case FUZZY_MATCH      : 
+          /***********************************************************/
+          /* check whether SOFTLF has been inserted ( must be deleted*/
+          /* now ) or must be replaced by a blank now                */
+          /***********************************************************/
+          if (ch2nd == EOS  )
+          {
+            *pData = EOS;  // at end of string, always delete SoftLF
+          }
+          else
+          {
+            SEGSOFTDELETE(pData+1);         // del. softLF at pos. pData
+            if (usCurOffset < *pusSegOffOld )
             {
-              int iFuzziness = pData->BestProposals[0]->getFuzziness();
-              pData->ulFuzzy += pSeg->usSrcWords; 
-              pData->ulSegFuzzy++; 
-              if( iFuzziness >= (USHORT)(FUZZY_THRESHOLD_0 * 100))
-              {
-                if ( iFuzziness <= (USHORT)(FUZZY_THRESHOLD_1 * 100))
-                {
-                  ACI_AddCounts( &(pData->Fuzzy1), 1, pSeg->usSrcWords );
-                }
-                else if ( iFuzziness <= (USHORT)(FUZZY_THRESHOLD_2 * 100))
-                {
-                  ACI_AddCounts( &(pData->Fuzzy2), 1, pSeg->usSrcWords );
-                }
-                else
-                {
-                  ACI_AddCounts( &(pData->Fuzzy3), 1, pSeg->usSrcWords );
-                }  /* end if fuzzyness */
-              }
-              else
-              {
-                // treat as no match
-                ACI_AddCounts( &(pData->NoProps), 1, pSeg->usSrcWords );
-              } /* endif */
-            }
-            break;
-          case EXACTMORE_MATCH  : 
-            pData->ulExactMore += pSeg->usSrcWords; 
-            pData->ulSegExactMore++; 
-            ACI_AddCounts( &(pData->ExactMore), 1, pSeg->usSrcWords );
-            break;
-          case EXACTONE_MATCH   : 
-            pData->ulExactOne += pSeg->usSrcWords; 
-            pData->ulSegExactOne++; 
-            ACI_AddCounts( &(pData->ExactOne), 1, pSeg->usSrcWords );
-            break;
-          case EXACTEXACT_MATCH : 
-            pData->ulExactExact += pSeg->usSrcWords; 
-            pData->ulSegExactExact++; 
-            ACI_AddCounts( &(pData->ExactExact), 1, pSeg->usSrcWords );
-            break;
-          case MACHINE_MATCH    : 
-            pData->ulMachineMatch += pSeg->usSrcWords; 
-            pData->ulSegMachineMatch++; 
-            ACI_AddCounts( &(pData->MTProps), 1, pSeg->usSrcWords );
-            break;
-          case GLOBMEM_MATCH    : 
-            pData->ulExactOne += pSeg->usSrcWords; 
-            pData->ulSegExactOne++; 
-            ACI_AddCounts( &(pData->ExactMore), 1, pSeg->usSrcWords );
-            break;
-          default               : 
-            pData->ulNoProps += pSeg->usSrcWords; 
-            pData->ulSegNoProps++; 
-            ACI_AddCounts( &(pData->NoProps), 1, pSeg->usSrcWords );
-            break;
-        } /* endswitch */           
-        pData->ulTotal += pSeg->usSrcWords;
-        pData->ulSegTotal++;
-       } /* endif */
-
-      ulSegNum++;
-      pSeg = EQFBGetSegW(pDoc, ulSegNum);
+              (*pusSegOffOld)--;
+            } /* endif */
+          } /* endif */
+        } /* endif */
+      } /* endif */
+      pData++;
+      usCurOffset++;
     } /* endwhile */
-  } /* endif */           
-
-  // close all memories
-  if ( pData != NULL ) ACI_CloseMemory( pData );
-
-  // update document properties
-  if ( usRC == 0 ) ACI_UpdateDocProps( pData, pszDocObjName );
-
-  // cleanup
-  if ( pData != NULL )  
-  {
-     for ( int i=0; i < (int)pData->FoundProposals.size(); i++ ) delete( pData->FoundProposals[i] );
-     for ( int i=0; i < (int)pData->BestProposals.size(); i++ ) delete( pData->BestProposals[i] );
-
-    delete( pData );
+    *pusBufSize = (USHORT)UTF16strlenCHAR(pchData);
   }
-
-  return( usRC );
-} /* end of function AdjustCountInfo */
-
-//
-// helper functions for AdjustCountInfo
-//
-//
-
-// update document properties with count info
-USHORT ACI_UpdateDocProps( PADJUSTCOUNTINFODATA pData, PSZ pszDocObjName )
-{
-  HPROP           hPropDocument;            // handle to document properties
-  PPROPDOCUMENT   pPropDocument = NULL;     // pointer to document properties
-  ULONG           ulErrorInfo;              // error indicator from PRHA
-  USHORT usRC = 0;
-
-  if( (hPropDocument = OpenProperties( pszDocObjName, NULL, PROP_ACCESS_READ, &ulErrorInfo)) != NULL )
+  else
   {
-    pPropDocument = (PPROPDOCUMENT)MakePropPtrFromHnd( hPropDocument );
-    SetPropAccess( hPropDocument, PROP_ACCESS_WRITE );
-
-    pPropDocument->ulNoProps    = pData->ulNoProps;
-    pPropDocument->ulFuzzy      = pData->ulFuzzy;
-    pPropDocument->ulExactExact = pData->ulExactExact;
-    pPropDocument->ulExactOne   = pData->ulExactOne;
-    pPropDocument->ulExactMore  = pData->ulExactMore;
-    pPropDocument->ulRepl       = pData->ulRepl;
-    pPropDocument->ulFuzzyRepl  = pData->ulFuzzyRepl;
-    pPropDocument->ulMachineMatch = pData->ulMachineMatch;
-    pPropDocument->ulTotal      = pData->ulTotal;
-    pPropDocument->ulSegNoProps    = pData->ulSegNoProps;
-    pPropDocument->ulSegFuzzy      = pData->ulSegFuzzy;
-    pPropDocument->ulSegExactExact = pData->ulSegExactExact;
-    pPropDocument->ulSegExactOne   = pData->ulSegExactOne;
-    pPropDocument->ulSegExactMore  = pData->ulSegExactMore;
-    pPropDocument->ulSegTotal      = pData->ulSegTotal;
-    pPropDocument->ulSegRepl       = pData->ulSegRepl;
-    pPropDocument->ulSegFuzzyRepl  = pData->ulSegFuzzyRepl;
-    pPropDocument->ulSegMachineMatch = pData->ulSegMachineMatch;
-
-    memcpy( &pPropDocument->Total,      &pData->Total,    sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->ExactExact, &pData->ExactExact, sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->ExactOne,   &pData->ExactOne, sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->Fuzzy1,     &pData->Fuzzy1,   sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->Fuzzy2,     &pData->Fuzzy2,   sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->Fuzzy3,     &pData->Fuzzy3,   sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->NoProps,    &pData->NoProps,  sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->MTProps,    &pData->MTProps,  sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->Repl,       &pData->Repl,     sizeof(COUNTSUMS) );
-    memcpy( &pPropDocument->ExactMore,  &pData->ExactMore, sizeof(COUNTSUMS) );
-
-    // save and close properties
-    SaveProperties( hPropDocument, &ulErrorInfo );
-    ResetPropAccess( hPropDocument, PROP_ACCESS_WRITE);
-    CloseProperties( hPropDocument, PROP_FILE, &ulErrorInfo);
+    *pusBufSize = (USHORT)UTF16strlenCHAR(pchData);
   } /* endif */
-  return( usRC );
-} /* end of function ACI_UpdateDocProps */
+  return;
+} /* end of function EQFBBufRemoveSoftLF */
 
-
-// open the document memory and the list of folder read-only memories
-USHORT ACI_OpenMemory( PADJUSTCOUNTINFODATA pData, PSZ pszDocObjName )
+// helper function to compute PE data offsets
+VOID PEDataSetDataOffset( PSZ_W pszData, PULONG pulDataLen, PULONG pulDataOffs, PULONG pulCurOffs )
 {
-  USHORT      usRc = 0;
-  HPROP       hProp;                   // handle to document properties
-  ULONG       ulErrorInfo;             // error indicator from PRHA
-  int         iNumOfMems = 0;
-  BOOL        fOK = TRUE;
-
-  DocQueryInfo2( pszDocObjName, pData->szMemNames[0], NULL, NULL, NULL, NULL, NULL, NULL, TRUE );
-  iNumOfMems++;
-
-  // prepare folder object name using pData->szMemNames[1] as name buffer
+  if ( *pszData != 0 ) 
   {
-    CHAR szDrive[3];
-    strcpy( pData->szMemNames[1], pszDocObjName );
-    UtlSplitFnameFromPath( pData->szMemNames[1] );
-    UtlQueryString( QST_PRIMARYDRIVE, szDrive, sizeof(szDrive) );
-    pData->szMemNames[1][0] = szDrive[0];
-  }
-
-  // get list of folder read-only memories
-  hProp = OpenProperties( pData->szMemNames[1], NULL, PROP_ACCESS_READ, &ulErrorInfo );
-  if ( hProp )
-  {
-    PPROPFOLDER pProp = (PPROPFOLDER)MakePropPtrFromHnd( hProp );
-
-    // add folder R/O memories to the list
-    if ( pProp->aLongMemTbl[0][0] != EOS )
-    {
-      int i = 0;
-      while ( (i < MAX_NUM_OF_READONLY_MDB) && (pProp->aLongMemTbl[i][0] != EOS) )
-      {
-        strcpy( pData->szMemNames[iNumOfMems], pProp->aLongMemTbl[i] );
-        iNumOfMems++;
-        i++;
-      } /*endwhile */
-    }
-    else
-    {
-      PSZ pszToken;
-
-      //get first R/O memory from list
-      strcpy( pData->szBuffer, pProp->MemTbl );
-      pszToken = strtok( pData->szBuffer, X15_STR );
-      while ( (pszToken != NULL) && fOK )
-      {
-        strcpy( pData->szMemNames[iNumOfMems], pszToken );
-        iNumOfMems++;
-        pszToken = strtok( NULL, X15_STR );
-      } /* endwhile */
-    } /* endif */
-    CloseProperties( hProp, PROP_QUIT, &ulErrorInfo );
+    *pulDataOffs = *pulCurOffs;
+    *pulDataLen = ((wcslen(pszData) + 1) * sizeof(CHAR_W));
+    *pulCurOffs = *pulCurOffs  + *pulDataLen;
   } /* endif */
-
-  // open the memories
-  if ( !usRc && iNumOfMems )
-  {
-    MemoryFactory *pFactory = MemoryFactory::getInstance();
-
-    int i = 0;
-    while ( !usRc && (i < iNumOfMems) )
-    {
-      int iRC = 0;
-      OtmMemory *pMem = pFactory->openMemory( NULL, pData->szMemNames[i], READONLYACCESS, &iRC );
-      if ( pMem != NULL )
-      {
-        pData->MemoryDBs.push_back( pMem );
-      } /* endif */        
-      usRc = (USHORT)iRC;
-      i++;
-    } /*endwhile */
-
-    // prepare proposal vectors
-    for ( int i = 0; i < 3; i++ ) pData->FoundProposals.push_back( new(OtmProposal) );
-    for ( int i = 0; i < 3; i++ ) pData->BestProposals.push_back( new(OtmProposal) );
-
-  } /* endif */
-
-  return( usRc );
-} /* end of function ACI_OpenMemory */
-
-//  close the memory DBs associated with the folder
-USHORT ACI_CloseMemory( PADJUSTCOUNTINFODATA pData )
-{
-  USHORT       usRc = 0;
-  int i = 0;
-  MemoryFactory *pFactory = MemoryFactory::getInstance();
-
-  for (i = 0; i < (int)pData->MemoryDBs.size(); i++ )
-  {
-    pFactory->closeMemory( pData->MemoryDBs[i] );
-  }
-  pData->MemoryDBs.clear(); 
-
-  return( usRc );
-} /* end of function ACI_CloseMemory */
-
-// get document info and store it in search key
-USHORT ACI_PrepareSearchKey( PADJUSTCOUNTINFODATA pData, PSZ pszDocObjName )
-{
-  DocQueryInfo2( pszDocObjName,
-                  NULL,                        // memory
-                  pData->szTagTable,           // document format
-                  pData->szSourceLanguage,     // source language
-                  pData->szTargetLanguage,     // target language
-                  pData->szLongName,           // LongName,
-                  NULL,                        // Alias
-                  NULL,                        // editor
-                  TRUE );
-
-  pData->SearchKey.clear();
-  pData->SearchKey.setMarkup( pData->szTagTable ); 
-  pData->SearchKey.setSourceLanguage( pData->szSourceLanguage ); 
-  pData->SearchKey.setTargetLanguage( pData->szTargetLanguage ); 
-  pData->SearchKey.setDocName( pData->szLongName ); 
-  pData->SearchKey.setDocShortName( UtlGetFnameFromPath( pszDocObjName ) ); 
-
-  return( 0 );
 }
 
-// get the available proposals for the segment and evaluate the type of matches
-USHORT ACI_GetmatchType( PADJUSTCOUNTINFODATA pData, PTBSEGMENT pSeg, PMATCHTYPE pMatchType )
+VOID WriteToMTLog( FILE *hLog, PACTSEGLOGENH2 pSegLog, PSZ_W pszSegSource, PSZ pszPropSourceDoc, PSZ_W pszMetaData, PPEDATABUFFER pPEData )
 {
-  USHORT       usRC = 0;
-  int i = 0;
-  MemoryFactory *pFactory = MemoryFactory::getInstance();
+  if ( hLog )
+  {
+    PESEGLOGDATA PEData;                       
 
-  *pMatchType = NO_MATCH;
+    // fill fixed length part of record
+    pSegLog->ulEyeCatcher = ACTSEGLOG2_EYECATCHER;
+    pSegLog->ulSegLen = 0;
+    pSegLog->ulPropSourceLen = 0;
+    pSegLog->ulMetaDataLen = 0;
+    pSegLog->ulPEDataLen = 0;
 
-  pData->SearchKey.setSource( pSeg->pDataW );
-
-  OtmProposal::clearAllProposals( pData->BestProposals );
-  while ( !usRC && (i < (int)pData->MemoryDBs.size()) && (pData->MemoryDBs[i] != NULL) )
-  {
-    OtmProposal::clearAllProposals( pData->FoundProposals );
-    pData->MemoryDBs[i]->searchProposal( pData->SearchKey, pData->FoundProposals, GET_EXACT );
-    pFactory->copyBestMatches( pData->FoundProposals, pData->BestProposals, 3 );
-    i++;
-  } /* endwhile */
-  
-  // evaluate match type
-  int iProposals = OtmProposal::getNumOfProposals( pData->BestProposals );
-  if ( iProposals == 0  )
-  {
-    *pMatchType = NO_MATCH;
-  }
-  else if ( pData->BestProposals[0]->getType() == OtmProposal::eptMachine )
-  {
-    *pMatchType = MACHINE_MATCH;
-  }
-  else if ( (pData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemory) ||
-            (pData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemoryStar) )
-  {
-    *pMatchType = GLOBMEM_MATCH;
-  }
-  else if ( !pData->BestProposals[0]->isExactMatch() )
-  {
-    *pMatchType = FUZZY_MATCH;
-  }
-  else if ( iProposals == 1 ) 
-  {
-    // only one exact proposal
-    if ( pData->BestProposals[0]->getMatchType() == OtmProposal::emtExactExact )
+    // prepare PE data area if PE data is available
+    memset( &PEData, 0, sizeof(PEData) );
+    if ( pPEData != NULL )
     {
-      *pMatchType = EXACTEXACT_MATCH;
-    }
-    else
+      ULONG ulCurOffs = sizeof(PEData);
+
+      if ( (pPEData->szCopiedMatchID[0] != 0) || (pPEData->szCopiedTarget[0] != 0) || (pPEData->szMTMatchID[0] != 0) ||
+           (pPEData->szMTTarget[0] != 0) || (pPEData->szTarget[0] != 0) )
+      {
+        ulCurOffs = sizeof(PEData);
+      } /* endif */
+
+      PEDataSetDataOffset( pPEData->szTarget, &(PEData.ulTargetLen), &(PEData.ulTargetOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szMTTarget, &(PEData.ulMTTargetLen), &(PEData.ulMTTargetOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szMTMatchID, &(PEData.ulMTMatchIDLen), &(PEData.ulMTMatchIDOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szCopiedTarget, &(PEData.ulCopiedTargetLen), &(PEData.ulCopiedTargetOffs), &ulCurOffs );
+      PEDataSetDataOffset( pPEData->szCopiedMatchID, &(PEData.ulCopiedMatchIDLen), &(PEData.ulCopiedMatchIDOffs), &ulCurOffs );
+
+      if ( ulCurOffs == sizeof(PEData) )
+      {
+        // no PE data is available
+        PEData.ulSize = 0;
+        pSegLog->ulPEDataLen = 0;
+      }
+      else
+      {
+        pSegLog->ulPEDataLen = PEData.ulSize = ulCurOffs;
+      }
+    } /* endif */
+
+    if ( (pszSegSource != NULL) && (*pszSegSource != 0) )
     {
-      *pMatchType = EXACTONE_MATCH;
+      pSegLog->ulSegLen = (wcslen(pszSegSource) + 1) * sizeof(CHAR_W);
     } /* endif */       
-  }
-  else
-  {
-    // several exact proposals
-    if ( pData->BestProposals[0]->getMatchType() == OtmProposal::emtExactExact )
+    if ( (pszPropSourceDoc != NULL) && (*pszPropSourceDoc != 0) )
     {
-      *pMatchType = EXACTEXACT_MATCH;
-    }
-    else
-    {
-      *pMatchType = EXACTMORE_MATCH;
+      pSegLog->ulPropSourceLen = strlen(pszPropSourceDoc) + 1;
     } /* endif */       
+    if ( (pszMetaData != NULL) && (*pszMetaData != 0) )
+    {
+      pSegLog->ulMetaDataLen = (wcslen(pszMetaData) + 1) * sizeof(CHAR_W);
+    } /* endif */       
+    pSegLog->ulRecordLen = sizeof(ACTSEGLOGENH2) + pSegLog->ulSegLen + pSegLog->ulPropSourceLen + pSegLog->ulMetaDataLen + pSegLog->ulPEDataLen;
+
+    UtlTime( (LONG *)&(pSegLog->ulTimeStamp) ); 
+
+    // proposal flags consistency check (use the copied flag as correct value)
+    if ( pSegLog->PropTypeCopied.Exact && !pSegLog->PropTypeExists.Exact ) pSegLog->PropTypeExists.Exact = TRUE;
+    if ( pSegLog->PropTypeCopied.Fuzzy && !pSegLog->PropTypeExists.Fuzzy ) pSegLog->PropTypeExists.Fuzzy = TRUE;
+    if ( pSegLog->PropTypeCopied.Replace && !pSegLog->PropTypeExists.Replace ) pSegLog->PropTypeExists.Replace = TRUE;
+    if ( pSegLog->PropTypeCopied.MT && !pSegLog->PropTypeExists.MT ) pSegLog->PropTypeExists.MT = TRUE;
+    if ( pSegLog->PropTypeCopied.GlobMem && !pSegLog->PropTypeExists.GlobMem ) pSegLog->PropTypeExists.GlobMem = TRUE;
+    if ( pSegLog->PropTypeCopied.GlobMemFuzzy && !pSegLog->PropTypeExists.GlobMemFuzzy ) pSegLog->PropTypeExists.GlobMemFuzzy = TRUE;
+
+    // compute checksum
+    {
+      PBYTE pbTest;
+      int i, iLen;
+
+      // checksum of fixed part
+      pSegLog->ulCheckSum = 0;
+      pbTest = (PBYTE)&(pSegLog->ulRecordLen);
+      iLen = sizeof(ACTSEGLOGENH2) - sizeof(pSegLog->ulEyeCatcher) - sizeof(pSegLog->ulCheckSum);
+      i = 0;
+      while ( i < iLen ) pSegLog->ulCheckSum = pSegLog->ulCheckSum + (ULONG)pbTest[i++];
+
+      // checksum of segment source text
+      if ( pSegLog->ulSegLen != 0 ) 
+      {
+        pbTest = (PBYTE)pszSegSource;
+        iLen = (int)pSegLog->ulSegLen;
+        i = 0;
+        while ( i < iLen) pSegLog->ulCheckSum = pSegLog->ulCheckSum + (ULONG)pbTest[i++];
+      } /* endif */         
+
+      // checksum of proposal source document name
+      if ( pSegLog->ulPropSourceLen != 0 ) 
+      {
+        pbTest = (PBYTE)pszPropSourceDoc;
+        iLen = pSegLog->ulPropSourceLen;
+        i = 0;
+        while ( i < iLen) pSegLog->ulCheckSum = pSegLog->ulCheckSum + (ULONG)pbTest[i++];
+      } /* endif */       
+
+      // checksum of proposal meta data name
+      if ( pSegLog->ulMetaDataLen != 0 ) 
+      {
+        pbTest = (PBYTE)pszMetaData;
+        iLen = pSegLog->ulMetaDataLen;
+        i = 0;
+        while ( i < iLen) pSegLog->ulCheckSum = pSegLog->ulCheckSum + (ULONG)pbTest[i++];
+      } /* endif */         
+    }
+
+    // write fixed part of record
+    fwrite( pSegLog, sizeof(ACTSEGLOGENH2), 1, hLog);
+
+    // write any segment source
+    if ( pSegLog->ulSegLen != 0 ) fwrite( pszSegSource, pSegLog->ulSegLen, 1, hLog);
+
+    // write any proposal document name
+    if ( pSegLog->ulPropSourceLen != 0 ) fwrite( pszPropSourceDoc, pSegLog->ulPropSourceLen, 1, hLog);
+
+    // write any proposal meta data
+    if ( pSegLog->ulMetaDataLen != 0 ) fwrite( pszMetaData, pSegLog->ulMetaDataLen, 1, hLog);
+
+    // write any PE data
+    if ( pSegLog->ulPEDataLen != 0 ) 
+    {
+      fwrite( &PEData, sizeof(PEData), 1, hLog);
+      if ( PEData.ulTargetLen != 0 ) fwrite( pPEData->szTarget, PEData.ulTargetLen, 1, hLog );
+      if ( PEData.ulMTTargetLen != 0 ) fwrite( pPEData->szMTTarget, PEData.ulMTTargetLen, 1, hLog );
+      if ( PEData.ulMTMatchIDLen != 0 ) fwrite( pPEData->szMTMatchID, PEData.ulMTMatchIDLen, 1, hLog );
+      if ( PEData.ulCopiedTargetLen != 0 ) fwrite( pPEData->szCopiedTarget, PEData.ulCopiedTargetLen, 1, hLog );
+      if ( PEData.ulCopiedMatchIDLen != 0 ) fwrite( pPEData->szCopiedMatchID, PEData.ulCopiedMatchIDLen, 1, hLog );
+    } /* endif */
   } /* endif */     
-  return( usRC );
-} /* end of function ACI_GetmatchType */
 
-USHORT ACI_AddCounts( PCOUNTSUMS pSum, LONG lSegs, LONG lWords )
+}/* end of function WriteToMTLog */
+
+PTBSEGMENT SegFileGetVisSeg
+(
+   PTBDOCUMENT pDoc,                      // pointer to Document ida
+   PULONG      pulSegNum                  // pointer to segment number
+)
 {
-  LONG lAbsWords = abs( lWords );
-  if ( lAbsWords < SIMPLE_SENT_BOUND )
-  {
-    pSum->ulSimpleSegs  += lSegs;
-    pSum->ulSimpleWords += lWords;
-  }
-  else if ( lAbsWords < MEDIUM_SENT_BOUND )
-  {
-    pSum->ulMediumSegs  += lSegs;
-    pSum->ulMediumWords += lWords;
-  }
-  else
-  {
-    pSum->ulComplexSegs  += lSegs;
-    pSum->ulComplexWords += lWords;
-  } /* endif */
-  return( NO_ERROR );
-} /* end of function TAAddCounts */
+   PTBSEGMENT pSeg;                       // pointer to segment
+   SHORT sSign = 1;
+
+   pSeg = EQFBGetSegW( pDoc,*pulSegNum );
+   while (pSeg && pSeg->SegFlags.Joined)
+   {
+      (*pulSegNum)++;
+      pSeg = EQFBGetSegW( pDoc, *pulSegNum );
+   } /* endwhile */
+
+   return( pSeg );
+}
+
+//------------------------------------------------------------------------------
+// Internal function
+//------------------------------------------------------------------------------
+// Function name:     EQFBCntAllSrcWords
+//------------------------------------------------------------------------------
+// Function call:     EQFBCntALlSrcWords ( PTBDOCUMENT )
+//------------------------------------------------------------------------------
+// Description:       this function will count all src words
+//                    this is nec for the new word count utility
+//------------------------------------------------------------------------------
+// Parameters:        PTBDOCUMENT
+//------------------------------------------------------------------------------
+// Returncode type:   SHORT
+//------------------------------------------------------------------------------
+// Function flow:     loop thru all segments and cnt the words
+//------------------------------------------------------------------------------
+SHORT EQFBCntAllSrcWords
+(
+  PTBDOCUMENT  pSourceDoc,              // pointer to source document
+  PTBDOCUMENT  pTargetDoc,              // pointer to target document
+  SHORT        sSourceLang,             // language ID for source language
+  ULONG        ulOemCP
+)
+{
+   ULONG       ulSegNum;
+   SHORT       sRc = 0;
+   PTBSEGMENT  pSourceSeg, pTargetSeg;                     // pointer to segment
+   ULONG       ulSrcWords = 0L;
+   ULONG       ulSrcMarkUp = 0L;
+   ULONG       ulTempSeg = 0; 
+
+   /*****************************************************************/
+   /* force count of all source words                               */
+   /*****************************************************************/
+   ulTempSeg = ulSegNum = 1;
+   pSourceSeg = SegFileGetVisSeg( pSourceDoc, &ulTempSeg );
+   pTargetSeg = SegFileGetVisSeg( pTargetDoc, &ulSegNum);
+   while ( pTargetSeg && !sRc )
+   {
+     switch ( pTargetSeg->qStatus )
+     {
+       case  QF_ATTR:
+       case  QF_TOBE:
+       case  QF_CURRENT:
+         if ((pTargetSeg->usSrcWords == 0 )&& (!pTargetSeg->SegFlags.NoCount))
+         {
+           ulSrcWords = 0L;
+           ulSrcMarkUp = 0L;
+           sRc = EQFBWordCntPerSeg(
+                        (PLOADEDTABLE)pTargetDoc->pDocTagTable,
+                        (PTOKENENTRY) pTargetDoc->pTokBuf,
+                        pSourceSeg->pDataW,
+                        sSourceLang,
+                        &ulSrcWords, &ulSrcMarkUp, ulOemCP );
+           if (!sRc)
+           {
+             pTargetSeg->usSrcWords = (USHORT) ulSrcWords;
+           } /* endif */
+         }
+         else
+         {
+           pTargetSeg->usSrcWords = 0;
+         } /* endif */
+         break;
+
+       case  QF_NOP:                             // segment not counted
+       case  QF_XLATED:
+       default :
+         break;
+     } /* endswitch */
+     ulSegNum ++;
+     ulTempSeg = ulSegNum;
+     pSourceSeg = SegFileGetVisSeg( pSourceDoc, &ulTempSeg );
+     pTargetSeg = SegFileGetVisSeg( pTargetDoc, &ulSegNum);
+   } /* endwhile */
+
+   return ( sRc );
+}
+
+SHORT EQFBIsNumLFEqual
+(
+	PSZ_W pData1,
+	PSZ_W pData2,
+	PSHORT psNumLF1,
+	PSHORT psNumLF2
+)
+{
+	PSZ_W  pTemp;
+	USHORT usChar;
+	SHORT  sLines = 0;
+
+	//if reflow not allowe copy only if #of lines equal
+										  //count # of lines in source
+	   pTemp = pData1;                    //which = # lines in workseg
+	   while ( (usChar = *pTemp++) != EOS )
+	   {
+		  if (usChar == LF)
+		  {
+			 sLines++;                   // #of lines in source
+		  } /* endif */
+	   } /* endwhile */
+       if (psNumLF1)
+       {
+         *psNumLF1 = sLines;
+       }
+
+	   pTemp = pData2;                     // is # equal?
+	   while ((usChar = *pTemp++) != EOS && (sLines >= 0) )
+	   {
+		  if (usChar == LF)
+		  {
+			 sLines--;
+		  } /* endif */
+	   } /* endwhile */
+
+       if (psNumLF2 && psNumLF1)
+       {
+	     *psNumLF2 = *psNumLF1 - sLines;     // num of LF in Data2
+       }
+
+	return (sLines);
+}
+
+//-----------------------------------------------------------------------------
+// External function
+//-----------------------------------------------------------------------------
+// Function name:     EQFBBufRemoveTRNote
+//-----------------------------------------------------------------------------
+// Function call:     EQFBBufRemoveTRNote
+//-----------------------------------------------------------------------------
+// Description:       This function will use TACreateProtectTable to detect
+//                    and eliminate TRNOtes.
+//-----------------------------------------------------------------------------
+// Parameters:        PTBDOCUMENT   pDoc   - ptr to the structure
+//                                           describing the active doc
+//                    PSZ           pInData- pointer to input data
+//                    PSZ           pOutData- pointer to output data
+//-----------------------------------------------------------------------------
+// Returncode type:   VOID
+//-----------------------------------------------------------------------------
+// Prerequesits:      The document tag table must have been loaded.
+//                    Error return codes are ignored, i.e. segment will be
+//                    not normalized in such cases
+//-----------------------------------------------------------------------------
+// Function flow:     create start stop table
+//                    add character except TRNOTE into output segment
+//-----------------------------------------------------------------------------
+
+VOID EQFBBufRemoveTRNote
+(
+   PSZ_W        pData,                            // ptr to data
+   PVOID        pDocTagTable,
+   PFN          pfnUserExit,
+   PFN          pfnUserExitW,
+   ULONG        ulOemCP
+)
+{
+   USHORT      usColPos = 0;           // column pos used by EQFTagTokenize
+   PSTARTSTOP  pStartStop = NULL;      // start stop table
+   PSTARTSTOP  pstCurrent;             // active start stop indication
+   USHORT      usRc;                   // success indicator
+   USHORT      usLen;                  // length to be copied
+   PSZ_W       pOutData;
+   int         iIterations = 0;
+   USHORT      usAddEntries = 0;
+   PTOKENENTRY pTokenList = NULL;
+
+   pOutData = pData;
+   usRc = TACreateProtectTableW( pData,
+                                pDocTagTable,
+                                usColPos,
+                                astTokBuf,
+                                NUM_TOKENS * sizeof(TOKENENTRY),
+                                &pStartStop,
+                                pfnUserExit,
+                                pfnUserExitW, ulOemCP);
+
+   /*******************************************************************/
+   /* make buffer bigger if nec; donot reuse astTokBuf in this case   */
+   /*******************************************************************/
+   while ((iIterations < 14) && (usRc == EQFRS_AREA_TOO_SMALL))
+   {
+     // (re)allocate token buffer
+     LONG lOldSize = (usAddEntries) * sizeof(TOKENENTRY);
+     LONG lNewSize = (usAddEntries+128) * sizeof(TOKENENTRY);
+
+     if (UtlAlloc((PVOID *) &pTokenList, lOldSize, lNewSize, NOMSG) )
+     {
+       usAddEntries += 128;
+       iIterations++;
+     }
+     else
+     {
+       iIterations = 14;    // force end of loop
+     } /* endif */
+     // retry tokenization
+     if (iIterations < 14 )
+     {
+       usRc = TACreateProtectTableW( pData,
+                                    pDocTagTable,
+                                    usColPos,
+                                    (PTOKENENTRY)pTokenList,
+                                    (USHORT)lNewSize,
+                                    &pStartStop,
+                                    pfnUserExit,
+                                    pfnUserExitW, ulOemCP);
+     } /* endif */
+   } /* endwhile */
+
+   if ( !usRc && pStartStop )
+   {
+     pstCurrent = pStartStop;
+     while ( pstCurrent->usType )
+     {
+       switch ( pstCurrent->usType )
+       {
+         case TRNOTE_CHAR:
+            /**********************************************************/
+            /* ignore TRNotes text                                    */
+            /**********************************************************/
+           break;
+         default:
+           usLen = pstCurrent->usStop - pstCurrent->usStart + 1;
+           memcpy( pOutData, pData + pstCurrent->usStart, usLen*sizeof(CHAR_W) );
+           pOutData += usLen;
+           break;
+       } /* endswitch */
+       pstCurrent++;
+     } /* endwhile */
+     *pOutData = EOS;
+     UtlAlloc((PVOID *) &pStartStop, 0L, 0L, NOMSG );
+   }
+   else
+   {
+     UTF16strcpy( pOutData, pData );
+   } /* endif */
+
+   if ( pTokenList ) UtlAlloc( (PVOID *) &pTokenList, 0L, 0L, NOMSG );
+
+   return;
+} /* end of EQFBBufRemoveTRNote */
+
+//-----------------------------------------------------------------------------
+// External function
+//-----------------------------------------------------------------------------
+// Function name:     EQFBNormSeg
+//-----------------------------------------------------------------------------
+// Function call:     EQFBNormSeg(PTBDOCUMENT,PSZ,PSZ)
+//-----------------------------------------------------------------------------
+// Description:       This function will use EqfTagTokenize to normalize a
+//                    segment. This is done in getting rid of all tags.
+//                    Inline Tags of length > 1 are changed into 1 Blank
+//-----------------------------------------------------------------------------
+// Parameters:        PTBDOCUMENT   pDoc   - ptr to the structure
+//                                           describing the active doc
+//                    PSZ           pInData- pointer to input data
+//                    PSZ           pOutData- pointer to output data
+//-----------------------------------------------------------------------------
+// Returncode type:   VOID
+//-----------------------------------------------------------------------------
+// Prerequesits:      The document tag table must have been loaded.
+//                    Error return codes are ignored, i.e. segment will be
+//                    not normalized in such cases
+//-----------------------------------------------------------------------------
+// Function flow:     create start stop table
+//                    add any unprotected character into normalized segment..
+//-----------------------------------------------------------------------------
+                                                             /*   48@KIT0841A */
+VOID EQFBNormSeg
+(
+   PTBDOCUMENT pDoc,                    // ptr to active document
+   PSZ_W       pData,                   // ptr to data
+   PSZ_W       pOutData                 // output data
+)
+{
+   USHORT      usColPos = 0;           // column pos used by EQFTagTokenize
+   PSTARTSTOP  pStartStop = NULL;      // start stop table
+   PSTARTSTOP  pstCurrent;             // active start stop indication
+   USHORT      usRc;                   // success indicator
+   USHORT      usLen;                  // length to be copied
+   int         iIterations = 0;
+   USHORT      usAddEntries = 0;
+   PTOKENENTRY pTokenList = NULL;
+
+   usRc = TACreateProtectTableW( pData,
+                                pDoc->pDocTagTable,
+                                usColPos,
+                                astTokBuf,
+                                NUM_TOKENS * sizeof(TOKENENTRY),
+                                &pStartStop,
+                                pDoc->pfnUserExit,
+                                pDoc->pfnUserExitW, pDoc->ulOemCodePage);
+   /*******************************************************************/
+   /* make buffer bigger if nec; donot reuse astTokBuf in this case   */
+   /*******************************************************************/
+   while ((iIterations < 14) && (usRc == EQFRS_AREA_TOO_SMALL))
+   {
+     // (re)allocate token buffer
+     LONG lOldSize = (usAddEntries) * sizeof(TOKENENTRY);
+     LONG lNewSize = ((usAddEntries+128) * sizeof(TOKENENTRY));
+
+     if (UtlAlloc((PVOID *) &pTokenList, lOldSize, lNewSize, NOMSG) )
+     {
+       usAddEntries += 128;
+       iIterations++;
+     }
+     else
+     {
+       iIterations = 14;    // force end of loop
+     } /* endif */
+     // retry tokenization
+     if (iIterations < 14 )
+     {
+       usRc = TACreateProtectTableW( pData,
+                                    pDoc->pDocTagTable,
+                                    usColPos,
+                                    (PTOKENENTRY)pTokenList,
+                                    (USHORT)lNewSize,
+                                    &pStartStop,
+                                    pDoc->pfnUserExit,
+                                    pDoc->pfnUserExitW, pDoc->ulOemCodePage);
+     } /* endif */
+
+   } /* endwhile */
+
+
+   if ( !usRc && pStartStop )
+   {
+     pstCurrent = pStartStop;
+     while ( pstCurrent->usType )
+     {
+       switch ( pstCurrent->usType )
+       {
+         case  UNPROTECTED_CHAR:
+           usLen = pstCurrent->usStop - pstCurrent->usStart + 1;
+           memcpy( pOutData, pData + pstCurrent->usStart, usLen * sizeof(CHAR_W) );
+           pOutData += usLen;
+           break;
+         default :
+           *pOutData++ = BLANK;
+           break;
+       } /* endswitch */
+       pstCurrent++;
+     } /* endwhile */
+     *pOutData = EOS;
+     UtlAlloc((PVOID *) &pStartStop, 0L, 0L, NOMSG );
+   }
+   else
+   {
+     UTF16strcpy( pOutData, pData );
+   } /* endif */
+
+   if ( pTokenList ) UtlAlloc( (PVOID *) &pTokenList, 0L, 0L, NOMSG );
+
+   return;
+} /* end of EQFBNormSeg */
 

@@ -58,7 +58,11 @@ $(_OBJ)\eqfsetex.obj
 
 $(_OBJ)\eqfitm.rbj
 /OUT:$(_BIN)\OtmItm.exe $(_LINK_OPTIONS)
-$(_LIB)\OtmBase.lib $(_LINK_LIB_EXE) $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIB)\OTMITMD.LIB
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OtmWorkbench.lib 
+$(_LINK_LIB_EXE) 
+$(_LIB)\PluginManager.lib 
+$(_LIB)\OTMITMD.LIB
 <<
 
 #------ build OTMITMD.DLL --------
@@ -71,5 +75,17 @@ $(_OBJ)\eqflogo.obj
 $(_OBJ)\eqfsetex.obj
 /OUT:$(_DLL)\OTMITMD.DLL $(_LINK_OPTIONS) /MAPINFO:EXPORTS
 $(_LINK_LIB_CRT)
-$(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib SHELL32.LIB $(_LIB)\PluginManager.lib
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMEditorFunctions.lib 
+$(_LIB)\OtmWorkbench.lib 
+$(_LIB)\OTMDictionaryFunctions.lib 
+$(_LIB)\OTMMemoryFunctions.lib 
+$(_LIB)\OtmLinguistic.lib 
+$(_LIB)\OTMAnalysisFunctions.lib 
+$(_LIB)\OTMTagTableFunctions.lib 
+$(_LIB)\OtmUtilities.lib 
+$(_LIB)\OTMFolderFunctions.lib 
+$(_LIB)\OtmSegmentedFile.lib 
+SHELL32.LIB 
+$(_LIB)\PluginManager.lib
 <<

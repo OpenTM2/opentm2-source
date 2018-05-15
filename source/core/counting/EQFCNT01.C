@@ -28,6 +28,11 @@
 #include "eqfwcnti.h"             // Private include file for wordcount
 #include <eqfcnt01.id>            // word count dialog id file
 
+#undef _WPTMIF                         // we don't care about WP I/F
+#include "eqfhelp.id"                  // help resource IDs
+#include "eqfhlp1.h"                   // first part of help tables
+#include "eqfmsg.htb"                          // message help table
+
 #include "core\pluginmanager\OtmMorph.h"
 
 extern HELPSUBTABLE hlpsubtblWCountDlg[];

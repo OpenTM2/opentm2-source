@@ -37,6 +37,12 @@
 #define INCL_EQF_LDB              // dictionary data encoding functions
 #include <eqf.h>                  // General Translation Manager include file
 
+#undef _WPTMIF                         // we don't care about WP I/F
+#include "eqfhelp.id"                  // help resource IDs
+#include "eqfhlp1.h"                   // first part of help tables
+#include "eqfmsg.htb"                          // message help table
+
+
 #include "eqfdasdi.h"
 #include "OtmDictionaryIF.H"
 #include "eqflp.h"                // Defines for generic list handlers

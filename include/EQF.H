@@ -2561,34 +2561,16 @@ typedef struct _OPENANDPOS
 /**********************************************************************/
 /* Prototypes for handler and instance window procedures              */
 /**********************************************************************/
-__declspec(dllexport)
-MRESULT APIENTRY DOCUMENTHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-__declspec(dllexport)
-MRESULT APIENTRY ANALYSISHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-__declspec(dllexport)
-MRESULT APIENTRY PROPERTYHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY SERVICESHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY LNGUPDATEHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY FILTHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
-MRESULT APIENTRY DDEHANDLERWP( HWND, WINMSG, WPARAM,LPARAM);
-__declspec(dllexport)
-MRESULT APIENTRY GENERICHANDLERWP( HWND, WINMSG, WPARAM, LPARAM );
-__declspec(dllexport)
-MRESULT APIENTRY GENERICLISTWP( HWND, WINMSG, WPARAM, LPARAM );
-__declspec(dllexport)
-MRESULT APIENTRY GENERICPROCESSWP( HWND, WINMSG, WPARAM, LPARAM );
-
-
-/**********************************************************************/
-/* External referenced to the resource module handles declared in     */
-/* EQFHNDLR.C (linked into EQFHNDLR.DLL)                              */
-/**********************************************************************/
-#ifdef NOEXTRESMOD
-#elif defined(DLLIMPORTRESMOD)
-  __declspec(dllimport) HMODULE hResMod;
-#else
-  extern HMODULE hResMod;              // Eqfstart resource module
-#endif
+__declspec(dllexport) MRESULT APIENTRY DOCUMENTHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY ANALYSISHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY PROPERTYHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY SERVICESHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY LNGUPDATEHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY FILTHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) MRESULT APIENTRY DDEHANDLERWP( HWND, WINMSG, WPARAM,LPARAM);
+__declspec(dllexport) MRESULT APIENTRY GENERICHANDLERWP( HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT APIENTRY GENERICLISTWP( HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT APIENTRY GENERICPROCESSWP( HWND, WINMSG, WPARAM, LPARAM );
 
 /**********************************************************************/
 /* External referenced to the handles of preloaded icons declared in  */
@@ -4399,6 +4381,7 @@ USHORT  UtlGetLANUserIDW( PSZ_W pszLANUserID, USHORT *pusUserPriv, USHORT usMsgH
 __declspec(dllexport)
 PSZ     UtlGetFnameFromPath( PSZ path);
 PSZ     UtlMakeObjName( PSZ p, PSZ drive, PSZ path, PSZ fname, PSZ ext);
+__declspec(dllexport) VOID UtlMakeFNameAndPath( PSZ, PSZ, PSZ );
 __declspec(dllexport)
 PSZ     UtlParseX15( PSZ str, SHORT id);
 PSZ_W   UtlParseX15W( PSZ_W str, SHORT id);
@@ -5410,6 +5393,7 @@ BOOL CreateProcessWindow
   PVOID                pvUserData      // ptr to user data (is passed to callback
                                        // function in mp2 of WM_CREATE message)
 );
+__declspec(dllexport)
 BOOL CreateProcessWindow2
 (
   PSZ                  pszObjName,     // ptr to object name for process window
@@ -5422,6 +5406,7 @@ BOOL CreateProcessWindow2
 /**********************************************************************/
 /* Prototype for create list window function                          */
 /**********************************************************************/
+__declspec(dllexport)
 BOOL CreateListWindow
 (
   PSZ                  pszObjName,     // ptr to object name for process window
@@ -5517,6 +5502,8 @@ VOID PositionProcessControls( PGENPROCESSINSTIDA  pIda,
 /* has been destroyed or it's data areas have been freed              */
 /**********************************************************************/
 PVOID AccessGenListCommArea( HWND hwnd );
+
+__declspec(dllexport)
 PVOID AccessGenProcCommArea( HWND hwnd );
 
 /**********************************************************************/
@@ -5528,6 +5515,7 @@ void HandlePopupMenu( HWND hwnd, POINT point, SHORT sMenuID );
 /**********************************************************************/
 /* Prototype for activate MDI child window function                   */
 /**********************************************************************/
+__declspec(dllexport)
 BOOL ActivateMDIChild
 (
   HWND                 hwndChild       // handle of window being activated
@@ -5535,18 +5523,14 @@ BOOL ActivateMDIChild
 
 
 
-__declspec(dllexport)
-MRESULT FolderHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-__declspec(dllexport)
-MRESULT FolderListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-MRESULT DictListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-__declspec(dllexport)
-MRESULT TagListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-__declspec(dllexport)
-MRESULT MemListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-MRESULT LngListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-MRESULT WCntListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
-MRESULT ListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT FolderHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT FolderListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT DictListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT TagListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT MemListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT LngListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT WCntListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
+__declspec(dllexport) MRESULT ListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
 #ifdef _TQM
   MRESULT TQMListHandlerCallBack( PHANDLERCOMMAREA, HWND, WINMSG, WPARAM, LPARAM );
 #endif
@@ -7070,6 +7054,8 @@ __declspec(dllexport)
 int   UTF16stricmp(PSZ_W a, PSZ_W b);
 __declspec(dllexport)
 PSZ_W UTF16memset( PSZ_W pusString, CHAR_W c, USHORT usNum );
+__declspec(dllexport)
+PSZ_W UTF16memsetL( PSZ_W pusString, CHAR_W c, ULONG ulNum );
 
 ULONG UtlQueryTextW( HWND hwnd, LONG id, PSZ_W buffer, LONG usLen );
 LONG  UtlQueryTextHwndW( HWND hwnd, PSZ_W buffer, LONG Len );
@@ -7206,11 +7192,10 @@ typedef EQF_BOOL (__cdecl *PFNFORMATCONTTEXT)( PSZ_W, PSZ_W );
 /**********************************************************************/
 /* Dictionary handler functions                                       */
 /**********************************************************************/
-USHORT DicFillDictLB( HWND, HWND, PSZ, BOOL );
-VOID DictionaryImport( HWND, PSZ, BOOL, HWND );
-VOID DictionaryOrganize( HWND, PSZ, PVOID );
-__declspec(dllexport)
-BOOL DicGetCheckPassword( PSZ pszPassword, PULONG pulPassword, BOOL fCheckPassword );
+__declspec(dllexport) USHORT DicFillDictLB( HWND, HWND, PSZ, BOOL );
+__declspec(dllexport) VOID DictionaryImport( HWND, PSZ, BOOL, HWND );
+__declspec(dllexport) VOID DictionaryOrganize( HWND, PSZ, PVOID );
+__declspec(dllexport) BOOL DicGetCheckPassword( PSZ pszPassword, PULONG pulPassword, BOOL fCheckPassword );
 
 /**********************************************************************/
 /* Dictionary filter functions                                        */
@@ -7371,8 +7356,7 @@ BOOL UtlIsLanguageSupported
 );
 
 // helper function for automatic subst in analysis and editor
-BOOL
-TACheckAndAdaptLFChanges
+__declspec(dllexport) BOOL TACheckAndAdaptLFChanges
 (
 	PSZ_W          pSegData,
 	PSZ_W          pszMatch,
@@ -7568,4 +7552,17 @@ typedef struct _CALCREPORTBINDATA
 #define   MEMIMP_MRKUP_ACTION_CANCEL   0
 #define   MEMIMP_MRKUP_ACTION_SKIP     1
 #define   MEMIMP_MRKUP_ACTION_RESET    2
+
+// segmented file related function prototypes
+__declspec(dllexport) VOID SegFileFreeDoc( PVOID *ppvDoc );
+
+__declspec(dllexport) int XSLTConversion( PSZ pszXmlFile, PSZ pszHtmlFile, PSZ pszStyleSheet, BOOL fMsg, HWND hwndErrMsg );
+
+#define  MAX_LIST_FILES   10000
+__declspec(dllexport) BOOL UtlListOfFiles ( PSZ **, PSZ , PSZ **);
+
+#define FUZZY_THRESHOLD_0                  0.5 // Theshold for different fuzzy classes
+#define FUZZY_THRESHOLD_1                  0.7 // Theshold for different fuzzy classes
+#define FUZZY_THRESHOLD_2                  0.9 // Theshold for different fuzzy classes
+
 

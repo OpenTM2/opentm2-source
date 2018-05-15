@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_141_ValidationImport">
+  <title>Improvements in the Export Folder function</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>An improvement has been implemented for the <b>Export Folder</b> function:
+      <ol>
+        <li>The <b>With redundancy report data</b> option has been added.
+        The default export behavior has been changed to automatically exclude the redundancy report data
+        when a folder is exported from OpenTM2.  This will reduce the size of the exported folder.
+        Selecting the <b>With redundancy report data</b> option will force this data to be
+        included in the exported folder.
+        </li>
+      </ol>
+    </p>
+    <p>For more information, go to <xref href="folder_Export.dita#folder_Export"/>.</p>
+  </body>
+</topic>

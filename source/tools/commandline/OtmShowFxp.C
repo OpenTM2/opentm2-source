@@ -983,158 +983,8 @@ int main
     BOOL fFirst = TRUE;
     ULONG ulNoOfEntries = 0;
 
-    if ( fDetails )
-    {
 
-      if ( fXMLOutput )
-      {
-        pFileEntry = FileList.pEntries;
-        WriteInUTF8W( hfOut, L"  <PackageFiles>\r\n" );
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          ShowFile( pFileEntry );
-          pFileEntry++;
-        } /* endfor */
-        WriteInUTF8W( hfOut, L"  </PackageFiles>\r\n" );
-      }
-      else
-      {
-        fprintf( hfOut, "\nFiles contained in package:\n" );
-
-        fFirst = TRUE;
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( ( pFileEntry->usFileType == FOLDER_PROP_FILE ) ||
-               ( pFileEntry->usFileType == HISTLOG_DATA_FILE ) ||
-               ( pFileEntry->usFileType == REDSEGMENT_DATA_FILE ) ||
-               ( pFileEntry->usFileType == BINCALCREPORT_FILE ) ||
-               ( pFileEntry->usFileType == GLOBALMEMORYFILTER_FILE ) ||
-               ( pFileEntry->usFileType == SUBFOLDER_PROP_FILE ) )
-          {
-            if ( fFirst )
-            {
-              fprintf( hfOut, "\n   Folder files\n" );
-              fFirst = FALSE;
-            } /* endif */
-            ShowFile( pFileEntry );
-            pFileEntry->usProcessFlags = 1;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-
-        fFirst = TRUE;
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( ( pFileEntry->usFileType == DOCUMENT_PROP_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_SEGTGT_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_SEGSRC_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_EADATA_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_MTLOG_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_XLIFF_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_METADATA_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_MISC_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_ENTITY_FILE ) ||
-               ( pFileEntry->usFileType == DOCUMENT_SRC_FILE ) )
-          {
-            if ( fFirst )
-            {
-              fprintf( hfOut, "\n   Document files\n" );
-              fFirst = FALSE;
-            } /* endif */
-            ShowFile( pFileEntry );
-            pFileEntry->usProcessFlags = 1;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-
-        fFirst = TRUE;
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( ( pFileEntry->usFileType == MEMORY_PROP_FILE ) ||
-                ( pFileEntry->usFileType == MEMORY_DATA_FILE ) ||
-                ( pFileEntry->usFileType == MEMORY_TABLE_FILE ) ||
-                ( pFileEntry->usFileType == MEMORY_INFO_FILE ) ||
-                ( pFileEntry->usFileType == PLUGINMEMORY_DATA_FILE ) ||
-                ( pFileEntry->usFileType == NTMMEMORY_INDEX_FILE ) ||
-                ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE ) ||
-                ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE_INDEX ) ||
-                ( pFileEntry->usFileType == NTMMEMORY_DATA_FILE ) )
-          {
-            if ( fFirst )
-            {
-              fprintf( hfOut, "\n   Memory files\n" );
-              fFirst = FALSE;
-            } /* endif */
-            ShowFile( pFileEntry );
-            pFileEntry->usProcessFlags = 1;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-
-        fFirst = TRUE;
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( ( pFileEntry->usFileType == DICTIONARY_PROP_FILE ) ||
-               ( pFileEntry->usFileType == DICTIONARY_DATA_FILE ) ||
-               ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE ) ||
-               ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE_INDEX ) ||
-               ( pFileEntry->usFileType == DICTIONARY_INDEX_FILE ) )
-          {
-            if ( fFirst )
-            {
-              fprintf( hfOut, "\n   Dictionary files\n" );
-              fFirst = FALSE;
-            } /* endif */
-            ShowFile( pFileEntry );
-            pFileEntry->usProcessFlags = 1;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-
-        fFirst = TRUE;
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( ( pFileEntry->usFileType == TAGTABLE_DATA_FILE ) ||
-               ( pFileEntry->usFileType == TAGTABLE_USEREXIT_FILE ) ||
-               ( pFileEntry->usFileType == TAGTABLE_USEREXITWIN_FILE ) ||
-               ( pFileEntry->usFileType == TAGTABLE_SETTINGS_FILE ) )
-          {
-            if ( fFirst )
-            {
-              fprintf( hfOut, "\n   Markup table files\n" );
-              fFirst = FALSE;
-            } /* endif */
-            ShowFile( pFileEntry );
-            pFileEntry->usProcessFlags = 1;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-
-        fFirst = TRUE;
-        pFileEntry = FileList.pEntries;
-        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
-        {
-          if ( pFileEntry->usProcessFlags == 0 )
-          {
-            if ( fFirst )
-            {
-              fprintf( hfOut, "\n   Files of unknown type\n" );
-              fFirst = FALSE;
-            } /* endif */
-            ShowFile( pFileEntry );
-            pFileEntry->usProcessFlags = 1;
-          } /* endif */
-          pFileEntry++;
-        } /* endfor */
-
-      } /* endif */
-    }
-    else
+    // show list of documents, dictionaries and memories
     {
       ULONG ulI = 0;
       ULONG ulDate;
@@ -1426,7 +1276,160 @@ int main
             break;
         } /* endswitch */
       } /* endif */
-    } /* endif */
+    } 
+
+    if ( fDetails )
+    {
+      ulI = 0;
+
+      if ( fXMLOutput )
+      {
+        pFileEntry = FileList.pEntries;
+        WriteInUTF8W( hfOut, L"  <PackageFiles>\r\n" );
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          ShowFile( pFileEntry );
+          pFileEntry++;
+        } /* endfor */
+        WriteInUTF8W( hfOut, L"  </PackageFiles>\r\n" );
+      }
+      else
+      {
+        fprintf( hfOut, "\nFiles contained in package:\n" );
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( ( pFileEntry->usFileType == FOLDER_PROP_FILE ) ||
+               ( pFileEntry->usFileType == HISTLOG_DATA_FILE ) ||
+               ( pFileEntry->usFileType == REDSEGMENT_DATA_FILE ) ||
+               ( pFileEntry->usFileType == BINCALCREPORT_FILE ) ||
+               ( pFileEntry->usFileType == GLOBALMEMORYFILTER_FILE ) ||
+               ( pFileEntry->usFileType == SUBFOLDER_PROP_FILE ) )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Folder files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( ( pFileEntry->usFileType == DOCUMENT_PROP_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_SEGTGT_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_SEGSRC_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_EADATA_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_MTLOG_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_XLIFF_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_METADATA_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_MISC_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_ENTITY_FILE ) ||
+               ( pFileEntry->usFileType == DOCUMENT_SRC_FILE ) )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Document files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( ( pFileEntry->usFileType == MEMORY_PROP_FILE ) ||
+                ( pFileEntry->usFileType == MEMORY_DATA_FILE ) ||
+                ( pFileEntry->usFileType == MEMORY_TABLE_FILE ) ||
+                ( pFileEntry->usFileType == MEMORY_INFO_FILE ) ||
+                ( pFileEntry->usFileType == PLUGINMEMORY_DATA_FILE ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_INDEX_FILE ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_NON_UNICODE_INDEX ) ||
+                ( pFileEntry->usFileType == NTMMEMORY_DATA_FILE ) )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Memory files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( ( pFileEntry->usFileType == DICTIONARY_PROP_FILE ) ||
+               ( pFileEntry->usFileType == DICTIONARY_DATA_FILE ) ||
+               ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE ) ||
+               ( pFileEntry->usFileType == DICTIONARY_NON_UNICODE_INDEX ) ||
+               ( pFileEntry->usFileType == DICTIONARY_INDEX_FILE ) )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Dictionary files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( ( pFileEntry->usFileType == TAGTABLE_DATA_FILE ) ||
+               ( pFileEntry->usFileType == TAGTABLE_USEREXIT_FILE ) ||
+               ( pFileEntry->usFileType == TAGTABLE_USEREXITWIN_FILE ) ||
+               ( pFileEntry->usFileType == TAGTABLE_SETTINGS_FILE ) )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Markup table files\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+        fFirst = TRUE;
+        pFileEntry = FileList.pEntries;
+        for ( ulI = 0; ulI < PackageHeader.ulFileListEntries; ulI++ )
+        {
+          if ( pFileEntry->usProcessFlags == 0 )
+          {
+            if ( fFirst )
+            {
+              fprintf( hfOut, "\n   Files of unknown type\n" );
+              fFirst = FALSE;
+            } /* endif */
+            ShowFile( pFileEntry );
+            pFileEntry->usProcessFlags = 1;
+          } /* endif */
+          pFileEntry++;
+        } /* endfor */
+
+      } /* endif */
+    }
   } /* endif */
 
   // cleanup

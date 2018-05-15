@@ -867,7 +867,7 @@ USHORT MemFuncCLMDocEnd
   if ( pCLMData->pDoc )
   {
     if ( pCLMData->pDoc->pDocTagTable ) TAFreeTagTable( (PLOADEDTABLE)pCLMData->pDoc->pDocTagTable );
-    TAFreeDoc( (PVOID *) &(pCLMData->pDoc) );
+    SegFileFreeDoc( (PVOID *) &(pCLMData->pDoc) );
     pCLMData->pDoc = NULL;
   } /* endif */
 
@@ -943,13 +943,13 @@ USHORT MemFuncCLMMemStart
   {
     if ( !pCLMData->fExternalMemory )
     {
+      MemoryFactory *pFactory = MemoryFactory::getInstance();
       BOOL fMerge = FALSE;
 
-      if ( UtlCheckIfExist( pCLMData->szOutMemory, TM_OBJECT ) )      
+      if ( pFactory->exists( NULL, pCLMData->szOutMemory ) )      
       {
         if ( pCLMData->lOptions & OVERWRITE_OPT )
         {
-          MemoryFactory *pFactory = MemoryFactory::getInstance();
           pFactory->deleteMemory( NULL, pCLMData->szOutMemory );
         }
         else if ( !(pCLMData->lOptions & CLEANMEM_MERGE_OPT) )
@@ -1946,7 +1946,7 @@ USHORT MemFuncCLMCleanup
   if ( pCLMData->pDoc )
   {
     if ( pCLMData->pDoc->pDocTagTable ) TAFreeTagTable( (PLOADEDTABLE)pCLMData->pDoc->pDocTagTable  );
-    TAFreeDoc( (PVOID *)&(pCLMData->pDoc) );
+    SegFileFreeDoc( (PVOID *)&(pCLMData->pDoc) );
     pCLMData->pDoc = NULL;
   } /* endif */
 

@@ -26,5 +26,5 @@ $(_BIN)\OpenTM2Scripter.exe: $(_OBJ)\OpenTM2Scripter.obj
 $(_OBJ)\OpenTM2Scripter.obj
 /OUT:$(_BIN)\OpenTM2Scripter.exe
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OtmBase.lib $(_LIB)\OTMDLL.lib $(_LIB)\PluginManager.lib
+$(_LINK_LIB_EXE) $(_LIB)\OTMFUNC.LIB $(_LIB)\OtmBase.lib $(_LIB)\PluginManager.lib
 <<

@@ -157,6 +157,7 @@ struct
 { HISTLOGDELETE_LOGTASK,      "Delete of history log file" },
 { HISTDATA_RESET_LOGTASK,     "Wordcount reset" },
 { FOLPROP_LOGTASK2,           "Folder properties changed" },
+{ STARGET_CORRUPT_LOGTASK,    "Corrrupted data has been corrected" },
 { (LOGTASK)0,                 "" } };
 
 #define DATEFORMATSTRING_YMD     "%4.4d%c%2.2d%c%2.2d"
@@ -1080,6 +1081,13 @@ BOOL RptGetRecords2( BOOL bDde, PRPT pRpt, PBOOL pfCorrupted, PLONG pLastValidTi
   if ( hwndRptLongLB ) WinDestroyWindow(hwndRptLongLB);
   if ( hfFileHandle )  fclose( hfFileHandle );  
   if ( pAllInfoTmp ) UtlAlloc((PVOID*)&pAllInfoTmp, 0L, 0, NOMSG );
+
+  // GQ 2017/11/10: Set fOK flag when at least some records have been read and the fCorrupted flag has been set to. 
+  //                This will ensure that the automatic histlog correction can do it's magic
+  if ( !fOK && (pfCorrupted != NULL) && *pfCorrupted && (pRpt->ulAllInfoRecords != 0) )
+  {
+    fOK = TRUE;
+  } /* endif */
 
   return fOK;
 } // end of RptGetRecords

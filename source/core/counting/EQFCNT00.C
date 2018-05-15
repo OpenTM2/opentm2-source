@@ -302,8 +302,6 @@
 #include <eqfcnt01.id>            //word count dialog id file
 #include <eqffol00.h>             //subfolder stuff
 
-
-MRESULT WCntListCallBack( PLISTCOMMAREA, HWND, WINMSG, WPARAM, LPARAM);
 USHORT CntBatchCount
 (
   HWND             hwndParent,         // handle of count handler window
@@ -416,6 +414,7 @@ MRESULT WCntListHandlerCallBack
 
       if ( fOK )   //--- processing ok so far
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         INT_PTR iRc;
 
         DIALOGBOX( EqfQueryTwbClient(), WORDCOUNTDLGPROC,

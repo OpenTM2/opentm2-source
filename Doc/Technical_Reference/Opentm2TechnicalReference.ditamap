@@ -16,7 +16,7 @@
     <prodinfo>
       <prodname>OpenTM2 for Windows</prodname>
       <vrmlist>
-        <vrm version="Version 1.4.2"/>
+        <vrm version="Version 1.5.0"/>
       </vrmlist>
     </prodinfo>
     <bookrights>
@@ -24,7 +24,7 @@
         <year>2016</year>
       </copyrfirst>
       <copyrlast>
-        <year>2017</year>
+        <year>2018</year>
       </copyrlast>
       <bookowner>
         <organization>IBM and Others</organization>
@@ -34,19 +34,26 @@
   <!-- ********************************************************************************************** -->
   <ibmfrontmatter>
     <specialnotices href="SpecialNotices.dita"> </specialnotices>
-    <editionnotices href="EditionNotices.dita" navtitle="Fourth Edition, July 2017"> </editionnotices>
+    <editionnotices href="EditionNotices.dita" navtitle="5th Edition, April 2018"> </editionnotices>
     <frontbooklists>
       <toc/>
     </frontbooklists>
     <preface href="preface.dita" navtitle="About this book">
       <topicref href="front_Chapter.dita" navtitle="Related information"> </topicref>
     </preface>
-    <topicref href="changes_Summary.dita" navtitle="Summary of changes"> </topicref>
-    <topicref href="changes_141.dita"   navtitle="Changes for OpenTM2 v1.4.1"></topicref>
-    <topicref href="changes_140.dita"   navtitle="New APIs in OpenTM2 v1.4.0"></topicref>
-    <topicref href="changes_132.dita"   navtitle="New and Updated APIs in OpenTM2 v1.3.2"></topicref>
-    <topicref href="changes_131.dita"   navtitle="New and Updated APIs in OpenTM2 v1.3.1"></topicref>
+    <topicref href="changes_Summary.dita" navtitle="Summary of changes">    
+      <topicref href="changes_150.dita"   navtitle="New and Updated APIs in OpenTM2 v1.5.0"></topicref>
+      <topicref href="changes_141.dita"   navtitle="Changes for OpenTM2 v1.4.1"></topicref>
+      <topicref href="changes_140.dita"   navtitle="New APIs in OpenTM2 v1.4.0"></topicref>
+      <topicref href="changes_132.dita"   navtitle="New and Updated APIs in OpenTM2 v1.3.2"></topicref>
+      <topicref href="changes_131.dita"   navtitle="New and Updated APIs in OpenTM2 v1.3.1"></topicref>
+    </topicref>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     <topicref href="changes_130.dita"   navtitle="New APIs in OpenTM2 v1.3.0"></topicref> 
+ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+
   </ibmfrontmatter>
   <!-- ********************************************************************************************** -->
   <part href="ProgrammingInterfaces.dita" navtitle="Programming interfaces">
@@ -99,7 +106,8 @@
         <topicref href="api_EqfChangeMFlag.dita" navtitle="EqfChangeMFlag"> </topicref>
         <topicref href="api_EqfCleanMemory.dita" navtitle="EqfCleanMemory"> </topicref>
         <topicref href="api_EqfClearMTFlag.dita" navtitle="EqfClearMTFlag"> </topicref>
-<!-- NEW --><topicref href="api_EqfCloseMem.dita" navtitle="EqfCloseMem"> </topicref>
+        <topicref href="api_EqfCloseMem.dita" navtitle="EqfCloseMem"> </topicref>
+<!-- NEW --><topicref href="api_EqfConnectSharedMem.dita" navtitle="EqfConnectSharedMem"> </topicref>
         <topicref href="api_EqfCountWords.dita" navtitle="EqfCountWords"> </topicref>
         <topicref href="api_EqfCountWordsInString.dita" navtitle="EqfCountWordsInString"> </topicref>
         <topicref href="api_EqfCreateCntReport.dita" navtitle="EqfCreateCntReport">
@@ -128,6 +136,7 @@
         <topicref href="api_EqfDeleteMem.dita" navtitle="EqfDeleteMem"> </topicref>
         <topicref href="api_EqfDeleteMTLog.dita" navtitle="EqfDeleteMTLog"> </topicref>
         <topicref href="api_EqfDictionaryExists.dita" navtitle="EqfDictionaryExists"> </topicref>
+<!-- NEW --><topicref href="api_EqfDisconnectSharedMem.dita" navtitle="EqfDisconnectSharedMem"> </topicref>
         <topicref href="api_EqfDocumentExists.dita" navtitle="EqfDocumentExists"> </topicref>
         <topicref href="api_EqfEndSession.dita" navtitle="EqfEndSession"> </topicref>
         <topicref href="api_EqfExportDict.dita" navtitle="EqfExportDict"> </topicref>

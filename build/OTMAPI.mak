@@ -57,5 +57,13 @@ $(_OBJ)\eqfx_api.obj
 $(_OBJ)\eqfx1api.obj
 /OUT:$(_DLL)\OTMAPI.dll
 $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\otmbase.lib $(_LIB)\otmdll.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\otmbase.lib 
+$(_LIB)\OTMEditorFunctions.lib
+$(_LIB)\OTMTagTableFunctions.lib
+$(_LIB)\OTMLinguistic.lib
+$(_LIB)\OTMFolderFunctions.lib
+$(_LIB)\OTMSegmentedFile.lib
+$(_LIB)\OTMAnalysisFunctions.lib
+$(_LIB)\OTMWorkbench.lib
 <<

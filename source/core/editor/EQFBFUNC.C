@@ -1,7 +1,7 @@
 /*! \file
 	Description: This module contains the routines that implement the editor's functions.
 	Each editor function is implemented as a separate routine.
-
+ 
 	Copyright Notice:
 
 	Copyright (C) 1990-2016, International Business Machines

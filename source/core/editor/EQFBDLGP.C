@@ -20,13 +20,10 @@
 #include "EQFB.ID"                // Translation Processor IDs
 #include "EQFBDLG.ID"             // dialog control IDs
 
-  extern HELPSUBTABLE hlpsubtblPropMessageDlg[];
-  extern HELPSUBTABLE hlpsubtblPropDictionaryDlg[];
-  extern HELPSUBTABLE hlpsubtblPropTranslMemDlg[];
-  extern HELPSUBTABLE hlpsubtblPropEditorDlg[];
-  extern HELPSUBTABLE hlpsubtblPropDisplayDlg[];
-  extern HELPSUBTABLE hlpsubtblPropSettingsDlg[];
-  extern HELPSUBTABLE hlpsubtblPropBackTasksDlg[];
+#undef _WPTMIF                         // we don't care about WP I/F
+#include "eqfhelp.id"                  // help resource IDs
+#include "eqfhlp1.h"                   // first part of help tables
+#include "eqfmsg.htb"                          // message help table
 
 static BOOL EQFBGetProfInit ( HWND hwndDlg );
 static VOID EQFBDoProfInit ( HWND ,WPARAM,LPARAM );
@@ -680,6 +677,7 @@ EQFBFuncTOCGoto
 )
 {
    INT_PTR        iRc;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
 
    DIALOGBOXW( pDoc->hwndClient, EQFBTOCGOTODLGPROC, hResMod,
@@ -1073,6 +1071,7 @@ EQFBTOCGotoFillLB
      } /* endwhile */
      if (sItem == LIT_NONE )
      {
+       HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
        /******************************************************************/
        /* if no toc    found in document, "no entry available" is dis-   */
        /* played in toc listbox                                          */
@@ -1418,6 +1417,7 @@ BOOL PropertySheetLoad
   {
     RECT rect;
     USHORT usI;
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
     // remember adress of user area
     pIda->pDoc = (PTBDOCUMENT) mp2;
@@ -1620,6 +1620,7 @@ MRESULT PropertySheetNotification
       break;
     case TTN_NEEDTEXT:
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
@@ -1844,171 +1845,173 @@ INT_PTR CALLBACK EQFBPROP_DISPLAY_DLGPROC
   switch ( msg )
   {
     case WM_INITDLG:
-
-      hab = GETINSTANCE( hwndDlg );
-      pIda = (PPROFONEIDA) mp2;
-      ANCHORDLGIDA( hwndDlg, pIda );
-      SETWINDOWID( hwndDlg, ID_TB_PROP_DISPLAY_DLG );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_SEGBOUNDSIGN, pEQFBUserOpt->fSegBound );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_VISIBLESPACE, pEQFBUserOpt->UserOptFlags.bVisibleSpace);
-
-      /********************************************************************/
-      /* shrink                                                           */
-      /********************************************************************/
-      SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_SHRINK_EF, MAXSHRKLEN );
-      OEMSETTEXT( hwndDlg, ID_TB_PROFONE_SHRINK_EF, pEQFBUserOpt->szOutTagAbbr );
-      SETEFSEL( hwndDlg, ID_TB_PROFONE_SHRINK_EF, 0, MAXSHRKLEN );
-      /********************************************************************/
-      /* compact                                                          */
-      /********************************************************************/
-      SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_COMPACT_EF, MAXSHRKLEN );
-      OEMSETTEXT( hwndDlg, ID_TB_PROFONE_COMPACT_EF, pEQFBUserOpt->szInTagAbbr );
-      SETEFSEL( hwndDlg, ID_TB_PROFONE_COMPACT_EF, 0, MAXSHRKLEN );
-
-      /********************************************************************/
-      /* trnote                                                           */
-      /********************************************************************/
-      SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_TRNOTE_EF, MAXTRNOTE_SIZE );
-      OEMSETTEXT( hwndDlg, ID_TB_PROFONE_TRNOTE_EF, pEQFBUserOpt->chTRNoteAbbr );
-      SETEFSEL( hwndDlg, ID_TB_PROFONE_TRNOTE_EF, 0, MAXTRNOTE_SIZE );
-      /********************************************************************/
-      /* fill entry field with line number of active segment              */
-      /********************************************************************/
-      SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_ACTLINE_EF, FOCUS_LENGTH );
-      itoa( pEQFBUserOpt->sFocusLine, chText, 10 );
-      OEMSETTEXT( hwndDlg, ID_TB_PROFONE_ACTLINE_EF, chText );
-      SETEFSEL( hwndDlg, ID_TB_PROFONE_ACTLINE_EF, 0, FOCUS_LENGTH );
-
-      if (!pIda->pDoc->hwndRichEdit )
       {
-        /********************************************************************/
-        /* fill cbs with right margin possibilities                         */
-        /********************************************************************/
-        SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, RMARGIN_LENGTH );
-        LOADSTRING( hab, hResMod, IDS_TB_PROFONE_AUTO, pIda->szMarginBuffer );
-        sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS,
-                               pIda->szMarginBuffer);
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-        for ( sI = 50; sI < 95; sI= sI+5 )
+        hab = GETINSTANCE( hwndDlg );
+        pIda = (PPROFONEIDA) mp2;
+        ANCHORDLGIDA( hwndDlg, pIda );
+        SETWINDOWID( hwndDlg, ID_TB_PROP_DISPLAY_DLG );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_SEGBOUNDSIGN, pEQFBUserOpt->fSegBound );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_VISIBLESPACE, pEQFBUserOpt->UserOptFlags.bVisibleSpace);
+
+        /********************************************************************/
+        /* shrink                                                           */
+        /********************************************************************/
+        SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_SHRINK_EF, MAXSHRKLEN );
+        OEMSETTEXT( hwndDlg, ID_TB_PROFONE_SHRINK_EF, pEQFBUserOpt->szOutTagAbbr );
+        SETEFSEL( hwndDlg, ID_TB_PROFONE_SHRINK_EF, 0, MAXSHRKLEN );
+        /********************************************************************/
+        /* compact                                                          */
+        /********************************************************************/
+        SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_COMPACT_EF, MAXSHRKLEN );
+        OEMSETTEXT( hwndDlg, ID_TB_PROFONE_COMPACT_EF, pEQFBUserOpt->szInTagAbbr );
+        SETEFSEL( hwndDlg, ID_TB_PROFONE_COMPACT_EF, 0, MAXSHRKLEN );
+
+        /********************************************************************/
+        /* trnote                                                           */
+        /********************************************************************/
+        SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_TRNOTE_EF, MAXTRNOTE_SIZE );
+        OEMSETTEXT( hwndDlg, ID_TB_PROFONE_TRNOTE_EF, pEQFBUserOpt->chTRNoteAbbr );
+        SETEFSEL( hwndDlg, ID_TB_PROFONE_TRNOTE_EF, 0, MAXTRNOTE_SIZE );
+        /********************************************************************/
+        /* fill entry field with line number of active segment              */
+        /********************************************************************/
+        SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_ACTLINE_EF, FOCUS_LENGTH );
+        itoa( pEQFBUserOpt->sFocusLine, chText, 10 );
+        OEMSETTEXT( hwndDlg, ID_TB_PROFONE_ACTLINE_EF, chText );
+        SETEFSEL( hwndDlg, ID_TB_PROFONE_ACTLINE_EF, 0, FOCUS_LENGTH );
+
+        if (!pIda->pDoc->hwndRichEdit )
         {
-          itoa(sI, pIda->szBuffer, 10);
+          /********************************************************************/
+          /* fill cbs with right margin possibilities                         */
+          /********************************************************************/
+          SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, RMARGIN_LENGTH );
+          LOADSTRING( hab, hResMod, IDS_TB_PROFONE_AUTO, pIda->szMarginBuffer );
           sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS,
-                                 pIda->szBuffer);
-        } /* endfor */
-        /*****************************************************************/
-        /* select the current value correctly                            */
-        /*****************************************************************/
-        if (pIda->pDoc->fAutoLineWrap )
-        {
-          CBSELECTITEM( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, 0);
+                                 pIda->szMarginBuffer);
+
+          for ( sI = 50; sI < 95; sI= sI+5 )
+          {
+            itoa(sI, pIda->szBuffer, 10);
+            sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS,
+                                   pIda->szBuffer);
+          } /* endfor */
+          /*****************************************************************/
+          /* select the current value correctly                            */
+          /*****************************************************************/
+          if (pIda->pDoc->fAutoLineWrap )
+          {
+            CBSELECTITEM( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, 0);
+          }
+          else
+          {
+            itoa( pEQFBUserOpt->sRMargin, chText, 10 );
+            SETTEXT( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, chText );
+          } /* endif */
         }
         else
         {
-          itoa( pEQFBUserOpt->sRMargin, chText, 10 );
-          SETTEXT( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, chText );
+          ShowWindow( WinWindowFromID( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS),
+                      SW_HIDE );
+          ShowWindow( WinWindowFromID( hwndDlg, ID_TB_PROFONE_RMARGIN_STATIC),
+                      SW_HIDE );
         } /* endif */
-      }
-      else
-      {
-        ShowWindow( WinWindowFromID( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS),
-                    SW_HIDE );
-        ShowWindow( WinWindowFromID( hwndDlg, ID_TB_PROFONE_RMARGIN_STATIC),
-                    SW_HIDE );
-      } /* endif */
 
-     /********************************************************************/
-     /* fill cbs with all possibilities                                  */
-     /********************************************************************/
-     pIda->szBuffer[1] = EOS;
-     for ( sI = 32; sI < 256; sI++ )
-     {
-       if ( ((sI >= 48) && (sI <= 57)) ||
-            ((sI >= 65) && (sI <= 90)) ||
-            ((sI >= 97) && (sI <= 122)) )
+       /********************************************************************/
+       /* fill cbs with all possibilities                                  */
+       /********************************************************************/
+       pIda->szBuffer[1] = EOS;
+       for ( sI = 32; sI < 256; sI++ )
        {
-         /*************************************************************/
-         /* ignore character -- it is not selectable                  */
-         /*************************************************************/
+         if ( ((sI >= 48) && (sI <= 57)) ||
+              ((sI >= 65) && (sI <= 90)) ||
+              ((sI >= 97) && (sI <= 122)) )
+         {
+           /*************************************************************/
+           /* ignore character -- it is not selectable                  */
+           /*************************************************************/
+         }
+         else
+         {
+           pIda->szBuffer[0] = (BYTE)sI;
+           CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, pIda->szBuffer);
+           CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, pIda->szBuffer);
+           CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, pIda->szBuffer);
+         } /* endif */
+       } /* endfor */
+
+
+       /*****************************************************************/
+       /* select last used values                                       */
+       /*****************************************************************/
+       pIda->szBuffer[0] = (BYTE)pEQFBUserOpt->bVisibleBlank;
+       if (pIda->szBuffer[0] == 0)
+       {
+         pIda->szBuffer[0] = VISIBLE_BLANK;
+       }
+
+       sI = (SHORT)SendDlgItemMessage( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, CB_FINDSTRING,  (WPARAM) -1, (LONG) &pIda->szBuffer[0] );
+       CBSELECTITEM( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, (sI >=0) ? sI : 0);
+
+
+       pIda->szBuffer[0] = (BYTE)pEQFBUserOpt->bVisibleLineFeed;
+       if (pIda->szBuffer[0] == 0)
+       {
+         pIda->szBuffer[0] = VISIBLE_LINEFEED;
+       }
+
+       sI = (SHORT)SendDlgItemMessage( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, CB_FINDSTRING, (WPARAM) -1, (LONG) &pIda->szBuffer[0] );
+       CBSELECTITEM( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, (sI >=0) ? sI : 0);
+
+
+       pIda->szBuffer[0] = (BYTE)pEQFBUserOpt->bSegmentBoundary;
+       if (pIda->szBuffer[0] == 0)
+       {
+         pIda->szBuffer[0] = POSTEDITSEGBOUND_SEGDATA;
+       }
+
+       sI = (SHORT)SendDlgItemMessage( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, CB_FINDSTRING, (WPARAM) -1, (LONG) &pIda->szBuffer[0] );
+       CBSELECTITEM( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, (sI >=0) ? sI : 0);
+
+       SetCtrlFnt (hwndDlg, pIda->pDoc->lf.lfCharSet,
+                   ID_TB_PROFONE_VISIBLEBLANK_EF, ID_TB_PROFONE_VISIBLEHARDRETURN_EF );
+       SetCtrlFnt (hwndDlg, pIda->pDoc->lf.lfCharSet,
+                   ID_TB_PROFONE_SEGMENTBOUND_EF, 0 );
+
+       if ( !pEQFBUserOpt->UserOptFlags.bVisibleSpace || pIda->pDoc->hwndRichEdit )
+       {
+         ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_STATIC, FALSE );
+         ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_STATIC, FALSE );
+
+         ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, FALSE );
+         ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, FALSE );
+       } /* endif */
+
+       if ( !pEQFBUserOpt->fSegBound )
+       {
+         ENABLECTRL( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_STATIC, FALSE );
+         ENABLECTRL( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, FALSE );
+       }
+
+       /*****************************************************************/
+       /* select the current value correctly                            */
+       /*****************************************************************/
+       if (pIda->pDoc->fAutoLineWrap )
+       {
+         CBSELECTITEM( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, 0);
        }
        else
        {
-         pIda->szBuffer[0] = (BYTE)sI;
-         CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, pIda->szBuffer);
-         CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, pIda->szBuffer);
-         CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, pIda->szBuffer);
+         itoa( pEQFBUserOpt->sRMargin, chText, 10 );
+         SETTEXT( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, chText );
        } /* endif */
-     } /* endfor */
 
 
-     /*****************************************************************/
-     /* select last used values                                       */
-     /*****************************************************************/
-     pIda->szBuffer[0] = (BYTE)pEQFBUserOpt->bVisibleBlank;
-     if (pIda->szBuffer[0] == 0)
-     {
-       pIda->szBuffer[0] = VISIBLE_BLANK;
-     }
-
-     sI = (SHORT)SendDlgItemMessage( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, CB_FINDSTRING,  (WPARAM) -1, (LONG) &pIda->szBuffer[0] );
-     CBSELECTITEM( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, (sI >=0) ? sI : 0);
-
-
-     pIda->szBuffer[0] = (BYTE)pEQFBUserOpt->bVisibleLineFeed;
-     if (pIda->szBuffer[0] == 0)
-     {
-       pIda->szBuffer[0] = VISIBLE_LINEFEED;
-     }
-
-     sI = (SHORT)SendDlgItemMessage( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, CB_FINDSTRING, (WPARAM) -1, (LONG) &pIda->szBuffer[0] );
-     CBSELECTITEM( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, (sI >=0) ? sI : 0);
-
-
-     pIda->szBuffer[0] = (BYTE)pEQFBUserOpt->bSegmentBoundary;
-     if (pIda->szBuffer[0] == 0)
-     {
-       pIda->szBuffer[0] = POSTEDITSEGBOUND_SEGDATA;
-     }
-
-     sI = (SHORT)SendDlgItemMessage( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, CB_FINDSTRING, (WPARAM) -1, (LONG) &pIda->szBuffer[0] );
-     CBSELECTITEM( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, (sI >=0) ? sI : 0);
-
-     SetCtrlFnt (hwndDlg, pIda->pDoc->lf.lfCharSet,
-                 ID_TB_PROFONE_VISIBLEBLANK_EF, ID_TB_PROFONE_VISIBLEHARDRETURN_EF );
-     SetCtrlFnt (hwndDlg, pIda->pDoc->lf.lfCharSet,
-                 ID_TB_PROFONE_SEGMENTBOUND_EF, 0 );
-
-     if ( !pEQFBUserOpt->UserOptFlags.bVisibleSpace || pIda->pDoc->hwndRichEdit )
-     {
-       ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_STATIC, FALSE );
-       ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_STATIC, FALSE );
-
-       ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEBLANK_EF, FALSE );
-       ENABLECTRL( hwndDlg, ID_TB_PROFONE_VISIBLEHARDRETURN_EF, FALSE );
-     } /* endif */
-
-     if ( !pEQFBUserOpt->fSegBound )
-     {
-       ENABLECTRL( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_STATIC, FALSE );
-       ENABLECTRL( hwndDlg, ID_TB_PROFONE_SEGMENTBOUND_EF, FALSE );
-     }
-
-     /*****************************************************************/
-     /* select the current value correctly                            */
-     /*****************************************************************/
-     if (pIda->pDoc->fAutoLineWrap )
-     {
-       CBSELECTITEM( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, 0);
-     }
-     else
-     {
-       itoa( pEQFBUserOpt->sRMargin, chText, 10 );
-       SETTEXT( hwndDlg, ID_TB_PROFONE_RMARGIN_CBS, chText );
-     } /* endif */
-
-
-       SetCtrlFnt (hwndDlg, pIda->pDoc->lf.lfCharSet,
-                   ID_TB_PROFONE_COMPACT_EF,ID_TB_PROFONE_SHRINK_EF );
-
+         SetCtrlFnt (hwndDlg, pIda->pDoc->lf.lfCharSet,
+                     ID_TB_PROFONE_COMPACT_EF,ID_TB_PROFONE_SHRINK_EF );
+      }
       break;
 
     case WM_DESTROY:
@@ -2530,75 +2533,78 @@ INT_PTR CALLBACK EQFBPROP_TRANSLMEM_DLGPROC
   switch ( msg )
   {
     case WM_INITDLG:
-      /*******************************************************************/
-      /* load strings form resource to fill proposal wind.style cbs      */
-      /*******************************************************************/
-      hab = GETINSTANCE( hwndDlg );
-      pIda = (PPROFONEIDA) mp2;
-      ANCHORDLGIDA( hwndDlg, pIda );
-      SETWINDOWID( hwndDlg, ID_TB_PROP_TRANSLMEM_DLG );
-
-      ENABLEUPDATE_FALSE( hwndDlg, ID_TB_PROFONE_TMWND_CBS );
-      // load names for style texts
-      LOADSTRING( hab, hResMod, IDS_TB_PROFONE_PROTECTED, pIda->szStyleArray[0] );
-      sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
-                             pIda->szStyleArray[0]);
-      LOADSTRING( hab, hResMod, IDS_TB_PROFONE_HIDE, pIda->szStyleArray[1] );
-      sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
-                                pIda->szStyleArray[1]);
-      LOADSTRING( hab, hResMod, IDS_TB_PROFONE_COMPACT, pIda->szStyleArray[2] );
-      sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
-                                pIda->szStyleArray[2]);
-      LOADSTRING( hab, hResMod, IDS_TB_PROFONE_SHORTEN, pIda->szStyleArray[3] );
-      sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
-                                pIda->szStyleArray[3]);
-
-      switch ( pEQFBUserOpt->DispTM )
       {
-        case DISP_PROTECTED :
-          sI = 0;
-          break;
-        case DISP_COMPACT :
-          sI = 2;
-          break;
-        case DISP_HIDE:
-          sI = 1;
-          break;
-        case DISP_SHORTEN:
-          sI = 3;
-          break;
-        default :
-          sI = 0;
-          break;
-      } /* endswitch */
-      CBSELECTITEM( hwndDlg, ID_TB_PROFONE_TMWND_CBS, sI);
-      ENABLEUPDATE_TRUE( hwndDlg, ID_TB_PROFONE_TMWND_CBS );
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      SETCHECK( hwndDlg, ID_TB_PROFONE_SRCPROPWND,   pEQFBUserOpt->fSrcPropWnd );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_NUMPROPS,     pEQFBUserOpt->fNumProp );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_ORIGINPROP,   pEQFBUserOpt->fOriginProp );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_DATEOFPROP,   pEQFBUserOpt->fDateOfProp );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_DISPMTALWAYS, pEQFBUserOpt->UserOptFlags.bDispMTAlways );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_DISPSRC,      !pEQFBUserOpt->fFullSeg );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_AUTOREPL,     pEQFBUserOpt->fAutoRepl);
-      SETCHECK( hwndDlg, ID_TB_PROFONE_ALLEXACTPROPS,pEQFBUserOpt->UserOptFlags.bAllExactProposals );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_FUZZYPERCENT, pEQFBUserOpt->UserOptFlags.bDispPropQuality );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_DISPMEMNAME,  EQFBUserOpt.fDispMemName );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_DISPMEMINDICATOR,  EQFBUserOpt.fDispMemIndicator );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_MACHFUZZCOLOR,  EQFBUserOpt.fMachFuzzyColor );
-      SETCHECK( hwndDlg, ID_TB_PROFONE_MACHFUZZDIFF,  EQFBUserOpt.fMachFuzzyDiff );
-      if ( EQFBUserOpt.usFuzzyForDiv == 0)
-      {
-        SETTEXT( hwndDlg, ID_TB_PROFONE_FUZZYFORDIFF_EF, "80" );
+        /*******************************************************************/
+        /* load strings form resource to fill proposal wind.style cbs      */
+        /*******************************************************************/
+        hab = GETINSTANCE( hwndDlg );
+        pIda = (PPROFONEIDA) mp2;
+        ANCHORDLGIDA( hwndDlg, pIda );
+        SETWINDOWID( hwndDlg, ID_TB_PROP_TRANSLMEM_DLG );
+
+        ENABLEUPDATE_FALSE( hwndDlg, ID_TB_PROFONE_TMWND_CBS );
+        // load names for style texts
+        LOADSTRING( hab, hResMod, IDS_TB_PROFONE_PROTECTED, pIda->szStyleArray[0] );
+        sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
+                               pIda->szStyleArray[0]);
+        LOADSTRING( hab, hResMod, IDS_TB_PROFONE_HIDE, pIda->szStyleArray[1] );
+        sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
+                                  pIda->szStyleArray[1]);
+        LOADSTRING( hab, hResMod, IDS_TB_PROFONE_COMPACT, pIda->szStyleArray[2] );
+        sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
+                                  pIda->szStyleArray[2]);
+        LOADSTRING( hab, hResMod, IDS_TB_PROFONE_SHORTEN, pIda->szStyleArray[3] );
+        sItem = CBINSERTITEMEND( hwndDlg, ID_TB_PROFONE_TMWND_CBS,
+                                  pIda->szStyleArray[3]);
+
+        switch ( pEQFBUserOpt->DispTM )
+        {
+          case DISP_PROTECTED :
+            sI = 0;
+            break;
+          case DISP_COMPACT :
+            sI = 2;
+            break;
+          case DISP_HIDE:
+            sI = 1;
+            break;
+          case DISP_SHORTEN:
+            sI = 3;
+            break;
+          default :
+            sI = 0;
+            break;
+        } /* endswitch */
+        CBSELECTITEM( hwndDlg, ID_TB_PROFONE_TMWND_CBS, sI);
+        ENABLEUPDATE_TRUE( hwndDlg, ID_TB_PROFONE_TMWND_CBS );
+
+        SETCHECK( hwndDlg, ID_TB_PROFONE_SRCPROPWND,   pEQFBUserOpt->fSrcPropWnd );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_NUMPROPS,     pEQFBUserOpt->fNumProp );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_ORIGINPROP,   pEQFBUserOpt->fOriginProp );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_DATEOFPROP,   pEQFBUserOpt->fDateOfProp );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_DISPMTALWAYS, pEQFBUserOpt->UserOptFlags.bDispMTAlways );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_DISPSRC,      !pEQFBUserOpt->fFullSeg );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_AUTOREPL,     pEQFBUserOpt->fAutoRepl);
+        SETCHECK( hwndDlg, ID_TB_PROFONE_ALLEXACTPROPS,pEQFBUserOpt->UserOptFlags.bAllExactProposals );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_FUZZYPERCENT, pEQFBUserOpt->UserOptFlags.bDispPropQuality );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_DISPMEMNAME,  EQFBUserOpt.fDispMemName );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_DISPMEMINDICATOR,  EQFBUserOpt.fDispMemIndicator );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_MACHFUZZCOLOR,  EQFBUserOpt.fMachFuzzyColor );
+        SETCHECK( hwndDlg, ID_TB_PROFONE_MACHFUZZDIFF,  EQFBUserOpt.fMachFuzzyDiff );
+        if ( EQFBUserOpt.usFuzzyForDiv == 0)
+        {
+          SETTEXT( hwndDlg, ID_TB_PROFONE_FUZZYFORDIFF_EF, "80" );
+        }
+        else
+        {
+          CHAR szFuzzy[10];
+          sprintf( szFuzzy, "%u", EQFBUserOpt.usFuzzyForDiv );
+          SETTEXT( hwndDlg, ID_TB_PROFONE_FUZZYFORDIFF_EF, szFuzzy );
+        } /* endif */         
+        SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_FUZZYFORDIFF_EF, 2 );
       }
-      else
-      {
-        CHAR szFuzzy[10];
-        sprintf( szFuzzy, "%u", EQFBUserOpt.usFuzzyForDiv );
-        SETTEXT( hwndDlg, ID_TB_PROFONE_FUZZYFORDIFF_EF, szFuzzy );
-      } /* endif */         
-      SETTEXTLIMIT( hwndDlg, ID_TB_PROFONE_FUZZYFORDIFF_EF, 2 );
-
       break;
 
     case WM_COMMAND:

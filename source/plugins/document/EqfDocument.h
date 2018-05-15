@@ -98,7 +98,7 @@ USHORT CPP_EQFBWriteHistLog(PSZ pszFolObjName, PSZ pszDocName, SHORT TaskId, USH
 USHORT CPP_EQFBWriteHistLog2(PSZ pszFolObjName, PSZ pszDocName, SHORT TaskId, USHORT usAddInfoLength, PVOID pvAddInfo, BOOL fMsg, HWND hwndErrMsg, PSZ pszLongDocName);
 void CPP_HistLogCorrectRecSizes(PHISTLOGRECORD pRecord);
 SHORT CPP_EQFBHistDocSave(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID);
-SHORT CPP_EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID, BOOL fAdjustCountInfo);
+SHORT CPP_EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID );
 USHORT CPP_EQFBFileRead(PSZ pszFileName, PTBDOCUMENT pDoc);
 USHORT CPP_EQFBFileReadExW(PSZ pszFileName, PTBDOCUMENT pDoc, LONG lFlags);
 void CPP_EQFBFreeDoc(PTBDOCUMENT *ppDoc, ULONG ulOptions);

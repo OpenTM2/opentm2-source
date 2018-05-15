@@ -57,7 +57,6 @@ $(_DLL)\OtmSpellHSPlugin.DLL:	$(_OBJ)\OtmSpellHSPlugin.OBJ \
 								$(_OBJ)\OtmSpellHS.OBJ \
 								$(_OBJ)\HunspellObjManager.OBJ \
 								$(_LIB)\OtmBase.lib \
-								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
 
 #------------------------------------------------------------------------------
@@ -73,7 +72,10 @@ $(_DLL)\OtmSpellHSPlugin.DLL:
 					$(_OBJ)\HunspellObjManager.OBJ
 /OUT:$(_DLL)\OtmSpellHSPlugin.DLL
 /MAP:$(_MAP)\OtmSpellHSPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(HUNSPELLLIBDIR)\$(HUNSPELLLIB)
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\PluginManager.lib 
+$(HUNSPELLLIBDIR)\$(HUNSPELLLIB)
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @if not exist $(RELEASE_DIR)\OTM\Plugins\OtmSpellHSPlugin md $(RELEASE_DIR)\OTM\Plugins\OtmSpellHSPlugin

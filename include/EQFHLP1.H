@@ -8,6 +8,42 @@
 //+----------------------------------------------------------------------------+
 //|  Description:                                                              |
 //+----------------------------------------------------------------------------+
+
+// the following includes are required for the control IDs used in the help tables
+#include "eqfutils.id"
+#include "eqfdoc01.id"
+#include "eqfiana1.id"
+#include "eqfmem.id"
+#include "eqffol.id"
+#include "eqffll.id"
+#include "eqftag00.id"                 // tag handler IDs
+#include <EQFTIMP.ID>
+#include <EQFTEXP.ID>
+#include <EQFLNG00.ID>
+#include "eqfdic00.id"
+#include "eqfutclb.id"
+#include "EQFDIMP.ID"
+#include "EQFDEX.ID"
+#include "EQFTIMP.ID"
+#include "EQFTEXP.ID"
+#include "EQFCNT01.ID"
+#include "EQFFILT.ID"
+#include "EQFQDPR.ID"
+#include "EQFTwb.ID"                   // IDs of Twb dialogs
+#include "EQFB.ID"                     // IDs of Translation Processor window
+#include "EQFITMD.ID"                  // IDs of ITM dialogs and windows
+#include "EQFBDLG.ID"                  // IDs of Translation Processor dialogs
+#include "EQFDPROP.ID"                 // IDs of Dictionary Dialogs - 1 -
+#include "EQFDDLG.ID"                  // IDs of Dictionary Dialogs - 2 -
+#include "EQFRDICS.ID"                 // IDs for remote dictionary
+#include "EQFLIST.ID"                  // IDs of list handler windows and dialogs
+#include "EQFTMM.ID"                   // IDs of TMM window
+#include "EQFTMFUN.ID"                 // IDs of TMM dialogs
+#include "eqfrpt.id"                   // IDs report handler dialog
+#include "eqfmt.id"                    // IDs Machine Translation Properties
+
+
+
 #ifdef HELPTABLEREFERENCEONLY
 
 HELPSUBTABLE hlpsubtblCreateFolder[];

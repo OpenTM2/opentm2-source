@@ -51,7 +51,11 @@ $(_OBJ)\LogWriter.OBJ:	$(_SRC)\core\utilities\LogWriter.cpp
 $(_OBJ)\LanguageFactory.OBJ:	$(_SRC)\core\utilities\LanguageFactory.cpp
 $(_OBJ)\zip.OBJ:	$(_SRC)\core\utilities\zip.cpp
 $(_OBJ)\unzip.OBJ:	$(_SRC)\core\utilities\unzip.cpp
-
+$(_OBJ)\CXMLWriter.OBJ:	$(_SRC)\tools\CXMLWriter.CPP
+$(_OBJ)\UtlDocInfo.OBJ:	$(_SRC)\core\utilities\UtlDocInfo.c
+$(_OBJ)\OTMSegFile.OBJ:	$(_SRC)\core\editor\OTMSegFile.c
+$(_OBJ)\EQFUTMDI.OBJ:	$(_SRC)\core\utilities\EQFUTMDI.C
+$(_OBJ)\OptionsDialog.OBJ:	$(_SRC)\core\utilities\OptionsDialog.CPP
 
 $(_DLL)\OTMBase.DLL:	$(_OBJ)\UtlMATVal.OBJ \
 						$(_OBJ)\UtlLangCP.OBJ \
@@ -68,12 +72,18 @@ $(_DLL)\OTMBase.DLL:	$(_OBJ)\UtlMATVal.OBJ \
 						$(_OBJ)\eqfhash.OBJ \
 						$(_OBJ)\UtlMisc.OBJ \
 						$(_OBJ)\UtlRegistry.OBJ \
-                                                $(_OBJ)\LanguageFactory.OBJ \
+            $(_OBJ)\LanguageFactory.OBJ \
 						$(_OBJ)\OtmProposal.OBJ \
 						$(_OBJ)\zip.OBJ \
 						$(_OBJ)\unzip.OBJ \
 						$(_OBJ)\LogWriter.OBJ \
-                                                $(_OBJ)\UtlAlloc.OBJ
+            $(_OBJ)\UtlAlloc.OBJ \
+            $(_OBJ)\UtlDocInfo.OBJ \
+            $(_OBJ)\OTMSegFile.OBJ \
+            $(_OBJ)\EQFUTMDI.OBJ \
+            $(_OBJ)\OptionsDialog.OBJ \
+ 						$(_OBJ)\CXMLWriter.OBJ 
+
 
 #------------------------------------------------------------------------------
 # Build OTMBase.DLL
@@ -98,12 +108,17 @@ $(_DLL)\OTMBase.DLL:
 					$(_OBJ)\eqfhash.OBJ
 					$(_OBJ)\UtlMisc.OBJ
 					$(_OBJ)\UtlRegistry.OBJ
-                    			$(_OBJ)\LanguageFactory.OBJ
+          $(_OBJ)\LanguageFactory.OBJ
 					$(_OBJ)\OtmProposal.OBJ
-  					$(_OBJ)\zip.OBJ 
+  				$(_OBJ)\zip.OBJ 
 					$(_OBJ)\unzip.OBJ 
 					$(_OBJ)\LogWriter.OBJ
-                                        $(_OBJ)\UtlAlloc.OBJ
+          $(_OBJ)\UtlAlloc.OBJ
+          $(_OBJ)\UtlDocInfo.OBJ
+          $(_OBJ)\OTMSegFile.OBJ
+          $(_OBJ)\EQFUTMDI.OBJ 
+          $(_OBJ)\OptionsDialog.OBJ
+          $(_OBJ)\CXMLWriter.OBJ
 /OUT:$(_DLL)\OTMBase.DLL
 /MAP:$(_MAP)\OTMBase.MAP $(_LINK_OPTIONS) /MAPINFO:EXPORTS /DLL
 $(_LINK_LIB_CRT) imm32.lib $(_LIBOTHER)\xerces-c_3.lib

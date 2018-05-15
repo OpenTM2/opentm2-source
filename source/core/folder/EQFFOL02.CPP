@@ -48,7 +48,7 @@
 // name of last used valued fro folder import directory
 #define FOLIMPEXPLASTUSEDDIR "FOLDERIMPORTEXPORT"
 
-HWND hwndImportInstance;                  // handle of import instance window
+HWND hwndImportInstance = NULLHANDLE;                  // handle of import instance window
 
 extern HELPSUBTABLE hlpsubtblFolPropImpDlg[];
 extern HELPSUBTABLE hlpsubtblFolPropGeneralImpDlg[];
@@ -118,6 +118,11 @@ USHORT FolImpProcessSubFolders( HWND hwnd, PFOLIMPIDA pIda );
 BOOL FolImpBuildAddTagTableFilesList( PFOLIMPIDA pIda );
 void FolImpImportPathChanged( HWND hwnd, PFOLIMPIDA pIda );
 
+HWND GetFolderImportHandle()
+{
+  return( hwndImportInstance );
+}
+
 USHORT FolFuncPrepImportFolder
 (
   PFCTDATA    pData,                   // function I/F session data
@@ -133,21 +138,6 @@ USHORT FolFuncImportFolderProcess
   PFCTDATA    pData                    // function I/F session data
 );
 
-USHORT FolReadLogRecord
-(
-HFILE       hFile,                   // handle of (open) log file
-PHISTLOGRECORD pRecord,              // ptr to buffer for record (fix and var part)
-PBOOL       pfEOF,                   // ptr to caller's end-of-file flag
-BOOL        fMsg,                    // TRUE = show errors directly
-HWND        hwnd                     // window to be used as parent for messages
-);
-USHORT FolWriteLogRecord
-(
-HFILE       hFile,                   // handle of (open) log file
-PHISTLOGRECORD pRecord,              // ptr to record (fixed and var part)
-BOOL        fMsg,                    // TRUE = show errors directly
-HWND        hwnd                     // window to be used as parent for messages
-);
 BOOL FolImpGetFolderDrive
 (
   PFOLIMPIDA pIda,
@@ -866,6 +856,7 @@ LPARAM  mp2                         // second parameter of WM_INITDLG
       case RELEASE1_HEADER:
         if ( pIda->pHeader->BitFlags.fSelectedDocs )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           SETTEXTFROMRES( hwndDlg, ID_FOLINFO_OPTION_TEXT, pIda->pszBuffer,
                           hResMod, SID_FOLINFO_DOCSELECTED );
         } /* endif */
@@ -1154,6 +1145,7 @@ VOID FolderImport( HWND hwnd, PSZ pSelFolderName )
 
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     pIda->usDialogType = FOLDER_IMPORT;
 
     DIALOGBOX( EqfQueryTwbClient(), FOLIMPPROPDLGPROC, hResMod, ID_FOLIMPPROP_DLG,
@@ -1195,53 +1187,57 @@ LPARAM           mp2                 // second message parameter
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Set global export instance window handle and anchor IDA    */
-      /**************************************************************/
-      hwndImportInstance  = hwnd;
-      pIda                = (PFOLIMPIDA)PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pIda;
-
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_FOLIMP_WINDOW;
-      pCommArea->sProcessObjClass = clsFOLDERIMP;
-      if ( pIda->pDDEFolImp == NULL )
       {
-        if ( pIda->usImpMode == FOL_TMGR_FORMAT )
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
+        /**************************************************************/
+        /* Set global export instance window handle and anchor IDA    */
+        /**************************************************************/
+        hwndImportInstance  = hwnd;
+        pIda                = (PFOLIMPIDA)PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pIda;
+
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_FOLIMP_WINDOW;
+        pCommArea->sProcessObjClass = clsFOLDERIMP;
+        if ( pIda->pDDEFolImp == NULL )
         {
-          pCommArea->Style            = PROCWIN_TEXTONLY;
+          if ( pIda->usImpMode == FOL_TMGR_FORMAT )
+          {
+            pCommArea->Style            = PROCWIN_TEXTONLY;
+          }
+          else
+          {
+            pCommArea->Style            = PROCWIN_SLIDERONLY;
+            if ( pIda->pXLIFFData )
+            {
+              pIda->pXLIFFData->hwndErrMsg = hwnd;
+            } /* endif */
+          } /* endif */
         }
         else
         {
-          pCommArea->Style            = PROCWIN_SLIDERONLY;
-          if ( pIda->pXLIFFData )
-          {
-            pIda->pXLIFFData->hwndErrMsg = hwnd;
-          } /* endif */
+          pCommArea->Style            = PROCWIN_BATCH;
         } /* endif */
+        pCommArea->sSliderID        = ID_FOLIMP_TEXT;
+        LOADSTRING( NULLHANDLE, hResMod, SID_FOLIMP_TITLE, pCommArea->szTitle );
+        strcat ( pCommArea->szTitle, pIda->szTargetFolName );
+        OEMTOANSI(pCommArea->szTitle);
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_FOLIMPICON); //hiconFOLIMP;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = WM_EQF_ABOUTTODELETE;
+        pCommArea->asMsgsWanted[2]  = WM_EQFN_TASKDONE;
+        pCommArea->asMsgsWanted[3]  = 0;
+        pCommArea->usComplete       = 0;
       }
-      else
-      {
-        pCommArea->Style            = PROCWIN_BATCH;
-      } /* endif */
-      pCommArea->sSliderID        = ID_FOLIMP_TEXT;
-      LOADSTRING( NULLHANDLE, hResMod, SID_FOLIMP_TITLE, pCommArea->szTitle );
-      strcat ( pCommArea->szTitle, pIda->szTargetFolName );
-      OEMTOANSI(pCommArea->szTitle);
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_FOLIMPICON); //hiconFOLIMP;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = WM_EQF_ABOUTTODELETE;
-      pCommArea->asMsgsWanted[2]  = WM_EQFN_TASKDONE;
-      pCommArea->asMsgsWanted[3]  = 0;
-      pCommArea->usComplete       = 0;
       break;
 
 
@@ -1876,6 +1872,8 @@ LPARAM           mp2                 // second message parameter
       pIda->objCurProcess[0] = EOS;
       if ( SHORT1FROMMP1(mp1) )
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         switch ( pIda->NextTask )
         {
           case LOADFILES:
@@ -1985,6 +1983,7 @@ LPARAM           mp2                 // second message parameter
                 // get user confirmation for processing steps
                 if ( fOK && fUserInput && (pIda->pDDEFolImp == NULL) )
                 {
+                  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                   DIALOGBOX( EqfQueryTwbClient(), FOLIMPDOCDLGPROC,
                              hResMod, ID_FOLIMPDOC_DLG,  pIda, fOK );
                   if ( !fOK )
@@ -2171,6 +2170,7 @@ LPARAM           mp2                 // second message parameter
               {
                 if ( pIda->pDDEFolImp == NULL )
                 {
+                  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                   LOADSTRING( NULLHANDLE, hResMod, SID_FOLIMP_DICT, pIda->szAction );
                   WinSendMsg( hwnd, WM_EQF_UPDATESLIDER, MP1FROMSHORT(-1),
                               MP2FROMP(pIda->szAction) );
@@ -2638,6 +2638,7 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
 
   if ( fOK && (hwnd != HWND_FUNCIF) && (pIda->pDDEFolImp == NULL) )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     LOADSTRING( NULLHANDLE, hResMod, SID_FOLIMP_FOLDER, pIda->szAction );
     WinSendMsg( hwnd, WM_EQF_UPDATESLIDER, MP1FROMSHORT(-1),
                 MP2FROMP(pIda->szAction) );
@@ -3780,6 +3781,7 @@ BOOL FolImpProcessTables( HWND hwnd, PFOLIMPIDA pIda )
 
   if ( (hwnd != HWND_FUNCIF) && (pIda->pDDEFolImp == NULL) )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     LOADSTRING( NULLHANDLE, hResMod, SID_FOLIMP_TABLES, pIda->szAction );
     WinSendMsg( hwnd, WM_EQF_UPDATESLIDER, MP1FROMSHORT(-1),
                 MP2FROMP(pIda->szAction) );
@@ -5363,85 +5365,6 @@ VOID UtlRemoveImportFromPath( PFOLIMPIDA pIda, PSZ pszPath )
   } /* endif */
 } /* endof UtlRemovemportFromPath */
 
-BOOL FolCorrectPropHead
-(
-PSZ         pszPropName,             // ptr to path name of property file
-CHAR        chNewDrive,              // new drive or NULC if no set req.
-PSZ         pszNewPath,              // new path or NULL if no set req.
-PSZ         pszNewName,              // new name of NULL if no set req.
-HWND        hwnd
-)
-{
-  BOOL        fOK = TRUE;            // internal OK flag
-  HFILE       hFile = NULL;          // code returned by DosXXX calls
-  USHORT      usDosRC;               // code returned by DosXXX calls
-  USHORT      usOpenAction;          // action performed by DosOpen
-  ULONG       ulBytesWritten;        // # of bytes written to file
-  ULONG       ulBytesRead;           // # of bytes read from file
-  ULONG       ulFilePos;             // position of file pointer
-  PPROPHEAD   pPropHead;             // ptr to properties head
-
-  // correct PROPHEAD part in property file
-  fOK = UtlAllocHwnd( (PVOID *)&pPropHead, 0L,
-                      (LONG) sizeof(PROPHEAD), ERROR_STORAGE, hwnd );
-  if ( fOK )
-  {
-    usDosRC = UtlOpenHwnd( pszPropName,
-                           &hFile,
-                           &usOpenAction, 0L,
-                           FILE_NORMAL,
-                           FILE_OPEN,
-                           OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE,
-                           0L,
-                           TRUE, hwnd );
-    fOK = ( usDosRC == 0 );
-  } /* endif */
-  if ( fOK )
-  {
-    usDosRC = UtlReadHwnd( hFile,
-                           pPropHead,
-                           sizeof( PROPHEAD ),
-                           &ulBytesRead,
-                           TRUE, hwnd );
-    fOK = ( usDosRC == 0 );
-  } /* endif */
-  if ( fOK )
-  {
-    // automatically correct path information in TranslationManager folders
-    if ( stricmp( pPropHead->szPath + 1, ":\\eqf"  ) == 0 )
-    {
-      UtlMakeEQFPath( pPropHead->szPath, pPropHead->szPath[0], SYSTEM_PATH, NULL );
-    } /* endif */       
-
-    if ( pszNewPath != NULL )
-    {
-      strcpy( pPropHead->szPath, pszNewPath );
-    } /* endif */
-
-    if ( chNewDrive != NULC )
-    {
-      pPropHead->szPath[0] = chNewDrive;
-    } /* endif */
-
-    if ( pszNewName != NULL )
-    {
-      strcpy( pPropHead->szName, pszNewName );
-    } /* endif */
-
-    UtlChgFilePtrHwnd( hFile, 0L, FILE_BEGIN, &ulFilePos, TRUE, hwnd );
-    usDosRC = UtlWriteHwnd( hFile,
-                            pPropHead,
-                            sizeof( PROPHEAD ),
-                            &ulBytesWritten,
-                            TRUE, hwnd );
-    fOK = ( usDosRC == 0 );
-  } /* endif */
-  UtlClose( hFile, FALSE );
-  UtlAlloc( (PVOID *)&pPropHead, 0L, 0L, NOMSG );
-
-  return( fOK );
-
-} /* end of FolCorrectPropHead */
 
 //------------------------------------------------------------------------------
 // Internal function                                                            
@@ -5491,7 +5414,7 @@ HWND        hwndDlg                 // handle of dialog
   CHAR            szName[MAX_FILESPEC];// buffer for document and dictionary name
   PSZ             pszItem = NULL;      // points to currently printed item
   CHAR            szLF[2];             // string containing linefeed character
-
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   /********************************************************************/
   /* Prepare linefeed string                                          */
@@ -6017,6 +5940,8 @@ PSZ          pszNewFolder            // fully qualified name of property file
   /********************************************************************/
   if ( fOK && (pIda->pDDEFolImp == NULL) )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
     if ( (pNewFolder->szSourceLang[0] == EOS) ||
          (pNewFolder->szTargetLang[0] == EOS) )
     {
@@ -6579,9 +6504,6 @@ PDDEFOLIMP       pFolImp             // folder import data structure
 } /* end of function FolbatchFolderImport */
 
 
-// max. size of history log records
-// the required size is: sizeof HISTLOGRECORD + max. length of long names + max. size of variable part
-#define MAXHISTLOGRECORDSIZE (sizeof(HISTLOGRECORD)+MAX_LONGFILESPEC+sizeof(HISTLOGVARPART))
 
 /**********************************************************************/
 /* FolMergeHistoryLog                                                 */
@@ -6971,224 +6893,33 @@ HWND        hwnd                     // window handle for error messages
   return( usRC );
 } /* end of function FolFilterHistoryLog */
 
-/**********************************************************************/
-/* FolWriteLogRecord                                                  */
-/*                                                                    */
-/* Writes the given record to the log file. The record pointer pRecord*/
-/* points to a memory area containing the fixed record part followed  */
-/* by the variable length record part.                                */
-/* The function returns NO_ERROR or any DOS error return code         */
-/* encountered                                                        */
-/**********************************************************************/
-USHORT FolWriteLogRecord
+USHORT FolFuncImportFolder
 (
-HFILE       hFile,                   // handle of (open) log file
-PHISTLOGRECORD pRecord,              // ptr to record (fixed and var part)
-BOOL        fMsg,                    // TRUE = show errors directly
-HWND        hwnd                     // window to be used as parent for messages
+  PFCTDATA    pData,                   // function I/F session data
+  PSZ         pszFolderName,           // name of folder being imported
+  PSZ         pszFromPath,             // path containing the imported folder
+  CHAR        chToDrive,               // target drive for folder
+  PSZ         pszNewFolderName,        // new name for the folder
+  LONG        lOptions                 // folder import options
 )
 {
   USHORT      usRC = NO_ERROR;         // function return code
-  ULONG       ulBytesWritten;          // number of bytes written to disk
 
-  /********************************************************************/
-  /* Write complete record                                           */
-  /********************************************************************/
-  usRC = UtlWriteHwnd( hFile, pRecord, pRecord->usSize, &ulBytesWritten,
-                       fMsg, hwnd );
+  // prepare a new analysis run or continue current one
+  if ( pData->fComplete )              // has last run been completed
+  {
+    // prepare a new analysis run
+    pData->usProgress = 0;
+    usRC = FolFuncPrepImportFolder( pData, pszFolderName, pszFromPath,
+                                    chToDrive, pszNewFolderName, lOptions );
+  }
+  else
+  {
+    // continue current analysis process
+    usRC = FolFuncImportFolderProcess( pData );
+  } /* endif */
   return( usRC );
-} /* end of function FolWriteLogRecord */
-
-/**********************************************************************/
-/* FolReadLogRecord                                                   */
-/*                                                                    */
-/* Read the next record from the log file into the supplied buffer.   */
-/* The buffer must be large enough to contain the fixed part of log   */
-/* records, the document long name  and the largest variable part of  */
-/* log records.                                                       */
-/* The function sets the caller end-of-file flag if the end of the    */
-/* log file is exceeded.                                              */
-/* The function returns NO_ERROR or any DOS error return code         */
-/* encountered                                                        */
-/**********************************************************************/
-USHORT FolReadLogRecord
-(
-HFILE       hFile,                   // handle of (open) log file
-PHISTLOGRECORD pRecord,              // adress of ptr to buffer for record (fix and var part)
-PBOOL       pfEOF,                   // ptr to caller's end-of-file flag
-BOOL        fMsg,                    // TRUE = show errors directly
-HWND        hwnd                     // window to be used as parent for messages
-)
-{
-  USHORT      usRC = NO_ERROR;         // function return code
-  ULONG       ulBytesRead;             // number of bytes read
-  BOOL        fRecordDefect = FALSE;
-
-  /********************************************************************/
-  /* Read fixed part of log record                                    */
-  /********************************************************************/
-  if ( (usRC == NO_ERROR) && !*pfEOF )
-  {
-    usRC = UtlReadHwnd( hFile, pRecord, sizeof(HISTLOGRECORD), &ulBytesRead, fMsg, hwnd );
-    if ( (usRC == NO_ERROR) && (ulBytesRead < sizeof(HISTLOGRECORD)) )
-    {
-      *pfEOF = TRUE; // assume end-of-file reached
-    } /* endif */
-  } /* endif */
-
-  // loop until valid record or end-of-file
-  do
-  {
-    /********************************************************************/
-    /* Check if fixed part of record is valid                           */
-    /********************************************************************/
-    if ( (usRC == NO_ERROR) && !*pfEOF )
-    {
-      fRecordDefect = FALSE;
-
-      // check eye catcher
-      if ( pRecord->lEyeCatcher != HISTLOGEYECATCHER )
-      {
-        fRecordDefect = TRUE;
-      } /* endif */
-
-      // check size values
-      if ( !fRecordDefect )
-      {
-        if ( pRecord->usAddInfoLength > (pRecord->usSize + sizeof(HISTLOGRECORD)) )
-        {
-          fRecordDefect = TRUE;
-        } /* endif */
-      } /* endif */
-
-      // check record type
-      if ( !fRecordDefect )
-      {
-        switch ( pRecord->Task )
-        {
-          case DOCIMPORT_LOGTASK:
-          case DOCIMPNEWTARGET_LOGTASK:
-          case ANALYSIS_LOGTASK:
-          case AUTOMATICSUBST_LOGTASK:
-          case DOCDELETE_LOGTASK:
-          case DOCSAVE_LOGTASK:
-          case DOCEXPORT_LOGTASK:
-          case DOCPROP_LOGTASK:
-          case FOLPROP_LOGTASK:
-          case FOLPROP_LOGTASK2:
-          case LONGNAME_LOGTASK:
-          case DOCSAVE_LOGTASK2:
-          case DOCIMPNEWTARGET_LOGTASK2:
-          case HISTDATA_INVALID_LOGTASK:
-          case HISTDATA_RESET_LOGTASK:
-          case DOCAPI_LOGTASK:
-          case HISTDATA_INCONSISTENT_LOGTASK:
-          case VERSION_LOGTASK:
-          case FOLPROPSHIPMENT_LOGTASK:
-          case DOCIMPORT_LOGTASK2:
-          case AUTOMATICSUBST_LOGTASK3:
-          case DOCSAVE_LOGTASK3:
-          case ANALYSIS_LOGTASK3:
-          case DOCAPI_LOGTASK3:
-          case DOCIMPNEWTARGET_LOGTASK3:
-            break;
-        default:
-            fRecordDefect = TRUE;
-            break;
-        } /*endswitch */
-      } /* endif */
-
-      // skip corrupted data up to next valid record
-      if ( fRecordDefect )
-      {
-        // re-position to start of log record
-        {
-          ULONG ulCurrentPos = 0L;
-          UtlChgFilePtr( hFile, 0L, FILE_CURRENT,  &ulCurrentPos, FALSE);
-          ulCurrentPos = ulCurrentPos - sizeof(HISTLOGRECORD) + 1;
-          UtlChgFilePtr( hFile, ulCurrentPos, FILE_BEGIN,  &ulCurrentPos, FALSE);
-        }
-
-        // skip data up to start of next valid record
-        {
-          LONG lCurrent = 0;
-
-          do
-          {
-
-            ULONG ulCurrentPos = 0L;
-
-            UtlChgFilePtr( hFile, 0L, FILE_CURRENT,  &ulCurrentPos, FALSE);
-
-            usRC = UtlReadHwnd( hFile, &lCurrent, sizeof(LONG), &ulBytesRead, fMsg, hwnd );
-            if ( (usRC == NO_ERROR) && (ulBytesRead < sizeof(LONG)) )
-            {
-              *pfEOF = TRUE; // assume end-of-file reached
-            } /* endif */
-
-            if ( !*pfEOF )
-            {
-              if ( lCurrent == HISTLOGEYECATCHER )
-              {
-                // re-position to start of log record
-                {
-                  UtlChgFilePtr( hFile, ulCurrentPos, FILE_BEGIN,  &ulCurrentPos, FALSE);
-                }
-
-                // read complete record
-                usRC = UtlReadHwnd( hFile, pRecord, sizeof(HISTLOGRECORD), &ulBytesRead, fMsg, hwnd );
-                if ( (usRC == NO_ERROR) && (ulBytesRead < sizeof(HISTLOGRECORD)) )
-                {
-                  *pfEOF = TRUE; // assume end-of-file reached
-                } /* endif */
-              }
-              else
-              {
-                // postiion to original read position + 1 
-                UtlChgFilePtr( hFile, ulCurrentPos + 1, FILE_BEGIN,  &ulCurrentPos, FALSE);
-              } /* endif */
-            } /* endif */
-          } while ( !*pfEOF && (lCurrent != HISTLOGEYECATCHER) );
-        }
-      } /* endif */
-    } /* endif */
-  } while ( !*pfEOF && fRecordDefect );
-
-  // adjust record sizes of old records (were fill incorreclty)
-  if ( !*pfEOF && (usRC == NO_ERROR) )
-  {
-    HistLogCorrectRecSizes( pRecord );
-  } /* endif */
-
-
-  /********************************************************************/
-  /* Read rest of log record if any                                   */
-  /********************************************************************/
-  if ( (usRC == NO_ERROR) && !*pfEOF && (pRecord->usSize > sizeof(HISTLOGRECORD)) )
-  {
-    USHORT usRest = pRecord->usSize - sizeof(HISTLOGRECORD);
-    usRC = UtlReadHwnd( hFile, (PBYTE)pRecord + sizeof(HISTLOGRECORD), usRest,
-                        &ulBytesRead, fMsg, hwnd );
-    if ( (usRC == NO_ERROR) && (ulBytesRead < usRest) )
-    {
-      *pfEOF = TRUE; // assume end-of-file reached
-    } /* endif */
-  } /* endif */
-
-  /********************************************************************/
-  /* Set lDate to maximum value if EOF condition raised in order      */
-  /* to allow processing of records from the other input log file    */
-  /********************************************************************/
-  if ( (usRC == NO_ERROR) && *pfEOF )
-  {
-    pRecord->lTime = 0x7FFFFFFF;
-  } /* endif */
-
-  /********************************************************************/
-  /* Return to caller                                                 */
-  /********************************************************************/
-  return( usRC );
-} /* end of function FolReadLogRecord */
+} /* end of function FolFuncImportFolder */
 
 /**********************************************************************/
 /* FolWriteNewTargetRec                                               */
@@ -7243,10 +6974,9 @@ HWND        hwnd                     // window to be used as parent for messages
                            TRUE );                // do message handling
   } /* endif */
 
-  // set TBDOCUMENT ulOEMCodePage/ulAnsiCodePage acc. to System Preferences
-  // language
-
-  EQFBDocSetCodePage(pDoc, NULL);
+  // set TBDOCUMENT ulOEMCodePage/ulAnsiCodePage acc. to System Preferences language
+  pDoc->ulOemCodePage = GetLangCodePage( OEM_CP, NULL );
+  pDoc->ulAnsiCodePage = GetLangCodePage( ANSI_CP, NULL );
 
   /********************************************************************/
   /* Load the segmented target file into the document structure       */
@@ -7310,34 +7040,6 @@ HWND        hwnd                     // window to be used as parent for messages
 } /* end of function FolWriteNewTargetRec */
 
 
-
-USHORT FolFuncImportFolder
-(
-  PFCTDATA    pData,                   // function I/F session data
-  PSZ         pszFolderName,           // name of folder being imported
-  PSZ         pszFromPath,             // path containing the imported folder
-  CHAR        chToDrive,               // target drive for folder
-  PSZ         pszNewFolderName,        // new name for the folder
-  LONG        lOptions                 // folder import options
-)
-{
-  USHORT      usRC = NO_ERROR;         // function return code
-
-  // prepare a new analysis run or continue current one
-  if ( pData->fComplete )              // has last run been completed
-  {
-    // prepare a new analysis run
-    pData->usProgress = 0;
-    usRC = FolFuncPrepImportFolder( pData, pszFolderName, pszFromPath,
-                                    chToDrive, pszNewFolderName, lOptions );
-  }
-  else
-  {
-    // continue current analysis process
-    usRC = FolFuncImportFolderProcess( pData );
-  } /* endif */
-  return( usRC );
-} /* end of function FolFuncImportFolder */
 
 USHORT FolFuncPrepImportFolder
 (
@@ -8806,6 +8508,7 @@ LPARAM  mp2
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
           TC_ITEM Item;
           HWND hwndTabCtrl = GetDlgItem( hwnd, ID_FOLIMP_PROP_TABCTRL );
           memset( &Item, 0, sizeof(Item) );
@@ -8872,6 +8575,7 @@ PFOLIMPIDA     pIda
   HWND      hwndTabCtrl;
   HINSTANCE hInst;
   CHAR      szBuffer[80];
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   if ( fOk )
   {
@@ -10402,6 +10106,7 @@ LPARAM mp2
 
         if ( (lpDisp->itemID != -1) )
         {
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
           if ( lpDisp->itemAction & (ODA_DRAWENTIRE | ODA_SELECT) )
           {
@@ -10835,6 +10540,7 @@ BOOL FolImp_ControlledFolderMergeConfirmation( HWND hwnd, PSZ pszPassword, PSZ p
   ANSITOOEM(pszFolderName);
   if ( usMBReturn == MBID_OK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     // password check before
     DIALOGBOX( hwnd, FolImp_PasswordDlg, hResMod, ID_FOLIMPPW_DLG, pszPassword, fOK ) ;
   } /* endif */
@@ -10938,158 +10644,6 @@ INT_PTR CALLBACK FolImp_PasswordDlg
   } /* endswitch */
   return( mResult );
 }
-
-//
-// function removing corrupted records from a history log
-//
-USHORT FolCleanHistlog( PSZ pszHistLogFile, BOOL fMsg, HWND hwnd )
-{
-  return( FolCleanHistlogEx( pszHistLogFile, fMsg, hwnd, FALSE ) );
-}
-
-
-USHORT FolCleanHistlogEx( PSZ pszHistLogFile, BOOL fMsg, HWND hwnd, BOOL fClean )
-{
-  USHORT      usRC = NO_ERROR;         // function return code
-  CHAR        szTempLog[MAX_EQF_PATH]; // name of temporary (= output) logfile
-  BOOL        fEOFInFile = FALSE;      // TRUE = EOF for hInFile reached
-  HFILE       hInFile = NULLHANDLE;    // handle of input log file
-  HFILE       hOutFile = NULLHANDLE;   // handle of output log file
-  PHISTLOGRECORD pRecord = NULL;       // ptr to buffer for log records
-  ULONG       ulLastRecord = 0;        // position of last written record in out file
-  UCHAR       ucLastTask = 0;          // ID of last record
-  CHAR        szLastDocName[MAX_FILESPEC];    // name of document of last written record
-  CHAR        szLastVersion[20];       // version of last version record
-
-  // allocate history log record buffers
-  szLastVersion[0] = EOS;
-  if ( usRC == NO_ERROR )
-  {
-    if ( !UtlAllocHwnd( (PVOID *)&pRecord, 0, MAXHISTLOGRECORDSIZE, NOMSG, hwnd ) )
-    {
-      usRC = ERROR_NOT_ENOUGH_MEMORY;
-    } /* endif */
-  } /* endif */
-
-  // open input log file
-  if ( usRC == NO_ERROR )
-  {
-    USHORT usOpenAction;
-
-    usRC = UtlOpenHwnd( pszHistLogFile, &hInFile, &usOpenAction, 0L,
-                        FILE_NORMAL, FILE_OPEN,
-                        OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE,
-                        0L, fMsg, hwnd );
-  } /* endif */
-
-  // setup name of temporary output file                              
-  if ( usRC == NO_ERROR )
-  {
-    PSZ pszExt;
-
-    strcpy( szTempLog, pszHistLogFile );
-    pszExt = strrchr( szTempLog, DOT );
-    if ( pszExt != NULL )
-    {
-      strcpy( pszExt, ".$$$" );
-    }
-    else
-    {
-      strcat( szTempLog, ".$$$" );
-    } /* endif */
-  } /* endif */
-
-  // create temporary log file
-  if ( usRC == NO_ERROR )
-  {
-    USHORT usOpenAction;
-
-    usRC = UtlOpenHwnd( szTempLog, &hOutFile, &usOpenAction, 0L,
-                        FILE_NORMAL,
-                        FILE_TRUNCATE | FILE_CREATE,
-                        OPEN_ACCESS_READWRITE | OPEN_SHARE_DENYWRITE,
-                        0L, fMsg, hwnd );
-  } /* endif */
-
-  // read first record of merge-from log file 
-  if ( usRC == NO_ERROR )
-  {
-    usRC = FolReadLogRecord( hInFile, pRecord, &fEOFInFile, fMsg, hwnd );
-  } /* endif */
-
-
-  // process records until EOF
-  while ( (usRC == NO_ERROR) && !fEOFInFile )
-  {
-    BOOL fWriteCurrentRecord = TRUE;
-
-    // check if previous record can be overwritten (e.g. multiple save records for same document)
-    if ( fClean )
-    {
-      if ( (pRecord->Task == ucLastTask) && 
-           ( (pRecord->Task == DOCSAVE_LOGTASK) || (pRecord->Task == DOCSAVE_LOGTASK2) || (pRecord->Task == DOCSAVE_LOGTASK3) ) &&                   // save of document in DOCSAVEHIST3 format
-           (strcmp( szLastDocName, pRecord->szDocName ) == 0) )
-      {
-        // overwrite last written record
-        ULONG ulCurrentPos = 0;
-        UtlChgFilePtr( hOutFile, ulLastRecord, FILE_BEGIN,  &ulCurrentPos, FALSE );
-      } /* endif */
-    } /* endif */
-
-    // skip superfluos records
-    if ( fClean )
-    {
-      // skip superfluos version records
-      if ( pRecord->Task == VERSION_LOGTASK )
-      {
-        PVERSIONHIST pVersion = (PVERSIONHIST)((PBYTE)pRecord + sizeof(HISTLOGRECORD));
-
-        if ( strcmp( szLastVersion, pVersion->szVersionString ) == 0 )
-        {
-          fWriteCurrentRecord = FALSE;
-        } /* endif */
-      } /* endif */
-
-    } /* endif */
-
-    if ( fWriteCurrentRecord )
-    {
-      // remember current write position
-      UtlChgFilePtr( hOutFile, 0L, FILE_CURRENT,  &ulLastRecord, FALSE);
-
-
-      // write record to output log file
-      usRC = FolWriteLogRecord( hOutFile, pRecord, fMsg, hwnd );
-
-      // remember some record settings
-      strcpy( szLastDocName, pRecord->szDocName );
-      ucLastTask = pRecord->Task;
-    } /* endif */
-
-    // read next valid record
-    if ( usRC == NO_ERROR )
-    {
-      usRC = FolReadLogRecord( hInFile, pRecord, &fEOFInFile, fMsg, hwnd );
-    } /* endif */
-  } /* endwhile */
-
-  // close all logfiles                                               
-  if ( hInFile != NULLHANDLE )  UtlClose( hInFile, FALSE );
-  if ( hOutFile != NULLHANDLE ) UtlClose( hOutFile, FALSE );
-
-  // delete old log file and rename tempory log file to old name
-  if ( usRC == NO_ERROR )
-  {
-    UtlDeleteHwnd( pszHistLogFile, 0L, fMsg, hwnd );
-    usRC = UtlMoveHwnd( szTempLog, pszHistLogFile, 0L, fMsg, hwnd );
-  } /* endif */
-
-  // cleanup                                                          
-  if ( pRecord != NULL ) UtlAlloc( (PVOID *)&pRecord, 0L, 0L, NOMSG );
-
-  return( usRC );
-
-} /* end of function FolCleanHistlog */
 
 // list XLIFF folders 
 int ListXLiffFolder

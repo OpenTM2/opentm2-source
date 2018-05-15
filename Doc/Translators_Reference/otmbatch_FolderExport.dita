@@ -145,6 +145,7 @@
             <kwd>DELETE</kwd>
             <kwd>XLIFF</kwd>
             <kwd>MASTERFOLDER</kwd>
+            <kwd>NOREDUND</kwd>
           </groupchoice>
         </fragment>
       </syntaxdiagram>
@@ -185,7 +186,8 @@
             (<codeph>MEM</codeph>), with its Translation Memory databases to be searched (<codeph>ROMEM</codeph>), with its 
             <keyword conref="common-symbols.dita#common-symbols/xlmem"/> and all the <keyword conref="common-symbols.dita#common-symbols/xlmems"/> 
             defined for its documents (<codeph>DOCMEM</codeph>), or whether you want to delete the folder after it has been exported 
-            (<codeph>DELETE</codeph>), or wether you want to export the folder as a master folder (<codeph>MASTERFOLDER </codeph>) or as a 
+            (<codeph>DELETE</codeph>), or whether you want to exclude the redundancy report data (<codeph>NOREDUND</codeph>),
+            or whether you want to export the folder as a master folder (<codeph>MASTERFOLDER </codeph>) or as a 
             XLIFF translation package (<codeph>XLIFF</codeph>). A master folder exported without the <codeph>MASTERFOLDER</codeph> option becomes 
             a child folder when it is re-imported. If you specify more than one option, you must enclose them in brackets. The 
             <codeph>XLIFF</codeph> option cannot be used together with the options <codeph>DELETE</codeph> and <codeph>MASTERFOLDER</codeph>.</pd>

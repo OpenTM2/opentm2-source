@@ -443,6 +443,21 @@ BOOL EQFBMapKey
        /********************************************************************/
        /* ignore CTRL key if it comes from an extended key...              */
        /********************************************************************/
+           //{
+           //  HKL hkl = GetKeyboardLayout( 0 );
+           //  BYTE kb[256];
+
+           //  GetKeyboardState(kb);
+           //  WCHAR uc[5] = {};
+
+           //  int i = 0;
+           //  int iLen = ToUnicodeEx( mp1, MapVirtualKey( mp1, MAPVK_VK_TO_VSC), kb, uc, 4, 0, hkl );
+           //  if ( iLen == 1 )
+           //  {
+           //    WCHAR ucKey = uc[0];
+           //  }
+           //}
+
        if ( mp2 & 0x020000000 )
        {
          ucState = 0;
@@ -876,6 +891,7 @@ BOOL EQFBKeyName
    ULONG    ulLen;
    CHAR     chChar[2];                 // character typed
    PSZ      *ppInsMsg;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    *pszBuffer = EOS;                   // clear buffer
    hab = WinQueryAnchorBlock( QUERYACTIVEWINDOW() );
@@ -971,6 +987,7 @@ void EQFBKeyNameW
     ULONG    ulLen;
     CHAR     chChar[2];                 // character typed
     PSZ      *ppInsMsg;
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
     char strKeyName[MAX_BUF_SIZE];
     memset(strKeyName, 0x00, sizeof(strKeyName));
@@ -1174,6 +1191,7 @@ VOID EQFBLoadResource ()
    PSZ         pszFuncName;            // pointer to function name
    PKEYPROFTABLE pKeyTemp;             // temp pointer
    USHORT        usCount = 0;
+   HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
    hab = WinQueryAnchorBlock( QUERYACTIVEWINDOW() );
 
@@ -2090,8 +2108,11 @@ VOID EQFBWindowMenu
   PSZ         pFilename;                          //filename w/o path
   CHAR       szMenuName[144];                     // name to insert into menu
   USHORT      usItems;                            // number of items in menu
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
   {
     USHORT usIdPropSrc = IDM_FILE_MENU;
+
      /*****************************************************************/
      /* delete all document window names ....                         */
      /*****************************************************************/
@@ -2325,4 +2346,49 @@ VOID EQFBBuildPrefixes
 
   return;
 }
+
+/**********************************************************************/
+/* Switch the keyboard to support the language we are translating     */
+/* This has to be done for BIDI and THAI languages                    */
+/**********************************************************************/
+HKL SwitchKeyboardForSpecLangs( PDOCUMENT_IDA pIda )
+{
+  HKL  BuffKL[21];
+  ULONG uli ;
+  BOOL fFound;
+  WORD wLangID;
+  HKL  hOldKL = GetKeyboardLayout(0);
+  HKL  hKLReturn = NULL;
+
+  wLangID = GetLangID( pIda );
+
+  if ( wLangID != 0 )
+  {
+    if (LOWORD(hOldKL) != wLangID )
+    {
+      ULONG ulMax = GetKeyboardLayoutList( 20, &BuffKL[0] );
+      uli = 0;
+      fFound = FALSE;
+      while (!fFound && (uli < ulMax))
+      {
+        if (LOWORD(BuffKL[uli] ) == wLangID)
+        {
+          /************************************************************/
+          /* activate corresponding keyboard                          */
+          /************************************************************/
+          hKLReturn = hOldKL;
+          ActivateKeyboardLayout( BuffKL[uli], 0 /*KLF_SETFORPROCESS*/);
+          fFound = TRUE;
+        }
+        else
+        {
+          uli ++;
+        } /* endif */
+      } /* endwhile */
+    } /* endif */
+  } /* endif */
+  return hKLReturn;
+}
+
+
 

@@ -17,7 +17,19 @@ until it returns a return code other than CONTINUE_RC.</p>
 <groupseq><kwd>usRC</kwd><oper> = </oper><kwd>EqfExportFolderFP</kwd><delim>(</delim><var>hSession</var><sep>,</sep><var>pszFolderName</var><sep>,</sep></groupseq>
 <groupseq><var>pszTargetPath</var>
 <groupseq importance="optional"><sep>,</sep>
-<groupchoice importance="optional"><kwd>WITHMEM_OPT</kwd><kwd>WITHREADONLYMEM_OPT</kwd><kwd>WITHDOCMEM_OPT</kwd><kwd>DELETE_OPT</kwd><kwd>WITHDICT_OPT</kwd><kwd>MASTERFOLDER_OPT</kwd><kwd>XLIFF_OPT</kwd><kwd>OVERWRITE_OPT</kwd></groupchoice></groupseq></groupseq>
+<groupchoice importance="optional">
+<kwd>WITHMEM_OPT</kwd>
+<kwd>WITHREADONLYMEM_OPT</kwd>
+<kwd>WITHDOCMEM_OPT</kwd>
+<kwd>DELETE_OPT</kwd>
+<kwd>WITHDICT_OPT</kwd>
+<kwd>MASTERFOLDER_OPT</kwd>
+<kwd>XLIFF_OPT</kwd>
+<kwd>WO_REDUNDANCY_DATA_OPT</kwd>
+<kwd>OVERWRITE_OPT</kwd>
+</groupchoice>
+</groupseq>
+</groupseq>
 <groupseq>
 <groupseq importance="optional"><sep>,</sep>
 <groupseq><repsep>,</repsep><var>pszDocuments</var></groupseq></groupseq><sep>,</sep><var importance="optional">pszDescription</var><delim>)</delim><sep>;</sep></groupseq></syntaxdiagram>
@@ -63,6 +75,7 @@ until it returns a return code other than CONTINUE_RC.</p>
 <sli>WITHDICT_OPT</sli>
 <sli>MASTERFOLDER_OPT</sli>
 <sli>XLIFF_OPT</sli>
+<sli>WO_REDUNDANCY_DATA_OPT</sli>
 <sli>OVERWRITE_OPT</sli>
 </sl>
 <p>These options correspond to those in the <q>Export Folder</q> window in OpenTM2.</p>

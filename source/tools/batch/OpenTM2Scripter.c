@@ -150,7 +150,9 @@ typedef enum _COMMANDID
   EQFADDMATCHSEGID_ID,
   EQFCREATECOUNTREPORTEX_ID,
   EQFIMPORTFOLDERAS_ID,
-  EQFSEARCHFUZZYSEGMENTS_ID
+  EQFSEARCHFUZZYSEGMENTS_ID,
+  EQFCONNECTSHAREDMEM_ID,
+  EQFDISCONNECTSHAREDMEM_ID,
 } COMMANDID;
 
 typedef enum _LOGLEVEL
@@ -363,6 +365,8 @@ COMMAND aCommands[] =
     { "EQFCREATECOUNTREPORTEX", EQFCREATECOUNTREPORTEX_ID, 10, "333333333100000000", "030000000000000000"},
     { "EQFIMPORTFOLDERAS",      EQFIMPORTFOLDERAS_ID,    5, "332310000000000000", "000000000000000000"},
     { "EQFSEARCHFUZZYSEGMENTS", EQFSEARCHFUZZYSEGMENTS_ID, 6, "333331000000000000", "030000000000000000"},
+    { "EQFCONNECTSHAREDMEM",    EQFCONNECTSHAREDMEM_ID, 6, "230000000000000000", "050000000000000000"},
+    { "EQFDISCONNECTSHAREDMEM", EQFDISCONNECTSHAREDMEM_ID, 6, "230000000000000000", "050000000000000000"},
     { "",                       (COMMANDID)0,            0, "000000000000000000", "000000000000000000"}
 };
 
@@ -474,6 +478,7 @@ OPTION aOptions[] =
     { "CANCEL_UNKNOWN_MARKUP_OPT",   CANCEL_UNKNOWN_MARKUP_OPT },
     { "SKIP_UNKNOWN_MARKUP_OPT",     SKIP_UNKNOWN_MARKUP_OPT },
     { "GENERIC_UNKNOWN_MARKUP_OPT",  GENERIC_UNKNOWN_MARKUP_OPT },
+    { "WO_REDUNDANCY_DATA_OPT",      WO_REDUNDANCY_DATA_OPT },
     { "",                            0L}
 };
 
@@ -3361,6 +3366,26 @@ int main
                             }
                             //Clearing List of Paths
                             ClearList(&first_wc_path);
+                        }
+                        break;
+
+                        case EQFCONNECTSHAREDMEM_ID :
+                        {
+                          if ( PreProcessParms( pCmd ) )
+                          {  
+                              usRC = EqfConnectSharedMem( hSession, *(apTokens[1]), apTokens[2] );
+                              Out_RC( &Out, "EqfConnectSharedMem", usRC,hSession );
+                          }
+                        }
+                        break;
+
+                        case EQFDISCONNECTSHAREDMEM_ID :
+                        {
+                          if ( PreProcessParms( pCmd ) )
+                          {  
+                              usRC = EqfDisconnectSharedMem( hSession, *(apTokens[1]), apTokens[2] );
+                              Out_RC( &Out, "EqfDisconnectSharedMem", usRC,hSession );
+                          }
                         }
                         break;
 

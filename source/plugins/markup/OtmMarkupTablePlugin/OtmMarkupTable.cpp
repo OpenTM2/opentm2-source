@@ -10,6 +10,20 @@
 #include "OtmMarkupTable.h"
 
 
+// For R012645 begin
+#include <map>
+const std::string OtmFamilyMarkups[] = {
+  "TEXT,EQFASCII,EQFANSI,EQFUTF8",
+  "DQUOTE,EQFDQUOT,EQFADQUO,EQFUDQUO",
+  "LINE,EQFLINE,EQFALINE,EQFULINE",
+  "MRI,EQFMRI,EQFAMRI",
+  "QUOTE,EQFQUOTE,EQFAQUOT,EQFUQUOT"
+};
+
+std::map<std::string,std::string> initOtmFamilyNameMap();
+std::map<std::string,std::string> OtmFamilyNameMap = initOtmFamilyNameMap();
+// For R012645 end
+
 void      SaveValue2( char **, char * ) ;
 
 /*! \brief Supplies the name of the markup table
@@ -379,6 +393,20 @@ bool OtmMarkupTable::deleteMarkup(
 }
 
 
+  /*! \brief Get the markup family name for a markup
+
+	This method looks for family name for a markup
+
+	\returns Family name if have, otherwise a empty string
+	*/
+  std::string OtmMarkupTable::getFamilyName()
+  {
+      if(OtmFamilyNameMap.find(pInfo->pszName) != OtmFamilyNameMap.end())
+          return OtmFamilyNameMap[pInfo->pszName];
+          
+      return "";
+  }
+  
 /*! 
   \brief copies a string to the supplied buffer
 	
@@ -468,4 +496,36 @@ void  SaveValue2( char **Output, char *Input )
    }
 }
 
- 
+/*
+	\brief It build a family name map
+	\param FamilyMarkups  family name and markup names 
+	\param N              the number of elements in the array
+	\returns              The map for family and markup names
+*/
+std::map<std::string,std::string> initOtmFamilyNameMap()
+{
+	  std::map<std::string,std::string> FamilyNameMap;
+	  for(int i=0; i<sizeof(OtmFamilyMarkups)/sizeof(std::string); i++)
+  	{
+		    std::string markups = OtmFamilyMarkups[i];
+		    // find family name
+		    std::size_t idx = markups.find(',');
+		    if(idx == std::string::npos)
+			      continue;
+		    std::string familyName = markups.substr(0,idx);
+		
+				// continue to process markups
+		    std::size_t begIdx = idx+1;
+		    idx = markups.find(',',begIdx);
+		    while( idx != std::string::npos )
+		    {
+			      // use markup as key and family as value
+			      std::string markupName = markups.substr(begIdx,idx-begIdx);
+			      FamilyNameMap[markupName] = familyName;
+			      begIdx = idx+1;
+			      idx = markups.find(',',begIdx);
+		    }
+		    FamilyNameMap[markups.substr(begIdx)] = familyName;
+	  }
+	  return FamilyNameMap;
+}

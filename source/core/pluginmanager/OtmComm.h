@@ -75,6 +75,7 @@ using namespace std;
 #define ERROR_HTTPS_CONNECT_A                         1024
 #define ERROR_SFTP_CONNECT_A                          1025
 #define ERROR_LOAD_DLL_LIBCURL_A                      1026
+#define ERROR_LOAD_ENTRY_POINT_A                      1027
 
 #define NO_NEED_START                                 999
 #define VAL_HAS_NEW_VER                               998

@@ -25,7 +25,10 @@
 #include <EQFTADIT.H>             // IBMIDDOC->IBMDITA special processing functions
 #include <OTMGLOBMem.h>         // Global Memory defines
 #include "OtmProposal.h"
+#include "core\pluginmanager\otmmarkup.h"
+#include "MarkupPluginMapper.h"
 #include "core\memory\MemoryFactory.h"
+#include <map>
 
 #ifdef _DEBUG
   //#define MEASURETIME
@@ -126,6 +129,15 @@ USHORT FillMatchTable( PTMX_CLB, PSZ_W, PULONG, PTMX_TARGET_RECORD,
 /**********************************************************************/
 /* Prototypes for Static functions...                                 */
 /**********************************************************************/
+//For R012645 begin
+static std::map<std::string,std::string> Name2FamilyMap;
+static std::string& GetAndCacheFamilyName
+(
+  char*  pszMarkupName
+);
+
+//For R012645 end
+
 static VOID
 MakeHashValueW
 (
@@ -487,7 +499,7 @@ USHORT TmtXGet
       if ( !usRc )
       {
           pSentence->pNormString = pSentence->pNormStringStart;
-          HashSentence( pSentence, pTmClb->stTmSign.bMajorVersion );
+          HashSentence( pSentence, pTmClb->stTmSign.bMajorVersion, pTmClb->stTmSign.bMinorVersion );
 
 #ifdef MEASURETIME
   GetElapsedTime( &(pTmClb->lOtherTime) );
@@ -1184,6 +1196,7 @@ USHORT ExactTest
             {
               ULONG ulLeftClbLen;      // left CLB entries in CLB list
               PTMX_TARGET_CLB pClb;    // pointer for CLB list processing
+              #define SEG_DOC_AND_CONTEXT_MATCH   8
               #define DOC_AND_CONTEXT_MATCH   7
               #define CONTEXT_MATCH           6
               #define SAME_SEG_AND_DOC_MATCH  5
@@ -1273,7 +1286,17 @@ USHORT ExactTest
                 }
                 else if ( usCurContextRanking == 100  )
                 {
-                  if ( fMatchingDocName )
+                  if ( fMatchingDocName && (pClb->ulSegmId >= (pGetIn->ulSegmentId - 1)) && (pClb->ulSegmId <= (pGetIn->ulSegmentId + 1)) )
+                  {
+                    if ( sCurMatch < SEG_DOC_AND_CONTEXT_MATCH )
+                    {
+                      sCurMatch = SEG_DOC_AND_CONTEXT_MATCH;
+                      pTMXTargetClb = pClb;   // use this target CLB for match
+                      usTargetTranslationFlag = usTranslationFlag;
+                      usContextRanking = usCurContextRanking;
+                    }
+                  }
+                  else if ( fMatchingDocName )
                   {
                     if ( sCurMatch < DOC_AND_CONTEXT_MATCH )
                     {
@@ -1422,6 +1445,9 @@ USHORT ExactTest
                     break;
                   case SAME_SEG_AND_DOC_MATCH :
                     usMatchLevel = fNormalMatch ? usEqual+2 : usEqual-1;
+                    break;
+                  case SEG_DOC_AND_CONTEXT_MATCH :
+                    usMatchLevel = fNormalMatch ? usEqual+2 : usEqual-1; // exact-exact match with matching context
                     break;
                   case DOC_AND_CONTEXT_MATCH :
                     if ( usContextRanking == 100 )
@@ -3050,6 +3076,24 @@ USHORT FuzzyTest ( PTMX_CLB pTmClb,           //ptr to control block
           if ( (RECLEN(pTMXTargetTagTable) > sizeof(TMX_TAGTABLE_RECORD)) ||  (RECLEN(pSentence->pTagRecord) > sizeof(TMX_TAGTABLE_RECORD)) )
           {
             fTagTableEqual =(pTMXTargetTagTable->usTagTableId == usTagId);
+            // For R012645 begin
+            if(!fTagTableEqual)
+            {
+              std::string familyNameIn = GetAndCacheFamilyName(pGetIn->szTagTable);
+
+              if( !familyNameIn.empty() )
+              {
+                // get markup name firstly, also with cache
+                char szMarkup[MAX_FNAME];
+                memset(szMarkup,0,sizeof(szMarkup));
+                NTMGetNameFromID( pTmClb, &(pTMXTargetTagTable->usTagTableId), (USHORT)TAGTABLE_KEY,szMarkup, NULL );
+                  
+                std::string familyNameTgt = GetAndCacheFamilyName(szMarkup);
+                if( !familyNameTgt.empty() && familyNameIn==familyNameTgt)
+                  fTagTableEqual = TRUE;
+              } 
+            }
+            // For R012645 end
           }
           else
           {
@@ -6314,6 +6358,18 @@ USHORT NTMGetMatchLevel
 
 
   fTagTableEqual = (_stricmp( pSegment->szMarkup, pProposal->szMarkup ) == 0);
+  // For R012645 begin
+  if(!fTagTableEqual)
+  {
+    std::string segMarkupFamily = GetAndCacheFamilyName( pSegment->szMarkup);
+    if(!segMarkupFamily.empty())
+    {
+      std::string propMarkupFamily = GetAndCacheFamilyName(pProposal->szMarkup);
+      if(!propMarkupFamily.empty() && segMarkupFamily==propMarkupFamily)
+        fTagTableEqual = TRUE;
+    }
+  }
+ // For R012645 end
 
   // check if strings are equal
   if ( ulParm & GET_RESPECTCRLF )   
@@ -6846,6 +6902,18 @@ SHORT NTMSimpleGetMatchLevel
 
 
   fTagTableEqual = (_stricmp( pszSegmentMarkup, pszProposalMarkup ) == 0);
+  // For R012645 begin
+  if(!fTagTableEqual)
+  {
+    std::string segMarkupFamily = GetAndCacheFamilyName(pszSegmentMarkup);
+    if(!segMarkupFamily.empty())
+    {
+      std::string propMarkupFamily = GetAndCacheFamilyName(pszProposalMarkup);
+      if(!propMarkupFamily.empty() && segMarkupFamily==propMarkupFamily)
+        fTagTableEqual = TRUE;
+    }
+  }
+  // For R012645 end
 
   // check if strings are equal
   if ( ulParm & GET_RESPECTCRLF )   
@@ -7142,3 +7210,17 @@ BOOL NTMAlignTags
 
   return( fOK );
 } /* end of function NTMAlignTags */
+
+// If existed, return it, otherwise it will determine markup family name then cache it
+std::string& GetAndCacheFamilyName(char* pszMarkupName)
+{
+  if( Name2FamilyMap.find(pszMarkupName) == Name2FamilyMap.end() )
+  {
+    OtmMarkup *pMarkup = GetMarkupObject( pszMarkupName, NULL);
+    if( pMarkup != NULL )
+      Name2FamilyMap[pszMarkupName] = pMarkup->getFamilyName();
+    else
+      Name2FamilyMap[pszMarkupName] = "";
+  }
+  return Name2FamilyMap[pszMarkupName];
+}

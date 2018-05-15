@@ -27,6 +27,7 @@
 #include "core\utilities\LogWriter.h"
 #include <TlHelp32.h>
 #include <Shellapi.h>
+#include "eqfserno.h"
 
 // prototype for non-public utility functions
 VOID UtlSetString(SHORT sID, PSZ pszString);
@@ -48,6 +49,8 @@ VOID AutoVerUpProps(BOOL bFromMenu)
     // start our replicator program if it is not active yet
     if (!IsProgramRunning(AUTO_VERUP_EXE))
     {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         char szAutoVerup[MAX_LONGPATH];
         char szProgramPath[MAX_LONGPATH];
 
@@ -107,6 +110,7 @@ VOID PluginManagerMenuProps()
 
     // start dialog box
     INT_PTR sRC;
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     DIALOGBOX(EqfQueryTwbClient(), PluginManagerDlgProc, hResMod, ID_PLUGIN_MANAGER_DLG, NULL, sRC);
 }
 
@@ -640,7 +644,7 @@ LPARAM mp2
 
         // column 5: short description
         lvCol.iSubItem = 4;
-        lvCol.cx = 250;
+        lvCol.cx = 300;
         lvCol.pszText = INSTALL_LST_COLUMN_5_STR;
         ListView_InsertColumn(plgMgList, 4, &lvCol);
 
@@ -2070,6 +2074,90 @@ int RemoveAlone(HWND hwndTabDlg, const char * strPluginName)
     return nRC;
 }
 
+void split(std::string instr, std::vector<std::string>& res, char sep)
+{
+	std::size_t iLast = 0;
+	std::size_t idx = instr.find(sep,iLast);
+	while(idx != std::string::npos)
+	{
+		std::string temp = instr.substr(iLast,idx-iLast);
+		//std::cout<<temp<<std::endl;
+		res.push_back(temp);
+		// skip space
+		idx++;
+		while( isspace(instr[idx]) )
+			idx++;
+		// update idx loop
+		iLast = idx;
+		idx = instr.find(sep,iLast);
+	}
+	std::string temp = instr.substr(iLast);
+	//std::cout<<temp<<std::endl;
+	res.push_back(temp);
+	
+}
+
+
+// WLP P403853
+bool isForCurOtm(const char* pPlugginName, std::string &msg)
+{
+	//std::string strOtmVersion = gplginParse->GetOtmVersion(iInx);
+	const char* pOtmVersion = gplginParse->GetOtmVersionByName(pPlugginName);
+
+	// if there isn't otm version, it means for any otm version
+	if (pOtmVersion==NULL || strlen(pOtmVersion)==0)
+		return true;
+
+	// check otm version string here
+	std::string curOtmVersion = STR_DRIVER_LEVEL_NUMBER;
+	std::string strOtmVersion = std::string(pOtmVersion);
+	msg = strOtmVersion;
+
+	// 1.4.2+
+	std::size_t iLen = strOtmVersion.length();
+	if(strOtmVersion[iLen-1] == '+')
+	{
+		msg = std::string("equal or above ")+strOtmVersion.substr(0,iLen-1);
+		return ( curOtmVersion >= strOtmVersion.substr(0,iLen-1) );
+	}
+	// -1.4.2
+	else if(strOtmVersion[0] == '-')
+	{
+		msg = std::string("equal or below ")+strOtmVersion.substr(1,iLen-1);
+		return ( curOtmVersion <= strOtmVersion.substr(1,iLen-1) );
+	}
+	// 1.4.2, 1.4.3, 1.4.5
+	else if(strOtmVersion.find(',') != std::string::npos)
+	{
+		msg = std::string("[ ")+strOtmVersion+"]";
+		std::vector<std::string> vers;
+		split(strOtmVersion,vers,',');
+		for(auto iter=vers.begin(); iter!=vers.end(); iter++)
+		{
+			if(*iter == curOtmVersion)
+				return true;
+		}
+	}
+	// 1.3.1-1.4.2
+	else if (strOtmVersion.find('-')!=std::string::npos)
+	{
+		std::vector<std::string> vers;
+		split(strOtmVersion,vers,'-');
+		if(vers.size() == 2)
+		{
+			msg = std::string("in range ")+vers[0]+" and "+vers[1];
+			return ( (curOtmVersion >= vers[0]) && (curOtmVersion<=vers[1]) );
+		}
+	}
+	// 1.4.2
+	else
+	{
+		return (curOtmVersion == strOtmVersion);
+	}
+
+	return false;
+}
+
 void InstallSelectedPlugin(HWND hwndAvbTabDlg)
 {
     int nRC = NO_ERROR;
@@ -2082,11 +2170,26 @@ void InstallSelectedPlugin(HWND hwndAvbTabDlg)
         {
             continue;
         }
-
+		
         // get the name of the plugin
         char strLstName[PLUGIN_NAME_MAX_LEN];
         memset(strLstName, 0x00, sizeof(strLstName));
         ListView_GetItemText(hwndDlgLst, nInx, 0, strLstName, sizeof(strLstName));
+
+
+		// WLP P403853
+		std::string msg;
+		if (!isForCurOtm(strLstName,msg) )
+		{
+			 std::string errorMsg("The plugin is for OTM ");
+			 errorMsg += msg;
+			 errorMsg += ", yours is ";
+			 errorMsg += STR_DRIVER_LEVEL_NUMBER;
+
+			 MessageBox(hwndAvbTabDlg, errorMsg.c_str(), PLUGIN_MGR_APP_NAME_STR, MB_ICONEXCLAMATION | MB_OK);
+             return;
+		}
+
 
         // if fixpackage, just + 1
         if (IsFixpack(strLstName))
@@ -2138,6 +2241,7 @@ void InstallSelectedPlugin(HWND hwndAvbTabDlg)
     }
 }
 
+
 void UpdateSelectedPlugin(HWND hwndUptTabDlg)
 {
     int nRC = NO_ERROR;
@@ -2151,10 +2255,26 @@ void UpdateSelectedPlugin(HWND hwndUptTabDlg)
             continue;
         }
 
+
         // get the name of the plugin
         char strLstName[PLUGIN_NAME_MAX_LEN];
         memset(strLstName, 0x00, sizeof(strLstName));
         ListView_GetItemText(hwndDlgLst, nInx, 0, strLstName, sizeof(strLstName));
+
+
+		// WLP P403853
+		std::string msg;
+		if ( !isForCurOtm(strLstName,msg) )
+		{
+			 std::string errorMsg("The plugin is for OTM ");
+			 errorMsg += msg;
+			 errorMsg += ", yours is ";
+			 errorMsg += STR_DRIVER_LEVEL_NUMBER;
+
+			 MessageBox(hwndUptTabDlg, errorMsg.c_str(), PLUGIN_MGR_APP_NAME_STR, MB_ICONEXCLAMATION | MB_OK);
+             return;
+		}
+
 
         // if fixpackage, just + 1
         if (IsFixpack(strLstName))
@@ -3351,6 +3471,7 @@ unsigned int __stdcall CheckNewVersionProc(LPVOID lpParameter)
         if (IDYES == nRet)
         {
             INT_PTR sRC;
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
             DIALOGBOX(hwndMain, PluginManagerDlgProc, hResMod, ID_PLUGIN_MANAGER_DLG, NULL, sRC);
             nRC = VAL_NO_NEED_OPEN;
         }

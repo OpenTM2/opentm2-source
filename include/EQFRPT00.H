@@ -31,10 +31,6 @@
 #define REPORT_2_OFFSET                     4  // depends on number of options
 #define REPORT_3_OFFSET                     6  // depends on number of options
 
-#define FUZZY_THRESHOLD_0                  0.5 // Theshold for different fuzzy classes
-#define FUZZY_THRESHOLD_1                  0.7 // Theshold for different fuzzy classes
-#define FUZZY_THRESHOLD_2                  0.9 // Theshold for different fuzzy classes
-
 #define Standard_Words_per_Line            10. // Standard words per line
 #define Standard_Words_per_Page            250.// Standard words per page
 

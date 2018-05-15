@@ -230,45 +230,48 @@ MRESULT MemImportCallBack
     /* Initialize data of callback function                           */
     /******************************************************************/
     case WM_CREATE :
-      /**************************************************************/
-      /* Anchor IDA                                                 */
-      /**************************************************************/
-      pLIDA               = (PMEM_LOAD_DLG_IDA)PVOIDFROMMP2(mp2);
-      pCommArea->pUserIDA = pLIDA;
+      {
+        /**************************************************************/
+        /* Anchor IDA                                                 */
+        /**************************************************************/
+        pLIDA               = (PMEM_LOAD_DLG_IDA)PVOIDFROMMP2(mp2);
+        pCommArea->pUserIDA = pLIDA;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
-      /****************************************************************/
-      /* supply all information required to create the process        */
-      /* window                                                       */
-      /****************************************************************/
-      pCommArea->sProcessWindowID = ID_MEMIMP_WINDOW;
-      pCommArea->sProcessObjClass = clsMEMORYIMP;
-      if ( pLIDA->fBatch )
-      {
-        pCommArea->Style            = PROCWIN_BATCH;
+        /****************************************************************/
+        /* supply all information required to create the process        */
+        /* window                                                       */
+        /****************************************************************/
+        pCommArea->sProcessWindowID = ID_MEMIMP_WINDOW;
+        pCommArea->sProcessObjClass = clsMEMORYIMP;
+        if ( pLIDA->fBatch )
+        {
+          pCommArea->Style            = PROCWIN_BATCH;
+        }
+        else
+        {
+          pCommArea->Style            = PROCWIN_TEXTSLIDER;
+        } /* endif */
+        pCommArea->sSliderID        = ID_MEMIMP_SLIDER;
+        pCommArea->sTextID          = ID_MEMIMP_TEXT;
+        LOADSTRING( NULLHANDLE, hResMod, MEM_IPTITLE, pCommArea->szBuffer );
+        OEMTOANSI( pLIDA->szMemName );
+        sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer,
+                 pLIDA->szMemName );
+        ANSITOOEM( pLIDA->szMemName );
+        LOADSTRING( NULLHANDLE, hResMod, MEM_IPLINE2, pCommArea->szBuffer );
+        sprintf( pCommArea->szText, "%s %s", pCommArea->szBuffer,
+                 pLIDA->szFilePath );
+        pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_TMEMIMPICON); //hiconTMEMIMP;
+        pCommArea->fNoClose         = FALSE;
+        pCommArea->swpSizePos.x     = 100;
+        pCommArea->swpSizePos.y     = 100;
+        pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
+        pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
+        pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
+        pCommArea->asMsgsWanted[1]  = 0;
+        pCommArea->usComplete       = 0;
       }
-      else
-      {
-        pCommArea->Style            = PROCWIN_TEXTSLIDER;
-      } /* endif */
-      pCommArea->sSliderID        = ID_MEMIMP_SLIDER;
-      pCommArea->sTextID          = ID_MEMIMP_TEXT;
-      LOADSTRING( NULLHANDLE, hResMod, MEM_IPTITLE, pCommArea->szBuffer );
-      OEMTOANSI( pLIDA->szMemName );
-      sprintf( pCommArea->szTitle, "%s %s", pCommArea->szBuffer,
-               pLIDA->szMemName );
-      ANSITOOEM( pLIDA->szMemName );
-      LOADSTRING( NULLHANDLE, hResMod, MEM_IPLINE2, pCommArea->szBuffer );
-      sprintf( pCommArea->szText, "%s %s", pCommArea->szBuffer,
-               pLIDA->szFilePath );
-      pCommArea->hIcon            = (HPOINTER) UtlQueryULong(QL_TMEMIMPICON); //hiconTMEMIMP;
-      pCommArea->fNoClose         = FALSE;
-      pCommArea->swpSizePos.x     = 100;
-      pCommArea->swpSizePos.y     = 100;
-      pCommArea->swpSizePos.cx    = (SHORT) UtlQueryULong( QL_AVECHARWIDTH ) * 60;
-      pCommArea->swpSizePos.cy    = (SHORT) UtlQueryULong( QL_PELSPERLINE ) * 10;
-      pCommArea->asMsgsWanted[0]  = WM_EQF_PROCESSTASK;
-      pCommArea->asMsgsWanted[1]  = 0;
-      pCommArea->usComplete       = 0;
       break;
 
 
@@ -724,6 +727,7 @@ VOID EQFMemLoadProcess ( PPROCESSCOMMAREA pCommArea,
                 // restart memory import
                 if ( fOk )
                 {
+                  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                   pLoadData->fControlFound = FALSE;
                   pLoadData->ulProgressPos = 0L;
                   pLoadData->ulBytesRead = 0L;
@@ -2286,6 +2290,7 @@ static USHORT MemLoadReadFile( PMEM_LOAD_IDA pLIDA ) // pointer to the load IDA
        if ( pLIDA->pTokenList->sTokenid == pLIDA->sMemMemoryDBTokenID )
        {
          INT_PTR   iDlgRc = 1;
+         HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
          /*************************************************************/
          /* This is an old TM format display listbox to get           */
@@ -4097,3 +4102,42 @@ USHORT UtlFindConversionError
   return( usRC );
 } /* end of function UtlFindAndShowConversionError */
 
+/*************************************************************************/
+/* this function checks if the memory is still available and accessible  */
+/* It might happen that someone get rid of a secondary drive or of a     */
+/* server drive  ....                                                    */
+/*************************************************************************/
+
+BOOL fMemIsAvail
+(
+  PSZ  pszName,
+  PSZ  pszFullName,
+  PSZ  pszSrcLang
+)
+{
+    BOOL fOK = FALSE;
+    MemoryFactory *pFactory = MemoryFactory::getInstance();
+    OtmMemoryPlugin::PMEMORYINFO pInfo = new( OtmMemoryPlugin::MEMORYINFO );
+    if(pInfo != NULL)
+    {
+        int iRC = pFactory->getMemoryInfo( NULL, pszName, pInfo );
+        if(iRC == NO_ERROR)
+            fOK = TRUE;
+
+        if (fOK &&(pszFullName || pszSrcLang))
+        {
+            if ( pszFullName )
+                strcpy( pszFullName, pInfo->szFullPath );
+
+            if ( pszSrcLang )
+                strcpy( pszSrcLang, pInfo->szSourceLanguage );
+
+            if(!pInfo->fEnabled)
+                fOK = FALSE;
+        }
+
+        if(pInfo != NULL)
+        delete pInfo;
+    }
+    return fOK;
+}

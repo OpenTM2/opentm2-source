@@ -42,6 +42,7 @@
 
 
 #include "eqfmem.id"        // IDs for folder lists
+#include <../source/core/pluginmanager/OtmMemory.h>
 #include "eqftmi.h"         // Folder List Handler defines
 
 #include <io.h>             // C library for I/O

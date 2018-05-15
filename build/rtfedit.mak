@@ -41,6 +41,9 @@ $(_DLL)\rtfedit.DLL: $(_OBJ)\eqfbrtf0.obj
 $(_OBJ)\eqfbrtf0.obj
 /OUT:$(_DLL)\rtfedit.dll
 $(_LINK_OPTIONS) /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.LIB $(_LIB)\OtmDll.LIB $(_LIB)\OtmAPI.LIB
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.LIB 
+$(_LIB)\OtmAPI.LIB
+$(_LIB)\OTMEditorFunctions.lib
 <<
 

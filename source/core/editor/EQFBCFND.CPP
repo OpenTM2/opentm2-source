@@ -246,6 +246,8 @@ VOID EQFBCFind
 
     if ( !pCFindData->hwndFindDlg )
     {
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
       FARPROC lpfnProc = MakeProcInstance(  (FARPROC)(EQFBCFINDDLGPROC), (HAB) UtlQueryULong( QL_HAB ) );
       pCFindData->hwndFindDlg = CreateDialogParamW( hResMod,
                                               (PSZ_W)MAKEINTRESOURCE( ID_TB_CFIND_DLG),
@@ -830,6 +832,7 @@ VOID CFindShowMemSelectDlg( HWND hwndDlg, PCFINDDATA pCFindData )
 
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
     DIALOGBOX( hwndDlg, FOLMEMSEL_DLGPROC, hResMod, ID_FOLMEMSEL_DLG, pSelDlgIda, fOK );
   } /* endif */
 

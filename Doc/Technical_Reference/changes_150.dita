@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_150">
+  <title>Changes for OpenTM2 v1.5.0</title>
+<prolog>
+  <metadata>
+    <keywords><!--Insert <indexterm> tags here--></keywords>
+  </metadata>
+</prolog>
+<body>
+
+  <p>This chapter is listing <b>new and updated APIs</b> implemented in <keyword conref="common-symbols.dita#common-symbols/tm4w"/> v1.5.0.</p>
+  <p>
+    <ul>
+      <li> New APIs
+        <ul>
+          <li>EqfConnectSharedMem   (See <xref href="api_EqfConnectSharedMem.dita#api_EqfConnectSharedMem"/>.</li>
+          <li>EqfDisconnectSharedMem   (See <xref href="api_EqfDisconnectSharedMem.dita#api_EqfDisconnectSharedMem"/>.</li>
+        </ul>
+      </li>
+      <li> Updated APIs
+        <ul>
+          <li>EqfExportFolder   (See <xref href="api_EqfExportFolder.dita#api_EqfExportFolder"/>)
+            <ul>
+              <li>Added WO_REDUNDANCY_DATA_OPT option.</li>
+            </ul>
+          </li>
+          <li>EqfExportFolderFP   (See <xref href="api_EqfExportFolderFP.dita#api_EqfExportFolderFP"/>)
+            <ul>
+              <li>Added WO_REDUNDANCY_DATA_OPT option.</li>
+            </ul>
+          </li>
+          <li>EqfExportFolderFPas   (See <xref href="api_EqfExportFolderFPas.dita#api_EqfExportFolderFPas"/>)
+            <ul>
+              <li>Added WO_REDUNDANCY_DATA_OPT option.</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </p> 
+</body>
+</topic>

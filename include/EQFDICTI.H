@@ -8,238 +8,7 @@
 //+----------------------------------------------------------------------------+
 //|  Description:                                                              |
 //+----------------------------------------------------------------------------+
-//| PVCS Section                                                               |
-//
-// $CMVC
-// 
-// $Revision: 1.2 $ ----------- 12 Apr 2010
-// GQ: - added szImportDir and ulImportDirLength to DIMPIDA
-// 
-// 
-// $Revision: 1.1 $ ----------- 14 Dec 2009
-//  -- New Release TM6.2.0!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 15 Nov 2009
-// GQ: - increased MAXI_SIZE to fix S618014 Error when importing SGM dictionary
-// 
-// 
-// $Revision: 1.1 $ ----------- 1 Oct 2009
-//  -- New Release TM6.1.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 2 Jun 2009
-//  -- New Release TM6.1.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 8 Dec 2008
-//  -- New Release TM6.1.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Sep 2008
-//  -- New Release TM6.1.5!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 23 Apr 2008
-//  -- New Release TM6.1.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 13 Dec 2007
-//  -- New Release TM6.1.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Aug 2007
-//  -- New Release TM6.1.2!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Apr 2007
-//  -- New Release TM6.1.1!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2006
-//  -- New Release TM6.1.0!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 9 May 2006
-//  -- New Release TM6.0.11!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 20 Dec 2005
-//  -- New Release TM6.0.10!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 25 Nov 2005
-// GQ: - added szToExternalFileText and fYesToAll to DEXIDA
-// 
-// 
-// $Revision: 1.1 $ ----------- 16 Sep 2005
-//  -- New Release TM6.0.9!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 19 Jul 2005
-// GQ: - added hwndToCombo to DIMPIDA
-// 
-// 
-// $Revision: 1.1 $ ----------- 18 May 2005
-//  -- New Release TM6.0.8!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 29 Nov 2004
-//  -- New Release TM6.0.7!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 31 Aug 2004
-//  -- New Release TM6.0.6!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 3 May 2004
-//  -- New Release TM6.0.5!!
-// 
-// 
-// $Revision: 1.2 $ ----------- 3 Mar 2004
-// GQ: - added fSkipped flag to DEXIDA
-//     - added ulSkipped and apszField to DORGIDA
-// 
-// 
-// $Revision: 1.1 $ ----------- 15 Dec 2003
-//  -- New Release TM6.0.4!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 6 Oct 2003
-//  -- New Release TM6.0.3!!
-// 
-// 
-// $Revision: 1.1 $ ----------- 27 Jun 2003
-//  -- New Release TM6.0.2!!
-// 
-// 
-// $Revision: 1.3 $ ----------- 17 Mar 2003
-// --RJ: removed compiler defines not needed any more and rework code to avoid warnings
-// 
-//
-// $Revision: 1.2 $ ----------- 24 Feb 2003
-// --RJ: delete obsolete code and remove (if possible)compiler warnings
-//
-//
-// $Revision: 1.1 $ ----------- 20 Feb 2003
-//  -- New Release TM6.0.1!!
-//
-//
-// $Revision: 1.2 $ ----------- 29 Jul 2002
-// --RJ: R07197: add ulOemCP, ulAnsiCP to DEXIDA and DIMPIDA;
-//      this CP is used during dict export and import
-//
-//
-// $Revision: 1.1 $ ----------- 26 Jul 2002
-//  -- New Release TM6.0!!
-//
-//
-// $Revision: 1.11 $ ----------- 17 Dec 2001
-// GQ: - Added buffers for the names of the model dictionaries
-//
-//
-// $Revision: 1.10 $ ----------- 7 Dec 2001
-// GQ: - Add lpucNewDataSize to DEXIDA
-//
-//
-// $Revision: 1.9 $ ----------- 27 Nov 2001
-// Dictionary description export/import
-//
-//
-// $Revision: 1.8 $ ----------- 26 Nov 2001
-// GQ: - Added pszList and pszActFile to DIMPIDA
-//
-//
-// $Revision: 1.7 $ ----------- 9 Nov 2001
-// GQ: Added Dictionary list parameter to DictionaryOrganize and DictionaryExport
-//
-//
-// $Revision: 1.6 $ ----------- 22 Oct 2001
-// -- RJ: move DorgInit() prototype
-//
-//
-// $Revision: 1.5 $ ----------- 19 Oct 2001
-// --RJ: unicode enabling in import/export dict structures
-//
-//
-// $Revision: 1.4 $ ----------- 9 Oct 2001
-// GQ: Added SELDICTINFO structure
-//
-//
-// $Revision: 1.3 $ ----------- 13 Sep 2001
-// long description added in PDEXIDA
-//
-//
-// $Revision: 1.2 $ ----------- 3 Sep 2001
-// GQ: Moved prototype of DicGetCheckPassword to EQF.H
-//
-//
-// $Revision: 1.1 $ ----------- 17 Aug 2001
-//  -- New Release TM2.7.2!!
-//
-//
-// $Revision: 1.9 $ ----------- 9 Aug 2001
-// Changed TrojaResultBuf to TrojaResultBufLong
-//
-//
-//
-// $Revision: 1.8 $ ----------- 28 May 2001
-// GQ: Moved DictionaryImport and DictionaryOrganize to EQF.H
-//
-//
-//
-// $Revision: 1.7 $ ----------- 19 Feb 2001
-// -- Thai: add fAnsiConv to DEXIDA
-//
-//
-// $Revision: 1.6 $ ----------- 13 Oct 2000
-// - added usExpFormat to DEXIDA
-// - added usImpFormat to DIMPIDA
-//
-//
-// $Revision: 1.5 $ ----------- 18 Sep 2000
-// - fixed PTM KBT0847: Dictionary import fails when path is too long
-//
-//
-// $Revision: 1.4 $ ----------- 30 Aug 2000
-// -- added necessary definitons for dictionary property sheets
-//
-//
-// $Revision: 1.3 $ ----------- 10 Jan 2000
-// - support long dictionary names
-//
-//
-//
-// $Revision: 1.2 $ ----------- 6 Dec 1999
-//  -- Initial Revision!!
-//
-/*
- * $Header:   J:\DATA\EQFDICTI.HV_   1.5   14 Jan 1998 14:24:20   BUILD  $
- *
- * $Log:   J:\DATA\EQFDICTI.HV_  $
- *
- *    Rev 1.5   14 Jan 1998 14:24:20   BUILD
- * - changed MAX_PATH to MAX_PATH144 or MAX_LONGPATH
- *
- *    Rev 1.4   16 May 1997 15:16:06   BUILD
- * - implementation of work item A.44: new API functions (here: defines for
- *   batch dictionary exporet)
- *
- *    Rev 1.3   16 Dec 1996 09:39:30   BUILD
- * - added LAN drive list ot DICCREATEIDA and removed obsolete server stuff
- *
- *    Rev 1.2   09 Sep 1996 11:04:28   BUILD
- * - added new define NEWFOLIMP for dictionary property dialog called by
- *   dictionary import via folder import
- *
- *    Rev 1.1   13 Jan 1996 13:59:50   BUILD
- * - added prototype for function DicLoadFieldNames
- * - added fAutLookup flag to MAPENTRY structure and CODETAGS structure
- * - added AUTLOOKUP token (string)
- *
- *    Rev 1.0   09 Jan 1996 09:50:08   BUILD
- * Initial revision.
-*/
+
 #define  MIN_DICT_SPACE    50000   //min. disk space needed for dict creation
 #define  HPS_HEADLINE_cy   25
 #define  DICT_PROPERTIES_NAME "EQFDICT.PRP" // name of dictionary list props
@@ -318,22 +87,9 @@ MRESULT EXPENTRY DicFrameSubProc ( HWND, USHORT, WPARAM, LPARAM );
 MRESULT APIENTRY DICTIONARYHANDLERWP( HWND, WINMSG, WPARAM, LPARAM);
 MRESULT APIENTRY DICTIONARYWP( HWND, WINMSG, WPARAM, LPARAM);
 
-// module EQFDEX.C
-VOID   DictionaryExport( HWND, PSZ, PVOID );
 
-// module EQFDORG.C
-VOID   DictionaryOrganize( HWND, PSZ, PVOID );
-
-// module EQFDIC01.C
-VOID   DictionaryProp( HWND, PSZ );
-VOID   DictionaryOpen( HWND, PSZ, PDICTIONARYIDA );
 MRESULT DictPropControl( HWND, SHORT, SHORT );
 
-// module EQFDIC03.C
-BOOL   DictionaryNew( HWND, PDICTPARMS );
-
-// module EQFRDICS.c
-VOID   DictionaryRemote( HWND );
 
 // module EQFDIC00.C
 BOOL   DicMakeDictListItem ( HWND, PSZ, HPROP, PSZ );
@@ -353,7 +109,7 @@ typedef enum
 
 #define MAX_NUM_DICTS      99          // max. number of dict concurrently open
 
-#define MAXI_SIZE    0xFFFF // 32000               //64000  0x8000  maximum size
+#define MAXI_SIZE    0x0003FFFF       // maximum size of dictionary data buffer
 #define MAX_USER     20               // max number of user-defined entry fields
 
 #define TIMER               1          // timer id
@@ -445,8 +201,8 @@ typedef enum _DIMPTASK
 
 typedef struct _MEM
 {
-   USHORT  usAvail;                 // available memory in # of w's
-   USHORT  usUsed;                  // used memoryin # of w's
+   ULONG  ulAvail;                 // available memory in # of w's
+   ULONG  ulUsed;                  // used memoryin # of w's
    CHAR_W  chBuffer[ MAXI_SIZE ];    // buffer area
 } MEM, * PMEM;
 
@@ -673,8 +429,6 @@ typedef struct _DORGIDA
 //Function Prototypes
 
 HWND hwndCreateSlider ( HWND, USHORT );
-VOID DicBatchImp( HWND, PVOID );
-VOID DicBatchExp( HWND, PVOID );
 
 #define  MODELDICT             "-Master-"
 
@@ -984,5 +738,7 @@ BOOL DicGetCheckPassword               // compute a password value or check
 );
 
 BOOL DicLoadFieldNames( PPROPDICTIONARY );
-BOOL DorgInit( HWND, PDORGIDA );
+__declspec(dllexport) BOOL DorgInit( HWND, PDORGIDA );
 
+__declspec(dllexport) VOID   DictionaryOpen( HWND, PSZ, PDICTIONARYIDA );
+__declspec(dllexport) BOOL   DictionaryNew( HWND, PDICTPARMS );

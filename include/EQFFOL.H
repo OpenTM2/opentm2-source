@@ -28,23 +28,20 @@ typedef struct _DOCUMENTINFO
   EQF_BOOL         fTargetLangLocked;             // TRUE = target language is locked and may not be changed by user
 } DOCUMENTINFO, *PDOCUMENTINFO;
 
-INT_PTR CALLBACK FIMPODLGPROPPROC( HWND, WINMSG, WPARAM, LPARAM);
-INT_PTR CALLBACK FEXPORTDLGPROPPROC( HWND, WINMSG, WPARAM, LPARAM);
-
-INT_PTR CALLBACK FIMPODLGPROC( HWND, WINMSG, WPARAM, LPARAM);
-INT_PTR CALLBACK FEXPORTDLGPROC( HWND, WINMSG, WPARAM, LPARAM);
-INT_PTR CALLBACK REVMARKDLGPROC( HWND, WINMSG, WPARAM, LPARAM);
-__declspec(dllexport)
-BOOL             DocumentDelete( PSZ, BOOL, PUSHORT );
+__declspec(dllexport) INT_PTR CALLBACK FIMPODLGPROPPROC( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) INT_PTR CALLBACK FEXPORTDLGPROPPROC( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) INT_PTR CALLBACK FIMPODLGPROC( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) INT_PTR CALLBACK FEXPORTDLGPROC( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) INT_PTR CALLBACK REVMARKDLGPROC( HWND, WINMSG, WPARAM, LPARAM);
+__declspec(dllexport) BOOL DocumentDelete( PSZ, BOOL, PUSHORT );
 
 // values for DocumentDeleteEx options
 #define DOCDELETE_NOMTLOGDELETE 1
-__declspec(dllexport)
-BOOL             DocumentDeleteEx( PSZ  pszObjName, BOOL fMsg, PUSHORT pusMBReturn, int iOptions );
+__declspec(dllexport) BOOL DocumentDeleteEx( PSZ  pszObjName, BOOL fMsg, PUSHORT pusMBReturn, int iOptions );
 
 
 
-BOOL             DocPropertyDlg        // show document propert/new dialog
+__declspec(dllexport) BOOL DocPropertyDlg        // show document propert/new dialog
 (
   HWND             hwndParent,         // handle of dialog parent window
   PSZ              pszDocName,         // object name of document
@@ -92,6 +89,7 @@ USHORT           DocQueryInfo2
   BOOL             fMsg                // do-message-handling flag
 );
 
+__declspec(dllexport)
 USHORT           DocQueryInfo2Hwnd
 (
   PSZ              pszDocName,         // object name of document
@@ -118,7 +116,7 @@ USHORT           DocQueryInfoEx
   PSZ              pszAlias,           // buffer for alias or NULL
   PSZ              pszEditor,          // buffer for editor or NULL
   PSZ              pszConversion,      // buffer for conversion or NULL
-  PSZ              pszUnUsed1,         // not in use yet, always NULL
+  PULONG           pulDocTime,         // buffer for document translation time (or last update time if not completely translated)
   PSZ              pszUnUsed2,         // not in use yet, always NULL
   BOOL             fMsg,               // do-message-handling flag
   HWND             hwnd                // handle for error messages
@@ -172,6 +170,7 @@ USHORT           FolQueryInfo2Hwnd
   HWND             hwnd                // handle for error messages
 );
 
+__declspec(dllexport)
 USHORT FolQueryInfoEx
 (
   PSZ              pszFolName,         // object name of folder
@@ -218,23 +217,18 @@ USHORT  LoadDocumentNames( PSZ search_path, HWND hlbox, LONG flg, PSZ pszBuffer)
 // flag to list all subfolders of a folder without checking the parentage
 #define LOADSUBFOLNAMES_ALLSUBFOLDERS 0x1000000L
 
-__declspec(dllexport)
-USHORT FolLoadSubFolderNames( PSZ pszParentObjName, HWND hwndLB, LONG fFlag, PSZ pszBuffer );
+__declspec(dllexport) USHORT FolLoadSubFolderNames( PSZ pszParentObjName, HWND hwndLB, LONG fFlag, PSZ pszBuffer );
 
-__declspec(dllexport)
-BOOL SubFolObjectNameToName( PSZ pszObjName, PSZ pszName );
-__declspec(dllexport)
-BOOL SubFolNameToObjectName( PSZ pszNameName, PSZ pszObjName );
-BOOL SubFolIdToObjectName( PSZ pszFolderName, ULONG ulID, PSZ pszObjName );
-__declspec(dllexport)
-BOOL SubFolderDelete( PSZ pszSubFolderObjName, BOOL fBatch );
-__declspec(dllexport)
-BOOL FolIsSubFolderItem( PSZ pszItem );
-__declspec(dllexport)
-BOOL FolIsSubFolderObject( PSZ pszObjName );
-__declspec(dllexport)
-ULONG FolGetSubFolderIdFromObjName( PSZ pszObjName );
-BOOL EqfFolderPropsToHtml(PSZ pszFolderObj, HWND hwndParent);
+__declspec(dllexport) BOOL SubFolObjectNameToName( PSZ pszObjName, PSZ pszName );
+__declspec(dllexport) BOOL SubFolNameToObjectName( PSZ pszNameName, PSZ pszObjName );
+__declspec(dllexport) BOOL SubFolIdToObjectName( PSZ pszFolderName, ULONG ulID, PSZ pszObjName );
+__declspec(dllexport) BOOL SubFolderDelete( PSZ pszSubFolderObjName, BOOL fBatch );
+__declspec(dllexport) BOOL FolIsSubFolderItem( PSZ pszItem );
+__declspec(dllexport) BOOL FolIsSubFolderObject( PSZ pszObjName );
+__declspec(dllexport) ULONG FolGetSubFolderIdFromObjName( PSZ pszObjName );
+__declspec(dllexport) BOOL EqfFolderPropsToHtml(PSZ pszFolderObj, HWND hwndParent);
+__declspec(dllexport) BOOL ResolveLongMultFileNames(PSZ, PSZ, PSZ *, ULONG ); // resolve single/multiple
+
 
 typedef struct _SUBFOLINFO
 {
@@ -245,11 +239,10 @@ typedef struct _SUBFOLINFO
   BOOL        fFlag;                   // BOOL for free use
 } SUBFOLINFO, *PSUBFOLINFO;
 
-BOOL SubFolCreateInfoTable( PSZ pszFolderObjName, PSUBFOLINFO *ppInfo );
-BOOL IsSubFolContainedInParent( ULONG ulParent, ULONG ulChild, PSUBFOLINFO pInfo );
+__declspec(dllexport) BOOL SubFolCreateInfoTable( PSZ pszFolderObjName, PSUBFOLINFO *ppInfo );
+__declspec(dllexport) BOOL IsSubFolContainedInParent( ULONG ulParent, ULONG ulChild, PSUBFOLINFO pInfo );
 
-__declspec(dllexport)
-USHORT FolCreateIntFolder
+__declspec(dllexport) USHORT FolCreateIntFolder
 (
 PSZ         pszFolderName,           // name of folder
 PSZ         pszDescription,          // folder description or NULL
@@ -260,21 +253,21 @@ PSZ         pszEditor,               // folder editor or NULL
 PSZ         pszSourceLanguage,       // folder source language or NULL
 PSZ         pszTargetLanguage        // folder target language or NULL
 );
-__declspec(dllexport)
-USHORT FolDeleteIntFolder
+__declspec(dllexport) USHORT FolDeleteIntFolder
 (
   PSZ         pszFolderName            // name of folder being deleted
 );
-BOOL FolDeleteFolder                   // TRUE = delete successful
+__declspec(dllexport) BOOL FolDeleteFolder                   // TRUE = delete successful
 (
   HWND       hwndParent,               // handle of parent window (for error messages)
   PSZ        pszObj,                   // object name of folder being deleted
   PUSHORT    pusYesToAllMode           // points to usYesToAllMode variable or NULL
 );
-BOOL FolIsFolderEmpty( PSZ pszFolObjName );
+__declspec(dllexport) BOOL FolIsFolderEmpty( PSZ pszFolObjName );
 
-USHORT FolCleanHistlog( PSZ pszHistLogFile, BOOL fMsg, HWND hwnd );
-USHORT FolCleanHistlogEx( PSZ pszHistLogFile, BOOL fMsg, HWND hwnd, BOOL fClean );
+__declspec(dllexport) USHORT FolCleanHistlog( PSZ pszHistLogFile, BOOL fMsg, HWND hwnd );
+__declspec(dllexport) USHORT FolCleanHistlogEx( PSZ pszHistLogFile, BOOL fMsg, HWND hwnd, BOOL fClean );
+
 
 // IDA for dictionary/memory selection dialog
 typedef struct _SELECTDLGIDA
@@ -293,11 +286,13 @@ typedef struct _SELECTDLGIDA
   CHAR        szBuffer2[1024];                   // general purpose buffer used by dialog itself
 } SELECTDLGIDA, *PSELECTDLGIDA;
 
-INT_PTR APIENTRY FOLMEMSEL_DLGPROC( HWND hwndDlg, WINMSG msg, WPARAM mp1, LPARAM mp2 );
+__declspec(dllexport) INT_PTR APIENTRY FOLMEMSEL_DLGPROC( HWND hwndDlg, WINMSG msg, WPARAM mp1, LPARAM mp2 );
 
 
-__declspec(dllexport)
-BOOL FolderListGlobalMemoryCheckRequired( PSZ pszFolderObject );
+__declspec(dllexport) BOOL FolderListGlobalMemoryCheckRequired( PSZ pszFolderObject );
 
-__declspec(dllexport)
-BOOL FolIsFolderDisabled( PSZ pszFolderObject );
+__declspec(dllexport) BOOL FolIsFolderDisabled( PSZ pszFolderObject );
+
+__declspec(dllexport) BOOL FOLMakeDocListItem ( PPROPDOCUMENT, PSZ, PSZ, PSZ, PSZ, PSZ, PSZ );
+
+

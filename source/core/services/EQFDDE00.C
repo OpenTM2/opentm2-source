@@ -17,7 +17,7 @@
 
 #include <dde.h>
 
-#define  MAX_DDE_FILES   10000
+#define  MAX_DDE_FILES   MAX_LIST_FILES
 
 /**********************************************************************/
 /* Option strings                                                     */
@@ -1103,101 +1103,6 @@ ValidateToken
 //+----------------------------------------------------------------------------+
 //|Internal function                                                           |
 //+----------------------------------------------------------------------------+
-//|Function name:     ListOfFiles                                              |
-//+----------------------------------------------------------------------------+
-//|Function call:     ListOfFiles( pDDEClient, pCurDir, pFile, ppListIndex );  |
-//+----------------------------------------------------------------------------+
-//|Description:       read in the file and try to extract pointers to filenames|
-//+----------------------------------------------------------------------------+
-//|Parameters:        PDDECLIENT pDDEClient  ptr to DDE instance structure     |
-//|                   PSZ     pCurDir        ptr to current directory          |
-//|                   PSZ     pFile          pointer to file name              |
-//|                   PSZ     * ppListIndex  pointer to array of files         |
-//+----------------------------------------------------------------------------+
-//|Returncode type:   BOOL                                                     |
-//+----------------------------------------------------------------------------+
-//|Returncodes:       TRUE     file could be read in and pointers extracted    |
-//|                   FALSE    something went wrong - error message  displayed |
-//+----------------------------------------------------------------------------+
-//|Side Effects:      the allocated memory will not be freed, since only ptrs  |
-//|                   to it will be set up...                                  |
-//+----------------------------------------------------------------------------+
-//|Function flow:     update file name to be fully qualified                   |
-//|                   try to load the specified file                           |
-//|                   if okay                                                  |
-//|                     split it up into pointers                              |
-//|                   endif                                                    |
-//+----------------------------------------------------------------------------+
-BOOL ListOfFiles
-(
-  PDDECLIENT   pDDEClient,          //ptr to DDE instance structure
-  PSZ **pppCurDirIndex,             // pointer to curdir array
-  PSZ pFile,                        // name of list file
-  PSZ  **pppListIndex               // pointer to listindex array
-)
-{
-  PSZ  pData;                          // pointer to data
-  BOOL fOK = TRUE;                     // success indicator
-  ULONG   ulSize = 0;                      // size of the file
-  USHORT usChar;                       // character to be checked
-  CHAR   szBuf[MAX_LONGPATH+MAX_FILESPEC]; // temp buffer
-  CHAR   szOutBuf[ MAX_EQF_PATH ];
-
-  pDDEClient;                         // get rid of compiler warnings
-  /********************************************************************/
-  /* ensure, that the list  file is fully qualified -- if not do it   */
-  /********************************************************************/
-  pData = UtlGetFnameFromPath( pFile );
-  if ( !pData && (pppCurDirIndex != NULL))
-  {
-    fOK = UtlInsertCurDir(pFile, pppCurDirIndex, szOutBuf);
-    if ( fOK )
-    {
-      pFile = szOutBuf;
-      strcpy( szBuf, pFile );
-    } /* endif */
-  }
-  else
-  {
-    strcpy( szBuf, pFile );
-  } /* endif */
-
-  /********************************************************************/
-  /* load the file - limited to files up to 64k                       */
-  /********************************************************************/
-  if ( fOK )
-  {
-    pData = NULL;
-    fOK = UtlLoadFileL( szBuf, (PVOID *)&pData, &ulSize, FALSE, FALSE );
-  } /* endif */
-
-  if ( fOK )
-  {
-    /******************************************************************/
-    /* get rid of the file ending symbols ....                        */
-    /******************************************************************/
-    if ( pData[ulSize-1] == EOFCHAR )
-    {
-      ulSize--;
-    } /* endif */
-    usChar = pData[ulSize-1];
-    while ( usChar ==  LF || usChar == CR || usChar == BLANK)
-    {
-      ulSize--;
-      usChar = pData[ulSize-1];
-    } /* endwhile */
-
-    pData[ulSize] = EOS;
-
-    fOK = UtlValidateList( pData, pppListIndex ,MAX_DDE_FILES );
-  } /* endif */
-
-  return ( fOK );
-} /* end of function ListOfFiles */
-
-//+----------------------------------------------------------------------------+
-//|Internal function                                                           |
-//+----------------------------------------------------------------------------+
 //|Function name:     EQFNot                                                   |
 //+----------------------------------------------------------------------------+
 //|Function call:     EQFNot(PDDECLIENT)                                       |
@@ -1647,8 +1552,7 @@ EQFDocImp
       /****************************************************************/
       if ( pDocImpExp->chListName[0] )
       {
-        fOK = ListOfFiles( pDDEClient, &ppCurDirListIndex,
-                           pDocImpExp->chListName, &ppListIndex );
+        fOK = UtlListOfFiles( &ppCurDirListIndex, pDocImpExp->chListName, &ppListIndex );
         if ( fOK )
         {
           /**************************************************/
@@ -2014,8 +1918,7 @@ EQFDocExp
       /****************************************************************/
       if ( pDocImpExp->chListName[0] )
       {
-        fOK = ListOfFiles( pDDEClient, &ppCurDirListIndex,
-                           pDocImpExp->chListName, &ppListIndex );
+        fOK = UtlListOfFiles( &ppCurDirListIndex, pDocImpExp->chListName, &ppListIndex );
         if ( fOK )
         {
           /**************************************************/
@@ -3422,8 +3325,7 @@ BOOL DDEFolderExportParms
       /****************************************************************/
       if ( pFolExp->chListName[0] )
       {
-        fOK = ListOfFiles( pDDEClient, &ppCurDirListIndex,
-                           pFolExp->chListName, &ppListIndex );
+        fOK = UtlListOfFiles( &ppCurDirListIndex, pFolExp->chListName, &ppListIndex );
         if ( fOK )
         {
           /**************************************************/
@@ -4146,8 +4048,7 @@ BOOL DDEWordCountParms
     /****************************************************************/
     if ( fOK && pWrdCnt->chListName[0] )
     {
-      fOK = ListOfFiles( pDDEClient, &pWrdCnt->ppCurDirArray,
-                         pWrdCnt->chListName, &ppListIndex );
+      fOK = UtlListOfFiles( &pWrdCnt->ppCurDirArray, pWrdCnt->chListName, &ppListIndex );
       if ( fOK )
       {
         /**************************************************/
@@ -4671,8 +4572,7 @@ BOOL DDECountReportParms
     /****************************************************************/
     if ( fOK && pCntRpt->chListName[0] )
     {
-      fOK = ListOfFiles( pDDEClient, &pCntRpt->ppCurDirArray,
-                         pCntRpt->chListName, &ppListIndex );
+      fOK = UtlListOfFiles( &pCntRpt->ppCurDirArray, pCntRpt->chListName, &ppListIndex );
       if ( fOK )
       {
         /**************************************************/
@@ -5154,8 +5054,7 @@ BOOL DDEAnalysisParms
     /****************************************************************/
     if ( fOK && pAnalysis->chListName[0] )
     {
-      fOK = ListOfFiles( pDDEClient, &pAnalysis->ppCurDirArray,
-                         pAnalysis->chListName, &ppListIndex );
+      fOK = UtlListOfFiles( &pAnalysis->ppCurDirArray, pAnalysis->chListName, &ppListIndex );
       if ( fOK )
       {
         /**************************************************/
@@ -7604,8 +7503,7 @@ BOOL DDEArchTMParms
     // if list name specified, load the list
     if ( fOK && pArchTM->chListName[0] )
     {
-      fOK = ListOfFiles( pDDEClient, &pArchTM->ppCurDirArray,
-                         pArchTM->chListName, &ppListIndex );
+      fOK = UtlListOfFiles( &pArchTM->ppCurDirArray, pArchTM->chListName, &ppListIndex );
       if ( fOK )
       {
         // get number of files given store ptr to each filename

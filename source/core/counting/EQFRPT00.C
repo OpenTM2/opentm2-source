@@ -503,6 +503,8 @@ LPARAM  mp2
       break;
     case TTN_NEEDTEXT:
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
         TOOLTIPTEXT *pToolTipText = (TOOLTIPTEXT *) mp2;
         if ( pToolTipText )
         {
@@ -587,6 +589,8 @@ PRPTIDA     pRptIda
   HWND      hwndTabCtrl;
   HINSTANCE hInst;
   CHAR      szBuffer[80];
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
 
   if ( fOk )
   {
@@ -1221,6 +1225,8 @@ LPARAM mp2
 
         if (fOk)
         {
+           HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
           // set CHK "Screen"
           SETCHECK_TRUE(hwnd, DID_RPT_SCREEN_CHK);     // CHK on
           ENABLECTRL (hwnd, DID_RPT_SCREEN_CHK, FALSE);  // disable CHK
@@ -2428,6 +2434,7 @@ LPARAM mp2
     case WM_INITDLG:
       //-----------------------------------
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         BOOL    fOk = TRUE;                  // error indicator
 
         pRptIda = (PRPTIDA)PVOIDFROMMP2( mp2 );
@@ -2763,6 +2770,7 @@ LPARAM mp2
     case WM_INITDLG:
       //-----------------------------------
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         BOOL    fOk = TRUE;                  // error indicator
 
         pRptIda = (PRPTIDA)PVOIDFROMMP2( mp2 );
@@ -3668,6 +3676,7 @@ void RptFillReportOptions
   USHORT   usOption
 )
 {
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
   int i_begin_option, i_end_option, optionIndex;
 
   CBDELETEALL( hwnd,DID_RPT_OPTIONS_SPIN );

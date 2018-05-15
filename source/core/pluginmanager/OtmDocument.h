@@ -97,7 +97,7 @@ public:
 	virtual USHORT CPP_EQFBWriteHistLog2(PSZ pszFolObjName, PSZ pszDocName, SHORT TaskId, USHORT usAddInfoLength, PVOID pvAddInfo, BOOL fMsg, HWND hwndErrMsg, PSZ pszLongDocName) = 0;
 	virtual void CPP_HistLogCorrectRecSizes(PHISTLOGRECORD pRecord) = 0;
 	virtual SHORT CPP_EQFBHistDocSave(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID) = 0;
-	virtual SHORT CPP_EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID, BOOL fAdjustCountInfo ) = 0;
+	virtual SHORT CPP_EQFBHistDocSaveEx(PSZ pszFileName, PTBDOCUMENT pDoc, SHORT sLogTaskID ) = 0;
 	virtual USHORT CPP_EQFBFileRead(PSZ pszFileName, PTBDOCUMENT pDoc) = 0;
 	virtual USHORT CPP_EQFBFileReadExW(PSZ pszFileName, PTBDOCUMENT pDoc, LONG lFlags) = 0;
 	virtual void CPP_EQFBFreeDoc(PTBDOCUMENT *ppDoc, ULONG ulOptions) = 0;

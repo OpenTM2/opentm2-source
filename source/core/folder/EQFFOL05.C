@@ -119,6 +119,7 @@ INT_PTR CALLBACK FOLIMPDOCDLGPROC
     case WM_INITDLG:
       {
         BOOL fOK = TRUE;
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
         /**************************************************************/
         /* Anchor IDA                                                 */

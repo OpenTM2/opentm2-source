@@ -103,7 +103,11 @@ $(_DLL)\OtmProfileMgrPlugin.Dll:
     $(_OBJ)\OtmProfileMgrPlugin.RES
 /OUT:$(_DLL)\OtmProfileMgrPlugin.DLL
 /MAP:$(_MAP)\OtmProfileMgrPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\PluginManager.lib $(_LIBOTHER)\xerces-c_3.lib $(_LIBOTHER)\zlibwapi.lib comctl32.lib shell32.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMEditorFunctions.lib 
+$(_LIB)\PluginManager.lib 
+$(_LIBOTHER)\xerces-c_3.lib $(_LIBOTHER)\zlibwapi.lib comctl32.lib shell32.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\OtmProfileMgrPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

@@ -919,6 +919,7 @@ INT_PTR CALLBACK MTPROP_GENERAL_DLGPROC
         case ID_MTPROP_CHANGESUBJECT_PB:
           {
             BOOL fOK;
+            HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
             pIda = ACCESSDLGIDA( hwndDlg, PMTPROPIDA );
             DIALOGBOX( hwndDlg, MTPROP_SUBJECT_DLGPROC,
@@ -1021,6 +1022,7 @@ INT_PTR CALLBACK MTPROP_GENERAL_DLGPROC
           // draw our picture buttons
           LPDRAWITEMSTRUCT lpDisp = (LPDRAWITEMSTRUCT)mp2;
           RECT InnerRect;
+          HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
           memcpy( &InnerRect, &(lpDisp->rcItem), sizeof(InnerRect) );
           InnerRect.bottom -= 4;

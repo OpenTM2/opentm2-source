@@ -123,6 +123,7 @@ BOOL FolGlobFindChange
   /********************************************************************/
   if ( fOK )
   {
+    HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
       hwndFolFindDlg = CreateMDIDialogParam( hResMod,
                                              MAKEINTRESOURCE(ID_FOLFIND_DLG),
                                              (HWND)UtlQueryULong( QL_TWBCLIENT ),
@@ -783,6 +784,7 @@ BOOL GFR_PropertySheetLoad( HWND hwnd, PFOLFINDDATA pIda )
   TC_ITEM   TabCtrlItem;
   HWND      hwndTabCtrl;
   int i = 0;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   RECT rect;
   HWND hwndTabWindow;
@@ -2001,7 +2003,7 @@ VOID FolFindFreeDoc
 
   if ( pSourceDoc != NULL )
   {
-   EQFBFreeDoc( &pSourceDoc, EQFBFREEDOC_NOTAGTABLEFREE | EQFBFREEDOC_NOPROTECTFREE );
+   SegFileFreeDoc( (PVOID *)&pSourceDoc );
   }
 
   if ( pDoc == NULL )
@@ -2020,7 +2022,7 @@ VOID FolFindFreeDoc
     pDoc->pDocTagTable = NULL;
   } /* endif */
 
-  EQFBFreeDoc( &pDoc, EQFBFREEDOC_NOTAGTABLEFREE | EQFBFREEDOC_NOPROTECTFREE );
+  SegFileFreeDoc( (PVOID *)&pDoc );
 } /* end of function FolFindFreeDoc */
 
 

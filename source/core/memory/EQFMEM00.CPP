@@ -153,6 +153,7 @@ MRESULT MemListHandlerCallBack
     /*-----------------------------------------------------------------------*/
     case WM_EQF_CREATE:
       {
+        HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
         int                   iDlgRc = 1;
 
         /****************************************************************/
@@ -737,7 +738,7 @@ MRESULT MemListCreate
   PSZ             pReplAddr[2];
   MRESULT         mResult = MRFROMSHORT(FALSE);
   PMEM_IDA        pIDA;            // Pointer to the Main Memory data area
-
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
   mp2;                             // get rid of compiler warnings
 
@@ -1251,6 +1252,7 @@ MRESULT MemListCommands
               // activate property dialog
               if ( fOK )
               {
+                HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
                 int   iDlgRc = 1;
 
                 // fill  dialog IDA with necessary values
@@ -2001,45 +2003,6 @@ BOOL MemMakeListItem( PSZ pszObjName, PSZ pszBuffer,
   return( fOK );
 } /* end of function MemMakeListItem */
 
-/*************************************************************************/
-/* this function checks if the memory is still available and accessible  */
-/* It might happen that someone get rid of a secondary drive or of a     */
-/* server drive  ....                                                    */
-/*************************************************************************/
-
-BOOL fMemIsAvail
-(
-  PSZ  pszName,
-  PSZ  pszFullName,
-  PSZ  pszSrcLang
-)
-{
-    BOOL fOK = FALSE;
-    MemoryFactory *pFactory = MemoryFactory::getInstance();
-    OtmMemoryPlugin::PMEMORYINFO pInfo = new( OtmMemoryPlugin::MEMORYINFO );
-    if(pInfo != NULL)
-    {
-        int iRC = pFactory->getMemoryInfo( NULL, pszName, pInfo );
-        if(iRC == NO_ERROR)
-            fOK = TRUE;
-
-        if (fOK &&(pszFullName || pszSrcLang))
-        {
-            if ( pszFullName )
-                strcpy( pszFullName, pInfo->szFullPath );
-
-            if ( pszSrcLang )
-                strcpy( pszSrcLang, pInfo->szSourceLanguage );
-
-            if(!pInfo->fEnabled)
-                fOK = FALSE;
-        }
-
-        if(pInfo != NULL)
-        delete pInfo;
-    }
-    return fOK;
-}
 
 //------------------------------------------------------------------------------
 //Internal function

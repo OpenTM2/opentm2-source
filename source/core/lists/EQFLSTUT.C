@@ -3917,6 +3917,7 @@ BOOL LstPrintList
     /**************************************************************/
     if ( fOK )
     {
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
       WinLoadString( NULLHANDLE, hResMod, sTitleStringID, MAX_PRINT_LINE,
                      pszLineBuffer );
       ANSITOOEM( pszLineBuffer );

@@ -21,6 +21,13 @@
 //+----------------------------------------------------------------------------+
 #include "OtmSftp.h"
 
+#define RETURN_IF_NULL(fp) \
+    if(NULL == fp) \
+    { \
+	    nRC = ERROR_LOAD_ENTRY_POINT_A; \
+		return nRC; \
+    }
+
 int COtmSftp::TestConnection(const char * strUrl, PNETWORKPARAM pNetworkParam)
 {
     CURL * otmCurl  = NULL;
@@ -40,6 +47,7 @@ int COtmSftp::TestConnection(const char * strUrl, PNETWORKPARAM pNetworkParam)
     }
 
     PCURL_GLOBAL_INIT fpCurl_global_init = (PCURL_GLOBAL_INIT) GetProcAddress(hDllLib, "curl_global_init");
+	RETURN_IF_NULL(fpCurl_global_init)
     ccRC = (*fpCurl_global_init)(CURL_GLOBAL_DEFAULT);
     if (ccRC != CURLE_OK)
     {
@@ -48,6 +56,7 @@ int COtmSftp::TestConnection(const char * strUrl, PNETWORKPARAM pNetworkParam)
     }
 
     PCURL_EASY_INIT fpCurl_easy_init = (PCURL_EASY_INIT) GetProcAddress(hDllLib, "curl_easy_init");
+	RETURN_IF_NULL(fpCurl_easy_init)
     otmCurl = (*fpCurl_easy_init)();
     if (!otmCurl)
     {
@@ -56,6 +65,7 @@ int COtmSftp::TestConnection(const char * strUrl, PNETWORKPARAM pNetworkParam)
     }
 
     PCURL_EASY_SETOPT fpCurl_easy_setopt = (PCURL_EASY_SETOPT) GetProcAddress(hDllLib, "curl_easy_setopt");
+	RETURN_IF_NULL(fpCurl_easy_setopt)
     ccRC = (*fpCurl_easy_setopt)(otmCurl, CURLOPT_URL, strUrl);
     if (ccRC != CURLE_OK)
     {
@@ -136,17 +146,22 @@ int COtmSftp::TestConnection(const char * strUrl, PNETWORKPARAM pNetworkParam)
     }
 
     PCURL_EASY_PERFORM fpCurl_easy_perform = (PCURL_EASY_PERFORM) GetProcAddress(hDllLib, "curl_easy_perform");
-    ccRC = (*fpCurl_easy_perform)(otmCurl);
-    if (ccRC != CURLE_OK)
-    {
-        nRC = ERROR_SFTP_CONNECT_A;
-    }
+	if(fpCurl_easy_perform != NULL)
+	{
+		ccRC = (*fpCurl_easy_perform)(otmCurl);
+		if (ccRC != CURLE_OK)
+		{
+			nRC = ERROR_SFTP_CONNECT_A;
+		}
+	}
 
     PCURL_EASY_CLEANUP fpCurl_easy_cleanup = (PCURL_EASY_CLEANUP) GetProcAddress(hDllLib, "curl_easy_cleanup");
-    (*fpCurl_easy_cleanup)(otmCurl);
+	if(fpCurl_easy_cleanup != NULL)
+        (*fpCurl_easy_cleanup)(otmCurl);
 
     PCURL_GLOBAL_CLEANUP fpCurl_global_cleanup = (PCURL_GLOBAL_CLEANUP) GetProcAddress(hDllLib, "curl_global_cleanup");
-    (*fpCurl_global_cleanup)();
+	if(fpCurl_global_cleanup != NULL)
+        (*fpCurl_global_cleanup)();
 
     FreeLibrary(hDllLib);
 
@@ -190,6 +205,7 @@ int COtmSftp::OtmDownloadData(const char * strUrl, const char * strFile, PNETWOR
 
     // perform the download
     PCURL_EASY_PERFORM fpCurl_easy_perform = (PCURL_EASY_PERFORM) GetProcAddress(hDllLib, "curl_easy_perform");
+	RETURN_IF_NULL(fpCurl_easy_perform)
     ccRC = (*fpCurl_easy_perform)(otmCurl);
     if (ccRC != CURLE_OK)
     {
@@ -204,10 +220,12 @@ int COtmSftp::OtmDownloadData(const char * strUrl, const char * strFile, PNETWOR
     }
 
     PCURL_EASY_CLEANUP fpCurl_easy_cleanup = (PCURL_EASY_CLEANUP) GetProcAddress(hDllLib, "curl_easy_cleanup");
-    (*fpCurl_easy_cleanup)(otmCurl);
+	if(fpCurl_easy_cleanup!=NULL)
+        (*fpCurl_easy_cleanup)(otmCurl);
 
     PCURL_GLOBAL_CLEANUP fpCurl_global_cleanup = (PCURL_GLOBAL_CLEANUP) GetProcAddress(hDllLib, "curl_global_cleanup");
-    (*fpCurl_global_cleanup)();
+	if(fpCurl_global_cleanup!=NULL)
+        (*fpCurl_global_cleanup)();
 
     FreeLibrary(hDllLib);
 
@@ -232,6 +250,7 @@ int COtmSftp::CurlInit(CURL *& otmCurl, const char * strUrl, POTMDLFILE pDLFile,
     }
 
     PCURL_GLOBAL_INIT fpCurl_global_init = (PCURL_GLOBAL_INIT) GetProcAddress(hDllLib, "curl_global_init");
+	RETURN_IF_NULL(fpCurl_global_init)
     ccRC = (*fpCurl_global_init)(CURL_GLOBAL_DEFAULT);
     if (ccRC != CURLE_OK)
     {
@@ -240,6 +259,7 @@ int COtmSftp::CurlInit(CURL *& otmCurl, const char * strUrl, POTMDLFILE pDLFile,
     }
 
     PCURL_EASY_INIT fpCurl_easy_init = (PCURL_EASY_INIT) GetProcAddress(hDllLib, "curl_easy_init");
+	RETURN_IF_NULL(fpCurl_easy_init)
     otmCurl = (*fpCurl_easy_init)();
     if (!otmCurl)
     {
@@ -248,6 +268,7 @@ int COtmSftp::CurlInit(CURL *& otmCurl, const char * strUrl, POTMDLFILE pDLFile,
     }
 
     PCURL_EASY_SETOPT fpCurl_easy_setopt = (PCURL_EASY_SETOPT) GetProcAddress(hDllLib, "curl_easy_setopt");
+	RETURN_IF_NULL(fpCurl_easy_setopt)
     ccRC = (*fpCurl_easy_setopt)(otmCurl, CURLOPT_URL, strUrl);
     if (ccRC != CURLE_OK)
     {

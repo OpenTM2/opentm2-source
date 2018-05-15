@@ -136,6 +136,7 @@ typedef struct _EXTFOLPROP
 #define MASTERFOLDER_OPT       0x00020000L
 #define XLIFF_OPT              0x00040000L
 #define NOMARKUP_UPDATE_OPT    0x00080000L
+#define WO_REDUNDANCY_DATA_OPT 0x00100000L
 
 //
 // document import specific options
@@ -558,6 +559,7 @@ USHORT EqfCreateSubFolder
     - OVERWRITE_OPT overwrite any existing exported folder
     - MASTERFOLDER_OPT export as master folder
     - XLIFF_OPT export as XLIFF folder
+    - WO_REDUNDANCY_DATA_OPT exclude the redundancy report data of the folder
   \param pszDocuments pointer to the buffer containing the list of documents or NULL to export all documents of the folder
   \param pszDescription pointer to the buffer containing the export description or NULL if not used
   \returns 0 if successful or an error code in case of failures
@@ -571,7 +573,7 @@ USHORT EqfExportFolder
   CHAR        chTargetDrive,           // mand: folder target drive
   LONG        lOptions,                // opt: options for the folder export or 0L
                                        // @Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
-									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}
+									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }
   PSZ         pszDocuments,            // opt: list of documents or NULL
   PSZ         pszDescription           // opt: export description or NULL
 );
@@ -589,6 +591,7 @@ USHORT EqfExportFolder
     - OVERWRITE_OPT overwrite any existing exported folder
     - MASTERFOLDER_OPT export as master folder
     - XLIFF_OPT export as XLIFF folder
+    - WO_REDUNDANCY_DATA_OPT exclude the redundancy report data of the folder
   \param pszDocuments pointer to the buffer containing the list of documents or NULL to export all documents of the folder
   \param pszDescription pointer to the buffer containing the export description or NULL if not used
   \returns 0 if successful or an error code in case of failures
@@ -602,7 +605,7 @@ USHORT EqfExportFolderFP
   PSZ         pszTargetPath,           // mand: folder target path
   LONG        lOptions,                // opt: options for the folder export or 0L
                                        // @Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
-									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}
+									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }
   PSZ         pszDocuments,            // opt: list of documents or NULL
   PSZ         pszDescription           // opt: export description or NULL          
 );
@@ -621,6 +624,7 @@ USHORT EqfExportFolderFP
     - OVERWRITE_OPT overwrite any existing exported folder
     - MASTERFOLDER_OPT export as master folder
     - XLIFF_OPT export as XLIFF folder
+    - WO_REDUNDANCY_DATA_OPT exclude the redundancy report data of the folder
   \param pszDocuments pointer to the buffer containing the list of documents or NULL to export all documents of the folder
   \param pszDescription pointer to the buffer containing the export description or NULL if not used
   \returns 0 if successful or an error code in case of failures
@@ -635,7 +639,7 @@ USHORT EqfExportFolderFPas
   PSZ         pszExportAs,             // opt: Export as - optional new name for exported folder
   LONG        lOptions,                // opt: options for the folder export or 0L
                                        // @Contain Memory: {WITHMEM_OPT,WITHREADONLYMEM_OPT,WITHDOCMEM_OPT}
-									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT}
+									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }
   PSZ         pszDocuments,            // opt: list of documents or NULL
   PSZ         pszDescription,          // opt: export description or NULL
   PSZ         pszMemoryExportAs        // opt: export name for memory in folder
@@ -2682,6 +2686,33 @@ USHORT EqfGetIsoLang
 );
 
 
+/*! \brief Connet to LAN based shared memory
+\param hSession the session handle returned by the EqfStartSession call
+\param chDrive the drive where to look for the memory
+\param pszMemName the memory name
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfConnectSharedMem
+(
+  HSESSION    hSession,
+  CHAR        chDrive,
+  PSZ         pszMemName
+);
+
+/*! \brief Disconnet to LAN based shared memory
+\param hSession the session handle returned by the EqfStartSession call
+\param chDrive the drive where to look for the memory
+\param pszMemName the memory name
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfDisconnectSharedMem
+(
+  HSESSION    hSession,
+  CHAR        chDrive,
+  PSZ         pszMemName
+);
 
 #ifdef __cplusplus
 }

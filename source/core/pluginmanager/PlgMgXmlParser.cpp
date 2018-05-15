@@ -25,6 +25,8 @@
 
 #include "core\PluginManager\PlgMgXmlParser.h"
 
+#include <memory>
+
 int CPlgMgXmlParser::TestConnection(const char * strConfigPath)
 {
     int nRC = NO_ERROR;
@@ -40,8 +42,11 @@ int CPlgMgXmlParser::TestConnection(const char * strConfigPath)
     GetPrivateProfileString(APP_PLUGIN_MGR_NET_SET, KEY_PLUGIN_MGR_PROXY_ADDRESS, EMPTY_STR, networkParam.strProxyAddress, sizeof(networkParam.strProxyAddress), strConfigPath);
     GetPrivateProfileString(APP_PLUGIN_MGR_NET_SET, KEY_PLUGIN_MGR_PROXY_PORT, EMPTY_STR, networkParam.strProxyPort, sizeof(networkParam.strProxyPort), strConfigPath);
     networkParam.nTimeout = GetPrivateProfileInt(APP_PLUGIN_MGR_NET_SET, KEY_PLUGIN_MGR_TIMEOUT, DEF_CONNECT_TIMEOUT, strConfigPath);
+	
+	// Deleted and replace it with smart pointer
+    //COtmHttps * otmHttps = new COtmHttps();
+	std::unique_ptr<COtmHttps> otmHttps( new COtmHttps() );
 
-    COtmHttps * otmHttps = new COtmHttps();
     char strSFTPConfig[MAX_PATH];
     memset(strSFTPConfig, 0x00, sizeof(strSFTPConfig));
 
@@ -57,7 +62,7 @@ int CPlgMgXmlParser::TestConnection(const char * strConfigPath)
     nRC = otmHttps->TestConnection(strUrl, &networkParam);
     m_logPlgMgXmlParser.writef("End test %d, %s", nRC, networkParam.strError);
 
-    delete otmHttps;
+    //delete otmHttps;
     if (nRC)
     {
         return nRC;
@@ -188,6 +193,12 @@ void CPlgMgXmlParser::OtmParseFromNode(DOMNode* elementNode, PCPLUGIN pOnePlugin
         strncpy(pOnePlugin->strVersion, strValue, nLen);
         pOnePlugin->strVersion[nLen] = EOS;
     }
+	else if (!stricmp(KEY_OTM_VER,nodeName))
+	{
+		// WLP P403853
+		strValue = XMLString::transcode(elementNode->getFirstChild()->getNodeValue());
+        pOnePlugin->strOtmVersion = strValue;
+	}
     else if (!stricmp(KEY_LONG_DSCP, nodeName))
     {
         strValue = XMLString::transcode(elementNode->getFirstChild()->getNodeValue());
@@ -713,6 +724,22 @@ char * CPlgMgXmlParser::GetMainVersion(int iInx, int jInx)
     }
 
     return m_gPlugins[iInx].pluginMains[jInx].strVersion;
+}
+
+const char* CPlgMgXmlParser::GetOtmVersionByName(const char* pPlugginName)
+{
+	if (pPlugginName == NULL)
+    {
+        return NULL;
+    }
+
+	for(auto iter=m_gPlugins.begin(); iter!=m_gPlugins.end(); iter++)
+	{
+		if(stricmp(pPlugginName,iter->strName) == 0)
+			return iter->strOtmVersion.c_str();
+	}
+	
+	return NULL;
 }
 
 char * CPlgMgXmlParser::GetMainDate(int iInx, int jInx)

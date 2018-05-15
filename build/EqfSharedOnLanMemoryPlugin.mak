@@ -85,7 +85,6 @@ $(_DLL)\EqfSharedOnLanMemoryPlugin.DLL:	$(_OBJ)\EQFNTM.OBJ \
 								$(_OBJ)\EQFTMUTL.OBJ \
 								$(_OBJ)\EQFTMEXT.OBJ \
 								$(_LIB)\OtmBase.lib \
-								$(_LIB)\OtmDll.lib \
 								$(_LIB)\PluginManager.lib
 
 #------------------------------------------------------------------------------
@@ -118,7 +117,18 @@ $(_DLL)\EqfSharedOnLanMemoryPlugin.DLL:
 					$(_OBJ)\EqfSharedOnLanMemory.OBJ
 /OUT:$(_DLL)\EqfSharedOnLanMemoryPlugin.DLL
 /MAP:$(_MAP)\EqfSharedOnLanMemoryPlugin.MAP $(_LINK_OPTIONS) /DLL /MAPINFO:EXPORTS
-$(_LINK_LIB_CRT) $(_LIB)\OtmBase.lib $(_LIB)\OtmDll.lib $(_LIB)\OTMQDAM.LIB $(_LIB)\PluginManager.lib $(_LIB)\OTMGLOBM.lib
+$(_LINK_LIB_CRT) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMQDAM.LIB 
+$(_LIB)\PluginManager.lib 
+$(_LIB)\OTMGLOBM.lib
+$(_LIB)\OTMTagTableFunctions.lib
+$(_LIB)\OTMLinguistic.lib
+$(_LIB)\OTMAnalysisFunctions.lib
+$(_LIB)\OTMMemoryFunctions.lib
+$(_LIB)\OTMWorkbench.lib
+$(_LIB)\OTMFuzzy.lib
+$(_LIB)\OTMUtilities.lib
 <<
     @if not exist $(RELEASE_DIR)\OTM\Plugins\ md $(RELEASE_DIR)\OTM\Plugins
     @copy $(_DLL)\EqfSharedOnLanMemoryPlugin.DLL $(RELEASE_DIR)\OTM\Plugins /Y>$(_ERR)

@@ -131,6 +131,9 @@ MRESULT APIENTRY DOCUMENTHANDLERWP
     {
        //----------------------------------------------------------------------
      case WM_CREATE:
+       {
+         HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+
            DosExitList(EXLST_ADD, (PFNEXITLIST)DocCleanUp );// adds address to the list
 
           pfnEditShutDown[UtlGetTask()] = NULL;
@@ -179,37 +182,18 @@ MRESULT APIENTRY DOCUMENTHANDLERWP
                {
                  fOK = FALSE;
                } /* endif */
-             }
-          } /* endif */
-          if ( fOK )
-          {
-             //register service window class
-            InitUnicode();
+               }
+            } /* endif */
+            if ( fOK )
             {
-               WNDCLASSW  wndclass;
-               ATOM       atom;
+               //register service window class
+              InitUnicode();
+              {
+                 WNDCLASSW  wndclass;
+                 ATOM       atom;
 
-               wndclass.style         = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
-               wndclass.lpfnWndProc   = TWBSERVICEWP;
-               wndclass.cbClsExtra    = 0;
-               wndclass.cbWndExtra    = sizeof(PVOID);
-               wndclass.hInstance     = (HINSTANCE)(HAB)UtlQueryULong( QL_HAB );
-               wndclass.hIcon         = LoadIcon( hResMod, MAKEINTRESOURCE( DOC_ICON ) );
-               wndclass.hCursor       = LoadCursor( NULL, IDC_ARROW );
-               wndclass.hbrBackground = (HBRUSH)GetStockObject( WHITE_BRUSH );
-               wndclass.lpszMenuName  = NULL;
-               wndclass.lpszClassName = TWBS_W;
-
-               atom = RegisterClassW( &wndclass );
-               if ( atom == 0 )
-               {
-                 fOK = FALSE;
-               } /* endif */
-
-               if ( fOK )
-               {
-                 wndclass.style         = CS_DBLCLKS;
-                 wndclass.lpfnWndProc   = TWBSERVICEWPRTF;
+                 wndclass.style         = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
+                 wndclass.lpfnWndProc   = TWBSERVICEWP;
                  wndclass.cbClsExtra    = 0;
                  wndclass.cbWndExtra    = sizeof(PVOID);
                  wndclass.hInstance     = (HINSTANCE)(HAB)UtlQueryULong( QL_HAB );
@@ -217,35 +201,55 @@ MRESULT APIENTRY DOCUMENTHANDLERWP
                  wndclass.hCursor       = LoadCursor( NULL, IDC_ARROW );
                  wndclass.hbrBackground = (HBRUSH)GetStockObject( WHITE_BRUSH );
                  wndclass.lpszMenuName  = NULL;
-                 wndclass.lpszClassName = TWBSRTF_W;
+                 wndclass.lpszClassName = TWBS_W;
 
                  atom = RegisterClassW( &wndclass );
                  if ( atom == 0 )
                  {
                    fOK = FALSE;
                  } /* endif */
-               } /* endif */
-		     }
-          } /* endif */
 
-          /************************************************************/
-          /* register editor class                                    */
-          /************************************************************/
-          if ( fOK )
-          {
-            fOK = EQFBInit();
-          } /* endif */
+                 if ( fOK )
+                 {
+                   wndclass.style         = CS_DBLCLKS;
+                   wndclass.lpfnWndProc   = TWBSERVICEWPRTF;
+                   wndclass.cbClsExtra    = 0;
+                   wndclass.cbWndExtra    = sizeof(PVOID);
+                   wndclass.hInstance     = (HINSTANCE)(HAB)UtlQueryULong( QL_HAB );
+                   wndclass.hIcon         = LoadIcon( hResMod, MAKEINTRESOURCE( DOC_ICON ) );
+                   wndclass.hCursor       = LoadCursor( NULL, IDC_ARROW );
+                   wndclass.hbrBackground = (HBRUSH)GetStockObject( WHITE_BRUSH );
+                   wndclass.lpszMenuName  = NULL;
+                   wndclass.lpszClassName = TWBSRTF_W;
 
-          /************************************************************/
-          /* start processing...                                      */
-          /************************************************************/
-          if ( fOK )
-          {
-            UtlDispatch();
-            WinPostMsg( hwnd, WM_EQF_PROCESSTASK,
-                        MP1FROMSHORT(EQFXLATE_START), NULL );
-          } /* endif */
-          mResult = ( fOK ) ? (MRESULT) FALSE : MRFROMSHORT( -1 );
+                   atom = RegisterClassW( &wndclass );
+                   if ( atom == 0 )
+                   {
+                     fOK = FALSE;
+                   } /* endif */
+                 } /* endif */
+		       }
+            } /* endif */
+
+            /************************************************************/
+            /* register editor class                                    */
+            /************************************************************/
+            if ( fOK )
+            {
+              fOK = EQFBInit();
+            } /* endif */
+
+            /************************************************************/
+            /* start processing...                                      */
+            /************************************************************/
+            if ( fOK )
+            {
+              UtlDispatch();
+              WinPostMsg( hwnd, WM_EQF_PROCESSTASK,
+                          MP1FROMSHORT(EQFXLATE_START), NULL );
+            } /* endif */
+            mResult = ( fOK ) ? (MRESULT) FALSE : MRFROMSHORT( -1 );
+          }
           break;
        //----------------------------------------------------------------------
        case WM_DESTROY:
@@ -654,19 +658,20 @@ MRESULT APIENTRY DOCUMENTWP
             pIda = ACCESSWNDIDA( hwnd, PDOCUMENT_IDA );
             if (pIda && pIda->hTPROMenu )
             {
-			  HMENU   hmenu;
+			        HMENU   hmenu;
 
               DestroyMenu( pIda->hTPROMenu );
 
               hmenu = (HMENU)UtlQueryULong(QL_TWBMENU);
               if (!hmenu)
               {
-				  hmenu = LoadMenu( hResMod, MAKEINTRESOURCE(ID_TWBM_WINDOW));
+                  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+				          hmenu = LoadMenu( hResMod, MAKEINTRESOURCE(ID_TWBM_WINDOW));
                   UtlSetULong( QL_TWBMENU, (ULONG)hmenu );
-		      }
+		          }
               if (hmenu )
               {
-				  SendMessage( (HWND)UtlQueryULong( QL_TWBCLIENT ),
+				        SendMessage( (HWND)UtlQueryULong( QL_TWBCLIENT ),
                          WM_MDISETMENU,
                          (WPARAM)(HWND) UtlQueryULong( QL_TWBMENU ),
                          (LPARAM)(HWND) UtlQueryULong( QL_TWBWINDOWMENU ) );
@@ -730,6 +735,7 @@ MRESULT APIENTRY DOCUMENTWP
           {
             if ( !pIda->hTPROMenu )
             {
+              HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
               pIda->hTPROMenu = LoadMenu( hResMod,
                                           MAKEINTRESOURCE( ID_TP_MAIN_WINDOW));
               /********************************************************/
@@ -1672,370 +1678,6 @@ BOOL LoadEditor
 
 
 
-//f4////////////////////////////////////////////////////////////////////////////
-// function CheckResources                                                    //
-////////////////////////////////////////////////////////////////////////////////
-BOOL CheckResources( PDOCUMENT_IDA pIda )
-{
-//------------------------------------------------------------------------------
-// check if all resources for translation are available                       --
-//------------------------------------------------------------------------------
-   BOOL         fOk = TRUE;                 //error flag
-   PSZ          pszTemp;                    //temorary pointer
-   PSZ          apszReplace[3];             // replace strings in utl error
-   HWND         hwnd;                       // pointer to window handle
-
-   // check if symbol already exists
-   {
-      pszTemp = UtlGetFnameFromPath( pIda->IdaHead.szObjName );
-
-      //save document name to IDA
-      strcpy( pIda->szDocName, pszTemp );
-
-      //get folder name
-      pszTemp = UtlGetFnameFromPath( pIda->szFolderObjName );
-      //save folder name to ida
-      strcpy( pIda->szFolderName, pszTemp );
-      //build full path to source  and save it to IDA
-      UtlMakeEQFPath( pIda->szSource, pIda->szFolderObjName[0],
-                      DIRSOURCEDOC_PATH, pIda->szFolderName );
-      //append document name to path
-      strcat( pIda->szSource, "\\" );
-      strcat( pIda->szSource, pIda->szDocName );
-
-   } /* endif */
-
-
-   //check segmented target file
-   if ( fOk )
-   {
-      //build full path to segmented target file and save it to IDA
-      UtlMakeEQFPath( pIda->szSegTarget, pIda->szFolderObjName[0],
-                      DIRSEGTARGETDOC_PATH,
-                      pIda->szFolderName );
-      //append document name to path
-      strcat( pIda->szSegTarget, "\\" );
-      strcat( pIda->szSegTarget, pIda->szDocName );
-      //check if segmented target file exists
-      fOk = UtlFileExist( pIda->szSegTarget );
-      //check segmented source file
-      if ( fOk )
-      {
-         //build full path to segmented source file and save it to IDA
-         UtlMakeEQFPath( pIda->szSegSource, pIda->szFolderObjName[0],
-                         DIRSEGSOURCEDOC_PATH,
-                         pIda->szFolderName );
-         //append document name to path
-         strcat( pIda->szSegSource, "\\" );
-         strcat( pIda->szSegSource, pIda->szDocName );
-         //check if segmented source file exists
-         fOk = UtlFileExist( pIda->szSegSource );
-      }/* endif fOk*/
-      if( !fOk )
-      {
-        /**************************************************************/
-        /* start the segmentation of the file                         */
-        /**************************************************************/
-        hwnd = pIda->hwnd;
-
-        /**************************************************************/
-        /* capture mouse ...                                          */
-        /**************************************************************/
-        SETCAPTURE( hwnd );
-        fOk = EQFTextSegm( pIda );
-        /**************************************************************/
-        /* free mouse ...                                             */
-        /**************************************************************/
-        RELEASECAPTURE;
-        UtlDispatch();
-        pIda = ACCESSWNDIDA( hwnd, PDOCUMENT_IDA );
-        if ( pIda )
-        {
-          fTerminate[UtlGetTask()] = FALSE;          // not yet terminated via icon...
-        }
-        else
-        {
-          fOk = FALSE;
-        } /* endif */
-        //   UtlError( ERROR_NOT_ANALYZED, MB_CANCEL, NULL, NULL, EQF_ERROR );
-      }/* endif fOk*/
-   }/* endif fOk*/
-
-   //check segmented source file
-   if ( fOk )
-   {
-      //build full path to segmented source file and save it to IDA
-      UtlMakeEQFPath( pIda->szSegSource, pIda->szFolderObjName[0],
-                      DIRSEGSOURCEDOC_PATH,
-                      pIda->szFolderName );
-      //append document name to path
-      strcat( pIda->szSegSource, "\\" );
-      strcat( pIda->szSegSource, pIda->szDocName );
-      //check if segmented source file exists
-      fOk = UtlFileExist( pIda->szSegSource );
-      if( !fOk )
-      {
-         UtlError( ERROR_NOT_ANALYZED, MB_CANCEL, 0, NULL, EQF_ERROR );
-      }/* endif fOk*/
-   }/* endif fOk*/
-   if ( fOk )
-   {
-      CHAR szMemShortName[MAX_FILESPEC];
-      BOOL fIsNew = FALSE;
-      ObjLongToShortName( pIda->szDocMemory, szMemShortName, TM_OBJECT, &fIsNew );
-      if ( fIsNew )
-      {
-         apszReplace[0] = pIda->szDocMemory;
-         OEMTOANSI(pIda->szDocMemory);
-         UtlError( ERROR_MEMORY_NOTFOUND, MB_CANCEL, 1, apszReplace, EQF_ERROR );
-         ANSITOOEM(pIda->szDocMemory);
-         fOk = FALSE;
-      }
-      else
-      {
-        strcpy( pIda->szMemory[0], pIda->szDocMemory );
-      }/* endif fOk*/
-
-   }/* endif fOk*/
-
-   /*******************************************************************/
-   /* get date/time of segmented target file                          */
-   /*******************************************************************/
-   if ( fOk )
-   {
-     struct stat buf;
-     int iResult;
-     iResult = stat( pIda->szSegTarget, &buf );
-     if ( !iResult )
-     {
-       pIda->ulSegFileDate = buf.st_mtime;
-     } /* endif */
-   } /* endif */
-   /*******************************************************************/
-   /* set error code into EQFXLATE struct                             */
-   /*******************************************************************/
-   if ( !fOk )
-   {
-     EQFXlateError( EQFXLATE_TRANSL_ERROR );
-   } /* endif */
-
-   return ( fOk );
-}/*CheckResources */
-//f5////////////////////////////////////////////////////////////////////////////
-// function BuildGenericStructure                                            //
-//    fill the eqf generic structure with the appropriate information,
-//    i.e.   segmented source, segmented target,
-//           translation memory, dictionary
-//    and check for the existence
-////////////////////////////////////////////////////////////////////////////////
-BOOL BuildGenericStructure( PDOCUMENT_IDA  pIda,
-                            PSTEQFGEN      pstEQFGen,
-                            PSZ            *apszTlm,
-                            PSZ            *apszLDct,
-                            BOOL           fInit )
-{
-   PPROPFOLDER  ppropFolder;                //pointer to folder properties
-   PSZ          pszToken;
-   USHORT       usI;
-   BOOL         fOK = TRUE;
-
-   //get access(pointer) to folder properties
-   ppropFolder = (PPROPFOLDER)MakePropPtrFromHnd( pIda->hpropFolder );
-   /*******************************************************************/
-   /* init pstEQFGen only during our initialisation step              */
-   /*******************************************************************/
-   if ( fInit )
-   {
-     memcpy( pstEQFGen, &(pIda->ppropEdit->stEQFGen), sizeof( STEQFGEN ));
-   } /* endif */
-   pstEQFGen->pDoc = pIda;                       // get pointer to ida
-   pstEQFGen->pstEQFPCmd = (PSTEQFPCMD) (pstEQFGen + 1);
-   pstEQFGen->pOpenAndPos = pIda->pOpenAndPos;
-   pIda->pOpenAndPos = NULL;
-                                             // store format table name
-   strcpy( (PSZ)pstEQFGen->szTagTable, pIda->szDocFormat );
-
-   //set editor, proposal etc.  window positions
-   pstEQFGen->fUseCoords = TRUE;
-
-
-  pstEQFGen->hwndTWBS = pIda->hwnd;    // set client handle as parent
-
-   //dictionary + translation memory accessed + MT access
-   pstEQFGen->fsConfiguration = EQFF_DA_CONF + EQFF_TM_CONF + EQFF_MT_CONF ;
-
-   //source file without path !!!!!!!!!!!!
-   strcpy ((PSZ)pstEQFGen->szFileName, pIda->szDocName);
-   strcpy( (PSZ)pstEQFGen->szLongName, pIda->szDocLongName );
-
-   apszTlm[0]  = pIda->szMemory[0];          //full qualified memory db
-   apszTlm[1]  = NULL;                       //NULL terminated
-
-   // get stop at first exact match
-   pIda->fStopAtFirstExact = ppropFolder->fStopAtFirstExact;
-
-   //get list of folder R/O memories from folder properies
-   if ( ppropFolder->aLongMemTbl[0][0] != EOS )
-   {
-     // BOOL fIsNew = FALSE;         // folder-is-new flag
-     int i = 0;
-     usI = 1;
-     while ( (ppropFolder->aLongMemTbl[i][0] != EOS) &&
-             (i < EQF_MAX_TM_BASES) && fOK )
-     {
-       //ObjLongToShortName( ppropFolder->aLongMemTbl[i],
-       //                    pIda->szMemory[usI], TM_OBJECT, &fIsNew );
-       strcpy( pIda->szMemory[usI], ppropFolder->aLongMemTbl[i] );
-
-       i++;
-      // fOK = (BOOL) EqfSend2Handler( MEMORYHANDLER,
-      //                               WM_EQF_PROCESSTASK,
-      //                               MP1FROMSHORT( CREATE_PATH ),
-      //                               MP2FROMP(pIda->szMemory[usI]) );
-      // if( !fOK )
-      // {
-      //    pszToken = ppropFolder->aLongMemTbl[i-1];
-      //    OEMTOANSI(pszToken);
-      //    UtlError( ERROR_TM_NOT_EXIST, MB_CANCEL, 1,
-      //              &pszToken, EQF_ERROR );
-      //    ANSITOOEM(pszToken);
-      //}
-      //else
-       {
-         /*****************************************************************/
-         /* check that same mem is already used as write mem too          */
-         /* only compare with first one nec,- other compares done in      */
-         /* folder selection dialog                                       */
-         /*****************************************************************/
-         if (strcmp(pIda->szMemory[usI], pIda->szMemory[0]) )
-         {
-           apszTlm[usI] = pIda->szMemory[usI];
-           usI++;
-         }
-         else
-         {
-           /*************************************************************/
-           /* skip this memory                                          */
-           /*************************************************************/
-           pIda->szMemory[usI][0] = EOS;
-         } /* endif */
-       } /* endif */
-     } /* endwhile */
-     //terminate with NULL
-     apszTlm[usI] = NULL;
-   }
-   else
-   {
-     strcpy( pIda->szString, ppropFolder->MemTbl );
-
-     //build path to memory properties
-     UtlMakeEQFPath(pIda->szDicPath, NULC, MEM_PATH, NULL );
-     strcat( pIda->szDicPath, "\\" );
-
-     //get first R/O memory from list
-     pszToken = strtok( pIda->szString, X15_STR );
-     usI = 1;
-     while ( (pszToken != NULL) && fOK )
-     {
-       strcpy( pIda->szMemory[usI], pszToken );
-       //fOK = (BOOL) EqfSend2Handler( MEMORYHANDLER,
-       //                              WM_EQF_PROCESSTASK,
-       //                              MP1FROMSHORT( CREATE_PATH ),
-       //                              MP2FROMP(pIda->szMemory[usI]) );
-       //if( !fOK )
-       //{
-       //   UtlError( ERROR_TM_NOT_EXIST, MB_CANCEL, 1,
-       //             &pszToken, EQF_ERROR );
-       //}
-       //else
-       {
-         /*****************************************************************/
-         /* check that same mem is already used as write mem too          */
-         /* only compare with first one nec,- other compares done in      */
-         /* folder selection dialog                                       */
-         /*****************************************************************/
-         if (strcmp(pIda->szMemory[usI], pIda->szMemory[0]) )
-         {
-           apszTlm[usI] = pIda->szMemory[usI];
-           usI++;
-         }
-         else
-         {
-           /*************************************************************/
-           /* skip this memory                                          */
-           /*************************************************************/
-           pIda->szMemory[usI][0] = EOS;
-         } /* endif */
-         // get next one
-         pszToken = strtok( NULL, X15_STR );
-       } /* endif */
-     } /* endwhile */
-     //terminate with NULL
-     apszTlm[usI] = NULL;
-   }
-
-   if ( fOK )
-   {
-     if ( ppropFolder->aLongDicTbl[0][0] != EOS )
-     {
-       BOOL fIsNew = FALSE;         // folder-is-new flag
-       int i = 0;
-
-       //build path to dictionary properties
-       UtlMakeEQFPath(pIda->szDicPath, NULC, PROPERTY_PATH, NULL );
-       strcat( pIda->szDicPath, "\\" );
-
-       usI = 0;
-       while ( (ppropFolder->aLongDicTbl[i][0] != EOS) &&
-               (i < MAX_NUM_OF_FOLDER_DICS) && fOK )
-       {
-         ObjLongToShortName( ppropFolder->aLongDicTbl[i],
-                             pIda->szString, DICT_OBJECT, &fIsNew );
-         i++;
-
-          strcpy(pIda->szDicts[usI], pIda->szDicPath);
-          strcat(pIda->szDicts[usI], pIda->szString );
-          strcat( pIda->szDicts[usI], EXT_OF_DICTPROP );
-
-          apszLDct[usI] = pIda->szDicts[usI];
-          usI++;
-       } /* endwhile */
-       //terminate with NULL
-       apszLDct[usI] = NULL;
-     }
-     else
-     {
-       //get list of folder dictionaries from folder properies
-       strcpy( pIda->szString, ppropFolder->DicTbl );
-
-       //build path to dictionary properties
-       UtlMakeEQFPath(pIda->szDicPath, NULC, PROPERTY_PATH, NULL );
-       strcat( pIda->szDicPath, "\\" );
-
-       //get first dictionary from list
-       memset(&pIda->szDicts[0], 0, sizeof(pIda->szDicts));
-       pszToken = strtok( pIda->szString, X15_STR );
-       usI = 0;
-       while ( pszToken != NULL )
-       {
-          strcpy(pIda->szDicts[usI], pIda->szDicPath);
-          strcat(pIda->szDicts[usI], pszToken);
-          strcat( pIda->szDicts[usI], EXT_OF_DICTPROP );
-
-          apszLDct[usI] = pIda->szDicts[usI];
-          usI++;
-          //get next dictionary name
-          pszToken = strtok( NULL, X15_STR );
-       } /* endwhile */
-       //terminate with NULL
-       apszLDct[usI] = NULL;
-     }
-   } /* endif */
-   return fOK;
-}/*end BuildGenericStructure */
-
-
-
 
 //
 //  DocInitInst: Handle the WM_EQF_INITIALIZE, i.e. create document instance
@@ -2201,6 +1843,7 @@ MRESULT DocInitInst
     {
       VERSIONHIST Version;
       CHAR        szPath[MAX_EQF_PATH];
+      HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
       // fill version record fields
       memset( &Version, 0, sizeof(Version) );
@@ -2593,6 +2236,7 @@ CreateDocInstWnd
   RECTL           Rectl;                   // rectangle structure
   PDOCUMENT_IDA   pDocIda;                 //pointer to document ida
   BOOL            fStartSpellCheck = FALSE;
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
 
 
   *phClient = NULLHANDLE;
@@ -2793,506 +2437,6 @@ CreateListOfSelDocs
 
   return mResult;
 } /* end of function CreateListOfSelDocs */
-
-//------------------------------------------------------------------------------
-// Internal function
-//------------------------------------------------------------------------------
-// Function name:     AddDocToList
-//------------------------------------------------------------------------------
-// Function call:     fOK = AddDocToList( pIda, pDocName, usType );
-//------------------------------------------------------------------------------
-// Description:       add the provided document to a list of selected docs
-//                    and mark the document to be in use.
-//------------------------------------------------------------------------------
-// Parameters:        PDOCUMENT_IDA pointer to document ida
-//                    PSZ           document name
-//                    USHORT        Insertion point - top or bottom of list
-//------------------------------------------------------------------------------
-// Returncode type:   BOOL
-//------------------------------------------------------------------------------
-// Returncodes:       TRUE  - doc is added to list
-//                    FALSE - not enough memory to add document to list
-//------------------------------------------------------------------------------
-// Function flow:     create a document pool (if not done yet)
-//                    check if document is already in list
-//                      if so move it to the required position
-//                      else add it to list (at required position) and mark
-//                           document to be in use
-//                    return success
-//------------------------------------------------------------------------------
-BOOL AddDocToList
-(
-  PDOCUMENT_IDA pDocIda,
-  PSZ           pDocName,
-  USHORT        usType
-)
-{
-  BOOL   fOK = TRUE;
-  SHORT  sIndex = 0;
-  PSZ    pszPool = NULL;
-
-  /********************************************************************/
-  /* do initial create if not done yet                                */
-  /********************************************************************/
-  if ( !pDocIda->pDocNamePool )
-  {
-    pDocIda->pDocNamePool = PoolCreate( MAX_EQF_PATH );
-    fOK = (pDocIda->pDocNamePool != NULL);
-  } /* endif */
-
-  if ( fOK && pDocIda->usDocNamesAllocated <= (pDocIda->usDocNamesUsed+2) )
-  {
-    UtlAlloc( (PVOID *)&pDocIda->apszDocNames,
-              (LONG) sizeof(PSZ) * pDocIda->usDocNamesAllocated,
-              (LONG) sizeof(PSZ) * (pDocIda->usDocNamesAllocated+50),
-              ERROR_STORAGE );
-    if ( pDocIda->apszDocNames )
-    {
-      pDocIda->usDocNamesAllocated += 50;
-    }
-    else
-    {
-      fOK = FALSE;
-    } /* endif */
-  } /* endif */
-  /********************************************************************/
-  /* check if document is part of list already                        */
-  /********************************************************************/
-  if ( fOK )
-  {
-    while ( pDocIda->apszDocNames[sIndex] &&
-            strcmp( pDocIda->apszDocNames[sIndex], pDocName ) != 0  )
-    {
-      sIndex++;
-    } /* endwhile */
-
-    if ( pDocIda->apszDocNames[sIndex]  )
-    {
-      short i;
-      pszPool = pDocIda->apszDocNames[ sIndex ];
-      if ( usType == TOP_OF_LIST )
-      {
-        for ( i=sIndex;i>0;i-- )
-        {
-          pDocIda->apszDocNames[i] = pDocIda->apszDocNames[ i-1 ];
-        } /* endfor */
-        pDocIda->apszDocNames[0] = pszPool;
-      }
-      else
-      {
-        for ( i=sIndex;i<(SHORT) pDocIda->usDocNamesUsed;i++ )
-        {
-          pDocIda->apszDocNames[i] = pDocIda->apszDocNames[ i+1 ];
-        } /* endfor */
-        pDocIda->apszDocNames[pDocIda->usDocNamesUsed-1] = pszPool;
-      } /* endif */
-    }
-    else
-    {
-      pszPool = PoolAddString( pDocIda->pDocNamePool, pDocName );
-      fOK = ( pszPool != NULL );
-
-      if ( fOK )
-      {
-        if ( usType == TOP_OF_LIST )
-        {
-          memmove( &pDocIda->apszDocNames[1], & pDocIda->apszDocNames[0],
-                   sizeof(PSZ) * (pDocIda->usDocNamesUsed+1) );
-          pDocIda->usDocNamesUsed ++;
-          pDocIda->apszDocNames[ 0 ] = pszPool;
-        }
-        else
-        {
-          pDocIda->apszDocNames[ pDocIda->usDocNamesUsed ] = pszPool;
-          pDocIda->usDocNamesUsed ++;
-        } /* endif */
-        if ( QUERYSYMBOL(pDocName) != -1 )
-        {
-           PSZ pData = UtlGetFnameFromPath( pDocName );
-           UtlError( ERROR_DOC_LOCKED, MB_CANCEL, 1, &pData, EQF_ERROR );
-           fOK = FALSE;
-        }
-        else
-        {
-          SETSYMBOL( pDocName );
-        } /* endif */
-      } /* endif */
-    } /* endif */
-  } /* endif */
-  return fOK;
-} /* end of function AddDocToList */
-
-
-//------------------------------------------------------------------------------
-// Internal function
-//------------------------------------------------------------------------------
-// Function name:     QueryDocInList
-//------------------------------------------------------------------------------
-// Function call:     fOK = QueryDocInList( pIda, pDocName, &i );
-//------------------------------------------------------------------------------
-// Description:       check if the provided document is already in the list
-//                    Return success indicator and set the index of the
-//                    document in the list
-//------------------------------------------------------------------------------
-// Parameters:        PDOCUMENT_IDA pointer to document ida
-//                    PSZ           document name
-//                    PUSHORT       index
-//------------------------------------------------------------------------------
-// Returncode type:   BOOL
-//------------------------------------------------------------------------------
-// Returncodes:       TRUE  - doc is in list
-//                    FALSE - not in list
-//------------------------------------------------------------------------------
-// Function flow:     consistency check
-//                    check if document is already in list
-//                      if so set index and return
-//                      else set failure
-//                    return success
-//------------------------------------------------------------------------------
-BOOL QueryDocInList
-(
-  PDOCUMENT_IDA pDocIda,
-  PSZ           pDocName,
-  PUSHORT       pusI
-)
-{
-  BOOL   fOK = TRUE;
-  SHORT  sIndex = 0;
-  /********************************************************************/
-  /* check if document is part of list already                        */
-  /********************************************************************/
-  while ( pDocIda->apszDocNames[sIndex] &&
-          (sIndex < (SHORT)pDocIda->usDocNamesUsed) &&
-          strcmp( pDocIda->apszDocNames[sIndex], pDocName ) != 0  )
-  {
-    sIndex++;
-  } /* endwhile */
-
-  if ( pDocIda->apszDocNames[sIndex]  )
-  {
-    *pusI = sIndex;
-  }
-  else
-  {
-    fOK = FALSE;
-    *pusI = 0;
-  } /* endif */
-  return fOK;
-} /* end of function QueryDocInList */
-
-//------------------------------------------------------------------------------
-// External function
-//------------------------------------------------------------------------------
-// Function name:     RemoveDocFromList
-//------------------------------------------------------------------------------
-// Function call:     RemoveDocFromList( pIda, pDocName );
-//------------------------------------------------------------------------------
-// Description:       remove the document from the list of worked on documents
-//                    and mark it unused.
-//------------------------------------------------------------------------------
-// Parameters:        PDOCUMENT_IDA    -- document ida
-//                    PSZ              -- document to be removed
-//------------------------------------------------------------------------------
-// Returncode type:   VOID
-//------------------------------------------------------------------------------
-// Function flow:     consistency check
-//                    find document position in list
-//                      -- if found - move everything following one up
-//                                    and remove symbol
-//                         else  ignore request
-//------------------------------------------------------------------------------
-
-VOID RemoveDocFromList
-(
-  PDOCUMENT_IDA   pDocIda,
-  PSZ             pDocName
-)
-{
-  BOOL   fOK = TRUE;
-  SHORT  sIndex = 0;
-
-  /********************************************************************/
-  /* consistency checking                                             */
-  /********************************************************************/
-  fOK = ( pDocIda->pDocNamePool && pDocIda->apszDocNames );
-
-  /********************************************************************/
-  /* check if document is part of list already                        */
-  /********************************************************************/
-  if ( fOK )
-  {
-    while ( pDocIda->apszDocNames[sIndex] &&
-            strcmp( pDocIda->apszDocNames[sIndex], pDocName ) != 0  )
-    {
-      sIndex++;
-    } /* endwhile */
-
-    if ( pDocIda->apszDocNames[sIndex]  )
-    {
-      short i;
-
-      REMOVESYMBOL( pDocName );      // remove document from used list
-      for ( i=sIndex;i<(SHORT)pDocIda->usDocNamesUsed;i++ )
-      {
-        pDocIda->apszDocNames[i] = pDocIda->apszDocNames[ i+1 ];
-      } /* endfor */
-      pDocIda->usDocNamesUsed--;
-    }
-    else
-    {
-      /****************************************************************/
-      /* document not part of list -- ignore request ...              */
-      /****************************************************************/
-    } /* endif */
-  } /* endif */
-
-} /* end of function RemoveDocFromList */
-
-//------------------------------------------------------------------------------
-// External function
-//------------------------------------------------------------------------------
-// Function name:     FindNextDocInList
-//------------------------------------------------------------------------------
-// Function call:     fOK = FindNextDocInList(pDocIda,pInDocName, pOutDocName);
-//------------------------------------------------------------------------------
-// Description:       Find next document in list.
-//                    Prereq is that the pNextDoc is pointing to space large
-//                    enough
-//------------------------------------------------------------------------------
-// Parameters:        PDOCUMENT_IDA    -- pointer to ida
-//                    PSZ              -- pointer to prov. start document
-//                    PSZ              -- pointer to returned next document
-//------------------------------------------------------------------------------
-// Returncode type:   BOOL
-//------------------------------------------------------------------------------
-// Returncodes:       TRUE             -- success
-//                    FALSE            -- no further document found
-//------------------------------------------------------------------------------
-// Function flow:     consistency check
-//                    try to find start document
-//                      if found -- copy next document into pOutDocName
-//                      else set error return and init pOutDocName
-//                    return success
-//------------------------------------------------------------------------------
-BOOL FindNextDocInList
-(
-  PDOCUMENT_IDA   pDocIda,
-  PSZ             pInDocName,
-  PSZ             pOutDocName
-)
-{
-  BOOL   fOK = TRUE;
-  SHORT  sIndex = 0;
-
-  /********************************************************************/
-  /* consistency checking                                             */
-  /********************************************************************/
-  fOK = ( pDocIda->pDocNamePool && pDocIda->apszDocNames &&
-          pInDocName && pOutDocName );
-
-  /********************************************************************/
-  /* check if document is part of list already                        */
-  /********************************************************************/
-  if ( fOK )
-  {
-    if ( *pInDocName )
-    {
-      while ( pDocIda->apszDocNames[sIndex] &&
-              strcmp( pDocIda->apszDocNames[sIndex], pInDocName ) != 0  )
-      {
-        sIndex++;
-      } /* endwhile */
-
-      if ( pDocIda->apszDocNames[sIndex]  )
-      {
-        sIndex++;
-        if ( sIndex < (SHORT)pDocIda->usDocNamesUsed)
-        {
-          strcpy( pOutDocName, pDocIda->apszDocNames[ sIndex ]);
-        }
-        else
-        {
-          *pOutDocName = EOS;
-        } /* endif */
-      }
-      else
-      {
-        /****************************************************************/
-        /* document not part of list -- ignore request ...              */
-        /****************************************************************/
-        *pOutDocName = EOS;
-      } /* endif */
-    }
-    else if (pDocIda->apszDocNames[0])
-    {
-      strcpy( pOutDocName, pDocIda->apszDocNames[ 0 ]);
-    }
-    else
-    {
-      *pOutDocName = EOS;
-    } /* endif */
-  }
-  else
-  {
-    /******************************************************************/
-    /* init for error return                                          */
-    /******************************************************************/
-    fOK = FALSE;
-  } /* endif */
-  return fOK;
-} /* end of function FindNextDocInList */
-
-//------------------------------------------------------------------------------
-// Function name:     FindDocInList
-//------------------------------------------------------------------------------
-// Function call:     fOK = FindDocInList(pDocIda, usI, pOutDocName);
-//------------------------------------------------------------------------------
-// Description:       Find document i in list
-//------------------------------------------------------------------------------
-// Parameters:        PDOCUMENT_IDA    -- pointer to ida
-//                    USHORT           -- number of document
-//                    PSZ              -- pointer to returned next document
-//------------------------------------------------------------------------------
-// Returncode type:   BOOL
-//------------------------------------------------------------------------------
-// Returncodes:       TRUE             -- success
-//                    FALSE            -- failure
-//------------------------------------------------------------------------------
-// Function flow:     consistency check
-//                    if ok copy i-th document to output buffer, else error
-//                    return success indicator
-BOOL FindDocInList
-(
-  PDOCUMENT_IDA   pDocIda,
-  USHORT          usI,
-  PSZ             pOutDocName
-)
-{
-  BOOL   fOK;
-  /********************************************************************/
-  /* consistency checking                                             */
-  /********************************************************************/
-  fOK = ( pDocIda->pDocNamePool && pDocIda->apszDocNames && pOutDocName
-          && (usI < pDocIda->usDocNamesUsed) && pDocIda->apszDocNames[ usI ]);
-
-  /********************************************************************/
-  /* return i-th document                                             */
-  /********************************************************************/
-  if ( fOK )
-  {
-    strcpy( pOutDocName, pDocIda->apszDocNames[ usI ]);
-  }
-  else
-  {
-    /******************************************************************/
-    /* init for error return                                          */
-    /******************************************************************/
-    if ( pOutDocName )
-    {
-      *pOutDocName = EOS;
-    } /* endif */
-  } /* endif */
-  return fOK;
-} /* end of function FindDocInList */
-
-//------------------------------------------------------------------------------
-// Function name:     SetDocWindowText
-//------------------------------------------------------------------------------
-// Function call:     display the correct title text for the document window
-//------------------------------------------------------------------------------
-// Description:       set the title for the Translation Environment
-//------------------------------------------------------------------------------
-// Parameters:        PDOCUMENT_IDA   ptr to document ida
-//                    HWND            frame handle
-//                    PSZ             document object name
-//------------------------------------------------------------------------------
-// Returncode type:   VOID
-//------------------------------------------------------------------------------
-// Function flow:     prepare the title for the Translation Environment
-//                    using the resource string, the long filename (if applic)
-//                    and set it.
-VOID
-SetDocWindowText
-(
-  PDOCUMENT_IDA pDocIda,
-  HWND          hframe,
-  PSZ           pszObjName
-)
-{
-  PSZ             pData[2];                // pointer to data
-  PSZ             pTemp;                   // temp. data pointer
-  CHAR            c;                       // character
-  // get document long name
-  DocQueryInfo2( pszObjName, NULL, NULL, NULL, NULL,
-                 pDocIda->szDocLongName, NULL, NULL, FALSE );
-  if ( pDocIda->szDocLongName[0] )
-  {
-    OEMTOANSI( pDocIda->szDocLongName );
-  }
-
-  // display own title
-  //  pDocIda->szBuf is of size 3*MAX_LONGPATH
-  WinLoadString((HAB) UtlQueryULong( QL_HAB ), hResMod,
-                SID_DOCWND_TITLE,
-                MAX_LONGPATH,
-                (pDocIda->szBuf+2*MAX_LONGPATH));
-
-  /************************************************************/
-  /* get folder name ...                                      */
-  /************************************************************/
-  pTemp = UtlGetFnameFromPath( pszObjName );
-  pTemp --;
-  c = *pTemp;
-  *pTemp = EOS;
-  strcpy(pDocIda->szFolderObjName, pszObjName );
-  pDocIda->hwndActiveFolder =
-        GETPARENT( EqfQueryObject( pszObjName, clsFOLDER, 0 ) );
-  //strcpy( pDocIda->szBuf+2*MAX_LONGPATH,
-  //        UtlGetFnameFromPath( pszObjName ));
-  *pTemp = c;
-  //pTemp = strchr( pDocIda->szBuf+2*MAX_LONGPATH, DOT );
-  //if ( pTemp )
-  //{
-  //  *pTemp = EOS;
-  //} /* endif */
-
-  Utlstrccpy( pDocIda->szLongFolderName,
-              UtlGetFnameFromPath( pDocIda->szFolderObjName ), DOT );
-  ObjShortToLongName( pDocIda->szLongFolderName, pDocIda->szLongFolderName,
-                      FOLDER_OBJECT );
-  pData[1] = pDocIda->szLongFolderName;
-  OEMTOANSI(pDocIda->szLongFolderName);
-
-  if ( pDocIda->szDocLongName[0] != EOS )
-  {
-    pData[0] = pDocIda->szDocLongName;
-  }
-  else
-  {
-    pData[0] = UtlGetFnameFromPath( pszObjName );
-  } /* endif */
-
-  {
-    ULONG Length;
-
-    DosInsMessage( &pData[0], 2,
-                   (pDocIda->szBuf+2*MAX_LONGPATH), MAX_LONGPATH,
-                   pDocIda->szBuf, 2*MAX_LONGPATH,
-                   &Length );
-    // add MT Logging identifier to titlebar
-    if ( UtlQueryUShort( QS_MTLOGGING ) != 0 )    
-    {
-        strcat( pDocIda->szBuf, " [MT logging is active]" );  
-    } /* endif */     
-  }
-  if ( hframe )
-  {
-    CHAR_W chTitleW[(2*MAX_LONGPATH)+25];
-    ASCII2Unicode( pDocIda->szBuf, chTitleW, 0 );
-    SetWindowTextW( hframe, chTitleW );
-  } /* endif */
-
-} /* end of function SetDocWindowText */
 
 //------------------------------------------------------------------------------
 // Function name:     CreateTWBSInst
@@ -3509,94 +2653,6 @@ BOOL DocFindEdit ( PDOCUMENT_IDA pIda )
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Set dictionary as accessed
-/////////////////////////////////////////////////////////////////////////
-//
-//   run through the list and check that you can access the requested dicts
-//
-/////////////////////////////////////////////////////////////////////////
-BOOL SetDictAccess
-(
-    PSZ   pszLDct                              // pointer to dictionary array
-)
-{
-   BOOL  fOK = TRUE;                           // success indicator
-   SHORT sRc;                                  // return code
-   CHAR  szDictName[ MAX_LONGFILESPEC ];
-   PSZ   pData;
-
-   /*******************************************************************/
-   /*  check if one of the dictionaries is locked ...                 */
-   /*******************************************************************/
-   pData = pszLDct;                            // store pointer
-   while ( *pszLDct && fOK )
-   {
-
-      PROPDICT( szDictName, pszLDct );
-      // check if symbol already exists, i.e. dict is used
-      sRc = (SHORT) WinSendMsg( EqfQueryObjectManager(),
-                                WM_EQF_QUERYSYMBOL,
-                                NULL,
-                                MP2FROMP( szDictName ));
-      if ( sRc != -1 )
-      {
-         pData = UtlGetFnameFromPath( szDictName );
-         pData = Utlstrccpy(szDictName,pData,'.');  // get rid of extension
-         UtlError( ERROR_DICT_LOCKED, MB_CANCEL,
-                   1, &pData, EQF_ERROR );
-         fOK = FALSE;
-      } /* endif */
-      pszLDct += MAX_LONGFILESPEC;                      // point to next name
-   } /* endwhile */
-
-   /*******************************************************************/
-   /*  set symbol if okay so far ...                                  */
-   /*******************************************************************/
-   if ( fOK )                                   // okay so far, set it
-   {
-     pszLDct = pData;                           // restore pointer
-     while ( *pszLDct )
-     {
-        PROPDICT( szDictName, pszLDct );
-        WinSendMsg( EqfQueryObjectManager(),
-                    WM_EQF_SETSYMBOL,
-                    MP1FROMSHORT( TRUE ),
-                    MP2FROMP( szDictName ));
-        pszLDct += MAX_LONGFILESPEC;                      // point to next name
-     } /* endwhile */
-   } /* endif */
-
-   return fOK;
-}
-
-//////////////////////////////////////////////////////////////////////////
-// Release dictionary accessed
-/////////////////////////////////////////////////////////////////////////
-//
-//   run through the list and release any dictionary accessed
-//
-/////////////////////////////////////////////////////////////////////////
-VOID ReleaseDictAccess
-(
-    PSZ   pszLDct                              // pointer to dictionary array
-)
-{
-   CHAR  szDictName[ MAX_LONGFILESPEC ];
-
-   while ( *pszLDct != EOS )
-   {
-      PROPDICT( szDictName, pszLDct );
-      // remove the symbol from the object manager - don't care about errors
-      WinSendMsg( EqfQueryObjectManager(),
-                  WM_EQF_REMOVESYMBOL,
-                  NULL,
-                  MP2FROMP( szDictName ));
-      pszLDct += MAX_LONGFILESPEC;
-   } /* endwhile */
-
-}
-
-//////////////////////////////////////////////////////////////////////////
 // Release document accessed
 /////////////////////////////////////////////////////////////////////////
 //
@@ -3668,6 +2724,8 @@ VOID EQFFontChange
        pDoc->Redraw |= REDRAW_ALL;
     } /* endif */
 
+    if ( pDoc->pvGlyphSet ) UtlAlloc( &pDoc->pvGlyphSet, 0, 0, NOMSG );
+
     if ( pDoc->hwndRichEdit )
     {
       PostMessage( pDoc->hwndRichEdit, WM_EQF_FONTCHANGED, 0, 0l );
@@ -3686,6 +2744,8 @@ VOID EQFFontChange
        pDoc->Redraw |= REDRAW_ALL;
     } /* endif */
 
+    if ( pDoc->pvGlyphSet ) UtlAlloc( &pDoc->pvGlyphSet, 0, 0, NOMSG );
+
     if ( pDoc->hwndRichEdit )
     {
       PostMessage( pDoc->hwndRichEdit, WM_EQF_FONTCHANGED, 0, 0l );
@@ -3703,6 +2763,8 @@ VOID EQFFontChange
                             (pVioFont+SERVSOURCE_DOC)->cy );
        pDoc->Redraw |= REDRAW_ALL;
     } /* endif */
+
+    if ( pDoc->pvGlyphSet ) UtlAlloc( &pDoc->pvGlyphSet, 0, 0, NOMSG );
 
     if ( pDoc->hwndRichEdit )
     {
@@ -3746,6 +2808,7 @@ BOOL EQFTextSegm
 {
   BOOL       fOK = TRUE;
 
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
   if ( hResMod )
   {
     INT_PTR iRc;
@@ -4570,85 +3633,6 @@ USHORT DocGetFileDateAndSize
    return( usRC );
 } /* end of function DocGetFileDateAndSize */
 
-
-/**********************************************************************/
-/* Switch the keyboard to support the language we are translating     */
-/* This has to be done for BIDI and THAI languages                    */
-/**********************************************************************/
-HKL SwitchKeyboardForSpecLangs( PDOCUMENT_IDA pIda )
-{
-  HKL  BuffKL[21];
-  ULONG uli ;
-  BOOL fFound;
-  WORD wLangID;
-  HKL  hOldKL = GetKeyboardLayout(0);
-  HKL  hKLReturn = NULL;
-
-  wLangID = GetLangID( pIda );
-
-  if ( wLangID != 0 )
-  {
-    if (LOWORD(hOldKL) != wLangID )
-    {
-      ULONG ulMax = GetKeyboardLayoutList( 20, &BuffKL[0] );
-      uli = 0;
-      fFound = FALSE;
-      while (!fFound && (uli < ulMax))
-      {
-        if (LOWORD(BuffKL[uli] ) == wLangID)
-        {
-          /************************************************************/
-          /* activate corresponding keyboard                          */
-          /************************************************************/
-          hKLReturn = hOldKL;
-          ActivateKeyboardLayout( BuffKL[uli], 0 /*KLF_SETFORPROCESS*/);
-          fFound = TRUE;
-        }
-        else
-        {
-          uli ++;
-        } /* endif */
-      } /* endwhile */
-    } /* endif */
-  } /* endif */
-  return hKLReturn;
-}
-
-
-
-/**********************************************************************/
-/* GetLanguage id for the selected source/target language             */
-/**********************************************************************/
-USHORT GetLangID( PDOCUMENT_IDA pIda )
-{
-  WORD wLangID = 0;
-  SHORT sLangType = MorphGetLanguageType( pIda->szDocTargetLang );
-  if ( sLangType == MORPH_UNDEFINED_LANGTYPE )
-  {
-    sLangType = MorphGetLanguageType( pIda->szDocSourceLang );
-  } /* endif */
-
-
-  switch ( sLangType )
-  {
-    case MORPH_THAI_LANGTYPE:
-      wLangID = MAKELANGID(LANG_THAI, SUBLANG_DEFAULT);
-      break;
-    case MORPH_BIDI_H_LANGTYPE:
-      wLangID = MAKELANGID(LANG_HEBREW, SUBLANG_DEFAULT);
-      break;
-    case MORPH_BIDI_A_LANGTYPE:
-      wLangID = MAKELANGID(LANG_ARABIC, SUBLANG_DEFAULT);
-      break;
-
-    default:
-      break;
-  } /* endswitch */
-
-  return wLangID;
-}
-
-
 BOOL FolSpellcheck
 (
   PSZ              pszFolObjName,      // folder object name
@@ -4819,4 +3803,588 @@ BOOL FolSpellcheck
 
   return( fOK );
 } /* end of function FolSpellcheck */
+
+
+//------------------------------------------------------------------------------
+// Function name:     SetDocWindowText
+//------------------------------------------------------------------------------
+// Function call:     display the correct title text for the document window
+//------------------------------------------------------------------------------
+// Description:       set the title for the Translation Environment
+//------------------------------------------------------------------------------
+// Parameters:        PDOCUMENT_IDA   ptr to document ida
+//                    HWND            frame handle
+//                    PSZ             document object name
+//------------------------------------------------------------------------------
+// Returncode type:   VOID
+//------------------------------------------------------------------------------
+// Function flow:     prepare the title for the Translation Environment
+//                    using the resource string, the long filename (if applic)
+//                    and set it.
+VOID SetDocWindowText
+(
+  PDOCUMENT_IDA pDocIda,
+  HWND          hframe,
+  PSZ           pszObjName
+)
+{
+  PSZ             pData[2];                // pointer to data
+  PSZ             pTemp;                   // temp. data pointer
+  CHAR            c;     
+
+  HMODULE hResMod = (HMODULE) UtlQueryULong(QL_HRESMOD);
+  DocQueryInfo2( pszObjName, NULL, NULL, NULL, NULL, pDocIda->szDocLongName, NULL, NULL, FALSE );
+  if ( pDocIda->szDocLongName[0] )
+  {
+    OEMTOANSI( pDocIda->szDocLongName );
+  }
+
+  // display own title
+  //  pDocIda->szBuf is of size 3*MAX_LONGPATH
+  WinLoadString((HAB) UtlQueryULong( QL_HAB ), hResMod,
+                SID_DOCWND_TITLE,
+                MAX_LONGPATH,
+                (pDocIda->szBuf+2*MAX_LONGPATH));
+
+  /************************************************************/
+  /* get folder name ...                                      */
+  /************************************************************/
+  pTemp = UtlGetFnameFromPath( pszObjName );
+  pTemp --;
+  c = *pTemp;
+  *pTemp = EOS;
+  strcpy(pDocIda->szFolderObjName, pszObjName );
+  pDocIda->hwndActiveFolder =
+        GETPARENT( EqfQueryObject( pszObjName, clsFOLDER, 0 ) );
+  //strcpy( pDocIda->szBuf+2*MAX_LONGPATH,
+  //        UtlGetFnameFromPath( pszObjName ));
+  *pTemp = c;
+  //pTemp = strchr( pDocIda->szBuf+2*MAX_LONGPATH, DOT );
+  //if ( pTemp )
+  //{
+  //  *pTemp = EOS;
+  //} /* endif */
+
+  Utlstrccpy( pDocIda->szLongFolderName,
+              UtlGetFnameFromPath( pDocIda->szFolderObjName ), DOT );
+  ObjShortToLongName( pDocIda->szLongFolderName, pDocIda->szLongFolderName,
+                      FOLDER_OBJECT );
+  pData[1] = pDocIda->szLongFolderName;
+  OEMTOANSI(pDocIda->szLongFolderName);
+
+  if ( pDocIda->szDocLongName[0] != EOS )
+  {
+    pData[0] = pDocIda->szDocLongName;
+  }
+  else
+  {
+    pData[0] = UtlGetFnameFromPath( pszObjName );
+  } /* endif */
+
+  {
+    ULONG Length;
+
+    DosInsMessage( &pData[0], 2,
+                   (pDocIda->szBuf+2*MAX_LONGPATH), MAX_LONGPATH,
+                   pDocIda->szBuf, 2*MAX_LONGPATH,
+                   &Length );
+    // add MT Logging identifier to titlebar
+    if ( UtlQueryUShort( QS_MTLOGGING ) != 0 )    
+    {
+        strcat( pDocIda->szBuf, " [MT logging is active]" );  
+    } /* endif */     
+  }
+  if ( hframe )
+  {
+    CHAR_W chTitleW[(2*MAX_LONGPATH)+25];
+    ASCII2Unicode( pDocIda->szBuf, chTitleW, 0 );
+    SetWindowTextW( hframe, chTitleW );
+  } /* endif */
+
+} /* end of function SetDocWindowText */
+
+//////////////////////////////////////////////////////////////////////////
+// Set dictionary as accessed
+/////////////////////////////////////////////////////////////////////////
+//
+//   run through the list and check that you can access the requested dicts
+//
+/////////////////////////////////////////////////////////////////////////
+BOOL SetDictAccess
+(
+    PSZ   pszLDct                              // pointer to dictionary array
+)
+{
+   BOOL  fOK = TRUE;                           // success indicator
+   SHORT sRc;                                  // return code
+   CHAR  szDictName[ MAX_LONGFILESPEC ];
+   PSZ   pData;
+
+   /*******************************************************************/
+   /*  check if one of the dictionaries is locked ...                 */
+   /*******************************************************************/
+   pData = pszLDct;                            // store pointer
+   while ( *pszLDct && fOK )
+   {
+
+      PROPDICT( szDictName, pszLDct );
+      // check if symbol already exists, i.e. dict is used
+      sRc = (SHORT) WinSendMsg( EqfQueryObjectManager(),
+                                WM_EQF_QUERYSYMBOL,
+                                NULL,
+                                MP2FROMP( szDictName ));
+      if ( sRc != -1 )
+      {
+         pData = UtlGetFnameFromPath( szDictName );
+         pData = Utlstrccpy(szDictName,pData,'.');  // get rid of extension
+         UtlError( ERROR_DICT_LOCKED, MB_CANCEL,
+                   1, &pData, EQF_ERROR );
+         fOK = FALSE;
+      } /* endif */
+      pszLDct += MAX_LONGFILESPEC;                      // point to next name
+   } /* endwhile */
+
+   /*******************************************************************/
+   /*  set symbol if okay so far ...                                  */
+   /*******************************************************************/
+   if ( fOK )                                   // okay so far, set it
+   {
+     pszLDct = pData;                           // restore pointer
+     while ( *pszLDct )
+     {
+        PROPDICT( szDictName, pszLDct );
+        WinSendMsg( EqfQueryObjectManager(),
+                    WM_EQF_SETSYMBOL,
+                    MP1FROMSHORT( TRUE ),
+                    MP2FROMP( szDictName ));
+        pszLDct += MAX_LONGFILESPEC;                      // point to next name
+     } /* endwhile */
+   } /* endif */
+
+   return fOK;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Release dictionary accessed
+/////////////////////////////////////////////////////////////////////////
+//
+//   run through the list and release any dictionary accessed
+//
+/////////////////////////////////////////////////////////////////////////
+VOID ReleaseDictAccess
+(
+    PSZ   pszLDct                              // pointer to dictionary array
+)
+{
+   CHAR  szDictName[ MAX_LONGFILESPEC ];
+
+   while ( *pszLDct != EOS )
+   {
+      PROPDICT( szDictName, pszLDct );
+      // remove the symbol from the object manager - don't care about errors
+      WinSendMsg( EqfQueryObjectManager(),
+                  WM_EQF_REMOVESYMBOL,
+                  NULL,
+                  MP2FROMP( szDictName ));
+      pszLDct += MAX_LONGFILESPEC;
+   } /* endwhile */
+
+}
+
+//f4////////////////////////////////////////////////////////////////////////////
+// function CheckResources                                                    //
+////////////////////////////////////////////////////////////////////////////////
+BOOL CheckResources( PDOCUMENT_IDA pIda )
+{
+//------------------------------------------------------------------------------
+// check if all resources for translation are available                       --
+//------------------------------------------------------------------------------
+   BOOL         fOk = TRUE;                 //error flag
+   PSZ          pszTemp;                    //temorary pointer
+   PSZ          apszReplace[3];             // replace strings in utl error
+   HWND         hwnd;                       // pointer to window handle
+
+   // check if symbol already exists
+   {
+      pszTemp = UtlGetFnameFromPath( pIda->IdaHead.szObjName );
+
+      //save document name to IDA
+      strcpy( pIda->szDocName, pszTemp );
+
+      //get folder name
+      pszTemp = UtlGetFnameFromPath( pIda->szFolderObjName );
+      //save folder name to ida
+      strcpy( pIda->szFolderName, pszTemp );
+      //build full path to source  and save it to IDA
+      UtlMakeEQFPath( pIda->szSource, pIda->szFolderObjName[0],
+                      DIRSOURCEDOC_PATH, pIda->szFolderName );
+      //append document name to path
+      strcat( pIda->szSource, "\\" );
+      strcat( pIda->szSource, pIda->szDocName );
+
+   } /* endif */
+
+
+   //check segmented target file
+   if ( fOk )
+   {
+      //build full path to segmented target file and save it to IDA
+      UtlMakeEQFPath( pIda->szSegTarget, pIda->szFolderObjName[0],
+                      DIRSEGTARGETDOC_PATH,
+                      pIda->szFolderName );
+      //append document name to path
+      strcat( pIda->szSegTarget, "\\" );
+      strcat( pIda->szSegTarget, pIda->szDocName );
+      //check if segmented target file exists
+      fOk = UtlFileExist( pIda->szSegTarget );
+      //check segmented source file
+      if ( fOk )
+      {
+         //build full path to segmented source file and save it to IDA
+         UtlMakeEQFPath( pIda->szSegSource, pIda->szFolderObjName[0],
+                         DIRSEGSOURCEDOC_PATH,
+                         pIda->szFolderName );
+         //append document name to path
+         strcat( pIda->szSegSource, "\\" );
+         strcat( pIda->szSegSource, pIda->szDocName );
+         //check if segmented source file exists
+         fOk = UtlFileExist( pIda->szSegSource );
+      }/* endif fOk*/
+      if( !fOk )
+      {
+        /**************************************************************/
+        /* start the segmentation of the file                         */
+        /**************************************************************/
+        hwnd = pIda->hwnd;
+
+        /**************************************************************/
+        /* capture mouse ...                                          */
+        /**************************************************************/
+        SETCAPTURE( hwnd );
+        fOk = EQFTextSegm( pIda );
+        /**************************************************************/
+        /* free mouse ...                                             */
+        /**************************************************************/
+        RELEASECAPTURE;
+        UtlDispatch();
+        pIda = ACCESSWNDIDA( hwnd, PDOCUMENT_IDA );
+        if ( pIda )
+        {
+          fTerminate[UtlGetTask()] = FALSE;          // not yet terminated via icon...
+        }
+        else
+        {
+          fOk = FALSE;
+        } /* endif */
+        //   UtlError( ERROR_NOT_ANALYZED, MB_CANCEL, NULL, NULL, EQF_ERROR );
+      }/* endif fOk*/
+   }/* endif fOk*/
+
+   //check segmented source file
+   if ( fOk )
+   {
+      //build full path to segmented source file and save it to IDA
+      UtlMakeEQFPath( pIda->szSegSource, pIda->szFolderObjName[0],
+                      DIRSEGSOURCEDOC_PATH,
+                      pIda->szFolderName );
+      //append document name to path
+      strcat( pIda->szSegSource, "\\" );
+      strcat( pIda->szSegSource, pIda->szDocName );
+      //check if segmented source file exists
+      fOk = UtlFileExist( pIda->szSegSource );
+      if( !fOk )
+      {
+         UtlError( ERROR_NOT_ANALYZED, MB_CANCEL, 0, NULL, EQF_ERROR );
+      }/* endif fOk*/
+   }/* endif fOk*/
+   if ( fOk )
+   {
+      CHAR szMemShortName[MAX_FILESPEC];
+      BOOL fIsNew = FALSE;
+      ObjLongToShortName( pIda->szDocMemory, szMemShortName, TM_OBJECT, &fIsNew );
+      if ( fIsNew )
+      {
+         apszReplace[0] = pIda->szDocMemory;
+         OEMTOANSI(pIda->szDocMemory);
+         UtlError( ERROR_MEMORY_NOTFOUND, MB_CANCEL, 1, apszReplace, EQF_ERROR );
+         ANSITOOEM(pIda->szDocMemory);
+         fOk = FALSE;
+      }
+      else
+      {
+        strcpy( pIda->szMemory[0], pIda->szDocMemory );
+      }/* endif fOk*/
+
+   }/* endif fOk*/
+
+   /*******************************************************************/
+   /* get date/time of segmented target file                          */
+   /*******************************************************************/
+   if ( fOk )
+   {
+     struct stat buf;
+     int iResult;
+     iResult = stat( pIda->szSegTarget, &buf );
+     if ( !iResult )
+     {
+       pIda->ulSegFileDate = buf.st_mtime;
+     } /* endif */
+   } /* endif */
+   /*******************************************************************/
+   /* set error code into EQFXLATE struct                             */
+   /*******************************************************************/
+   if ( !fOk )
+   {
+     EQFXlateError( EQFXLATE_TRANSL_ERROR );
+   } /* endif */
+
+   return ( fOk );
+}/*CheckResources */
+//f5////////////////////////////////////////////////////////////////////////////
+// function BuildGenericStructure                                            //
+//    fill the eqf generic structure with the appropriate information,
+//    i.e.   segmented source, segmented target,
+//           translation memory, dictionary
+//    and check for the existence
+////////////////////////////////////////////////////////////////////////////////
+BOOL BuildGenericStructure( PDOCUMENT_IDA  pIda,
+                            PSTEQFGEN      pstEQFGen,
+                            PSZ            *apszTlm,
+                            PSZ            *apszLDct,
+                            BOOL           fInit )
+{
+   PPROPFOLDER  ppropFolder;                //pointer to folder properties
+   PSZ          pszToken;
+   USHORT       usI;
+   BOOL         fOK = TRUE;
+
+   //get access(pointer) to folder properties
+   ppropFolder = (PPROPFOLDER)MakePropPtrFromHnd( pIda->hpropFolder );
+   /*******************************************************************/
+   /* init pstEQFGen only during our initialisation step              */
+   /*******************************************************************/
+   if ( fInit )
+   {
+     memcpy( pstEQFGen, &(pIda->ppropEdit->stEQFGen), sizeof( STEQFGEN ));
+   } /* endif */
+   pstEQFGen->pDoc = pIda;                       // get pointer to ida
+   pstEQFGen->pstEQFPCmd = (PSTEQFPCMD) (pstEQFGen + 1);
+   pstEQFGen->pOpenAndPos = pIda->pOpenAndPos;
+   pIda->pOpenAndPos = NULL;
+                                             // store format table name
+   strcpy( (PSZ)pstEQFGen->szTagTable, pIda->szDocFormat );
+
+   //set editor, proposal etc.  window positions
+   pstEQFGen->fUseCoords = TRUE;
+
+
+  pstEQFGen->hwndTWBS = pIda->hwnd;    // set client handle as parent
+
+   //dictionary + translation memory accessed + MT access
+   pstEQFGen->fsConfiguration = EQFF_DA_CONF + EQFF_TM_CONF + EQFF_MT_CONF ;
+
+   //source file without path !!!!!!!!!!!!
+   strcpy ((PSZ)pstEQFGen->szFileName, pIda->szDocName);
+   strcpy( (PSZ)pstEQFGen->szLongName, pIda->szDocLongName );
+
+   apszTlm[0]  = pIda->szMemory[0];          //full qualified memory db
+   apszTlm[1]  = NULL;                       //NULL terminated
+
+   // get stop at first exact match
+   pIda->fStopAtFirstExact = ppropFolder->fStopAtFirstExact;
+
+   //get list of folder R/O memories from folder properies
+   if ( ppropFolder->aLongMemTbl[0][0] != EOS )
+   {
+     // BOOL fIsNew = FALSE;         // folder-is-new flag
+     int i = 0;
+     usI = 1;
+     while ( (ppropFolder->aLongMemTbl[i][0] != EOS) &&
+             (i < EQF_MAX_TM_BASES) && fOK )
+     {
+       //ObjLongToShortName( ppropFolder->aLongMemTbl[i],
+       //                    pIda->szMemory[usI], TM_OBJECT, &fIsNew );
+       strcpy( pIda->szMemory[usI], ppropFolder->aLongMemTbl[i] );
+
+       i++;
+      // fOK = (BOOL) EqfSend2Handler( MEMORYHANDLER,
+      //                               WM_EQF_PROCESSTASK,
+      //                               MP1FROMSHORT( CREATE_PATH ),
+      //                               MP2FROMP(pIda->szMemory[usI]) );
+      // if( !fOK )
+      // {
+      //    pszToken = ppropFolder->aLongMemTbl[i-1];
+      //    OEMTOANSI(pszToken);
+      //    UtlError( ERROR_TM_NOT_EXIST, MB_CANCEL, 1,
+      //              &pszToken, EQF_ERROR );
+      //    ANSITOOEM(pszToken);
+      //}
+      //else
+       {
+         /*****************************************************************/
+         /* check that same mem is already used as write mem too          */
+         /* only compare with first one nec,- other compares done in      */
+         /* folder selection dialog                                       */
+         /*****************************************************************/
+         if (strcmp(pIda->szMemory[usI], pIda->szMemory[0]) )
+         {
+           apszTlm[usI] = pIda->szMemory[usI];
+           usI++;
+         }
+         else
+         {
+           /*************************************************************/
+           /* skip this memory                                          */
+           /*************************************************************/
+           pIda->szMemory[usI][0] = EOS;
+         } /* endif */
+       } /* endif */
+     } /* endwhile */
+     //terminate with NULL
+     apszTlm[usI] = NULL;
+   }
+   else
+   {
+     strcpy( pIda->szString, ppropFolder->MemTbl );
+
+     //build path to memory properties
+     UtlMakeEQFPath(pIda->szDicPath, NULC, MEM_PATH, NULL );
+     strcat( pIda->szDicPath, "\\" );
+
+     //get first R/O memory from list
+     pszToken = strtok( pIda->szString, X15_STR );
+     usI = 1;
+     while ( (pszToken != NULL) && fOK )
+     {
+       strcpy( pIda->szMemory[usI], pszToken );
+       //fOK = (BOOL) EqfSend2Handler( MEMORYHANDLER,
+       //                              WM_EQF_PROCESSTASK,
+       //                              MP1FROMSHORT( CREATE_PATH ),
+       //                              MP2FROMP(pIda->szMemory[usI]) );
+       //if( !fOK )
+       //{
+       //   UtlError( ERROR_TM_NOT_EXIST, MB_CANCEL, 1,
+       //             &pszToken, EQF_ERROR );
+       //}
+       //else
+       {
+         /*****************************************************************/
+         /* check that same mem is already used as write mem too          */
+         /* only compare with first one nec,- other compares done in      */
+         /* folder selection dialog                                       */
+         /*****************************************************************/
+         if (strcmp(pIda->szMemory[usI], pIda->szMemory[0]) )
+         {
+           apszTlm[usI] = pIda->szMemory[usI];
+           usI++;
+         }
+         else
+         {
+           /*************************************************************/
+           /* skip this memory                                          */
+           /*************************************************************/
+           pIda->szMemory[usI][0] = EOS;
+         } /* endif */
+         // get next one
+         pszToken = strtok( NULL, X15_STR );
+       } /* endif */
+     } /* endwhile */
+     //terminate with NULL
+     apszTlm[usI] = NULL;
+   }
+
+   if ( fOK )
+   {
+     if ( ppropFolder->aLongDicTbl[0][0] != EOS )
+     {
+       BOOL fIsNew = FALSE;         // folder-is-new flag
+       int i = 0;
+
+       //build path to dictionary properties
+       UtlMakeEQFPath(pIda->szDicPath, NULC, PROPERTY_PATH, NULL );
+       strcat( pIda->szDicPath, "\\" );
+
+       usI = 0;
+       while ( (ppropFolder->aLongDicTbl[i][0] != EOS) &&
+               (i < MAX_NUM_OF_FOLDER_DICS) && fOK )
+       {
+         ObjLongToShortName( ppropFolder->aLongDicTbl[i],
+                             pIda->szString, DICT_OBJECT, &fIsNew );
+         i++;
+
+          strcpy(pIda->szDicts[usI], pIda->szDicPath);
+          strcat(pIda->szDicts[usI], pIda->szString );
+          strcat( pIda->szDicts[usI], EXT_OF_DICTPROP );
+
+          apszLDct[usI] = pIda->szDicts[usI];
+          usI++;
+       } /* endwhile */
+       //terminate with NULL
+       apszLDct[usI] = NULL;
+     }
+     else
+     {
+       //get list of folder dictionaries from folder properies
+       strcpy( pIda->szString, ppropFolder->DicTbl );
+
+       //build path to dictionary properties
+       UtlMakeEQFPath(pIda->szDicPath, NULC, PROPERTY_PATH, NULL );
+       strcat( pIda->szDicPath, "\\" );
+
+       //get first dictionary from list
+       memset(&pIda->szDicts[0], 0, sizeof(pIda->szDicts));
+       pszToken = strtok( pIda->szString, X15_STR );
+       usI = 0;
+       while ( pszToken != NULL )
+       {
+          strcpy(pIda->szDicts[usI], pIda->szDicPath);
+          strcat(pIda->szDicts[usI], pszToken);
+          strcat( pIda->szDicts[usI], EXT_OF_DICTPROP );
+
+          apszLDct[usI] = pIda->szDicts[usI];
+          usI++;
+          //get next dictionary name
+          pszToken = strtok( NULL, X15_STR );
+       } /* endwhile */
+       //terminate with NULL
+       apszLDct[usI] = NULL;
+     }
+   } /* endif */
+   return fOK;
+}/*end BuildGenericStructure */
+
+
+
+/**********************************************************************/
+/* GetLanguage id for the selected source/target language             */
+/**********************************************************************/
+USHORT GetLangID( PDOCUMENT_IDA pIda )
+{
+  WORD wLangID = 0;
+  SHORT sLangType = MorphGetLanguageType( pIda->szDocTargetLang );
+  if ( sLangType == MORPH_UNDEFINED_LANGTYPE )
+  {
+    sLangType = MorphGetLanguageType( pIda->szDocSourceLang );
+  } /* endif */
+
+
+  switch ( sLangType )
+  {
+    case MORPH_THAI_LANGTYPE:
+      wLangID = MAKELANGID(LANG_THAI, SUBLANG_DEFAULT);
+      break;
+    case MORPH_BIDI_H_LANGTYPE:
+      wLangID = MAKELANGID(LANG_HEBREW, SUBLANG_DEFAULT);
+      break;
+    case MORPH_BIDI_A_LANGTYPE:
+      wLangID = MAKELANGID(LANG_ARABIC, SUBLANG_DEFAULT);
+      break;
+
+    default:
+      break;
+  } /* endswitch */
+
+  return wLangID;
+}
+
 

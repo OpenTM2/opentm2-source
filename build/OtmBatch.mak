@@ -25,5 +25,8 @@ $(_BIN)\OtmBatch.EXE: $(_OBJ)\OtmBatch.obj
 $(_OBJ)\OtmBatch.obj
 /OUT:$(_BIN)\OtmBatch.EXE
 $(_LINK_OPTIONS)
-$(_LINK_LIB_EXE) $(_LIB)\OtmBase.lib $(_LIB)\OTMDll.LIB $(_LIB)\OTMFUNC.LIB $(_LIB)\PluginManager.lib
+$(_LINK_LIB_EXE) 
+$(_LIB)\OtmBase.lib 
+$(_LIB)\OTMFUNC.LIB 
+$(_LIB)\PluginManager.lib
 <<

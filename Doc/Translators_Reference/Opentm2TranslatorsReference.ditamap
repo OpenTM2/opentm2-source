@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE ibmbook PUBLIC "-//IBM//DTD DITA IBM BookMap//EN" "ibmbook.dtd">
 <ibmbook>
   <!-- ********************************************************************************************** -->
@@ -18,7 +18,7 @@
     <prodinfo>
       <prodname>OpenTM2 for Windows</prodname>
       <vrmlist>
-        <vrm version="Version 1.4.2"/>
+        <vrm version="Version 1.5.0"/>
       </vrmlist>
     </prodinfo>
     <bookrights>
@@ -26,7 +26,7 @@
         <year>2010</year>
       </copyrfirst>
       <copyrlast>
-        <year>2017</year>
+        <year>2018</year>
       </copyrlast>
       <bookowner>
         <organization>IBM and Others</organization>
@@ -38,7 +38,7 @@
   <!-- ********************************************************************************************** -->
   <ibmfrontmatter>
     <specialnotices href="Notices.dita"> </specialnotices>
-    <editionnotices href="EditionNotices.dita" navtitle="9th Edition, November 2017"> </editionnotices>
+    <editionnotices href="EditionNotices.dita" navtitle="10th Edition, April 2018"> </editionnotices>
     <frontbooklists>
       <toc/>
     </frontbooklists>
@@ -48,6 +48,10 @@
     </preface>
     
     <topicref href="changes_Summary.dita" navtitle="Summary of changes">
+      <topicref href="changes_150.dita" navtitle="New features and functions in OpenTM2 v1.5.0">
+        <topicref href="changes_150_ExportFolder.dita" navtitle="Improvements in the Export Folder function"> </topicref>
+        <topicref href="changes_150_OtmBatchConnect.dita" navtitle="New tasks CONNECT and DISCONNECT in OtmBath tool"> </topicref>
+      </topicref>
       <topicref href="changes_142.dita" navtitle="New features and functions in OpenTM2 v1.4.2">
         <topicref href="changes_142_ValidationImport.dita" navtitle="Improvements for Importing Validation Documents Utility"> </topicref>
         <topicref href="changes_142_SearchGlobal.dita" navtitle="Improvements for Global Find and Replace Utility"> </topicref>
@@ -68,17 +72,17 @@
         <topicref href="changes_131_FuzzySearch.dita" navtitle="Changes in the Fuzzy Segment Search function"> </topicref>
         <topicref href="changes_131_NextUntranslated.dita" navtitle="Two more entries in function Next Untranslated Segment"> </topicref>
       </topicref>
-      <topicref href="changes_130.dita" navtitle="New features and functions in OpenTM2 v1.3.0">
-        <topicref href="changes_130_ExactFuzzyNomatch.dita" navtitle="Shortcut keys for next EXACT, FUZZY, NO match segment"> </topicref>
-        <topicref href="changes_130_ProfileSettings.dita" navtitle="Plugin to backup and restore Profile Settings"> </topicref>      
-        <topicref href="changes_130_Spellcheck.dita" navtitle="Spellchecking across multiple Folders or Documents"> </topicref>
-        <topicref href="changes_130_MatchSegmentId.dita" navtitle="Add Match Segment ID to support Machine Translation"> </topicref>
-        <topicref href="changes_130_ChangeViewDetails.dita" navtitle="Change View Details"> </topicref>      
-        <topicref href="changes_130_SharedMemory.dita" navtitle="Updated WEB-based Shared Translation Memory concept"> </topicref>
-      </topicref>
     </topicref>
 
 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    <topicref href="changes_130.dita" navtitle="New features and functions in OpenTM2 v1.3.0">
+      <topicref href="changes_130_ExactFuzzyNomatch.dita" navtitle="Shortcut keys for next EXACT, FUZZY, NO match segment"> </topicref>
+      <topicref href="changes_130_ProfileSettings.dita" navtitle="Plugin to backup and restore Profile Settings"> </topicref>      
+      <topicref href="changes_130_Spellcheck.dita" navtitle="Spellchecking across multiple Folders or Documents"> </topicref>
+      <topicref href="changes_130_MatchSegmentId.dita" navtitle="Add Match Segment ID to support Machine Translation"> </topicref>
+      <topicref href="changes_130_ChangeViewDetails.dita" navtitle="Change View Details"> </topicref>      
+      <topicref href="changes_130_SharedMemory.dita" navtitle="Updated WEB-based Shared Translation Memory concept"> </topicref>
+    </topicref>
     <topicref href="changes_124.dita" navtitle="New features and functions in OpenTM2 v1.2.4">
       <topicref href="changes_124_DocumentReimport.dita" navtitle="Re-import document"> </topicref>
       <topicref href="changes_124_DictionarySelectionPID.dita" navtitle="Allow selecting PID of glossary terms to be displayed during editing"> </topicref>
@@ -545,6 +549,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
       <topicref href="otmbatch_DocumentOpen.dita" navtitle="Opening a document"> </topicref>
       <topicref href="otmbatch_MemoryOrganize.dita" navtitle="Organizing a Translation Memory"> </topicref>
       <topicref href="otmbatch_Rename.dita" navtitle="Renaming a folder, a dictionary or a Translation Memory"> </topicref>
+      <topicref href="otmbatch_MemoryConnect.dita" navtitle="Connecting a LAN-based shared Translation Memory"> </topicref>
+      <topicref href="otmbatch_MemoryDisconnect.dita" navtitle="Disconnecting a LAN-based shared Translation Memory"> </topicref>
       <topicref href="otmbatch_TasksMultiple.dita" navtitle="Performing several tasks in one step"> </topicref>
     </chapter>
 

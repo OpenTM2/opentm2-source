@@ -4769,3 +4769,236 @@ USHORT EqfGetIsoLang
   return( usRC );
 }
 
+/*! \brief Connet to LAN based shared memory
+\param hSession the session handle returned by the EqfStartSession call
+\param chDrive the drive where to look for the memory
+\param pszMemName the memory name
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfConnectSharedMem
+(
+  HSESSION    hSession,
+  CHAR        chDrive,
+  PSZ         pszMemName
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+                                       // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfConnectSharedMem==\n" );
+	LOGPARMSTRING( "Drive",   chDrive );
+    LOGPARMSTRING( "MemName", pszMemName );
+  } 
+
+  // drive letter checking
+  if ( (usRC == NO_ERROR ) && (chDrive == NULL) ) 
+  {
+    PSZ pszParm = "Drive letter";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } 
+  
+  // check if drive letter is valid
+  if ( (usRC == NO_ERROR ) && (chDrive != NULL) ) 
+  {
+    CHAR szEqfDrives[MAX_DRIVELIST];
+	UtlGetCheckedEqfDrives(szEqfDrives);
+
+	if (strchr( szEqfDrives, toupper(chDrive)) == NULL)
+	{
+	  CHAR szBuf[3];
+	  szBuf[0] = chDrive;
+	  szBuf[1] = EOS;
+	  PSZ pszParm = szBuf;
+	  UtlErrorHwnd( ERROR_EQF_DRIVE_NOT_VALID, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      usRC = ERROR_EQF_DRIVE_NOT_VALID;
+	}
+  }
+  	
+  // memname checking
+  if ( (usRC == NO_ERROR ) && (pszMemName == NULL) ) 
+  {
+    PSZ pszParm = "Memeory name";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } 
+
+  // connect function
+  if(usRC == NO_ERROR)
+  {
+	  MemoryFactory *pFactory = MemoryFactory::getInstance();
+  
+	  std::vector<std::string> connected,notConnected;
+	  usRC = pFactory->listSharedMemories("EqfSharedOnLanMemoryPlugin",NULL,&connected,&notConnected);
+	  if(usRC == NO_ERROR)
+	  {
+		BOOL found = FALSE;
+		// memname like 'C: XXX'
+		char szBuf[256+1] = {0};
+	    szBuf[0] = chDrive;
+	    strncat(szBuf,": ",2);
+	    strncat(szBuf,pszMemName,253);
+	    szBuf[256] = '\0';
+
+		// if connected already,does nothing
+		for(auto iter=connected.begin(); iter!=connected.end(); iter++)
+		{
+			if( *iter == szBuf )
+			{
+			  found = TRUE;
+			  break;
+			}
+		}
+
+		// if not connected, connected it
+		for(auto iter=notConnected.begin(); !found && iter!=notConnected.end(); iter++)
+		{
+		  if( *iter == szBuf )
+		  {
+		    found = TRUE;
+			usRC = (USHORT) pFactory->connectToMemory("EqfSharedOnLanMemoryPlugin",NULLHANDLE,szBuf,NULL) ;
+			break;
+		  }
+	    }
+
+		// not found at last
+		if(!found)
+		{
+		  PSZ pszParm = szBuf;
+		  UtlErrorHwnd( ERROR_MEMORY_NOTFOUND, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+          usRC = ERROR_MEMORY_NOTFOUND;
+		}
+
+	  }
+  }
+  
+  if ( pData )
+  {
+	LOGWRITE2( "  RC=%u\n", usRC );
+  }
+  
+  return( usRC );
+}
+
+/*! \brief Disconnet to LAN based shared memory
+\param hSession the session handle returned by the EqfStartSession call
+\param chDrive the drive where to look for the memory
+\param pszMemName the memory name
+\returns 0 if successful or an error code in case of failures
+*/
+__declspec( dllexport )
+USHORT EqfDisconnectSharedMem
+(
+  HSESSION    hSession,
+  CHAR        chDrive,
+  PSZ         pszMemName
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+                                       // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData )
+  {
+    LOGWRITE1( "==EqfDisconnectSharedMem==\n" );
+	LOGPARMSTRING( "Drive",   chDrive );
+    LOGPARMSTRING( "MemName", pszMemName );
+  } /* endif */
+
+  // drive letter checking
+  if ( (usRC == NO_ERROR ) && (chDrive == NULL) ) 
+  {
+    PSZ pszParm = "Drive letter";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } 
+
+  // check if drive letter is valid
+  if ( (usRC == NO_ERROR ) && (chDrive != NULL) ) 
+  {
+    CHAR szEqfDrives[MAX_DRIVELIST];
+	UtlGetCheckedEqfDrives(szEqfDrives);
+
+	if (strchr( szEqfDrives, toupper(chDrive)) == NULL)
+	{
+	  CHAR szBuf[3];
+	  szBuf[0] = chDrive;
+	  szBuf[1] = EOS;
+	  PSZ pszParm = szBuf;
+	  UtlErrorHwnd( ERROR_EQF_DRIVE_NOT_VALID, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      usRC = ERROR_EQF_DRIVE_NOT_VALID;
+	}
+  }
+
+  // memname checking
+  if ( (usRC == NO_ERROR ) && (pszMemName == NULL) ) 
+  {
+    PSZ pszParm = "Memeory name";
+    UtlErrorHwnd( DDE_MANDPARAMISSING, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    usRC = DDE_MANDPARAMISSING;
+  } 
+
+  // disconect function
+  if(usRC == NO_ERROR)
+  {
+	  MemoryFactory *pFactory = MemoryFactory::getInstance();
+  
+	  std::vector<std::string> connected,notConnected;
+	  usRC = pFactory->listSharedMemories("EqfSharedOnLanMemoryPlugin",NULL,&connected,&notConnected);
+	  if(usRC == NO_ERROR)
+	  {
+		BOOL found = FALSE;
+		// memname like 'C: XXX'
+		char szBuf[256+1] = {0};
+	    szBuf[0] = chDrive;
+	    strncat(szBuf,": ",2);
+	    strncat(szBuf,pszMemName,253);
+	    szBuf[256] = '\0';
+
+		// if not connected,does nothing
+		for(auto iter=notConnected.begin(); iter!=notConnected.end(); iter++)
+		{
+		  if( *iter == szBuf )
+		  {
+			found = TRUE;
+			break;
+		  }
+		}
+
+		// if connected, disconnected it
+		for(auto iter=connected.begin(); !found && iter!=connected.end(); iter++)
+		{
+		  if( *iter == szBuf )
+		  {
+		    found = TRUE;
+			usRC = (USHORT) pFactory->disconnectMemory("EqfSharedOnLanMemoryPlugin",NULLHANDLE,szBuf ) ;
+			break;
+		  }
+	    }
+
+		// not found
+		if(!found)
+		{
+		  PSZ pszParm = szBuf;
+		  UtlErrorHwnd( ERROR_MEMORY_NOTFOUND, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+          usRC = ERROR_MEMORY_NOTFOUND;
+		}
+
+	  }
+  }
+ 
+  if ( pData )
+  {
+    LOGWRITE2( "  RC=%u\n", usRC );
+  }
+
+  return( usRC );
+}
