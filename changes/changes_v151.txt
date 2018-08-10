@@ -1,0 +1,29 @@
+Changes in OpenTM2 v1.5.1
+
+List of requirements and fixes in OpenTM2 release v1.5.1:
+
+  (A) Requirements:
+    R012579: New OTMBATCH function to export documents in the Validation Format.
+    R012680: A new API, EqfExportFolderAs, is available to support renaming of memories 
+
+  (B) Fixes:	 
+     P403163: The OTM Analyze function doesn't work correctly at URL sentence
+     P403970: Cannot update the Markup Table plugin in OTM 1.4.2 (Missing registry entries)
+     P403981: Analysis profile: Missing "No blank" option on analysis setting window
+     P404044: Dictionary import fails when 0xfb01 included in source
+     P404047: Translatable segments cannot be saved when Source text contains certain UTF-8 characters
+     P404049: Import Validation document: cannot import document with an ampersand in the name
+     P403977: Is it possible to add a Preserve Case selection box to Global Find and Replace?
+     P403978: OtmBatch.exe returns an error when trying to produce a History report
+     P403984: Problems with Global Find and Replace Batch List
+     P404001: Editor: Line Wrap does not wrap a line when characters are inserted
+     P404012: Incorrect marking of words across line boundaries
+     P404032: Issues importing OTM2 subfolder/masterfolder
+     P404048: OTM2 crashes when Source text contains certain UTF-8 characters
+     P404050: Import Validation document can overwrite changed target text without warning
+     P404074: OTM abends when importing an XLIFF folder
+     P404077: Import validation documents: strings after inserted line break not shown
+     P403982: When exporting multiple memories at once the processing window keeps the name of the first one
+     OpenTM2-44: OpenTM2 produces invalid JSON if content contains a \ (backslash)
+     NN: Several fixes in MS Office markup table (OTMMSOFC)
+
