@@ -1646,7 +1646,7 @@ BEGIN
 
 822 "The task specified in the command line is not correct.\012 \012 Valid tasks are : %1"
 
-823 "The value '%1' specified for parameter %2 is invalid.\012 \012 Valid values for this parameter are: %3"
+823 "The value '%1' specified for parameter %2 is invalid.\012 \012 Valid values for this parameter are: %3\012 When more than one option is specified, the options have to be enclosed in parenthesis; e.g. (option1,option2)."
 
 824 "The parameter '%1' is not valid for this task.\012 \012 Valid parameters for this task are: %2"
 
@@ -2179,5 +2179,9 @@ BEGIN
 1088 "Some plugin has expired.  Please reference the log file for details."
 
 1089 "OpenTM2 needs at least a memory plugin, a dictionary plugin and a markup table plugin. \012 The plugin(s)  '%1' is (are) missing. Please open ""Utilities"" -> ""Plugin Mananger"" and install the missing plugin(s)."
+
+1090 "Only one option for parameter '%1' is permitted."
+
+1091 "The document '%1' is not found."
 
 END

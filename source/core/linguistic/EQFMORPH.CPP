@@ -6961,8 +6961,9 @@ USHORT MorphHashKeyValue
 
   while ( *pbTerm )
   {
-    hash1 = random1[hash1 ^ *pbTerm ];
-    hash2 = random2[hash2 ^ *pbTerm++];
+    // GQ 2018/05/09: The following code is not Unicode enabled, index into  random tables had to be truncated to 256 (BYTE value) 
+    hash1 = random1[(BYTE)(hash1 ^ *pbTerm) ]; 
+    hash2 = random2[(BYTE)(hash2 ^ *pbTerm++) ];
   }
   return (( hash1 << 8) | hash2);
 } /* end of function MorphHashKeyValue */

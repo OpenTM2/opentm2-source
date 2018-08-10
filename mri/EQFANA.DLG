@@ -376,41 +376,46 @@ BEGIN
     LISTBOX, LBS_STANDARD | LBS_NOTIFY | WS_TABSTOP | WS_VISIBLE | WS_HSCROLL,
     170, 62, 92, 60
     
-  GROUPBOX "Analysis settings for selected markup tables", -1, 17, 130, 252, 110
+  GROUPBOX "Analysis settings for selected markup tables", -1, 17, 120, 252, 120
   
   CONTROL "Substitute exact matches in the documents automatically", ID_ANAPROF_AUTOSUBST_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 140, 240, 12
+    25, 128, 240, 12
     
   CONTROL "Create file containing untranslated segments", ID_ANAPROF_NOMATCHSEGS_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 152, 240, 12
+    25, 140, 240, 12
 
   CONTROL "Count Translation Memory match information", ID_ANAPROF_MEMMATCH_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 164, 240, 12
+    25, 152, 240, 12
 
   CONTROL "Prepare redundancy report", ID_ANAPROF_REDUND_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 176, 240, 12
+    25, 164, 240, 12
 
   CONTROL  "Adjust leading whitespace to whitespace in source segment ",
     ID_ANAPROF_LEADINGWS_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 188, 240, 12
+    25, 176, 240, 12
     
   CONTROL  "Adjust trailing whitespace to whitespace in source segment ",
     ID_ANAPROF_TRAILINGWS_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 200, 240, 12
+    25, 188, 240, 12
     
   CONTROL  "Respect CRLF in segment",
     ID_ANAPROF_RESPECTCRLF_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
-    25, 212, 240, 12
+    25, 200, 240, 12
     
   CONTROL  "Use joined segments when found",
     ID_ANAPROF_AUTOJOIN_CHK,
+    BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
+    25, 212, 240, 12
+
+  CONTROL  "No blank at segment end even if source segment has one",
+    ID_ANAPROF_NOBLANK_CHK,
     BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP | WS_VISIBLE,
     25, 224, 240, 12
 

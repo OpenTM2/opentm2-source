@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="otmbatch_DocumentExportVal">
+  <title>Exporting documents in Validation Format</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section/>
+    <section>
+      <title>Purpose</title>
+      <indexterm>document<indexterm>OTMBATCH: exporting in Validation Format(from command area)</indexterm></indexterm>
+      <indexterm>exporting<indexterm>OTMBATCH: documents in Validation Format (from command area)</indexterm></indexterm>
+      <p>If many documents need to be exported from <keyword conref="common-symbols.dita#common-symbols/tm4w"/>, 
+        using the DOS command area of your operating system might be more convenient instead of using the 
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> GUI.</p>
+      <p>Before exporting, ensure that: 
+        <ul>
+          <li>The <keyword conref="common-symbols.dita#common-symbols/tm4w"/> folder exists which 
+            contains the document(s) to be exported.</li>
+        </ul>
+      </p>
+      <p>The folder-properties or the document-properties give information regarding the used markup
+        table and other document-related information necessary when exporting the respective documents.</p>
+      <p>To work from the DOS command area, use the <b>OTMBATCH</b> command. Its syntax is described in
+        the following chapter.</p>
+    </section>
+    <refsyn>
+      <title>Format</title>
+      <indexterm>OTMBATCH<indexterm>exporting documents in Validation Format</indexterm></indexterm>
+      <indexterm>commands<indexterm>OTMBATCH<indexterm otherprops="">exporting
+          documents in Validation Format</indexterm></indexterm></indexterm>
+      <p>The following syntax diagrams describe how to export a document from the
+        <tm trademark="Windows" tmowner="Microsoft Corporation" tmtype="reg" tmclass="special">Windows</tm> 
+        command area. Note that lowercase letters in a parameter name are optional and need not be typed.</p>
+      <!-- =================================================================================================== -->
+      <syntaxdiagram>
+        <groupseq importance="required">
+          <kwd>OTMBATCH</kwd>
+        </groupseq>
+        <groupseq importance="required">
+          <delim>/</delim>
+          <kwd>TAsk</kwd>
+          <oper>=</oper>
+          <kwd>DOCEXPVAL</kwd>
+        </groupseq>
+        <groupseq importance="required">
+          <delim>/</delim>
+          <kwd>FLD</kwd>
+          <oper>=</oper>
+          <var>folder</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>STartpath</kwd>
+          <oper>=</oper>
+          <var>startpath</var>
+        </groupseq>
+        <groupseq importance="required">
+          <delim>/</delim>
+          <kwd>FIles</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <groupseq>
+              <var>file_name</var>
+            </groupseq>
+            <groupseq>
+              <delim>(</delim>
+              <groupseq>
+                <repsep>,</repsep>
+                <var>file_name</var>
+              </groupseq>
+              <delim>)</delim>
+            </groupseq>
+            <groupseq>
+              <oper>@</oper>
+              <var>list_file_name</var>
+            </groupseq>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TYpe</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd>PROOFREAD</kwd>
+            <kwd importance="default">VALIDATION</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>FOrmat</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd>DOC</kwd>
+            <kwd>DOCX</kwd>
+            <kwd importance="default">HTML</kwd>
+            <kwd>ODT</kwd>
+            <kwd>XML</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OPtion</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd>COMBINE</kwd>
+            <kwd>EXACTMATCH</kwd>
+            <kwd>INCCOUNT</kwd>
+            <kwd>INCMATCH</kwd>
+            <kwd>MISMATCHES</kwd>
+            <kwd>OVERWRITE</kwd>
+            <kwd>PRESERVELINKS</kwd>
+            <kwd>REMOVEINLINE</kwd>
+            <kwd>TRANSTEXT</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>MAtch</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd>AUTOSUBST</kwd>
+            <kwd>EXACT</kwd>
+            <kwd>FUZZY</kwd>
+            <kwd>GLOBAL</kwd>
+            <kwd>MACHINE</kwd>
+            <kwd>MODAUTOSUBST</kwd>
+            <kwd>MODEXACT</kwd>
+            <kwd>NEW</kwd>
+            <kwd>NOTRANS</kwd>
+            <kwd>PROTECTED</kwd>
+            <kwd>REPLACE</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>TRanslator</kwd>
+          <oper>=</oper>
+          <var>translator's_name</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>PM</kwd>
+          <oper>=</oper>
+          <var>project_manager's_name</var>
+        </groupseq>
+        <groupseq importance="optional">
+          <delim>/</delim>
+          <kwd>OVerwrite</kwd>
+          <oper>=</oper>
+          <groupchoice>
+            <kwd importance="default">NO</kwd>
+            <kwd>YES</kwd>
+          </groupchoice>
+        </groupseq>
+        <groupseq importance="optional">
+          <groupchoice>
+            <groupseq><delim>/</delim><var>QUIET</var></groupseq>
+            <groupseq><delim>/</delim><var>QUIET=NOMSG</var></groupseq>
+          </groupchoice>
+        </groupseq>
+      </syntaxdiagram>
+      <!-- =================================================================================================== -->
+    </refsyn>
+    <section>
+      <title>Parameters</title>
+      <parml>
+        <plentry>
+          <pt>/TAsk=DOCEXPVAL</pt>
+          <pd><codeph>DOCEXPVAL</codeph> specifies that you want to export a document in the Validation Format.</pd>
+        </plentry>
+        <plentry>
+          <pt>/FLD=<synph><var>folder</var></synph></pt>
+          <pd><synph><var>folder</var></synph> specifies the name of the folder containing the
+            documents that you want to export.</pd>
+        </plentry>
+        <plentry>
+          <pt>/STartpath=<synph><var>startpath</var></synph></pt>
+          <pd><synph><var>startpath</var></synph> specifies the drive, directory, or both where the
+            file exported is to be placed. The path information specified becomes part of, that is
+            it prefixes, the name of the document. The directory specified must already exist. <p>If
+              you omit this parameter, the document is placed in the drive and directory specified
+              in <synph><var>file_name</var></synph>. However, this drive and directory does not
+              become part of the document name.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/FIles=<synph><var>file_name</var></synph></pt>
+          <pd><synph><var>file_name</var></synph> specifies the name of the document you want to
+            export. The <synph><var>file_name</var></synph> specification can include the drive and
+            directory where the file exported is to be placed. The subdirectory specified here must
+            already exist. <p>You can use the wildcard characters '*' and '?' in the name part of
+              the parameter to export all documents matching the given name pattern (e.g.
+              "C:\DOCEXP\*.DOC" to export all documents with a file name extension of ".DOC" to the
+              directory "C:\DOCEXP").</p>
+            <p>If you specify several documents, enclose the document names in brackets and separate
+              them by commas.</p>
+            <p>If you want to specify a list of document names in a list file, refer to this list
+              file by preceding the list file name with the <codeph>@</codeph> symbol
+                (<codeph>@</codeph><synph><var>list_file_name</var></synph>). In the list file
+              enclose the document names in brackets and separate them by commas.</p></pd>
+        </plentry>
+        <plentry>
+          <pt>/TYpe=</pt>
+          <pd>Specifies whether you want to export the document in format dedicated for validation activities
+             where only the translated text may be corrected (VALIDATION), or in a format
+             dedicated for proofreading activities where segments may be selected by
+             one or more match types (PROOFREAD).</pd>
+        </plentry>
+        <plentry>
+          <pt>/FOrmat=</pt>
+          <pd>Specifies the output file format for the created validation document.  The value
+             must be one of these values:
+             HTML (HTML), XML (XML), Microsoft Word DOC (DOC), Microsoft Word DOCX (DOCX) or
+             Open Office (ODT).</pd>
+        </plentry>
+        <plentry>
+          <pt>/OPtions=</pt>
+          <pd>Specifies whether you want to 
+            combine all of the exported documents (if more than one) into a single output document (COMBINE),
+            preserve HTML link and image tags as active tags (PRESERVELINKS),
+            remove all inline items from the translatable text (REMOVEINLINE),
+            include the source word count for each segment (INCCOUNT),
+            include whether translation memory entries existed when each segment was translated (INCMATCH),
+            include only segments where available translation memory entries were not used (MISMATCHES),
+            identify when exact translation memory matches which result from formerly manually translated segments (EXACTMATCH),
+            list only the translated text in plain text (TRANSTEXT),
+            replace an existing output validation document (OVERWRITE).
+            If you specify more than one option, you must enclose them in
+            brackets and separate the individual options using a comma.</pd>
+        </plentry>
+        <plentry>
+          <pt>/MAtch=</pt>
+          <pd>Specifies the type of segments to be included:
+            segments which were auto-substituted memory matches (AUTOSUBST),
+            segments which were exact memory matches (EXACT),
+            segments which were fuzzy memory matches (FUZZY),
+            segments which were global memory matches (GLOBAL),
+            segments which were machine translation matches (MACHINE),
+            segments which were auto-substituted memory matches (MODAUTOSUBST),
+            segments which were exact memory matches, but were then modified (MODEXACT),
+            segments which were new translations (NEW),
+            segments which were not translated (NOTTRANS),
+            segments which were protected and were not translatable (PROTECTED),
+            segments which were replace matches (REPLACE).
+            If you specify more than one option, you must enclose
+            them in brackets and separate the individual options using a comma. </pd>
+        </plentry>
+        <plentry>
+          <pt>/TRanslator=<synph><var>folder</var></synph></pt>
+          <pd>Specifies the name of the translator who translated this content.</pd>
+        </plentry>
+        <plentry>
+          <pt>/PM=<synph><var>folder</var></synph></pt>
+          <pd>Specifies the name of the project manager responsible for this project.</pd>
+        </plentry>
+
+
+        <plentry>
+          <pt>/OVerwrite=</pt>
+          <pd>Specifies whether an existing document is overwritten when exporting a document with
+            the same name (<codeph>NO</codeph> is the default).</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET</pt>
+          <pd>If you specify the parameter in this format, you are not prompted with any message
+            window. If you do not specify any of the /quiet paramaters, a message window pops up
+            whenever an error occurs or when the task has successfully completed.</pd>
+        </plentry>
+        <plentry>
+          <pt>/QUIET=NOMSG</pt>
+          <pd>If you specify this parameter, you are not prompted with any message window. Any error
+            message text is routed to stdout.</pd>
+        </plentry>
+      </parml>
+      <note>You can type the commands in uppercase, lowercase, or in mixed-case letters.</note>
+    </section>
+    <example>
+      <title>Examples</title>
+      <p>The following example shows how to export a document using the OTMBATCH command with the
+        TASK option.</p>
+
+      <p> <codeblock>OTMBATCH /task=docexpval /fld=pharma /files=c:\med.txt /type=PROOFREAD
+       /format=DOCX /option=(INCCOUNT, PRESERVELINKS) /overwrite=yes</codeblock></p>
+
+      <p>In this example, the document to be exported is called <codeph>med.txt</codeph>. It is
+        contained in folder <codeph>pharma</codeph>. The Microsoft Word DOCX validation document <codeph>med.txt</codeph> is
+        exported to the root directory of drive C. If <codeph>med.txt</codeph> already exists, it is
+        overwritten.  Word count information is included and links are preserved.</p>
+
+
+      <p>The following example shows how to export all documents of the folder as validation format
+        documents in HTML format and to combine them into a single document. </p>
+
+      <p><codeblock>OTMBATCH /task=docexpval /fld=pharma /files=c:\valdoc\*.* /type=PROOFREAD
+         /format=HTML /option=COMBINE /overwrite=yes</codeblock></p>
+      <p>In this example, all documents of the folder <codeph>pharma</codeph> are exported in
+        validation format and are combined into one HTML document. The combined document is stored
+        in the directory <codeph>C:\valdoc\</codeph> and has a name of <codeph>pharma.html</codeph>
+        (When several documents are combined ino one validation document the name of the folder is
+        used for the combined document).</p>
+    </example>
+  </refbody>
+</reference>

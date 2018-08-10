@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE reference PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
 <reference xml:lang="en-us" id="doc_Search">
   <title>Searching and replacing text in documents</title>
@@ -73,11 +73,27 @@
                negated term is not contained in the segment.</p>
             <note>You can use wildcards: a * is the placeholder for multiple characters, a ? is the
                placeholder for a single character. The placeholder can be changed in section <q>Wildcard</q>.</note>
-            <note>If a search string contains AND / OR / NOT, enclose the <b>search string</b> between
-               <b>double quotes</b>. If you want to search terms containing double quotes, the search term
+            <note>If a search string contains "AND", "OR", or "NOT" (independent of the case of the characters), enclose the <b>search string</b> between
+               <b>double quotes</b>.</note>
+            <note>If you want to search terms containing <b>double quotes</b>, the search term
                has to be enclosed in double quotes and the double quote being searched has to be
                duplicated. E.g. if you want to search for the term <i>Null"</i> ("Null" followed by a
                double quote) the term has to be entered as <i>"Null"""</i> in the find field.</note>
+            <p><b>Sample search strings</b></p>
+            <p><b>str*ng</b>
+                searches for segments containing the characters "str" followed by any number of other characters followed 
+                by the characters "ng" (e.g. "string", "street fighting", "strng").</p>
+            <p><b>str?ng</b>
+                searches for segments containing the characters "str" followed by one other character followed by the characters "ng" (e.g. "string", "strong").</p>
+            <p><b>string1 AND string2</b>
+                searches for segments containing the term "string1" and the term "string2". Segments containing only "string1" or "string2" will be ignored.</p>
+            <p><b>string1 OR string2</b>
+                searches for segments containing the term "string1" or the term "string2". Segments containing "string1" or "string2" or both of them are forming a match.</p>
+            <p><b>string1 AND NOT string2</b>
+                searches for segments containing the term "string1" but not the term "string2".</p>
+            <p><b>"""string1"""</b>
+                searches for segments containing the term "string1" enclosed in double quotes (the first and the last double quote encloses the search term, 
+                the remaining double quotes are part of the search term and have been duplicated).</p>
           </pd>
         </plentry>
         <plentry>
@@ -326,7 +342,7 @@
                 <li>Button <q>Apply Change + Next</q>: the string to be replaced is marked with a strike-through font, and the 
                   background is a light red color. The next entry in the list is automatically selected.</li>
                 <li>Button <q>Next</q>: if you are on any entry in the list (but not on the last entry in the list), you
-                    can <b>move foward</b> to the next entry in the list.</li>
+                    can <b>move forward</b> to the next entry in the list.</li>
               </ul>
             </p>
           </pd>  

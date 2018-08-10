@@ -304,9 +304,7 @@ ULONG  UtlPackSetImportDir( PVOID, PSZ );
 ULONG UtlPackRenameMemoryDuringExport
 ( 
   PVOID       pVoidPack,               // package control pointer
-  PSZ         pszOldShortName,         // old memory short name (max 8 chars)
-  PSZ         pszOldLongName,          // old memory long name
-  PSZ         pszNewLongName           // new memory long name
+  PVOID       pvRenameData             // pointer to memory rename data area
 );
 
 // Defines for different folder export versions

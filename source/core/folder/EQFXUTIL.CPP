@@ -31,6 +31,8 @@
 #include "core\pluginmanager\OtmMemory.h"
 #include "core\pluginmanager\OtmMemoryPlugin.h"
 #include "core\memory\MemoryFactory.h"
+#include "core\utilities\LanguageFactory.h"
+
 
 #include "cxmlwriter.H"
 
@@ -70,27 +72,9 @@ BOOL CXLIFFUtil::TMXLanguage2TMLanguage( PSZ pszTMLanguage, PSZ pszTMXLanguage, 
 {
   BOOL fOK = TRUE;
 
-  // preset target buffer
-  strcpy( pszResultingLanguage, OTHERLANGUAGES );
-
-  if ( *pszTMLanguage )
-  {
-    strcpy( pszResultingLanguage, pszTMLanguage );
-  }
-  else if ( *pszTMXLanguage )
-  {
-    if ( !pLangTmx2Tmgr->FindName( pszTMXLanguage, pszResultingLanguage, 50 ) )
-    {
-      // try first part of language only
-      PSZ pszDelim = strchr( pszTMXLanguage, '-' );
-      if ( pszDelim )
-      {
-        *pszDelim = '\0';
-        pLangTmx2Tmgr->FindName( pszTMXLanguage, pszResultingLanguage, 50 );
-        *pszDelim = '-';
-      } /* endif */
-    } /* endif */
-  } /* endif */
+  strcpy( pszResultingLanguage, pszTMLanguage );
+  LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+  pLangFactory->getOpenTM2NameFromISO( pszTMXLanguage, pszResultingLanguage );
 
   return( fOK );
 } /* end of method XLIFFParseHandler::GeValue */

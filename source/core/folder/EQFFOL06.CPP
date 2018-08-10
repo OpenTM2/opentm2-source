@@ -2734,12 +2734,9 @@ HWND             hwndOwner           // owner window handle for error msgs
                                       b, pIda->szObjName, hwndOwner );
 
         fOK = pIda->pPackCtrl != NULL;
-        if (fOK && pIda->fMemoryExportAs ) //@@or always??
+        if (fOK && pIda->fMemoryExportAs )
         {
-          ulRC = UtlPackRenameMemoryDuringExport( pIda->pPackCtrl,
-                              pIda->szFolMem,   		// old mem shortname
-                              pIda->szLongFolMem,		// old mem long name
-                              pIda->szMemoryExportAs);	// new mem long name
+          ulRC = UtlPackRenameMemoryDuringExport( pIda->pPackCtrl, (PVOID)&(pIda->MemRename) );
         }
 
         //--- fill fields in package header ---
@@ -3999,17 +3996,6 @@ PSZ         pszMemoryExportAs
       fOK = FALSE;
     } /* endif */
   } /* endif */
-  //--- check if the export name is valid
-  if ( fOK && (pszMemoryExportAs != NULL) && (*pszMemoryExportAs != EOS))
-  {
-      if (!UtlCheckLongName(pszMemoryExportAs) )
-      {
-        PSZ pszParm = pszMemoryExportAs;
-        usRC = ERROR_INV_LONGNAME;
-        UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
-        fOK = FALSE;
-      } /* endif */
-  } /* endif */
 
   // build folder object name and fill IDA fields
   if ( fOK )
@@ -4040,6 +4026,22 @@ PSZ         pszMemoryExportAs
       //R008591: fill Folder Memory name
       strcpy( pIda->szFolMem, pFolProp->szMemory );
       strcpy( pIda->szLongFolMem, pFolProp->szLongMemory );
+
+      // check rename memory names and prepare rename memory table
+      if ( (pszMemoryExportAs != NULL) && (*pszMemoryExportAs != EOS))
+      {
+        usRC = FolImpBuildMemRenameTable( pFolProp, &(pIda->MemRename), pszMemoryExportAs );
+        if (usRC == 0 )
+        {
+          pIda->fMemoryExportAs = TRUE;
+        }
+        else
+        {
+          pIda->fMemoryExportAs = FALSE;
+          fOK = FALSE;
+        } /* endif */
+      } /* endif */
+
       CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo );
     } /* endif */
   } /* endif */
@@ -4157,15 +4159,6 @@ PSZ         pszMemoryExportAs
 	    else
 	    {
   	     pIda->fExportAs = 0;
-      } /* endif */
-      if ( (pszMemoryExportAs != NULL) && (*pszMemoryExportAs != EOS) )
-	    {
-		    pIda->fMemoryExportAs = 1;
-		    strcpy( pIda->szMemoryExportAs, pszMemoryExportAs );
-	    }
-  	  else
-	    {
-		    pIda->fMemoryExportAs = 0;
       } /* endif */
       pIda->fWithRedundancyData = ((lOptions & WO_REDUNDANCY_DATA_OPT) == 0L);
       pIda->pHeader->BitFlags.fWithRedundancyData = pIda->fWithRedundancyData;

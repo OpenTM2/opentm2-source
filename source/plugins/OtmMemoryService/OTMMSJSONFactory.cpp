@@ -234,92 +234,65 @@ JSONFactory* JSONFactory::getInstance()
       if ( str[iPos] == '\"' )
       {
         // add data up to double quote
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\\"" );
-          iStart = iPos + 1;
-        } /* endif */           
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\\"" );
+        iStart = iPos + 1;
       } /* endif */         
       else if(str[iPos] == '\\')
       {   
         // escape the backslash
-        if ( iStart < iPos )
-        {
-            newString.append( str.substr( iStart, iPos - iStart ) );
-            newString.append( "\\\\" );
-            iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\\\" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == '\n' )
       {
         // escape the lf
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\n" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\n" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == '\r' )
       {
         // escape the cr
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\r" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\r" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == '/' )
       {
         // escape the slash
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\/" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\/" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == '\t' )
       {
         // escape the tab
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\t" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\t" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == '\f' )
       {
         // escape the formfeed
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\f" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\f" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == (char)0xA0 )
       {
         // escape the non breaking space
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\u00A0" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\u00A0" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == '\b' )
       {
         // escape the backspace
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( "\\b" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( "\\b" );
+        iStart = iPos + 1;
       }
     } /* endfor */
     // add remaining data
@@ -347,92 +320,65 @@ JSONFactory* JSONFactory::getInstance()
       if ( str[iPos] == L'\"' )
       {
         // add data up to double quote
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\\"" );
-          iStart = iPos + 1;
-        } /* endif */           
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\\"" );
+        iStart = iPos + 1;
       } /* endif */         
       else if(str[iPos] == L'\\')
       {   
         // escape the backslash
-        if ( iStart < iPos )
-        {
-            newString.append( str.substr( iStart, iPos - iStart ) );
-            newString.append( L"\\\\" );
-            iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\\\" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == L'\n' )
       {
         // escape the lf
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\n" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\n" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == L'\r' )
       {
         // escape the cr
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\r" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\r" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == L'/' )
       {
         // escape the slash
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\/" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\/" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == L'\t' )
       {
         // escape the tab
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\t" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\t" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == L'\f' )
       {
         // escape the formfeed
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\f" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\f" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == (wchar_t)0xA0 )
       {
         // escape the non breaking space
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\u00A0" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\u00A0" );
+        iStart = iPos + 1;
       }
       else if ( str[iPos] == L'\b' )
       {
         // escape the backspace
-        if ( iStart < iPos )
-        {
-          newString.append( str.substr( iStart, iPos - iStart ) );
-          newString.append( L"\\b" );
-          iStart = iPos + 1;
-        }
+        if ( iStart < iPos ) newString.append( str.substr( iStart, iPos - iStart ) );
+        newString.append( L"\\b" );
+        iStart = iPos + 1;
       }
     } /* endfor */
     // add remaining data

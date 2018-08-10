@@ -1,0 +1,139 @@
+****************************************************************************************************
+** Script name...: EqfExportFolderFPAs.script                                                     **
+** Purpose.......: Script testing the API call EqfImportFolderAs2                                 **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: May 17, 2018                                                                   **
+** Update........: May 17, 2018                                                                   **
+** Copyright.....: Copyright (C) 1990-2018, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+****************************************************************************************************
+* define the location for the test data and the target directories inside OpenTM2
+****************************************************************************************************
+define Data,%TestDataLocation%\FOLDER
+
+
+TESTCASE FOLEXPAS2001,export a folder w/o renaming the memories
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , , , WITHMEM_OPT
+* Export the folder without renaming the memories
+  EqfExportFolderFPas EQFFOLDERIMPORTAS2, %Data%, FOLEXPAS2001, (WITHMEM_OPT,WITHREADONLYMEM_OPT,OVERWRITE_OPT), , WITHMEM_OPT
+  TESTRESULT 0, EqfExportFolderFPAs wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* re-import the folder and check that memories have not been renamed
+  EqfImportFolderAs2 FOLEXPAS2001, %Data%, , , , WITHMEM_OPT
+  DeleteFile %Data%\FOLEXPAS2001.FXP
+* Test if correct memory names have been used by the import
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 0, Memory FolImpAs2FolderMemOldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem1OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem2OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem3OldName was not imported
+End
+
+TESTCASE FOLEXPAS2002,export a folder renaming the folder memory
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , ,, WITHMEM_OPT
+* Export the folder renaming the folder memory
+  EqfExportFolderFPas EQFFOLDERIMPORTAS2, %Data%, FOLEXPAS2002, (WITHMEM_OPT,WITHREADONLYMEM_OPT,OVERWRITE_OPT), , , FolImpAs2FolderMemNewName
+  TESTRESULT 0, EqfExportFolderFPAs wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+* re-import the folder and check that memories have been renamed correctly
+  EqfImportFolderAs2 FOLEXPAS2002, %Data%, , , , WITHMEM_OPT
+  EqfDeleteFolder FOLEXPAS2002
+  DeleteFile %Data%\FOLEXPAS2002.FXP
+* Test if correct memory names have been used by the export
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem1OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem2OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem3OldName was not imported
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  TESTRESULT 0, folder memory not renamed to FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem3NewName
+End
+
+TESTCASE FOLEXPAS2003, export a folder renaming all memory databases
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , ,, WITHMEM_OPT
+* Export the folder renaming the memories
+  EqfExportFolderFPas EQFFOLDERIMPORTAS2, %Data%, FOLEXPAS2003, (WITHMEM_OPT,WITHREADONLYMEM_OPT,OVERWRITE_OPT), , WITHMEM_OPT, (FolImpAs2FolderMemNewName,FolImpAs2SearchMem1NewName,FolImpAs2SearchMem2NewName,FolImpAs2SearchMem3NewName) , WITHMEM_OPT
+  TESTRESULT 0, EqfImportFolderAs2 wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+* re-import the folder and check that memories have been renamed correctly
+  EqfImportFolderAs2 FOLEXPAS2003, %Data%, , , , WITHMEM_OPT
+  EqfDeleteFolder FOLEXPAS2003
+  DeleteFile %Data%\FOLEXPAS2003.FXP
+* Test if correct memory names have been used by the import
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 133, found unrenamed folder memory FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  TESTRESULT 0, folder memory not renamed to FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  TESTRESULT 0, 1st search memory not renamed to FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  TESTRESULT 0, 2nd search memory not renamed to FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  TESTRESULT 0, 3rd search memory not renamed to FolImpAs2SearchMem3NewName
+End

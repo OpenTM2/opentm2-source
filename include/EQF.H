@@ -5457,6 +5457,7 @@ typedef struct _GENPROCESSINSTIDA
   PVOID            pvUserData;         // ptr to optional user creation data
   PFN_PROCESSCALLBACK pfnCallBack;     // ptr to callback function of instance
   USHORT           usComplete;         // current slider arm position
+  CHAR             szCurTitle[80];     // currently displayed title text
   CHAR             szCurText[80];      // currently displayed slider text
   CHAR             szCurText2[80];     // currently displayed slider text 2
   CHAR             szCurEntry[80];     // currently displayed entry text

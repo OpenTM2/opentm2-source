@@ -157,6 +157,7 @@ typedef enum _FINDPOSTYPE
 typedef struct _FOLFINDRESULTPOS
 {
   BOOL   fTarget;            // TRUE = found string in target, FALSE = found string in source
+  BOOL   fPreserveCase;      // state of the preserve state flag from the time the entry was changed
   FINDPOSTYPE Type;          // type of entry
   USHORT usOffs;             // offset within segment
   USHORT usLen;              // length of found string
@@ -259,7 +260,8 @@ typedef struct _FOLFINDLASTUSED
   BYTE lfQuality;
   BYTE lfPitchAndFamily;
   TCHAR lfFaceName[40];
-  CHAR      szFiller[6364];                     // room for future enhancements
+  BOOL      fPreserveCase;                      // true = preserve case of first character
+  CHAR      szFiller[6360];                     // room for future enhancements
 } FOLFINDLASTUSED, *PFOLFINDLASTUSED;
 
 // structure passed to/from batch list result dialog
@@ -424,6 +426,7 @@ typedef struct _FOLFINDDATA
   RECT        rcOrgOptsAndDocsGB;               // original size and position of options and document groupbox
   RECT        rcOrgResultGB;                    // original size and position of results groupbox
   CHAR_W      szColTextBuffer[MAX_SEGMENT_SIZE*8]; // buffer for the complete text of a column
+  CHAR_W      szChangeToModified[MAX_FINDCHANGE_LEN+1];   // copy of change to string with adjusted start character
 
   // current color settings
   COLORCHOOSERDATA ColorData;
@@ -431,6 +434,7 @@ typedef struct _FOLFINDDATA
   // font to be used for result area and othere controls
   HFONT hFontControl;
   LOGFONT     lf;                               // settings of currently used font
+  BOOL      fPreserveCase;                      // true = preserve case of first character
 } FOLFINDDATA, *PFOLFINDDATA;
 
 
@@ -748,3 +752,5 @@ BOOL GFR_IsOnSpotEditingActive();
 // end on-spot editing of a batch list entry
 void GFR_EndOnSpotEditing();
 
+// adjust the case of the first character of the replace string
+CHAR_W GFR_AdjustCase( CHAR_W chOrgChar, CHAR_W chNewChar, BOOL fPreserveCase );

@@ -192,6 +192,18 @@ typedef struct _FOLLANGIDA
   CHAR        szTarget[MAX_LANG_LENGTH]; // buffer for target language
 } FOLLANGIDA, *PFOLLANGIDA;
 
+// for memory renames during folder import and export
+typedef struct _FOLMEMRENAMEDATA
+{
+  int         iMemRenames;                 // number of memory rename entries
+  CHAR        aszOldMemNames[MAX_NUM_OF_READONLY_MDB+1][MAX_LONGFILESPEC+1]; // array of old memory names being renamed
+  CHAR        aszOldMemShortNames[MAX_NUM_OF_READONLY_MDB+1][MAX_FILESPEC];  // array of old memory short names being renamed
+  CHAR        aszNewMemNames[MAX_NUM_OF_READONLY_MDB+1][MAX_LONGFILESPEC+1]; // array of new memory names
+  CHAR        aszNewMemShortNames[MAX_NUM_OF_READONLY_MDB+1][MAX_FILESPEC];  // array of new memory short names
+} FOLMEMRENAMEDATA, *PFOLMEMRENAMEDATA;
+
+
+
 //--- IDA for folder export dialog ---
 typedef struct _FOLEXPIDA
 {
@@ -274,6 +286,7 @@ typedef struct _FOLEXPIDA
     CHAR      szMUTBuffer[ IMPBUFFERSIZE ];  // buffer for markup table processing 
     CHAR      szInfoFileName[MAX_LONGFILESPEC]; // buffer for infor file names
     BOOL      fWithRedundancyData;           // export with redunandancy data
+    FOLMEMRENAMEDATA MemRename;              // memory rename data
 } FOLEXPIDA, *PFOLEXPIDA;
 
 typedef enum _FOLIMPTASK
@@ -425,6 +438,8 @@ typedef struct _FOLIMPIDA
   USHORT      usImportError;               // error code of failed import or 0 if successful
   BOOL        fGlobalMemOptCheckRequired;  // state of fGlobalMemOptCheckRequired flag of the folder properties
   BOOL        fReserved;                   // TRUE = a new folder short name has been reserved for this folder import
+  CHAR        szNewMemNames[(MAX_LONGFILESPEC+1)*NUM_OF_READONLY_MDB];// list of new memory names as specified in API call
+  FOLMEMRENAMEDATA MemRename;              // memory rename data
 } FOLIMPIDA, *PFOLIMPIDA;
 
 
@@ -694,3 +709,9 @@ __declspec(dllexport) USHORT FolIntRestoreDocs
 #define MEMINFOFILE_PLUGIN_KEY   "Plugin"
 #define MEMINFOFILE_FILES_KEY    "Files"
 #define MEMINFOFILE_NAME_KEY     "Name"  
+
+int FolImpGetRenameMemoryIndex( PFOLMEMRENAMEDATA pRenameData, PSZ pszMemName );
+int FolImpGetRenameMemoryShortNameIndex( PFOLMEMRENAMEDATA pRenameData, PSZ pszMemShortName );
+USHORT FolImpBuildMemRenameTable( PPROPFOLDER pFolProp, PFOLMEMRENAMEDATA pRenameData, PSZ pszNewMemNames );
+PSZ FolImpGetNewMemoryName( PFOLMEMRENAMEDATA pRenameData, PSZ pszMemName );
+

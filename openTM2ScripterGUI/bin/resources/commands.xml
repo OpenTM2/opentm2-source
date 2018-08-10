@@ -190,7 +190,7 @@
 @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }" id="loptions" name="lOptions" optional="true" type="long"/>
       <parameter description="list of documents or NULL" id="pszdocuments" name="pszDocuments" optional="true"/>
       <parameter description="export description or NULL" id="pszdescription" name="pszDescription" optional="true"/>
-      <parameter description="export name for memory in folder" id="pszmemoryexportas" name="pszMemoryExportAs" optional="true"/>
+      <parameter description="comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories" id="pszmemoryexportas" name="pszMemoryExportAs" optional="true"/>
     </command>
     <command command="EqfCountWords" description="" id="eqfcountwords" name="EqfCountWords">
       <parameter description="name of folder" id="pszfoldername" name="pszFolderName"/>
@@ -243,6 +243,24 @@ VALFORMAT_ODT_OPT{VALFORMAT_COMBINE_OPT  VALFORMAT_PROTSEGS_OPT},
 VALFORMAT_HTML_OPT{VALFORMAT_COMBINE_OPT VALFORMAT_PROTSEGS_OPT},
 @RelativePath: WITHRELATIVEPATH_OPT(default),WITHOUTRELATIVEPATH_OPT
 @Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT,WITHTRACKID_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfExportDocVal" description="" id="eqfexportdocval" name="EqfExportDocVal">
+      <parameter description="Name of folder" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="List of documents with path information" id="pszfiles" name="pszFiles"/>
+      <parameter description="Path to save the exported document" id="pszstartpath" name="pszStartPath" optional="true"/>
+      <parameter description="export document for validation or proof reading
+@Type: VAL_VALIDATION_OPT(default),VAL_PROOFREAD_OPT" id="ltype" name="lType" optional="true" type="long"/>
+      <parameter description="Exported format type
+@Format: VALFORMAT_XML_OPT,VALFORMAT_HTML_OPT(default),VALFORMAT_DOC_OPT,VALFORMAT_ODT_OPT,VALFORMAT_DOCX_OPT" id="lformat" name="lFormat" optional="true" type="long"/>
+      <parameter description="Options for document export validation
+@Options: {VAL_COMBINE_OPT,VAL_PRESERVE_LINKS_OPT,VAL_MAN_EXACTMATCH_OPT, VAL_REMOVE_INLINE_OPT(default),
+VAL_TRANSTEXT_ONLY_OPT,VAL_INCLUDE_COUNT_OPT,VAL_INCLUDE_MATCH_OPT,VAL_MISMATCHES_ONLY_OPT,OVERWRITE_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+      <parameter description="Include match types in export document
+@Match types: {VAL_AUTOSUBST_OPT,VAL_MOD_AUTOSUBST_OPT,VAL_EXACT_OPT,VAL_MOD_EXACT_OPT,
+VAL_GLOBAL_MEM_OPT,VAL_MACHINE_OPT,VAL_FUZZY_OPT,VAL_NEW_OPT,VAL_NOT_TRANS_OPT,
+VAL_PROTECTED_OPT,VAL_REPLACE_OPT}" id="lmatchtypes" name="lMatchTypes" optional="true" type="long"/>
+      <parameter description="Translator information" id="psztranslator" name="pszTranslator" optional="true"/>
+      <parameter description="Project manager information" id="pszpm" name="pszPM" optional="true"/>
     </command>
     <command command="EqfImportMem" description="" id="eqfimportmem" name="EqfImportMem">
       <parameter description="name of Translation Memory" id="pszmemname" name="pszMemName"/>
@@ -349,6 +367,16 @@ NODUPLICATES, word count options: WORDCOUNT, NOWORDCOUNT" id="pszmtoutputoptions
       <parameter description="path containing the imported folder" id="pszfrompath" name="pszFromPath"/>
       <parameter description="target drive for folder" id="chtodrive" name="chToDrive" optional="true" type="char"/>
       <parameter description="new name for the folder after the import" id="psznewfoldername" name="pszNewFolderName" optional="true"/>
+      <parameter description="folder import options
+@Import Mode: XLIFF_OPT
+@Other: {WITHDICT_OPT, WITHMEM_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>
+    </command>
+    <command command="EqfImportFolderAs2" description="" id="eqfimportfolderas2" name="EqfImportFolderAs2">
+      <parameter description="name of folder being imported" id="pszfoldername" name="pszFolderName"/>
+      <parameter description="path containing the imported folder" id="pszfrompath" name="pszFromPath"/>
+      <parameter description="target drive for folder" id="chtodrive" name="chToDrive" optional="true" type="char"/>
+      <parameter description="new name for the folder after the import" id="psznewfoldername" name="pszNewFolderName" optional="true"/>
+      <parameter description="comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories" id="psznewmemnames" name="pszNewMemNames" optional="true"/>
       <parameter description="folder import options
 @Import Mode: XLIFF_OPT
 @Other: {WITHDICT_OPT, WITHMEM_OPT}" id="loptions" name="lOptions" optional="true" type="long"/>

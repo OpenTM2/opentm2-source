@@ -9365,7 +9365,9 @@
 // Text:       The value '%1' specified for parameter %2 is
 //             invalid.\n
 //             \n
-//             Valid values for this parameter are: %3
+//             Valid values for this parameter are: %3\n
+//             When more than one option is specified, the options have to be enclosed in
+//             parenthesis; e.g. (option1,option2).
 // HelpTitle:  OpenTM2 - Help
 // Help:       Check the syntax for the parameter that was
 //             specified.
@@ -12168,3 +12170,13 @@
 // HelpTitle:  OpenTM2 - Help
 // Help:       The tool need at least a memory plugin, a dictionary plugin and a markup table plugin, or the 
 //             tool cannot work.
+
+#define ERROR_ONLY_SINGLE_OPT                                  1090
+// Text:       Only one option for parameter '%1' is permitted.
+// HelpTitle:  OpenTM2 - Help
+// Help:       Only one option permitted
+
+#define ERROR_DOC_NOT_FOUND                                    1091
+// Text:       The document '%1' is not found.
+// HelpTitle:  OpenTM2 - Help
+// Help:       Document not found

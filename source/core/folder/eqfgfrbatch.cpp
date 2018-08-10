@@ -890,12 +890,39 @@ BOOL ProcessImportedBatchListLine( PFOLFINDDATA pIda, PSZ_W pszLine, PBATCHLISTE
     if ( *pszLine == L'\"' )
     {
       // process text enclosed in quotes
-      pszLine++; pszStart++;
-      while( (*pszLine != 0) && (*pszLine != L'\"') && (*pszLine != L'\n') && (*pszLine != L'\r') ) pszLine++;
+      pszLine++; 
+      PSZ_W pszOutPos = pszStart;
+      BOOL fEndOfString = FALSE;
+      do
+      {
+        if ( (*pszLine == 0) || (*pszLine == L'\n') || (*pszLine == L'\r') )
+        {
+          fEndOfString = TRUE;
+        }
+        else if ( *pszLine == L'\"' )
+        {
+          if ( *(pszLine+1) == L'\"'  )
+          {
+            // doubled double-quote detected
+            *pszOutPos++ = *pszLine++;
+            pszLine++;
+          }
+          else
+          {
+            // double quote marks the end of the string
+            fEndOfString = TRUE;
+          } /* endif */
+        }
+        else
+        {
+          // normal character within the string
+            *pszOutPos++ = *pszLine++;
+        } /* endif */
+      } while( !fEndOfString );
+      *pszOutPos = 0;
 
       if ( *pszLine == L'\"' ) 
       {
-        *pszLine = 0;
         pszLine++;
         while( iswspace( *pszLine ) ) pszLine++; // skip any whitespace
         if ( *pszLine == L',' ) pszLine++;
@@ -990,16 +1017,33 @@ BOOL GFR_ImportBatchList( PFOLFINDDATA pIda, HWND hwnd, PSZ pszListFile )
 BOOL WriteStringToExportedBatchList( FILE *hfList, PSZ_W pszString )
 {
   PSZ_W pszComma = wcschr( pszString, L',' );
-
-  if ( pszComma != NULL ) fwrite( L"\"", sizeof(CHAR_W), 1, hfList );
+  PSZ_W pszQuote = wcschr( pszString, L'\"' );
 
   // strip any linefeed from string
   int iLen = wcslen(pszString);
   if ( iLen && pszString[iLen-1] == L'\n' ) iLen--;
   if ( iLen && pszString[iLen-1] == L'\r' ) iLen--;
-  fwrite( pszString, sizeof(CHAR_W), iLen, hfList );
 
-  if ( pszComma != NULL ) fwrite( L"\"", sizeof(CHAR_W), 1, hfList );
+  if ( (pszComma != NULL ) || (pszQuote != NULL) )
+  {
+    // enclose string in double-quotes and double any double-quote contained in the string
+    fwrite( L"\"", sizeof(CHAR_W), 1, hfList );
+    PSZ_W pszPos = pszString;
+    while ( *pszPos != 0 )
+    {
+      if ( *pszPos == L'\"' )
+      {
+        fwrite( L"\"", sizeof(CHAR_W), 1, hfList );
+      } /* endif */
+      fwrite( pszPos++, sizeof(CHAR_W), 1, hfList );
+    } /* endwhile */
+    fwrite( L"\"", sizeof(CHAR_W), 1, hfList );
+  }
+  else
+  {
+    // write string as-is
+    fwrite( pszString, sizeof(CHAR_W), iLen, hfList );
+  } /* endif */
 
   return( TRUE );
 }

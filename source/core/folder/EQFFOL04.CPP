@@ -64,6 +64,9 @@ FOLFINDOPERATOR FolFindOperators[] =
   { L"",            FF_EMPTY_OP }
 };
 
+// prototypes
+void GFR_PrepareSearchForBatchEntry( PFOLFINDDATA pIda, PFOLFINDBATCHLISTENTRY pEntry );
+
 //+----------------------------------------------------------------------------+
 // External function
 //+----------------------------------------------------------------------------+
@@ -933,6 +936,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
             SETCHECK( hwnd, ID_FOLFIND_WHOLEWORD_CHK, pIda->pLastUsed->fFolFindWholeWordsOnly );
             SETCHECK( hwnd, ID_FOLFIND_FINDSOURCE_CHK, pIda->pLastUsed->fAndFindInSource );
             SETCHECK( hwnd, ID_FOLFIND_RESPECTLF_CHK, pIda->pLastUsed->fRespectLineFeeds );
+            SETCHECK( hwnd, ID_FOLFIND_PRESERVECASE_CHK, pIda->pLastUsed->fPreserveCase );
 
             // Fill history in comboboxes
             GFR_RefreshComboboxHistory( hwnd, ID_FOLFIND_FIND_EF, pIda, pIda->pLastUsed->szFolFind, pIda->pLastUsed->szFindList );
@@ -1084,6 +1088,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_CONFCHANGES_CHK ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_TRANSLTEXT_CHK ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_WHOLEWORD_CHK ), iShowCmd );
+              ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_PRESERVECASE_CHK ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_CASE_GB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_RESPECT_RB ), iShowCmd );
               ShowWindow( GetDlgItem( hwnd, ID_FOLFIND_IGNORE_RB ), iShowCmd );
@@ -1205,6 +1210,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
                     USHORT usOffs = (USHORT)((int)pPos->usOffs + iOffsDelta) + pPos->usLen;
                     if ( GFR_ReplaceTextInSegment( pIda, pIda->pTargetDoc, pEntry->ulSegNum, usFoundOffs, pPos->usLen, pszChangeTo, &usOffs ) )
                     {
+                      pPos->fPreserveCase = pIda->fPreserveCase;
                       pPos->Type = CHANGED_TYPE;
                       fChangesDone = TRUE;
                       iOffsDelta += iChangeToLen - (int)pPos->usLen;
@@ -1415,9 +1421,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
               if ( pIda->iCurBatchEntry < pIda->iBatchListUsed )
               {
                 PFOLFINDBATCHLISTENTRY pEntry = pIda->ppBatchList[pIda->iCurBatchEntry];
-                GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), 
-                       (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), FALSE );
-                pIda->fAndFindInSource = (pEntry->iSourceFindLen > 2);
+                GFR_PrepareSearchForBatchEntry( pIda, pEntry );
               }
               else
               {
@@ -1554,6 +1558,7 @@ INT_PTR CALLBACK GFR_INTERACTIVE_DLGPROC
             break;
 
           case ID_FOLFIND_CONFCHANGES_CHK:
+          case ID_FOLFIND_PRESERVECASE_CHK:
           case ID_FOLFIND_FIND_EF:
           case ID_FOLFIND_CHANGE_EF:
           case ID_FOLFIND_FINDSOURCE_EF:
@@ -1986,6 +1991,17 @@ SHORT  sNotification                // notification
       }
       break;
 
+    case ID_FOLFIND_PRESERVECASE_CHK:
+      BOOL fNewState = QUERYCHECK( hwnd, ID_FOLFIND_PRESERVECASE_CHK );
+      if ( pIda->fPreserveCase != fNewState )
+      {
+        pIda->pLastUsed->fPreserveCase = pIda->fPreserveCase = fNewState;
+
+        // force a repaint of the result list
+        GFR_ForceRefreshOfItemHeights( pIda );
+      } /* endif */
+      break;
+
   } /* endswitch sID */
   return( mResult );
 } /* end of function FolFindControl */
@@ -2024,7 +2040,6 @@ VOID FolFindFreeDoc
 
   SegFileFreeDoc( (PVOID *)&pDoc );
 } /* end of function FolFindFreeDoc */
-
 
 BOOL FolFindMatch
 (
@@ -2106,9 +2121,7 @@ BOOL FolFindMatch
           if ( pIda->iCurBatchEntry < pIda->iBatchListUsed )
           {
             PFOLFINDBATCHLISTENTRY pEntry = pIda->ppBatchList[pIda->iCurBatchEntry];
-            GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), 
-                    (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), FALSE );
-            pIda->fAndFindInSource = (pEntry->iSourceFindLen > 2);
+            GFR_PrepareSearchForBatchEntry( pIda, pEntry );
           } /* endif */
         } /* endif */
       }
@@ -2228,11 +2241,8 @@ BOOL FolFindMatch
             // in batch list mode stay in the current segment and repeat the find operation with the next entry
             pIda->usOffs = 0;
             memset( &pIda->LastFindList, 0, sizeof(pIda->LastFindList) ); // clear last find list
-            pIda->fCurrentSearchInSource = pIda->fSearchInSource;
             PFOLFINDBATCHLISTENTRY pEntry = pIda->ppBatchList[pIda->iCurBatchEntry];
-            GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), 
-              (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), FALSE );
-            pIda->fAndFindInSource = (pEntry->iSourceFindLen > 2);
+            GFR_PrepareSearchForBatchEntry( pIda, pEntry );
           }
           // check if next segment available
           else if ( pIda->ulSegNum < pDoc->ulMaxSeg - 1 )
@@ -2245,9 +2255,7 @@ BOOL FolFindMatch
               if ( pIda->iCurBatchEntry < pIda->iBatchListUsed )
               {
                 PFOLFINDBATCHLISTENTRY pEntry = pIda->ppBatchList[pIda->iCurBatchEntry];
-                GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), 
-                        (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), FALSE );
-                pIda->fAndFindInSource = (pEntry->iSourceFindLen > 2);
+                GFR_PrepareSearchForBatchEntry( pIda, pEntry );
               } /* endif */
             } /* endif */
             memset( &pIda->LastFindList, 0, sizeof(pIda->LastFindList) ); // clear last find list
@@ -3573,7 +3581,6 @@ BOOL GFR_PreProcessFindString
           {
             // end quoted string
             fComplete = TRUE;
-            pszCurPos++;
           } /* endif */
         }
         else
@@ -4413,9 +4420,7 @@ VOID  GFR_ResetSearchPosition
     if ( pIda->iCurBatchEntry < pIda->iBatchListUsed )
     {
       PFOLFINDBATCHLISTENTRY pEntry = pIda->ppBatchList[pIda->iCurBatchEntry];
-      GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), 
-              (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), FALSE );
-      pIda->fAndFindInSource = (pEntry->iSourceFindLen > 2);
+      GFR_PrepareSearchForBatchEntry( pIda, pEntry );
     } /* endif */
   } /* endif */
 }
@@ -5276,7 +5281,7 @@ BOOL GFR_SetSearchFields( PFOLFINDDATA pIda, HWND hwnd, PSZ_W pszFind, PSZ_W psz
 int GFR_GetNextNonEmptyBatchListEntry( PFOLFINDDATA pIda, int iStartEntry )
 {
   int iCurEntry = iStartEntry;
-  while( (iCurEntry < pIda->iBatchListUsed) && (pIda->ppBatchList[iCurEntry]->iTargetFindLen <= 2) )
+  while( (iCurEntry < pIda->iBatchListUsed) && (pIda->ppBatchList[iCurEntry]->iTargetFindLen <= 2) && (pIda->ppBatchList[iCurEntry]->iSourceFindLen <= 2) )
   {
     iCurEntry++;
   } /* endwhile */
@@ -5390,6 +5395,7 @@ BOOL GFR_ReplaceTextInSegment( PFOLFINDDATA pIda, PTBDOCUMENT pDoc, ULONG ulSegN
     {
       memcpy( pNewData, pSeg->pDataW, usFoundOffs * sizeof(CHAR_W) );
       memcpy( pNewData + usFoundOffs, pszChangeTo, ulChangeLen * sizeof(CHAR_W) );
+      pNewData[usFoundOffs] = GFR_AdjustCase( pSeg->pDataW[usFoundOffs], pszChangeTo[0], pIda->fPreserveCase );
       memcpy( pNewData + usFoundOffs + ulChangeLen, pSeg->pDataW + usFoundOffs + usFindLen, (ulDataLen - usFoundOffs - usFindLen + 1) * sizeof(CHAR_W));
 
       UtlAlloc( (PVOID *)&pSeg->pDataW, 0L, 0L, NOMSG );
@@ -5420,3 +5426,64 @@ BOOL GFR_ReplaceTextInSegment( PFOLFINDDATA pIda, PTBDOCUMENT pDoc, ULONG ulSegN
   return( fOK );
 } /* end of GFR_ReplaceTextInSegment */
 
+// Set the search in source/target entries for current batch list entry
+void GFR_PrepareSearchForBatchEntry( PFOLFINDDATA pIda, PFOLFINDBATCHLISTENTRY pEntry )
+{
+  pIda->fSearchInSource = FALSE;
+  pIda->fSearchInTarget = FALSE;
+  pIda->fAndFindInSource = FALSE;
+
+  if ( pEntry->iTargetFindLen > 2 )
+  {
+    pIda->fSearchInTarget = TRUE;
+    pIda->fAndFindInSource = (pEntry->iSourceFindLen > 2);
+  }
+  else if ( pEntry->iSourceFindLen > 2 )
+  {
+    pIda->fSearchInSource = TRUE;
+  } /* endif */
+
+  // use source or target string as search string depending on search flag
+  if ( pIda->fSearchInTarget )
+  {
+    GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), FALSE );
+  }
+  else
+  {
+    GFR_SetSearchFields( pIda, pIda->hwndPages[0], (PSZ_W)((PBYTE)pEntry + pEntry->iSourceFindOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iTargetChangeOffs), (PSZ_W)((PBYTE)pEntry + pEntry->iTargetFindOffs), FALSE );
+  } /* endif */
+  pIda->fCurrentSearchInSource = pIda->fSearchInSource;
+} /* end of function GFR_PrepareSearchForBatchEntry */
+
+// adjust the case of the first character of the replace string
+CHAR_W GFR_AdjustCase( CHAR_W chOrgChar, CHAR_W chNewChar, BOOL fPreserveCase )
+{
+  CHAR_W chResult = chNewChar;
+
+  if ( fPreserveCase )
+  {
+    CHAR_W szTemp[2];
+    szTemp[0] = 0;
+    szTemp[1] = 0;
+
+    BOOL fOrgIsUpper = iswupper( chOrgChar );
+    BOOL fNewIsUpper = iswupper( chNewChar );
+    if ( fOrgIsUpper != fNewIsUpper )
+    {
+      if ( fOrgIsUpper )
+      {
+        szTemp[0] = chNewChar;
+        CharUpperW( szTemp );
+        chResult = szTemp[0];
+      }
+      else
+      {
+        szTemp[0] = chNewChar;
+        CharLowerW( szTemp );
+        chResult = szTemp[0];
+      } /* endif */
+    } /* endif */
+  } /* endif */
+
+  return( chResult );
+} /* end of function GFR_PrepareSearchForBatchEntry */

@@ -16,7 +16,7 @@
     <prodinfo>
       <prodname>OpenTM2 for Windows</prodname>
       <vrmlist>
-        <vrm version="Version 1.5.0"/>
+        <vrm version="Version 1.5.1"/>
       </vrmlist>
     </prodinfo>
     <bookrights>
@@ -34,7 +34,7 @@
   <!-- ********************************************************************************************** -->
   <ibmfrontmatter>
     <specialnotices href="SpecialNotices.dita"> </specialnotices>
-    <editionnotices href="EditionNotices.dita" navtitle="5th Edition, April 2018"> </editionnotices>
+    <editionnotices href="EditionNotices.dita" navtitle="6th Edition, August 2018"> </editionnotices>
     <frontbooklists>
       <toc/>
     </frontbooklists>
@@ -42,6 +42,7 @@
       <topicref href="front_Chapter.dita" navtitle="Related information"> </topicref>
     </preface>
     <topicref href="changes_Summary.dita" navtitle="Summary of changes">    
+      <topicref href="changes_151.dita"   navtitle="Changes for OpenTM2 v1.5.1"></topicref>
       <topicref href="changes_150.dita"   navtitle="New and Updated APIs in OpenTM2 v1.5.0"></topicref>
       <topicref href="changes_141.dita"   navtitle="Changes for OpenTM2 v1.4.1"></topicref>
       <topicref href="changes_140.dita"   navtitle="New APIs in OpenTM2 v1.4.0"></topicref>
@@ -141,6 +142,7 @@
         <topicref href="api_EqfEndSession.dita" navtitle="EqfEndSession"> </topicref>
         <topicref href="api_EqfExportDict.dita" navtitle="EqfExportDict"> </topicref>
         <topicref href="api_EqfExportDoc.dita" navtitle="EqfExportDoc"> </topicref>
+<!-- NEW --><topicref href="api_EqfExportDocVal.dita" navtitle="EqfExportDocVal"> </topicref>
         <topicref href="api_EqfExportFolder.dita" navtitle="EqfExportFolder"> </topicref>
         <topicref href="api_EqfExportFolderFP.dita" navtitle="EqfExportFolderFP"> </topicref>
         <topicref href="api_EqfExportFolderFPas.dita" navtitle="EqfExportFolderFPas"> </topicref>
@@ -170,6 +172,7 @@
         <topicref href="api_EqfImportFolder.dita" navtitle="EqfImportFolder"> </topicref>
         <topicref href="api_EqfImportFolderFP.dita" navtitle="EqfImportFolderFP"> </topicref>
         <topicref href="api_EqfImportFolderAs.dita" navtitle="EqfImportFolderAs"> </topicref>
+<!-- NEW --><topicref href="api_EqfImportFolderAs2.dita" navtitle="EqfImportFolderAs2"> </topicref>
         <topicref href="api_EqfImportMem.dita" navtitle="EqfImportMem"> </topicref>
         <topicref href="api_EqfImportMemEx.dita" navtitle="EqfImportMemEx"> </topicref>
 <!-- NEW --><topicref href="api_EqfImportMemInInternalFormat.dita" navtitle="EqfImportMemInInternalFormat"> </topicref>

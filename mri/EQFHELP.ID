@@ -596,6 +596,7 @@
 #define HID_ANAPROF_RESPECTCRLF_CHK         6082  // respect CRLF checkbox
 #define HID_ANAPROF_AUTOJOIN_CHK            6083  // use joined segments when found checkbox 
 #define HID_ANAPROF_PROTECT_PB              6086
+#define HID_ANAPROF_NOBLANK_CHK             6087  // "No blank at segment end even if source segment has one" checkbox
 
 
 /*+----------------------------------------------------------------------------+

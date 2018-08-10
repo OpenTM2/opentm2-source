@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
+<topic xml:lang="en-us" id="changes_151_DOCEXPVAL">
+  <title>New function DOCEXPVAL in the Otmbatch tool</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <body>
+    <p>New function of the <b>OTMBATCH</b> commandline tool:
+      <ol>
+        <li>The <b>DOCEXPVAL</b> function has been added.
+        Use this function to export one or more documents in the Validation Format using the OtmBatch tool.
+        For more information, go to <xref href="otmbatch_DocumentExportVal.dita#otmbatch_DocumentExportVal"/>.
+        </li>
+      </ol>
+    </p>
+  </body>
+</topic>

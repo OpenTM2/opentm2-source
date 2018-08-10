@@ -802,6 +802,144 @@ USHORT EqfExportDoc
   return( usRC );
 } /* end of function EqfExportDoc */
 
+// export a document for proof
+USHORT EqfExportDocVal
+(
+  HSESSION    hSession,     
+  PSZ         pszFolderName,   
+  PSZ         pszFiles,     
+  PSZ         pszStartPath,
+  LONG        lType,
+  LONG        lFormat,                          
+  LONG        lOptions,
+  LONG        lMatchTypes,
+  PSZ         pszTranslator,
+  PSZ         pszPM
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData && (pData->fComplete || (pData->sLastFunction != FCT_EQFEXPORTDOCVAL)) )
+  {
+    LOGWRITE1( "==EQFExportDocVal==\n" );
+    LOGPARMSTRING("Folder", pszFolderName );
+    LOGPARMSTRING("Documents", pszFiles );
+    LOGPARMSTRING("StartPath", pszStartPath );
+    LOGPARMOPTION("Format", lFormat );
+    LOGPARMOPTION("Options", lOptions );
+    LOGPARMOPTION("MatchTypes", lMatchTypes );
+    LOGPARMOPTION("Types", lType );
+  } 
+
+  // pszFolderName checking
+  if ( (usRC == NO_ERROR ) && (pszFolderName == NULL) ) 
+  {
+    PSZ pszParm = "Folder Name";
+	usRC = DDE_MANDPARAMISSING;
+    UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    
+  } 
+  
+  // pszFiles checking
+  if ( (usRC == NO_ERROR ) && (pszFiles == NULL) ) 
+  {
+    PSZ pszParm = "Files List";
+	usRC = DDE_MANDPARAMISSING;
+    UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    
+  } 
+  
+  // exported type, only one permited
+  if((lType&VAL_VALIDATION_OPT)!=0 &&  (lType&VAL_PROOFREAD_OPT)!=0 )
+  {
+     PSZ pszParm = "Type";
+     usRC = ERROR_ONLY_SINGLE_OPT;
+	 UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+  }
+  
+  // format type, only one permited.
+  if(lFormat != 0L)
+  {
+    int iFormats = 0;
+    if ( lFormat & VALFORMAT_XML_OPT ) iFormats++; 
+    if ( lFormat & VALFORMAT_HTML_OPT ) iFormats++; 
+    if ( lFormat & VALFORMAT_DOC_OPT ) iFormats++; 
+    if ( lFormat & VALFORMAT_DOCX_OPT ) iFormats++; 
+    if ( lFormat & VALFORMAT_ODT_OPT ) iFormats++; 
+    if ( iFormats!=1 )
+    {
+      PSZ pszParm = "Format";
+      usRC = ERROR_ONLY_SINGLE_OPT;
+	  UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+    } 
+  }
+  
+  // start path if set, it must be valid
+  if( usRC==NO_ERROR && pszStartPath!=NULL && pszStartPath[0]!=EOS && _access(pszStartPath,6)==-1 )
+  {
+    usRC = ERROR_PATH_NOT_FOUND_MSG;//ERROR_PATH_NOT_EXIST;
+	UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszStartPath, EQF_ERROR, HWND_FUNCIF );
+  }
+
+  // options check
+  if(usRC == NO_ERROR)
+  {
+    // export format type, only one permited
+    // format type default is html
+    if(lFormat == 0L)
+    {
+        lFormat |= VALFORMAT_HTML_OPT;
+    }
+    
+    // export validation is default
+    if(lType == 0L)
+    {
+      lType |= VAL_VALIDATION_OPT;
+    }
+   
+    // set default including types
+    if( (lType&VAL_VALIDATION_OPT)!=0 )
+    {
+      lMatchTypes = (VAL_AUTOSUBST_OPT|VAL_EXACT_OPT|VAL_MOD_EXACT_OPT|VAL_GLOBAL_MEM_OPT|VAL_MACHINE_OPT|VAL_FUZZY_OPT|VAL_NEW_OPT|VAL_NOT_TRANS_OPT|VAL_REPLACE_OPT);
+      
+      //remove VAL_INCLUDE_COUNT_OPT,VAL_INCLUDE_MATCH_OPT,VAL_MISMATCHES_ONLY_OPT,VAL_TRANSTEXT_ONLY_OPT
+      lOptions &= ~VAL_INCLUDE_COUNT_OPT;
+      lOptions &= ~VAL_INCLUDE_MATCH_OPT;
+      lOptions &= ~VAL_MISMATCHES_ONLY_OPT;
+      lOptions &= ~VAL_TRANSTEXT_ONLY_OPT;
+    }
+    
+    // set VAL_REMOVE_INLINE_OPT default
+    if(lOptions == 0L)
+      lOptions |= VAL_REMOVE_INLINE_OPT;
+    
+    // proof reading
+    if( (lType&VAL_PROOFREAD_OPT)!=0 && (lOptions&VAL_MISMATCHES_ONLY_OPT)!=0 )
+    {
+      lOptions |= VAL_INCLUDE_MATCH_OPT;
+      lMatchTypes =  (VAL_EXACT_OPT|VAL_MOD_EXACT_OPT|VAL_GLOBAL_MEM_OPT|VAL_MACHINE_OPT|VAL_FUZZY_OPT|VAL_NEW_OPT|VAL_NOT_TRANS_OPT|VAL_REPLACE_OPT);
+    }
+
+  }//end if 
+
+  // call document export process
+  if ( usRC == NO_ERROR )
+  {
+    pData->sLastFunction = FCT_EQFEXPORTDOCVAL;
+    usRC = DocFuncExportDocVal( pData, pszFolderName, pszFiles, pszStartPath,
+                                lFormat,lOptions,lMatchTypes,lType,pszTranslator,pszPM);
+  }
+
+  if ( pData && pData->fComplete ) LOGWRITE2( "  RC=%u\n", usRC );
+
+  return  usRC;
+}
+
+
 // import a Translation Memory
 USHORT EqfImportMem
 (
@@ -1323,7 +1461,7 @@ USHORT EqfImportFolder
      return (usRC);
   }
 
-  usRC = InternalImportFolder(hSession, pszFolderName, chTempPath, chToDrive, NULL, lOptions);
+  usRC = InternalImportFolder(hSession, pszFolderName, chTempPath, chToDrive, NULL, NULL, lOptions);
 
   if ( !usRC )
   {
@@ -1370,7 +1508,7 @@ USHORT EqfImportFolderFP
   } /* endif */
 
 
-  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, NULL, lOptions);
+  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, NULL, NULL, lOptions);
 
   if ( !usRC )
   {
@@ -1419,7 +1557,60 @@ USHORT EqfImportFolderAs
   } /* endif */
 
 
-  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, lOptions);
+  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, NULL, lOptions);
+
+  if ( !usRC )
+  {
+      ULONG ulSetOpt = EQF_REFR_FOLLIST;
+      if (lOptions & WITHMEM_OPT)
+      {
+          ulSetOpt |= EQF_REFR_MEMLIST;
+      }
+      if (lOptions & WITHDICT_OPT)
+      {
+          ulSetOpt |= EQF_REFR_DICLIST;
+      }
+      SetSharingFlag( ulSetOpt );
+  }
+
+
+  if ( pData && pData->fComplete ) LOGWRITE2( "  RC=%u\n", usRC );
+
+  return( usRC );
+} /* end of function EqfImportFolderAs */
+
+USHORT EqfImportFolderAs2
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of folder being imported
+  PSZ         pszFromPath,             // mand: path containing the imported folder
+  CHAR        chToDrive,               // opt: target drive for folder
+  PSZ         pszNewFolderName,        // opt: new name for the folder after the import
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
+  LONG        lOptions                 // opt: folder import options
+                                       // @Import Mode: XLIFF_OPT
+									   // @Other: {WITHDICT_OPT, WITHMEM_OPT}
+)
+{
+  USHORT usRC = NO_ERROR;
+  PFCTDATA    pData = NULL;            // ptr to function data area
+
+  // validate session handle
+  usRC = FctValidateSession( hSession, &pData );
+
+  if ( pData && (pData->fComplete || (pData->sLastFunction != FCT_EQFIMPORTFOLDER)) )
+  {
+    LOGWRITE1( "==EQFImportFolderAs2==\n" );
+    LOGPARMSTRING( "Folder", pszFolderName );
+    LOGPARMSTRING( "FromPath", pszFromPath );
+    LOGPARMCHAR( "ToDrive", chToDrive );
+    LOGPARMSTRING( "NewName", pszNewFolderName );
+    LOGPARMSTRING( "NewMemNames", pszNewMemNames );
+    LOGPARMOPTION( "Options", lOptions );
+  } /* endif */
+
+
+  usRC = InternalImportFolder(hSession, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, pszNewMemNames, lOptions);
 
   if ( !usRC )
   {
@@ -1449,6 +1640,7 @@ USHORT InternalImportFolder
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
   PSZ         pszNewFolderName,        // new name for the folder
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // folder import options
 )
 {
@@ -1471,7 +1663,7 @@ USHORT InternalImportFolder
   if ( usRC == NO_ERROR )
   {
     pData->sLastFunction = FCT_EQFIMPORTFOLDER;
-    usRC = FolFuncImportFolder( pData, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, lOptions );
+    usRC = FolFuncImportFolder( pData, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, pszNewMemNames, lOptions );
   } /* endif */
 
   if ( (usRC == NO_ERROR) && !pData->fComplete )
@@ -2041,6 +2233,7 @@ USHORT EqfEndSession
       case FCT_EQFEXPORTDICT :
       case FCT_EQFIMPORTDOC :
       case FCT_EQFEXPORTDOC :
+      case FCT_EQFEXPORTDOCVAL :
       case FCT_EQFIMPORTMEM :
       case FCT_EQFEXPORTMEM :
       case FCT_EQFANALYZEDOC :
@@ -2397,14 +2590,26 @@ USHORT EqfCreateCountReport
         break;
     } /*endswitch */
 
-    switch ( usType )
+    if ( usReport == HISTORY_REP )
     {
-      case BASE_REPTYPE                   : RepType.lRepType = BASE_TYP;                      break;
-      case BASE_SUMMARY_REPTYPE           : RepType.lRepType = BASE_TYP | SUM_TYP;            break;
-      case BASE_SUMMARY_FACTSHEET_REPTYPE : RepType.lRepType = BASE_TYP | SUM_TYP | FACT_TYP; break;
-      case SUMMARY_FACTSHEET_REPTYPE      : RepType.lRepType = SUM_TYP | FACT_TYP;            break;
-      case FACTSHEET_REPTYPE              : RepType.lRepType = FACT_TYP;                      break;
-    } /*endswitch */
+      switch ( usType )
+      {
+        case BRIEF_SORTBYDATE_REPTYPE       : RepType.lRepType = BASE_TYP;                      break;
+        case BRIEF_SORTBYDOC_REPTYPE        : RepType.lRepType = BASE_TYP | SUM_TYP;            break;
+        case DETAIL_REPTYPE                 : RepType.lRepType = BASE_TYP | SUM_TYP | FACT_TYP; break;
+      } /*endswitch */
+    }
+    else
+    {
+      switch ( usType )
+      {
+        case BASE_REPTYPE                   : RepType.lRepType = BASE_TYP;                      break;
+        case BASE_SUMMARY_REPTYPE           : RepType.lRepType = BASE_TYP | SUM_TYP;            break;
+        case BASE_SUMMARY_FACTSHEET_REPTYPE : RepType.lRepType = BASE_TYP | SUM_TYP | FACT_TYP; break;
+        case SUMMARY_FACTSHEET_REPTYPE      : RepType.lRepType = SUM_TYP | FACT_TYP;            break;
+        case FACTSHEET_REPTYPE              : RepType.lRepType = FACT_TYP;                      break;
+      } /*endswitch */
+    } /* endif */
 
     memset( &RepSettings, 0, sizeof(RepSettings) );
     RepSettings.pszCountType = "Source Words";
@@ -2484,6 +2689,9 @@ USHORT EqfCreateCountReportEx
       case BASE_SUMMARY_FACTSHEET_REPTYPE : RepType.lRepType = BASE_TYP | SUM_TYP | FACT_TYP; break;
       case SUMMARY_FACTSHEET_REPTYPE      : RepType.lRepType = SUM_TYP | FACT_TYP;            break;
       case FACTSHEET_REPTYPE              : RepType.lRepType = FACT_TYP;                      break;
+      case BRIEF_SORTBYDATE_REPTYPE       : RepType.lRepType = BRIEF_SORTBYDATE_TYP;          break;
+      case BRIEF_SORTBYDOC_REPTYPE        : RepType.lRepType = BRIEF_SORTBYDOC_TYP;           break;
+      case DETAIL_REPTYPE                 : RepType.lRepType = DETAIL_TYP;                    break;
     } /*endswitch */
 
     memset( &RepSettings, 0, sizeof(RepSettings) );

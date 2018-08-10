@@ -301,6 +301,7 @@ static NEUTRALTAG      NEUTRAL_TAGS[ NUM_NEUTRAL_TAGS ] =  {
 
 #define    MSG_MSOFC_EMPTY_SOURCE              "Source file does not contain any information (0 bytes in size).\n\nAnalysis is terminated." 
 #define    MSG_MSOFC_PARSING_ERROR             "File could not be parsed.\n\nProcessing is terminated."
+#define    MSG_MSOFC_TEXT_BETWEEN_TAGS         "Target paragraph %ld cannot have text between </~+:%ld> and <~+:%ld>.\n\nProcessing is terminated."
 
 
 /*****************************************************************************/
@@ -895,6 +896,8 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
     BOOL      bPPTMasterFile = FALSE ;
     BOOL      bFoundText = FALSE ;
     BOOL      bTemp ;
+    CHAR      szErrMsg[1000];
+
 
 
     szPrevXMLInputText[0] = NULL ;
@@ -1031,6 +1034,24 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
              ptrRunTail->EndPos = ptrRunTail->BlockEndPos ;
              usCommonPropertyInsert = 0 ;
           } 
+
+          if ( ( ! bReadSource ) &&
+               ( ptrParaTail   ) &&
+               ( ptrRunTail    ) &&
+               ( ptrParaTail->CommonProperty == 0 ) &&
+               ( ptrRunTail->ptrPrev ) ) {
+             ptrRunTemp = (R_INFO*)ptrRunTail->ptrPrev ;
+             if ( ( ptrRunTemp->SeqNum + 1 == ptrRunTail->SeqNum ) &&
+                  ( ptrRunTemp->EndPos ) &&
+                  ( ptrRunTemp->EndPos+1*sizeof(WCHAR) < ptrRunTail->StartPos ) &&
+                  ( ptrRunTail->EndPos == 0 ) ) {
+                     sprintf( szErrMsg, MSG_MSOFC_TEXT_BETWEEN_TAGS, ptrParaTail->SeqNum, ptrRunTemp->SeqNum, ptrRunTail->SeqNum ) ;
+                     MessageBoxA(HWND_DESKTOP, szErrMsg, TITLE_MSOFC_PARSING_ERROR, MB_OK | MB_DEFBUTTON1 | MB_ICONWARNING | MB_SYSTEMMODAL);
+                     usReturn = 1 ;
+                     break ;
+             }
+          } 
+
 
           if ( hSlider ) 
              EQFSETSLIDER(hSlider, ulTagEndPos/ulFileSize) ;
@@ -1296,6 +1317,7 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
              /*          <sheet name="Sales By Region" sheetId="2" r:id="rId2"/>   */
              /**********************************************************************/
              if ( ( ! wcscmp( szTag, L"sheet"                ) ) ||
+                  ( ! wcscmp( szBaseTag, L"cNvPr"            ) ) ||
                   ( ! wcscmp( szTag, L"controlPr"            ) ) ||
                   ( ! wcscmp( szTag, L"dataValidation"       ) ) ||
                   ( ! wcscmp( szTag, L"hyperlink"            ) ) ||
@@ -1306,9 +1328,12 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
                   ( ! wcscmp( szTag, L"webPublishItem"       ) ) ) {
                 /*       <pivotTableDefinition rowHeaderCaption="" colHeaderCaption="">*/
                 for (j=1 ; ; ++j ) {
-                   if ( fnGetNextAttributeValue( szTagText, j, szValue, szValue2, &ptrChar ) ) {
+                   if ( fnGetNextAttributeValue( szTagText, j, szValue, szValue2, &ptrChar, MAX_XML_RCD_LENGTH  ) ) {
                       if ( ( ( ! wcscmp( szTag, L"sheet"                ) ) &&     /* <sheet> */
                              ( ! wcscmp( szValue, L"name"               ) ) ) ||
+                           ( ( ! wcscmp( szBaseTag, L"cNvPr"            ) ) &&     /* <cNvPr> 1-26-17 */
+                             ( ( ! wcscmp( szValue, L"descr"            ) ) ||
+                               ( ! wcscmp( szValue, L"title"            ) ) ) ) ||
                            ( ( ( ! wcscmp( szTag, L"controlPr"          ) ) ||     /* <controlPr> */
                                ( ! wcscmp( szTag, L"objectPr"           ) ) ) &&   /* <objectPr> */
                              ( ! wcscmp( szValue, L"altText"            ) ) ) ||
@@ -1332,6 +1357,12 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
                            ( ( ! wcscmp( szTag, L"webPublishItem"       ) ) &&     /* <webPublishItem> */
                              ( ! wcscmp( szValue, L"title"              ) ) ) ) {
 
+                     if ( ! wcscmp( szBaseTag, L"cNvPr" ) ) {
+                            for( ptrChar2=szValue2 ; *ptrChar2 && !iswspace(*ptrChar2) ; ++ptrChar2 ) ;
+                            if ( ( ! *ptrChar2 ) ||
+                                 ( wcsstr( szValue2, L".png" ) ) )       /* 2-28-17 */
+                               continue;
+                         }
                          ulRefStartPos = ulTagStartPos + (ptrChar-szTagText)*sizeof(WCHAR) ;
                          ulRefEndPos = ulRefStartPos + (wcslen(szValue2)-1)*sizeof(WCHAR) ;
                          fnAllocateRefNode( &ptrParaHead, &ptrParaTail, szTag,
@@ -1678,6 +1709,10 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
                             usRunMaxID = 0 ;
                             break ;
                          }
+                         if ( ! wcscmp( ptrRunTemp->Tag, L"m:oMath" ) ) {  /* Do not simpify MATH runs */
+                            usRunMaxID = 0 ;
+                            break ;
+                         }
                          usRunCount = 0 ;
                          ptrRunCur = 0 ;
                          ++j ;
@@ -1902,6 +1937,8 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
                    else
                       ulTagType = TAG_TYPE_BEGIN ;    /* Begin tag of pair   */
                 ulTagId = TAG_ID_UNKNOWN ;
+                if ( ! wcscmp( szBaseTag, L"proofErr" ) )         
+                   ulTagAction = TAG_ACTION_SKIP ; 
              }
 
              /* ----  Allocate a run node.  -------------------------------- */
@@ -1914,9 +1951,11 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
              if ( ( ulTagId == TAG_ID_UNKNOWN ) &&  /*Combine similar tags   */
                   ( ulTagType == TAG_TYPE_EMPTY ) &&
                   ( ptrRunHead ) &&
-                  ( ptrRunTail->TagId == ulTagId ) &&
-                  ( ptrRunTail->TagType == ulTagType ) &&
-                  ( ! wcscmp( ptrRunTail->Tag, szTag ) ) ) {
+                  ( ( ! wcscmp( szBaseTag, L"proofErr" ) ) ||     /* 10-5-17 */
+                    ( ( ptrRunTail->TagId == ulTagId ) &&
+                      ( ptrRunTail->TagId == ulTagId ) &&
+                      ( ptrRunTail->TagType == ulTagType ) &&
+                      ( ! wcscmp( ptrRunTail->Tag, szTag ) ) ) ) ) {
                 ptrRunTail->EndPos  = ulTagEndPos ;
                 bNewNode = FALSE ;
                 --ulRunSeqNum ; 
@@ -2250,6 +2289,20 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
                       ptrTextTail = 0 ;
                       ptrTextLastKeep = 0 ;
                    } else
+                   /* ----  Run fldChar containing <w:numberingChange>  ------10-18-17------ */
+                   if ( ( ptrRunTail->NumTextTags == 0   ) &&  /* Only several neutral tag in run block*/
+                        ( ptrRunTail->NumNeutralTags > 1 ) &&  /*  and 0 text tags in block            */
+                        ( ptrRunTail->TagId == TAG_ID_FLDCHAR_BEGIN ) && 
+                        ( ptrTextHead ) &&
+                        ( ! wcscmp(ptrTextHead->Tag, L"w:numberingChange") ) ) {
+                      ptrRunTail->NumNeutralTags = 1 ;
+                      ptrRunTail->ptrTextList = 0 ;
+
+                      fnFreeTextList( &ptrTextHead ) ;
+                      ptrTextHead = 0 ;
+                      ptrTextTail = 0 ;
+                      ptrTextLastKeep = 0 ;
+                   } else
 
                    /* ----  Run consists of 2 or more text/neutral nodes.  ---- */
                    if ( ptrRunTail->NumTextTags + ptrRunTail->NumNeutralTags > 1 ) {
@@ -2266,23 +2319,38 @@ USHORT fnCreateInputList( P_INFO** ptrList, SSNT_INFO** ptrSSNT, ULONG ulFileSiz
 
           continue;;
        }  
-       if ( ( ! wcscmp( szBaseTag, L"/r" ) ) &&            
-            ( usFieldState == FIELD_STATE_BEGIN ) ) {
-          if ( ( bReadSource ) &&
-               ( ptrRunTail  ) &&
-               ( ptrTextHead ) ) {
-             if ( ( ptrRunTail->NumTextTags == 0    ) &&  /* Only 1 neutral tag in run block*/
-                  ( ptrRunTail->NumNeutralTags == 1 ) ) { /*  and 0 text tags in block      */
-                if ( ptrRunTail->EndPos == 0 ) {
-                   if ( ptrTextHead ) 
-                      ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
-                   ptrRunTail->EndPos = ulTagEndPos ;
-                   ptrRunTail->ptrTextList = 0 ;
-                   fnFreeTextList( &ptrTextHead ) ;
-                   ptrTextHead = 0 ;
-                   ptrTextTail = 0 ;
-                   ptrTextLastKeep = 0 ;
+       if ( ! wcscmp( szBaseTag, L"/r" ) ) {              
+             if ( usFieldState == FIELD_STATE_BEGIN ) {
+             if ( ( bReadSource ) &&
+                  ( ptrRunTail  ) &&
+                  ( ptrTextHead ) ) {
+                if ( ( ptrRunTail->NumTextTags == 0    ) &&  /* Only 1 neutral tag in run block*/
+                     ( ptrRunTail->NumNeutralTags == 1 ) ) { /*  and 0 text tags in block      */
+                   if ( ptrRunTail->EndPos == 0 ) {
+                      if ( ptrTextHead ) 
+                         ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
+                      ptrRunTail->EndPos = ulTagEndPos ;
+                      ptrRunTail->ptrTextList = 0 ;
+                      fnFreeTextList( &ptrTextHead ) ;
+                      ptrTextHead = 0 ;
+                      ptrTextTail = 0 ;
+                      ptrTextLastKeep = 0 ;
                 }
+                } else
+                if ( ( ptrRunTail->NumTextTags == 0   ) &&  /* Only neutral tags in run block */
+                     ( ptrRunTail->NumNeutralTags > 1 ) ) { /*  and 0 text tags in block      */
+                   if ( ptrRunTail->EndPos == 0 ) {
+                      if ( ptrTextHead ) 
+                         ptrRunTail->SeqNum = ptrTextHead->SeqNum ;
+                      ptrRunTail->EndPos = ulTagEndPos ;
+                      ptrRunTail->ptrTextList = 0 ;
+                      fnFreeTextList( &ptrTextHead ) ;
+                      ptrTextHead = 0 ;
+                      ptrTextTail = 0 ;
+                      ptrTextLastKeep = 0 ;
+                   }
+                }
+				
              }
           }
        }
@@ -3124,16 +3192,16 @@ BOOL fnGetAttributeValue( WCHAR  *szTagText, WCHAR  *szAttr, WCHAR  *szAttrValue
 /*                                                                          */
 /* Input:      szTagText    - The entire tag to process.                     */
 /*             usAttrNum    - Attribute number to retrieve.                  */
+/*             ulSize       - Size of output attribute strings.              */
 /* Output:     szAttr       - The attribute keyword to find.                 */
 /*             szAttrValue  - The attribute's value to return.               */
 /*             ptrAttrStart - Pointer to start of attribute value.           */
 /*             ptrAttrEnd   - Pointer to end of attribute value.             */
 /*                                                                          */
 /****************************************************************************/
-
 BOOL fnGetNextAttributeValue( WCHAR  *szTagText, USHORT usAttrNum, 
                               WCHAR  *szAttr, WCHAR  *szAttrValue,
-                              WCHAR  **ptrValueStart )
+                              WCHAR  **ptrValueStart, ULONG ulSize )
 {
    WCHAR     szTempAttr[256] ;  
    WCHAR     AttrQuote ;
@@ -3164,11 +3232,14 @@ BOOL fnGetNextAttributeValue( WCHAR  *szTagText, USHORT usAttrNum,
             *ptrValueStart = ptr2 ;
             for( ; *ptr2 && (*ptr2!=AttrQuote) ; ++ptr2 ) ;
          }
-         if ( ptr2 ) {
+         if ( ptr2 && *ptr2 ) {
             if ( i == usAttrNum ) {
-               wcscpy( szAttr, szTempAttr ) ;
-               wcscpy( szAttrValue, (ptr+1) ) ;
-               szAttrValue[ ptr2-ptr-1 ] = NULL ;
+               wcsncpy( szAttr, szTempAttr, ulSize ) ;
+               szAttr[ulSize-1] = NULL ;
+               wcsncpy( szAttrValue, (ptr+1), ulSize ) ;
+               szAttrValue[ulSize-1] = NULL ;
+               if ( ptr2 - ptr < ulSize ) 
+                  szAttrValue[ ptr2-ptr-1 ] = NULL ;
                bReturn = TRUE ;
             } else {
                ptr = ptr2 + 1 ;
@@ -3178,6 +3249,7 @@ BOOL fnGetNextAttributeValue( WCHAR  *szTagText, USHORT usAttrNum,
    }
    return( bReturn ) ;
 }
+
 
 
 /****************************************************************************/
@@ -3197,7 +3269,7 @@ BOOL fnGetCompleteString( WCHAR  *szText, WCHAR  *szEndChars, WCHAR  *szValue,
                           LONG   lValueSize ) 
 {
    WCHAR           szTemp[MAX_XML_RCD_LENGTH] ;
-   WCHAR           *ptrChar ;
+   WCHAR           *ptrChar, *ptrChar2 ;
    long            save_pos ;
    long            lSize ;
    short           i ;
@@ -3236,11 +3308,22 @@ BOOL fnGetCompleteString( WCHAR  *szText, WCHAR  *szEndChars, WCHAR  *szValue,
             save_pos = (*InputFile).ftellt() ;
          else
             save_pos = (*InputFile2).ftellt() ;
-         if ( ( ( bReadSource ) &&
-                ( (*InputFile).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) ) ||
-              ( ( ! bReadSource ) &&
-                ( (*InputFile2).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) ) ) {
-            wcscat( szValue, szTemp ) ;
+         while( ( ( bReadSource ) &&              /* Read until find end char 2-6-17 */
+                  ( (*InputFile).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) ) ||
+                ( ( ! bReadSource ) &&
+                  ( (*InputFile2).get((WCHAR*)szTemp, lSize, bUTF16, TRUE) != NULL ) ) ) {
+            if ( wcslen(szValue) + wcslen(szTemp) < lValueSize ) {
+               wcscat( szValue, szTemp ) ;
+               for( ptrChar2=szTemp ; *ptrChar2 ; ++ptrChar2 ) {
+                  if ( wcschr( szEndChars, *ptrChar2 ) ) 
+                     break ;
+               }
+               if ( ( *ptrChar2 ) && 
+                    ( wcschr( szEndChars, *ptrChar2 ) ) ) 
+                  break ;
+            } else {
+               break ;
+            }
          }
          if ( bReadSource )                        /* Save file position   */
             (*InputFile).fseekt( save_pos, SEEK_SET ) ;  /* Reset for next read */
@@ -3262,7 +3345,6 @@ BOOL fnGetCompleteString( WCHAR  *szText, WCHAR  *szEndChars, WCHAR  *szValue,
 
    return( bFound ) ;
 }
-
 
 
 
@@ -3347,6 +3429,7 @@ USHORT fnWriteBlock( USHORT Type, ULONG StartPos, ULONG EndPos,
                      wofstream *OutFile, BOOL bPreserveBlanks )
 {
    WCHAR     szIn[MAX_XML_RCD_LENGTH2*2] ;
+   WCHAR     *ptr ;
    ULONG     ulBlockLen = 0 ;
    ULONG     ulWriteLen = 0 ;
    ULONG     ulFilePos = 0 ;
@@ -3386,11 +3469,24 @@ USHORT fnWriteBlock( USHORT Type, ULONG StartPos, ULONG EndPos,
            i = ulWriteLen ;
            szIn[i] = NULL ;
            if ( ( bPreserveBlanks ) &&             
-                ( i > 3 ) &&
-                ( ! wcsncmp( &szIn[i-5], L"<w:t>", 5 ) ) ) {
-              wcscpy( &szIn[i-1], L" xml:space=\"preserve\">" ) ;
+                ( i > 5 ) ) {
+              if ( ( ! wcsncmp( &szIn[i-5], L"<w:t>", 5 ) ) ||
+                   ( ! wcsncmp( &szIn[i-5], L"<m:t>", 5 ) ) ||  
+                   ( ! wcsncmp( &szIn[i-3], L"<t>",   3 ) ) ) {  
+                 wcscpy( &szIn[i-1], L" xml:space=\"preserve\">" ) ;
+              }
            }
         }
+		
+        /* If internal <Br> is left in target text, then it must be converted to   */
+        /* real <w:br/> tag so that exported file can be opened by Word   */
+        if ( Type == WRITE_TARGET ) {
+           for( ptr=wcsstr(szIn,L"<Br>") ; ptr ; ptr=wcsstr(ptr,L"<Br>") ) {
+              wmemmove( ptr+7, ptr+4, wcslen(ptr+4)+1 ) ; 
+              wcsncpy( ptr, L"<w:br/>", 7 ) ;
+           }
+        }
+		
          *OutFile << szIn ;   
          ulWriteLen -= i ; 
       } else {
@@ -3827,6 +3923,11 @@ BOOL fnSaveRunProperties( R_INFO* ptrCur, WCHAR *TagText  )
          if ( ptrChar2 ) {
             wmemmove( ptrChar2, ptrChar2+10, wcslen(ptrChar2+10)+1 ) ;
          }
+         ptrChar2 = wcsstr( ptrChar, L" err=\"1\"" ) ;  
+         if ( ptrChar2 ) {
+            wmemmove( ptrChar2, ptrChar2+8, wcslen(ptrChar2+8)+1 ) ;
+         }
+		 
       }
 
       /***********************************************************************/
@@ -3845,9 +3946,10 @@ BOOL fnSaveRunProperties( R_INFO* ptrCur, WCHAR *TagText  )
       /***********************************************************************/
       /*  Ignore differences in proof reading and grammer checking tags.     */
       /***********************************************************************/
-      if ( ( ! wcsncmp( szTemp, L"<w:noProof", 10 ) ) ||       
-           ( ! wcsncmp( szTemp, L"<w:lang ",    8 ) ) ) {
-         bAdd = FALSE ;
+      if ( ( ! wcsncmp( szTemp, L"<w:noProof",  10 ) ) ||          
+           ( ! wcsncmp( szTemp, L"<w:proofErr", 11 ) ) ||          
+           ( ! wcsncmp( szTemp, L"<w:lang ",     8 ) ) ) {
+        bAdd = FALSE ;
       }
 
       /***********************************************************************/

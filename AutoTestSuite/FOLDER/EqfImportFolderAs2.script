@@ -1,0 +1,156 @@
+****************************************************************************************************
+** Script name...: EqfImportFolderAs2.script                                                      **
+** Purpose.......: Script testing the API call EqfImportFolderAs2                                 **
+** Version.......: 1.0.0                                                                          **
+** Creation Date.: April 3, 2018                                                                  **
+** Update........: April 3, 2018                                                                  **
+** Copyright.....: Copyright (C) 1990-2018, International Business Machines Corporation           **
+**                 and others. All rights reserved                                                **
+** Developer.....: Gerhard Queck                                                                  **
+**                 IBM Translation Technical Services                                             **
+**                 vqueck@de.ibm.com                                                              **
+****************************************************************************************************
+
+INCLUDE ..\AutoTestSuite_Settings.script
+
+****************************************************************************************************
+* define the location for the test data and the target directories inside OpenTM2
+****************************************************************************************************
+define Data,%TestDataLocation%\FOLDER
+
+
+TESTCASE FOLIMPAS2001,import a folder w/o renaming the memories
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , , , WITHMEM_OPT
+  TESTRESULT 0, EqfImportFolderAs2 wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Test if correct memory names have been used by the import
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 0, Memory FolImpAs2FolderMemOldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem1OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem2OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem3OldName was not imported
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  TESTRESULT 133, found renamed memory FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem3NewName
+End
+
+TESTCASE FOLIMPAS2002,import a folder renaming the folder memory
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , ,FolImpAs2FolderMemNewName, WITHMEM_OPT
+  TESTRESULT 0, EqfImportFolderAs2 wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Test if correct memory names have been used by the import
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem1OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem2OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem3OldName was not imported
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  TESTRESULT 0, folder memory not renamed to FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem3NewName
+End
+
+TESTCASE FOLIMPAS2003,import a folder renaming the first search memory
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , ,(,FolImpAs2SearchMem1NewName), WITHMEM_OPT
+  TESTRESULT 0, EqfImportFolderAs2 wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Test if correct memory names have been used by the import
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem1OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem2OldName was not imported
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 0, Memory FolImpAs2SearchMem3OldName was not imported
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  TESTRESULT 133, found renamed folder memory FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  TESTRESULT 0, 1st search memory not renamed to FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  TESTRESULT 133, found renamed memory FolImpAs2SearchMem3NewName
+End
+
+TESTCASE FOLIMPAS2004,import a folder renaming all memory databases
+* Delete any remains from previous tests
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Import the folder
+  EqfImportFolderAs2 EQFFOLDERIMPORTAS2, %Data%, , ,(FolImpAs2FolderMemNewName,FolImpAs2SearchMem1NewName,FolImpAs2SearchMem2NewName,FolImpAs2SearchMem3NewName), WITHMEM_OPT
+  TESTRESULT 0, EqfImportFolderAs2 wrong return code
+  EqfDeleteFolder EQFFOLDERIMPORTAS2
+* Test if correct memory names have been used by the import
+  EqfDeleteMem FolImpAs2FolderMemOldName
+  TESTRESULT 133, found unrenamed folder memory FolImpAs2FolderMemOldName
+  EqfDeleteMem FolImpAs2SearchMem1OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem1OldName
+  EqfDeleteMem FolImpAs2SearchMem2OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem2OldName
+  EqfDeleteMem FolImpAs2SearchMem3OldName
+  TESTRESULT 133, found unrenamed memory FolImpAs2SearchMem3OldName
+  EqfDeleteMem FolImpAs2FolderMemNewName
+  TESTRESULT 0, folder memory not renamed to FolImpAs2FolderMemNewName
+  EqfDeleteMem FolImpAs2SearchMem1NewName
+  TESTRESULT 0, 1st search memory not renamed to FolImpAs2SearchMem1NewName
+  EqfDeleteMem FolImpAs2SearchMem2NewName
+  TESTRESULT 0, 2nd search memory not renamed to FolImpAs2SearchMem2NewName
+  EqfDeleteMem FolImpAs2SearchMem3NewName
+  TESTRESULT 0, 3rd search memory not renamed to FolImpAs2SearchMem3NewName
+End

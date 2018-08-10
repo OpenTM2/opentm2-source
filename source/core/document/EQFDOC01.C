@@ -67,6 +67,14 @@ BOOL    CheckPath( PSZ, PSZ );
 static MRESULT RevMarkControl( HWND, SHORT, SHORT );
 static MRESULT ExpPropSheetNotification ( HWND, WPARAM, LPARAM );
 
+// functions for DocFuncExportVal usage begin
+static USHORT DocFuncExportValTerminate(PFCTDATA);
+static USHORT DocFuncExportValOp(PFCTDATA,PSZ,BOOL );
+static USHORT DocFuncExpMakeSegTargetPath(PFCTDATA,PSZ);
+static USHORT DocFuncExportValPre(PFCTDATA,PSZ,PSZ,PSZ,LONG,LONG,LONG,LONG,PSZ_W,PSZ_W);
+// functions for DocFuncExportVal usage end
+
+
 extern HELPSUBTABLE hlpsubtblPropSettingsDlg[];
  
 USHORT DocFuncPrepImport
@@ -7876,6 +7884,661 @@ USHORT DocFuncExportDoc( USHORT usDummy );
 USHORT DocFuncExportDoc( USHORT usDummy )
 { return( 0 );}
   #endif
+
+// Functions for DocFuncExportVal BEGIN
+USHORT DocFuncExportValPre
+(
+  PFCTDATA    pData,              
+  PSZ         pszFolderName,   
+  PSZ         pszFiles,     
+  PSZ         pszStartPath,
+  LONG        lFormat,                          
+  LONG        lOptions,
+  LONG        lMatchTypes,
+  LONG        lType,
+  PSZ         pszTranslator,
+  PSZ         pszPM
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PDOCIMPEXP  pDocImpExp = NULL;       // document import /export struct
+  BOOL        fOK = TRUE;              // internal O.K. flag
+
+
+  // allocate document import/export IDA
+  fOK = UtlAllocHwnd( (PVOID *)&pDocImpExp, 0L, (LONG) sizeof(DOCIMPEXP),
+                      ERROR_STORAGE, HWND_FUNCIF );
+  if ( !fOK )
+  {
+    usRC = ERROR_STORAGE;
+  } 
+
+  // check folder name
+  if ( fOK )
+  {
+    pDocImpExp->lOptions = lFormat | lOptions | lOptions | lMatchTypes;
+
+    if ( (pszFolderName == NULL) || (*pszFolderName == EOS) )
+    {
+      fOK = FALSE;
+      usRC = TA_MANDFOLDER;
+      UtlErrorHwnd( usRC, MB_CANCEL, 0, NULL, EQF_ERROR, HWND_FUNCIF );
+    }
+    else 
+    {
+      // SubFolNameToObjectName expects the folder name to be in ASCII encoding...
+      strcpy( pDocImpExp->chFldName, pszFolderName );
+      ANSITOOEM( pDocImpExp->chFldName );
+
+      if ( !SubFolNameToObjectName( pDocImpExp->chFldName,  pDocImpExp->szBuffer ) )
+      {
+        PSZ pszParm = pszFolderName;
+        fOK = FALSE;
+        usRC = ERROR_XLATE_FOLDER_NOT_EXIST;
+        UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      }
+      else if ( QUERYSYMBOL( pDocImpExp->szBuffer  ) != -1 )
+      {
+        PSZ pszParm = pszFolderName;
+        fOK = FALSE;
+        usRC = ERROR_FOLDER_LOCKED;
+        UtlErrorHwnd( usRC, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      }
+      else
+      {
+        // get subfolder/folder ID
+        pDocImpExp->ulSubFolderID = FolGetSubFolderIdFromObjName( pDocImpExp->szBuffer );
+      } 
+    } 
+  }//end if 
+
+  // check specified export options
+  if ( fOK )
+  {
+    // validation format export may not be used together with the other export options
+    pDocImpExp->fValCombine  = (lOptions &  VAL_COMBINE_OPT) != 0;
+    pDocImpExp->fValProtSegs = (lOptions &  VAL_PROTECTED_OPT) != 0;
+    pDocImpExp->fValFormat = (lFormat &  (VALFORMAT_XML_OPT | VALFORMAT_HTML_OPT | VALFORMAT_DOC_OPT | VALFORMAT_DOCX_OPT | VALFORMAT_ODT_OPT)) != 0;
+    pDocImpExp->lValOutputFormat = (LONG)(lFormat &  (VALFORMAT_XML_OPT | VALFORMAT_HTML_OPT | VALFORMAT_DOC_OPT | VALFORMAT_DOCX_OPT | VALFORMAT_ODT_OPT));
+  } 
+
+
+  // fill IDA fields
+  if ( fOK )
+  {
+    pDocImpExp->hwndErrMsg = HWND_FUNCIF;
+    strncpy( pDocImpExp->chFldName, pszFolderName, sizeof(pDocImpExp->chFldName)-1 );
+
+    if ( pszStartPath != NULL )
+    {
+      strncpy( pDocImpExp->szStartPath, pszStartPath, sizeof(pDocImpExp->szStartPath)-1 );
+    } 
+
+    if ( *pszFiles == LISTINDICATOR )
+    {
+      // store the list file
+      strncpy( pDocImpExp->chListName, pszFiles,
+               sizeof(pDocImpExp->chListName)-1 );
+      fOK = UtlListOfFiles( NULL, pDocImpExp->chListName, &(pDocImpExp->ppFileArray) );
+      if ( fOK )
+      {
+        // get number of files given
+        pDocImpExp->usFileNums = 0;
+        while ( pDocImpExp->ppFileArray[pDocImpExp->usFileNums] )
+        {
+          pDocImpExp->usFileNums++;
+        } 
+      }
+      else
+      {
+        usRC = DDE_ERRFILELIST;
+        UtlErrorHwnd( usRC, MB_CANCEL, 1,
+                      &pszFiles, EQF_ERROR, HWND_FUNCIF );
+      } 
+    }
+    else
+    {
+      // work against list of files
+      {
+        ULONG ulLen;                     // length field
+
+        ulLen = strlen(pszFiles) + 1;
+        ulLen = max( ulLen, MIN_ALLOC );
+        fOK = UtlAllocHwnd( (PVOID *)&(pDocImpExp->pszFileNameBuffer), 0L,
+                            ulLen, ERROR_STORAGE, HWND_FUNCIF );
+        if ( fOK )
+        {
+          strcpy( pDocImpExp->pszFileNameBuffer, pszFiles );
+        }
+        else
+        {
+          usRC = ERROR_STORAGE;
+        } 
+      }
+
+      // get max number of documents within string (= number of delimiters + 1)
+      if ( fOK )
+      {
+        PSZ pszTemp = pDocImpExp->pszFileNameBuffer;
+        pDocImpExp->usFileNums = 1;
+        while ( *pszTemp )
+        {
+          if ( *pszTemp == NAME_DELIMITER )
+          {
+            pDocImpExp->usFileNums++;
+          } 
+          pszTemp++;
+        } 
+      } 
+
+      // allocate file name pointer array
+      if ( fOK )
+      {
+        ULONG ulLen;                     // length field
+
+        ulLen = (pDocImpExp->usFileNums + 1) * sizeof(PSZ);
+        ulLen = max( ulLen, MIN_ALLOC );
+        fOK = UtlAllocHwnd( (PVOID *)&(pDocImpExp->ppFileArray), 0L,
+                            ulLen, ERROR_STORAGE, HWND_FUNCIF );
+        if ( !fOK )
+        {
+          usRC = ERROR_STORAGE;
+        }
+      }
+
+      // fill file name pointers
+      if ( fOK )
+      {
+        PSZ pszCurrent = pDocImpExp->pszFileNameBuffer;
+        PSZ pszNext = NULL;
+        pDocImpExp->usFileNums = 0;
+        while ( UtlGetNextFileFromCommaList( &pszCurrent, &pszNext ) )
+        {
+          pDocImpExp->ppFileArray[pDocImpExp->usFileNums++] = pszCurrent;
+        }
+      } 
+    }//end else 
+  } //end if
+
+  if ( fOK )
+  {
+    pData->pvDocImpExpIda = pDocImpExp;
+    pData->fComplete = FALSE;
+    pDocImpExp->fOverwrite =  (lOptions & OVERWRITE_OPT)!=0;
+    {
+      int iRC = 0;
+      DOCEXPVALOPTIONS Options;
+
+      memset( &Options, 0, sizeof(Options) );
+      if ( pDocImpExp->lValOutputFormat & VALFORMAT_ODT_OPT )
+      {
+        Options.ValFormat = ODT_VALEXPFORMAT;
+      }
+      else if ( pDocImpExp->lValOutputFormat & VALFORMAT_XML_OPT )
+      {
+        Options.ValFormat = XML_VALEXPFORMAT;
+      }
+      else if ( pDocImpExp->lValOutputFormat & VALFORMAT_DOC_OPT )
+      {
+        Options.ValFormat = DOC_VALEXPFORMAT;
+      }
+      else if ( pDocImpExp->lValOutputFormat & VALFORMAT_DOCX_OPT )
+      {
+        Options.ValFormat = DOCX_VALEXPFORMAT;
+      }
+      else
+      {
+        Options.ValFormat = HTML_VALEXPFORMAT;
+      }
+      
+      //proof
+      Options.fExportInValidationFormat = (lType&VAL_VALIDATION_OPT)!=0;
+
+      Options.fInclCount    = (lOptions & VAL_INCLUDE_COUNT_OPT)!=0;
+      Options.fInclExisting = (lOptions & VAL_INCLUDE_MATCH_OPT)!=0;
+      Options.fMismatchOnly = (lOptions & VAL_MISMATCHES_ONLY_OPT)!=0;
+      
+      Options.fNewMatch   =  (lMatchTypes & VAL_NEW_OPT)!=0 ;
+      Options.fProtMatch  =  (lMatchTypes & VAL_PROTECTED_OPT)!=0;
+      Options.fAutoMatch  =  (lMatchTypes & VAL_AUTOSUBST_OPT)!=0;
+      Options.fNotTransl  =  (lMatchTypes & VAL_NOT_TRANS_OPT)!=0;
+      Options.fFuzzyMatch =  (lMatchTypes & VAL_FUZZY_OPT)!=0;
+      Options.fExactMatch =  (lMatchTypes & VAL_EXACT_OPT)!=0;
+      Options.fMachMatch  =  (lMatchTypes & VAL_MACHINE_OPT)!=0;
+      Options.fReplMatch  =  (lMatchTypes & VAL_REPLACE_OPT)!=0;
+      Options.fModifiedAuto  =  (lMatchTypes & VAL_MOD_AUTOSUBST_OPT)!=0;
+      Options.fModifiedExact =  (lMatchTypes & VAL_MOD_EXACT_OPT)!=0;
+      Options.fGlobMemMatch  =  (lMatchTypes & VAL_GLOBAL_MEM_OPT)!=0;
+
+      
+      Options.fNoInlineTagRemoval = (lOptions & VAL_REMOVE_INLINE_OPT)==0;
+      Options.fExactFromManual = (lOptions & VAL_MAN_EXACTMATCH_OPT)!=0;
+      Options.fTransOnly =  (lOptions & VAL_TRANSTEXT_ONLY_OPT)!=0;
+      Options.fLinksImages = (lOptions & VAL_PRESERVE_LINKS_OPT)!=0;
+      Options.fCombined =  (lOptions & VAL_COMBINE_OPT)!=0;
+      
+      //
+      if(pszTranslator != NULL)
+	  {
+           MultiByteToWideChar(CP_UTF8, 0, pszTranslator, -1, Options.szTranslator, sizeof(Options.szTranslator)/sizeof(Options.szTranslator[0])-1 );
+	  }
+
+      if(pszPM != NULL)
+	  { 
+          MultiByteToWideChar(CP_UTF8, 0, pszPM, -1, Options.szManager, sizeof(Options.szManager)/sizeof(Options.szManager[0])-1 );
+	  }
+
+      if ( pDocImpExp->szStartPath[0] == EOS )
+      {
+        // use current directory as startpath
+        _getcwd( pDocImpExp->szStartPath, sizeof(pDocImpExp->szStartPath) );
+      }
+
+      iRC = DocExpValInit( &Options, pDocImpExp->szStartPath, pDocImpExp->szBuffer, 
+                            &(pDocImpExp->lValExportHandle), pDocImpExp->fOverwrite, HWND_FUNCIF );
+    } 
+  }
+  else
+  {
+    pData->fComplete = TRUE;
+    if ( pDocImpExp )
+    {
+      if ( pDocImpExp->pszFileNameBuffer )
+      {
+        UtlAlloc( (PVOID *)&pDocImpExp->pszFileNameBuffer, 0L, 0L, NOMSG );
+      } 
+      if ( pDocImpExp->ppFileArray )
+      {
+        UtlAlloc( (PVOID *)&pDocImpExp->ppFileArray, 0L, 0L, NOMSG );
+      } 
+      UtlAlloc( (PVOID *)&pDocImpExp, 0L, 0L, NOMSG );
+    } 
+    pData->pvDocImpExpIda = NULL;
+  } 
+
+  return( usRC );
+} 
+
+
+USHORT DocFuncExpMakeSegTargetPath
+(
+  PFCTDATA    pData,
+  PSZ        *ppTgtPath         
+)
+{
+  PDOCIMPEXP   pDocExpIda;             // document export/import ida
+  BOOL         fOK = TRUE;             // error flag
+  USHORT       usRC = NO_ERROR;        // function return code
+  PSZ          pFolder = NULL;         // pointer to folder name
+  PDDERETURN   pDDEReturn;
+  CHAR         szFolderBuf[ MAX_EQF_PATH ];
+  CHAR         szBuf[ MAX_FULLPATH ];
+  HPROP        hpropFolder;            // return from folder props
+  PPROPFOLDER  pProp;                  // pointer to folder props
+  ULONG        ulErrorInfo;            // error indicator from PRHA
+
+  pDocExpIda = (PDOCIMPEXP)pData->pvDocImpExpIda;
+  pDDEReturn = &pDocExpIda->DDEReturn;
+  
+  // create folder name ...
+  {
+    BOOL fIsNew;
+    CHAR szShortName[MAX_FILESPEC];
+    PSZ pszDelimiter;
+
+    strcpy( pDocExpIda->szBuffer, pDocExpIda->chFldName );
+    pszDelimiter = strchr( pDocExpIda->szBuffer, BACKSLASH );
+    if ( pszDelimiter ) *pszDelimiter = EOS;
+
+    ANSITOOEM( pDocExpIda->szBuffer );
+    ObjLongToShortName( pDocExpIda->szBuffer, szShortName, FOLDER_OBJECT, &fIsNew );
+    UtlMakeEQFPath( szFolderBuf, NULC, SYSTEM_PATH, szShortName );
+  }
+
+  strcat( szFolderBuf, EXT_FOLDER_MAIN );
+
+  if ( (hpropFolder = OpenProperties( szFolderBuf, NULL,
+                                        PROP_ACCESS_READ, &ulErrorInfo)) == NULL)
+  {
+    fOK = FALSE;
+    // display error message if not already displayed
+    if ( ulErrorInfo != Err_NoStorage )
+    {
+      pFolder = pDocExpIda->chFldName;                 // set folder name
+      pDDEReturn->usRc = ERROR_XLATE_FOLDER_NOT_EXIST;
+      UtlErrorHwnd( pDDEReturn->usRc, MB_CANCEL, 1, &pFolder, EQF_ERROR, HWND_FUNCIF );
+      usRC = ERROR_XLATE_FOLDER_NOT_EXIST;
+    }
+  }
+  else
+  {
+    pProp = (PPROPFOLDER)MakePropPtrFromHnd( hpropFolder );
+    szFolderBuf[0] = pProp->chDrive;
+    CloseProperties( hpropFolder, PROP_QUIT, &ulErrorInfo );
+    pFolder = UtlGetFnameFromPath( szFolderBuf );
+  }
+
+  if(fOK)
+  {
+    PSZ  pTgtPath;
+    fOK = UtlAlloc( (PVOID *)&pTgtPath, 0L, MAX_FULLPATH, ERROR_STORAGE );
+    if(!fOK)
+    {
+      usRC = ERROR_STORAGE;
+      pDDEReturn->usRc = ERROR_STORAGE;
+      UtlErrorHwnd( pDDEReturn->usRc, MB_CANCEL, 1, &pFolder, EQF_ERROR, HWND_FUNCIF );
+    }
+    else
+    {
+      UtlMakeEQFPath( szBuf, szFolderBuf[0], DIRSEGTARGETDOC_PATH, pFolder );
+      strncpy(pTgtPath,szBuf,MAX_FULLPATH-1);
+      *ppTgtPath = pTgtPath;
+    }
+  }
+
+  return usRC;
+}
+
+USHORT DocFuncExportValProcFiles
+(
+PFCTDATA    pData,                   
+PSZ         pszTgtFolderPath,
+PSZ         pFileList,
+BOOL        fExpand,                 // 1 means expand from *, 0 means one file
+BOOL        fScan                    // 1 means pre scan, 0 means process 
+)
+{
+  PDOCIMPEXP   pDocExpIda;             // document export/import ida
+  BOOL         fOK = TRUE;             // error flag
+  USHORT       usRC = NO_ERROR;        // function return code
+  PSZ          pExpFile;               // pointer to export file name (full)
+  PSZ          pFile;                  // pointer to export file name
+  PDDERETURN   pDDEReturn;
+  CHAR         szFolderPath[ MAX_FULLPATH ];
+
+  pDocExpIda = (PDOCIMPEXP)pData->pvDocImpExpIda;
+  pDDEReturn = &pDocExpIda->DDEReturn;
+
+  pExpFile = pFileList;
+  while(fOK && *pExpFile)
+  {
+    pFile = pExpFile;
+    if( strncmp(pExpFile,pszTgtFolderPath,strlen(pszTgtFolderPath))==0 )
+    {
+      pFile = pExpFile + strlen(pszTgtFolderPath);
+      if ( *pFile == BACKSLASH ) pFile++;
+    }
+
+    {
+      OBJNAME szDocObjName;
+      int iRC = 0;
+      BOOL fIsNew = FALSE;
+
+      //FolderPath
+      strncpy(szFolderPath,pszTgtFolderPath,sizeof(szFolderPath)/sizeof(szFolderPath[0])-1);
+      PSZ pTemp = strrchr(szFolderPath,BACKSLASH);
+      if(pTemp != NULL)
+        *pTemp = EOS;
+      
+      strcpy( szDocObjName, szFolderPath );
+      strcat( szDocObjName, BACKSLASH_STR );
+      FolLongToShortDocName( szFolderPath , pFile, szDocObjName + strlen(szDocObjName), &fIsNew );
+      
+      if(!fScan)
+      {
+        iRC = DocExpValProcess( pDocExpIda->lValExportHandle, szDocObjName );
+		if(iRC == ERROR_FILE_NOT_FOUND)
+		{
+			iRC = ERROR_DOC_NOT_FOUND;
+			UtlErrorHwnd( iRC, MB_CANCEL, 1, &pFile, EQF_ERROR, HWND_FUNCIF );
+		}
+      }
+      else
+      {
+        iRC = DocExpValPreScan( pDocExpIda->lValExportHandle, szDocObjName );
+      }
+
+      if( iRC )
+      {
+        fOK = FALSE;
+        usRC = (USHORT)iRC;
+      }
+    }
+    
+    if(fExpand) 
+    { 
+      pExpFile += strlen(pExpFile) + 1;
+    }
+    else 
+    {
+      break;
+    }
+
+  }//end while
+
+  return( usRC );
+} 
+
+// list all files in pszFiles if it have '*' or '?'
+USHORT  DocFuncExportValOp
+(
+  PFCTDATA    pData,
+  PSZ         pszTgtPath,
+  BOOL        fScan
+)
+{
+  PDOCIMPEXP   pDocExpIda;             // document export/import ida
+  BOOL         fOK = TRUE;             // error flag
+  USHORT       usRC = NO_ERROR;        // function return code
+  PSZ          pExpFile;               // pointer to export file name (full)
+
+  PSZ          pFile;                  // pointer to export file name
+  PDDERETURN   pDDEReturn;
+
+  ULONG        ulFolderPathLen= 0;        // length of folder path in fully qualified document names
+  CHAR         szBuf[ MAX_FULLPATH ];
+  USHORT       usCur = 0;
+
+  pDocExpIda = (PDOCIMPEXP)pData->pvDocImpExpIda;
+  pDDEReturn = &pDocExpIda->DDEReturn;
+  
+  // begin to process files, loops here
+  while( fOK && usCur<pDocExpIda->usFileNums )
+  {
+    PSZ   pFileList = NULL;
+    pExpFile = *(pDocExpIda->ppFileArray + usCur);
+    strncpy(szBuf,pszTgtPath,sizeof(szBuf)/sizeof(szBuf[0])-1);
+
+    // when startpath is given the document names may not contain the fully qualified target path
+    if ( pDocExpIda->szStartPath[0] != EOS )
+    {
+      if ( strncmp( pDocExpIda->szStartPath, pExpFile, strlen(pDocExpIda->szStartPath) ) == 0 )
+      {
+        pFile = pExpFile + strlen(pDocExpIda->szStartPath);
+        if ( *pFile == BACKSLASH ) pFile++;
+      }
+      else
+      {
+        pFile = pExpFile;
+      } 
+    }
+    else
+    {
+      pFile = UtlGetFnameFromPath( pExpFile );
+      if ( pFile == NULL ) pFile = pExpFile;
+    }
+    
+    strcat( szBuf, BACKSLASH_STR );
+    ulFolderPathLen = strlen(szBuf);
+    strcat( szBuf, pFile );
+
+    // special handling for single/multiple substitution characters
+    if ( (strchr( szBuf, '*') != NULL) || (strchr( szBuf, '?') != NULL) )
+    {
+      strcpy( pDocExpIda->szBuffer, szBuf + ulFolderPathLen );
+      szBuf[ulFolderPathLen] = EOS;
+      strcat( szBuf, DEFAULT_PATTERN );
+      fOK = ResolveLongMultFileNames( szBuf, pDocExpIda->szBuffer, &pFileList, pDocExpIda->ulSubFolderID );
+    
+      if (!fOK)
+      {
+        PSZ apszErrParm[2];
+
+        apszErrParm[0] = pFileList;
+        apszErrParm[1] = pDocExpIda->chFldName;
+        pDDEReturn->usRc = DDE_DOC_NOT_IN_FOLDR;
+        UtlErrorHwnd( DDE_DOC_NOT_IN_FOLDR, MB_CANCEL, 2, apszErrParm,
+                      EQF_ERROR, HWND_FUNCIF );
+      }
+    }//endif
+
+    // process files
+    if(fOK)
+    {
+      if( pFileList != NULL )
+      {
+        usRC = DocFuncExportValProcFiles(pData,pszTgtPath,pFileList,TRUE,fScan);
+      }
+      else
+      {
+        usRC =  DocFuncExportValProcFiles(pData,pszTgtPath,pFile,FALSE,fScan);
+      }
+
+      if(usRC) fOK = FALSE;
+    }
+    
+    // release pointer memory
+    if( pFileList != NULL )
+    {
+      UtlAlloc( (PVOID *)&pFileList, 0L, 0L, NOMSG );
+      pFileList = NULL;
+    }
+
+    // next file
+    usCur++;
+
+  }//end while
+
+  // end
+  if(fOK && !fScan)
+  {
+    pDocExpIda->usActFile = pDocExpIda->usFileNums;
+    pData->fComplete = TRUE;
+  }
+  else if(!fOK)
+  {
+
+    usRC = UtlQueryUShort( QS_LASTERRORMSGID );
+    pData->fComplete = TRUE;
+  }
+
+  return( usRC );
+}
+
+USHORT DocFuncExportValTerminate
+(
+PFCTDATA    pData
+)
+{
+  PDOCIMPEXP   pDocExpIda;             // document export/import ida
+  USHORT       usRC = NO_ERROR;        // function return code
+
+  pDocExpIda = (PDOCIMPEXP)pData->pvDocImpExpIda;
+  
+  if(pDocExpIda!=NULL && pDocExpIda->lValExportHandle!=NULL)
+  {
+    int iRC = DocExpValTerminate( pDocExpIda->lValExportHandle );
+    if ( iRC ) usRC = (USHORT)iRC;
+  }
+  
+  // clean resources
+  if ( pData->fComplete )
+  {
+    if ( pDocExpIda )
+    {
+      if ( pDocExpIda->pszFileNameBuffer )
+      {
+        UtlAlloc( (PVOID *)&pDocExpIda->pszFileNameBuffer, 0L, 0L, NOMSG );
+      }
+      if ( pDocExpIda->ppFileArray )
+      {
+        UtlAlloc( (PVOID *)&pDocExpIda->ppFileArray, 0L, 0L, NOMSG );
+      }
+      UtlAlloc( (PVOID *)&pDocExpIda, 0L, 0L, NOMSG );
+    } 
+    pData->pvDocImpExpIda = NULL;
+  } 
+
+  return( usRC );
+}
+
+
+USHORT DocFuncExportDocVal
+(
+  PFCTDATA    pData,                   // function I/F session data
+  PSZ         pszFolderName,   
+  PSZ         pszFiles,     
+  PSZ         pszStartPath,
+  LONG        lFormat,                          
+  LONG        lOptions,
+  LONG        lMatchTypes,
+  LONG        lType,
+  PSZ         pszTranslator,
+  PSZ         pszPM
+)
+{
+  USHORT      usRC = NO_ERROR;         // function return code
+  PSZ         pTgtpath = NULL;
+
+  // initialize
+  usRC = DocFuncExportValPre( pData, pszFolderName, pszFiles, pszStartPath,lFormat,
+                                 lOptions,lMatchTypes,lType,pszTranslator,pszPM);
+  
+  // make target segment path
+  if(!usRC)
+  {
+    usRC = DocFuncExpMakeSegTargetPath(pData,&pTgtpath);
+  }
+
+  // pre scan
+  if( !usRC )
+  {
+    PDOCIMPEXP pDocExpIda = (PDOCIMPEXP)pData->pvDocImpExpIda;
+    BOOL fScan = ( pDocExpIda!=NULL && (pDocExpIda->lOptions&VAL_MAN_EXACTMATCH_OPT)!=0 );
+    if(fScan)
+      usRC = DocFuncExportValOp(pData,pTgtpath,TRUE);
+  }
+  
+  // export process
+  if(!usRC)
+  {
+    usRC = DocFuncExportValOp(pData,pTgtpath,FALSE);
+  }
+  
+  // terminate
+  if(pData != NULL)
+  {
+    if(usRC)
+    {
+      // keep previous error code not lost
+      DocFuncExportValTerminate(pData);
+    }
+    else
+    {
+      usRC = DocFuncExportValTerminate(pData);
+    }
+  }
+
+  // release resources
+  if(pTgtpath != NULL)
+  {
+    UtlAlloc( (PVOID *) &pTgtpath, 0L, 0L, NOMSG );
+  }
+  
+  return usRC;
+}
+
+// Functions for DocFuncExportVal End
 
 BOOL DocExpBrowse( HWND hwnd, PSZ pszBuffer, PSZ pszTitle )
 {

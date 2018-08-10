@@ -14,8 +14,8 @@
     <ul>
       <li> New APIs
         <ul>
-          <li>EqfConnectSharedMem   (See <xref href="api_EqfConnectSharedMem.dita#api_EqfConnectSharedMem"/>.</li>
-          <li>EqfDisconnectSharedMem   (See <xref href="api_EqfDisconnectSharedMem.dita#api_EqfDisconnectSharedMem"/>.</li>
+          <li>EqfConnectSharedMem   (See <xref href="api_EqfConnectSharedMem.dita#api_EqfConnectSharedMem"/>)</li>
+          <li>EqfDisconnectSharedMem   (See <xref href="api_EqfDisconnectSharedMem.dita#api_EqfDisconnectSharedMem"/>)</li>
         </ul>
       </li>
       <li> Updated APIs

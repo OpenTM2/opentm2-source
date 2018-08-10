@@ -130,6 +130,7 @@ USHORT FolFuncPrepImportFolder
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
   PSZ         pszNewFolderName,        // new name for the folder
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // folder import options
 );
 
@@ -2658,6 +2659,25 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
     } /* endif */
   } /* endif */
 
+  // prepare any memory rename request
+  if ( fOK && (pIda->szNewMemNames[0] != EOS) )
+  {
+    // load imported property file and fill memory rename table
+    PPROPFOLDER pNewProps = NULL;
+    USHORT usBytesRead = 0;
+
+    UtlMakeEQFPath( pIda->szSearchPath, NULC, PROPERTY_PATH, NULL );
+    strcat( pIda->szSearchPath, BACKSLASH_STR );
+    strcat( pIda->szSearchPath, pIda->szSourceFolder );
+    *pIda->szSearchPath = pIda->chToDrive;
+    UtlAddImportToPath( pIda, pIda->szSearchPath );
+    if ( UtlLoadFile( pIda->szSearchPath, (PVOID *)&pNewProps, &usBytesRead, TRUE, TRUE ) )
+    { 
+      fOK = (FolImpBuildMemRenameTable( pNewProps, &(pIda->MemRename), pIda->szNewMemNames ) == 0);
+      UtlAlloc( (PVOID *)&pNewProps, 0, 0, NOMSG );
+    } /* endif */
+  } /* endif */
+
   if ( fOK )
   {
     CHAR chOrgDrive = pIda->szTargetFolObj[0];
@@ -2840,7 +2860,9 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
               pFolProp->fMTLogging               = pNewProps->fMTLogging; 
             } /* endif */
           } /* endif */
+
           SaveProperties( hFolProp, &ErrorInfo);
+          UtlAlloc( (PVOID *)&pNewProps, 0, 0, NOMSG );
         } /* endif */
       }
 
@@ -3134,7 +3156,30 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
         if ( pIda->fUserExitCopyPending )
            pFolProp->fDisabled_UserExitRefresh = TRUE ; 
 
+        // apply any memory renames
+        {
+          int iMemIndex = -1;
+
+          while ( iMemIndex < MAX_NUM_OF_READONLY_MDB )
+          {
+            PSZ pszCurMem;
+
+            pszCurMem = (iMemIndex == -1) ? pFolProp->szLongMemory : pFolProp->aLongMemTbl[iMemIndex]; 
+            if ( pszCurMem[0] != EOS )
+            {
+              PSZ pszNewName = FolImpGetNewMemoryName( &(pIda->MemRename), pszCurMem );
+              if ( pszNewName != pszCurMem )
+              {
+                strcpy( pszCurMem, pszNewName );
+              } /* endif */
+            } /* endif */
+            iMemIndex++;
+          } /* endwhile */
+        }
+
         SaveProperties( hFolProp, &ErrorInfo);
+
+
       } /* endif */
       CloseProperties( hFolProp, PROP_QUIT, &ErrorInfo );
     } /* endif */
@@ -6900,6 +6945,7 @@ USHORT FolFuncImportFolder
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
   PSZ         pszNewFolderName,        // new name for the folder
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // folder import options
 )
 {
@@ -6910,8 +6956,7 @@ USHORT FolFuncImportFolder
   {
     // prepare a new analysis run
     pData->usProgress = 0;
-    usRC = FolFuncPrepImportFolder( pData, pszFolderName, pszFromPath,
-                                    chToDrive, pszNewFolderName, lOptions );
+    usRC = FolFuncPrepImportFolder( pData, pszFolderName, pszFromPath, chToDrive, pszNewFolderName, pszNewMemNames, lOptions );
   }
   else
   {
@@ -7048,6 +7093,7 @@ USHORT FolFuncPrepImportFolder
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
   PSZ         pszNewFolderName,        // new name for the folder
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // folder import options
 )
 {
@@ -7205,6 +7251,11 @@ USHORT FolFuncPrepImportFolder
     else
     {
       strcpy( pIda->szTargetFolName, pszFolderName );
+    } /* endif */
+    pIda->szNewMemNames[0] = EOS;
+    if ( pszNewMemNames != NULL )  
+    {
+      strcpy( pIda->szNewMemNames, pszNewMemNames );
     } /* endif */
 
     ANSITOOEM(pIda->szTargetFolName);
@@ -9114,8 +9165,10 @@ LPARAM mp2
                 if (dwLogicalDrives &(1 << nDrive))
                 {
                   wsprintf(szBuffer,"%c:\\",nDrive+'A');
+                  SetErrorMode( SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX );
                   r = SHGetFileInfo( szBuffer, 0, &FileInfo, sizeof( FileInfo ),
                                      SHGFI_DISPLAYNAME | SHGFI_SYSICONINDEX | SHGFI_SMALLICON );
+                  SetErrorMode(0);
                   if ( r )
                   {
                     CHAR chDrive = (CHAR)(nDrive+'A');
@@ -11200,7 +11253,8 @@ BOOL FolImpScanMemoryInfoFile( PFOLIMPIDA pIda, PSZ pszInfoFile )
           }
           else if ( strcmp( pIda->szInfoFileLine, MEMINFOFILE_NAME_KEY ) == 0 )
           {
-            pMemData->strMemoryName = pszValue;
+            PSZ pszNewName = FolImpGetNewMemoryName( &(pIda->MemRename), pszValue );
+            pMemData->strMemoryName = pszNewName;
           }
           else
           {
@@ -11386,6 +11440,139 @@ void FolImpImportPathChanged( HWND hwnd, PFOLIMPIDA pIda )
     SELECTITEMMS( hwnd, ID_FOLIMP_FOLDER_LB, 0 );
   } /* endif */
 }
+
+// get the index of the entry for the specified old memory name
+int FolImpGetRenameMemoryIndex( PFOLMEMRENAMEDATA pRenameData, PSZ pszMemName )
+{
+  int i = 0;
+  while ( i < pRenameData->iMemRenames ) 
+  {
+    if ( strcmp( pszMemName, pRenameData->aszOldMemNames[i] ) == 0 )
+    {
+      return( i );
+    } /* endif */
+    i++;
+  } /* endwhile */
+  return( -1 );
+} /* end of FolImpGetRenameMemoryIndex */
+
+// get the index of the entry for the specified old memory short name
+int FolImpGetRenameMemoryShortNameIndex( PFOLMEMRENAMEDATA pRenameData, PSZ pszMemShortName )
+{
+  int i = 0;
+  while ( i < pRenameData->iMemRenames ) 
+  {
+    if ( strcmp( pszMemShortName, pRenameData->aszOldMemShortNames[i] ) == 0 )
+    {
+      return( i );
+    } /* endif */
+    i++;
+  } /* endwhile */
+  return( -1 );
+} /* end of FolImpGetRenameMemoryShortNameIndex */
+
+// apply any rename request on the memory name
+PSZ FolImpGetNewMemoryName( PFOLMEMRENAMEDATA pRenameData, PSZ pszMemName )
+{
+  int i = FolImpGetRenameMemoryIndex( pRenameData, pszMemName );
+  if ( i >= 0 )
+  {
+    return( pRenameData->aszNewMemNames[i] );
+  }
+  else
+  {
+    return( pszMemName );
+  } /* endif */
+} /* end of FolImpGetNewMemoryName */
+
+// setup memory rename table
+USHORT FolImpBuildMemRenameTable( PPROPFOLDER pFolProp, PFOLMEMRENAMEDATA pRenameData, PSZ pszNewMemNames )
+{
+  CHAR szMemName[MAX_LONGFILESPEC+1];
+  int iMemIndex = -1;
+  USHORT usRC = 0;
+
+  memset( pRenameData, 0, sizeof(FOLMEMRENAMEDATA) );
+  pRenameData->iMemRenames = 0;
+  PSZ pszCurrentName = pszNewMemNames;
+  while ( (*pszCurrentName != EOS) && (iMemIndex < MAX_NUM_OF_READONLY_MDB) && (usRC == 0) )
+  {
+    // extract next new memory name
+    PSZ pszCurPos = szMemName;
+    while ( isspace( *pszCurrentName ) ) pszCurrentName++;
+    while ( (*pszCurrentName != ',') && (*pszCurrentName != EOS) )
+    {
+      *pszCurPos++ = *pszCurrentName++;
+    } /* endwhile */
+    *pszCurPos = EOS;
+    if (*pszCurrentName == ',') pszCurrentName++;
+
+    // add corresponding old memory name and new memory name to rename table
+    if ( szMemName[0] != EOS )
+    {
+      if (!UtlCheckLongName( szMemName) )
+      {
+        PSZ pszParm = szMemName;
+        usRC = ERROR_INV_LONGNAME;
+        UtlErrorHwnd( ERROR_INV_LONGNAME, MB_CANCEL, 1, &pszParm, EQF_ERROR, HWND_FUNCIF );
+      } 
+      else if ( iMemIndex == -1 )
+      {
+        strcpy( pRenameData->aszOldMemNames[pRenameData->iMemRenames], pFolProp->szLongMemory ); // use folder memory 
+      }
+      else
+      {
+        strcpy( pRenameData->aszOldMemNames[pRenameData->iMemRenames], pFolProp->aLongMemTbl[iMemIndex] ); // use search memory 
+      } /* endif */
+
+      if ( (usRC == 0) && (pRenameData->aszOldMemNames[pRenameData->iMemRenames][0] != EOS) )
+      {
+        BOOL fIsNew = FALSE;
+
+        strcpy( pRenameData->aszNewMemNames[pRenameData->iMemRenames], szMemName );
+
+        // get short name of original memory
+        ObjLongToShortName( pRenameData->aszOldMemNames[pRenameData->iMemRenames], pRenameData->aszOldMemShortNames[pRenameData->iMemRenames], TM_OBJECT, &fIsNew );
+
+        // get new short name for new memory 
+        ObjLongToShortName( szMemName, pRenameData->aszNewMemShortNames[pRenameData->iMemRenames], TM_OBJECT, &fIsNew );
+
+        // ensure that the new name is not in use by one of the other memories being renamed
+        BOOL fNameIsInUse = FALSE;
+        int iCounter = 1;
+        do
+        {
+          fNameIsInUse = FALSE;
+          int i = 0;
+          while ( !fNameIsInUse && (i < pRenameData->iMemRenames) )
+          {
+            if ( strcmp( pRenameData->aszNewMemShortNames[pRenameData->iMemRenames], pRenameData->aszNewMemShortNames[i]) == 0 )
+            {
+              fNameIsInUse = TRUE;
+            } /* endif */
+            i++;
+          } /* endwhile */
+
+          // build new name when name is in use
+          if ( fNameIsInUse )
+          {
+            int iNameLen = strlen( pRenameData->aszNewMemShortNames[pRenameData->iMemRenames] );
+            if ( iNameLen > 5 )
+            {
+              iNameLen = 5;
+            } /* endif */
+            sprintf( pRenameData->aszNewMemShortNames[pRenameData->iMemRenames] + iNameLen, "%3.3ld", iCounter++ );
+          } /* endif */
+        } while ( fNameIsInUse );
+
+
+        pRenameData->iMemRenames += 1;
+      } /* endif */
+    } /* endif */
+    iMemIndex++;
+  } /* endwhile */
+  return( usRC );
+} /* end of FolImpBuildMemRenameTable */
 
 //   End of EQFFOL02.C
 

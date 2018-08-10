@@ -582,12 +582,12 @@ void FolXliffParseHandler::endElement(const XMLCh* const name )
     case FILE_ELEMENT:
       if ( !m_fSkipDoc )
       {
-        // update document properies
-        m_Util->SetDocCompletion( pBuf->FileInfo.szFolObjName, pBuf->FileInfo.szShortName, pTargetDoc );
-
-        // write segmented target file
         if ( pTargetDoc )
         {
+          // update document properies
+          m_Util->SetDocCompletion( pBuf->FileInfo.szFolObjName, pBuf->FileInfo.szShortName, pTargetDoc );
+
+          // write segmented target file
           m_Util->SaveSegmentedFile( pBuf->szSegTargetFile, pTargetDoc ); 
         } /* endif */
 

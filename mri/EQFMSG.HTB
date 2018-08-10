@@ -1094,6 +1094,8 @@
     ERROR_LIST_FILE_ACCESS         , id_msg_subtable , ERROR_LIST_FILE_ACCESS         ,
     ERROR_PLUGIN_EXPIRED           , id_msg_subtable , ERROR_PLUGIN_EXPIRED           ,
     ERROR_PLUGIN_INVALID           , id_msg_subtable , ERROR_PLUGIN_INVALID           ,
+    ERROR_ONLY_SINGLE_OPT          , id_msg_subtable , ERROR_ONLY_SINGLE_OPT          ,
+    ERROR_DOC_NOT_FOUND            , id_msg_subtable , ERROR_DOC_NOT_FOUND            ,
     0,                               NULL,             0
 };
 

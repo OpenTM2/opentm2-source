@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE topic PUBLIC "-//IBM//DTD DITA IBM Topic//EN" "ibm-topic.dtd">
 <topic xml:lang="en-us" id="api_CallingReference">
   <title>Calling interface reference</title>
@@ -262,6 +262,10 @@
             <row>
               <entry colname="col1" align="left">EqfImportFolderAs</entry>
               <entry colname="col2" align="right"><xref href="api_EqfImportFolderAs.dita#api_EqfImportFolderAs"/></entry>
+            </row>
+            <row>
+              <entry colname="col1" align="left">EqfImportFolderAs2</entry>
+              <entry colname="col2" align="right"><xref href="api_EqfImportFolderAs2.dita#api_EqfImportFolderAs2"/></entry>
             </row>
             <row>
               <entry colname="col1" align="left">EqfImportFolderFP</entry>
