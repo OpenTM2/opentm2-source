@@ -11,10 +11,10 @@ These instructions will get you a copy of the project up and running on your loc
 Windows 10 or Windows Server 2012 or higher
 
 ### Documentation
-OpenTM2 API for the C++-Kernel
+OpenTM2 API for the C++-Kernel  
 https://github.com/OpenTM2/opentm2-source/blob/master/Doc/Opentm2TechnicalReference.pdf
 
-REST API Docu
+REST API Docu  
 https://jira.translate5.net/secure/attachment/14902/OpenTM2%20REST-API.pdf
 
 
@@ -46,7 +46,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Authors (ToDo)
 
-* **Gerhard Queck** - *Initial work* - [PurpleBooth](https://github.com/GerhardQ)
+* **Gerhard Queck** - *Initial work* - [GitHub Profile](https://github.com/GerhardQ)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
