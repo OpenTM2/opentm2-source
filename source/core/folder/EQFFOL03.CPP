@@ -151,10 +151,11 @@ typedef struct _PACKCONTROL
    BOOL         fFirstRead;            // TRUE = this is the first read from the current file
    // variables used by memory rename function
    BOOL         fMemoryRename;         // TRUE = the folder memory is to be rename during export
-   CHAR         szOldMemShortName[MAX_FILESPEC]; // buffer for old memory name (short)
-   CHAR         szOldMemLongName[MAX_LONGFILESPEC]; // buffer for old memory name (long)
-   CHAR         szNewMemLongName[MAX_LONGFILESPEC]; // buffer for new memory name (long)
-   CHAR         szNewMemShortName[MAX_FILESPEC]; // buffer for new memory name (short)
+   //CHAR         szOldMemShortName[MAX_FILESPEC]; // buffer for old memory name (short)
+   //CHAR         szOldMemLongName[MAX_LONGFILESPEC]; // buffer for old memory name (long)
+   //CHAR         szNewMemLongName[MAX_LONGFILESPEC]; // buffer for new memory name (long)
+   //CHAR         szNewMemShortName[MAX_FILESPEC]; // buffer for new memory name (short)
+   PFOLMEMRENAMEDATA pMemRename;           // data area for memory renames
    CHAR         szTempName[MAX_LONGFILESPEC]; // buffer for temporary names
    CHAR         szImportDir[CCHMAXPATH+1]; // name of import directory
    OtmMemory::MEMORYPARTDATA MemPartData;  // data area for getMemoryPart method
@@ -768,9 +769,7 @@ VOID UtlPackCleanup( PVOID pVoidPack )
 ULONG UtlPackRenameMemoryDuringExport
 ( 
   PVOID       pVoidPack,               // package control pointer
-  PSZ         pszOldShortName,         // old memory short name (max 8 chars)
-  PSZ         pszOldLongName,          // old memory long name
-  PSZ         pszNewLongName           // new memory long name
+  PVOID       pvMemRenameData
 )
 {
   PPACKCONTROL pPackCtrl;
@@ -779,13 +778,8 @@ ULONG UtlPackRenameMemoryDuringExport
 
   pPackCtrl = (PPACKCONTROL) pVoidPack;
 
-  strcpy( pPackCtrl->szOldMemLongName, pszOldLongName );
-  strcpy( pPackCtrl->szOldMemShortName, pszOldShortName );
-  strcpy( pPackCtrl->szNewMemLongName, pszNewLongName );
+  pPackCtrl->pMemRename = (PFOLMEMRENAMEDATA)pvMemRenameData;
   pPackCtrl->fMemoryRename = TRUE;
-
-  // get new short name for new memory 
-  ObjLongToShortName( pPackCtrl->szNewMemLongName, pPackCtrl->szNewMemShortName, TM_OBJECT, &fIsNew );
 
   return( ulRC );
 }
@@ -1349,60 +1343,64 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                }
 
                 // in case of on-spot memory rename, rewrite info file with new data
-                if ( pPackCtrl->fMemoryRename && (stricmp( pPackCtrl->szMemory, pPackCtrl->szOldMemLongName) == 0 ) )
+                if ( pPackCtrl->fMemoryRename )
                 {
-                  FILE * hfInfoFile = fopen( pPackCtrl->pCurFile->pszName, "w" );
-                  if ( hfInfoFile != NULL )
+                  int iMemIndex = FolImpGetRenameMemoryIndex( pPackCtrl->pMemRename, pPackCtrl->szMemory );
+                  if ( iMemIndex >= 0 )
                   {
-                    fprintf( hfInfoFile, "%s=%s\n", MEMINFOFILE_NAME_KEY, pPackCtrl->szNewMemLongName );
-                    fprintf( hfInfoFile, "%s=%s\n", MEMINFOFILE_PLUGIN_KEY, pPackCtrl->szPlugin );
-                    fprintf( hfInfoFile, "%s=", MEMINFOFILE_FILES_KEY );
-                    PSZ pszPos = pPackCtrl->szMemFiles;
-                    while ( *pszPos != EOS )
+                    FILE * hfInfoFile = fopen( pPackCtrl->pCurFile->pszName, "w" );
+                    if ( hfInfoFile != NULL )
                     {
-                      PSZ pszEndPos = strchr( pszPos, ',' );
-                      if ( pszEndPos == NULL ) pszEndPos = pszPos + strlen(pszPos);
-                      CHAR chEndChar = *pszEndPos;
-                      *pszEndPos = EOS;
-
-                      CHAR szMemShortName[MAX_FILESPEC];
-                      CHAR szExtension[10];
-
-                      // get file name of entry
-                      strcpy( pPackCtrl->szTempName, pszPos );
-                      PSZ pszName = UtlGetFnameFromPath( pPackCtrl->szTempName );
-                      strcpy( szMemShortName, pszName );
-
-                      // cut off extension
+                      fprintf( hfInfoFile, "%s=%s\n", MEMINFOFILE_NAME_KEY, pPackCtrl->pMemRename->aszNewMemNames[iMemIndex] );
+                      fprintf( hfInfoFile, "%s=%s\n", MEMINFOFILE_PLUGIN_KEY, pPackCtrl->szPlugin );
+                      fprintf( hfInfoFile, "%s=", MEMINFOFILE_FILES_KEY );
+                      PSZ pszPos = pPackCtrl->szMemFiles;
+                      while ( *pszPos != EOS )
                       {
-                        PSZ pszExtension = strrchr( szMemShortName, DOT );
-                        szExtension[0] = EOS;
-                        if ( pszExtension )
+                        PSZ pszEndPos = strchr( pszPos, ',' );
+                        if ( pszEndPos == NULL ) pszEndPos = pszPos + strlen(pszPos);
+                        CHAR chEndChar = *pszEndPos;
+                        *pszEndPos = EOS;
+
+                        CHAR szMemShortName[MAX_FILESPEC];
+                        CHAR szExtension[10];
+
+                        // get file name of entry
+                        strcpy( pPackCtrl->szTempName, pszPos );
+                        PSZ pszName = UtlGetFnameFromPath( pPackCtrl->szTempName );
+                        strcpy( szMemShortName, pszName );
+
+                        // cut off extension
                         {
-                          strcpy( szExtension, pszExtension );
-                          *pszExtension = EOS;
+                          PSZ pszExtension = strrchr( szMemShortName, DOT );
+                          szExtension[0] = EOS;
+                          if ( pszExtension )
+                          {
+                            strcpy( szExtension, pszExtension );
+                            *pszExtension = EOS;
+                          } /* endif */
+                        }
+
+                        // rename file if short name matches
+                        if ( strcmp( szMemShortName, pPackCtrl->pMemRename->aszOldMemShortNames[iMemIndex] ) == 0 )
+                        {
+                          strcpy( pszName, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex]  );
+                          strcat( pszName, szExtension );
+                          fprintf( hfInfoFile, "%s", pPackCtrl->szTempName );
+                        }
+                        else
+                        {
+                          fprintf( hfInfoFile, "%s", pszPos );
                         } /* endif */
-                      }
+                        fprintf( hfInfoFile, "%c", (chEndChar == EOS ) ? '\n' : ',' );
 
-                      // rename file if short name matches
-                      if ( strcmp( szMemShortName, pPackCtrl->szOldMemShortName ) == 0 )
-                      {
-                        strcpy( pszName, pPackCtrl->szNewMemShortName );
-                        strcat( pszName, szExtension );
-                        fprintf( hfInfoFile, "%s", pPackCtrl->szTempName );
-                      }
-                      else
-                      {
-                        fprintf( hfInfoFile, "%s", pszPos );
-                      } /* endif */
-                      fprintf( hfInfoFile, "%c", (chEndChar == EOS ) ? '\n' : ',' );
+                        // process next entry
+                        *pszEndPos = chEndChar;
+                        pszPos = (*pszEndPos == EOS ) ? pszEndPos : pszEndPos + 1;
+                      } /* endwhile */
 
-                      // process next entry
-                      *pszEndPos = chEndChar;
-                      pszPos = (*pszEndPos == EOS ) ? pszEndPos : pszEndPos + 1;
-                    } /* endwhile */
-
-                    fclose( hfInfoFile );
+                      fclose( hfInfoFile );
+                  } /* endif */
                 }
                }
 
@@ -1682,10 +1680,9 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                 if ( (ulRC == PACK_OK_RC) && pPackCtrl->fFirstRead && pPackCtrl->fMemoryRename )
                 {
                   Utlstrccpy( pPackCtrl->szTempName, UtlGetFnameFromPath( pPackCtrl->pCurFile->pszName ), DOT );
+                  int iMemIndex = FolImpGetRenameMemoryShortNameIndex( pPackCtrl->pMemRename, pPackCtrl->szTempName );
                   PSZ pszExt = strrchr( pPackCtrl->pCurFile->pszName, DOT ); 
-                  if ( (stricmp( pPackCtrl->szTempName, pPackCtrl->szOldMemShortName ) == 0) && 
-                        (pszExt != NULL) && 
-                        (stricmp( pszExt, EXT_OF_MEM ) == 0) ) 
+                  if ( (iMemIndex >= 0) && (pszExt != NULL) && (stricmp( pszExt, EXT_OF_MEM ) == 0) ) 
                   {
                     PPROP_NTM pProp = (PPROP_NTM)pPackCtrl->pInBuf ;
 
@@ -1693,12 +1690,12 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                     if ( strcmp( pProp->szNTMMarker, NTM_MARKER) == 0 )
                     {
                       // adjust name in property header
-                      strcpy( pProp->stPropHead.szName, pPackCtrl->szNewMemShortName );
+                      strcpy( pProp->stPropHead.szName, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                       strcat( pProp->stPropHead.szName, EXT_OF_TMPROP );
                       // adjust long name
-                      if ( strcmp( pPackCtrl->szNewMemShortName, pPackCtrl->szNewMemLongName) != 0 )
+                      if ( strcmp( pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex], pPackCtrl->pMemRename->aszNewMemNames[iMemIndex]) != 0 )
                       {
-                        strcpy( pProp->szLongName, pPackCtrl->szNewMemLongName );
+                        strcpy( pProp->szLongName, pPackCtrl->pMemRename->aszNewMemNames[iMemIndex] );
                       }
                       else
                       {
@@ -1713,12 +1710,12 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                         pszExt = strchr( pszNamePos, DOT );
                         szExt[0] = EOS;
                         if ( pszExt != NULL ) strcpy( szExt, pszExt );
-                        strcpy( pszNamePos, pPackCtrl->szNewMemShortName );
+                        strcpy( pszNamePos, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                         strcat( pszNamePos, szExt );
                       }
 
                       // update name in signature structure
-                      strcpy( pProp->stTMSignature.szName, pPackCtrl->szNewMemShortName );
+                      strcpy( pProp->stTMSignature.szName, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                     } /* endif */
                   }
                 }
@@ -1744,13 +1741,16 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                 // special handling for first read if "memory rename during export" is active
                 if ( (ulRC == PACK_OK_RC) && pPackCtrl->fFirstRead && pPackCtrl->fMemoryRename )
                 {
+                    int iMemIndex = 0;
+
                     switch ( pPackCtrl->pCurFile->usFileType )
                     {
                       case MEMORY_PROP_FILE:
-                        // change only if this is file belongs to the renamed memory
+                        // change only if this is file belongs to one of the renamed memories
                         Utlstrccpy( pPackCtrl->szTempName, UtlGetFnameFromPath( pPackCtrl->pCurFile->pszName ), DOT );
+                        iMemIndex = FolImpGetRenameMemoryShortNameIndex( pPackCtrl->pMemRename, pPackCtrl->szTempName );
 
-                        if ( stricmp( pPackCtrl->szTempName, pPackCtrl->szOldMemShortName ) == 0 )
+                        if ( iMemIndex >= 0 )
                         {
                           PPROP_NTM pProp = (PPROP_NTM)pPackCtrl->pInBuf ;
 
@@ -1758,12 +1758,12 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                           if ( strcmp( pProp->szNTMMarker, NTM_MARKER) == 0 )
                           {
                             // adjust name in property header
-                            strcpy( pProp->stPropHead.szName, pPackCtrl->szNewMemShortName );
+                            strcpy( pProp->stPropHead.szName, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                             strcat( pProp->stPropHead.szName, EXT_OF_TMPROP );
                             // adjust long name
-                            if ( strcmp( pPackCtrl->szNewMemShortName, pPackCtrl->szNewMemLongName) != 0 )
+                            if ( strcmp( pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex], pPackCtrl->pMemRename->aszNewMemNames[iMemIndex]) != 0 )
                             {
-                              strcpy( pProp->szLongName, pPackCtrl->szNewMemLongName );
+                              strcpy( pProp->szLongName, pPackCtrl->pMemRename->aszNewMemNames[iMemIndex] );
                             }
                             else
                             {
@@ -1778,12 +1778,12 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                               pszExt = strchr( pszNamePos, DOT );
                               szExt[0] = EOS;
                               if ( pszExt != NULL ) strcpy( szExt, pszExt );
-                              strcpy( pszNamePos, pPackCtrl->szNewMemShortName );
+                              strcpy( pszNamePos, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                               strcat( pszNamePos, szExt );
                             }
 
                             // update name in signature structure
-                            strcpy( pProp->stTMSignature.szName, pPackCtrl->szNewMemShortName );
+                            strcpy( pProp->stTMSignature.szName, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                           } /* endif */
                         } /* endif */
                         break;
@@ -1791,18 +1791,27 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                       case SUBFOLDER_PROP_FILE:
                       case FOLDER_PROP_FILE:
                         {
-                          // adjust references to renamed memory
+                          // adjust references to renamed memories
                           PPROPFOLDER pProp = (PPROPFOLDER)pPackCtrl->pInBuf ;
-                          if ( strcmp( pProp->szLongMemory, pPackCtrl->szOldMemLongName ) == 0 )
                           {
-                            strcpy( pProp->szLongMemory, pPackCtrl->szNewMemLongName );
-                            strcpy( pProp->szMemory, pPackCtrl->szNewMemShortName );
-                          } 
-                          else if ( (pProp->szLongMemory[0] == EOS) && 
-                                    (strcmp( pProp->szMemory, pPackCtrl->szOldMemShortName ) == 0 ) )
-                          {
-                            strcpy( pProp->szMemory, pPackCtrl->szNewMemShortName );
-                          } /* endif */
+                            int iMemIndex = -1;
+
+                            while ( iMemIndex < MAX_NUM_OF_READONLY_MDB )
+                            {
+                              PSZ pszCurMem;
+
+                              pszCurMem = (iMemIndex == -1) ? pProp->szLongMemory : pProp->aLongMemTbl[iMemIndex]; 
+                              if ( pszCurMem[0] != EOS )
+                              {
+                                PSZ pszNewName = FolImpGetNewMemoryName( pPackCtrl->pMemRename, pszCurMem );
+                                if ( pszNewName != pszCurMem )
+                                {
+                                  strcpy( pszCurMem, pszNewName );
+                                } /* endif */
+                              } /* endif */
+                              iMemIndex++;
+                            } /* endwhile */
+                          }
                         }
                         break;
 
@@ -1810,19 +1819,13 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                         {
                           // adjust references to renamed memory
                           PPROPDOCUMENT pProp = (PPROPDOCUMENT)pPackCtrl->pInBuf ;
-                          if ( strcmp( pProp->szLongMemory, pPackCtrl->szOldMemLongName ) == 0 )
+                          PSZ pszNewName = FolImpGetNewMemoryName( pPackCtrl->pMemRename, pProp->szLongMemory );
+                          if ( pszNewName != pProp->szLongMemory )
                           {
-                            strcpy( pProp->szLongMemory, pPackCtrl->szNewMemLongName );
-                            strcpy( pProp->szMemory, pPackCtrl->szNewMemShortName );
-                          } 
-                          else if ( (pProp->szLongMemory[0] == EOS) && 
-                                    (strcmp( pProp->szMemory, pPackCtrl->szOldMemShortName ) == 0 ) )
-                          {
-                            strcpy( pProp->szMemory, pPackCtrl->szNewMemShortName );
+                            strcpy( pProp->szLongMemory, pszNewName );
                           } /* endif */
                         }
                         break;
-
                       default:
                         break;
                     } /* endswitch */
@@ -2286,9 +2289,10 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                  if ( pszName != NULL )
                  {
                    Utlstrccpy( szMemShortName, pszName + 1, DOT );
-                   if ( strcmp( szMemShortName, pPackCtrl->szOldMemShortName ) == 0 )
+                   int iMemIndex = FolImpGetRenameMemoryShortNameIndex( pPackCtrl->pMemRename, szMemShortName );
+                   if ( iMemIndex >= 0 )
                    {
-                     strcpy( pszName + 1, pPackCtrl->szNewMemShortName );
+                     strcpy( pszName + 1, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                      strcat( pszName, EXT_OF_MEMORYINFO );
                    } /* endif */
                  }
@@ -2314,9 +2318,10 @@ ULONG UtlPackWritePackage( PVOID pVoidPack, PUSHORT pusCompleted )
                  }
 
                  // rename file if short name matches
-                 if ( strcmp( szMemShortName, pPackCtrl->szOldMemShortName ) == 0 )
+                 int iMemIndex = FolImpGetRenameMemoryShortNameIndex( pPackCtrl->pMemRename, szMemShortName );
+                 if ( iMemIndex >= 0 )
                  {
-                   strcpy( pszName, pPackCtrl->szNewMemShortName );
+                   strcpy( pszName, pPackCtrl->pMemRename->aszNewMemShortNames[iMemIndex] );
                    strcat( pszName, szExtension );
                  } /* endif */
                } /* endif */

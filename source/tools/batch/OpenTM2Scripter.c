@@ -93,6 +93,7 @@ typedef enum _COMMANDID
     EQFEXPORTDICT_ID,
     EQFIMPORTDOC_ID,
     EQFEXPORTDOC_ID,
+	EQFEXPORTDOCVAL_ID,
     EQFIMPORTMEM_ID,
     EQFEXPORTMEM_ID,
     EQFANALYZEDOC_ID,
@@ -153,6 +154,7 @@ typedef enum _COMMANDID
   EQFSEARCHFUZZYSEGMENTS_ID,
   EQFCONNECTSHAREDMEM_ID,
   EQFDISCONNECTSHAREDMEM_ID,
+  EQFIMPORTFOLDERAS2_ID,
 } COMMANDID;
 
 typedef enum _LOGLEVEL
@@ -307,6 +309,7 @@ COMMAND aCommands[] =
     { "EQFEXPORTDICT",                EQFEXPORTDICT_ID,                 3, "313000000000000000", "000000000000000000"},
     { "EQFIMPORTDOC",                EQFIMPORTDOC_ID,                11, "333333333310000000", "010000000000000000"},
     { "EQFEXPORTDOC",                EQFEXPORTDOC_ID,                 4, "333100000000000000", "030000000000000000"},
+	{ "EQFEXPORTDOCVAL",             EQFEXPORTDOCVAL_ID,              9, "33311113300000000000000", "030000000000000000"},
     { "EQFIMPORTMEM",                EQFIMPORTMEM_ID,                 3, "331000000000000000", "020000000000000000"},
     { "EQFEXPORTMEM",                EQFEXPORTMEM_ID,                 3, "331000000000000000", "000000000000000000"},
     { "EQFANALYZEDOC",                EQFANALYZEDOC_ID,                 4, "333100000000000000", "030000000000000000"},
@@ -367,6 +370,7 @@ COMMAND aCommands[] =
     { "EQFSEARCHFUZZYSEGMENTS", EQFSEARCHFUZZYSEGMENTS_ID, 6, "333331000000000000", "030000000000000000"},
     { "EQFCONNECTSHAREDMEM",    EQFCONNECTSHAREDMEM_ID, 6, "230000000000000000", "050000000000000000"},
     { "EQFDISCONNECTSHAREDMEM", EQFDISCONNECTSHAREDMEM_ID, 6, "230000000000000000", "050000000000000000"},
+    { "EQFIMPORTFOLDERAS2",     EQFIMPORTFOLDERAS2_ID,   6, "332331000000000000", "000000000000000000"},
     { "",                       (COMMANDID)0,            0, "000000000000000000", "000000000000000000"}
 };
 
@@ -439,6 +443,28 @@ OPTION aOptions[] =
     { "VALFORMAT_ODT_OPT",           VALFORMAT_ODT_OPT },
     { "VALFORMAT_COMBINE_OPT",       VALFORMAT_COMBINE_OPT },
     { "VALFORMAT_PROTSEGS_OPT",      VALFORMAT_PROTSEGS_OPT },
+	{"VAL_COMBINE_OPT",              VAL_COMBINE_OPT },
+	{"VAL_PRESERVE_LINKS_OPT",       VAL_PRESERVE_LINKS_OPT },
+	{"VAL_MAN_EXACTMATCH_OPT",       VAL_MAN_EXACTMATCH_OPT },
+	{"VAL_REMOVE_INLINE_OPT",        VAL_REMOVE_INLINE_OPT },
+	{"VAL_TRANSTEXT_ONLY_OPT",       VAL_TRANSTEXT_ONLY_OPT },
+	{"VAL_INCLUDE_COUNT_OPT",        VAL_INCLUDE_COUNT_OPT },
+	{"VAL_INCLUDE_MATCH_OPT",        VAL_INCLUDE_MATCH_OPT },
+	{"VAL_MISMATCHES_ONLY_OPT",      VAL_MISMATCHES_ONLY_OPT },
+	{"VAL_AUTOSUBST_OPT",            VAL_AUTOSUBST_OPT },
+	{"VAL_MOD_AUTOSUBST_OPT",        VAL_MOD_AUTOSUBST_OPT },
+	{"VAL_EXACT_OPT",                VAL_EXACT_OPT },
+	{"VAL_MOD_EXACT_OPT",            VAL_MOD_EXACT_OPT },
+	{"VAL_GLOBAL_MEM_OPT",           VAL_GLOBAL_MEM_OPT },
+	{"VAL_MACHINE_OPT",              VAL_MACHINE_OPT },
+	{"VAL_FUZZY_OPT",                VAL_FUZZY_OPT },
+	{"VAL_NEW_OPT",                  VAL_NEW_OPT },
+	{"VAL_NOT_TRANS_OPT",            VAL_NOT_TRANS_OPT },
+	{"VAL_PROTECTED_OPT",            VAL_PROTECTED_OPT },
+	{"VAL_REPLACE_OPT",              VAL_REPLACE_OPT },
+	{"VAL_VALIDATION_OPT",           VAL_VALIDATION_OPT },
+	{"VAL_PROOFREAD_OPT",            VAL_PROOFREAD_OPT },
+
     { "CLEANMEM_INTERNAL_MEMORY_OPT", CLEANMEM_INTERNAL_MEMORY_OPT },
     { "CLEANMEM_EXTERNAL_MEMORY_OPT", CLEANMEM_EXTERNAL_MEMORY_OPT },
     { "CLEANMEM_COMPLETE_IN_ONE_CALL_OPT", CLEANMEM_COMPLETE_IN_ONE_CALL_OPT },
@@ -654,6 +680,7 @@ void Out_Help(PFUNCTEST_OUTPUT Out);
 // get OpenTM2 installed path
 char* getOpenTM2InstallPath(char* pResOut, int length);
 const char* getGlobalOpenTM2Path();
+long parseOptions(PSZ pszOptionString);
 // trim characters from string
 char* trim(const char* pSrc,const char tCh, char* pRes, int len);
 // execute a command
@@ -1739,6 +1766,35 @@ int main
                         }
                         break;
 
+						case EQFEXPORTDOCVAL_ID :
+						{
+
+							long lType = parseOptions(apTokens[4]);
+							long lFormat = parseOptions(apTokens[5]);
+							long lOptions = parseOptions(apTokens[6]);
+							long lMatchTypes = parseOptions(apTokens[7]);
+
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+							{
+								 usRC = EqfExportDocVal( 
+									                hSession,        // Eqf session handle
+                                                    apTokens[1],     // name of folder
+                                                    apTokens[2],     // files
+                                                    apTokens[3],     // start path
+													lType,            // lType
+													lFormat,    	// lFormat
+													lOptions,    	// lOptions
+													lMatchTypes,    // lMatchTypes
+													apTokens[8],	// pszTranslator
+													apTokens[9]		// pszPM
+													);
+
+								 Out_RC( &Out, "EqfExportDocVal", usRC, hSession );
+							}
+						}
+						break;
+
                         case EQFIMPORTMEM_ID :
                         {
                             // preprocess parameters
@@ -2046,6 +2102,39 @@ int main
                                             apTokens[2],     // path containing the imported folder
                                             *(apTokens[3]),  // target drive for folder
                                             apTokens[4],     // new folder name
+                                            lOption );       // options for the folder import
+                                    if ( hfLog )
+                                    {
+                                        USHORT usNewProgress;
+                                        EqfGetProgress( hSession, &usNewProgress );
+                                        if ( usNewProgress != usProgress )
+                                        {
+                                            usProgress = usNewProgress;
+                                            OutputLog(LOG_DEBUG, &Out, "\tProgress=%u\n", usProgress);
+                                        } /* endif */
+                                    } /* endif */
+                                } while ( usRC == CONTINUE_RC ); /* enddo */
+
+                                Out_RC( &Out, "EqfImportFolderAs", usRC,hSession );
+
+                            } /* endif */
+                        }
+                        break;
+
+                        case EQFIMPORTFOLDERAS2_ID :
+                        {
+                            // preprocess parameters
+                            if ( PreProcessParms( pCmd ) )
+                            {
+                                USHORT usProgress = 0;
+                                do
+                                {
+                                    usRC = EqfImportFolderAs2( hSession,      // Eqf session handle
+                                            apTokens[1],     // name of folder
+                                            apTokens[2],     // path containing the imported folder
+                                            *(apTokens[3]),  // target drive for folder
+                                            apTokens[4],     // new folder name
+                                            apTokens[5],     // list of new memory names
                                             lOption );       // options for the folder import
                                     if ( hfLog )
                                     {
@@ -3451,6 +3540,61 @@ int main
     }
     return( (int)usRC );
 } /* end of main */
+
+long parseOptions(PSZ pszOptionString)
+{
+	if ( pszOptionString == NULL )
+		return 0L;
+
+	long lOption = 0L;
+	SKIPSPACE( pszOptionString );
+	while ( *pszOptionString )
+	{
+		PSZ pszOptionStart = pszOptionString;
+
+		SKIPSPACE( pszOptionString );
+
+		// isolate next option
+		while ( isalpha(*pszOptionString) || isdigit(*pszOptionString) ||
+				(*pszOptionString == '_') )
+		{
+			pszOptionString++;
+		}
+
+		if ( *pszOptionString != NULC )
+		{
+			*pszOptionString = NULC;
+			pszOptionString++;
+			SKIPSPACE( pszOptionString );
+			if ( *pszOptionString == '+' ) pszOptionString++;
+			SKIPSPACE( pszOptionString );
+		}
+
+		// check the option
+		if ( *pszOptionStart != NULC )
+		{
+			POPTION pOpt = aOptions;
+			while ( (pOpt->szOption[0] != NULC) &&
+					(_stricmp( pOpt->szOption, pszOptionStart ) != 0) )
+			{
+				pOpt++;
+			} 
+
+			if ( pOpt->szOption[0] != NULC )
+			{
+				lOption |= pOpt->lOption;
+			}
+			else
+			{
+				printf("ERROR ==> Unkown or invalid options %s detected, line is ignored.\n",
+						pszOptionStart );
+				return 0L;
+			} 
+		} 
+	}//end while
+
+   return lOption;
+}
 
 // preprocess the parameters of a non-DDE function call
 // (the parameter pointers have been already stored in the apTokens array)

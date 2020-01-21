@@ -3,7 +3,7 @@
 	
 	Copyright Notice:
 
-	Copyright (C) 1990-2017, International Business Machines
+	Copyright (C) 1990-2018, International Business Machines
 	Corporation and others. All rights reserved
 
  
@@ -15,6 +15,9 @@
                              save text in linked list rather than read twice.   
       9/08/17 P403868   DAW  Abend. 1st file has no entries, fails on 2nd file. 
       9/18/17 P403874   DAW  Handle completely deleted changed text.                 
+      5/17/18 P404049   DAW  Handle '&' in folder and document names.                            
+      6/27/18 P404077   DAW  Handle concatenating split lines in target text.                                  
+      7/03/18 S151007   DAW  Handle blanks in directory name.                                 
 */
 
 #include "EQF.H"
@@ -211,6 +214,7 @@ typedef struct {
    USHORT   usWarnAction ;
 
 USHORT  StripText( char *, char *, USHORT, BOOL * );
+void    SetXmlText( char *, USHORT ) ;
 BOOL    WriteXmlSegment( FILE *, ULONG, USHORT, char *, char *, char *, char *, char *, BOOL ) ;
 BOOL    ConvertFile( char *, char *, USHORT ) ;
 void    BuildMsg( char *, char *, int, char *, ULONG ) ;
@@ -294,11 +298,13 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
     /*------------------------------------------------------------------------*/
     /*  Initialize processing.                                                */
     /*------------------------------------------------------------------------*/
-    for( ptr1=(char*)pszProofReadXMLOut, ptr2=TempFile1 ; *ptr1 ; ++ptr1 ) {
-       if ( !isspace( *ptr1 ) )             /* Remove all blanks */
-          *(ptr2++) = *ptr1 ;
-    }
-    *ptr2 = 0 ; 
+/// removed 7-3-18 */
+/// for( ptr1=(char*)pszProofReadXMLOut, ptr2=TempFile1 ; *ptr1 ; ++ptr1 ) {
+///    if ( !isspace( *ptr1 ) )             /* Remove all blanks */
+///       *(ptr2++) = *ptr1 ;
+/// }
+/// *ptr2 = 0 ; 
+    strcpy( TempFile1, pszProofReadXMLOut ) ;                       /* 7-3-18 */
     strcpy( TempFile2, TempFile1 ) ;
     strcpy( TempFile3, TempFile1 ) ;
     strcpy( szTimeDebug, TempFile1 ) ;
@@ -417,6 +423,7 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
     ulStringsUnchanged = 0 ;
     ulValLineNumber = 0 ;
 
+//CopyFileA(TempFile2,"c:\\ValDocDocx.tmp",TRUE);
     fIn = fopen( TempFile2, "rb" ) ;
     if ( ! fIn ) {
        usReturn = RC_ERROR ;
@@ -476,10 +483,45 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
           /*---------------------------------------------------------------------*/
           if ( ! strncmp( ptrCur, "<w:p ", 5 ) ) {
              ptrEnd = strstr( ptrCur, "</w:p>" ) ;
-             while ( ( !ptrEnd ) && 
+             while ( ( ! ptrEnd ) && 
                      ( fgets( szTemp, MAX_RCD_LENGTH, fIn ) != NULL ) ) {
                 strcat( szIn, szTemp ) ;
                 ptrEnd = strstr( ptrCur, "</w:p>" ) ;
+             }
+             /*---------------------------------------------------------------------*/
+             /*  User may have entered a newline character in the modified text.    */
+             /*  This will cause a new paragraph to be created in the document.     */
+             /*    Before:   <w:p n="85" tr="0">Here is a sentence.</w:p>           */
+             /*    After:    <w:p n="85" tr="0">Here is a </w:p>                    */
+             /*              <w:p n="86" tr="0">sentence.</w:p>             6-27-18 */
+             /*---------------------------------------------------------------------*/
+             if ( ( usDocState == DOC_STATE_BODY ) &&
+                  ( usBodyColumn+1 == usColTgt   ) &&                /* Target text */
+                  ( ptrEnd ) ) {                               
+                while ( ptrEnd ) {
+                   ulFilePos = ftell( fIn ) ;
+                   if ( ( fgets( szTemp, MAX_RCD_LENGTH, fIn ) != NULL ) &&
+                        ( ! strncmp( szTemp, "<w:p ", 5 ) ) &&
+                        ( ( strstr( szTemp, " tr=\"0\"" ) ) ||
+                          ( strstr( szTemp, " cp=\"9999\"" ) ) ) ) {
+                      ptr1 = strchr( szTemp, '>' ) ;
+                      if ( ptr1 ) {
+                         *ptrEnd = 0 ;
+                         strcat( szIn, ptr1+1 ) ;
+                         ptrEnd = strstr( ptrCur, "</w:p>" ) ;
+                         while ( ( ! ptrEnd ) && 
+                                 ( fgets( szTemp, MAX_RCD_LENGTH, fIn ) != NULL ) ) {
+                            strcat( szIn, szTemp ) ;
+                            ptrEnd = strstr( ptrCur, "</w:p>" ) ;
+                         }
+                      } else {
+                         break ;
+                      }
+                   } else {
+                      break ;
+                   }
+                }
+                fseek( fIn, ulFilePos, 0 ) ;
              }
              if ( ! ptrEnd ) {
                 //  ERROR
@@ -569,10 +611,12 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                    if ( ! strncmp( szTemp+strlen(szTemp)-2, "\xC2\xA0", 2 )  ) 
                       *(szTemp+strlen(szTemp)-2) = 0 ;
                    if ( usDocState == DOC_STATE_HDR_DOCUMENT ) {
+                      SetXmlText( szTemp, 1 ) ;             /* 5-17-18 */
                       strcpy( szDocument, szTemp ) ;
                       usDocState = DOC_STATE_HDR_OTHER ;
                    } else
                    if ( usDocState == DOC_STATE_HDR_FOLDER ) {
+                      SetXmlText( szTemp, 1 ) ;             /* 5-17-18 */
                       strcpy( szFolder, szTemp ) ;
                       usDocState = DOC_STATE_HDR_OTHER ;
                    } else
@@ -658,7 +702,9 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                    fputs( szXML_Declare, fOut ) ;
                    fputs( szXML_Root, fOut ) ;
                    fputs( szXML_Header, fOut ) ;
-                   fprintf( fOut, szXML_Header_Folder, szFolder ) ;
+                   strcpy( szTemp, szFolder ) ;                   /* 5-17-18 */
+                   SetXmlText( szTemp, 2 ) ;
+                   fprintf( fOut, szXML_Header_Folder, szTemp ) ;
                    fprintf( fOut, szXML_Header_Creation, szDateCreated ) ;
                    fprintf( fOut, szXML_Header_Proofread, "" ) ;
                    fprintf( fOut, szXML_Header_Translator, szTranslator ) ;
@@ -679,7 +725,9 @@ int convertToProofReadFormat( const char *pszProofReadInFile, const char *pszPro
                    fputs( szXML_Document_End, fOut ) ;
                 }
 
-                fprintf( fOut, szXML_Document, szDocument, szSourceLang, szTargetLang, szMarkup ) ;
+                strcpy( szTemp, szDocument ) ;                     /* 5-17-18 */
+                SetXmlText( szTemp, 2 ) ;
+                fprintf( fOut, szXML_Document, szTemp, szSourceLang, szTargetLang, szMarkup ) ;
                 fputs( szXML_SegmentList, fOut ) ;
                 fflush( fOut ) ;
 
@@ -973,6 +1021,40 @@ USHORT  StripText( char *szIn, char *szOut, USHORT usType, BOOL *bSegDeleted )
    *ptrOut = 0 ;
 
    return( usReturn ) ;
+}
+
+
+
+/****************************************************************************/
+/*                                                                          */
+/* SetXmlText                                                               */
+/*                                                                          */
+/* Remove XML entities from text ('&' and "&amp;".                          */
+/*                                                                          */
+/* Input:      szText        - Text to remove entities from.                */
+/* Option:     usFunc        - 1=XML->text,  2=text->XML.                   */
+/* Return:     None                                                         */
+/*                                                                          */
+/****************************************************************************/
+
+void    SetXmlText( char *szText, USHORT usFunc ) 
+{
+   char     *ptr ;
+
+   if ( usFunc == 1 ) {                /* Replace XML entity with char.     */
+      for ( ptr=strstr(szText,"&amp;") ; ptr ; ptr=strstr(ptr,"&amp;") ) {
+         ++ptr ;
+         memmove( ptr, ptr+4, strlen(ptr+4)+1 ) ;
+      }
+   } else {                            /* Replace char with XML entity      */
+      for ( ptr=strchr(szText,'&') ; ptr ; ptr=strchr(ptr,'&') ) {
+         ++ptr ;
+         memmove( ptr+4, ptr, strlen(ptr)+1 ) ;
+         strncpy( ptr, "amp;", 4 ) ;
+      }
+   }
+
+   return ;
 }
 
 
@@ -1319,11 +1401,11 @@ BOOL ExtractXmlFromZip( char *ZipFile, char *XmlFile, char *TempFile, char *ErrT
        ptrChar = strrchr( szTempDir1, '\\' ) ;
        if ( ptrChar ) 
           *(ptrChar+1) = 0 ;
-       strcat( szTempDir1, "OTMTEMP\\" ) ;
+       strcat( szTempDir1, "OTMTEMP" ) ;                           /* 7-3-18 */
        _rmdir( szTempDir1 ) ;
        _mkdir( szTempDir1 ) ;
        strcpy( szTempFile1, szTempDir1 ) ;
-       strcat( szTempFile1, "document.xml" ) ;
+       strcat( szTempFile1, "\\document.xml" ) ;                   /* 7-3-18 */
        remove( szTempFile1 ) ;
 
        if ( ptrChar ) {
@@ -1341,8 +1423,8 @@ BOOL ExtractXmlFromZip( char *ZipFile, char *XmlFile, char *TempFile, char *ErrT
           /*-----------------------------------------------------------------*/
           /*  Unzip all XML files from the zip file.                         */
           /*-----------------------------------------------------------------*/
-          sprintf( szCommand, "\"%s\" -q -j -o \"%s\" word/document.xml -d %s 2> %s", 
-                              szUnzipExe, ZipFile, szTempDir1, TempFile ) ;
+          sprintf( szCommand, "\"%s\" -q -j -o \"%s\" word/document.xml -d \"%s\" 2> %s", 
+                              szUnzipExe, ZipFile, szTempDir1, TempFile ) ;   /* 7-3-18 */
           strcpy( szErrMsg, MSG_XMWRD_ZIP_XML_UNZIP_FAILED ) ;
           if ( ExecuteCommand( szCommand, TempFile, szErrMsg ) ) {
 

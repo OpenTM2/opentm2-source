@@ -19,6 +19,7 @@ typedef enum _FCTFUNCTIONS
   FCT_EQFEXPORTDICT,
   FCT_EQFIMPORTDOC,
   FCT_EQFEXPORTDOC,
+  FCT_EQFEXPORTDOCVAL,
   FCT_EQFIMPORTMEM,
   FCT_EQFEXPORTMEM,
   FCT_EQFORGANIZEMEM,
@@ -405,6 +406,21 @@ USHORT DocFuncExportDoc
 );
 
 __declspec(dllexport)
+USHORT DocFuncExportDocVal
+(
+  PFCTDATA    pData,                   // function I/F session data
+  PSZ         pszFolderName,   
+  PSZ         pszFiles,     
+  PSZ         pszStartPath,
+  LONG        lFormat,                          
+  LONG        lOptions,
+  LONG        lMatchTypes,
+  LONG        lType,
+  PSZ         pszTranslator,
+  PSZ         pszPM
+);
+
+__declspec(dllexport)
 USHORT MemFuncExportMem
 (
   PFCTDATA    pData,                   // function I/F session data
@@ -451,6 +467,7 @@ USHORT FolFuncImportFolder
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
   PSZ         pszNewFolderName,        // new name for the folder
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // folder import options
 );
 
@@ -647,6 +664,7 @@ USHORT InternalImportFolder
   PSZ         pszFromPath,             // path containing the imported folder
   CHAR        chToDrive,               // target drive for folder
   PSZ         pszNewFolderName,        // new name for the folder
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // folder import options
 );
 

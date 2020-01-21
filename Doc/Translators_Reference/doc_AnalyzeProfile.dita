@@ -102,6 +102,13 @@
             analyzed. Note that two neighboring segments are only joined if for the first segment in
             the sequence a fuzzy match has been found. </pd>
         </plentry>
+        <plentry>
+          <pt>No blank at segment end even if source segment has one</pt>
+          <pd>A source segment may differ from its matching target segment in that the source
+            segment contains one or more blanks at its end. If you select this option, such segments
+            are considered an exact match during automatic substitution and the additional blanks at
+            the end of the source segment are removed.</pd>
+        </plentry>
       </parml>
       <p>
         <ul>

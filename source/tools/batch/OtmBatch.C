@@ -94,6 +94,8 @@ typedef  enum _BATCHCMD
   BATCH_SEARCH,
   BATCH_TRACKID,                       // Doc open: TVT track ID
   BATCH_IMPORTAS,                      // folder import: import-as parameter
+  BATCH_MATCH,
+  BATCH_PM,
   BATCH_END                            // end of list indicator
 } BATCHCMD;
 
@@ -107,6 +109,7 @@ typedef enum _BATCHTASK
   TASK_DICEXP,                         // dictionary export
   TASK_DOCIMP,                         // document import
   TASK_DOCEXP,                         // document export
+  TASK_DOCEXPVAL,                      // document export validation
   TASK_MEMIMP,                         // import translation memory
   TASK_MEMEXP,                         // export translation memory
   TASK_MEMCRT,                         // create translation memory
@@ -154,6 +157,7 @@ typedef struct _BATCHPARAMETER
   CHAR        szProfile[MAX_LONGFILESPEC];       // buffer for profile name
   CHAR        szTaskList[MAX_LONGFILESPEC];      // buffer for task list name
   CHAR        szImportAs[MAX_LONGFILESPEC];      // buffer for import as folder name
+  CHAR        szPM[MAX_LONGFILESPEC];          // pm name
   PSZ         pszDicList;                        // list of dictionary names
   PSZ         pszDocList;                        // list of document names
   PSZ         pszMemList;                        // list of memory names
@@ -245,6 +249,7 @@ USHORT BatchAnalysis( PBATCHDATA pData );
 USHORT BatchCreateFolder( PBATCHDATA pData );
 USHORT BatchRename( PBATCHDATA pData );
 USHORT BatchExportDoc( PBATCHDATA pData );  
+USHORT BatchExportDocVal( PBATCHDATA pData );  
 USHORT BatchImportDoc( PBATCHDATA pData );
 USHORT BatchExportFolder( PBATCHDATA pData );
 USHORT BatchImportFolder( PBATCHDATA pData );
@@ -341,6 +346,8 @@ static CMDLIST EQFCmdList[ BATCH_END + 1 ] =
   {BATCH_SEARCH,       "/SEARCH=",      "/SE=" },         // search string
   {BATCH_TRACKID,      "/TRACK=",       "/TRK=" },        // TVT track ID 
   {BATCH_IMPORTAS,     "/IMPORTAS=",    "/AS=" },         // import as folder name
+  {BATCH_MATCH,        "/MATCH=",       "/MA="},          // include match types
+  {BATCH_PM,           "/PM=",          "/PM="},          // PM info
   {BATCH_END,          "",              ""       }        // end of list indicator
                 } ;
 
@@ -354,6 +361,7 @@ static TASKLIST EQFTaskList[TASK_END+1] =
  {TASK_DICEXP,     "DICEXP",  BatchExportDict },
  {TASK_DOCIMP,     "DOCIMP",  BatchImportDoc },            //document import
  {TASK_DOCEXP,     "DOCEXP",  BatchExportDoc },            //document export
+ {TASK_DOCEXPVAL,  "DOCEXPVAL",BatchExportDocVal },            //document export
  {TASK_MEMIMP,     "MEMIMP",  BatchImportMem },            //import translation memory
  {TASK_MEMEXP,     "MEMEXP",  BatchExportMem },            //export translation memory
  {TASK_MEMCRT,     "MEMCRT",  BatchCreateMem },            //create translation memory
@@ -426,6 +434,52 @@ BATCHOPTION DocExportValOptions[] =
   { "COMBINE",       VALFORMAT_COMBINE_OPT },
   { "PROTSEGS",      VALFORMAT_PROTSEGS_OPT },
   { "", 0 } };
+
+
+// EqfExportDocVal BEGIN
+BATCHOPTION DocExportValidOptions[] =
+{                       
+  { "COMBINE",            VAL_COMBINE_OPT},
+  { "PRESERVELINKS",      VAL_PRESERVE_LINKS_OPT},
+  { "EXACTMATCH",         VAL_MAN_EXACTMATCH_OPT},
+  { "REMOVEINLINE",       VAL_REMOVE_INLINE_OPT},
+  { "TRANSTEXT",          VAL_TRANSTEXT_ONLY_OPT},
+  { "INCCOUNT",           VAL_INCLUDE_COUNT_OPT},
+  { "INCMATCH",           VAL_INCLUDE_MATCH_OPT},
+  { "MISMATCHES",         VAL_MISMATCHES_ONLY_OPT},
+  { "OVERWRITE",          OVERWRITE_OPT},
+  { "", 0 } };
+
+BATCHOPTION DocExportFormatOptions[] =
+{                       
+  { "XML",           VALFORMAT_XML_OPT },
+  { "HTML",          VALFORMAT_HTML_OPT },
+  { "DOC",           VALFORMAT_DOC_OPT },
+  { "DOCX",          VALFORMAT_DOCX_OPT },
+  { "ODT",           VALFORMAT_ODT_OPT },
+  { "", 0 } };
+
+BATCHOPTION DocExportTypeOptions[] =
+{                       
+  { "VALIDATION",    VAL_VALIDATION_OPT },
+  { "PROOFREAD",     VAL_PROOFREAD_OPT },
+  { "", 0 } };
+
+BATCHOPTION DocExportMatchOptions[] =
+{                       
+  { "AUTOSUBST",     VAL_AUTOSUBST_OPT },
+  { "MODAUTOSUBST",  VAL_MOD_AUTOSUBST_OPT },
+  { "EXACT",         VAL_EXACT_OPT },
+  { "MODEXACT",      VAL_MOD_EXACT_OPT },
+  { "GLOBAL",        VAL_GLOBAL_MEM_OPT },
+  { "MACHINE",       VAL_MACHINE_OPT },
+  { "FUZZY",         VAL_FUZZY_OPT },
+  { "NEW",           VAL_NEW_OPT },
+  { "NOTRANS",       VAL_NOT_TRANS_OPT },
+  { "PROTECTED",     VAL_PROTECTED_OPT },
+  { "REPLACE",       VAL_REPLACE_OPT },
+  { "", 0 } };
+// EqfExportDocVal END
 
 BATCHOPTION WordCountOptions[] =
 {                       
@@ -573,6 +627,20 @@ BATCHPARM DocExportParms[] =
   { BATCH_STARTPATH,  NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
   { BATCH_OPTIONS,    OPTION_PARMTYPE,    DocExportOptions,       0, NULL }, 
   { BATCH_VAL,        ADDOPTION_PARMTYPE, DocExportValOptions,    1, NULL }, 
+  { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
+  { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
+
+BATCHPARM DocExportValParms[] =
+{
+  { BATCH_FLD,        NAME_PARMTYPE,      Parm.szName,            MAX_LONGFILESPEC, NULL },
+  { BATCH_FILES,      NAMELIST_PARMTYPE,  &(Parm.pszDocList),     0, NULL },
+  { BATCH_STARTPATH,  NAME_PARMTYPE,      Parm.szPath,            MAX_LONGFILESPEC, NULL },
+  { BATCH_TYPE,       ADDOPTION_PARMTYPE, DocExportTypeOptions,   1, NULL }, 
+  { BATCH_FORMAT,     ADDOPTION_PARMTYPE, DocExportFormatOptions, 2, NULL }, 
+  { BATCH_OPTIONS,    OPTION_PARMTYPE,    DocExportValidOptions,  0, NULL }, 
+  { BATCH_MATCH,      ADDOPTION_PARMTYPE, DocExportMatchOptions,  3, NULL },
+  { BATCH_TRANSLATOR, NAME_PARMTYPE,      Parm.szTranslator,      MAX_LONGFILESPEC, NULL },
+  { BATCH_PM,       NAME_PARMTYPE,        Parm.szPM,              MAX_LONGFILESPEC, NULL },
   { BATCH_OVERWRITE,  OVERWRITE_PARMTYPE, NULL,                   0, NULL },
   { BATCH_END,        DUMMY_PARMTYPE,     NULL,                   0, NULL } };
 
@@ -1395,6 +1463,40 @@ USHORT BatchExportDoc
   return( usRC );
 
 } /* end of function BatchExportDoc */
+
+
+USHORT BatchExportDocVal( PBATCHDATA pData )
+{
+  USHORT usRC = 0;
+
+  usRC = BatchGetParameters( pData, DocExportValParms );
+
+  // check whether all mandatory parameters have been provided 
+  if ( !usRC )
+  {
+    BATCHCMD MandParms[] = { BATCH_FLD, BATCH_FILES, BATCH_END };
+
+    usRC = BatchCheckMandParms( pData, MandParms );
+  } 
+   
+  // call document export function
+  if ( !usRC )
+  {
+    usRC = EqfExportDocVal( pData->hSession, Parm.szName, Parm.pszDocList, Parm.szPath, 
+                            Parm.lAddOptions1,Parm.lAddOptions2,Parm.lOptions,Parm.lAddOptions3, 
+                            Parm.szTranslator,Parm.szPM);
+  } 
+
+  if ( usRC )
+  {
+    BatchHandleAPIError( pData, usRC );
+  }
+
+  BatchCleanParms( pData );
+
+  return( usRC );
+}
+
 
 // batch document import
 USHORT BatchImportDoc
@@ -2993,6 +3095,10 @@ void showHelp()
     printf("\n");
     printf( "                     or\n");
     
+    printf("                    OtmCmd /TASK=DOCEXPVAL /FLD=fold /Files=doc(s) [/STartpath=startpath] [/TYPE=[VALIDATION|PROOFREAD]] [/FORMAT=[XML|HTML|DOC|DOCX|ODT]] [/OPtions=[COMBINE|PRESERVELINKS|EXACTMATCH|REMOVEINLINE|TRANSTEXT|INCCOUNT|INCMATCH|MISMATCHES|OVERWRITE]] [/MATCH=(AUTOSUBST|EXACT|MODEXACT|GLOBAL|MACHINE|FUZZY|NEW|NOTRANS|REPLACE]]  [/OVerwrite=[Yes|No]] [/QUIET]\n");
+    printf("\n");
+    printf( "                     or\n");
+
     printf("                    OtmCmd /TASK=DOCIMP /FLD=fold /Files=doc(s) [/STartpath=startpath] [/ALIAS=alias] [/OVerwrite=[Yes|No]] [/QUIET] [/EDit=editor] [/MArkup=markup] \n");
     printf("\n");
     printf( "                     or\n");
@@ -3084,6 +3190,7 @@ void showHelp()
     printf( "    /SRclng       the source language\n" );
     printf( "    /TGtlng       the target language\n" );
     printf( "    /TYpe         specifies the object type\n" );
+    printf( "    /MAtch        specifies included match types\n" );
     printf( "    /OVerwrite    Specifies if an existing object will be overwritten \n" );
     printf( "    /QUIET        If you specify this parameter, you are not prompted with any message window. \n" );
 }

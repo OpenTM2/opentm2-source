@@ -305,9 +305,13 @@ typedef struct _EXTFOLPROP
 #define SET_MMOPT           1
 
 // options for non-dde interface (calculating report)
-#define BASE_TYP        1
-#define FACT_TYP        2
-#define SUM_TYP         4
+#define BASE_TYP              1
+#define FACT_TYP              2
+#define SUM_TYP               4
+#define BRIEF_SORTBYDATE_TYP  8
+#define BRIEF_SORTBYDOC_TYP  16
+#define DETAIL_TYP           32
+
 
 #define PLAUS_OPT   1             // (Plausibilty check)
 #define LOST_OPT    2             // (Lost Data: Force new shipment)
@@ -627,6 +631,8 @@ USHORT EqfExportFolderFP
     - WO_REDUNDANCY_DATA_OPT exclude the redundancy report data of the folder
   \param pszDocuments pointer to the buffer containing the list of documents or NULL to export all documents of the folder
   \param pszDescription pointer to the buffer containing the export description or NULL if not used
+  \param pszMemoryExportAs comma separated list of new memory names, the first entry is used to rename the folder memory,
+           the remaining names are used to rename the search memories
   \returns 0 if successful or an error code in case of failures
 */
 /*@ADDTOSCRIPTER*/
@@ -642,7 +648,7 @@ USHORT EqfExportFolderFPas
 									   // @Other: {DELETE_OPT,WITHDICT_OPT,MASTERFOLDER_OPT, XLIFF_OPT, OVERWRITE_OPT, WO_REDUNDANCY_DATA_OPT }
   PSZ         pszDocuments,            // opt: list of documents or NULL
   PSZ         pszDescription,          // opt: export description or NULL
-  PSZ         pszMemoryExportAs        // opt: export name for memory in folder
+  PSZ         pszMemoryExportAs        // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
 );
 
 /**
@@ -826,6 +832,99 @@ USHORT EqfExportDoc
                                        // @RelativePath: WITHRELATIVEPATH_OPT(default),WITHOUTRELATIVEPATH_OPT
 									   // @Other: {VALFORMAT_COMBINE_OPT,VALFORMAT_PROTSEGS_OPT,OVERWRITE_OPT,WITHTRACKID_OPT}
 );     
+
+
+
+
+
+
+#define VAL_COMBINE_OPT               0x00000001L 
+#define VAL_PRESERVE_LINKS_OPT        0x00000002L 
+#define VAL_MAN_EXACTMATCH_OPT        0x00000004L
+#define VAL_REMOVE_INLINE_OPT         0x00000008L
+#define VAL_TRANSTEXT_ONLY_OPT        0x00000010L
+#define VAL_INCLUDE_COUNT_OPT         0x00000020L
+#define VAL_INCLUDE_MATCH_OPT         0x00000040L
+#define VAL_MISMATCHES_ONLY_OPT       0x00000080L
+
+#define VAL_AUTOSUBST_OPT             0x00000100L
+#define VAL_MOD_AUTOSUBST_OPT         0x00000200L
+#define VAL_EXACT_OPT                 0x00000400L
+#define VAL_MOD_EXACT_OPT             0x00000800L
+#define VAL_GLOBAL_MEM_OPT            0x00001000L
+#define VAL_MACHINE_OPT               0x00002000L
+#define VAL_FUZZY_OPT                 0x00004000L
+#define VAL_NEW_OPT                   0x00008000L
+#define VAL_NOT_TRANS_OPT             0x00010000L
+#define VAL_PROTECTED_OPT             0x00020000L
+#define VAL_REPLACE_OPT               0x00040000L
+
+#define VAL_VALIDATION_OPT            0x01000000L
+#define VAL_PROOFREAD_OPT             0x02000000L
+
+
+/*! \brief Export a document for validation
+  \param hSession the session handle returned by the EqfStartSession call
+  \param pszFolderName name of folder receiving the documents
+  \param pszFiles list of input files (documents) in form of a comma separated list enclosed in parentheses
+  \param pszSavedPath Path to save the exported document
+  \param lFormat Exported format type
+         - VALFORMAT_XML_OPT  export document in XML format
+         - VALFORMAT_HTML_OPT export document in HTML format,it's default.
+         - VALFORMAT_DOC_OPT  export document in DOC format
+         - VALFORMAT_ODT_OPT  export document in ODT format
+         - VALFORMAT_DOCX_OPT export document in DOCX format
+  \param lOptions Options for document export validation
+         - VAL_COMBINE_OPT              combine exported documents into one,it's invalidated if only one document to export
+         - VAL_PRESERVE_LINKS_OPT       preserve links and images
+         - VAL_MAN_EXACTMATCH_OPT       detect exact match from manual translation
+         - VAL_REMOVE_INLINE_OPT        remove inline tags,set default.
+         - VAL_TRANSTEXT_ONLY_OPT       export translates able text only,invalidate if VAL_VALIDATION_OPT set
+         - VAL_INCLUDE_COUNT_OPT        include word count info, invalidate if VAL_VALIDATION_OPT set
+         - VAL_INCLUDE_MATCH_OPT        include existing match info, invalidate if VAL_VALIDATION_OPT set
+         - VAL_MISMATCHES_ONLY_OPT      sub option for VAL_INCLUDE_MATCH_OPT,if applied, lMatchTypes can't be changed,set as (VAL_EXACT_OPT|VAL_MOD_EXACT_OPT|VAL_GLOBAL_MEM_OPT|VAL_MACHINE_OPT|VAL_FUZZY_OPT|VAL_NEW_OPT|VAL_NOT_TRANS_OPT|VAL_REPLACE_OPT)
+         - OVERWRITE_OPT                overwrite any existing files
+  \param lMatchTypes Include match types in export document
+         - VAL_AUTOSUBST_OPT             auto-substitute memory matches
+         - VAL_MOD_AUTOSUBST_OPT         modified auto-substitute memory matches
+         - VAL_EXACT_OPT                 exact matches
+         - VAL_MOD_EXACT_OPT             modified exact matches
+         - VAL_GLOBAL_MEM_OPT            global memory matches
+         - VAL_MACHINE_OPT               machine translation matches
+         - VAL_FUZZY_OPT                 fuzzy matches
+         - VAL_NEW_OPT                   new matches
+         - VAL_NOT_TRANS_OPT             not translated matches
+         - VAL_PROTECTED_OPT             protected matches
+         - VAL_REPLACE_OPT               replace matches
+  \param lType Export type,one of the following
+         - VAL_VALIDATION_OPT           export for validation, it's default. lMatchTypes can't be changed,set as (VAL_AUTOSUBST_OPT|VAL_EXACT_OPT|VAL_MOD_EXACT_OPT|VAL_GLOBAL_MEM_OPT|VAL_MACHINE_OPT|VAL_FUZZY_OPT|VAL_NEW_OPT|VAL_NOT_TRANS_OPT|VAL_REPLACE_OPT)
+         - VAL_PROOFREAD_OPT            export for proof reading
+  \param pszTranslator Translator name
+  \param pszPM Project manager name               
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfExportDocVal
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: Name of folder
+  PSZ         pszFiles,                // mand: List of documents with path information
+  PSZ         pszStartPath,            // opt:  Path to save the exported document
+  LONG        lType,                   // opt: export document for validation or proof reading
+                                       // @Type: VAL_VALIDATION_OPT(default),VAL_PROOFREAD_OPT
+  LONG        lFormat,                 // opt: Exported format type
+                                       // @Format: VALFORMAT_XML_OPT,VALFORMAT_HTML_OPT(default),VALFORMAT_DOC_OPT,VALFORMAT_ODT_OPT,VALFORMAT_DOCX_OPT
+  LONG        lOptions,                // opt:  Options for document export validation
+                                       // @Options: {VAL_COMBINE_OPT,VAL_PRESERVE_LINKS_OPT,VAL_MAN_EXACTMATCH_OPT, VAL_REMOVE_INLINE_OPT(default),
+                                       //  VAL_TRANSTEXT_ONLY_OPT,VAL_INCLUDE_COUNT_OPT,VAL_INCLUDE_MATCH_OPT,VAL_MISMATCHES_ONLY_OPT,OVERWRITE_OPT}
+  LONG        lMatchTypes,             // opt:  Include match types in export document
+                                       // @Match types: {VAL_AUTOSUBST_OPT,VAL_MOD_AUTOSUBST_OPT,VAL_EXACT_OPT,VAL_MOD_EXACT_OPT,
+                                       //  VAL_GLOBAL_MEM_OPT,VAL_MACHINE_OPT,VAL_FUZZY_OPT,VAL_NEW_OPT,VAL_NOT_TRANS_OPT,
+                                       //  VAL_PROTECTED_OPT,VAL_REPLACE_OPT}
+
+  PSZ     pszTranslator,           // opt: Translator information
+  PSZ     pszPM                    // opt: Project manager information
+);
 
 
 /*! \brief Import a Translation Memory
@@ -1208,6 +1307,36 @@ USHORT EqfImportFolderAs
   PSZ         pszFromPath,             // mand: path containing the imported folder
   CHAR        chToDrive,               // opt: target drive for folder
   PSZ         pszNewFolderName,        // opt: new name for the folder after the import
+  LONG        lOptions                 // opt: folder import options
+                                       // @Import Mode: XLIFF_OPT
+									   // @Other: {WITHDICT_OPT, WITHMEM_OPT}
+);
+
+/*! \brief Import a folder from the given directory
+    \param hSession the session handle returned by the EqfStartSession call
+    \param pszFolderName name of the folder being imported
+    \param pszFromPath the fully qualified path name of the directory containing the imported folder
+    \param chToDrive target drive for imported folder
+    \param pszNewFolderName new name for the folder after the import
+    \param pszNewMemNames comma separated list of new memory names, the first entry is used to rename the folder memory,
+           the remaining names are used to rename the search memories
+    \param lOptions folder import options
+           - XLIFF_OPT import a XLIFF folder (when not specified the import of a standard FXP folder is assumed)
+           - NOMARKUP_UPDATE_OPT do not import any markup tables contained in the exported folder
+           - WITHDICT_OPT import any dictionaries contained in the exported folder
+           - WITHMEM_OPT  import any Translation Memory databases contained in the exported folder
+    \returns 0 if successful or an error code in case of failures
+*/
+/*@ADDTOSCRIPTER*/
+__declspec(dllexport)
+USHORT EqfImportFolderAs2
+(
+  HSESSION    hSession,                // mand: Eqf session handle
+  PSZ         pszFolderName,           // mand: name of folder being imported
+  PSZ         pszFromPath,             // mand: path containing the imported folder
+  CHAR        chToDrive,               // opt: target drive for folder
+  PSZ         pszNewFolderName,        // opt: new name for the folder after the import
+  PSZ         pszNewMemNames,          // opt: comma separated list of new memory names, the first entry is used to rename the folder memory, the remaining names are used to rename the search memories
   LONG        lOptions                 // opt: folder import options
                                        // @Import Mode: XLIFF_OPT
 									   // @Other: {WITHDICT_OPT, WITHMEM_OPT}

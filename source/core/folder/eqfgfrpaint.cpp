@@ -593,7 +593,6 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
   int iLineHeight = 0;
   int iOffsDelta = 0;              // delta between old offset in result entry and new offset because of changes in the text
 
-
   // get text line height
   {
     TEXTMETRIC tm;
@@ -686,8 +685,16 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
         case CHANGETO_TYPE:
           {
             PSZ_W pszChangeTo = (PSZ_W)((PBYTE)(pEntry->pszChangeToBuffer) + pFoundPos->usChangeOffs);
+
             GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, iBaseColorIndex, TOBECHANGED_DRAWTYPE );
-            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, iBaseColorIndex, CHANGETO_DRAWTYPE );
+            if ( *pszChangeTo != 0 ) 
+            {
+              // apply any preserve case option
+              wcscpy( pIda->szChangeToModified, pszChangeTo );
+              pIda->szChangeToModified[0] = GFR_AdjustCase( pszString[iCurPos], *pszChangeTo, pIda->fPreserveCase );
+
+              GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pIda->szChangeToModified, wcslen(pIda->szChangeToModified), iLineHeight, iBaseColorIndex, CHANGETO_DRAWTYPE );
+            } /* endif */
           }
           break;
 
@@ -695,7 +702,14 @@ void DrawItemColumn( PFOLFINDDATA pIda, HDC hdc, int iColumn, PSZ_W pszString, L
           {
             PSZ_W pszChangeTo = (PSZ_W)((PBYTE)(pEntry->pszChangeToBuffer) + pFoundPos->usChangeOffs);
             GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszString + iCurPos, (int)pFoundPos->usLen, iLineHeight, iBaseColorIndex, CHANGED_DRAWTYPE );
-            if ( *pszChangeTo != 0 ) GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pszChangeTo, wcslen(pszChangeTo), iLineHeight, iBaseColorIndex, CHANGEDTO_DRAWTYPE );
+            if ( *pszChangeTo != 0 ) 
+            {
+              // apply any preserve case option
+              wcscpy( pIda->szChangeToModified, pszChangeTo );
+              pIda->szChangeToModified[0] = GFR_AdjustCase( pszString[iCurPos], *pszChangeTo, pFoundPos->fPreserveCase );
+
+              GFR_DrawMultiLineText( pIda, hdc, prcClip, &pt, pIda->szChangeToModified, wcslen(pIda->szChangeToModified), iLineHeight, iBaseColorIndex, CHANGEDTO_DRAWTYPE );
+            } /* endif */
           }
           break;
 

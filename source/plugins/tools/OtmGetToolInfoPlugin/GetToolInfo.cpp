@@ -114,9 +114,11 @@ USHORT EqfDriveType(USHORT iDrive)
         return 0xFFFF;
 
         {
-      CHAR szRoot[4] = "A:\\";
-      szRoot[0] = (CHAR)('A' + iDrive);
-      iType=(USHORT)GetDriveType(szRoot);
+          DosError(0);
+          CHAR szRoot[4] = "A:\\";
+          szRoot[0] = (CHAR)('A' + iDrive);
+          iType=(USHORT)GetDriveType(szRoot);
+          DosError(1);
         }
     /*
      * Under Windows NT, GetDriveType returns complete information

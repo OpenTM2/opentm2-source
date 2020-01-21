@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE reference
   PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
 <reference xml:lang="en-us" id="api_EqfImportFolderAs">
@@ -14,7 +14,7 @@
       <indexterm>EqfImportFolderAs</indexterm>
       <indexterm>programming interface calls<indexterm>EqfImportFolderAs</indexterm></indexterm>
       <p><i>EqfImportFolderAs</i> imports a folder from a specific path to the specified 
-        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> drive, and the folder name can be changed druing the import. </p>
+        <keyword conref="common-symbols.dita#common-symbols/tm4w"/> drive, and the folder name can be changed during the import. </p>
       <p>This function performs the import in small units. Call it repetitively until it returns a return code other than CONTINUE_RC.</p>
     </section>
     <refsyn>
@@ -38,7 +38,7 @@
           <var>chToDrive</var>
           <sep>,</sep>
           <var>pszNewFolderName</var>
-          <sep>,</sep>
+    <!--  <sep>,</sep> -->
           <groupseq importance="optional">
             <sep>,</sep>
             <groupchoice importance="required">
@@ -158,12 +158,12 @@
   session usRC = EqfStartSession( &amp;hSession ); 
   // Import the folder SAMPLE1 from path C:\PROJECT to the primary 
   // Eqf system drive, import the folder with Translation Memory 
-  // databases and dictionaries 
+  // databases and dictionaries and rename the folder to myNewFolderName 
   if ( !usRC ) 
   { 
     do 
       { 
-        usRC = EqfImportFolderFP( hSession, "SAMPLE1", "C:\PROJECT", 
+        usRC = EqfImportFolderAs( hSession, "SAMPLE1", "C:\PROJECT", 
                '\0',              // use primary OTM drive 
                "myNewFolderName", // give a new folder name
                WITHDICT_OPT | WITHMEM_OPT ); 

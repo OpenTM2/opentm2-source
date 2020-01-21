@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.5.0"
+!define PRODUCT_VERSION "1.5.1"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -460,7 +460,6 @@ SetOverwrite on
 ${File} "PROPERTY\" "EQFNFLUENT.TRG"
 Continue7:
 ;End control trigger file
-SetOverwrite on
 
 ${SetOutPath} "$INSTDIR\PRTFORM"
 ${File} "PRTFORM\" "FORMAT1.FRM"
@@ -611,6 +610,7 @@ ${File} "WIN\" "OtmMemoryServiceGUI.EXE"
 IfFileExists "$INSTDIR\WIN\OtmMemoryService.conf" OMSConfExists 0
 ${File} "WIN\" "OtmMemoryService.conf"
 OMSConfExists:
+
 
 
 ${SetOutPath} "$INSTDIR\API"

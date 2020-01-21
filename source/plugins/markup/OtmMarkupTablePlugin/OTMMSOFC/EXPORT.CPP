@@ -184,7 +184,7 @@ BOOL PostExport( PSZ in, PSZ out, PSZ source, USHORT *usFileFormat )
     ULONG      ulFromTgtFilePos ;
     ULONG      ulToTgtFilePos ;
     ULONG      ulSeqNum ;
-    USHORT     sRunConcat ;
+    USHORT     sRunConcat = 0;
     USHORT     sRunSrcNodes ;
     USHORT     sRunTgtNodes ;
     USHORT     usFixLevel = 0 ;
@@ -213,6 +213,12 @@ BOOL PostExport( PSZ in, PSZ out, PSZ source, USHORT *usFileFormat )
          ( ! stricmp( szDocTargetLanguage, "KOREAN"          ) ) ) {
        bDBCS = TRUE ;
     }
+ 
+ 
+    ptrSrcParaHead = NULL ;
+    ptrSrcSSNTHead = NULL ;
+    ptrTgtParaHead = NULL ;
+    ptrTgtSSNTHead = NULL ;
  
     /*************************************************************************/
     /*  Create a linked list which contains all of the required              */
@@ -680,8 +686,18 @@ BOOL PostExport( PSZ in, PSZ out, PSZ source, USHORT *usFileFormat )
              if ( ( ! ptrSrcRunCur ) &&                 
                   ( ptrTgtRunCur->Tag ) &&
                   ( ! wcscmp( ptrTgtRunCur->Tag, L"INSERT" ) ) ) {
-                OutFile << L"<w:r><w:t>" ;   
-                ulFromTgtFilePos = ptrTgtRunCur->StartPos  ;
+                OutFile << L"<w:r>" ;   
+                if ( ptrTgtRunCur->BreakBeforeText )              
+                   OutFile << L"<w:br/>" ;   
+                OutFile << L"<w:t>" ;   
+                if ( ptrTgtRunCur->BlockStartPos ) {              
+                   ulFromTgtFilePos = ptrTgtRunCur->BlockStartPos  ;
+                   ulToTgtFilePos = ptrTgtRunCur->BlockEndPos ;
+                } else {
+                   ulFromTgtFilePos = ptrTgtRunCur->StartPos  ;
+                   ulToTgtFilePos = ptrTgtRunCur->EndPos ;
+                }
+                 ulFromTgtFilePos = ptrTgtRunCur->StartPos  ;
                 ulToTgtFilePos = ptrTgtRunCur->EndPos ;
                 fnWriteBlock( WRITE_TARGET, 
                               ulFromTgtFilePos, 

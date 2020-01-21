@@ -2122,6 +2122,24 @@ USHORT MemFuncCreateCntReport(HSESSION hSession,
 				pRpt->usOptions = 2;
 				break;
 			}
+      case BRIEF_SORTBYDATE_TYP:
+			{
+				strcpy(pRpt->szOption,"Brief, sort by Date");
+				pRpt->usOptions = BRIEF_SORT_BY_DATE;
+				break;
+			}
+      case BRIEF_SORTBYDOC_TYP:
+			{
+				strcpy(pRpt->szOption,"Brief, sort by Date");
+				pRpt->usOptions = BRIEF_SORT_BY_DOCUMENT;
+				break;
+			}
+      case DETAIL_TYP:
+			{
+				strcpy(pRpt->szOption,"Detail");
+				pRpt->usOptions = DETAIL;
+				break;
+			}
 			default:
 			{
 				usRC = ERROR_NO_REP_TYPE;

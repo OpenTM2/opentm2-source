@@ -1490,6 +1490,7 @@ MRESULT APIENTRY GENERICPROCESSWP
       /****************************************************************/
       /* Show window title text                                       */
       /****************************************************************/
+      strcpy( pIda->szCurTitle, pIda->CommArea.szTitle );
       SETTEXTHWND( pIda->hFrame, pIda->CommArea.szTitle );
       /*******************************************************************/
       /* adjust window position if translation workbench window is in    */
@@ -2267,6 +2268,16 @@ void CheckForUpdate( HWND hwnd, PGENPROCESSINSTIDA  pIda )
     SETTEXTHWND( pIda->hwndText2, pIda->CommArea.szText2 );
     UpdateWindow( pIda->hwndText2 );
     strcpy( pIda->szCurText2, pIda->CommArea.szText2 );
+    fChanged = TRUE;
+  } /* endif */
+
+  if ( (pIda->CommArea.Style != PROCWIN_SLIDERONLY ) &&
+       (pIda->CommArea.Style != PROCWIN_SLIDERENTRY) &&
+       (strcmp( pIda->CommArea.szTitle, pIda->szCurTitle ) != 0 ) )
+  {
+    SETTEXTHWND( pIda->hFrame, pIda->CommArea.szTitle );
+    UpdateWindow( pIda->hFrame );
+    strcpy( pIda->szCurTitle, pIda->CommArea.szTitle );
     fChanged = TRUE;
   } /* endif */
 

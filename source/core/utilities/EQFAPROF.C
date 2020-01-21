@@ -58,7 +58,8 @@ typedef struct _MUANASETTINGS
   BOOL        fAdjustTrailingWS;                 // adjust trailing whitespace
   BOOL        fRespectCRLF;                      // respect CRLF
   BOOL        fAutoJoin;                         // automatic segment joining
-  BYTE        bFreeArea[100];                    // free area for enhancements
+  BOOL        fNoBlank;                          // no blank at segment end option
+  BYTE        bFreeArea[96];                     // free area for enhancements
 } MUANASETTINGS, *PMUANASETTINGS;
 
 // table entry for markup table list
@@ -137,6 +138,7 @@ BOOL AnaProfApplyProfile( LONG hProfile, PVOID pvTAIn, PSZ pszMarkup, BOOL fComb
       pEntry->fRedundancy       = pTAIn->fRedundCount;
       pEntry->fRespectCRLF      = pTAIn->fRespectCRLF;
       pEntry->fSNOMATCH         = pTAIn->fInsertNewMatch;
+      pEntry->fNoBlank          = pTAIn->fNoAddBlank;
     } /* endif */
   } /* endif */
 
@@ -170,6 +172,7 @@ BOOL AnaProfApplyProfile( LONG hProfile, PVOID pvTAIn, PSZ pszMarkup, BOOL fComb
       pTAIn->fRedundCount     |= pEntry->fRedundancy;
       pTAIn->fRespectCRLF     |= (EQF_BOOL)pEntry->fRespectCRLF;
       pTAIn->fInsertNewMatch  |= pEntry->fSNOMATCH;
+      pTAIn->fNoAddBlank      |= (EQF_BOOL)pEntry->fNoBlank;
     }
     else
     {
@@ -181,6 +184,7 @@ BOOL AnaProfApplyProfile( LONG hProfile, PVOID pvTAIn, PSZ pszMarkup, BOOL fComb
       pTAIn->fRedundCount     = pEntry->fRedundancy;
       pTAIn->fRespectCRLF     = (EQF_BOOL)pEntry->fRespectCRLF;
       pTAIn->fInsertNewMatch  = pEntry->fSNOMATCH;
+      pTAIn->fNoAddBlank      = (EQF_BOOL)pEntry->fNoBlank;
     } /* endif */
   } /* endif */
 
@@ -387,6 +391,7 @@ VOID AnaProfSaveGroupSetings( PANAPROFIDA pIda, HWND hwnd, int iGroup )
   pEntry->fAdjustTrailingWS  = QUERYCHECK( hwnd, ID_ANAPROF_TRAILINGWS_CHK );
   pEntry->fRespectCRLF       = QUERYCHECK( hwnd, ID_ANAPROF_RESPECTCRLF_CHK );
   pEntry->fAutoJoin          = QUERYCHECK( hwnd, ID_ANAPROF_AUTOJOIN_CHK );
+  pEntry->fNoBlank           = QUERYCHECK( hwnd, ID_ANAPROF_NOBLANK_CHK );
 }
 
 // show settings for given group
@@ -404,6 +409,7 @@ VOID AnaProfShowGroupSettings( PANAPROFIDA pIda, HWND hwnd, int iGroup )
   SETCHECK( hwnd, ID_ANAPROF_TRAILINGWS_CHK, pEntry->fAdjustTrailingWS );
   SETCHECK( hwnd, ID_ANAPROF_RESPECTCRLF_CHK, pEntry->fRespectCRLF );
   SETCHECK( hwnd, ID_ANAPROF_AUTOJOIN_CHK, pEntry->fAutoJoin );
+  SETCHECK( hwnd, ID_ANAPROF_NOBLANK_CHK, pEntry->fNoBlank );
 
   // fill selected markup table listbox
   DELETEALL( hwnd, ID_ANAPROF_SELECTED_LB );
@@ -582,6 +588,7 @@ INT_PTR CALLBACK ANAPROFILEDLGPROC
               ENABLECTRL( hwnd, ID_ANAPROF_TRAILINGWS_CHK, FALSE );
               ENABLECTRL( hwnd, ID_ANAPROF_RESPECTCRLF_CHK, FALSE );
               ENABLECTRL( hwnd, ID_ANAPROF_AUTOJOIN_CHK, FALSE );
+              ENABLECTRL( hwnd, ID_ANAPROF_NOBLANK_CHK, FALSE );
             } /* endif */
           } /* endif */
 

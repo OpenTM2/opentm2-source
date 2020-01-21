@@ -39,6 +39,7 @@
 #include "OtmProofReadImportPlugin.id"
 
 static char szErrorTitle[] = "Validation Document Import Error";
+static CHAR_W szWarningTitleW[] = L"Validation Document Import Warning";
 static char szInfoTitle[] = "Validation Document Import Info";
 
 typedef struct _PROOFREADPROCESSDATA
@@ -97,6 +98,7 @@ typedef struct _PROOFREADPROCESSDATA
   // buffer areas
   CHAR_W szSegmentContext[MAX_SEGMENT_SIZE+1]; // buffer for segment context
   char szMessageBuffer[MAX_SEGMENT_SIZE]; // buffer for error messages
+  CHAR_W szMessageBufferW[4+MAX_SEGMENT_SIZE]; // buffer for error messages (UTF16 version), has to be large enough for 3 segment texts plus message text
   CHAR_W szAdjustedTarget[MAX_SEGMENT_SIZE+1]; // buffer for target segment with adjusted white space
   BYTE bDiffInputBuffer[30000L];       // input buffer for EQFBFindDiff function
   BYTE bDiffTokenBuffer[10000];        // token buffer for EQFBFindDiff function
@@ -631,6 +633,7 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
     iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
     ProofReadWriteEntryToLog( pData, NULL, L"Could not access the segment in the document", TRUE );
     pData->iDocSegmentFailed++;
+    fOK = (iMBCode == IDYES);
   }
   else if ( ProofReadstrcmp( pszSourceText, pSourceSeg->pDataW ) != 0 )
   {
@@ -638,36 +641,47 @@ BOOL ProofReadUpdateDoc( PPROOFREADPROCESSDATA pData )
     iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
     ProofReadWriteEntryToLog( pData, pSourceSeg->pDataW, L"Segment source in document does not match the entry in the validation document", TRUE );
     pData->iDocSegmentFailed++;
+    fOK = (iMBCode == IDYES);
   } 
-  //else if ( ProofReadstrcmp( pszTargetText, pTargetSeg->pDataW ) != 0 )
-  //{
-  //  sprintf( pData->szMessageBuffer, "Target text of segment %lu in document %s in folder %s does not match the entry in the validation document.\n\nDo you want to continue with the next entry?", ulSegNum, pData->szDocLongName, pData->szFolLongName );
-  //  iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
-  //  ProofReadWriteEntryToLog( pData, pTargetSeg->pDataW, L"Segment target in document does not match the entry in the validation document", FALSE );
-  //  pData->iDocSegmentFailed++;
-  //} 
   else if ( wcslen( pszTargetText ) >= MAX_SEGMENT_SIZE )
   {
     sprintf( pData->szMessageBuffer, "The new text of segment %lu in document %s in folder %s is too large, segment could not be changed.\n\nDo you want to continue with the next entry?", ulSegNum, pData->szDocLongName, pData->szFolLongName );
     iMBCode = MessageBox( pData->hwndProgressWindow, pData->szMessageBuffer, szErrorTitle, MB_YESNO );
     ProofReadWriteEntryToLog( pData, NULL, L"The new segment text is too large", TRUE );
     pData->iDocSegmentFailed++;
-  } /* endif */
-  if ( iMBCode != IDYES )
+    fOK = (iMBCode == IDYES);
+  }
+  else if ( ProofReadstrcmp( pszTargetText, pTargetSeg->pDataW ) != 0 )
   {
-    fOK = FALSE;
-  } 
+    if (ProofReadstrcmp( pszModTargetText, pTargetSeg->pDataW ) == 0 )
+    {
+      // modified target matches segment target, probably the segment has been processed already
+      iMBCode = IDYES;
+    }
+    else
+    {
+      swprintf( pData->szMessageBufferW, L"Target text of segment %lu in document %S does not match the target text in the validation document.\n\n\
+Should the validation text replace the current target text?\n\nSource:  %s\n\nTarget:   %s\n\nValidation: %s",
+        ulSegNum, pData->szDocLongName, pSourceSeg->pDataW, pTargetSeg->pDataW, pszModTargetText );
+      iMBCode = MessageBoxW( pData->hwndProgressWindow, pData->szMessageBufferW, szWarningTitleW, MB_YESNOCANCEL );
+      ProofReadWriteEntryToLog( pData, pTargetSeg->pDataW, L"Segment target in document does not match the entry in the validation document", FALSE );
+      if ( iMBCode != IDYES )
+      {
+        pData->iDocSegmentFailed++;
+      } /* endif */
+      fOK = (iMBCode != IDCANCEL);
+    } /* endif */
+  } /* endif */
 
   // adjust white space in target segment
-  if ( fOK )
+  if ( fOK && (iMBCode == IDYES) )
   {
     fOK = ProofReadAdjustWhiteSpaceInTarget( pData, pTargetSeg->pDataW, pszTargetText, pszModTargetText, pData->szAdjustedTarget );
   } /* endif */
 
   // update the segment target text
-  if ( fOK )
+  if ( fOK && (iMBCode == IDYES) )
   {
-    ULONG ulDataLen = wcslen( pTargetSeg->pDataW ) + 1;
     ULONG ulNewLen = wcslen( pData->szAdjustedTarget ) + 1;
 
     // Allocate segment data buffer for changed segment and change segment data 
@@ -917,7 +931,19 @@ SHORT ProofReadstrcmp( PSZ_W  pSrc, PSZ_W  pTgt )
       }
       else
       {
-        sResult = (s>t)? 1 : -1;
+        // skip any trailing whitespaces of second string when one string ends
+        if ( (s == 0) && iswspace(t) ) do { t = *pTgt++; } while (iswspace(t) ) ;
+        if ( (t == 0) && iswspace(s) ) do { s = *pSrc++; } while (iswspace(s) ) ;
+
+        if ( (s == 0) && (t == 0) )
+        {
+          // both strings end here
+          fContinue = FALSE;
+        }
+        else
+        {
+          sResult = (s>t)? 1 : -1;
+        } /* endif */
       } /* endif */
     }
     else if ( (s == 0) && (t == 0) )

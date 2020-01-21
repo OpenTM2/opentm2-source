@@ -27,6 +27,7 @@
 
  static VOID EQFBReflow ( PTBDOCUMENT, BOOL); // reflow text via split/insert..
  static VOID EQFBFuncDeleteCharDo ( PTBDOCUMENT, BOOL );
+ static VOID EQFBFuncJoinLineDo( PTBDOCUMENT pDoc, BOOL fInsertBlank );
  static USHORT EQFBLineCheck(PTBDOCUMENT);      //same seg in remainder of line?
 
  static VOID EQFBFuncScrollIncLeft ( PTBDOCUMENT pDoc,   // scroll screen right
@@ -1782,7 +1783,7 @@ BOOL EQFBFuncCharIn
           usPos++;
           usChar = *(pDoc->pEQFBWorkSegmentW + usPos);
         } /* endwhile */
-        if (usChar == LF )
+        if ((usChar == LF) || (usChar == SOFTLF_CHAR))
         {
           fEndOfLine = TRUE;
         } /* endif */
@@ -1872,12 +1873,12 @@ BOOL EQFBFuncCharIn
           /**************************************************************/
           /* delete linefeed                                            */
           /**************************************************************/
-          if ((usChar == LF ) &&
+          if (((usChar == LF) || (usChar == SOFTLF_CHAR)) &&
               !( (pDoc->TBCursor.ulSegNum == pDoc->ulMaxSeg - 1) &&
                  (pDoc->TBCursor.usSegOffset == pDoc->pTBSeg->usLength -1)) )
           {
             EQFBFuncDoEndLine(pDoc, TRUE);
-            EQFBFuncJoinLine(pDoc);
+            EQFBFuncJoinLineDo(pDoc,FALSE);
             usPos = pDoc->TBCursor.usSegOffset;
             usChar = *(pDoc->pEQFBWorkSegmentW + usPos);
             sDellen = (USHORT)UTF16strlenCHAR(pDoc->pEQFBWorkSegmentW);
@@ -2043,7 +2044,7 @@ BOOL EQFBFuncCharIn
              {
                EQFBFuncUp(pDoc);
                EQFBFuncDoEndLine(pDoc, TRUE);
-               EQFBFuncJoinLine(pDoc);
+               EQFBFuncJoinLineDo(pDoc,FALSE);
                /*********************************************************/
                /* do not position cursor on the blank                   */
                /*********************************************************/
@@ -2955,11 +2956,15 @@ static
 //                      endif
 //
 //------------------------------------------------------------------------------
-
  VOID EQFBFuncJoinLine
  (
    PTBDOCUMENT pDoc                       //pointer to Doc instance
  )
+ {
+   EQFBFuncJoinLineDo( pDoc, TRUE );
+ }
+ 
+ VOID EQFBFuncJoinLineDo( PTBDOCUMENT pDoc, BOOL fInsertBlank )
  {
    PSZ_W   pData;                         // pointer to data
    USHORT  usChar;
@@ -2985,7 +2990,7 @@ static
         usCount = 0;                             // scroll to CRLF
         while (*(pData+usCount) == BLANK )
         {
-           usCount++;
+            usCount++;
         } /* endwhile */
         fColumnBased = TACheckColumnPos ( pData+usCount+1,
                                           pDoc->pDocTagTable,
@@ -2995,26 +3000,39 @@ static
 
         if ( !fColumnBased )
         {
-          UTF16strcpy(pData,pData+usCount);//skip ending blanks
+          if ( fInsertBlank )               // do this only for normal line joines
+          {
+            UTF16strcpy(pData,pData+usCount);//skip ending blanks
+          } /* endif */
                                            //skip leading blanks in next line
           usCount = 0;                     // count til next char != BLANK
                                            // for pData+usCount is source in strcpy
-                                              // set pData to destination for strcpy
-          if (*(pData-1) == '\r')
+          if (  (usChar == SOFTLF_CHAR) || !fInsertBlank )
           {
-             *(pData-1) = BLANK;
-             usCount++;                    // increase usCount,start BLANKS checking
-          }                                // at next position
+            usCount = 1;  // remove (soft) LF char
+          }
           else
           {
-             *pData = BLANK;               //insert a blank
-             pData++;
+                                    // set pData to destination for strcpy
+            if (*(pData-1) == '\r')
+            {
+               *(pData-1) = BLANK;
+               usCount++;                    // increase usCount,start BLANKS checking
+            }                                // at next position
+            else
+            { 
+               *pData = BLANK;               //insert a blank
+               pData++;
+            } /* endif */
           } /* endif */
 
-          while (*(pData+usCount) == BLANK)  // skip leading blanks in next line
+          if ( fInsertBlank )               // do this only for normal line joines
           {
-             usCount++;
-          } /* endwhile */
+            while (*(pData+usCount) == BLANK)  // skip leading blanks in next line
+            {
+               usCount++;
+            } /* endwhile */
+          } /* endif */
 
           UTF16strcpy(pData,pData+usCount);
           if (pDoc->TBCursor.usSegOffset == 0 )

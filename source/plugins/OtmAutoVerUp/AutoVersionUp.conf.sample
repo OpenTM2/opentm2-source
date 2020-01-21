@@ -5,7 +5,6 @@
 #+----------------------------------------------------------------------------+
 [Settings]
 StartFirst=1
-Ver=FOR_IBM
 Frequency=0
 [Networks]
 URL=http://community.opentm2.org/download/attachments/2064532

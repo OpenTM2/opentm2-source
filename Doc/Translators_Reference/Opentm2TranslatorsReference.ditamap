@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE ibmbook PUBLIC "-//IBM//DTD DITA IBM BookMap//EN" "ibmbook.dtd">
 <ibmbook>
   <!-- ********************************************************************************************** -->
@@ -18,7 +18,7 @@
     <prodinfo>
       <prodname>OpenTM2 for Windows</prodname>
       <vrmlist>
-        <vrm version="Version 1.5.0"/>
+        <vrm version="Version 1.5.1"/>
       </vrmlist>
     </prodinfo>
     <bookrights>
@@ -38,7 +38,7 @@
   <!-- ********************************************************************************************** -->
   <ibmfrontmatter>
     <specialnotices href="Notices.dita"> </specialnotices>
-    <editionnotices href="EditionNotices.dita" navtitle="10th Edition, April 2018"> </editionnotices>
+    <editionnotices href="EditionNotices.dita" navtitle="11th Edition, August 2018"> </editionnotices>
     <frontbooklists>
       <toc/>
     </frontbooklists>
@@ -48,6 +48,9 @@
     </preface>
     
     <topicref href="changes_Summary.dita" navtitle="Summary of changes">
+      <topicref href="changes_151.dita" navtitle="New features and functions in OpenTM2 v1.5.1">
+        <topicref href="changes_151_OtmBatchDOCEXPVAL.dita" navtitle="New task DOCEXPVAL in OtmBath tool"> </topicref>
+      </topicref>
       <topicref href="changes_150.dita" navtitle="New features and functions in OpenTM2 v1.5.0">
         <topicref href="changes_150_ExportFolder.dita" navtitle="Improvements in the Export Folder function"> </topicref>
         <topicref href="changes_150_OtmBatchConnect.dita" navtitle="New tasks CONNECT and DISCONNECT in OtmBath tool"> </topicref>
@@ -65,6 +68,8 @@
         <topicref href="changes_140_SharedMemory.dita" navtitle="Updated WEB-based Shared Memory solution"> </topicref>
         <topicref href="changes_140_CHKPII.dita" navtitle="Call CHKPII from within OpenTM2"> </topicref>
       </topicref>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       <topicref href="changes_132.dita" navtitle="New features and functions in OpenTM2 v1.3.2">
         <topicref href="changes_132_SharedMemory.dita" navtitle="Reworked WEB-based Shared Memory solution"> </topicref>
       </topicref>    
@@ -73,8 +78,6 @@
         <topicref href="changes_131_NextUntranslated.dita" navtitle="Two more entries in function Next Untranslated Segment"> </topicref>
       </topicref>
     </topicref>
-
-<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     <topicref href="changes_130.dita" navtitle="New features and functions in OpenTM2 v1.3.0">
       <topicref href="changes_130_ExactFuzzyNomatch.dita" navtitle="Shortcut keys for next EXACT, FUZZY, NO match segment"> </topicref>
       <topicref href="changes_130_ProfileSettings.dita" navtitle="Plugin to backup and restore Profile Settings"> </topicref>      
@@ -106,6 +109,7 @@
       <topicref href="changes_122_XMLPreview.dita" navtitle="XML Preview function"> </topicref>
     </topicref>
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+    </topicref>
   </ibmfrontmatter>
   <!-- ************************************************************************************************ -->
 
@@ -537,6 +541,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
       <topicref href="otmbatch_DocumentRemove.dita" navtitle="Removing documents based on a list"> </topicref>
       <topicref href="otmbatch_DocumentRestore.dita" navtitle="Restoring documents"> </topicref>
       <topicref href="otmbatch_DocumentExport.dita" navtitle="Exporting documents"> </topicref>
+      <topicref href="otmbatch_DocumentExportVal.dita" navtitle="Exporting documents in Validation Format"> </topicref>
       <topicref href="otmbatch_DocumentImport.dita" navtitle="Importing documents"> </topicref>
       <topicref href="otmbatch_FolderCreate.dita" navtitle="Creating a folder"> </topicref>
       <topicref href="otmbatch_FolderDelete.dita" navtitle="Deleting a folder"> </topicref>

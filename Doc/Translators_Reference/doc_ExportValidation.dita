@@ -68,6 +68,10 @@
                   edit</b> the validation or proofreading document in MS WORD or even in Open
                 Office. Further processing is possible e.g. by using TRACK CHANGES or by using ADD
                 COMMENTS. These functions are dedicated to MS WORD or Open Office.</li>
+              <li><b>MS WORD (.DOCX):</b> Use the DOCX file format if you want to <b>display and
+                  edit</b> the validation or proofreading document in MS WORD or even in Open
+                Office. Further processing is possible e.g. by using TRACK CHANGES or by using ADD
+                COMMENTS. These functions are dedicated to MS WORD or Open Office.</li>
               <li id="odt"><b>Symphony (.ODT):</b> Use the ODT file format if you want to <b>display
                   and edit </b>the validation or proofreading document in Lotus Symphony or in Open
                 Office.</li>
@@ -87,7 +91,7 @@
               <li><b>Export for Proofreading:</b> This format is dedicated for <b>proofreading</b>
                 purposes only. Proofreaders request a dedicated format of the output which supports
                 dedicated tasks and information. Compared to the validation format users can adjust
-                the output by exporting single match types. </li>
+                the output by exporting one or more match types. </li>
             </ul>
           </pd>
         </plentry>

@@ -195,7 +195,7 @@
         <plentry>
           <pt>/VAL=</pt>
           <pd>Specifies additional options for the export of validation documents. These options
-            control the format of the validation document (XML, HTML, DOC or ODT), the inclusion of
+            control the format of the validation document (XML, HTML, DOC ,DOCX or ODT), the inclusion of
             protected segments (PROTSEGS) and allows to combine all exported documents into one
             validation document (COMBINE). If you specify more than one option, you must enclose
             them in brackets and seperate the individual options using a comma. </pd>

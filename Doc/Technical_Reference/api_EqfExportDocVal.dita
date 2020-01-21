@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE reference
+  PUBLIC "-//IBM//DTD DITA IBM Reference//EN" "ibm-reference.dtd">
+<reference xml:lang="en-us" id="api_EqfExportDocVal">
+  <title>EqfExportDocVal</title>
+  <prolog>
+    <metadata>
+      <keywords><!--Insert <indexterm> tags here--></keywords>
+    </metadata>
+  </prolog>
+  <refbody>
+    <section>
+      <title>Purpose</title>
+      <indexterm>EqfExportDocVal</indexterm>
+      <indexterm>programming interface calls<indexterm>EqfExportDocVal</indexterm></indexterm>
+      <p><i>EqfExportDocVal</i> exports one or more documents in the Validation format.</p>
+      <p>This function performs the export in small units. Call it repetitively until it returns a return code other than CONTINUE_RC.</p>
+    </section>
+
+    <refsyn>
+      <title>Format</title>
+      <syntaxdiagram>
+
+        <groupseq>
+          <kwd>usRC</kwd>
+          <oper> = </oper>
+          <kwd>EqfExportDocVal</kwd>
+          <delim>(</delim>
+          <var>hSession</var>
+          <sep>,</sep>
+          <var>pszFolderName</var>
+          <sep>,</sep>
+          <groupseq>
+            <repsep>,</repsep>
+            <var>pszFiles</var>
+          </groupseq>
+          <sep>,</sep>
+          <var>pszStartPath</var>
+   <!--   <sep>,</sep>   -->
+        </groupseq>
+
+        <groupseq>
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd importance="default">VAL_VALIDATION_OPT</kwd>
+              <kwd>VAL_PROOFREAD_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd importance="default">VALFORMAT_HTML_OPT</kwd>
+              <kwd>VALFORMAT_DOC_OPT</kwd>
+              <kwd>VALFORMAT_DOCX_OPT</kwd>
+              <kwd>VALFORMAT_ODT_OPT</kwd>
+              <kwd>VALFORMAT_XML_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd importance="default">VAL_REMOVE_INLINE_OPT</kwd>
+              <kwd>VAL_COMBINE_OPT</kwd>
+              <kwd>VAL_INCLUDE_COUNT_OPT</kwd>
+              <kwd>VAL_INCLUDE_MATCH_OPT</kwd>
+              <kwd>VAL_MAN_EXACTMATCH_OPT</kwd>
+              <kwd>VAL_MISMATCHES_ONLY_OPT</kwd>
+              <kwd>VAL_PRESERVE_LINKS_OPT</kwd>
+              <kwd>VAL_TRANSTEXT_ONLY_OPT</kwd>
+              <kwd>OVERWRITE_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+        </groupseq>
+
+        <groupseq>
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <groupchoice importance="required">
+              <kwd>VAL_AUTOSUBST_OPT</kwd>
+              <kwd>VAL_EXACT_OPT</kwd>
+              <kwd>VAL_FUZZY_OPT</kwd>
+              <kwd>VAL_GLOBAL_MEM_OPT</kwd>
+              <kwd>VAL_MACHINE_OPT</kwd>
+              <kwd>VAL_MOD_AUTOSUBST_OPT</kwd>
+              <kwd>VAL_MOD_EXACT_OPT</kwd>
+              <kwd>VAL_NEW_OPT</kwd>
+              <kwd>VAL_NOT_TRANS_OPT</kwd>
+              <kwd>VAL_PROTECTED_OPT</kwd>
+              <kwd>VAL_REPLACE_OPT</kwd>
+            </groupchoice>
+          </groupseq>
+         
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <var>pszTranslator</var>
+          </groupseq>
+         
+          <groupseq importance="optional">
+            <sep>,</sep>
+            <var>pszProjectManager</var>
+          </groupseq>
+         
+          <delim>)</delim>
+          <sep>;</sep>
+        </groupseq>
+
+      </syntaxdiagram>
+    </refsyn>
+
+
+
+
+    <section>
+      <title>Parameters</title>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="3">
+          <colspec colname="col1" colwidth="53*"/>
+          <colspec colname="col2" colwidth="82*"/>
+          <colspec colname="col3" colwidth="154*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Type</entry>
+              <entry align="left">Parameter</entry>
+              <entry align="left">Description </entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">HSESSION</entry>
+              <entry colname="col2">hSession</entry>
+              <entry colname="col3">The EQF session handle, as returned by <i>EqfStartSession</i>.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFolderName</entry>
+              <entry colname="col3">The name of the folder containing the documents to be exported.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszFiles</entry>
+              <entry colname="col3">The name, including the target path, of the folder's documents to be exported.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszStartPath</entry>
+              <entry colname="col3">The start path if the documents are to be exported with relative path 
+                information. If a start path is specified, the files in the <synph><var>pszFiles</var></synph> 
+                list only contain the relative path.</entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lType</entry>
+              <entry colname="col3">The type of validation document to create:
+                <sl>
+                  <sli>VAL_PROOFREAD_OPT to export for proofreading.</sli>
+                  <sli>VAL_VALIDATION_OPT to export for validation, which is the default.
+                    The <synph><var>lMatchTypes</var></synph> option is ignored, and all segment types
+                    are automatically selected except for VAL_PROTECTED_OPT.
+                  </sli>
+                </sl>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lFormat</entry>
+              <entry colname="col3">The format of the exported documents: 
+                <sl>
+                  <sli>VALFORMAT_DOC_OPT to create MS WORD DOC outputs.</sli>
+                  <sli>VALFORMAT_DOCX_OPT to create MS WORD DOCX outputs.</sli>
+                  <sli>VALFORMAT_HTML_OPT to create HTML outputs, which is the default.</sli>
+                  <sli>VALFORMAT_ODT_OPT to create Open Office Writer outputs.</sli>
+                  <sli>VALFORMAT_XML_OPT to create XML outputs.</sli>
+                </sl>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lOptions</entry>
+              <entry colname="col3">The options to be used for the document export: 
+                <sl>
+                  <sli>VAL_COMBINE_OPT to combine the validation format exports into one document.</sli>
+                  <sli>VAL_INCLUDE_COUNT_OPT to include the source word count for each translatable segment.</sli>
+                  <sli>VAL_INCLUDE_MATCH_OPT to include the type of translation memory match which exists for each translatable segment.</sli>
+                  <sli>VAL_MAN_EXACTMATCH_OPT to idenitfy exact matches which result from formerly manually translated segments.</sli>
+                  <sli>VAL_MISMATCHES_OPT to include only segments where a translation memory entry exists for the source segment, 
+                       but the segment's target text does not match the memory's target text.</sli>
+                  <sli>VAL_PRESERVE_LINKS_OPT to include the active HTML link or image tags in the translatable text.</sli>
+                  <sli>VAL_REMOVE_INLINE_OPT to remove any protected inline items from the segment's translatable text.</sli>
+                  <sli>VAL_TRANSTEXT_OPT to include only the translated text in a plain text format.</sli>
+                  <sli>OVERWRITE_OPT to replace an existing output file.</sli>
+                </sl>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">LONG</entry>
+              <entry colname="col2">lMatchTypes</entry>
+              <entry colname="col3">The type of segments to be included in the document export when <synph><var>lType</var></synph> VAL_PROOFREAD_OPT is specified: 
+                <sl>
+                  <sli>VAL_AUTOSUBST_OPT to include segments which are auto-substituted memory matches.</sli>
+                  <sli>VAL_EXACT_OPT to include segments which are exact memory matches.</sli>
+                  <sli>VAL_FUZZY_OPT to include segments which are fuzzy memory matches.</sli>
+                  <sli>VAL_GLOBAL_MEM_OPT to include segments which are global memory matches.</sli>
+                  <sli>VAL_MACHINE_OPT to to include segments which are machine translation matches.</sli>
+                  <sli>VAL_MOD_AUTOSUBST_OPT to include segments which are auto-substituted memory matches, but were then modified.</sli>
+                  <sli>VAL_MOD_EXACT_OPT to include segments which are exact memory matches, but were then modified.</sli>
+                  <sli>VAL_NEW_OPT to include segments which are new translations.</sli>
+                  <sli>VAL_NOT_TRANS_OPT to include segments which were not translated.</sli>
+                  <sli>VAL_PROTECTED_OPT to include segments which are protected and are not translatable.</sli>
+                  <sli>VAL_REPLACE_OPT to to include segments which are replace matches.</sli>
+                </sl>
+              </entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszTranslator</entry>
+              <entry colname="col3">The name of the translator who translated this document.</entry>
+            </row>
+            <row>
+              <entry colname="col1">PSZ</entry>
+              <entry colname="col2">pszProjectManager</entry>
+              <entry colname="col3">The name of the project manager for this project.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+
+    <section>
+      <title>Return code</title>
+      <p>USHORT</p>
+      <table pgwide="0" frame="topbot" colsep="1" rowsep="1">
+        <tgroup cols="2">
+          <colspec colname="col1" align="left" colwidth="40*"/>
+          <colspec colname="col2" align="left" colwidth="157*"/>
+          <thead valign="top">
+            <row>
+              <entry align="left">Value</entry>
+              <entry align="left">Description</entry>
+            </row>
+          </thead>
+          <tbody>
+            <row>
+              <entry colname="col1">0 (NO_ERROR)</entry>
+              <entry colname="col2">The function completed successfully.</entry>
+            </row>
+            <row>
+              <entry colname="col1">CONTINUE_RC</entry>
+              <entry colname="col2">The document export has not completed yet. Call <i>EqfExportDocVal</i> again.</entry>
+            </row>
+            <row>
+              <entry colname="col1">other</entry>
+              <entry colname="col2">
+                <ph otherprops="print">Error code (EQF message number). Use <i>EqfGetLastError</i>
+                  (see <ph otherprops="print">page <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/></ph>
+                   <xref otherprops="display" href="api_EqfGetLastError.dita#api_EqfGetLastError"/>)
+                   to retrieve the complete error information.</ph>
+                   <ph otherprops="display">Error code (EQF message number). Use <xref href="api_EqfGetLastError.dita#api_EqfGetLastError"/> 
+                   to retrieve the complete error information.</ph>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+    </section>
+    <example>
+      <title>Code sample</title>
+      <codeblock>{
+  USHORT usRC = 0;
+  HSESSION hSession = 0L;
+
+  // start the Eqf calling interface session
+  usRC = EqfStartSession( &amp;hSession );
+
+  // Export the translations of documents DOC1.TXT and DOC2.TXT of
+  // folder SAMPLE1 in the DOCX proofreading format.
+  // Combine the output into a single document, include the 
+  // source word count and include segments which were 
+  // auto-substituted, fuzzy matches and replace matches.
+  if ( !usRC )
+  {
+    do
+    {
+      usRC = EqfExportDocVal( hSession, "SAMPLE1",
+                           "C:\\DOC1.TXT,C:\\DOC2.TXT", NULL,
+                           VAL_PROOFREAD_OPT, VALFORMAT_DOCX_OPT,
+                           VAL_COMBINE | VAL_INCLUDE_COUNT_OPT,
+                           VAL_AUTOSUBST_OPT | VAL_FUZZY_OPT 
+                           | VAL_REPLACE_OPT, NULL, NULL ) ;
+
+    } while ( usRC == CONTINUE_RC );
+  } /* endif */
+
+  // terminate the session 
+  EqfEndSession( hSession );
+}</codeblock>
+    </example>
+  </refbody>
+</reference>
