@@ -31,6 +31,35 @@
 
 #include "EQFTPI.H"               // Translation Processor priv. include file
 
+#include "core\utilities\LogWriter.h"
+
+// activate the following define to log avents related to saving the segment
+// #define SEGMENTSAVE_LOG
+
+#ifdef SEGMENTSAVE_LOG
+  LogWriter *pSaveSegLog = NULL;
+#endif
+
+void WriteSaveSegLog( PSZ pszLogText )
+{
+#ifdef SEGMENTSAVE_LOG
+  if ( pSaveSegLog == NULL )
+  {
+    pSaveSegLog = new LogWriter(); 
+    if ( pSaveSegLog != NULL )
+    {
+      pSaveSegLog->open( "EditorSaveSegLog", LogWriter::OM_UTF16 | LogWriter::OM_APPEND ); 
+      pSaveSegLog->setForcedWrite( TRUE );
+    }
+  } /* endif */
+  if ( pSaveSegLog != NULL )
+  {
+    pSaveSegLog->write( pszLogText );
+  }
+#endif
+  return;
+}
+
 #define MSGBOXDATALEN     30        // data len of segment to be displ.
 
 #define CHECKPOS_XLATESEG 0         // same position
@@ -1540,9 +1569,18 @@ VOID EQFBTrans
          break;
 
       case CHECKPOS_POSTEDIT:
+         WriteSaveSegLog( "EQFBTrans(CHECKPOS_POSTEDIT): Before EQFBSaveSeg" );
          if ( pDoc->EQFBFlags.workchng )
          {
             fOK = EQFBSaveSeg( pDoc );
+            if ( fOK )
+            {
+              WriteSaveSegLog( "EQFBTrans(CHECKPOS_POSTEDIT): After EQFBSaveSeg" );
+            }
+            else
+            {
+              WriteSaveSegLog( "EQFBTrans(CHECKPOS_POSTEDIT): EQFBSaveSeg failed" );
+            } /* endif */
          }
          else
          {
@@ -1556,24 +1594,32 @@ VOID EQFBTrans
          {
            pDoc->EQFBFlags.PostEdit = FALSE;      // reset post edit/* @39A */
            ulSegNum = pDoc->TBCursor.ulSegNum;   // set segment number
-           EQFBDoNextTwo ( pDoc,
-                           &ulSegNum, usCond );  // do the next two segments
+           WriteSaveSegLog( "EQFBTrans(CHECKPOS_POSTEDIT): before EQFBDoNextTwo" );
+           EQFBDoNextTwo ( pDoc, &ulSegNum, usCond );  // do the next two segments
+           WriteSaveSegLog( "EQFBTrans(CHECKPOS_POSTEDIT): after EQFBDoNextTwo" );
          } /* endif */
          break;
 
 
       case CHECKPOS_XLATESEG:
          if (pDoc->fAutoSpellCheck )
-		 {
-		    EQFBWorkThreadTask ( pDoc, THREAD_SPELLSEGMENT );
+         {
+           WriteSaveSegLog( "EQFBTrans(CHECKPOS_XLATESEG): EQFBWorkThreadTask-THREAD_SPELLSEGMENT" );
+           EQFBWorkThreadTask ( pDoc, THREAD_SPELLSEGMENT );
          } /* endif */
+         WriteSaveSegLog( "EQFBTrans(CHECKPOS_XLATESEG): Before EQFBSaveSeg" );
          if (EQFBSaveSeg( pDoc))                 // save current segment
          {
+            WriteSaveSegLog( "EQFBTrans(CHECKPOS_XLATESEG): After EQFBSaveSeg, before EQFBDoNextTwo" );
             pDoc->EQFBFlags.PostEdit = FALSE;    // reset post edit /* @39A */
                                                  // store start address
             ulSegNum = pDoc->TBCursor.ulSegNum + 1;
-            EQFBDoNextTwo ( pDoc,
-                            &ulSegNum , usCond  );// do the next two segments
+            EQFBDoNextTwo ( pDoc, &ulSegNum , usCond  );// do the next two segments
+            WriteSaveSegLog( "EQFBTrans(CHECKPOS_XLATESEG): After EQFBDoNextTwo" );
+         }
+         else
+         {
+           WriteSaveSegLog( "EQFBTrans(CHECKPOS_XLATESEG): EQFBSaveSeg failed" );
          } /* endif */
          break;
 
@@ -1729,6 +1775,7 @@ VOID EQFBDoNextTwo( PTBDOCUMENT pDoc,     // pointer to document
    BOOL fOK = TRUE;                       // succes indicator
 
 
+   WriteSaveSegLog( "EQFBDoNextTwo: before EQFBSendNextSource" );
    ulSegNum =  *pulSegNum;
    // send next segment to services
    fOK = EQFBSendNextSource(pDoc,         // pointer to document
@@ -1737,15 +1784,23 @@ VOID EQFBDoNextTwo( PTBDOCUMENT pDoc,     // pointer to document
                             usCond);      // untranslated only?
    if ( fOK )
    {
+       WriteSaveSegLog( "EQFBDoNextTwo: before EQFBActivateSegm" );
        EQFBActivateSegm( pDoc, ulSegNum );// activate the current segment
-        *pulSegNum = ulSegNum;            // that's our active segment
+       WriteSaveSegLog( "EQFBDoNextTwo: after EQFBActivateSegm" );
+       *pulSegNum = ulSegNum;            // that's our active segment
 
-        ulSegNum ++;
-        fOK = EQFBSendNextSource
+       ulSegNum ++;
+       WriteSaveSegLog( "EQFBDoNextTwo: before EQFBSendNextSource" );
+       fOK = EQFBSendNextSource
                  ( pDoc,                  // pointer to document
                    &ulSegNum,             // pointer to line number
                    FALSE,                 // background mode
                    usCond );              // untranslated only?
+       WriteSaveSegLog( "EQFBDoNextTwo: after EQFBSendNextSource" );
+   } 
+   else
+   {
+     WriteSaveSegLog( "EQFBDoNextTwo: EQFBSendNextSource failed" );
    } /* endif */
     return;
 }
@@ -1915,38 +1970,45 @@ VOID  EQFBActivateSegm
           } /* endif */
           if (pSeg->CountFlag.FuzzyExist)
           {
-			      USHORT usFuzzyRC = 0;
+            // get fuzziness of first fuzzy proposal
+            {
+              USHORT i = 0;
+              ulFuzzyness = 0;
+              PSTEQFGEN pstEqfGen = (PSTEQFGEN)pDoc->pstEQFGen;
+              PDOCUMENT_IDA pDocIda = (PDOCUMENT_IDA)pstEqfGen->pDoc;
+              while ( (ulFuzzyness == 0) && (i < EQF_NPROP_TGTS) )
+              {
+                USHORT usCurFuzzy = (pDocIda->stEQFSab + pDocIda->usFI)->usFuzzyPercents[i];
+                if ( usCurFuzzy < 100 ) ulFuzzyness = usCurFuzzy;
+                i++;
+              } /* endwhile */
+            }
 
-				    usFuzzyRC = EqfGetPropFuzzyness((PSTEQFGEN)pDoc->pstEQFGen, &ulFuzzyness);
+					  if (ulFuzzyness < (FUZZY_THRESHOLD_0 * 100))
+					  { // RJ-040324: DO NOT COUNT AS FUZZY, COUNT as NON_MATCH!!
+					    // no flag to be set here, instead reset CountFlag.FuzzyExist!!!
+					    // force that it is counted as NOne_MATCH
+					    pSeg->CountFlag.FuzzyExist = FALSE;
 
-				    if (!usFuzzyRC)
-				    {
-					    if (ulFuzzyness < (FUZZY_THRESHOLD_0 * 100))
-					    { // RJ-040324: DO NOT COUNT AS FUZZY, COUNT as NON_MATCH!!
-					      // no flag to be set here, instead reset CountFlag.FuzzyExist!!!
-					      // force that it is counted as NOne_MATCH
-					      pSeg->CountFlag.FuzzyExist = FALSE;
-
-                // GQ 2015-06-17 Check if there is a MT match
-                if (usState & MACHINE_TRANS_PROP )
-                {
-                  pSeg->CountFlag.MachExist = TRUE;
-  		     		  }
-		     		  }
-					    else if (ulFuzzyness <= (FUZZY_THRESHOLD_1 * 100 ))
- 					    {
-						    pSeg->CountFlag.Fuzzy5070 = TRUE;
-					    }
-					    else if (ulFuzzyness <= (FUZZY_THRESHOLD_2 * 100))
-					    {
-						    pSeg->CountFlag.Fuzzy7190 = TRUE;
-					    }
-					    else
-					    {
-						    pSeg->CountFlag.Fuzzy9199 = TRUE;
-					    }
-			        }
-		      } /* endif */
+              // GQ 2015-06-17 Check if there is a MT match
+              if (usState & MACHINE_TRANS_PROP )
+              {
+                pSeg->CountFlag.MachExist = TRUE;
+  		     		}
+		     		}
+					  else if (ulFuzzyness <= (FUZZY_THRESHOLD_1 * 100 ))
+ 					  {
+						  pSeg->CountFlag.Fuzzy5070 = TRUE;
+					  }
+					  else if (ulFuzzyness <= (FUZZY_THRESHOLD_2 * 100))
+					  {
+						  pSeg->CountFlag.Fuzzy7190 = TRUE;
+					  }
+					  else
+					  {
+						  pSeg->CountFlag.Fuzzy9199 = TRUE;
+					  }
+ 		      } /* endif */
         } /* endif */
       } /* endif */
       if ((pSeg->usModWords == 0 )
@@ -1974,6 +2036,86 @@ VOID  EQFBActivateSegm
             pSeg->usModWords = pSeg->usSrcWords;
           } /* endif */
       } /* endif */
+
+      // let EQFCHECKSEGTYPE function of the user exit adjust the counting type of this segment
+      if ( pDoc && pDoc->pfnCheckSegType )
+      {
+         PTBSEGMENT pTBPrevSourceSeg = EQFBGetSegW( pDoc->twin, ulSegNum - 1 );
+         PTBSEGMENT pSourceSeg = EQFBGetSegW( pDoc->twin, ulSegNum );
+         EQF_BOOL  fChanged = FALSE;
+         PSZ_W     pszPrevSegData = NULL;
+         PSZ_W     pszSourceSegData = NULL;
+         SHORT     sMemType = CST_MANUAL_MATCH;
+         SHORT     sCountType = CST_UNDEFINED_MATCH;
+         PSTEQFGEN pstEqfGen = (PSTEQFGEN)pDoc->pstEQFGen;
+         PDOCUMENT_IDA pDocIda = (PDOCUMENT_IDA)pstEqfGen->pDoc;
+
+     
+         pszPrevSegData = ( pTBPrevSourceSeg ) ? pTBPrevSourceSeg->pDataW : NULL;
+         pszSourceSegData = ( pSourceSeg ) ? pSourceSeg->pDataW : NULL;
+         fChanged = (pDoc->pfnCheckSegType)( pDocIda->szDocFormat, pszPrevSegData, pszSourceSegData, pSeg->pDataW, (LONG)pDoc, ulSegNum, &sCountType, &sMemType );
+         if ( fChanged )
+         {
+           switch( sCountType )
+           {
+             case CST_AUTOSUBST_MATCH: 
+               pSeg->CountFlag.FuzzyExist = FALSE; 
+               pSeg->CountFlag.Fuzzy5070 = FALSE; 
+               pSeg->CountFlag.Fuzzy7190 = FALSE; 
+               pSeg->CountFlag.Fuzzy9199 = FALSE; 
+               pSeg->CountFlag.ReplExist = FALSE; 
+               pSeg->CountFlag.ExactExist = FALSE; 
+               pSeg->CountFlag.GlobMemExist = FALSE;
+               pSeg->CountFlag.MachExist = FALSE; 
+               pSeg->CountFlag.AnalAutoSubst = TRUE; 
+               break;
+             case CST_MACHINE_MATCH: 
+               pSeg->CountFlag.FuzzyExist = FALSE; 
+               pSeg->CountFlag.Fuzzy5070 = FALSE; 
+               pSeg->CountFlag.Fuzzy7190 = FALSE; 
+               pSeg->CountFlag.Fuzzy9199 = FALSE; 
+               pSeg->CountFlag.ReplExist = FALSE; 
+               pSeg->CountFlag.ExactExist = FALSE; 
+               pSeg->CountFlag.GlobMemExist = FALSE;
+               pSeg->CountFlag.MachExist = TRUE; 
+               break;
+             case CST_EXACT_MATCH: 
+               pSeg->CountFlag.FuzzyExist = FALSE; 
+               pSeg->CountFlag.Fuzzy5070 = FALSE; 
+               pSeg->CountFlag.Fuzzy7190 = FALSE; 
+               pSeg->CountFlag.Fuzzy9199 = FALSE; 
+               pSeg->CountFlag.ReplExist = FALSE; 
+               pSeg->CountFlag.ExactExist = TRUE; 
+               pSeg->CountFlag.GlobMemExist = FALSE;
+               pSeg->CountFlag.MachExist = FALSE; 
+               break;
+             case CST_NO_MATCH: 
+               pSeg->CountFlag.FuzzyExist = FALSE; 
+               pSeg->CountFlag.Fuzzy5070 = FALSE; 
+               pSeg->CountFlag.Fuzzy7190 = FALSE; 
+               pSeg->CountFlag.Fuzzy9199 = FALSE; 
+               pSeg->CountFlag.ReplExist = FALSE; 
+               pSeg->CountFlag.ExactExist = FALSE; 
+               pSeg->CountFlag.GlobMemExist = FALSE;
+               pSeg->CountFlag.MachExist = FALSE; 
+               break;
+             case CST_GLOBMEM_MATCH: 
+               pSeg->CountFlag.FuzzyExist = FALSE; 
+               pSeg->CountFlag.Fuzzy5070 = FALSE; 
+               pSeg->CountFlag.Fuzzy7190 = FALSE; 
+               pSeg->CountFlag.Fuzzy9199 = FALSE; 
+               pSeg->CountFlag.ReplExist = FALSE; 
+               pSeg->CountFlag.ExactExist = FALSE; 
+               pSeg->CountFlag.GlobMemExist = TRUE;
+               pSeg->CountFlag.MachExist = FALSE; 
+               break;
+             case CST_UNDEFINED_MATCH: 
+             default: 
+               break;
+           }
+         } /* endif */
+      } /* endif */
+
 
        /*****************************************************************/
        /* init logging structure                                        */
@@ -4554,7 +4696,7 @@ void EQFBGetMatchFlags( PTBDOCUMENT pDoc )
     while ( (usFuzzy == 0) && (i < EQF_NPROP_TGTS) )
     {
       USHORT usCurFuzzy = (pDocIda->stEQFSab + pDocIda->usFI)->usFuzzyPercents[i];
-      if ( usCurFuzzy <= 100 ) usFuzzy = usCurFuzzy;
+      if ( usCurFuzzy < 100 ) usFuzzy = usCurFuzzy;
       i++;
     } /* endwhile */
   }

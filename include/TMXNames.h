@@ -146,12 +146,14 @@ NAMETABLE Language_TMX2Tmgr[] = {
   { NULL, NULL } };
 
 
+#ifdef FOR_OPENSRC
 NAMETABLE Markup2Type[] = {
   { "OTMHTM32","html" },
   { "OTMANSI","plaintext" },
   { "OTMASCII","plaintext" },
   { "OTMRTF","rtf" },
   { "OTMXML","xml" },
+  { "OTMANSI","plaintext" },
 // "alptext" = WinJoust data.
 // "cdf" = Channel Definition Format.
 // "cmx" = Corel CMX Format.
@@ -171,10 +173,56 @@ NAMETABLE Markup2Type[] = {
 // "winres" = Windows resources from RC, DLL, EXE.
 // "xptag" = Quark XPressTag.
   { NULL, NULL } };
+#else
+NAMETABLE Markup2Type[] = {
+  { "EQFHTML2","html" },
+  { "EQFHTML4","html" },
+  { "IBMHTM32","html" },
+  { "EQFINTER","interleaf" },
+  { "EQFBOOK","ipf" },
+  { "EQFFRBLD","mif" },
+  { "EQFASCII","plaintext" },
+  { "EQFRTF","rtf" },
+  { "IBMXML","xml" },
+  { "IBMDITA","dita" },
+// "alptext" = WinJoust data.
+// "cdf" = Channel Definition Format.
+// "cmx" = Corel CMX Format.
+// "cpp" = C and C++ style text.
+// "hptag" = HP-Tag.
+// "java" = Java, source and property files.
+// "javascript" = JavaScript, ECMAScript scripts.
+// "lisp" = Lisp.
+// "opentag" = OpenTag data.
+// "pascal" = Pascal, Delphi style text.
+// "pm" = PageMaker.
+// "sgml" = SGML.
+// "stf-f" = S-Tagger for FrameMaker.
+// "stf-i" = S-Tagger for Interleaf.
+// "transit" = Transit data.
+// "vbscript" = Visual Basic scripts.
+// "winres" = Windows resources from RC, DLL, EXE.
+// "xptag" = Quark XPressTag.
+  { NULL, NULL } };
+#endif
 
+#ifdef FOR_OPENSRC
 NAMETABLE Type2Markup[] = {
   { "html","OTMHTM32" },
   { "plaintext","OTMANSI" },
   { "rtf","OTMRTF" },
   { "xml","OTMXML" },
+  { "unknown","OTMANSI" },
   { NULL, NULL } };
+#else
+NAMETABLE Type2Markup[] = {
+  { "html","IBMHTM32" },
+  { "interleaf","EQFINTER" },
+  { "ipf","EQFBOOK" },
+  { "mif","EQFFRBLD" },
+  { "plaintext","EQFASCII" },
+  { "rtf","EQFRTF" },
+  { "xml","IBMXML" },
+  { "dita","IBMDITA" },
+  { NULL, NULL } };
+#endif

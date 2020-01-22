@@ -66,6 +66,7 @@ int aiSegBreakStyles[] = { SID_SEG_OFF,      SEG_OFF,
                            SID_SEG_ON,       SEG_ON,
                            SID_SEG_RESET,    SEG_RESET,
                            SID_SEG_LINE,     SEG_LINE,
+                           SID_SEG_NOSEGMENTING,     SEG_NOSEGMENTING,
                            SID_PROTECT_ON,   PROTECT_ON,
                            SID_PROTECT_OFF,  PROTECT_OFF,
                            0,                0 };

@@ -52,6 +52,7 @@
 #define  EQFCOMPARECONTEXT_EXIT "EQFCOMPARECONTEXT"
 #define  EQFFORMATCONTEXT_EXIT  "EQFFORMATCONTEXT"
 #define  EQFQUERYEXITINFO_EXIT  "EQFQUERYEXITINFO"
+#define  EQFCHECKSEGTYPE_EXIT   "EQFCHECKSEGTYPE"
 
 
 /*----------- limits, capacity, boundaries ------------------------------------*/
@@ -127,7 +128,8 @@ typedef enum _TASEGINFO        // segmenting info for Tolstoy:
 typedef enum _SEGTYPE          // segmenting type
 {                              //
   LINGUISTIC,                  // segmenting is done using linguistic functions
-  LINEPERLINE                  // text is segmented line-per-line
+  LINEPERLINE,                 // text is segmented line-per-line
+  NOSEGMENTING                 // no building of segments within text block 
 } SEGTYPE;
 
 
@@ -179,41 +181,49 @@ typedef enum _SEGSTATE        /* the different segmenting states depending on */
    NOASSOC_NODEL_OFF_SEGON,
    NOASSOC_NODEL_OFF_RESET,
    NOASSOC_NODEL_OFF_SEGLINE,
+   NOASSOC_NODEL_OFF_NOSEGMENTING,
    NOASSOC_NODEL_ON_SEGOFF,
    NOASSOC_NODEL_ON_NEUTRAL,
    NOASSOC_NODEL_ON_SEGON,
    NOASSOC_NODEL_ON_RESET,
    NOASSOC_NODEL_ON_SEGLINE,
+   NOASSOC_NODEL_ON_NOSEGMENTING,
    NOASSOC_DEL_OFF_SEGOFF,
    NOASSOC_DEL_OFF_NEUTRAL,
    NOASSOC_DEL_OFF_SEGON,
    NOASSOC_DEL_OFF_RESET,
    NOASSOC_DEL_OFF_SEGLINE,
+   NOASSOC_DEL_OFF_NOSEGMENTING,
    NOASSOC_DEL_ON_SEGOFF,
    NOASSOC_DEL_ON_NEUTRAL,
    NOASSOC_DEL_ON_SEGON,
    NOASSOC_DEL_ON_RESET,
    NOASSOC_DEL_ON_SEGLINE,
+   NOASSOC_DEL_ON_NOSEGMENTING,
    ASSOC_NODEL_OFF_SEGOFF,
    ASSOC_NODEL_OFF_NEUTRAL,
    ASSOC_NODEL_OFF_SEGON,
    ASSOC_NODEL_OFF_RESET,
    ASSOC_NODEL_OFF_SEGLINE,
+   ASSOC_NODEL_OFF_NOSEGMENTING,
    ASSOC_NODEL_ON_SEGOFF,
    ASSOC_NODEL_ON_NEUTRAL,
    ASSOC_NODEL_ON_SEGON,
    ASSOC_NODEL_ON_RESET,
    ASSOC_NODEL_ON_SEGLINE,
+   ASSOC_NODEL_ON_NOSEGMENTING,
    ASSOC_DEL_OFF_SEGOFF,
    ASSOC_DEL_OFF_NEUTRAL,
    ASSOC_DEL_OFF_SEGON,
    ASSOC_DEL_OFF_RESET,
    ASSOC_DEL_OFF_SEGLINE,
+   ASSOC_DEL_OFF_NOSEGMENTING,
    ASSOC_DEL_ON_SEGOFF,
    ASSOC_DEL_ON_NEUTRAL,
    ASSOC_DEL_ON_SEGON,
    ASSOC_DEL_ON_RESET,
-   ASSOC_DEL_ON_SEGLINE
+   ASSOC_DEL_ON_SEGLINE,
+   ASSOC_DEL_ON_NOSEGMENTING
 } SEGSTATE;
 
 typedef struct _SEGBOUNDARY
@@ -402,6 +412,7 @@ typedef EQF_BOOL (__cdecl /*APIENTRY*/ *PFNSTARTSTOPEXIT) ( PSZ, PSTARTSTOP *);
 typedef EQF_BOOL (__cdecl /*APIENTRY*/ *PFNSTARTSTOPEXITW) ( PSZ_W, PSTARTSTOP *);
 typedef EQF_BOOL (__cdecl /*APIENTRY*/ *PFNQUERYEXITINFO) ( PSZ, USHORT, PSZ, USHORT );
 typedef EQF_BOOL (__cdecl /*APIENTRY*/ *PFN_UPDATECONTEXT) ( PSZ_W, PSZ_W );
+typedef EQF_BOOL (__cdecl /*APIENTRY*/ *PFN_EQFCHECKSEGTYPE) ( PSZ, PSZ_W, PSZ_W, PSZ_W, LONG, ULONG, SHORT *, SHORT * );
 #ifdef __cplusplus
 }
 #endif
@@ -703,6 +714,7 @@ typedef struct _TAINSTDATA
   XMPTAG           aActiveStartTags[MAXNUMOFPROTECTTAGGROUPS]; // list of active start tags
   XMPTAG           aActiveEndTags[MAXNUMOFPROTECTTAGGROUPS]; // list of active end tags
   BOOL             fProtectedSelfContainedTag; // TRUE = a protected self contained tag is currently active
+  PFN_EQFCHECKSEGTYPE pfnEQFCheckSegType;       // count/memory type checking exit within user exit DLLs
 
 } TAINSTDATA, *PTAINSTDATA;
 

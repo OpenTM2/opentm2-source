@@ -7100,6 +7100,7 @@ typedef EQF_BOOL (__cdecl *PFNTOCGOTO)( LONG, HWND );
 
 typedef EQF_BOOL (__cdecl *PFNGETSEGCONTTEXT)( PSZ_W, PSZ_W, PSZ_W, PSZ_W, LONG, ULONG );
 typedef EQF_BOOL (__cdecl *PFNFORMATCONTTEXT)( PSZ_W, PSZ_W );
+typedef EQF_BOOL (__cdecl *PFNCHECKSEGTYPE)( PSZ, PSZ_W, PSZ_W, PSZ_W, LONG, ULONG, SHORT *, SHORT * );
 #ifdef __cplusplus
 }
 #endif

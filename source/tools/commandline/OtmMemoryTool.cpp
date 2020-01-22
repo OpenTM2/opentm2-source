@@ -382,7 +382,7 @@ int OtmMemoryTool::open()
     // call subclass implementation
     if(iRC == 0) 
     {
-        iRC = openTask(); 
+        iRC = openTask( pTempMem ); 
     }
 
     return iRC;
@@ -478,7 +478,7 @@ bool OtmMemoryTool::checkCommandLine(std::vector<std::string>& commandVec)
 /*                             member functions in ReverseMemory                                       */
 /*******************************************************************************************************/
 
-int ReverseMemory::openTask()
+int ReverseMemory::openTask( OtmMemory *pInMem )
 {
     int iRC = 0;
     MemoryFactory *pFactory = MemoryFactory::getInstance();
@@ -650,22 +650,38 @@ void DeleteMtProposal::initCommandList()
 /*******************************************************************************************************/
 /*                             member functions in DeleteIdentical                                     */
 /*******************************************************************************************************/
-int DeleteIdenticalProposal::openTask()
+int DeleteIdenticalProposal::openTask(  OtmMemory *pInMem )
 {
     int iRC = 0;
     MemoryFactory *pFactory = MemoryFactory::getInstance();
-    OtmMemory *pTempMem = pFactory->openMemory( NULL, (char*)m_strTgtMemName.c_str(), EXCLUSIVE, &iRC );
-    if ( iRC != 0 )
+    if ( pFactory->exists( NULL, (char*)m_strTgtMemName.c_str() ) )
     {
-//      char *pCh = (char*)m_strTgtMemName.c_str();
-        int iLastError = 0;
-        pFactory->getLastError(NULL,iLastError,m_strLastError);
+      OtmMemory *pTempMem = pFactory->openMemory( NULL, (char*)m_strTgtMemName.c_str(), EXCLUSIVE, &iRC );
+      if ( iRC != 0 )
+      {
+          int iLastError = 0;
+          pFactory->getLastError(NULL,iLastError,m_strLastError);
+      }
+      else
+      {
+          m_pTgtMem  = std::shared_ptr<OtmMemory>(pTempMem);
+      }
     }
     else
     {
-        m_pTgtMem  = std::shared_ptr<OtmMemory>(pTempMem);
+      char szSourceLang[256];
+      pInMem->getSourceLanguage( szSourceLang, sizeof( szSourceLang ) );
+      OtmMemory *pTempMem = pFactory->createMemory( NULL, (char*)m_strTgtMemName.c_str(), "", szSourceLang, &iRC );
+      if ( iRC != 0 )
+      {
+          int iLastError = 0;
+          pFactory->getLastError(NULL,iLastError,m_strLastError);
+      }
+      else
+      {
+          m_pTgtMem  = std::shared_ptr<OtmMemory>(pTempMem);
+      }
     }
-
     return iRC;
 }
 

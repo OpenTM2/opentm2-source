@@ -945,6 +945,7 @@ USHORT TASegOpenFiles (PTAINPUT pTAInput)
           pInD->pfnEQFCheckSegExW = NULL;
           pInD->pfnUpdateContext = NULL;
           pInD->pfnGetSegContext = NULL;
+          pInD->pfnEQFCheckSegType = NULL;
          } /* endif */
        }
        else
@@ -2993,7 +2994,15 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
            } 
            else if ( (pLookupData->FoundProposals[0]->getType() == OtmProposal::eptGlobalMemory) || (pLookupData->FoundProposals[0]->getType()== OtmProposal::eptGlobalMemoryStar) )
            { 
-             *pMatchType = GLOBMEM_MATCH;
+             if ( pLookupData->FoundProposals[i]->getFuzziness() >= 100 )
+             {
+               *pMatchType = GLOBMEM_MATCH;
+             }
+             else
+             {
+               // GQ 2019/04/02: global memory matches which are no exactr matches are treated as normal fuzzy matches
+               *pMatchType = FUZZY_MATCH;
+             } /* endif */
            } /* endif */
 
            // check if one of our matches is a replace match
@@ -3254,8 +3263,9 @@ static USHORT GetExactTMMatch(PTAINPUT pTAIn,             // ta instance data
           *pusFuzzy   = (USHORT)pLookupData->BestProposals[0]->getFuzziness();
           *pMatchType = MACHINE_MATCH;
         }
-        else if ( (pLookupData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemory) || 
-                  (pLookupData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemoryStar)	)
+        else if ( ( (pLookupData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemory) || 
+                    (pLookupData->BestProposals[0]->getType() == OtmProposal::eptGlobalMemoryStar) ) &&
+                    (pLookupData->BestProposals[0]->getFuzziness() >= 100) )
         {
           // use Hamster match
           *pusFuzzy   = (USHORT)pLookupData->BestProposals[0]->getFuzziness();

@@ -1083,6 +1083,25 @@ BOOL ProofReadAdjustWhiteSpaceInTarget( PPROOFREADPROCESSDATA pData, PSZ_W pszOr
 
   *pszOutPos = 0;
 
+  // ensure that a linefeed at the end of the orginal target segment has not been removed 
+  {
+    int iOrgLen = wcslen(pszOrgTarget);
+    int iNewLen = wcslen(pszNewTarget);
+
+    if ( iOrgLen && iNewLen && (pszOrgTarget[iOrgLen-1] == LF) && (pszNewTarget[iNewLen-1] != LF) )
+    {
+      if ( iswspace(pszNewTarget[iNewLen-1]) )
+      { 
+        pszNewTarget[iNewLen-1] = LF;
+      }
+      else
+      {
+        pszNewTarget[iNewLen] = LF;
+        pszNewTarget[iNewLen+1] = 0;
+      } /* endif */
+    } /* endif */
+  }
+
   // cleanup
   if ( pFuzzyTgt ) UtlAlloc( (PVOID *)&pFuzzyTgt, 0L, 0L, NOMSG );
   if ( pFuzzyTok ) UtlAlloc( (PVOID *)&pFuzzyTok, 0L, 0L, NOMSG );

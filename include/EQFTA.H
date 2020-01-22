@@ -180,7 +180,8 @@ USHORT TALoadEditUserExit
   PFN              *ppfnCompareContext, // address of ptr to EQFCOMPARECONTEXT function
   PFN              *ppfnUserExitW,      // unicode user exit for start-stop-tbl
   PFN              *ppfnCheckSegExitW,   // unicode seg.check func
-  PFN              *ppfnCheckSegExExitW  // unicode seg.check Ex func
+  PFN              *ppfnCheckSegExExitW,  // unicode seg.check Ex func
+  PFN              *ppfnCheckSegType   // user exit to check segment type
 );
 
 USHORT TAFreeEditUserExit

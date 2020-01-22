@@ -21,7 +21,6 @@
 // should use the new version of the function asap
 #define _CRT_NON_CONFORMING_SWPRINTFS
 
-
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
@@ -67,6 +66,16 @@ extern "C"
 #endif
 
 #include "cxmlwriter.H"
+#include "core\utilities\LanguageFactory.h"
+
+// mask for character entitites below 0x20
+#define ENTITY_MASK_STARTCHAR_W L'_'
+#define ENTITY_MASK_START_LEN 8
+#define ENTITY_MASK_START "___XENT_"
+#define ENTITY_MASK_START_W L"___XENT_"
+#define ENTITY_MASK_END_LEN 8
+#define ENTITY_MASK_END "_XENT___"
+#define ENTITY_MASK_END_W L"_XENT___"
 
 // size of token buffer
 #define TMXTOKBUFSIZE 32000
@@ -212,6 +221,9 @@ typedef struct _TMXELEMENT
 BOOL FindName( PNAMETABLE pTable, const char *pszName, char *pszValue, int iBufSize );
 
 void EscapeXMLChars( PSZ_W pszText, PSZ_W pszBuffer );
+BOOL CheckEntityW( PSZ_W pszText, int *piValue, int *piLen );
+BOOL CheckEntity( PSZ pszText, int *piValue, int *piLen );
+void CopyTextAndProcessMaskedEntitites( PSZ_W pszTarget, PSZ_W pszSource );
 
 //
 // class for our SAX handler
@@ -589,7 +601,8 @@ USHORT CTMXExportImport::WriteHeader
     // get TMX language name
     CHAR szTMXLang[20];                  // buffer for TMX language
     szTMXLang[0] = EOS;
-    FindName( Language_Tmgr2TMX, pMemInfo->szSourceLang, szTMXLang, sizeof(szTMXLang) );
+    LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+    pLangFactory->getISOName( pMemInfo->szSourceLang, szTMXLang );
     m_xw.WriteAttributeString( "srclang", szTMXLang ); 
   }
  
@@ -819,7 +832,8 @@ USHORT CTMXExportImport::WriteTUV
 
   // get TMX language name
   szTMXLang[0] = EOS;
-  FindName( Language_Tmgr2TMX, pszLanguage, szTMXLang, sizeof(szTMXLang) );
+  LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+  pLangFactory->getISOName( pszLanguage, szTMXLang );
 
   // start TUV
   m_xw.WriteStartElement( "tuv" );
@@ -835,13 +849,44 @@ USHORT CTMXExportImport::WriteTUV
   m_xw.WriteStartElement( "seg" );
   m_xw.Formatting = CXmlWriter::None;             // no indention within segment
 
-  // write segment data as-is when one of the XLIFF markup tables is being used
+#ifdef FOR_OPENSRC
+  // write segment data as-is when one of the XLIFF markup tables is being used - but ensure that single ampersands are encoded properly
   if ( (stricmp( pszMarkup, "OTMXUXLF" ) == 0) || (stricmp( pszMarkup, "OTMXMXLF" ) == 0 ) || (stricmp( pszMarkup, "OTMXAXLF" ) == 0 ) )
   {
+    PSZ_W pszCurPos, pszAmp;
+
     m_xw.WriteString( L"" ); // needed to properly close the start element tag
-    m_xw.WriteRaw( pszSegmentData );
+    pszCurPos = pszSegmentData;
+    pszAmp = wcschr( pszCurPos, L'&' );
+    while ( pszAmp )
+    {
+      CHAR_W cNext = pszAmp[1];
+
+      // write text up to ampersand
+      if ( pszCurPos < pszAmp )
+      {
+        *pszAmp = 0;
+        m_xw.WriteRaw( pszCurPos );
+        *pszAmp = L'&';
+      } /* endif */
+
+      if ( iswalpha( cNext ) || (cNext == L'#') )
+      {
+        // ampersand seems to start an entity so write it to output
+        pszCurPos = pszAmp + 1;
+        m_xw.WriteRaw( L"&");
+      }
+      else
+      {
+        m_xw.WriteRaw( L"&amp;");
+        pszCurPos = pszAmp + 1;
+      }
+      pszAmp = wcschr( pszCurPos, L'&' );
+    } /* endwhile */
+    if ( *pszCurPos != 0 ) m_xw.WriteRaw( pszCurPos );
   }
   else
+#endif
   {
     USHORT usRC = 0;
 
@@ -1267,85 +1312,170 @@ USHORT CTMXExportImport::PreProcessInFile
   // read/write files until done
   if ( !usRC )
   {
-    BOOL fFirstRead = TRUE;
     BOOL fUTF16 = FALSE;
     PBYTE pCurPos = m_bBuffer;
 
+    // check file encoding
+    fread( m_bBuffer, 1, 2, hIn );
+    if ( (m_bBuffer[0] == 0xFF) && (m_bBuffer[1] == 0xFE) ) 
+    {
+      // file starts with BOM
+      fUTF16 = TRUE;
+
+      // write BOM to output file and advance buffer pointer
+      fwrite( m_bBuffer, 1, 2, hOut );
+      pCurPos += 2;
+    }
+    else if ( (m_bBuffer[0] != 0) && (m_bBuffer[1] == 0) ) 
+    {
+      
+      fUTF16 = TRUE;   // assume UTF16
+      fseek( hIn, 0, SEEK_SET ); // re-position to begin of file
+    }
+    else
+    {
+      fseek( hIn, 0, SEEK_SET ); // re-position to begin of file
+    } /* endif */
+
     do
     {
-      int iBytes = fread( m_bBuffer, 1, TMX_BUFFER_SIZE, hIn );
-      pCurPos = m_bBuffer;
-
-      // check encoding 
-      if ( (iBytes >= 2) && fFirstRead )
-      {
-        fFirstRead = FALSE;
-        if ( (m_bBuffer[0] == 0xFF) && (m_bBuffer[1] == 0xFE) ) 
-        {
-          // file starts with BOM
-          fUTF16 = TRUE;
-
-          // write BOM to output file and advance buffer pointer
-          fwrite( m_bBuffer, 1, 2, hOut );
-          pCurPos += 2;
-          iBytes  -= 2;
-        }
-        else if ( (m_bBuffer[0] != 0) && (m_bBuffer[1] == 0) ) 
-        {
-          // assume UTF16
-          fUTF16 = TRUE;
-        } /* endif */
-      } /* endif */
-
-      // check and write data 
       if ( fUTF16 )
       {
-        PSZ_W pszStartPos = (PSZ_W)pCurPos;
-        PSZ_W pszCurPos = pszStartPos;
-        int iLen = iBytes / 2;
-        while ( iLen )
+        PSZ_W pszBuffer = (PSZ_W)m_bBuffer;
+        if ( fgetws( pszBuffer, TMX_BUFFER_SIZE / 2, hIn ) != NULL )
         {
-          CHAR_W c = *pszCurPos;
+          PSZ_W pszStartPos = (PSZ_W)pszBuffer;
+          PSZ_W pszCurPos = pszStartPos;
+          while ( *pszCurPos != 0 )
+          {
+            CHAR_W c = *pszCurPos;
 
-          // is valid XML char
-          if ( (c == 0x9) || 
-               (c == 0xA) || 
-               (c == 0xD) || 
-               ((c >= 0x20) && (c <= 0xD7FF)) || 
-               ((c >= 0xE000) && (c <= 0xFFFD)) || 
-               ((c >= 0x10000) && (c <= 0x10FFFF)))
+            // is valid XML char
+            if ( (c == 0x9) || 
+                 (c == 0xA) || 
+                 (c == 0xD) || 
+                 ((c >= 0x20) && (c <= 0xD7FF)) || 
+                 ((c >= 0xE000) && (c <= 0xFFFD)) || 
+                 ((c >= 0x10000) && (c <= 0x10FFFF)))
+            {
+              // check for entitities with values below 0x20
+              if ( *pszCurPos == L'&' )
+              {
+                int iValue = 0;
+                int iEntityLen = 0;
+                if ( CheckEntityW( pszCurPos, &iValue, &iEntityLen ) )
+                {
+                  if ( iValue < 32 )
+                  {
+                    // mask entity
+
+                    // write chars up to entity character
+                    fwrite( pszStartPos, 2, pszCurPos - pszStartPos, hOut );
+
+                    // write masked entity 
+                    fputws( ENTITY_MASK_START_W, hOut );
+                    fwrite( pszCurPos + 1, 2, iEntityLen - 1, hOut );
+                    fputws( ENTITY_MASK_END_W, hOut );
+
+                    // set new start position
+                    pszCurPos += iEntityLen;
+                    pszStartPos = pszCurPos;
+                  }
+                  else
+                  {
+                    // leave as-is
+                    pszCurPos += iEntityLen;
+                  } /* endif */
+                }
+                else
+                {
+                  pszCurPos++;
+                }
+              }
+              else
+              {
+                pszCurPos++;
+              }
+            }
+            else
+            {
+              // write chars up to invalid character
+              fwrite( pszStartPos, 2, pszCurPos - pszStartPos, hOut );
+
+              // write invalid character
+              fwprintf( hOut, L"<invchar>%u</invchar>", c );
+
+              // set new start position
+              pszCurPos++;
+              pszStartPos = pszCurPos;
+            } /* endif */
+          } /*endwhile */
+
+          // write remaining characters
+          if ( pszCurPos != pszStartPos )
           {
-            pszCurPos++;
-            iLen--;
-          }
-          else
-          {
-            // write chars up to invalid character
             fwrite( pszStartPos, 2, pszCurPos - pszStartPos, hOut );
-
-            // write invalid character
-            fwprintf( hOut, L"<invchar>%u</invchar>", c );
-
-            // set new start position
-            pszCurPos++;
-            pszStartPos = pszCurPos;
-            iLen--;
           } /* endif */
-        } /*endwhile */
-
-        // write remaining characters
-        if ( pszCurPos != pszStartPos )
-        {
-          fwrite( pszStartPos, 2, pszCurPos - pszStartPos, hOut );
-        } /* endif */
+        }
       }
       else
       {
-        fwrite( m_bBuffer, 1, iBytes, hOut );
+        PSZ pszBuffer = (PSZ)m_bBuffer;
+        if ( fgets( pszBuffer, TMX_BUFFER_SIZE, hIn ) != NULL )
+        {
+          PSZ pszStartPos = (PSZ)pszBuffer;
+          PSZ pszCurPos = pszStartPos;
+          while ( *pszCurPos != 0 )
+          {
+            // check for entitities with values below 0x20
+            if ( *pszCurPos == '&' )
+            {
+              int iValue = 0;
+              int iEntityLen = 0;
+              if ( CheckEntity( pszCurPos, &iValue, &iEntityLen ) )
+              {
+                if ( iValue < 32 )
+                {
+                  // mask entity
+
+                  // write chars up to entity character
+                  fwrite( pszStartPos, 1, pszCurPos - pszStartPos, hOut );
+
+                  // write masked entity 
+                  fputs( ENTITY_MASK_START, hOut );
+                  fwrite( pszCurPos + 1, 1, iEntityLen - 1, hOut );
+                  fputs( ENTITY_MASK_END, hOut );
+
+                  // set new start position
+                  pszCurPos += iEntityLen;
+                  pszStartPos = pszCurPos;
+                }
+                else
+                {
+                  // leave as-is
+                  pszCurPos += iEntityLen;
+                } /* endif */
+              }
+              else
+              {
+                pszCurPos++;
+              }
+            }
+            else
+            {
+              pszCurPos++;
+            } /* endif */
+          } /*endwhile */
+
+          // write remaining characters
+          if ( pszCurPos != pszStartPos )
+          {
+            fwrite( pszStartPos, 1, pszCurPos - pszStartPos, hOut );
+          } /* endif */
+        } /* endif */
       } /* endif */
     } while ( !feof( hIn ) );
   } /* endif */
-
 
   //cleanup
   if ( hIn )  fclose( hIn );
@@ -1679,8 +1809,10 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
         this->fInvalidChars = FALSE;
         this->fInlineTags = FALSE;
         this->fTMXTagStarted = FALSE;
+#ifdef FOR_OPENSRC
         this->fWithTMXTags = FALSE;
         this->fWithTagging = FALSE;
+#endif
         // scan tuv attributes, currently only the language is of interest
         for( int i = 0; i < iAttribs; i++ )
         {
@@ -1698,7 +1830,53 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
         } /* endfor */
 
         // set fWithTagging switch depending on datatype or TM markup
+#ifdef FOR_OPENSRC
        fWithTagging = FALSE;
+#else
+        if ( CurElement.szTMMarkup[0] )
+        {
+          // TM markup available: add inline tags as well
+          fWithTagging = TRUE;
+        }
+        else if ( CurElement.szDataType[0] )
+        {
+          // check if TMX data type maps to a TM markup (only if no user define markup is available)
+          if ( m_pMemInfo->pszMarkupList != NULL )
+          {
+            fWithTagging = TRUE;
+          }
+          else if ( m_pMemInfo->szFormat[0] != EOS )
+          {
+            strcpy( CurElement.szTMMarkup, m_pMemInfo->szFormat );
+            fWithTagging = TRUE;
+          }
+          else if ( FindName( Type2Markup, CurElement.szDataType, CurElement.szTMMarkup, sizeof(CurElement.szTMMarkup) ) )
+          {
+            fWithTagging = TRUE;
+          }
+          else
+          {
+            fWithTagging = FALSE;
+          } /* endif */
+        }
+        else
+        {
+          if ( m_pMemInfo->pszMarkupList != NULL )
+          {
+            fWithTagging = TRUE;
+          }
+          else if ( m_pMemInfo->szFormat[0] != EOS )
+          {
+            strcpy( CurElement.szTMMarkup, m_pMemInfo->szFormat );
+            fWithTagging = TRUE;
+          }
+          else
+          {
+            // no data type or markup
+            fWithTagging = FALSE;
+          } /* endif */
+        } /* endif */
+#endif
         break;
       case BODY_ELEMENT:
         break;
@@ -1708,6 +1886,7 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
         pBuf->szData[0] = 0;                 // reset data buffer
         fCatchData = TRUE; 
         break;
+#ifdef FOR_OPENSRC
       case BPT_ELEMENT:
       case EPT_ELEMENT:
       case PH_ELEMENT:
@@ -1767,6 +1946,19 @@ void TMXParseHandler::startElement(const XMLCh* const name, AttributeList& attri
           pBuf->szData[iCurLen] = 0;
         }
         break;
+#else
+      case BPT_ELEMENT:
+      case EPT_ELEMENT:
+      case PH_ELEMENT:
+      case HI_ELEMENT:
+      case IT_ELEMENT:
+        CurElement.fInlineTagging = TRUE;
+        break;
+      case SUB_ELEMENT:
+        break;
+      case UT_ELEMENT:
+        break;
+#endif
       case INVCHAR_ELEMENT:
         // segment contains invalid data
         this->fInvalidChars = TRUE;
@@ -1908,11 +2100,13 @@ void TMXParseHandler::endElement(const XMLCh* const name )
         int iCurrent = 0;
         PTMXTUV pSourceTuv = NULL;
 
+#ifdef FOR_OPENSRC
         // change markup table to XLIFF when segment data contains TMX inline tags
         if ( this->fWithTMXTags )
         {
           strcpy( CurElement.szTMMarkup, "OTMXUXLF" );
         } /* endif */
+#endif
         // find <tuv> containing the source data
         iCurrent = 0;
         PTMXTUV pCurrentTuv = pTuvArray;
@@ -2053,13 +2247,21 @@ void TMXParseHandler::endElement(const XMLCh* const name )
                   else
                   {
                     // use default markup table for the segment
+#ifndef FOR_OPENSRC
+                    strcpy( pBuf->SegmentData.szFormat, "EQFASCII" );
+#else
                     strcpy( pBuf->SegmentData.szFormat, "OTMANSI" );
+#endif
                     pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
                   } /* endif */                     
                 }
                 else
                 {
+#ifndef FOR_OPENSRC
+                   if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "EQFASCII" );
+#else
                    if ( pBuf->SegmentData.szFormat[0] == EOS ) strcpy( pBuf->SegmentData.szFormat, "OTMANSI" );
+#endif
                   pfnInsertSegment( lMemHandle, &(pBuf->SegmentData) );
                 } /* endif */
               } /* endif */
@@ -2096,23 +2298,10 @@ void TMXParseHandler::endElement(const XMLCh* const name )
           else
           {
             // convert TMX language to Tmgr language name
-            if ( !FindName( Language_TMX2Tmgr, CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
+            LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+            if ( pLangFactory->getOpenTM2NameFromISO( CurElement.szTMXLanguage, pBuf->szLang ) != 0 )
             {
-              // language not found, strip language code and try again
-              PSZ pszDelim = strchr( CurElement.szTMXLanguage, '-' );
-              if ( pszDelim )
-              {
-                *pszDelim = '\0';
-                if ( !FindName( Language_TMX2Tmgr, CurElement.szTMXLanguage, pBuf->szLang, sizeof(pBuf->szLang) ) )
-                {
-                  fTuvLangInvalid = TRUE;          // language not supported
-                } /* endif */
-                *pszDelim = '-';
-              }
-              else
-              {
-                fTuvLangInvalid = TRUE;          // language not supported
-              } /* endif */
+             fTuvLangInvalid = TRUE;          // language not supported
             } /* endif */
           } /* endif */
         }
@@ -2142,7 +2331,8 @@ void TMXParseHandler::endElement(const XMLCh* const name )
         {
           PTMXTUV pTuvData = pTuvArray + iCurTuv;
 
-          wcscpy( pTuvData->szText, pBuf->szData );
+          CopyTextAndProcessMaskedEntitites( pTuvData->szText, pBuf->szData );
+
           strcpy( pTuvData->szLang, pBuf->szLang );
           pTuvData->fInvalidChars = this->fInvalidChars;
           pTuvData->fInlineTags = this->fInlineTags;
@@ -2166,6 +2356,7 @@ void TMXParseHandler::endElement(const XMLCh* const name )
       CurElement.fInlineTagging = FALSE;
       fCatchData = FALSE; 
       break;
+#ifdef FOR_OPENSRC
     case BPT_ELEMENT:
     case EPT_ELEMENT:
     case PH_ELEMENT:
@@ -2207,6 +2398,19 @@ void TMXParseHandler::endElement(const XMLCh* const name )
         this->fWithTagging = FALSE;
       }
       break;
+#else
+    case BPT_ELEMENT:
+    case EPT_ELEMENT:
+    case PH_ELEMENT:
+    case HI_ELEMENT:
+    case IT_ELEMENT:
+      CurElement.fInlineTagging = FALSE;
+      break;
+    case SUB_ELEMENT:
+      break;
+    case UT_ELEMENT:
+      break;
+#endif
     case INVCHAR_ELEMENT:
       break;
     case UNKNOWN_ELEMENT:
@@ -2386,6 +2590,7 @@ void TMXParseHandler::characters(const XMLCh* const chars, const XMLSize_t lengt
     int iCurLen = wcslen( pBuf->szData );
     if ( (iCurLen + length + 1) < DATABUFFERSIZE)
     {
+#ifdef FOR_OPENSRC
       if ( CurElement.fInsideTagging )
       {
         // escape any special characters in inline tags
@@ -2396,6 +2601,10 @@ void TMXParseHandler::characters(const XMLCh* const chars, const XMLSize_t lengt
         wcsncpy( pBuf->szData + iCurLen, pszChars, length );
         pBuf->szData[iCurLen+length] = 0;
       }
+#else
+      wcsncpy( pBuf->szData + iCurLen, pszChars, length );
+      pBuf->szData[iCurLen+length] = 0;
+#endif
     } /* endif */
     if ( CurElement.fInlineTagging ) this->fInlineTags = TRUE;
   } /* endif */
@@ -2533,17 +2742,8 @@ BOOL TMXParseHandler::TMXLanguage2TMLanguage( PSZ pszTMLanguage, PSZ pszTMXLangu
   }
   else if ( *pszTMXLanguage )
   {
-    if ( !FindName( Language_TMX2Tmgr, pszTMXLanguage, pszResultingLanguage, 50 ) )
-    {
-      // try first part of language only
-      PSZ pszDelim = strchr( pszTMXLanguage, '-' );
-      if ( pszDelim )
-      {
-        *pszDelim = '\0';
-        FindName( Language_TMX2Tmgr, pszTMXLanguage, pszResultingLanguage, 50 );
-        *pszDelim = '-';
-      } /* endif */
-    } /* endif */
+    LanguageFactory *pLangFactory = LanguageFactory::getInstance();
+    pLangFactory->getOpenTM2NameFromISO( pszTMXLanguage, pszResultingLanguage );
   } /* endif */
 
   return( fOK );
@@ -4418,3 +4618,163 @@ void EscapeXMLChars( PSZ_W pszText, PSZ_W pszBuffer )
   } /*endwhile */
   *pszBuffer = 0;
 }
+
+BOOL CheckEntityW( PSZ_W pszText, int *piValue, int *piLen )
+{
+  int iValue = 0;
+  int iLen = 0;
+
+  if ( pszText[iLen++] != L'&' ) return( FALSE );
+  if ( pszText[iLen++] != L'#' ) return( FALSE );
+  
+  if ( pszText[iLen] == L'x' )
+  {
+    iLen++;
+    while ( iswxdigit( pszText[iLen] ) )
+    {
+      CHAR_W c = pszText[iLen++];
+
+      iValue <<= 4;
+
+      if ( (c >= L'0') && (c <= L'9') )
+      {
+          iValue += c - L'0';
+          continue;
+      }
+
+      if ( (c >= L'A') && (c <= L'F') )
+      {
+          iValue += (c - L'A') + 10;
+          continue;
+      }
+
+      if ( (c >= L'a') && (c <= L'f') )
+      {
+          iValue += (c - L'a') + 10;
+          continue;
+      }
+      return( FALSE );
+    } /* endwhile */
+  }
+  else
+  {
+    while ( iswdigit( pszText[iLen] ) )
+    {
+      CHAR_W c = pszText[iLen++];
+
+      iValue = iValue * 10;
+
+      if ( (c >= L'0') && (c <= L'9') )
+      {
+          iValue += c - '0';
+          continue;
+      }
+      return( FALSE );
+    } /* endwhile */
+  } /* endif */
+
+  if ( pszText[iLen] == L';' )
+  {
+    *piLen = iLen + 1;
+    *piValue = iValue;
+    return( TRUE );
+  } /* endif */
+
+  return( FALSE );
+} /* end of function CheckEntityW */
+
+BOOL CheckEntity( PSZ pszText, int *piValue, int *piLen )
+{
+  int iValue = 0;
+  int iLen = 0;
+
+  if ( pszText[iLen++] != '&' ) return( FALSE );
+  if ( pszText[iLen++] != '#' ) return( FALSE );
+  
+  if ( pszText[iLen] == 'x' )
+  {
+    iLen++;
+    while ( isxdigit( pszText[iLen] ) )
+    {
+      char c = pszText[iLen++];
+
+      iValue <<= 4;
+
+      if ( (c >= '0') && (c <= '9') )
+      {
+          iValue += c - '0';
+          continue;
+      }
+
+      if ( (c >= 'A') && (c <= 'F') )
+      {
+          iValue += (c - 'A') + 10;
+          continue;
+      }
+
+      if ( (c >= 'a') && (c <= 'f') )
+      {
+          iValue += (c - 'a') + 10;
+          continue;
+      }
+      return( FALSE );
+    } /* endwhile */
+  }
+  else
+  {
+    while ( isdigit( pszText[iLen] ) )
+    {
+      char c = pszText[iLen++];
+
+      iValue = iValue * 10;
+
+      if ( (c >= '0') && (c <= '9') )
+      {
+          iValue += c - '0';
+          continue;
+      }
+      return( FALSE );
+    } /* endwhile */
+  } /* endif */
+
+  if ( pszText[iLen] == ';' )
+  {
+    *piLen = iLen + 1;
+    *piValue = iValue;
+    return( TRUE );
+  } /* endif */
+
+  return( FALSE );
+} /* end of function CheckEntity */
+
+void CopyTextAndProcessMaskedEntitites( PSZ_W pszTarget, PSZ_W pszSource )
+{
+  while ( *pszSource != 0 )
+  {
+    PSZ_W pszMask = wcsstr( pszSource, ENTITY_MASK_START_W );
+
+    if ( *pszSource == ENTITY_MASK_STARTCHAR_W )
+    {
+      if ( wcsncmp( pszSource, ENTITY_MASK_START_W, ENTITY_MASK_START_LEN ) == 0 )
+      {
+        // replace entity mask start with '&'
+        pszSource += ENTITY_MASK_START_LEN;
+        *pszTarget++ = L'&';
+      }
+      else if ( wcsncmp( pszSource, ENTITY_MASK_END_W, ENTITY_MASK_END_LEN ) == 0 )
+      {
+        // skip entity mask end
+        pszSource += ENTITY_MASK_END_LEN;
+      }
+      else
+      {
+        *pszTarget++ = *pszSource++;
+      } /* endif */
+    }
+    else
+    {
+      *pszTarget++ = *pszSource++;
+    } /* endif */
+  } /* endwhile */
+  *pszTarget = 0;
+} /* end of function CopyTextAndProcessMaskedEntitites */

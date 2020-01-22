@@ -1447,6 +1447,7 @@ USHORT AsdTranslateW
        hfLog = fopen( szLogFileName, "a" );
        if ( hfLog )
        {
+          fwprintf( hfLog, L"Segment=\"%s\"\r\n", pucSegment );
           WriteTermListToLog( "Before reducing duplicate translations", pucOutBuf, hfLog );
        } /* endif */        
      }

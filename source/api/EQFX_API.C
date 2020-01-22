@@ -35,6 +35,7 @@ static BOOL    fUnicodeSystem = 0;
 INT_PTR CALLBACK EQFSHOWDLG ( HWND, WINMSG, WPARAM, LPARAM );
 static VOID RegisterShowWnd( VOID );
 BOOL EQFShowWndCreate ( PTBDOCUMENT, HWND, ULONG, USHORT );
+USHORT WriteHistLogAndAdjustCountInfo( PSZ pszSegTargetFile, BOOL fAdjustCountInfo );
 MRESULT APIENTRY EQFSHOWWP ( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2);
 MRESULT HandleWMChar ( HWND hwnd, WINMSG msg, WPARAM mp1, LPARAM mp2 );
 #define EQFSHOW_CLASS   "EQFSHOW"
@@ -6849,61 +6850,7 @@ USHORT __cdecl /*APIENTRY*/ EQFWRITEHISTLOGFROMFILE
   PSZ         pszSegTargetFile                   // fully qualified file name of STARGET file of document
 )
 {
-  USHORT      usRC = 0;                          // function return code
-  PTBDOCUMENT pDocument = NULL;                  // loaded document
-
-  // check input parameter
-  if ( !usRC )
-  {
-    if ( (pszSegTargetFile == NULL) || (*pszSegTargetFile == EOS) )
-    {
-      usRC = ERROR_INVALID_PARAMETER;
-    } /* endif */
-  } /* endif */
-
-  // check existence of segmented target file
-  if ( !usRC )
-  {
-    if ( !UtlFileExist( pszSegTargetFile ) )
-    {
-      usRC = ERROR_NOTARGETFILE;
-    } /* endif */
-  } /* endif */
-
-  // load segmented target file into memory
-  if ( !usRC )
-  {
-    if ( !UtlAlloc( (PVOID *)&pDocument, 0L, sizeof(TBDOCUMENT), ERROR_STORAGE ) )
-    {
-      usRC = ERROR_NOT_ENOUGH_MEMORY;
-    } /* endif */
-
-    if ( !usRC )
-    {
-      strcpy( pDocument->szDocName, pszSegTargetFile );
-      usRC = TALoadTagTable( DEFAULT_QFTAG_TABLE, (PLOADEDTABLE *)&(pDocument->pQFTagTable), TRUE, FALSE );
-    } /* endif */
-
-    if ( !usRC )
-    {
-      usRC = EQFBFileReadExW( pszSegTargetFile, pDocument, 0L );
-    } /* endif */
-  } /* endif */
-
-
-  // write history log save record from loaded file
-  if ( !usRC )
-  {
-    usRC = EQFBHistDocSave( pszSegTargetFile, pDocument, DOCAPI_LOGTASK3 );
-  } /* endif */
-
-  // cleanup
-  if ( pDocument ) 
-  {
-    EQFBFreeDoc( &pDocument, 0 );
-  } /* endif */
-
-  return( usRC );
+  return( WriteHistLogAndAdjustCountInfo( pszSegTargetFile, FALSE ) );
 } /* end of function EQFWRITEHISTLOGFROMFILE */
 
 
@@ -6915,8 +6862,22 @@ USHORT __cdecl EQFADJUSTCOUNTINFO
   PSZ         pszSegTargetFile                   // fully qualified file name of STARGET file of document
 )
 {
+  return( WriteHistLogAndAdjustCountInfo( pszSegTargetFile, TRUE ) );
+} /* end of function EQFADJUSTCOUNTINFO */
+
+USHORT WriteHistLogAndAdjustCountInfo
+(
+  PSZ         pszSegTargetFile,                  // fully qualified file name of STARGET file of document
+  BOOL        fAdjustCountInfo                   // TRUE = adjust counting info in document properties 
+)
+{
   USHORT      usRC = 0;                          // function return code
-  PTBDOCUMENT pDocument = NULL;                  // loaded document
+  PTBDOCUMENT pDocument = NULL;                  // loaded target document
+  PTBDOCUMENT pSourceDocument = NULL;            // loaded source document
+  CHAR szDocObjName[MAX_EQF_PATH];
+  CHAR szDocFormat[MAX_FILESPEC];
+  CHAR szSrcLang[MAX_LANG_LENGTH];
+  CHAR szTgtLang[MAX_LANG_LENGTH];
 
   // check input parameter
   if ( !usRC )
@@ -6950,25 +6911,73 @@ USHORT __cdecl EQFADJUSTCOUNTINFO
       usRC = TALoadTagTable( DEFAULT_QFTAG_TABLE, (PLOADEDTABLE *)&(pDocument->pQFTagTable), TRUE, FALSE );
     } /* endif */
 
+    // load document tag table
+    if (!usRC )
+    {
+      strcpy( szDocObjName, pszSegTargetFile );
+      PSZ pFileName = UtlSplitFnameFromPath( szDocObjName);   // ptr to filename
+      PSZ pTemp = UtlGetFnameFromPath( szDocObjName);         // ptr to starget
+      strcpy( pTemp, pFileName );                             // copy filename at position where STARGET was !!
+      DocQueryInfo2( szDocObjName, NULL, szDocFormat, szSrcLang, szTgtLang, NULL, NULL, NULL, TRUE );
+      if ( szDocFormat[0] )
+      {
+        usRC = TALoadTagTable( szDocFormat, (PLOADEDTABLE *)&(pDocument->pDocTagTable), FALSE, TRUE );
+      } /* endif */
+      pDocument->ulOemCodePage = GetLangCodePage( OEM_CP, szTgtLang );
+      pDocument->ulAnsiCodePage = GetLangCodePage( ANSI_CP, szTgtLang );
+    } /* endif */
+
+    // load document
     if ( !usRC )
     {
       usRC = EQFBFileReadExW( pszSegTargetFile, pDocument, 0L );
     } /* endif */
   } /* endif */
 
+  // load segmented source file into memory
+  if ( !usRC )
+  {
+    CHAR szSegSourceFile[MAX_EQF_PATH];
 
-  // write history log save record from loaded file and adjust counting information
+    if ( !UtlAlloc( (PVOID *)&pSourceDocument, 0L, sizeof(TBDOCUMENT), ERROR_STORAGE ) )
+    {
+      usRC = ERROR_NOT_ENOUGH_MEMORY;
+    } /* endif */
+
+    if ( !usRC )
+    {
+      CHAR szTemp[MAX_EQF_PATH];
+      strcpy( szTemp, pszSegTargetFile );
+      PSZ pszDocName = UtlSplitFnameFromPath( szTemp );
+      UtlSplitFnameFromPath( szTemp );
+      PSZ pszFolder = UtlGetFnameFromPath( szTemp );
+      UtlMakeEQFPath( szSegSourceFile, szTemp[0], DIRSEGSOURCEDOC_PATH, pszFolder );
+      strcat( szSegSourceFile, "\\" );
+      strcat( szSegSourceFile, pszDocName );
+      strcpy( pDocument->szDocName, szSegSourceFile );
+      pSourceDocument->pQFTagTable = pDocument->pQFTagTable ;
+      pSourceDocument->pDocTagTable = pDocument->pDocTagTable;
+      pSourceDocument->ulOemCodePage = GetLangCodePage(OEM_CP, szSrcLang);
+      pSourceDocument->ulAnsiCodePage = GetLangCodePage(ANSI_CP, szSrcLang);
+    } /* endif */
+
+    if ( !usRC )
+    {
+      usRC = EQFBFileReadExW( szSegSourceFile, pSourceDocument, 0L );
+    } /* endif */
+    if ( !usRC )
+    {
+      pDocument->twin = pSourceDocument;
+    } /* endif */
+  } /* endif */
+
+
+  // write history log save record from loaded file
   if ( !usRC )
   {
     usRC = EQFBHistDocSaveEx( pszSegTargetFile, pDocument, DOCAPI_LOGTASK3 );
-    if ( !usRC )
+    if ( !usRC && fAdjustCountInfo )
     {
-      CHAR szDocObjName[MAX_EQF_PATH];
-      strcpy( szDocObjName, pDocument->szDocName );
-      PSZ pFileName = UtlSplitFnameFromPath( szDocObjName);   // ptr to filename
-      PSZ pTemp = UtlGetFnameFromPath( szDocObjName);         // ptr to starget
-      //copy filename at position where STARGET was !!
-      strcpy( pTemp, pFileName );                             // copy filename
       EQFBAdjustCountInfo( pDocument, szDocObjName );
     } /* endif */
   } /* endif */
@@ -6976,9 +6985,12 @@ USHORT __cdecl EQFADJUSTCOUNTINFO
   // cleanup
   if ( pDocument ) 
   {
+    if ( pDocument->pQFTagTable) TAFreeTagTable((PLOADEDTABLE)pDocument->pQFTagTable );
+    if ( pDocument->pDocTagTable) TAFreeTagTable((PLOADEDTABLE)pDocument->pDocTagTable );
     EQFBFreeDoc( &pDocument, 0 );
   } /* endif */
+  if ( pSourceDocument ) EQFBFreeDoc( &pSourceDocument, 0 );
 
   return( usRC );
-} /* end of function EQFADJUSTCOUNTINFO */
+} /* end of function WriteHistLogAndAdjustCountInfo */
 

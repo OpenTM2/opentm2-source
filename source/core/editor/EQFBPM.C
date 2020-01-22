@@ -2430,6 +2430,8 @@ BOOL IsInGlyphSet( LPGLYPHSET lpGlyphSet, CHAR_W chTest )
 // Replace all code points not contained in current font by a question mark
 void MaskInvalidCharacters( PTBDOCUMENT pDoc, HDC hDC, PSZ_W pszText )
 {
+  CHAR_W chNoGlyphChar = 0;
+
   LPGLYPHSET lpGlyphSet = GetFontContRanges( pDoc, hDC );
   if ( lpGlyphSet == NULL ) return;
 
@@ -2437,7 +2439,15 @@ void MaskInvalidCharacters( PTBDOCUMENT pDoc, HDC hDC, PSZ_W pszText )
   {
     if ( !IsInGlyphSet( lpGlyphSet, *pszText ) )
     {
-      *pszText = L'?';
+      if ( chNoGlyphChar == 0 )
+      {
+        chNoGlyphChar = 0x25A1;
+        if ( !IsInGlyphSet( lpGlyphSet, chNoGlyphChar ) )
+        {
+          chNoGlyphChar = L'?';
+        } /* endif */
+      } /* endif */
+      *pszText = chNoGlyphChar;
     } /* endif */
     pszText++;
   } /* endwhile */

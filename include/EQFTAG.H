@@ -41,6 +41,7 @@ typedef enum _SEGBREAK         // segment info of tag:
    SEG_ON,                     // tag sets segmenting one level higher
    SEG_RESET,                  // tag resets segmentent  mode
    SEG_LINE,                    // tag starts line-per-line segmenting
+   SEG_NOSEGMENTING,            // tag starts text block without segmenting
    PROTECT_ON,                  // tag starts protected text
    PROTECT_OFF                  // tag ends protected text
 } SEGBREAK;

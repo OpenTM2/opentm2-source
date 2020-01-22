@@ -1,4 +1,4 @@
-; Copyright (c) 2016-2017 International Business Machines
+; Copyright (c) 2016-2018 International Business Machines
 ; Corporation and others.  All rights reserved.
 
 ;NSIS Source for OpenTM2 installer  
@@ -11,7 +11,7 @@ AllowRootDirInstall true
 Var SIZE
 !define APPNAME "OTM"
 !define PRODUCT_NAME "OpenTM2"
-!define PRODUCT_VERSION "1.5.1"
+!define PRODUCT_VERSION "1.6.1"
 !define PRODUCT_PUBLISHER "OpenTM2"
 !define PRODUCT_WEB_SITE "http://www.opentm2.org"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\OpenTM2Starter.exe"
@@ -268,8 +268,8 @@ SectionEnd
    Caption "OpenTM2 ${PRODUCT_VERSION} Setup"
  
    ;OutFile "OpenTM2 ${PRODUCT_VERSION} Setup-${MyTIMESTAMP}.exe"
-   OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition.Setup.exe"  
-  
+   OutFile "OpenTM2-${PRODUCT_VERSION}-Community-Edition.Setup.exe"   
+
   ;Default installation folder
 
   InstallDir "C:\OTM"
@@ -460,6 +460,7 @@ SetOverwrite on
 ${File} "PROPERTY\" "EQFNFLUENT.TRG"
 Continue7:
 ;End control trigger file
+SetOverwrite on
 
 ${SetOutPath} "$INSTDIR\PRTFORM"
 ${File} "PRTFORM\" "FORMAT1.FRM"
@@ -611,6 +612,8 @@ IfFileExists "$INSTDIR\WIN\OtmMemoryService.conf" OMSConfExists 0
 ${File} "WIN\" "OtmMemoryService.conf"
 OMSConfExists:
 
+${File} "WIN\" "UNZIP.EXE"
+${File} "WIN\" "ZIP.EXE"
 
 
 ${SetOutPath} "$INSTDIR\API"

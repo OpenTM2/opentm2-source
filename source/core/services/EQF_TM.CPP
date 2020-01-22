@@ -428,6 +428,7 @@ USHORT  TlmReplace
   PTBDOCUMENT    pTBDoc;                        // pointer to document
   PTPMEMLOOKUPDATA pMemData = (PTPMEMLOOKUPDATA)pDoc->pvMemLookup;
   HWND           hwnd = NULL;
+  PTBDOCUMENT    pSTARGETDoc = NULL;
 
   pMemData->SearchKey.clear();
 
@@ -437,7 +438,7 @@ USHORT  TlmReplace
   hwnd = ((PSTEQFGEN)(pTBDoc->pstEQFGen))->hwndEditorTgt;
   if (hwnd )
   {
-    PTBDOCUMENT    pSTARGETDoc = ACCESSWNDIDA(hwnd, PTBDOCUMENT);
+    pSTARGETDoc = ACCESSWNDIDA(hwnd, PTBDOCUMENT);
     if (pSTARGETDoc &&
                 pSTARGETDoc->fLineWrap && pSTARGETDoc->fAutoLineWrap )
     {
@@ -529,6 +530,30 @@ USHORT  TlmReplace
   if ( pstQReq->pszAddData )
   {
     pMemData->SearchKey.setAddInfo( pstQReq->pszAddData );
+  } /* endif */
+
+  // let EQFCHECKSEGTYPE function of the user exit adjust the memory type
+  if ( pSTARGETDoc && pSTARGETDoc->pfnCheckSegType )
+  {
+     PTBSEGMENT pTBPrevSourceSeg = EQFBGetSegW( pSTARGETDoc->twin, pstQReq->ulParm1 - 1 );
+     EQF_BOOL  fChanged = FALSE;
+     PSZ_W     pPrevSegData = NULL;
+     SHORT     sMemType = CST_MANUAL_MATCH;
+     SHORT     sCountType = CST_MANUAL_MATCH;
+     
+     pPrevSegData = ( pTBPrevSourceSeg ) ? pTBPrevSourceSeg->pDataW : NULL;
+     fChanged = (pSTARGETDoc->pfnCheckSegType)( pDoc->szDocFormat, pPrevSegData, pMemData->szSource,
+                                                pMemData->szTarget, (LONG)pSTARGETDoc, pstQReq->ulParm1, &sCountType, &sMemType );
+     if ( fChanged )
+     {
+       switch( sMemType )
+       {
+         case CST_MACHINE_MATCH: pMemData->SearchKey.setType( OtmProposal::eptMachine ); break;
+         case CST_MANUAL_MATCH: pMemData->SearchKey.setType( OtmProposal::eptManual ); break;
+         case CST_GLOBMEM_MATCH: pMemData->SearchKey.setType( OtmProposal::eptGlobalMemory ); break;
+         default: pMemData->SearchKey.setType( OtmProposal::eptManual ); break;
+       }
+     } /* endif */
   } /* endif */
 
   usRc = (USHORT)pMemData->MemoryList[0]->putProposal( pMemData->SearchKey );

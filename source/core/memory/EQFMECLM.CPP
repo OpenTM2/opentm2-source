@@ -1153,6 +1153,11 @@ USHORT MemFuncCLMMemProcess
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
+        }
+        else
+        {
+          // clear line as data has been processed
+          pCLMData->szLine[0] = 0;
         } /* endif */
       }
       else if ( wcsnicmp( pCLMData->szLine, L"<target>", 8 ) == 0 )
@@ -1175,6 +1180,11 @@ USHORT MemFuncCLMMemProcess
         {
           // incomplete segment data
           usRC = ERROR_INVALID_SEGMENT;
+        }
+        else
+        {
+          // clear line as data has been processed
+          pCLMData->szLine[0] = 0;
         } /* endif */
       } 
       else if ( wcsnicmp( pCLMData->szLine, L"<context>", 9 ) == 0 )
@@ -1271,6 +1281,21 @@ USHORT MemFuncCLMMemProcess
       searchKey.setSource( pCLMData->szTempSource );
 
       pCLMData->pMem->searchProposal( searchKey, *(pCLMData->pvMatchList), GET_EXACT | GET_NO_GENERICREPLACE | GET_ALWAYS_WITH_TAGS );
+
+      // retry with generic inline tag replacement if no 100% match found
+      int iNumMatches = OtmProposal::getNumOfProposals( *(pCLMData->pvMatchList) );
+      if ( iNumMatches > 0 )
+      {
+        USHORT usMatch = (USHORT)(*pCLMData->pvMatchList)[0]->getFuzziness();
+        if ( usMatch < 100 )
+        {
+          iNumMatches = 0;
+        }
+      }
+      if ( iNumMatches == 0 )
+      {
+        pCLMData->pMem->searchProposal( searchKey, *(pCLMData->pvMatchList), GET_EXACT | GET_ALWAYS_WITH_TAGS );
+      }
 
 #ifdef CLEANMEMORYTIMELOG
       GetElapsedTime( &(pCLMData->lMemLookupTime) );

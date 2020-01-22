@@ -16,6 +16,7 @@
 
   #include "eqf.h"                  // General .H for EQF
 
+#include <direct.h>
 #include "OtmProposal.h"
 #include "AnalysisMemLookupData.h"
 #include "core\memory\MemoryFactory.h"
@@ -34,6 +35,8 @@
 #include <ole2.h>
 #include <oleauto.h>
 
+// activate the following define to log the setting of the track changes flag for DOCX files
+//#define SETTRACKFLAGLOG
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
@@ -178,6 +181,8 @@ PVALDOCREPLACELIST ValExpGetReplacementList();
 PVALDOCREPLACEMU ValExpGetMarkupGroup( PSZ pszMarkup );
 BOOL ValExpApplyReplaceList( PVALDOCREPLACEMU pMU, PSZ_W pszInString, PSZ_W pszOutString, PBOOL isTag, BOOL fLinksImages );
 BOOL ValIsTaxonomyDoc( PTBDOCUMENT pDoc );
+BOOL ValSetTrackingFlag( PSZ pszDocument );
+
 
 // segment list entry for manually translated segments
 typedef struct _VALSEGENTRY
@@ -1018,6 +1023,9 @@ static int CreateFinalOutputFile
 
       // convert HTML to DOC
       if ( !iRC ) iRC = ConvertHtml2Doc( pData, pData->szHtmlFile, pData->szFinalOutFile, pData->Options.ValFormat );
+
+      // set tracking flag in DOCX file
+      if ( !iRC && (pData->Options.ValFormat == DOCX_VALEXPFORMAT) ) ValSetTrackingFlag( pData->szFinalOutFile );
 
       // delete temp files
       UtlDelete( pszXmlFile, 0L, FALSE );
@@ -3308,3 +3316,164 @@ BOOL ValIsTaxonomyDoc
   } /*endwhile */
   return( fIsTaxonomy );
 }
+
+// execute command
+USHORT ValExecuteCommand( PSZ pszCommand )
+{
+    STARTUPINFOA           StartupInfo ;
+    PROCESS_INFORMATION    piProcessInfo ; 
+    DWORD                  dwCode = 0;
+
+    GetStartupInfoA( &StartupInfo ) ;
+    StartupInfo.dwFlags = STARTF_USESHOWWINDOW ;
+    StartupInfo.wShowWindow = SW_HIDE ;
+    CreateProcessA( NULL, pszCommand, NULL, NULL, FALSE, (DWORD)0, NULL, NULL, &StartupInfo, &piProcessInfo ) ; 
+    WaitForSingleObject( piProcessInfo.hProcess, INFINITE ) ;
+    GetExitCodeProcess(piProcessInfo.hProcess, &dwCode);
+    return( (USHORT)dwCode ) ;
+}
+
+// set tracking flag in MS Word document
+BOOL ValSetTrackingFlag( PSZ pszDocument )
+{
+  char      szCommand[1024] ;
+  char      szTempDir[256] ;
+  BOOL      fOK = TRUE;
+  PSZ       pszSettings = NULL;
+  USHORT    usSize = 0;
+  #define WordSettingsFile "word\\settings.xml"
+#ifdef SETTRACKFLAGLOG
+  CHAR szLogFile[MAX_EQF_PATH];
+  FILE *hfLog = NULL;
+
+  UtlMakeEQFPath( szLogFile, NULC, LOG_PATH, NULL );
+  UtlMkDir( szLogFile, 0L, FALSE );
+  strcat( szLogFile, "\\ValDocExportSetTrackFlag.LOG" );
+  hfLog = fopen( szLogFile, "a" );
+  if ( hfLog )
+  {
+    time_t lTime;
+    time( &lTime );
+    fprintf( hfLog, "ValDocExport Set Track Changes Flag log %s", asctime( localtime( &lTime ) ) );
+  } /* endif */
+#endif
+
+  // create temporary directory
+  UtlMakeEQFPath( szTempDir, NULC, EXPORT_PATH, NULL );
+  strcat( szTempDir, "\\" );
+  strcat( szTempDir, UtlGetFnameFromPath( pszDocument ) );
+  UtlMkMultDir( szTempDir, FALSE );
+
+  // check existance of UNZIP.EXE
+  UtlMakeEQFPath( szCommand, NULC, WIN_PATH, NULL );
+  strcat( szCommand, "\\UNZIP.EXE" );
+  fOK = UtlFileExist( szCommand );
+#ifdef SETTRACKFLAGLOG
+  if ( hfLog ) fprintf( hfLog, "  Access to %s %s\n", szCommand, fOK ? "successful" : "failed" );
+#endif
+
+  // unpack DOCX file
+  if ( fOK )
+  {
+    sprintf( szCommand+strlen(szCommand), " -q -o %s %s -d %s", pszDocument, WordSettingsFile, szTempDir );
+    fOK = ValExecuteCommand( szCommand ) == 0;
+#ifdef SETTRACKFLAGLOG
+    if ( hfLog ) fprintf( hfLog, "  Unpacking of word settings file from document %s %s\n", pszDocument, fOK ? "successful" : "failed" );
+#endif
+  }
+
+  // set tracking flag
+  if ( fOK )
+  {
+    // load settings.xml
+    sprintf( szCommand, "%s\\%s", szTempDir, WordSettingsFile );
+    fOK = UtlLoadFile( szCommand, (PVOID *)&pszSettings, &usSize, FALSE, FALSE );
+#ifdef SETTRACKFLAGLOG
+    if ( hfLog ) fprintf( hfLog, "  Load of settings file from temp directory %s %s\n", szCommand, fOK ? "successful" : "failed" );
+#endif
+  }
+
+  // resize settings buffer
+  if ( fOK )
+  {
+    fOK = UtlAlloc( (PVOID *)&pszSettings, usSize, usSize + 20, FALSE );
+    if ( fOK )
+    {
+      pszSettings[usSize] = 0; // ensure buffer is null terminated
+      usSize += 19;
+    }
+#ifdef SETTRACKFLAGLOG
+    if ( hfLog ) fprintf( hfLog, "  Reallocation of file buffer %s\n", fOK ? "successful" : "failed" );
+#endif
+  }
+
+  // add tracking flag
+  if ( fOK )
+  {
+    PSZ pszEndTag = strstr( pszSettings, "</w:settings>" );
+    if ( pszEndTag != NULL )
+    {
+#ifdef SETTRACKFLAGLOG
+    if ( hfLog ) fprintf( hfLog, "  End of settings tag </w:settings> found\n" );
+#endif
+      strcpy( pszEndTag, "<w:trackRevisions/></w:settings>" );
+    }
+    else
+    {
+#ifdef SETTRACKFLAGLOG
+    if ( hfLog ) fprintf( hfLog, "  Could not find end of settings tag </w:settings>\n" );
+#endif
+      fOK = FALSE;
+    }
+  }
+
+  // re-write settings.xml
+  if ( fOK )
+  {
+    fOK = UtlWriteFile( szCommand, usSize, (PVOID)pszSettings, FALSE ) == 0;
+#ifdef SETTRACKFLAGLOG
+    if ( hfLog ) fprintf( hfLog, "  Rewrite of settings file %s from file buffer %s\n", szCommand, fOK ? "successful" : "failed" );
+#endif
+  }
+
+  // check existance of ZIP.EXE
+  if ( fOK )
+  {
+    UtlMakeEQFPath( szCommand, NULC, WIN_PATH, NULL );
+    strcat( szCommand, "\\ZIP.EXE" );
+    fOK = UtlFileExist( szCommand );
+#ifdef SETTRACKFLAGLOG
+  if ( hfLog ) fprintf( hfLog, "  Access to %s %s\n", szCommand, fOK ? "successful" : "failed" );
+#endif
+  }
+
+  // freshen files in DOCX file from temporary directory
+  if ( fOK )
+  {
+    char szSaveDir[MAX_PATH];
+    _getcwd( szSaveDir, sizeof(szSaveDir) ) ;
+    _chdir( szTempDir ) ;
+    sprintf( szCommand + strlen(szCommand), " %s -f %s", pszDocument, WordSettingsFile );
+    ValExecuteCommand( szCommand ) ;
+    _chdir( szSaveDir ) ;
+#ifdef SETTRACKFLAGLOG
+  if ( hfLog ) fprintf( hfLog, "  Command to freshen settings file executed\n" );
+#endif
+  }
+
+  // cleanup
+  UtlRemoveDir( szTempDir, FALSE );
+  if ( pszSettings ) UtlAlloc( (PVOID *)&pszSettings, 0, 0, NOMSG );
+
+#ifdef SETTRACKFLAGLOG
+  if ( hfLog )
+  {
+    fclose( hfLog );
+  } /* endif */
+#endif
+
+  return( fOK );
+}
+
+
+

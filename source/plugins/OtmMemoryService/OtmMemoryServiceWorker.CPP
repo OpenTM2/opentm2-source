@@ -3,7 +3,7 @@
 //+----------------------------------------------------------------------------+
 //|Copyright Notice:                                                           |
 //|                                                                            |
-//|      Copyright (c) 2016, QSoft GmbH. All rights reserved.                  |
+//|      Copyright (c) 2020, QSoft GmbH. All rights reserved.                  |
 //+----------------------------------------------------------------------------+
 //| Author: Gerhard Queck                                                      |
 //|                                                                            |
@@ -1165,7 +1165,7 @@ int OtmMemoryServiceWorker::search
 
   // do the lookup and handle the results
   int iNumOfProposals = pData->iNumOfProposals;
-  iRC = EqfQueryMem( this->hSession, lHandle, pSearchKey, &iNumOfProposals, pFoundProposals, 0 );
+  iRC = EqfQueryMem( this->hSession, lHandle, pSearchKey, &iNumOfProposals, pFoundProposals, GET_EXACT );
   if ( iRC == 0 )
   {
     std::wstring strOutputParmsW;

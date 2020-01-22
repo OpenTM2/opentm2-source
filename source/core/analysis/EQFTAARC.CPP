@@ -1759,16 +1759,31 @@ PFCTDATA    pData                    // ptr to function interface data area
         strcat( pIda->szDocObjName, BACKSLASH_STR );
         strcat( pIda->szDocObjName, pIda->szCurDoc );
 
-        DocQueryInfo2Hwnd( pIda->szDocObjName,   // document object name
-                           NULL,                 // memory of document
-                           pIda->szDocFormat,    // format of document
-                           pIda->szDocSourceLang,// document source language
-                           pIda->szDocTargetLang,// --   target language
-                           pIda->szLongName,     // long document name
-                           pIda->szAlias,        // alias
-                           NULL,                 // editor
-                           TRUE,                 // handle errors in function
-                           pIda->hwndErrMsg );   // error message window
+//      DocQueryInfo2Hwnd( pIda->szDocObjName,   // document object name
+//                         NULL,                 // memory of document
+//                         pIda->szDocFormat,    // format of document
+//                         pIda->szDocSourceLang,// document source language
+//                         pIda->szDocTargetLang,// --   target language
+//                         pIda->szLongName,     // long document name
+//                         pIda->szAlias,        // alias
+//                         NULL,                 // editor
+//                         TRUE,                 // handle errors in function
+//                         pIda->hwndErrMsg );   // error message window
+
+
+        DocQueryInfoEx( pIda->szDocObjName,   // document object name
+                        NULL,                 // memory of document
+                        pIda->szDocFormat,    // format of document
+                        pIda->szDocSourceLang,// document source language
+                        pIda->szDocTargetLang,// --   target language
+                        pIda->szLongName,     // long document name
+                        pIda->szAlias,        // alias
+                        NULL,                 // editor
+                        NULL,                 // conversion
+                        &(pIda->ulMemTimeStamp),// document completion/update time  9-19-18
+                        NULL,                 // unused
+                        TRUE,                 // handle errors in function
+                        pIda->hwndErrMsg );   // error message window
 
         if ( UtlIsLongFileName( pIda->szAlias ) )
         {
@@ -1973,6 +1988,7 @@ PFCTDATA    pData                    // ptr to function interface data area
               {
                 OtmProposal Proposal;
 
+                Proposal.setUpdateTime( pIda->ulMemTimeStamp );   /* 9-19-18 */
                 Proposal.setSource( pSourceSeg->pDataW );
                 Proposal.setTarget( pTargetSeg->pDataW );
                 Proposal.setDocShortName( pIda->szCurDoc );

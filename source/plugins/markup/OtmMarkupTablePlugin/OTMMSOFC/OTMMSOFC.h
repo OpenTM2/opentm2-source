@@ -246,7 +246,7 @@ typedef struct                               // Structure to define spreadsheet 
     USHORT     fnCreateInputList( P_INFO **, SSNT_INFO **, ULONG, HWND, USHORT *, USHORT * ) ;
     USHORT     fnGetXMLTag( WCHAR *, ULONG *, ULONG *, WCHAR *, WCHAR *,ULONG *, ULONG *, BOOL * ) ;
     BOOL       fnGetAttributeValue( WCHAR *, WCHAR *, WCHAR * ) ;
-    BOOL       fnGetNextAttributeValue( WCHAR *, USHORT, WCHAR *, WCHAR *, WCHAR **, ULONG ) ;
+    BOOL       fnGetNextAttributeValue( WCHAR *, USHORT, WCHAR *, WCHAR *, WCHAR ** ) ;
     BOOL       fnGetCompleteString( WCHAR *, WCHAR *, WCHAR *, LONG ) ;
     USHORT     fnGetXMLRcd( WCHAR *, ULONG * ) ;
     USHORT     fnWriteBlock( USHORT, ULONG, ULONG, wofstream*, BOOL ) ;

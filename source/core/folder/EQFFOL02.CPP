@@ -3153,8 +3153,7 @@ USHORT FolImpProcessFolder( HWND hwnd, PFOLIMPIDA pIda )
         pIda->fGlobalMemOptCheckRequired = pFolProp->fGlobalMemOptCheckRequired;
         pFolProp->fGlobalMemOptCheckRequired = FALSE;
 
-        if ( pIda->fUserExitCopyPending )
-           pFolProp->fDisabled_UserExitRefresh = TRUE ; 
+        pFolProp->fDisabled_UserExitRefresh = pIda->fUserExitCopyPending;
 
         // apply any memory renames
         {

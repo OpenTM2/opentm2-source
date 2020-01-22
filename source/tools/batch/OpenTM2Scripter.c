@@ -43,10 +43,12 @@
 #define SKIPSPACE(p)  while (*p == ' '  || *p == 9) p++
 #define SKIPCOMMA(p)  if (*p == ',' ) p++
 
+#define MAX_SCRIPT_LINE_LENGTH 16000
+
 char szMsg[8096];                       // buffer for TranslationManager messages
 char szScriptFile[1024];                // name of script file
-char szLine[2048];                      // buffer for a single line of the script
-char szTempLine[2048];                  // temporary buffer for a single line of the script
+char szLine[MAX_SCRIPT_LINE_LENGTH];    // buffer for a single line of the script
+char szTempLine[MAX_SCRIPT_LINE_LENGTH];// temporary buffer for a single line of the script
 char szTempScriptFile[100];             // temporary script file
 long lOption;                           // buffer for option parameters
 char chNullParm = NULC;                 // empty character parameter
@@ -167,7 +169,7 @@ typedef enum _LOGLEVEL
 }LOGLEVEL;
 
 //List maximum for Wildcard paths
-#define WCPATH_LIST_MAX 1024
+#define WCPATH_LIST_MAX MAX_SCRIPT_LINE_LENGTH
 
 // structure for saving wildcardpaths
 typedef struct _WCPATH
@@ -4866,7 +4868,7 @@ void SaveMarker(PMARKER pfirst_marker, FILE* targetScript, PFUNCTEST_OUTPUT Out,
 int ReplaceConstants(PSZ input,PSZ output, PCONSTA *lastConsta, PFUNCTEST_OUTPUT Out)
 {
     {
-        int length=2048;
+        int length=MAX_SCRIPT_LINE_LENGTH;
         PCONSTA tC;
         CHAR temp[102];
         PSZ temp2;

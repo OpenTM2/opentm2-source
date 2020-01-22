@@ -115,7 +115,7 @@ PSZ              pszLongName,        // buffer for document long name or NULL
 PSZ              pszAlias,           // buffer for document alias or NULL
 PSZ              pszEditor,          // buffer for editor or NULL
 PSZ              pszConversion,      // buffer for conversion or NULL
-PULONG           pulDocTime,         // buffer for document translation time (or last update time if not completely translated)
+PULONG           pulDocTime,         // buffer for document last update time 
 PSZ              pszUnUsed2,         // not in use yet, always NULL
 BOOL             fMsg,               // do-message-handling flag
 HWND             hwnd                // window handle for error messages
@@ -259,14 +259,7 @@ HWND             hwnd                // window handle for error messages
 
     if ( pulDocTime != NULL )
     {
-      if ( pProp->ulXLated != 0 )
-      {
-        *pulDocTime = pProp->ulXLated;
-      }
-      else
-      {
-        *pulDocTime = pProp->ulTouched;
-      } /* endif */
+      *pulDocTime = pProp->ulTouched;
     } /* endif */
   } /* endif */
 

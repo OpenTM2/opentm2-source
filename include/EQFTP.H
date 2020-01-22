@@ -872,8 +872,10 @@ typedef struct _tbdocument
 
     PVOID pvGlyphSet;               // ptr to glyphset for current font
 
+    PFNCHECKSEGTYPE pfnCheckSegType;    // address of ptr to segment type function of user exit
+
     // Reserve left:
-    CHAR         chReserve[996];             
+    CHAR         chReserve[992];             
  } TBDOCUMENT, *PTBDOCUMENT;
 
 VOID MTLogStartEditing( PTBDOCUMENT pDoc );

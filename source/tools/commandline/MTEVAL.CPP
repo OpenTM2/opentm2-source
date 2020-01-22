@@ -9,6 +9,10 @@
 //| Description: Evaluates the MT log info of folders                          |
 //+----------------------------------------------------------------------------+
 
+
+// activate the following define to create a debug version with logging
+//#define MTEVAL_LOG
+
 extern "C"
 {
   #define INCL_EQF_TAGTABLE         // tag table and format functions
@@ -43,6 +47,9 @@ extern "C"
 #include "cxmlwriter.h"
 #include "OTMCFXP.h"
 
+#ifdef MTEVAL_LOG
+  FILE *hfLog = NULL;
+#endif
 
 // the MT log evaluation class
 class CMTEval
@@ -55,6 +62,7 @@ public:
   void SetDetailsMode( BOOL fDetails );
   int GetNumOfProcessedDocs();
   int GetNumOfCorruptedDocs();
+  void Terminate();
 protected:
   // private data types 
   typedef enum { LONGFOLDERNAME, SHORTFOLDERNAME, EXPORTEDFOLDER, DIRECTORY, INVFILESPEC, SEARCHPATTERN } InputFileMode;
@@ -170,6 +178,16 @@ int main
      return 0;
   }
 
+#ifdef MTEVAL_LOG
+    hfLog = fopen( "OTMMTEVAL.LOG", "a" );
+    if ( hfLog )
+    {
+      time_t lTime = 0;
+      time( &lTime );
+      fprintf( hfLog, "OtmMTEval log started at %s", asctime( localtime( &lTime ) ) );
+    } /* endif */
+#endif
+
   //fLog = TRUE;   // always log during development...
   
   // get command line options
@@ -255,6 +273,8 @@ int main
     int iDocNum = evaluator->GetNumOfProcessedDocs();
     int iCorruptedDocNum = evaluator->GetNumOfCorruptedDocs();
 
+    evaluator->Terminate();
+
     if ( iCorruptedDocNum  == 0)
     {
       printf( "Done. %ld documents have been processed.\n", iDocNum );
@@ -265,6 +285,16 @@ int main
     } /* endif */
 
   } /* endif */
+
+#ifdef MTEVAL_LOG
+    if ( hfLog )
+    {
+      time_t lTime = 0;
+      time( &lTime );
+      fprintf( hfLog, "OtmMTEval log terminated at %s", asctime( localtime( &lTime ) ) );
+      fclose( hfLog );
+    } /* endif */
+#endif
 
   return( iRC );
 } /* end of main */
@@ -314,6 +344,14 @@ int CMTEval::GetNumOfCorruptedDocs()
   return( m_iNumOfCorruptedDocs );
 }
 
+// Terminate processing
+void CMTEval::Terminate()
+{
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "CMTEval::Terminate(forced close of output file)\n" ); fflush( hfLog ); }
+#endif
+  if ( m_xw != NULL ) m_xw->Close();
+}
 
 // Get number of processed documents
 // MT info evaluation
@@ -324,6 +362,10 @@ int CMTEval::Evaluate
 )
 {
   int iRC = 0;
+
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "CMTEval::Evaluate( \"%s\", \"%s\" )\n", pszFileSpec, pszOutFile ); fflush( hfLog ); }
+#endif
 
   if ( m_hfTest ) fprintf( m_hfTest, "CMTEval::Evaluate( \"%s\", \"%s\" )\n", pszFileSpec, pszOutFile );
 
@@ -436,7 +478,9 @@ int CMTEval::Evaluate
 
     m_xw->WriteEndElement();
     m_xw->WriteEndDocument();
+    m_xw->Close();
     delete m_xw;
+    m_xw = NULL;
   } /* endif */
 
   if ( m_hfTest ) fprintf( m_hfTest, "CMTEval::Evaluate returns %ld\n", iRC );
@@ -449,6 +493,9 @@ CMTEval::InputFileMode CMTEval::CheckInFile( const char *pszInFile, BOOL fNameCh
   InputFileMode RC = INVFILESPEC;
 
   if ( m_hfTest ) fprintf( m_hfTest, "CMTEval::CheckInFile( \"%s\", \"%s\" )\n", pszInFile, fNameCheckOnly ? "True" : "False" );
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "CMTEval::CheckInFile( \"%s\", \"%s\" )\n", pszInFile, fNameCheckOnly ? "True" : "False" ); fflush( hfLog ); }
+#endif
 
   // check for wildcard characters
   BOOL fWildCards = (strchr( pszInFile, '?' ) != NULL) || (strchr( pszInFile, '*' ) != NULL); 
@@ -506,6 +553,9 @@ CMTEval::InputFileMode CMTEval::CheckInFile( const char *pszInFile, BOOL fNameCh
   } /* endif */
 
   if ( m_hfTest ) fprintf( m_hfTest, "  CMTEval::CheckInFile returns %ld\n", RC );
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "  CMTEval::CheckInFile returns %ld\n", RC ); fflush( hfLog ); }
+#endif
 
   return( RC );
 } /* end of method CheckInFile */
@@ -715,12 +765,20 @@ int CMTEval::EvaluateFolder
   BOOL fFolderStarted = FALSE;
 
   if ( m_hfTest ) fprintf( m_hfTest, "CMTEval::EvaluateFolder( \"%s\" )\n", pszShortName );
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "CMTEval::EvaluateFolder( \"%s\" )\n", pszShortName ); fflush( hfLog ); }
+#endif
+
 
   // setup folder property file name
   GetProfileString( APPL_Name, KEY_Drive, "", m_szPathBuffer, sizeof(m_szPathBuffer) );
   strcat( m_szPathBuffer, "\\OTM\\PROPERTY\\" );
   strcat( m_szPathBuffer, pszShortName );
   if ( m_hfTest ) fprintf( m_hfTest, "  CMTEval::EvaluateFolder PropFile=\"%s\"\n", m_szPathBuffer );
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "  CMTEval::EvaluateFolder PropFile=\"%s\"\n", m_szPathBuffer); fflush( hfLog ); }
+#endif
+
 
   // load folder property file
   if ( !iRC )
@@ -756,6 +814,9 @@ int CMTEval::EvaluateFolder
         if ( (strcmp( FindData.cFileName, ".") != 0) &&  (strcmp( FindData.cFileName, "..") != 0) )
         {
           if ( m_hfTest ) fprintf( m_hfTest, "  CMTEval::EvaluateFolder found document \"%s\"\n", FindData.cFileName );
+#ifdef MTEVAL_LOG
+          if ( hfLog ) { fprintf( hfLog, "  CMTEval::EvaluateFolder found document \"%s\"\n", FindData.cFileName ); fflush( hfLog ); }
+#endif
 
           // load MT log file into memory
           sprintf( m_szPathBuffer, "%c:\\OTM\\%s\\MTLOG\\", pFolProp->chDrive, pszShortName );    
@@ -1416,6 +1477,11 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
   // check records and setup record pointer array
   CheckRecords( pvMTLog, iLogFileSize, &fCorrupted );
 
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "CMTEval::EvaluateLogFile( \"%s\", ..., %ld )\n", pProp->PropHead.szName, iLogFileSize ); fflush( hfLog ); }
+  if ( hfLog ) { fprintf( hfLog, "  Document: %s\n", pProp->szLongName ); fflush( hfLog ); }
+#endif
+
   // debug/test output
   if ( m_hfTest ) 
   {
@@ -1564,6 +1630,10 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
 
   ULONG ulCurrentSeg = (ULONG)-1;
   
+#ifdef MTEVAL_LOG
+  if ( hfLog ) { fprintf( hfLog, "CMTEval::EvaluateLogFile(writing start of document\n"); fflush( hfLog ); }
+#endif
+
   m_xw->WriteStartElement( "document" );
   m_xw->WriteAttributeString( "name", pProp->szLongName );
   if ( fCorrupted )
@@ -1577,6 +1647,9 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
 
   if ( m_fDetails )
   {
+#ifdef MTEVAL_LOG
+    if ( hfLog ) { fprintf( hfLog, "CMTEval::EvaluateLogFile(starting segment list\n"); fflush( hfLog ); }
+#endif
     m_xw->WriteStartElement( "segmentList" );
     m_xw->WriteStartAttribute( "shipment" );
     m_xw->WriteInt( iShipment );
@@ -1711,7 +1784,6 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
       {
         CHAR szTemp[80];
 
-
         // when shipment changes we have to end the current segment list and start a new one
         int iNewShipment = pTemp->ulCheckSum >> 16;
         if ( iShipment != iNewShipment )
@@ -1724,6 +1796,11 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
           m_xw->WriteEndAttribute();
         
         } /* endif */         
+
+#ifdef MTEVAL_LOG
+         if ( hfLog ) { fprintf( hfLog, "CMTEval::EvaluateLogFile(writing entry for segment %lu\n", m_ActSegLog.ulSegNum ); fflush( hfLog ); }
+#endif
+
 
         m_xw->WriteStartElement( "segment" );
 
@@ -1825,9 +1902,6 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
           if ( (pTemp->VersionInfoNew.Release != 0) || (pTemp->VersionInfoNew.Version != 0) || 
                (pTemp->VersionInfoNew.Update != 0) || (pTemp->VersionInfoNew.Driver != 0) )
           {
-            int ixxx = sizeof(m_ActSegLog.VersionInfoNew);
-            int ixx2 = sizeof(m_ActSegLog);
-            int ixx3 = sizeof(*pTemp);
             sprintf( m_szBuffer, "%d.%d.%d.%d", (SHORT)m_ActSegLog.VersionInfoNew.Version, (SHORT)m_ActSegLog.VersionInfoNew.Release,
               (SHORT)m_ActSegLog.VersionInfoNew.Update, (SHORT)m_ActSegLog.VersionInfoNew.Driver );
             m_xw->WriteAttributeString( "tm-version", m_szBuffer );
@@ -1974,6 +2048,9 @@ int CMTEval::EvaluateLogFile( PPROPDOCUMENT pProp, PVOID pvMTLog, int iLogFileSi
 
   if ( m_fDetails )
   {
+#ifdef MTEVAL_LOG
+   if ( hfLog ) { fprintf( hfLog, "CMTEval::EvaluateLogFile(writing end of segment list\n"); fflush( hfLog ); }
+#endif
     m_xw->WriteEndElement(); // "segmentlist" 
   } /* endif */
 
@@ -2374,23 +2451,23 @@ int CMTEval::WriteMTMetaData( CXmlWriter *pWriter, PSZ_W pszMetaData )
           {
             pszMetaData++;
             pszNameStart = pszMetaData;
-            while ( (*pszMetaData != 0) && (*pszMetaData != L'\"/') ) pszMetaData++;
+            while ( (*pszMetaData != 0) && (*pszMetaData != L'\"') ) pszMetaData++;
             chTemp = *pszMetaData;
             *pszMetaData = 0;
             pWriter->WriteString( pszNameStart );
             *pszMetaData = chTemp;
-            if ( *pszMetaData == L'\"/' ) pszMetaData++;
+            if ( *pszMetaData == L'\"' ) pszMetaData++;
           }
           else if ( *pszMetaData == L'\'' )
           {
             pszMetaData++;
             pszNameStart = pszMetaData;
-            while ( (*pszMetaData != 0) && (*pszMetaData != L'\'/') ) pszMetaData++;
+            while ( (*pszMetaData != 0) && (*pszMetaData != L'\'') ) pszMetaData++;
             chTemp = *pszMetaData;
             *pszMetaData = 0;
             pWriter->WriteString( pszNameStart );
             *pszMetaData = chTemp;
-            if ( *pszMetaData == L'\'/' ) pszMetaData++;
+            if ( *pszMetaData == L'\'' ) pszMetaData++;
           }
           else
           {

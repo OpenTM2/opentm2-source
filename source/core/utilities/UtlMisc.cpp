@@ -10,6 +10,7 @@
 #define INCL_EQF_TM               // general Transl. Memory functions
 #include "eqf.h"
 #include "otmapi.h"
+#include "eqfserno.h"
 #include "eqfevent.h"
 #include "eqfsetup.h"
 #include "Utility.h"
@@ -2718,6 +2719,10 @@ BOOL UtlInitUtils( HAB hab )
    SHORT i;
 
    hab;
+
+   // set version info in registry
+   WriteStringToRegistry( "OpenTM2", "CurVersion", STR_DRIVER_LEVEL_NUMBER );
+
    //--- get profile information ---
    UtiVar[usId].usDateFormat = (USHORT)WinQueryProfileInt( hab,
                                             NATIONAL_SETTINGS,

@@ -1925,7 +1925,8 @@ BOOL PropDictWndCreate
                                 NULL,
                                 (PFN*)&pTBDoc->pfnUserExitW,
                                 (PFN*)&pTBDoc->pfnCheckSegExitW,
-                                (PFN*)&pTBDoc->pfnCheckSegExExitW );
+                                (PFN*)&pTBDoc->pfnCheckSegExExitW,
+                                (PFN*)&pTBDoc->pfnCheckSegType );
          } /* endif */
       } /* endif */
 
@@ -8071,7 +8072,8 @@ BOOL UpdateLoadedTagTables
                            NULL,
                            &pTBDoc->pfnUserExitW,
                            (PFN*)&pTBDoc->pfnCheckSegExitW,
-                           (PFN*)&pTBDoc->pfnCheckSegExExitW );
+                           (PFN*)&pTBDoc->pfnCheckSegExExitW,
+                           (PFN*)&pTBDoc->pfnCheckSegType );
        } /* endif */
   } /* endif */
   return fOK;

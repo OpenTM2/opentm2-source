@@ -4113,7 +4113,7 @@ USHORT TAPrepProtectTable
 {
   return( TALoadEditUserExit( pVoidTable, "", phModule, ppfnUserExit, ppfnCheckSegExit,
                               ppfnWYSIWYGExit, ppfnTocGotoExit, NULL, NULL,
-                              NULL, NULL, NULL, NULL, NULL ) );
+                              NULL, NULL, NULL, NULL, NULL, NULL ) );
 
 } /* end of function TAPrepProtectTable */
 
@@ -4132,7 +4132,8 @@ USHORT TALoadEditUserExit
   PFN              *ppfnCompareContext, // address of ptr to EQFCOMPARECONTEXT function
   PFN              *ppfnUserExitW,     // unicode user exit to create start-stop-tbl
   PFN              *ppfnCheckSegExitW,  // unicode user exit to check segment
-  PFN              *ppfnCheckSegExExitW  // unicode user exit to check segment Ex
+  PFN              *ppfnCheckSegExExitW,// unicode user exit to check segment Ex
+  PFN              *ppfnCheckSegType   // user exit to check segment type
 )
 {
   PTAGTABLE        pTagTable;          // pointer to tag table
@@ -4153,6 +4154,7 @@ USHORT TALoadEditUserExit
   if ( ppfnUserExitW ) *ppfnUserExitW = NULL;
   if ( ppfnCheckSegExitW ) *ppfnCheckSegExitW = NULL;
   if ( ppfnCheckSegExExitW ) *ppfnCheckSegExExitW = NULL;
+  if ( ppfnCheckSegType ) *ppfnCheckSegType = NULL;
 
 
   /********************************************************************/
@@ -4213,6 +4215,14 @@ USHORT TALoadEditUserExit
           {
             *ppfnWYSIWYGExit = NULL;
           } /* endif */
+        }
+        /****************************************************************/
+        /* try to load CheckSegType  Exit function                        */
+        /****************************************************************/
+        if ( ppfnCheckSegType )
+        {
+          *ppfnCheckSegType = NULL;
+          DosGetProcAddr( *phModule, EQFCHECKSEGTYPE_EXIT, (PFN*)ppfnCheckSegType);
         }
         /****************************************************************/
         /* try to load TOC user    Exit function                        */

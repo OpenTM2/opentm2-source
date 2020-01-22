@@ -3053,7 +3053,10 @@ static
                 EQFIsDBCSChar( pDoc->pEQFBWorkSegmentW[pDoc->TBCursor.usSegOffset+1], pDoc->ulOemCodePage))
             {
               pData = pDoc->pEQFBWorkSegmentW + pDoc->TBCursor.usSegOffset;
-              UTF16strcpy(pData, pData +1);
+              if (*pData == BLANK )
+              {
+                UTF16strcpy(pData, pData +1);
+              } /* endif */
             } /* endif */
           } /* endif */
 

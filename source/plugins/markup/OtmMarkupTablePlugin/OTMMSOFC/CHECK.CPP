@@ -27,8 +27,7 @@
 #define  TITLE_MSOFC_AMPERSAND                  L"Incorrect Ampersand (&)"
 #define  TITLE_MSOFC_INVALID_TEXT_LENGTH        L"Invalid Text Length"
 #define  TITLE_MSOFC_INLINE_TAGGING             L"Incorrect Inline Tagging"
-#define  TITLE_MSOFC_INVALID_CHAR               L"Invalid Character"
-                                                 
+                                                
 #define  MSG_MSOFC_RETURN_TO_SEG                L"\n\nOK - Return to segment to correct the text."
 #define  MSG_MSOFC_AMPERSAND                    L"The ampersand character (&) must be defined as \"&amp;\".\n\nOK - Return to segment to correct the text." 
 #define  MSG_MSOFC_TAG_MUST_NEST                L"Tag %s must be nested within:\n"
@@ -48,7 +47,6 @@
 #define  MSG_MSOFC_TAG_INVALID                  L"Invalid tag found: %s.\nFormat must be: <%snn>"
 #define  MSG_MSOFC_TAG_ORDER2                   L"Tags are in the wrong order.\n\nExpected end tag for:  <%s%d>.\nInstead found end tag for:  <%s%d>."
 #define  MSG_MSOFC_INVALID_CHAR                 L"Invalid character found in segment at offset +%d.\n\n   Char= [%c]\n   Hex=  [%04lx]\n   Text= [%-40.40s]\n\nReplace this character with a supported character."
-#define  MSG_MSOFC_SHEET_SLASH                  L"The slash character (/) cannot be used in the name of a sheet.\n\nOK - Return to segment to correct the text."
 
 /*****************************************************************************/
 /*                                                                           */
@@ -373,17 +371,6 @@ BOOL CheckXmlText( WCHAR * PrevSourceSegment, WCHAR * CurSourceSegment,
             }
          }
       }
-
-     /*------------------------------------------------------------------------*/
-     /* Verify sheet names do not contain slash '/'                    9/01/16 */
-     /*------------------------------------------------------------------------*/
-     if ( ( bReturn ) &&
-          ( wcsstr( PrevSourceSegment, L" t=\"sheet\"" ) ) &&
-          ( wcschr( CurTargetSegment, L'/' ) ) ) {
-        bReturn = FALSE ;                                
-        if ( bMessageDisplay ) 
-           MessageBox(HWND_DESKTOP, MSG_MSOFC_SHEET_SLASH, TITLE_MSOFC_INVALID_CHAR, MB_OK | MB_DEFBUTTON1 | MB_ICONWARNING | MB_SYSTEMMODAL ) ;
-     }
    }
 
 
@@ -418,7 +405,6 @@ BOOL CheckParseSegment( WCHAR * Segment, CHK_INFO *ChkInfo,
    short        Nesting[50] ;
    short        sNestLevel = 0 ;
    short        sNestLevelAdjust ;
-   BOOL         bFirstTag = TRUE ;
    BOOL         bReturn = TRUE ;
 
 
@@ -433,28 +419,21 @@ BOOL CheckParseSegment( WCHAR * Segment, CHK_INFO *ChkInfo,
             bReturn = FALSE ;
             break ;
          }
-         if ( ( bFirstTag ) &&                      /* 7-21-17 */
-              ( ! bCheckCommonProperty ) &&         /* Allow text before tag when common properties */ 
-              ( ptrChar != Segment ) ) {
-            if ( ( ! wcsncmp( ptrChar, L"<~+:",  4 ) ) &&
-                 ( iswdigit( *(ptrChar+4) ) ) &&
-                 ( ( *(ptrChar+5) == L'>' ) ||
-                   ( ! wcsncmp( ptrChar+5, L"/>", 2 ) ) ) ) {
-               if ( ( *Segment != L'\x0007'  ) ||   /* Ignore soft line feed in pos 1. 1-8-13 */
-                    ( ptrChar != &Segment[1] ) ) {       
-                  wcscpy( ErrMsg, MSG_MSOFC_FIRST_TAG ) ;
-                  bReturn = FALSE ;
-                  break ;
-               }
+         if ( ( ( ! wcsncmp( ptrChar, L"<~+:1>",  6 ) ) ||          /* 10-12-12 */
+                ( ! wcsncmp( ptrChar, L"<~+:1/>", 7 ) ) ) &&
+              ( ptrChar != Segment ) &&
+              ( ! bCheckCommonProperty ) ) {     /* Allow text before tag when common properties */
+            if ( ( *Segment != L'\x0007'  ) ||   /* Ignore soft line feed in pos 1. 1-8-13 */
+                 ( ptrChar != &Segment[1] ) ) {       
+               wcscpy( ErrMsg, MSG_MSOFC_FIRST_TAG ) ;
+               bReturn = FALSE ;
+               break ;
             }
          }
-         bFirstTag = FALSE ;
          if ( ! wcsncmp( ptrChar, L"<Br>", 4 ) ) {          /* 8-19-15 */
             ptrChar += 3 ;
             continue ;
          }
-
-		 
 
          ChkInfo[++(*MaxTag)].TagType = TAG_TYPE_BEGIN ;
          ChkInfo[*MaxTag].SeqNum = -1 ;
@@ -526,11 +505,9 @@ BOOL CheckParseSegment( WCHAR * Segment, CHK_INFO *ChkInfo,
 
          } else {
             ChkInfo[*MaxTag].TagType = TAG_TYPE_NONE ;
-            if ( wcslen(ptrChar) >= 3 ) {                  /* 6-15-17 */
-               wcscpy( swTemp, MSG_MSOFC_TAG_INVALID ) ;
-               swprintf( ErrMsg, swTemp, swTag, NEUTRAL_TAG ) ;
-               bReturn = FALSE ;
-			}
+            wcscpy( swTemp, MSG_MSOFC_TAG_INVALID ) ;
+            swprintf( ErrMsg, swTemp, swTag, NEUTRAL_TAG ) ;
+            bReturn = FALSE ;
          }
          ChkInfo[*MaxTag].NestLevel = sNestLevel ;
          sNestLevel += sNestLevelAdjust ;

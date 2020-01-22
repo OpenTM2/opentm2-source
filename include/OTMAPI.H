@@ -1561,6 +1561,52 @@ EQF_BOOL __cdecl EQFCHECKSEGEXW (
    EQF_BOOL fMsg                         // message display requested
 );
 
+
+/*******************************************************************************
+*
+*       function:       EQFCHECKSEGTYPE
+*
+* -----------------------------------------------------------------------------
+*       Description:
+*		    Called to let the MUT user exit change the way a segment is counted and how it is written to the memory
+*
+*
+*       Arguments:  PSZ_W    ... pointer previous source segment
+*                   PSZ_W    ... pointer to current source segment
+*                   PSZ_W    ... pointer to current translation
+*                   LONG     ... lHandle to use with EQFGETPREVSEG(W),EQFGETNEXTSEG(W)
+*                   ULONG    ... segment number to use with EQFGETPREVSEG(W),EQFGETNEXTSEG(W)
+*                   PSHORT   ... pointer to current segment count type, the value may one of the following
+*                                CST_MANUAL_MATCH, CST_FUZZY_MATCH, CST_MACHINE_MATCH, CST_EXACT_MATCH, CST_AUTOSUBST_MATCH
+*                   PSHORT   ... pointer to current segment memory type, the value may one of the following
+*                                CST_MANUAL_MATCH, CST_MACHINE_MATCH, CST_GLOBMEM_MATCH
+*
+*       Return:     EQF_BOOL      ... TRUE: segment type has been modified by the user exit
+*                                     FALSE: the segment type has not been changed
+*******************************************************************************/
+
+#define CST_UNDEFINED_MATCH 0
+#define CST_MANUAL_MATCH   1
+#define CST_FUZZY_MATCH    2
+#define CST_MACHINE_MATCH  4
+#define CST_EXACT_MATCH    8
+#define CST_GLOBMEM_MATCH 16
+#define CST_NO_MATCH      32
+#define CST_AUTOSUBST_MATCH  64
+
+__declspec(dllexport)
+EQF_BOOL __cdecl EQFCHECKSEGTYPE (
+   PSZ  pTagTable,                       // name of tag table
+   PSZ_W pszPrevSrc,                     // previous source segment
+   PSZ_W pszSrc,                         // current source segment
+   PSZ_W pszTgt,                         // current translation
+   LONG  lInfo,                          // info handle to use with EQFGETPREVSEG(W),EQFGETNEXTSEG(W)
+   ULONG ulSegNum,                       // segment number to use with EQFGETPREVSEG(W),EQFGETNEXTSEG(W)
+   SHORT *psCountType,                   // pointer to current/new count type (CST_MANUAL_MATCH, CST_FUZZY_MATCH, CST_MACHINE_MATCH, CST_EXACT_MATCH)
+   SHORT *psMemType                      // pointer to current/new memory type (CST_MANUAL_MATCH, CST_MACHINE_MATCH, CST_GLOBMEM_MATCH)
+);
+
+
 #ifdef __cplusplus
 }
 #endif

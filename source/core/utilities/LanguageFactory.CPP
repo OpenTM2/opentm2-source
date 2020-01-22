@@ -590,17 +590,33 @@ int LanguageFactory::compareISO
    int iResult = stricmp( pszISO1, pszISO2 );
    if ( iResult == 0 ) return( iResult );
 
-   // return when both ISO names have a country ID or both ISO names have none
+   // return when both ISO names have no country ID
    PSZ pszDash1 = (PSZ)strchr( pszISO1, '-' );
+   if ( pszDash1 == NULL ) pszDash1 = (PSZ)strchr( pszISO1, '_' );
    PSZ pszDash2 = (PSZ)strchr( pszISO2, '-' );
-   if ( ((pszDash1 == NULL) && (pszDash2 == NULL)) || ((pszDash1 != NULL) && (pszDash2 != NULL)) ) return( iResult );
+   if ( pszDash2 == NULL ) pszDash2 = (PSZ)strchr( pszISO2, '_' );
+   if ( (pszDash1 == NULL) && (pszDash2 == NULL)  ) return( iResult );
 
    // compare ISO names without country suffix
-   char szLang1[10];
-   char szLang2[10];
+   char szLang1[20];
+   char szLang2[20];
 
-   Utlstrccpy( szLang1, (PSZ)pszISO1, '-' );
-   Utlstrccpy( szLang2, (PSZ)pszISO2, '-' );
+   if ( pszDash1 )
+   {
+     Utlstrccpy( szLang1, (PSZ)pszISO1, *pszDash1 );
+   }
+   else
+   {
+     strcpy( szLang1, (PSZ)pszISO1);
+   } /* endif */
+   if ( pszDash2 )
+   {
+     Utlstrccpy( szLang2, (PSZ)pszISO2, *pszDash2 );
+   }
+   else
+   {
+     strcpy( szLang2, (PSZ)pszISO2);
+   } /* endif */
  
    return ( stricmp( szLang1, szLang2 ) );
 }
@@ -618,21 +634,38 @@ int LanguageFactory::findISO
   int iFound = -1;
   int i = 0;
   int iMax = pvLanguageList->size();
+  int iPreferred = -1;
+  int iBestMatch = -1;
 
   while( i < iMax )
   {
     if ( compareISO( pszISO, (*pvLanguageList)[i].szIsoID ) == 0 )
     {
+      if ( stricmp( pszISO, (*pvLanguageList)[i].szIsoID ) == 0 )
+      {
+        // perfect match, return if this is the preferred language
+        if ( (*pvLanguageList)[i].fisPreferred )
+        {
+          return( i );
+        }
+        iBestMatch = i;
+      }
       if ( (*pvLanguageList)[i].fisPreferred )
       {
-        return( i );
+        iPreferred = i;
       }
-      else
-      {
-        iFound = i;
-      }
+      iFound = i;
     }
     i++;
+  } /* endwhile */
+
+  if ( iBestMatch != -1 )
+  {
+    iFound = iBestMatch;
+  }
+  else if ( iPreferred != -1 )
+  {
+    iFound = iPreferred ;
   }
   return( iFound );
 }

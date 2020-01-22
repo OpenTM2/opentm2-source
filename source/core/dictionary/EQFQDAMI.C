@@ -2248,6 +2248,7 @@ SHORT QDAMLocateKey_V2
                  enum KEYMATCH
                  {
                    EXACT_KEY,            // keys are exactly the same
+                   FIRSTCHARCASEDIFF_KEY,// case of first char of keys is different
                    CASEDIFF_KEY,         // case of keys is different
                    PUNCTDIFF_KEY,        // punctuation of keys differs
                    NOMATCH_KEY           // keys do not match at all
@@ -2306,11 +2307,27 @@ SHORT QDAMLocateKey_V2
                    {
                      if ( searchType == FEQUIV)
                      {
+                       PBTREEGLOB    pBT = pBTIda->pBTree;
+                       PBYTE  pMap = pBT->chCaseMap; 
+                       PBYTE  pbKey1 = (PBYTE)szKey;
+                       PBYTE  pbKey2 = (PBYTE)pKey2;
+
                        if ( UTF16strcmp( szKey, pKey2 ) == 0 )
                        {
                          // the match will not get better anymore ...
                          *psKeyPos = sMid;
                          break;
+                       }
+                       else if ( (pMap[*pbKey1] == pMap[*pbKey2]) && (UTF16strcmp( szKey+1, pKey2+1 ) == 0 ) )
+                       {
+                         // case of first character does not match
+                         // so remember match if we have no better match yet and
+                         // look for better ones...
+                         if ( BestKeyMatch > FIRSTCHARCASEDIFF_KEY )
+                         {
+                           BestKeyMatch = FIRSTCHARCASEDIFF_KEY;
+                           sBestKey = sMid;
+                         } /* endif */
                        }
                        else if ( QDAMCaseCompare( pBTIda, szKey, pKey2, FALSE ) == 0 )
                        {

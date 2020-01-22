@@ -191,6 +191,7 @@ typedef enum _STYLE
    REFLOWNO_STYLE,
    CLS_TRANSLVAR_STYLE,                // translatable variable tag
    CHARSET_UTF8_STYLE,                 // Unicode UTF8 format for export/import
+   SEGNOSEGMENTING_STYLE,
    LAST_STYLE
 } STYLE;
 
@@ -274,16 +275,19 @@ STYLEENTRY AttrStyles[] =
 
    CLS_TRANSLVAR_STYLE, "CLS_TRANSLVAR", CLS_TRANSLVAR,  // translatable variable tag
    CHARSET_UTF8_STYLE,  "UTF8",   TAGCHARSET_UTF8, // Unicode format for export/import
+   SEGNOSEGMENTING_STYLE,  "SEGNOSEGS", SEG_NOSEGMENTING, // no segmentation in text block style
+
    LAST_STYLE,   ""     ,  0           // last style entry
 };
 
-CHOICELIST SEGSTYLES[8] =
+CHOICELIST SEGSTYLES[9] =
 {
    SEGOFF_STYLE,
    SEGON_STYLE,
    SEGNEUTRAL_STYLE,
    SEGRESET_STYLE,
    SEGLINE_STYLE,
+   SEGNOSEGMENTING_STYLE,
    PROTECT_ON_STYLE,
    PROTECT_OFF_STYLE,
    LAST_STYLE

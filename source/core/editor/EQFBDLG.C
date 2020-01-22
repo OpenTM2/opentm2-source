@@ -27,7 +27,7 @@ VOID EQFBKeysFillListbox( HWND hwndDlg, USHORT id,
                           PKEYPROFTABLE pKey, PFUNCTIONTABLE pFunc,
                           BYTE bEditor );
 static VOID EQFBKeysPrint ( HWND );
-static MRESULT DrawKeysFuncList ( HWND hwndDlg, LPARAM mp2, BOOL fDifColor );
+static MRESULT DrawKeysFuncList ( HWND hwndDlg, LPARAM mp2, BOOL fDifColor, BYTE bEditor );
 
 BOOL EQFBCheckForMnemonic( PKEYSIDA, WPARAM, LPARAM);
 VOID EQFBLeaveCaptMode( HWND, PKEYSIDA );
@@ -159,7 +159,11 @@ INT_PTR CALLBACK EQFBKEYSDLGPROC
          break;
 
       case WM_DRAWITEM:
-         mResult = DrawKeysFuncList( hwndDlg, mp2, TRUE );
+ 		     {
+           PKEYSIDA pIda = ACCESSDLGIDA(hwndDlg, PKEYSIDA);
+		       BYTE bEditor = (pIda->pDoc->hwndRichEdit) ? EDIT_RTF : EDIT_STANDARD;
+           mResult = DrawKeysFuncList( hwndDlg, mp2, TRUE, bEditor );
+		     }
          break;
 
       case WM_EQF_CLOSE:
@@ -249,7 +253,8 @@ MRESULT DrawKeysFuncList
 (
   HWND hwndDlg,
   LPARAM mp2,                       // pointer to item structure
-  BOOL   fDifColor                  // force display in different colors ...
+  BOOL   fDifColor,                 // force display in different colors ...
+  BYTE bEditor                      // editor: EDIT_RTF or EDIT_STANDARD
 )
 {
   MRESULT  mResult = MRFROMSHORT( FALSE );      // result value of procedure
@@ -268,10 +273,8 @@ MRESULT DrawKeysFuncList
      // Query extent required to draw the function strings (if not done yet)
      if ( ulEQFBLineWidth == 0L )
      {
-       PKEYSIDA pIda = ACCESSDLGIDA( hwndDlg, PKEYSIDA );
        PFUNCTIONTABLE  pFuncList = get_FuncTab();
        PKEYPROFTABLE pKeyTemp = get_KeyTable(); 
-       BYTE bEditor = (pIda->pDoc->hwndRichEdit) ? EDIT_RTF : EDIT_STANDARD;
 
        while ( pKeyTemp->Function != LAST_FUNC )
        {
@@ -3175,7 +3178,9 @@ INT_PTR CALLBACK EQFBCOMMANDDLGPROC
          break;
 
       case WM_DRAWITEM:
-         mResult = DrawKeysFuncList( hwndDlg, mp2, FALSE );
+         pTPExec = ACCESSDLGIDA(hwndDlg, PTPEXECUTE);
+         bEditor = (pTPExec->pDoc->hwndRichEdit) ? EDIT_RTF : EDIT_STANDARD;
+         mResult = DrawKeysFuncList( hwndDlg, mp2, FALSE, bEditor );
          break;
 
       default:

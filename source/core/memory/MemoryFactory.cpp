@@ -1912,7 +1912,7 @@ OtmPlugin *MemoryFactory::findPlugin
     else
     {
       this->iLastError = ERROR_PLUGINNOTAVAILABLE;
-      this->strLastError = "Error: selected plugin " + std::string( pszPluginName ) + "is not available";
+      this->strLastError = "Error: selected plugin " + std::string( pszPluginName ) + " is not available";
     } /* endif */       
   } /* endif */     
 
@@ -1933,7 +1933,7 @@ OtmPlugin *MemoryFactory::findPlugin
       else
       {
         this->iLastError = ERROR_PLUGINNOTAVAILABLE;
-        this->strLastError = "Error: selected plugin " + strPlugin + "is not available";
+        this->strLastError = "Error: selected plugin " + strPlugin + " is not available";
       } /* endif */       
     }
     else

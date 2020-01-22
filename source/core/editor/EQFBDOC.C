@@ -412,7 +412,8 @@ USHORT EQFBFilePrint ( PTBDOCUMENT  pDoc );
                              NULL,
                              &pNewDoc->pfnUserExitW,
                              (PFN*)&pNewDoc->pfnCheckSegExitW,
-                             (PFN*)&pNewDoc->pfnCheckSegExExitW );
+                             (PFN*)&pNewDoc->pfnCheckSegExExitW, 
+                             (PFN*)&pNewDoc->pfnCheckSegType );
        } /* endif */
    } /* endif */
 

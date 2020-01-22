@@ -65,7 +65,7 @@ public:
     {
     }
 
-    virtual int openTask()
+    virtual int openTask( OtmMemory * )
     { 
         return 0;
     }
@@ -133,7 +133,7 @@ public:
         initCommandList();
     }
 
-    int  openTask();
+    int  openTask( OtmMemory * );
     bool closeTask();
     bool doExecute(OtmProposal& proposal);
     bool checkParameter(std::string& param, const BATCHCMD& cmd, bool  bEnd);
@@ -198,7 +198,7 @@ public:
         initCommandList();
     }
 
-    int  openTask();
+    int  openTask( OtmMemory * );
     bool closeTask();
     bool doExecute(OtmProposal& proposal);
     bool checkParameter(std::string& param, const BATCHCMD& cmd, bool  bEnd);

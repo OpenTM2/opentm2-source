@@ -638,7 +638,6 @@ USHORT EQFMemExportStart( PPROCESSCOMMAREA pCommArea,
 {
   PMEM_EXPORT_IDA   pExportIDA;          // Pointer to the export IDA
   USHORT            usRc;                // Return code to control the process
-  USHORT            usTmRc;              // Return code of Tm functions
   USHORT            usRC = NO_ERROR;          // function return code
 
   //--- Initialize the load process. If it failed close
@@ -763,7 +762,6 @@ USHORT EQFMemExportProcess ( PPROCESSCOMMAREA  pCommArea,
   PMEM_EXPORT_IDA   pExportIDA;               // Pointer to the data for the load
   PSZ               pReplString[3];           // Array of pointers to replacement strings
   CHAR              szNumber[10];             // Temporary character string
-  ULONG             ulProgPos;                // new position of progress indicator
   USHORT            fOk=TRUE;                 // handle error/warning to cmd handler
   USHORT            usRC = NO_ERROR;          // function return code
   //--- Get address of _MEM_IDA
@@ -1110,10 +1108,16 @@ USHORT EQFMemExportEnd ( PPROCESSCOMMAREA pCommArea,
           PSZ pszCurPos = pszTMNames;
           while ( *pszNext )
           {
-            int iNameLen = strlen( pszNext );
+            int iNameLen = 0;
+
+            // skip any plugin name in the memory name
+            PSZ pszNamePos = strchr( pszNext, ':' );
+            pszNamePos = (pszNamePos == NULL) ? pszNext : pszNamePos + 1;
+
+            iNameLen = strlen( pszNamePos );
             *pszCurPos++ = '\"';
-            strcpy( pszCurPos, pszNext );
-            pszNext += iNameLen + 1;
+            strcpy( pszCurPos, pszNamePos );
+            pszNext = pszNamePos + iNameLen + 1;
             pszCurPos += iNameLen;
             *pszCurPos++ = '\"';
             if ( *pszNext )

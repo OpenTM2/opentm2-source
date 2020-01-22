@@ -6111,9 +6111,22 @@ USHORT NTMCompareContext
       if ( pfnCompContext )
       {
         pfnCompContext( pszContext1, pszContext2, &usRanking );
+      }
+      else
+      {
+        if ( wcsicmp( pszContext1, pszContext2 ) == 0 )
+        {
+          usRanking = 100;
+        }
       } /* endif */
+    }
+    else
+    {
+      if ( wcsicmp( pszContext1, pszContext2 ) == 0 )
+      {
+        usRanking = 100;
+      }
     } /* endif */
-
   } /* endif */
 
   return( usRanking );

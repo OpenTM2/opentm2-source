@@ -61,10 +61,10 @@
 /** List of tag groups for section processing
     Note: enlarge the value MAXNUMOFPROTECTTAGGROUPS in EQFTAI.H when new tag groups are added to the tables */
 XMPTAG XmpStartTags1[] ={ { L"<xmp", 4, XMPTAGID }, { L"<screen", 7, SCREENTAGID }, { L"<msgnum", 7, MSGNUMTAGID }, { L"<codeblock", 10, CODEBLOCKTAGID }, { L"<meta", 5, METATAGID }, { L"", 0, ENDOFTAGLIST } };
-XMPTAG XmpEndTags1[] ={ { L"</xmp>", 6, XMPTAGID }, { L"</screen>", 9, SCREENTAGID }, { L"</msgnum>", 9, MSGNUMTAGID },  { L"</codeblock>", 12, CODEBLOCKTAGID }, { L"</meta>", 7, METATAGID }, { L"", 0, ENDOFTAGLIST } };
+XMPTAG XmpEndTags1[] ={ { L"</xmp", 5, XMPTAGID }, { L"</screen", 8, SCREENTAGID }, { L"</msgnum", 8, MSGNUMTAGID },  { L"</codeblock", 11, CODEBLOCKTAGID }, { L"</meta", 6, METATAGID }, { L"", 0, ENDOFTAGLIST } };
 
 XMPTAG XmpStartTags2[] ={ { L"<xmp", 4, XMPTAGID }, { L"<screen", 7, SCREENTAGID }, { L"<msgnum", 7, MSGNUMTAGID }, { L"<codeblock", 10, CODEBLOCKTAGID }, { L"", 0, ENDOFTAGLIST } };
-XMPTAG XmpEndTags2[] ={ { L"</xmp>", 6, XMPTAGID }, { L"</screen>", 9, SCREENTAGID }, { L"</msgnum>", 9, MSGNUMTAGID },  { L"</codeblock>", 12, CODEBLOCKTAGID }, { L"", 0, ENDOFTAGLIST } };
+XMPTAG XmpEndTags2[] ={ { L"</xmp", 5, XMPTAGID }, { L"</screen", 8, SCREENTAGID }, { L"</msgnum", 8, MSGNUMTAGID },  { L"</codeblock", 11, CODEBLOCKTAGID }, { L"", 0, ENDOFTAGLIST } };
 
 /** list of markup tables and the associated start/stop tag groups for section protection. No protection is done in markup tables not listed in this table */
 XMPMARKUPS XmpMarkups[] = {
@@ -614,6 +614,7 @@ VOID EQFTAMnl (HWND hwnd,                   // text analysis window handle
                          pTAInput->fInsertNewMatch  ||   // new match output
                          pTAInput->fMachTrans       ||   // machine translation
                          pTAInput->fTMMatch         ||   // TM match counting
+                         pTAInput->fRedundCount     ||   // redundancy counting
                          pTAInput->fNTLProcessing ) &&  // list processing
                          (pInD->pfnEQFPostTM || pInD->pfnEQFPostTM2 || pInD->pfnEQFPostTmW) )// any of PSTTM  exits is there
                    {
@@ -986,6 +987,7 @@ USHORT TAFileProcessing
               pInD->ulSegFuzzyRepl   = 0L;
               pInD->ulSegMachineMatch = 0L;
               pInD->ulMachineMatch   = 0L;
+              pInD->fProtectMode = FALSE;
 
               memset( &pInD->Total, 0, sizeof(COUNTSUMS) );
               memset( &pInD->ExactExact, 0, sizeof(COUNTSUMS) );
@@ -3943,6 +3945,11 @@ BOOL EQFSegDeterminate
                        SegType = LINEPERLINE;
                        break;
 
+                    case SEG_NOSEGMENTING:    // no segmenting in text block
+                       sSegState = ON;
+                       SegType = NOSEGMENTING;
+                       break;
+
                     case SEG_NEUTRAL: // leave segmenting state as is
                        break;
 
@@ -4137,6 +4144,12 @@ BOOL SetSegInfo(
          fSegboundary1 = TRUE;
          break;
 
+      case NOASSOC_DEL_ON_NOSEGMENTING:
+         Seginfo1 = SEG;
+         SegType = SegType1 = NOSEGMENTING;                      
+         fSegboundary1 = TRUE;
+         break;
+
       case NOASSOC_NODEL_ON_SEGON:
          Seginfo1 = SEG;
          SegType1 = SegType;
@@ -4219,6 +4232,15 @@ BOOL SetSegInfo(
          fSegboundary2 = TRUE;
          break;
 
+      case ASSOC_DEL_ON_NOSEGMENTING:
+         Seginfo1 = NOSEG;
+         Seginfo2 = SEG;
+         SegType1 = LINGUISTIC;
+         SegType = SegType2 = NOSEGMENTING;                     
+         fSegboundary1 = TRUE;
+         fSegboundary2 = TRUE;
+         break;
+
       default:
          // following values should not be possible:
          // NOASSOC_NODEL_OFF_RESET
@@ -4263,8 +4285,38 @@ BOOL SetSegInfo(
 #ifdef TSEGM_SEGLOGGING
       if ( hSegLog )
       {
-        fwprintf( hSegLog, L"SetSegInfo: SegValue = %d\nSegInfo1 = %s, SegInfo2 = %s,\n SegType1 = %s, SegType2 = %s,\n bound1 = %s, bound2 = %s\n",
-          usSegValue,
+        PSZ pszSegValue = "other";
+        switch (usSegValue)
+        {
+          case NOASSOC_NODEL_OFF_SEGOFF : pszSegValue = "NOASSOC_NODEL_OFF_SEGOFF"; break;
+          case NOASSOC_NODEL_OFF_SEGON  : pszSegValue = "NOASSOC_NODEL_OFF_SEGON"; break;
+          case NOASSOC_NODEL_ON_SEGOFF  : pszSegValue = "NOASSOC_NODEL_ON_SEGOFF"; break;
+          case NOASSOC_DEL_OFF_SEGOFF   : pszSegValue = "NOASSOC_NODEL_ON_SEGON"; break;
+          case NOASSOC_DEL_OFF_SEGON    : pszSegValue = "NOASSOC_DEL_OFF_SEGON"; break;
+          case NOASSOC_NODEL_OFF_NEUTRAL: pszSegValue = "NOASSOC_NODEL_OFF_NEUTRAL"; break;
+          case NOASSOC_DEL_OFF_NEUTRAL  : pszSegValue = "NOASSOC_DEL_OFF_NEUTRAL"; break;
+          case NOASSOC_NODEL_ON_NEUTRAL : pszSegValue = "NOASSOC_NODEL_ON_NEUTRAL"; break;
+          case NOASSOC_DEL_ON_SEGOFF:     pszSegValue = "NOASSOC_DEL_ON_SEGOFF"; break;
+          case NOASSOC_DEL_ON_SEGON  :    pszSegValue = "NOASSOC_DEL_ON_SEGON"; break;
+          case NOASSOC_DEL_ON_RESET  :    pszSegValue = "NOASSOC_DEL_ON_RESET"; break;
+          case NOASSOC_DEL_ON_NEUTRAL:    pszSegValue = "NOASSOC_DEL_ON_NEUTRAL"; break;
+          case NOASSOC_DEL_ON_SEGLINE:    pszSegValue = "NOASSOC_DEL_ON_SEGLINE"; break;
+          case NOASSOC_NODEL_ON_SEGON:    pszSegValue = "NOASSOC_NODEL_ON_SEGON"; break;
+          case ASSOC_NODEL_OFF_SEGOFF:    pszSegValue = "ASSOC_NODEL_OFF_SEGOFF"; break;
+          case ASSOC_DEL_OFF_SEGOFF:      pszSegValue = "ASSOC_DEL_OFF_SEGOFF"; break;
+          case ASSOC_DEL_OFF_SEGON:       pszSegValue = "ASSOC_DEL_OFF_SEGON"; break;
+          case ASSOC_DEL_OFF_NEUTRAL:     pszSegValue = "ASSOC_DEL_OFF_NEUTRAL"; break;
+          case ASSOC_NODEL_OFF_NEUTRAL:   pszSegValue = "ASSOC_NODEL_OFF_NEUTRAL"; break;
+          case ASSOC_NODEL_ON_NEUTRAL:    pszSegValue = "ASSOC_NODEL_ON_NEUTRAL"; break;
+          case ASSOC_NODEL_ON_SEGOFF:     pszSegValue = "ASSOC_NODEL_ON_SEGOFF"; break;
+          case ASSOC_DEL_ON_SEGOFF:       pszSegValue = "ASSOC_DEL_ON_SEGOFF"; break;
+          case ASSOC_DEL_ON_SEGON:        pszSegValue = "ASSOC_DEL_ON_SEGON"; break;
+          case ASSOC_DEL_ON_RESET:        pszSegValue = "ASSOC_DEL_ON_RESET"; break;
+          case ASSOC_DEL_ON_NEUTRAL:      pszSegValue = "ASSOC_DEL_ON_NEUTRAL"; break;
+          case ASSOC_DEL_ON_SEGLINE:      pszSegValue = "ASSOC_DEL_ON_SEGLINE"; break;
+        } /* endswitch */
+        fwprintf( hSegLog, L"SetSegInfo: SegValue=%S\n   SegInfo1 = %s, SegInfo2 = %s,\n   SegType1 = %s, SegType2 = %s,\n   bound1 = %s, bound2 = %s\n",
+          pszSegValue,
           (Seginfo1 == NOSEG) ? L"NOSEG" : ((Seginfo1 == SKIP ) ? L"SKIP" : L"SEG"),
           (Seginfo2 == NOSEG) ? L"NOSEG" : ((Seginfo2 == SKIP ) ? L"SKIP" : L"SEG"),
           (SegType1 == LINGUISTIC) ? L"LINGUISTIC" : L"LINEPERLINE",
@@ -4517,7 +4569,7 @@ USHORT GetSegValue(TAG Tag,                          // tag
       usSegValue += 1;
       } /* endif */
 
-   usSegValue = usSegValue * 5;
+   usSegValue = usSegValue * 6;
 
    usSegValue = usSegValue + Tag.Segbreak;
    return (usSegValue);
@@ -4685,7 +4737,11 @@ BOOL EQFTolstComplex (
               {  // prepare text block  and pass it to tolstoy
                 *pTolstTextBuffer = EOS;
 
-                if ( SegType == LINEPERLINE )
+                if ( SegType == NOSEGMENTING )
+                {
+                  // nothing to do
+                }
+                else if ( SegType == LINEPERLINE )
                 {
                   fOK = LineByLineSegmentation( pInD, pTolstBufferStart,
                                           &(pInD->SegBoundaryTbl),
@@ -4839,7 +4895,11 @@ BOOL EQFTolstComplex (
        pSegTokenEntry--;
      } /* endif */
 
-     if ( pSegTokenEntry->SegType == LINEPERLINE )
+     if ( pSegTokenEntry->SegType == NOSEGMENTING )
+     {
+       // nothing to do
+     }
+     else if ( pSegTokenEntry->SegType == LINEPERLINE )
      {
        fOK = LineByLineSegmentation( pInD, pTolstBufferStart,
                                &(pInD->SegBoundaryTbl),
@@ -5161,6 +5221,12 @@ BOOL LineByLineSegmentation
    PSEGBOUNDARY    pSegBoundaryWork;   // work pointer
    USHORT          usCurLength = 0;    // current length of segmenting token
 
+#ifdef TSEGM_SEGLOGGING
+    if ( hSegLog )
+    {
+      fwprintf( hSegLog, L"LineSegmentation Text=>>>%s<<<", pTolstBuffer );
+    } /* endif */
+#endif
 
    pCurTokenEntry          = pFirstSegToken;
    pCurSegBoundary         = pFirstEntrySeg;
@@ -6674,6 +6740,7 @@ USHORT TALoadUserExit
   pInD->pfnEQFCheckSegExW = NULL;
   pInD->pfnUpdateContext = NULL;
   pInD->pfnGetSegContext = NULL;
+  pInD->pfnEQFCheckSegType  = NULL;       
 
   /********************************************************************/
   /* Load user exit DLL                                               */
@@ -6826,6 +6893,17 @@ USHORT TALoadUserExit
          }
        } /* endif */
     } /* endif */
+
+    /******************************************************************/
+    /* check if CHECKSEGTYPE exit is available                        */
+    /******************************************************************/
+    if (usRc == NO_ERROR)
+    {
+       pInD->pfnEQFCheckSegType = NULL;       
+       // try to load CHECKSEGTYPE Exit
+       DosGetProcAddr( pInD->hmodSegmentDll, EQFCHECKSEGTYPE_EXIT, (PFN*) (&(pInD->pfnEQFCheckSegType)));
+    } /* endif */
+
     } /* endif */
 
 
@@ -6896,7 +6974,7 @@ USHORT TAFreeUserExit
     pInD->pfnEQFPostTM    = NULL;
     pInD->pfnEQFPostTM2   = NULL;
     pInD->pfnEQFCheckSeg  = NULL;
-
+    pInD->pfnEQFCheckSegType  = NULL;
     pInD->pfnEQFPostSegW  = NULL;
     pInD->pfnEQFPostSegWEx = NULL;
     pInD->pfnEQFPostTmW   = NULL;
@@ -9326,11 +9404,17 @@ BOOL isXMPMarkup( PSZ pszMarkup, PXMPTAG *ppStartTags, PXMPTAG *ppEndTags )
   return( XmpMarkups[i].szMarkup[0] != EOS );
 } /* end of isXMPMarkup */
 
-BOOL isXMPTag( PSZ_W pszTag, USHORT usLen, PXMPTAG pTagList )
+BOOL isTagNameEndChar( CHAR_W chTest )
+{
+  return ( iswspace(chTest) || (chTest == L'>') || (chTest == L'-') || (chTest == L'<') || (chTest == 0) || (chTest == L'/') );
+}
+
+BOOL isXMPTag( PSZ_W pszTag, USHORT usLen, PXMPTAG pTagList, int *piFoundLen )
 {
   CHAR_W      chTemp;
   PSZ_W       pszTagToTest;
   BOOL        fFound = FALSE;
+  int iTagLen = 0;
 
   chTemp = pszTag[usLen];
   pszTag[usLen] = EOS;
@@ -9339,6 +9423,7 @@ BOOL isXMPTag( PSZ_W pszTag, USHORT usLen, PXMPTAG pTagList )
   if ( wcsnicmp( pszTag, L"<twb--", 6) == 0 )
   {
     pszTagToTest = pszTag + 6;
+    iTagLen += 6;
   }
   else
   {
@@ -9354,17 +9439,20 @@ BOOL isXMPTag( PSZ_W pszTag, USHORT usLen, PXMPTAG pTagList )
   // check if tag name really ends at end of the found tag from our list (e.g. don't treat <metadata as start tag when looking for <meta tag)
   if ( pTagList->iLen != 0 )
   {
-    CHAR_W chEndChar = pszTagToTest[pTagList->iLen];
-    if ( iswspace(chEndChar) || 
-         (chEndChar == L'>') ||
-         (chEndChar == L'-') ||
-         (chEndChar == L'<') ||
-         (chEndChar == 0) ||
-         (chEndChar == L'/') )
+    if ( isTagNameEndChar( pszTagToTest[pTagList->iLen] ) )
+    {
+      fFound = TRUE;
+    } /* endif */       
+    else if ( isTagNameEndChar( pszTagToTest[pTagList->iLen+1] ) )
     {
       fFound = TRUE;
     } /* endif */       
   } /* endif */     
+
+  if ( fFound && (piFoundLen != NULL) )
+  {
+    *piFoundLen = iTagLen + pTagList->iLen;
+  } /* endif */
 
   pszTag[usLen] = chTemp;
 
@@ -9406,10 +9494,11 @@ BOOL isSelfContainedTagEnd( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ
 BOOL isXMPScreenStartTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup, PBOOL pfIsSelfContainedProtectTag  )
 {
   BOOL        fXmpStartTag = FALSE;
+  int iTagLen = 0;
 
   if ( pfIsSelfContainedProtectTag != NULL ) *pfIsSelfContainedProtectTag = FALSE;
 
-  fXmpStartTag = isXMPTag( pszTag, usTagLen, pInD->aActiveStartTags );
+  fXmpStartTag = isXMPTag( pszTag, usTagLen, pInD->aActiveStartTags, &iTagLen );
 
   if ( fXmpStartTag )
   {
@@ -9562,13 +9651,43 @@ BOOL isXMPScreenStartTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ p
 BOOL isXMPScreenEndTag( PTAINSTDATA pInD, PSZ_W pszTag, USHORT usTagLen, PSZ pszMarkup )
 {
   BOOL        fXmpEndTag = FALSE;
+  int iTagLen = 0;
+
 
   pszMarkup;
-  fXmpEndTag = isXMPTag( pszTag, usTagLen, pInD->aActiveEndTags );
+  fXmpEndTag = isXMPTag( pszTag, usTagLen, pInD->aActiveEndTags, &iTagLen );
 
   if ( fXmpEndTag )
   {
-    int i = 1; i;
+    PSZ_W pszTest = pszTag + iTagLen;
+
+    // find tag end character skipping any whitespace and twb tags
+    CHAR_W chEndChar = 0;
+    while ( *pszTest && (chEndChar == 0) )
+    {
+      CHAR_W chCurChar = *pszTest;
+      if ( (chCurChar == L'<' ) && (wcsnicmp( pszTest, L"<twb--", 6 ) == 0) )
+      {
+        pszTest += 6;
+      }
+      else if ( (chCurChar == L'-') && (wcsnicmp( pszTest, L"--twb>", 6 ) == 0) )
+      {
+        pszTest += 6;
+      }
+      else if ( iswspace( chCurChar ) )
+      {
+        pszTest++;
+      }
+      else
+      {
+        chEndChar = chCurChar;
+      } /* endif */
+    } /* endwhile */
+
+    if ( chEndChar != L'>' )
+    {
+      fXmpEndTag = FALSE;
+    } /* endif */
   } /* endif */
 
   return( fXmpEndTag );

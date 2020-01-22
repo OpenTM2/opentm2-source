@@ -49,6 +49,12 @@
 
 #define NTM_TEMPPROP_EXT   ".NTM"         // new translation memory prop ext.
 
+// activate the following define to show debug messages for the UtlListPackages function
+#if _DEBUG
+  // #define DEBUG_LISTPACKAGES
+#endif
+
+
 #define PACKAGETOOLID "OTM"
 
 typedef struct _NTM_TO_OLD_TM
@@ -3038,8 +3044,15 @@ ULONG UtlPackListPackages
    HFILE   hFilePackage;               // file handle of package file
    USHORT  usOpenAction;               // action performed by Utl/DosOpen
    ULONG   ulBytesRead;                // # of bytes read by Utl/DosRead
+#ifdef DEBUG_LISTPACKAGES
+      CHAR szDebugLine[80];
+#endif
 
    // @bt
+
+#ifdef DEBUG_LISTPACKAGES
+   MessageBox ( NULL, "Start of UtlListPackages", "Debug", MB_OK );
+#endif
 
    // changed bt001027
    // single drive letter has got priority
@@ -3093,24 +3106,40 @@ ULONG UtlPackListPackages
 
         if (!UtlDirExist(szPackName))
         {
+#ifdef DEBUG_LISTPACKAGES
+           MessageBox ( NULL, "Directory does no exist", "Debug", MB_OK );
+#endif
            fPathValid = FALSE ;
            break;
         }
 
-        ulRC = UtlFindFirst( szPackName, &hDirHandle, FILE_DIRECTORY,
-                             &ResultBuf, sizeof( ResultBuf), &usCount, 0L,
-                             FALSE );
+        ulRC = UtlFindFirstLong( szPackName, &hDirHandle, FILE_DIRECTORY, &LongResultBuf, FALSE);
+
+#ifdef DEBUG_LISTPACKAGES
+        if ( ulRC ) 
+        {
+           sprintf( szDebugLine, "Return code %lu from UtlFindFirstLong(\"%s\")", ulRC, szPackName );
+           MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+        }
+#endif
 
         if ( hDirHandle != HDIR_CREATE )
+        {
            UtlFindClose( hDirHandle, FALSE );
+        }
 
         if ( ulRC == ERROR_DISK_CHANGE )
         {
           usCount = 1;                     // (re)set search count
           hDirHandle = HDIR_CREATE;        // use system file find handle
-          ulRC = UtlFindFirst( szPackName, &hDirHandle, FILE_DIRECTORY,
-                               &ResultBuf, sizeof( ResultBuf), &usCount, 0L,
-                               TRUE );
+          ulRC = UtlFindFirst( szPackName, &hDirHandle, FILE_DIRECTORY, &ResultBuf, sizeof( ResultBuf), &usCount, 0L, TRUE );
+#ifdef DEBUG_LISTPACKAGES
+          if ( ulRC ) 
+          {
+             sprintf( szDebugLine, "Return code %lu from UtlFindFirst(\"%s\") in ERROR_DISK_CHANGE handling", ulRC, szPackName );
+             MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+          }
+#endif
           if ( hDirHandle != HDIR_CREATE )
              UtlFindClose( hDirHandle, FALSE );
 
@@ -3123,6 +3152,10 @@ ULONG UtlPackListPackages
         } /* endif */
      } while ( ulRC && (usMBCode == MBID_RETRY) && fPathValid); /* enddo */
    } /* endif */
+#ifdef DEBUG_LISTPACKAGES
+      sprintf( szDebugLine, "After path check logic, ulRC=%lu, fPathValid=%s", ulRC, fPathValid ? "true" : "false" );
+      MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+#endif
 
    //--- add package search pattern to export path ---
    if ( !ulRC && fPathValid)
@@ -3141,12 +3174,27 @@ ULONG UtlPackListPackages
    if ( !ulRC && fPathValid)
    {
       hDirHandle = HDIR_CREATE;        // use system file find handle
-      ulRC = UtlFindFirstLong( szPackName, &hDirHandle, FILE_NORMAL,
-                           &LongResultBuf, TRUE);
+      ulRC = UtlFindFirstLong( szPackName, &hDirHandle, FILE_NORMAL, &LongResultBuf, TRUE);
+#ifdef DEBUG_LISTPACKAGES
+      if ( ulRC ) 
+      {
+        sprintf( szDebugLine, "Return code %lu from UtlFindFirstLong(\"%s\")", ulRC, szPackName );
+        MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+      }
+#endif
    } /* endif */
+
+#ifdef DEBUG_LISTPACKAGES
+      sprintf( szDebugLine, "Before main loop, ulRC=%lu, fPathValid=%s", ulRC, fPathValid ? "true" : "false" );
+      MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+#endif
 
    while ( !ulRC && fPathValid)
    {
+#ifdef DEBUG_LISTPACKAGES
+      sprintf( szDebugLine, "Found file %s in directory %s", LongResultBuf.achName, pszFolderFullPath );
+      MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+#endif
       //--- append current file name to package directory info ---
       strcpy( pszFileName, LongResultBuf.achName );
 
@@ -3164,6 +3212,10 @@ ULONG UtlPackListPackages
       //--- get the package header ---
       if ( !ulRC )
       {
+#ifdef DEBUG_LISTPACKAGES
+      sprintf( szDebugLine, "Open of file %s successful", szPackName );
+      MessageBox ( NULL, szDebugLine, "Debug", MB_OK );
+#endif
          ulRC = UtlReadL( hFilePackage,
                          &PackHead,
                          sizeof( PackHead ),
@@ -3180,6 +3232,9 @@ ULONG UtlPackListPackages
       //--- check package header and add package to listbox (if ok) ---
       if ( !ulRC )
       {
+#ifdef DEBUG_LISTPACKAGES
+      MessageBox ( NULL, "Checking package header", "Debug", MB_OK );
+#endif
          if ( ((memcmp( PackHead.bPackID, PACKHEADID, 4 ) == 0) ||
                (memcmp( PackHead.bPackID, PACKHEAD2ID, 4 ) == 0) ||
                (memcmp( PackHead.bPackID, PACKHEAD3ID, 4 ) == 0)) && // if ID OK and
@@ -3187,6 +3242,10 @@ ULONG UtlPackListPackages
                 (PackHead.usSequence == 1) ) ||     // first package file or
                 (usFlags & PACKFLAG_LISTALL) ) )    // first package file or
          {
+#ifdef DEBUG_LISTPACKAGES
+      MessageBox ( NULL, "Header is ok", "Debug", MB_OK );
+#endif
+
             //--- cut of file extension ---
             pszExtension = strrchr( LongResultBuf.achName, DOT );
             if ( !(usFlags & PACKFLAG_WITHEXT) && pszExtension )

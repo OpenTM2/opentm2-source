@@ -6516,7 +6516,7 @@ LPARAM mp2
           int iShipment;
 
 //          CBINSERTITEM( hwndDlg, ID_PRODUCT_SHIPMENT_EF, "" );
-          for (iShipment = 1; iShipment < 99; iShipment++ )
+          for (iShipment = 1; iShipment <= 200; iShipment++ )
           {
             char szShipment[20];
 
