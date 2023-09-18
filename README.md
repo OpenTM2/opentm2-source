@@ -1,6 +1,10 @@
 # OpenTM2
 OpenTM2 is dead as a project. Many thanks will eternally go to Gerhard Queck, who developed it for most of his lifetime.
 
+The 2 latest versions of the installer can be found here for download:  
+https://www.translate5.net/OpenTM2-1.5.1.1-Community-Edition.Setup.zip  
+https://www.translate5.net/OpenTM2-1.6.1-Community-Edition.Setup.zip
+
 # t5memory - successor of OpenTM2
 
 MittagQI (http://www.mittagqi.com) and the translate5 team (https://www.translate5.net) took over the responsibility of the successor t5memory.
